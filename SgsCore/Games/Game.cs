@@ -30,6 +30,7 @@ namespace Sanguosha.Core.Games
             cardSet = new List<TerminalCard>();
             triggers = new Dictionary<GameEvent, SortedList<double, Trigger>>();
             decks = new DeckContainer();
+            players = new List<Player>();
         }
 
         public virtual void Run()
@@ -99,7 +100,7 @@ namespace Sanguosha.Core.Games
 
         List<Player> players;
 
-        internal List<Player> Players
+        public List<Player> Players
         {
             get { return players; }
             set { players = value; }
@@ -139,10 +140,49 @@ namespace Sanguosha.Core.Games
                 move.to = new DeckPlace(player, DeckType.Hand);
                 MoveCards(move);
             }
-            catch (ArgumentOutOfRangeException)
+            catch (ArgumentException)
             {
                 throw new EndOfDealingDeckException();
             }            
+        }
+
+        Player currentPlayer;
+
+        public Player CurrentPlayer
+        {
+            get { return currentPlayer; }
+            set { currentPlayer = value; }
+        }
+
+        TurnPhase currentPhase;
+
+        public TurnPhase CurrentPhase
+        {
+            get { return currentPhase; }
+            set { currentPhase = value; }
+        }
+
+        public virtual void Advance()
+        {
+            var events = new Dictionary<TurnPhase,GameEvent>[]
+                         {GameEvent.PhaseBeginEvents, GameEvent.PhaseProceedEvents,
+                          GameEvent.PhaseEndEvents, GameEvent.PhaseOutEvents};
+            GameEventArgs args = new GameEventArgs() { Game = this, Source = currentPlayer };
+            foreach (var gameEvent in events)
+            {
+                if (gameEvent.ContainsKey(currentPhase))
+                {
+                    Emit(gameEvent[currentPhase], args);
+                }
+            }
+            
+            currentPhase++;
+            if ((int)currentPhase >= Enum.GetValues(typeof(TurnPhase)).Length)
+            {
+                currentPlayer = NextPlayer(currentPlayer);
+                currentPhase = 0;
+            }
+            
         }
 
         /// <summary>
@@ -150,7 +190,7 @@ namespace Sanguosha.Core.Games
         /// </summary>
         /// <param name="currentPlayer"></param>
         /// <returns></returns>
-        public Player NextPlayer(Player currentPlayer)
+        public virtual Player NextPlayer(Player currentPlayer)
         {
             int numPlayers = players.Count;
             int i;

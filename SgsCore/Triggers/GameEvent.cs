@@ -160,7 +160,7 @@ namespace Sanguosha.Core.Triggers
         /// 回合结束阶段开始时：【据守】、【秘计】、【骁果】、【举荐】、【醇醪①】、【闭月】、【崩坏】、
         ///                     【狂风】、【大雾】。
         /// </remarks>
-        static readonly Dictionary<TurnPhase, GameEvent> PhaseBeginEvents;
+        public static readonly Dictionary<TurnPhase, GameEvent> PhaseBeginEvents;
 
         /// <summary>
         /// 回合开始时，XX阶段进行中，回合结束时。
@@ -183,7 +183,7 @@ namespace Sanguosha.Core.Triggers
         /// 回合结束时：该角色的回合所有阶段均执行完毕，回合即将结束。另外，如果刘禅之前已经发动【放权】，
         ///             在此时机可以弃置一张手牌令一名其他角色进行一个额外的回合。
         /// </remarks>
-        static readonly Dictionary<TurnPhase, GameEvent> PhaseProceedEvents;
+        public static readonly Dictionary<TurnPhase, GameEvent> PhaseProceedEvents;
 
         /// <summary>
         /// 回合结束后，XX阶段结束时
@@ -200,7 +200,7 @@ namespace Sanguosha.Core.Triggers
         /// 回合结束后：【化身②】、【连破】。在此时机还应确认下一个行动的角色，【放权】技能发动，下一个
         ///              进行回合的角色会改为【放权】的目标。此时机过后，便是下一名角色的“回合开始前”。
         /// </remarks>
-        static readonly Dictionary<TurnPhase, GameEvent> PhaseEndEvents;
+        public static readonly Dictionary<TurnPhase, GameEvent> PhaseEndEvents;
 
         /// <summary>
         /// Inter-phase events.
@@ -212,7 +212,7 @@ namespace Sanguosha.Core.Triggers
         /// 出牌阶段与弃牌阶段间：能发动的武将技能：【巧变】、【克己】。
         /// 弃牌阶段与回合结束阶段间：【伤逝】。
         /// </remarks>
-        static readonly Dictionary<TurnPhase, GameEvent> PhaseOutEvents;
+        public static readonly Dictionary<TurnPhase, GameEvent> PhaseOutEvents;
 
         // Card movement related
         /// <summary>

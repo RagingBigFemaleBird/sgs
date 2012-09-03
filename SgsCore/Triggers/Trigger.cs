@@ -29,6 +29,13 @@ namespace Sanguosha.Core.Triggers
 
     public class Trigger
     {
+        public Trigger()
+        {
+            type = TriggerType.GameRule;
+            conflicting = false;
+            enabled = true;
+            priority = 0.0;
+        }
 
         TriggerType type;
         /// <summary>
