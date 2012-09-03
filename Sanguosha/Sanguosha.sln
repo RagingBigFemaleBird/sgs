@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sanguosha", "Sanguosha.csproj", "{7FA32CCA-61F7-40A7-85FF-934A9E1DC368}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SgsCore", "..\SgsCore\SgsCore.csproj", "{31B92003-B490-4EAF-8F8E-F9B020F9B03B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "..\SgsCore\Core.csproj", "{31B92003-B490-4EAF-8F8E-F9B020F9B03B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

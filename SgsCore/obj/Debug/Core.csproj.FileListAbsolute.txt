@@ -1,0 +1,4 @@
+F:\Sanguosha\SgsCore\obj\Debug\Core.pdb
+F:\Sanguosha\SgsCore\bin\Debug\Core.dll
+F:\Sanguosha\SgsCore\bin\Debug\Core.pdb
+F:\Sanguosha\SgsCore\obj\Debug\Core.dll

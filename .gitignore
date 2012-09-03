@@ -1,0 +1,7 @@
+Sanguosha/bin
+Sanguosha/obj
+*.suo
+*.exe
+*.dll
+*.pdb
+*.cache

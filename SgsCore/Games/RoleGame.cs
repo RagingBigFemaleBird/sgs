@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SgsCore.RoleGame
+using Sanguosha.Core.Triggers;
+using Sanguosha.Core.Players;
+
+namespace Sanguosha.Core.Games
 {
     public enum Role
     {
@@ -14,13 +17,13 @@ namespace SgsCore.RoleGame
         Defector
     }
 
-    class RoleGame : Game
+    public class RoleGame : Game
     {
         public class RoleGameRuleTrigger : Trigger
         {
-            public override void Run(GameEvent gameEvent, object eventArgs)
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                Game game = Game.CurrentGame;
+                Game game = eventArgs.Game;
                 // Deal everyone 4 cards
                 foreach (Player player in game.Players)
                 {
@@ -38,21 +41,10 @@ namespace SgsCore.RoleGame
         {
         }
 
-        protected override void InstallInitalTriggers()
+        protected override void InitTriggers()
         {
-            GameEvent gameStart = new GameEvent();
-            gameStart.EventName = GameEvent.EventType.GameStart;
-            RegisterTrigger(gameStart, new RoleGameRuleTrigger());
+            RegisterTrigger(GameEvent.GameStart, new RoleGameRuleTrigger());
         }
-
-        public override void Run()
-        {
-            base.Run();
-            
-            // Put the whole deck in the dealing deck
-            decks[DeckType.Dealing] = cardSet.GetRange(0, cardSet.Count);
-        }
-
     }
 
     

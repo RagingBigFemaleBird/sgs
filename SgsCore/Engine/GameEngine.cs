@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace SgsCore
+using Sanguosha.Core.Cards;
+
+namespace Sanguosha.Core.Engine
 {
     class GameEngine
     {
-        List<Card> cardSet;
+        List<TerminalCard> cardSet;
 
-        public List<Card> CardSet
+        public List<TerminalCard> CardSet
         {
             get { return cardSet; }
             set { cardSet = value; }
