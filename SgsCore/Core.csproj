@@ -42,22 +42,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cards\Battle\HuoGong.cs" />
+    <Compile Include="Cards\CardHandler.cs" />
+    <Compile Include="Cards\CardPlace.cs" />
     <Compile Include="Cards\CompositeCard.cs" />
-    <Compile Include="Cards\TerminalCard.cs" />
+    <Compile Include="Cards\DeckContainer.cs" />
+    <Compile Include="Cards\DeckPlace.cs" />
+    <Compile Include="Cards\DeckType.cs" />
     <Compile Include="Cards\ICard.cs" />
+    <Compile Include="Cards\Card.cs" />
     <Compile Include="Games\TurnPhase.cs" />
     <Compile Include="Exceptions\SgsException.cs" />
-    <Compile Include="Cards\DeckType.cs" />
     <Compile Include="Games\Game.cs" />
     <Compile Include="Engine\GameEngine.cs" />
+    <Compile Include="Players\PlayerAttribute.cs" />
+    <Compile Include="Skills\CardSkill.cs" />
+    <Compile Include="Skills\ShaSkill.cs" />
+    <Compile Include="Skills\Skill.cs" />
     <Compile Include="Triggers\GameEvent.cs" />
     <Compile Include="Games\RoleGame.cs" />
     <Compile Include="Heroes\Hero.cs" />
     <Compile Include="Players\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Triggers\Trigger.cs" />
+    <Compile Include="Exceptions\TriggerResultException.cs" />
+    <Compile Include="UI\IUIProxy.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Cards\Basic\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

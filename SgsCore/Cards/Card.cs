@@ -7,14 +7,14 @@ using Sanguosha.Core.Players;
 
 namespace Sanguosha.Core.Cards
 {
-    public class TerminalCard : ICard
+    public class Card : ICard
     {
-        static TerminalCard()
+        static Card()
         {
-            UnknownCard = new TerminalCard();
+            UnknownCard = new Card();
         }
 
-        TerminalCard()
+        public Card()
         {
             suit = SuitType.None;
             rank = 0;
@@ -84,6 +84,15 @@ namespace Sanguosha.Core.Cards
             get { return rank; }
             set { rank = value; }
         }
-        public static TerminalCard UnknownCard;
+        public static Card UnknownCard;
+
+        string type;
+
+        public string Type
+        {
+            get { return type; }
+            set { type = value; }
+        }
+
     }    
 }

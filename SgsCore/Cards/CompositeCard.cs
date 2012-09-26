@@ -11,38 +11,17 @@ namespace Sanguosha.Core.Cards
     {
         public CompositeCard()
         {
-            subcards = new List<ICard>();
+            subcards = new List<Card>();
         }
 
-        public CompositeCard(List<ICard> cards)
+        public CompositeCard(List<Card> cards)
         {
             subcards = cards;
         }
 
-        public ICollection<TerminalCard> Flattern()
-        {
-            List<TerminalCard> result = new List<TerminalCard>();
-            foreach (ICard card in subcards)
-            {
-                if (card is CompositeCard)
-                {
-                    if (card == this)
-                    {
-                        throw new NotSupportedException("Composite card cannot contains itself as a subcard.");
-                    }
-                    result.AddRange(((CompositeCard)card).Flattern());
-                }
-                else
-                {
-                    result.Add((TerminalCard)card);
-                }
-            }
-            return result;
-        }
+        List<Card> subcards;
 
-        List<ICard> subcards;
-
-        public List<ICard> Subcards
+        public List<Card> Subcards
         {
             get { return subcards; }
             set { subcards = value; }
@@ -86,7 +65,7 @@ namespace Sanguosha.Core.Cards
             }
             set
             {
-                foreach (ICard card in subcards)
+                foreach (Card card in subcards)
                 {
                     card.Place = value;
                 }
@@ -148,5 +127,14 @@ namespace Sanguosha.Core.Cards
                 }
             }
         }
+
+        private string type;
+
+        public string Type
+        {
+            get { return type; }
+            set { type = value; }
+        }
+
     }
 }

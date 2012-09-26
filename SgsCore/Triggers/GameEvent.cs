@@ -6,6 +6,7 @@ using System.Text;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.Players;
+using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Core.Triggers
 {
@@ -49,6 +50,14 @@ namespace Sanguosha.Core.Triggers
         {
             get { return intArg; }
             set { intArg = value; }
+        }
+
+        private List<Card> cards;
+
+        public List<Card> Cards
+        {
+            get { return cards; }
+            set { cards = value; }
         }
     }
 
@@ -94,6 +103,7 @@ namespace Sanguosha.Core.Triggers
                     PhaseOutEvents.Add(phase, new GameEvent("PhaseOutEvents" + (int)phase));
                 }
             }
+            PlayerCanBeTargeted = new GameEvent("PlayerCanBeTargeted");
         }
 
         [Serializable]
@@ -305,6 +315,11 @@ namespace Sanguosha.Core.Triggers
         /// 伤害结算完毕
         /// </summary>
         public static readonly GameEvent DamageComputingFinished;
+
+        /// <summary>
+        /// 玩家可以成为卡牌的目标
+        /// </summary>
+        public static readonly GameEvent PlayerCanBeTargeted;
 
         public override bool Equals(object obj)
         {

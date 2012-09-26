@@ -7,31 +7,6 @@ using Sanguosha.Core.Players;
 
 namespace Sanguosha.Core.Cards
 {
-    public struct DeckPlace
-    {
-        public DeckPlace(Player player, DeckType deckType)
-        {
-            this.player = player;
-            this.deckType = deckType;
-        }
-
-        private Player player;
-
-        public Player Player
-        {
-            get { return player; }
-            set { player = value; }
-        }
-
-        private DeckType deckType;
-
-        public DeckType DeckType
-        {
-            get { return deckType; }
-            set { deckType = value; }
-        }
-    }
-
     public class DeckType
     {
         static DeckType()
@@ -88,90 +63,5 @@ namespace Sanguosha.Core.Cards
         public static DeckType Equipment;
         public static DeckType DelayedTools;
         public static DeckType JudgeResult;
-    }
-
-
-
-    public class DeckContainer
-    {
-        protected class GameAsPlayer : Player
-        {
-           private static GameAsPlayer instance;
-
-           private GameAsPlayer() {}
-
-           public static GameAsPlayer Instance
-           {
-              get 
-              {
-                 if (instance == null)
-                 {
-                    instance = new GameAsPlayer();
-                 }
-                 return instance;
-              }
-           }        
-        }
-
-        public DeckContainer()
-        {
-            gameDecks = new Dictionary<Player, Dictionary<DeckType, List<TerminalCard>>>();
-        }
-
-        public List<TerminalCard> this[DeckType type]
-        {
-            get { return this[null, type]; }
-            set { this[null, type] = value; }
-        }
-
-        public List<TerminalCard> this[Player player, DeckType type]
-        {
-            get 
-            {
-                if (player == null)
-                {
-                    player = GameAsPlayer.Instance;
-                }
-                if (!gameDecks.ContainsKey(player))
-                {
-                    gameDecks[player] = new Dictionary<DeckType, List<TerminalCard>>();
-                }
-                if (!gameDecks[player].ContainsKey(type))
-                {
-                    gameDecks[player][type] = new List<TerminalCard>();
-                }
-                return gameDecks[player][type];
-            }
-
-            set
-            {
-                if (player == null)
-                {
-                    player = GameAsPlayer.Instance;
-                }
-                if (!gameDecks.ContainsKey(player))
-                {
-                    gameDecks[player] = new Dictionary<DeckType, List<TerminalCard>>();
-                }
-                if (!gameDecks[player].ContainsKey(type))
-                {
-                    gameDecks[player][type] = value;
-                }
-            }
-        }
-
-        public List<TerminalCard> this[DeckPlace place]
-        {
-            get { return this[place.Player, place.DeckType]; }
-            set { this[place.Player, place.DeckType] = value; }
-        }
-
-        Dictionary<Player, Dictionary<DeckType, List<TerminalCard>>> gameDecks;
-
-        protected Dictionary<Player, Dictionary<DeckType, List<TerminalCard>>> GameDecks
-        {
-            get { return gameDecks; }
-            set { gameDecks = value; }
-        }
     }
 }

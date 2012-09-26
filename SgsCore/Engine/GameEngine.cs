@@ -10,9 +10,9 @@ namespace Sanguosha.Core.Engine
 {
     class GameEngine
     {
-        List<TerminalCard> cardSet;
+        List<Card> cardSet;
 
-        public List<TerminalCard> CardSet
+        public List<Card> CardSet
         {
             get { return cardSet; }
             set { cardSet = value; }

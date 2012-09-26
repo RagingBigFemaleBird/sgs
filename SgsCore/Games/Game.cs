@@ -20,6 +20,9 @@ namespace Sanguosha.Core.Games
         [Serializable]
         class EndOfDealingDeckException : SgsException { }
 
+        [Serializable]
+        class GameAlreadyStartedException : SgsException { }
+
         static Game()
         {
             games = new Dictionary<Thread,Game>();
@@ -27,21 +30,59 @@ namespace Sanguosha.Core.Games
 
         public Game()
         {
-            cardSet = new List<TerminalCard>();
+            cardSet = new List<Card>();
+            cardSet.Add(new Card() { Type = "Sanguosha.Core.Cards.Battle.HuoGong", Rank = 9, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "Sanguosha.Core.Cards.Battle.HuoGong", Rank = 10, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "SHA", Rank = 1, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "SHA", Rank = 2, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "SHA", Rank = 3, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "SHA", Rank = 4, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "SHA", Rank = 5, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "SHA", Rank = 6, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "SHA", Rank = 7, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "SHA", Rank = 8, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "SHA", Rank = 9, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "SHA", Rank = 10, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "SHA", Rank = 11, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "SHA", Rank = 12, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "SHA", Rank = 13, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "SHA", Rank = 14, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "SHA", Rank = 15, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "SHA", Rank = 16, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "SHA", Rank = 17, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "SHA", Rank = 18, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "SHA", Rank = 19, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "SHA", Rank = 20, Suit = SuitType.Heart });
             triggers = new Dictionary<GameEvent, SortedList<double, Trigger>>();
             decks = new DeckContainer();
             players = new List<Player>();
+            cardHandlers = new Dictionary<string, UI.ICardUsageVerifier>();
         }
+
+
 
         public virtual void Run()
         {
+            if (games.ContainsKey(Thread.CurrentThread))
+            {
+                throw new GameAlreadyStartedException();
+            }
+            else
+            {
+                games.Add(Thread.CurrentThread, this);
+            }
             // Put the whole deck in the dealing deck
             decks[DeckType.Dealing] = cardSet.GetRange(0, cardSet.Count);
-            InitTriggers();
-            try
+            foreach (Card card in cardSet)
             {
-                Emit(GameEvent.GameStart, new GameEventArgs() { Game = this });
+                card.Place = new DeckPlace(null, DeckType.Dealing);
             }
+
+            InitTriggers();
+//            try
+//            {
+                Emit(GameEvent.GameStart, new GameEventArgs() { Game = this });
+/*            }
             catch (GameOverException)
             {
 
@@ -50,7 +91,7 @@ namespace Sanguosha.Core.Games
             {
                 Trace.TraceError(e.StackTrace);
             }
-        }
+  */      }
 
         /// <summary>
         /// Initialize triggers at game start time.
@@ -64,9 +105,9 @@ namespace Sanguosha.Core.Games
         }
 
         static Dictionary<Thread, Game> games;
-        List<TerminalCard> cardSet;
+        List<Card> cardSet;
 
-        public List<TerminalCard> CardSet
+        public List<Card> CardSet
         {
             get { return cardSet; }
             set { cardSet = value; }
@@ -85,7 +126,9 @@ namespace Sanguosha.Core.Games
 
         public void Emit(GameEvent gameEvent, GameEventArgs eventParam)
         {
+            if (!this.triggers.ContainsKey(gameEvent)) return;
             SortedList<double, Trigger> triggers = this.triggers[gameEvent];
+            if (triggers == null) return;
             var sortedTriggers = triggers.Values.Reverse();
             foreach (var trigger in sortedTriggers)
             {
@@ -95,8 +138,22 @@ namespace Sanguosha.Core.Games
                 }
             }
         }
-        
+
+        Dictionary<string, UI.ICardUsageVerifier> cardHandlers;
+
+        internal Dictionary<string, UI.ICardUsageVerifier> CardHandlers
+        {
+            get { return cardHandlers; }
+            set { cardHandlers = value; }
+        }
+
         DeckContainer decks;
+
+        public DeckContainer Decks
+        {
+            get { return decks; }
+            set { decks = value; }
+        }
 
         List<Player> players;
 
@@ -108,17 +165,19 @@ namespace Sanguosha.Core.Games
 
         public struct CardsMovement
         {
-            public List<TerminalCard> cards;
+            public List<Card> cards;
             public DeckPlace to;
         }
 
         public void MoveCards(List<CardsMovement> moves)
         {
             foreach (CardsMovement move in moves)
-            {
+            {                
                 // Update card's deck mapping
-                foreach (TerminalCard card in move.cards)
+                foreach (Card card in move.cards)
                 {
+                    decks[card.Place].Remove(card);
+                    decks[move.to].Add(card);
                     card.Place = move.to;
                 }
             }
@@ -131,12 +190,33 @@ namespace Sanguosha.Core.Games
             MoveCards(moves);
         }
 
+        public Card DrawCard()
+        {
+            var drawDeck = decks[DeckType.Dealing];
+            if (drawDeck.Count == 0)
+            {
+                Emit(GameEvent.Shuffle, new GameEventArgs() { Game = this });
+            }
+            if (drawDeck.Count == 0)
+            {
+                throw new GameOverException();
+            }
+            Card card = drawDeck.First();
+            drawDeck.RemoveAt(0);
+            return card;
+        }
+
         public void DrawCards(Player player, int num)
         {
             try
             {
+                List<Card> cardsDrawn = new List<Card>();
+                for (int i = 0; i < num; i++)
+                {
+                    cardsDrawn.Add(DrawCard());
+                }
                 CardsMovement move;
-                move.cards = decks[DeckType.Dealing].GetRange(0, num - 1);
+                move.cards = cardsDrawn;
                 move.to = new DeckPlace(player, DeckType.Hand);
                 MoveCards(move);
             }
@@ -165,8 +245,8 @@ namespace Sanguosha.Core.Games
         public virtual void Advance()
         {
             var events = new Dictionary<TurnPhase,GameEvent>[]
-                         {GameEvent.PhaseBeginEvents, GameEvent.PhaseProceedEvents,
-                          GameEvent.PhaseEndEvents, GameEvent.PhaseOutEvents};
+                         { GameEvent.PhaseBeginEvents, GameEvent.PhaseProceedEvents,
+                           GameEvent.PhaseEndEvents, GameEvent.PhaseOutEvents };
             GameEventArgs args = new GameEventArgs() { Game = this, Source = currentPlayer };
             foreach (var gameEvent in events)
             {

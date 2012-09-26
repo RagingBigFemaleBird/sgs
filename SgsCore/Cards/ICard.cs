@@ -28,6 +28,7 @@ namespace Sanguosha.Core.Cards
         Player Owner { get; }
         DeckPlace Place { get; set; }
         int Rank { get; set; }
+        string Type { get; set; }
         SuitType Suit { get; set; }
         SuitColorType SuitColor { get; }
     }
