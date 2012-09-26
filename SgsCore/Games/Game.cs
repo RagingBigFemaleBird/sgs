@@ -9,11 +9,25 @@ using Sanguosha.Core.Cards;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Exceptions;
+using Sanguosha.Core.UI;
 
 namespace Sanguosha.Core.Games
 {
     [Serializable]
     public class GameOverException : SgsException { }
+
+    public struct CardsMovement
+    {
+        public List<Card> cards;
+        public DeckPlace to;
+    }
+
+    public enum DamageElement
+    {
+        None,
+        Fire,
+        Lightning,
+    }
 
     public abstract class Game
     {
@@ -33,7 +47,7 @@ namespace Sanguosha.Core.Games
             cardSet = new List<Card>();
             cardSet.Add(new Card() { Type = "Sanguosha.Core.Cards.Battle.HuoGong", Rank = 9, Suit = SuitType.Heart });
             cardSet.Add(new Card() { Type = "Sanguosha.Core.Cards.Battle.HuoGong", Rank = 10, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "SHA", Rank = 1, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "SHA", Rank = 1, Suit = SuitType.Spade });
             cardSet.Add(new Card() { Type = "SHA", Rank = 2, Suit = SuitType.Heart });
             cardSet.Add(new Card() { Type = "SHA", Rank = 3, Suit = SuitType.Heart });
             cardSet.Add(new Card() { Type = "SHA", Rank = 4, Suit = SuitType.Heart });
@@ -56,7 +70,8 @@ namespace Sanguosha.Core.Games
             triggers = new Dictionary<GameEvent, SortedList<double, Trigger>>();
             decks = new DeckContainer();
             players = new List<Player>();
-            cardHandlers = new Dictionary<string, UI.ICardUsageVerifier>();
+            cardHandlers = new Dictionary<string, CardHandler>();
+            uiProxies = new Dictionary<Player, IUiProxy>();
         }
 
 
@@ -139,9 +154,17 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        Dictionary<string, UI.ICardUsageVerifier> cardHandlers;
+        private Dictionary<Player, IUiProxy> uiProxies;
 
-        internal Dictionary<string, UI.ICardUsageVerifier> CardHandlers
+        public Dictionary<Player, IUiProxy> UiProxies
+        {
+            get { return uiProxies; }
+            set { uiProxies = value; }
+        }
+
+        Dictionary<string, CardHandler> cardHandlers;
+
+        public Dictionary<string, CardHandler> CardHandlers
         {
             get { return cardHandlers; }
             set { cardHandlers = value; }
@@ -163,18 +186,13 @@ namespace Sanguosha.Core.Games
             set { players = value; }
         }
 
-        public struct CardsMovement
-        {
-            public List<Card> cards;
-            public DeckPlace to;
-        }
-
         public void MoveCards(List<CardsMovement> moves)
         {
             foreach (CardsMovement move in moves)
-            {                
+            {
+                List<Card> cards = new List<Card>(move.cards);
                 // Update card's deck mapping
-                foreach (Card card in move.cards)
+                foreach (Card card in cards)
                 {
                     decks[card.Place].Remove(card);
                     decks[move.to].Add(card);
@@ -295,6 +313,36 @@ namespace Sanguosha.Core.Games
             {
                 return players[i + 1];
             }
+        }
+
+        /// <summary>
+        /// 造成伤害
+        /// </summary>
+        /// <param name="source">伤害来源</param>
+        /// <param name="dest">伤害目标</param>
+        /// <param name="magnitude">伤害点数</param>
+        /// <param name="elemental">伤害属性</param>
+        /// <param name="cards">造成伤害的牌</param>
+        public void DoDamage(Player source, Player dest, int magnitude, DamageElement elemental, List<Card> cards)
+        {
+            GameEventArgs args = new GameEventArgs() { Source = source, Target = dest, Cards = cards, IntArg = magnitude, IntArg2 = (int)(elemental) };
+
+            Game.CurrentGame.Emit(GameEvent.DamageSourceConfirmed, args);
+            Game.CurrentGame.Emit(GameEvent.DamageElementConfirmed, args);
+            Game.CurrentGame.Emit(GameEvent.BeforeDamageComputing, args);
+            Game.CurrentGame.Emit(GameEvent.DamageComputingStarted, args);
+            Game.CurrentGame.Emit(GameEvent.DamageCaused, args);
+            Game.CurrentGame.Emit(GameEvent.DamageInflicted, args);
+            Game.CurrentGame.Emit(GameEvent.BeforeHealthChanged, args);
+
+            args.Target.Health -= args.IntArg;
+            Trace.TraceInformation("Player {0} Lose {1} hp, @ {2} hp", args.Target.Id, args.IntArg, args.Target.Health);
+
+            Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, args);
+            Game.CurrentGame.Emit(GameEvent.AfterDamageCaused, args);
+            Game.CurrentGame.Emit(GameEvent.AfterDamageInflicted, args);
+            Game.CurrentGame.Emit(GameEvent.DamageComputingFinished, args);
+
         }
     }
 }

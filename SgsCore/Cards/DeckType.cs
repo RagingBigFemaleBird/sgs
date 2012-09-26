@@ -14,7 +14,6 @@ namespace Sanguosha.Core.Cards
             Dealing = new DeckType("Dealing");
             Discard = new DeckType("Discard");
             Compute = new DeckType("Compute");
-            ComputeBackup = new DeckType("ComputeBackup");
             Hand = new DeckType("Hand");
             Equipment = new DeckType("Equipment");
             DelayedTools = new DeckType("DelayedTools");
@@ -58,7 +57,6 @@ namespace Sanguosha.Core.Cards
         public static DeckType Dealing;
         public static DeckType Discard;
         public static DeckType Compute;
-        public static DeckType ComputeBackup;
         public static DeckType Hand;
         public static DeckType Equipment;
         public static DeckType DelayedTools;

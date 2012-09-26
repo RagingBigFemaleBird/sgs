@@ -64,8 +64,11 @@
     <Compile Include="Heroes\Hero.cs" />
     <Compile Include="Players\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Triggers\GameEventArgs.cs" />
     <Compile Include="Triggers\Trigger.cs" />
     <Compile Include="Exceptions\TriggerResultException.cs" />
+    <Compile Include="UI\ConsoleUiProxy.cs" />
+    <Compile Include="UI\GlobalProxy.cs" />
     <Compile Include="UI\IUIProxy.cs" />
   </ItemGroup>
   <ItemGroup>

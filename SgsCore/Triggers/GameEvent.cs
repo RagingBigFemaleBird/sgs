@@ -7,60 +7,10 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Cards;
+using Sanguosha.Core.Skills;
 
 namespace Sanguosha.Core.Triggers
 {
-    [Serializable]
-    public struct GameEventArgs
-    {
-        private Player source;
-
-        public Player Source
-        {
-            get { return source; }
-            set { source = value; }
-        }
-
-        private Player target;
-
-        public Player Target
-        {
-            get { return target; }
-            set { target = value; }
-        }
-        private List<Player> targets;
-
-        public List<Player> Targets
-        {
-            get { return targets; }
-            set { targets = value; }
-        }
-        
-        private Game game;
-
-        public Game Game
-        {
-            get { return game; }
-            set { game = value; }
-        }
-
-        private int intArg;
-
-        public int IntArg
-        {
-            get { return intArg; }
-            set { intArg = value; }
-        }
-
-        private List<Card> cards;
-
-        public List<Card> Cards
-        {
-            get { return cards; }
-            set { cards = value; }
-        }
-    }
-
     public class GameEvent
     {
         static GameEvent()
@@ -104,6 +54,18 @@ namespace Sanguosha.Core.Triggers
                 }
             }
             PlayerCanBeTargeted = new GameEvent("PlayerCanBeTargeted");
+            CommitActionToTargets = new GameEvent("CommitActionToTargets");
+            DamageSourceConfirmed = new GameEvent("DSC");
+            DamageElementConfirmed = new GameEvent("DEC");
+            BeforeDamageComputing = new GameEvent("BDC");
+            DamageComputingStarted = new GameEvent("DCS");
+            DamageCaused = new GameEvent("DC");
+            DamageInflicted = new GameEvent("DI");
+            BeforeHealthChanged = new GameEvent("BHC");
+            AfterHealthChanged = new GameEvent("AHC");
+            AfterDamageCaused = new GameEvent("ADC");
+            AfterDamageInflicted = new GameEvent("ADI");
+            DamageComputingFinished = new GameEvent("DCF");
         }
 
         [Serializable]
@@ -269,7 +231,7 @@ namespace Sanguosha.Core.Triggers
         /// <summary>
         /// 确定伤害基数和属性
         /// </summary>
-        public static readonly GameEvent DamageNatureConfirmed;
+        public static readonly GameEvent DamageElementConfirmed;
 
         /// <summary>
         /// 造成伤害前
@@ -320,6 +282,12 @@ namespace Sanguosha.Core.Triggers
         /// 玩家可以成为卡牌的目标
         /// </summary>
         public static readonly GameEvent PlayerCanBeTargeted;
+
+        /// <summary>
+        /// 卡牌效果生效
+        /// </summary>
+        public static readonly GameEvent CommitActionToTargets;
+
 
         public override bool Equals(object obj)
         {

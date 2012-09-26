@@ -6,6 +6,7 @@ using System.Diagnostics;
 
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
+using Sanguosha.Core.UI;
 
 namespace Sanguosha
 {
@@ -17,7 +18,12 @@ namespace Sanguosha
             Game game = new RoleGame();
             for (int i = 0; i < 8; i++)
             {
-                game.Players.Add(new Player());
+                var player = new Player();
+                player.Id = i;
+                game.Players.Add(player);
+                IUiProxy proxy = new ConsoleUiProxy();
+                proxy.HostPlayer = player;
+                game.UiProxies.Add(player, proxy);
             }
             
             game.Run();

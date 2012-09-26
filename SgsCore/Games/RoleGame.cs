@@ -10,6 +10,7 @@ using Sanguosha.Core.Cards;
 using Sanguosha.Core.UI;
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.Cards.Battle;
+using Sanguosha.Core.Exceptions;
 
 namespace Sanguosha.Core.Games
 {
@@ -43,7 +44,7 @@ namespace Sanguosha.Core.Games
                 Trace.TraceInformation("Player {0} action.", currentPlayer.Id);
                 while (true)
                 {
-                    IUiProxy proxy = new ConsoleUiProxy();
+                    IUiProxy proxy = Game.CurrentGame.UiProxies[currentPlayer];
                     Skill skill;
                     List<Card> cards;
                     List<Player> players;
@@ -60,8 +61,47 @@ namespace Sanguosha.Core.Games
                         }
                         Trace.Assert(cards[0] != null && cards.Count == 1);
                         Trace.TraceInformation("Player used {0}", cards[0].Type);
+                        try
+                        {
+                            Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, new Triggers.GameEventArgs() { Skill = skill, Source = Game.CurrentGame.CurrentPlayer, Targets = players, Cards = cards });
+                        }
+                        catch (TriggerResultException)
+                        {
+                        }
                     }
                 }
+            }
+        }
+
+        public class CommitActionToTargetsTrigger : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                List<Card> computeBackup;
+                ICard c;
+                if (eventArgs.Skill != null)
+                {
+                    c = eventArgs.Cards[0];
+                    throw new NotImplementedException();
+                }
+                else
+                {
+                    c = eventArgs.Cards[0];
+                }
+                computeBackup = new List<Card>(Game.CurrentGame.Decks[DeckType.Compute]);
+                Game.CurrentGame.Decks[DeckType.Compute].Clear();
+                CardsMovement m;
+                m.cards = eventArgs.Cards;
+                m.to = new DeckPlace(null, DeckType.Compute);
+                Game.CurrentGame.MoveCards(m);
+                
+                Game.CurrentGame.CardHandlers[c.Type].Process(eventArgs.Source, eventArgs.Targets);
+
+                m.cards = Game.CurrentGame.Decks[DeckType.Compute];
+                m.to = new DeckPlace(null, DeckType.Discard);
+                Game.CurrentGame.MoveCards(m);
+                Trace.Assert(Game.CurrentGame.Decks[DeckType.Compute].Count == 0);
+                Game.CurrentGame.Decks[DeckType.Compute] = new List<Card>(computeBackup);
             }
         }
 
@@ -79,7 +119,7 @@ namespace Sanguosha.Core.Games
                 // Deal everyone 4 cards
                 foreach (Player player in game.Players)
                 {
-                    game.DrawCards(player, 1);
+                    game.DrawCards(player, 2);
                 }
                 game.Decks[game.Players[2], DeckType.Hand].Clear();
                 game.CurrentPlayer = game.Players.First();
@@ -100,8 +140,9 @@ namespace Sanguosha.Core.Games
         {
             RegisterTrigger(GameEvent.GameStart, new RoleGameRuleTrigger());
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Playing], new PlayerActionTrigger());
+            RegisterTrigger(GameEvent.CommitActionToTargets, new CommitActionToTargetsTrigger());
             HuoGong hg = new HuoGong();
-            CardHandlers.Add(hg.CardType, hg.Verifier);
+            CardHandlers.Add(hg.CardType, hg);
         }
     }
 

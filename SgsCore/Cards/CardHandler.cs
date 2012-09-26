@@ -11,31 +11,15 @@ namespace Sanguosha.Core.Cards
 {
     public abstract class CardHandler
     {
-        public delegate VerifierResult VerifierPointer(Skill skill, List<Card> cards, List<Player> players);
-
-        public class CardHandlerVerifier : ICardUsageVerifier
+        public virtual void Process(Player source, List<Player> dests)
         {
-            public VerifierResult Verify(Skill skill, List<Card> cards, List<Player> players)
+            foreach (var player in dests)
             {
-                return verifier(skill, cards, players);
-            }
-
-            VerifierPointer verifier;
-
-            public VerifierPointer Verifier
-            {
-                get { return verifier; }
-                set { verifier = value; }
+                Process(source, player);
             }
         }
 
-        public ICardUsageVerifier Verifier
-        {
-            get
-            {
-                return new CardHandlerVerifier() { Verifier = Verify };
-            }
-        }
+        protected abstract void Process(Player source, Player dest);
 
         public abstract VerifierResult Verify(Skill skill, List<Card> cards, List<Player> players);
 
