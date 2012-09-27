@@ -20,7 +20,7 @@ namespace Sanguosha.Core.UI
             set { hostPlayer = value; }
         }
 
-        void IUiProxy.AskForCardUsage(string prompt, ICardUsageVerifier verifier, out Skill skill, out List<Card> cards, out List<Player> players)
+        void IUiProxy.AskForCardUsage(string prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             Player p = hostPlayer;
             cards = new List<Card>();
@@ -45,13 +45,23 @@ namespace Sanguosha.Core.UI
                 Console.WriteLine("Out of range");
                 goto again;
             }
-            if (id < 0)
+            if (id < -1)
             {
                 cards = null;
                 players = null;
             }
             else
             {
+                if (id == -1)
+                {
+                    Console.Write("Skill ID:");
+                    ids = Console.ReadLine();
+                    id = int.Parse(ids);
+                    // find in game that skill NOW!!!!
+                    // but we only want 火鸡 at this time
+                    skill = new Skills.Fire.HuoJi();
+                    goto again;
+                }
                 cards.Add(Game.CurrentGame.Decks[p, DeckType.Hand][id]);
                 players = null;
                 r = verifier.Verify(skill, cards, players);

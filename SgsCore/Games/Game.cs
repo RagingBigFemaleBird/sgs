@@ -46,7 +46,7 @@ namespace Sanguosha.Core.Games
         {
             cardSet = new List<Card>();
             cardSet.Add(new Card() { Type = "Sanguosha.Core.Cards.Battle.HuoGong", Rank = 9, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "Sanguosha.Core.Cards.Battle.HuoGong", Rank = 10, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "Sanguosha.Core.Cards.Battle.HuoGong", Rank = 10, Suit = SuitType.Club });
             cardSet.Add(new Card() { Type = "SHA", Rank = 1, Suit = SuitType.Spade });
             cardSet.Add(new Card() { Type = "SHA", Rank = 2, Suit = SuitType.Heart });
             cardSet.Add(new Card() { Type = "SHA", Rank = 3, Suit = SuitType.Heart });

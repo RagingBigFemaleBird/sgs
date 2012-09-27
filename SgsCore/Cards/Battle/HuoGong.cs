@@ -17,18 +17,44 @@ namespace Sanguosha.Core.Cards.Battle
 
     public class HuoGong : CardHandler
     {
-        public override VerifierResult Verify(Skill skill, List<Card> cards, List<Player> players)
+        public override VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players)
         {
-            Trace.Assert(skill == null);
-            if (cards == null || cards.Count != 1)
+            if (skill != null)
             {
-                return VerifierResult.Fail;
+                CompositeCard c;
+                // todo: check owner
+                if (skill is CardTransformationSkill)
+                {
+                    CardTransformationSkill s = (CardTransformationSkill)skill;
+                    VerifierResult r = s.Transform(cards, null, out c);
+                    if (r != VerifierResult.Success)
+                    {
+                        return r;
+                    }
+                    if (c.Type != CardType)
+                    {
+                        return VerifierResult.Fail;
+                    }
+                    HoldInTemp(c.Subcards);
+                }
+                else
+                {
+                    return VerifierResult.Fail;
+                }
             }
-            Card card = cards[0];
-            if (card.Type != CardType)
+            else
             {
-                return VerifierResult.Fail;
+                if (cards == null || cards.Count != 1)
+                {
+                    return VerifierResult.Fail;
+                }
+                Card card = cards[0];
+                if (card.Type != CardType)
+                {
+                    return VerifierResult.Fail;
+                }
             }
+
             if (players == null || players.Count == 0)
             {
                 return VerifierResult.Partial;
@@ -38,12 +64,12 @@ namespace Sanguosha.Core.Cards.Battle
                 return VerifierResult.Fail;
             }
             Player player = players[0];
-            DeckPlace dp = card.Place;
-            int index = Game.CurrentGame.Decks[dp].IndexOf(card);
-            Game.CurrentGame.Decks[dp].Remove(card);
+
+            HoldInTemp(cards);
+
             if (Game.CurrentGame.Decks[player, DeckType.Hand].Count == 0)
             {
-                Game.CurrentGame.Decks[dp].Insert(index, card);
+                ReleaseHoldInTemp();
                 return VerifierResult.Fail;
             }
             try
@@ -53,17 +79,17 @@ namespace Sanguosha.Core.Cards.Battle
             catch(TriggerResultException e)
             {
                 Trace.Assert(e.Status == TriggerResult.Fail);
-                Game.CurrentGame.Decks[dp].Insert(index, card);
+                ReleaseHoldInTemp();
                 return VerifierResult.Fail;
             }
 
-            Game.CurrentGame.Decks[dp].Insert(index, card);
+            ReleaseHoldInTemp();
             return VerifierResult.Success;
         }
 
         public class HuoGongCardChoiceVerifier : ICardUsageVerifier
         {
-            public VerifierResult Verify(Skill skill, List<Card> cards, List<Player> players)
+            public VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players)
             {
                 if (skill != null || cards == null || cards.Count != 1 || (players != null && players.Count != 0))
                 {
@@ -87,7 +113,7 @@ namespace Sanguosha.Core.Cards.Battle
                 suit = s;
             }
 
-            public VerifierResult Verify(Skill skill, List<Card> cards, List<Player> players)
+            public VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players)
             {
                 if (skill != null || cards == null || cards.Count != 1 || (players != null && players.Count != 0))
                 {
@@ -105,7 +131,7 @@ namespace Sanguosha.Core.Cards.Battle
         {
             IUiProxy ui = Game.CurrentGame.UiProxies[dest];
             HuoGongCardChoiceVerifier v1 = new HuoGongCardChoiceVerifier();
-            Skill s;
+            ISkill s;
             List<Player> p;
             List<Card> cards;
             ui.AskForCardUsage("HuoGong", v1, out s, out cards, out p);

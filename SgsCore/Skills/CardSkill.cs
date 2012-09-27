@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Sanguosha.Core.Skills
 {
-    class CardSkill : Skill
+    class CardSkill : ISkill
     {
 
     }

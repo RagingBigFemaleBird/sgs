@@ -69,9 +69,9 @@ namespace Sanguosha.Core.Triggers
             set { cards = value; }
         }
 
-        private Skill skill;
+        private ISkill skill;
 
-        public Skill Skill
+        public ISkill Skill
         {
             get { return skill; }
             set { skill = value; }

@@ -57,8 +57,10 @@
     <Compile Include="Engine\GameEngine.cs" />
     <Compile Include="Players\PlayerAttribute.cs" />
     <Compile Include="Skills\CardSkill.cs" />
+    <Compile Include="Skills\CardTransformationSkill.cs" />
+    <Compile Include="Skills\Fire\HuoJi.cs" />
     <Compile Include="Skills\ShaSkill.cs" />
-    <Compile Include="Skills\Skill.cs" />
+    <Compile Include="Skills\ISkill.cs" />
     <Compile Include="Triggers\GameEvent.cs" />
     <Compile Include="Games\RoleGame.cs" />
     <Compile Include="Heroes\Hero.cs" />

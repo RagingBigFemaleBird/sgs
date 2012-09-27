@@ -29,7 +29,7 @@ namespace Sanguosha.Core.Games
         {
             private class PlayerActionStageVerifier : ICardUsageVerifier
             {
-                public VerifierResult Verify(Skill skill, List<Card> cards, List<Player> players)
+                public VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players)
                 {
                     if (cards == null)
                     {
@@ -45,29 +45,30 @@ namespace Sanguosha.Core.Games
                 while (true)
                 {
                     IUiProxy proxy = Game.CurrentGame.UiProxies[currentPlayer];
-                    Skill skill;
+                    ISkill skill;
                     List<Card> cards;
                     List<Player> players;
                     PlayerActionStageVerifier v = new PlayerActionStageVerifier();
                     proxy.AskForCardUsage("Player Action Stage", v, out skill, out cards, out players);
                     if (skill != null)
                     {
+                        CompositeCard c;
+                        CardTransformationSkill s = (CardTransformationSkill)skill;
+                        VerifierResult r = s.Transform(cards, null, out c);
+                        Trace.Assert(r == VerifierResult.Success);
+                        Trace.TraceInformation("Player used {0}", c.Type);
                     }
                     else
                     {
-                        if (cards == null)
-                        {
-                            continue;
-                        }
                         Trace.Assert(cards[0] != null && cards.Count == 1);
                         Trace.TraceInformation("Player used {0}", cards[0].Type);
-                        try
-                        {
-                            Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, new Triggers.GameEventArgs() { Skill = skill, Source = Game.CurrentGame.CurrentPlayer, Targets = players, Cards = cards });
-                        }
-                        catch (TriggerResultException)
-                        {
-                        }
+                    }
+                    try
+                    {
+                        Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, new Triggers.GameEventArgs() { Skill = skill, Source = Game.CurrentGame.CurrentPlayer, Targets = players, Cards = cards });
+                    }
+                    catch (TriggerResultException)
+                    {
                     }
                 }
             }
@@ -81,17 +82,28 @@ namespace Sanguosha.Core.Games
                 ICard c;
                 if (eventArgs.Skill != null)
                 {
-                    c = eventArgs.Cards[0];
-                    throw new NotImplementedException();
+                    CompositeCard card;
+                    CardTransformationSkill s = (CardTransformationSkill)eventArgs.Skill;
+                    VerifierResult r = s.Transform(eventArgs.Cards, null, out card);
+                    Trace.Assert(r == VerifierResult.Success);
+                    c = card;
                 }
                 else
                 {
+                    Trace.Assert(eventArgs.Cards.Count == 1);
                     c = eventArgs.Cards[0];
                 }
                 computeBackup = new List<Card>(Game.CurrentGame.Decks[DeckType.Compute]);
                 Game.CurrentGame.Decks[DeckType.Compute].Clear();
                 CardsMovement m;
-                m.cards = eventArgs.Cards;
+                if (c is CompositeCard)
+                {
+                    m.cards = new List<Card>(((CompositeCard)c).Subcards);
+                }
+                else
+                {
+                    m.cards = new List<Card>(eventArgs.Cards);
+                }
                 m.to = new DeckPlace(null, DeckType.Compute);
                 Game.CurrentGame.MoveCards(m);
                 
