@@ -33,5 +33,6 @@ namespace Sanguosha.Core.Skills.Fire
                 }
             }
             return r;
-        }    }
+        }
+    }
 }
