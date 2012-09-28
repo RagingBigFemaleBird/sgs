@@ -15,6 +15,7 @@ namespace Sanguosha.Core.UI
         Success,
         Partial,
         Fail,
+        Retry,
     }
     
     public interface ICardUsageVerifier
@@ -29,9 +30,9 @@ namespace Sanguosha.Core.UI
     public interface IUiProxy
     {
         Player HostPlayer { get; set; }
-        void AskForCardUsage(string prompt, ICardUsageVerifier verifier,
+        bool AskForCardUsage(string prompt, ICardUsageVerifier verifier,
                              out ISkill skill, out List<Card> cards, out List<Player> players);
-        void AskForCardChoice(List<DeckPlace> sourceDecks, List<string> resultDeckNames,
+        bool AskForCardChoice(List<DeckPlace> sourceDecks, List<string> resultDeckNames,
                               List<int> resultDeckMaximums,
                               ICardChoiceVerifier verifier, out List<List<Card>> answer);
     }

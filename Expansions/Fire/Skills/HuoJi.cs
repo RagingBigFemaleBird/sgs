@@ -12,7 +12,7 @@ using Sanguosha.Expansions.Battle.Cards;
 namespace Sanguosha.Expansions.Fire.Skills
 {
     /// <summary>
-    /// 火计–出牌阶段，你可以将你的任意一张红色手牌当【火攻】使用。
+    /// 火鸡–出牌阶段，你可以将你的任意一张红色手牌当【火攻】使用。
     /// </summary>
     class HuoJi : CardTransformSkill
     {
@@ -26,7 +26,7 @@ namespace Sanguosha.Expansions.Fire.Skills
                 {
                     card = new CompositeCard();
                     card.Subcards = new List<Card>(cards);
-                    card.Type = HuoGong.StaticCardType;
+                    card.Type = new HuoGong().CardType;
                     return VerifierResult.Success;
                 }
                 else

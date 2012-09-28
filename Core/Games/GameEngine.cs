@@ -18,6 +18,7 @@ namespace Sanguosha.Core.Games
     {
         static GameEngine()
         {
+            expansions = new Dictionary<string, Expansion>();
         }
 
         static Dictionary<string, Expansion> expansions;
@@ -33,18 +34,26 @@ namespace Sanguosha.Core.Games
             var files = Directory.GetFiles(folderPath);
             foreach (var file in files)
             {
-                Assembly assembly = Assembly.LoadFile(folderPath);
-                var types = assembly.GetTypes();
-                foreach (var type in types)
+                if (!file.EndsWith(".dll")) continue;
+                try
                 {
-                    if (type.IsSubclassOf(typeof(Expansion)))
+                    Assembly assembly = Assembly.LoadFile(Path.GetFullPath(file));
+                    var types = assembly.GetTypes();
+                    foreach (var type in types)
                     {
-                        var exp = Activator.CreateInstance(type) as Expansion;
-                        if (exp != null)
+                        if (type.IsSubclassOf(typeof(Expansion)))
                         {
-                            expansions.Add(type.Name, exp);
+                            var exp = Activator.CreateInstance(type) as Expansion;
+                            if (exp != null)
+                            {
+                                expansions.Add(type.Name, exp);
+                            }
                         }
                     }
+                }
+                catch (BadImageFormatException)
+                {
+                    continue;
                 }
             }
         }

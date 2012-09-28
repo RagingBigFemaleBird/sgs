@@ -5,3 +5,4 @@ Sanguosha/obj
 *.dll
 *.pdb
 *.cache
+/Bin

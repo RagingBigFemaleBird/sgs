@@ -48,13 +48,15 @@ namespace Sanguosha.Core.Games
                     List<Card> cards;
                     List<Player> players;
                     PlayerActionStageVerifier v = new PlayerActionStageVerifier();
-                    proxy.AskForCardUsage("Player Action Stage", v, out skill, out cards, out players);
+                    if (!proxy.AskForCardUsage("Player Action Stage", v, out skill, out cards, out players))
+                    {
+                        break;
+                    }
                     if (skill != null)
                     {
                         CompositeCard c;
                         CardTransformSkill s = (CardTransformSkill)skill;
                         VerifierResult r = s.Transform(cards, null, out c);
-                        Trace.Assert(r == VerifierResult.Success);
                         Trace.TraceInformation("Player used {0}", c.Type);
                     }
                     else
@@ -85,6 +87,10 @@ namespace Sanguosha.Core.Games
                     CardTransformSkill s = (CardTransformSkill)eventArgs.Skill;
                     VerifierResult r = s.Transform(eventArgs.Cards, null, out card);
                     Trace.Assert(r == VerifierResult.Success);
+                    if (!s.Commit(eventArgs.Cards, null))
+                    {
+                        return;
+                    }
                     c = card;
                 }
                 else

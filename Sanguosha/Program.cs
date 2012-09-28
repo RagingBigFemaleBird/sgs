@@ -25,7 +25,11 @@ namespace Sanguosha
                 proxy.HostPlayer = player;
                 game.UiProxies.Add(player, proxy);
             }
-            
+            GameEngine.LoadExpansions("Expansions");
+            foreach (var g in GameEngine.Expansions.Values)
+            {
+                game.LoadExpansion(g);
+            }
             game.Run();
         }
     }

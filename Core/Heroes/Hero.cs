@@ -21,17 +21,26 @@ namespace Sanguosha.Core.Heroes
     {
         private Allegiance allegiance;
 
-        protected Allegiance Allegiance
+        public Allegiance Allegiance
         {
             get { return allegiance; }
             set { allegiance = value; }
         }
         private List<ISkill> skills;
 
-        protected List<ISkill> Skills
+        public List<ISkill> Skills
         {
             get { return skills; }
             set { skills = value; }
+        }
+        public Hero(Allegiance a, List<ISkill> s)
+        {
+            allegiance = a;
+            skills = s;
+        }
+        public Hero(Allegiance a, params ISkill[] skills)
+        {
+            this.skills = new List<ISkill>(skills);
         }
     }
 }

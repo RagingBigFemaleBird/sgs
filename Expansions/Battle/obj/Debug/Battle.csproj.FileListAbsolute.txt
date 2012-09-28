@@ -5,3 +5,10 @@ F:\Sanguosha\Expansions\Battle\bin\Debug\Core.dll
 F:\Sanguosha\Expansions\Battle\bin\Debug\Core.pdb
 F:\Sanguosha\Expansions\Battle\obj\Debug\Battle.dll
 F:\Sanguosha\Expansions\Battle\obj\Debug\Battle.pdb
+F:\Programs\Sanguosha\Expansions\Battle\bin\Debug\Battle.dll
+F:\Programs\Sanguosha\Expansions\Battle\bin\Debug\Battle.pdb
+F:\Programs\Sanguosha\Expansions\Battle\bin\Debug\Core.dll
+F:\Programs\Sanguosha\Expansions\Battle\bin\Debug\Core.pdb
+F:\Programs\Sanguosha\Expansions\Battle\obj\Debug\Battle.csprojResolveAssemblyReference.cache
+F:\Programs\Sanguosha\Expansions\Battle\obj\Debug\Battle.dll
+F:\Programs\Sanguosha\Expansions\Battle\obj\Debug\Battle.pdb

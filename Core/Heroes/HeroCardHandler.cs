@@ -10,7 +10,7 @@ using Sanguosha.Core.Players;
 
 namespace Sanguosha.Core.Heroes
 {
-    class HeroCardHandler : CardHandler
+    public class HeroCardHandler : CardHandler
     {
         protected override void Process(Players.Player source, Players.Player dest)
         {
@@ -35,6 +35,10 @@ namespace Sanguosha.Core.Heroes
         {
             get { return hero; }
             set { hero = value; }
+        }
+        public HeroCardHandler(Hero h)
+        {
+            hero = h;
         }
     }
 }

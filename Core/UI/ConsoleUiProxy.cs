@@ -20,7 +20,7 @@ namespace Sanguosha.Core.UI
             set { hostPlayer = value; }
         }
 
-        void IUiProxy.AskForCardUsage(string prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+        bool IUiProxy.AskForCardUsage(string prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             Player p = hostPlayer;
             cards = new List<Card>();
@@ -58,7 +58,7 @@ namespace Sanguosha.Core.UI
                     Console.Write("Skill ID:");
                     ids = Console.ReadLine();
                     id = int.Parse(ids);
-                    // skill = new Skills.Fire.HuoJi();
+                    skill = (Game.CurrentGame.CardHandlers["XiaoZhuGe"] as Heroes.HeroCardHandler).Hero.Skills[0];
                     goto again;
                 }
                 cards.Add(Game.CurrentGame.Decks[p, DeckType.Hand][id]);
@@ -66,7 +66,7 @@ namespace Sanguosha.Core.UI
                 r = verifier.Verify(skill, cards, players);
                 if (r == VerifierResult.Success)
                 {
-                    return;
+                    return true;
                 }
                 if (r == VerifierResult.Fail)
                 {
@@ -114,7 +114,7 @@ namespace Sanguosha.Core.UI
                 r = verifier.Verify(skill, cards, players);
                 if (r == VerifierResult.Success)
                 {
-                    return;
+                    return true;
                 }
                 if (r == VerifierResult.Fail)
                 {
@@ -129,14 +129,15 @@ namespace Sanguosha.Core.UI
                 players = null;
                 skill = null;
                 cards = null;
-                return;
+                return false;
 
             }
         }
 
-        void IUiProxy.AskForCardChoice(List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer)
+        bool IUiProxy.AskForCardChoice(List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer)
         {
             answer = null;
+            return false;
         }
 
     }

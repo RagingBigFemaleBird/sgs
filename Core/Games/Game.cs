@@ -45,8 +45,8 @@ namespace Sanguosha.Core.Games
         public Game()
         {
             cardSet = new List<Card>();
-            cardSet.Add(new Card() { Type = "Sanguosha.Core.Cards.Battle.HuoGong", Rank = 9, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "Sanguosha.Core.Cards.Battle.HuoGong", Rank = 10, Suit = SuitType.Club });
+            cardSet.Add(new Card() { Type = "HuoGong", Rank = 9, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "HuoGong", Rank = 10, Suit = SuitType.Club });
             cardSet.Add(new Card() { Type = "SHA", Rank = 1, Suit = SuitType.Spade });
             cardSet.Add(new Card() { Type = "SHA", Rank = 2, Suit = SuitType.Heart });
             cardSet.Add(new Card() { Type = "SHA", Rank = 3, Suit = SuitType.Heart });
@@ -83,6 +83,10 @@ namespace Sanguosha.Core.Games
                 {
                     throw new DuplicateCardHandlerException();
                 }
+                else
+                {
+                    cardHandlers.Add(pair.Key, pair.Value);
+                }
             }
         }
 
@@ -112,10 +116,10 @@ namespace Sanguosha.Core.Games
             {
 
             }
-            catch (Exception e)
+            /*catch (Exception e)
             {
                 Trace.TraceError(e.StackTrace);
-            }
+            }*/
         }
 
         /// <summary>

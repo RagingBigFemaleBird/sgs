@@ -130,11 +130,6 @@ namespace Sanguosha.Core.Cards
             get { return this.GetType().Name; }
         }
 
-        public static string StaticCardType
-        {
-            get { return MethodInfo.GetCurrentMethod().DeclaringType.Name; }
-        }
-
     }
 
 }

@@ -3,3 +3,8 @@ F:\Sanguosha\Bin\Debug\Expansions\Fire.dll
 F:\Sanguosha\Bin\Debug\Expansions\Fire.pdb
 F:\Sanguosha\Expansions\Fire\obj\Debug\Fire.dll
 F:\Sanguosha\Expansions\Fire\obj\Debug\Fire.pdb
+F:\Programs\Sanguosha\Bin\Debug\Expansions\Fire.dll
+F:\Programs\Sanguosha\Bin\Debug\Expansions\Fire.pdb
+F:\Programs\Sanguosha\Expansions\Fire\obj\Debug\Fire.csprojResolveAssemblyReference.cache
+F:\Programs\Sanguosha\Expansions\Fire\obj\Debug\Fire.dll
+F:\Programs\Sanguosha\Expansions\Fire\obj\Debug\Fire.pdb
