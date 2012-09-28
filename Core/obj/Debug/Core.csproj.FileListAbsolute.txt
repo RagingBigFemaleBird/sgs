@@ -1,0 +1,15 @@
+F:\Sanguosha\SgsCore\obj\Debug\Core.pdb
+F:\Sanguosha\SgsCore\bin\Debug\Core.dll
+F:\Sanguosha\SgsCore\bin\Debug\Core.pdb
+F:\Sanguosha\SgsCore\obj\Debug\Core.dll
+F:\Sanguosha\SgsCore\obj\Debug\ResolveAssemblyReference.cache
+F:\Programs\Sanguosha\SgsCore\bin\Debug\Core.dll
+F:\Programs\Sanguosha\SgsCore\bin\Debug\Core.pdb
+F:\Programs\Sanguosha\SgsCore\obj\Debug\Core.csprojResolveAssemblyReference.cache
+F:\Programs\Sanguosha\SgsCore\obj\Debug\Core.dll
+F:\Programs\Sanguosha\SgsCore\obj\Debug\Core.pdb
+F:\Sanguosha\Core\obj\Debug\ResolveAssemblyReference.cache
+F:\Sanguosha\Bin\Debug\Core.dll
+F:\Sanguosha\Bin\Debug\Core.pdb
+F:\Sanguosha\Core\obj\Debug\Core.dll
+F:\Sanguosha\Core\obj\Debug\Core.pdb
