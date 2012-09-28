@@ -160,5 +160,5 @@ namespace Sanguosha.Core.Games
             RegisterTrigger(GameEvent.CommitActionToTargets, new CommitActionToTargetsTrigger());
         }
     }
-    
+
 }
