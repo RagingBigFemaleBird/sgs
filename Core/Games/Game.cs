@@ -45,8 +45,9 @@ namespace Sanguosha.Core.Games
         public Game()
         {
             cardSet = new List<Card>();
-            cardSet.Add(new Card() { Type = "HuoGong", Rank = 9, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "HuoGong", Rank = 10, Suit = SuitType.Club });
+ //           cardSet.Add(new Card() { Type = "HuoGong", Rank = 9, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "GuoHeChaiQiao", Rank = 9, Suit = SuitType.Heart });
+            cardSet.Add(new Card() { Type = "ShunShouQianYang", Rank = 10, Suit = SuitType.Club });
             cardSet.Add(new Card() { Type = "SHA", Rank = 1, Suit = SuitType.Spade });
             cardSet.Add(new Card() { Type = "SHA", Rank = 2, Suit = SuitType.Heart });
             cardSet.Add(new Card() { Type = "SHA", Rank = 3, Suit = SuitType.Heart });
@@ -310,17 +311,17 @@ namespace Sanguosha.Core.Games
         }
 
         /// <summary>
-        /// Get player next to the current one in counter-clock seat map.
+        /// Get player next to the a player in counter-clock seat map.
         /// </summary>
-        /// <param name="currentPlayer"></param>
+        /// <param name="p">Player</param>
         /// <returns></returns>
-        public virtual Player NextPlayer(Player currentPlayer)
+        public virtual Player NextPlayer(Player p)
         {
             int numPlayers = players.Count;
             int i;
             for (i = 0; i < numPlayers; i++)
             {
-                if (players[i] == currentPlayer)
+                if (players[i] == p)
                 {
                     break;
                 }
@@ -342,6 +343,58 @@ namespace Sanguosha.Core.Games
         }
 
         /// <summary>
+        /// Get player previous to a player in counter-clock seat map
+        /// </summary>
+        /// <param name="p">Player</param>
+        /// <returns></returns>
+        public virtual Player PreviousPlayer(Player p)
+        {
+            int numPlayers = players.Count;
+            int i;
+            for (i = 0; i < numPlayers; i++)
+            {
+                if (players[i] == p)
+                {
+                    break;
+                }
+            }
+
+            // The previous player to the first player is the last player
+            if (i == 0)
+            {
+                return players[numPlayers - 1];
+            }
+            else if (i >= numPlayers)
+            {
+                return null;
+            }
+            else
+            {
+                return players[i - 1];
+            }
+        }
+
+        public virtual int DistanceTo(Player from, Player to)
+        {
+            int distRight = from[PlayerAttribute.RangeMinus], distLeft = from[PlayerAttribute.RangeMinus];
+            Player p = from;
+            while (p != to)
+            {
+                p = NextPlayer(p);
+                distRight++;
+            }
+            distRight += to[PlayerAttribute.RangePlus];
+            p = from;
+            while (p != to)
+            {
+                p = PreviousPlayer(p);
+                distLeft++;
+            }
+            distLeft += to[PlayerAttribute.RangePlus];
+            return distRight > distLeft ? distLeft : distRight;
+        }
+
+        /// <summary>
         /// 造成伤害
         /// </summary>
         /// <param name="source">伤害来源</param>
@@ -351,7 +404,8 @@ namespace Sanguosha.Core.Games
         /// <param name="cards">造成伤害的牌</param>
         public void DoDamage(Player source, Player dest, int magnitude, DamageElement elemental, List<Card> cards)
         {
-            GameEventArgs args = new GameEventArgs() { Source = source, Target = dest, Cards = cards, IntArg = magnitude, IntArg2 = (int)(elemental) };
+            GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), Cards = cards, IntArg = magnitude, IntArg2 = (int)(elemental) };
+            args.Targets.Add(dest);
 
             Game.CurrentGame.Emit(GameEvent.DamageSourceConfirmed, args);
             Game.CurrentGame.Emit(GameEvent.DamageElementConfirmed, args);
@@ -361,8 +415,9 @@ namespace Sanguosha.Core.Games
             Game.CurrentGame.Emit(GameEvent.DamageInflicted, args);
             Game.CurrentGame.Emit(GameEvent.BeforeHealthChanged, args);
 
-            args.Target.Health -= args.IntArg;
-            Trace.TraceInformation("Player {0} Lose {1} hp, @ {2} hp", args.Target.Id, args.IntArg, args.Target.Health);
+            Trace.Assert(args.Targets.Count == 1);
+            args.Targets[0].Health -= args.IntArg;
+            Trace.TraceInformation("Player {0} Lose {1} hp, @ {2} hp", args.Targets[0].Id, args.IntArg, args.Targets[0].Health);
 
             Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, args);
             Game.CurrentGame.Emit(GameEvent.AfterDamageCaused, args);

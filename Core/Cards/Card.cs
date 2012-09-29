@@ -94,5 +94,12 @@ namespace Sanguosha.Core.Cards
             set { type = value; }
         }
 
+        Dictionary<string, int> attributes;
+
+        public Dictionary<string, int> Attributes
+        {
+            get { return attributes; }
+            set { attributes = value; }
+        }
     }    
 }

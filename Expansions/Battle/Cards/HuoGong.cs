@@ -25,6 +25,10 @@ namespace Sanguosha.Expansions.Battle.Cards
                 {
                     return VerifierResult.Fail;
                 }
+                if (cards[0].Place.DeckType != DeckType.Hand)
+                {
+                    return VerifierResult.Fail;
+                }
                 return VerifierResult.Success;
             }
         }
@@ -53,6 +57,10 @@ namespace Sanguosha.Expansions.Battle.Cards
                 {
                     return VerifierResult.Fail;
                 }
+                if (cards[0].Place.DeckType != DeckType.Hand)
+                {
+                    return VerifierResult.Fail;
+                }
                 return VerifierResult.Success;
             }
         }
@@ -66,7 +74,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             List<Card> cards;
             if (!ui.AskForCardUsage("HuoGong", v1, out s, out cards, out p))
             {
-                Trace.TraceInformation("Player {0} Invalid answer");
+                Trace.TraceInformation("Player {0} Invalid answer", dest);
                 cards = new List<Card>();
                 cards.Add(Game.CurrentGame.Decks[dest, DeckType.Hand][0]);
             }
@@ -87,7 +95,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             }
         }
 
-        protected override VerifierResult Verify(ICard card, List<Player> targets)
+        protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
         {
             if (targets.Count > 1)
             {

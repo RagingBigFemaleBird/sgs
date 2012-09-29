@@ -12,7 +12,7 @@ namespace Sanguosha.Core.UI
             throw new NotImplementedException();
         }
 
-        public bool AskForCardChoice(List<Cards.DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Cards.Card>> answer)
+        public bool AskForCardChoice(string prompt, List<Cards.DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Cards.Card>> answer)
         {
             throw new NotImplementedException();
         }

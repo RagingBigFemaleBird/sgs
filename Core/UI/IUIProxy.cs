@@ -30,9 +30,28 @@ namespace Sanguosha.Core.UI
     public interface IUiProxy
     {
         Player HostPlayer { get; set; }
+        /// <summary>
+        /// 询问使用或打出卡牌，可以发动技能。
+        /// </summary>
+        /// <param name="prompt"></param>
+        /// <param name="verifier"></param>
+        /// <param name="skill"></param>
+        /// <param name="cards"></param>
+        /// <param name="players"></param>
+        /// <returns>False if user cannot provide an answer.</returns>
         bool AskForCardUsage(string prompt, ICardUsageVerifier verifier,
                              out ISkill skill, out List<Card> cards, out List<Player> players);
-        bool AskForCardChoice(List<DeckPlace> sourceDecks, List<string> resultDeckNames,
+        /// <summary>
+        /// 询问用户从若干牌堆中选择卡牌，例如顺手牵羊，五谷丰登，观星等等。
+        /// </summary>
+        /// <param name="prompt"></param>
+        /// <param name="sourceDecks"></param>
+        /// <param name="resultDeckNames"></param>
+        /// <param name="resultDeckMaximums"></param>
+        /// <param name="verifier"></param>
+        /// <param name="answer">用户选择结果。对应resultDeckNames，每个选出的牌堆占用一个list。</param>
+        /// <returns>False if user cannot provide an answer.</returns>
+        bool AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames,
                               List<int> resultDeckMaximums,
                               ICardChoiceVerifier verifier, out List<List<Card>> answer);
     }

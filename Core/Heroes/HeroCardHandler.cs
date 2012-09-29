@@ -17,7 +17,7 @@ namespace Sanguosha.Core.Heroes
             throw new NotImplementedException();
         }
 
-        protected override VerifierResult Verify(ICard card, List<Player> targets)
+        protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
         {
             if (targets.Count == 0)
             {

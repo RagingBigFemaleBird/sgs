@@ -55,17 +55,19 @@ namespace Sanguosha.Core.Triggers
             }
             PlayerCanBeTargeted = new GameEvent("PlayerCanBeTargeted");
             CommitActionToTargets = new GameEvent("CommitActionToTargets");
-            DamageSourceConfirmed = new GameEvent("DSC");
-            DamageElementConfirmed = new GameEvent("DEC");
-            BeforeDamageComputing = new GameEvent("BDC");
-            DamageComputingStarted = new GameEvent("DCS");
-            DamageCaused = new GameEvent("DC");
-            DamageInflicted = new GameEvent("DI");
-            BeforeHealthChanged = new GameEvent("BHC");
-            AfterHealthChanged = new GameEvent("AHC");
-            AfterDamageCaused = new GameEvent("ADC");
-            AfterDamageInflicted = new GameEvent("ADI");
-            DamageComputingFinished = new GameEvent("DCF");
+            DamageSourceConfirmed = new GameEvent("DamageSourceConfirmed");
+            DamageElementConfirmed = new GameEvent("DamageElementConfirmed");
+            BeforeDamageComputing = new GameEvent("BeforeDamageComputing");
+            DamageComputingStarted = new GameEvent("DamageComputingStarted");
+            DamageCaused = new GameEvent("DamageCaused");
+            DamageInflicted = new GameEvent("DamageInflicted");
+            BeforeHealthChanged = new GameEvent("BeforeHealthChanged");
+            AfterHealthChanged = new GameEvent("AfterHealthChanged");
+            AfterDamageCaused = new GameEvent("AfterDamageCaused");
+            AfterDamageInflicted = new GameEvent("AfterDamageInflicted");
+            DamageComputingFinished = new GameEvent("DamageComputingFinished");
+            PlayerIsCardTarget = new GameEvent("PlayerIsCardTarget");
+            PlayerCanUseCard = new GameEvent("PlayerCanUseCard");
         }
 
         [Serializable]
@@ -287,6 +289,16 @@ namespace Sanguosha.Core.Triggers
         /// 卡牌效果生效
         /// </summary>
         public static readonly GameEvent CommitActionToTargets;
+
+        /// <summary>
+        /// 玩家成为卡牌的目标
+        /// </summary>
+        public static readonly GameEvent PlayerIsCardTarget;
+
+        /// <summary>
+        /// 玩家可以使用卡牌
+        /// </summary>
+        public static readonly GameEvent PlayerCanUseCard;
 
 
         public override bool Equals(object obj)

@@ -40,7 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicExpansion.cs" />
+    <Compile Include="Cards\GuoHeChaiQiao.cs" />
+    <Compile Include="Cards\Sha.cs" />
+    <Compile Include="Cards\Shan.cs" />
+    <Compile Include="Cards\ShunChai.cs" />
+    <Compile Include="Cards\ShunShouQianYang.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Core.csproj">
+      <Project>{31b92003-b490-4eaf-8f8e-f9b020f9b03b}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

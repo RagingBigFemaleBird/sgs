@@ -34,7 +34,7 @@ namespace Sanguosha.Core.Games
                     {
                         return VerifierResult.Fail;
                     }
-                    return Game.CurrentGame.CardHandlers[cards[0].Type].Verify(skill, cards, players);
+                    return Game.CurrentGame.CardHandlers[cards[0].Type].Verify(Game.CurrentGame.CurrentPlayer, skill, cards, players);
                 }
             }
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)

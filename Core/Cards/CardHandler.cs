@@ -56,7 +56,7 @@ namespace Sanguosha.Core.Cards
 
         protected abstract void Process(Player source, Player dest);
 
-        public VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> targets)
+        public VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> targets)
         {
             ICard card;
             if (skill != null)
@@ -94,6 +94,21 @@ namespace Sanguosha.Core.Cards
                 {
                     return VerifierResult.Fail;
                 }
+
+                try
+                {
+                    Game.CurrentGame.Emit(GameEvent.PlayerCanUseCard, new Triggers.GameEventArgs()
+                    {
+                        Source = source,
+                        Targets = targets,
+                        Cards = cards
+                    });
+                }
+                catch (TriggerResultException e)
+                {
+                    Trace.Assert(e.Status == TriggerResult.Fail);
+                    return VerifierResult.Fail;
+                }
             }
 
             HoldInTemp(cards);
@@ -110,7 +125,6 @@ namespace Sanguosha.Core.Cards
                     Source = Game.CurrentGame.CurrentPlayer, Targets = targets, Cards = cards 
                 });
             }
-
             catch (TriggerResultException e)
             {
                 Trace.Assert(e.Status == TriggerResult.Fail);
@@ -118,12 +132,12 @@ namespace Sanguosha.Core.Cards
                 return VerifierResult.Fail;
             }
 
-            VerifierResult ret = Verify(card, targets);
+            VerifierResult ret = Verify(source, card, targets);
             ReleaseHoldInTemp();
             return ret;
         }
 
-        protected abstract VerifierResult Verify(ICard card, List<Player> targets);        
+        protected abstract VerifierResult Verify(Player source, ICard card, List<Player> targets);        
 
         public string CardType
         {

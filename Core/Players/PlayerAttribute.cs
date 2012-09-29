@@ -7,7 +7,9 @@ namespace Sanguosha.Core.Players
 {
     public class PlayerAttribute
     {
-        public static string AttackRange = "attackRange";
-        public static string AttackRangeTmp = "attackRangeTmp";
+        public static string RangeMinus = "RangeMinus";
+        public static string RangePlus = "RangePlus";
+        public static string RangeAttack = "RangeAttack";
+        public static string RangeAttackTmp = "RangeAttackTmp";
     }
 }

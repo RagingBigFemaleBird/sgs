@@ -22,13 +22,6 @@ namespace Sanguosha.Core.Triggers
             set { source = value; }
         }
 
-        private Player target;
-
-        public Player Target
-        {
-            get { return target; }
-            set { target = value; }
-        }
         private List<Player> targets;
 
         public List<Player> Targets
@@ -77,5 +70,12 @@ namespace Sanguosha.Core.Triggers
             set { skill = value; }
         }
 
+        string stringArg;
+
+        public string StringArg
+        {
+            get { return stringArg; }
+            set { stringArg = value; }
+        }
     }
 }
