@@ -71,6 +71,10 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
         {
+            if (targets == null || targets.Count == 0)
+            {
+                return VerifierResult.Partial;
+            }
             if (targets.Count > 1)
             {
                 return VerifierResult.Fail;
@@ -87,6 +91,11 @@ namespace Sanguosha.Expansions.Basic.Cards
                 return VerifierResult.Fail;
             }
             return VerifierResult.Success;
+        }
+
+        public override CardCategory Category
+        {
+            get { return CardCategory.ImmediateTool; }
         }
     }
 }

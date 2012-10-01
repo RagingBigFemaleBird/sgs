@@ -18,6 +18,14 @@ namespace Sanguosha.Core.Cards
         {
             suit = SuitType.None;
             rank = 0;
+            type = null;
+        }
+
+        public Card(SuitType t, int r, CardHandler c)
+        {
+            suit = t;
+            rank = r;
+            type = c;
         }
 
         DeckPlace place;
@@ -86,14 +94,6 @@ namespace Sanguosha.Core.Cards
         }
         public static Card UnknownCard;
 
-        string type;
-
-        public string Type
-        {
-            get { return type; }
-            set { type = value; }
-        }
-
         Dictionary<string, int> attributes;
 
         public Dictionary<string, int> Attributes
@@ -101,5 +101,13 @@ namespace Sanguosha.Core.Cards
             get { return attributes; }
             set { attributes = value; }
         }
+        CardHandler type;
+
+        public CardHandler Type
+        {
+            get { return type; }
+            set { type = value; }
+        }
+
     }    
 }

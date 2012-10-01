@@ -128,13 +128,14 @@ namespace Sanguosha.Core.Cards
             }
         }
 
-        private string type;
+        CardHandler type;
 
-        public string Type
+        public CardHandler Type
         {
             get { return type; }
             set { type = value; }
         }
+
 
     }
 }

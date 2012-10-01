@@ -18,6 +18,8 @@ namespace Sanguosha.Core.Cards
     {
         Dictionary<DeckPlace, List<Card>> cardsOnHold;
 
+        public abstract CardCategory Category {get;}
+
         /// <summary>
         /// 临时将卡牌提出，verify时使用，第二次调用将会摧毁第一次调用时临时区域的所有卡牌
         /// </summary>
@@ -71,7 +73,7 @@ namespace Sanguosha.Core.Cards
                     {
                         return r;
                     }
-                    if (c.Type != CardType)
+                    if (!(this.GetType().IsAssignableFrom(c.Type.GetType())))
                     {
                         return VerifierResult.Fail;
                     }
@@ -90,7 +92,7 @@ namespace Sanguosha.Core.Cards
                     return VerifierResult.Fail;
                 }
                 card = cards[0];
-                if (card.Type != CardType)
+                if (!(this.GetType().IsAssignableFrom(card.Type.GetType())))
                 {
                     return VerifierResult.Fail;
                 }
@@ -113,25 +115,24 @@ namespace Sanguosha.Core.Cards
 
             HoldInTemp(cards);
 
-            if (targets == null || targets.Count == 0)
+            if (targets != null && targets.Count != 0)
             {
-                return VerifierResult.Partial;
-            }
-
-            try
-            {
-                Game.CurrentGame.Emit(GameEvent.PlayerCanBeTargeted, new Triggers.GameEventArgs()
+                try
                 {
-                    Source = Game.CurrentGame.CurrentPlayer, Targets = targets, Cards = cards 
-                });
+                    Game.CurrentGame.Emit(GameEvent.PlayerCanBeTargeted, new Triggers.GameEventArgs()
+                    {
+                        Source = Game.CurrentGame.CurrentPlayer,
+                        Targets = targets,
+                        Cards = cards
+                    });
+                }
+                catch (TriggerResultException e)
+                {
+                    Trace.Assert(e.Status == TriggerResult.Fail);
+                    ReleaseHoldInTemp();
+                    return VerifierResult.Fail;
+                }
             }
-            catch (TriggerResultException e)
-            {
-                Trace.Assert(e.Status == TriggerResult.Fail);
-                ReleaseHoldInTemp();
-                return VerifierResult.Fail;
-            }
-
             VerifierResult ret = Verify(source, card, targets);
             ReleaseHoldInTemp();
             return ret;

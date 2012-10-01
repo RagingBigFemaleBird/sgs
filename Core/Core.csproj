@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cards\CardCategory.cs" />
     <Compile Include="Cards\CardHandler.cs" />
     <Compile Include="Cards\CardPlace.cs" />
     <Compile Include="Cards\CompositeCard.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="Cards\DeckType.cs" />
     <Compile Include="Cards\ICard.cs" />
     <Compile Include="Cards\Card.cs" />
+    <Compile Include="Cards\SingleCardUsageVerifier.cs" />
     <Compile Include="Exceptions\DuplicateCardHandlerException.cs" />
     <Compile Include="Games\Expansion.cs" />
     <Compile Include="Games\GameEngine.cs" />

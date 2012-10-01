@@ -22,23 +22,6 @@ namespace Sanguosha.Expansions.Basic.Cards
             get { return DamageElement.None; }
         }
 
-        public class ShanCardChoiceVerifier : ICardUsageVerifier
-        {
-            public VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players)
-            {
-                // todo: skill != null
-                if (skill != null || cards == null || cards.Count != 1 || (players != null && players.Count != 0))
-                {
-                    return VerifierResult.Fail;
-                }
-                if (cards[0].Type != new Shan().CardType)
-                {
-                    return VerifierResult.Fail;
-                }
-                return VerifierResult.Success;
-            }
-        }
-
         protected override void Process(Player source, Player dest)
         {
             GameEventArgs arg = new GameEventArgs();
@@ -67,7 +50,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 foreach (var player in arg.Targets)
                 {
                     IUiProxy ui = Game.CurrentGame.UiProxies[player];
-                    ShanCardChoiceVerifier v1 = new ShanCardChoiceVerifier();
+                    SingleCardUsageVerifier v1 = new SingleCardUsageVerifier((c) => { return c.Type is Shan; });
                     ISkill s;
                     List<Player> p;
                     List<Card> cards;
@@ -91,6 +74,10 @@ namespace Sanguosha.Expansions.Basic.Cards
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
         {
             /* todo: 杀目标结算*/
+            if (targets == null || targets.Count == 0)
+            {
+                return VerifierResult.Partial;
+            }
             if (targets.Count > 1)
             {
                 return VerifierResult.Fail;
@@ -98,6 +85,11 @@ namespace Sanguosha.Expansions.Basic.Cards
             Player player = targets[0];
 
             return VerifierResult.Success;
+        }
+
+        public override CardCategory Category
+        {
+            get { return CardCategory.Basic; }
         }
     }
 }

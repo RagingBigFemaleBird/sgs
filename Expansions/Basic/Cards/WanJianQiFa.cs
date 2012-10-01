@@ -12,24 +12,18 @@ using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.Cards;
 
-
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    public class Shan : CardHandler
+    public class WanJianQiFa : Aoe
     {
-        protected override void Process(Player source, Player dest)
+        public WanJianQiFa()
         {
-            throw new NotImplementedException();
+            ResponseCardVerifier = new SingleCardUsageVerifier((c) => { return c.Type is Shan; });
         }
 
-        protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
+        protected override string UsagePrompt
         {
-            return VerifierResult.Fail;
-        }
-
-        public override CardCategory Category
-        {
-            get { return CardCategory.Basic; }
+            get { return "WanJianQiFa"; }
         }
     }
 }

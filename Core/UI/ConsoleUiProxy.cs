@@ -23,6 +23,7 @@ namespace Sanguosha.Core.UI
         bool IUiProxy.AskForCardUsage(string prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             Player p = hostPlayer;
+            Console.Write("I AM PLAYER {0}: ", p.Id);
             cards = new List<Card>();
             VerifierResult r = verifier.Verify(null, null, null);
             skill = null;
@@ -34,7 +35,7 @@ namespace Sanguosha.Core.UI
             int i = 0;
             foreach (ICard card in Game.CurrentGame.Decks[p, DeckType.Hand])
             {
-                Console.Write(" Card {0} {1}{2}{3}, ", i, card.Suit, card.Rank, card.Type);
+                Console.Write(" Card {0} {1}{2}{3}, ", i, card.Suit, card.Rank, card.Type.CardType);
                 i++;
             }
         again:

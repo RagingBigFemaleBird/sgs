@@ -45,29 +45,6 @@ namespace Sanguosha.Core.Games
         public Game()
         {
             cardSet = new List<Card>();
- //           cardSet.Add(new Card() { Type = "HuoGong", Rank = 9, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "GuoHeChaiQiao", Rank = 9, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "ShunShouQianYang", Rank = 10, Suit = SuitType.Club });
-            cardSet.Add(new Card() { Type = "SHA", Rank = 1, Suit = SuitType.Spade });
-            cardSet.Add(new Card() { Type = "SHA", Rank = 2, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "SHA", Rank = 3, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "SHA", Rank = 4, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "SHA", Rank = 5, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "SHA", Rank = 6, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "SHA", Rank = 7, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "SHA", Rank = 8, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "SHA", Rank = 9, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "SHA", Rank = 10, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "SHA", Rank = 11, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "SHA", Rank = 12, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "SHA", Rank = 13, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "SHA", Rank = 14, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "SHA", Rank = 15, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "SHA", Rank = 16, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "SHA", Rank = 17, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "SHA", Rank = 18, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "SHA", Rank = 19, Suit = SuitType.Heart });
-            cardSet.Add(new Card() { Type = "SHA", Rank = 20, Suit = SuitType.Heart });
             triggers = new Dictionary<GameEvent, SortedList<double, Trigger>>();
             decks = new DeckContainer();
             players = new List<Player>();
@@ -78,17 +55,6 @@ namespace Sanguosha.Core.Games
         public void LoadExpansion(Expansion expansion)
         {
             cardSet.AddRange(expansion.CardSet);
-            foreach (var pair in expansion.CardHandlers)
-            {
-                if (cardHandlers.ContainsKey(pair.Key))
-                {
-                    throw new DuplicateCardHandlerException();
-                }
-                else
-                {
-                    cardHandlers.Add(pair.Key, pair.Value);
-                }
-            }
         }
 
         public virtual void Run()
@@ -404,7 +370,7 @@ namespace Sanguosha.Core.Games
         /// <param name="cards">造成伤害的牌</param>
         public void DoDamage(Player source, Player dest, int magnitude, DamageElement elemental, List<Card> cards)
         {
-            GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), Cards = cards, IntArg = magnitude, IntArg2 = (int)(elemental) };
+            GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), Cards = cards, IntArg = -magnitude, IntArg2 = (int)(elemental) };
             args.Targets.Add(dest);
 
             Game.CurrentGame.Emit(GameEvent.DamageSourceConfirmed, args);
@@ -416,8 +382,8 @@ namespace Sanguosha.Core.Games
             Game.CurrentGame.Emit(GameEvent.BeforeHealthChanged, args);
 
             Trace.Assert(args.Targets.Count == 1);
-            args.Targets[0].Health -= args.IntArg;
-            Trace.TraceInformation("Player {0} Lose {1} hp, @ {2} hp", args.Targets[0].Id, args.IntArg, args.Targets[0].Health);
+            args.Targets[0].Health += args.IntArg;
+            Trace.TraceInformation("Player {0} Lose {1} hp, @ {2} hp", args.Targets[0].Id, -args.IntArg, args.Targets[0].Health);
 
             Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, args);
             Game.CurrentGame.Emit(GameEvent.AfterDamageCaused, args);

@@ -12,24 +12,39 @@ using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.Cards;
 
-
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    public class Shan : CardHandler
+    public class TieSuoLianHuan : CardHandler
     {
         protected override void Process(Player source, Player dest)
         {
             throw new NotImplementedException();
         }
 
+        public override void Process(Player source, List<Player> dests)
+        {
+            if (dests == null || dests.Count == 0)
+            {
+                Game.CurrentGame.DrawCards(source, 1);
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
         {
-            return VerifierResult.Fail;
+            if (targets != null && targets.Count >= 3)
+            {
+                return VerifierResult.Fail;
+            }
+            return VerifierResult.Success;
         }
 
         public override CardCategory Category
         {
-            get { return CardCategory.Basic; }
+            get { return CardCategory.ImmediateTool; }
         }
     }
 }

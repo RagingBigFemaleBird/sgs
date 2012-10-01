@@ -13,7 +13,6 @@ namespace Sanguosha.Core.Games
 {
     public abstract class Expansion
     {
-        Dictionary<string, CardHandler> cardHandlers;
         List<Card> cardSet;
         
         /// <summary>
@@ -23,15 +22,6 @@ namespace Sanguosha.Core.Games
         {
             get { return cardSet; }
             set { cardSet = value; }
-        }
-
-        /// <summary>
-        /// Card usage handler for a given card's type name.
-        /// </summary>
-        public Dictionary<string, CardHandler> CardHandlers
-        {
-            get { return cardHandlers; }
-            set { cardHandlers = value; }
         }
     }
 }

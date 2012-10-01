@@ -17,8 +17,6 @@ namespace Sanguosha.Expansions.Battle
     {
         public BattleExpansion()
         {
-            CardHandlers = new Dictionary<string,CardHandler>();
-            CardHandlers.Add(new HuoGong().CardType, new HuoGong());
             CardSet = new List<Card>();
         }
     }

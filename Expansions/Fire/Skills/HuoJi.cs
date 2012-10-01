@@ -26,7 +26,7 @@ namespace Sanguosha.Expansions.Fire.Skills
                 {
                     card = new CompositeCard();
                     card.Subcards = new List<Card>(cards);
-                    card.Type = new HuoGong().CardType;
+                    card.Type = new HuoGong();
                     return VerifierResult.Success;
                 }
                 else

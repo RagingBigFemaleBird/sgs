@@ -34,7 +34,7 @@ namespace Sanguosha.Core.Games
                     {
                         return VerifierResult.Fail;
                     }
-                    return Game.CurrentGame.CardHandlers[cards[0].Type].Verify(Game.CurrentGame.CurrentPlayer, skill, cards, players);
+                    return cards[0].Type.Verify(Game.CurrentGame.CurrentPlayer, skill, cards, players);
                 }
             }
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
@@ -112,7 +112,7 @@ namespace Sanguosha.Core.Games
                 m.to = new DeckPlace(null, DeckType.Compute);
                 Game.CurrentGame.MoveCards(m);
                 
-                Game.CurrentGame.CardHandlers[c.Type].Process(eventArgs.Source, eventArgs.Targets);
+                c.Type.Process(eventArgs.Source, eventArgs.Targets);
 
                 m.cards = Game.CurrentGame.Decks[DeckType.Compute];
                 m.to = new DeckPlace(null, DeckType.Discard);
@@ -136,7 +136,7 @@ namespace Sanguosha.Core.Games
                 // Deal everyone 4 cards
                 foreach (Player player in game.Players)
                 {
-                    game.DrawCards(player, 2);
+                    game.DrawCards(player, 4);
                 }
                 game.Decks[game.Players[2], DeckType.Hand].Clear();
                 game.CurrentPlayer = game.Players.First();

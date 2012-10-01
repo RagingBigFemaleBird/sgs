@@ -40,5 +40,10 @@ namespace Sanguosha.Core.Heroes
         {
             hero = h;
         }
+
+        public override CardCategory Category
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

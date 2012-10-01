@@ -109,5 +109,10 @@ namespace Sanguosha.Expansions.Battle.Cards
             }
             return VerifierResult.Success;
         }
+
+        public override CardCategory Category
+        {
+            get { return CardCategory.ImmediateTool; }
+        }
     }
 }

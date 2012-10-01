@@ -13,14 +13,14 @@ namespace Sanguosha.Core.Cards
         Club,
         Spade,
         Heart,
-        Diamond
+        Diamond,
     }
 
     public enum SuitColorType
     {
         None,
         Black,
-        Red
+        Red,
     }
 
     public interface ICard
@@ -28,7 +28,7 @@ namespace Sanguosha.Core.Cards
         Player Owner { get; }
         DeckPlace Place { get; set; }
         int Rank { get; set; }
-        string Type { get; set; }
+        CardHandler Type { get; set; }
         SuitType Suit { get; set; }
         SuitColorType SuitColor { get; }
     }
