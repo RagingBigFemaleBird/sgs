@@ -16,44 +16,13 @@ namespace Sanguosha.Expansions.Basic.Cards
 {
     public class JueDou : CardHandler
     {
-        public class JueDouCardChoiceVerifier : ICardUsageVerifier
-        {
-            public VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players)
-            {
-                if (cards == null || cards.Count != 1 || (players != null && players.Count != 0))
-                {
-                    return VerifierResult.Fail;
-                }
-                if (skill != null)
-                {
-                    CompositeCard card;
-                    CardTransformSkill s = (CardTransformSkill)skill;
-                    VerifierResult r = s.Transform(cards, null, out card);
-                    if (!(card.Type is Sha))
-                    {
-                        return VerifierResult.Fail;
-                    }
-                    return VerifierResult.Success;
-                }
-                if (cards[0].Place.DeckType != DeckType.Hand)
-                {
-                    return VerifierResult.Fail;
-                }
-                if (!(cards[0].Type is Sha))
-                {
-                    return VerifierResult.Fail;
-                }
-                return VerifierResult.Success;
-            }
-        }
-
         protected override void Process(Player source, Player dest)
         {
             Player current = dest;
             while (true)
             {
                 IUiProxy ui = Game.CurrentGame.UiProxies[current];
-                JueDouCardChoiceVerifier v1 = new JueDouCardChoiceVerifier();
+                SingleCardUsageVerifier v1 = new SingleCardUsageVerifier((c) => { return c.Type is Sha; });
                 ISkill skill;
                 List<Player> p;
                 List<Card> cards;
@@ -62,21 +31,10 @@ namespace Sanguosha.Expansions.Basic.Cards
                     Trace.TraceInformation("Player {0} Invalid answer", current);
                     break;
                 }
-                CardsMovement m;
-                m.cards = cards;
-                m.to = new DeckPlace(null, DeckType.Discard);
-                if (skill != null)
+                if (!HandleCardUseWithSkill(current, skill, cards))
                 {
-                    CompositeCard card;
-                    CardTransformSkill s = (CardTransformSkill)skill;
-                    VerifierResult r = s.Transform(cards, null, out card);
-                    Trace.Assert(r == VerifierResult.Success);
-                    if (!s.Commit(cards, null))
-                    {
-                        continue;
-                    }
+                    continue;
                 }
-                Game.CurrentGame.MoveCards(m);
                 Trace.TraceInformation("Player {0} SHA, ", current.Id);
                 if (current == dest)
                 {

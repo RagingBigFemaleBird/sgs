@@ -17,3 +17,4 @@ F:\Programs\Sanguosha\Bin\Debug\Core.dll
 F:\Programs\Sanguosha\Bin\Debug\Core.pdb
 F:\Programs\Sanguosha\Core\obj\Debug\Core.dll
 F:\Programs\Sanguosha\Core\obj\Debug\Core.pdb
+F:\Programs\Sanguosha\Core\obj\Debug\Core.csprojResolveAssemblyReference.cache

@@ -16,6 +16,10 @@ namespace Sanguosha.Expansions.Basic.Cards
 {
     public class Sha : CardHandler
     {
+        static Sha()
+        {
+            PlayerShaTargetValidation = new GameEvent("PlayerShaTargetValidation");
+        }
 
         public virtual DamageElement ShaDamageElement
         {
@@ -24,13 +28,6 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected override void Process(Player source, Player dest)
         {
-            GameEventArgs arg = new GameEventArgs();
-            arg.Source = source;
-            arg.Targets = new List<Player>();
-            arg.Targets.Add(dest);
-            arg.StringArg = this.CardType;
-
-            Game.CurrentGame.Emit(GameEvent.PlayerIsCardTarget, arg);
             
             /* todo: 
                 四、杀指定目标时的锁定技：青釭剑、无双、肉林
@@ -45,22 +42,23 @@ namespace Sanguosha.Expansions.Basic.Cards
             int numberOfShanRequired = 1;
             bool cannotUseShan = false;
 
-            while (numberOfShanRequired-- > 0 && !cannotUseShan)
+            while (numberOfShanRequired > 0 && !cannotUseShan)
             {
-                foreach (var player in arg.Targets)
+                IUiProxy ui = Game.CurrentGame.UiProxies[dest];
+                SingleCardUsageVerifier v1 = new SingleCardUsageVerifier((c) => { return c.Type is Shan; });
+                ISkill skill;
+                List<Player> p;
+                List<Card> cards;
+                if (!ui.AskForCardUsage("Shan", v1, out skill, out cards, out p))
                 {
-                    IUiProxy ui = Game.CurrentGame.UiProxies[player];
-                    SingleCardUsageVerifier v1 = new SingleCardUsageVerifier((c) => { return c.Type is Shan; });
-                    ISkill s;
-                    List<Player> p;
-                    List<Card> cards;
-                    if (!ui.AskForCardUsage("Shan", v1, out s, out cards, out p))
-                    {
-                        goto invalidAnswer;
-                    }
+                    break;
                 }
+                if (!HandleCardUseWithSkill(dest, skill, cards))
+                {
+                    continue;
+                }
+                numberOfShanRequired--;
             }
-            invalidAnswer:
             if (numberOfShanRequired > 0)
             {
                 Game.CurrentGame.DoDamage(source, dest, 1, ShaDamageElement, Game.CurrentGame.Decks[DeckType.Compute]);
@@ -73,7 +71,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
         {
-            /* todo: 杀目标结算*/
+
             if (targets == null || targets.Count == 0)
             {
                 return VerifierResult.Partial;
@@ -82,14 +80,75 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 return VerifierResult.Fail;
             }
-            Player player = targets[0];
+            ShaEventArgs args = new ShaEventArgs();
+            args.RangeApproval = new List<bool>(targets.Count);
+            args.TargetApproval = new List<bool>(targets.Count);
+            int i = 0;
+            foreach (Player t in targets)
+            {
+                if (Game.CurrentGame.DistanceTo(source, t) <= source[PlayerAttribute.RangeAttack])
+                {
+                    args.RangeApproval[i] = true;
+                }
+                else
+                {
+                    args.RangeApproval[i] = false;
+                }
+                args.TargetApproval[i] = false;
+            }
+            if (source[NumberOfShaUsed] == 0)
+            {
+                args.TargetApproval[0] = true;
+            }
 
+            try
+            {
+                Game.CurrentGame.Emit(PlayerShaTargetValidation, args);
+            }
+            catch (TriggerResultException)
+            {
+                throw new NotImplementedException();
+            }
+
+            foreach (bool b in args.TargetApproval.Concat(args.RangeApproval))
+            {
+                if (!b)
+                {
+                    return VerifierResult.Fail;
+                }
+            }
             return VerifierResult.Success;
         }
 
         public override CardCategory Category
         {
             get { return CardCategory.Basic; }
+        }
+        public static string NumberOfShaUsed = "NumberOfShaUsed";
+        /// <summary>
+        /// 玩家使用杀的目标检测
+        /// </summary>
+        public static readonly GameEvent PlayerShaTargetValidation;
+
+    }
+
+
+    public class ShaEventArgs : GameEventArgs
+    {
+        List<bool> rangeApproval;
+
+        public List<bool> RangeApproval
+        {
+            get { return rangeApproval; }
+            set { rangeApproval = value; }
+        }
+
+        List<bool> targetApproval;
+
+        public List<bool> TargetApproval
+        {
+            get { return targetApproval; }
+            set { targetApproval = value; }
         }
     }
 }

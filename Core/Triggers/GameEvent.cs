@@ -68,6 +68,8 @@ namespace Sanguosha.Core.Triggers
             DamageComputingFinished = new GameEvent("DamageComputingFinished");
             PlayerIsCardTarget = new GameEvent("PlayerIsCardTarget");
             PlayerCanUseCard = new GameEvent("PlayerCanUseCard");
+            PlayerUsedCard = new GameEvent("PlayerUsedCard");
+            PlayerPlayedCard = new GameEvent("PlayerPlayedCard");
         }
 
         [Serializable]
@@ -300,6 +302,15 @@ namespace Sanguosha.Core.Triggers
         /// </summary>
         public static readonly GameEvent PlayerCanUseCard;
 
+        /// <summary>
+        /// 玩家使用牌
+        /// </summary>
+        public static readonly GameEvent PlayerUsedCard;
+
+        /// <summary>
+        /// 玩家打出牌
+        /// </summary>
+        public static readonly GameEvent PlayerPlayedCard;
 
         public override bool Equals(object obj)
         {

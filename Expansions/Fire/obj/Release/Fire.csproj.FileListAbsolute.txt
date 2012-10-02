@@ -1,0 +1,5 @@
+F:\Programs\Sanguosha\Bin\Release\Expansions\Fire.dll
+F:\Programs\Sanguosha\Bin\Release\Expansions\Fire.pdb
+F:\Programs\Sanguosha\Expansions\Fire\obj\Release\Fire.csprojResolveAssemblyReference.cache
+F:\Programs\Sanguosha\Expansions\Fire\obj\Release\Fire.dll
+F:\Programs\Sanguosha\Expansions\Fire\obj\Release\Fire.pdb

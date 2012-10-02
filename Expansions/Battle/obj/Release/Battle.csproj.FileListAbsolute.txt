@@ -1,0 +1,7 @@
+F:\Programs\Sanguosha\Expansions\Battle\bin\Release\Battle.dll
+F:\Programs\Sanguosha\Expansions\Battle\bin\Release\Battle.pdb
+F:\Programs\Sanguosha\Expansions\Battle\bin\Release\Core.dll
+F:\Programs\Sanguosha\Expansions\Battle\bin\Release\Core.pdb
+F:\Programs\Sanguosha\Expansions\Battle\obj\Release\Battle.csprojResolveAssemblyReference.cache
+F:\Programs\Sanguosha\Expansions\Battle\obj\Release\Battle.dll
+F:\Programs\Sanguosha\Expansions\Battle\obj\Release\Battle.pdb

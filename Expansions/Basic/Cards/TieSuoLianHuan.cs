@@ -21,8 +21,9 @@ namespace Sanguosha.Expansions.Basic.Cards
             throw new NotImplementedException();
         }
 
-        public override void Process(Player source, List<Player> dests)
+        public override void Process(Player source, List<Player> dests, ICard card)
         {
+            PlayerUsedCard(source, card);
             if (dests == null || dests.Count == 0)
             {
                 Game.CurrentGame.DrawCards(source, 1);

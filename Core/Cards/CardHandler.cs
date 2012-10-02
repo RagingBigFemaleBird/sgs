@@ -48,11 +48,98 @@ namespace Sanguosha.Core.Cards
             cardsOnHold = null;
         }
 
-        public virtual void Process(Player source, List<Player> dests)
+        protected bool PlayerIsCardTargetCheck(Player source, Player dest)
         {
+            try
+            {
+                GameEventArgs arg = new GameEventArgs();
+                arg.Source = source;
+                arg.Targets = new List<Player>();
+                arg.Targets.Add(dest);
+                arg.StringArg = this.CardType;
+
+                Game.CurrentGame.Emit(GameEvent.PlayerIsCardTarget, arg);
+                Trace.Assert(arg.Targets.Count == 1);
+                return true;
+            }
+            catch (TriggerResultException e)
+            {
+                Trace.Assert(e.Status == TriggerResult.Fail);
+                Trace.TraceInformation("Player {0} refuse to be targeted by {1}", dest.Id, this.CardType);
+                return false;
+            }
+        }
+
+        public void PlayerUsedCard(Player source, ICard c)
+        {
+            try
+            {
+                GameEventArgs arg = new GameEventArgs();
+                arg.Source = source;
+                arg.Targets = null;
+                arg.Card = c;
+
+                Game.CurrentGame.Emit(GameEvent.PlayerUsedCard, arg);
+            }
+            catch (TriggerResultException)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public void PlayerPlayedCard(Player source, ICard c)
+        {
+            try
+            {
+                GameEventArgs arg = new GameEventArgs();
+                arg.Source = source;
+                arg.Targets = null;
+                arg.Card = c;
+
+                Game.CurrentGame.Emit(GameEvent.PlayerPlayedCard, arg);
+            }
+            catch (TriggerResultException)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public bool HandleCardUseWithSkill(Player p, ISkill skill, List<Card> cards)
+        {
+            CardsMovement m;
+            ICard cp;
+            m.cards = cards;
+            m.to = new DeckPlace(null, DeckType.Discard);
+            if (skill != null)
+            {
+                CompositeCard card;
+                CardTransformSkill s = (CardTransformSkill)skill;
+                VerifierResult r = s.Transform(cards, null, out card);
+                Trace.Assert(r == VerifierResult.Success);
+                if (!s.Commit(cards, null))
+                {
+                    return false;
+                }
+                cp = card;
+            }
+            else
+            {
+                cp = cards[0];
+            }
+            Game.CurrentGame.MoveCards(m);
+            PlayerPlayedCard(p, cp);
+            return true;
+        }
+
+        public virtual void Process(Player source, List<Player> dests, ICard card)
+        {
+            PlayerUsedCard(source, card);
             foreach (var player in dests)
             {
-                Process(source, player);
+                if (PlayerIsCardTargetCheck(source, player)) 
+                {
+                    Process(source, player);
+                }
             }
         }
 

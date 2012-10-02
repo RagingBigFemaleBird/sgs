@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="BasicExpansion.cs" />
     <Compile Include="Cards\Aoe.cs" />
+    <Compile Include="Cards\DelayedTool.cs" />
+    <Compile Include="Cards\Equipment.cs" />
     <Compile Include="Cards\GuoHeChaiQiao.cs" />
     <Compile Include="Cards\JueDou.cs" />
     <Compile Include="Cards\NanManRuQin.cs" />
@@ -55,6 +57,7 @@
     <Compile Include="Cards\WanJianQiFa.cs" />
     <Compile Include="Cards\WuZhongShengYou.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Skills\LongDan.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.csproj">

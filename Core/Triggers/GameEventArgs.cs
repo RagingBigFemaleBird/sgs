@@ -70,12 +70,21 @@ namespace Sanguosha.Core.Triggers
             set { skill = value; }
         }
 
-        string stringArg;
+        private string stringArg;
 
         public string StringArg
         {
             get { return stringArg; }
             set { stringArg = value; }
         }
+
+        private ICard card;
+
+        public ICard Card
+        {
+            get { return card; }
+            set { card = value; }
+        }
+
     }
 }

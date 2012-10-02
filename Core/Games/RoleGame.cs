@@ -112,7 +112,7 @@ namespace Sanguosha.Core.Games
                 m.to = new DeckPlace(null, DeckType.Compute);
                 Game.CurrentGame.MoveCards(m);
                 
-                c.Type.Process(eventArgs.Source, eventArgs.Targets);
+                c.Type.Process(eventArgs.Source, eventArgs.Targets, c);
 
                 m.cards = Game.CurrentGame.Decks[DeckType.Compute];
                 m.to = new DeckPlace(null, DeckType.Discard);

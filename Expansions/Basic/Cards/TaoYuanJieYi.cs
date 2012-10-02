@@ -21,12 +21,17 @@ namespace Sanguosha.Expansions.Basic.Cards
             throw new NotImplementedException();
         }
 
-        public override void Process(Player source, List<Player> dests)
+        public override void Process(Player source, List<Player> dests, ICard card)
         {
+            PlayerUsedCard(source, card);
             Trace.Assert(dests == null || dests.Count == 0);
             Player current = source;
             do
             {
+                if (!PlayerIsCardTargetCheck(source, current))
+                {
+                    continue;
+                }
                 GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), Cards = Game.CurrentGame.Decks[null, DeckType.Compute], IntArg = 1, IntArg2 = 0 };
                 args.Targets.Add(current);
 
@@ -34,6 +39,10 @@ namespace Sanguosha.Expansions.Basic.Cards
 
                 Trace.Assert(args.Targets.Count == 1);
                 args.Targets[0].Health += args.IntArg;
+                if (args.Targets[0].Health > args.Targets[0].MaxHealth)
+                {
+                    args.Targets[0].Health = args.Targets[0].MaxHealth;
+                }
                 Trace.TraceInformation("Player {0} gain {1} hp, @ {2} hp", args.Targets[0].Id, args.IntArg, args.Targets[0].Health);
 
                 Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, args);

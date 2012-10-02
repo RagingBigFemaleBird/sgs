@@ -15,7 +15,6 @@ namespace Sanguosha.Core.UI
         Success,
         Partial,
         Fail,
-        Retry,
     }
     
     public interface ICardUsageVerifier

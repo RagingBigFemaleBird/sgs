@@ -32,14 +32,19 @@ namespace Sanguosha.Expansions.Basic.Cards
             throw new NotImplementedException();
         }
 
-        public override void Process(Player source, List<Player> dests)
+        public override void Process(Player source, List<Player> dests, ICard c)
         {
+            PlayerUsedCard(source, c);
             Trace.Assert(dests == null || dests.Count == 0);
             Player current = source;
             SingleCardUsageVerifier v1 = responseCardVerifier;
             do
             {
                 current = Game.CurrentGame.NextPlayer(current);
+                if (!PlayerIsCardTargetCheck(source, current))
+                {
+                    continue;
+                }
                 while (true)
                 {
                     IUiProxy ui = Game.CurrentGame.UiProxies[current];
@@ -53,21 +58,10 @@ namespace Sanguosha.Expansions.Basic.Cards
                     }
                     else
                     {
-                        CardsMovement m;
-                        m.cards = cards;
-                        m.to = new DeckPlace(null, DeckType.Discard);
-                        if (skill != null)
+                        if (!HandleCardUseWithSkill(current, skill, cards))
                         {
-                            CompositeCard card;
-                            CardTransformSkill s = (CardTransformSkill)skill;
-                            VerifierResult r = s.Transform(cards, null, out card);
-                            Trace.Assert(r == VerifierResult.Success);
-                            if (!s.Commit(cards, null))
-                            {
-                                continue;
-                            }
+                            continue;
                         }
-                        Game.CurrentGame.MoveCards(m);
                         Trace.TraceInformation("Player {0} Responded. ", current.Id);
                     }
                     break;
