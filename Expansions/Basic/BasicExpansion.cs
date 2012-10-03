@@ -136,7 +136,7 @@ namespace Sanguosha.Expansions.Basic
             CardSet.Add(new Card(SuitType.Diamond, 13, new Sha()));
 //            CardSet.Add(new Card(SuitType.Diamond, 13, JIANYIMA()));
 
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero(Allegiance.Shu, "ZhaoYun", new LongDan()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhaoYun", Allegiance.Shu, new LongDan()))));
         }
     }
 }

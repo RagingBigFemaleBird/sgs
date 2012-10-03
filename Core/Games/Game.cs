@@ -270,6 +270,11 @@ namespace Sanguosha.Core.Games
             currentPhase++;
             if ((int)currentPhase >= Enum.GetValues(typeof(TurnPhase)).Length)
             {
+                // todo: fix this.
+                foreach (string key in currentPlayer.AutoResetAttributes)
+                {
+                    currentPlayer[key] = 0;
+                }
                 currentPlayer = NextPlayer(currentPlayer);
                 currentPhase = 0;
             }
@@ -390,6 +395,33 @@ namespace Sanguosha.Core.Games
             Game.CurrentGame.Emit(GameEvent.AfterDamageInflicted, args);
             Game.CurrentGame.Emit(GameEvent.DamageComputingFinished, args);
 
+        }
+
+        public Card Judge(Player player)
+        {
+            Card c = Game.CurrentGame.DrawCard();
+            GameEventArgs args = new GameEventArgs();
+            args.Source = player;
+            args.Card = c;
+            Game.CurrentGame.Emit(GameEvent.PlayerJudge, args);
+            Trace.Assert(args.Source == player);
+            c = (Card)args.Card;
+            Trace.Assert(c != null);
+            return c;
+        }
+
+        public void RecoverHealth(Player source, Player target, int magnitude)
+        {
+            GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), IntArg = magnitude, IntArg2 = 0 };
+            args.Targets.Add(target);
+
+            Game.CurrentGame.Emit(GameEvent.BeforeHealthChanged, args);
+
+            Trace.Assert(args.Targets.Count == 1);
+            args.Targets[0].Health += args.IntArg;
+            Trace.TraceInformation("Player {0} gain {1} hp, @ {2} hp", args.Targets[0].Id, args.IntArg, args.Targets[0].Health);
+
+            Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, args);
         }
     }
 }

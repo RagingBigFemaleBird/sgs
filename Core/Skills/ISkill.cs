@@ -7,5 +7,6 @@ namespace Sanguosha.Core.Skills
 {
     public interface ISkill
     {
+        Players.Player Owner { get; set; }
     }
 }

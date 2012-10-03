@@ -29,16 +29,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 return;
             }
-            GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), Cards = Game.CurrentGame.Decks[null, DeckType.Compute], IntArg = 1, IntArg2 = 0 };
-            args.Targets.Add(source);
-
-            Game.CurrentGame.Emit(GameEvent.BeforeHealthChanged, args);
-
-            Trace.Assert(args.Targets.Count == 1);
-            args.Targets[0].Health += args.IntArg;
-            Trace.TraceInformation("Player {0} gain {1} hp, @ {2} hp", args.Targets[0].Id, args.IntArg, args.Targets[0].Health);
-
-            Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, args);
+            Game.CurrentGame.RecoverHealth(source, source, 1);
         }
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)

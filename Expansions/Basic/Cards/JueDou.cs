@@ -16,7 +16,13 @@ namespace Sanguosha.Expansions.Basic.Cards
 {
     public class JueDou : CardHandler
     {
-        protected override void Process(Player source, Player dest)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="dest"></param>
+        /// <remarks>因为貂蝉的那个地方</remarks>
+        public override void Process(Player source, Player dest)
         {
             Player current = dest;
             while (true)

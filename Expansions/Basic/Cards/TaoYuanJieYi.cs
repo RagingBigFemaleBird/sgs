@@ -38,16 +38,8 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     continue;
                 }
+                Game.CurrentGame.RecoverHealth(source, current, 1);
 
-                Game.CurrentGame.Emit(GameEvent.BeforeHealthChanged, args);
-
-                Trace.Assert(args.Targets.Count == 1);
-                args.Targets[0].Health += args.IntArg;
-                Trace.TraceInformation("Player {0} gain {1} hp, @ {2} hp", args.Targets[0].Id, args.IntArg, args.Targets[0].Health);
-
-                Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, args);
-
-                current = Game.CurrentGame.NextPlayer(current);
             } while (current != source);
         }
 

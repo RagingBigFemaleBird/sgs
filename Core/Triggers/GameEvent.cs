@@ -312,6 +312,11 @@ namespace Sanguosha.Core.Triggers
         /// </summary>
         public static readonly GameEvent PlayerPlayedCard;
 
+        /// <summary>
+        /// 玩家判定
+        /// </summary>
+        public static readonly GameEvent PlayerJudge;
+
         public override bool Equals(object obj)
         {
             if (obj == this)

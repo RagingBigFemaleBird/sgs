@@ -12,9 +12,9 @@ using Sanguosha.Expansions.Basic.Cards;
 namespace Sanguosha.Expansions.Basic.Skills
 {
     /// <summary>
-    /// 龙胆–出牌阶段，你可以将你手牌的【杀】当【闪】、【闪】当【杀】使用或打出。植物龙胆在中国大陆、俄罗斯、日本、朝鲜等均有分布，生长于海拔400米至1,700米的地区。
+    /// 武圣-你可以将一张红色牌当【杀】使用或打出。
     /// </summary>
-    class LongDan : CardTransformSkill
+    public class WuSheng : CardTransformSkill
     {
         public override VerifierResult Transform(List<Card> cards, object arg, out CompositeCard card)
         {
@@ -22,22 +22,15 @@ namespace Sanguosha.Expansions.Basic.Skills
             card = null;
             if (r == VerifierResult.Success)
             {
-                if (cards[0].Owner != Owner || cards[0].Place.DeckType != DeckType.Hand)
+                if (cards[0].Owner != Owner)
                 {
                     return VerifierResult.Fail;
                 }
-                if (cards[0].Type is Shan)
+                if (cards[0].SuitColor == SuitColorType.Red)
                 {
                     card = new CompositeCard();
                     card.Subcards = new List<Card>(cards);
                     card.Type = new Sha();
-                    return VerifierResult.Success;
-                }
-                else if (cards[0].Type is Sha)
-                {
-                    card = new CompositeCard();
-                    card.Subcards = new List<Card>(cards);
-                    card.Type = new Shan();
                     return VerifierResult.Success;
                 }
                 else

@@ -20,6 +20,7 @@ namespace Sanguosha.Core.Players
             health = 0;
             Hero = Hero2 = null;
             attributes = new Dictionary<string, int>();
+            AutoResetAttributes = new List<string>();
         }
 
         int id;
@@ -63,6 +64,11 @@ namespace Sanguosha.Core.Players
         }
 
         Dictionary<string, int> attributes;
+
+        /// <summary>
+        /// 回合结束阶段过后自动清零的属性名称。
+        /// </summary>
+        public List<string> AutoResetAttributes { get; set; }
 
         public int this[string key]
         {

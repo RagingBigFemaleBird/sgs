@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Sanguosha.Core.Skills;
+using Sanguosha.Core.Players;
 
 namespace Sanguosha.Core.Heroes
 {
@@ -19,31 +20,23 @@ namespace Sanguosha.Core.Heroes
 
     public class Hero
     {
-        private Allegiance allegiance;
+        public Allegiance Allegiance { get; set; }
 
-        public Allegiance Allegiance
-        {
-            get { return allegiance; }
-            set { allegiance = value; }
-        }
-        private List<ISkill> skills;
+        public List<ISkill> Skills { get; set; }
 
-        public List<ISkill> Skills
+        public Player Owner { get; set; }
+
+        public Hero(string name, Allegiance a, List<ISkill> skills)
         {
-            get { return skills; }
-            set { skills = value; }
+            Allegiance = a;
+            Skills = skills;
+            Name = name;
         }
-        public Hero(Allegiance a, string n, List<ISkill> s)
+        public Hero(string name, Allegiance a, params ISkill[] skills)
         {
-            allegiance = a;
-            skills = s;
-            Name = n;
-        }
-        public Hero(Allegiance a, string n, params ISkill[] skills)
-        {
-            allegiance = a;
-            this.skills = new List<ISkill>(skills);
-            Name = n;
+            Allegiance = a;
+            Skills = new List<ISkill>(skills);
+            Name = name;
         }
 
         public string Name { get; set; } 
