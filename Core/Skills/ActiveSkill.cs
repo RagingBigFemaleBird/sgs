@@ -28,7 +28,7 @@ namespace Sanguosha.Core.Skills
         /// 检查主动技的合法性。
         /// </summary>
         /// <param name="cards">卡牌</param>
-        /// <param name="arg">参数（可选，比如出入境免疫证）</param>
+        /// <param name="arg">参数（可选）</param>
         /// <param name="card">输出卡牌</param>
         /// <returns></returns>
         public abstract VerifierResult Validate(List<Card> cards, GameEventArgs arg);
