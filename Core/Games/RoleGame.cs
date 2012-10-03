@@ -110,6 +110,16 @@ namespace Sanguosha.Core.Games
                     m.cards = new List<Card>(eventArgs.Cards);
                 }
                 m.to = new DeckPlace(null, DeckType.Compute);
+
+                // if it's delayed tool, we can't move it to compute area. call handlers directly
+                if (CardCategoryManager.IsCardCategory(c.Type.Category, CardCategory.DelayedTool)
+                    || CardCategoryManager.IsCardCategory(c.Type.Category, CardCategory.Armor))
+                {
+                    c.Type.Process(eventArgs.Source, eventArgs.Targets, c);
+                    return;
+                }
+
+                
                 Game.CurrentGame.MoveCards(m);
                 
                 c.Type.Process(eventArgs.Source, eventArgs.Targets, c);

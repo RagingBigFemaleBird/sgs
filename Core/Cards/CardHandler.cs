@@ -16,24 +16,32 @@ namespace Sanguosha.Core.Cards
 {
     public abstract class CardHandler
     {
-        Dictionary<DeckPlace, List<Card>> cardsOnHold;
+        Dictionary<DeckPlace, List<Card>> deckBackup;
+        List<Card> cardsOnHold;
 
         public abstract CardCategory Category {get;}
 
         /// <summary>
-        /// 临时将卡牌提出，verify时使用，第二次调用将会摧毁第一次调用时临时区域的所有卡牌
+        /// 临时将卡牌提出，verify时使用
         /// </summary>
         /// <param name="cards">卡牌</param>
+        /// <remarks>第二次调用将会摧毁第一次调用时临时区域的所有卡牌</remarks>
         public virtual void HoldInTemp(List<Card> cards)
         {
-            cardsOnHold = new Dictionary<DeckPlace, List<Card>>();
+            deckBackup = new Dictionary<DeckPlace, List<Card>>();
             foreach (Card c in cards)
             {
-                if (!cardsOnHold.ContainsKey(c.Place))
+                Equipment e = (Equipment)c.Type;
+                if (e != null)
                 {
-                    cardsOnHold.Add(c.Place, new List<Card>(Game.CurrentGame.Decks[c.Place]));
+                    e.UnregisterTriggers(c.Place.Player);
+                }
+                if (!deckBackup.ContainsKey(c.Place))
+                {
+                    deckBackup.Add(c.Place, new List<Card>(Game.CurrentGame.Decks[c.Place]));
                 }
             }
+            cardsOnHold = cards;
         }
 
         /// <summary>
@@ -41,10 +49,19 @@ namespace Sanguosha.Core.Cards
         /// </summary>
         public virtual void ReleaseHoldInTemp()
         {
-            foreach (DeckPlace p in cardsOnHold.Keys)
+            foreach (Card c in cardsOnHold)
             {
-                Game.CurrentGame.Decks[p] = new List<Card>(cardsOnHold[p]);
+                Equipment e = (Equipment)c.Type;
+                if (e != null)
+                {
+                    e.RegisterTriggers(c.Place.Player);
+                }
             }
+            foreach (DeckPlace p in deckBackup.Keys)
+            {
+                Game.CurrentGame.Decks[p] = new List<Card>(deckBackup[p]);
+            }
+            deckBackup = null;
             cardsOnHold = null;
         }
 
@@ -145,7 +162,21 @@ namespace Sanguosha.Core.Cards
 
         protected abstract void Process(Player source, Player dest);
 
-        public VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> targets)
+        public virtual VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> targets)
+        {
+            return VerifyHelper(source, skill, cards, targets, true);
+        }
+
+        /// <summary>
+        /// 卡牌UI合法性检查
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="skill"></param>
+        /// <param name="cards"></param>
+        /// <param name="targets"></param>
+        /// <param name="notReforging">不是重铸中，检查PlayerCanUseCard</param>
+        /// <returns></returns>
+        protected VerifierResult VerifyHelper(Player source, ISkill skill, List<Card> cards, List<Player> targets, bool notReforging)
         {
             ICard card;
             if (skill != null)
@@ -163,6 +194,24 @@ namespace Sanguosha.Core.Cards
                     if (!(this.GetType().IsAssignableFrom(c.Type.GetType())))
                     {
                         return VerifierResult.Fail;
+                    }
+                    if (notReforging)
+                    {
+                        try
+                        {
+                            Game.CurrentGame.Emit(GameEvent.PlayerCanUseCard, new Triggers.GameEventArgs()
+                            {
+                                Source = source,
+                                Targets = targets,
+                                Cards = c.Subcards,
+                                Card = c,
+                            });
+                        }
+                        catch (TriggerResultException e)
+                        {
+                            Trace.Assert(e.Status == TriggerResult.Fail);
+                            return VerifierResult.Fail;
+                        }
                     }
                     HoldInTemp(c.Subcards);
                     card = c;
@@ -184,40 +233,47 @@ namespace Sanguosha.Core.Cards
                     return VerifierResult.Fail;
                 }
 
-                try
+                if (notReforging)
                 {
-                    Game.CurrentGame.Emit(GameEvent.PlayerCanUseCard, new Triggers.GameEventArgs()
+                    try
                     {
-                        Source = source,
-                        Targets = targets,
-                        Cards = cards
-                    });
+                        Game.CurrentGame.Emit(GameEvent.PlayerCanUseCard, new Triggers.GameEventArgs()
+                        {
+                            Source = source,
+                            Targets = targets,
+                            Cards = cards,
+                            Card = card,
+                        });
+                    }
+                    catch (TriggerResultException e)
+                    {
+                        Trace.Assert(e.Status == TriggerResult.Fail);
+                        return VerifierResult.Fail;
+                    }
                 }
-                catch (TriggerResultException e)
-                {
-                    Trace.Assert(e.Status == TriggerResult.Fail);
-                    return VerifierResult.Fail;
-                }
+                HoldInTemp(cards);
             }
 
-            HoldInTemp(cards);
 
             if (targets != null && targets.Count != 0)
             {
-                try
+                if (notReforging)
                 {
-                    Game.CurrentGame.Emit(GameEvent.PlayerCanBeTargeted, new Triggers.GameEventArgs()
+                    try
                     {
-                        Source = Game.CurrentGame.CurrentPlayer,
-                        Targets = targets,
-                        Cards = cards
-                    });
-                }
-                catch (TriggerResultException e)
-                {
-                    Trace.Assert(e.Status == TriggerResult.Fail);
-                    ReleaseHoldInTemp();
-                    return VerifierResult.Fail;
+                        Game.CurrentGame.Emit(GameEvent.PlayerCanBeTargeted, new Triggers.GameEventArgs()
+                        {
+                            Source = Game.CurrentGame.CurrentPlayer,
+                            Targets = targets,
+                            Cards = cards
+                        });
+                    }
+                    catch (TriggerResultException e)
+                    {
+                        Trace.Assert(e.Status == TriggerResult.Fail);
+                        ReleaseHoldInTemp();
+                        return VerifierResult.Fail;
+                    }
                 }
             }
             VerifierResult ret = Verify(source, card, targets);

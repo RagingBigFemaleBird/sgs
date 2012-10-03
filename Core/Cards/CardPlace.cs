@@ -7,20 +7,8 @@ namespace Sanguosha.Core.Cards
 {
     class CardPlace
     {
-        private DeckPlace deck;
+        public DeckPlace Deck {get; set;}
 
-        public DeckPlace Deck
-        {
-            get { return deck; }
-            set { deck = value; }
-        }
-
-        private int position;
-
-        public int Position
-        {
-            get { return position; }
-            set { position = value; }
-        }
+        public int Position {get; set;}
     }
 }

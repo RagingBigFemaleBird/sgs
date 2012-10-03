@@ -49,6 +49,8 @@
     <Compile Include="Cards\DeckContainer.cs" />
     <Compile Include="Cards\DeckPlace.cs" />
     <Compile Include="Cards\DeckType.cs" />
+    <Compile Include="Cards\DelayedTool.cs" />
+    <Compile Include="Cards\Equipment.cs" />
     <Compile Include="Cards\ICard.cs" />
     <Compile Include="Cards\Card.cs" />
     <Compile Include="Cards\SingleCardUsageVerifier.cs" />

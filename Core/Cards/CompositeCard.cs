@@ -11,28 +11,22 @@ namespace Sanguosha.Core.Cards
     {
         public CompositeCard()
         {
-            subcards = new List<Card>();
+            Subcards = new List<Card>();
         }
 
         public CompositeCard(List<Card> cards)
         {
-            subcards = cards;
+            Subcards = cards;
         }
 
-        List<Card> subcards;
-
-        public List<Card> Subcards
-        {
-            get { return subcards; }
-            set { subcards = value; }
-        }
+        public List<Card> Subcards {get; set;}
 
         public Player Owner
         {
             get
             {
                 var owners =
-                    from card in subcards
+                    from card in Subcards
                     select card.Owner;
                 owners = owners.Distinct();
                 if (owners.Count() == 1)
@@ -51,7 +45,7 @@ namespace Sanguosha.Core.Cards
             get
             {
                 var places =
-                    from card in subcards
+                    from card in Subcards
                     select card.Place;
                 places = places.Distinct();
                 if (places.Count() == 1)
@@ -65,7 +59,7 @@ namespace Sanguosha.Core.Cards
             }
             set
             {
-                foreach (Card card in subcards)
+                foreach (Card card in Subcards)
                 {
                     card.Place = value;
                 }
@@ -103,7 +97,7 @@ namespace Sanguosha.Core.Cards
         }
 
         /// <summary>
-        /// Suit color of a composite card is the uniform color of its subcards, or None if
+        /// Suit color of a composite card is the uniform color of its Subcards, or None if
         /// no uniform color exists.
         /// </summary>
         /// <remarks>
@@ -114,7 +108,7 @@ namespace Sanguosha.Core.Cards
             get
             {
                 var colors =
-                    from card in subcards
+                    from card in Subcards
                     select card.SuitColor;
                 colors = colors.Distinct();
                 if (colors.Count() == 1)
@@ -128,14 +122,7 @@ namespace Sanguosha.Core.Cards
             }
         }
 
-        CardHandler type;
-
-        public CardHandler Type
-        {
-            get { return type; }
-            set { type = value; }
-        }
-
+        public CardHandler Type {get; set;}
 
     }
 }

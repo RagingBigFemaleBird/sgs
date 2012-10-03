@@ -41,7 +41,7 @@ namespace Sanguosha.Core.UI
         bool AskForCardUsage(string prompt, ICardUsageVerifier verifier,
                              out ISkill skill, out List<Card> cards, out List<Player> players);
         /// <summary>
-        /// 询问用户从若干牌堆中选择卡牌，例如顺手牵羊，五谷丰登，观星等等。
+        /// 询问用户从若干牌堆中选择卡牌，例如顺手牵羊，观星等等。
         /// </summary>
         /// <param name="prompt"></param>
         /// <param name="sourceDecks"></param>
@@ -53,6 +53,9 @@ namespace Sanguosha.Core.UI
         bool AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames,
                               List<int> resultDeckMaximums,
                               ICardChoiceVerifier verifier, out List<List<Card>> answer);
-    }
 
+        void NotifyCardMovement(CardsMovement m, List<string> notes);
+        void NotifyLog(string log);
+        void NotifySkillUse(int SkillID);
+    }
 }

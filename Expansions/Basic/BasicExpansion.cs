@@ -8,6 +8,7 @@ using Sanguosha.Core.Cards;
 using Sanguosha.Core.UI;
 using Sanguosha.Core.Skills;
 using Sanguosha.Expansions.Basic.Cards;
+using Sanguosha.Expansions.Basic.Skills;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Heroes;
 
@@ -19,7 +20,7 @@ namespace Sanguosha.Expansions.Basic
         {
             CardSet = new List<Card>();
             CardSet.Add(new Card(SuitType.Spade, 1, new JueDou()));
-//            CardSet.Add(new Card(SuitType.Spade, 1, SHANDIAN()));
+            CardSet.Add(new Card(SuitType.Spade, 1, new ShanDian()));
             CardSet.Add(new Card(SuitType.Heart, 1, new WanJianQiFa()));
             CardSet.Add(new Card(SuitType.Heart, 1, new TaoYuanJieYi()));
             CardSet.Add(new Card(SuitType.Club, 1, new JueDou()));
@@ -63,12 +64,12 @@ namespace Sanguosha.Expansions.Basic
 //            CardSet.Add(new Card(SuitType.Diamond, 5, GUANSHIFU()));
 
 
-//            CardSet.Add(new Card(SuitType.Spade, 6, LEBUSISHU()));
+            CardSet.Add(new Card(SuitType.Spade, 6, new LeBuSiShu()));
 //            CardSet.Add(new Card(SuitType.Spade, 6, QINGGANGJIAN()));
             CardSet.Add(new Card(SuitType.Heart, 6, new Tao()));
-//            CardSet.Add(new Card(SuitType.Heart, 6, LEBUSISHU()));
+            CardSet.Add(new Card(SuitType.Heart, 6, new LeBuSiShu()));
             CardSet.Add(new Card(SuitType.Club, 6, new Sha()));
-//            CardSet.Add(new Card(SuitType.Club, 6, LEBUSISHU()));
+            CardSet.Add(new Card(SuitType.Club, 6, new LeBuSiShu()));
             CardSet.Add(new Card(SuitType.Diamond, 6, new Sha()));
             CardSet.Add(new Card(SuitType.Diamond, 6, new Shan()));
 
@@ -134,6 +135,8 @@ namespace Sanguosha.Expansions.Basic
 //            CardSet.Add(new Card(SuitType.Club, 13, WUXIEKEJI()));
             CardSet.Add(new Card(SuitType.Diamond, 13, new Sha()));
 //            CardSet.Add(new Card(SuitType.Diamond, 13, JIANYIMA()));
+
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero(Allegiance.Shu, "ZhaoYun", new LongDan()))));
         }
     }
 }

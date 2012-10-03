@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Sanguosha.Core.Skills;
+using Sanguosha.Core.Heroes;
+
 namespace Sanguosha.Core.Players
 {
     [Serializable]
@@ -15,6 +18,7 @@ namespace Sanguosha.Core.Players
             isFemale = false;
             maxHealth = 0;
             health = 0;
+            Hero = Hero2 = null;
             attributes = new Dictionary<string, int>();
         }
 
@@ -55,7 +59,7 @@ namespace Sanguosha.Core.Players
         public int Health
         {
             get { return health; }
-            set { health = value; }
+            set { if (health > maxHealth) health = maxHealth; else health = value; }
         }
 
         Dictionary<string, int> attributes;
@@ -76,6 +80,26 @@ namespace Sanguosha.Core.Players
             set
             {
                 attributes[key] = value;
+            }
+        }
+
+        public Hero Hero { get; set; }
+        public Hero Hero2 { get; set; }
+
+        public List<ISkill> Skills
+        {
+            get
+            {
+                List<ISkill> s = new List<ISkill>();
+                if (Hero != null)
+                {
+                    s.AddRange(Hero.Skills);
+                }
+                if (Hero2 != null)
+                {
+                    s.AddRange(Hero2.Skills);
+                }
+                return s;
             }
         }
     }

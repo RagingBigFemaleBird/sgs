@@ -16,24 +16,19 @@ namespace Sanguosha.Core.Cards
 
         public Card()
         {
-            suit = SuitType.None;
-            rank = 0;
-            type = null;
+            Suit = SuitType.None;
+            Rank = 0;
+            Type = null;
         }
 
         public Card(SuitType t, int r, CardHandler c)
         {
-            suit = t;
-            rank = r;
-            type = c;
+            Suit = t;
+            Rank = r;
+            Type = c;
         }
 
-        DeckPlace place;
-        public DeckPlace Place
-        {
-            get { return place; }
-            set { place = value; }
-        }
+        public DeckPlace Place { get; set; }
 
         /// <summary>
         /// Computational owner of the card.
@@ -45,11 +40,11 @@ namespace Sanguosha.Core.Cards
         {
             get
             {
-                if (place.DeckType == DeckType.Hand ||
-                    place.DeckType == DeckType.Equipment ||
-                    place.DeckType == DeckType.JudgeResult)
+                if (Place.DeckType == DeckType.Hand ||
+                    Place.DeckType == DeckType.Equipment ||
+                    Place.DeckType == DeckType.JudgeResult)
                 {
-                    return place.Player;
+                    return Place.Player;
                 }
                 else 
                 {
@@ -58,24 +53,19 @@ namespace Sanguosha.Core.Cards
             }
         }
 
-        SuitType suit;
-        public SuitType Suit
-        {
-            get { return suit; }
-            set { suit = value; }
-        }
+        public SuitType Suit {get; set;}
 
         public SuitColorType SuitColor
         {
             get
             {
-                if (suit == SuitType.Heart ||
-                    suit == SuitType.Diamond)
+                if (Suit == SuitType.Heart ||
+                    Suit == SuitType.Diamond)
                 {
                     return SuitColorType.Red;
                 }
-                else if (suit == SuitType.Spade ||
-                         suit == SuitType.Club)
+                else if (Suit == SuitType.Spade ||
+                         Suit == SuitType.Club)
                 {
                     return SuitColorType.Black;
                 }
@@ -86,28 +76,12 @@ namespace Sanguosha.Core.Cards
             }
         }
 
-        int rank;
-        public int Rank
-        {
-            get { return rank; }
-            set { rank = value; }
-        }
+        public int Rank {get; set;}
+
         public static Card UnknownCard;
 
-        Dictionary<string, int> attributes;
+        public Dictionary<string, int> Attributes { get; set; }
 
-        public Dictionary<string, int> Attributes
-        {
-            get { return attributes; }
-            set { attributes = value; }
-        }
-        CardHandler type;
-
-        public CardHandler Type
-        {
-            get { return type; }
-            set { type = value; }
-        }
-
+        public CardHandler Type { get; set; }
     }    
 }

@@ -14,8 +14,13 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    public class TieSuoLianHuan : CardHandler
+    public class LeBuSiShu : DelayedTool
     {
+        public override void Activate(Player p)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void Process(Player source, Player dest)
         {
             throw new NotImplementedException();
@@ -23,29 +28,25 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         public override void Process(Player source, List<Player> dests, ICard card)
         {
-            PlayerUsedCard(source, card);
-            if (dests == null || dests.Count == 0)
-            {
-                Game.CurrentGame.DrawCards(source, 1);
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
+            Trace.Assert(dests.Count == 1);
+            AttachTo(source, dests[0], card);
         }
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
         {
-            if (targets != null && targets.Count >= 3)
+            if (targets == null || targets.Count == 0)
+            {
+                return VerifierResult.Partial;
+            }
+            if (targets.Count > 1)
+            {
+                return VerifierResult.Fail;
+            }
+            if (DelayedToolConflicting(targets[0]))
             {
                 return VerifierResult.Fail;
             }
             return VerifierResult.Success;
-        }
-
-        public override CardCategory Category
-        {
-            get { return CardCategory.ImmediateTool; }
         }
     }
 }

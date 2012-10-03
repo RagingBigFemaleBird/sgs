@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="BattleExpansion.cs" />
     <Compile Include="Cards\HuoGong.cs" />
+    <Compile Include="Cards\TieSuoLianHuan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

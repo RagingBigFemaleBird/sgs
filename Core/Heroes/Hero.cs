@@ -33,14 +33,19 @@ namespace Sanguosha.Core.Heroes
             get { return skills; }
             set { skills = value; }
         }
-        public Hero(Allegiance a, List<ISkill> s)
+        public Hero(Allegiance a, string n, List<ISkill> s)
         {
             allegiance = a;
             skills = s;
+            Name = n;
         }
-        public Hero(Allegiance a, params ISkill[] skills)
+        public Hero(Allegiance a, string n, params ISkill[] skills)
         {
+            allegiance = a;
             this.skills = new List<ISkill>(skills);
+            Name = n;
         }
+
+        public string Name { get; set; } 
     }
 }

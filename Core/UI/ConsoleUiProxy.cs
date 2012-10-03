@@ -59,8 +59,10 @@ namespace Sanguosha.Core.UI
                     Console.Write("Skill ID:");
                     ids = Console.ReadLine();
                     id = int.Parse(ids);
-                    skill = (Game.CurrentGame.CardHandlers["XiaoZhuGe"] as Heroes.HeroCardHandler).Hero.Skills[0];
-                    goto again;
+                    if (!(hostPlayer.Skills[id] is CardTransformSkill))
+                    {
+                        goto again;
+                    }
                 }
                 cards.Add(Game.CurrentGame.Decks[p, DeckType.Hand][id]);
                 players = null;
@@ -141,5 +143,21 @@ namespace Sanguosha.Core.UI
             return false;
         }
 
+
+
+        public void NotifyCardMovement(CardsMovement m, List<string> notes)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void NotifyLog(string log)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void NotifySkillUse(int SkillID)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

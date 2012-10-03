@@ -42,18 +42,17 @@
   <ItemGroup>
     <Compile Include="BasicExpansion.cs" />
     <Compile Include="Cards\Aoe.cs" />
-    <Compile Include="Cards\DelayedTool.cs" />
-    <Compile Include="Cards\Equipment.cs" />
     <Compile Include="Cards\GuoHeChaiQiao.cs" />
     <Compile Include="Cards\JueDou.cs" />
+    <Compile Include="Cards\LeBuSiShu.cs" />
     <Compile Include="Cards\NanManRuQin.cs" />
     <Compile Include="Cards\Sha.cs" />
     <Compile Include="Cards\Shan.cs" />
+    <Compile Include="Cards\ShanDian.cs" />
     <Compile Include="Cards\ShunChai.cs" />
     <Compile Include="Cards\ShunShouQianYang.cs" />
     <Compile Include="Cards\Tao.cs" />
     <Compile Include="Cards\TaoYuanJieYi.cs" />
-    <Compile Include="Cards\TieSuoLianHuan.cs" />
     <Compile Include="Cards\WanJianQiFa.cs" />
     <Compile Include="Cards\WuZhongShengYou.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -65,6 +64,7 @@
       <Name>Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
