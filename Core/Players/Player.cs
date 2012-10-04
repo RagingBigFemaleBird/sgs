@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.Heroes;
@@ -18,7 +19,7 @@ namespace Sanguosha.Core.Players
             isFemale = false;
             maxHealth = 0;
             health = 0;
-            Hero = Hero2 = null;
+            hero = hero2 = null;
             attributes = new Dictionary<string, int>();
             AutoResetAttributes = new List<string>();
         }
@@ -60,7 +61,7 @@ namespace Sanguosha.Core.Players
         public int Health
         {
             get { return health; }
-            set { if (health > maxHealth) health = maxHealth; else health = value; }
+            set { if (health >= maxHealth) health = maxHealth; else health = value; }
         }
 
         Dictionary<string, int> attributes;
@@ -89,8 +90,41 @@ namespace Sanguosha.Core.Players
             }
         }
 
-        public Hero Hero { get; set; }
-        public Hero Hero2 { get; set; }
+        private void SetHero(ref Hero hero, Hero value)
+        {
+            hero = value;
+            if (hero != null)
+            {
+                foreach (ISkill skill in hero.Skills)
+                {
+                    skill.Owner = this;
+                }
+                Trace.Assert(hero.Owner == null);
+                hero.Owner = this;
+            }
+        }
+
+        private Hero hero;
+
+        public Hero Hero
+        {
+            get { return hero; }
+            set 
+            {
+                SetHero(ref hero, value);
+            }
+        }
+
+        private Hero hero2;
+
+        public Hero Hero2
+        {
+            get { return hero2; }
+            set
+            {
+                SetHero(ref hero2, value);
+            }
+        }
 
         public List<ISkill> Skills
         {

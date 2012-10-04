@@ -30,9 +30,33 @@ namespace Sanguosha.Core.Games
             {
                 public VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players)
                 {
-                    if (cards == null)
+                    if ((cards == null || cards.Count == 0) && skill == null)
                     {
                         return VerifierResult.Fail;
+                    }
+                    if (skill is ActiveSkill)
+                    {
+                        if (Game.CurrentGame.CurrentPlayer.Hero.Skills.IndexOf(skill) < 0)
+                        {
+                            return VerifierResult.Fail;
+                        }
+                        GameEventArgs arg = new GameEventArgs();
+                        arg.Source = Game.CurrentGame.CurrentPlayer;
+                        arg.Targets = players;
+                        return ((ActiveSkill)skill).Validate(cards, arg);
+                    }
+                    else if (skill is CardTransformSkill)
+                    {
+                        CardTransformSkill s = (CardTransformSkill)skill;
+                        CompositeCard result;
+                        if (s.Transform(cards, null, out result) == VerifierResult.Fail)
+                        {
+                            return VerifierResult.Fail;
+                        }
+                        else
+                        {
+                            return result.Type.Verify(Game.CurrentGame.CurrentPlayer, skill, cards, players);
+                        }
                     }
                     return cards[0].Type.Verify(Game.CurrentGame.CurrentPlayer, skill, cards, players);
                 }
@@ -54,6 +78,14 @@ namespace Sanguosha.Core.Games
                     }
                     if (skill != null)
                     {
+                        if (skill is ActiveSkill)
+                        {
+                            GameEventArgs arg = new GameEventArgs();
+                            arg.Source = Game.CurrentGame.CurrentPlayer;
+                            arg.Targets = players;
+                            ((ActiveSkill)skill).Commit(cards, arg);
+                            continue;
+                        }
                         CompositeCard c;
                         CardTransformSkill s = (CardTransformSkill)skill;
                         VerifierResult r = s.Transform(cards, null, out c);
@@ -87,7 +119,7 @@ namespace Sanguosha.Core.Games
                     CardTransformSkill s = (CardTransformSkill)eventArgs.Skill;
                     VerifierResult r = s.Transform(eventArgs.Cards, null, out card);
                     Trace.Assert(r == VerifierResult.Success);
-                    if (!s.Commit(eventArgs.Cards, null))
+                    if (!s.Commit(eventArgs.Cards, null, ref card))
                     {
                         return;
                     }
@@ -148,7 +180,6 @@ namespace Sanguosha.Core.Games
                 {
                     game.DrawCards(player, 4);
                 }
-                game.Decks[game.Players[2], DeckType.Hand].Clear();
                 game.CurrentPlayer = game.Players.First();
                 game.CurrentPhase = TurnPhase.BeforeTurnStart;
 

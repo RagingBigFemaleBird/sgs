@@ -31,9 +31,10 @@ namespace Sanguosha.Core.Cards
             deckBackup = new Dictionary<DeckPlace, List<Card>>();
             foreach (Card c in cards)
             {
-                Equipment e = (Equipment)c.Type;
-                if (e != null)
+                Trace.Assert(c.Type != null);
+                if (c.Type is Equipment)
                 {
+                    Equipment e = (Equipment)c.Type;
                     e.UnregisterTriggers(c.Place.Player);
                 }
                 if (!deckBackup.ContainsKey(c.Place))
@@ -51,9 +52,10 @@ namespace Sanguosha.Core.Cards
         {
             foreach (Card c in cardsOnHold)
             {
-                Equipment e = (Equipment)c.Type;
-                if (e != null)
+                Trace.Assert(c.Type != null);
+                if (c.Type is Equipment)
                 {
+                    Equipment e = (Equipment)c.Type;
                     e.RegisterTriggers(c.Place.Player);
                 }
             }
@@ -87,70 +89,9 @@ namespace Sanguosha.Core.Cards
             }
         }
 
-        public void PlayerUsedCard(Player source, ICard c)
-        {
-            try
-            {
-                GameEventArgs arg = new GameEventArgs();
-                arg.Source = source;
-                arg.Targets = null;
-                arg.Card = c;
-
-                Game.CurrentGame.Emit(GameEvent.PlayerUsedCard, arg);
-            }
-            catch (TriggerResultException)
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public void PlayerPlayedCard(Player source, ICard c)
-        {
-            try
-            {
-                GameEventArgs arg = new GameEventArgs();
-                arg.Source = source;
-                arg.Targets = null;
-                arg.Card = c;
-
-                Game.CurrentGame.Emit(GameEvent.PlayerPlayedCard, arg);
-            }
-            catch (TriggerResultException)
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public bool HandleCardUseWithSkill(Player p, ISkill skill, List<Card> cards)
-        {
-            CardsMovement m;
-            ICard cp;
-            m.cards = cards;
-            m.to = new DeckPlace(null, DeckType.Discard);
-            if (skill != null)
-            {
-                CompositeCard card;
-                CardTransformSkill s = (CardTransformSkill)skill;
-                VerifierResult r = s.Transform(cards, null, out card);
-                Trace.Assert(r == VerifierResult.Success);
-                if (!s.Commit(cards, null))
-                {
-                    return false;
-                }
-                cp = card;
-            }
-            else
-            {
-                cp = cards[0];
-            }
-            Game.CurrentGame.MoveCards(m);
-            PlayerPlayedCard(p, cp);
-            return true;
-        }
-
         public virtual void Process(Player source, List<Player> dests, ICard card)
         {
-            PlayerUsedCard(source, card);
+            Game.CurrentGame.PlayerUsedCard(source, card);
             foreach (var player in dests)
             {
                 if (PlayerIsCardTargetCheck(source, player)) 

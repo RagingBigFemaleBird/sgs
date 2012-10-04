@@ -20,24 +20,28 @@ namespace Sanguosha.Expansions.Basic.Skills
     {
         public override VerifierResult Validate(List<Card> cards, GameEventArgs arg)
         {
-            if (cards == null || cards.Count == 0 || arg.Targets == null || arg.Targets.Count == 0)
+            if (cards != null)
+            {
+                foreach (Card card in cards)
+                {
+                    if (card.Owner != Owner || card.Place.DeckType != DeckType.Hand)
+                    {
+                        return VerifierResult.Fail;
+                    }
+                }
+            }
+            if (arg.Targets != null && arg.Targets.Count != 0 
+                && (arg.Targets.Count > 1 || arg.Targets[0] == Owner))
+            {
+                return VerifierResult.Fail;
+            }
+            if (cards == null || cards.Count == 0)
             {
                 return VerifierResult.Partial;
             }
-            foreach (Card card in cards)
+            if (arg.Targets == null || arg.Targets.Count == 0)
             {
-                if (card.Owner != Owner || card.Place.DeckType != DeckType.Hand)
-                {
-                    return VerifierResult.Fail;
-                }
-            }
-            if (arg.Targets.Count > 1)
-            {
-                return VerifierResult.Fail;
-            }
-            if (arg.Targets[0] == Owner)
-            {
-                return VerifierResult.Fail;
+                return VerifierResult.Partial;
             }
             return VerifierResult.Success;
         }

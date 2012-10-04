@@ -30,6 +30,21 @@ namespace Sanguosha
             {
                 game.LoadExpansion(g);
             }
+            int id = 0;
+            foreach (var g in game.CardSet)
+            {
+                if (g.Type is Core.Heroes.HeroCardHandler)
+                {
+                    Core.Heroes.HeroCardHandler h = (Core.Heroes.HeroCardHandler)g.Type;
+                    Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, id);
+                    game.Players[id].Hero = h.Hero;
+                    id++;
+                    if (id >= 8)
+                    {
+                        break;
+                    }
+                }
+            }
             game.Run();
         }
     }

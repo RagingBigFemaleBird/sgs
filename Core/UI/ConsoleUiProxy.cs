@@ -42,11 +42,6 @@ namespace Sanguosha.Core.UI
             Console.Write("Card id, -1 to trigger");
             string ids = Console.ReadLine();
             int id = int.Parse(ids);
-            if (id >= Game.CurrentGame.Decks[p, DeckType.Hand].Count)
-            {
-                Console.WriteLine("Out of range");
-                goto again;
-            }
             if (id < -1)
             {
                 cards = null;
@@ -59,12 +54,34 @@ namespace Sanguosha.Core.UI
                     Console.Write("Skill ID:");
                     ids = Console.ReadLine();
                     id = int.Parse(ids);
-                    if (!(hostPlayer.Skills[id] is CardTransformSkill))
+                    if (id >= hostPlayer.Skills.Count || ((!(hostPlayer.Skills[id] is ActiveSkill)) && (!(hostPlayer.Skills[id] is CardTransformSkill))))
                     {
                         goto again;
                     }
+                    skill = hostPlayer.Skills[id];
+                    while (true)
+                    {
+                        Console.Write("Card id, -1 to end");
+                        ids = Console.ReadLine();
+                        id = int.Parse(ids);
+                        if (id < 0)
+                        {
+                            break;
+                        }
+                        if (id >= Game.CurrentGame.Decks[p, DeckType.Hand].Count)
+                        {
+                            continue;
+                        }
+                        cards.Add(Game.CurrentGame.Decks[p, DeckType.Hand][id]);
+                    }
                 }
-                cards.Add(Game.CurrentGame.Decks[p, DeckType.Hand][id]);
+                else
+                {
+                    if (id < Game.CurrentGame.Decks[p, DeckType.Hand].Count)
+                    {
+                        cards.Add(Game.CurrentGame.Decks[p, DeckType.Hand][id]);
+                    }
+                }
                 players = null;
                 r = verifier.Verify(skill, cards, players);
                 if (r == VerifierResult.Success)

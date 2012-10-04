@@ -29,7 +29,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             }
             else
             {
-                PlayerUsedCard(source, card);
+                Game.CurrentGame.PlayerUsedCard(source, card);
                 foreach (var player in dests)
                 {
                     if (PlayerIsCardTargetCheck(source, player))

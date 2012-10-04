@@ -19,11 +19,18 @@ namespace Sanguosha.Expansions.Basic.Cards
         static Sha()
         {
             PlayerShaTargetValidation = new GameEvent("PlayerShaTargetValidation");
+            PlayerNumberOfShaCheck = new GameEvent("PlayerNumberOfShaCheck");
         }
 
         public virtual DamageElement ShaDamageElement
         {
             get { return DamageElement.None; }
+        }
+
+        public override void Process(Player source, List<Player> dests, ICard card)
+        {
+            source[NumberOfShaUsed]++;
+            base.Process(source, dests, card);
         }
 
         protected override void Process(Player source, Player dest)
@@ -53,7 +60,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     break;
                 }
-                if (!HandleCardUseWithSkill(dest, skill, cards))
+                if (!Game.CurrentGame.HandleCardUse(dest, skill, cards))
                 {
                     continue;
                 }
@@ -71,51 +78,65 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
         {
+            if (targets != null && targets.Count > 0)
+            {
+                ShaEventArgs args = new ShaEventArgs();
+                args.RangeApproval = new List<bool>(targets.Count);
+                args.TargetApproval = new List<bool>(targets.Count);
+                foreach (Player t in targets)
+                {
+                    if (Game.CurrentGame.DistanceTo(source, t) <= source[PlayerAttribute.RangeAttack] + 1)
+                    {
+                        args.RangeApproval.Add(true);
+                    }
+                    else
+                    {
+                        args.RangeApproval.Add(false);
+                    }
+                    args.TargetApproval.Add(false);
+                }
+                if (source[NumberOfShaUsed] == 0)
+                {
+                    args.TargetApproval[0] = true;
+                }
 
+                try
+                {
+                    Game.CurrentGame.Emit(PlayerShaTargetValidation, args);
+                }
+                catch (TriggerResultException)
+                {
+                    throw new NotImplementedException();
+                }
+
+                foreach (bool b in args.TargetApproval.Concat(args.RangeApproval))
+                {
+                    if (!b)
+                    {
+                        return VerifierResult.Fail;
+                    }
+                }
+            }
             if (targets == null || targets.Count == 0)
             {
-                return VerifierResult.Partial;
-            }
-            if (targets.Count > 1)
-            {
+                if (source[NumberOfShaUsed] == 0)
+                {
+                    return VerifierResult.Partial;
+                }
+                try
+                {
+                    GameEventArgs args = new GameEventArgs();
+                    args.Source = source;
+                    Game.CurrentGame.Emit(PlayerNumberOfShaCheck, args);
+                }
+                catch (TriggerResultException e)
+                {
+                    if (e.Status == TriggerResult.Success)
+                    {
+                        return VerifierResult.Partial;
+                    }
+                }
                 return VerifierResult.Fail;
-            }
-            ShaEventArgs args = new ShaEventArgs();
-            args.RangeApproval = new List<bool>(targets.Count);
-            args.TargetApproval = new List<bool>(targets.Count);
-            int i = 0;
-            foreach (Player t in targets)
-            {
-                if (Game.CurrentGame.DistanceTo(source, t) <= source[PlayerAttribute.RangeAttack])
-                {
-                    args.RangeApproval[i] = true;
-                }
-                else
-                {
-                    args.RangeApproval[i] = false;
-                }
-                args.TargetApproval[i] = false;
-            }
-            if (source[NumberOfShaUsed] == 0)
-            {
-                args.TargetApproval[0] = true;
-            }
-
-            try
-            {
-                Game.CurrentGame.Emit(PlayerShaTargetValidation, args);
-            }
-            catch (TriggerResultException)
-            {
-                throw new NotImplementedException();
-            }
-
-            foreach (bool b in args.TargetApproval.Concat(args.RangeApproval))
-            {
-                if (!b)
-                {
-                    return VerifierResult.Fail;
-                }
             }
             return VerifierResult.Success;
         }
@@ -129,6 +150,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         /// 玩家使用杀的目标检测
         /// </summary>
         public static readonly GameEvent PlayerShaTargetValidation;
+        public static readonly GameEvent PlayerNumberOfShaCheck;
 
     }
 

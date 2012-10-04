@@ -39,7 +39,7 @@ namespace Sanguosha.Expansions.Basic.Skills
         }
         protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
         {
-            Game.CurrentGame.RegisterTrigger(Sha.PlayerShaTargetValidation, new PaoXiaoTrigger(owner));
+            //Game.CurrentGame.RegisterTrigger(Sha.PlayerShaTargetValidation, new PaoXiaoTrigger(owner));
         }
     }
 }

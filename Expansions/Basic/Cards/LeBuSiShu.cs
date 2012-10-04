@@ -34,17 +34,14 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
         {
+            if (targets != null && targets.Count != 0 &&
+                (targets.Count > 1 || DelayedToolConflicting(targets[0]) || targets[0] == source))
+            {
+                return VerifierResult.Fail;
+            }
             if (targets == null || targets.Count == 0)
             {
                 return VerifierResult.Partial;
-            }
-            if (targets.Count > 1)
-            {
-                return VerifierResult.Fail;
-            }
-            if (DelayedToolConflicting(targets[0]))
-            {
-                return VerifierResult.Fail;
             }
             return VerifierResult.Success;
         }

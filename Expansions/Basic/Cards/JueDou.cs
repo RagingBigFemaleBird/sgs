@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         /// <param name="source"></param>
         /// <param name="dest"></param>
         /// <remarks>因为貂蝉的那个地方</remarks>
-        public override void Process(Player source, Player dest)
+        protected override void Process(Player source, Player dest)
         {
             Player current = dest;
             while (true)
@@ -37,7 +37,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     Trace.TraceInformation("Player {0} Invalid answer", current);
                     break;
                 }
-                if (!HandleCardUseWithSkill(current, skill, cards))
+                if (!Game.CurrentGame.HandleCardUse(current, skill, cards))
                 {
                     continue;
                 }

@@ -10,6 +10,7 @@ using Sanguosha.Core.Players;
 using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.UI;
+using Sanguosha.Core.Skills;
 
 namespace Sanguosha.Core.Games
 {
@@ -412,6 +413,10 @@ namespace Sanguosha.Core.Games
 
         public void RecoverHealth(Player source, Player target, int magnitude)
         {
+            if (target.Health >= target.MaxHealth)
+            {
+                return;
+            }
             GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), IntArg = magnitude, IntArg2 = 0 };
             args.Targets.Add(target);
 
@@ -423,5 +428,89 @@ namespace Sanguosha.Core.Games
 
             Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, args);
         }
+
+        /// <summary>
+        /// 处理玩家使用卡牌事件。
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="c"></param>
+        public void PlayerUsedCard(Player source, ICard c)
+        {
+            try
+            {
+                GameEventArgs arg = new GameEventArgs();
+                arg.Source = source;
+                arg.Targets = null;
+                arg.Card = c;
+
+                Emit(GameEvent.PlayerUsedCard, arg);
+            }
+            catch (TriggerResultException)
+            {
+                throw new NotImplementedException();
+            }
+        }
+        /// <summary>
+        /// 处理玩家打出卡牌事件。
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="c"></param>
+        public void PlayerPlayedCard(Player source, ICard c)
+        {
+            try
+            {
+                GameEventArgs arg = new GameEventArgs();
+                arg.Source = source;
+                arg.Targets = null;
+                arg.Card = c;
+
+                Emit(GameEvent.PlayerPlayedCard, arg);
+            }
+            catch (TriggerResultException)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public bool HandleCardUse(Player p, ISkill skill, List<Card> cards)
+        {
+            CardsMovement m;
+            ICard result;
+            m.cards = cards;
+            m.to = new DeckPlace(null, DeckType.Discard);
+            bool ret = CommitCardTransform(p, skill, cards, out result);
+            if (!ret)
+            {
+                return false;
+            }
+            MoveCards(m);
+            PlayerPlayedCard(p, result);
+            return true;
+        }
+
+        public bool CommitCardTransform(Player p, ISkill skill, List<Card> cards, out ICard result)
+        {
+            ICard cp;
+            if (skill != null)
+            {
+                CompositeCard card;
+                CardTransformSkill s = (CardTransformSkill)skill;
+                VerifierResult r = s.Transform(cards, null, out card);
+                Trace.Assert(r == VerifierResult.Success);
+                if (!s.Commit(cards, null, ref card))
+                {
+                    result = null;
+                    return false;
+                }
+                cp = card;
+            }
+            else
+            {
+                cp = cards[0];
+            }
+            result = cp;
+            return true;
+        }
+
     }
 }

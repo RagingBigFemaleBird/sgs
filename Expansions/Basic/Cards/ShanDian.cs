@@ -28,8 +28,8 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         public override void Process(Player source, List<Player> dests, ICard card)
         {
-            Trace.Assert(dests.Count == 1);
-            AttachTo(source, dests[0], card);
+            Trace.Assert(dests == null || dests.Count == 0);
+            AttachTo(source, source, card);
         }
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
