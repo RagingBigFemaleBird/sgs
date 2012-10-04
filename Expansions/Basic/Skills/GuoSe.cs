@@ -14,31 +14,16 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// <summary>
     /// 国色-出牌阶段，你可以将一张方块牌当【乐不思蜀】使用。
     /// </summary>
-    public class GuoSe : CardTransformSkill
+    public class GuoSe : OneToOneCardTransformSkill
     {
-        public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
+        public override bool VerifyInput(Card card, object arg)
         {
-            VerifierResult r = RequireCards(cards, 1);
-            card = null;
-            if (r == VerifierResult.Success)
-            {
-                if (cards[0].Owner != Owner)
-                {
-                    return VerifierResult.Fail;
-                }
-                if (cards[0].Suit == SuitType.Diamond)
-                {
-                    card = new CompositeCard();
-                    card.Subcards = new List<Card>(cards);
-                    card.Type = new LeBuSiShu();
-                    return VerifierResult.Success;
-                }
-                else
-                {
-                    return VerifierResult.Fail;
-                }
-            }
-            return r;
+            return card.Suit == SuitType.Diamond;
+        }
+
+        public override CardHandler PossibleResult
+        {
+            get { return new LeBuSiShu(); }
         }
     }
 }

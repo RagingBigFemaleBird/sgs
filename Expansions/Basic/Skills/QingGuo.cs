@@ -14,31 +14,25 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// <summary>
     /// 倾国-你可以将一张黑色手牌当【闪】使用或打出。
     /// </summary>
-    public class QingGuo : CardTransformSkill
+    public class QingGuo : OneToOneCardTransformSkill
     {
-        public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
+        public override bool VerifyInput(Card card, object arg)
         {
-            VerifierResult r = RequireCards(cards, 1);
-            card = null;
-            if (r == VerifierResult.Success)
-            {
-                if (cards[0].Owner != Owner || cards[0].Place.DeckType != DeckType.Hand)
-                {
-                    return VerifierResult.Fail;
-                } 
-                if (cards[0].SuitColor == SuitColorType.Black)
-                {
-                    card = new CompositeCard();
-                    card.Subcards = new List<Card>(cards);
-                    card.Type = new Shan();
-                    return VerifierResult.Success;
-                }
-                else
-                {
-                    return VerifierResult.Fail;
-                }
-            }
-            return r;
+            return card.SuitColor == SuitColorType.Black;
         }
+
+        public override CardHandler PossibleResult
+        {
+            get { return new Shan(); }
+        }
+
+        public override bool HandCardOnly
+        {
+            get
+            {
+                return true;
+            }
+        }
+
     }
 }

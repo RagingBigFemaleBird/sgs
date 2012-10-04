@@ -6,15 +6,11 @@ using System.Text;
 using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Cards;
 using Sanguosha.Core.UI;
-using Sanguosha.Core.Skills;
-using Sanguosha.Expansions.Basic.Cards;
+using Sanguosha.Core.Exceptions;
 
-namespace Sanguosha.Expansions.Basic.Skills
+namespace Sanguosha.Core.Skills
 {
-    /// <summary>
-    /// 龙胆–出牌阶段，你可以将你手牌的【杀】当【闪】、【闪】当【杀】使用或打出。植物龙胆在中国大陆、俄罗斯、日本、朝鲜等均有分布，生长于海拔400米至1,700米的地区。
-    /// </summary>
-    class LongDan : CardTransformSkill
+    public abstract class OneToOneCardTransformSkill : CardTransformSkill
     {
         public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
         {
@@ -27,30 +23,35 @@ namespace Sanguosha.Expansions.Basic.Skills
             {
                 return VerifierResult.Fail;
             }
-            if (cards[0].Owner != Owner || cards[0].Place.DeckType != DeckType.Hand)
+            if (cards[0].Owner != Owner)
             {
                 return VerifierResult.Fail;
             }
-            if (cards[0].Type is Shan)
+            if (HandCardOnly)
             {
-                card = new CompositeCard();
-                card.Subcards = new List<Card>(cards);
-                card.Type = new Sha();
-                return VerifierResult.Success;
+                if (cards[0].Place.DeckType != DeckType.Hand)
+                {
+                    return VerifierResult.Fail;
+                }
             }
-            else if (cards[0].Type is Sha)
+            if (VerifyInput(cards[0], arg))
             {
                 card = new CompositeCard();
                 card.Subcards = new List<Card>(cards);
-                card.Type = new Shan();
+                card.Type = PossibleResult;
                 return VerifierResult.Success;
             }
             return VerifierResult.Fail;
         }
 
-        public override CardHandler PossibleResult
+        public abstract bool VerifyInput(Card card, object arg);
+
+        public virtual bool HandCardOnly
         {
-            get { return null; }
+            get
+            {
+                return false;
+            }
         }
     }
 }

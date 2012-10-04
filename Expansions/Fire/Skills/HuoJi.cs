@@ -14,27 +14,17 @@ namespace Sanguosha.Expansions.Fire.Skills
     /// <summary>
     /// 火计–出牌阶段，你可以将你的任意一张红色手牌当【火攻】使用。
     /// </summary>
-    public class HuoJi : CardTransformSkill
+    public class HuoJi : OneToOneCardTransformSkill
     {
-        public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
+
+        public override CardHandler PossibleResult
         {
-            VerifierResult r = RequireCards(cards, 1);
-            card = null;
-            if (r == VerifierResult.Success)
-            {
-                if (cards[0].SuitColor == SuitColorType.Red)
-                {
-                    card = new CompositeCard();
-                    card.Subcards = new List<Card>(cards);
-                    card.Type = new HuoGong();
-                    return VerifierResult.Success;
-                }
-                else
-                {
-                    return VerifierResult.Fail;
-                }
-            }
-            return r;
+            get { return new HuoGong(); }
+        }
+
+        public override bool VerifyInput(Card card, object arg)
+        {
+            return card.SuitColor == SuitColorType.Red;
         }
     }
 }

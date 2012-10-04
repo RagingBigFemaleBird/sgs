@@ -11,24 +11,10 @@ using Sanguosha.Core.Exceptions;
 
 namespace Sanguosha.Core.Skills
 {
-
     public abstract class CardTransformSkill : ISkill
     {
         public class CardTransformFailureException : SgsException
         {
-        }
-
-        protected VerifierResult RequireCards(List<Card> cards, int count)
-        {
-            if (cards == null || cards.Count < count)
-            {
-                return VerifierResult.Partial;
-            }
-            if (cards.Count > count)
-            {
-                return VerifierResult.Fail;
-            }
-            return VerifierResult.Success;
         }
 
         /// <summary>
@@ -63,9 +49,10 @@ namespace Sanguosha.Core.Skills
 
         public Players.Player Owner { get; set; }
 
+
         /// <summary>
         /// 卡牌转换技能可以转换成的卡牌类型。
         /// </summary>
-//        public abstract List<CardHandler> PossibleResults { get; }
+        public abstract CardHandler PossibleResult { get; }
     }
 }

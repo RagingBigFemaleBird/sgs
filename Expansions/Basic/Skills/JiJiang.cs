@@ -47,7 +47,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             return VerifierResult.Success;
         }
 
-        protected override bool  DoTransformSideEffect(CompositeCard card, object arg)
+        protected override bool DoTransformSideEffect(CompositeCard card, object arg)
         {
             Player player = Owner;
             ICard result = null;
@@ -91,7 +91,6 @@ namespace Sanguosha.Expansions.Basic.Skills
             }
 
             Trace.Assert(result != null);
-            card = new CompositeCard();
             card.Subcards = new List<Card>();
             if (result is CompositeCard)
             {
@@ -104,6 +103,11 @@ namespace Sanguosha.Expansions.Basic.Skills
             }
             card.Type = new Sha();
             return true;
+        }
+
+        public override CardHandler PossibleResult
+        {
+            get { return null; }
         }
     }
 }
