@@ -16,7 +16,7 @@ namespace Sanguosha.Expansions.Fire.Skills
     /// </summary>
     public class HuoJi : CardTransformSkill
     {
-        public override VerifierResult Transform(List<Card> cards, object arg, out CompositeCard card)
+        public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
         {
             VerifierResult r = RequireCards(cards, 1);
             card = null;

@@ -39,7 +39,7 @@ namespace Sanguosha.Core.Cards
             {
                 CompositeCard card;
                 CardTransformSkill s = (CardTransformSkill)skill;
-                VerifierResult r = s.Transform(cards, null, out card);
+                VerifierResult r = s.TryTransform(cards, null, out card);
                 if (!Match(card))
                 {
                     return VerifierResult.Fail;

@@ -19,7 +19,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     class JiJiang : CardTransformSkill
     {
-        public override VerifierResult Transform(List<Card> cards, object arg, out CompositeCard card)
+        public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
         {
             card = null;
             if (cards != null && cards.Count != 0)
@@ -47,9 +47,8 @@ namespace Sanguosha.Expansions.Basic.Skills
             return VerifierResult.Success;
         }
 
-        public override bool Commit(List<Card> dummy, object arg, ref CompositeCard card)
+        protected override bool  DoTransformSideEffect(CompositeCard card, object arg)
         {
-            Trace.Assert(dummy == null || dummy.Count == 0);
             Player player = Owner;
             ICard result = null;
             do

@@ -478,8 +478,8 @@ namespace Sanguosha.Core.Games
             ICard result;
             m.cards = cards;
             m.to = new DeckPlace(null, DeckType.Discard);
-            bool ret = CommitCardTransform(p, skill, cards, out result);
-            if (!ret)
+            bool status = CommitCardTransform(p, skill, cards, out result);
+            if (!status)
             {
                 return false;
             }
@@ -490,27 +490,22 @@ namespace Sanguosha.Core.Games
 
         public bool CommitCardTransform(Player p, ISkill skill, List<Card> cards, out ICard result)
         {
-            ICard cp;
             if (skill != null)
             {
                 CompositeCard card;
-                CardTransformSkill s = (CardTransformSkill)skill;
-                VerifierResult r = s.Transform(cards, null, out card);
-                Trace.Assert(r == VerifierResult.Success);
-                if (!s.Commit(cards, null, ref card))
+                CardTransformSkill s = (CardTransformSkill)skill;                
+                if (!s.Transform(cards, null, out card))
                 {
                     result = null;
                     return false;
                 }
-                cp = card;
+                result = card;
             }
             else
             {
-                cp = cards[0];
+                result = cards[0];
             }
-            result = cp;
             return true;
         }
-
     }
 }

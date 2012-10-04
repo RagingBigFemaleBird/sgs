@@ -30,8 +30,8 @@ namespace Sanguosha.Expansions.Basic.Skills
                     }
                 }
             }
-            if (arg.Targets != null && arg.Targets.Count != 0 
-                && (arg.Targets.Count > 1 || arg.Targets[0] == Owner))
+            if (arg.Targets != null && arg.Targets.Count != 0 &&
+                (arg.Targets.Count > 1 || arg.Targets[0] == Owner))
             {
                 return VerifierResult.Fail;
             }

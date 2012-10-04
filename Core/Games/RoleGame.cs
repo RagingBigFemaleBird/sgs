@@ -49,7 +49,7 @@ namespace Sanguosha.Core.Games
                     {
                         CardTransformSkill s = (CardTransformSkill)skill;
                         CompositeCard result;
-                        if (s.Transform(cards, null, out result) == VerifierResult.Fail)
+                        if (s.TryTransform(cards, null, out result) == VerifierResult.Fail)
                         {
                             return VerifierResult.Fail;
                         }
@@ -88,7 +88,7 @@ namespace Sanguosha.Core.Games
                         }
                         CompositeCard c;
                         CardTransformSkill s = (CardTransformSkill)skill;
-                        VerifierResult r = s.Transform(cards, null, out c);
+                        VerifierResult r = s.TryTransform(cards, null, out c);
                         Trace.TraceInformation("Player used {0}", c.Type);
                     }
                     else
@@ -116,10 +116,8 @@ namespace Sanguosha.Core.Games
                 if (eventArgs.Skill != null)
                 {
                     CompositeCard card;
-                    CardTransformSkill s = (CardTransformSkill)eventArgs.Skill;
-                    VerifierResult r = s.Transform(eventArgs.Cards, null, out card);
-                    Trace.Assert(r == VerifierResult.Success);
-                    if (!s.Commit(eventArgs.Cards, null, ref card))
+                    CardTransformSkill s = (CardTransformSkill)eventArgs.Skill;                    
+                    if (!s.Transform(eventArgs.Cards, null, out card))
                     {
                         return;
                     }
