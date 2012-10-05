@@ -36,7 +36,7 @@ namespace Sanguosha.Core.Cards
                 m.cards.Add(card);
             }
             m.to = new DeckPlace(target, DeckType.DelayedTools);
-            Game.CurrentGame.MoveCards(m);
+            Game.CurrentGame.MoveCards(m, new CardUseLog() { Source = source, Target = target, Cards = null, Skill = null });
         }
 
         protected bool DelayedToolConflicting(Player p)

@@ -54,8 +54,6 @@ namespace Sanguosha.Core.UI
                               List<int> resultDeckMaximums,
                               ICardChoiceVerifier verifier, out List<List<Card>> answer);
 
-        void NotifyCardMovement(CardsMovement m, List<string> notes);
-        void NotifyLog(string log);
-        void NotifySkillUse(int SkillID);
+        void NotifyUiLog(CardsMovement m, List<UI.IGameLog> notes);
     }
 }

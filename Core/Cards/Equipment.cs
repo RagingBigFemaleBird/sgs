@@ -54,13 +54,14 @@ namespace Sanguosha.Core.Cards
                     Trace.Assert(e != null);
                     e.PostUninstall(p);
                     RegisterTriggers(p);
-                    Game.CurrentGame.MoveCards(l);
+                    Game.CurrentGame.MoveCards(l, null);
                     return;
                 }
             }
 
             RegisterTriggers(p);
-            Game.CurrentGame.MoveCards(attachMove);
+            
+            Game.CurrentGame.MoveCards(attachMove, null);
             return;
         }
 

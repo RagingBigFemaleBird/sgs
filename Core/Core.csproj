@@ -78,6 +78,7 @@
     <Compile Include="Exceptions\TriggerResultException.cs" />
     <Compile Include="UI\ConsoleUiProxy.cs" />
     <Compile Include="UI\GlobalProxy.cs" />
+    <Compile Include="UI\IGameLog.cs" />
     <Compile Include="UI\IUIProxy.cs" />
   </ItemGroup>
   <ItemGroup />

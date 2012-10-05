@@ -155,6 +155,14 @@ namespace Sanguosha.Core.Games
 
         Dictionary<string, CardHandler> cardHandlers;
 
+        private IUiProxy globalProxy;
+
+        public IUiProxy GlobalProxy
+        {
+            get { return globalProxy; }
+            set { globalProxy = value; }
+        }
+
         /// <summary>
         /// Card usage handler for a given card's type name.
         /// </summary>
@@ -180,7 +188,7 @@ namespace Sanguosha.Core.Games
             set { players = value; }
         }
 
-        public void MoveCards(List<CardsMovement> moves)
+        public void MoveCards(List<CardsMovement> moves, List<UI.IGameLog> logs)
         {
             foreach (CardsMovement move in moves)
             {
@@ -195,11 +203,12 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public void MoveCards(CardsMovement move)
+        public void MoveCards(CardsMovement move, UI.IGameLog log)
         {
             List<CardsMovement> moves = new List<CardsMovement>();
             moves.Add(move);
-            MoveCards(moves);
+            List<UI.IGameLog> logs = new List<IGameLog>();
+            MoveCards(moves, logs);
         }
 
         public Card DrawCard()
@@ -230,7 +239,7 @@ namespace Sanguosha.Core.Games
                 CardsMovement move;
                 move.cards = cardsDrawn;
                 move.to = new DeckPlace(player, DeckType.Hand);
-                MoveCards(move);
+                MoveCards(move, new UI.CardUseLog() { Source = player, Targets = null, Skill = null, Cards = null });
             }
             catch (ArgumentException)
             {
@@ -483,7 +492,7 @@ namespace Sanguosha.Core.Games
             {
                 return false;
             }
-            MoveCards(m);
+            MoveCards(m, new CardUseLog() { Source = p, Targets = null, Cards = null, Skill = skill });
             PlayerPlayedCard(p, result);
             return true;
         }

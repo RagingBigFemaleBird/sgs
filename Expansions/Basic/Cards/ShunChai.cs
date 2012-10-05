@@ -64,7 +64,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             CardsMovement m;
             m.cards = new List<Card>(answer[0]);
             m.to = ShunChaiDest(source, dest);
-            Game.CurrentGame.MoveCards(m);
+            Game.CurrentGame.MoveCards(m, new CardUseLog() { Source = source, Target = dest, Skill = null, Cards = null });
         }
 
         protected abstract bool ShunChaiAdditionalCheck(Player source, Player dest);

@@ -86,7 +86,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                 CardsMovement m;
                 m.cards = cards;
                 m.to = new DeckPlace(null, DeckType.Discard);
-                Game.CurrentGame.MoveCards(m);
+                Game.CurrentGame.MoveCards(m, new CardUseLog() { Source = source, Targets = null, Cards = null, Type = this });
                 Game.CurrentGame.DoDamage(source, dest, 1, DamageElement.Fire, Game.CurrentGame.Decks[DeckType.Compute]);
             }
             else

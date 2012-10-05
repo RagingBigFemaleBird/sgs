@@ -54,7 +54,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             move.to = new DeckPlace(arg.Targets[0], DeckType.Hand);
             int cardsHadGiven = Owner[RenDeNumberOfCardsGiven];
             Owner[RenDeNumberOfCardsGiven] += cards.Count;
-            Game.CurrentGame.MoveCards(move);
+            Game.CurrentGame.MoveCards(move, new CardUseLog() { Source = Owner, Targets = arg.Targets, Skill = this, Cards = null });
             if (Owner[RenDeNumberOfCardsGiven] >= 2 && cardsHadGiven < 2)
             {
                 Game.CurrentGame.RecoverHealth(Owner, Owner, 1);

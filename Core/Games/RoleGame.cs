@@ -149,14 +149,14 @@ namespace Sanguosha.Core.Games
                     return;
                 }
 
-                
-                Game.CurrentGame.MoveCards(m);
+
+                Game.CurrentGame.MoveCards(m, new CardUseLog() { Source = eventArgs.Source, Targets = eventArgs.Targets, Skill = eventArgs.Skill, Cards = eventArgs.Cards });
                 
                 c.Type.Process(eventArgs.Source, eventArgs.Targets, c);
 
                 m.cards = Game.CurrentGame.Decks[DeckType.Compute];
                 m.to = new DeckPlace(null, DeckType.Discard);
-                Game.CurrentGame.MoveCards(m);
+                Game.CurrentGame.MoveCards(m, null);
                 Trace.Assert(Game.CurrentGame.Decks[DeckType.Compute].Count == 0);
                 Game.CurrentGame.Decks[DeckType.Compute] = new List<Card>(computeBackup);
             }
