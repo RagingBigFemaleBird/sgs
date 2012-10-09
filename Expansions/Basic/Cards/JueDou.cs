@@ -16,13 +16,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 {
     public class JueDou : CardHandler
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="dest"></param>
-        /// <remarks>因为貂蝉的那个地方</remarks>
-        protected override void Process(Player source, Player dest)
+        protected override void Process(Player source, Player dest, ICard card)
         {
             Player current = dest;
             while (true)
@@ -52,7 +46,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 }
             }
             Player won = current == dest ? source : dest;
-            Game.CurrentGame.DoDamage(won, current, 1, DamageElement.Fire, Game.CurrentGame.Decks[DeckType.Compute]);
+            Game.CurrentGame.DoDamage(won, current, 1, DamageElement.Fire, card);
         }
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)

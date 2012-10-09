@@ -11,6 +11,7 @@ using Sanguosha.Core.Skills;
 using Sanguosha.Expansions.Basic.Cards;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
+using Sanguosha.Core.Exceptions;
 
 namespace Sanguosha.Expansions.Basic.Skills
 {
@@ -38,9 +39,26 @@ namespace Sanguosha.Expansions.Basic.Skills
             }
         }
 
+        class PaoXiaoAlwaysShaTrigger : Trigger
+        {
+            public Player Owner { get; set; }
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                if (eventArgs.Source == Owner)
+                {
+                    throw new TriggerResultException(TriggerResult.Success);
+                }
+            }
+            public PaoXiaoAlwaysShaTrigger(Player p)
+            {
+                Owner = p;
+            }
+        }
+
         protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
         {
-            //Game.CurrentGame.RegisterTrigger(Sha.PlayerShaTargetValidation, new PaoXiaoTrigger(owner));
+            Game.CurrentGame.RegisterTrigger(Sha.PlayerShaTargetValidation, new PaoXiaoTrigger(owner));
+            Game.CurrentGame.RegisterTrigger(Sha.PlayerNumberOfShaCheck, new PaoXiaoAlwaysShaTrigger(owner));
         }
     }
 }

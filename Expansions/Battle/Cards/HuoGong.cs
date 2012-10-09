@@ -65,7 +65,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             }
         }
 
-        protected override void Process(Player source, Player dest)
+        protected override void Process(Player source, Player dest, ICard card)
         {
             IUiProxy ui = Game.CurrentGame.UiProxies[dest];
             HuoGongCardChoiceVerifier v1 = new HuoGongCardChoiceVerifier();
@@ -87,7 +87,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                 m.cards = cards;
                 m.to = new DeckPlace(null, DeckType.Discard);
                 Game.CurrentGame.MoveCards(m, new CardUseLog() { Source = source, Targets = null, Cards = null, Type = this });
-                Game.CurrentGame.DoDamage(source, dest, 1, DamageElement.Fire, Game.CurrentGame.Decks[DeckType.Compute]);
+                Game.CurrentGame.DoDamage(source, dest, 1, DamageElement.Fire, card);
             }
             else
             {

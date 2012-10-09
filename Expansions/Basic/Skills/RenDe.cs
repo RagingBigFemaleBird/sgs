@@ -18,8 +18,9 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     public class RenDe : ActiveSkill
     {
-        public override VerifierResult Validate(List<Card> cards, GameEventArgs arg)
+        public override VerifierResult Validate(GameEventArgs arg)
         {
+            List<Card> cards = arg.Cards;
             if (cards != null)
             {
                 foreach (Card card in cards)
@@ -46,8 +47,9 @@ namespace Sanguosha.Expansions.Basic.Skills
             return VerifierResult.Success;
         }
 
-        public override bool Commit(List<Card> cards, GameEventArgs arg)
+        public override bool Commit(GameEventArgs arg)
         {
+            List<Card> cards = arg.Cards;
             Trace.Assert(cards.Count > 0 && arg.Targets.Count == 1);
             CardsMovement move;
             move.cards = new List<Card>(cards);

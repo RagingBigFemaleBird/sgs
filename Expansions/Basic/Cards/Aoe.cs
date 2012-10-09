@@ -27,7 +27,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected abstract string UsagePrompt {get;}
 
-        protected override void Process(Player source, Player dest)
+        protected override void Process(Player source, Player dest, ICard card)
         {
             throw new NotImplementedException();
         }
@@ -54,7 +54,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     if (!ui.AskForCardUsage(UsagePrompt, v1, out skill, out cards, out p))
                     {
                         Trace.TraceInformation("Player {0} Invalid answer", current);
-                        Game.CurrentGame.DoDamage(source, current, 1, DamageElement.None, Game.CurrentGame.Decks[DeckType.Compute]);
+                        Game.CurrentGame.DoDamage(source, current, 1, DamageElement.None, c);
                     }
                     else
                     {

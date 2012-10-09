@@ -21,7 +21,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             throw new NotImplementedException();
         }
 
-        protected override void Process(Player source, Player dest)
+        protected override void Process(Player source, Player dest, ICard card)
         {
             throw new NotImplementedException();
         }

@@ -21,5 +21,10 @@ namespace Sanguosha.Core.Exceptions
             get { return status; }
             set { status = value; }
         }
+
+        public TriggerResultException(TriggerResult r)
+        {
+            status = r;
+        }
     }
 }

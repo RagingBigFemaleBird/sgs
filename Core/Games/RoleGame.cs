@@ -43,7 +43,8 @@ namespace Sanguosha.Core.Games
                         GameEventArgs arg = new GameEventArgs();
                         arg.Source = Game.CurrentGame.CurrentPlayer;
                         arg.Targets = players;
-                        return ((ActiveSkill)skill).Validate(cards, arg);
+                        arg.Cards = cards;
+                        return ((ActiveSkill)skill).Validate(arg);
                     }
                     else if (skill is CardTransformSkill)
                     {
@@ -83,7 +84,8 @@ namespace Sanguosha.Core.Games
                             GameEventArgs arg = new GameEventArgs();
                             arg.Source = Game.CurrentGame.CurrentPlayer;
                             arg.Targets = players;
-                            ((ActiveSkill)skill).Commit(cards, arg);
+                            arg.Cards = cards;
+                            ((ActiveSkill)skill).Commit(arg);
                             continue;
                         }
                         CompositeCard c;

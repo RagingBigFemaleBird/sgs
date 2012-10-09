@@ -80,6 +80,7 @@
     <Compile Include="UI\GlobalProxy.cs" />
     <Compile Include="UI\IGameLog.cs" />
     <Compile Include="UI\IUIProxy.cs" />
+    <Compile Include="UI\TestUiProxy.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

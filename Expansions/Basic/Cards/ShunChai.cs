@@ -36,7 +36,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected abstract DeckPlace ShunChaiDest(Player source, Player dest);
 
-        protected override void Process(Player source, Player dest)
+        protected override void Process(Player source, Player dest, ICard card)
         {
             IUiProxy ui = Game.CurrentGame.UiProxies[dest];
             ShunChaiCardChoiceVerifier v1 = new ShunChaiCardChoiceVerifier();

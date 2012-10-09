@@ -17,7 +17,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 {
     public class Shan : CardHandler
     {
-        protected override void Process(Player source, Player dest)
+        protected override void Process(Player source, Player dest, ICard card)
         {
             throw new NotImplementedException();
         }

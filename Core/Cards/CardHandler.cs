@@ -96,12 +96,12 @@ namespace Sanguosha.Core.Cards
             {
                 if (PlayerIsCardTargetCheck(source, player)) 
                 {
-                    Process(source, player);
+                    Process(source, player, card);
                 }
             }
         }
 
-        protected abstract void Process(Player source, Player dest);
+        protected abstract void Process(Player source, Player dest, ICard card);
 
         public virtual VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> targets)
         {
@@ -206,7 +206,8 @@ namespace Sanguosha.Core.Cards
                         {
                             Source = Game.CurrentGame.CurrentPlayer,
                             Targets = targets,
-                            Cards = cards
+                            Cards = cards,
+                            Card = card,
                         });
                     }
                     catch (TriggerResultException e)

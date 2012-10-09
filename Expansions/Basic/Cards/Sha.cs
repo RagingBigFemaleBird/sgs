@@ -33,7 +33,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             base.Process(source, dests, card);
         }
 
-        protected override void Process(Player source, Player dest)
+        protected override void Process(Player source, Player dest, ICard card)
         {
             
             /* todo: 
@@ -68,7 +68,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
             if (numberOfShanRequired > 0)
             {
-                Game.CurrentGame.DoDamage(source, dest, 1, ShaDamageElement, Game.CurrentGame.Decks[DeckType.Compute]);
+                Game.CurrentGame.DoDamage(source, dest, 1, ShaDamageElement, card);
             }
             else
             {
@@ -81,10 +81,15 @@ namespace Sanguosha.Expansions.Basic.Cards
             if (targets != null && targets.Count > 0)
             {
                 ShaEventArgs args = new ShaEventArgs();
+                args.Source = source;
                 args.RangeApproval = new List<bool>(targets.Count);
                 args.TargetApproval = new List<bool>(targets.Count);
                 foreach (Player t in targets)
                 {
+                    if (t == source)
+                    {
+                        return VerifierResult.Fail;
+                    }
                     if (Game.CurrentGame.DistanceTo(source, t) <= source[PlayerAttribute.RangeAttack] + 1)
                     {
                         args.RangeApproval.Add(true);

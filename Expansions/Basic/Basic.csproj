@@ -56,11 +56,16 @@
     <Compile Include="Cards\WanJianQiFa.cs" />
     <Compile Include="Cards\WuZhongShengYou.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Skills\FanJian.cs" />
     <Compile Include="Skills\GuoSe.cs" />
     <Compile Include="Skills\JiJiang.cs" />
     <Compile Include="Skills\JiJiu.cs" />
+    <Compile Include="Skills\JiZhi.cs" />
+    <Compile Include="Skills\KongCheng.cs" />
+    <Compile Include="Skills\KuRou.cs" />
     <Compile Include="Skills\LongDan.cs" />
     <Compile Include="Skills\PaoXiao.cs" />
+    <Compile Include="Skills\QianXun.cs" />
     <Compile Include="Skills\QingGuo.cs" />
     <Compile Include="Skills\QingNang.cs" />
     <Compile Include="Skills\QiXi.cs" />

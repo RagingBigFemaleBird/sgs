@@ -18,8 +18,9 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     public class QingNang : ActiveSkill
     {
-        public override VerifierResult Validate(List<Card> cards, GameEventArgs arg)
+        public override VerifierResult Validate(GameEventArgs arg)
         {
+            List<Card> cards = arg.Cards;
             if (cards == null || cards.Count == 0 || arg.Targets == null || arg.Targets.Count == 0)
             {
                 return VerifierResult.Partial;
@@ -42,8 +43,9 @@ namespace Sanguosha.Expansions.Basic.Skills
             return VerifierResult.Success;
         }
 
-        public override bool Commit(List<Card> cards, GameEventArgs arg)
+        public override bool Commit(GameEventArgs arg)
         {
+            List<Card> cards = arg.Cards;
             Trace.Assert(cards.Count > 0 && arg.Targets.Count == 1);
             CardsMovement move;
             move.cards = new List<Card>(cards);

@@ -18,3 +18,8 @@ F:\Programs\Sanguosha\Bin\Debug\Core.pdb
 F:\Programs\Sanguosha\Core\obj\Debug\Core.dll
 F:\Programs\Sanguosha\Core\obj\Debug\Core.pdb
 F:\Programs\Sanguosha\Core\obj\Debug\Core.csprojResolveAssemblyReference.cache
+C:\Users\Travel\Desktop\Sanguosha\Core\obj\Debug\Core.csprojResolveAssemblyReference.cache
+C:\Users\Travel\Desktop\Sanguosha\Core\obj\Debug\Core.dll
+C:\Users\Travel\Desktop\Sanguosha\Bin\Debug\Core.dll
+C:\Users\Travel\Desktop\Sanguosha\Bin\Debug\Core.pdb
+C:\Users\Travel\Desktop\Sanguosha\Core\obj\Debug\Core.pdb

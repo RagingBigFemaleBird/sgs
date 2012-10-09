@@ -11,38 +11,20 @@ namespace Sanguosha.Core.Skills
 {
     public abstract class ActiveSkill : ISkill
     {
-        protected VerifierResult RequireCards(List<Card> cards, int count)
-        {
-            if (cards == null || cards.Count < count)
-            {
-                return VerifierResult.Partial;
-            }
-            if (cards.Count > count)
-            {
-                return VerifierResult.Fail;
-            }
-            return VerifierResult.Success;
-        }
-
         /// <summary>
         /// 检查主动技的合法性。
         /// </summary>
-        /// <param name="cards">卡牌</param>
-        /// <param name="arg">参数（可选）</param>
+        /// <param name="arg">参数</param>
         /// <param name="card">输出卡牌</param>
         /// <returns></returns>
-        public abstract VerifierResult Validate(List<Card> cards, GameEventArgs arg);
+        public abstract VerifierResult Validate(GameEventArgs arg);
 
         /// <summary>
         /// 提交主动技的发动请求。
         /// </summary>
-        /// <param name="cards">卡牌</param>
         /// <param name="arg">参数</param>
         /// <returns>true if 可以打出, false if 不可打出</returns>
-        public virtual bool Commit(List<Card> cards, GameEventArgs arg)
-        {
-            return true;
-        }
+        public abstract bool Commit(GameEventArgs arg);
 
         public virtual Players.Player Owner { get; set; }
     }

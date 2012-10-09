@@ -68,6 +68,21 @@ namespace Sanguosha.Core.Games
             {
                 games.Add(Thread.CurrentThread, this);
             }
+            int id = 0;
+            foreach (var g in Game.CurrentGame.CardSet)
+            {
+                if (g.Type is Core.Heroes.HeroCardHandler)
+                {
+                    Core.Heroes.HeroCardHandler h = (Core.Heroes.HeroCardHandler)g.Type;
+                    Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, id);
+                    Game.CurrentGame.Players[id].Hero = h.Hero;
+                    id++;
+                    if (id >= 8)
+                    {
+                        break;
+                    }
+                }
+            }
             // Put the whole deck in the dealing deck
             decks[DeckType.Dealing] = cardSet.GetRange(0, cardSet.Count);
             foreach (Card card in cardSet)
@@ -383,9 +398,9 @@ namespace Sanguosha.Core.Games
         /// <param name="magnitude">伤害点数</param>
         /// <param name="elemental">伤害属性</param>
         /// <param name="cards">造成伤害的牌</param>
-        public void DoDamage(Player source, Player dest, int magnitude, DamageElement elemental, List<Card> cards)
+        public void DoDamage(Player source, Player dest, int magnitude, DamageElement elemental, ICard card)
         {
-            GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), Cards = cards, IntArg = -magnitude, IntArg2 = (int)(elemental) };
+            GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), Card = card, IntArg = -magnitude, IntArg2 = (int)(elemental) };
             args.Targets.Add(dest);
 
             Game.CurrentGame.Emit(GameEvent.DamageSourceConfirmed, args);
@@ -434,6 +449,20 @@ namespace Sanguosha.Core.Games
             Trace.Assert(args.Targets.Count == 1);
             args.Targets[0].Health += args.IntArg;
             Trace.TraceInformation("Player {0} gain {1} hp, @ {2} hp", args.Targets[0].Id, args.IntArg, args.Targets[0].Health);
+
+            Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, args);
+        }
+
+        public void LoseHealth(Player source, int magnitude)
+        {
+            GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), IntArg = -magnitude, IntArg2 = 0 };
+            args.Targets.Add(source);
+
+            Game.CurrentGame.Emit(GameEvent.BeforeHealthChanged, args);
+
+            Trace.Assert(args.Targets.Count == 1);
+            args.Targets[0].Health += args.IntArg;
+            Trace.TraceInformation("Player {0} lose {1} hp, @ {2} hp", args.Targets[0].Id, args.IntArg, args.Targets[0].Health);
 
             Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, args);
         }
