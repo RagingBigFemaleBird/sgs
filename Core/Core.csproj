@@ -67,6 +67,7 @@
     <Compile Include="Skills\ActiveSkill.cs" />
     <Compile Include="Skills\CardTransformSkill.cs" />
     <Compile Include="Skills\ISkill.cs" />
+    <Compile Include="Skills\OneToOneCardTransformSkill.cs" />
     <Compile Include="Skills\PassiveSkill.cs" />
     <Compile Include="Triggers\GameEvent.cs" />
     <Compile Include="Games\RoleGame.cs" />
@@ -78,7 +79,9 @@
     <Compile Include="Exceptions\TriggerResultException.cs" />
     <Compile Include="UI\ConsoleUiProxy.cs" />
     <Compile Include="UI\GlobalProxy.cs" />
+    <Compile Include="UI\IGameLog.cs" />
     <Compile Include="UI\IUIProxy.cs" />
+    <Compile Include="UI\TestUiProxy.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

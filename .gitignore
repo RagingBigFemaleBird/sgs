@@ -6,3 +6,8 @@ Sanguosha/obj
 *.pdb
 *.cache
 /Bin
+/UI/Animations/obj
+/UI/Controls/obj
+/UI/Resources/obj
+/UI/SelfTest/obj
+obj
