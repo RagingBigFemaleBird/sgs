@@ -1,13 +1,25 @@
 ﻿<Window
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:ProfileBox="clr-namespace:ProfileBox;assembly=ProfileBox" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+	xmlns:Controls="clr-namespace:Sanguosha.UI.Controls;assembly=Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
 	x:Class="WpfApplication1.MainWindow"
 	x:Name="Window"
 	Title="MainWindow"
-	Width="200" Height="250">
+	Width="224" Height="369">
+    <Window.Resources>
+        <ResourceDictionary>
+            <Controls:PlayerInfoViewModel x:Key="viewModel"/>
+        </ResourceDictionary>
+    </Window.Resources>
 
 	<Grid x:Name="LayoutRoot" Margin="10">
-		<ProfileBox:MainControl Width="Auto" Height = "Auto" Foreground="Transparent" Background="Transparent"/>
-	</Grid>
+        <StackPanel Margin="0,0,0,-22">
+            <Controls:PlayerInfoView DataContext="{DynamicResource viewModel}" Height="auto" />
+            <Button Content="Update" Height="23" HorizontalAlignment="Left" Margin="0,10,0,0" Name="btnUpdate" VerticalAlignment="Top" Width="150" Click="btnUpdate_Click" />
+            <Button Content="Update2" Height="23" HorizontalAlignment="Left" Margin="0,10,0,0" Name="btnUpdate2" VerticalAlignment="Top" Width="150" Click="btnUpdate2_Click" />
+        </StackPanel>
+    </Grid>
 </Window>

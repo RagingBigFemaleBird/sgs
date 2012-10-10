@@ -1,0 +1,39 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="HealthBar/HealthBar.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <BitmapImage x:Key="PlayerInfoView.Background">PlayerInfoView\profileBg.png</BitmapImage>
+	<BitmapImage x:Key="PlayerInfoView.EquipmentSquare">PlayerInfoView\smallSquare.png</BitmapImage>
+	<BitmapImage x:Key="PlayerInfoView.Dragon">PlayerInfoView\dragon.png</BitmapImage>
+	<BitmapImage x:Key="PlayerInfoView.Decoration.TopLeft">PlayerInfoView\decoration1.png</BitmapImage>
+	<BitmapImage x:Key="PlayerInfoView.Decoration.BottomRight">PlayerInfoView\decoration2.png</BitmapImage>
+    <sys:Double x:Key="PlayerInfoView.WidthHeightRatio">0.8</sys:Double>
+    <BitmapImage x:Key="PlayerInfoView.HealthBar.Background">PlayerInfoView\healthBarBg.png</BitmapImage>
+    <BitmapImage x:Key="HealthBar.0">HealthBar\0.png</BitmapImage>
+    <BitmapImage x:Key="HealthBar.1">HealthBar\1.png</BitmapImage>
+    <BitmapImage x:Key="HealthBar.2">HealthBar\2.png</BitmapImage>
+    <BitmapImage x:Key="HealthBar.3">HealthBar\3.png</BitmapImage>
+    <BitmapImage x:Key="HealthBar.4">HealthBar\4.png</BitmapImage>
+	<BitmapImage x:Key="Allegiance.Wei.Icon">Allegiances\wei.png</BitmapImage>
+	<BitmapImage x:Key="Allegiance.Wei.Mask">Allegiances\wei2.png</BitmapImage>
+	<BitmapImage x:Key="Phases.Start.Small">Phases\Small\1.png</BitmapImage>
+	<BitmapImage x:Key="Phases.Judge.Small">Phases\Small\2.png</BitmapImage>
+	<BitmapImage x:Key="Phases.Draw.Small">Phases\Small\3.png</BitmapImage>
+	<BitmapImage x:Key="Phases.Play.Small">Phases\Small\4.png</BitmapImage>
+	<BitmapImage x:Key="Phases.Discard.Small">Phases\Small\5.png</BitmapImage>
+	<BitmapImage x:Key="Phases.End.Small">Phases\Small\6.png</BitmapImage>
+	<BitmapImage x:Key="Phases.Start.Large">Phases\Large\1.png</BitmapImage>
+	<BitmapImage x:Key="Phases.Judge.Large">Phases\Large\2.png</BitmapImage>
+	<BitmapImage x:Key="Phases.Draw.Large">Phases\Large\3.png</BitmapImage>
+	<BitmapImage x:Key="Phases.Play.Large">Phases\Large\4.png</BitmapImage>
+	<BitmapImage x:Key="Phases.Discard.Large">Phases\Large\5.png</BitmapImage>
+	<BitmapImage x:Key="Phases.End.Large">Phases\Large\6.png</BitmapImage>
+	<BitmapImage x:Key="Role.Unknown.Facial">Roles\unknown.png</BitmapImage>
+    <BitmapImage x:Key="Role.Loyalist.Facial">Roles\loyalist.png</BitmapImage>
+    <BitmapImage x:Key="Role.Rebel.Facial">Roles\rebel.png</BitmapImage>
+    <BitmapImage x:Key="Role.Defector.Facial">Roles\defector.png</BitmapImage>
+    <BitmapImage x:Key="Role.Ruler.Facial">Roles\ruler.png</BitmapImage>
+    
+</ResourceDictionary>

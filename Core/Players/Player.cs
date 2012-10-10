@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using System.ComponentModel;
 
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.Heroes;
+using Sanguosha.Core.Games;
 
 namespace Sanguosha.Core.Players
 {
     [Serializable]
-    public class Player
+    public class Player : INotifyPropertyChanged
     {
         public Player()
         {
@@ -53,7 +55,31 @@ namespace Sanguosha.Core.Players
         public int MaxHealth
         {
             get { return maxHealth; }
-            set { maxHealth = value; }
+            set 
+            {
+                if (maxHealth == value)
+                {
+                    return;
+                }
+                maxHealth = value;
+                OnPropertyChanged("MaxHealth");
+            }
+        }
+
+        private Allegiance allegiance;
+
+        public Allegiance Allegiance
+        {
+            get { return allegiance; }
+            set
+            {
+                if (allegiance == value)
+                {
+                    return;
+                }
+                allegiance = value;
+                OnPropertyChanged("Allegiance");
+            }
         }
 
         int health;
@@ -61,7 +87,15 @@ namespace Sanguosha.Core.Players
         public int Health
         {
             get { return health; }
-            set { if (health >= maxHealth) health = maxHealth; else health = value; }
+            set 
+            {
+                if (health == value)
+                {
+                    return;
+                }
+                health = value;
+                OnPropertyChanged("Health");
+            }
         }
 
         Dictionary<string, int> attributes;
@@ -86,12 +120,17 @@ namespace Sanguosha.Core.Players
             }
             set
             {
+                if (attributes[key] == value)
+                {
+                    return;
+                }
                 attributes[key] = value;
+                OnPropertyChanged("Attributes");
             }
         }
 
         private void SetHero(ref Hero hero, Hero value)
-        {
+        {            
             hero = value;
             if (hero != null)
             {
@@ -100,8 +139,9 @@ namespace Sanguosha.Core.Players
                     skill.Owner = this;
                 }
                 Trace.Assert(hero.Owner == null);
-                hero.Owner = this;
+                hero.Owner = this;                
             }
+            OnPropertyChanged("Skills");
         }
 
         private Hero hero;
@@ -111,7 +151,9 @@ namespace Sanguosha.Core.Players
             get { return hero; }
             set 
             {
+                if (hero == value) return;
                 SetHero(ref hero, value);
+                OnPropertyChanged("Hero");
             }
         }
 
@@ -122,7 +164,22 @@ namespace Sanguosha.Core.Players
             get { return hero2; }
             set
             {
+                if (hero2 == value) return;
                 SetHero(ref hero2, value);
+                OnPropertyChanged("Hero2");
+            }
+        }
+
+        private Role role;
+
+        public Role Role
+        {
+            get { return role; }
+            set
+            {
+                if (role == value) return;
+                role = value;
+                OnPropertyChanged("Role");
             }
         }
 
@@ -142,5 +199,18 @@ namespace Sanguosha.Core.Players
                 return s;
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        // Create the OnPropertyChanged method to raise the event 
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
     }
 }

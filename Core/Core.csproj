@@ -57,6 +57,7 @@
     <Compile Include="Exceptions\DuplicateCardHandlerException.cs" />
     <Compile Include="Games\Expansion.cs" />
     <Compile Include="Games\GameEngine.cs" />
+    <Compile Include="Games\Role.cs" />
     <Compile Include="Games\TurnPhase.cs" />
     <Compile Include="Exceptions\SgsException.cs" />
     <Compile Include="Games\Game.cs" />
@@ -82,7 +83,9 @@
     <Compile Include="UI\IUIProxy.cs" />
     <Compile Include="UI\TestUiProxy.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

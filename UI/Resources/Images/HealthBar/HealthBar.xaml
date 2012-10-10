@@ -1,0 +1,63 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="HealthStringStyle.4" TargetType="{x:Type TextBlock}">
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="TextTrimming" Value="None"/>
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Foreground" Value="#FF4C9C44"/>        
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        <Setter Property="LineHeight" Value="15" />
+        <Setter Property="BitmapEffect">
+            <Setter.Value>
+                <EmbossBitmapEffect />
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="HealthStringStyle.3" TargetType="{x:Type TextBlock}">
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="TextTrimming" Value="None"/>
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="Yellow"/>
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        <Setter Property="LineHeight" Value="15" />
+        <Setter Property="BitmapEffect">
+            <Setter.Value>
+                <EmbossBitmapEffect/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="HealthStringStyle.2" TargetType="{x:Type TextBlock}">
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="TextTrimming" Value="None"/>
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Foreground" Value="Orange"/>
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        <Setter Property="LineHeight" Value="15" />
+        <Setter Property="BitmapEffect">
+            <Setter.Value>
+                <EmbossBitmapEffect/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="HealthStringStyle.1" TargetType="{x:Type TextBlock}">
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="TextTrimming" Value="None"/>
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Foreground" Value="Red"/>
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        <Setter Property="LineHeight" Value="15" />
+        <Setter Property="BitmapEffect">
+            <Setter.Value>
+                <EmbossBitmapEffect/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

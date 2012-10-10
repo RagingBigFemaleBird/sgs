@@ -1,0 +1,12 @@
+F:\Sanguosha\UI\Resources.zh-cn\bin\Debug\Resources.zh-cn.dll
+F:\Sanguosha\UI\Resources.zh-cn\bin\Debug\Resources.zh-cn.pdb
+F:\Sanguosha\UI\Resources.zh-cn\obj\Debug\ResolveAssemblyReference.cache
+F:\Sanguosha\UI\Resources.zh-cn\obj\Debug\Images\HeroPhotos.baml
+F:\Sanguosha\UI\Resources.zh-cn\obj\Debug\Images\System.baml
+F:\Sanguosha\UI\Resources.zh-cn\obj\Debug\Resources.zh-cn_MarkupCompile.cache
+F:\Sanguosha\UI\Resources.zh-cn\obj\Debug\Resources.zh-cn.g.resources
+F:\Sanguosha\UI\Resources.zh-cn\obj\Debug\Resources.zh_cn.Properties.Resources.resources
+F:\Sanguosha\UI\Resources.zh-cn\obj\Debug\GenerateResource.read.1.tlog
+F:\Sanguosha\UI\Resources.zh-cn\obj\Debug\GenerateResource.write.1.tlog
+F:\Sanguosha\UI\Resources.zh-cn\obj\Debug\Resources.zh-cn.dll
+F:\Sanguosha\UI\Resources.zh-cn\obj\Debug\Resources.zh-cn.pdb

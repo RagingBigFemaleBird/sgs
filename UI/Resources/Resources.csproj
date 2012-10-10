@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EB489F73-A03C-43DA-87C0-D2CCA65CDD5C}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sanguosha.UI.Resources</RootNamespace>
+    <AssemblyName>Resources</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="ResourceKeyBindingExtension.cs" />
+    <Compile Include="ResourceKeyToResourceConverter.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\HeroPhotos.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Images\PlayerInfoView\decoration1.png" />
+    <Resource Include="Images\PlayerInfoView\decoration2.png" />
+    <Resource Include="Images\PlayerInfoView\dragon.png" />
+    <Resource Include="Images\PlayerInfoView\profileBg.png" />
+    <Resource Include="Images\PlayerInfoView\smallSquare.png" />
+    <Resource Include="Images\System.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Allegiances\qun.png" />
+    <Resource Include="Images\Allegiances\shu.png" />
+    <Resource Include="Images\Allegiances\wei.png" />
+    <Resource Include="Images\Allegiances\wei2.png" />
+    <Resource Include="Images\Allegiances\wu.png" />
+    <Resource Include="Images\Heroes\zhanghe.png" />
+    <Resource Include="Images\Phases\Large\1.png" />
+    <Resource Include="Images\Phases\Large\2.png" />
+    <Resource Include="Images\Phases\Large\3.png" />
+    <Resource Include="Images\Phases\Large\4.png" />
+    <Resource Include="Images\Phases\Large\5.png" />
+    <Resource Include="Images\Phases\Large\6.png" />
+    <Resource Include="Images\Phases\Small\1.png" />
+    <Resource Include="Images\Phases\Small\2.png" />
+    <Resource Include="Images\Phases\Small\3.png" />
+    <Resource Include="Images\Phases\Small\4.png" />
+    <Resource Include="Images\Phases\Small\5.png" />
+    <Resource Include="Images\Phases\Small\6.png" />
+    <Resource Include="Images\Roles\unknown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\HealthBar\0.png" />
+    <Resource Include="Images\HealthBar\1.png" />
+    <Resource Include="Images\HealthBar\2.png" />
+    <Resource Include="Images\HealthBar\3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PlayerInfoView\healthBarBg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Images\HealthBar\HealthBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\HealthBar\4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Roles\defector.png" />
+    <Resource Include="Images\Roles\ruler.png" />
+    <Resource Include="Images\Roles\loyalist.png" />
+    <Resource Include="Images\Roles\rebel.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

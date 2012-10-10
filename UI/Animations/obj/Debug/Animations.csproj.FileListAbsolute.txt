@@ -1,0 +1,12 @@
+F:\Sanguosha\Bin\Debug\Animations.dll
+F:\Sanguosha\Bin\Debug\Animations.pdb
+F:\Sanguosha\UI\Animations\obj\Debug\ResolveAssemblyReference.cache
+F:\Sanguosha\UI\Animations\obj\Debug\LoseHealthAnimation.baml
+F:\Sanguosha\UI\Animations\obj\Debug\LoseHealthAnimation.g.cs
+F:\Sanguosha\UI\Animations\obj\Debug\Animations_MarkupCompile.cache
+F:\Sanguosha\UI\Animations\obj\Debug\Animations.g.resources
+F:\Sanguosha\UI\Animations\obj\Debug\Sanguosha.UI.Animations.Properties.Resources.resources
+F:\Sanguosha\UI\Animations\obj\Debug\GenerateResource.read.1.tlog
+F:\Sanguosha\UI\Animations\obj\Debug\GenerateResource.write.1.tlog
+F:\Sanguosha\UI\Animations\obj\Debug\Animations.dll
+F:\Sanguosha\UI\Animations\obj\Debug\Animations.pdb
