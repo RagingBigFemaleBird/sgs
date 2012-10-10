@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sanguosha", "Sanguosha.csproj", "{7FA32CCA-61F7-40A7-85FF-934A9E1DC368}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fire", "..\Expansions\Fire\Fire.csproj", "{E1D27FB1-40B8-4768-A045-DD9772564DDD}"
@@ -22,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfTest", "..\UI\SelfTest\SelfTest.csproj", "{1BE74428-8F0B-45B3-86A9-BE4D757F6EF9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Animations", "..\UI\Animations\Animations.csproj", "{7D1B2955-5722-437A-B054-68FBD5F52422}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{9D47719E-093B-4476-9D1A-FF0E93557DE9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

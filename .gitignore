@@ -5,7 +5,9 @@ Sanguosha/obj
 *.dll
 *.pdb
 *.cache
+*.user
 /Bin
+/Libraries
 /UI/Animations/obj
 /UI/Controls/obj
 /UI/Resources/obj

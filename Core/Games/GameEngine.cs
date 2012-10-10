@@ -46,7 +46,7 @@ namespace Sanguosha.Core.Games
                             var exp = Activator.CreateInstance(type) as Expansion;
                             if (exp != null)
                             {
-                                expansions.Add(type.Name, exp);
+                                expansions.Add(type.FullName, exp);
                             }
                         }
                     }

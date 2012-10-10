@@ -61,7 +61,6 @@
     <Compile Include="Games\TurnPhase.cs" />
     <Compile Include="Exceptions\SgsException.cs" />
     <Compile Include="Games\Game.cs" />
-    <Compile Include="Engine\GameEngine.cs" />
     <Compile Include="Heroes\HeroCardHandler.cs" />
     <Compile Include="Players\PlayerAttribute.cs" />
     <Compile Include="Skills\ActiveSkill.cs" />

@@ -105,23 +105,59 @@ namespace Sanguosha.UI.Controls
             bar.wpSmallHealth.Orientation = orient;            
         }
 
+        private Image DigitToImage(int digit, int healthRange)
+        {
+            Trace.Assert(healthRange <= 2);
+            Trace.Assert(digit >= -1 && digit < 10);
+            string strDigit = "Slash";
+            if (digit != -1)
+            {
+                strDigit = digit.ToString();
+            }
+            string strColor = "Green";
+            if (healthRange == 1) strColor = "Yellow";
+            else if (healthRange == 2) strColor = "Green";
+            ImageSource source = Resources[string.Format("HealthBar.Digit.Small.{0}.{1}", strColor, strDigit)] as ImageSource;
+            Image image = new Image(){Source = source};
+            return image;
+        }
+        
         private void Repaint()
         {
             int health = Health;
             int maxHealth = MaxHealth;
             int index = (health == maxHealth) ? 4 : Math.Max(1, Math.Min(4, health));
+
             ImageSource image = Resources[string.Format("HealthBar.{0}", index)] as ImageSource;
             if (maxHealth > 5)
             {
                 wpLargeHealth.Visibility = Visibility.Visible;
                 wpSmallHealth.Visibility = Visibility.Hidden;
                 imgBloodDrop.Source = image;
-                Style style = Resources[string.Format("HealthStringStyle.{0}", index)] as Style;
-                tbHealth.Style = style;
-                tbHealth.Text = health.ToString();
-                tbSlash.Style = style;
-                tbMaxHealth.Style = style;
-                tbMaxHealth.Text = maxHealth.ToString();
+                wpLargeHealth.Children.Clear();
+                
+                int healthRange;
+                if (health <= 1) healthRange = 0;
+                else if (health <= 3) healthRange = 1;
+                else healthRange = 2;
+
+                int quotient = maxHealth;
+                do
+                {
+                    int digit = quotient % 10;
+                    quotient /= 10;
+                    wpLargeHealth.Children.Insert(0, DigitToImage(digit, healthRange));
+                } while (quotient > 0);
+                wpLargeHealth.Children.Insert(0, DigitToImage(-1, healthRange));
+                quotient = health;
+                do
+                {
+                    int digit = quotient % 10;
+                    quotient /= 10;
+                    wpLargeHealth.Children.Insert(0, DigitToImage(digit, healthRange));
+                } while (quotient > 0);
+                Style style = Resources[string.Format("HealthStringStyle.{0}", index)] as Style;                
+                wpLargeHealth.Children.Insert(0, imgBloodDrop);
             }
             else
             {

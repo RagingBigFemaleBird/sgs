@@ -19,15 +19,17 @@ namespace Sanguosha.UI.Resources
 
             var element = values[0] as FrameworkElement;
             var resourceKey = values[1];
-            if (ResourceKeyConverter != null)
-            {
-                resourceKey = ResourceKeyConverter.Convert(resourceKey, targetType, ConverterParameter, culture);
-            }
-            else if (StringFormat != null)
+            
+            if (StringFormat != null)
             {
                 resourceKey = string.Format(StringFormat, resourceKey);
             }
 
+            if (ResourceKeyConverter != null)
+            {
+                resourceKey = ResourceKeyConverter.Convert(resourceKey, targetType, ConverterParameter, culture);
+            }
+            
             if (resourceKey == null) return null;
 
             var resource = element.TryFindResource(resourceKey);

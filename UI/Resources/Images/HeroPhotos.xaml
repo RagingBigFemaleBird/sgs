@@ -1,6 +1,0 @@
-﻿<ResourceDictionary x:Name="HeroPhotos"
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">	
-	<BitmapImage x:Key="Hills.ZhangHe">Heroes\zhanghe.png</BitmapImage>
-	<!-- Resource dictionary entries should be defined here. -->
-</ResourceDictionary>    

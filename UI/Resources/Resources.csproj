@@ -64,6 +64,9 @@
     </Compile>
     <Compile Include="ResourceKeyBindingExtension.cs" />
     <Compile Include="ResourceKeyToResourceConverter.cs" />
+    <Compile Include="Heroes.xaml.cs">
+      <DependentUpon>Heroes.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -75,10 +78,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\HeroPhotos.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
     <Resource Include="Images\PlayerInfoView\decoration1.png" />
     <Resource Include="Images\PlayerInfoView\decoration2.png" />
     <Resource Include="Images\PlayerInfoView\dragon.png" />
@@ -124,6 +123,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Heroes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\HealthBar\4.png" />
@@ -133,6 +136,160 @@
     <Resource Include="Images\Roles\ruler.png" />
     <Resource Include="Images\Roles\loyalist.png" />
     <Resource Include="Images\Roles\rebel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Heroes\aysunyang.png" />
+    <Resource Include="Images\Heroes\ayyeshiwen.png" />
+    <Resource Include="Images\Heroes\bgm_caoren.png" />
+    <Resource Include="Images\Heroes\bgm_daqiao.png" />
+    <Resource Include="Images\Heroes\bgm_diaochan.png" />
+    <Resource Include="Images\Heroes\bgm_ganning.png" />
+    <Resource Include="Images\Heroes\bgm_liubei.png" />
+    <Resource Include="Images\Heroes\bgm_lvmeng.png" />
+    <Resource Include="Images\Heroes\bgm_pangtong.png" />
+    <Resource Include="Images\Heroes\bgm_zhangfei.png" />
+    <Resource Include="Images\Heroes\bgm_zhaoyun.png" />
+    <Resource Include="Images\Heroes\bulianshi.png" />
+    <Resource Include="Images\Heroes\caiwenji.png" />
+    <Resource Include="Images\Heroes\caizhaoji.png" />
+    <Resource Include="Images\Heroes\caocao.png" />
+    <Resource Include="Images\Heroes\caochong.png" />
+    <Resource Include="Images\Heroes\caopi.png" />
+    <Resource Include="Images\Heroes\caoren.png" />
+    <Resource Include="Images\Heroes\caozhang.png" />
+    <Resource Include="Images\Heroes\caozhi.png" />
+    <Resource Include="Images\Heroes\chengong.png" />
+    <Resource Include="Images\Heroes\chengpu.png" />
+    <Resource Include="Images\Heroes\daqiao.png" />
+    <Resource Include="Images\Heroes\dengai.png" />
+    <Resource Include="Images\Heroes\dengshizai.png" />
+    <Resource Include="Images\Heroes\dianwei.png" />
+    <Resource Include="Images\Heroes\diaochan.png" />
+    <Resource Include="Images\Heroes\dongzhuo.png" />
+    <Resource Include="Images\Heroes\fazheng.png" />
+    <Resource Include="Images\Heroes\ganning.png" />
+    <Resource Include="Images\Heroes\gaoshun.png" />
+    <Resource Include="Images\Heroes\gongsunzan.png" />
+    <Resource Include="Images\Heroes\guanyu.png" />
+    <Resource Include="Images\Heroes\guojia.png" />
+    <Resource Include="Images\Heroes\gzdingfeng.png" />
+    <Resource Include="Images\Heroes\gzganfuren.png" />
+    <Resource Include="Images\Heroes\gzjiling.png" />
+    <Resource Include="Images\Heroes\gzkongrong.png" />
+    <Resource Include="Images\Heroes\gzluxun.png" />
+    <Resource Include="Images\Heroes\gzmateng.png" />
+    <Resource Include="Images\Heroes\gzpanfeng.png" />
+    <Resource Include="Images\Heroes\gztianfeng.png" />
+    <Resource Include="Images\Heroes\gzyuejin.png" />
+    <Resource Include="Images\Heroes\gzzoushi.png" />
+    <Resource Include="Images\Heroes\handang.png" />
+    <Resource Include="Images\Heroes\huanggai.png" />
+    <Resource Include="Images\Heroes\huangyueying.png" />
+    <Resource Include="Images\Heroes\huangzhong.png" />
+    <Resource Include="Images\Heroes\huatuo.png" />
+    <Resource Include="Images\Heroes\huaxiong.png" />
+    <Resource Include="Images\Heroes\jiangwei.png" />
+    <Resource Include="Images\Heroes\jiaxu.png" />
+    <Resource Include="Images\Heroes\liaohua.png" />
+    <Resource Include="Images\Heroes\lingtong.png" />
+    <Resource Include="Images\Heroes\liubei.png" />
+    <Resource Include="Images\Heroes\liubiao.png" />
+    <Resource Include="Images\Heroes\liushan.png" />
+    <Resource Include="Images\Heroes\lusu.png" />
+    <Resource Include="Images\Heroes\luxun.png" />
+    <Resource Include="Images\Heroes\lvbu.png" />
+    <Resource Include="Images\Heroes\lvmeng.png" />
+    <Resource Include="Images\Heroes\machao.png" />
+    <Resource Include="Images\Heroes\madai.png" />
+    <Resource Include="Images\Heroes\masu.png" />
+    <Resource Include="Images\Heroes\menghuo.png" />
+    <Resource Include="Images\Heroes\neo_caoren.png" />
+    <Resource Include="Images\Heroes\neo_gongsunzan.png" />
+    <Resource Include="Images\Heroes\neo_guanyu.png" />
+    <Resource Include="Images\Heroes\neo_xiahoudun.png" />
+    <Resource Include="Images\Heroes\neo_xuchu.png" />
+    <Resource Include="Images\Heroes\neo_zhangfei.png" />
+    <Resource Include="Images\Heroes\neo_zhaoyun.png" />
+    <Resource Include="Images\Heroes\neo_zhouyu.png" />
+    <Resource Include="Images\Heroes\nosfazheng.png" />
+    <Resource Include="Images\Heroes\noslingtong.png" />
+    <Resource Include="Images\Heroes\nosxushu.png" />
+    <Resource Include="Images\Heroes\noszhangchunhua.png" />
+    <Resource Include="Images\Heroes\pangde.png" />
+    <Resource Include="Images\Heroes\panglingming.png" />
+    <Resource Include="Images\Heroes\pangtong.png" />
+    <Resource Include="Images\Heroes\shencaocao.png" />
+    <Resource Include="Images\Heroes\shenguanyu.png" />
+    <Resource Include="Images\Heroes\shenlvbu.png" />
+    <Resource Include="Images\Heroes\shenlvbu1.png" />
+    <Resource Include="Images\Heroes\shenlvbu2.png" />
+    <Resource Include="Images\Heroes\shenlvmeng.png" />
+    <Resource Include="Images\Heroes\shensimayi.png" />
+    <Resource Include="Images\Heroes\shenzhaoyun.png" />
+    <Resource Include="Images\Heroes\shenzhouyu.png" />
+    <Resource Include="Images\Heroes\shenzhugeliang.png" />
+    <Resource Include="Images\Heroes\simayi.png" />
+    <Resource Include="Images\Heroes\sp_caiwenji.png" />
+    <Resource Include="Images\Heroes\sp_diaochan.png" />
+    <Resource Include="Images\Heroes\sp_guanyu.png" />
+    <Resource Include="Images\Heroes\sp_jiaxu.png" />
+    <Resource Include="Images\Heroes\sp_machao.png" />
+    <Resource Include="Images\Heroes\sp_pangde.png" />
+    <Resource Include="Images\Heroes\sp_shenzhaoyun.png" />
+    <Resource Include="Images\Heroes\sp_sunshangxiang.png" />
+    <Resource Include="Images\Heroes\sujiang.png" />
+    <Resource Include="Images\Heroes\sujiangf.png" />
+    <Resource Include="Images\Heroes\sunce.png" />
+    <Resource Include="Images\Heroes\sunjian.png" />
+    <Resource Include="Images\Heroes\sunquan.png" />
+    <Resource Include="Images\Heroes\sunshangxiang.png" />
+    <Resource Include="Images\Heroes\taishici.png" />
+    <Resource Include="Images\Heroes\wangyi.png" />
+    <Resource Include="Images\Heroes\weiwudi.png" />
+    <Resource Include="Images\Heroes\weiyan.png" />
+    <Resource Include="Images\Heroes\wolong.png" />
+    <Resource Include="Images\Heroes\wuguotai.png" />
+    <Resource Include="Images\Heroes\wuxingzhuge.png" />
+    <Resource Include="Images\Heroes\xiahoudun.png" />
+    <Resource Include="Images\Heroes\xiahouyuan.png" />
+    <Resource Include="Images\Heroes\xiaoqiao.png" />
+    <Resource Include="Images\Heroes\xuchu.png" />
+    <Resource Include="Images\Heroes\xuhuang.png" />
+    <Resource Include="Images\Heroes\xunyou.png" />
+    <Resource Include="Images\Heroes\xunyu.png" />
+    <Resource Include="Images\Heroes\xusheng.png" />
+    <Resource Include="Images\Heroes\xushu.png" />
+    <Resource Include="Images\Heroes\yangxiu.png" />
+    <Resource Include="Images\Heroes\yuanshao.png" />
+    <Resource Include="Images\Heroes\yuanshu.png" />
+    <Resource Include="Images\Heroes\yuji.png" />
+    <Resource Include="Images\Heroes\yujin.png" />
+    <Resource Include="Images\Heroes\zhangchunhua.png" />
+    <Resource Include="Images\Heroes\zhangfei.png" />
+    <Resource Include="Images\Heroes\zhangjiao.png" />
+    <Resource Include="Images\Heroes\zhangliao.png" />
+    <Resource Include="Images\Heroes\zhaoyun.png" />
+    <Resource Include="Images\Heroes\zhenji.png" />
+    <Resource Include="Images\Heroes\zhibasunquan.png" />
+    <Resource Include="Images\Heroes\zhonghui.png" />
+    <Resource Include="Images\Heroes\zhoutai.png" />
+    <Resource Include="Images\Heroes\zhouyu.png" />
+    <Resource Include="Images\Heroes\zhugejin.png" />
+    <Resource Include="Images\Heroes\zhugeliang.png" />
+    <Resource Include="Images\Heroes\zhurong.png" />
+    <Resource Include="Images\Heroes\zuoci.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Allegiances\god2.png" />
+    <Resource Include="Images\Allegiances\qun2.png" />
+    <Resource Include="Images\Allegiances\shu2.png" />
+    <Resource Include="Images\Allegiances\wu2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Allegiances\god.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\HealthBar\numbers.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

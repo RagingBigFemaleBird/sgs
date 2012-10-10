@@ -15,7 +15,6 @@ using Sanguosha.Core.Games;
 
 namespace Sanguosha.UI.Controls
 {
-
     public class NumRolesToComboBoxEnabledConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -94,10 +93,18 @@ namespace Sanguosha.UI.Controls
             {
                 OnPropertyChanged("PossibleRoles");
             }
+            else if (name == "Hero")
+            {
+                OnPropertyChanged("HeroName");
+            }
             else
             {
-                OnPropertyChanged(name);
-            }        
+                var propNames = from prop in this.GetType().GetProperties() select prop.Name;
+                if (propNames.Contains(name))
+                {
+                    OnPropertyChanged(name);
+                }
+            }    
         }
 
         #endregion
@@ -193,6 +200,25 @@ namespace Sanguosha.UI.Controls
             get 
             {
                 return _player.Skills; 
+            }
+        }
+
+        #endregion
+        
+        #region Derived Player Properties
+
+        public string HeroName
+        {
+            get
+            {
+                if (_player == null || _player.Hero == null)
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    return (_player.Hero.Name);
+                }
             }
         }
 

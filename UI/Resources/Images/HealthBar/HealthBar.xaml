@@ -1,63 +1,38 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Style x:Key="HealthStringStyle.4" TargetType="{x:Type TextBlock}">
-        <Setter Property="TextWrapping" Value="NoWrap"/>
-        <Setter Property="TextTrimming" Value="None"/>
-        <Setter Property="FontFamily" Value="Arial"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="Foreground" Value="#FF4C9C44"/>        
-        <Setter Property="FontWeight" Value="Bold" />
-        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
-        <Setter Property="LineHeight" Value="15" />
-        <Setter Property="BitmapEffect">
-            <Setter.Value>
-                <EmbossBitmapEffect />
-            </Setter.Value>
-        </Setter>
-    </Style>
-    <Style x:Key="HealthStringStyle.3" TargetType="{x:Type TextBlock}">
-        <Setter Property="TextWrapping" Value="NoWrap"/>
-        <Setter Property="TextTrimming" Value="None"/>
-        <Setter Property="FontFamily" Value="Arial"/>
-        <Setter Property="FontSize" Value="12"/>
-        <Setter Property="Foreground" Value="Yellow"/>
-        <Setter Property="FontWeight" Value="Bold" />
-        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
-        <Setter Property="LineHeight" Value="15" />
-        <Setter Property="BitmapEffect">
-            <Setter.Value>
-                <EmbossBitmapEffect/>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    <Style x:Key="HealthStringStyle.2" TargetType="{x:Type TextBlock}">
-        <Setter Property="TextWrapping" Value="NoWrap"/>
-        <Setter Property="TextTrimming" Value="None"/>
-        <Setter Property="FontFamily" Value="Arial"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="Foreground" Value="Orange"/>
-        <Setter Property="FontWeight" Value="Bold" />
-        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
-        <Setter Property="LineHeight" Value="15" />
-        <Setter Property="BitmapEffect">
-            <Setter.Value>
-                <EmbossBitmapEffect/>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    <Style x:Key="HealthStringStyle.1" TargetType="{x:Type TextBlock}">
-        <Setter Property="TextWrapping" Value="NoWrap"/>
-        <Setter Property="TextTrimming" Value="None"/>
-        <Setter Property="FontFamily" Value="Arial"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="Foreground" Value="Red"/>
-        <Setter Property="FontWeight" Value="Bold" />
-        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
-        <Setter Property="LineHeight" Value="15" />
-        <Setter Property="BitmapEffect">
-            <Setter.Value>
-                <EmbossBitmapEffect/>
-            </Setter.Value>
-        </Setter>
-    </Style>
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:syswin="clr-namespace:System.Windows;assembly=WindowsBase">
+    <syswin:Size x:Key="HealthBar.DigitCropSize.Small" Width="8" Height="11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Green.0" Source="numbers.png" SourceRect="0,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Green.1" Source="numbers.png" SourceRect="8,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Green.2" Source="numbers.png" SourceRect="16,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Green.3" Source="numbers.png" SourceRect="24,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Green.4" Source="numbers.png" SourceRect="32,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Green.5" Source="numbers.png" SourceRect="40,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Green.6" Source="numbers.png" SourceRect="48,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Green.7" Source="numbers.png" SourceRect="56,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Green.8" Source="numbers.png" SourceRect="64,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Green.9" Source="numbers.png" SourceRect="72,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Green.Slash" Source="numbers.png" SourceRect="80,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Yellow.0" Source="numbers.png" SourceRect="88,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Yellow.1" Source="numbers.png" SourceRect="96,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Yellow.2" Source="numbers.png" SourceRect="104,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Yellow.3" Source="numbers.png" SourceRect="112,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Yellow.4" Source="numbers.png" SourceRect="120,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Yellow.5" Source="numbers.png" SourceRect="128,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Yellow.6" Source="numbers.png" SourceRect="136,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Yellow.7" Source="numbers.png" SourceRect="144,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Yellow.8" Source="numbers.png" SourceRect="152,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Yellow.9" Source="numbers.png" SourceRect="160,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Yellow.Slash" Source="numbers.png" SourceRect="168,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.0" Source="numbers.png" SourceRect="176,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.1" Source="numbers.png" SourceRect="184,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.2" Source="numbers.png" SourceRect="182,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.3" Source="numbers.png" SourceRect="190,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.4" Source="numbers.png" SourceRect="208,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.5" Source="numbers.png" SourceRect="216,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.6" Source="numbers.png" SourceRect="224,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.7" Source="numbers.png" SourceRect="232,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.8" Source="numbers.png" SourceRect="240,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.9" Source="numbers.png" SourceRect="248,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.Slash" Source="numbers.png" SourceRect="256,0,8,11" />
 </ResourceDictionary>

@@ -12,7 +12,7 @@ using System.Windows.Shapes;
 using Sanguosha.UI.Controls;
 using Sanguosha.Core.Heroes;
 using Sanguosha.Core.Players;
-
+using Sanguosha.Core.Games;
 namespace WpfApplication1
 {
 	/// <summary>
@@ -22,32 +22,59 @@ namespace WpfApplication1
 	{
 		public MainWindow()
 		{
-			this.InitializeComponent();
-
+			this.InitializeComponent();            
+            InitGame();
 			// Insert code required on object creation below this point.
 		}
 
+        private void InitGame()
+        {
+            GameEngine.LoadExpansions("Expansions");
+            _game = new RoleGame();
+            foreach (var g in GameEngine.Expansions.Values)
+            {
+                _game.LoadExpansion(g);
+            }
+            _player = new Player();
+            _playerModel = new PlayerInfoViewModel();
+            _player = new Player();
+            _player.Role = Sanguosha.Core.Games.Role.Unknown;
+            _player.Allegiance = Allegiance.Wei;
+            _player.MaxHealth = 10;
+            _player.Health = 4;
+            _playerModel.Player = _player;
+            _playerModel.Game = _game;
+            playerInfoView.DataContext = _playerModel;
+        }
+
+        private Game _game;
+        private Player _player;
+        PlayerInfoViewModel _playerModel;
+
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
-            PlayerInfoViewModel model = Resources["viewModel"] as PlayerInfoViewModel;
-            Player player = new Player();
-            
-            player.Role = Sanguosha.Core.Games.Role.Unknown;
-            player.Allegiance = Allegiance.Wei;            
-            player.MaxHealth = 10;
-            player.Health = 4;
-            
-            model.Player = player;
-            model.Game = new Sanguosha.Core.Games.RoleGame();
+            _player.Role = Sanguosha.Core.Games.Role.Ruler;
+            foreach (var card in _game.CardSet)
+            {
+                if (card.Type is HeroCardHandler)
+                {
+                    HeroCardHandler handler = card.Type as HeroCardHandler;
+                    if (handler.Hero.Name == "LiuBei")
+                    {
+                        _player.Allegiance = handler.Hero.Allegiance;                        
+                        _player.Hero = handler.Hero;
+                    }
+                }
+            }            
+            _player.MaxHealth = 5;
+            _player.Health = 3;
         }
 
         private void btnUpdate2_Click(object sender, RoutedEventArgs e)
-        {
-            PlayerInfoViewModel model = Resources["viewModel"] as PlayerInfoViewModel;            
-            Player player = model.Player;
-            player.Role = Sanguosha.Core.Games.Role.Rebel;
-            player.MaxHealth = 5;
-            player.Health = 1;
+        {            
+            _player.Role = Sanguosha.Core.Games.Role.Rebel;
+            _player.MaxHealth = 5;
+            _player.Health = 1;
         }
 	}
 }
