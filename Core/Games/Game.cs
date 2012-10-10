@@ -403,13 +403,25 @@ namespace Sanguosha.Core.Games
             GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), Card = card, IntArg = -magnitude, IntArg2 = (int)(elemental) };
             args.Targets.Add(dest);
 
-            Game.CurrentGame.Emit(GameEvent.DamageSourceConfirmed, args);
-            Game.CurrentGame.Emit(GameEvent.DamageElementConfirmed, args);
-            Game.CurrentGame.Emit(GameEvent.BeforeDamageComputing, args);
-            Game.CurrentGame.Emit(GameEvent.DamageComputingStarted, args);
-            Game.CurrentGame.Emit(GameEvent.DamageCaused, args);
-            Game.CurrentGame.Emit(GameEvent.DamageInflicted, args);
-            Game.CurrentGame.Emit(GameEvent.BeforeHealthChanged, args);
+            try
+            {
+                Game.CurrentGame.Emit(GameEvent.DamageSourceConfirmed, args);
+                Game.CurrentGame.Emit(GameEvent.DamageElementConfirmed, args);
+                Game.CurrentGame.Emit(GameEvent.BeforeDamageComputing, args);
+                Game.CurrentGame.Emit(GameEvent.DamageComputingStarted, args);
+                Game.CurrentGame.Emit(GameEvent.DamageCaused, args);
+                Game.CurrentGame.Emit(GameEvent.DamageInflicted, args);
+                Game.CurrentGame.Emit(GameEvent.BeforeHealthChanged, args);
+            }
+            catch (TriggerResultException e)
+            {
+                if (e.Status == TriggerResult.End)
+                {
+                    Trace.TraceInformation("Damage Aborted");
+                    return;
+                }
+                Trace.Assert(false);
+            }
 
             Trace.Assert(args.Targets.Count == 1);
             args.Targets[0].Health += args.IntArg;
