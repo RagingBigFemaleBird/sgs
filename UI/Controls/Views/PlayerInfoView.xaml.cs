@@ -22,6 +22,14 @@ namespace Sanguosha.UI.Controls
         public PlayerInfoView()
         {
             InitializeComponent();
+            this.DataContextChanged += new DependencyPropertyChangedEventHandler(PlayerInfoView_DataContextChanged);
+        }
+
+        void PlayerInfoView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.Property.Name == "HeroName")
+            {
+            }
         }
     }
 }

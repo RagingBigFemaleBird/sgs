@@ -68,6 +68,7 @@
     <Compile Include="Views\HealthBar.xaml.cs">
       <DependentUpon>HealthBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\OutlinedTextBlock.cs" />
     <Compile Include="Views\PlayerInfoView.xaml.cs">
       <DependentUpon>PlayerInfoView.xaml</DependentUpon>
     </Compile>

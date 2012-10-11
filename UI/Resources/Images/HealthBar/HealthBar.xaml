@@ -1,7 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:syswin="clr-namespace:System.Windows;assembly=WindowsBase">
-    <syswin:Size x:Key="HealthBar.DigitCropSize.Small" Width="8" Height="11" />
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <CroppedBitmap x:Key="HealthBar.Digit.Small.Green.0" Source="numbers.png" SourceRect="0,0,8,11" />
     <CroppedBitmap x:Key="HealthBar.Digit.Small.Green.1" Source="numbers.png" SourceRect="8,0,8,11" />
     <CroppedBitmap x:Key="HealthBar.Digit.Small.Green.2" Source="numbers.png" SourceRect="16,0,8,11" />
