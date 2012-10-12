@@ -1,0 +1,99 @@
+﻿<UserControl x:Class="Sanguosha.UI.Controls.MainPlayerInfoView"
+ 	         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	         xmlns:ee="http://schemas.microsoft.com/expression/2010/effects"
+             xmlns:local="clr-namespace:Sanguosha.UI.Controls"
+             xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
+	         mc:Ignorable="d"
+             Height="200"
+             d:DesignWidth="990">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Common.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/Heroes.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Storyboard x:Key="sbPhaseChange">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="imgPhase">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+                <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="imgPhase">
+                    <EasingThicknessKeyFrame KeyTime="0" Value="-25,0,0,0"/>
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.5" Value="50,0,0,0">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                </ThicknessAnimationUsingKeyFrames>
+            </Storyboard>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+    	<Grid.RowDefinitions>
+    		<RowDefinition Height="30"/>  	
+			<RowDefinition Height="170" />
+		</Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+		<Image Grid.ColumnSpan="3" x:Name="imgPhase" 
+		       Visibility="{Binding Path=IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}"
+			   Source="{res:ResourceKeyBinding Path=CurrentPhase, StringFormat=Phases.{0}.Large}"
+			   HorizontalAlignment="Left" VerticalAlignment="Bottom"
+			   Margin="50,0,0,0"
+			   Width="149" Height="15"/>
+		<ProgressBar Style="{StaticResource TimedProgressBarStyle}"
+		             Grid.ColumnSpan="3" HorizontalAlignment="Center"
+					 Width="264" Height="16"
+					 Margin="0,0,0,7"
+					 VerticalAlignment="Bottom" Value="80" />
+        <Image Grid.Row="1" Source="{DynamicResource MainPlayerInfoView.Background.Left}" />            
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.Background>
+                <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Background.Middle}" TileMode="FlipX" Stretch="Fill" />
+            </Grid.Background>
+			<Image HorizontalAlignment="Right" Source="{DynamicResource MainPlayerInfoView.Background.Platter}"/>
+			<Border HorizontalAlignment="Right" Height="17" Width="16" VerticalAlignment="Top" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22" Margin="0,148,92,0" d:LayoutOverrides="GridBox">
+                <TextBlock Margin="0,0,0,0" TextWrapping="Wrap" Text="0" TextAlignment="Center" FontFamily="Arial" Foreground="Black"/>
+            </Border>
+			<local:RoleBox x:Name="cbRoleBox" HorizontalAlignment="Right" Width="25" Margin="0,5,6,0" Height="26" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+				<local:RoleBox.RenderTransform>
+					<TransformGroup>
+						<ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+						<SkewTransform/>
+						<RotateTransform/>
+						<TranslateTransform/>
+					</TransformGroup>
+				</local:RoleBox.RenderTransform>
+			</local:RoleBox>
+        </Grid>
+		<Grid Grid.Row="1" Grid.Column="2" Background="Black">
+			<Border Margin="9,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="134" Height="134">
+				<Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top"
+	                   Source="{Binding Path=HeroName,Converter={StaticResource heroSquareImageConverter}}"/>
+			</Border>
+        	<Image Source="{DynamicResource MainPlayerInfoView.Background.Right}" />
+            <local:VHealthBar x:Name="healthBar" HorizontalAlignment="Right" VerticalAlignment="Top"
+                              Height="140" Width="25" Margin="0,11,0,0" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}" />            
+            <TextBlock Height="17" Margin="8,12,31.5,0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="SimSun" Foreground="White" FontSize="13.333" TextAlignment="Center" LineStackingStrategy="BlockLineHeight" LineHeight="16" Background="#7F585858"><Run Language="zh-cn" Text="UserName"/></TextBlock>
+            <Image x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.{0}.Icon}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="29" Margin="8,10,0,0" />
+			<Border HorizontalAlignment="Left" Margin="11,34,0,75" Width="20" d:LayoutOverrides="GridBox">
+                <local:OutlinedTextBlock x:Name="HeroNameText" TextWrapping="Wrap" Fill="White" Stroke="Black" StrokeThickness="1" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=HeroName, StringFormat=Hero.{0}.Name}" FontFamily="LiSu" FontSize="18.667" VerticalAlignment="Center" TextAlignment="Center">
+					<local:OutlinedTextBlock.Effect>
+						<DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0"/>
+					</local:OutlinedTextBlock.Effect>
+            	</local:OutlinedTextBlock>
+            </Border>
+		</Grid>		
+    </Grid>
+</UserControl>

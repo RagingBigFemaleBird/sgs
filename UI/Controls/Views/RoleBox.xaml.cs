@@ -41,6 +41,26 @@ namespace Sanguosha.UI.Controls
         {
             InitializeComponent();
             cbRoles.SelectedItem = Role.Unknown;
+            this.DataContextChanged += new DependencyPropertyChangedEventHandler(RoleBox_DataContextChanged);
+        }
+
+        void RoleBox_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            List<Role> roles = DataContext as List<Role>;
+            if (roles.Count == 2)
+            {
+                foreach (Role role in roles)
+                {
+                    if (role != Role.Unknown)
+                    {
+                        cbRoles.SelectedItem = role;
+                    }
+                }
+            }
+            else
+            {
+                cbRoles.SelectedItem = Role.Unknown;
+            }
         }
           
         private void cbRoles_DropDownOpened(object sender, EventArgs e)

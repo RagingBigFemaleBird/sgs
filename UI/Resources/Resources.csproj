@@ -78,6 +78,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\MainPlayerInfoView\leftBg.jpg" />
     <Resource Include="Images\PlayerInfoView\decoration1.png" />
     <Resource Include="Images\PlayerInfoView\decoration2.png" />
     <Resource Include="Images\PlayerInfoView\dragon.png" />
@@ -110,12 +111,6 @@
     <Resource Include="Images\Roles\unknown.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\HealthBar\0.png" />
-    <Resource Include="Images\HealthBar\1.png" />
-    <Resource Include="Images\HealthBar\2.png" />
-    <Resource Include="Images\HealthBar\3.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\PlayerInfoView\healthBarBg.png" />
   </ItemGroup>
   <ItemGroup>
@@ -127,9 +122,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\HealthBar\4.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Roles\defector.png" />
@@ -290,6 +282,22 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\HealthBar\numbers.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MainPlayerInfoView\rightBg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MainPlayerInfoView\middleBg.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MainPlayerInfoView\platter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\HealthBar\large.png" />
+    <Resource Include="Images\HealthBar\small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\HealthBar\numbers2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

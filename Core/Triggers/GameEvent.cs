@@ -29,26 +29,26 @@ namespace Sanguosha.Core.Triggers
             foreach (TurnPhase phase in
                 Enum.GetValues(typeof(TurnPhase)).Cast<TurnPhase>())
             {
-                if (phase >= TurnPhase.BeforeTurnStart &&
-                    phase <= TurnPhase.AfterTurnFinish)
+                if (phase >= TurnPhase.BeforeStart &&
+                    phase <= TurnPhase.PostEnd)
                 {
                     PhaseBeginEvents.Add(phase, new GameEvent("PhaseBeginEvents" + (int)phase));
                 }
 
-                if (phase >= TurnPhase.TurnStart &&
-                    phase <= TurnPhase.TurnFinish)
+                if (phase >= TurnPhase.Start &&
+                    phase <= TurnPhase.End)
                 {
                     PhaseProceedEvents.Add(phase, new GameEvent("PhaseProceedEvents" + (int)phase));
                 }
 
-                if (phase >= TurnPhase.BeforeTurnStart &&
-                    phase <= TurnPhase.AfterTurnFinish)
+                if (phase >= TurnPhase.BeforeStart &&
+                    phase <= TurnPhase.PostEnd)
                 {
                     PhaseEndEvents.Add(phase, new GameEvent("PhaseEndEvents" + (int)phase));
                 }
 
-                if (phase >= TurnPhase.TurnStart &&
-                    phase < TurnPhase.TurnFinish)
+                if (phase >= TurnPhase.Start &&
+                    phase < TurnPhase.End)
                 {
                     PhaseOutEvents.Add(phase, new GameEvent("PhaseOutEvents" + (int)phase));
                 }

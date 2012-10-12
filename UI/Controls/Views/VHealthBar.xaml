@@ -1,0 +1,36 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:my="clr-namespace:Sanguosha.UI.Animations;assembly=Animations" 
+             xmlns:ee="http://schemas.microsoft.com/expression/2010/effects"
+             x:Class="Sanguosha.UI.Controls.VHealthBar" 
+             mc:Ignorable="d" 
+             d:DesignHeight="151" d:DesignWidth="27">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Canvas x:Name="canvasRoot" ClipToBounds="False">
+        <StackPanel x:Name="spSmallHealth" Orientation="Vertical" HorizontalAlignment="Center">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type Image}">
+                    <Setter Property="Margin" Value="0,0,0,8" />                    
+                </Style>
+            </StackPanel.Resources>
+            <StackPanel.Effect>
+                <DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="Black" />
+            </StackPanel.Effect>
+        </StackPanel>
+        <StackPanel x:Name="spLargeHealth" Visibility="Hidden" Orientation="Vertical" HorizontalAlignment="Center">
+            <StackPanel.Effect>
+                <DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="Black" />
+            </StackPanel.Effect>
+            <Image x:Name="imgBloodDrop"/>
+        </StackPanel>
+    </Canvas>
+</UserControl>

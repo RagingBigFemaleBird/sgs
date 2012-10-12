@@ -212,5 +212,12 @@ namespace Sanguosha.Core.Players
             }
         }
 
+        private bool isTargeted;
+
+        public bool IsTargeted
+        {
+            get { return isTargeted; }
+            set { isTargeted = value; OnPropertyChanged("IsTargeted"); }
+        }
     }
 }

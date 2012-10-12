@@ -172,7 +172,7 @@ namespace Sanguosha.Core.Games
                     game.DrawCards(player, 4);
                 }
                 game.CurrentPlayer = game.Players.First();
-                game.CurrentPhase = TurnPhase.BeforeTurnStart;
+                game.CurrentPhase = TurnPhase.BeforeStart;
 
                 while (true)
                 {
@@ -188,7 +188,7 @@ namespace Sanguosha.Core.Games
         protected override void InitTriggers()
         {
             RegisterTrigger(GameEvent.GameStart, new RoleGameRuleTrigger());
-            RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Playing], new PlayerActionTrigger());
+            RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Play], new PlayerActionTrigger());
             RegisterTrigger(GameEvent.CommitActionToTargets, new CommitActionToTargetsTrigger());
         }
     }

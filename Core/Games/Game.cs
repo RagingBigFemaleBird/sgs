@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Diagnostics;
+using System.ComponentModel;
 
 using Sanguosha.Core.Cards;
 using Sanguosha.Core.Players;
@@ -11,6 +12,7 @@ using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.UI;
 using Sanguosha.Core.Skills;
+
 
 namespace Sanguosha.Core.Games
 {
@@ -30,8 +32,20 @@ namespace Sanguosha.Core.Games
         Lightning,
     }
 
-    public abstract class Game
+    public abstract class Game : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        // Create the OnPropertyChanged method to raise the event 
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
         [Serializable]
         class EndOfDealingDeckException : SgsException { }
 
@@ -113,7 +127,10 @@ namespace Sanguosha.Core.Games
         public static Game CurrentGame
         {
             get { return games[Thread.CurrentThread]; }
-            set { games[Thread.CurrentThread] = value; }
+            set 
+            {
+                games[Thread.CurrentThread] = value;                 
+            }
         }
 
         /// <summary>
@@ -267,7 +284,12 @@ namespace Sanguosha.Core.Games
         public Player CurrentPlayer
         {
             get { return currentPlayer; }
-            set { currentPlayer = value; }
+            set 
+            {
+                if (currentPlayer == value) return;
+                currentPlayer = value;
+                OnPropertyChanged("CurrentPlayer");
+            }
         }
 
         TurnPhase currentPhase;
@@ -275,7 +297,12 @@ namespace Sanguosha.Core.Games
         public TurnPhase CurrentPhase
         {
             get { return currentPhase; }
-            set { currentPhase = value; }
+            set 
+            {
+                if (currentPhase == value) return;
+                currentPhase = value;
+                OnPropertyChanged("CurrentPhase");
+            }
         }
 
         public virtual void Advance()

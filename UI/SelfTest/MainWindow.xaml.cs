@@ -34,8 +34,7 @@ namespace WpfApplication1
             foreach (var g in GameEngine.Expansions.Values)
             {
                 _game.LoadExpansion(g);
-            }
-            _player = new Player();
+            }     
             _playerModel = new PlayerInfoViewModel();
             _player = new Player();
             _player.Role = Sanguosha.Core.Games.Role.Unknown;
@@ -45,6 +44,7 @@ namespace WpfApplication1
             _playerModel.Player = _player;
             _playerModel.Game = _game;
             playerInfoView.DataContext = _playerModel;
+            mainPlayerInfoView.DataContext = _playerModel;            
         }
 
         private Game _game;
@@ -65,9 +65,11 @@ namespace WpfApplication1
                         _player.Hero = handler.Hero;
                     }
                 }
-            }            
+            }
+            _game.CurrentPlayer = _player;
+            _game.CurrentPhase = TurnPhase.Draw;
             _player.MaxHealth = 5;
-            _player.Health = 3;
+            _player.Health = 3;            
         }
 
         private void btnUpdate2_Click(object sender, RoutedEventArgs e)
@@ -75,6 +77,7 @@ namespace WpfApplication1
             _player.Role = Sanguosha.Core.Games.Role.Rebel;
             _player.MaxHealth = 5;
             _player.Health = 1;
+            _game.CurrentPhase = TurnPhase.Play;
         }
 	}
 }

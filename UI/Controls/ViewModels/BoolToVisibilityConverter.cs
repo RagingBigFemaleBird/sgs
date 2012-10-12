@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Globalization;
 
-namespace Sanguosha.UI.Controls.ViewModels
+namespace Sanguosha.UI.Controls
 {
     public class BoolToVisibilityConverter : IValueConverter
     {

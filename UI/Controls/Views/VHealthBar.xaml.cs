@@ -17,12 +17,13 @@ using Sanguosha.UI.Animations;
 
 namespace Sanguosha.UI.Controls
 {
+    // @todo: make this class a style of HealthBar
     /// <summary>
     /// Interaction logic for HealthBar.xaml
-    /// </summary>
-    public partial class HealthBar : UserControl
+    /// </summary>    
+    public partial class VHealthBar : UserControl
     {
-        public HealthBar()
+        public VHealthBar()
         {
             InitializeComponent();
         }
@@ -31,7 +32,7 @@ namespace Sanguosha.UI.Controls
 
         private static void OnHealthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            HealthBar bar = (HealthBar)d;
+            VHealthBar bar = (VHealthBar)d;
             int oldHealth = (int)e.OldValue;
             int newHealth = (int)e.NewValue;            
             bar.Repaint();
@@ -61,7 +62,7 @@ namespace Sanguosha.UI.Controls
                 {
                     Trace.Assert(i < 5);
                     LoseHealthAnimation animation = new LoseHealthAnimation();
-                    AlignLoseHealthAnimation(animation, wpSmallHealth.Children[i] as Image);
+                    AlignLoseHealthAnimation(animation, spSmallHealth.Children[i] as Image);
                     animations.Add(animation);
                 }            
             }
@@ -82,18 +83,19 @@ namespace Sanguosha.UI.Controls
         private void AlignLoseHealthAnimation(LoseHealthAnimation animation,Image bloodDrop)
         {
             UpdateLayout();
-            Point leftBottom = bloodDrop.TranslatePoint(new Point(0, bloodDrop.ActualHeight), canvasRoot);
+            Point leftTop = bloodDrop.TranslatePoint(new Point(0, 0), canvasRoot);
             animation.Width = 50;
             animation.Height = 120;
-            animation.SetValue(Canvas.LeftProperty, leftBottom.X - 8);
-            animation.SetValue(Canvas.BottomProperty, leftBottom.Y - 18);            
+            animation.SetValue(Canvas.LeftProperty, leftTop.X - 10);
+            animation.SetValue(Canvas.TopProperty, leftTop.Y -100);            
         }
 
         static void OnMaxHealthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            HealthBar bar = (HealthBar)d;
+            VHealthBar bar = (VHealthBar)d;
             bar.Repaint();
         }
+
 
         private Image DigitToImage(int digit, int healthRange)
         {
@@ -108,16 +110,16 @@ namespace Sanguosha.UI.Controls
             string strColor = "Red";
             if (healthRange == 2) strColor = "Yellow";
             else if (healthRange == 3) strColor = "Green";
-            ImageSource source = Resources[string.Format("HealthBar.Digit.Small.{0}.{1}", strColor, strDigit)] as ImageSource;
-            Image image = new Image(){Source = source};
+            ImageSource source = Resources[string.Format("HealthBar.Digit.Large.{0}.{1}", strColor, strDigit)] as ImageSource;
+            Image image = new Image() { Source = source };
             return image;
         }
-        
+
         private void Repaint()
         {
             int health = Health;
             int maxHealth = MaxHealth;
-            
+
             int healthRange;
             if (health == 0)
             {
@@ -135,48 +137,64 @@ namespace Sanguosha.UI.Controls
             {
                 healthRange = 3;
             }
-            ImageSource image = Resources[string.Format("HealthBar.{0}.Small", healthRange)] as ImageSource;
+            ImageSource image = Resources[string.Format("HealthBar.{0}.Large", healthRange)] as ImageSource;
             if (maxHealth > 5)
             {
-                wpLargeHealth.Visibility = Visibility.Visible;
-                wpSmallHealth.Visibility = Visibility.Hidden;
+                spLargeHealth.Visibility = Visibility.Visible;
+                spSmallHealth.Visibility = Visibility.Hidden;
                 imgBloodDrop.Source = image;
-                wpLargeHealth.Children.Clear();
-
+                spLargeHealth.Children.Clear();
+                Thickness margin = new Thickness(0, 5, 0, 6);
                 int quotient = maxHealth;
+                StackPanel spMaxHealthText = new StackPanel();
+                spMaxHealthText.Orientation = Orientation.Horizontal;
                 do
                 {
                     int digit = quotient % 10;
                     quotient /= 10;
-                    wpLargeHealth.Children.Insert(0, DigitToImage(digit, healthRange));
+                    spMaxHealthText.Children.Insert(0, DigitToImage(digit, healthRange));
                 } while (quotient > 0);
-                wpLargeHealth.Children.Insert(0, DigitToImage(-1, healthRange));
+                spMaxHealthText.Margin = margin;
+                spMaxHealthText.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+                spLargeHealth.Children.Insert(0, spMaxHealthText);
+                Image slashImage = DigitToImage(-1, healthRange);
+                slashImage.Margin = margin;
+                slashImage.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+                spLargeHealth.Children.Insert(0, slashImage);
                 quotient = health;
+                StackPanel spHealthText = new StackPanel();
+                spHealthText.Orientation = Orientation.Horizontal;
                 do
                 {
                     int digit = quotient % 10;
                     quotient /= 10;
-                    wpLargeHealth.Children.Insert(0, DigitToImage(digit, healthRange));
-                } while (quotient > 0);                               
-                wpLargeHealth.Children.Insert(0, imgBloodDrop);
+                    spHealthText.Children.Insert(0, DigitToImage(digit, healthRange));
+                } while (quotient > 0);
+                spHealthText.Margin = margin;
+                spHealthText.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+                spLargeHealth.Children.Insert(0, spHealthText);
+                imgBloodDrop.Margin = margin;
+                imgBloodDrop.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+                spLargeHealth.Children.Insert(0, imgBloodDrop);                
             }
             else
             {
-                wpLargeHealth.Visibility = Visibility.Hidden;
-                wpSmallHealth.Visibility = Visibility.Visible;
-                wpSmallHealth.Children.Clear();                
+                spLargeHealth.Visibility = Visibility.Hidden;
+                spSmallHealth.Visibility = Visibility.Visible;
+                spSmallHealth.Children.Clear();
                 int i = 0;
                 for (i = 0; i < health; i++)
                 {
-                    Image bloodDrop = new Image() { Source = image, Height = this.Height };                   
-                    wpSmallHealth.Children.Add(bloodDrop);
+                    Image bloodDrop = new Image() { Source = image };
+                    bloodDrop.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+                    spSmallHealth.Children.Add(bloodDrop);
                 }
-                image = Resources["HealthBar.0.Small"] as ImageSource;
+                image = Resources["HealthBar.0.Large"] as ImageSource;
                 for (; i < maxHealth; i++)
                 {
-                    Image bloodDrop = new Image() { Source = image, Height = this.Height };
-                    wpSmallHealth.Children.Add(bloodDrop);
-                }
+                    Image bloodDrop = new Image() { Source = image };
+                    spSmallHealth.Children.Add(bloodDrop);
+                }                
             }
         }
 
@@ -191,7 +209,7 @@ namespace Sanguosha.UI.Controls
 
         // Using a DependencyProperty as the backing store for Health.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty HealthProperty =
-            DependencyProperty.Register("Health", typeof(int), typeof(HealthBar), new UIPropertyMetadata(
+            DependencyProperty.Register("Health", typeof(int), typeof(VHealthBar), new UIPropertyMetadata(
                                         new PropertyChangedCallback(OnHealthChanged)));
 
         public int MaxHealth
@@ -202,7 +220,7 @@ namespace Sanguosha.UI.Controls
 
         // Using a DependencyProperty as the backing store for MaxHealth.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MaxHealthProperty =
-            DependencyProperty.Register("MaxHealth", typeof(int), typeof(HealthBar), new UIPropertyMetadata(
+            DependencyProperty.Register("MaxHealth", typeof(int), typeof(VHealthBar), new UIPropertyMetadata(
                                         new PropertyChangedCallback(OnMaxHealthChanged)));
         
         #endregion

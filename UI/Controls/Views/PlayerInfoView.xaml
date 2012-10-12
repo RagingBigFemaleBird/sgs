@@ -12,30 +12,10 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Common.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/Heroes.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-            <Style x:Key="{x:Type ProgressBar}" TargetType="{x:Type ProgressBar}">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type ProgressBar}">
-                            <Grid>
-                                <Border Name="PART_Track" CornerRadius="5" Background="Black" BorderBrush="#FF807D6B" BorderThickness="1" />
-                                <Border Name="PART_Indicator" CornerRadius="4" Margin="2" HorizontalAlignment="Left" >
-                                    <Border.Background>
-                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                            <GradientStop Color="#FFFFB5B5" Offset="0"/>
-                                            <GradientStop Color="#FFB50100" Offset="1"/>
-                                            <GradientStop Color="#FFDD0400" Offset="0.216"/>
-                                            <GradientStop Color="#FFDD0000" Offset="0.875"/>
-                                        </LinearGradientBrush>
-                                    </Border.Background>
-                                </Border>
-                            </Grid>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
+            </ResourceDictionary.MergedDictionaries>            
             <Style x:Key="SmallTextBlockStyle" TargetType="{x:Type TextBlock}">
                 <Setter Property="TextWrapping" Value="NoWrap"/>
                 <Setter Property="TextTrimming" Value="None"/>
@@ -51,9 +31,33 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <Storyboard x:Key="sbPhaseChange">
+            	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="imgPhase">
+            		<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+            		<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1">
+            			<EasingDoubleKeyFrame.EasingFunction>
+            				<CubicEase EasingMode="EaseOut"/>
+            			</EasingDoubleKeyFrame.EasingFunction>
+            		</EasingDoubleKeyFrame>
+            	</DoubleAnimationUsingKeyFrames>
+            	<ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="imgPhase">
+            		<EasingThicknessKeyFrame KeyTime="0" Value="0,0,75,0"/>
+            		<EasingThicknessKeyFrame KeyTime="0:0:0.5" Value="0">
+            			<EasingThicknessKeyFrame.EasingFunction>
+            				<CubicEase EasingMode="EaseOut"/>
+            			</EasingThicknessKeyFrame.EasingFunction>
+            		</EasingThicknessKeyFrame>
+            	</ThicknessAnimationUsingKeyFrames>
+            </Storyboard>
         </ResourceDictionary>
     </UserControl.Resources>
+	<UserControl.Triggers>
+		<EventTrigger RoutedEvent="FrameworkElement.Loaded" SourceName="imgPhase">
+			<BeginStoryboard Storyboard="{StaticResource sbPhaseChange}"/>
+		</EventTrigger>
+	</UserControl.Triggers>
     <Grid x:Name="LayoutRoot">
+        
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="12"/>
@@ -62,9 +66,9 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <ProgressBar Grid.Column="0" Grid.Row="2" Margin="5,0" Value="80" />
+        <ProgressBar Style="{StaticResource TimedProgressBarStyle}" Grid.Column="0" Grid.Row="2" Margin="5,0" Value="80" />
         <Grid Grid.Column="0">
-            <Border x:Name="focusFrame" Background="#FF27D317">
+            <Border x:Name="isPlayingGlow" Visibility="{Binding Path=IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}"  Background="#FF27D317">
                 <Border.Effect>
                     <BlurEffect Radius="10"/>
                 </Border.Effect>
@@ -114,7 +118,7 @@
                     <Grid>
                         <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top"
                                Source="{Binding Path=HeroName,Converter={StaticResource heroLargeImageConverter}}"/>
-                        <Border x:Name="innerFocusFrame" BorderBrush="Red" BorderThickness="5" >
+                        <Border x:Name="IsTargetedGlow" Visibility="{Binding IsTargeted, Converter={StaticResource boolToVisibilityConverter}}" BorderBrush="Red" BorderThickness="5" >
                             <Border.Effect>
                                 <BlurEffect Radius="10" />
                             </Border.Effect>
@@ -126,7 +130,7 @@
                 </Border>
                 <Image x:Name="allegianceMask" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.{0}.Mask}" HorizontalAlignment="Left" Grid.RowSpan="2" Width="38" Stretch="Fill" Margin="-3.335,4.333,0,0.667" ClipToBounds="True" Height="119" VerticalAlignment="Top"/>
                 <Image x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.{0}.Icon}" HorizontalAlignment="Left" />
-                <local:RoleBox x:Name="cbRoleBox" DataContext="{Binding PossibleRoles}" HorizontalAlignment="Right"/>                
+                <local:RoleBox x:Name="cbRoleBox" HorizontalAlignment="Right"/>
                 <Border Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,3,0,0" Width="20">
                     <local:OutlinedTextBlock x:Name="HeroNameText" TextWrapping="Wrap" Fill="White" Stroke="Black" StrokeThickness="1" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=HeroName, StringFormat=Hero.{0}.Name}" FontFamily="LiSu" FontSize="18.667" VerticalAlignment="Center" TextAlignment="Center">
 					<local:OutlinedTextBlock.Effect>
@@ -148,7 +152,7 @@
                 <Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="3" Stretch="Fill" Margin="1,44,0,0" Width="13" Height="13" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             </Grid>
             <Image Source="{DynamicResource PlayerInfoView.Decoration.BottomRight}" Width="64" HorizontalAlignment="Right" Margin="-10,-50,0,0" Grid.RowSpan="2" VerticalAlignment="Bottom"/>
-            <Image Source="{DynamicResource Phases.Play.Small}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120"/>
+            <Image x:Name="imgPhase" Visibility="{Binding Path=IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}" Source="{res:ResourceKeyBinding Path=CurrentPhase, StringFormat=Phases.{0}.Small}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120"/>
         </Grid>
     </Grid>
 </UserControl>

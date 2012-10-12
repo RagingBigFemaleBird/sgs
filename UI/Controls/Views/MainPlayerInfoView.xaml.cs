@@ -8,20 +8,20 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
+using System.Windows.Media.Animation;
 
 namespace Sanguosha.UI.Controls
 {
     /// <summary>
-    /// Interaction logic for PlayerInfoView.xaml
+    /// Interaction logic for MainPlayerInfoView.xaml
     /// </summary>
-    public partial class PlayerInfoView : UserControl
+    public partial class MainPlayerInfoView : UserControl
     {
-        public PlayerInfoView()
+        public MainPlayerInfoView()
         {
             InitializeComponent();
             this.DataContextChanged += new DependencyPropertyChangedEventHandler(PlayerInfoView_DataContextChanged);

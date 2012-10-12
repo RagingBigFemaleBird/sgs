@@ -33,4 +33,37 @@
     <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.8" Source="numbers.png" SourceRect="240,0,8,11" />
     <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.9" Source="numbers.png" SourceRect="248,0,8,11" />
     <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.Slash" Source="numbers.png" SourceRect="256,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Green.0" Source="numbers2.png" SourceRect="0,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Green.1" Source="numbers2.png" SourceRect="9,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Green.2" Source="numbers2.png" SourceRect="18,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Green.3" Source="numbers2.png" SourceRect="27,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Green.4" Source="numbers2.png" SourceRect="36,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Green.5" Source="numbers2.png" SourceRect="45,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Green.6" Source="numbers2.png" SourceRect="54,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Green.7" Source="numbers2.png" SourceRect="63,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Green.8" Source="numbers2.png" SourceRect="72,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Green.9" Source="numbers2.png" SourceRect="81,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Green.Slash" Source="numbers2.png" SourceRect="90,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Yellow.0" Source="numbers2.png" SourceRect="99,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Yellow.1" Source="numbers2.png" SourceRect="108,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Yellow.2" Source="numbers2.png" SourceRect="117,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Yellow.3" Source="numbers2.png" SourceRect="126,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Yellow.4" Source="numbers2.png" SourceRect="135,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Yellow.5" Source="numbers2.png" SourceRect="144,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Yellow.6" Source="numbers2.png" SourceRect="153,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Yellow.7" Source="numbers2.png" SourceRect="162,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Yellow.8" Source="numbers2.png" SourceRect="171,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Yellow.9" Source="numbers2.png" SourceRect="180,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Yellow.Slash" Source="numbers2.png" SourceRect="189,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Red.0" Source="numbers2.png" SourceRect="198,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Red.1" Source="numbers2.png" SourceRect="207,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Red.2" Source="numbers2.png" SourceRect="216,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Red.3" Source="numbers2.png" SourceRect="225,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Red.4" Source="numbers2.png" SourceRect="234,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Red.5" Source="numbers2.png" SourceRect="243,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Red.6" Source="numbers2.png" SourceRect="252,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Red.7" Source="numbers2.png" SourceRect="261,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Red.8" Source="numbers2.png" SourceRect="270,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Red.9" Source="numbers2.png" SourceRect="279,0,9,13" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Large.Red.Slash" Source="numbers2.png" SourceRect="288,0,9,13" />
 </ResourceDictionary>

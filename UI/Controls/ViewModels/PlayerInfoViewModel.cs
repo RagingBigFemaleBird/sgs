@@ -77,10 +77,24 @@ namespace Sanguosha.UI.Controls
                 if (_game == value) return;
                 bool changed = (_game == null || _game.GetType() != value.GetType());                
                 _game = value;
+                _game.PropertyChanged += new PropertyChangedEventHandler(_game_PropertyChanged);
                 if (changed)
                 {
                     OnPropertyChanged("PossibleRoles");
                 }
+            }
+        }
+
+        void _game_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            string name = e.PropertyName;
+            if (name == "CurrentPlayer")
+            {   
+                OnPropertyChanged("IsCurrentPlayer");
+            }
+            else if (name == "CurrentPhase")
+            {                
+                OnPropertyChanged("CurrentPhase");
             }
         }
 
@@ -203,6 +217,32 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public bool IsTargeted { get { return _player.IsTargeted; } }
+
+        public bool IsCurrentPlayer 
+        {
+            get 
+            {
+                if (_game == null) return false;
+                else
+                {
+                    return _player == _game.CurrentPlayer;
+                }
+            } 
+        }
+
+        public TurnPhase CurrentPhase
+        {
+            get
+            {
+                if (!IsCurrentPlayer)
+                {
+                    return TurnPhase.Inactive;
+                }
+                return _game.CurrentPhase;
+            }
+        }
+
         #endregion
         
         #region Derived Player Properties
@@ -256,6 +296,18 @@ namespace Sanguosha.UI.Controls
                 return roles;
             }
         }
+
+        #endregion
+
+        #region UI Related Properties
+                
+        private bool isSelected;
+
+        public bool IsSelected
+        {
+            get { return isSelected; }
+            set { isSelected = value; OnPropertyChanged("IsSelected"); }
+        }        
 
         #endregion
     }

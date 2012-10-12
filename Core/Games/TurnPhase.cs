@@ -7,13 +7,14 @@ namespace Sanguosha.Core.Games
 {
     public enum TurnPhase
     {
-        BeforeTurnStart = 0,
-        TurnStart = 1,
-        Judgement = 2,
-        Dealing = 3,
-        Playing = 4,
-        Discarding = 5,
-        TurnFinish = 6,
-        AfterTurnFinish = 7
+        Inactive = -1,
+        BeforeStart = 0,
+        Start = 1,
+        Judge = 2,
+        Draw = 3,
+        Play = 4,
+        Discard = 5,
+        End = 6,
+        PostEnd = 7
     }
 }
