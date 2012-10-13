@@ -76,6 +76,7 @@
     <Compile Include="Triggers\GameEventArgs.cs" />
     <Compile Include="Triggers\Trigger.cs" />
     <Compile Include="Exceptions\TriggerResultException.cs" />
+    <Compile Include="UI\AsyncUiProxy.cs" />
     <Compile Include="UI\ConsoleUiProxy.cs" />
     <Compile Include="UI\GlobalProxy.cs" />
     <Compile Include="UI\IGameLog.cs" />

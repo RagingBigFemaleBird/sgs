@@ -1,5 +1,0 @@
-F:\Programs\Sanguosha\Bin\Release\Expansions\Basic.dll
-F:\Programs\Sanguosha\Bin\Release\Expansions\Basic.pdb
-F:\Programs\Sanguosha\Expansions\Basic\obj\Release\Basic.csprojResolveAssemblyReference.cache
-F:\Programs\Sanguosha\Expansions\Basic\obj\Release\Basic.dll
-F:\Programs\Sanguosha\Expansions\Basic\obj\Release\Basic.pdb

@@ -58,6 +58,13 @@ namespace Sanguosha.Expansions.Basic.Skills
                     {
                         Game.CurrentGame.DoDamage(Owner, eventArgs.Source, 1, DamageElement.None, null);
                     }
+                    else
+                    {
+                        CardsMovement m = new CardsMovement();
+                        m.cards = result[0];
+                        m.to = new DeckPlace(null, DeckType.Discard);
+                        Game.CurrentGame.MoveCards(m, null);
+                    }
                 }
             }
             public GangLieTrigger(Player p)
