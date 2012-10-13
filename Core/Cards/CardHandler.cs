@@ -240,7 +240,7 @@ namespace Sanguosha.Core.Cards
 
         protected abstract VerifierResult Verify(Player source, ICard card, List<Player> targets);        
 
-        public string CardType
+        public virtual string CardType
         {
             get { return this.GetType().Name; }
         }

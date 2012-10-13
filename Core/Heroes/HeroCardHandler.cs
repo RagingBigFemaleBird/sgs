@@ -45,5 +45,13 @@ namespace Sanguosha.Core.Heroes
         {
             get { throw new NotImplementedException(); }
         }
+
+        public override string CardType
+        {
+            get
+            {
+                return Hero.Name;
+            }
+        }
     }
 }

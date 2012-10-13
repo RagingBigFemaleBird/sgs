@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Sanguosha.Core.Players;
+using Sanguosha.Core.Heroes;
 
 namespace Sanguosha.Core.Cards
 {
@@ -12,6 +13,8 @@ namespace Sanguosha.Core.Cards
         static Card()
         {
             UnknownCard = new Card();
+            UnknownHeroCard = new Card();
+            UnknownHeroCard.Type = new HeroCardHandler(new Hero("Unknown", Allegiance.Unknown));
         }
 
         public Card()
@@ -53,6 +56,8 @@ namespace Sanguosha.Core.Cards
             }
         }
 
+        public int Id { get; set; }
+
         public SuitType Suit {get; set;}
 
         public SuitColorType SuitColor
@@ -79,6 +84,7 @@ namespace Sanguosha.Core.Cards
         public int Rank {get; set;}
 
         public static Card UnknownCard;
+        public static Card UnknownHeroCard;
 
         public Dictionary<string, int> Attributes { get; set; }
 

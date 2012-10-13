@@ -19,9 +19,18 @@ namespace Sanguosha.Core.Games
         static GameEngine()
         {
             expansions = new Dictionary<string, Expansion>();
+            cardSet = new List<Card>();            
         }
 
         static Dictionary<string, Expansion> expansions;
+
+        static IList<Card> cardSet;
+
+        public static IList<Card> CardSet
+        {
+            get { return GameEngine.cardSet; }
+            set { GameEngine.cardSet = value; }
+        }
 
         public static Dictionary<string, Expansion> Expansions
         {
@@ -47,6 +56,11 @@ namespace Sanguosha.Core.Games
                             if (exp != null)
                             {
                                 expansions.Add(type.FullName, exp);
+                                foreach (var card in exp.CardSet)
+                                {
+                                    card.Id = cardSet.Count;
+                                    cardSet.Add(card);
+                                }
                             }
                         }
                     }
