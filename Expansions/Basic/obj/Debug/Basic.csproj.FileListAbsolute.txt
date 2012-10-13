@@ -10,3 +10,8 @@ C:\Users\Travel\Desktop\Sanguosha\Bin\Debug\Expansions\Basic.pdb
 C:\Users\Travel\Desktop\Sanguosha\Expansions\Basic\obj\Debug\Basic.csprojResolveAssemblyReference.cache
 C:\Users\Travel\Desktop\Sanguosha\Expansions\Basic\obj\Debug\Basic.dll
 C:\Users\Travel\Desktop\Sanguosha\Expansions\Basic\obj\Debug\Basic.pdb
+F:\Sanguosha\Bin\Debug\Expansions\Basic.dll
+F:\Sanguosha\Bin\Debug\Expansions\Basic.pdb
+F:\Sanguosha\Expansions\Basic\obj\Debug\ResolveAssemblyReference.cache
+F:\Sanguosha\Expansions\Basic\obj\Debug\Basic.dll
+F:\Sanguosha\Expansions\Basic\obj\Debug\Basic.pdb

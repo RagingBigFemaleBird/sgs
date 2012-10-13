@@ -55,12 +55,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ViewModels\BoolToVisibilityConverter.cs" />
+    <Compile Include="ViewModels\CardViewModel.cs" />
+    <Compile Include="ViewModels\GameViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\VHealthBar.xaml.cs">
       <DependentUpon>VHealthBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GameTable.xaml.cs">
-      <DependentUpon>GameTable.xaml</DependentUpon>
+    <Compile Include="Views\GameView.xaml.cs">
+      <DependentUpon>GameView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -89,7 +91,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\GameTable.xaml">
+    <Page Include="Views\GameView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

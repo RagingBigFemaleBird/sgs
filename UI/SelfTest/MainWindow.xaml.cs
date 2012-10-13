@@ -13,6 +13,8 @@ using Sanguosha.UI.Controls;
 using Sanguosha.Core.Heroes;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Games;
+using Sanguosha.Core.UI;
+
 namespace WpfApplication1
 {
 	/// <summary>
@@ -34,22 +36,24 @@ namespace WpfApplication1
             foreach (var g in GameEngine.Expansions.Values)
             {
                 _game.LoadExpansion(g);
-            }     
-            _playerModel = new PlayerInfoViewModel();
-            _player = new Player();
-            _player.Role = Sanguosha.Core.Games.Role.Unknown;
-            _player.Allegiance = Allegiance.Wei;
-            _player.MaxHealth = 10;
-            _player.Health = 4;
-            _playerModel.Player = _player;
-            _playerModel.Game = _game;
-            playerInfoView.DataContext = _playerModel;
-            mainPlayerInfoView.DataContext = _playerModel;            
+            }
+            for (int i = 0; i < 8; i++)
+            {
+                Player player = new Player();
+                _game.Players.Add(player);
+                IUiProxy proxy = new ConsoleUiProxy();
+                proxy.HostPlayer = player;
+                _game.UiProxies.Add(player, proxy);
+            }
+            _player = _game.Players[0];
+            GameViewModel gameModel = new GameViewModel();
+            gameModel.Game = _game;
+            gameModel.MainPlayerSeatNumber = 0;
+            gameView.DataContext = gameModel;
         }
 
         private Game _game;
         private Player _player;
-        PlayerInfoViewModel _playerModel;
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
@@ -78,6 +82,11 @@ namespace WpfApplication1
             _player.MaxHealth = 5;
             _player.Health = 1;
             _game.CurrentPhase = TurnPhase.Play;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            _game.Run();
         }
 	}
 }

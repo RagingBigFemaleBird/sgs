@@ -144,7 +144,7 @@ namespace Sanguosha.UI.Controls
                 spSmallHealth.Visibility = Visibility.Hidden;
                 imgBloodDrop.Source = image;
                 spLargeHealth.Children.Clear();
-                Thickness margin = new Thickness(0, 5, 0, 6);
+                Thickness margin = new Thickness(0, 8, 0, 3);
                 int quotient = maxHealth;
                 StackPanel spMaxHealthText = new StackPanel();
                 spMaxHealthText.Orientation = Orientation.Horizontal;

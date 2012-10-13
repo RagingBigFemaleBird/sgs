@@ -53,7 +53,7 @@
 			   Margin="50,0,0,0"
 			   Width="149" Height="15"/>
 		<ProgressBar Style="{StaticResource TimedProgressBarStyle}"
-		             Grid.ColumnSpan="3" HorizontalAlignment="Center"
+		             Grid.ColumnSpan="2" HorizontalAlignment="Center"
 					 Width="264" Height="16"
 					 Margin="0,0,0,7"
 					 VerticalAlignment="Bottom" Value="80" />

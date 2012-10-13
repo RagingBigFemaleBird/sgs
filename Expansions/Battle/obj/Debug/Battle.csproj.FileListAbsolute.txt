@@ -12,3 +12,10 @@ C:\Users\Travel\Desktop\Sanguosha\Expansions\Battle\bin\Debug\Core.pdb
 C:\Users\Travel\Desktop\Sanguosha\Expansions\Battle\obj\Debug\Battle.csprojResolveAssemblyReference.cache
 C:\Users\Travel\Desktop\Sanguosha\Expansions\Battle\obj\Debug\Battle.dll
 C:\Users\Travel\Desktop\Sanguosha\Expansions\Battle\obj\Debug\Battle.pdb
+F:\Sanguosha\Expansions\Battle\bin\Debug\Battle.dll
+F:\Sanguosha\Expansions\Battle\bin\Debug\Battle.pdb
+F:\Sanguosha\Expansions\Battle\bin\Debug\Core.dll
+F:\Sanguosha\Expansions\Battle\bin\Debug\Core.pdb
+F:\Sanguosha\Expansions\Battle\obj\Debug\ResolveAssemblyReference.cache
+F:\Sanguosha\Expansions\Battle\obj\Debug\Battle.dll
+F:\Sanguosha\Expansions\Battle\obj\Debug\Battle.pdb

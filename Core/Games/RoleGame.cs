@@ -59,6 +59,7 @@ namespace Sanguosha.Core.Games
                 Trace.TraceInformation("Player {0} action.", currentPlayer.Id);
                 while (true)
                 {
+                    Trace.Assert(Game.CurrentGame.UiProxies.ContainsKey(currentPlayer));
                     IUiProxy proxy = Game.CurrentGame.UiProxies[currentPlayer];
                     ISkill skill;
                     List<Card> cards;

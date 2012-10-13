@@ -8,16 +8,11 @@
 	x:Class="WpfApplication1.MainWindow"
 	x:Name="Window"
 	Title="MainWindow"
-	Width="980" Height="466">
+	Width="1024" Height="768" MinWidth="978" MinHeight="602" Loaded="Window_Loaded">
     <Window.Resources>
     </Window.Resources>
 
-	<Grid x:Name="LayoutRoot" Margin="10">
-        <StackPanel Margin="0,0,0,-22">
-            <Controls:PlayerInfoView x:Name="playerInfoView" Height="auto" />
-            <Controls:MainPlayerInfoView x:Name="mainPlayerInfoView" />
-            <Button Content="Update" Height="23" HorizontalAlignment="Left" Margin="0,10,0,0" Name="btnUpdate" VerticalAlignment="Top" Width="150" Click="btnUpdate_Click" />
-            <Button Content="Update2" Height="23" HorizontalAlignment="Left" Margin="0,10,0,0" Name="btnUpdate2" VerticalAlignment="Top" Width="150" Click="btnUpdate2_Click" />
-        </StackPanel>
+	<Grid x:Name="LayoutRoot">        
+        <Controls:GameView x:Name="gameView" />        
     </Grid>
 </Window>

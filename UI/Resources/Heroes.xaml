@@ -7,6 +7,20 @@
     <local:HeroLargeImageConverter x:Key="heroLargeImageConverter"/>
     <BitmapImage x:Key="Hero.LiuBei.Image">Images/Heroes/liubei.png</BitmapImage>
     <system:String x:Key="Hero.LiuBei.Name">刘备</system:String>
+    <BitmapImage x:Key="Hero.ZhangFei.Image">Images/Heroes/zhangfei.png</BitmapImage>
+    <system:String x:Key="Hero.ZhangFei.Name">张飞</system:String>
+    <BitmapImage x:Key="Hero.ZhaoYun.Image">Images/Heroes/zhaoyun.png</BitmapImage>
+    <system:String x:Key="Hero.ZhaoYun.Name">赵云</system:String>
+    <BitmapImage x:Key="Hero.DaQiao.Image">Images/Heroes/daqiao.png</BitmapImage>
+    <system:String x:Key="Hero.DaQiao.Name">大乔</system:String>
+    <BitmapImage x:Key="Hero.GanNing.Image">Images/Heroes/ganning.png</BitmapImage>
+    <system:String x:Key="Hero.GanNing.Name">甘宁</system:String>
+    <BitmapImage x:Key="Hero.ZhenJi.Image">Images/Heroes/zhenji.png</BitmapImage>
+    <system:String x:Key="Hero.ZhenJi.Name">甄姬</system:String>
+    <BitmapImage x:Key="Hero.HuaTuo.Image">Images/Heroes/huatuo.png</BitmapImage>
+    <system:String x:Key="Hero.HuaTuo.Name">华佗</system:String>
+    <BitmapImage x:Key="Hero.GuanYu.Image">Images/Heroes/guanyu.png</BitmapImage>
+    <system:String x:Key="Hero.GuanYu.Name">关羽</system:String>
     <BitmapImage x:Key="Hero.ZhangHe.Image">Images/Heroes/zhanghe.png</BitmapImage>
     <system:String x:Key="Hero.ZhangHe.Name">张颌</system:String>
     <!-- Resource dictionary entries should be defined here. -->

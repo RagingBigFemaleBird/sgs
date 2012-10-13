@@ -78,6 +78,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\Game\infoPlaneBody.png" />
+    <Resource Include="Images\Game\infoPlaneFooter.png" />
+    <Resource Include="Images\Game\infoPlaneHeader.png" />
+    <Resource Include="Images\Game\infoPlaneSplitter.png" />
     <Resource Include="Images\MainPlayerInfoView\leftBg.jpg" />
     <Resource Include="Images\PlayerInfoView\decoration1.png" />
     <Resource Include="Images\PlayerInfoView\decoration2.png" />
@@ -119,6 +123,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Heroes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Translations.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -298,6 +306,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\HealthBar\numbers2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MainPlayerInfoView\healthBarBg.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MainPlayerInfoView\healthBarBg2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Game\tableBg.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

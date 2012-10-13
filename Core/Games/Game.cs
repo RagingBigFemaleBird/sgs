@@ -319,16 +319,16 @@ namespace Sanguosha.Core.Games
                 }
             }
             
-            currentPhase++;
-            if ((int)currentPhase >= Enum.GetValues(typeof(TurnPhase)).Length)
+            CurrentPhase++;
+            if ((int)CurrentPhase >= Enum.GetValues(typeof(TurnPhase)).Length)
             {
                 // todo: fix this.
-                foreach (string key in currentPlayer.AutoResetAttributes)
+                foreach (string key in CurrentPlayer.AutoResetAttributes)
                 {
-                    currentPlayer[key] = 0;
+                    CurrentPlayer[key] = 0;
                 }
-                currentPlayer = NextPlayer(currentPlayer);
-                currentPhase = 0;
+                CurrentPlayer = NextPlayer(currentPlayer);
+                CurrentPhase = TurnPhase.BeforeStart;
             }
             
         }

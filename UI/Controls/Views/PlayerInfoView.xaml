@@ -8,7 +8,7 @@
     xmlns:local="clr-namespace:Sanguosha.UI.Controls"
     xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
 	mc:Ignorable="d"
-	MaxWidth="168" MaxHeight="210" MinWidth="120" MinHeight="160" d:DesignHeight="210" d:DesignWidth="168">
+	MaxWidth="168" MaxHeight="210" MinWidth="138" MinHeight="174" d:DesignHeight="210" d:DesignWidth="168">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -56,8 +56,7 @@
 			<BeginStoryboard Storyboard="{StaticResource sbPhaseChange}"/>
 		</EventTrigger>
 	</UserControl.Triggers>
-    <Grid x:Name="LayoutRoot">
-        
+    <Grid x:Name="LayoutRoot">        
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="12"/>
