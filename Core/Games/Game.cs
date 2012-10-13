@@ -90,6 +90,7 @@ namespace Sanguosha.Core.Games
                     Core.Heroes.HeroCardHandler h = (Core.Heroes.HeroCardHandler)g.Type;
                     Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, id);
                     Game.CurrentGame.Players[id].Hero = h.Hero;
+                    Game.CurrentGame.players[id].Allegiance = h.Hero.Allegiance;
                     id++;
                     if (id >= 8)
                     {
