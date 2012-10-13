@@ -1,4 +1,0 @@
-F:\Programs\Sanguosha\Bin\Release\Core.dll
-F:\Programs\Sanguosha\Bin\Release\Core.pdb
-F:\Programs\Sanguosha\Core\obj\Release\Core.dll
-F:\Programs\Sanguosha\Core\obj\Release\Core.pdb

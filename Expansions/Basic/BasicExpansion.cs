@@ -136,14 +136,14 @@ namespace Sanguosha.Expansions.Basic
             CardSet.Add(new Card(SuitType.Diamond, 13, new Sha()));
 //            CardSet.Add(new Card(SuitType.Diamond, 13, JIANYIMA()));
 
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("LiuBei", Allegiance.Shu, new RenDe(), new JiJiang()))));
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhangFei", Allegiance.Shu, new PaoXiao()))));
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhaoYun", Allegiance.Shu, new LongDan()))));
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("GuanYu", Allegiance.Shu, new WuSheng()))));
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("DaQiao", Allegiance.Wu, new GuoSe()))));
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("GanNing", Allegiance.Wu, new QiXi()))));
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhenJi", Allegiance.Wei, new QingGuo()))));
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HuaTuo", Allegiance.Qun, new QingNang(), new JiJiu()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("LiuBei", Allegiance.Shu, 4, new RenDe(), new JiJiang()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhangFei", Allegiance.Shu, 4, new PaoXiao()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhaoYun", Allegiance.Shu, 4, new LongDan()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("GuanYu", Allegiance.Shu, 4, new WuSheng()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("DaQiao", Allegiance.Wu, 3, new GuoSe()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("GanNing", Allegiance.Wu, 4, new QiXi()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhenJi", Allegiance.Wei, 3, new QingGuo()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HuaTuo", Allegiance.Qun, 3, new QingNang(), new JiJiu()))));
 
         }
     }

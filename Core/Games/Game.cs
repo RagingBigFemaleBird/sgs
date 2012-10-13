@@ -85,18 +85,32 @@ namespace Sanguosha.Core.Games
             int id = 0;
             foreach (var g in Game.CurrentGame.CardSet)
             {
-                if (g.Type is Core.Heroes.HeroCardHandler)
+                if (id < 8 && g.Type is Core.Heroes.HeroCardHandler)
                 {
                     Core.Heroes.HeroCardHandler h = (Core.Heroes.HeroCardHandler)g.Type;
                     Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, id);
                     Game.CurrentGame.Players[id].Hero = h.Hero;
-                    Game.CurrentGame.players[id].Allegiance = h.Hero.Allegiance;
-                    id++;
-                    if (id >= 8)
+                    Game.CurrentGame.Players[id].Allegiance = h.Hero.Allegiance;
+                    Game.CurrentGame.Players[id].MaxHealth = Game.CurrentGame.Players[id].Health = h.Hero.DefaultHp;
+                    if (id == 0)
                     {
-                        break;
+                        Game.CurrentGame.Players[id].Role = Role.Ruler;
                     }
+                    else if (id == 1)
+                    {
+                        Game.CurrentGame.Players[id].Role = Role.Defector;
+                    }
+                    else if (id < 4)
+                    {
+                        Game.CurrentGame.Players[id].Role = Role.Loyalist;
+                    }
+                    else
+                    {
+                        Game.CurrentGame.Players[id].Role = Role.Rebel;
+                    }
+                    id++;
                 }
+                //todo: put this card somewhere else
             }
             // Put the whole deck in the dealing deck
             decks[DeckType.Dealing] = cardSet.GetRange(0, cardSet.Count);
