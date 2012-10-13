@@ -57,13 +57,14 @@
                     <Border.Background>
                         <ImageBrush ImageSource="{DynamicResource Game.InfoPanel.Body}"/>
                     </Border.Background>
-                </Border>
+                    <Image Source="{DynamicResource Game.InfoPanel.Splitter}" VerticalAlignment="Top" Margin="2,205,2,0"/>
+                </Border>                
                 <Image Source="{DynamicResource Game.InfoPanel.Footer}" Grid.Row="2"/>
             </Grid>
         </Grid>
         <StackPanel x:Name="spInfoPanel" Grid.Column="1">
             <Canvas Width="213" Height="419">
-                <TabControl Name="infoPlanTab" Width="213" Canvas.Top="56" Height="365" Background="{x:Null}">
+                <TabControl Name="infoPlanTab" Width="211" Canvas.Top="56" Height="255" Background="{x:Null}" BorderBrush="{x:Null}">
                     <TabItem Header="牌局" Name="logBoxTab">
                         <Grid />
                     </TabItem>

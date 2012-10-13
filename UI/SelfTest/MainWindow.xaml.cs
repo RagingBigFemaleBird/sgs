@@ -55,35 +55,6 @@ namespace WpfApplication1
         private Game _game;
         private Player _player;
 
-        private void btnUpdate_Click(object sender, RoutedEventArgs e)
-        {
-            _player.Role = Sanguosha.Core.Games.Role.Ruler;
-            foreach (var card in _game.CardSet)
-            {
-                if (card.Type is HeroCardHandler)
-                {
-                    HeroCardHandler handler = card.Type as HeroCardHandler;
-                    if (handler.Hero.Name == "LiuBei")
-                    {
-                        _player.Allegiance = handler.Hero.Allegiance;                        
-                        _player.Hero = handler.Hero;
-                    }
-                }
-            }
-            _game.CurrentPlayer = _player;
-            _game.CurrentPhase = TurnPhase.Draw;
-            _player.MaxHealth = 5;
-            _player.Health = 3;            
-        }
-
-        private void btnUpdate2_Click(object sender, RoutedEventArgs e)
-        {            
-            _player.Role = Sanguosha.Core.Games.Role.Rebel;
-            _player.MaxHealth = 5;
-            _player.Health = 1;
-            _game.CurrentPhase = TurnPhase.Play;
-        }
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _game.Run();
