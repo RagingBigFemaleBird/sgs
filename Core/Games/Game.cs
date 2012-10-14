@@ -165,11 +165,35 @@ namespace Sanguosha.Core.Games
 
         public void RegisterTrigger(GameEvent gameEvent, Trigger trigger)
         {
+            if (trigger == null)
+            {
+                return;
+            }
             if (!triggers.ContainsKey(gameEvent))
             {                
                 triggers[gameEvent] = new SortedList<double, Trigger>();
             }
             triggers[gameEvent].Add(trigger.Priority, trigger);
+        }
+
+        public void UnregisterTrigger(GameEvent gameEvent, Trigger trigger)
+        {
+            if (trigger == null)
+            {
+                return;
+            }
+            if (!triggers.ContainsKey(gameEvent))
+                if (triggers.ContainsKey(gameEvent))
+            {
+                for (int i = 0; i < triggers[gameEvent].Count; i++)
+                {
+                    if (triggers[gameEvent].ElementAt(i).Value == trigger)
+                    {
+                        triggers[gameEvent].RemoveAt(i);
+                        break;
+                    }
+                }
+            }
         }
 
         /// <summary>

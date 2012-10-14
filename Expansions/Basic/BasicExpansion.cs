@@ -24,9 +24,9 @@ namespace Sanguosha.Expansions.Basic
             CardSet.Add(new Card(SuitType.Heart, 1, new WanJianQiFa()));
             CardSet.Add(new Card(SuitType.Heart, 1, new TaoYuanJieYi()));
             CardSet.Add(new Card(SuitType.Club, 1, new JueDou()));
-//            CardSet.Add(new Card(SuitType.Club, 1, ZHUGELIANNU()));
+            CardSet.Add(new Card(SuitType.Club, 1, new ZhuGeLianNu()));
             CardSet.Add(new Card(SuitType.Diamond, 1, new JueDou()));
-//            CardSet.Add(new Card(SuitType.Diamond, 1, ZHUGELIANNU()));
+            CardSet.Add(new Card(SuitType.Diamond, 1, new ZhuGeLianNu()));
 
 //            CardSet.Add(new Card(SuitType.Spade, 2, BAGUAZHEN()));
 //            CardSet.Add(new Card(SuitType.Spade, 2, CIXIONGSHUANGGUJIAN()));
