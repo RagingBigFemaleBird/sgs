@@ -15,8 +15,6 @@ namespace Sanguosha.Core.Triggers
     {
         static GameEvent()
         {
-            definedGameEvents = new Dictionary<string, GameEvent>();
-
             DoPlayer = new GameEvent("DoPlayer");
             Shuffle = new GameEvent("Shuffle");
             GameStart = new GameEvent("GameStart");
@@ -105,7 +103,7 @@ namespace Sanguosha.Core.Triggers
             get { return name; }
         }
 
-        static Dictionary<string, GameEvent> definedGameEvents;
+        static Dictionary<string, GameEvent> definedGameEvents = new Dictionary<string, GameEvent>();
 
         public static readonly GameEvent DoPlayer;
         public static readonly GameEvent Shuffle;

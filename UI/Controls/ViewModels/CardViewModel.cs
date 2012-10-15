@@ -131,11 +131,11 @@ namespace Sanguosha.UI.Controls
         {
             get
             {
-                if (_uiCard == null || _uiCard == Card.UnknownCard)
+                if (_uiCard == null || _uiCard.Id == Card.UnknownCardId)
                 {
                     return UnknownCardTypeString;
                 }
-                else if (_uiCard == Card.UnknownHeroCard)
+                else if (_uiCard.Id == Card.UnknownHeroId)
                 {
                     return UnknownHeroCardTypeString;
                 }

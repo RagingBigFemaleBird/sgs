@@ -10,12 +10,14 @@ namespace Sanguosha.Core.Cards
 {
     public class Card : ICard
     {
-        static Card()
+        public bool IsUnknown
         {
-            UnknownCard = new Card();
-            UnknownHeroCard = new Card();
-            UnknownHeroCard.Type = new HeroCardHandler(new Hero("Unknown", Allegiance.Unknown, 0));
+            get { return (Id < 0); }
         }
+
+        public static int UnknownCardId = -1;
+        public static int UnknownHeroId = -2;
+        public static int UnknownRoleId = -3;
 
         public Card()
         {
@@ -82,9 +84,6 @@ namespace Sanguosha.Core.Cards
         }
 
         public int Rank {get; set;}
-
-        public static Card UnknownCard;
-        public static Card UnknownHeroCard;
 
         public Dictionary<string, int> Attributes { get; set; }
 
