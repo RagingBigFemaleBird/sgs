@@ -38,21 +38,9 @@ namespace Sanguosha.Core.Triggers
             set { game = value; }
         }
 
-        private int intArg;
-
-        public int IntArg
-        {
-            get { return intArg; }
-            set { intArg = value; }
-        }
-
-        private int intArg2;
-
-        public int IntArg2
-        {
-            get { return intArg2; }
-            set { intArg2 = value; }
-        }
+        public int IntArg { get; set; }
+        public int IntArg2 { get; set; }
+        public int IntArg3 { get; set; }
 
         private List<Card> cards;
 

@@ -25,7 +25,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         {
             Game.CurrentGame.PlayerUsedCard(source, card);
             Trace.Assert(dests == null || dests.Count == 0);
-            if (PlayerIsCardTargetCheck(source, source))
+            if (PlayerIsCardTargetCheck(source, ref source))
             {
                 return;
             }

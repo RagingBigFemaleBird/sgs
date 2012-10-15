@@ -52,7 +52,7 @@ namespace Sanguosha.Core.Cards
                     l.Add(attachMove);
                     Equipment e = (Equipment)c.Type;
                     Trace.Assert(e != null);
-                    e.PostUninstall(p);
+                    e.UnregisterTriggers(p);
                     RegisterTriggers(p);
                     Game.CurrentGame.MoveCards(l, null);
                     return;
@@ -64,12 +64,6 @@ namespace Sanguosha.Core.Cards
             Game.CurrentGame.MoveCards(attachMove, null);
             return;
         }
-
-        /// <summary>
-        /// 执行装备从装备区卸载以后的后续工作。
-        /// </summary>
-        /// <param name="p">被卸载装备的玩家。</param>
-        public abstract void PostUninstall(Player p);
 
         public override void Process(Player source, List<Player> dests, ICard card)
         {

@@ -317,6 +317,11 @@ namespace Sanguosha.Core.Triggers
         /// </summary>
         public static readonly GameEvent PlayerJudge;
 
+        /// <summary>
+        /// 玩家需要打出一张牌
+        /// </summary>
+        public static readonly GameEvent PlayerRequireCard = new GameEvent("PlayerRequireCard");
+
         public override bool Equals(object obj)
         {
             if (obj == this)

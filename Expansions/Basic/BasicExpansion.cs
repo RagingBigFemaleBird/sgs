@@ -55,11 +55,11 @@ namespace Sanguosha.Expansions.Basic
             CardSet.Add(new Card(SuitType.Diamond, 4, new ShunShouQianYang()));
 
 //            CardSet.Add(new Card(SuitType.Spade, 5, QINGLONGYANYUEDAO()));
-//            CardSet.Add(new Card(SuitType.Spade, 5, JIAYIMA()));
+            CardSet.Add(new Card(SuitType.Spade, 5, new JiaYiMa()));
 //            CardSet.Add(new Card(SuitType.Heart, 5, QILINGONG()));
-//            CardSet.Add(new Card(SuitType.Heart, 5, JIANYIMA()));
+            CardSet.Add(new Card(SuitType.Heart, 5, new JianYiMa()));
             CardSet.Add(new Card(SuitType.Club, 5, new Sha()));
-//            CardSet.Add(new Card(SuitType.Club, 5, JIAYIMA()));
+            CardSet.Add(new Card(SuitType.Club, 5, new JiaYiMa()));
             CardSet.Add(new Card(SuitType.Diamond, 5, new Shan()));
 //            CardSet.Add(new Card(SuitType.Diamond, 5, GUANSHIFU()));
 
@@ -128,13 +128,13 @@ namespace Sanguosha.Expansions.Basic
 //            CardSet.Add(new Card(SuitType.Diamond, 12, FANGTIANHUAJI()));
 
             CardSet.Add(new Card(SuitType.Spade, 13, new NanManRuQin()));
-//            CardSet.Add(new Card(SuitType.Spade, 13, JIANYIMA()));
+            CardSet.Add(new Card(SuitType.Spade, 13, new JianYiMa()));
             CardSet.Add(new Card(SuitType.Heart, 13, new Shan()));
-//            CardSet.Add(new Card(SuitType.Heart, 13, JIAYIMA()));
+            CardSet.Add(new Card(SuitType.Heart, 13, new JiaYiMa()));
 //            CardSet.Add(new Card(SuitType.Club, 13, JIEDAOSHAREN()));
 //            CardSet.Add(new Card(SuitType.Club, 13, WUXIEKEJI()));
             CardSet.Add(new Card(SuitType.Diamond, 13, new Sha()));
-//            CardSet.Add(new Card(SuitType.Diamond, 13, JIANYIMA()));
+            CardSet.Add(new Card(SuitType.Diamond, 13, new JianYiMa()));
 
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("LiuBei", Allegiance.Shu, 4, new RenDe(), new JiJiang()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhangFei", Allegiance.Shu, 4, new PaoXiao()))));

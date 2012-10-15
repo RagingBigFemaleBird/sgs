@@ -16,12 +16,6 @@ namespace Sanguosha.Expansions.Basic.Cards
 {
     public class Sha : CardHandler
     {
-        static Sha()
-        {
-            PlayerShaTargetValidation = new GameEvent("PlayerShaTargetValidation");
-            PlayerNumberOfShaCheck = new GameEvent("PlayerNumberOfShaCheck");
-        }
-
         public virtual DamageElement ShaDamageElement
         {
             get { return DamageElement.None; }
@@ -35,44 +29,93 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected override void Process(Player source, Player dest, ICard card)
         {
-            
-            /* todo: 
-                四、杀指定目标时的锁定技：青釭剑、无双、肉林
-                五、杀指定目标时，杀使用者的武将技：铁骑、烈弓（仅检验目标角色是否可以闪避，并不立即造成伤害）
-                六、杀指定目标时，杀使用者的武器技：雌雄双股剑
-                七、强制不能结算闪的情况－－普通杀藤甲：终止；黑杀仁王盾：终止；在步骤五确定无法闪避：跳至步骤九
-                八-１、目标使用闪：手牌闪、护驾、龙胆、倾国、八卦阵
-                八-２、目标使用闪，结算闪之前的技能：雷击
-                八-３、闪抵消了杀，杀使用者的武将技：猛进
-                八-４、闪抵消了杀，杀使用者的武器技（无此步骤则终止）－－贯石斧：至步骤九；青龙刀：回步骤二            
-             */
-            int numberOfShanRequired = 1;
-            bool cannotUseShan = false;
+            retrySha:
+            GameEventArgs args = new GameEventArgs();
+            args.Source = source;
+            args.Targets = new List<Player>();
+            args.Targets.Add(dest);
+            args.Card = card;
+            args.IntArg = 1;
+            args.IntArg2 = 0;
+            args.IntArg3 = 0;
+            Game.CurrentGame.Emit(PlayerShaTargetShanModifier, args);
+            int numberOfShanRequired = args.IntArg;
+            bool cannotUseShan = args.IntArg2 == 1 ? true : false;
+            if (args.IntArg3 == 0)
+            {
+                try
+                {
+                    Game.CurrentGame.Emit(PlayerShaTargetArmorModifier, args);
+                }
+                catch (TriggerResultException e)
+                {
+                    Trace.Assert(e.Status == TriggerResult.Fail);
+                    return;
+                }
+            }
 
             while (numberOfShanRequired > 0 && !cannotUseShan)
             {
-                IUiProxy ui = Game.CurrentGame.UiProxies[dest];
-                SingleCardUsageVerifier v1 = new SingleCardUsageVerifier((c) => { return c.Type is Shan; });
-                ISkill skill;
-                List<Player> p;
-                List<Card> cards;
-                if (!ui.AskForCardUsage("Shan", v1, out skill, out cards, out p))
+                args.Source = dest;
+                args.Targets = null;
+                args.Card = new CompositeCard();
+                args.Card.Type = new Shan();
+                try
                 {
-                    break;
+                    Game.CurrentGame.Emit(GameEvent.PlayerRequireCard, args);
                 }
-                if (!Game.CurrentGame.HandleCardUse(dest, skill, cards))
+                catch (TriggerResultException e)
                 {
-                    continue;
+                    if (e.Status == TriggerResult.Success)
+                    {
+                        Game.CurrentGame.PlayerPlayedCard(dest, args.Card);
+                        numberOfShanRequired--;
+                        continue;
+                    }
+                }
+                while (true)
+                {
+                    IUiProxy ui = Game.CurrentGame.UiProxies[dest];
+                    SingleCardUsageVerifier v1 = new SingleCardUsageVerifier((c) => { return c.Type is Shan; });
+                    ISkill skill;
+                    List<Player> p;
+                    List<Card> cards;
+                    if (!ui.AskForCardUsage("Shan", v1, out skill, out cards, out p))
+                    {
+                        break;
+                    }
+                    if (!Game.CurrentGame.HandleCardUse(dest, skill, cards))
+                    {
+                        continue;
+                    }
+                    break;
                 }
                 numberOfShanRequired--;
             }
-            if (numberOfShanRequired > 0)
+            if (cannotUseShan || numberOfShanRequired > 0)
             {
                 Game.CurrentGame.DoDamage(source, dest, 1, ShaDamageElement, card);
             }
             else
             {
                 Trace.TraceInformation("Successfully dodged");
+                args = new GameEventArgs();
+                args.Source = source;
+                args.Targets = new List<Player>();
+                args.Targets.Add(dest);
+                args.Card = card;
+                try
+                {
+                    Game.CurrentGame.Emit(PlayerShaTargetDodged, args);
+                }
+                catch (TriggerResultException e)
+                {
+                    if (e.Status == TriggerResult.Retry)
+                    {
+                        goto retrySha;
+                    }
+                    Trace.Assert(false);
+                }
             }
         }
 
@@ -154,9 +197,23 @@ namespace Sanguosha.Expansions.Basic.Cards
         /// <summary>
         /// 玩家使用杀的目标检测
         /// </summary>
-        public static readonly GameEvent PlayerShaTargetValidation;
-        public static readonly GameEvent PlayerNumberOfShaCheck;
-
+        public static readonly GameEvent PlayerShaTargetValidation = new GameEvent("PlayerShaTargetValidation");
+        /// <summary>
+        /// 是否可以使用杀 
+        /// </summary>
+        public static readonly GameEvent PlayerNumberOfShaCheck = new GameEvent("PlayerNumberOfShaCheck");
+        /// <summary>
+        /// 杀目标需要闪的数目的修正
+        /// </summary>
+        public static readonly GameEvent PlayerShaTargetShanModifier = new GameEvent("PlayerShaTargetShanModifier");
+        /// <summary>
+        /// 杀被闪
+        /// </summary>
+        public static readonly GameEvent PlayerShaTargetDodged = new GameEvent("PlayerShaTargetDodged");
+        /// <summary>
+        /// 杀目标防具的闪的数目和杀的有效性修正
+        /// </summary>
+        public static readonly GameEvent PlayerShaTargetArmorModifier = new GameEvent("PlayerShaTargetArmorModifier");
     }
 
 

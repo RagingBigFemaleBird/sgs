@@ -67,25 +67,39 @@ namespace Sanguosha.Core.Cards
             cardsOnHold = null;
         }
 
-        protected bool PlayerIsCardTargetCheck(Player source, Player dest)
+        protected bool PlayerIsCardTargetCheck(Player source, ref Player dest)
         {
-            try
+            while (true)
             {
                 GameEventArgs arg = new GameEventArgs();
                 arg.Source = source;
                 arg.Targets = new List<Player>();
                 arg.Targets.Add(dest);
                 arg.StringArg = this.CardType;
+                try
+                {
 
-                Game.CurrentGame.Emit(GameEvent.PlayerIsCardTarget, arg);
-                Trace.Assert(arg.Targets.Count == 1);
-                return true;
-            }
-            catch (TriggerResultException e)
-            {
-                Trace.Assert(e.Status == TriggerResult.Fail);
-                Trace.TraceInformation("Player {0} refuse to be targeted by {1}", dest.Id, this.CardType);
-                return false;
+                    Game.CurrentGame.Emit(GameEvent.PlayerIsCardTarget, arg);
+                    Trace.Assert(arg.Targets.Count == 1);
+                    return true;
+                }
+                catch (TriggerResultException e)
+                {
+                    if (e.Status == TriggerResult.Fail)
+                    {
+                        Trace.TraceInformation("Player {0} refuse to be targeted by {1}", dest.Id, this.CardType);
+                        return false;
+                    }
+                    else if (e.Status == TriggerResult.Retry)
+                    {
+                        dest = arg.Targets[0];
+                        continue;
+                    }
+                    else
+                    {
+                        Trace.Assert(false);
+                    }
+                }
             }
         }
 
@@ -94,9 +108,10 @@ namespace Sanguosha.Core.Cards
             Game.CurrentGame.PlayerUsedCard(source, card);
             foreach (var player in dests)
             {
-                if (PlayerIsCardTargetCheck(source, player)) 
+                Player p = player;
+                if (PlayerIsCardTargetCheck(source, ref p)) 
                 {
-                    Process(source, player, card);
+                    Process(source, p, card);
                 }
             }
         }

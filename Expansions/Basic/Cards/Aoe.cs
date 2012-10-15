@@ -41,9 +41,26 @@ namespace Sanguosha.Expansions.Basic.Cards
             do
             {
                 current = Game.CurrentGame.NextPlayer(current);
-                if (!PlayerIsCardTargetCheck(source, current))
+                if (!PlayerIsCardTargetCheck(source, ref current))
                 {
                     continue;
+                }
+                GameEventArgs args = new GameEventArgs();
+                args.Source = current;
+                args.Targets = null;
+                args.Card = new CompositeCard();
+                args.Card.Type = new Shan();
+                try
+                {
+                    Game.CurrentGame.Emit(GameEvent.PlayerRequireCard, args);
+                }
+                catch (TriggerResultException e)
+                {
+                    if (e.Status == TriggerResult.Success)
+                    {
+                        Game.CurrentGame.PlayerPlayedCard(current, args.Card); 
+                        continue;
+                    }
                 }
                 while (true)
                 {

@@ -34,11 +34,6 @@ namespace Sanguosha.Expansions.Basic.Cards
             trigger2 = null;
         }
 
-        public override void PostUninstall(Player p)
-        {
-            throw new NotImplementedException();
-        }
-
         public override CardCategory Category
         {
             get { return CardCategory.Weapon; }

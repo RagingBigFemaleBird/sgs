@@ -34,7 +34,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     continue;
                 }
-                if (!PlayerIsCardTargetCheck(source, current))
+                if (!PlayerIsCardTargetCheck(source, ref current))
                 {
                     continue;
                 }

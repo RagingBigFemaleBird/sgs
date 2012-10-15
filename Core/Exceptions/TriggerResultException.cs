@@ -7,6 +7,7 @@ namespace Sanguosha.Core.Exceptions
 {
     public enum TriggerResult
     {
+        Retry,
         Fail,
         Success,
         End,
