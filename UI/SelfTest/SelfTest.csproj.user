@@ -4,4 +4,7 @@
     <StartWorkingDirectory>
     </StartWorkingDirectory>
   </PropertyGroup>
+  <PropertyGroup>
+    <ProjectView>ShowAllFiles</ProjectView>
+  </PropertyGroup>
 </Project>

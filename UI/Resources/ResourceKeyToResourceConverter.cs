@@ -19,6 +19,11 @@ namespace Sanguosha.UI.Resources
 
             var element = values[0] as FrameworkElement;
             var resourceKey = values[1];
+
+            if (element == null || resourceKey == null)
+            {
+                return null;
+            }
             
             if (StringFormat != null)
             {

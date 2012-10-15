@@ -15,7 +15,7 @@
                 <ResourceDictionary Source="../Common.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/Heroes.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
-            </ResourceDictionary.MergedDictionaries>            
+            </ResourceDictionary.MergedDictionaries>
             <Style x:Key="SmallTextBlockStyle" TargetType="{x:Type TextBlock}">
                 <Setter Property="TextWrapping" Value="NoWrap"/>
                 <Setter Property="TextTrimming" Value="None"/>

@@ -16,8 +16,6 @@ using Sanguosha.Core.Players;
 
 namespace Sanguosha.UI.Controls
 {
-
-
     /// <summary>
     /// Interaction logic for GameTable.xaml
     /// </summary>
@@ -80,6 +78,18 @@ namespace Sanguosha.UI.Controls
             profileBoxes = new List<PlayerInfoView>();
             this.DataContextChanged +=  new DependencyPropertyChangedEventHandler(GameView_DataContextChanged);
         }
+        #endregion
+
+        #region Fields
+
+        public Canvas GlobalCanvas
+        {
+            get
+            {
+                return gameGlobalCanvas;
+            }
+        }
+
         #endregion
 
         public void RearrangeSeats()

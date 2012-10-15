@@ -1,0 +1,17 @@
+﻿<ResourceDictionary x:Name="Cards"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Sanguosha.UI.Resources"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <BitmapImage x:Key="Card.Sha.Image.Normal">Images/Cards/Normal/Sha.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.Shan.Image.Normal">Images/Cards/Normal/Shan.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.Tao.Image.Normal">Images/Cards/Normal/Tao.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.Jiu.Image.Normal">Images/Cards/Normal/Jiu.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.JueDou.Image.Normal">Images/Cards/Normal/JueDou.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.NanManRuQin.Image.Normal">Images/Cards/Normal/NanManRuQin.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.WanJianQiFa.Image.Normal">Images/Cards/Normal/WanJianQiFa.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.Suit.Heart.Image.Normal">Images/Cards/Suit/heart.png</BitmapImage>
+    <BitmapImage x:Key="Card.Suit.Spade.Image.Normal">Images/Cards/Suit/spade.png</BitmapImage>
+    <BitmapImage x:Key="Card.Suit.Club.Image.Normal">Images/Cards/Suit/club.png</BitmapImage>
+    <BitmapImage x:Key="Card.Suit.Diamond.Image.Normal">Images/Cards/Suit/diamond.png</BitmapImage>
+</ResourceDictionary>

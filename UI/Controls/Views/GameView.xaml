@@ -25,7 +25,7 @@
         <Grid.RowDefinitions> 
             <RowDefinition />
             <RowDefinition Height="170" />
-        </Grid.RowDefinitions>
+        </Grid.RowDefinitions>        
         <Image x:Name="tableBg" Source="{DynamicResource Game.Table.Background}" Stretch="Fill" />
         <Grid x:Name="gridTable" Margin="0,0,0,30">
     	    <Grid.ColumnDefinitions>
@@ -77,5 +77,6 @@
                 </Grid.RowDefinitions>
             </Grid>
         </StackPanel>
+        <Canvas x:Name="gameGlobalCanvas" Grid.RowSpan="2" Grid.ColumnSpan="2" />
     </Grid>
 </UserControl>

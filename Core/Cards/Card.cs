@@ -14,7 +14,7 @@ namespace Sanguosha.Core.Cards
         {
             UnknownCard = new Card();
             UnknownHeroCard = new Card();
-            UnknownHeroCard.Type = new HeroCardHandler(new Hero("Unknown", Allegiance.Unknown));
+            UnknownHeroCard.Type = new HeroCardHandler(new Hero("Unknown", Allegiance.Unknown, 0));
         }
 
         public Card()
