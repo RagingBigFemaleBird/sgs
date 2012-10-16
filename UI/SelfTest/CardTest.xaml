@@ -9,6 +9,6 @@
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <Button x:Name="button1" Click="button1_Click" Grid.Row="2"></Button>
-        <my:CardView Name="cardView1" />
+        <my:CardStack Name="cardStack" MaxCardSpacing="93" Background="Red" />
     </Grid>
 </Window>

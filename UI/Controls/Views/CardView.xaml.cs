@@ -56,8 +56,6 @@ namespace Sanguosha.UI.Controls
         public CardView()
         {
             InitializeComponent();
-            _sbMoveCard = new Storyboard();
-            _sbChangeOpacity = new Storyboard();
             _daMoveX = new DoubleAnimation();
             _daMoveY = new DoubleAnimation();
             _daOpacity = new DoubleAnimation();
@@ -66,13 +64,9 @@ namespace Sanguosha.UI.Controls
             Storyboard.SetTarget(_daMoveX, this);
             Storyboard.SetTarget(_daMoveY, this);
             Storyboard.SetTarget(_daOpacity, this);
-            Storyboard.SetTargetProperty(_daMoveX, new PropertyPath(Canvas.LeftProperty));
-            Storyboard.SetTargetProperty(_daMoveY, new PropertyPath(Canvas.TopProperty));
-            Storyboard.SetTargetProperty(_daOpacity, new PropertyPath(CardView.OpacityProperty));
-            _sbMoveCard.Children.Add(_daMoveX);
-            _sbMoveCard.Children.Add(_daMoveY);
-            _sbChangeOpacity.Children.Add(_daOpacity);
         }
+
+        public static double WidthHeightRatio = 0.7154;
 
         private static void OnFadedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -91,8 +85,6 @@ namespace Sanguosha.UI.Controls
             fadeAnimation.Begin();
         }
 
-        Storyboard _sbMoveCard;
-        Storyboard _sbChangeOpacity;
         DoubleAnimation _daMoveX;
         DoubleAnimation _daMoveY;
         DoubleAnimation _daOpacity;
@@ -104,10 +96,16 @@ namespace Sanguosha.UI.Controls
         private static void OnPositionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             CardView card = d as CardView;
-            if (card == null) return;
+            if (card == null || card.Position == null) return;
             if (card.Parent == null || !(card.Parent is Canvas)) return;
             double x = (double)card.GetValue(Canvas.LeftProperty);
             double y = (double)card.GetValue(Canvas.TopProperty);
+            if (double.IsNaN(x) || double.IsNaN(y))
+            {
+                card.SetValue(Canvas.LeftProperty, card.Position.X);
+                card.SetValue(Canvas.TopProperty, card.Position.Y);
+                return;
+            }
             Point point = new Point(x, y);
             double destX = card.Position.X + card.Offset.X;
             double destY = card.Position.Y + card.Offset.Y;
@@ -116,9 +114,11 @@ namespace Sanguosha.UI.Controls
                 return;
             }
             card._daMoveX.To = destX;
-            card._daMoveY.To = destY;
-            card._sbMoveCard.Duration = TimeSpan.FromSeconds(card.CardMoveDurationSeconds);
-            card._sbMoveCard.Begin();            
+            card._daMoveY.To = destY;            
+            card._daMoveX.Duration = TimeSpan.FromSeconds(card.CardMoveDurationSeconds);
+            card._daMoveY.Duration = TimeSpan.FromSeconds(card.CardMoveDurationSeconds);            
+            card.BeginAnimation(Canvas.LeftProperty, card._daMoveX);
+            card.BeginAnimation(Canvas.TopProperty, card._daMoveY);            
         }
 
         private static void OnCardOpacityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -131,7 +131,7 @@ namespace Sanguosha.UI.Controls
             }
             card._daOpacity.To = card.CardOpacity;
             card._daOpacity.Duration = TimeSpan.FromSeconds(card.ChangeOpacityDurationSeconds);
-            card._sbChangeOpacity.Begin();
+            card.BeginAnimation(CardView.OpacityProperty, card._daOpacity);
         }
 
         #region Dependency Properties
@@ -166,7 +166,7 @@ namespace Sanguosha.UI.Controls
 
         // Using a DependencyProperty as the backing store for CardOpacity.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CardOpacityProperty =
-            DependencyProperty.Register("CardOpacity", typeof(double), typeof(CardView), new UIPropertyMetadata(1d,
+            DependencyProperty.Register("CardOpacity", typeof(double), typeof(CardView), new UIPropertyMetadata(0d,
                                         new PropertyChangedCallback(OnCardOpacityChanged)));
 
         

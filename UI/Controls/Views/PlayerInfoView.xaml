@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<local:PlayerInfoViewBase
     x:Class="Sanguosha.UI.Controls.PlayerInfoView"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,7 +9,7 @@
     xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
 	mc:Ignorable="d"
 	MaxWidth="168" MaxHeight="210" MinWidth="138" MinHeight="174" d:DesignHeight="210" d:DesignWidth="168">
-    <UserControl.Resources>
+    <local:PlayerInfoViewBase.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Common.xaml"/>
@@ -50,12 +50,12 @@
             	</ThicknessAnimationUsingKeyFrames>
             </Storyboard>
         </ResourceDictionary>
-    </UserControl.Resources>
-	<UserControl.Triggers>
+    </local:PlayerInfoViewBase.Resources>
+    <local:PlayerInfoViewBase.Triggers>
 		<EventTrigger RoutedEvent="FrameworkElement.Loaded" SourceName="imgPhase">
 			<BeginStoryboard Storyboard="{StaticResource sbPhaseChange}"/>
 		</EventTrigger>
-	</UserControl.Triggers>
+    </local:PlayerInfoViewBase.Triggers>
     <Grid x:Name="LayoutRoot">        
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -91,6 +91,7 @@
                     <RowDefinition/>
                     <RowDefinition Height="61"/>
                 </Grid.RowDefinitions>
+                <Canvas x:Name="handCardPlaceHolder" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="130" Width="279" />
                 <Rectangle Fill="Black" Grid.RowSpan="2"/>
                 <Image Source="{DynamicResource PlayerInfoView.Decoration.TopLeft}" Width="64" HorizontalAlignment="Left" Margin="-10,-7,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
                 <Path Data="M0,0H124" HorizontalAlignment="Center" Margin="0,15,0,0" Stretch="Fill" VerticalAlignment="Top" Width="124">
@@ -154,4 +155,4 @@
             <Image x:Name="imgPhase" Visibility="{Binding Path=IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}" Source="{res:ResourceKeyBinding Path=CurrentPhase, StringFormat=Phases.{0}.Small}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120"/>
         </Grid>
     </Grid>
-</UserControl>
+</local:PlayerInfoViewBase>

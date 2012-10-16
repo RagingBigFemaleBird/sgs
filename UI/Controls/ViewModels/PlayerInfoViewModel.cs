@@ -12,6 +12,7 @@ using Sanguosha.Core.Players;
 using Sanguosha.Core.Heroes;
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
+using Sanguosha.Core.Cards;
 
 namespace Sanguosha.UI.Controls
 {
@@ -28,7 +29,6 @@ namespace Sanguosha.UI.Controls
             throw new NotImplementedException();
         }
     }
-
     public class PlayerInfoViewModel : ViewModelBase
     {
         #region Constructors

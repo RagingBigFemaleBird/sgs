@@ -19,7 +19,7 @@ namespace Sanguosha.UI.Controls
     /// <summary>
     /// Interaction logic for MainPlayerInfoView.xaml
     /// </summary>
-    public partial class MainPlayerInfoView : UserControl
+    public partial class MainPlayerInfoView : PlayerInfoViewBase
     {
         public MainPlayerInfoView()
         {
@@ -65,6 +65,11 @@ namespace Sanguosha.UI.Controls
             {
                 cbRoleBox.DataContext = model.PossibleRoles;
             }
+        }
+
+        protected override Canvas HandCardPlaceHolder
+        {
+            get { return handCardPlaceHolder; }
         }
     }
 }

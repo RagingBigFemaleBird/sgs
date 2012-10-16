@@ -29,19 +29,33 @@ namespace Sanguosha.UI.Selftest
             foreach (var g in GameEngine.Expansions.Values)
             {
                 game.LoadExpansion(g);
-            }
-            CardViewModel model = new CardViewModel();
-            model.Card = GameEngine.CardSet[2];
-            
-            cardView1.DataContext = model;
-            model.Footnote = "张角打出";
+            }            
         }
-        double opacity = 0.8;
+
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            // cardView1.IsFaded = true;
-            opacity -= 0.2;
-            cardView1.CardOpacity = opacity;
+            CardViewModel model = new CardViewModel();
+            model.Card = GameEngine.CardSet[2];
+            CardView cardView1 = new CardView();
+            cardView1.DataContext = model;
+            cardView1.Width = 93;
+            cardView1.Height = 130;
+            model.Footnote = "张角打出";
+
+            CardViewModel model2 = new CardViewModel();
+            model2.Card = GameEngine.CardSet[3];
+            CardView cardView2 = new CardView();
+            cardView2.DataContext = model2;
+            cardView2.Width = 93;
+            cardView2.Height = 130;
+            model2.Footnote = "刘备吃掉";
+            
+            List<CardView> cards = new List<CardView>();
+            cards.Add(cardView1);
+            cards.Add(cardView2);
+            // cardStack.CardAlignment = System.Windows.HorizontalAlignment.Left;
+            cardStack.AddCards(cards);
+            
         }
     }
 }

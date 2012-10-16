@@ -11,22 +11,27 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 using Sanguosha.Core.Players;
+using Sanguosha.Core.Cards;
+using Sanguosha.Core.UI;
+using Sanguosha.Core.Games;
 
 namespace Sanguosha.UI.Controls
 {
     /// <summary>
     /// Interaction logic for GameTable.xaml
     /// </summary>
-    public partial class GameView : UserControl
+    public partial class GameView : UserControl, IUiProxy
     {
         #region Private Members
         protected static int[][] regularSeatIndex;
         protected static int[][] pk3v3SeatIndex;
         protected static int[][] pk1v3SeatIndex;
-        private List<StackPanel> stackPanels;
-        private List<PlayerInfoView> profileBoxes;
+        private IList<StackPanel> stackPanels;
+        private IList<PlayerInfoView> profileBoxes;
+        private IDictionary<Player, PlayerInfoViewBase> playersMap;
         #endregion
 
         #region Constructors
@@ -76,7 +81,9 @@ namespace Sanguosha.UI.Controls
             InitializeComponent();
             stackPanels = new List<StackPanel>() { stackPanel0, stackPanel1, stackPanel2, stackPanel3, stackPanel4, stackPanel5 };
             profileBoxes = new List<PlayerInfoView>();
+            playersMap = new Dictionary<Player, PlayerInfoView>();
             this.DataContextChanged +=  new DependencyPropertyChangedEventHandler(GameView_DataContextChanged);
+            
         }
         #endregion
 
@@ -92,6 +99,16 @@ namespace Sanguosha.UI.Controls
 
         #endregion
 
+        #region Private Functions
+
+        private void GameView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            RearrangeSeats();
+        }
+
+        #endregion
+
+        #region Layout Related
         public void RearrangeSeats()
         {
             GameViewModel model = DataContext as GameViewModel;
@@ -108,7 +125,7 @@ namespace Sanguosha.UI.Controls
             }
 
             profileBoxes.Clear();
-
+            playersMap.Clear();
             var players = model.Game.Players;
             for (int i = 1; i < players.Count; i++)
             {
@@ -116,7 +133,9 @@ namespace Sanguosha.UI.Controls
                 PlayerInfoViewModel playerModel = new PlayerInfoViewModel();
                 playerModel.Player = players[seatNo];
                 playerModel.Game = model.Game;
-                profileBoxes.Add(new PlayerInfoView() { DataContext = playerModel });
+                var playerView = new PlayerInfoView() { DataContext = playerModel, ParentGameView = this };
+                profileBoxes.Add(playerView);
+                playersMap.Add(players[seatNo], playerView);
             }
 
             Player self = players[model.MainPlayerSeatNumber];
@@ -124,6 +143,7 @@ namespace Sanguosha.UI.Controls
             mainPlayerModel.Game = model.Game;
             mainPlayerModel.Player = self;
             mainPlayerPanel.DataContext = mainPlayerModel;
+            playersMap.Add(self, mainPlayerPanel);
 
             // Generate seat map.
             switch (model.TableLayout)
@@ -157,12 +177,7 @@ namespace Sanguosha.UI.Controls
                     stackPanels[seat].Children.Insert(0, profileBoxes[i]);
                 }
             }
-        }
-
-        void GameView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            RearrangeSeats();          
-        }       
+        }        
         
         protected override Size ArrangeOverride(Size arrangeBounds)
         {
@@ -250,6 +265,102 @@ namespace Sanguosha.UI.Controls
         }
         
         private static int _minHSpacing = 10;
-        private static int _minVSpacing = 2;        
+        private static int _minVSpacing = 2;
+        #endregion
+
+        #region Card Movement
+
+        private CardView _CreateCard(Card card)
+        {
+            return new CardView() { DataContext = new CardViewModel() { Card = card } };
+        }
+
+        private IList<CardView> _CreateCard(IList<Card> cards)
+        {
+            List<CardView> cardViews = new List<CardView>();
+            foreach (Card card in cards)
+            {
+                cardViews.Add(_CreateCard(card));
+            }
+            return cardViews;
+        }
+
+        private IDeckContainer _GetMovementDeck(DeckPlace place)
+        {
+            if (place.Player != null)
+            {
+                PlayerInfoViewBase playerView = playersMap[place.Player];
+                return playerView;                
+            }
+            else
+            {
+                return discardDeck;
+            }
+        }
+
+        #endregion
+
+        #region IUiProxy
+        public Player HostPlayer
+        {
+            get
+            {
+                PlayerInfoViewModel hostPlayer = mainPlayerPanel.DataContext as PlayerInfoViewModel;
+                if (hostPlayer == null) return null;
+                return hostPlayer.Player;
+            }
+            set
+            {
+                PlayerInfoViewModel hostPlayer = mainPlayerPanel.DataContext as PlayerInfoViewModel;
+                GameViewModel gameModel = DataContext as GameViewModel;
+                Trace.Assert(gameModel != null && gameModel.Game != null);
+                var players = gameModel.Game.Players;
+                bool found = false;
+                for (int i = 0; i < players.Count; i++)
+                {
+                    if (players[i] == hostPlayer.Player)
+                    {
+                        gameModel.MainPlayerSeatNumber = i;
+                        found = true;
+                        break;
+                    }
+                }
+                Trace.Assert(found);
+            }
+        }
+
+        public bool AskForCardUsage(string prompt, ICardUsageVerifier verifier, out Core.Skills.ISkill skill, out List<Card> cards, out List<Player> players)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void NotifyUiLog(List<CardsMovement> moves, List<IGameLog> notes)
+        {
+            foreach (CardsMovement move in moves)
+            {
+                var cardsToAdd = new List<CardView>();
+                var cardsRemoved = new Dictionary<DeckPlace, List<Card>>();
+                foreach (Card card in move.cards)
+                {
+                    if (!cardsRemoved.ContainsKey(card.Place))
+                    {
+                        cardsRemoved.Add(card.Place, new List<Card>());
+                    }
+                    cardsRemoved[card.Place].Add(card);
+                }
+                foreach (var stackCards in cardsRemoved)
+                {
+                    IDeckContainer deck = _GetMovementDeck(stackCards.Key);
+                    cardsToAdd.AddRange(deck.RemoveCards(stackCards.Key.DeckType, stackCards.Value));
+                }
+                _GetMovementDeck(move.to).AddCards(move.to.DeckType, cardsToAdd);
+            }
+        }
+        #endregion
     }
 }

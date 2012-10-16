@@ -10,6 +10,7 @@
     <BitmapImage x:Key="Card.JueDou.Image.Normal">Images/Cards/Normal/JueDou.jpg</BitmapImage>
     <BitmapImage x:Key="Card.NanManRuQin.Image.Normal">Images/Cards/Normal/NanManRuQin.jpg</BitmapImage>
     <BitmapImage x:Key="Card.WanJianQiFa.Image.Normal">Images/Cards/Normal/WanJianQiFa.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.TaoYuanJieYi.Image.Normal">Images/Cards/Normal/TaoYuanJieYi.jpg</BitmapImage>
     <BitmapImage x:Key="Card.Suit.Heart.Image.Normal">Images/Cards/Suit/heart.png</BitmapImage>
     <BitmapImage x:Key="Card.Suit.Spade.Image.Normal">Images/Cards/Suit/spade.png</BitmapImage>
     <BitmapImage x:Key="Card.Suit.Club.Image.Normal">Images/Cards/Suit/club.png</BitmapImage>

@@ -17,10 +17,10 @@ namespace Sanguosha.UI.Controls
         public CardStack()
         {            
             CardAlignment = HorizontalAlignment.Center;
-            IsCardProducer = false;
             IsCardConsumer = false;
             CardCapacity = int.MaxValue;
             this.SizeChanged += new SizeChangedEventHandler(CardStack_SizeChanged);
+            _cards = new List<CardView>();
         }
 
         void CardStack_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -29,13 +29,13 @@ namespace Sanguosha.UI.Controls
         }
         #endregion
 
-        #region Private Members and Functions
-        private List<CardView> _cards;
+        #region Private Members and Functions        
 
         private void _TakeOverCard(CardView card)
         {
             Trace.Assert(card.Parent == null || 
                          card.Parent == ParentGameView.GlobalCanvas);
+            Trace.Assert(!_cards.Contains(card));
             if (card.Parent != null)
             {
                 Point topLeft = card.TranslatePoint(new Point(0, 0), this);
@@ -46,7 +46,9 @@ namespace Sanguosha.UI.Controls
             }
             else
             {
+                this.Children.Add(card);                
             }
+            _cards.Add(card);
         }
 
         private void _HandOverCard(CardView card)
@@ -57,6 +59,10 @@ namespace Sanguosha.UI.Controls
             ParentGameView.GlobalCanvas.Children.Add(card);
             card.SetValue(Canvas.LeftProperty, topLeft.X);
             card.SetValue(Canvas.TopProperty, topLeft.Y);
+            if (_cards.Contains(card))
+            {
+                _cards.Remove(card);
+            }
         }
 
         #endregion
@@ -73,7 +79,9 @@ namespace Sanguosha.UI.Controls
         {
             int numCards = cards.Count();
             if (numCards == 0) return;
-            double cardWidth = _cards.Last().ActualWidth;
+            this.UpdateLayout();
+            double cardHeight = (from c in cards select c.Height).Max();
+            double cardWidth = (from c in cards select c.Width).Max();
             if (KeepHorizontalOrder)
             {
                 cards = _cards.OrderBy(c => c.Position.X);
@@ -96,9 +104,10 @@ namespace Sanguosha.UI.Controls
                 {
                     newX = maxWidth + step * (i - numCards);
                 }
-                Point newPosition = new Point(newX, ActualHeight / 2);
+                Point newPosition = new Point(newX, ActualHeight / 2 - cardHeight / 2);
                 card.Position = newPosition;
                 i++;
+                
             }
         }
 
@@ -108,18 +117,32 @@ namespace Sanguosha.UI.Controls
 
         public void AddCards(IList<CardView> cards)
         {
-            foreach (CardView card in cards)
+            foreach (var card in cards)
             {
-                
+                _TakeOverCard(card);
+                card.CardOpacity = IsCardConsumer ? 0d : 1d;
             }
+            RearrangeCards(cards);
         }
 
         public void RemoveCards(IList<CardView> cards)
-        {/*
-            foreach (CardView card in cards)
+        {
+            var nonexisted = from c in cards where !_cards.Contains(c)
+                              select c;
+            foreach (var card in nonexisted)
             {
-                if (_cards.Contains(card))
-            }*/
+                Children.Add(card);
+            }
+            RearrangeCards(nonexisted);
+            foreach (var card in nonexisted)
+            {
+                Children.Remove(card);
+            }
+            foreach (var card in cards)
+            {
+                _HandOverCard(card);
+            }
+            RearrangeCards(_cards);
         }
 
         #endregion
@@ -132,14 +155,17 @@ namespace Sanguosha.UI.Controls
 
         public HorizontalAlignment CardAlignment { get; set; }
 
-        public bool IsCardProducer { get; set; }
-
         public bool IsCardConsumer { get; set; }
 
         public int CardCapacity { get; set; }
 
         public bool KeepHorizontalOrder { get; set; }
 
+        private List<CardView> _cards;
+        public IList<CardView> Cards
+        {
+            get { return _cards; }
+        }
         #endregion
     }
 }
