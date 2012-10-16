@@ -13,7 +13,7 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    public class JianYiMa : Equipment
+    public class OffensiveHorse : Equipment
     {
         public override void RegisterTriggers(Player p)
         {
@@ -33,6 +33,16 @@ namespace Sanguosha.Expansions.Basic.Cards
         protected override void Process(Player source, Player dest, ICard card)
         {
             throw new NotImplementedException();
+        }
+
+        public string HorseName { get; set; }
+        public OffensiveHorse(string name)
+        {
+            HorseName = name;
+        }
+        public override string CardType
+        {
+            get { return HorseName; }
         }
     }
 }

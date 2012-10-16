@@ -29,7 +29,7 @@ namespace Sanguosha.Core.UI
             }
         }
 
-        public void NotifyUiLog(List<Games.CardsMovement> m, List<IGameLog> notes)
+        public void NotifyCardMovement(List<Games.CardsMovement> m, List<IGameLog> notes)
         {
             throw new NotImplementedException();
         }

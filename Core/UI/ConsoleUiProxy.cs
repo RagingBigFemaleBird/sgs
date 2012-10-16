@@ -156,7 +156,7 @@ namespace Sanguosha.Core.UI
         }
 
 
-        public void NotifyUiLog(List<CardsMovement> m, List<IGameLog> notes)
+        public void NotifyCardMovement(List<CardsMovement> m, List<IGameLog> notes)
         {
             return;
         }

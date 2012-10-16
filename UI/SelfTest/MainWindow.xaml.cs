@@ -63,15 +63,16 @@ namespace WpfApplication1
 
         private Game _game;
         private Player _player;
-
-        private bool Game_Thread()
-        {
-            _game.Run();
-            return true;
-        }
-
+        Thread gameThread;
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            gameThread = new Thread(_game.Run);
+            gameThread.Start();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            gameThread.Abort();
         }
 	}
 }

@@ -41,7 +41,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             do
             {
                 current = Game.CurrentGame.NextPlayer(current);
-                if (!PlayerIsCardTargetCheck(source, ref current))
+                if (!PlayerIsCardTargetCheck(source, ref current, c))
                 {
                     continue;
                 }

@@ -84,6 +84,8 @@ namespace Sanguosha.UI.Controls
             stackPanels = new List<StackPanel>() { stackPanel0, stackPanel1, stackPanel2, stackPanel3, stackPanel4, stackPanel5 };
             profileBoxes = new List<PlayerInfoView>();
             playersMap = new Dictionary<Player, PlayerInfoViewBase>();
+            mainPlayerPanel.ParentGameView = this;
+            discardDeck.ParentGameView = this;
             this.DataContextChanged +=  new DependencyPropertyChangedEventHandler(GameView_DataContextChanged);
             
         }
@@ -240,6 +242,11 @@ namespace Sanguosha.UI.Controls
 
             base.ArrangeOverride(arrangeBounds);
 
+            foreach (var playerView in playersMap.Values)
+            {
+                playerView.UpdateCardAreas();
+            }
+
             return arrangeBounds;
         }
 
@@ -271,21 +278,6 @@ namespace Sanguosha.UI.Controls
         #endregion
 
         #region Card Movement
-
-        private CardView _CreateCard(Card card)
-        {
-            return new CardView() { DataContext = new CardViewModel() { Card = card } };
-        }
-
-        private IList<CardView> _CreateCards(IList<Card> cards)
-        {
-            List<CardView> cardViews = new List<CardView>();
-            foreach (Card card in cards)
-            {
-                cardViews.Add(_CreateCard(card));
-            }
-            return cardViews;
-        }
 
         private IDeckContainer _GetMovementDeck(DeckPlace place)
         {
@@ -388,36 +380,32 @@ namespace Sanguosha.UI.Controls
             answerPending.Release(1);
         }
 
-        public void NotifyUiLog(List<CardsMovement> moves, List<IGameLog> notes)
+        public void NotifyCardMovement(List<CardsMovement> moves, List<IGameLog> notes)
         {
-            foreach (CardsMovement move in moves)
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                var cardsToAdd = new List<CardView>();
-                var cardsRemoved = new Dictionary<DeckPlace, List<Card>>();
-                foreach (Card card in move.cards)
+                foreach (CardsMovement move in moves)
                 {
-                    if (!cardsRemoved.ContainsKey(card.Place))
+                    var cardsToAdd = new List<CardView>();
+                    var cardsRemoved = new Dictionary<DeckPlace, List<Card>>();
+                    foreach (Card card in move.cards)
                     {
-                        cardsRemoved.Add(card.Place, new List<Card>());
+                        if (!cardsRemoved.ContainsKey(card.Place))
+                        {
+                            cardsRemoved.Add(card.Place, new List<Card>());
+                        }
+                        cardsRemoved[card.Place].Add(card);
                     }
-                    cardsRemoved[card.Place].Add(card);
-                }
-                foreach (var stackCards in cardsRemoved)
-                {
-                    IDeckContainer deck = _GetMovementDeck(stackCards.Key);
-                    IList<CardView> cards;
-                    if (deck == discardDeck)
+                    foreach (var stackCards in cardsRemoved)
                     {
-                        cards = _CreateCards(stackCards.Value);
-                    }
-                    else
-                    {
+                        IDeckContainer deck = _GetMovementDeck(stackCards.Key);
+                        IList<CardView> cards;
                         cards = deck.RemoveCards(stackCards.Key.DeckType, stackCards.Value);
+                        cardsToAdd.AddRange(cards);
                     }
-                    cardsToAdd.AddRange(cards);
+                    _GetMovementDeck(move.to).AddCards(move.to.DeckType, cardsToAdd);
                 }
-                _GetMovementDeck(move.to).AddCards(move.to.DeckType, cardsToAdd);
-            }
+            });            
         }
 
         public bool AskForMultipleChoice(string prompt, List<string> questions, out int answer)

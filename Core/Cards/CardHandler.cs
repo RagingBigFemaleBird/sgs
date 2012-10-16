@@ -67,7 +67,7 @@ namespace Sanguosha.Core.Cards
             cardsOnHold = null;
         }
 
-        protected bool PlayerIsCardTargetCheck(Player source, ref Player dest)
+        protected bool PlayerIsCardTargetCheck(Player source, ref Player dest, ICard card)
         {
             while (true)
             {
@@ -75,7 +75,7 @@ namespace Sanguosha.Core.Cards
                 arg.Source = source;
                 arg.Targets = new List<Player>();
                 arg.Targets.Add(dest);
-                arg.StringArg = this.CardType;
+                arg.Card = card;
                 try
                 {
 
@@ -109,7 +109,7 @@ namespace Sanguosha.Core.Cards
             foreach (var player in dests)
             {
                 Player p = player;
-                if (PlayerIsCardTargetCheck(source, ref p)) 
+                if (PlayerIsCardTargetCheck(source, ref p, card)) 
                 {
                     Process(source, p, card);
                 }
@@ -240,6 +240,10 @@ namespace Sanguosha.Core.Cards
 
         protected abstract VerifierResult Verify(Player source, ICard card, List<Player> targets);        
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>Used by UI Only!</remarks>
         public virtual string CardType
         {
             get { return this.GetType().Name; }

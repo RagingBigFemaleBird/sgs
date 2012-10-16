@@ -1,6 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Windows.Threading;
+using System.Threading;
+using System.Windows;
 
 namespace Sanguosha.UI.Controls
 {
@@ -82,8 +85,18 @@ namespace Sanguosha.UI.Controls
             PropertyChangedEventHandler handler = this.PropertyChanged;
             if (handler != null)
             {
-                var e = new PropertyChangedEventArgs(propertyName);
-                handler(this, e);
+                if (Application.Current.Dispatcher.CheckAccess())
+                {
+                    var e = new PropertyChangedEventArgs(propertyName);
+                    handler(this, e);
+                }
+                else
+                {
+                    Application.Current.Dispatcher.BeginInvoke((ThreadStart)delegate()
+                    {
+                        handler(this, new PropertyChangedEventArgs(propertyName));
+                    });
+                }
             }
         }        
 

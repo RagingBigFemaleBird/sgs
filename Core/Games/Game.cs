@@ -256,7 +256,7 @@ namespace Sanguosha.Core.Games
         {
             foreach (var v in uiProxies)
             {
-                v.Value.NotifyUiLog(moves, logs);
+                v.Value.NotifyCardMovement(moves, logs);
             }
             foreach (CardsMovement move in moves)
             {

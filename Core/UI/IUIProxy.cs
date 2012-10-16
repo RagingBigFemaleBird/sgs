@@ -63,6 +63,6 @@ namespace Sanguosha.Core.UI
         /// <returns></returns>
         bool AskForMultipleChoice(string prompt, List<string> questions, out int answer);
 
-        void NotifyUiLog(List<CardsMovement> m, List<UI.IGameLog> notes);
+        void NotifyCardMovement(List<CardsMovement> m, List<UI.IGameLog> notes);
     }
 }

@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows;
 using System.Diagnostics;
 using Sanguosha.Core.Cards;
+using System.Windows.Media;
 
 namespace Sanguosha.UI.Controls
 {
@@ -21,7 +22,7 @@ namespace Sanguosha.UI.Controls
 
         public PlayerInfoViewBase()
         {
-            handCardArea = new CardStack();            
+            handCardArea = new CardStack();         
         }
 
         private GameView parentGameView;
@@ -38,41 +39,45 @@ namespace Sanguosha.UI.Controls
                     parentGameView.GlobalCanvas.Children.Remove(handCardArea);
                 }
                 parentGameView = value;
+                handCardArea.ParentGameView = value;
                 if (parentGameView != null)
                 {
                     parentGameView.GlobalCanvas.Children.Add(handCardArea);
-                    ArrangeCardAreas(parentGameView.GlobalCanvas);
                 }
             }
         }
 
-        protected virtual Canvas HandCardPlaceHolder
+        protected virtual CardStack HandCardStackTemplate
         {
             get { return null; }
         }
 
         protected void ArrangeCardAreas(Canvas globalCanvas)
         {
-            Point topLeft = HandCardPlaceHolder.TranslatePoint(new Point(0, 0), globalCanvas);            
+            UpdateLayout();
+            Point topLeft = HandCardStackTemplate.TranslatePoint(new Point(0, 0), globalCanvas);            
             handCardArea.SetValue(Canvas.LeftProperty, topLeft.X);
             handCardArea.SetValue(Canvas.TopProperty, topLeft.Y);
-            handCardArea.Width = HandCardPlaceHolder.ActualWidth;
-            handCardArea.Height = HandCardPlaceHolder.ActualHeight;        
+            handCardArea.Width = HandCardStackTemplate.ActualWidth;
+            handCardArea.Height = HandCardStackTemplate.ActualHeight;
+            handCardArea.CardAlignment = HandCardStackTemplate.CardAlignment;
+            handCardArea.CardCapacity = HandCardStackTemplate.CardCapacity;
+            handCardArea.MaxCardSpacing = HandCardStackTemplate.MaxCardSpacing;
+            handCardArea.IsCardConsumer = HandCardStackTemplate.IsCardConsumer;
         }
 
-        protected override Size ArrangeOverride(Size arrangeBounds)
+        public void UpdateCardAreas()
         {
-            var result = base.ArrangeOverride(arrangeBounds);
             if (parentGameView != null)
             {
                 ArrangeCardAreas(ParentGameView.GlobalCanvas);
             }
-            return result;
         }
 
         public void AddCards(DeckType deck, IList<CardView> cards)
-        {            
-            if (deck== DeckType.Hand)
+        {
+            UpdateCardAreas();
+            if (deck == DeckType.Hand)
             {
                 handCardArea.AddCards(cards);
             }

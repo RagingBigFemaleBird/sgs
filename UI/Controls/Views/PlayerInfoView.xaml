@@ -91,7 +91,7 @@
                     <RowDefinition/>
                     <RowDefinition Height="61"/>
                 </Grid.RowDefinitions>
-                <Canvas x:Name="handCardPlaceHolder" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="130" Width="279" />
+                <local:CardStack x:Name="handCardPlaceHolder" IsCardConsumer="true" CardAlignment="Center" MaxCardSpacing="20" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="130" Width="279" />
                 <Rectangle Fill="Black" Grid.RowSpan="2"/>
                 <Image Source="{DynamicResource PlayerInfoView.Decoration.TopLeft}" Width="64" HorizontalAlignment="Left" Margin="-10,-7,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
                 <Path Data="M0,0H124" HorizontalAlignment="Center" Margin="0,15,0,0" Stretch="Fill" VerticalAlignment="Top" Width="124">

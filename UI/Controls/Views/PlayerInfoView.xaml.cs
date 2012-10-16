@@ -67,7 +67,7 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        protected override Canvas HandCardPlaceHolder
+        protected override CardStack HandCardStackTemplate
         {
             get { return handCardPlaceHolder; }
         }

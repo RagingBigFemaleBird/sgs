@@ -144,6 +144,10 @@ namespace Sanguosha.UI.Controls
                     var cardType = _uiCard.Type as HeroCardHandler;
                     return cardType.Hero.Name;
                 }
+                else if (_uiCard.Type is Equipment)
+                {
+                    return _uiCard.Type.CardType;
+                }
                 else
                 {
                     return _uiCard.Type.GetType().Name;

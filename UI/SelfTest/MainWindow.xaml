@@ -8,7 +8,7 @@
 	x:Class="WpfApplication1.MainWindow"
 	x:Name="Window"
 	Title="MainWindow"
-	Width="1024" Height="768" MinWidth="978" MinHeight="602" Loaded="Window_Loaded">
+	Width="1024" Height="768" MinWidth="978" MinHeight="602" Loaded="Window_Loaded" Closed="Window_Closed">
     <Window.Resources>
     </Window.Resources>
 

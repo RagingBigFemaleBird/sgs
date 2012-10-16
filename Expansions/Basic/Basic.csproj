@@ -44,8 +44,8 @@
     <Compile Include="Cards\Aoe.cs" />
     <Compile Include="Cards\CiXiongShuangGuJian.cs" />
     <Compile Include="Cards\GuoHeChaiQiao.cs" />
-    <Compile Include="Cards\JianYiMa.cs" />
-    <Compile Include="Cards\JiaYiMa.cs" />
+    <Compile Include="Cards\OffensiveHorse.cs" />
+    <Compile Include="Cards\DefensiveHorse.cs" />
     <Compile Include="Cards\JueDou.cs" />
     <Compile Include="Cards\LeBuSiShu.cs" />
     <Compile Include="Cards\NanManRuQin.cs" />

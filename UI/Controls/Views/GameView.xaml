@@ -37,7 +37,7 @@
     		    <RowDefinition Height="220"/>
     		    <RowDefinition/>
     	    </Grid.RowDefinitions>
-            <local:DiscardDeck x:Name="discardDeck" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Height="130" Margin="20,0,20,0"/>
+            <local:DiscardDeck x:Name="discardDeck" CardAlignment="Center" MaxCardSpacing="93" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Height="130" Margin="20,0,20,0"/>
     	    <StackPanel x:Name="stackPanel0" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
             <StackPanel x:Name="stackPanel1" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Top"/>		
 		    <StackPanel x:Name="stackPanel2" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>

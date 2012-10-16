@@ -95,7 +95,7 @@ namespace Sanguosha.Core.UI
             throw new NotImplementedException();
         }
 
-        public void NotifyUiLog(List<CardsMovement> m, List<IGameLog> notes)
+        public void NotifyCardMovement(List<CardsMovement> m, List<IGameLog> notes)
         {
             throw new NotImplementedException();
         }
