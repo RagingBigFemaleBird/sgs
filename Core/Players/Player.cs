@@ -120,7 +120,11 @@ namespace Sanguosha.Core.Players
             }
             set
             {
-                if (attributes[key] == value)
+                if (!attributes.ContainsKey(key))
+                {
+                    attributes.Add(key, value);
+                }
+                else if (attributes[key] == value)
                 {
                     return;
                 }

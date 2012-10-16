@@ -38,7 +38,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 return VerifierResult.Fail;
             }
-            if (targets[0].Health >= targets[0].MaxHealth)
+            if (source.Health >= source.MaxHealth)
             {
                 return VerifierResult.Fail;
             }

@@ -54,6 +54,15 @@ namespace Sanguosha.Core.UI
                               List<int> resultDeckMaximums,
                               ICardChoiceVerifier verifier, out List<List<Card>> answer);
 
-        void NotifyUiLog(CardsMovement m, List<UI.IGameLog> notes);
+        /// <summary>
+        /// 询问多选题目，例如是否发动大姨妈
+        /// </summary>
+        /// <param name="prompt"></param>
+        /// <param name="questions">问题列表</param>
+        /// <param name="answer">回答</param>
+        /// <returns></returns>
+        bool AskForMultipleChoice(string prompt, List<string> questions, out int answer);
+
+        void NotifyUiLog(List<CardsMovement> m, List<UI.IGameLog> notes);
     }
 }

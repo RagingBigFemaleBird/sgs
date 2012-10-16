@@ -29,7 +29,13 @@ namespace Sanguosha.Core.UI
             }
         }
 
-        public void NotifyUiLog(Games.CardsMovement m, List<IGameLog> notes)
+        public void NotifyUiLog(List<Games.CardsMovement> m, List<IGameLog> notes)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public bool AskForMultipleChoice(string prompt, List<string> questions, out int answer)
         {
             throw new NotImplementedException();
         }

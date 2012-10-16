@@ -13,7 +13,7 @@ using Sanguosha.Core.Exceptions;
 
 namespace Sanguosha.Core.Cards
 {
-    public class SingleCardUsageVerifier : ICardUsageVerifier
+    public class SingleCardPlayVerifier : ICardUsageVerifier
     {
         public delegate bool CardMatcher(ICard card);
         private CardMatcher match;
@@ -24,33 +24,14 @@ namespace Sanguosha.Core.Cards
             set { match = value; }
         }
 
-        public SingleCardUsageVerifier(CardMatcher m)
+        public SingleCardPlayVerifier(CardMatcher m = null)
         {
             Match = m;
         }
 
         public VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players)
         {
-            if (skill != null)
-            {
-                CompositeCard card;
-                if (!(skill is CardTransformSkill))
-                {
-                    return VerifierResult.Fail;
-                }
-                CardTransformSkill s = (CardTransformSkill)skill;
-                VerifierResult r = s.TryTransform(cards, null, out card);
-                if (r == VerifierResult.Partial)
-                {
-                    return r;
-                }
-                if (!Match(card))
-                {
-                    return VerifierResult.Fail;
-                }
-                return VerifierResult.Success;
-            }
-            if ((cards != null && cards.Count > 1) || (players != null && players.Count != 0))
+            if (skill != null || (cards != null && cards.Count > 1) || (players != null && players.Count != 0))
             {
                 return VerifierResult.Fail;
             }
@@ -62,7 +43,7 @@ namespace Sanguosha.Core.Cards
             {
                 return VerifierResult.Fail;
             }
-            if (!Match(cards[0]))
+            if (Match != null && !Match(cards[0]))
             {
                 return VerifierResult.Fail;
             }

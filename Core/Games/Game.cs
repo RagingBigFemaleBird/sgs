@@ -60,7 +60,7 @@ namespace Sanguosha.Core.Games
         public Game()
         {
             cardSet = new List<Card>();
-            triggers = new Dictionary<GameEvent, SortedList<double, Trigger>>();
+            triggers = new Dictionary<GameEvent, List<Trigger>>();
             decks = new DeckContainer();
             players = new List<Player>();
             cardHandlers = new Dictionary<string, CardHandler>();
@@ -161,7 +161,7 @@ namespace Sanguosha.Core.Games
             set { cardSet = value; }
         }
 
-        Dictionary<GameEvent, SortedList<double, Trigger>> triggers;
+        Dictionary<GameEvent, List<Trigger>> triggers;
 
         public void RegisterTrigger(GameEvent gameEvent, Trigger trigger)
         {
@@ -171,9 +171,9 @@ namespace Sanguosha.Core.Games
             }
             if (!triggers.ContainsKey(gameEvent))
             {                
-                triggers[gameEvent] = new SortedList<double, Trigger>();
+                triggers[gameEvent] = new List<Trigger>();
             }
-            triggers[gameEvent].Add(trigger.Priority, trigger);
+            triggers[gameEvent].Add(trigger);
         }
 
         public void UnregisterTrigger(GameEvent gameEvent, Trigger trigger)
@@ -182,17 +182,9 @@ namespace Sanguosha.Core.Games
             {
                 return;
             }
-            if (!triggers.ContainsKey(gameEvent))
-                if (triggers.ContainsKey(gameEvent))
+            if (triggers.ContainsKey(gameEvent))
             {
-                for (int i = 0; i < triggers[gameEvent].Count; i++)
-                {
-                    if (triggers[gameEvent].ElementAt(i).Value == trigger)
-                    {
-                        triggers[gameEvent].RemoveAt(i);
-                        break;
-                    }
-                }
+                triggers[gameEvent].Remove(trigger);
             }
         }
 
@@ -204,9 +196,10 @@ namespace Sanguosha.Core.Games
         public void Emit(GameEvent gameEvent, GameEventArgs eventParam)
         {
             if (!this.triggers.ContainsKey(gameEvent)) return;
-            SortedList<double, Trigger> triggers = this.triggers[gameEvent];
+            List<Trigger> triggers = this.triggers[gameEvent];
             if (triggers == null) return;
-            var sortedTriggers = triggers.Values.Reverse();
+            //todo: sort this
+            var sortedTriggers = triggers;
             foreach (var trigger in sortedTriggers)
             {
                 if (trigger.Enabled)
@@ -267,6 +260,8 @@ namespace Sanguosha.Core.Games
                 // Update card's deck mapping
                 foreach (Card card in cards)
                 {
+                    Trace.TraceInformation("Card {0}{1}{2} from {3}{4} to {5}{6}.", card.Suit, card.Rank, card.Type.CardType.ToString(),
+                        card.Place.Player == null ? "G": card.Place.Player.Id.ToString(), card.Place.DeckType.Name, move.to.Player == null ? "G": move.to.Player.Id.ToString(), move.to.DeckType.Name);
                     decks[card.Place].Remove(card);
                     decks[move.to].Add(card);
                     card.Place = move.to;

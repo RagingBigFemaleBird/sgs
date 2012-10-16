@@ -23,14 +23,10 @@ namespace Sanguosha.Core.UI
         bool IUiProxy.AskForCardUsage(string prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             Player p = hostPlayer;
-            Console.Write("I AM PLAYER {0}: ", p.Id);
+            Console.Write("I AM PLAYER {0}({1}): ", p.Id, p.Hero.Name);
             cards = new List<Card>();
             VerifierResult r = verifier.Verify(null, null, null);
             skill = null;
-            if (r == VerifierResult.Partial)
-            {
-                goto justPlayers;
-            }
             Console.Write("Ask for card usage: ");
             int i = 0;
             foreach (ICard card in Game.CurrentGame.Decks[p, DeckType.Hand])
@@ -99,7 +95,6 @@ namespace Sanguosha.Core.UI
                     }
                 }
             }
-        justPlayers:
             {
                 players = new List<Player>();
                 while (true)
@@ -161,9 +156,31 @@ namespace Sanguosha.Core.UI
         }
 
 
-        public void NotifyUiLog(CardsMovement m, List<IGameLog> notes)
+        public void NotifyUiLog(List<CardsMovement> m, List<IGameLog> notes)
         {
             throw new NotImplementedException();
+        }
+
+
+        public bool AskForMultipleChoice(string prompt, List<string> questions, out int answer)
+        {
+            Player p = hostPlayer;
+            Console.Write("I AM PLAYER {0}: ", p.Id);
+            Console.Write(prompt + ":");
+            foreach (string s in questions)
+            {
+                Console.Write(" " + s + ", ");
+            }
+            Console.Write("Choose:");
+            string ids = Console.ReadLine();
+            int id = int.Parse(ids);
+            if (id > questions.Count || id < 0)
+            {
+                answer = 0;
+                return false;
+            }
+            answer = id;
+            return true;
         }
     }
 }
