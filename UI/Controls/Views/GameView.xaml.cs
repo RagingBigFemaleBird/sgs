@@ -25,7 +25,7 @@ namespace Sanguosha.UI.Controls
     /// <summary>
     /// Interaction logic for GameTable.xaml
     /// </summary>
-    public partial class GameView : UserControl, IUiProxy
+    public partial class GameView : UserControl, IAsyncUiProxy
     {
         #region Private Members
         protected static int[][] regularSeatIndex;
@@ -323,63 +323,6 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        Semaphore answerPending;
-
-        public Semaphore AnswerPending
-        {
-            get { return answerPending; }
-            set { answerPending = value; }
-        }
-
-        private ISkill answerSkill;
-        private List<Card> answerCards;
-        private List<Player> answerPlayers;
-        private List<List<Card>> answerCardsOfCards;
-
-        public bool AskForCardUsage(string prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
-        {
-            answerPending = new Semaphore(0, 1);
-            AskForCardUsageAsync(prompt, verifier);
-            answerPending.WaitOne();
-            skill = answerSkill;
-            cards = answerCards;
-            players = answerPlayers;
-            if (verifier.Verify(answerSkill, answerCards, answerPlayers) == VerifierResult.Success)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public void AskForCardUsageAsync(string prompt, ICardUsageVerifier verifier) { }
-        public void AnswerCardUsageAsync(ISkill skill, List<Card> cards, List<Player> players)
-        {
-            answerSkill = skill;
-            answerCards = cards;
-            answerPlayers = players;
-            answerPending.Release(1);
-        }
-
-        public bool AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer)
-        {
-            answerPending = new Semaphore(0, 1);
-            AskForCardChoiceAsync(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier);
-            answerPending.WaitOne();
-            answer = answerCardsOfCards;
-            if (verifier.Verify(answer) == VerifierResult.Success)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public void AskForCardChoiceAsync(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier) { }
-        public void AnswerCardChoiceAsync(List<List<Card>> cards)
-        {
-            answerCardsOfCards = cards;
-            answerPending.Release(1);
-        }
-
         public void NotifyCardMovement(List<CardsMovement> moves, List<IGameLog> notes)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
@@ -407,11 +350,25 @@ namespace Sanguosha.UI.Controls
                 }
             });            
         }
-
-        public bool AskForMultipleChoice(string prompt, List<string> questions, out int answer)
+        public void AskForCardUsage(string prompt, ICardUsageVerifier verifier)
         {
-            throw new NotImplementedException();
         }
+
+        public void AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier)
+        {
+        }
+
+        public void AskForMultipleChoice(string prompt, List<string> questions)
+        {
+        }
+
+        public event CardUsageAnsweredEventHandler CardUsageAnsweredEvent;
+
+        public event CardChoiceAnsweredEventHandler CardChoiceAnsweredEvent;
+
+        public event MultipleChoiceAnsweredEventHandler MultipleChoiceAnsweredEvent;
+
         #endregion
+
     }
 }
