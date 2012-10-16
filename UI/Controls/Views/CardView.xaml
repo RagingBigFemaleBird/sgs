@@ -4,26 +4,27 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 			 xmlns:local="clr-namespace:Sanguosha.UI.Controls"
-             xmlns:ee="http://schemas.microsoft.com/expression/2010/effects" x:Class="Sanguosha.UI.Controls.CardView" 
+             xmlns:ee="http://schemas.microsoft.com/expression/2010/effects" 
              xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
+			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Class="Sanguosha.UI.Controls.CardView"
 			 mc:Ignorable="d"
              d:DesignHeight="130" d:DesignWidth="93" Opacity="0">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/Cards.xaml"/>
+            	<ResourceDictionary Source="pack://application:,,,/Resources;component/Cards.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <local:SuitColorToColorConverter x:Key="suitColorToColorConverter" />
+        	<local:SuitColorToColorConverter x:Key="suitColorToColorConverter" />
         	<Style x:Key="footNoteStyle" TargetType="{x:Type TextBlock}">
         		<Setter Property="TextWrapping" Value="WrapWithOverflow"/>
         		<Setter Property="TextTrimming" Value="None"/>
-				<Setter Property="VerticalAlignment" Value="Bottom"/>
-				<Setter Property="FontFamily" Value="SimSun" />
-				<Setter Property="TextAlignment" Value="Center" />
-				<Setter Property="FontSize" Value="12"/>
-				<Setter Property="Margin" Value="3.666,0,7.333,7"/>
-				<Setter Property="Foreground" Value="#FFF9FBE6" />
-				<Setter Property="Text" Value="{Binding Footnote}" />
+        		<Setter Property="VerticalAlignment" Value="Bottom"/>
+        		<Setter Property="FontFamily" Value="SimSun" />
+        		<Setter Property="TextAlignment" Value="Center" />
+        		<Setter Property="FontSize" Value="12"/>
+        		<Setter Property="Margin" Value="3.666,0,7.333,7"/>
+        		<Setter Property="Foreground" Value="#FFF9FBE6" />
+        		<Setter Property="Text" Value="{Binding Footnote}" />
         	</Style>
         	<Storyboard x:Key="sbFade">
         		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
@@ -52,9 +53,20 @@
 		</EventTrigger>
 	</UserControl.Triggers>
     <Grid>
-        <Viewbox Stretch="Uniform">
-            <Grid Height="130" Width="93">
-                <Image Source="{res:ResourceKeyBinding Path=TypeString, StringFormat=Card.{0}.Image.Normal}"/>
+    	<VisualStateManager.CustomVisualStateManager>
+    		<ei:ExtendedVisualStateManager/>
+    	</VisualStateManager.CustomVisualStateManager>
+    	<VisualStateManager.VisualStateGroups>
+    		<VisualStateGroup x:Name="CommonStates" ei:ExtendedVisualStateManager.UseFluidLayout="True"/>
+    	</VisualStateManager.VisualStateGroups>
+        <Viewbox Stretch="Uniform">            
+            <Grid Height="130" Width="93">                
+                <Border Background="#FF7F8178" Margin="-3, -3, -3, -3" Opacity="0">
+                    <Border.Effect>
+                        <BlurEffect />
+                    </Border.Effect>
+                </Border>                
+                <Image Source="{res:ResourceKeyBinding Path=TypeString, StringFormat=Card.\{0\}.Image.Normal}"/>
                 <TextBlock x:Name="tbRank" Text="{Binding RankString}"
                        Margin="9,5"
                        HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold"
@@ -64,7 +76,7 @@
     				<DropShadowEffect Color="#FFFFFFAA" ShadowDepth="0"/>
     			</TextBlock.Effect>
                 </TextBlock>
-                <Image x:Name="tbSuit" Source="{res:ResourceKeyBinding Path=Suit, StringFormat=Card.Suit.{0}.Image.Normal}" Width="14" Height="14" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5.666,19.334,0,0"/>
+                <Image x:Name="tbSuit" Source="{res:ResourceKeyBinding Path=Suit, StringFormat=Card.Suit.\{0\}.Image.Normal}" Width="14" Height="14" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5.666,19.334,0,0"/>
             </Grid>
         </Viewbox>
         <TextBlock x:Name="tbFootnote2" Style="{DynamicResource footNoteStyle}">

@@ -117,8 +117,6 @@ namespace Sanguosha.UI.Controls
             _daMoveY.To = destY;            
             _daMoveX.Duration = TimeSpan.FromSeconds(CardMoveDurationSeconds);
             _daMoveY.Duration = TimeSpan.FromSeconds(CardMoveDurationSeconds);
-            BeginAnimation(Canvas.LeftProperty, null);
-            BeginAnimation(Canvas.TopProperty, null);
             if (DisappearAfterMove)
             {
                 _daMoveX.Completed += _DisappearAfterMoveHandler;

@@ -22,7 +22,7 @@ namespace Sanguosha.UI.Controls
 
         public PlayerInfoViewBase()
         {
-            handCardArea = new CardStack();         
+            handCardArea = new CardStack();
         }
 
         private GameView parentGameView;
@@ -34,49 +34,13 @@ namespace Sanguosha.UI.Controls
             }
             set
             {
-                if (parentGameView != null)
-                {
-                    parentGameView.GlobalCanvas.Children.Remove(handCardArea);
-                }
                 parentGameView = value;
                 handCardArea.ParentGameView = value;
-                if (parentGameView != null)
-                {
-                    parentGameView.GlobalCanvas.Children.Add(handCardArea);
-                }
-            }
-        }
-
-        protected virtual CardStack HandCardStackTemplate
-        {
-            get { return null; }
-        }
-
-        protected void ArrangeCardAreas(Canvas globalCanvas)
-        {
-            UpdateLayout();
-            Point topLeft = HandCardStackTemplate.TranslatePoint(new Point(0, 0), globalCanvas);            
-            handCardArea.SetValue(Canvas.LeftProperty, topLeft.X);
-            handCardArea.SetValue(Canvas.TopProperty, topLeft.Y);
-            handCardArea.Width = HandCardStackTemplate.ActualWidth;
-            handCardArea.Height = HandCardStackTemplate.ActualHeight;
-            handCardArea.CardAlignment = HandCardStackTemplate.CardAlignment;
-            handCardArea.CardCapacity = HandCardStackTemplate.CardCapacity;
-            handCardArea.MaxCardSpacing = HandCardStackTemplate.MaxCardSpacing;
-            handCardArea.IsCardConsumer = HandCardStackTemplate.IsCardConsumer;
-        }
-
-        public void UpdateCardAreas()
-        {
-            if (parentGameView != null)
-            {
-                ArrangeCardAreas(ParentGameView.GlobalCanvas);
             }
         }
 
         public void AddCards(DeckType deck, IList<CardView> cards)
         {
-            UpdateCardAreas();
             if (deck == DeckType.Hand)
             {
                 handCardArea.AddCards(cards);
@@ -114,8 +78,9 @@ namespace Sanguosha.UI.Controls
             return cardsToRemove;
         }
 
-        public void AddToOtherPiles(string pileName, List<CardView> cards)
+        public void UpdateCardAreas()
         {
+            handCardArea.RearrangeCards();
         }
     }
 }

@@ -10,8 +10,7 @@ namespace Sanguosha.UI.Controls
     public class DiscardDeck : CardStack, IDeckContainer
     {
         public DiscardDeck()
-        {
-            MaxCardSpacing = 0;
+        {            
         }
 
         public void AddCards(DeckType deck, IList<CardView> cards)

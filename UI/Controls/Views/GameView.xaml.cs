@@ -239,7 +239,7 @@ namespace Sanguosha.UI.Controls
                 mainPlayerPanel.SetValue(Grid.ColumnSpanProperty, 2);
                 infoPanel.SetValue(Grid.RowSpanProperty, 1);
             }
-
+            
             base.ArrangeOverride(arrangeBounds);
 
             foreach (var playerView in playersMap.Values)

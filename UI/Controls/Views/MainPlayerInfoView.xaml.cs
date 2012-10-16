@@ -26,6 +26,7 @@ namespace Sanguosha.UI.Controls
             InitializeComponent();
             this.DataContextChanged += new DependencyPropertyChangedEventHandler(PlayerInfoView_DataContextChanged);
             _OnPropertyChanged = new PropertyChangedEventHandler(model_PropertyChanged);
+            HandCardArea = handCardPlaceHolder;
         }
 
         private PropertyChangedEventHandler _OnPropertyChanged;
@@ -67,9 +68,5 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        protected override CardStack HandCardStackTemplate
-        {
-            get { return handCardPlaceHolder; }
-        }
     }
 }

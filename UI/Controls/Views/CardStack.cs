@@ -19,30 +19,30 @@ namespace Sanguosha.UI.Controls
             CardAlignment = HorizontalAlignment.Center;
             IsCardConsumer = false;
             CardCapacity = int.MaxValue;
-            this.SizeChanged += new SizeChangedEventHandler(CardStack_SizeChanged);
-            _cards = new List<CardView>();
+            _cards = new List<CardView>();            
         }
 
-        void CardStack_SizeChanged(object sender, SizeChangedEventArgs e)
+        #endregion
+
+
+        #region Public Functions
+
+        public void RearrangeCards()
         {
             RearrangeCards(_cards);
         }
-        #endregion
 
-        #region Public Functions
-        
         /// <summary>
         /// Arrange children cards in this stack.
         /// </summary>
         /// <remarks>
         /// Assumes that all cards have the same width.
         /// </remarks>
-        public void RearrangeCards(IEnumerable<CardView> cards)
+        protected void RearrangeCards(IEnumerable<CardView> cards)
         {
             int numCards = cards.Count();
             if (numCards == 0) return;
-            Trace.Assert(ParentGameView != null && ParentGameView.GlobalCanvas != null);
-            this.UpdateLayout();            
+            Trace.Assert(ParentGameView != null && ParentGameView.GlobalCanvas != null);       
             double cardHeight = (from c in cards select c.Height).Max();
             double cardWidth = (from c in cards select c.Width).Max();
             if (KeepHorizontalOrder)
@@ -72,12 +72,12 @@ namespace Sanguosha.UI.Controls
                 {
                     ParentGameView.GlobalCanvas.Children.Add(card);
                 }
-                card.Position = this.TranslatePoint(newPosition, ParentGameView.GlobalCanvas);
+                card.Position = this.TranslatePoint(newPosition, ParentGameView.GlobalCanvas);                
                 card.Rebase();
                 i++;
                 
             }
-        }
+        }        
 
         #endregion
 
@@ -86,12 +86,15 @@ namespace Sanguosha.UI.Controls
         public void AddCards(IList<CardView> cards)
         {
             foreach (var card in cards)
-            {
-                _cards.Add(card);
+            {                
                 card.CardOpacity = 1d;
                 if (IsCardConsumer)
                 {
                     card.DisappearAfterMove = true;
+                }
+                else
+                {
+                    _cards.Add(card);
                 }
             }
             RearrangeCards(cards);
@@ -102,10 +105,9 @@ namespace Sanguosha.UI.Controls
         {
             var nonexisted = from c in cards where !_cards.Contains(c)
                              select c;
-
             RearrangeCards(nonexisted);
-
-            RearrangeCards(_cards);
+            _cards = new List<CardView>(_cards.Except(cards));
+            RearrangeCards(_cards);            
         }
 
         #endregion
