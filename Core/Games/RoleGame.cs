@@ -156,6 +156,24 @@ namespace Sanguosha.Core.Games
             }
         }
 
+        private static void StartGameDeal(Game game)
+        {
+            List<CardsMovement> moves = new List<CardsMovement>();
+            // Deal everyone 4 cards
+            foreach (Player player in game.Players)
+            {
+                CardsMovement move = new CardsMovement();
+                move.cards = new List<Card>();
+                move.to = new DeckPlace(player, DeckType.Hand);
+                for (int i = 0; i < 4; i++)
+                {
+                    move.cards.Add(game.DrawCard());
+                }
+                moves.Add(move);
+            }
+            game.MoveCards(moves, null);
+        }
+
         public class RoleGameRuleTrigger : Trigger
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
@@ -167,11 +185,7 @@ namespace Sanguosha.Core.Games
                     return;
                 }
 
-                // Deal everyone 4 cards
-                foreach (Player player in game.Players)
-                {
-                    game.DrawCards(player, 4);
-                }
+                StartGameDeal(game);
                 game.CurrentPlayer = game.Players.First();
                 game.CurrentPhase = TurnPhase.BeforeStart;
 
