@@ -254,6 +254,10 @@ namespace Sanguosha.Core.Games
 
         public void MoveCards(List<CardsMovement> moves, List<UI.IGameLog> logs)
         {
+            foreach (var v in uiProxies)
+            {
+                v.Value.NotifyUiLog(moves, logs);
+            }
             foreach (CardsMovement move in moves)
             {
                 List<Card> cards = new List<Card>(move.cards);

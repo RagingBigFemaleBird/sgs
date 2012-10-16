@@ -158,7 +158,7 @@ namespace Sanguosha.Core.UI
 
         public void NotifyUiLog(List<CardsMovement> m, List<IGameLog> notes)
         {
-            throw new NotImplementedException();
+            return;
         }
 
 

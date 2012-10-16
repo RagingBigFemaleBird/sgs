@@ -14,6 +14,7 @@ using Sanguosha.Core.Heroes;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.UI;
+using System.Threading;
 
 namespace WpfApplication1
 {
@@ -42,7 +43,14 @@ namespace WpfApplication1
                 Player player = new Player();
                 _game.Players.Add(player);
                 IUiProxy proxy = new ConsoleUiProxy();
-                proxy.HostPlayer = player;
+                if (i == 0)
+                {
+                    proxy = gameView;
+                }
+                else
+                {
+                    proxy.HostPlayer = player;
+                }
                 _game.UiProxies.Add(player, proxy);
             }
             _player = _game.Players[0];
@@ -50,14 +58,20 @@ namespace WpfApplication1
             gameModel.Game = _game;
             gameModel.MainPlayerSeatNumber = 0;
             gameView.DataContext = gameModel;
+            _game.UiProxies[_game.Players[0]].HostPlayer = _game.Players[0];
         }
 
         private Game _game;
         private Player _player;
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private bool Game_Thread()
         {
             _game.Run();
+            return true;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
         }
 	}
 }

@@ -17,6 +17,8 @@ using Sanguosha.Core.Players;
 using Sanguosha.Core.Cards;
 using Sanguosha.Core.UI;
 using Sanguosha.Core.Games;
+using Sanguosha.Core.Skills;
+using System.Threading;
 
 namespace Sanguosha.UI.Controls
 {
@@ -81,7 +83,7 @@ namespace Sanguosha.UI.Controls
             InitializeComponent();
             stackPanels = new List<StackPanel>() { stackPanel0, stackPanel1, stackPanel2, stackPanel3, stackPanel4, stackPanel5 };
             profileBoxes = new List<PlayerInfoView>();
-            playersMap = new Dictionary<Player, PlayerInfoView>();
+            playersMap = new Dictionary<Player, PlayerInfoViewBase>();
             this.DataContextChanged +=  new DependencyPropertyChangedEventHandler(GameView_DataContextChanged);
             
         }
@@ -275,7 +277,7 @@ namespace Sanguosha.UI.Controls
             return new CardView() { DataContext = new CardViewModel() { Card = card } };
         }
 
-        private IList<CardView> _CreateCard(IList<Card> cards)
+        private IList<CardView> _CreateCards(IList<Card> cards)
         {
             List<CardView> cardViews = new List<CardView>();
             foreach (Card card in cards)
@@ -329,14 +331,61 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        public bool AskForCardUsage(string prompt, ICardUsageVerifier verifier, out Core.Skills.ISkill skill, out List<Card> cards, out List<Player> players)
+        Semaphore answerPending;
+
+        public Semaphore AnswerPending
         {
-            throw new NotImplementedException();
+            get { return answerPending; }
+            set { answerPending = value; }
+        }
+
+        private ISkill answerSkill;
+        private List<Card> answerCards;
+        private List<Player> answerPlayers;
+        private List<List<Card>> answerCardsOfCards;
+
+        public bool AskForCardUsage(string prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+        {
+            answerPending = new Semaphore(0, 1);
+            AskForCardUsageAsync(prompt, verifier);
+            answerPending.WaitOne();
+            skill = answerSkill;
+            cards = answerCards;
+            players = answerPlayers;
+            if (verifier.Verify(answerSkill, answerCards, answerPlayers) == VerifierResult.Success)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public void AskForCardUsageAsync(string prompt, ICardUsageVerifier verifier) { }
+        public void AnswerCardUsageAsync(ISkill skill, List<Card> cards, List<Player> players)
+        {
+            answerSkill = skill;
+            answerCards = cards;
+            answerPlayers = players;
+            answerPending.Release(1);
         }
 
         public bool AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer)
         {
-            throw new NotImplementedException();
+            answerPending = new Semaphore(0, 1);
+            AskForCardChoiceAsync(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier);
+            answerPending.WaitOne();
+            answer = answerCardsOfCards;
+            if (verifier.Verify(answer) == VerifierResult.Success)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public void AskForCardChoiceAsync(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier) { }
+        public void AnswerCardChoiceAsync(List<List<Card>> cards)
+        {
+            answerCardsOfCards = cards;
+            answerPending.Release(1);
         }
 
         public void NotifyUiLog(List<CardsMovement> moves, List<IGameLog> notes)
@@ -356,10 +405,24 @@ namespace Sanguosha.UI.Controls
                 foreach (var stackCards in cardsRemoved)
                 {
                     IDeckContainer deck = _GetMovementDeck(stackCards.Key);
-                    cardsToAdd.AddRange(deck.RemoveCards(stackCards.Key.DeckType, stackCards.Value));
+                    IList<CardView> cards;
+                    if (deck == discardDeck)
+                    {
+                        cards = _CreateCards(stackCards.Value);
+                    }
+                    else
+                    {
+                        cards = deck.RemoveCards(stackCards.Key.DeckType, stackCards.Value);
+                    }
+                    cardsToAdd.AddRange(cards);
                 }
                 _GetMovementDeck(move.to).AddCards(move.to.DeckType, cardsToAdd);
             }
+        }
+
+        public bool AskForMultipleChoice(string prompt, List<string> questions, out int answer)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }
