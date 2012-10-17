@@ -7,6 +7,7 @@ using System.Diagnostics;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.UI;
+using Sanguosha.Core.Network;
 
 namespace Sanguosha
 {
@@ -31,6 +32,10 @@ namespace Sanguosha
             {
                 game.LoadExpansion(g);
             }
+            Server s = new Server(1);
+            s.Ready();
+            Client c = new Client();
+            c.Start();
             game.Run();
         }
     }
