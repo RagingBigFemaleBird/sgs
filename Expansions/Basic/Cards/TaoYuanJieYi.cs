@@ -40,7 +40,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 }
                 Game.CurrentGame.RecoverHealth(source, current, 1);
 
-            } while (current != source);
+            } while ((current = Game.CurrentGame.NextPlayer(current)) != source);
         }
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)

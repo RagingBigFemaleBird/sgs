@@ -38,9 +38,9 @@ namespace Sanguosha.Expansions.Basic.Cards
             Trace.Assert(dests == null || dests.Count == 0);
             Player current = source;
             SingleCardUsageVerifier v1 = responseCardVerifier;
+            current = Game.CurrentGame.NextPlayer(current);
             do
             {
-                current = Game.CurrentGame.NextPlayer(current);
                 if (!PlayerIsCardTargetCheck(source, ref current, c))
                 {
                     continue;
@@ -83,6 +83,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     }
                     break;
                 }
+                current = Game.CurrentGame.NextPlayer(current);
 
             } while (current != source);
         }

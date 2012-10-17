@@ -7,11 +7,21 @@ using System.Windows;
 using System.Diagnostics;
 using Sanguosha.Core.Cards;
 using System.Windows.Media;
+using System.Windows.Input;
 
 namespace Sanguosha.UI.Controls
 {
     public class PlayerInfoViewBase : UserControl, IDeckContainer
     {
+        #region Constructors
+
+        public PlayerInfoViewBase()
+        {
+            handCardArea = new CardStack();
+        }
+
+        #endregion
+
         CardStack handCardArea;
 
         public CardStack HandCardArea
@@ -20,10 +30,7 @@ namespace Sanguosha.UI.Controls
             set { handCardArea = value; }
         }
 
-        public PlayerInfoViewBase()
-        {
-            handCardArea = new CardStack();
-        }
+        
 
         private GameView parentGameView;
         public GameView ParentGameView 

@@ -586,6 +586,20 @@
     <Resource Include="Images\Cards\Normal\YinYueQiang.jpg" />
     <Resource Include="Images\Cards\Normal\ZhuGeLianNu.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Buttons\cancel\disabled.png" />
+    <Resource Include="Images\Buttons\cancel\down.png" />
+    <Resource Include="Images\Buttons\cancel\hover.png" />
+    <Resource Include="Images\Buttons\cancel\normal.png" />
+    <Resource Include="Images\Buttons\confirm\disabled.png" />
+    <Resource Include="Images\Buttons\confirm\down.png" />
+    <Resource Include="Images\Buttons\confirm\hover.png" />
+    <Resource Include="Images\Buttons\confirm\normal.png" />
+    <Resource Include="Images\Buttons\discard\disabled.png" />
+    <Resource Include="Images\Buttons\discard\down.png" />
+    <Resource Include="Images\Buttons\discard\hover.png" />
+    <Resource Include="Images\Buttons\discard\normal.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

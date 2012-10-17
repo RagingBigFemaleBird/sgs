@@ -37,6 +37,7 @@ namespace Sanguosha.Core.UI
         again:
             Console.Write("Card id, -1 to trigger");
             string ids = Console.ReadLine();
+            if (ids == null) { cards = null; players = null; return false; }
             int id = int.Parse(ids);
             if (id < -1)
             {

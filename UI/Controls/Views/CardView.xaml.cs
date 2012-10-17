@@ -53,6 +53,11 @@ namespace Sanguosha.UI.Controls
     /// </summary>
     public partial class CardView : UserControl
     {
+        static CardView()
+        {
+            UIElement.IsEnabledProperty.AddOwner(typeof(CardView), new FrameworkPropertyMetadata(OnIsEnabledChanged));
+        }
+
         public CardView()
         {
             InitializeComponent();
@@ -60,17 +65,17 @@ namespace Sanguosha.UI.Controls
             _daMoveX = new DoubleAnimation();
             _daMoveY = new DoubleAnimation();
             _daOpacity = new DoubleAnimation();
-            IsSelected = false;
+            isSelected = false;
             ChangeOpacityDurationSeconds = 0.5;
             Storyboard.SetTarget(_daMoveX, this);
             Storyboard.SetTarget(_daMoveY, this);
             Storyboard.SetTarget(_daOpacity, this);
             _DisappearAfterMoveHandler = new EventHandler(_DisappearAfterMove);
+            OnSelectedChanged = new EventHandler(CardView_OnSelectedChanged);
         }
 
-        void CardView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        void CardView_OnSelectedChanged(object sender, EventArgs e)
         {
-            IsSelected = !IsSelected;
             if (IsSelected)
             {
                 Offset = new Point(0, -20);
@@ -81,10 +86,50 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        bool IsSelected
+        void CardView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            get;
-            set;
+            if (!IsEnabled)
+            {
+                return;
+            }
+            IsSelected = !IsSelected;            
+        }
+
+        public event EventHandler OnSelectedChanged;
+             
+        public static void OnIsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) 
+        {
+            CardView view = d as CardView;
+            if (view == null) return;
+            if ((bool)e.NewValue == false)
+            {
+                view.IsSelected = false;
+            }             
+        }
+
+        bool isSelected;
+
+        public bool IsSelected
+        {
+            get
+            {
+                return isSelected;
+            }
+            set
+            {
+                isSelected = value;
+                OnSelectedChanged(this, new EventArgs());
+            }
+        }
+
+        public Card Card
+        {
+            get
+            {
+                CardViewModel model = DataContext as CardViewModel;
+                if (model == null) return null;
+                return model.Card;
+            }
         }
 
         public static double WidthHeightRatio = 0.7154;
