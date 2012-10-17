@@ -48,6 +48,7 @@ namespace Sanguosha.UI.Controls
             {
                 cards = _cards.OrderBy(c => c.Position.X);
             }
+            int zindex = 0;
             double maxWidth = this.ActualWidth;
             double step = Math.Min(MaxCardSpacing, (maxWidth - cardWidth) / (numCards - 1));
             int i = 0;
@@ -71,7 +72,8 @@ namespace Sanguosha.UI.Controls
                 {
                     ParentGameView.GlobalCanvas.Children.Add(card);
                 }
-                card.Position = this.TranslatePoint(newPosition, ParentGameView.GlobalCanvas);                
+                card.Position = this.TranslatePoint(newPosition, ParentGameView.GlobalCanvas);
+                card.SetValue(Canvas.ZIndexProperty, zindex++);
                 card.Rebase(transitionInSeconds);
                 i++;
                 
@@ -85,7 +87,8 @@ namespace Sanguosha.UI.Controls
         public void AddCards(IList<CardView> cards, double transitionInSeconds)
         {
             foreach (var card in cards)
-            {                
+            {
+                card.IsSelected = false;
                 card.CardOpacity = 1d;
                 if (IsCardConsumer)
                 {
@@ -113,7 +116,7 @@ namespace Sanguosha.UI.Controls
                              select c;
             RearrangeCards(nonexisted, 0d);
             _cards = new List<CardView>(_cards.Except(cards));
-            RearrangeCards(_cards, 0d);            
+            RearrangeCards(0.5d);            
         }
 
         #endregion
