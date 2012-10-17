@@ -68,5 +68,10 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        private void btnOk_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
     }
 }

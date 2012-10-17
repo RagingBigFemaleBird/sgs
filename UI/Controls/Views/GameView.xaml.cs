@@ -33,11 +33,12 @@ namespace Sanguosha.UI.Controls
         protected static int[][] pk1v3SeatIndex;
         private IList<StackPanel> stackPanels;
         private IList<PlayerInfoView> profileBoxes;
+        private IList<PlayerInfoViewModel> playerModels;
         private IDictionary<Player, PlayerInfoViewBase> playersMap;
         #endregion
 
         #region Constructors
-	
+    
         static GameView()
         {
             // Layout:
@@ -84,6 +85,7 @@ namespace Sanguosha.UI.Controls
             stackPanels = new List<StackPanel>() { stackPanel0, stackPanel1, stackPanel2, stackPanel3, stackPanel4, stackPanel5 };
             profileBoxes = new List<PlayerInfoView>();
             playersMap = new Dictionary<Player, PlayerInfoViewBase>();
+            playerModels = new List<PlayerInfoViewModel>();
             mainPlayerPanel.ParentGameView = this;
             discardDeck.ParentGameView = this;
             this.DataContextChanged +=  new DependencyPropertyChangedEventHandler(GameView_DataContextChanged);
@@ -130,6 +132,7 @@ namespace Sanguosha.UI.Controls
 
             profileBoxes.Clear();
             playersMap.Clear();
+            playerModels.Clear();
             var players = model.Game.Players;
             for (int i = 1; i < players.Count; i++)
             {
@@ -139,14 +142,17 @@ namespace Sanguosha.UI.Controls
                 playerModel.Game = model.Game;
                 var playerView = new PlayerInfoView() { DataContext = playerModel, ParentGameView = this };
                 profileBoxes.Add(playerView);
+                playerModels.Add(playerModel);
                 playersMap.Add(players[seatNo], playerView);
             }
 
             Player self = players[model.MainPlayerSeatNumber];
             PlayerInfoViewModel mainPlayerModel = new PlayerInfoViewModel();
+            mainPlayerModel.SubmitAnswerCommand = new RelayCommand(ExecuteSubmitCommand, CanExecuteSubmitCommand);
             mainPlayerModel.Game = model.Game;
             mainPlayerModel.Player = self;
             mainPlayerPanel.DataContext = mainPlayerModel;
+            playerModels.Add(mainPlayerModel);
             playersMap.Add(self, mainPlayerPanel);
 
             // Generate seat map.
@@ -294,7 +300,57 @@ namespace Sanguosha.UI.Controls
 
         #endregion
 
-        #region IUiProxy
+        #region Helpers
+
+        private List<Card> _GetSelectedCards()
+        {
+            List<Card> cards = new List<Card>();
+            foreach (CardView cardView in mainPlayerPanel.HandCardArea.Cards)
+            {
+                if (cardView.IsSelected)
+                {
+                    Trace.Assert(cardView.Card != null);
+                    cards.Add(cardView.Card);
+                }
+            }
+            return cards;
+        }
+
+        private List<Player> _GetSelectedPlayers()
+        {
+            List<Player> players = new List<Player>();
+            foreach (var playerModel in playerModels)
+            {
+                if (playerModel.IsSelected)               
+                {
+                    players.Add(playerModel.Player);
+                }
+            }
+            return players;
+        }
+        #endregion
+
+        #region SubmitAnswerCommand
+        
+        public bool CanExecuteSubmitCommand(object parameter)
+        {
+            return true;
+        }
+
+        public void ExecuteSubmitCommand(object parameter)
+        {
+            List<Card> cards = _GetSelectedCards();
+            List<Player> players = _GetSelectedPlayers();
+            
+            // Card usage question
+            if (currentUsageVerifier != null)
+            {
+                CardUsageAnsweredEvent(null, cards, players);               
+            }            
+        }
+        #endregion
+
+        #region IAsyncUiProxy
         public Player HostPlayer
         {
             get
@@ -350,8 +406,12 @@ namespace Sanguosha.UI.Controls
                 }
             });            
         }
+
+        ICardUsageVerifier currentUsageVerifier;
+
         public void AskForCardUsage(string prompt, ICardUsageVerifier verifier)
         {
+            currentUsageVerifier = verifier;
         }
 
         public void AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier)

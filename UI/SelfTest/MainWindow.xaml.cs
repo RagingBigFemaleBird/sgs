@@ -18,18 +18,19 @@ using System.Threading;
 
 namespace WpfApplication1
 {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
-	public partial class MainWindow : Window
-	{
-		public MainWindow()
-		{
-			this.InitializeComponent();            
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            this.InitializeComponent();            
             InitGame();
-			// Insert code required on object creation below this point.
-		}
+            // Insert code required on object creation below this point.
+        }
 
+        const int MainSeat = 2;
         private void InitGame()
         {
             GameEngine.LoadExpansions("Expansions");
@@ -41,11 +42,12 @@ namespace WpfApplication1
             for (int i = 0; i < 8; i++)
             {
                 Player player = new Player();
+                player.Id = i;
                 _game.Players.Add(player);
                 IUiProxy proxy = new ConsoleUiProxy();
-                if (i == 0)
+                if (i == MainSeat)
                 {
-                    proxy = new AsyncUiAdapter<GameView>(gameView);
+                    proxy = new AsyncUiAdapter(gameView);
                 }
                 else
                 {
@@ -53,12 +55,12 @@ namespace WpfApplication1
                 }
                 _game.UiProxies.Add(player, proxy);
             }
-            _player = _game.Players[0];
+            _player = _game.Players[MainSeat];
             GameViewModel gameModel = new GameViewModel();
             gameModel.Game = _game;
-            gameModel.MainPlayerSeatNumber = 0;
+            gameModel.MainPlayerSeatNumber = MainSeat;
             gameView.DataContext = gameModel;
-            _game.UiProxies[_game.Players[0]].HostPlayer = _game.Players[0];
+            _game.UiProxies[_game.Players[MainSeat]].HostPlayer = _game.Players[MainSeat];
         }
 
         private Game _game;
@@ -74,5 +76,5 @@ namespace WpfApplication1
         {
             gameThread.Abort();
         }
-	}
+    }
 }

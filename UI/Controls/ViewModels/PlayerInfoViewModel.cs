@@ -13,6 +13,7 @@ using Sanguosha.Core.Heroes;
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Cards;
+using System.Windows.Input;
 
 namespace Sanguosha.UI.Controls
 {
@@ -34,6 +35,7 @@ namespace Sanguosha.UI.Controls
         #region Constructors
         public PlayerInfoViewModel()
         {
+            
         }
 
         public PlayerInfoViewModel(Player p)
@@ -119,6 +121,16 @@ namespace Sanguosha.UI.Controls
                     OnPropertyChanged(name);
                 }
             }    
+        }
+
+        #endregion
+
+        #region Commands
+
+        public ICommand SubmitAnswerCommand
+        {
+            get;
+            internal set;
         }
 
         #endregion

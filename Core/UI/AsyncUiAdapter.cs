@@ -11,7 +11,7 @@ using Sanguosha.Core.Games;
 
 namespace Sanguosha.Core.UI
 {
-    public class AsyncUiAdapter<T> : IUiProxy where T : IAsyncUiProxy
+    public class AsyncUiAdapter : IUiProxy
     {
         private Semaphore answerPending;
         private ISkill answerSkill;
@@ -20,8 +20,8 @@ namespace Sanguosha.Core.UI
         private List<List<Card>> answerCardsOfCards;
         private int answerMultipleChoice;
 
-        private T proxy;
-        public AsyncUiAdapter(T asyncProxy)
+        private IAsyncUiProxy proxy;
+        public AsyncUiAdapter(IAsyncUiProxy asyncProxy)
         {
             proxy = asyncProxy;
             proxy.CardUsageAnsweredEvent += proxy_CardUsageAnsweredEvent;
