@@ -43,7 +43,7 @@ namespace Sanguosha.UI.Controls
         {
             if (deck == DeckType.Hand)
             {
-                handCardArea.AddCards(cards);
+                handCardArea.AddCards(cards, 0.5);
             }
         }
 
@@ -80,7 +80,7 @@ namespace Sanguosha.UI.Controls
 
         public void UpdateCardAreas()
         {
-            handCardArea.RearrangeCards();
+            handCardArea.RearrangeCards(0.1);
         }
     }
 }

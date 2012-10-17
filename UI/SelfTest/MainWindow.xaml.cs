@@ -45,7 +45,7 @@ namespace WpfApplication1
                 IUiProxy proxy = new ConsoleUiProxy();
                 if (i == 0)
                 {
-                    proxy = gameView;
+                    proxy = new AsyncUiAdapter<GameView>(gameView);
                 }
                 else
                 {

@@ -27,9 +27,9 @@ namespace Sanguosha.UI.Controls
 
         #region Public Functions
 
-        public void RearrangeCards()
+        public void RearrangeCards(double transitionInSeconds)
         {
-            RearrangeCards(_cards);
+            RearrangeCards(_cards, transitionInSeconds);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Sanguosha.UI.Controls
         /// <remarks>
         /// Assumes that all cards have the same width.
         /// </remarks>
-        protected void RearrangeCards(IEnumerable<CardView> cards)
+        protected void RearrangeCards(IEnumerable<CardView> cards, double transitionInSeconds)
         {
             int numCards = cards.Count();
             if (numCards == 0) return;
@@ -73,7 +73,7 @@ namespace Sanguosha.UI.Controls
                     ParentGameView.GlobalCanvas.Children.Add(card);
                 }
                 card.Position = this.TranslatePoint(newPosition, ParentGameView.GlobalCanvas);                
-                card.Rebase();
+                card.Rebase(transitionInSeconds);
                 i++;
                 
             }
@@ -83,7 +83,7 @@ namespace Sanguosha.UI.Controls
 
         #region Public Functions
 
-        public void AddCards(IList<CardView> cards)
+        public void AddCards(IList<CardView> cards, double transitionInSeconds)
         {
             foreach (var card in cards)
             {                
@@ -97,7 +97,7 @@ namespace Sanguosha.UI.Controls
                     _cards.Add(card);
                 }
             }
-            RearrangeCards(cards);
+            RearrangeCards(cards, transitionInSeconds);
 
         }
 
@@ -105,9 +105,9 @@ namespace Sanguosha.UI.Controls
         {
             var nonexisted = from c in cards where !_cards.Contains(c)
                              select c;
-            RearrangeCards(nonexisted);
+            RearrangeCards(nonexisted, 0);
             _cards = new List<CardView>(_cards.Except(cards));
-            RearrangeCards(_cards);            
+            RearrangeCards(_cards, 0);            
         }
 
         #endregion

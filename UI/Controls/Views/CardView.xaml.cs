@@ -56,15 +56,35 @@ namespace Sanguosha.UI.Controls
         public CardView()
         {
             InitializeComponent();
+            this.MouseLeftButtonDown += new MouseButtonEventHandler(CardView_MouseLeftButtonDown);
             _daMoveX = new DoubleAnimation();
             _daMoveY = new DoubleAnimation();
             _daOpacity = new DoubleAnimation();
-            CardMoveDurationSeconds = 0.5;
+            IsSelected = false;
             ChangeOpacityDurationSeconds = 0.5;
             Storyboard.SetTarget(_daMoveX, this);
             Storyboard.SetTarget(_daMoveY, this);
             Storyboard.SetTarget(_daOpacity, this);
             _DisappearAfterMoveHandler = new EventHandler(_DisappearAfterMove);
+        }
+
+        void CardView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            IsSelected = !IsSelected;
+            if (IsSelected)
+            {
+                Offset = new Point(0, -20);
+            }
+            else
+            {
+                Offset = new Point(0, 0);
+            }
+        }
+
+        bool IsSelected
+        {
+            get;
+            set;
         }
 
         public static double WidthHeightRatio = 0.7154;
@@ -90,11 +110,9 @@ namespace Sanguosha.UI.Controls
         DoubleAnimation _daMoveY;
         DoubleAnimation _daOpacity;
 
-        public double CardMoveDurationSeconds { get; set; }
-
         public double ChangeOpacityDurationSeconds { get; set; }
 
-        public void Rebase()
+        public void Rebase(double transitionInSeconds)
         {            
             if (Position == null) return;
             if (Parent == null || !(Parent is Canvas)) return;
@@ -115,8 +133,8 @@ namespace Sanguosha.UI.Controls
             }
             _daMoveX.To = destX;
             _daMoveY.To = destY;            
-            _daMoveX.Duration = TimeSpan.FromSeconds(CardMoveDurationSeconds);
-            _daMoveY.Duration = TimeSpan.FromSeconds(CardMoveDurationSeconds);
+            _daMoveX.Duration = TimeSpan.FromSeconds(transitionInSeconds);
+            _daMoveY.Duration = TimeSpan.FromSeconds(transitionInSeconds);
             if (DisappearAfterMove)
             {
                 _daMoveX.Completed += _DisappearAfterMoveHandler;
@@ -150,7 +168,7 @@ namespace Sanguosha.UI.Controls
         {
             CardView card = d as CardView;
             if (card == null) return;
-            card.Rebase();
+            card.Rebase(0.1);
         }       
 
         #region Dependency Properties

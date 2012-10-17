@@ -66,7 +66,7 @@
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <ProgressBar Style="{StaticResource TimedProgressBarStyle}" Grid.Column="0" Grid.Row="2" Margin="5,0" Value="80" />
-        <Grid Grid.Column="0">
+        <Grid Grid.Column="0">            
             <Border x:Name="isPlayingGlow" Visibility="{Binding Path=IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}"  Background="#FF27D317">
                 <Border.Effect>
                     <BlurEffect Radius="10"/>
@@ -77,7 +77,7 @@
                     <ImageBrush ImageSource="{DynamicResource PlayerInfoView.Background}" TileMode="Tile"/>
                 </Border.Background>
             </Border>
-            <Border Margin="6" CornerRadius="3" Opacity="0.2" Background="Transparent" BorderThickness="1">
+            <Border Margin="6" CornerRadius="3" Opacity="0.2" Background="Transparent">
                 <Border.BorderBrush>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#FF707070" Offset="0"/>
@@ -92,7 +92,7 @@
                     <RowDefinition Height="61"/>
                 </Grid.RowDefinitions>
                 <local:CardStack x:Name="handCardPlaceHolder" IsCardConsumer="true" CardAlignment="Center" MaxCardSpacing="20" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="130" Width="279" />
-                <Rectangle Fill="Black" Grid.RowSpan="2"/>
+                <Rectangle Fill="Black" Grid.RowSpan="2" />
                 <Image Source="{DynamicResource PlayerInfoView.Decoration.TopLeft}" Width="64" HorizontalAlignment="Left" Margin="-10,-7,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
                 <Path Data="M0,0H124" HorizontalAlignment="Center" Margin="0,15,0,0" Stretch="Fill" VerticalAlignment="Top" Width="124">
                     <Path.Stroke>

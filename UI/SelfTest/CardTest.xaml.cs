@@ -54,7 +54,7 @@ namespace Sanguosha.UI.Selftest
             cards.Add(cardView1);
             cards.Add(cardView2);
             // cardStack.CardAlignment = System.Windows.HorizontalAlignment.Left;
-            cardStack.AddCards(cards);
+            cardStack.AddCards(cards, 0.5);
             
         }
     }

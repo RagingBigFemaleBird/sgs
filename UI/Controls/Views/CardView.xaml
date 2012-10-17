@@ -6,25 +6,25 @@
 			 xmlns:local="clr-namespace:Sanguosha.UI.Controls"
              xmlns:ee="http://schemas.microsoft.com/expression/2010/effects" 
              xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
-			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Class="Sanguosha.UI.Controls.CardView"
+			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Name="userControl" x:Class="Sanguosha.UI.Controls.CardView"
 			 mc:Ignorable="d"
              d:DesignHeight="130" d:DesignWidth="93" Opacity="0">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-            	<ResourceDictionary Source="pack://application:,,,/Resources;component/Cards.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/Cards.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-        	<local:SuitColorToColorConverter x:Key="suitColorToColorConverter" />
+            <local:SuitColorToColorConverter x:Key="suitColorToColorConverter" />
         	<Style x:Key="footNoteStyle" TargetType="{x:Type TextBlock}">
         		<Setter Property="TextWrapping" Value="WrapWithOverflow"/>
         		<Setter Property="TextTrimming" Value="None"/>
-        		<Setter Property="VerticalAlignment" Value="Bottom"/>
-        		<Setter Property="FontFamily" Value="SimSun" />
-        		<Setter Property="TextAlignment" Value="Center" />
-        		<Setter Property="FontSize" Value="12"/>
-        		<Setter Property="Margin" Value="3.666,0,7.333,7"/>
-        		<Setter Property="Foreground" Value="#FFF9FBE6" />
-        		<Setter Property="Text" Value="{Binding Footnote}" />
+				<Setter Property="VerticalAlignment" Value="Bottom"/>
+				<Setter Property="FontFamily" Value="SimSun" />
+				<Setter Property="TextAlignment" Value="Center" />
+				<Setter Property="FontSize" Value="12"/>
+				<Setter Property="Margin" Value="3.666,0,7.333,7"/>
+				<Setter Property="Foreground" Value="#FFF9FBE6" />
+				<Setter Property="Text" Value="{Binding Footnote}" />
         	</Style>
         	<Storyboard x:Key="sbFade">
         		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
@@ -46,6 +46,14 @@
         	</Storyboard>
         </ResourceDictionary>
     </UserControl.Resources>
+	<i:Interaction.Triggers>
+		<i:EventTrigger EventName="MouseEnter">
+			<ei:GoToStateAction TargetObject="{Binding ElementName=userControl}" StateName="MouseEnterState"/>
+		</i:EventTrigger>
+		<i:EventTrigger EventName="MouseLeave">
+			<ei:GoToStateAction TargetObject="{Binding ElementName=userControl}" StateName="MouseLeaveState"/>
+		</i:EventTrigger>
+	</i:Interaction.Triggers>
 	<UserControl.Triggers>
 		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
 			<BeginStoryboard Storyboard="{StaticResource sbFade}"/>
@@ -53,15 +61,23 @@
 		</EventTrigger>
 	</UserControl.Triggers>
     <Grid>
-    	<VisualStateManager.CustomVisualStateManager>
-    		<ei:ExtendedVisualStateManager/>
-    	</VisualStateManager.CustomVisualStateManager>
     	<VisualStateManager.VisualStateGroups>
-    		<VisualStateGroup x:Name="CommonStates" ei:ExtendedVisualStateManager.UseFluidLayout="True"/>
+    		<VisualStateGroup x:Name="MouseStates">
+    			<VisualState x:Name="MouseEnterState">
+    				<Storyboard>
+    					<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="border">
+    						<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+    					</DoubleAnimationUsingKeyFrames>
+    				</Storyboard>
+    			</VisualState>
+    			<VisualState x:Name="MouseLeaveState">
+    				<Storyboard/>
+    			</VisualState>
+    		</VisualStateGroup>
     	</VisualStateManager.VisualStateGroups>
         <Viewbox Stretch="Uniform">            
             <Grid Height="130" Width="93">                
-                <Border Background="#FF7F8178" Margin="-3, -3, -3, -3" Opacity="0">
+                <Border x:Name="border" Background="#FF7F8178" Margin="-3, -3, -3, -3" Opacity="0">
                     <Border.Effect>
                         <BlurEffect />
                     </Border.Effect>

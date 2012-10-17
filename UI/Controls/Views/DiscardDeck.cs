@@ -15,7 +15,7 @@ namespace Sanguosha.UI.Controls
 
         public void AddCards(DeckType deck, IList<CardView> cards)
         {
-            AddCards(cards);
+            AddCards(cards, 0.5);
         }
 
         public IList<CardView> RemoveCards(DeckType deck, IList<Card> cards)
