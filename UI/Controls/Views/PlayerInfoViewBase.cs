@@ -30,9 +30,8 @@ namespace Sanguosha.UI.Controls
             set { handCardArea = value; }
         }
 
-        
-
         private GameView parentGameView;
+        
         public GameView ParentGameView 
         {
             get

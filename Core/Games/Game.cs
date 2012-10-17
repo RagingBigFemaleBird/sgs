@@ -153,6 +153,11 @@ namespace Sanguosha.Core.Games
         /// </summary>
         static Dictionary<Thread, Game> games;
 
+        public void RegisterCurrentThread()
+        {
+            games.Add(Thread.CurrentThread, this);
+        }
+
         List<Card> cardSet;
 
         public List<Card> CardSet

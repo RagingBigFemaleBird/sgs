@@ -28,6 +28,7 @@
         	</Style>
         	<Storyboard x:Key="sbFade">
         		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
+        			<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
         			<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1">
         				<EasingDoubleKeyFrame.EasingFunction>
         					<CubicEase EasingMode="EaseOut"/>

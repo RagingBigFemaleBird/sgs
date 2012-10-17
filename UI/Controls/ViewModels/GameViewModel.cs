@@ -23,7 +23,11 @@ namespace Sanguosha.UI.Controls
         public Game Game
         {
             get { return _game; }
-            set { _game = value; }
+            set 
+            {
+                _game = value;
+                _game.RegisterCurrentThread();
+            }
         }
 
         int _mainPlayerSeatNumber;

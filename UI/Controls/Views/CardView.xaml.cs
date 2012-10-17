@@ -104,7 +104,11 @@ namespace Sanguosha.UI.Controls
             if ((bool)e.NewValue == false)
             {
                 view.IsSelected = false;
-            }             
+            }
+            else
+            {
+                view.IsFaded = false;
+            }
         }
 
         bool isSelected;
@@ -117,6 +121,7 @@ namespace Sanguosha.UI.Controls
             }
             set
             {
+                if (isSelected == value) return;
                 isSelected = value;
                 OnSelectedChanged(this, new EventArgs());
             }
@@ -221,7 +226,7 @@ namespace Sanguosha.UI.Controls
             CardView card = d as CardView;
             if (card == null) return;
             card.Rebase(0.1);
-        }       
+        }
 
         #region Dependency Properties
 

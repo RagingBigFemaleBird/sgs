@@ -89,6 +89,8 @@ namespace Sanguosha.UI.Controls
             mainPlayerPanel.ParentGameView = this;
             discardDeck.ParentGameView = this;
             this.DataContextChanged +=  new DependencyPropertyChangedEventHandler(GameView_DataContextChanged);
+            canExecuteSubmitCommand = false;
+            _UpdateEnableStatusHandler = new EventHandler(cardOrPlayer_OnSelectedChanged);
             
         }
         #endregion
@@ -113,6 +115,8 @@ namespace Sanguosha.UI.Controls
         }
 
         #endregion
+
+        PlayerInfoViewModel mainPlayerModel;
 
         #region Layout Related
         public void RearrangeSeats()
@@ -147,7 +151,7 @@ namespace Sanguosha.UI.Controls
             }
 
             Player self = players[model.MainPlayerSeatNumber];
-            PlayerInfoViewModel mainPlayerModel = new PlayerInfoViewModel();
+            mainPlayerModel = new PlayerInfoViewModel();
             mainPlayerModel.SubmitAnswerCommand = new RelayCommand(ExecuteSubmitCommand, CanExecuteSubmitCommand);
             mainPlayerModel.Game = model.Game;
             mainPlayerModel.Player = self;
@@ -331,23 +335,39 @@ namespace Sanguosha.UI.Controls
         #endregion
 
         #region SubmitAnswerCommand
-        
+
+        bool canExecuteSubmitCommand;
+
         public bool CanExecuteSubmitCommand(object parameter)
         {
-            return true;
+            return canExecuteSubmitCommand;
         }
 
         public void ExecuteSubmitCommand(object parameter)
         {
             List<Card> cards = _GetSelectedCards();
             List<Player> players = _GetSelectedPlayers();
-            
+
+            foreach (CardView cardView in mainPlayerPanel.HandCardArea.Cards)
+            {
+                cardView.OnSelectedChanged -= _UpdateEnableStatusHandler;
+                cardView.IsSelected = false;
+            }
+
+            foreach (var playerModel in playerModels)
+            {
+                playerModel.OnSelectedChanged -= _UpdateEnableStatusHandler;
+                playerModel.IsSelectionMode = false;
+            }
+
             // Card usage question
             if (currentUsageVerifier != null)
             {
-                CardUsageAnsweredEvent(null, cards, players);               
-            }            
+                currentUsageVerifier = null;
+                CardUsageAnsweredEvent(null, cards, players);
+            }
         }
+
         #endregion
 
         #region IAsyncUiProxy
@@ -409,10 +429,107 @@ namespace Sanguosha.UI.Controls
 
         ICardUsageVerifier currentUsageVerifier;
 
+        private void _UpdateCommandStatus()
+        {
+            List<Card> cards = _GetSelectedCards();
+            List<Player> players = _GetSelectedPlayers();
+
+            // Card usage question
+            if (currentUsageVerifier != null)
+            {
+                var status = currentUsageVerifier.Verify(null, cards, players);
+                if (status == VerifierResult.Fail)
+                {
+                    canExecuteSubmitCommand = false;
+                    foreach (var playerModel in playerModels)
+                    {
+                        playerModel.IsSelected = false;
+                    }
+                }
+                else if (status == VerifierResult.Success)
+                {
+                    canExecuteSubmitCommand = true;
+                }
+            }
+
+            List<Card> attempt = new List<Card>(cards);
+            foreach (CardView cardView in mainPlayerPanel.HandCardArea.Cards)
+            {
+                if (cardView.IsSelected)
+                {
+                    continue;
+                }
+                attempt.Add(cardView.Card);
+                bool disabled = (currentUsageVerifier.Verify(null, attempt, players) == VerifierResult.Fail);
+                cardView.IsFaded = disabled;
+                cardView.IsEnabled = !disabled;
+                attempt.Remove(cardView.Card);
+            }
+
+            List<Player> attempt2 = new List<Player>(players);
+            int validCount = 0;
+            bool[] enabledMap = new bool[playerModels.Count];
+            int i = 0;
+            foreach (var playerModel in playerModels)
+            {
+                enabledMap[i] = false;
+                if (playerModel.IsSelected)
+                {
+                    continue;
+                }
+                attempt2.Add(playerModel.Player);
+                bool disabled = (currentUsageVerifier.Verify(null, cards, attempt2) == VerifierResult.Fail);
+                if (!disabled)
+                {
+                    validCount++;
+                    enabledMap[i] = true;
+                }
+                attempt2.Remove(playerModel.Player);
+                i++;
+                
+            }
+            i = 0;
+            bool allowSelection = (cards.Count != 0 || validCount != 0);
+            foreach (var playerModel in playerModels)
+            {
+                if (playerModel.IsSelected)
+                {
+                    continue;
+                }
+                playerModel.IsSelectionMode = allowSelection;
+                if (allowSelection)
+                {
+                    playerModel.IsEnabled = enabledMap[i];
+                }
+                i++;
+            }
+        }
+
         public void AskForCardUsage(string prompt, ICardUsageVerifier verifier)
         {
-            currentUsageVerifier = verifier;
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                currentUsageVerifier = verifier;
+                foreach (CardView cardView in mainPlayerPanel.HandCardArea.Cards)
+                {
+                    cardView.OnSelectedChanged += _UpdateEnableStatusHandler;
+                }
+                foreach (var playerModel in playerModels)
+                {
+                    playerModel.IsSelectionMode = true;
+                    playerModel.OnSelectedChanged += _UpdateEnableStatusHandler;
+                }
+                _UpdateCommandStatus();
+            });
         }
+
+        private EventHandler _UpdateEnableStatusHandler;
+
+        void cardOrPlayer_OnSelectedChanged(object sender, EventArgs e)
+        {
+            _UpdateCommandStatus();
+        }
+
 
         public void AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier)
         {
@@ -420,7 +537,6 @@ namespace Sanguosha.UI.Controls
 
         public void AskForMultipleChoice(string prompt, List<string> questions)
         {
-            CardUsageAnsweredEvent(null, null, null);
             CardChoiceAnsweredEvent(null);
             MultipleChoiceAnsweredEvent(0);
         }

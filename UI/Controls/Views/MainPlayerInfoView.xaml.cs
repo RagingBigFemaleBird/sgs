@@ -68,9 +68,10 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        private void btnOk_Click(object sender, RoutedEventArgs e)
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
+            PlayerInfoViewModel model = DataContext as PlayerInfoViewModel;
+            model.IsSelected = !model.IsSelected;
         }
 
     }
