@@ -73,7 +73,10 @@ namespace Sanguosha.UI.Controls
                             break;
                         }
                     }
-                    Trace.Assert(found);
+                    if (!found)
+                    {
+                        cardsToRemove.Add(CardView.CreateCard(card));
+                    }
                 }
 
                 handCardArea.RemoveCards(cardsToRemove);

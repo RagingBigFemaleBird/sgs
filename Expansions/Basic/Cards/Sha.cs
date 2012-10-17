@@ -53,7 +53,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     return;
                 }
             }
-
+            bool cannotProvideShan = false;
             while (numberOfShanRequired > 0 && !cannotUseShan)
             {
                 args.Source = dest;
@@ -82,12 +82,17 @@ namespace Sanguosha.Expansions.Basic.Cards
                     List<Card> cards;
                     if (!ui.AskForCardUsage("Shan", v1, out skill, out cards, out p))
                     {
+                        cannotProvideShan = true;
                         break;
                     }
                     if (!Game.CurrentGame.HandleCardUse(dest, skill, cards))
                     {
                         continue;
                     }
+                    break;
+                }
+                if (cannotProvideShan)
+                {
                     break;
                 }
                 numberOfShanRequired--;

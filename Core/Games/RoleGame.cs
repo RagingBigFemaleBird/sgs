@@ -140,6 +140,7 @@ namespace Sanguosha.Core.Games
                     || CardCategoryManager.IsCardCategory(c.Type.Category, CardCategory.Armor))
                 {
                     c.Type.Process(eventArgs.Source, eventArgs.Targets, c);
+                    Game.CurrentGame.Decks[DeckType.Compute] = new List<Card>(computeBackup);
                     return;
                 }
 
