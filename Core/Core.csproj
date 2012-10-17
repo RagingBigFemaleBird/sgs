@@ -64,6 +64,9 @@
     <Compile Include="Exceptions\SgsException.cs" />
     <Compile Include="Games\Game.cs" />
     <Compile Include="Heroes\HeroCardHandler.cs" />
+    <Compile Include="Network\ItemReceiver.cs" />
+    <Compile Include="Network\ItemSender.cs" />
+    <Compile Include="Network\Server.cs" />
     <Compile Include="Players\PlayerAttribute.cs" />
     <Compile Include="Skills\ActiveSkill.cs" />
     <Compile Include="Skills\CardTransformSkill.cs" />
@@ -84,8 +87,10 @@
     <Compile Include="UI\IAsyncUiProxy.cs" />
     <Compile Include="UI\IGameLog.cs" />
     <Compile Include="UI\IUIProxy.cs" />
+    <Compile Include="UI\NetworkUiProxy.cs" />
     <Compile Include="UI\TestUiProxy.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
