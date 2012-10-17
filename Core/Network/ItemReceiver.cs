@@ -24,7 +24,7 @@ namespace Sanguosha.Core.Network
             stream = s;
         }
 
-        object Receive()
+        public object Receive()
         {
             object o = formatter.Deserialize(stream);
             Trace.Assert((o is int) || (o is CardItem) || (o is Command));

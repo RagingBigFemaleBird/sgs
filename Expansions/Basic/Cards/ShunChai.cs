@@ -80,6 +80,10 @@ namespace Sanguosha.Expansions.Basic.Cards
                 return VerifierResult.Fail;
             }
             Player player = targets[0];
+            if (player == source)
+            {
+                return VerifierResult.Fail;
+            }
             if (!ShunChaiAdditionalCheck(source, player))
             {
                 return VerifierResult.Fail;

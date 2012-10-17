@@ -59,6 +59,10 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 return VerifierResult.Fail;
             }
+            if (targets[0] == source)
+            {
+                return VerifierResult.Fail;
+            }
             return VerifierResult.Success;
         }
 

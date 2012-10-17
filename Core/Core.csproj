@@ -64,6 +64,7 @@
     <Compile Include="Exceptions\SgsException.cs" />
     <Compile Include="Games\Game.cs" />
     <Compile Include="Heroes\HeroCardHandler.cs" />
+    <Compile Include="Network\Client.cs" />
     <Compile Include="Network\ItemReceiver.cs" />
     <Compile Include="Network\ItemSender.cs" />
     <Compile Include="Network\Server.cs" />
