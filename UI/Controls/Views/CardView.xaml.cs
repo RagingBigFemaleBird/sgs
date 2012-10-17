@@ -113,12 +113,12 @@ namespace Sanguosha.UI.Controls
         public double ChangeOpacityDurationSeconds { get; set; }
 
         public void Rebase(double transitionInSeconds)
-        {            
+        {
             if (Position == null) return;
             if (Parent == null || !(Parent is Canvas)) return;
             double x = (double)GetValue(Canvas.LeftProperty);
             double y = (double)GetValue(Canvas.TopProperty);
-            if (double.IsNaN(x) || double.IsNaN(y))
+            if (double.IsNaN(x) || double.IsNaN(y) || transitionInSeconds == 0)
             {
                 SetValue(Canvas.LeftProperty, Position.X);
                 SetValue(Canvas.TopProperty, Position.Y);
@@ -147,7 +147,14 @@ namespace Sanguosha.UI.Controls
 
         private void _DisappearAfterMove(object sender, EventArgs e)
         {
-            _daMoveX.Completed -= _DisappearAfterMoveHandler;            
+            _daMoveX.Completed -= _DisappearAfterMoveHandler;
+            _daOpacity.Completed += new EventHandler((o, e2) =>
+            {
+                Canvas canvas = this.Parent as Canvas;
+                Trace.Assert(canvas != null);
+                canvas.Children.Remove(this);
+
+            });
             CardOpacity = 0;
         }
 

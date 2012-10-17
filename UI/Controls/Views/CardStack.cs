@@ -24,7 +24,6 @@ namespace Sanguosha.UI.Controls
 
         #endregion
 
-
         #region Public Functions
 
         public void RearrangeCards(double transitionInSeconds)
@@ -97,7 +96,14 @@ namespace Sanguosha.UI.Controls
                     _cards.Add(card);
                 }
             }
-            RearrangeCards(cards, transitionInSeconds);
+            if (IsCardConsumer)
+            {
+                RearrangeCards(cards, transitionInSeconds);
+            }
+            else
+            {
+                RearrangeCards(_cards, transitionInSeconds);
+            }
 
         }
 
@@ -105,9 +111,9 @@ namespace Sanguosha.UI.Controls
         {
             var nonexisted = from c in cards where !_cards.Contains(c)
                              select c;
-            RearrangeCards(nonexisted, 0);
+            RearrangeCards(nonexisted, 0d);
             _cards = new List<CardView>(_cards.Except(cards));
-            RearrangeCards(_cards, 0);            
+            RearrangeCards(_cards, 0d);            
         }
 
         #endregion

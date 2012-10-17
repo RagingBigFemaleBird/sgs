@@ -67,5 +67,11 @@ namespace Sanguosha.UI.Controls
                 cbRoleBox.DataContext = model.PossibleRoles;
             }
         }
+
+        private void PlayerInfoViewBase_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            PlayerInfoViewModel model = DataContext as PlayerInfoViewModel;
+            model.IsSelected = !model.IsSelected;
+        }
     }
 }

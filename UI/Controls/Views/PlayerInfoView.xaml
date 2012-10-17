@@ -1,14 +1,14 @@
 ﻿<local:PlayerInfoViewBase
     x:Class="Sanguosha.UI.Controls.PlayerInfoView"
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:ee="http://schemas.microsoft.com/expression/2010/effects"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ee="http://schemas.microsoft.com/expression/2010/effects"
     xmlns:local="clr-namespace:Sanguosha.UI.Controls"
     xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
-	mc:Ignorable="d"
-	MaxWidth="168" MaxHeight="210" MinWidth="138" MinHeight="174" d:DesignHeight="210" d:DesignWidth="168">
+    mc:Ignorable="d"
+    MaxWidth="168" MaxHeight="210" MinWidth="138" MinHeight="174" d:DesignHeight="210" d:DesignWidth="168" MouseDown="PlayerInfoViewBase_MouseDown">
     <local:PlayerInfoViewBase.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -32,29 +32,29 @@
                 </Setter>
             </Style>
             <Storyboard x:Key="sbPhaseChange">
-            	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="imgPhase">
-            		<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-            		<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1">
-            			<EasingDoubleKeyFrame.EasingFunction>
-            				<CubicEase EasingMode="EaseOut"/>
-            			</EasingDoubleKeyFrame.EasingFunction>
-            		</EasingDoubleKeyFrame>
-            	</DoubleAnimationUsingKeyFrames>
-            	<ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="imgPhase">
-            		<EasingThicknessKeyFrame KeyTime="0" Value="0,0,75,0"/>
-            		<EasingThicknessKeyFrame KeyTime="0:0:0.5" Value="0">
-            			<EasingThicknessKeyFrame.EasingFunction>
-            				<CubicEase EasingMode="EaseOut"/>
-            			</EasingThicknessKeyFrame.EasingFunction>
-            		</EasingThicknessKeyFrame>
-            	</ThicknessAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="imgPhase">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+                <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="imgPhase">
+                    <EasingThicknessKeyFrame KeyTime="0" Value="0,0,75,0"/>
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.5" Value="0">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                </ThicknessAnimationUsingKeyFrames>
             </Storyboard>
         </ResourceDictionary>
     </local:PlayerInfoViewBase.Resources>
     <local:PlayerInfoViewBase.Triggers>
-		<EventTrigger RoutedEvent="FrameworkElement.Loaded" SourceName="imgPhase">
-			<BeginStoryboard Storyboard="{StaticResource sbPhaseChange}"/>
-		</EventTrigger>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded" SourceName="imgPhase">
+            <BeginStoryboard Storyboard="{StaticResource sbPhaseChange}"/>
+        </EventTrigger>
     </local:PlayerInfoViewBase.Triggers>
     <Grid x:Name="LayoutRoot">        
         <Grid.RowDefinitions>
@@ -68,6 +68,11 @@
         <ProgressBar Style="{StaticResource TimedProgressBarStyle}" Grid.Column="0" Grid.Row="2" Margin="5,0" Value="80" />
         <Grid Grid.Column="0">            
             <Border x:Name="isPlayingGlow" Visibility="{Binding Path=IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}"  Background="#FF27D317">
+                <Border.Effect>
+                    <BlurEffect Radius="10"/>
+                </Border.Effect>
+            </Border>
+            <Border x:Name="isSelectedGlow" Visibility="{Binding Path=IsSelected, Converter={StaticResource boolToVisibilityConverter}}"  Background="#FFFF6B00">
                 <Border.Effect>
                     <BlurEffect Radius="10"/>
                 </Border.Effect>
@@ -133,9 +138,9 @@
                 <local:RoleBox x:Name="cbRoleBox" HorizontalAlignment="Right"/>
                 <Border Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,3,0,0" Width="20">
                     <local:OutlinedTextBlock x:Name="HeroNameText" TextWrapping="Wrap" Fill="White" Stroke="Black" StrokeThickness="1" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=HeroName, StringFormat=Hero.{0}.Name}" FontFamily="LiSu" FontSize="18.667" VerticalAlignment="Center" TextAlignment="Center">
-					<local:OutlinedTextBlock.Effect>
-						<DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0"/>
-					</local:OutlinedTextBlock.Effect>
+                    <local:OutlinedTextBlock.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0"/>
+                    </local:OutlinedTextBlock.Effect>
                     </local:OutlinedTextBlock>
                 </Border>
                 <TextBlock x:Name="userLevelText" Text="Lv.0" HorizontalAlignment="Center" Margin="0,4,0,0" Style="{DynamicResource SmallTextBlockStyle}"/>
