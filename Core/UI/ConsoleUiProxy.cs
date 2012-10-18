@@ -7,6 +7,7 @@ using Sanguosha.Core.Cards;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
+using System.Threading;
 
 namespace Sanguosha.Core.UI
 {
@@ -37,7 +38,7 @@ namespace Sanguosha.Core.UI
         again:
             Console.Write("Card id, -1 to trigger");
             string ids = Console.ReadLine();
-            if (ids == null) { cards = null; players = null; return false; }
+            if (ids == null) { Thread.Sleep(200); cards = null; players = null; return false; }
             int id = int.Parse(ids);
             if (id < -1)
             {

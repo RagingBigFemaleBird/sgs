@@ -47,7 +47,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             return VerifierResult.Success;
         }
 
-        protected override bool DoTransformSideEffect(CompositeCard card, object arg)
+        protected override bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets)
         {
             Player player = Owner;
             ICard result = null;
@@ -69,7 +69,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                             failToRespond = true;
                             break;
                         }
-                        if (!Game.CurrentGame.CommitCardTransform(player, skill, cards, out result))
+                        if (!Game.CurrentGame.CommitCardTransform(player, skill, cards, out result, targets))
                         {
                             continue;
                         }

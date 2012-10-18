@@ -111,7 +111,7 @@ namespace Sanguosha.Core.Games
                 {
                     CompositeCard card;
                     CardTransformSkill s = (CardTransformSkill)eventArgs.Skill;                    
-                    if (!s.Transform(eventArgs.Cards, null, out card))
+                    if (!s.Transform(eventArgs.Cards, null, out card, eventArgs.Targets))
                     {
                         return;
                     }

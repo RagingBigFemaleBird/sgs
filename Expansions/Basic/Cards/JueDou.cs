@@ -19,6 +19,8 @@ namespace Sanguosha.Expansions.Basic.Cards
         protected override void Process(Player source, Player dest, ICard card)
         {
             Player current = dest;
+            List<Player> sourceList = new List<Player>();
+            sourceList.Add(source);
             while (true)
             {
                 IUiProxy ui = Game.CurrentGame.UiProxies[current];
@@ -31,7 +33,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     Trace.TraceInformation("Player {0} Invalid answer", current);
                     break;
                 }
-                if (!Game.CurrentGame.HandleCardUse(current, skill, cards))
+                if (!Game.CurrentGame.HandleCardUse(current, skill, cards, sourceList))
                 {
                     continue;
                 }

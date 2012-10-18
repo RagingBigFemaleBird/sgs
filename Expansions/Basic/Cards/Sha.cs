@@ -29,6 +29,9 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected override void Process(Player source, Player dest, ICard card)
         {
+            List<Player> sourceList = new List<Player>();
+            sourceList.Add(source);
+
             retrySha:
             GameEventArgs args = new GameEventArgs();
             args.Source = source;
@@ -37,21 +40,22 @@ namespace Sanguosha.Expansions.Basic.Cards
             args.Card = card;
             args.IntArg = 1;
             args.IntArg2 = 0;
-            args.IntArg3 = 0;
-            Game.CurrentGame.Emit(PlayerShaTargetShanModifier, args);
+            Game.CurrentGame.Emit(PlayerShaTargetModifier, args);
             int numberOfShanRequired = args.IntArg;
             bool cannotUseShan = args.IntArg2 == 1 ? true : false;
-            if (args.IntArg3 == 0)
+            try
             {
-                try
-                {
-                    Game.CurrentGame.Emit(PlayerShaTargetArmorModifier, args);
-                }
-                catch (TriggerResultException e)
-                {
-                    Trace.Assert(e.Status == TriggerResult.Fail);
-                    return;
-                }
+                Game.CurrentGame.Emit(PlayerShaTargetArmorModifier, args);
+            }
+            catch (TriggerResultException e)
+            {
+                Trace.Assert(e.Status == TriggerResult.Fail);
+                args.Source = source;
+                args.Targets = new List<Player>();
+                args.Targets.Add(dest);
+                args.Card = card;
+                Game.CurrentGame.Emit(PlayerShaTargetEnd, args);
+                return;
             }
             bool cannotProvideShan = false;
             while (numberOfShanRequired > 0 && !cannotUseShan)
@@ -85,7 +89,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                         cannotProvideShan = true;
                         break;
                     }
-                    if (!Game.CurrentGame.HandleCardUse(dest, skill, cards))
+                    if (!Game.CurrentGame.HandleCardUse(dest, skill, cards, sourceList))
                     {
                         continue;
                     }
@@ -117,11 +121,21 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     if (e.Status == TriggerResult.Retry)
                     {
+                        args.Source = source;
+                        args.Targets = new List<Player>();
+                        args.Targets.Add(dest);
+                        args.Card = card;
+                        Game.CurrentGame.Emit(PlayerShaTargetEnd, args);
                         goto retrySha;
                     }
                     Trace.Assert(false);
                 }
             }
+            args.Source = source;
+            args.Targets = new List<Player>();
+            args.Targets.Add(dest);
+            args.Card = card;
+            Game.CurrentGame.Emit(PlayerShaTargetEnd, args);
         }
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
@@ -208,13 +222,17 @@ namespace Sanguosha.Expansions.Basic.Cards
         /// </summary>
         public static readonly GameEvent PlayerNumberOfShaCheck = new GameEvent("PlayerNumberOfShaCheck");
         /// <summary>
-        /// 杀目标需要闪的数目的修正
+        /// 杀目标的修正
         /// </summary>
-        public static readonly GameEvent PlayerShaTargetShanModifier = new GameEvent("PlayerShaTargetShanModifier");
+        public static readonly GameEvent PlayerShaTargetModifier = new GameEvent("PlayerShaTargetModifier");
         /// <summary>
         /// 杀被闪
         /// </summary>
         public static readonly GameEvent PlayerShaTargetDodged = new GameEvent("PlayerShaTargetDodged");
+        /// <summary>
+        /// 杀结算结束
+        /// </summary>
+        public static readonly GameEvent PlayerShaTargetEnd = new GameEvent("PlayerShaTargetEnd");
         /// <summary>
         /// 杀目标防具的闪的数目和杀的有效性修正
         /// </summary>

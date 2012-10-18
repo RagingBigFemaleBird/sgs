@@ -8,6 +8,7 @@ using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Cards;
 using Sanguosha.Core.UI;
 using Sanguosha.Core.Exceptions;
+using Sanguosha.Core.Players;
 
 namespace Sanguosha.Core.Skills
 {
@@ -33,16 +34,16 @@ namespace Sanguosha.Core.Skills
         /// <param name="arg">Additional args to help the transformation.</param>
         /// <returns>False if transform is aborted.</returns>
         /// <exception cref="CardTransformFailureException"></exception>
-        public bool Transform(List<Card> cards, object arg, out CompositeCard card)
+        public bool Transform(List<Card> cards, object arg, out CompositeCard card, List<Player> targets)
         {
             if (TryTransform(cards, arg, out card) != VerifierResult.Success)
             {
                 throw new CardTransformFailureException();
             }
-            return DoTransformSideEffect(card, arg);
+            return DoTransformSideEffect(card, arg, targets);
         }
         
-        protected virtual bool DoTransformSideEffect(CompositeCard card, object arg)
+        protected virtual bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets)
         {
             return true;
         }

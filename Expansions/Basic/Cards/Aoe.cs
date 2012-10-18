@@ -38,6 +38,8 @@ namespace Sanguosha.Expansions.Basic.Cards
             Trace.Assert(dests == null || dests.Count == 0);
             Player current = source;
             SingleCardUsageVerifier v1 = responseCardVerifier;
+            List<Player> sourceList = new List<Player>();
+            sourceList.Add(source);
             current = Game.CurrentGame.NextPlayer(current);
             do
             {
@@ -75,7 +77,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     }
                     else
                     {
-                        if (!Game.CurrentGame.HandleCardUse(current, skill, cards))
+                        if (!Game.CurrentGame.HandleCardUse(current, skill, cards, sourceList))
                         {
                             continue;
                         }
