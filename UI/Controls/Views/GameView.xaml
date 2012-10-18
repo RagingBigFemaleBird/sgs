@@ -66,8 +66,14 @@
         </Grid>
         <StackPanel x:Name="spInfoPanel" Grid.Column="1">
             <Canvas Width="213" Height="419">
-                <TabControl x:Name="infoPlanTab" Width="211" Canvas.Top="56" Height="255" Background="{x:Null}" BorderBrush="{x:Null}">
-                    <TabItem Header="牌局" x:Name="logBoxTab">
+                <TabControl x:Name="infoPlanTab" Width="211" Canvas.Top="57.334" Height="255" Background="{x:Null}" BorderBrush="{x:Null}">
+                    <TabItem Header="牌局" x:Name="tabLogBox" Style="{DynamicResource TabItemStyle}">                    	
+                        <Grid />
+                    </TabItem>
+					<TabItem Header="房间" x:Name="tabRoomInfo" Style="{DynamicResource TabItemStyle}">
+                        <Grid />
+                    </TabItem>
+					<TabItem Header="好友" x:Name="tabFriends" Style="{DynamicResource TabItemStyle}">
                         <Grid />
                     </TabItem>
                 </TabControl>

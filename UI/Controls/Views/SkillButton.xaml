@@ -229,7 +229,7 @@
                                 </Grid>
                             </Grid>
                         </Border>
-                        <Border Margin="19,0,0,0">
+                        <Border Margin="15,0,0,0">
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
                     </Grid>

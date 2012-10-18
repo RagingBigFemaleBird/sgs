@@ -5,5 +5,10 @@
 	StartupUri="MainWindow.xaml">
 	<Application.Resources>
 		<!-- Resources scoped at the Application level should be defined here. -->
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/Resources;component/Skills.xaml"/>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
 	</Application.Resources>
 </Application>
