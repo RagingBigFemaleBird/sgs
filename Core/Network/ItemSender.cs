@@ -18,6 +18,7 @@ namespace Sanguosha.Core.Network
     {
         WhoAmI,
         QaId,
+        GameStart,
     }
     [Serializable]
     public struct CardItem
