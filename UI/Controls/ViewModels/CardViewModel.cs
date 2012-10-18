@@ -10,7 +10,7 @@ using Sanguosha.Core.Heroes;
 
 namespace Sanguosha.UI.Controls
 {
-    public class CardViewModel : ViewModelBase
+    public class CardViewModel : SelectableItem
     {
         #region Fields
         private Card _card;

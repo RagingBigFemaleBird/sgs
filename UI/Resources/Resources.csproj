@@ -384,6 +384,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Skills.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Translations.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -599,6 +603,58 @@
     <Resource Include="Images\Buttons\discard\down.png" />
     <Resource Include="Images\Buttons\discard\hover.png" />
     <Resource Include="Images\Buttons\discard\normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Buttons\skill\awakening\disabled-left.png" />
+    <Resource Include="Images\Buttons\skill\awakening\disabled-middle.png" />
+    <Resource Include="Images\Buttons\skill\awakening\disabled-right.png" />
+    <Resource Include="Images\Buttons\skill\awakening\hover-left.png" />
+    <Resource Include="Images\Buttons\skill\awakening\hover-middle.png" />
+    <Resource Include="Images\Buttons\skill\awakening\hover-right.png" />
+    <Resource Include="Images\Buttons\skill\awakening\normal-left.png" />
+    <Resource Include="Images\Buttons\skill\awakening\normal-middle.png" />
+    <Resource Include="Images\Buttons\skill\awakening\normal-right.png" />
+    <Resource Include="Images\Buttons\skill\enforced\disabled-left.png" />
+    <Resource Include="Images\Buttons\skill\enforced\disabled-middle.png" />
+    <Resource Include="Images\Buttons\skill\enforced\disabled-right.png" />
+    <Resource Include="Images\Buttons\skill\proactive\disabled-left.png" />
+    <Resource Include="Images\Buttons\skill\proactive\disabled-middle.png" />
+    <Resource Include="Images\Buttons\skill\proactive\disabled-right.png" />
+    <Resource Include="Images\Buttons\skill\proactive\hover-left.png" />
+    <Resource Include="Images\Buttons\skill\proactive\hover-middle.png" />
+    <Resource Include="Images\Buttons\skill\proactive\hover-right.png" />
+    <Resource Include="Images\Buttons\skill\proactive\normal-left.png" />
+    <Resource Include="Images\Buttons\skill\proactive\normal-middle.png" />
+    <Resource Include="Images\Buttons\skill\proactive\normal-right.png" />
+    <Resource Include="Images\Buttons\skill\singleuse\disabled-left.png" />
+    <Resource Include="Images\Buttons\skill\singleuse\disabled-middle.png" />
+    <Resource Include="Images\Buttons\skill\singleuse\disabled-right.png" />
+    <Resource Include="Images\Buttons\skill\singleuse\hover-left.png" />
+    <Resource Include="Images\Buttons\skill\singleuse\hover-middle.png" />
+    <Resource Include="Images\Buttons\skill\singleuse\hover-right.png" />
+    <Resource Include="Images\Buttons\skill\singleuse\normal-left.png" />
+    <Resource Include="Images\Buttons\skill\singleuse\normal-middle.png" />
+    <Resource Include="Images\Buttons\skill\singleuse\normal-right.png" />
+    <Resource Include="Images\Buttons\skill\trigger\disabled-left.png" />
+    <Resource Include="Images\Buttons\skill\trigger\disabled-middle.png" />
+    <Resource Include="Images\Buttons\skill\trigger\disabled-right.png" />
+    <Resource Include="Images\Buttons\skill\trigger\down-left.png" />
+    <Resource Include="Images\Buttons\skill\trigger\down-middle.png" />
+    <Resource Include="Images\Buttons\skill\trigger\down-right.png" />
+    <Resource Include="Images\Buttons\skill\trigger\hover-left.png" />
+    <Resource Include="Images\Buttons\skill\trigger\hover-middle.png" />
+    <Resource Include="Images\Buttons\skill\trigger\hover-right.png" />
+    <Resource Include="Images\Buttons\skill\trigger\normal-left.png" />
+    <Resource Include="Images\Buttons\skill\trigger\normal-middle.png" />
+    <Resource Include="Images\Buttons\skill\trigger\normal-right.png" />
+    <Resource Include="Images\Buttons\trust\disabled1.png" />
+    <Resource Include="Images\Buttons\trust\disabled2.png" />
+    <Resource Include="Images\Buttons\trust\down1.png" />
+    <Resource Include="Images\Buttons\trust\down2.png" />
+    <Resource Include="Images\Buttons\trust\hover1.png" />
+    <Resource Include="Images\Buttons\trust\hover2.png" />
+    <Resource Include="Images\Buttons\trust\normal1.png" />
+    <Resource Include="Images\Buttons\trust\normal2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -54,6 +54,20 @@
 		<i:EventTrigger EventName="MouseLeave">
 			<ei:GoToStateAction TargetObject="{Binding ElementName=userControl}" StateName="MouseLeaveState"/>
 		</i:EventTrigger>
+		<ei:DataTrigger Value="true" Binding="{Binding IsSelected}">
+			<ei:ChangePropertyAction PropertyName="Offset" TargetObject="{Binding ElementName=userControl, Mode=OneWay}">
+				<ei:ChangePropertyAction.Value>
+					<Point>0,-20</Point>
+				</ei:ChangePropertyAction.Value>
+			</ei:ChangePropertyAction>
+		</ei:DataTrigger>
+		<ei:DataTrigger Value="false" Binding="{Binding IsSelected}">
+			<ei:ChangePropertyAction PropertyName="Offset" TargetObject="{Binding ElementName=userControl, Mode=OneWay}">
+				<ei:ChangePropertyAction.Value>
+					<Point>0,0</Point>
+				</ei:ChangePropertyAction.Value>
+			</ei:ChangePropertyAction>
+		</ei:DataTrigger>
 	</i:Interaction.Triggers>
 	<UserControl.Triggers>
 		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
@@ -73,6 +87,22 @@
     			</VisualState>
     			<VisualState x:Name="MouseLeaveState">
     				<Storyboard/>
+    			</VisualState>
+    		</VisualStateGroup>
+    		<VisualStateGroup x:Name="FadeStates">
+    			<VisualState x:Name="Faded">
+    				<Storyboard>
+    					<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
+    						<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+    					</DoubleAnimationUsingKeyFrames>
+    				</Storyboard>
+    			</VisualState>
+    			<VisualState x:Name="Unfaded">
+    				<Storyboard>
+    					<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
+    						<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+    					</DoubleAnimationUsingKeyFrames>
+    				</Storyboard>
     			</VisualState>
     		</VisualStateGroup>
     	</VisualStateManager.VisualStateGroups>
@@ -116,6 +146,10 @@
 					<DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="1" Direction="270"/>
 				</TextBlock.Effect>
         </TextBlock>
-        <Border x:Name="fadeMask" Background="#64000000" Opacity="0"/>
+        <Border x:Name="fadeMask" Background="#64000000" Opacity="0">
+        	<i:Interaction.Behaviors>
+        		<ei:DataStateBehavior Value="true" TrueState="Faded" FalseState="Unfaded" Binding="{Binding IsFaded}"/>
+        	</i:Interaction.Behaviors>
+        </Border>
     </Grid>
 </UserControl>

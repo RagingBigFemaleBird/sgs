@@ -14,6 +14,7 @@ using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Cards;
 using System.Windows.Input;
+using System.Collections.ObjectModel;
 
 namespace Sanguosha.UI.Controls
 {
@@ -30,12 +31,12 @@ namespace Sanguosha.UI.Controls
             throw new NotImplementedException();
         }
     }
-    public class PlayerInfoViewModel : ViewModelBase
+    public class PlayerInfoViewModel : SelectableItem
     {
         #region Constructors
         public PlayerInfoViewModel()
         {
-            IsSelectionMode = false;            
+            IsSelectionMode = false;
         }
 
         public PlayerInfoViewModel(Player p)
@@ -112,6 +113,10 @@ namespace Sanguosha.UI.Controls
             else if (name == "Hero")
             {
                 OnPropertyChanged("HeroName");
+            }
+            else if (name == "Skills")
+            {               
+                OnPropertyChanged("SkillCommands");
             }
             else
             {
@@ -219,14 +224,6 @@ namespace Sanguosha.UI.Controls
             {
                 return _player.IsMale;
             }
-        }        
-
-        public List<ISkill> Skills
-        {
-            get 
-            {
-                return _player.Skills; 
-            }
         }
 
         public bool IsTargeted { get { return _player.IsTargeted; } }
@@ -258,6 +255,20 @@ namespace Sanguosha.UI.Controls
         #endregion
         
         #region Derived Player Properties
+
+
+        public List<SkillCommand> SkillCommands
+        {
+            get
+            {
+                var skillCommands = new List<SkillCommand>();
+                foreach (ISkill skill in _player.Skills)
+                {
+                    skillCommands.Add(new SkillCommand() { Skill = skill, IsEnabled = false });
+                }
+                return skillCommands;
+            }
+        }
 
         public string HeroName
         {
@@ -311,105 +322,5 @@ namespace Sanguosha.UI.Controls
 
         #endregion
 
-        #region UI Related Properties
-                
-        private bool isSelected;
-
-        public bool IsSelected
-        {
-            get { return isSelected; }
-            set 
-            {
-                if (isSelected == value || !IsSelectionMode || !IsEnabled)
-                {
-                    return;
-                }
-                bool oldValue = isSelected;
-                EventHandler handle = OnSelectedChanged;
-                if (handle == null) return;
-                isSelected = value;
-                _EnsureSelectionInvariant();
-                if (oldValue != isSelected)
-                { 
-                    OnPropertyChanged("IsSelected");
-                }
-                handle(this, new EventArgs()); 
-            }
-        }
-
-        private void _EnsureSelectionInvariant()
-        {
-            if (!IsSelectionMode)
-            {
-                IsEnabled = false;
-                IsSelected = false;
-                IsFaded = false;
-            }
-            else if (!IsEnabled)
-            {
-                IsSelected = false;
-                IsFaded = true;
-            }
-            else
-            {
-                IsFaded = false;
-            }
-        }
-
-        private bool isSelectionMode;
-
-        public bool IsSelectionMode
-        {
-            get { return isSelectionMode; }
-            set 
-            {
-                if (isSelectionMode == value) return;
-                isSelectionMode = value;
-                if (value == true)
-                {
-                    IsEnabled = true;
-                }
-                else
-                {
-                    _EnsureSelectionInvariant();
-                }
-                OnPropertyChanged("IsSelectionMode");                
-            }
-        }
-
-        private bool isEnabled;
-
-        public bool IsEnabled
-        {
-            get { return isEnabled; }
-            set 
-            {
-                if (isEnabled == value) return;
-                bool oldValue = IsEnabled;
-                isEnabled = value;
-                _EnsureSelectionInvariant();
-                if (oldValue != IsEnabled)
-                {
-                    OnPropertyChanged("IsEnabled");
-                }
-            }
-        }
-
-        private bool isFaded;
-
-        public bool IsFaded
-        {
-            get { return isFaded; }
-            set
-            {
-                if (isFaded == value) return;
-                isFaded = value;
-                OnPropertyChanged("IsFaded");
-            }
-        }
-
-        public event EventHandler OnSelectedChanged;
-
-        #endregion
     }
 }

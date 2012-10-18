@@ -53,79 +53,26 @@ namespace Sanguosha.UI.Controls
     /// </summary>
     public partial class CardView : UserControl
     {
-        static CardView()
-        {
-            UIElement.IsEnabledProperty.AddOwner(typeof(CardView), new FrameworkPropertyMetadata(OnIsEnabledChanged));
-        }
-
         public CardView()
         {
             InitializeComponent();
             this.MouseLeftButtonDown += new MouseButtonEventHandler(CardView_MouseLeftButtonDown);
             _daMoveX = new DoubleAnimation();
             _daMoveY = new DoubleAnimation();
-            _daOpacity = new DoubleAnimation();
-            isSelected = false;
+            _daOpacity = new DoubleAnimation();      
             ChangeOpacityDurationSeconds = 0.5;
             Storyboard.SetTarget(_daMoveX, this);
             Storyboard.SetTarget(_daMoveY, this);
             Storyboard.SetTarget(_daOpacity, this);
-            _DisappearAfterMoveHandler = new EventHandler(_DisappearAfterMove);
-            OnSelectedChanged = new EventHandler(CardView_OnSelectedChanged);
-        }
-
-        void CardView_OnSelectedChanged(object sender, EventArgs e)
-        {
-            if (IsSelected)
-            {
-                Offset = new Point(0, -20);
-            }
-            else
-            {
-                Offset = new Point(0, 0);
-            }
-        }
+            _DisappearAfterMoveHandler = new EventHandler(_DisappearAfterMove);            
+        }        
 
         void CardView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (!IsEnabled)
-            {
-                return;
-            }
-            IsSelected = !IsSelected;            
-        }
-
-        public event EventHandler OnSelectedChanged;
-             
-        public static void OnIsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) 
-        {
-            CardView view = d as CardView;
-            if (view == null) return;
-            if ((bool)e.NewValue == false)
-            {
-                view.IsSelected = false;
-            }
-            else
-            {
-                view.IsFaded = false;
-            }
-        }
-
-        bool isSelected;
-
-        public bool IsSelected
-        {
-            get
-            {
-                return isSelected;
-            }
-            set
-            {
-                if (isSelected == value) return;
-                isSelected = value;
-                OnSelectedChanged(this, new EventArgs());
-            }
-        }
+            CardViewModel model = DataContext as CardViewModel;
+            if (model == null) return;
+            model.IsSelected = !model.IsSelected;
+        }       
 
         public Card Card
         {
@@ -137,24 +84,15 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        public static double WidthHeightRatio = 0.7154;
-
-        private static void OnFadedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public CardViewModel CardViewModel
         {
-            CardView cardView = d as CardView;
-            if (cardView == null) return;
-            Storyboard fadeAnimation;
-            if ((bool)e.NewValue == true)
+            get
             {
-                fadeAnimation = cardView.Resources["sbFade"] as Storyboard;                
+                return DataContext as CardViewModel;
             }
-            else
-            {
-                fadeAnimation = cardView.Resources["sbUnfade"] as Storyboard;
-            }
-            Trace.Assert(fadeAnimation != null);
-            fadeAnimation.Begin();
         }
+
+        public static double WidthHeightRatio = 0.7154;
 
         DoubleAnimation _daMoveX;
         DoubleAnimation _daMoveY;
@@ -267,17 +205,6 @@ namespace Sanguosha.UI.Controls
             get;
             set;
         }
-
-        public bool IsFaded
-        {
-            get { return (bool)GetValue(IsFadedProperty); }
-            set { SetValue(IsFadedProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for IsFaded.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsFadedProperty =
-            DependencyProperty.Register("IsFaded", typeof(bool), typeof(CardView), new UIPropertyMetadata(false, 
-                new PropertyChangedCallback(OnFadedChanged)));       
 
         #endregion
 

@@ -6,8 +6,12 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="26"/>
+            <RowDefinition Height="26" />
         </Grid.RowDefinitions>
+        <Grid Width="76" Height="26" Grid.Row="1">
+            <my:SkillButtonDock />
+        </Grid>
         <Button x:Name="button1" Click="button1_Click" Grid.Row="2"></Button>
         <my:CardStack Name="cardStack" MaxCardSpacing="93" Background="Red" />
     </Grid>

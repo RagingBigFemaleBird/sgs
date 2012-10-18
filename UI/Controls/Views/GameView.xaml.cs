@@ -311,7 +311,7 @@ namespace Sanguosha.UI.Controls
             List<Card> cards = new List<Card>();
             foreach (CardView cardView in mainPlayerPanel.HandCardArea.Cards)
             {
-                if (cardView.IsSelected)
+                if (cardView.CardViewModel.IsSelected)
                 {
                     Trace.Assert(cardView.Card != null);
                     cards.Add(cardView.Card);
@@ -350,8 +350,8 @@ namespace Sanguosha.UI.Controls
 
             foreach (CardView cardView in mainPlayerPanel.HandCardArea.Cards)
             {
-                cardView.OnSelectedChanged -= _UpdateEnableStatusHandler;
-                cardView.IsSelected = false;
+                cardView.CardViewModel.OnSelectedChanged -= _UpdateEnableStatusHandler;
+                cardView.CardViewModel.IsSelectionMode = false;
             }
 
             foreach (var playerModel in playerModels)
@@ -455,14 +455,13 @@ namespace Sanguosha.UI.Controls
             List<Card> attempt = new List<Card>(cards);
             foreach (CardView cardView in mainPlayerPanel.HandCardArea.Cards)
             {
-                if (cardView.IsSelected)
+                if (cardView.CardViewModel.IsSelected)
                 {
                     continue;
                 }
                 attempt.Add(cardView.Card);
-                bool disabled = (currentUsageVerifier.Verify(null, attempt, players) == VerifierResult.Fail);
-                cardView.IsFaded = disabled;
-                cardView.IsEnabled = !disabled;
+                bool disabled = (currentUsageVerifier.Verify(null, attempt, players) == VerifierResult.Fail);                
+                cardView.CardViewModel.IsEnabled = !disabled;
                 attempt.Remove(cardView.Card);
             }
 
@@ -512,7 +511,8 @@ namespace Sanguosha.UI.Controls
                 currentUsageVerifier = verifier;
                 foreach (CardView cardView in mainPlayerPanel.HandCardArea.Cards)
                 {
-                    cardView.OnSelectedChanged += _UpdateEnableStatusHandler;
+                    cardView.CardViewModel.IsSelectionMode = true;
+                    cardView.CardViewModel.OnSelectedChanged += _UpdateEnableStatusHandler;
                 }
                 foreach (var playerModel in playerModels)
                 {

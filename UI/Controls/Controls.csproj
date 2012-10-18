@@ -60,6 +60,8 @@
     <Compile Include="ViewModels\CardViewModel.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
+    <Compile Include="ViewModels\SelectableItem.cs" />
+    <Compile Include="ViewModels\SkillCommand.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\CardStack.cs" />
     <Compile Include="Views\CardView.xaml.cs">
@@ -68,6 +70,10 @@
     <Compile Include="Views\DiscardDeck.cs" />
     <Compile Include="Views\IDeckContainer.cs" />
     <Compile Include="Views\PlayerInfoViewBase.cs" />
+    <Compile Include="Views\SkillButton.xaml.cs">
+      <DependentUpon>SkillButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SkillButtonDock.cs" />
     <Compile Include="Views\VHealthBar.xaml.cs">
       <DependentUpon>VHealthBar.xaml</DependentUpon>
     </Compile>
@@ -100,6 +106,10 @@
     <Page Include="Views\CardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SkillButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\VHealthBar.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -148,6 +158,15 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Views\Resources\SkillButton\border\mask0.png" />
+    <Resource Include="Views\Resources\SkillButton\border\mask1.png" />
+    <Resource Include="Views\Resources\SkillButton\border\mask2.png" />
+    <Resource Include="Views\Resources\SkillButton\border\mask3.png" />
+    <Resource Include="Views\Resources\SkillButton\border\mask4.png" />
+    <Resource Include="Views\Resources\SkillButton\border\mask5.png" />
+    <Resource Include="Views\Resources\SkillButton\border\mask6.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath32)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	     Other similar extension points exist, see Microsoft.Common.targets.

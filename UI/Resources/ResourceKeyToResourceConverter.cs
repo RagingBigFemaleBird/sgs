@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 using System.Windows;
+using System.Diagnostics;
 
 namespace Sanguosha.UI.Resources
 {
@@ -38,6 +39,11 @@ namespace Sanguosha.UI.Resources
             if (resourceKey == null) return null;
 
             var resource = element.TryFindResource(resourceKey);
+
+            if (resource == null)
+            {
+                Trace.TraceWarning("Resource not found: {0}", resourceKey);
+            }
 
             return resource;
         }
