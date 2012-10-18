@@ -592,13 +592,13 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public bool HandleCardUse(Player p, ISkill skill, List<Card> cards)
+        public bool HandleCardUse(Player p, ISkill skill, List<Card> cards, List<Player> targets)
         {
             CardsMovement m;
             ICard result;
             m.cards = cards;
             m.to = new DeckPlace(null, DeckType.Discard);
-            bool status = CommitCardTransform(p, skill, cards, out result);
+            bool status = CommitCardTransform(p, skill, cards, out result, targets);
             if (!status)
             {
                 return false;
@@ -608,13 +608,13 @@ namespace Sanguosha.Core.Games
             return true;
         }
 
-        public bool CommitCardTransform(Player p, ISkill skill, List<Card> cards, out ICard result)
+        public bool CommitCardTransform(Player p, ISkill skill, List<Card> cards, out ICard result, List<Player> targets)
         {
             if (skill != null)
             {
                 CompositeCard card;
                 CardTransformSkill s = (CardTransformSkill)skill;                
-                if (!s.Transform(cards, null, out card))
+                if (!s.Transform(cards, null, out card, targets))
                 {
                     result = null;
                     return false;

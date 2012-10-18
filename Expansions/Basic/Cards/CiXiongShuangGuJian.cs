@@ -21,12 +21,12 @@ namespace Sanguosha.Expansions.Basic.Cards
         public override void RegisterTriggers(Player p)
         {
             trigger1 = new CiXiongShuangGuJianTrigger(p);
-            Game.CurrentGame.RegisterTrigger(Sha.PlayerShaTargetShanModifier, trigger1);
+            Game.CurrentGame.RegisterTrigger(Sha.PlayerShaTargetModifier, trigger1);
         }
 
         public override void UnregisterTriggers(Player p)
         {
-            Game.CurrentGame.UnregisterTrigger(Sha.PlayerShaTargetShanModifier, trigger1);
+            Game.CurrentGame.UnregisterTrigger(Sha.PlayerShaTargetModifier, trigger1);
             trigger1 = null;
         }
 

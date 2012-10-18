@@ -27,7 +27,20 @@ namespace Sanguosha.Core.Network
         public object Receive()
         {
             object o = formatter.Deserialize(stream);
-            Trace.Assert((o is int) || (o is CardItem) || (o is Command));
+            if (!((o is int) || (o is PlayerItem) || (o is CardItem) || (o is CommandItem)))
+            {
+                return null;
+            }
+            if (o is PlayerItem)
+            {
+                PlayerItem i = (PlayerItem)o;
+                o = Game.CurrentGame.Players[i.id];
+            }
+            else if (o is CardItem)
+            {
+                CardItem i = (CardItem)o;
+                o = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place];
+            }
             return o;
         }
     }

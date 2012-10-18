@@ -32,6 +32,11 @@ namespace Sanguosha.Core.Network
         public Command command;
         public int data;
     }
+    [Serializable]
+    public struct PlayerItem
+    {
+        public int id;
+    }
     public class ItemSender
     {
         private NetworkStream stream;
@@ -41,7 +46,7 @@ namespace Sanguosha.Core.Network
             stream = s;
         }
 
-        public void QueueCard(Card card)
+        private void QueueCard(Card card)
         {
             CardItem item = new CardItem();
             item.playerId = Game.CurrentGame.Players.IndexOf(card.Place.Player);
@@ -53,25 +58,63 @@ namespace Sanguosha.Core.Network
             stream.Flush();
         }
 
-        public void QueuePlayer(Player player)
+        private void QueuePlayer(Player player)
         {
             int playerId = Game.CurrentGame.Players.IndexOf(player);
             Trace.Assert(playerId >= 0);
-            QueueInt(playerId);
+            PlayerItem item = new PlayerItem();
+            item.id = playerId;
+            formatter.Serialize(stream, item);
+            stream.Flush();
         }
 
-        public void QueueInt(int i)
+        private void QueueInt(int i)
         {
             formatter.Serialize(stream, i);
             stream.Flush();
         }
 
-        public void QueueSkill(ISkill skill)
+        private void QueueSkill(ISkill skill)
         {
         }
 
-        public void QueueCommand(Command c, int data)
+        private void QueueCommand(CommandItem c)
         {
+            formatter.Serialize(stream, c);
+            stream.Flush();
+        }
+
+        public bool Send(object o)
+        {
+            if (o == null)
+            {
+                return false;
+            }
+            if (o is int)
+            {
+                QueueInt((int)o);
+            }
+            else if (o is Player)
+            {
+                QueuePlayer(o as Player);
+            }
+            else if (o is Card)
+            {
+                QueueCard(o as Card);
+            }
+            else if (o is ISkill)
+            {
+                QueueSkill(o as ISkill);
+            }
+            else if (o is CommandItem)
+            {
+                QueueCommand((CommandItem)o);
+            }
+            else
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

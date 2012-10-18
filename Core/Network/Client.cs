@@ -22,8 +22,6 @@ namespace Sanguosha.Core.Network
             client.Connect(ep);
             NetworkStream stream = client.GetStream();
             ItemSender s = new ItemSender(stream);
-            s.QueueInt(5);
-            s.QueueInt(6);
         }
     }
 }
