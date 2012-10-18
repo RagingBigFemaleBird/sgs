@@ -75,10 +75,22 @@ namespace Sanguosha.UI.Controls
 
         public event EventHandler OnSelectedChanged;
 
+        private bool isEnabled;
         public bool IsEnabled
         {
-            get;
-            set;
+            get
+            {
+                return isEnabled;
+            }
+            set
+            {
+                if (isEnabled == value)
+                {
+                    return;
+                }
+                isEnabled = value;
+                OnPropertyChanged("IsEnabled");
+            }
         }
         #endregion
 

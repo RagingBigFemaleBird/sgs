@@ -51,9 +51,9 @@ namespace Sanguosha.Expansions.Basic.Skills
         {
             Player player = Owner;
             ICard result = null;
+            player = Game.CurrentGame.NextPlayer(player);
             do
             {
-                player = Game.CurrentGame.NextPlayer(player);
                 if (player.Hero.Allegiance == Core.Heroes.Allegiance.Shu)
                 {
                     bool failToRespond = false;
@@ -82,8 +82,8 @@ namespace Sanguosha.Expansions.Basic.Skills
                         continue;
                     }
                     break;
-                }            
-            } while (player != Owner);
+                }
+            } while ((player = Game.CurrentGame.NextPlayer(player)) != Owner);
 
             if (player == Owner)
             {

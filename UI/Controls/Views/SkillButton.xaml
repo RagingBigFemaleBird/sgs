@@ -9,7 +9,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>        
     </ResourceDictionary.MergedDictionaries>
-    <Style x:Key="SkillButtonStyle" TargetType="{x:Type ToggleButton}">
+    <Style x:Key="SkillButtonStyle" TargetType="{x:Type ToggleButton}">        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">

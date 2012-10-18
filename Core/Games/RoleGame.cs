@@ -41,14 +41,12 @@ namespace Sanguosha.Core.Games
                     {
                         CardTransformSkill s = (CardTransformSkill)skill;
                         CompositeCard result;
-                        if (s.TryTransform(cards, null, out result) == VerifierResult.Fail)
-                        {
-                            return VerifierResult.Fail;
-                        }
-                        else
+                        VerifierResult ret = s.TryTransform(cards, null, out result);
+                        if (ret == VerifierResult.Success)
                         {
                             return result.Type.Verify(Game.CurrentGame.CurrentPlayer, skill, cards, players);
                         }
+                        return ret;
                     }
                     return cards[0].Type.Verify(Game.CurrentGame.CurrentPlayer, skill, cards, players);
                 }

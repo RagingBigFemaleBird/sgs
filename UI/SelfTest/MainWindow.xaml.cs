@@ -30,7 +30,7 @@ namespace WpfApplication1
             // Insert code required on object creation below this point.
         }
 
-        const int MainSeat = 0;
+        const int MainSeat = 4;
         private void InitGame()
         {
             GameEngine.LoadExpansions("Expansions");

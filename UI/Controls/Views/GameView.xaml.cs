@@ -347,6 +347,17 @@ namespace Sanguosha.UI.Controls
         {
             List<Card> cards = _GetSelectedCards();
             List<Player> players = _GetSelectedPlayers();
+            ISkill skill = null;
+
+            foreach (var skillCommand in mainPlayerModel.SkillCommands)
+            {
+                skillCommand.IsEnabled = true;
+                if (skillCommand.IsSelected)
+                {
+                    skill = skillCommand.Skill;
+                    break;
+                }
+            }
 
             foreach (CardView cardView in mainPlayerPanel.HandCardArea.Cards)
             {
@@ -364,7 +375,7 @@ namespace Sanguosha.UI.Controls
             if (currentUsageVerifier != null)
             {
                 currentUsageVerifier = null;
-                CardUsageAnsweredEvent(null, cards, players);
+                CardUsageAnsweredEvent(skill, cards, players);
             }
         }
 
@@ -433,11 +444,23 @@ namespace Sanguosha.UI.Controls
         {
             List<Card> cards = _GetSelectedCards();
             List<Player> players = _GetSelectedPlayers();
+            ISkill skill = null;
+
+            // Handle skill down
+            foreach (var skillCommand in mainPlayerModel.SkillCommands)
+            {
+                skillCommand.IsEnabled = true;
+                if (skillCommand.IsSelected)
+                {
+                    skill = skillCommand.Skill;
+                    break;
+                }
+            }
 
             // Card usage question
             if (currentUsageVerifier != null)
             {
-                var status = currentUsageVerifier.Verify(null, cards, players);
+                var status = currentUsageVerifier.Verify(skill, cards, players);
                 if (status == VerifierResult.Fail)
                 {
                     canExecuteSubmitCommand = false;
@@ -460,11 +483,12 @@ namespace Sanguosha.UI.Controls
                     continue;
                 }
                 attempt.Add(cardView.Card);
-                bool disabled = (currentUsageVerifier.Verify(null, attempt, players) == VerifierResult.Fail);                
+                bool disabled = (currentUsageVerifier.Verify(skill, attempt, players) == VerifierResult.Fail);                
                 cardView.CardViewModel.IsEnabled = !disabled;
                 attempt.Remove(cardView.Card);
             }
 
+            // Invalidate target selection
             List<Player> attempt2 = new List<Player>(players);
             int validCount = 0;
             bool[] enabledMap = new bool[playerModels.Count];
@@ -477,7 +501,7 @@ namespace Sanguosha.UI.Controls
                     continue;
                 }
                 attempt2.Add(playerModel.Player);
-                bool disabled = (currentUsageVerifier.Verify(null, cards, attempt2) == VerifierResult.Fail);
+                bool disabled = (currentUsageVerifier.Verify(skill, cards, attempt2) == VerifierResult.Fail);
                 if (!disabled)
                 {
                     validCount++;
@@ -488,7 +512,7 @@ namespace Sanguosha.UI.Controls
                 
             }
             i = 0;
-            bool allowSelection = (cards.Count != 0 || validCount != 0);
+            bool allowSelection = (cards.Count != 0 || validCount != 0 || skill != null);
             foreach (var playerModel in playerModels)
             {
                 if (playerModel.IsSelected)
@@ -505,7 +529,7 @@ namespace Sanguosha.UI.Controls
         }
 
         public void AskForCardUsage(string prompt, ICardUsageVerifier verifier)
-        {
+        {           
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 currentUsageVerifier = verifier;
@@ -514,11 +538,18 @@ namespace Sanguosha.UI.Controls
                     cardView.CardViewModel.IsSelectionMode = true;
                     cardView.CardViewModel.OnSelectedChanged += _UpdateEnableStatusHandler;
                 }
+                
                 foreach (var playerModel in playerModels)
                 {
                     playerModel.IsSelectionMode = true;
                     playerModel.OnSelectedChanged += _UpdateEnableStatusHandler;
                 }
+
+                foreach (var skillCommand in mainPlayerModel.SkillCommands)
+                {
+                    skillCommand.OnSelectedChanged += _UpdateEnableStatusHandler;
+                }
+                
                 _UpdateCommandStatus();
             });
         }

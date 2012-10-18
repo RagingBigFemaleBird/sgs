@@ -66,7 +66,7 @@
         </Grid>
         <StackPanel x:Name="spInfoPanel" Grid.Column="1">
             <Canvas Width="213" Height="419">
-                <TabControl x:Name="infoPlanTab" Width="211" Canvas.Top="57.334" Height="255" Background="{x:Null}" BorderBrush="{x:Null}">
+                <TabControl x:Name="infoPlanTab" Width="211" Canvas.Top="57.334" Height="255" Background="{x:Null}" BorderBrush="{x:Null}" Margin="3,0">
                     <TabItem Header="牌局" x:Name="tabLogBox" Style="{DynamicResource TabItemStyle}">                    	
                         <Grid />
                     </TabItem>

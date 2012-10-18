@@ -15,6 +15,7 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Cards;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
+using System.Threading;
 
 namespace Sanguosha.UI.Controls
 {
@@ -37,11 +38,12 @@ namespace Sanguosha.UI.Controls
         public PlayerInfoViewModel()
         {
             IsSelectionMode = false;
+            SkillCommands = new ObservableCollection<SkillCommand>();
         }
 
-        public PlayerInfoViewModel(Player p)
+        public PlayerInfoViewModel(Player p) : this()
         {
-            Player = p;        
+            Player = p;
         }
         #endregion
 
@@ -103,6 +105,15 @@ namespace Sanguosha.UI.Controls
 
         private PropertyChangedEventHandler _PropertyChanged;
 
+        private void _UpdateSkills()
+        {
+            SkillCommands.Clear();
+            foreach (ISkill skill in _player.Skills)
+            {
+                SkillCommands.Add(new SkillCommand() { Skill = skill, IsEnabled = false });
+            }            
+        }
+
         private void _OnPlayerPropertyChanged(object o, PropertyChangedEventArgs e)
         {
             string name = e.PropertyName;
@@ -115,8 +126,15 @@ namespace Sanguosha.UI.Controls
                 OnPropertyChanged("HeroName");
             }
             else if (name == "Skills")
-            {               
-                OnPropertyChanged("SkillCommands");
+            {
+                if (Application.Current.Dispatcher.CheckAccess())
+                {
+                    _UpdateSkills();
+                }
+                else
+                {
+                    Application.Current.Dispatcher.Invoke((ThreadStart)delegate(){ _UpdateSkills(); });
+                }                
             }
             else
             {
@@ -257,17 +275,10 @@ namespace Sanguosha.UI.Controls
         #region Derived Player Properties
 
 
-        public List<SkillCommand> SkillCommands
+        public ObservableCollection<SkillCommand> SkillCommands
         {
-            get
-            {
-                var skillCommands = new List<SkillCommand>();
-                foreach (ISkill skill in _player.Skills)
-                {
-                    skillCommands.Add(new SkillCommand() { Skill = skill, IsEnabled = false });
-                }
-                return skillCommands;
-            }
+            get;
+            set;
         }
 
         public string HeroName

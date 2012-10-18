@@ -115,13 +115,15 @@
     <BitmapImage x:Key="Allegiance.Qun.Icon">Allegiances/qun.png</BitmapImage>
     <BitmapImage x:Key="Allegiance.Qun.Mask">Allegiances/qun2.png</BitmapImage>
     <BitmapImage x:Key="Allegiance.God.Icon">Allegiances/god.png</BitmapImage>
-    <BitmapImage x:Key="Allegiance.God.Mask">Allegiances/god2.png</BitmapImage>    
+    <BitmapImage x:Key="Allegiance.God.Mask">Allegiances/god2.png</BitmapImage>
+    <BitmapImage x:Key="Phases.Inactive.Small">blank.png</BitmapImage>
     <BitmapImage x:Key="Phases.Start.Small">Phases/Small/1.png</BitmapImage>
     <BitmapImage x:Key="Phases.Judge.Small">Phases/Small/2.png</BitmapImage>
     <BitmapImage x:Key="Phases.Draw.Small">Phases/Small/3.png</BitmapImage>
     <BitmapImage x:Key="Phases.Play.Small">Phases/Small/4.png</BitmapImage>
     <BitmapImage x:Key="Phases.Discard.Small">Phases/Small/5.png</BitmapImage>
     <BitmapImage x:Key="Phases.End.Small">Phases/Small/6.png</BitmapImage>
+    <BitmapImage x:Key="Phases.Inactive.Large">blank.png</BitmapImage>
     <BitmapImage x:Key="Phases.Start.Large">Phases/Large/1.png</BitmapImage>
     <BitmapImage x:Key="Phases.Judge.Large">Phases/Large/2.png</BitmapImage>
     <BitmapImage x:Key="Phases.Draw.Large">Phases/Large/3.png</BitmapImage>
