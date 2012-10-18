@@ -72,6 +72,7 @@ namespace Sanguosha.Core.Games
             cardSet.AddRange(expansion.CardSet);
         }
 
+        public Network.Server Server { get; set; }
         public virtual void Run()
         {
             if (games.ContainsKey(Thread.CurrentThread))
@@ -81,6 +82,10 @@ namespace Sanguosha.Core.Games
             else
             {
                 games.Add(Thread.CurrentThread, this);
+            }
+            if (Server != null)
+            {
+                Server.Ready();
             }
             int id = 0;
             foreach (var g in Game.CurrentGame.CardSet)

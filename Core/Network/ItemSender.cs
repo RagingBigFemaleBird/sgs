@@ -53,7 +53,7 @@ namespace Sanguosha.Core.Network
             item.playerId = Game.CurrentGame.Players.IndexOf(card.Place.Player);
             Trace.Assert(item.playerId >= 0);
             item.deck = card.Place.DeckType;
-            item.playerId = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
+            item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
             Trace.Assert(item.playerId >= 0);
             formatter.Serialize(stream, item);
             stream.Flush();

@@ -56,6 +56,7 @@
     <Compile Include="Cards\SingleCardPlayVerifier.cs" />
     <Compile Include="Cards\SingleCardUsageVerifier.cs" />
     <Compile Include="Exceptions\DuplicateCardHandlerException.cs" />
+    <Compile Include="Exceptions\InvalidAnswerException.cs" />
     <Compile Include="Games\Constants.cs" />
     <Compile Include="Games\Expansion.cs" />
     <Compile Include="Games\GameEngine.cs" />
@@ -83,15 +84,18 @@
     <Compile Include="Triggers\Trigger.cs" />
     <Compile Include="Exceptions\TriggerResultException.cs" />
     <Compile Include="UI\AsyncUiAdapter.cs" />
+    <Compile Include="UI\ClientNetworkUiProxy.cs" />
     <Compile Include="UI\ConsoleUiProxy.cs" />
     <Compile Include="UI\GlobalProxy.cs" />
     <Compile Include="UI\IAsyncUiProxy.cs" />
     <Compile Include="UI\IGameLog.cs" />
     <Compile Include="UI\IUIProxy.cs" />
-    <Compile Include="UI\NetworkUiProxy.cs" />
+    <Compile Include="UI\ServerNetworkUiProxy.cs" />
     <Compile Include="UI\TestUiProxy.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -26,28 +26,38 @@ namespace Sanguosha.Core.Network
         public Thread threadServer;
         public Thread threadClient;
         public int commId;
+        public Game game;
         public ServerHandler()
         {
-            semIn = new Semaphore(0, 1);
-            semOut = new Semaphore(0, 1);
+            semIn = new Semaphore(0, int.MaxValue);
+            semOut = new Semaphore(0, int.MaxValue);
             semAccess = new Semaphore(1, 1);
             queueIn = new Queue<object>();
             queueOut = new Queue<object>();
             stream = null;
             client = null;
             commId = 0;
+            threadServer = null;
+            threadClient = null;
+            game = null;
         }
     }
 
     public class Server
     {
         private int maxClients;
+
+        public int MaxClients
+        {
+            get { return maxClients; }
+        }
+
+        Game game;
         ServerHandler[] handlers;
-        bool ready;
         /// <summary>
         /// Initialize and start the server.
         /// </summary>
-        public Server(int capacity)
+        public Server(Game game, int capacity)
         {
             maxClients = capacity;
             handlers = new ServerHandler[capacity];
@@ -55,7 +65,8 @@ namespace Sanguosha.Core.Network
             {
                 handlers[i] = new ServerHandler();
             }
-            ready = false;
+            this.game = game;
+            Trace.TraceInformation("Server initialized with capacity {0}", capacity);
         }
 
         /// <summary>
@@ -64,7 +75,6 @@ namespace Sanguosha.Core.Network
         public void Ready()
         {
             Listener();
-            ready = true;
         }
 
         public void ExpectNext(int clientId, int timeOutSeconds)
@@ -72,7 +82,9 @@ namespace Sanguosha.Core.Network
             while (true)
             {
                 handlers[clientId].semIn.WaitOne();
+                handlers[clientId].semAccess.WaitOne();
                 object o = handlers[clientId].queueIn.Dequeue();
+                handlers[clientId].semAccess.Release(1);
                 if (o is CommandItem)
                 {
                     CommandItem i = (CommandItem)o;
@@ -86,10 +98,12 @@ namespace Sanguosha.Core.Network
             }
         }
 
-        public Card getCard(int clientId, int timeOutSeconds)
+        public Card GetCard(int clientId, int timeOutSeconds)
         {
             handlers[clientId].semIn.WaitOne();
+            handlers[clientId].semAccess.WaitOne();
             object o = handlers[clientId].queueIn.Dequeue();
+            handlers[clientId].semAccess.Release(1);
             if (o is Card)
             {
                 return (Card)o;
@@ -98,10 +112,12 @@ namespace Sanguosha.Core.Network
             return null;
         }
 
-        public Player getPlayer(int clientId, int timeOutSeconds)
+        public Player GetPlayer(int clientId, int timeOutSeconds)
         {
             handlers[clientId].semIn.WaitOne();
+            handlers[clientId].semAccess.WaitOne();
             object o = handlers[clientId].queueIn.Dequeue();
+            handlers[clientId].semAccess.Release(1);
             if (o is Player)
             {
                 return (Player)o;
@@ -110,39 +126,74 @@ namespace Sanguosha.Core.Network
             return null;
         }
 
+        public int? GetInt(int clientId, int timeOutSeconds)
+        {
+            handlers[clientId].semIn.WaitOne();
+            handlers[clientId].semAccess.WaitOne();
+            object o = handlers[clientId].queueIn.Dequeue();
+            handlers[clientId].semAccess.Release(1);
+            if (o is int)
+            {
+                return (int)o;
+            }
+            Trace.TraceWarning("Expected int but type is {0}", o.GetType());
+            return null;
+        }
+
+        public void SendObject(int clientId, Object o)
+        {
+            handlers[clientId].semAccess.WaitOne();
+            handlers[clientId].queueOut.Enqueue(o);
+            handlers[clientId].semAccess.Release(1);
+            handlers[clientId].semOut.Release(1);
+        }
+
         private void Listener()
         {
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12345);
             TcpListener listener = new TcpListener(ep);
             listener.Start();
             int i = 0;
+            Trace.TraceInformation("Listener Started");
             while (i < maxClients)
             {
+                handlers[i].game = game;
                 handlers[i].client = listener.AcceptTcpClient();
+                Trace.TraceInformation("Client connected");
                 handlers[i].stream = handlers[i].client.GetStream();
+                handlers[i].threadServer = new Thread((ParameterizedThreadStart)((o) => { ServerThread(handlers[(int)o].stream, handlers[(int)o].semIn, handlers[(int)o].semAccess, handlers[(int)o].queueIn); }));
+                handlers[i].threadServer.Start(i);
+                handlers[i].threadClient = new Thread((ParameterizedThreadStart)((o) => { ClientThread(handlers[(int)o].stream, handlers[(int)o].semOut, handlers[(int)o].semAccess, handlers[(int)o].queueOut); }));
+                handlers[i].threadClient.Start(i);
                 i++;
-                handlers[i].threadServer = new Thread(() => { ServerThread(handlers[i].stream, handlers[i].semIn, handlers[i].semAccess, handlers[i].queueIn); });
-                handlers[i].threadServer.Start();
-                handlers[i].threadClient = new Thread(() => { ClientThread(handlers[i].stream, handlers[i].semOut, handlers[i].semAccess, handlers[i].queueOut); });
-                handlers[i].threadClient.Start();
             }
+            Trace.TraceInformation("Server ready");
         }
 
         private void ServerThread(NetworkStream stream, Semaphore semWake, Semaphore semAccess, Queue<object> queueIn)
         {
             ItemReceiver r = new ItemReceiver(stream);
+            game.RegisterCurrentThread();
             while (true)
             {
                 object o = r.Receive();
-                semWake.Release(1);
+                if (o is int)
+                {
+                    Trace.TraceInformation("Received a {0}", (int)o);
+                }
+                {
+                    Trace.TraceInformation("Received a {0}", o.GetType().Name);
+                }
                 semAccess.WaitOne();
                 queueIn.Enqueue(o);
                 semAccess.Release(1);
+                semWake.Release(1);
             }
         }
         private void ClientThread(NetworkStream stream, Semaphore semWake, Semaphore semAccess, Queue<object> queueOut)
         {
             ItemSender r = new ItemSender(stream);
+            game.RegisterCurrentThread();
             while (true)
             {
                 semWake.WaitOne();

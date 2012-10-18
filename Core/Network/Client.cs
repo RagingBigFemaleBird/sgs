@@ -10,6 +10,7 @@ using Sanguosha.Core.Cards;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
+using System.Diagnostics;
 
 namespace Sanguosha.Core.Network
 {
@@ -32,12 +33,22 @@ namespace Sanguosha.Core.Network
 
         public object Receive()
         {
-            return receiver.Receive();
+            object o = receiver.Receive();
+            if (o is int)
+            {
+                Trace.TraceInformation("Received a {0}", (int)o);
+            }
+            else
+            {
+                Trace.TraceInformation("Received a {0}", o.GetType().Name);
+            }
+            return o;
         }
 
         public void AnswerNext()
         {
             sender.Send(new CommandItem() { command = Command.QaId, data = commId });
+            commId++;
         }
 
         public void AnswerItem(object o)

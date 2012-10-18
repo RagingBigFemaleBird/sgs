@@ -16,31 +16,17 @@ namespace Sanguosha
         static void Main(string[] args)
         {
             Trace.Listeners.Add(new ConsoleTraceListener());
-            Console.WriteLine("Who are you?");
-            string ids = Console.ReadLine();
-            int id = int.Parse(ids);
             Game game = new RoleGame();
-            Client client;
-            client = new Client();
-            client.Start();
+            Server server;
+            server = new Server(game, 8);
             for (int i = 0; i < 8; i++)
             {
                 var player = new Player();
                 player.Id = i;
                 game.Players.Add(player);
                 IUiProxy proxy;
-                proxy = new ConsoleUiProxy();
+                proxy = new ServerNetworkUiProxy(server, i);
                 proxy.HostPlayer = player;
-                if (i == id)
-                {
-                    proxy = new ClientNetworkUiProxy(proxy, client, true);
-                    proxy.HostPlayer = player;
-                }
-                else
-                {
-                    proxy = new ClientNetworkUiProxy(proxy, client, false);
-                    proxy.HostPlayer = player;
-                }
                 game.UiProxies.Add(player, proxy);
             }
             game.GlobalProxy = new ConsoleUiProxy();
@@ -49,6 +35,7 @@ namespace Sanguosha
             {
                 game.LoadExpansion(g);
             }
+            game.Server = server;
             game.Run();
         }
     }
