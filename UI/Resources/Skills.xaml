@@ -1,0 +1,6 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="Skill.RenDe.Name">仁德</sys:String>
+    <sys:String x:Key="Skill.JiJiang.Name">激将</sys:String>
+</ResourceDictionary>
