@@ -23,6 +23,7 @@ namespace Sanguosha
             Client client;
             client = new Client();
             client.Start();
+            client.SelfId = id;
             for (int i = 0; i < 8; i++)
             {
                 var player = new Player();
@@ -49,6 +50,9 @@ namespace Sanguosha
             {
                 game.LoadExpansion(g);
             }
+            game.GameClient = client;
+            game.GameServer = null;
+            game.Slave = true;
             game.Run();
         }
     }

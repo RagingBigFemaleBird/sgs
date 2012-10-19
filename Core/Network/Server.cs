@@ -104,9 +104,19 @@ namespace Sanguosha.Core.Network
             handlers[clientId].semAccess.WaitOne();
             object o = handlers[clientId].queueIn.Dequeue();
             handlers[clientId].semAccess.Release(1);
-            if (o is Card)
+            if (o is CardItem)
             {
-                return (Card)o;
+                CardItem i = (CardItem)o;
+                if (i.playerId < 0)
+                {
+                    o = Game.CurrentGame.Decks[null, i.deck][i.place];
+                }
+                else
+                {
+                    o = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place];
+                }
+
+                return o as Card;
             }
             Trace.TraceWarning("Expected Card but type is {0}", o.GetType());
             return null;
@@ -142,6 +152,25 @@ namespace Sanguosha.Core.Network
 
         public void SendObject(int clientId, Object o)
         {
+            if (o is Card)
+            {
+                Card card = o as Card;
+                CardItem item = new CardItem();
+                item.playerId = Game.CurrentGame.Players.IndexOf(card.Place.Player);
+                item.deck = card.Place.DeckType;
+                item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
+                Trace.Assert(item.place >= 0);
+                if (card.RevealOnce)
+                {
+                    item.Id = card.Id;
+                    card.RevealOnce = false;
+                }
+                else
+                {
+                    item.Id = -1;
+                }
+                o = item;
+            }
             handlers[clientId].semAccess.WaitOne();
             handlers[clientId].queueOut.Enqueue(o);
             handlers[clientId].semAccess.Release(1);

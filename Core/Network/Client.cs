@@ -20,6 +20,7 @@ namespace Sanguosha.Core.Network
         ItemReceiver receiver;
         ItemSender sender;
         int commId;
+        public int SelfId { get; set; }
         public void Start()
         {
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12345);
@@ -42,6 +43,34 @@ namespace Sanguosha.Core.Network
             {
                 Trace.TraceInformation("Received a {0}", o.GetType().Name);
             }
+            if (o is CardItem)
+            {
+                CardItem i = (CardItem)o;
+                if (i.Id >= 0)
+                {
+                    Trace.TraceInformation("Identify {0}{1}{2} is {3}{4}{5}", i.playerId, i.deck, i.place, Game.CurrentGame.SlaveCardSet[i.Id].Suit, Game.CurrentGame.SlaveCardSet[i.Id].Rank, Game.CurrentGame.SlaveCardSet[i.Id].Type.CardType);
+                    if (i.playerId < 0)
+                    {
+                        Game.CurrentGame.SlaveCardSet[i.Id].Place = new DeckPlace(null, i.deck);
+                        Game.CurrentGame.Decks[null, i.deck][i.place] = Game.CurrentGame.SlaveCardSet[i.Id];
+                    }
+                    else
+                    {
+                        Game.CurrentGame.SlaveCardSet[i.Id].Place = new DeckPlace(Game.CurrentGame.Players[i.playerId], i.deck);
+                        Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place] = Game.CurrentGame.SlaveCardSet[i.Id];
+                    }
+                }
+                if (i.playerId < 0)
+                {
+                    o = Game.CurrentGame.Decks[null, i.deck][i.place];
+                }
+                else
+                {
+                    o = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place];
+                }
+                Trace.Assert(o != null);
+                return o as Card;
+            }
             return o;
         }
 
@@ -53,6 +82,16 @@ namespace Sanguosha.Core.Network
 
         public void AnswerItem(object o)
         {
+            if (o is Card)
+            {
+                Card card = o as Card;
+                CardItem item = new CardItem();
+                item.playerId = Game.CurrentGame.Players.IndexOf(card.Place.Player);
+                item.deck = card.Place.DeckType;
+                item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
+                Trace.Assert(item.place >= 0);
+                o = item;
+            }
             sender.Send(o);
         }
     }

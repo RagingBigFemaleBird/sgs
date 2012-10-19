@@ -55,6 +55,7 @@
     <Compile Include="Cards\Card.cs" />
     <Compile Include="Cards\SingleCardPlayVerifier.cs" />
     <Compile Include="Cards\SingleCardUsageVerifier.cs" />
+    <Compile Include="Cards\UnknownCardHandler.cs" />
     <Compile Include="Cards\Weapon.cs" />
     <Compile Include="Exceptions\DuplicateCardHandlerException.cs" />
     <Compile Include="Exceptions\InvalidAnswerException.cs" />
