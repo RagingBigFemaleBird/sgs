@@ -84,7 +84,6 @@
     <Resource Include="Images\Cards\BigEquip\BaGuaZhen.png" />
     <Resource Include="Images\Cards\BigEquip\BaiYinShiZi.png" />
     <Resource Include="Images\Cards\BigEquip\ChiTu.png" />
-    <Resource Include="Images\Cards\BigEquip\CiXiongShuangJue.png" />
     <Resource Include="Images\Cards\BigEquip\DaYuan.png" />
     <Resource Include="Images\Cards\BigEquip\DiLu.png" />
     <Resource Include="Images\Cards\BigEquip\FangTianHuaJi.png" />
@@ -113,6 +112,7 @@
     <Resource Include="Images\Cards\Normal\aysunyang.jpg" />
     <Resource Include="Images\Cards\Normal\ayyeshiwen.jpg" />
     <Resource Include="Images\Cards\Normal\BaGuaZhen.jpg" />
+    <Resource Include="Images\Cards\Normal\BaiYinShiZi.jpg" />
     <Resource Include="Images\Cards\Normal\bgm_caoren.jpg" />
     <Resource Include="Images\Cards\Normal\bgm_daqiao.jpg" />
     <Resource Include="Images\Cards\Normal\bgm_diaochan.jpg" />
@@ -135,7 +135,9 @@
     <Resource Include="Images\Cards\Normal\chengong.jpg" />
     <Resource Include="Images\Cards\Normal\chengpu.jpg" />
     <Resource Include="Images\Cards\Normal\ChiTu.jpg" />
+    <Resource Include="Images\Cards\Normal\CiXiongShuangGuJian.jpg" />
     <Resource Include="Images\Cards\Normal\daqiao.jpg" />
+    <Resource Include="Images\Cards\Normal\DaWan.jpg" />
     <Resource Include="Images\Cards\Normal\Defector.png" />
     <Resource Include="Images\Cards\Normal\dengai.jpg" />
     <Resource Include="Images\Cards\Normal\dengshizai.jpg" />
@@ -177,13 +179,16 @@
     <Resource Include="Images\Cards\Normal\huangzhong.jpg" />
     <Resource Include="Images\Cards\Normal\huatuo.jpg" />
     <Resource Include="Images\Cards\Normal\huaxiong.jpg" />
+    <Resource Include="Images\Cards\Normal\HuoGong.jpg" />
     <Resource Include="Images\Cards\Normal\HuoSha.jpg" />
     <Resource Include="Images\Cards\Normal\jiangwei.jpg" />
     <Resource Include="Images\Cards\Normal\jiaxu.jpg" />
+    <Resource Include="Images\Cards\Normal\JieDaoShaRen.jpg" />
     <Resource Include="Images\Cards\Normal\Jiu.jpg" />
     <Resource Include="Images\Cards\Normal\JueDou.jpg" />
     <Resource Include="Images\Cards\Normal\JueYing.jpg" />
     <Resource Include="Images\Cards\Normal\LeBuSiShu.jpg" />
+    <Resource Include="Images\Cards\Normal\LeiSha.jpg" />
     <Resource Include="Images\Cards\Normal\liaohua.jpg" />
     <Resource Include="Images\Cards\Normal\lingju.jpg" />
     <Resource Include="Images\Cards\Normal\lingtong.jpg" />
@@ -218,9 +223,11 @@
     <Resource Include="Images\Cards\Normal\pangde.jpg" />
     <Resource Include="Images\Cards\Normal\panglingming.jpg" />
     <Resource Include="Images\Cards\Normal\pangtong.jpg" />
+    <Resource Include="Images\Cards\Normal\QiLinGong.jpg" />
     <Resource Include="Images\Cards\Normal\QingGangJian.jpg" />
     <Resource Include="Images\Cards\Normal\QingLongYanYueDao.jpg" />
     <Resource Include="Images\Cards\Normal\Rebel.png" />
+    <Resource Include="Images\Cards\Normal\RenWangDun.jpg" />
     <Resource Include="Images\Cards\Normal\Ruler.png" />
     <Resource Include="Images\Cards\Normal\Sha.jpg" />
     <Resource Include="Images\Cards\Normal\Shan.jpg" />
@@ -237,7 +244,6 @@
     <Resource Include="Images\Cards\Normal\shenzhugeliang.jpg" />
     <Resource Include="Images\Cards\Normal\ShunShouQianYang.jpg" />
     <Resource Include="Images\Cards\Normal\simayi.jpg" />
-    <Resource Include="Images\Cards\Normal\Spear.jpg" />
     <Resource Include="Images\Cards\Normal\SPMoonSpear.jpg" />
     <Resource Include="Images\Cards\Normal\sp_caiwenji.jpg" />
     <Resource Include="Images\Cards\Normal\sp_diaochan.jpg" />
@@ -281,6 +287,7 @@
     <Resource Include="Images\Cards\Normal\xushu.jpg" />
     <Resource Include="Images\Cards\Normal\yangxiu.jpg" />
     <Resource Include="Images\Cards\Normal\yanliangwenchou.jpg" />
+    <Resource Include="Images\Cards\Normal\YinYueQiang.jpg" />
     <Resource Include="Images\Cards\Normal\yuanshao.jpg" />
     <Resource Include="Images\Cards\Normal\yuanshu.jpg" />
     <Resource Include="Images\Cards\Normal\yuji.jpg" />
@@ -299,13 +306,13 @@
     <Resource Include="Images\Cards\Normal\ZhuaHuangFeiDian.jpg" />
     <Resource Include="Images\Cards\Normal\zhugejin.jpg" />
     <Resource Include="Images\Cards\Normal\zhugeliang.jpg" />
+    <Resource Include="Images\Cards\Normal\ZhuGeLianNu.jpg" />
     <Resource Include="Images\Cards\Normal\zhurong.jpg" />
     <Resource Include="Images\Cards\Normal\ZiXing.jpg" />
     <Resource Include="Images\Cards\Normal\zuoci.jpg" />
     <Resource Include="Images\Cards\SmallEquip\BaGuaZhen.png" />
     <Resource Include="Images\Cards\SmallEquip\BaiYinShiZi.png" />
     <Resource Include="Images\Cards\SmallEquip\ChiTu.png" />
-    <Resource Include="Images\Cards\SmallEquip\CiXiongShuangJueJian.png" />
     <Resource Include="Images\Cards\SmallEquip\DaYuan.png" />
     <Resource Include="Images\Cards\SmallEquip\DiLu.png" />
     <Resource Include="Images\Cards\SmallEquip\FangTianHuaJi.png" />
@@ -579,18 +586,6 @@
     <Resource Include="Images\Game\tableBg.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Cards\Normal\BaiYinShiZi.jpg" />
-    <Resource Include="Images\Cards\Normal\CiXiongShuangGuJian.jpg" />
-    <Resource Include="Images\Cards\Normal\DaWan.jpg" />
-    <Resource Include="Images\Cards\Normal\HuoGong.jpg" />
-    <Resource Include="Images\Cards\Normal\JieDaoShaRen.jpg" />
-    <Resource Include="Images\Cards\Normal\LeiSha.jpg" />
-    <Resource Include="Images\Cards\Normal\QiLinGong.jpg" />
-    <Resource Include="Images\Cards\Normal\RenWangDun.jpg" />
-    <Resource Include="Images\Cards\Normal\YinYueQiang.jpg" />
-    <Resource Include="Images\Cards\Normal\ZhuGeLianNu.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Buttons\cancel\disabled.png" />
     <Resource Include="Images\Buttons\cancel\down.png" />
     <Resource Include="Images\Buttons\cancel\hover.png" />
@@ -658,6 +653,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\blank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cards\BigEquip\CiXiongShuangGuJian.png" />
+    <Resource Include="Images\Cards\Normal\ZhangBaSheMao.jpg" />
+    <Resource Include="Images\Cards\SmallEquip\CiXiongShuangGuJian.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

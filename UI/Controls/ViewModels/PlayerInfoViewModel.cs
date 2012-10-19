@@ -333,5 +333,29 @@ namespace Sanguosha.UI.Controls
 
         #endregion
 
+        #region Equipments and DelayedTools
+
+        public EquipCommand WeaponCommand { get; set; }
+
+        public EquipCommand ArmorCommand { get; set; }
+
+        public EquipCommand DefensiveHorseCommand { get; set; }
+
+        public EquipCommand OffensiveHorseCommand { get; set; }
+
+        public IList<EquipCommand> EquipCommands
+        {
+            get
+            {
+                IList<EquipCommand> result = new List<EquipCommand>();
+                if (WeaponCommand != null) result.Add(WeaponCommand);
+                if (ArmorCommand != null) result.Add(ArmorCommand);
+                if (DefensiveHorseCommand != null) result.Add(DefensiveHorseCommand);
+                if (OffensiveHorseCommand != null) result.Add(OffensiveHorseCommand);
+                return result;
+            }
+        }
+
+        #endregion
     }
 }

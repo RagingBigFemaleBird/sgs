@@ -17,11 +17,6 @@ namespace Sanguosha.Core.UI
         Fail,
     }
     
-    public interface ICardUsageVerifier
-    {
-        VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players);
-        IList<CardHandler> AcceptableCardType { get; }
-    }
     public interface ICardChoiceVerifier
     {
         VerifierResult Verify(List<List<Card>> answer);
@@ -39,7 +34,7 @@ namespace Sanguosha.Core.UI
         /// <param name="cards"></param>
         /// <param name="players"></param>
         /// <returns>False if user cannot provide an answer.</returns>
-        bool AskForCardUsage(string prompt, ICardUsageVerifier verifier,
+        bool AskForCardUsage(string prompt, CardUsageVerifier verifier,
                              out ISkill skill, out List<Card> cards, out List<Player> players);
         /// <summary>
         /// 询问用户从若干牌堆中选择卡牌，例如顺手牵羊，观星等等。

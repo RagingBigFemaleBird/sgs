@@ -42,7 +42,14 @@ namespace Sanguosha.Expansions.Basic.Skills
             }
 
             card = new CompositeCard();
-            card.Subcards = new List<Card>(cards);
+            if (cards == null)
+            {
+                card.Subcards = new List<Card>();
+            }
+            else
+            {
+                card.Subcards = new List<Card>(cards);
+            }
             card.Type = new Sha();
             return VerifierResult.Success;
         }

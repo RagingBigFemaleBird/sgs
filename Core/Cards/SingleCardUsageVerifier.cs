@@ -13,7 +13,7 @@ using Sanguosha.Core.Exceptions;
 
 namespace Sanguosha.Core.Cards
 {
-    public class SingleCardUsageVerifier : ICardUsageVerifier
+    public class SingleCardUsageVerifier : CardUsageVerifier
     {
         public delegate bool CardMatcher(ICard card);
         private CardMatcher match;
@@ -40,7 +40,7 @@ namespace Sanguosha.Core.Cards
             }
         }
 
-        public VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players)
+        public override VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players)
         {
             if (skill != null)
             {
@@ -81,7 +81,7 @@ namespace Sanguosha.Core.Cards
         }
 
 
-        public IList<CardHandler> AcceptableCardType
+        public override IList<CardHandler> AcceptableCardType
         {
             get { return possibleMatch; }
         }

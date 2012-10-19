@@ -69,7 +69,10 @@ namespace Sanguosha.UI.Controls
             {
                 if (_isSelected == value) return;
                 _isSelected = value;
-                OnSelectedChanged(this, new EventArgs());
+                if (OnSelectedChanged != null)
+                {
+                    OnSelectedChanged(this, new EventArgs());
+                }
             }
         }
 

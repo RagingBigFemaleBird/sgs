@@ -17,9 +17,9 @@ namespace Sanguosha.Core.Games
     {
         public class PlayerActionTrigger : Trigger
         {
-            private class PlayerActionStageVerifier : ICardUsageVerifier
+            private class PlayerActionStageVerifier : CardUsageVerifier
             {
-                public VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players)
+                public override VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players)
                 {
                     if ((cards == null || cards.Count == 0) && skill == null)
                     {
@@ -60,7 +60,7 @@ namespace Sanguosha.Core.Games
                 }
 
 
-                public IList<CardHandler> AcceptableCardType
+                public override IList<CardHandler> AcceptableCardType
                 {
                     get { return null; }
                 }
@@ -134,6 +134,15 @@ namespace Sanguosha.Core.Games
                     Trace.Assert(eventArgs.Cards.Count == 1);
                     c = eventArgs.Cards[0];
                 }
+
+                // if it's delayed tool or equipment, we can't move it to compute area. call handlers directly
+                if (CardCategoryManager.IsCardCategory(c.Type.Category, CardCategory.DelayedTool)
+                    || CardCategoryManager.IsCardCategory(c.Type.Category, CardCategory.Equipment))
+                {
+                    c.Type.Process(eventArgs.Source, eventArgs.Targets, c);
+                    return;
+                }
+
                 computeBackup = new List<Card>(Game.CurrentGame.Decks[DeckType.Compute]);
                 Game.CurrentGame.Decks[DeckType.Compute].Clear();
                 CardsMovement m;
@@ -146,16 +155,6 @@ namespace Sanguosha.Core.Games
                     m.cards = new List<Card>(eventArgs.Cards);
                 }
                 m.to = new DeckPlace(null, DeckType.Compute);
-
-                // if it's delayed tool, we can't move it to compute area. call handlers directly
-                if (CardCategoryManager.IsCardCategory(c.Type.Category, CardCategory.DelayedTool)
-                    || CardCategoryManager.IsCardCategory(c.Type.Category, CardCategory.Armor))
-                {
-                    c.Type.Process(eventArgs.Source, eventArgs.Targets, c);
-                    Game.CurrentGame.Decks[DeckType.Compute] = new List<Card>(computeBackup);
-                    return;
-                }
-
 
                 Game.CurrentGame.MoveCards(m, new CardUseLog() { Source = eventArgs.Source, Targets = eventArgs.Targets, Skill = eventArgs.Skill, Cards = eventArgs.Cards });
                 
@@ -173,12 +172,13 @@ namespace Sanguosha.Core.Games
         {
             List<CardsMovement> moves = new List<CardsMovement>();
             // Deal everyone 4 cards
+            // todo: hacking for debug
             foreach (Player player in game.Players)
             {
                 CardsMovement move = new CardsMovement();
                 move.cards = new List<Card>();
                 move.to = new DeckPlace(player, DeckType.Hand);
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 7; i++)
                 {
                     move.cards.Add(game.DrawCard());
                 }

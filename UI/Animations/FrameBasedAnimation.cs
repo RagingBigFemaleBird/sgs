@@ -41,7 +41,7 @@ namespace Sanguosha.UI.Animations
             }
         }
 
-        protected static List<ImageSource> LoadFrames(string folderPath, int totalNum)
+        public static List<ImageSource> LoadFrames(string folderPath, int totalNum)
         {
             List<ImageSource> result = new List<ImageSource>();
             for (int i = 0; i < totalNum; i++)

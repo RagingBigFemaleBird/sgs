@@ -62,8 +62,11 @@ namespace Sanguosha.UI.Controls
             _daOpacity = new DoubleAnimation();      
             ChangeOpacityDurationSeconds = 0.5;
             Storyboard.SetTarget(_daMoveX, this);
+            Storyboard.SetTargetProperty(_daMoveX, new PropertyPath(Canvas.LeftProperty));
             Storyboard.SetTarget(_daMoveY, this);
+            Storyboard.SetTargetProperty(_daMoveY, new PropertyPath(Canvas.TopProperty));
             Storyboard.SetTarget(_daOpacity, this);
+            Storyboard.SetTargetProperty(_daOpacity, new PropertyPath(CardView.OpacityProperty));
             _DisappearAfterMoveHandler = new EventHandler(_DisappearAfterMove);            
         }        
 
@@ -104,14 +107,24 @@ namespace Sanguosha.UI.Controls
         {
             if (Position == null) return;
             if (Parent == null || !(Parent is Canvas)) return;
-            double x = (double)GetValue(Canvas.LeftProperty);
-            double y = (double)GetValue(Canvas.TopProperty);
-            if (double.IsNaN(x) || double.IsNaN(y) || transitionInSeconds == 0)
+
+            if (transitionInSeconds == 0)
             {
                 SetValue(Canvas.LeftProperty, Position.X);
                 SetValue(Canvas.TopProperty, Position.Y);
+                SetValue(CardView.OpacityProperty, CardOpacity);
                 return;
             }
+
+            double x = (double)GetValue(Canvas.LeftProperty);
+            double y = (double)GetValue(Canvas.TopProperty);
+            if (double.IsNaN(x) || double.IsNaN(y))
+            {
+                SetValue(Canvas.LeftProperty, Position.X);
+                SetValue(Canvas.TopProperty, Position.Y);
+            }           
+
+            
             Point point = new Point(x, y);
             double destX = Position.X + Offset.X;
             double destY = Position.Y + Offset.Y;
@@ -119,44 +132,47 @@ namespace Sanguosha.UI.Controls
             {
                 return;
             }
+
             _daMoveX.To = destX;
-            _daMoveY.To = destY;            
+            _daMoveY.To = destY;
             _daMoveX.Duration = TimeSpan.FromSeconds(transitionInSeconds);
             _daMoveY.Duration = TimeSpan.FromSeconds(transitionInSeconds);
+            _daOpacity.To = CardOpacity;
+            _daOpacity.Duration = TimeSpan.FromSeconds(transitionInSeconds);
+
             if (DisappearAfterMove)
             {
-                _daMoveX.Completed += _DisappearAfterMoveHandler;
+                _daOpacity.Completed += _DisappearAfterMoveHandler;
             }
-            BeginAnimation(Canvas.LeftProperty, _daMoveX);
-            BeginAnimation(Canvas.TopProperty, _daMoveY);
+
+            // Stop animation
+            // BeginAnimation(Canvas.LeftProperty, null);
+            // BeginAnimation(Canvas.TopProperty, null);
+            // BeginAnimation(Canvas.OpacityProperty, null);
+            
+            // start new animation
+            Storyboard storyboard = new Storyboard();
+            storyboard.Children.Add(_daMoveX);
+            storyboard.Children.Add(_daMoveY);
+            storyboard.Children.Add(_daOpacity);
+            storyboard.Begin();
         }
 
         private EventHandler _DisappearAfterMoveHandler;
 
         private void _DisappearAfterMove(object sender, EventArgs e)
         {
-            _daMoveX.Completed -= _DisappearAfterMoveHandler;
+            _daOpacity.Completed -= _DisappearAfterMoveHandler;
+            _daOpacity.To = 0.0d;
+            _daOpacity.Duration = TimeSpan.FromSeconds(0.2d);            
             _daOpacity.Completed += new EventHandler((o, e2) =>
             {
                 Canvas canvas = this.Parent as Canvas;
                 Trace.Assert(canvas != null);
                 canvas.Children.Remove(this);
-
             });
-            CardOpacity = 0;
-        }
-
-        private static void OnCardOpacityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            CardView card = d as CardView;
-            if (card == null) return;
-            if (card.Opacity == card.CardOpacity)
-            {
-                return;
-            }
-            card._daOpacity.To = card.CardOpacity;
-            card._daOpacity.Duration = TimeSpan.FromSeconds(card.ChangeOpacityDurationSeconds);
-            card.BeginAnimation(CardView.OpacityProperty, card._daOpacity);
+            BeginAnimation(Canvas.OpacityProperty, _daOpacity);
+            // CardOpacity = 0;
         }
 
         private static void OnOffsetPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -197,8 +213,7 @@ namespace Sanguosha.UI.Controls
 
         // Using a DependencyProperty as the backing store for CardOpacity.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CardOpacityProperty =
-            DependencyProperty.Register("CardOpacity", typeof(double), typeof(CardView), new UIPropertyMetadata(0d,
-                                        new PropertyChangedCallback(OnCardOpacityChanged)));
+            DependencyProperty.Register("CardOpacity", typeof(double), typeof(CardView), new UIPropertyMetadata(0d));
 
         public bool DisappearAfterMove
         {

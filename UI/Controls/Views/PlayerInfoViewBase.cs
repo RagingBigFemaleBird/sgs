@@ -24,6 +24,14 @@ namespace Sanguosha.UI.Controls
 
         CardStack handCardArea;
 
+        public PlayerInfoViewModel PlayerModel
+        {
+            get
+            {
+                return DataContext as PlayerInfoViewModel;
+            }
+        }
+
         public CardStack HandCardArea
         {
             get { return handCardArea; }
@@ -51,6 +59,43 @@ namespace Sanguosha.UI.Controls
             {
                 handCardArea.AddCards(cards, 0.5);
             }
+            else if (deck == DeckType.Equipment)
+            {
+                foreach (var card in cards)
+                {
+                    Equipment equip = card.Card.Type as Equipment;
+                    
+                    if (equip != null)
+                    {
+                        EquipCommand command = new EquipCommand(){ Card = card.Card };
+                        switch(equip.Category)
+                        {
+                            case CardCategory.Weapon:
+                                PlayerModel.WeaponCommand = command;
+                                break;
+                            case CardCategory.Armor:
+                                PlayerModel.ArmorCommand = command;
+                                break;
+                            case CardCategory.DefensiveHorse:
+                                PlayerModel.DefensiveHorseCommand = command;
+                                break;
+                            case CardCategory.OffsensiveHorse:
+                                PlayerModel.OffensiveHorseCommand = command;
+                                break;
+                        }
+                    }
+                    AddEquipment(card);
+                }
+            }
+        }
+
+        protected virtual void AddEquipment(CardView card)
+        {
+        }
+
+        protected virtual CardView RemoveEquipment(Card card)
+        {
+            return null;
         }
 
         public IList<CardView> RemoveCards(DeckType deck, IList<Card> cards)
@@ -80,9 +125,33 @@ namespace Sanguosha.UI.Controls
 
                 handCardArea.RemoveCards(cardsToRemove);
             }
-            else
+            else if (deck == DeckType.Equipment)
             {
-                throw new NotImplementedException();
+                foreach (var card in cards)
+                {
+                    Equipment equip = card.Type as Equipment;
+
+                    if (equip != null)
+                    {
+                        switch (equip.Category)
+                        {
+                            case CardCategory.Weapon:
+                                PlayerModel.WeaponCommand = null;
+                                break;
+                            case CardCategory.Armor:
+                                PlayerModel.ArmorCommand = null;
+                                break;
+                            case CardCategory.DefensiveHorse:
+                                PlayerModel.DefensiveHorseCommand = null;
+                                break;
+                            case CardCategory.OffsensiveHorse:
+                                PlayerModel.OffensiveHorseCommand = null;
+                                break;
+                        }
+                    }
+                    CardView cardView = RemoveEquipment(card);
+                    cardsToRemove.Add(cardView);
+                }
             }
             return cardsToRemove;
         }

@@ -15,7 +15,7 @@ namespace Sanguosha.UI.Controls
         #region Fields
         private Card _card;
         private Card _uiCard;
-        public Card Card 
+        public virtual Card Card 
         {
             get { return _card; }
             set 

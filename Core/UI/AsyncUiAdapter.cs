@@ -61,7 +61,7 @@ namespace Sanguosha.Core.UI
             }
         }
 
-        public bool AskForCardUsage(string prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+        public bool AskForCardUsage(string prompt, CardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             answerPending = new Semaphore(0, 1);
             proxy.AskForCardUsage(prompt, verifier);
@@ -69,7 +69,7 @@ namespace Sanguosha.Core.UI
             skill = answerSkill;
             cards = answerCards;
             players = answerPlayers;
-            if (verifier.Verify(answerSkill, answerCards, answerPlayers) == VerifierResult.Success)
+            if (verifier.FastVerify(answerSkill, answerCards, answerPlayers) == VerifierResult.Success)
             {
                 return true;
             }

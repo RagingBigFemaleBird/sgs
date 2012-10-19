@@ -40,8 +40,5 @@ namespace Sanguosha.UI.Animations
             }
         }
 
-        private void LoseHealthAnimation_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
     }
 }

@@ -21,12 +21,12 @@ namespace Sanguosha.Core.UI
             set { hostPlayer = value; }
         }
 
-        bool IUiProxy.AskForCardUsage(string prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+        bool IUiProxy.AskForCardUsage(string prompt, CardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             Player p = hostPlayer;
             Console.Write("I AM PLAYER {0}({1}): ", p.Id, p.Hero.Name);
             cards = new List<Card>();
-            VerifierResult r = verifier.Verify(null, null, null);
+            VerifierResult r = verifier.FastVerify(null, null, null);
             skill = null;
             Console.Write("Ask for card usage: ");
             int i = 0;
@@ -81,7 +81,7 @@ namespace Sanguosha.Core.UI
                     }
                 }
                 players = null;
-                r = verifier.Verify(skill, cards, players);
+                r = verifier.FastVerify(skill, cards, players);
                 if (r == VerifierResult.Success)
                 {
                     return true;
@@ -117,7 +117,7 @@ namespace Sanguosha.Core.UI
                     {
                         players.Add(Game.CurrentGame.Players[id]);
                     }
-                    r = verifier.Verify(skill, cards, players);
+                    r = verifier.FastVerify(skill, cards, players);
                     if (r == VerifierResult.Partial)
                     {
                         Console.WriteLine("Require more");
@@ -128,7 +128,7 @@ namespace Sanguosha.Core.UI
                         players.Remove(Game.CurrentGame.Players[id]);
                     }
                 }
-                r = verifier.Verify(skill, cards, players);
+                r = verifier.FastVerify(skill, cards, players);
                 if (r == VerifierResult.Success)
                 {
                     return true;

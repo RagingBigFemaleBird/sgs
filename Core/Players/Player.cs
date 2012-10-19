@@ -25,7 +25,7 @@ namespace Sanguosha.Core.Players
             hero = hero2 = null;
             attributes = new Dictionary<string, int>();
             AutoResetAttributes = new List<string>();
-            acquiredSkills = new List<ISkill>();
+            equipmentSkills = new List<ISkill>();
         }
 
         int id;
@@ -189,26 +189,30 @@ namespace Sanguosha.Core.Players
             }
         }
 
-        private List<ISkill> acquiredSkills;
+        private List<ISkill> equipmentSkills;
 
-        public IList<ISkill> AcquiredSkills
+        public IList<ISkill> EquipmentSkills
         {
-            get { return new ReadOnlyCollection<ISkill>(acquiredSkills); }
+            get { return new ReadOnlyCollection<ISkill>(equipmentSkills); }
         }
 
-        public void AcquireSkill(ISkill skill)
+        public void AcquireEquipmentSkill(ISkill skill)
         {
             skill.Owner = this;
-            acquiredSkills.Add(skill);
+            equipmentSkills.Add(skill);
             OnPropertyChanged("Skills");
         }
 
-        public void LoseSkill(ISkill skill)
+        public void LoseEquipmentSkill(ISkill skill)
         {
-            acquiredSkills.Remove(skill);
+            equipmentSkills.Remove(skill);
             OnPropertyChanged("Skills");
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <remarks> UI use only!</remarks>
         public IList<ISkill> Skills
         {
             get
@@ -222,7 +226,6 @@ namespace Sanguosha.Core.Players
                 {
                     s.AddRange(Hero2.Skills);
                 }
-                s.AddRange(AcquiredSkills);
                 return new ReadOnlyCollection<ISkill>(s);
             }
         }

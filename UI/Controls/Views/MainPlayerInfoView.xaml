@@ -14,6 +14,7 @@
     <local:PlayerInfoViewBase.Resources>        
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="EquipButton.xaml"/>
                 <ResourceDictionary Source="SkillButton.xaml"/>
             	<ResourceDictionary Source="../Common.xaml"/>
             	<ResourceDictionary Source="pack://application:,,,/Resources;component/Heroes.xaml"/>
@@ -289,7 +290,15 @@
 					 Width="264" Height="16"
 					 Margin="0,0,0,7"
 					 VerticalAlignment="Bottom" Value="80" />
-        <Image Grid.Row="1" Source="{DynamicResource MainPlayerInfoView.Background.Left}" />            
+        <Grid Grid.Row="1" Width="164">
+            <Grid.Background>
+                <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Background.Left}"/>
+            </Grid.Background>
+            <Grid x:Name="weaponArea" Margin="0,39,0,0" Height="37" Width="161"  VerticalAlignment="Top" />
+            <Grid x:Name="armorArea" Margin="0,0,0,0" Height="37" Width="161"  VerticalAlignment="Top" />
+            <Grid x:Name="horse1Area" Margin="0,0,0,0" Height="37" Width="161"  VerticalAlignment="Top" />
+            <Grid x:Name="horse2Area" Margin="0,132,0,0" Height="37" Width="161"  VerticalAlignment="Top" />
+        </Grid>
         <Grid Grid.Row="1" Grid.Column="1">
             <Grid.Background>
                 <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Background.Middle}" TileMode="FlipX" Stretch="Fill" />

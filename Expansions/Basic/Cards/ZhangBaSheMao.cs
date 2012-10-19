@@ -26,7 +26,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
             {
                 card = null;
-                if (cards == null | cards.Count == 0)
+                if (cards == null || cards.Count == 0)
                 {
                     return VerifierResult.Partial;
                 }

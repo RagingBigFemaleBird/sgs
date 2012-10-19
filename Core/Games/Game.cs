@@ -65,6 +65,7 @@ namespace Sanguosha.Core.Games
             players = new List<Player>();
             cardHandlers = new Dictionary<string, CardHandler>();
             uiProxies = new Dictionary<Player, IUiProxy>();
+            currentActingPlayer = null;
         }
 
         public void LoadExpansion(Expansion expansion)
@@ -271,15 +272,29 @@ namespace Sanguosha.Core.Games
             foreach (CardsMovement move in moves)
             {
                 List<Card> cards = new List<Card>(move.cards);
+                // 注意：在此处绝对不能发出任何trigger. cards movement是一个atomic operation必须全部move完毕才可以trigger
+                // 
                 // Update card's deck mapping
                 foreach (Card card in cards)
                 {
                     Trace.TraceInformation("Card {0}{1}{2} from {3}{4} to {5}{6}.", card.Suit, card.Rank, card.Type.CardType.ToString(),
                         card.Place.Player == null ? "G": card.Place.Player.Id.ToString(), card.Place.DeckType.Name, move.to.Player == null ? "G": move.to.Player.Id.ToString(), move.to.DeckType.Name);
+                    // unregister triggers for equipment 例如武圣将红色的雌雄双绝（假设有这么一个雌雄双绝）打出杀女性角色，不能发动雌雄
+                    if (card.Place.Player != null && card.Place.DeckType == DeckType.Equipment && CardCategoryManager.IsCardCategory(card.Type.Category, CardCategory.Equipment))
+                    {
+                        Equipment e = card.Type as Equipment;
+                        e.UnregisterTriggers(card.Place.Player);
+                    }
+                    if (move.to.Player != null && move.to.DeckType == DeckType.Equipment && CardCategoryManager.IsCardCategory(card.Type.Category, CardCategory.Equipment))
+                    {
+                        Equipment e = card.Type as Equipment;
+                        e.RegisterTriggers(move.to.Player);
+                    }
                     decks[card.Place].Remove(card);
                     decks[move.to].Add(card);
                     card.Place = move.to;
                 }
+                // trigger everything here
             }
         }
 
@@ -325,6 +340,23 @@ namespace Sanguosha.Core.Games
             {
                 throw new EndOfDealingDeckException();
             }            
+        }
+
+        Player currentActingPlayer;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>UI ONLY!</remarks>
+        public Player CurrentActingPlayer
+        {
+            get { return currentActingPlayer; }
+            set
+            {
+                if (currentActingPlayer == value) return;
+                currentActingPlayer = value;
+                OnPropertyChanged("CurrentActingPlayer");
+            }
         }
 
         Player currentPlayer;

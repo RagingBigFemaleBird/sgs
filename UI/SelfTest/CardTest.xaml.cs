@@ -39,7 +39,6 @@ namespace Sanguosha.UI.Selftest
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            animation.Start();
         }
     }
 }

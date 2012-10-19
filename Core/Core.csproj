@@ -85,6 +85,7 @@
     <Compile Include="Triggers\Trigger.cs" />
     <Compile Include="Exceptions\TriggerResultException.cs" />
     <Compile Include="UI\AsyncUiAdapter.cs" />
+    <Compile Include="UI\CardUsageVerifier.cs" />
     <Compile Include="UI\ClientNetworkUiProxy.cs" />
     <Compile Include="UI\ConsoleUiProxy.cs" />
     <Compile Include="UI\GlobalProxy.cs" />

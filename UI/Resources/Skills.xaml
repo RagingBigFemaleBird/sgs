@@ -3,4 +3,7 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <sys:String x:Key="Skill.RenDe.Name">仁德</sys:String>
     <sys:String x:Key="Skill.JiJiang.Name">激将</sys:String>
+    <sys:String x:Key="Skill.WuSheng.Name">武圣</sys:String>
+    <sys:String x:Key="Skill.PaoXiao.Name">咆哮</sys:String>
+    <sys:String x:Key="Skill.LongDan.Name">龙胆</sys:String>
 </ResourceDictionary>

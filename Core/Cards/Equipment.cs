@@ -31,7 +31,7 @@ namespace Sanguosha.Core.Cards
         {
             if (EquipmentSkill != null)
             {
-                p.AcquireSkill(EquipmentSkill);
+                p.AcquireEquipmentSkill(EquipmentSkill);
             }
             RegisterEquipmentTriggers(p);
         }
@@ -40,7 +40,7 @@ namespace Sanguosha.Core.Cards
         {
             if (EquipmentSkill != null)
             {
-                p.LoseSkill(EquipmentSkill);
+                p.LoseEquipmentSkill(EquipmentSkill);
             }
             UnregisterEquipmentTriggers(p);
         }
@@ -70,15 +70,11 @@ namespace Sanguosha.Core.Cards
                     l.Add(attachMove);
                     Equipment e = (Equipment)c.Type;
                     Trace.Assert(e != null);
-                    e.UnregisterTriggers(p);
-                    RegisterTriggers(p);
                     Game.CurrentGame.MoveCards(l, null);
                     return;
                 }
             }
-
-            RegisterTriggers(p);
-            
+           
             Game.CurrentGame.MoveCards(attachMove, null);
             return;
         }

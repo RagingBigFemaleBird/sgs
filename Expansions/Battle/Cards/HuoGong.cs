@@ -17,9 +17,9 @@ namespace Sanguosha.Expansions.Battle.Cards
     public class HuoGong : CardHandler
     {
 
-        public class HuoGongCardChoiceVerifier : ICardUsageVerifier
+        public class HuoGongCardChoiceVerifier : CardUsageVerifier
         {
-            public VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players)
+            public override VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players)
             {
                 if (skill != null || cards == null || cards.Count != 1 || (players != null && players.Count != 0))
                 {
@@ -33,13 +33,13 @@ namespace Sanguosha.Expansions.Battle.Cards
             }
 
 
-            public IList<CardHandler> AcceptableCardType
+            public override IList<CardHandler> AcceptableCardType
             {
                 get { return null; }
             }
         }
 
-        public class HuoGongCardMatchVerifier : ICardUsageVerifier
+        public class HuoGongCardMatchVerifier : CardUsageVerifier
         {
             private SuitType suit;
 
@@ -53,7 +53,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                 suit = s;
             }
 
-            public VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players)
+            public override VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players)
             {
                 if (skill != null || cards == null || cards.Count != 1 || (players != null && players.Count != 0))
                 {
@@ -71,7 +71,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             }
 
 
-            public IList<CardHandler> AcceptableCardType
+            public override IList<CardHandler> AcceptableCardType
             {
                 get { return null; }
             }

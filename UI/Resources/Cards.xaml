@@ -22,10 +22,15 @@
     <BitmapImage x:Key="Card.DaWan.Image.Normal">Images/Cards/Normal/DaWan.jpg</BitmapImage>
     <BitmapImage x:Key="Card.ZhuGeLianNu.Image.Normal">Images/Cards/Normal/ZhuGeLianNu.jpg</BitmapImage>
     <BitmapImage x:Key="Card.CiXiongShuangGuJian.Image.Normal">Images/Cards/Normal/CiXiongShuangGuJian.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.ZhangBaSheMao.Image.Normal">Images/Cards/Normal/ZhangBaSheMao.jpg</BitmapImage>
     <BitmapImage x:Key="Card.JueYing.Image.Normal">Images/Cards/Normal/JueYing.jpg</BitmapImage>
     <BitmapImage x:Key="Card.ShanDian.Image.Normal">Images/Cards/Normal/ShanDian.jpg</BitmapImage>
     <BitmapImage x:Key="Card.Suit.Heart.Image.Normal">Images/Cards/Suit/heart.png</BitmapImage>
     <BitmapImage x:Key="Card.Suit.Spade.Image.Normal">Images/Cards/Suit/spade.png</BitmapImage>
     <BitmapImage x:Key="Card.Suit.Club.Image.Normal">Images/Cards/Suit/club.png</BitmapImage>
     <BitmapImage x:Key="Card.Suit.Diamond.Image.Normal">Images/Cards/Suit/diamond.png</BitmapImage>
+
+    <BitmapImage x:Key="Card.ZhangBaSheMao.Image.BigEquip">Images/Cards/BigEquip/ZhangBaSheMao.png</BitmapImage>
+    <BitmapImage x:Key="Card.CiXiongShuangGuJian.Image.BigEquip">Images/Cards/BigEquip/CiXiongShuangGuJian.png</BitmapImage>
+
 </ResourceDictionary>

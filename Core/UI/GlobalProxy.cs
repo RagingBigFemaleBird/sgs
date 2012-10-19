@@ -7,7 +7,7 @@ namespace Sanguosha.Core.UI
 {
     public class GlobalProxy : IUiProxy
     {
-        public bool AskForCardUsage(string prompt, ICardUsageVerifier verifier, out Skills.ISkill skill, out List<Cards.Card> cards, out List<Players.Player> players)
+        public bool AskForCardUsage(string prompt, CardUsageVerifier verifier, out Skills.ISkill skill, out List<Cards.Card> cards, out List<Players.Player> players)
         {
             throw new NotImplementedException();
         }

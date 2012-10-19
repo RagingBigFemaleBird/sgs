@@ -11,16 +11,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using Sanguosha.UI.Animations;
+
 namespace Sanguosha.UI.Controls
 {
-	/// <summary>
-	/// Interaction logic for EquipButton.xaml
-	/// </summary>
-	public partial class EquipButton : UserControl
-	{
-		public EquipButton()
-		{
-			this.InitializeComponent();
-		}
-	}
 }

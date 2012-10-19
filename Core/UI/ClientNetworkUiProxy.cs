@@ -31,7 +31,7 @@ namespace Sanguosha.Core.UI
             active = a;
         }
 
-        public bool AskForCardUsage(string prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+        public bool AskForCardUsage(string prompt, CardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             Trace.TraceInformation("Asking Card Usage to {0}.", HostPlayer.Id);
             if (active)
@@ -104,7 +104,7 @@ namespace Sanguosha.Core.UI
                 o = client.Receive();
                 players.Add((Player)o);
             }
-            Trace.Assert(verifier.Verify(skill, cards, players) == VerifierResult.Success);
+            Trace.Assert(verifier.FastVerify(skill, cards, players) == VerifierResult.Success);
             return true;
         }
 

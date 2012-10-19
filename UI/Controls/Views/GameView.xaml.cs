@@ -90,7 +90,7 @@ namespace Sanguosha.UI.Controls
             discardDeck.ParentGameView = this;
             this.DataContextChanged +=  new DependencyPropertyChangedEventHandler(GameView_DataContextChanged);
             canExecuteSubmitCommand = false;
-            _UpdateEnableStatusHandler = new EventHandler(cardOrPlayer_OnSelectedChanged);
+            _UpdateEnabledStatusHandler = new EventHandler(cardOrPlayer_OnSelectedChanged);
             
         }
         #endregion
@@ -306,7 +306,30 @@ namespace Sanguosha.UI.Controls
 
         #region Helpers
 
-        private List<Card> _GetSelectedCards()
+
+        SkillCommand _GetSelectedSkillCommand(out bool isEquipSkill)
+        {
+            foreach (var skillCommand in mainPlayerModel.SkillCommands)
+            {                
+                if (skillCommand.IsSelected)
+                {
+                    isEquipSkill = false;
+                    return skillCommand;
+                }
+            }
+            foreach (EquipCommand equipCmd in mainPlayerModel.EquipCommands)
+            {
+                if (equipCmd.IsSelected)
+                {
+                    isEquipSkill = true;
+                    return equipCmd.SkillCommand;
+                }
+            }
+            isEquipSkill = false;
+            return null;
+        }
+
+        private List<Card> _GetSelectedHandCards()
         {
             List<Card> cards = new List<Card>();
             foreach (CardView cardView in mainPlayerPanel.HandCardArea.Cards)
@@ -345,29 +368,38 @@ namespace Sanguosha.UI.Controls
 
         public void ExecuteSubmitCommand(object parameter)
         {
-            List<Card> cards = _GetSelectedCards();
+            List<Card> cards = _GetSelectedHandCards();
             List<Player> players = _GetSelectedPlayers();
             ISkill skill = null;
+            bool isEquipSkill;
+            SkillCommand skillCommand = _GetSelectedSkillCommand(out isEquipSkill);
 
-            foreach (var skillCommand in mainPlayerModel.SkillCommands)
+            foreach (var equipCommand in mainPlayerModel.EquipCommands)
             {
-                skillCommand.IsEnabled = true;
-                if (skillCommand.IsSelected)
+                equipCommand.OnSelectedChanged -= _UpdateEnabledStatusHandler;                
+                if (!isEquipSkill && equipCommand.IsSelected)
                 {
-                    skill = skillCommand.Skill;
-                    break;
+                    cards.Add(equipCommand.Card);
                 }
+                equipCommand.IsSelectionMode = false;
+            }
+            
+            if (skillCommand != null)
+            {
+                skillCommand.IsEnabled = false;
+                skillCommand.IsSelected = false;
+                skill = skillCommand.Skill;
             }
 
             foreach (CardView cardView in mainPlayerPanel.HandCardArea.Cards)
             {
-                cardView.CardViewModel.OnSelectedChanged -= _UpdateEnableStatusHandler;
+                cardView.CardViewModel.OnSelectedChanged -= _UpdateEnabledStatusHandler;
                 cardView.CardViewModel.IsSelectionMode = false;
             }
 
             foreach (var playerModel in playerModels)
             {
-                playerModel.OnSelectedChanged -= _UpdateEnableStatusHandler;
+                playerModel.OnSelectedChanged -= _UpdateEnabledStatusHandler;
                 playerModel.IsSelectionMode = false;
             }
 
@@ -438,50 +470,45 @@ namespace Sanguosha.UI.Controls
             });            
         }
 
-        ICardUsageVerifier currentUsageVerifier;
+        CardUsageVerifier currentUsageVerifier;
 
         private void _UpdateCommandStatus()
         {
-            List<Card> cards = _GetSelectedCards();
+            List<Card> cards = _GetSelectedHandCards();
             List<Player> players = _GetSelectedPlayers();
             ISkill skill = null;
+            bool isEquipCommand;
+            SkillCommand command = _GetSelectedSkillCommand(out isEquipCommand);
 
-            // Handle skill down
+            if (command != null)
+            {
+                skill = command.Skill;
+            }
+
+            // Handle skill down            
             foreach (var skillCommand in mainPlayerModel.SkillCommands)
             {
-                skillCommand.IsEnabled = false;
-                if (currentUsageVerifier.AcceptableCardType == null)
+                 skillCommand.IsEnabled = (currentUsageVerifier.Verify(skillCommand.Skill, null, null) != VerifierResult.Fail);
+            }
+
+            if (skill == null)
+            {
+                foreach (var equipCommand in mainPlayerModel.EquipCommands)
                 {
-                    skillCommand.IsEnabled = true;
-                }
-                else if (skillCommand.Skill is CardTransformSkill)
-                {
-                    CardTransformSkill s = skillCommand.Skill as CardTransformSkill;
-                    if (s.PossibleResult == null)
+                    if (equipCommand.SkillCommand.Skill == null)
                     {
-                        skillCommand.IsEnabled = true;
+                        equipCommand.IsEnabled = false;
                     }
-                    else
-                    {
-                        foreach (var type in currentUsageVerifier.AcceptableCardType)
-                        {
-                            if (type.CardType == s.PossibleResult.CardType)
-                            {
-                                skillCommand.IsEnabled = true;
-                            }
-                        }
-                    }
+                    equipCommand.IsEnabled = (currentUsageVerifier.Verify(equipCommand.SkillCommand.Skill, null, null) != VerifierResult.Fail);
                 }
-                else if (skillCommand.Skill is ActiveSkill)
+            }
+
+            if (!isEquipCommand)
+            {
+                foreach (var equipCommand in mainPlayerModel.EquipCommands)
                 {
-                    if (currentUsageVerifier.Verify(skillCommand.Skill, null, null) != VerifierResult.Fail)
-                    {
-                        skillCommand.IsEnabled = true;
-                    }
-                }
-                if (skillCommand.IsSelected)
-                {
-                    skill = skillCommand.Skill;
+                    if (equipCommand.IsSelected)
+                        cards.Add(equipCommand.Card);                    
                 }
             }
 
@@ -511,9 +538,22 @@ namespace Sanguosha.UI.Controls
                     continue;
                 }
                 attempt.Add(cardView.Card);
-                bool disabled = (currentUsageVerifier.Verify(skill, attempt, players) == VerifierResult.Fail);                
+                bool disabled = (currentUsageVerifier.FastVerify(skill, attempt, players) == VerifierResult.Fail);                
                 cardView.CardViewModel.IsEnabled = !disabled;
                 attempt.Remove(cardView.Card);
+            }
+
+            if (skill != null)
+            {
+                foreach (var equipCommand in mainPlayerModel.EquipCommands)
+                {
+                    if (equipCommand.IsSelected) continue;
+                    
+                    attempt.Add(equipCommand.Card);
+                    bool disabled = (currentUsageVerifier.FastVerify(skill, attempt, players) == VerifierResult.Fail);
+                    equipCommand.IsEnabled = !disabled;
+                    attempt.Remove(equipCommand.Card);
+                }
             }
 
             // Invalidate target selection
@@ -530,7 +570,7 @@ namespace Sanguosha.UI.Controls
                     continue;
                 }
                 attempt2.Add(playerModel.Player);
-                bool disabled = (currentUsageVerifier.Verify(skill, cards, attempt2) == VerifierResult.Fail);
+                bool disabled = (currentUsageVerifier.FastVerify(skill, cards, attempt2) == VerifierResult.Fail);
                 if (!disabled)
                 {
                     validCount++;
@@ -558,33 +598,41 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        public void AskForCardUsage(string prompt, ICardUsageVerifier verifier)
-        {           
+        public void AskForCardUsage(string prompt, CardUsageVerifier verifier)
+        {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 currentUsageVerifier = verifier;
+                Game.CurrentGame.CurrentActingPlayer = HostPlayer;
+
+                foreach (var equipCommand in mainPlayerModel.EquipCommands)
+                {
+                    equipCommand.OnSelectedChanged += _UpdateEnabledStatusHandler;
+                    equipCommand.IsSelectionMode = true;
+                }
+
                 foreach (CardView cardView in mainPlayerPanel.HandCardArea.Cards)
                 {
                     cardView.CardViewModel.IsSelectionMode = true;
-                    cardView.CardViewModel.OnSelectedChanged += _UpdateEnableStatusHandler;
+                    cardView.CardViewModel.OnSelectedChanged += _UpdateEnabledStatusHandler;
                 }
                 
                 foreach (var playerModel in playerModels)
                 {
                     playerModel.IsSelectionMode = true;
-                    playerModel.OnSelectedChanged += _UpdateEnableStatusHandler;
+                    playerModel.OnSelectedChanged += _UpdateEnabledStatusHandler;
                 }
 
                 foreach (var skillCommand in mainPlayerModel.SkillCommands)
                 {
-                    skillCommand.OnSelectedChanged += _UpdateEnableStatusHandler;
+                    skillCommand.OnSelectedChanged += _UpdateEnabledStatusHandler;
                 }
                 
                 _UpdateCommandStatus();
             });
         }
 
-        private EventHandler _UpdateEnableStatusHandler;
+        private EventHandler _UpdateEnabledStatusHandler;
 
         void cardOrPlayer_OnSelectedChanged(object sender, EventArgs e)
         {
