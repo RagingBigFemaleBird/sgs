@@ -30,7 +30,7 @@ namespace WpfApplication1
             // Insert code required on object creation below this point.
         }
 
-        const int MainSeat = 0;
+        const int MainSeat = 1;
         private void InitGame()
         {
             GameEngine.LoadExpansions("Expansions");
@@ -52,6 +52,14 @@ namespace WpfApplication1
                 else
                 {
                     proxy.HostPlayer = player;
+                }
+                if (i == 1)
+                {
+                    player.IsFemale = true;
+                }
+                else
+                {
+                    player.IsMale = true;
                 }
                 _game.UiProxies.Add(player, proxy);
             }

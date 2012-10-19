@@ -24,9 +24,20 @@ namespace Sanguosha.Core.Cards
             set { match = value; }
         }
 
-        public SingleCardPlayVerifier(CardMatcher m = null)
+        IList<CardHandler> possibleMatch;
+
+        public SingleCardPlayVerifier(CardMatcher m = null, CardHandler handler = null)
         {
             Match = m;
+            if (handler != null)
+            {
+                possibleMatch = new List<CardHandler>();
+                possibleMatch.Add(handler);
+            }
+            else
+            {
+                possibleMatch = null;
+            }
         }
 
         public VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players)
@@ -48,6 +59,11 @@ namespace Sanguosha.Core.Cards
                 return VerifierResult.Fail;
             }
             return VerifierResult.Success;
+        }
+
+        public IList<CardHandler> AcceptableCardType
+        {
+            get { return possibleMatch; }
         }
     }
 }

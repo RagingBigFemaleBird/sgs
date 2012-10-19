@@ -20,6 +20,7 @@ namespace Sanguosha.Core.UI
     public interface ICardUsageVerifier
     {
         VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players);
+        IList<CardHandler> AcceptableCardType { get; }
     }
     public interface ICardChoiceVerifier
     {

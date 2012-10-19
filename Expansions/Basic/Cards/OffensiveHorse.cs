@@ -15,12 +15,12 @@ namespace Sanguosha.Expansions.Basic.Cards
 {
     public class OffensiveHorse : Equipment
     {
-        public override void RegisterTriggers(Player p)
+        protected override void RegisterEquipmentTriggers(Player p)
         {
             p[PlayerAttribute.RangeMinus]--;
         }
 
-        public override void UnregisterTriggers(Player p)
+        protected override void UnregisterEquipmentTriggers(Player p)
         {
             p[PlayerAttribute.RangeMinus]++;
         }

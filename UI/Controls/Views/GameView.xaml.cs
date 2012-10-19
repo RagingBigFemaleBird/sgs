@@ -461,7 +461,7 @@ namespace Sanguosha.UI.Controls
             if (currentUsageVerifier != null)
             {
                 var status = currentUsageVerifier.Verify(skill, cards, players);
-                if (status == VerifierResult.Fail)
+                if (status == VerifierResult.Fail || status == VerifierResult.Partial)
                 {
                     canExecuteSubmitCommand = false;
                     foreach (var playerModel in playerModels)
@@ -498,6 +498,7 @@ namespace Sanguosha.UI.Controls
                 enabledMap[i] = false;
                 if (playerModel.IsSelected)
                 {
+                    i++;
                     continue;
                 }
                 attempt2.Add(playerModel.Player);
@@ -517,6 +518,7 @@ namespace Sanguosha.UI.Controls
             {
                 if (playerModel.IsSelected)
                 {
+                    i++;
                     continue;
                 }
                 playerModel.IsSelectionMode = allowSelection;
@@ -564,11 +566,11 @@ namespace Sanguosha.UI.Controls
 
         public void AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier)
         {
+            CardChoiceAnsweredEvent(null);
         }
 
         public void AskForMultipleChoice(string prompt, List<string> questions)
         {
-            CardChoiceAnsweredEvent(null);
             MultipleChoiceAnsweredEvent(0);
         }
 

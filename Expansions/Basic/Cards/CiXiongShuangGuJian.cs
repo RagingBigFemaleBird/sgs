@@ -14,17 +14,17 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    public class CiXiongShuangGuJian : Equipment
+    public class CiXiongShuangGuJian : Weapon
     {
         private Trigger trigger1;
 
-        public override void RegisterTriggers(Player p)
+        protected override void RegisterWeaponTriggers(Player p)
         {
             trigger1 = new CiXiongShuangGuJianTrigger(p);
             Game.CurrentGame.RegisterTrigger(Sha.PlayerShaTargetModifier, trigger1);
         }
 
-        public override void UnregisterTriggers(Player p)
+        protected override void UnregisterWeaponTriggers(Player p)
         {
             Game.CurrentGame.UnregisterTrigger(Sha.PlayerShaTargetModifier, trigger1);
             trigger1 = null;
@@ -80,5 +80,10 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
         }
 
+
+        public override int WeaponRange
+        {
+            get { return 2; }
+        }
     }
 }

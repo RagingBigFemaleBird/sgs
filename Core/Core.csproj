@@ -55,6 +55,7 @@
     <Compile Include="Cards\Card.cs" />
     <Compile Include="Cards\SingleCardPlayVerifier.cs" />
     <Compile Include="Cards\SingleCardUsageVerifier.cs" />
+    <Compile Include="Cards\Weapon.cs" />
     <Compile Include="Exceptions\DuplicateCardHandlerException.cs" />
     <Compile Include="Exceptions\InvalidAnswerException.cs" />
     <Compile Include="Games\Constants.cs" />
@@ -92,9 +93,6 @@
     <Compile Include="UI\IUIProxy.cs" />
     <Compile Include="UI\ServerNetworkUiProxy.cs" />
     <Compile Include="UI\TestUiProxy.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

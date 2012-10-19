@@ -46,9 +46,23 @@ namespace Sanguosha.Core.Games
                         {
                             return result.Type.Verify(Game.CurrentGame.CurrentPlayer, skill, cards, players);
                         }
+                        if (ret == VerifierResult.Partial && players != null && players.Count != 0)
+                        {
+                            return VerifierResult.Fail;
+                        }
                         return ret;
                     }
+                    else if (skill != null)
+                    {
+                        return VerifierResult.Fail;
+                    }
                     return cards[0].Type.Verify(Game.CurrentGame.CurrentPlayer, skill, cards, players);
+                }
+
+
+                public IList<CardHandler> AcceptableCardType
+                {
+                    get { return null; }
                 }
             }
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)

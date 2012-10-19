@@ -32,7 +32,7 @@ namespace Sanguosha.Core.Cards
             foreach (Card c in cards)
             {
                 Trace.Assert(c.Type != null);
-                if (c.Type is Equipment)
+                if ((c.Type is Equipment) && c.Place.DeckType == DeckType.Equipment)
                 {
                     Equipment e = (Equipment)c.Type;
                     e.UnregisterTriggers(c.Place.Player);
@@ -53,7 +53,7 @@ namespace Sanguosha.Core.Cards
             foreach (Card c in cardsOnHold)
             {
                 Trace.Assert(c.Type != null);
-                if (c.Type is Equipment)
+                if ((c.Type is Equipment) && c.Place.DeckType == DeckType.Equipment)
                 {
                     Equipment e = (Equipment)c.Type;
                     e.RegisterTriggers(c.Place.Player);

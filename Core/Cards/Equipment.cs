@@ -17,15 +17,33 @@ namespace Sanguosha.Core.Cards
     public abstract class Equipment : CardHandler
     {
         /// <summary>
-        /// 注册武器应有的trigger到玩家
+        /// 注册装备应有的trigger到玩家
         /// </summary>
         /// <param name="p"></param>
-        public abstract void RegisterTriggers(Player p);
+        protected abstract void RegisterEquipmentTriggers(Player p);
         /// <summary>
-        /// 从玩家注销武器应有的trigger
+        /// 从玩家注销装备应有的trigger
         /// </summary>
         /// <param name="p"></param>
-        public abstract void UnregisterTriggers(Player p);
+        protected abstract void UnregisterEquipmentTriggers(Player p);
+
+        public virtual void RegisterTriggers(Player p)
+        {
+            if (EquipmentSkill != null)
+            {
+                p.AcquireSkill(EquipmentSkill);
+            }
+            RegisterEquipmentTriggers(p);
+        }
+
+        public virtual void UnregisterTriggers(Player p)
+        {
+            if (EquipmentSkill != null)
+            {
+                p.LoseSkill(EquipmentSkill);
+            }
+            UnregisterEquipmentTriggers(p);
+        }
 
         /// <summary>
         /// 给某个玩家穿装备
@@ -80,6 +98,14 @@ namespace Sanguosha.Core.Cards
                 return VerifierResult.Success;
             }
             return VerifierResult.Fail;
+        }
+
+        public virtual ISkill EquipmentSkill
+        {
+            get
+            {
+                return null;
+            }
         }
     }
 }

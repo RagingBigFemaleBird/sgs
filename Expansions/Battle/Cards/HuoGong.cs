@@ -31,6 +31,12 @@ namespace Sanguosha.Expansions.Battle.Cards
                 }
                 return VerifierResult.Success;
             }
+
+
+            public IList<CardHandler> AcceptableCardType
+            {
+                get { return null; }
+            }
         }
 
         public class HuoGongCardMatchVerifier : ICardUsageVerifier
@@ -62,6 +68,12 @@ namespace Sanguosha.Expansions.Battle.Cards
                     return VerifierResult.Fail;
                 }
                 return VerifierResult.Success;
+            }
+
+
+            public IList<CardHandler> AcceptableCardType
+            {
+                get { return null; }
             }
         }
 

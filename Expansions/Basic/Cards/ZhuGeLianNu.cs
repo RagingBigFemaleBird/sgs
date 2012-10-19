@@ -18,7 +18,7 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         private Trigger trigger1, trigger2;
 
-        public override void RegisterTriggers(Player p)
+        protected override void RegisterEquipmentTriggers(Player p)
         {
             trigger1 = new ZhuGeLianNuTrigger(p);
             trigger2 = new ZhuGeLianNuAlwaysShaTrigger(p);
@@ -26,7 +26,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             Game.CurrentGame.RegisterTrigger(Sha.PlayerNumberOfShaCheck, trigger2);
         }
 
-        public override void UnregisterTriggers(Player p)
+        protected override void UnregisterEquipmentTriggers(Player p)
         {
             Game.CurrentGame.UnregisterTrigger(Sha.PlayerShaTargetValidation, trigger1);
             Game.CurrentGame.UnregisterTrigger(Sha.PlayerNumberOfShaCheck, trigger2);
