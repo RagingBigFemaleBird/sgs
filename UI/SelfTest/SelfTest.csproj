@@ -104,6 +104,10 @@
       <Project>{31B92003-B490-4EAF-8F8E-F9B020F9B03B}</Project>
       <Name>Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Animations\Animations.csproj">
+      <Project>{7D1B2955-5722-437A-B054-68FBD5F52422}</Project>
+      <Name>Animations</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Controls\Controls.csproj">
       <Project>{87F9F9C1-37B0-4725-8EB7-4A07560F7AD6}</Project>
       <Name>Controls</Name>

@@ -63,7 +63,7 @@ namespace Sanguosha.UI.Controls
                     Trace.Assert(i < 5);
                     LoseHealthAnimation animation = new LoseHealthAnimation();
                     AlignLoseHealthAnimation(animation, spSmallHealth.Children[i] as Image);
-                    animations.Add(animation);
+                    animations.Add(animation);                    
                 }            
             }
 
@@ -71,6 +71,7 @@ namespace Sanguosha.UI.Controls
             {
                 animation.Completed += new EventHandler(animation_Completed);
                 canvasRoot.Children.Add(animation);
+                animation.Start();
             }
         }
 
@@ -80,7 +81,7 @@ namespace Sanguosha.UI.Controls
         }
         
 
-        private void AlignLoseHealthAnimation(LoseHealthAnimation animation,Image bloodDrop)
+        private void AlignLoseHealthAnimation(LoseHealthAnimation animation, Image bloodDrop)
         {
             UpdateLayout();
             Point leftTop = bloodDrop.TranslatePoint(new Point(0, 0), canvasRoot);

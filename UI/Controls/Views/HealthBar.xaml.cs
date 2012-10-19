@@ -70,6 +70,7 @@ namespace Sanguosha.UI.Controls
             {
                 animation.Completed += new EventHandler(animation_Completed);
                 canvasRoot.Children.Add(animation);
+                animation.Start();
             }
         }
 
