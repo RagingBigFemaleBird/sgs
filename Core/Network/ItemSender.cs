@@ -26,6 +26,7 @@ namespace Sanguosha.Core.Network
         public int playerId;
         public DeckType deck;
         public int place;
+        public int Id;
     }
     [Serializable]
     public struct CommandItem
@@ -47,15 +48,9 @@ namespace Sanguosha.Core.Network
             stream = s;
         }
 
-        private void QueueCard(Card card)
+        private void QueueCard(CardItem card)
         {
-            CardItem item = new CardItem();
-            item.playerId = Game.CurrentGame.Players.IndexOf(card.Place.Player);
-            Trace.Assert(item.playerId >= 0);
-            item.deck = card.Place.DeckType;
-            item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
-            Trace.Assert(item.playerId >= 0);
-            formatter.Serialize(stream, item);
+            formatter.Serialize(stream, card);
             stream.Flush();
         }
 
@@ -99,9 +94,9 @@ namespace Sanguosha.Core.Network
             {
                 QueuePlayer(o as Player);
             }
-            else if (o is Card)
+            else if (o is CardItem)
             {
-                QueueCard(o as Card);
+                QueueCard((CardItem)o);
             }
             else if (o is ISkill)
             {

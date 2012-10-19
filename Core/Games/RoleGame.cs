@@ -180,7 +180,10 @@ namespace Sanguosha.Core.Games
                 move.to = new DeckPlace(player, DeckType.Hand);
                 for (int i = 0; i < 4; i++)
                 {
-                    move.cards.Add(game.DrawCard());
+                    game.UpdateCardIf(player);
+                    game.RevealCardTo(player, game.PeekCard(0));
+                    Card c = game.DrawCard();
+                    move.cards.Add(c);
                 }
                 moves.Add(move);
             }

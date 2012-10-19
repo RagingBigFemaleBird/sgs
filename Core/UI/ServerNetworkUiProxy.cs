@@ -113,6 +113,7 @@ namespace Sanguosha.Core.UI
                         server.SendObject(i, cards.Count);
                         foreach (Card c in cards)
                         {
+                            c.RevealOnce = true;
                             server.SendObject(i, c);
                         }
                     }

@@ -36,11 +36,6 @@ namespace Sanguosha.Core.Network
                 PlayerItem i = (PlayerItem)o;
                 o = Game.CurrentGame.Players[i.id];
             }
-            else if (o is CardItem)
-            {
-                CardItem i = (CardItem)o;
-                o = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place];
-            }
             return o;
         }
     }

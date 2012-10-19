@@ -72,7 +72,74 @@ namespace Sanguosha.Core.Games
             cardSet.AddRange(expansion.CardSet);
         }
 
-        public Network.Server Server { get; set; }
+        public Network.Server GameServer { get; set; }
+        public Network.Client GameClient { get; set; }
+
+        public void UpdateCard(int times = 1)
+        {
+            while (times-- > 0)
+            {
+                if (GameClient != null)
+                {
+                    GameClient.Receive();
+                }
+            }
+        }
+
+        public void UpdateCardIf(Player p, int times = 1)
+        {
+            if (GameClient == null)
+            {
+                return;
+            }
+            if (p.Id != GameClient.SelfId)
+            {
+                return;
+            }
+            while (times-- > 0)
+            {
+                GameClient.Receive();
+            }
+        }
+
+        public void RevealCardTo(Player player, Card card)
+        {
+            if (GameServer != null)
+            {
+                card.RevealOnce = true;
+                GameServer.SendObject(player.Id, card);
+            }
+        }
+
+        public void RevealCardsTo(Player player, List<Card> cards)
+        {
+            foreach (Card c in cards)
+            {
+                RevealCardTo(player, c);
+            }
+        }
+
+        public void RevealCardToAll(Card card)
+        {
+            if (GameServer != null)
+            {
+                for (int i = 0; i < GameServer.MaxClients; i++)
+                {
+                    card.RevealOnce = true;
+                    GameServer.SendObject(i, card);
+                }
+            }
+        }
+
+        public void RevealCardsToAll(List<Card> cards)
+        {
+            foreach (Card c in cards)
+            {
+                RevealCardToAll(c);
+            }
+        }
+
+        public bool Slave { get; set; }
         public virtual void Run()
         {
             if (games.ContainsKey(Thread.CurrentThread))
@@ -83,13 +150,15 @@ namespace Sanguosha.Core.Games
             {
                 games.Add(Thread.CurrentThread, this);
             }
-            if (Server != null)
+            if (GameServer != null)
             {
-                Server.Ready();
+                GameServer.Ready();
             }
             int id = 0;
-            foreach (var g in Game.CurrentGame.CardSet)
+            int serial = 0;
+            foreach (var g in cardSet)
             {
+                g.Id = serial;
                 if (id < 8 && g.Type is Core.Heroes.HeroCardHandler)
                 {
                     Core.Heroes.HeroCardHandler h = (Core.Heroes.HeroCardHandler)g.Type;
@@ -115,7 +184,22 @@ namespace Sanguosha.Core.Games
                     }
                     id++;
                 }
-                //todo: put this card somewhere else
+                serial++;
+                //todo: hero card go somewhere else
+            }
+            if (Slave)
+            {
+                slaveCardSet = cardSet;
+                cardSet = new List<Card>();
+                for (int i = 0; i < slaveCardSet.Count; i++)
+                {
+                    unknownCard = new Card();
+                    unknownCard.Id = Card.UnknownCardId;
+                    unknownCard.Rank = 0;
+                    unknownCard.Suit = SuitType.None;
+                    unknownCard.Type = new UnknownCardHandler();
+                    cardSet.Add(unknownCard);
+                }
             }
             // Put the whole deck in the dealing deck
             decks[DeckType.Dealing] = cardSet.GetRange(0, cardSet.Count);
@@ -171,6 +255,15 @@ namespace Sanguosha.Core.Games
             set { cardSet = value; }
         }
 
+        List<Card> slaveCardSet;
+
+        public List<Card> SlaveCardSet
+        {
+            get { return slaveCardSet; }
+            set { slaveCardSet = value; }
+        }
+
+        Card unknownCard;
         Dictionary<GameEvent, List<Trigger>> triggers;
 
         public void RegisterTrigger(GameEvent gameEvent, Trigger trigger)
@@ -291,6 +384,20 @@ namespace Sanguosha.Core.Games
             MoveCards(moves, logs);
         }
 
+        public Card PeekCard(int i)
+        {
+            var drawDeck = decks[DeckType.Dealing];
+            if (i >= drawDeck.Count)
+            {
+                Emit(GameEvent.Shuffle, new GameEventArgs() { Game = this });
+            }
+            if (drawDeck.Count == 0)
+            {
+                throw new GameOverException();
+            }
+            return drawDeck[i];
+        }
+
         public Card DrawCard()
         {
             var drawDeck = decks[DeckType.Dealing];
@@ -311,6 +418,13 @@ namespace Sanguosha.Core.Games
         {
             try
             {
+                UpdateCard(num);
+                List<Card> cardsPeek = new List<Card>();
+                for (int i = 0; i < num; i++)
+                {
+                    cardsPeek.Add(PeekCard(i));
+                }
+                RevealCardsToAll(cardsPeek);
                 List<Card> cardsDrawn = new List<Card>();
                 for (int i = 0; i < num; i++)
                 {
@@ -512,6 +626,8 @@ namespace Sanguosha.Core.Games
         public Card Judge(Player player)
         {
             Card c = Game.CurrentGame.DrawCard();
+            RevealCardToAll(c);
+            UpdateCard();
             GameEventArgs args = new GameEventArgs();
             args.Source = player;
             args.Card = c;
