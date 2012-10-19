@@ -21,6 +21,31 @@ namespace Sanguosha.UI.Controls
             int rows = (numButtons - 1) / 3 + 1;
             int rowH = (int)Math.Min(buttonHeight, constraint.Height / rows);
             int rowW = (int)Math.Min(dockWidth, constraint.Width);
+
+            int[] btnNum = new int[rows + 1];
+            int remainingBtns = numButtons;
+            for (int i = 0; i < rows; i++)
+            {
+                btnNum[i] = Math.Min(3, remainingBtns);
+                remainingBtns -= 3;
+            }
+
+            // If the buttons in rows are 3, 1, then balance them to 2, 2
+            if (rows >= 2)
+            {
+                if (btnNum[rows - 1] == 1 && btnNum[rows - 2] == 3)
+                {
+                    btnNum[rows - 1] = 2;
+                    btnNum[rows - 2] = 2;
+                }
+            }
+            else if (rows == 1 && btnNum[0] == 3)
+            {
+                btnNum[0] = 2;
+                btnNum[1] = 1;
+                rows = 2;
+            }
+
             return new Size(rowW, rows * rowH);
         }
 
