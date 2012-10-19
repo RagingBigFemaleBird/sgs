@@ -51,6 +51,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FrameBasedAnimation.cs" />
     <Compile Include="LoseHealthAnimation.xaml.cs">
       <DependentUpon>LoseHealthAnimation.xaml</DependentUpon>
     </Compile>
@@ -78,12 +79,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="LoseHealthAnimation.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="LoseHealthAnimation\0.png" />
     <Resource Include="LoseHealthAnimation\1.png" />
     <Resource Include="LoseHealthAnimation\10.png" />
@@ -102,6 +97,12 @@
     <Resource Include="LoseHealthAnimation\7.png" />
     <Resource Include="LoseHealthAnimation\8.png" />
     <Resource Include="LoseHealthAnimation\9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="LoseHealthAnimation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

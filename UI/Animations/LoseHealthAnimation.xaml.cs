@@ -18,25 +18,30 @@ namespace Sanguosha.UI.Animations
     /// <summary>
     /// Interaction logic for LoseHealthAnimation.xaml
     /// </summary>
-    public partial class LoseHealthAnimation : UserControl
+    public partial class LoseHealthAnimation : FrameBasedAnimation
     {
+        static List<ImageSource> frames;
+
+        static LoseHealthAnimation()
+        {
+            frames = LoadFrames("pack://application:,,,/Animations;component/LoseHealthAnimation", 18);
+        }
+
         public LoseHealthAnimation()
         {
-            InitializeComponent();
-            Storyboard mainAnimation = Resources["mainAnimation"] as Storyboard;
-            mainAnimation.Completed += new EventHandler(mainAnimation_Completed);
+            
         }
 
-        void mainAnimation_Completed(object sender, EventArgs e)
+        public override List<ImageSource> Frames
         {
-            EventHandler handle = Completed;
-            if (handle != null)
+            get
             {
-                handle(this, e);
+                return frames;
             }
         }
-        
-        public event EventHandler Completed;
 
+        private void LoseHealthAnimation_Loaded(object sender, RoutedEventArgs e)
+        {
+        }
     }
 }

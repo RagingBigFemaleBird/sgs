@@ -68,6 +68,9 @@
       <DependentUpon>CardView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DiscardDeck.cs" />
+    <Compile Include="Views\EquipButton.xaml.cs">
+      <DependentUpon>EquipButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\IDeckContainer.cs" />
     <Compile Include="Views\PlayerInfoViewBase.cs" />
     <Compile Include="Views\SkillButton.xaml.cs">
@@ -106,6 +109,10 @@
     <Page Include="Views\CardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EquipButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SkillButton.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -157,7 +164,20 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Views\Resources\EquipButton\border\0.png" />
+    <Resource Include="Views\Resources\EquipButton\border\1.png" />
+    <Resource Include="Views\Resources\EquipButton\border\10.png" />
+    <Resource Include="Views\Resources\EquipButton\border\11.png" />
+    <Resource Include="Views\Resources\EquipButton\border\2.png" />
+    <Resource Include="Views\Resources\EquipButton\border\3.png" />
+    <Resource Include="Views\Resources\EquipButton\border\4.png" />
+    <Resource Include="Views\Resources\EquipButton\border\5.png" />
+    <Resource Include="Views\Resources\EquipButton\border\6.png" />
+    <Resource Include="Views\Resources\EquipButton\border\7.png" />
+    <Resource Include="Views\Resources\EquipButton\border\8.png" />
+    <Resource Include="Views\Resources\EquipButton\border\9.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Views\Resources\SkillButton\border\mask0.png" />
     <Resource Include="Views\Resources\SkillButton\border\mask1.png" />
