@@ -449,11 +449,39 @@ namespace Sanguosha.UI.Controls
             // Handle skill down
             foreach (var skillCommand in mainPlayerModel.SkillCommands)
             {
-                skillCommand.IsEnabled = true;
+                skillCommand.IsEnabled = false;
+                if (currentUsageVerifier.AcceptableCardType == null)
+                {
+                    skillCommand.IsEnabled = true;
+                }
+                else if (skillCommand.Skill is CardTransformSkill)
+                {
+                    CardTransformSkill s = skillCommand.Skill as CardTransformSkill;
+                    if (s.PossibleResult == null)
+                    {
+                        skillCommand.IsEnabled = true;
+                    }
+                    else
+                    {
+                        foreach (var type in currentUsageVerifier.AcceptableCardType)
+                        {
+                            if (type.CardType == s.PossibleResult.CardType)
+                            {
+                                skillCommand.IsEnabled = true;
+                            }
+                        }
+                    }
+                }
+                else if (skillCommand.Skill is ActiveSkill)
+                {
+                    if (currentUsageVerifier.Verify(skillCommand.Skill, null, null) != VerifierResult.Fail)
+                    {
+                        skillCommand.IsEnabled = true;
+                    }
+                }
                 if (skillCommand.IsSelected)
                 {
                     skill = skillCommand.Skill;
-                    break;
                 }
             }
 
