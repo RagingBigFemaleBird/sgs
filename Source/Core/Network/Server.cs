@@ -90,6 +90,10 @@ namespace Sanguosha.Core.Network
                 handlers[clientId].semAccess.WaitOne();
                 object o = handlers[clientId].queueIn.Dequeue();
                 handlers[clientId].semAccess.Release(1);
+                if (o == null)
+                {
+                    return false;
+                }
                 if (o is CommandItem)
                 {
                     CommandItem i = (CommandItem)o;
@@ -114,6 +118,11 @@ namespace Sanguosha.Core.Network
             handlers[clientId].semAccess.WaitOne();
             object o = handlers[clientId].queueIn.Dequeue();
             handlers[clientId].semAccess.Release(1);
+            if (o == null)
+            {
+                Trace.TraceWarning("Expected Card but null");
+                return null;
+            }
             if (o is CardItem)
             {
                 CardItem i = (CardItem)o;
@@ -138,6 +147,11 @@ namespace Sanguosha.Core.Network
             handlers[clientId].semAccess.WaitOne();
             object o = handlers[clientId].queueIn.Dequeue();
             handlers[clientId].semAccess.Release(1);
+            if (o == null)
+            {
+                Trace.TraceWarning("Expected Player but null");
+                return null;
+            }
             if (o is Player)
             {
                 return (Player)o;
@@ -152,6 +166,11 @@ namespace Sanguosha.Core.Network
             handlers[clientId].semAccess.WaitOne();
             object o = handlers[clientId].queueIn.Dequeue();
             handlers[clientId].semAccess.Release(1);
+            if (o == null)
+            {
+                Trace.TraceWarning("Expected int but null");
+                return null;
+            }
             if (o is int)
             {
                 return (int)o;
@@ -166,6 +185,11 @@ namespace Sanguosha.Core.Network
             handlers[clientId].semAccess.WaitOne();
             object o = handlers[clientId].queueIn.Dequeue();
             handlers[clientId].semAccess.Release(1);
+            if (o == null)
+            {
+                Trace.TraceWarning("Expected skill but null");
+                return null;
+            }
             if (o is SkillItem)
             {
                 SkillItem i = (SkillItem)o;
