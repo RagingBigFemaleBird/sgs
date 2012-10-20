@@ -143,7 +143,7 @@ namespace Sanguosha.Expansions.Basic
             CardSet.Add(new Card(SuitType.Diamond, 13, new Sha()));
             CardSet.Add(new Card(SuitType.Diamond, 13, new OffensiveHorse("ZiXing")));
 
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("LiuBei", Allegiance.Shu, 4, new RenDe(), new PaoXiao(), new JiJiang(), new WuSheng()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("LiuBei", Allegiance.Shu, 4, new RenDe(), new PaoXiao(), new JiJiang(), new WuSheng(), new FanJian(), new QingNang(), new JiJiu()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhangFei", Allegiance.Shu, 4, new PaoXiao()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhaoYun", Allegiance.Shu, 4, new LongDan()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("GuanYu", Allegiance.Shu, 4, new WuSheng()))));

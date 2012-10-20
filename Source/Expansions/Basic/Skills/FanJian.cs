@@ -30,7 +30,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             {
                 return VerifierResult.Fail;
             }
-            if (arg.Cards != null || arg.Cards.Count != 0)
+            if (arg.Cards != null && arg.Cards.Count != 0)
             {
                 return VerifierResult.Fail;
             }
@@ -85,6 +85,8 @@ namespace Sanguosha.Expansions.Basic.Skills
             {
                 theCard = answer[0][0];
             }
+            Game.CurrentGame.UpdateCard();
+            Game.CurrentGame.RevealCardToAll(theCard);
             List<Card> clist = new List<Card>();
             clist.Add(theCard);
             if (theCard.Suit != suit)

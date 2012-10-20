@@ -12,11 +12,13 @@ namespace Sanguosha.Core.Cards
         public CompositeCard()
         {
             Subcards = new List<Card>();
+            attributes = null;
         }
 
         public CompositeCard(List<Card> cards)
         {
             Subcards = cards;
+            attributes = null;
         }
 
         public List<Card> Subcards {get; set;}
@@ -123,6 +125,49 @@ namespace Sanguosha.Core.Cards
         }
 
         public CardHandler Type {get; set;}
+
+        Dictionary<string, int> attributes;
+
+        public Dictionary<string, int> Attributes
+        {
+            get { return attributes; }
+            set { attributes = value; }
+        }
+
+        public int this[string key]
+        {
+            get
+            {
+                if (attributes == null)
+                {
+                    attributes = new Dictionary<string, int>();
+                }
+                if (!attributes.ContainsKey(key))
+                {
+                    return 0;
+                }
+                else
+                {
+                    return attributes[key];
+                }
+            }
+            set
+            {
+                if (attributes == null)
+                {
+                    attributes = new Dictionary<string, int>();
+                }
+                if (!attributes.ContainsKey(key))
+                {
+                    attributes.Add(key, value);
+                }
+                else if (attributes[key] == value)
+                {
+                    return;
+                }
+                attributes[key] = value;
+            }
+        }
 
     }
 }

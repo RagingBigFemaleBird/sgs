@@ -27,6 +27,7 @@ namespace Sanguosha.Core.Cards
             Rank = 0;
             Type = null;
             RevealOnce = false;
+            attributes = null;
         }
 
         public Card(SuitType t, int r, CardHandler c)
@@ -34,6 +35,7 @@ namespace Sanguosha.Core.Cards
             Suit = t;
             Rank = r;
             Type = c;
+            attributes = null;
         }
 
         public void CopyFrom(Card c)
@@ -110,8 +112,48 @@ namespace Sanguosha.Core.Cards
 
         public int Rank {get; set;}
 
-        public Dictionary<string, int> Attributes { get; set; }
-
         public CardHandler Type { get; set; }
+
+        Dictionary<string, int> attributes;
+
+        public Dictionary<string, int> Attributes
+        {
+            get { return attributes; }
+            set { attributes = value; }
+        }
+        public int this[string key]
+        {
+            get
+            {
+                if (attributes == null)
+                {
+                    attributes = new Dictionary<string, int>();
+                }
+                if (!attributes.ContainsKey(key))
+                {
+                    return 0;
+                }
+                else
+                {
+                    return attributes[key];
+                }
+            }
+            set
+            {
+                if (attributes == null)
+                {
+                    attributes = new Dictionary<string, int>();
+                }
+                if (!attributes.ContainsKey(key))
+                {
+                    attributes.Add(key, value);
+                }
+                else if (attributes[key] == value)
+                {
+                    return;
+                }
+                attributes[key] = value;
+            }
+        }
     }    
 }

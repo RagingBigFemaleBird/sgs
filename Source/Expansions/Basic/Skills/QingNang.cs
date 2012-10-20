@@ -20,6 +20,10 @@ namespace Sanguosha.Expansions.Basic.Skills
     {
         public override VerifierResult Validate(GameEventArgs arg)
         {
+            if (Owner[QingNangUsed] != 0)
+            {
+                return VerifierResult.Fail;
+            }
             List<Card> cards = arg.Cards;
             if (cards == null || cards.Count == 0 || arg.Targets == null || arg.Targets.Count == 0)
             {
@@ -36,7 +40,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             {
                 return VerifierResult.Fail;
             }
-            if (arg.Targets[0] == Owner)
+            if (arg.Targets[0].Health >= arg.Targets[0].MaxHealth)
             {
                 return VerifierResult.Fail;
             }
@@ -45,6 +49,7 @@ namespace Sanguosha.Expansions.Basic.Skills
 
         public override bool Commit(GameEventArgs arg)
         {
+            Owner[QingNangUsed] = 1;
             List<Card> cards = arg.Cards;
             Trace.Assert(cards.Count > 0 && arg.Targets.Count == 1);
             CardsMovement move;
@@ -53,6 +58,21 @@ namespace Sanguosha.Expansions.Basic.Skills
             Game.CurrentGame.RecoverHealth(Owner, arg.Targets[0], 1);
             return true;
         }
+
+        public override Core.Players.Player Owner
+        {
+            get
+            {
+                return base.Owner;
+            }
+            set
+            {
+                base.Owner = value;
+                Owner.AutoResetAttributes.Add(QingNangUsed);
+            }
+        }
+
+        public static readonly string QingNangUsed = "QingNangUsed";
 
         public override void CardRevealPolicy(Core.Players.Player p, List<Card> cards, List<Core.Players.Player> players)
         {
