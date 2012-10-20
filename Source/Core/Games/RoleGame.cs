@@ -65,6 +65,7 @@ namespace Sanguosha.Core.Games
                     get { return null; }
                 }
             }
+
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 Player currentPlayer = eventArgs.Game.CurrentPlayer;

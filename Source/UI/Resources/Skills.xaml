@@ -9,4 +9,6 @@
     <sys:String x:Key="Skill.GuoSe.Name">国色</sys:String>
     <sys:String x:Key="Skill.QingNang.Name">青囊</sys:String>
     <sys:String x:Key="Skill.FanJian.Name">反间</sys:String>
+    <sys:String x:Key="Skill.JiJiu.Name">急救</sys:String>
+    <sys:String x:Key="Skill.FanKui.Name">反馈</sys:String>
 </ResourceDictionary>

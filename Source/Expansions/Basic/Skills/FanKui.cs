@@ -64,6 +64,8 @@ namespace Sanguosha.Expansions.Basic.Skills
                 {
                     theCard = result[0][0];
                 }
+                Game.CurrentGame.UpdateCardIf(Owner);
+                Game.CurrentGame.RevealCardTo(Owner, theCard);
                 CardsMovement m = new CardsMovement();
                 m.cards = new List<Card>();
                 m.cards.Add(theCard);

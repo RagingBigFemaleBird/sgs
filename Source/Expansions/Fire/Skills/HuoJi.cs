@@ -16,7 +16,6 @@ namespace Sanguosha.Expansions.Fire.Skills
     /// </summary>
     public class HuoJi : OneToOneCardTransformSkill
     {
-
         public override CardHandler PossibleResult
         {
             get { return new HuoGong(); }

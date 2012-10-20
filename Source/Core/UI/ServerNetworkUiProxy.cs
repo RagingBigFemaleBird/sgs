@@ -171,12 +171,21 @@ namespace Sanguosha.Core.UI
 
         public bool AskForCardUsage(string prompt, CardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
+            bool ret = true;
             if (!TryAskForCardUsage(prompt, verifier, out skill, out cards, out players))
             {
                 SendNoAnswer();
-                return false;
+                ret = false;
             }
-            return true;
+            if (cards == null)
+            {
+                cards = new List<Card>();
+            }
+            if (players == null)
+            {
+                players = new List<Player>();
+            }
+            return ret;
         }
 
         public bool AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer)

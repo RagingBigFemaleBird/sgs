@@ -565,7 +565,7 @@ namespace Sanguosha.UI.Controls
             // Handle skill down            
             foreach (var skillCommand in mainPlayerModel.SkillCommands)
             {
-                skillCommand.IsEnabled = (currentUsageVerifier.Verify(skillCommand.Skill, null, null) != VerifierResult.Fail);
+                skillCommand.IsEnabled = (currentUsageVerifier.Verify(skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
             }
 
             if (skill == null)
@@ -576,7 +576,7 @@ namespace Sanguosha.UI.Controls
                     {
                         equipCommand.IsEnabled = false;
                     }
-                    equipCommand.IsEnabled = (currentUsageVerifier.Verify(equipCommand.SkillCommand.Skill, null, null) != VerifierResult.Fail);
+                    equipCommand.IsEnabled = (currentUsageVerifier.Verify(equipCommand.SkillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
                 }
             }
             sw.Stop();

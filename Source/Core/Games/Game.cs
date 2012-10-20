@@ -742,6 +742,7 @@ namespace Sanguosha.Core.Games
 
         public bool HandleCardUse(Player p, ISkill skill, List<Card> cards, List<Player> targets)
         {
+            Trace.Assert(cards != null);
             CardsMovement m;
             ICard result;
             m.cards = cards;
@@ -750,6 +751,13 @@ namespace Sanguosha.Core.Games
             if (!status)
             {
                 return false;
+            }
+            if (skill != null)
+            {
+                var r = result as CompositeCard;
+                Trace.Assert(r != null);
+                cards.Clear();
+                cards.AddRange(r.Subcards);
             }
             MoveCards(m, new CardUseLog() { Source = p, Targets = null, Cards = null, Skill = skill });
             PlayerPlayedCard(p, result);

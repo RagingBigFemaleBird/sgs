@@ -109,9 +109,14 @@ namespace Sanguosha.Expansions.Battle.Cards
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
         {
-            if (targets.Count > 1)
+            Trace.Assert(targets != null);
+            if (targets != null && targets.Count > 1)
             {
                 return VerifierResult.Fail;
+            }
+            if (targets == null || targets.Count == 0)
+            {
+                return VerifierResult.Partial;
             }
             Player player = targets[0];
 
