@@ -40,136 +40,143 @@ namespace Sanguosha.Core.UI
                 server.SendObject(i, 0);
             }
         }
-
-        public bool AskForCardUsage(string prompt, CardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+        private bool TryAskForCardUsage(string prompt, CardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             cards = null;
             skill = null;
             players = null;
-            try
+            Trace.TraceInformation("Asking Card Usage to {0}, timeout {1}.", HostPlayer.Id, TimeOutSeconds);
+            int? count;
+            if (!server.ExpectNext(clientId, TimeOutSeconds))
             {
-                Trace.TraceInformation("Asking Card Usage to {0}.", HostPlayer.Id);
-                int? count;
-                server.ExpectNext(clientId, 0);
-                count = server.GetInt(clientId, 0);
-                if (count == null || count == 0)
+                return false;
+            }
+            count = server.GetInt(clientId, 0);
+            if (count == null || count == 0)
+            {
+                return false;
+            }
+            if (count == null)
+            {
+                return false;
+            }
+            count = server.GetInt(clientId, 0);
+            if (count == 1)
+            {
+                skill = server.GetSkill(clientId, 0);
+                if (skill == null)
                 {
-                    throw new InvalidAnswerException();
+                    return false;
                 }
-                if (count == null)
+            }
+            count = server.GetInt(clientId, 0);
+            if (count == null)
+            {
+                return false;
+            }
+            if (count == 0)
+            {
+                cards = null;
+            }
+            else
+            {
+                cards = new List<Card>();
+            }
+            while (count-- > 0)
+            {
+                Card item = server.GetCard(clientId, 0);
+                if (item == null)
                 {
-                    throw new InvalidAnswerException();
+                    return false;
                 }
-                count = server.GetInt(clientId, 0);
-                if (count == 1)
+                cards.Add(item);
+            }
+            count = server.GetInt(clientId, 0);
+            if (count == null)
+            {
+                return false;
+            }
+            if (count == 0)
+            {
+                players = null;
+            }
+            else
+            {
+                players = new List<Player>();
+            }
+            while (count-- > 0)
+            {
+                Player item = server.GetPlayer(clientId, 0);
+                if (item == null)
                 {
-                    skill = server.GetSkill(clientId, 0);
-                    if (skill == null)
-                    {
-                        throw new InvalidAnswerException();
-                    }
+                    return false;
                 }
-                count = server.GetInt(clientId, 0);
-                if (count == null)
-                {
-                    throw new InvalidAnswerException();
-                }
-                if (count == 0)
-                {
-                    cards = null;
-                }
-                else
-                {
-                    cards = new List<Card>();
-                }
-                while (count-- > 0)
-                {
-                    Card item = server.GetCard(clientId, 0);
-                    if (item == null)
-                    {
-                        throw new InvalidAnswerException();
-                    }
-                    cards.Add(item);
-                }
-                count = server.GetInt(clientId, 0);
-                if (count == null)
-                {
-                    throw new InvalidAnswerException();
-                }
-                if (count == 0)
-                {
-                    players = null;
-                }
-                else
-                {
-                    players = new List<Player>();
-                }
-                while (count-- > 0)
-                {
-                    Player item = server.GetPlayer(clientId, 0);
-                    if (item == null)
-                    {
-                        throw new InvalidAnswerException();
-                    }
-                    players.Add(item);
-                }
-                if (verifier.FastVerify(skill, cards, players) != VerifierResult.Success)
-                {
-                    Trace.TraceWarning("Client seems to be sending invalid answers at us. DDOS?");
-                    throw new InvalidAnswerException();
-                }
-                for (int i = 0; i < server.MaxClients; i++)
+                players.Add(item);
+            }
+            if (verifier.FastVerify(skill, cards, players) != VerifierResult.Success)
+            {
+                Trace.TraceWarning("Client seems to be sending invalid answers at us. DDOS?");
+                cards = null;
+                skill = null;
+                players = null;
+                return false;
+            }
+            for (int i = 0; i < server.MaxClients; i++)
+            {
+                server.SendObject(i, 1);
+                if (skill != null)
                 {
                     server.SendObject(i, 1);
-                    if (skill != null)
+                    server.SendObject(i, skill);
+                }
+                else
+                {
+                    server.SendObject(i, 0);
+                }
+                if (cards != null)
+                {
+                    server.SendObject(i, cards.Count);
+                    if (skill is ActiveSkill)
                     {
-                        server.SendObject(i, 1);
-                        server.SendObject(i, skill);
+                        (skill as ActiveSkill).CardRevealPolicy(Game.CurrentGame.Players[i], cards, players);
                     }
-                    else
+                    foreach (Card c in cards)
                     {
-                        server.SendObject(i, 0);
-                    }
-                    if (cards != null)
-                    {
-                        server.SendObject(i, cards.Count);
-                        if (skill is ActiveSkill)
+                        if (!(skill is ActiveSkill))
                         {
-                            (skill as ActiveSkill).CardRevealPolicy(Game.CurrentGame.Players[i], cards, players);
+                            c.RevealOnce = true;
                         }
-                        foreach (Card c in cards)
-                        {
-                            if (!(skill is ActiveSkill))
-                            {
-                                c.RevealOnce = true;
-                            }
-                            server.SendObject(i, c);
-                        }
-                    }
-                    else
-                    {
-                        server.SendObject(i, 0);
-                    }
-                    if (players != null)
-                    {
-                        server.SendObject(i, players.Count);
-                        foreach (Player p in players)
-                        {
-                            server.SendObject(i, p);
-                        }
-                    }
-                    else
-                    {
-                        server.SendObject(i, 0);
+                        server.SendObject(i, c);
                     }
                 }
-                return true;
+                else
+                {
+                    server.SendObject(i, 0);
+                }
+                if (players != null)
+                {
+                    server.SendObject(i, players.Count);
+                    foreach (Player p in players)
+                    {
+                        server.SendObject(i, p);
+                    }
+                }
+                else
+                {
+                    server.SendObject(i, 0);
+                }
             }
-            catch (InvalidAnswerException)
+            return true;
+        }
+
+        public bool AskForCardUsage(string prompt, CardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+        {
+            if (!TryAskForCardUsage(prompt, verifier, out skill, out cards, out players))
             {
                 SendNoAnswer();
                 return false;
             }
+            return true;
         }
 
         public bool AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer)

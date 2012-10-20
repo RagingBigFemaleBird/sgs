@@ -35,6 +35,7 @@ namespace Sanguosha
                 game.Players.Add(player);
                 IUiProxy proxy;
                 proxy = new ServerNetworkUiProxy(server, i);
+                proxy.TimeOutSeconds = 15;
                 proxy.HostPlayer = player;
                 game.UiProxies.Add(player, proxy);
             }

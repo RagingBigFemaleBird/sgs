@@ -77,11 +77,16 @@ namespace Sanguosha.Core.Network
             Listener();
         }
 
-        public void ExpectNext(int clientId, int timeOutSeconds)
+        public bool ExpectNext(int clientId, int timeOutSeconds)
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             while (true)
             {
-                handlers[clientId].semIn.WaitOne();
+                if (!handlers[clientId].semIn.WaitOne(timeOutSeconds * 1000))
+                {
+                    return false;
+                }
                 handlers[clientId].semAccess.WaitOne();
                 object o = handlers[clientId].queueIn.Dequeue();
                 handlers[clientId].semAccess.Release(1);
@@ -95,7 +100,12 @@ namespace Sanguosha.Core.Network
                     }
                 }
                 Trace.TraceInformation("Skipping garbage {0}", o.GetType());
+                if (sw.Elapsed.Seconds >= timeOutSeconds)
+                {
+                    return false;
+                }
             }
+            return true;
         }
 
         public Card GetCard(int clientId, int timeOutSeconds)

@@ -78,13 +78,13 @@ namespace WpfApplication1
                 if (i == MainSeat)
                 {
                     proxy = new ClientNetworkUiProxy(proxy, client, true);
-                    proxy.HostPlayer = player;
                 }
                 else
                 {
                     proxy = new ClientNetworkUiProxy(proxy, client, false);
-                    proxy.HostPlayer = player;
                 }
+                proxy.HostPlayer = player;
+                proxy.TimeOutSeconds = 15;
 #endif
                 _game.UiProxies.Add(player, proxy);
             }
