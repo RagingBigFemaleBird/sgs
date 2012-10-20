@@ -156,7 +156,7 @@
         </Border>
     </Grid>
     <UserControl.ToolTip>
-        <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top">
+        <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top">            
             <ToolTip.ContentTemplate>
                 <DataTemplate>
                     <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0" Width="330">

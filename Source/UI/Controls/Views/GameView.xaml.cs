@@ -91,7 +91,71 @@ namespace Sanguosha.UI.Controls
             this.DataContextChanged +=  new DependencyPropertyChangedEventHandler(GameView_DataContextChanged);
             canExecuteSubmitCommand = false;
             _UpdateEnabledStatusHandler = new EventHandler(cardOrPlayer_OnSelectedChanged);
+            this.SizeChanged += new SizeChangedEventHandler(GameView_SizeChanged);
             
+        }
+
+        void GameView_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (profileBoxes.Count == 0)
+            {
+                return;
+            }
+
+            Size tableBounds = new Size();
+            tableBounds.Width = e.NewSize.Width - gridRoot.ColumnDefinitions[1].Width.Value;
+            tableBounds.Height = e.NewSize.Height - gridRoot.RowDefinitions[1].Height.Value -
+                                 gridTable.Margin.Bottom;
+
+            // Adjust width/height of all controls
+            int rows = Math.Max(
+                Math.Max(stackPanel0.Children.Count + 1, stackPanel2.Children.Count + 1),
+                Math.Max(stackPanel3.Children.Count, stackPanel5.Children.Count));
+
+            int columns = Math.Max(
+                stackPanel1.Children.Count, stackPanel4.Children.Count + 2);
+
+            double width = Math.Min((tableBounds.Width - _minHSpacing * (columns - 1)) / columns,
+                                     profileBoxes[0].MaxWidth);
+            double height = Math.Min((tableBounds.Height - _minVSpacing * (rows - 1)) / rows,
+                                     profileBoxes[0].MaxHeight);
+            double ratio = (double)Resources["PlayerInfoView.WidthHeightRatio"];
+
+            width = Math.Min(width, height * ratio);
+            height = width / ratio;
+
+            double hSpacing = (tableBounds.Width - width * columns) / columns;
+            double vSpacing = (tableBounds.Height - height * rows) / (rows + 4);
+
+            foreach (var box in profileBoxes)
+            {
+                box.Width = width;
+                box.Height = height;
+            }
+
+            _AdjustSpacing(hSpacing, vSpacing);
+
+            gridTable.RowDefinitions[0].Height = new GridLength(height);
+            gridTable.ColumnDefinitions[0].Width = new GridLength(width);
+            gridTable.ColumnDefinitions[2].Width = new GridLength(width);
+
+            // Expand infoPanel if table is wide enough
+            int thresh = (int)Resources["GameView.InfoPanelExpansionThresholdWidth"];
+            if (e.NewSize.Width > thresh)
+            {
+                mainPlayerPanel.SetValue(Grid.ColumnSpanProperty, 1);
+                infoPanel.SetValue(Grid.RowSpanProperty, 2);
+            }
+            else
+            {
+                mainPlayerPanel.SetValue(Grid.ColumnSpanProperty, 2);
+                infoPanel.SetValue(Grid.RowSpanProperty, 1);
+            }           
+
+            foreach (var playerView in playersMap.Values)
+            {
+                playerView.UpdateCardAreas();
+            }           
         }
         #endregion
 
@@ -153,6 +217,8 @@ namespace Sanguosha.UI.Controls
             Player self = players[model.MainPlayerSeatNumber];
             mainPlayerModel = new PlayerInfoViewModel();
             mainPlayerModel.SubmitAnswerCommand = new RelayCommand(ExecuteSubmitCommand, CanExecuteSubmitCommand);
+            mainPlayerModel.CancelAnswerCommand = new RelayCommand(ExecuteCancelCommand, CanExecuteCancelCommand);
+            mainPlayerModel.AbortAnswerCommand = new RelayCommand(ExecuteAbortCommand, CanExecuteAbortCommand);
             mainPlayerModel.Game = model.Game;
             mainPlayerModel.Player = self;
             mainPlayerPanel.DataContext = mainPlayerModel;
@@ -192,73 +258,6 @@ namespace Sanguosha.UI.Controls
                 }
             }
         }        
-        
-        protected override Size ArrangeOverride(Size arrangeBounds)
-        {
-            if (profileBoxes.Count == 0)
-            {
-                return base.ArrangeOverride(arrangeBounds);
-            }
-
-            Size tableBounds = new Size();
-            tableBounds.Width = arrangeBounds.Width - gridRoot.ColumnDefinitions[1].Width.Value;
-            tableBounds.Height = arrangeBounds.Height - gridRoot.RowDefinitions[1].Height.Value -
-                                 gridTable.Margin.Bottom;
-
-            // Adjust width/height of all controls
-            int rows = Math.Max(
-                Math.Max(stackPanel0.Children.Count + 1, stackPanel2.Children.Count + 1),
-                Math.Max(stackPanel3.Children.Count, stackPanel5.Children.Count));
-
-            int columns = Math.Max(
-                stackPanel1.Children.Count, stackPanel4.Children.Count + 2);
-
-            double width = Math.Min((tableBounds.Width - _minHSpacing * (columns - 1)) / columns, 
-                                     profileBoxes[0].MaxWidth);
-            double height = Math.Min((tableBounds.Height - _minVSpacing * (rows - 1)) / rows,
-                                     profileBoxes[0].MaxHeight);
-            double ratio = (double)Resources["PlayerInfoView.WidthHeightRatio"];
-
-            width = Math.Min(width, height * ratio);
-            height = width / ratio;
-
-            double hSpacing = (tableBounds.Width - width * columns) / columns;
-            double vSpacing = (tableBounds.Height - height * rows) / (rows + 4);
-                        
-            foreach (var box in profileBoxes)
-            {
-                box.Width = width;
-                box.Height = height;
-            }
-
-            _AdjustSpacing(hSpacing, vSpacing);
-
-            gridTable.RowDefinitions[0].Height = new GridLength(height);
-            gridTable.ColumnDefinitions[0].Width = new GridLength(width);
-            gridTable.ColumnDefinitions[2].Width = new GridLength(width);
-
-            // Expand infoPanel if table is wide enough
-            int thresh = (int)Resources["GameView.InfoPanelExpansionThresholdWidth"];
-            if (arrangeBounds.Width > thresh)
-            {
-                mainPlayerPanel.SetValue(Grid.ColumnSpanProperty, 1);
-                infoPanel.SetValue(Grid.RowSpanProperty, 2);
-            }
-            else
-            {
-                mainPlayerPanel.SetValue(Grid.ColumnSpanProperty, 2);
-                infoPanel.SetValue(Grid.RowSpanProperty, 1);
-            }
-            
-            base.ArrangeOverride(arrangeBounds);
-
-            foreach (var playerView in playersMap.Values)
-            {
-                playerView.UpdateCardAreas();
-            }
-
-            return arrangeBounds;
-        }
 
         private void _AdjustSpacing(double hSpacing, double vSpacing)
         {
@@ -355,6 +354,38 @@ namespace Sanguosha.UI.Controls
             }
             return players;
         }
+
+        private void _ResetAll()
+        {
+            foreach (var equipCommand in mainPlayerModel.EquipCommands)
+            {
+                equipCommand.OnSelectedChanged -= _UpdateEnabledStatusHandler;                
+                equipCommand.IsSelectionMode = false;
+            }
+
+            foreach (var skillCommand in mainPlayerModel.SkillCommands)
+            {
+                skillCommand.IsEnabled = false;
+                skillCommand.IsSelected = false;                
+            }
+
+            foreach (CardView cardView in mainPlayerPanel.HandCardArea.Cards)
+            {
+                cardView.CardViewModel.OnSelectedChanged -= _UpdateEnabledStatusHandler;
+                cardView.CardViewModel.IsSelectionMode = false;
+            }
+
+            foreach (var playerModel in playerModels)
+            {
+                playerModel.OnSelectedChanged -= _UpdateEnabledStatusHandler;
+                playerModel.IsSelectionMode = false;
+            }
+
+            canExecuteSubmitCommand = false;
+            canExecuteCancelCommand = false;
+            canExecuteAbortCommand = false;
+        }
+
         #endregion
 
         #region SubmitAnswerCommand
@@ -376,32 +407,18 @@ namespace Sanguosha.UI.Controls
 
             foreach (var equipCommand in mainPlayerModel.EquipCommands)
             {
-                equipCommand.OnSelectedChanged -= _UpdateEnabledStatusHandler;                
                 if (!isEquipSkill && equipCommand.IsSelected)
                 {
                     cards.Add(equipCommand.Card);
                 }
-                equipCommand.IsSelectionMode = false;
             }
             
             if (skillCommand != null)
             {
-                skillCommand.IsEnabled = false;
-                skillCommand.IsSelected = false;
                 skill = skillCommand.Skill;
             }
 
-            foreach (CardView cardView in mainPlayerPanel.HandCardArea.Cards)
-            {
-                cardView.CardViewModel.OnSelectedChanged -= _UpdateEnabledStatusHandler;
-                cardView.CardViewModel.IsSelectionMode = false;
-            }
-
-            foreach (var playerModel in playerModels)
-            {
-                playerModel.OnSelectedChanged -= _UpdateEnabledStatusHandler;
-                playerModel.IsSelectionMode = false;
-            }
+            _ResetAll();
 
             // Card usage question
             if (currentUsageVerifier != null)
@@ -412,6 +429,55 @@ namespace Sanguosha.UI.Controls
         }
 
         #endregion
+
+        #region CancelAnswerCommand
+
+        bool canExecuteCancelCommand;
+
+        public bool CanExecuteCancelCommand(object parameter)
+        {
+            return canExecuteCancelCommand;
+        }
+
+        public void ExecuteCancelCommand(object parameter)
+        {
+            if (currentUsageVerifier != null)
+            {
+                // @todo
+                //if (currentUsageVerifier.GetType().Name!="PlayerActionStageVerifier")
+                {
+                    CardUsageAnsweredEvent(null, null, null);
+                    currentUsageVerifier = null;
+                    _ResetAll();
+                }
+                /*else
+                {
+                    _ResetAll();
+                }*/
+            }            
+        }
+        #endregion
+
+        #region AbortAnswerCommand
+
+        bool canExecuteAbortCommand;
+
+        public bool CanExecuteAbortCommand(object parameter)
+        {
+            return canExecuteAbortCommand;
+        }
+
+        public void ExecuteAbortCommand(object parameter)
+        {
+            if (currentUsageVerifier != null)
+            {
+                CardUsageAnsweredEvent(null, null, null);
+                currentUsageVerifier = null;
+                _ResetAll();
+            }
+        }
+        #endregion
+
 
         #region IAsyncUiProxy
         public Player HostPlayer
@@ -650,7 +716,11 @@ namespace Sanguosha.UI.Controls
                 {
                     skillCommand.OnSelectedChanged += _UpdateEnabledStatusHandler;
                 }
-                
+
+                // @todo: update this.
+                canExecuteCancelCommand = true;
+                canExecuteAbortCommand = true;
+
                 _UpdateCommandStatus();
             });
         }

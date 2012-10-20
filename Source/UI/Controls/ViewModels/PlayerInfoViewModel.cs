@@ -156,6 +156,18 @@ namespace Sanguosha.UI.Controls
             internal set;
         }
 
+        public ICommand CancelAnswerCommand
+        {
+            get;
+            internal set;
+        }
+
+        public ICommand AbortAnswerCommand
+        {
+            get;
+            internal set;
+        }
+
         #endregion
 
         #region Player Properties
