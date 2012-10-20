@@ -13,13 +13,14 @@ namespace Sanguosha
 {
     class Program
     {
+        static int totalNumberOfPlayers = 3;
         static void Main(string[] args)
         {
             Trace.Listeners.Add(new ConsoleTraceListener());
             Game game = new RoleGame();
             Server server;
-            server = new Server(game, 8);
-            for (int i = 0; i < 8; i++)
+            server = new Server(game, totalNumberOfPlayers);
+            for (int i = 0; i < totalNumberOfPlayers; i++)
             {
                 var player = new Player();
                 player.Id = i;

@@ -42,7 +42,7 @@ namespace Sanguosha.Core.Cards
 
         public override bool Equals(object obj)
         {
-            if (obj == this)
+            if (System.Object.ReferenceEquals(obj, this))
             {
                 return true;
             }
@@ -52,6 +52,26 @@ namespace Sanguosha.Core.Cards
             }
             DeckType type2 = (DeckType)obj;
             return name == type2.name;
+        }
+
+        public static bool operator ==(DeckType a, DeckType b)
+        {
+            if (System.Object.ReferenceEquals(a, b))
+            {
+                return true;
+            }
+
+            if (((object)a == null) || ((object)b == null))
+            {
+                return false;
+            }
+
+            return a.name == b.name;
+        }
+
+        public static bool operator !=(DeckType a, DeckType b)
+        {
+            return !(a == b);
         }
 
         public static DeckType None;

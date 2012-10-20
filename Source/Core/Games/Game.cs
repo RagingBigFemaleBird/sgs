@@ -160,7 +160,7 @@ namespace Sanguosha.Core.Games
             foreach (var g in cardSet)
             {
                 g.Id = serial;
-                if (id < 8 && g.Type is Core.Heroes.HeroCardHandler)
+                if (id < players.Count && g.Type is Core.Heroes.HeroCardHandler)
                 {
                     Core.Heroes.HeroCardHandler h = (Core.Heroes.HeroCardHandler)g.Type;
                     Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, id);

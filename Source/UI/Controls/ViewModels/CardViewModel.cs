@@ -22,9 +22,17 @@ namespace Sanguosha.UI.Controls
             {
                 if (_card == value) return;
                 _card = value;
-                if (GameEngine.CardSet.Count > _card.Id && _card.Id >= 0)
+                if (_card != null)
                 {
-                    _uiCard = GameEngine.CardSet[_card.Id];
+                    if (GameEngine.CardSet.Count > _card.Id && _card.Id >= 0)
+                    {
+                        _uiCard = GameEngine.CardSet[_card.Id];
+                    }
+                    else
+                    {
+                        _uiCard = new Card();
+                        _uiCard.Id = _card.Id;
+                    }
                 }
                 else
                 {
