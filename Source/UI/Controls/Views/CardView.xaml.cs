@@ -68,6 +68,7 @@ namespace Sanguosha.UI.Controls
             Storyboard.SetTarget(_daOpacity, this);
             Storyboard.SetTargetProperty(_daOpacity, new PropertyPath(CardView.OpacityProperty));
             _DisappearAfterMoveHandler = new EventHandler(_DisappearAfterMove);
+            _moveAnimation = new Storyboard();
         }
 
         void CardView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -104,6 +105,7 @@ namespace Sanguosha.UI.Controls
         DoubleAnimation _daMoveX;
         DoubleAnimation _daMoveY;
         DoubleAnimation _daOpacity;
+        Storyboard _moveAnimation;
 
         public double ChangeOpacityDurationSeconds { get; set; }
 
@@ -111,6 +113,8 @@ namespace Sanguosha.UI.Controls
         {
             if (Position == null) return;
             if (Parent == null || !(Parent is Canvas)) return;
+
+            _moveAnimation.Stop();
 
             if (transitionInSeconds == 0)
             {
@@ -155,11 +159,13 @@ namespace Sanguosha.UI.Controls
             // BeginAnimation(Canvas.OpacityProperty, null);
             
             // start new animation
-            Storyboard storyboard = new Storyboard();
-            storyboard.Children.Add(_daMoveX);
-            storyboard.Children.Add(_daMoveY);
-            storyboard.Children.Add(_daOpacity);
-            storyboard.Begin();
+            
+            
+            _moveAnimation.Children.Clear();
+            _moveAnimation.Children.Add(_daMoveX);
+            _moveAnimation.Children.Add(_daMoveY);
+            _moveAnimation.Children.Add(_daOpacity);
+            _moveAnimation.Begin(this, true);
         }
 
         private EventHandler _DisappearAfterMoveHandler;

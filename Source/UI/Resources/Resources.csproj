@@ -263,8 +263,6 @@
     <Resource Include="Images\Cards\Normal\TaoYuanJieYi.jpg" />
     <Resource Include="Images\Cards\Normal\TengJia.jpg" />
     <Resource Include="Images\Cards\Normal\TieSuoLianHuan.jpg" />
-    <Resource Include="Images\Cards\Normal\UnknownHero.png" />
-    <Resource Include="Images\Cards\Normal\UnknownRole.png" />
     <Resource Include="Images\Cards\Normal\wangyi.jpg" />
     <Resource Include="Images\Cards\Normal\WanJianQiFa.jpg" />
     <Resource Include="Images\Cards\Normal\weiyan.jpg" />
@@ -659,6 +657,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Cards\Normal\Unknown.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cards\Normal\UnknownRole.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cards\Normal\UnknownHero.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

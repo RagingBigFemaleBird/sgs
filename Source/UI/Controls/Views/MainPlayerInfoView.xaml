@@ -246,8 +246,14 @@
         			</Setter.Value>
         		</Setter>
         	</Style>
+        	<Storyboard x:Key="Countdown"/>
         </ResourceDictionary>
     </local:PlayerInfoViewBase.Resources>
+	<local:PlayerInfoViewBase.Triggers>
+		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
+			<BeginStoryboard Storyboard="{StaticResource Countdown}"/>
+		</EventTrigger>
+	</local:PlayerInfoViewBase.Triggers>
     <Grid>
     	<VisualStateManager.VisualStateGroups>
     		<VisualStateGroup x:Name="FadeStates">
@@ -285,11 +291,11 @@
 			   HorizontalAlignment="Left" VerticalAlignment="Bottom"
 			   Margin="50,0,0,0"
 			   Width="149" Height="15"/>
-		<ProgressBar Style="{StaticResource TimedProgressBarStyle}"
+		<ProgressBar x:Name="progressBar" Style="{StaticResource TimedProgressBarStyle}"
 		             Grid.ColumnSpan="2" HorizontalAlignment="Center"
 					 Width="264" Height="16"
 					 Margin="0,0,0,7"
-					 VerticalAlignment="Bottom" Value="80" />
+					 VerticalAlignment="Bottom"/>
         <Grid Grid.Row="1" Width="164">
             <Grid.Background>
                 <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Background.Left}"/>

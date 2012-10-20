@@ -81,8 +81,7 @@ namespace Sanguosha.UI.Controls
                 card.Position = this.TranslatePoint(newPosition, ParentGameView.GlobalCanvas);
                 card.SetValue(Canvas.ZIndexProperty, zindex++);
                 card.Rebase(transitionInSeconds);
-                i++;
-                
+                i++;                
             }
         }        
 
@@ -92,37 +91,43 @@ namespace Sanguosha.UI.Controls
 
         public void AddCards(IList<CardView> cards, double transitionInSeconds)
         {
-            foreach (var card in cards)
+            lock (_cards)
             {
-                card.CardViewModel.IsSelected = false;
-                card.CardOpacity = 1d;
+                foreach (var card in cards)
+                {
+                    card.CardViewModel.IsSelected = false;
+                    card.CardOpacity = 1d;
+                    if (IsCardConsumer)
+                    {
+                        card.DisappearAfterMove = true;
+                    }
+                    else
+                    {
+                        _cards.Add(card);
+                    }
+                }
                 if (IsCardConsumer)
                 {
-                    card.DisappearAfterMove = true;
+                    RearrangeCards(cards, transitionInSeconds);
                 }
                 else
                 {
-                    _cards.Add(card);
+                    RearrangeCards(_cards, transitionInSeconds);
                 }
             }
-            if (IsCardConsumer)
-            {
-                RearrangeCards(cards, transitionInSeconds);
-            }
-            else
-            {
-                RearrangeCards(_cards, transitionInSeconds);
-            }
-
         }
 
         public void RemoveCards(IList<CardView> cards)
         {
-            var nonexisted = from c in cards where !_cards.Contains(c)
-                             select c;
-            RearrangeCards(nonexisted, 0d);
-            _cards = new List<CardView>(_cards.Except(cards));
-            RearrangeCards(0.5d);            
+            lock (_cards)
+            {
+                var nonexisted = from c in cards
+                                 where !_cards.Contains(c)
+                                 select c;
+                RearrangeCards(nonexisted, 0d);
+                _cards = new List<CardView>(_cards.Except(cards));
+                RearrangeCards(0.5d);
+            }
         }
 
         #endregion

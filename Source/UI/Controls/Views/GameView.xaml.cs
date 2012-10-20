@@ -35,6 +35,7 @@ namespace Sanguosha.UI.Controls
         private IList<PlayerInfoView> profileBoxes;
         private IList<PlayerInfoViewModel> playerModels;
         private IDictionary<Player, PlayerInfoViewBase> playersMap;
+        private PlayerInfoViewModel mainPlayerModel;
         #endregion
 
         #region Constructors
@@ -92,7 +93,12 @@ namespace Sanguosha.UI.Controls
             canExecuteSubmitCommand = false;
             _UpdateEnabledStatusHandler = new EventHandler(cardOrPlayer_OnSelectedChanged);
             this.SizeChanged += new SizeChangedEventHandler(GameView_SizeChanged);
-            
+            CardUsageAnsweredEvent += new CardUsageAnsweredEventHandler(GameView_CardUsageAnsweredEvent);
+        }
+
+        void GameView_CardUsageAnsweredEvent(ISkill skill, List<Card> cards, List<Player> players)
+        {
+            mainPlayerModel.TimeOutSeconds = 0;
         }
 
         void GameView_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -179,9 +185,7 @@ namespace Sanguosha.UI.Controls
         }
 
         #endregion
-
-        PlayerInfoViewModel mainPlayerModel;
-
+        
         #region Layout Related
         public void RearrangeSeats()
         {
@@ -478,7 +482,6 @@ namespace Sanguosha.UI.Controls
         }
         #endregion
 
-
         #region IAsyncUiProxy
         public Player HostPlayer
         {
@@ -537,7 +540,7 @@ namespace Sanguosha.UI.Controls
         }
 
         CardUsageVerifier currentUsageVerifier;
-
+        
         private void _UpdateCommandStatus()
         {
             Stopwatch sw = new Stopwatch();
@@ -720,6 +723,8 @@ namespace Sanguosha.UI.Controls
                 // @todo: update this.
                 canExecuteCancelCommand = true;
                 canExecuteAbortCommand = true;
+                                
+                mainPlayerModel.TimeOutSeconds = timeOutSeconds;
 
                 _UpdateCommandStatus();
             });
@@ -750,6 +755,5 @@ namespace Sanguosha.UI.Controls
         public event MultipleChoiceAnsweredEventHandler MultipleChoiceAnsweredEvent;
 
         #endregion
-
     }
 }

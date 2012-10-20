@@ -7,7 +7,27 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ProgressBar}">
-                            <Grid>
+                        	<ControlTemplate.Resources>
+                        		<Storyboard x:Key="ShowProgressBar">
+                        			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="grid">
+                        				<DiscreteObjectKeyFrame KeyTime="0">
+                        					<DiscreteObjectKeyFrame.Value>
+                        						<Visibility>Visible</Visibility>
+                        					</DiscreteObjectKeyFrame.Value>
+                        				</DiscreteObjectKeyFrame>
+                        			</ObjectAnimationUsingKeyFrames>
+                        		</Storyboard>
+                        		<Storyboard x:Key="HideProgressBar">
+                        			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="grid">
+                        				<DiscreteObjectKeyFrame KeyTime="0">
+                        					<DiscreteObjectKeyFrame.Value>
+                        						<Visibility>Hidden</Visibility>
+                        					</DiscreteObjectKeyFrame.Value>
+                        				</DiscreteObjectKeyFrame>
+                        			</ObjectAnimationUsingKeyFrames>
+                        		</Storyboard>
+                        	</ControlTemplate.Resources>
+                            <Grid x:Name="grid">
                                 <Border Name="PART_Track" CornerRadius="5" Background="Black" BorderBrush="#FF807D6B" BorderThickness="1" />
                                 <Border Name="PART_Indicator" CornerRadius="4" Margin="2" HorizontalAlignment="Left" >
                                     <Border.Background>
@@ -20,6 +40,16 @@
                                     </Border.Background>
                                 </Border>
                             </Grid>
+                        	<ControlTemplate.Triggers>
+                        		<Trigger Property="Value" Value="0">
+                        			<Trigger.ExitActions>
+                        				<BeginStoryboard x:Name="ShowProgressBar_BeginStoryboard2" Storyboard="{StaticResource ShowProgressBar}"/>
+                        			</Trigger.ExitActions>
+                        			<Trigger.EnterActions>
+                        				<BeginStoryboard x:Name="ShowProgressBar_BeginStoryboard" Storyboard="{StaticResource HideProgressBar}"/>
+                        			</Trigger.EnterActions>
+                        		</Trigger>
+                        	</ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>

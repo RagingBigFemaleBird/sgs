@@ -170,6 +170,25 @@ namespace Sanguosha.UI.Controls
 
         #endregion
 
+        #region Interactions
+
+        private double _timeOutSeconds;
+        public double TimeOutSeconds
+        {
+            get
+            {
+                return _timeOutSeconds;
+            }
+            set
+            {
+                if (_timeOutSeconds == value) return;
+                _timeOutSeconds = value;
+                OnPropertyChanged("TimeOutSeconds");                
+            }
+        }
+
+        #endregion
+
         #region Player Properties
         public Allegiance Allegiance
         {
