@@ -112,5 +112,6 @@ namespace Sanguosha.Expansions.Basic.Skills
                 Owner.AutoResetAttributes.Add(FanJianUsed);
             }
         }
+
     }
 }

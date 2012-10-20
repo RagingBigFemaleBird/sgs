@@ -46,6 +46,15 @@ namespace Sanguosha.Core.UI
                 {
                     client.AnswerNext();
                     client.AnswerItem(1);
+                    if (skill == null)
+                    {
+                        client.AnswerItem(0);
+                    }
+                    else
+                    {
+                        client.AnswerItem(1);
+                        client.AnswerItem(skill);
+                    }
                     if (cards == null)
                     {
                         client.AnswerItem(0);
@@ -91,6 +100,12 @@ namespace Sanguosha.Core.UI
             cards = new List<Card>();
             o = client.Receive();
             int count = (int)o;
+            if (count == 1)
+            {
+                skill = (ISkill)client.Receive();
+            }
+            o = client.Receive();
+            count = (int)o;
             while (count-- > 0)
             {
                 o = client.Receive();

@@ -51,15 +51,15 @@ namespace Sanguosha.Core.Network
                     Trace.TraceInformation("Identify {0}{1}{2} is {3}{4}{5}", i.playerId, i.deck, i.place, Game.CurrentGame.SlaveCardSet[i.Id].Suit, Game.CurrentGame.SlaveCardSet[i.Id].Rank, Game.CurrentGame.SlaveCardSet[i.Id].Type.CardType);
                     if (i.playerId < 0)
                     {
-                        Card c = new Card(Game.CurrentGame.SlaveCardSet[i.Id]);
-                        c.Place = new DeckPlace(null, i.deck);
-                        Game.CurrentGame.Decks[null, i.deck][i.place] = c;
+                        DeckPlace place = Game.CurrentGame.Decks[null, i.deck][i.place].Place;
+                        Game.CurrentGame.Decks[null, i.deck][i.place].CopyFrom(Game.CurrentGame.SlaveCardSet[i.Id]);
+                        Game.CurrentGame.Decks[null, i.deck][i.place].Place = place;
                     }
                     else
                     {
-                        Card c = new Card(Game.CurrentGame.SlaveCardSet[i.Id]);
-                        c.Place = new DeckPlace(Game.CurrentGame.Players[i.playerId], i.deck);
-                        Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place] = c;
+                        DeckPlace place = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].Place;
+                        Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].CopyFrom(Game.CurrentGame.SlaveCardSet[i.Id]);
+                        Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].Place = place;
                     }
                 }
                 if (i.playerId < 0)
@@ -72,6 +72,19 @@ namespace Sanguosha.Core.Network
                 }
                 Trace.Assert(o != null);
                 return o as Card;
+            }
+            else if (o is SkillItem)
+            {
+                SkillItem i = (SkillItem)o;
+                foreach (var skill in Game.CurrentGame.Players[i.playerId].ActionableSkills)
+                {
+                    if (skill.GetType().Name.Equals(i.name))
+                    {
+                        return skill;
+                    }
+                }
+                Trace.TraceWarning("Client seem to be sending invalid skills. DDOS?");
+                return null;
             }
             return o;
         }
@@ -92,6 +105,14 @@ namespace Sanguosha.Core.Network
                 item.deck = card.Place.DeckType;
                 item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
                 Trace.Assert(item.place >= 0);
+                o = item;
+            }
+            if (o is ISkill)
+            {
+                ISkill skill = o as ISkill;
+                SkillItem item = new SkillItem();
+                item.playerId = skill.Owner.Id;
+                item.name = skill.GetType().Name;
                 o = item;
             }
             sender.Send(o);

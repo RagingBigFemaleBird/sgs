@@ -56,6 +56,19 @@ namespace Sanguosha.Core.UI
                 {
                     throw new InvalidAnswerException();
                 }
+                if (count == null)
+                {
+                    throw new InvalidAnswerException();
+                }
+                count = server.GetInt(clientId, 0);
+                if (count == 1)
+                {
+                    skill = server.GetSkill(clientId, 0);
+                    if (skill == null)
+                    {
+                        throw new InvalidAnswerException();
+                    }
+                }
                 count = server.GetInt(clientId, 0);
                 if (count == null)
                 {
@@ -108,12 +121,28 @@ namespace Sanguosha.Core.UI
                 for (int i = 0; i < server.MaxClients; i++)
                 {
                     server.SendObject(i, 1);
+                    if (skill != null)
+                    {
+                        server.SendObject(i, 1);
+                        server.SendObject(i, skill);
+                    }
+                    else
+                    {
+                        server.SendObject(i, 0);
+                    }
                     if (cards != null)
                     {
                         server.SendObject(i, cards.Count);
+                        if (skill is ActiveSkill)
+                        {
+                            (skill as ActiveSkill).CardRevealPolicy(Game.CurrentGame.Players[i], cards, players);
+                        }
                         foreach (Card c in cards)
                         {
-                            c.RevealOnce = true;
+                            if (!(skill is ActiveSkill))
+                            {
+                                c.RevealOnce = true;
+                            }
                             server.SendObject(i, c);
                         }
                     }

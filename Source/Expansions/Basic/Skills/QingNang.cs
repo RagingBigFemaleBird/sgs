@@ -53,5 +53,13 @@ namespace Sanguosha.Expansions.Basic.Skills
             Game.CurrentGame.RecoverHealth(Owner, arg.Targets[0], 1);
             return true;
         }
+
+        public override void CardRevealPolicy(Core.Players.Player p, List<Card> cards, List<Core.Players.Player> players)
+        {
+            foreach (Card c in cards)
+            {
+                c.RevealOnce = true;
+            }
+        }
     }
 }
