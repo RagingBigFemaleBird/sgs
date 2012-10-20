@@ -39,6 +39,12 @@ namespace Sanguosha.Core.Network
     {
         public int id;
     }
+    [Serializable]
+    public struct SkillItem
+    {
+        public int playerId;
+        public string name;
+    }
     public class ItemSender
     {
         private NetworkStream stream;
@@ -61,6 +67,12 @@ namespace Sanguosha.Core.Network
             PlayerItem item = new PlayerItem();
             item.id = playerId;
             formatter.Serialize(stream, item);
+            stream.Flush();
+        }
+
+        private void QueueSkill(SkillItem skill)
+        {
+            formatter.Serialize(stream, skill);
             stream.Flush();
         }
 
@@ -105,6 +117,10 @@ namespace Sanguosha.Core.Network
             else if (o is CommandItem)
             {
                 QueueCommand((CommandItem)o);
+            }
+            else if (o is SkillItem)
+            {
+                QueueSkill((SkillItem)o);
             }
             else
             {

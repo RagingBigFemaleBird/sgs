@@ -150,6 +150,30 @@ namespace Sanguosha.Core.Network
             return null;
         }
 
+        public ISkill GetSkill(int clientId, int timeOutSeconds)
+        {
+            handlers[clientId].semIn.WaitOne();
+            handlers[clientId].semAccess.WaitOne();
+            object o = handlers[clientId].queueIn.Dequeue();
+            handlers[clientId].semAccess.Release(1);
+            if (o is SkillItem)
+            {
+                SkillItem i = (SkillItem)o;
+                if (i.playerId >= 0 && i.playerId < Game.CurrentGame.Players.Count)
+                {
+                    foreach (var s in Game.CurrentGame.Players[i.playerId].ActionableSkills)
+                    {
+                        if (s.GetType().Name.Equals(i.name))
+                        {
+                            return s;
+                        }
+                    }
+                }
+            }
+            Trace.TraceWarning("Expected Skill but type is {0}", o.GetType());
+            return null;
+        }
+
         public void SendObject(int clientId, Object o)
         {
             if (o is Card)
@@ -169,6 +193,14 @@ namespace Sanguosha.Core.Network
                 {
                     item.Id = -1;
                 }
+                o = item;
+            }
+            if (o is ISkill)
+            {
+                ISkill skill = o as ISkill;
+                SkillItem item = new SkillItem();
+                item.playerId = skill.Owner.Id;
+                item.name = skill.GetType().Name;
                 o = item;
             }
             handlers[clientId].semAccess.WaitOne();
@@ -194,6 +226,7 @@ namespace Sanguosha.Core.Network
                 handlers[i].threadServer.Start(i);
                 handlers[i].threadClient = new Thread((ParameterizedThreadStart)((o) => { ClientThread(handlers[(int)o].stream, handlers[(int)o].semOut, handlers[(int)o].semAccess, handlers[(int)o].queueOut); }));
                 handlers[i].threadClient.Start(i);
+                SendObject(i, i);
                 i++;
             }
             Trace.TraceInformation("Server ready");

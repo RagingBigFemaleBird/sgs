@@ -27,5 +27,9 @@ namespace Sanguosha.Core.Skills
         public abstract bool Commit(GameEventArgs arg);
 
         public virtual Players.Player Owner { get; set; }
+
+        public virtual void CardRevealPolicy(Players.Player p, List<Card> cards, List<Players.Player> players)
+        {
+        }
     }
 }

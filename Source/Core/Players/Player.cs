@@ -230,6 +230,24 @@ namespace Sanguosha.Core.Players
             }
         }
 
+        public IList<ISkill> ActionableSkills
+        {
+            get
+            {
+                List<ISkill> s = new List<ISkill>();
+                if (Hero != null)
+                {
+                    s.AddRange(Hero.Skills);
+                }
+                if (Hero2 != null)
+                {
+                    s.AddRange(Hero2.Skills);
+                }
+                s.AddRange(equipmentSkills);
+                return new ReadOnlyCollection<ISkill>(s);
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         // Create the OnPropertyChanged method to raise the event 

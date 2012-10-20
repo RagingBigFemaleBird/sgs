@@ -78,5 +78,16 @@ namespace Sanguosha.Expansions.Basic.Skills
                 Owner.AutoResetAttributes.Add(RenDeNumberOfCardsGiven);
             }
         }
+
+        public override void CardRevealPolicy(Core.Players.Player p, List<Card> cards, List<Core.Players.Player> players)
+        {
+            if (players.Contains(p))
+            {
+                foreach (Card c in cards)
+                {
+                    c.RevealOnce = true;
+                }
+            }
+        }
     }
 }

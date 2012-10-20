@@ -548,6 +548,12 @@ namespace Sanguosha.UI.Controls
             bool isEquipCommand;
             SkillCommand command = _GetSelectedSkillCommand(out isEquipCommand);
 
+            if (currentUsageVerifier == null)
+            {
+                //todo: probably disable everything?
+                return;
+            }
+
             if (command != null)
             {
                 skill = command.Skill;
@@ -556,7 +562,7 @@ namespace Sanguosha.UI.Controls
             // Handle skill down            
             foreach (var skillCommand in mainPlayerModel.SkillCommands)
             {
-                 skillCommand.IsEnabled = (currentUsageVerifier.Verify(skillCommand.Skill, null, null) != VerifierResult.Fail);
+                skillCommand.IsEnabled = (currentUsageVerifier.Verify(skillCommand.Skill, null, null) != VerifierResult.Fail);
             }
 
             if (skill == null)
@@ -578,26 +584,22 @@ namespace Sanguosha.UI.Controls
                 foreach (var equipCommand in mainPlayerModel.EquipCommands)
                 {
                     if (equipCommand.IsSelected)
-                        cards.Add(equipCommand.Card);                    
+                        cards.Add(equipCommand.Card);
                 }
             }
 
-            // Card usage question
-            if (currentUsageVerifier != null)
+            var status = currentUsageVerifier.Verify(skill, cards, players);
+            if (status == VerifierResult.Fail || status == VerifierResult.Partial)
             {
-                var status = currentUsageVerifier.Verify(skill, cards, players);
-                if (status == VerifierResult.Fail || status == VerifierResult.Partial)
+                canExecuteSubmitCommand = false;
+                foreach (var playerModel in playerModels)
                 {
-                    canExecuteSubmitCommand = false;
-                    foreach (var playerModel in playerModels)
-                    {
-                        playerModel.IsSelected = false;
-                    }
+                    playerModel.IsSelected = false;
                 }
-                else if (status == VerifierResult.Success)
-                {
-                    canExecuteSubmitCommand = true;
-                }
+            }
+            else if (status == VerifierResult.Success)
+            {
+                canExecuteSubmitCommand = true;
             }
 
             sw.Stop();
@@ -605,18 +607,18 @@ namespace Sanguosha.UI.Controls
             sw.Restart();
 
             List<Card> attempt = new List<Card>(cards);
-   
-                foreach (CardView cardView in mainPlayerPanel.HandCardArea.Cards)
+
+            foreach (CardView cardView in mainPlayerPanel.HandCardArea.Cards)
+            {
+                if (cardView.CardViewModel.IsSelected)
                 {
-                    if (cardView.CardViewModel.IsSelected)
-                    {
-                        continue;
-                    }
-                    attempt.Add(cardView.Card);
-                    bool disabled = (currentUsageVerifier.FastVerify(skill, attempt, players) == VerifierResult.Fail);
-                    cardView.CardViewModel.IsEnabled = !disabled;
-                    attempt.Remove(cardView.Card);
+                    continue;
                 }
+                attempt.Add(cardView.Card);
+                bool disabled = (currentUsageVerifier.FastVerify(skill, attempt, players) == VerifierResult.Fail);
+                cardView.CardViewModel.IsEnabled = !disabled;
+                attempt.Remove(cardView.Card);
+            }
 
             sw.Stop();
             Trace.TraceError("Pass 3: {0}", sw.ElapsedMilliseconds);
@@ -627,7 +629,7 @@ namespace Sanguosha.UI.Controls
                 foreach (var equipCommand in mainPlayerModel.EquipCommands)
                 {
                     if (equipCommand.IsSelected) continue;
-                    
+
                     attempt.Add(equipCommand.Card);
                     bool disabled = (currentUsageVerifier.FastVerify(skill, attempt, players) == VerifierResult.Fail);
                     equipCommand.IsEnabled = !disabled;
@@ -657,12 +659,12 @@ namespace Sanguosha.UI.Controls
                 }
                 attempt2.Remove(playerModel.Player);
                 i++;
-                
+
             }
             i = 0;
 
             sw.Stop();
-            Trace.TraceError("Pass 4: {0}", sw.ElapsedMilliseconds);            
+            Trace.TraceError("Pass 4: {0}", sw.ElapsedMilliseconds);
             sw.Restart();
 
             bool allowSelection = (cards.Count != 0 || validCount != 0 || skill != null);

@@ -36,6 +36,17 @@ namespace Sanguosha.Core.Cards
             Type = c;
         }
 
+        public void CopyFrom(Card c)
+        {
+            Suit = c.Suit;
+            Rank = c.Rank;
+            Type = c.Type;
+            RevealOnce = false;
+            Place = c.Place;
+            Id = c.Id;
+            Attributes = c.Attributes;
+        }
+
         public Card(Card c)
         {
             Suit = c.Suit;
