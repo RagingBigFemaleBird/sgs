@@ -296,8 +296,8 @@
             </Grid.Background>
             <StackPanel Height="29" Orientation="Horizontal" HorizontalAlignment="Left" Margin="8,0,0,0" Name="delayedToolsDock" VerticalAlignment="Top" />
             <Grid x:Name="weaponArea" Margin="0,39,0,0" Height="37" Width="161"  VerticalAlignment="Top" />
-            <Grid x:Name="armorArea" Margin="0,0,0,0" Height="37" Width="161"  VerticalAlignment="Top" />
-            <Grid x:Name="horse1Area" Margin="0,0,0,0" Height="37" Width="161"  VerticalAlignment="Top" />           
+            <Grid x:Name="armorArea" Margin="0,70,0,0" Height="37" Width="161"  VerticalAlignment="Top" />
+            <Grid x:Name="horse1Area" Margin="0,101,0,0" Height="37" Width="161"  VerticalAlignment="Top" />           
             <Grid x:Name="horse2Area" Margin="0,132,0,0" Height="37" Width="161"  VerticalAlignment="Top" />
         </Grid>
         <Grid Grid.Row="1" Grid.Column="1">
@@ -349,7 +349,7 @@
 					</local:OutlinedTextBlock.Effect>
             	</local:OutlinedTextBlock>
             </Border>
-            <ItemsControl x:Name="skillButtonDock" HorizontalAlignment="Left" Margin="6,0,0,4" VerticalAlignment="Bottom" Width="134" ItemsSource="{Binding SkillCommands, PresentationTraceSources.TraceLevel=High}">
+            <ItemsControl x:Name="skillButtonDock" HorizontalAlignment="Left" Margin="6,0,0,4" VerticalAlignment="Bottom" Width="134" ItemsSource="{Binding SkillCommands}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <local:SkillButtonDock />
@@ -359,12 +359,12 @@
                     <DataTemplate>
                         <ToggleButton Style="{StaticResource SkillButtonStyle}" IsEnabled="{Binding IsEnabled}" IsChecked="{Binding IsSelected}">
                             <Grid>
-                                <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="Black" Stroke="Black" StrokeThickness="3" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Center">
+                                <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="Black" Stroke="Black" StrokeThickness="3" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify">
                                     <local:OutlinedTextBlock.Effect>
                                         <BlurEffect />
                                     </local:OutlinedTextBlock.Effect>
                                 </local:OutlinedTextBlock>
-                                <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="White" Stroke="White" StrokeThickness="1" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Center">
+                                <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="White" Stroke="White" StrokeThickness="1" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify">
                             </local:OutlinedTextBlock>
                             
                             </Grid>

@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="Sanguosha.UI.Controls.SmallEquipView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
+             mc:Ignorable="d" 
+             xmlns:local="clr-namespace:Sanguosha.UI.Controls"
+             d:DesignHeight="13" d:DesignWidth="140">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/Cards.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <local:SuitColorToColorConverter x:Key="suitColorToColorConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Image HorizontalAlignment="Left" VerticalAlignment="Center" Source="{res:ImageBinding Path=TypeString, StringFormat=Resources/Images/Cards/SmallEquip/\{0\}.png}"/>
+        <TextBlock Text="{Binding RankString}" FontSize="11" FontWeight="Bold" Margin="102,-2,1,0"
+                   VerticalAlignment="Center" HorizontalAlignment="Left"
+                   Foreground="{Binding SuitColor, Converter={StaticResource suitColorToColorConverter}}">
+    	    <TextBlock.Effect>
+    		    <DropShadowEffect Color="#FFFFFFAA" ShadowDepth="0"/>
+    		</TextBlock.Effect>
+        </TextBlock>
+        <Image Source="{res:ImageBinding Path=TypeString, StringFormat=Resources/Images/Cards/SmallEquip/\{0\}.png, ResourceKeyFormat=Card.Suit.\{0\}.Image.Small}" 
+               Width="12" Height="13" Margin="115,0,0,0"
+               HorizontalAlignment="Left" VerticalAlignment="Center"/>
+    </Grid>
+</UserControl>

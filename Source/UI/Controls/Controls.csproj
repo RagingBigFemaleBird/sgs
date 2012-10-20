@@ -85,6 +85,9 @@
     <Compile Include="Views\SmallDelayedToolView.xaml.cs">
       <DependentUpon>SmallDelayedToolView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SmallEquipView.xaml.cs">
+      <DependentUpon>SmallEquipView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\VHealthBar.xaml.cs">
       <DependentUpon>VHealthBar.xaml</DependentUpon>
     </Compile>
@@ -131,6 +134,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SmallDelayedToolView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SmallEquipView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
