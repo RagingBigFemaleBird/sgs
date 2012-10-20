@@ -40,6 +40,10 @@ namespace Sanguosha.Core.Skills
             {
                 throw new CardTransformFailureException();
             }
+            foreach (Card c in card.Subcards)
+            {
+                c.Type = card.Type;
+            }
             return DoTransformSideEffect(card, arg, targets);
         }
         

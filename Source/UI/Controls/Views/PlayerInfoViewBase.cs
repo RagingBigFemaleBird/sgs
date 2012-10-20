@@ -87,6 +87,13 @@ namespace Sanguosha.UI.Controls
                     AddEquipment(card);
                 }
             }
+            else if (deck == DeckType.DelayedTools)
+            {
+                foreach (var card in cards)
+                {
+                    AddDelayedTool(card);
+                }
+            }
         }
 
         protected virtual void AddEquipment(CardView card)
@@ -102,8 +109,9 @@ namespace Sanguosha.UI.Controls
         {
         }
 
-        protected virtual void RemoveDelayedTool(CardView card)
+        protected virtual CardView RemoveDelayedTool(Card card)
         {
+            return null;
         }
 
         public IList<CardView> RemoveCards(DeckType deck, IList<Card> cards)
@@ -158,6 +166,14 @@ namespace Sanguosha.UI.Controls
                         }
                     }
                     CardView cardView = RemoveEquipment(card);
+                    cardsToRemove.Add(cardView);
+                }
+            }
+            else if (deck == DeckType.DelayedTools)
+            {
+                foreach (var card in cards)
+                {
+                    CardView cardView = RemoveDelayedTool(card);
                     cardsToRemove.Add(cardView);
                 }
             }
