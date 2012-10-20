@@ -28,7 +28,7 @@ namespace Sanguosha.Core.UI
             cards = new List<Card>();
             VerifierResult r = verifier.FastVerify(null, null, null);
             skill = null;
-            Console.Write("Ask for card usage: ");
+            Console.Write("Ask for card usage, {0}: ", prompt);
             int i = 0;
             foreach (ICard card in Game.CurrentGame.Decks[p, DeckType.Hand])
             {

@@ -433,16 +433,11 @@ namespace Sanguosha.Core.Games
         {
             try
             {
-                UpdateCard(num);
-                List<Card> cardsPeek = new List<Card>();
-                for (int i = 0; i < num; i++)
-                {
-                    cardsPeek.Add(PeekCard(i));
-                }
-                RevealCardsToAll(cardsPeek);
                 List<Card> cardsDrawn = new List<Card>();
                 for (int i = 0; i < num; i++)
                 {
+                    UpdateCardIf(player);
+                    RevealCardTo(player, PeekCard(0));
                     cardsDrawn.Add(DrawCard());
                 }
                 CardsMovement move;

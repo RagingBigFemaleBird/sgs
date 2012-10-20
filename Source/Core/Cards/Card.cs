@@ -36,6 +36,17 @@ namespace Sanguosha.Core.Cards
             Type = c;
         }
 
+        public Card(Card c)
+        {
+            Suit = c.Suit;
+            Rank = c.Rank;
+            Type = c.Type;
+            RevealOnce = false;
+            Place = c.Place;
+            Id = c.Id;
+            Attributes = c.Attributes;
+        }
+
         public DeckPlace Place { get; set; }
 
         /// <summary>

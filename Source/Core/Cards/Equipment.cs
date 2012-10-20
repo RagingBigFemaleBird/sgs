@@ -31,6 +31,7 @@ namespace Sanguosha.Core.Cards
         {
             if (EquipmentSkill != null)
             {
+                Trace.TraceInformation("registered {0} to {1}", EquipmentSkill.GetType().Name, p.Id);
                 p.AcquireEquipmentSkill(EquipmentSkill);
             }
             RegisterEquipmentTriggers(p);
@@ -40,6 +41,7 @@ namespace Sanguosha.Core.Cards
         {
             if (EquipmentSkill != null)
             {
+                Trace.TraceInformation("unregistered {0} from {1}", EquipmentSkill.GetType().Name, p.Id);
                 p.LoseEquipmentSkill(EquipmentSkill);
             }
             UnregisterEquipmentTriggers(p);
