@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5E948FAB-938B-4E4C-BDA1-1740339273EA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sanguosha.Expansions.Basic</RootNamespace>
+    <AssemblyName>Basic</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Bin\Debug\Expansions\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\Bin\Release\Expansions\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BasicExpansion.cs" />
+    <Compile Include="Cards\Aoe.cs" />
+    <Compile Include="Cards\CiXiongShuangGuJian.cs" />
+    <Compile Include="Cards\GuoHeChaiQiao.cs" />
+    <Compile Include="Cards\OffensiveHorse.cs" />
+    <Compile Include="Cards\DefensiveHorse.cs" />
+    <Compile Include="Cards\JueDou.cs" />
+    <Compile Include="Cards\LeBuSiShu.cs" />
+    <Compile Include="Cards\NanManRuQin.cs" />
+    <Compile Include="Cards\Sha.cs" />
+    <Compile Include="Cards\Shan.cs" />
+    <Compile Include="Cards\ShanDian.cs" />
+    <Compile Include="Cards\ShunChai.cs" />
+    <Compile Include="Cards\ShunShouQianYang.cs" />
+    <Compile Include="Cards\Tao.cs" />
+    <Compile Include="Cards\TaoYuanJieYi.cs" />
+    <Compile Include="Cards\WanJianQiFa.cs" />
+    <Compile Include="Cards\WuZhongShengYou.cs" />
+    <Compile Include="Cards\ZhangBaSheMao.cs" />
+    <Compile Include="Cards\ZhuGeLianNu.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Skills\FanJian.cs" />
+    <Compile Include="Skills\FanKui.cs" />
+    <Compile Include="Skills\GangLie.cs" />
+    <Compile Include="Skills\GuoSe.cs" />
+    <Compile Include="Skills\JiJiang.cs" />
+    <Compile Include="Skills\JiJiu.cs" />
+    <Compile Include="Skills\JiZhi.cs" />
+    <Compile Include="Skills\KongCheng.cs" />
+    <Compile Include="Skills\KuRou.cs" />
+    <Compile Include="Skills\LongDan.cs" />
+    <Compile Include="Skills\PaoXiao.cs" />
+    <Compile Include="Skills\QianXun.cs" />
+    <Compile Include="Skills\QingGuo.cs" />
+    <Compile Include="Skills\QingNang.cs" />
+    <Compile Include="Skills\QiXi.cs" />
+    <Compile Include="Skills\RenDe.cs" />
+    <Compile Include="Skills\WuSheng.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Core.csproj">
+      <Project>{31b92003-b490-4eaf-8f8e-f9b020f9b03b}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
