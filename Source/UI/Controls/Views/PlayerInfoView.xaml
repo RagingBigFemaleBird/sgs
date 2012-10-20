@@ -185,6 +185,7 @@
             </Grid>
             <Image Source="{DynamicResource PlayerInfoView.Decoration.BottomRight}" Width="64" HorizontalAlignment="Right" Margin="-10,-50,0,0" Grid.RowSpan="2" VerticalAlignment="Bottom" IsHitTestVisible="False" />
             <Image x:Name="imgPhase" Visibility="{Binding IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}" Source="{res:ResourceKeyBinding Path=CurrentPhase, StringFormat=Phases.\{0\}.Small}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120" IsHitTestVisible="False" />
+            <StackPanel x:Name="delayedToolsDock"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="-12,0,15,0" />
             <Border x:Name="fadeMask" Background="#64000000" Margin="6" Visibility="Hidden" IsHitTestVisible="False">
             	<i:Interaction.Behaviors>
             		<ei:DataStateBehavior Value="true" TrueState="Faded" FalseState="Unfaded" Binding="{Binding IsFaded}"/>

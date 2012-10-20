@@ -12,7 +12,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://siteoforigin:,,,/Resources/Cards.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/Cards.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <local:SuitColorToColorConverter x:Key="suitColorToColorConverter" />
         	<Style x:Key="footNoteStyle" TargetType="{x:Type TextBlock}">

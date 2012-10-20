@@ -294,9 +294,10 @@
             <Grid.Background>
                 <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Background.Left}"/>
             </Grid.Background>
+            <StackPanel Height="29" Orientation="Horizontal" HorizontalAlignment="Left" Margin="8,0,0,0" Name="delayedToolsDock" VerticalAlignment="Top" />
             <Grid x:Name="weaponArea" Margin="0,39,0,0" Height="37" Width="161"  VerticalAlignment="Top" />
             <Grid x:Name="armorArea" Margin="0,0,0,0" Height="37" Width="161"  VerticalAlignment="Top" />
-            <Grid x:Name="horse1Area" Margin="0,0,0,0" Height="37" Width="161"  VerticalAlignment="Top" />
+            <Grid x:Name="horse1Area" Margin="0,0,0,0" Height="37" Width="161"  VerticalAlignment="Top" />           
             <Grid x:Name="horse2Area" Margin="0,132,0,0" Height="37" Width="161"  VerticalAlignment="Top" />
         </Grid>
         <Grid Grid.Row="1" Grid.Column="1">
@@ -308,7 +309,7 @@
                 	<ColumnDefinition Width="1*"/>
                 	<ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-                <local:CardStack x:Name="handCardPlaceHolder" VerticalAlignment="Bottom" Height="130" MaxCardSpacing="94" CardAlignment="Left" />
+                <local:CardStack x:Name="handCardPlaceHolder" VerticalAlignment="Bottom" Margin="5,0,0,0" Height="130" MaxCardSpacing="94" CardAlignment="Left" />
                 <Image Grid.Column="1" Source="{DynamicResource MainPlayerInfoView.Background.Platter}"/>                
                 <local:RoleBox x:Name="cbRoleBox" Grid.Column="1" HorizontalAlignment="Right" Width="25" Margin="0,5,6,0" Height="26" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
                     <local:RoleBox.RenderTransform>

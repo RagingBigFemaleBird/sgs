@@ -119,6 +119,49 @@ namespace Sanguosha.UI.Controls
 
         public static string UnknownHeroCardTypeString = "UnknownHero";
 
+        public string _TypeStringHelper(Card card)
+        {
+            
+                if (card == null || card.Id == Card.UnknownCardId)
+                {
+                    return UnknownCardTypeString;
+                }
+                else if (card.Id == Card.UnknownHeroId)
+                {
+                    return UnknownHeroCardTypeString;
+                }
+                else if (card.Type is HeroCardHandler)
+                {
+                    var cardType = card.Type as HeroCardHandler;
+                    return cardType.Hero.Name;
+                }
+                else if (card.Type is Equipment)
+                {
+                    return card.Type.CardType;
+                }
+                else
+                {
+                    return card.Type.GetType().Name;
+                }
+            
+        }
+
+        /// <summary>
+        /// Return the name of the transformed card face.
+        /// </summary>
+        /// <remarks>
+        /// An unrecognized card will have a TypeString of "Unknown". Hero cards' TypeStrings are
+        /// the hero names of the cards. The other cards' card type string is defined by its
+        /// card handler's class name.
+        /// </remarks>
+        public string ActualTypeString
+        {
+            get
+            {
+                return _TypeStringHelper(_card);
+            }
+        }
+
         /// <summary>
         /// Return the name of card face.
         /// </summary>
@@ -131,27 +174,7 @@ namespace Sanguosha.UI.Controls
         {
             get
             {
-                if (_uiCard == null || _uiCard.Id == Card.UnknownCardId)
-                {
-                    return UnknownCardTypeString;
-                }
-                else if (_uiCard.Id == Card.UnknownHeroId)
-                {
-                    return UnknownHeroCardTypeString;
-                }
-                else if (_uiCard.Type is HeroCardHandler)
-                {
-                    var cardType = _uiCard.Type as HeroCardHandler;
-                    return cardType.Hero.Name;
-                }
-                else if (_uiCard.Type is Equipment)
-                {
-                    return _uiCard.Type.CardType;
-                }
-                else
-                {
-                    return _uiCard.Type.GetType().Name;
-                }
+                return _TypeStringHelper(_uiCard);
             }
         }
 

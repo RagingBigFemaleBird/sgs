@@ -6,4 +6,5 @@
     <sys:String x:Key="Skill.WuSheng.Name">武圣</sys:String>
     <sys:String x:Key="Skill.PaoXiao.Name">咆哮</sys:String>
     <sys:String x:Key="Skill.LongDan.Name">龙胆</sys:String>
+    <sys:String x:Key="Skill.GuoSe.Name">国色</sys:String>
 </ResourceDictionary>

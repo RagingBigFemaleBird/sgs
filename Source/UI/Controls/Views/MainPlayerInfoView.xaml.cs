@@ -207,5 +207,41 @@ namespace Sanguosha.UI.Controls
             return result;
         }
 
+        protected override void AddDelayedTool(CardView card)
+        {
+            LargeDelayedToolView dtv = new LargeDelayedToolView() { Width=30, Height=30 };
+            dtv.DataContext = card.CardViewModel;
+            dtv.Opacity = 0;
+            dtv.Margin = new Thickness(50d, 0, 0, 0);
+            delayedToolsDock.Children.Add(dtv);
+
+            Point dest = delayedToolsDock.TranslatePoint(new Point(delayedToolsDock.ActualWidth + 15, delayedToolsDock.ActualHeight / 2),
+                                                                   ParentGameView.GlobalCanvas);
+            dest.Offset(-card.Width / 2, -card.Height / 2);
+            card.Position = dest;
+            card.CardOpacity = 0.0d;
+            card.DisappearAfterMove = true;
+            card.Rebase(0.5d);
+
+            Storyboard storyBoard = new Storyboard();
+            ThicknessAnimation animation1 = new ThicknessAnimation();
+            DoubleAnimation animation2 = new DoubleAnimation();
+            animation1.To = new Thickness(0d, 0d, 0d, 0d);
+            animation2.To = 1.0d;
+            animation1.Duration = TimeSpan.FromMilliseconds(500);
+            animation2.Duration = TimeSpan.FromMilliseconds(500);
+            Storyboard.SetTarget(animation1, dtv);
+            Storyboard.SetTarget(animation2, dtv);
+            Storyboard.SetTargetProperty(animation1, new PropertyPath(LargeDelayedToolView.MarginProperty));
+            Storyboard.SetTargetProperty(animation2, new PropertyPath(LargeDelayedToolView.OpacityProperty));
+            storyBoard.Children.Add(animation1);
+            storyBoard.Children.Add(animation2);
+            storyBoard.Begin();            
+        }
+
+        protected override CardView RemoveDelayedTool(Card card)
+        {
+            return base.RemoveDelayedTool(card);
+        }
     }
 }
