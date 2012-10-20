@@ -90,7 +90,7 @@ namespace Sanguosha.UI.Controls
             for (int i = 0; i < rows; i++)
             {
                 int rowTop = i * rowH;
-                int btnWidth = rowW / btnNum[i];
+                double btnWidth = (double)rowW / btnNum[i];
                 for (int j = 0; j < btnNum[i]; j++)
                 {
                     Children[m].Measure(new Size(btnWidth, rowH));
