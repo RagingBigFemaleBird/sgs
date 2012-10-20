@@ -226,6 +226,7 @@ namespace Sanguosha.Core.Network
                 handlers[i].threadServer.Start(i);
                 handlers[i].threadClient = new Thread((ParameterizedThreadStart)((o) => { ClientThread(handlers[(int)o].stream, handlers[(int)o].semOut, handlers[(int)o].semAccess, handlers[(int)o].queueOut); }));
                 handlers[i].threadClient.Start(i);
+                SendObject(i, i);
                 i++;
             }
             Trace.TraceInformation("Server ready");

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#define NETWORKING
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -17,7 +18,6 @@ using Sanguosha.Core.UI;
 using System.Threading;
 using Sanguosha.Core.Network;
 
-
 namespace WpfApplication1
 {
     /// <summary>
@@ -32,7 +32,7 @@ namespace WpfApplication1
             // Insert code required on object creation below this point.
         }
 
-        const int MainSeat = 0;
+        int MainSeat = 0;
         private void InitGame()
         {
             GameEngine.LoadExpansions("Expansions");
@@ -41,6 +41,7 @@ namespace WpfApplication1
             Client client;
             client = new Client();
             client.Start();
+            MainSeat = (int)client.Receive();
             client.SelfId = MainSeat;
 #endif
             foreach (var g in GameEngine.Expansions.Values)
