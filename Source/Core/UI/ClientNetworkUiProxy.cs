@@ -139,5 +139,19 @@ namespace Sanguosha.Core.UI
         {
             proxy.NotifyCardMovement(m, notes);
         }
+
+        int timeOutSeconds;
+        public int TimeOutSeconds
+        {
+            get
+            {
+                return TimeOutSeconds;
+            }
+            set
+            {
+                proxy.TimeOutSeconds = value;
+                timeOutSeconds = value;
+            }
+        }
     }
 }

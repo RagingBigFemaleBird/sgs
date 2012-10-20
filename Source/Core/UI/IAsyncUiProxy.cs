@@ -16,9 +16,9 @@ namespace Sanguosha.Core.UI
     public interface IAsyncUiProxy
     {
         Player HostPlayer { get; set; }
-        void AskForCardUsage(string prompt, CardUsageVerifier verifier);
-        void AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier);
-        void AskForMultipleChoice(string prompt, List<string> questions);
+        void AskForCardUsage(string prompt, CardUsageVerifier verifier, int timeOutSeconds);
+        void AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, int timeOutSeconds);
+        void AskForMultipleChoice(string prompt, List<string> questions, int timeOutSeconds);
         void NotifyCardMovement(List<CardsMovement> m, List<IGameLog> notes);
         event CardUsageAnsweredEventHandler CardUsageAnsweredEvent;
         event CardChoiceAnsweredEventHandler CardChoiceAnsweredEvent;

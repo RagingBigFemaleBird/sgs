@@ -25,6 +25,7 @@ namespace Sanguosha.Core.UI
     public interface IUiProxy
     {
         Player HostPlayer { get; set; }
+        int TimeOutSeconds { get; set; }
         /// <summary>
         /// 询问使用或打出卡牌，可以发动技能。
         /// </summary>

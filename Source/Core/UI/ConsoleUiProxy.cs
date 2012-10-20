@@ -184,5 +184,6 @@ namespace Sanguosha.Core.UI
             answer = id;
             return true;
         }
+        public int TimeOutSeconds { get; set; }
     }
 }

@@ -687,7 +687,7 @@ namespace Sanguosha.UI.Controls
             Trace.TraceError("Pass 5: {0}", m);
         }
 
-        public void AskForCardUsage(string prompt, CardUsageVerifier verifier)
+        public void AskForCardUsage(string prompt, CardUsageVerifier verifier, int timeOutSeconds)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
@@ -733,12 +733,12 @@ namespace Sanguosha.UI.Controls
         }
 
 
-        public void AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier)
+        public void AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, int timeOutSeconds)
         {
             CardChoiceAnsweredEvent(null);
         }
 
-        public void AskForMultipleChoice(string prompt, List<string> questions)
+        public void AskForMultipleChoice(string prompt, List<string> questions, int timeOutSeconds)
         {
             MultipleChoiceAnsweredEvent(0);
         }

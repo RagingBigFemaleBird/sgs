@@ -89,7 +89,7 @@
     <Compile Include="UI\CardUsageVerifier.cs" />
     <Compile Include="UI\ClientNetworkUiProxy.cs" />
     <Compile Include="UI\ConsoleUiProxy.cs" />
-    <Compile Include="UI\GlobalProxy.cs" />
+    <Compile Include="UI\GlobalUiProxy.cs" />
     <Compile Include="UI\IAsyncUiProxy.cs" />
     <Compile Include="UI\IGameLog.cs" />
     <Compile Include="UI\IUIProxy.cs" />

@@ -64,7 +64,7 @@ namespace Sanguosha.Core.UI
         public bool AskForCardUsage(string prompt, CardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             answerPending = new Semaphore(0, 1);
-            proxy.AskForCardUsage(prompt, verifier);
+            proxy.AskForCardUsage(prompt, verifier, TimeOutSeconds);
             answerPending.WaitOne();
             skill = answerSkill;
             cards = answerCards;
@@ -79,7 +79,7 @@ namespace Sanguosha.Core.UI
         public bool AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer)
         {
             answerPending = new Semaphore(0, 1);
-            proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier);
+            proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, TimeOutSeconds);
             answerPending.WaitOne();
             answer = answerCardsOfCards;
             if (verifier.Verify(answer) == VerifierResult.Success)
@@ -92,7 +92,7 @@ namespace Sanguosha.Core.UI
         public bool AskForMultipleChoice(string prompt, List<string> questions, out int answer)
         {
             answerPending = new Semaphore(0, 1);
-            proxy.AskForMultipleChoice(prompt, questions);
+            proxy.AskForMultipleChoice(prompt, questions, TimeOutSeconds);
             answerPending.WaitOne();
             answer = answerMultipleChoice;
             return true;
@@ -102,5 +102,6 @@ namespace Sanguosha.Core.UI
         {
             proxy.NotifyCardMovement(m, notes);
         }
+        public int TimeOutSeconds { get; set; }
     }
 }

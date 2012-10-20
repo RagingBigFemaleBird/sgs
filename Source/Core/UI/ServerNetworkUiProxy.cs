@@ -188,5 +188,6 @@ namespace Sanguosha.Core.UI
         {
             return;
         }
+        public int TimeOutSeconds { get; set; }
     }
 }

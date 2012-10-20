@@ -105,5 +105,6 @@ namespace Sanguosha.Core.UI
         {
             throw new NotImplementedException();
         }
+        public int TimeOutSeconds { get; set; }
     }
 }
