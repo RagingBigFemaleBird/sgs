@@ -19,7 +19,13 @@ namespace Sanguosha.UI.Controls
             CardAlignment = HorizontalAlignment.Center;
             IsCardConsumer = false;
             CardCapacity = int.MaxValue;
-            _cards = new List<CardView>();            
+            _cards = new List<CardView>();
+            this.SizeChanged += new SizeChangedEventHandler(CardStack_SizeChanged);
+        }
+
+        void CardStack_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            RearrangeCards(0.5d);
         }
 
         #endregion

@@ -17,15 +17,15 @@
     </UserControl.Resources>
     <Grid>
         <Image HorizontalAlignment="Left" VerticalAlignment="Center" Source="{res:ImageBinding Path=TypeString, StringFormat=Resources/Images/Cards/SmallEquip/\{0\}.png}"/>
-        <TextBlock Text="{Binding RankString}" FontSize="11" FontWeight="Bold" Margin="102,-2,1,0"
+        <TextBlock Text="{Binding RankString}" FontSize="11" FontWeight="Bold" Margin="105,-2,1,0"
                    VerticalAlignment="Center" HorizontalAlignment="Left"
                    Foreground="{Binding SuitColor, Converter={StaticResource suitColorToColorConverter}}">
     	    <TextBlock.Effect>
     		    <DropShadowEffect Color="#FFFFFFAA" ShadowDepth="0"/>
     		</TextBlock.Effect>
         </TextBlock>
-        <Image Source="{res:ImageBinding Path=TypeString, StringFormat=Resources/Images/Cards/SmallEquip/\{0\}.png, ResourceKeyFormat=Card.Suit.\{0\}.Image.Small}" 
-               Width="12" Height="13" Margin="115,0,0,0"
+        <Image Source="{res:ImageBinding Path=Suit, StringFormat=Resources/Images/Cards/Suit/\{0\}.png, ResourceKeyFormat=Card.Suit.\{0\}.Image.Normal}" 
+               Width="10" Height="12" Margin="115,0,0,0"
                HorizontalAlignment="Left" VerticalAlignment="Center"/>
     </Grid>
 </UserControl>
