@@ -40,6 +40,12 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
             return true;
         }
+
+        protected override void ShunChaiAddtionalCardReveal(Player source, Player dest, Card card)
+        {
+            Game.CurrentGame.UpdateCardIf(source);
+            Game.CurrentGame.RevealCardTo(source, card);
+        }
     }
 
 }

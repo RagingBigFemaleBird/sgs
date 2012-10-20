@@ -60,6 +60,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 answer[0].Add(collection.First());
             }
             Trace.Assert(answer.Count == 1 && answer[0].Count == 1);
+            ShunChaiAddtionalCardReveal(source, dest, answer[0][0]);
 
             CardsMovement m;
             m.cards = new List<Card>(answer[0]);
@@ -67,6 +68,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             Game.CurrentGame.MoveCards(m, new CardUseLog() { Source = source, Target = dest, Skill = null, Cards = null });
         }
 
+        protected abstract void ShunChaiAddtionalCardReveal(Player source, Player dest, Card card);
         protected abstract bool ShunChaiAdditionalCheck(Player source, Player dest);
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
