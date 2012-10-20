@@ -321,8 +321,8 @@
             <Border HorizontalAlignment="Right" Height="17" Width="16" VerticalAlignment="Top" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22" Margin="0,148,92,0" d:LayoutOverrides="GridBox">
                 <TextBlock Margin="0,0,0,0" TextWrapping="Wrap" Text="0" TextAlignment="Center" FontFamily="Arial" Foreground="Black"/>
             </Border>
-            <Button Content="" Height="82" Margin="0,0,39,0" Style="{DynamicResource CancelButtonStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="67"/>
-            <Button Content="" Margin="0,44,5,44" Style="{DynamicResource DiscardButtonStyle}" HorizontalAlignment="Right" Width="33"/>
+            <Button Content="" Height="82" Margin="0,0,39,0" Command="{Binding CancelAnswerCommand}" Style="{DynamicResource CancelButtonStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="67"/>
+            <Button Content="" Margin="0,44,5,44" Command="{Binding AbortAnswerCommand}" Style="{DynamicResource DiscardButtonStyle}" HorizontalAlignment="Right" Width="33"/>
         </Grid>		
 		<Grid Grid.Row="1" Grid.Column="2" Background="Black">
 			<Border Margin="9,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="134" Height="134" IsEnabled="{Binding IsEnabled}" MouseLeftButtonDown="Border_MouseLeftButtonDown">
