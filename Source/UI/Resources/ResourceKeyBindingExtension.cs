@@ -28,6 +28,7 @@ namespace Sanguosha.UI.Resources
             {
                 resourceKeyBinding.ElementName = ElementName;
             }
+
             else if (RelativeSource != null)
             {
                 resourceKeyBinding.RelativeSource = RelativeSource;
@@ -46,7 +47,7 @@ namespace Sanguosha.UI.Resources
             var multiBinding = new MultiBinding();
             multiBinding.Bindings.Add(targetElementBinding);
             multiBinding.Bindings.Add(resourceKeyBinding);
-
+            
             // If we set the Converter on resourceKeyBinding then, for some reason,
             // MultiBinding wants it to produce a value matching the Target Type of the MultiBinding
             // When it doesn't, it throws a wobbly and passes DependencyProperty.UnsetValue through

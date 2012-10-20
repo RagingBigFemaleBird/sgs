@@ -138,7 +138,7 @@
                                         <BlurEffect/>
                                     </Border.Effect>
                                 </Border>
-                                <Image Source="{res:ResourceKeyBinding Path=TypeString, StringFormat=Card.\{0\}.Image.BigEquip}" />                                
+                                <Image Source="{res:ImageBinding Path=TypeString, StringFormat=Resources/Images/Cards/BigEquip/\{0\}.png, ResourceKeyFormat=Card.\{0\}.Image.BigEquip}" />                                
                                 <StackPanel HorizontalAlignment="Right" Margin="0,2,5,2" Orientation="Horizontal">
                                     <TextBlock Text="{Binding RankString}" FontSize="12" FontWeight="Bold" Margin="0,-2,1,0"  VerticalAlignment="Center"
                                                Foreground="{Binding SuitColor, Converter={StaticResource suitColorToColorConverter}}">

@@ -6,7 +6,10 @@
 			 xmlns:local="clr-namespace:Sanguosha.UI.Controls"
              xmlns:ee="http://schemas.microsoft.com/expression/2010/effects" 
              xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
-			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Name="userControl" x:Class="Sanguosha.UI.Controls.CardView"
+			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             x:Name="userControl"
+             x:Class="Sanguosha.UI.Controls.CardView"
 			 mc:Ignorable="d"
              d:DesignHeight="130" d:DesignWidth="93" Opacity="0">
     <UserControl.Resources>
@@ -152,4 +155,36 @@
         	</i:Interaction.Behaviors>
         </Border>
     </Grid>
+    <UserControl.ToolTip>
+        <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top">
+            <ToolTip.ContentTemplate>
+                <DataTemplate>
+                    <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0" Width="330">
+                        <FlowDocument>
+                            <Paragraph LineHeight="18">
+                                <Run FontWeight="Bold" 
+                                     Text="{Binding Path=TypeString, Converter={StaticResource CardToolTipConverter}, ConverterParameter=Name, Mode=OneWay}" 
+                                     Foreground="#FF65FFCC"
+                                     FontSize="14"/>
+                                <Run Text="  "/>
+                                <Run Text="{Binding Path=Suit, 
+                                     Converter={StaticResource CardToolTipConverter}, ConverterParameter=Suit, Mode=OneWay}" 
+                                     Foreground="{Binding Path=Suit, Mode=OneWay, Converter={StaticResource CardToolTipConverter}, ConverterParameter=SuitColor}" 
+                                     FontFamily="Arial" FontSize="18"/>
+                                <Run Text="{Binding Path=RankString, Mode=OneWay}"
+                                     Foreground="{Binding Path=Suit, Mode=OneWay, Converter={StaticResource CardToolTipConverter}, ConverterParameter=SuitColor}"
+                                     FontSize="15"/>
+                                <LineBreak />
+                                <Run Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource CardToolTipConverter}, ConverterParameter=Description}"/>
+                                <LineBreak />
+                                <Run Text="操作步骤" Foreground="Yellow" />
+                                <LineBreak />
+                                <Run Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource CardToolTipConverter}, ConverterParameter=Usage}" />
+                            </Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
+                </DataTemplate>
+            </ToolTip.ContentTemplate>
+        </ToolTip>
+    </UserControl.ToolTip>
 </UserControl>

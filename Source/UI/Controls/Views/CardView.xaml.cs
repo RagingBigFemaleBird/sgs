@@ -67,7 +67,11 @@ namespace Sanguosha.UI.Controls
             Storyboard.SetTargetProperty(_daMoveY, new PropertyPath(Canvas.TopProperty));
             Storyboard.SetTarget(_daOpacity, this);
             Storyboard.SetTargetProperty(_daOpacity, new PropertyPath(CardView.OpacityProperty));
-            _DisappearAfterMoveHandler = new EventHandler(_DisappearAfterMove);            
+            _DisappearAfterMoveHandler = new EventHandler(_DisappearAfterMove);
+        }
+
+        void CardView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
         }        
 
         void CardView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

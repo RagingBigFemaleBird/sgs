@@ -3,6 +3,21 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:Sanguosha.UI.Resources"
     xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <local:CardToolTipConverter x:Key="CardToolTipConverter" />
+    <system:String x:Key="Card.Sha.Name">杀</system:String>
+    <system:String x:Key="Card.Sha.Description">你的出牌阶段，对除你外，你攻击范围内的一名角色使用，效果是对该角色造成1点伤害。</system:String>
+    <system:String x:Key="Card.Sha.Usage">选中【杀】→选择攻击距离内目标→点“确定”</system:String>
+    <system:String x:Key="Card.Shan.Name">闪</system:String>
+
+    <system:String x:Key="Card.Suit.Heart.SuitText">♥</system:String>
+    <system:String x:Key="Card.Suit.Diamond.SuitText">♦</system:String>
+    <system:String x:Key="Card.Suit.Spade.SuitText">♠</system:String>
+    <system:String x:Key="Card.Suit.Club.SuitText">♣</system:String>
+    <SolidColorBrush x:Key="Card.Suit.Heart.SuitBrush" Color="Red"/>
+    <SolidColorBrush x:Key="Card.Suit.Diamond.SuitBrush" Color="Red"/>
+    <SolidColorBrush x:Key="Card.Suit.Spade.SuitBrush" Color="#FF999999"/>
+    <SolidColorBrush x:Key="Card.Suit.Club.SuitBrush" Color="#FF999999"/>
+    
     <BitmapImage x:Key="Card.Sha.Image.Normal">Images/Cards/Normal/Sha.jpg</BitmapImage>
     <BitmapImage x:Key="Card.Shan.Image.Normal">Images/Cards/Normal/Shan.jpg</BitmapImage>
     <BitmapImage x:Key="Card.Tao.Image.Normal">Images/Cards/Normal/Tao.jpg</BitmapImage>

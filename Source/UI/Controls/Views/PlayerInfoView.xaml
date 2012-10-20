@@ -174,14 +174,20 @@
                 <TextBlock x:Name="userNameText" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="UserName" Margin="0,5,0,0" Style="{DynamicResource SmallTextBlockStyle}"/>
                 <Border Grid.Row="1" HorizontalAlignment="Left" Height="17" Width="16" VerticalAlignment="Bottom" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22">
                     <TextBlock Margin="0,0,0,0" TextWrapping="Wrap" Text="0" TextAlignment="Center" FontFamily="Arial" Foreground="Black"/>
-                </Border>
-                <Border Grid.Row="2" Margin="15,1,2,0" BorderThickness="1" BorderBrush="Black" Background="#59FFFFFF">
-                    <Image Source="{DynamicResource PlayerInfoView.Dragon}" HorizontalAlignment="Center" Stretch="Fill" VerticalAlignment="Center" Width="49" Height="45" />
-                </Border>
+                </Border>                
                 <Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="3" Stretch="Fill" Margin="1,2,0,0" Width="13" Height="13" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="3" Stretch="Fill" Margin="1,16,0,0" Width="13" Height="13" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="3" Stretch="Fill" Margin="1,30,0,0" Width="13" Height="13" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="3" Stretch="Fill" Margin="1,44,0,0" Width="13" Height="13" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Border Grid.Row="2" Margin="15,1,2,0" BorderThickness="1" BorderBrush="Black" Background="#59FFFFFF">
+                    <Grid>
+                        <Image Source="{DynamicResource PlayerInfoView.Dragon}" HorizontalAlignment="Center" Stretch="Fill" VerticalAlignment="Center" Width="49" Height="45" />
+                        <Canvas x:Name="weaponArea" Margin="-15,0,0,0" Height="13" Width="140"  VerticalAlignment="Top" HorizontalAlignment="Left" />
+                        <Canvas x:Name="armorArea" Margin="-15,14,0,0" Height="13" Width="140"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Canvas x:Name="horse1Area" Margin="-15,28,0,0" Height="13" Width="140"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Canvas x:Name="horse2Area" Margin="-15,42,0,0" Height="13" Width="140"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                    </Grid>
+                </Border>
             </Grid>
             <Image Source="{DynamicResource PlayerInfoView.Decoration.BottomRight}" Width="64" HorizontalAlignment="Right" Margin="-10,-50,0,0" Grid.RowSpan="2" VerticalAlignment="Bottom" IsHitTestVisible="False" />
             <Image x:Name="imgPhase" Visibility="{Binding IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}" Source="{res:ResourceKeyBinding Path=CurrentPhase, StringFormat=Phases.\{0\}.Small}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120" IsHitTestVisible="False" />

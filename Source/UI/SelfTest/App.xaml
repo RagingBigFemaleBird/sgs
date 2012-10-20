@@ -9,6 +9,21 @@
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="/Resources;component/Skills.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
-		</ResourceDictionary>
-	</Application.Resources>
+		
+            <Style x:Key="{x:Type ToolTip}" TargetType="ToolTip">
+                <Setter Property="OverridesDefaultStyle" Value="true" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToolTip">
+                            <Border BorderBrush="#FF605D4E" BorderThickness="1" CornerRadius="2" Background="#CC232019">
+                                <ContentPresenter Margin="4" 
+                                              HorizontalAlignment="Left" 
+                                              VerticalAlignment="Top" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>
