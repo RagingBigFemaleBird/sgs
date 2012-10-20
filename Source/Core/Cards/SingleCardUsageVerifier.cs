@@ -42,6 +42,10 @@ namespace Sanguosha.Core.Cards
 
         public override VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players)
         {
+            if (players != null && players.Count != 0)
+            {
+                return VerifierResult.Fail;
+            }
             if (skill != null)
             {
                 CompositeCard card;
@@ -51,7 +55,7 @@ namespace Sanguosha.Core.Cards
                 }
                 CardTransformSkill s = (CardTransformSkill)skill;
                 VerifierResult r = s.TryTransform(cards, null, out card);
-                if (r == VerifierResult.Partial)
+                if (r != VerifierResult.Success)
                 {
                     return r;
                 }
@@ -61,7 +65,7 @@ namespace Sanguosha.Core.Cards
                 }
                 return VerifierResult.Success;
             }
-            if ((cards != null && cards.Count > 1) || (players != null && players.Count != 0))
+            if (cards != null && cards.Count > 1)
             {
                 return VerifierResult.Fail;
             }

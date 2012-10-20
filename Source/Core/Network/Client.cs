@@ -51,13 +51,15 @@ namespace Sanguosha.Core.Network
                     Trace.TraceInformation("Identify {0}{1}{2} is {3}{4}{5}", i.playerId, i.deck, i.place, Game.CurrentGame.SlaveCardSet[i.Id].Suit, Game.CurrentGame.SlaveCardSet[i.Id].Rank, Game.CurrentGame.SlaveCardSet[i.Id].Type.CardType);
                     if (i.playerId < 0)
                     {
-                        Game.CurrentGame.SlaveCardSet[i.Id].Place = new DeckPlace(null, i.deck);
-                        Game.CurrentGame.Decks[null, i.deck][i.place] = Game.CurrentGame.SlaveCardSet[i.Id];
+                        Card c = new Card(Game.CurrentGame.SlaveCardSet[i.Id]);
+                        c.Place = new DeckPlace(null, i.deck);
+                        Game.CurrentGame.Decks[null, i.deck][i.place] = c;
                     }
                     else
                     {
-                        Game.CurrentGame.SlaveCardSet[i.Id].Place = new DeckPlace(Game.CurrentGame.Players[i.playerId], i.deck);
-                        Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place] = Game.CurrentGame.SlaveCardSet[i.Id];
+                        Card c = new Card(Game.CurrentGame.SlaveCardSet[i.Id]);
+                        c.Place = new DeckPlace(Game.CurrentGame.Players[i.playerId], i.deck);
+                        Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place] = c;
                     }
                 }
                 if (i.playerId < 0)

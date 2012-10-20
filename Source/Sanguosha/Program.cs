@@ -24,10 +24,18 @@ namespace Sanguosha
             client = new Client();
             client.Start();
             client.SelfId = id;
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 3; i++)
             {
                 var player = new Player();
                 player.Id = i;
+                if (i == 1)
+                {
+                    player.IsFemale = true;
+                }
+                else
+                {
+                    player.IsMale = true;
+                }
                 game.Players.Add(player);
                 IUiProxy proxy;
                 proxy = new ConsoleUiProxy();

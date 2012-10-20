@@ -36,6 +36,10 @@ namespace Sanguosha.Expansions.Basic
             CardSet.Add(new Card(SuitType.Heart, 2, new Shan()));
             CardSet.Add(new Card(SuitType.Heart, 2, new Shan()));
             CardSet.Add(new Card(SuitType.Club, 2, new Sha()));
+//            CardSet.Add(new Card(SuitType.Club, 2, BAGUAZHEN()));
+//++
+            CardSet.Add(new Card(SuitType.Club, 2, new Sha()));
+            
             CardSet.Add(new Card(SuitType.Diamond, 2, new Shan()));
             CardSet.Add(new Card(SuitType.Diamond, 2, new Shan()));
 

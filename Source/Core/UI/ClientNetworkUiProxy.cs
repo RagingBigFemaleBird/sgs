@@ -115,12 +115,13 @@ namespace Sanguosha.Core.UI
 
         public bool AskForMultipleChoice(string prompt, List<string> questions, out int answer)
         {
-            throw new NotImplementedException();
+            answer = 0;
+            return true;
         }
 
         public void NotifyCardMovement(List<CardsMovement> m, List<IGameLog> notes)
         {
-            return;
+            proxy.NotifyCardMovement(m, notes);
         }
     }
 }

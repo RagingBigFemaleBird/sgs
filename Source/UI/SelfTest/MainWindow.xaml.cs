@@ -1,4 +1,5 @@
-﻿using System;
+﻿#define NETWORKING
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -15,6 +16,8 @@ using Sanguosha.Core.Players;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.UI;
 using System.Threading;
+using Sanguosha.Core.Network;
+
 
 namespace WpfApplication1
 {
@@ -30,16 +33,26 @@ namespace WpfApplication1
             // Insert code required on object creation below this point.
         }
 
-        const int MainSeat = 4;
+        const int MainSeat = 0;
         private void InitGame()
         {
             GameEngine.LoadExpansions("Expansions");
             _game = new RoleGame();
+#if NETWORKING
+            Client client;
+            client = new Client();
+            client.Start();
+            client.SelfId = MainSeat;
+#endif
             foreach (var g in GameEngine.Expansions.Values)
             {
                 _game.LoadExpansion(g);
             }
+#if NETWORKING
+            for (int i = 0; i < 3; i++)
+#else
             for (int i = 0; i < 8; i++)
+#endif
             {
                 Player player = new Player();
                 player.Id = i;
@@ -61,8 +74,25 @@ namespace WpfApplication1
                 {
                     player.IsMale = true;
                 }
+#if NETWORKING
+                if (i == MainSeat)
+                {
+                    proxy = new ClientNetworkUiProxy(proxy, client, true);
+                    proxy.HostPlayer = player;
+                }
+                else
+                {
+                    proxy = new ClientNetworkUiProxy(proxy, client, false);
+                    proxy.HostPlayer = player;
+                }
+#endif
                 _game.UiProxies.Add(player, proxy);
             }
+#if NETWORKING
+            _game.GameClient = client;
+            _game.GameServer = null;
+            _game.Slave = true;
+#endif
             _player = _game.Players[MainSeat];
             GameViewModel gameModel = new GameViewModel();
             gameModel.Game = _game;

@@ -46,6 +46,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 Trace.Assert(eventArgs.Targets.Count == 1);
+                Trace.TraceInformation("CiXiong trigger");
                 if (eventArgs.Source == Owner)
                 {
                     if ((eventArgs.Targets[0].IsFemale && eventArgs.Source.IsMale) ||
