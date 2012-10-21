@@ -114,6 +114,96 @@ namespace Sanguosha.Core.Games
             }
         }
 
+        public class PlayerDealStageTrigger : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                Player currentPlayer = eventArgs.Game.CurrentPlayer;
+                Trace.TraceInformation("Player {0} deal.", currentPlayer.Id);
+                Game.CurrentGame.DrawCards(currentPlayer, 2);
+            }
+        }
+
+        public class PlayerDiscardStageTrigger : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                Player currentPlayer = eventArgs.Game.CurrentPlayer;
+                Trace.TraceInformation("Player {0} discard.", currentPlayer.Id);
+                if (Game.CurrentGame.Decks[currentPlayer, DeckType.Hand].Count > currentPlayer.Health)
+                {
+                    Trace.Assert(Game.CurrentGame.UiProxies.ContainsKey(currentPlayer));
+                    IUiProxy proxy = Game.CurrentGame.UiProxies[currentPlayer];
+                    ISkill skill;
+                    List<Card> cards;
+                    List<Player> players;
+                    PlayerDiscardStageVerifier v = new PlayerDiscardStageVerifier();
+                    v.Owner = currentPlayer;
+                    if (!proxy.AskForCardUsage("Player Discard Stage", v, out skill, out cards, out players))
+                    {
+                        Trace.TraceInformation("Invalid answer, choosing for you");
+                        cards = new List<Card>();
+                        int i = 0;
+                        foreach (Card c in Game.CurrentGame.Decks[currentPlayer, DeckType.Hand])
+                        {
+                            cards.Add(c);
+                            i++;
+                            if (Game.CurrentGame.Decks[currentPlayer, DeckType.Hand].Count - i <= currentPlayer.Health)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                    //todo: Discard goes through triggers when 二张 || 曹植 is implemented
+                    CardsMovement m = new CardsMovement();
+                    m.cards = cards;
+                    m.to = new DeckPlace(null, DeckType.Discard);
+                    Game.CurrentGame.MoveCards(m, null);
+
+                }
+            }
+
+            private class PlayerDiscardStageVerifier : ICardUsageVerifier
+            {
+                public Player Owner { get; set; }
+
+                public VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players)
+                {
+                    if (skill != null)
+                    {
+                        return VerifierResult.Fail;
+                    }
+                    if (players != null && players.Count > 0)
+                    {
+                        return VerifierResult.Fail;
+                    }
+                    if (cards == null || cards.Count == 0)
+                    {
+                        return VerifierResult.Partial;
+                    }
+                    if (Game.CurrentGame.Decks[Owner, DeckType.Hand].Count - cards.Count > Owner.Health)
+                    {
+                        return VerifierResult.Partial;
+                    }
+                    if (Game.CurrentGame.Decks[Owner, DeckType.Hand].Count - cards.Count < Owner.Health)
+                    {
+                        return VerifierResult.Fail;
+                    }
+                    return VerifierResult.Success;
+                }
+
+                public IList<CardHandler> AcceptableCardType
+                {
+                    get { throw new NotImplementedException(); }
+                }
+
+                public VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players)
+                {
+                    return FastVerify(skill, cards, players);
+                }
+            }
+        }
+
         public class CommitActionToTargetsTrigger : Trigger
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
@@ -221,6 +311,8 @@ namespace Sanguosha.Core.Games
         {
             RegisterTrigger(GameEvent.GameStart, new RoleGameRuleTrigger());
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Play], new PlayerActionTrigger());
+            RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Draw], new PlayerDealStageTrigger());
+            RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Discard], new PlayerDiscardStageTrigger());
             RegisterTrigger(GameEvent.CommitActionToTargets, new CommitActionToTargetsTrigger());
         }
     }

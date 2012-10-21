@@ -14,28 +14,24 @@ using Sanguosha.Core.Games;
 namespace Sanguosha.Expansions.Basic.Skills
 {
     /// <summary>
-    /// 青囊―出牌阶段，你可以弃置一张手牌，令一名已受伤的角色回复1点体力。每阶段限一次。
+    /// 制衡-出牌阶段，你可以弃置任意数量的牌，然后摸等量的牌，每阶段限一次。 
     /// </summary>
-    public class QingNang : ActiveSkill
+    public class ZhiHeng : ActiveSkill
     {
         public override VerifierResult Validate(GameEventArgs arg)
         {
-            if (Owner[QingNangUsed] != 0)
+            if (Owner[ZhiHengUsed] != 0)
             {
                 return VerifierResult.Fail;
             }
             List<Card> cards = arg.Cards;
-            if ((cards == null || cards.Count == 0) && (arg.Targets == null || arg.Targets.Count == 0))
+            if (arg.Targets != null && arg.Targets.Count != 0)
+            {
+                return VerifierResult.Fail;
+            }
+            if (cards == null || cards.Count == 0)
             {
                 return VerifierResult.Partial;
-            }
-            if (cards != null && cards.Count > 1)
-            {
-                return VerifierResult.Fail;
-            }
-            if (arg.Targets != null && arg.Targets.Count > 1)
-            {
-                return VerifierResult.Fail;
             }
             foreach (Card card in cards)
             {
@@ -44,31 +40,20 @@ namespace Sanguosha.Expansions.Basic.Skills
                     return VerifierResult.Fail;
                 }
             }
-            if (arg.Targets != null && arg.Targets.Count == 1 && arg.Targets[0].Health >= arg.Targets[0].MaxHealth)
-            {
-                return VerifierResult.Fail;
-            }
-            if (arg.Targets == null || arg.Targets.Count == 0)
-            {
-                return VerifierResult.Partial;
-            }
-            if (arg.Cards == null || arg.Cards.Count == 0)
-            {
-                return VerifierResult.Partial;
-            }
             return VerifierResult.Success;
         }
 
         public override bool Commit(GameEventArgs arg)
         {
-            Owner[QingNangUsed] = 1;
+            Owner[ZhiHengUsed] = 1;
             List<Card> cards = arg.Cards;
-            Trace.Assert(cards.Count == 1 && arg.Targets.Count == 1);
+            Trace.Assert(cards.Count > 0);
             CardsMovement move = new CardsMovement();
             move.cards = new List<Card>(cards);
             move.to = new DeckPlace(null, DeckType.Discard);
+            int toDraw = cards.Count;
             Game.CurrentGame.MoveCards(move, null);
-            Game.CurrentGame.RecoverHealth(Owner, arg.Targets[0], 1);
+            Game.CurrentGame.DrawCards(Owner, toDraw);
             return true;
         }
 
@@ -81,11 +66,11 @@ namespace Sanguosha.Expansions.Basic.Skills
             set
             {
                 base.Owner = value;
-                Owner.AutoResetAttributes.Add(QingNangUsed);
+                Owner.AutoResetAttributes.Add(ZhiHengUsed);
             }
         }
 
-        public static readonly string QingNangUsed = "QingNangUsed";
+        public static readonly string ZhiHengUsed = "ZhiHengUsed";
 
         public override void CardRevealPolicy(Core.Players.Player p, List<Card> cards, List<Core.Players.Player> players)
         {

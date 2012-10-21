@@ -43,39 +43,41 @@ namespace Sanguosha.Expansions.Basic.Skills
                 {
                     return;
                 }
-                List<DeckPlace> deck = new List<DeckPlace>();
-                deck.Add(new DeckPlace(eventArgs.Source, DeckType.Hand));
-                deck.Add(new DeckPlace(eventArgs.Source, DeckType.Equipment));
-                List<int> max = new List<int>();
-                max.Add(1);
-                List<List<Card>> result;
-                List<string> deckname = new List<string>();
-                deckname.Add("FanKui choice");
-                FanKuiVerifier ver = new FanKuiVerifier();
-                Card theCard;
-                if (Game.CurrentGame.Decks[eventArgs.Source, DeckType.Hand].Count == 0 &&
-                    Game.CurrentGame.Decks[eventArgs.Source, DeckType.Equipment].Count == 0)
+                int answer = 0;
+                if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice("FanKui", Constants.YesNoQuestions, out answer) && answer == 0)
                 {
-                    return;
-                }
-                if (!Game.CurrentGame.UiProxies[eventArgs.Source].AskForCardChoice("FanKui", deck, deckname, max, ver, out result))
-                {
+                    List<DeckPlace> deck = new List<DeckPlace>();
+                    deck.Add(new DeckPlace(eventArgs.Source, DeckType.Hand));
+                    deck.Add(new DeckPlace(eventArgs.Source, DeckType.Equipment));
+                    List<int> max = new List<int>();
+                    max.Add(1);
+                    List<List<Card>> result;
+                    List<string> deckname = new List<string>();
+                    deckname.Add("FanKui choice");
+                    FanKuiVerifier ver = new FanKuiVerifier();
+                    Card theCard;
+                    if (Game.CurrentGame.Decks[eventArgs.Source, DeckType.Hand].Count == 0 &&
+                        Game.CurrentGame.Decks[eventArgs.Source, DeckType.Equipment].Count == 0)
+                    {
+                        return;
+                    }
+                    if (!Game.CurrentGame.UiProxies[eventArgs.Source].AskForCardChoice("FanKui", deck, deckname, max, ver, out result))
+                    {
 
-                    Trace.TraceInformation("Invalid choice for FanKui");
-                    theCard = Game.CurrentGame.Decks[eventArgs.Source, DeckType.Hand]
-                        .Concat(Game.CurrentGame.Decks[eventArgs.Source, DeckType.Equipment]).First();
+                        Trace.TraceInformation("Invalid choice for FanKui");
+                        theCard = Game.CurrentGame.Decks[eventArgs.Source, DeckType.Hand]
+                            .Concat(Game.CurrentGame.Decks[eventArgs.Source, DeckType.Equipment]).First();
+                    }
+                    else
+                    {
+                        theCard = result[0][0];
+                    }
+                    CardsMovement m = new CardsMovement();
+                    m.cards = new List<Card>();
+                    m.cards.Add(theCard);
+                    m.to = new DeckPlace(Owner, DeckType.Hand);
+                    Game.CurrentGame.MoveCards(m, null);
                 }
-                else
-                {
-                    theCard = result[0][0];
-                }
-                Game.CurrentGame.UpdateCardIf(Owner);
-                Game.CurrentGame.RevealCardTo(Owner, theCard);
-                CardsMovement m = new CardsMovement();
-                m.cards = new List<Card>();
-                m.cards.Add(theCard);
-                m.to = new DeckPlace(Owner, DeckType.Hand);
-                Game.CurrentGame.MoveCards(m, null);
             }
             
             public FanKuiTrigger(Player p)

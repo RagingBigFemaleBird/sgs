@@ -393,6 +393,24 @@ namespace Sanguosha.Core.Games
 
         public void MoveCards(List<CardsMovement> moves, List<UI.IGameLog> logs)
         {
+            foreach (CardsMovement move in moves)
+            {
+                List<Card> cards = new List<Card>(move.cards);
+                foreach (Card card in cards)
+                {
+                    if (move.to.Player == null && move.to.DeckType == DeckType.Discard)
+                    {
+                        UpdateCard();
+                        RevealCardToAll(card);
+                    }
+                    if (card.Place.Player != null && move.to.Player != null && move.to.DeckType == DeckType.Hand)
+                    {
+                        UpdateCardIf(move.to.Player);
+                        RevealCardTo(move.to.Player, card);
+                    }
+                }
+            }
+
             foreach (var v in uiProxies)
             {
                 v.Value.NotifyCardMovement(moves, logs);
