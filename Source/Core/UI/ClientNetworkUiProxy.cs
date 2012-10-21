@@ -31,60 +31,58 @@ namespace Sanguosha.Core.UI
             active = a;
         }
 
-        public bool AskForCardUsage(string prompt, CardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+        public void TryAskForCardUsage(string prompt, ICardUsageVerifier verifier)
         {
-            Trace.TraceInformation("Asking Card Usage to {0}.", HostPlayer.Id);
-            if (active)
+            ISkill skill;
+            List<Card> cards;
+            List<Player> players;
+            if (!proxy.AskForCardUsage(prompt, verifier, out skill, out cards, out players))
             {
-                if (!proxy.AskForCardUsage(prompt, verifier, out skill, out cards, out players))
+                Trace.TraceInformation("Invalid answer");
+                client.AnswerNext();
+                client.AnswerItem(0);
+            }
+            else
+            {
+                client.AnswerNext();
+                client.AnswerItem(1);
+                if (skill == null)
                 {
-                    Trace.TraceInformation("Invalid answer");
-                    client.AnswerNext();
                     client.AnswerItem(0);
                 }
                 else
                 {
-                    client.AnswerNext();
                     client.AnswerItem(1);
-                    if (skill == null)
+                    client.AnswerItem(skill);
+                }
+                if (cards == null)
+                {
+                    client.AnswerItem(0);
+                }
+                else
+                {
+                    client.AnswerItem(cards.Count);
+                    foreach (Card c in cards)
                     {
-                        client.AnswerItem(0);
+                        client.AnswerItem(c);
                     }
-                    else
+                }
+                if (players == null)
+                {
+                    client.AnswerItem(0);
+                }
+                else
+                {
+                    client.AnswerItem(players.Count);
+                    foreach (Player p in players)
                     {
-                        client.AnswerItem(1);
-                        client.AnswerItem(skill);
-                    }
-                    if (cards == null)
-                    {
-                        client.AnswerItem(0);
-                    }
-                    else
-                    {
-                        client.AnswerItem(cards.Count);
-                        foreach (Card c in cards)
-                        {
-                            client.AnswerItem(c);
-                        }
-                    }
-                    if (players == null)
-                    {
-                        client.AnswerItem(0);
-                    }
-                    else
-                    {
-                        client.AnswerItem(players.Count);
-                        foreach (Player p in players)
-                        {
-                            client.AnswerItem(p);
-                        }
+                        client.AnswerItem(p);
                     }
                 }
             }
-            else
-            {
-                Trace.TraceInformation("Not active player, defaulting.");
-            }
+        }
+        public bool TryAnswerForCardUsage(string prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+        {
             skill = null;
             cards = null;
             players = null;
@@ -119,8 +117,32 @@ namespace Sanguosha.Core.UI
                 o = client.Receive();
                 players.Add((Player)o);
             }
-            Trace.Assert(verifier.FastVerify(skill, cards, players) == VerifierResult.Success);
             return true;
+        }
+
+        public void NextComm()
+        {
+            client.NextComm();
+        }
+
+        public bool AskForCardUsage(string prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+        {
+            Trace.TraceInformation("Asking Card Usage to {0}.", HostPlayer.Id);
+            if (active)
+            {
+                TryAskForCardUsage(prompt, verifier);
+                NextComm();
+            }
+            else
+            {
+                Trace.TraceInformation("Not active player, defaulting.");
+            }
+            if (TryAnswerForCardUsage(prompt, verifier, out skill, out cards, out players))
+            {
+                Trace.Assert(verifier.FastVerify(skill, cards, players) == VerifierResult.Success);
+                return true;
+            }
+            return false;
         }
 
         public bool AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer)

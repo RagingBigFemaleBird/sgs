@@ -126,6 +126,7 @@ namespace Sanguosha.Core.Network
             {
                 return false;
             }
+
             return true;
         }
     }

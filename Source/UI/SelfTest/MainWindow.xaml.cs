@@ -49,6 +49,7 @@ namespace WpfApplication1
                 _game.LoadExpansion(g);
             }
 #if NETWORKING
+            ClientNetworkUiProxy activeClientProxy = null;
             for (int i = 0; i < 3; i++)
 #else
             for (int i = 0; i < 8; i++)
@@ -77,7 +78,7 @@ namespace WpfApplication1
 #if NETWORKING
                 if (i == MainSeat)
                 {
-                    proxy = new ClientNetworkUiProxy(proxy, client, true);
+                    proxy = activeClientProxy = new ClientNetworkUiProxy(proxy, client, true);
                 }
                 else
                 {
@@ -92,6 +93,7 @@ namespace WpfApplication1
             _game.GameClient = client;
             _game.GameServer = null;
             _game.Slave = true;
+            _game.GlobalClientProxy = new GlobalClientUiProxy(_game, activeClientProxy);
 #endif
             _player = _game.Players[MainSeat];
             GameViewModel gameModel = new GameViewModel();

@@ -53,6 +53,11 @@ namespace Sanguosha.Expansions.Basic.Skills
                 deckname.Add("FanKui choice");
                 FanKuiVerifier ver = new FanKuiVerifier();
                 Card theCard;
+                if (Game.CurrentGame.Decks[eventArgs.Source, DeckType.Hand].Count == 0 &&
+                    Game.CurrentGame.Decks[eventArgs.Source, DeckType.Equipment].Count == 0)
+                {
+                    return;
+                }
                 if (!Game.CurrentGame.UiProxies[eventArgs.Source].AskForCardChoice("FanKui", deck, deckname, max, ver, out result))
                 {
 

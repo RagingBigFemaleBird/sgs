@@ -92,6 +92,10 @@ namespace Sanguosha.Core.Network
         public void AnswerNext()
         {
             sender.Send(new CommandItem() { command = Command.QaId, data = commId });
+        }
+
+        public void NextComm()
+        {
             commId++;
         }
 

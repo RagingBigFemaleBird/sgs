@@ -52,7 +52,6 @@ namespace Sanguosha
                 }
                 game.UiProxies.Add(player, proxy);
             }
-            game.GlobalProxy = new ConsoleUiProxy();
             GameEngine.LoadExpansions("Expansions");
             foreach (var g in GameEngine.Expansions.Values)
             {

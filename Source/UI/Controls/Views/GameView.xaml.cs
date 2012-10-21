@@ -539,7 +539,7 @@ namespace Sanguosha.UI.Controls
             });            
         }
 
-        CardUsageVerifier currentUsageVerifier;
+        ICardUsageVerifier currentUsageVerifier;
         
         private void _UpdateCommandStatus()
         {
@@ -690,7 +690,7 @@ namespace Sanguosha.UI.Controls
             Trace.TraceError("Pass 5: {0}", m);
         }
 
-        public void AskForCardUsage(string prompt, CardUsageVerifier verifier, int timeOutSeconds)
+        public void AskForCardUsage(string prompt, ICardUsageVerifier verifier, int timeOutSeconds)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {

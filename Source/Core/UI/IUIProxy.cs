@@ -35,7 +35,7 @@ namespace Sanguosha.Core.UI
         /// <param name="cards"></param>
         /// <param name="players"></param>
         /// <returns>False if user cannot provide an answer.</returns>
-        bool AskForCardUsage(string prompt, CardUsageVerifier verifier,
+        bool AskForCardUsage(string prompt, ICardUsageVerifier verifier,
                              out ISkill skill, out List<Card> cards, out List<Player> players);
         /// <summary>
         /// 询问用户从若干牌堆中选择卡牌，例如顺手牵羊，观星等等。

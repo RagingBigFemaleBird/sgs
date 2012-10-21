@@ -39,7 +39,8 @@ namespace Sanguosha
                 proxy.HostPlayer = player;
                 game.UiProxies.Add(player, proxy);
             }
-            game.GlobalProxy = new ConsoleUiProxy();
+            game.GlobalServerProxy= new GlobalServerUiProxy(game, game.UiProxies);
+            game.GlobalServerProxy.TimeOutSeconds = 15;
             GameEngine.LoadExpansions("Expansions");
             foreach (var g in GameEngine.Expansions.Values)
             {

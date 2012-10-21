@@ -19,6 +19,8 @@ namespace Sanguosha.Expansions.Basic
         public BasicExpansion()
         {
             CardSet = new List<Card>();
+            CardSet.Add(new Card(SuitType.Club, 13, new WuXieKeJi()));
+            CardSet.Add(new Card(SuitType.Club, 13, new WuXieKeJi()));
             CardSet.Add(new Card(SuitType.Spade, 12, new ZhangBaSheMao()));
             CardSet.Add(new Card(SuitType.Heart, 2, new CiXiongShuangGuJian()));
             CardSet.Add(new Card(SuitType.Club, 2, new Sha()));
@@ -117,7 +119,7 @@ namespace Sanguosha.Expansions.Basic
             CardSet.Add(new Card(SuitType.Diamond, 10, new Shan()));
 
             CardSet.Add(new Card(SuitType.Spade, 11, new ShunShouQianYang()));
-//            CardSet.Add(new Card(SuitType.Spade, 11, WUXIEKEJI()));
+            CardSet.Add(new Card(SuitType.Spade, 11, new WuXieKeJi()));
             CardSet.Add(new Card(SuitType.Heart, 11, new Sha()));
             CardSet.Add(new Card(SuitType.Heart, 11, new WuZhongShengYou()));
             CardSet.Add(new Card(SuitType.Club, 11, new Sha()));
@@ -130,7 +132,7 @@ namespace Sanguosha.Expansions.Basic
             CardSet.Add(new Card(SuitType.Heart, 12, new Tao()));
             CardSet.Add(new Card(SuitType.Heart, 12, new GuoHeChaiQiao()));
 //            CardSet.Add(new Card(SuitType.Club, 12, JIEDAOSHAREN()));
-//            CardSet.Add(new Card(SuitType.Club, 12, WUXIEKEJI()));
+            CardSet.Add(new Card(SuitType.Club, 12, new WuXieKeJi()));
             CardSet.Add(new Card(SuitType.Diamond, 12, new Tao()));
 //            CardSet.Add(new Card(SuitType.Diamond, 12, FANGTIANHUAJI()));
 
@@ -139,7 +141,7 @@ namespace Sanguosha.Expansions.Basic
             CardSet.Add(new Card(SuitType.Heart, 13, new Shan()));
             CardSet.Add(new Card(SuitType.Heart, 13, new DefensiveHorse("ZhuaHuangFeiDian")));
 //            CardSet.Add(new Card(SuitType.Club, 13, JIEDAOSHAREN()));
-//            CardSet.Add(new Card(SuitType.Club, 13, WUXIEKEJI()));
+            CardSet.Add(new Card(SuitType.Club, 13, new WuXieKeJi()));
             CardSet.Add(new Card(SuitType.Diamond, 13, new Sha()));
             CardSet.Add(new Card(SuitType.Diamond, 13, new OffensiveHorse("ZiXing")));
 
@@ -152,6 +154,8 @@ namespace Sanguosha.Expansions.Basic
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhenJi", Allegiance.Wei, 3, new QingGuo()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HuaTuo", Allegiance.Qun, 3, new QingNang(), new JiJiu()))));
             */
+            TriggerRegistration = new List<DelayedTriggerRegistration>();
+            TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.PlayerIsCardTarget, trigger = new WuXieKeJiTrigger() });
         }
     }
 }

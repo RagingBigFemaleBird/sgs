@@ -21,7 +21,7 @@ namespace Sanguosha.Core.UI
             set { hostPlayer = value; }
         }
 
-        bool IUiProxy.AskForCardUsage(string prompt, CardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+        bool IUiProxy.AskForCardUsage(string prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             Player p = hostPlayer;
             Console.Write("I AM PLAYER {0}({1}): ", p.Id, p.Hero.Name);

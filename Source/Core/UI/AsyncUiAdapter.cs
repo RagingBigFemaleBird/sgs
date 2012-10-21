@@ -61,7 +61,7 @@ namespace Sanguosha.Core.UI
             }
         }
 
-        public bool AskForCardUsage(string prompt, CardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+        public bool AskForCardUsage(string prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             answerPending = new Semaphore(0, 1);
             proxy.AskForCardUsage(prompt, verifier, TimeOutSeconds);

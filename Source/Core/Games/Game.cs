@@ -57,6 +57,8 @@ namespace Sanguosha.Core.Games
             games = new Dictionary<Thread,Game>();
         }
 
+        List<DelayedTriggerRegistration> triggersToRegister;
+
         public Game()
         {
             cardSet = new List<Card>();
@@ -66,11 +68,16 @@ namespace Sanguosha.Core.Games
             cardHandlers = new Dictionary<string, CardHandler>();
             uiProxies = new Dictionary<Player, IUiProxy>();
             currentActingPlayer = null;
+            triggersToRegister = new List<DelayedTriggerRegistration>();
         }
 
         public void LoadExpansion(Expansion expansion)
         {
             cardSet.AddRange(expansion.CardSet);
+            if (expansion.TriggerRegistration != null)
+            {
+                triggersToRegister.AddRange(expansion.TriggerRegistration);
+            }
         }
 
         public Network.Server GameServer { get; set; }
@@ -202,6 +209,10 @@ namespace Sanguosha.Core.Games
                     cardSet.Add(unknownCard);
                 }
             }
+            foreach (var trig in triggersToRegister)
+            {
+                RegisterTrigger(trig.key, trig.trigger);
+            }
             // Put the whole deck in the dealing deck
             decks[DeckType.Dealing] = cardSet.GetRange(0, cardSet.Count);
             foreach (Card card in cardSet)
@@ -323,12 +334,25 @@ namespace Sanguosha.Core.Games
 
         Dictionary<string, CardHandler> cardHandlers;
 
-        private IUiProxy globalProxy;
+        private GlobalServerUiProxy globalServerProxy;
 
-        public IUiProxy GlobalProxy
+        public GlobalServerUiProxy GlobalServerProxy
         {
-            get { return globalProxy; }
-            set { globalProxy = value; }
+            get { return globalServerProxy; }
+            set { globalServerProxy = value; }
+        }
+
+        private GlobalClientUiProxy globalClientProxy;
+
+        public GlobalClientUiProxy GlobalClientProxy
+        {
+            get { return globalClientProxy; }
+            set { globalClientProxy = value; }
+        }
+
+        public IGlobalUiProxy GlobalProxy
+        {
+            get { if (GameServer != null) return globalServerProxy; if (GameClient != null && Slave) return globalClientProxy; else return null; }
         }
 
         /// <summary>
