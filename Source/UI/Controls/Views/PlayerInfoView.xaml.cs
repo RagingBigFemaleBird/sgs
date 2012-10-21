@@ -136,7 +136,7 @@ namespace Sanguosha.UI.Controls
                 case CardCategory.DefensiveHorse:
                     targetArea = horse1Area;
                     break;
-                case CardCategory.OffsensiveHorse:
+                case CardCategory.OffensiveHorse:
                     targetArea = horse2Area;
                     break;
                 default:
@@ -197,7 +197,7 @@ namespace Sanguosha.UI.Controls
                 case CardCategory.DefensiveHorse:
                     targetArea = horse1Area;
                     break;
-                case CardCategory.OffsensiveHorse:
+                case CardCategory.OffensiveHorse:
                     targetArea = horse2Area;
                     break;
                 default:

@@ -13,9 +13,11 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
 
-namespace Sanguosha.UI.Resources
+using Sanguosha.Core.Cards;
+
+namespace Sanguosha.UI.Controls
 {
-    public class CardToolTipConverter : IValueConverter
+    public class cardToolTipConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

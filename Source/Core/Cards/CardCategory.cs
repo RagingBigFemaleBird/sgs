@@ -13,7 +13,7 @@ namespace Sanguosha.Core.Cards
         ImmediateTool = Tool | (1 << 4),
         DelayedTool = Tool | (1 << 5),
         DefensiveHorse = Equipment | (1 << 6),
-        OffsensiveHorse = Equipment | (1 << 7),
+        OffensiveHorse = Equipment | (1 << 7),
         Armor = Equipment | (1 << 8),
         Weapon = Equipment | (1 << 9),
         Unknown = (1 << 31),

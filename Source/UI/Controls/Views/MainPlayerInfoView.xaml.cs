@@ -111,7 +111,7 @@ namespace Sanguosha.UI.Controls
                     button.DataContext = PlayerModel.DefensiveHorseCommand;
                     targetArea = horse1Area;
                     break;
-                case CardCategory.OffsensiveHorse:
+                case CardCategory.OffensiveHorse:
                     button.DataContext = PlayerModel.OffensiveHorseCommand;
                     targetArea = horse2Area;
                     break;
@@ -176,7 +176,7 @@ namespace Sanguosha.UI.Controls
                 case CardCategory.DefensiveHorse:
                     targetArea = horse1Area;
                     break;
-                case CardCategory.OffsensiveHorse:
+                case CardCategory.OffensiveHorse:
                     targetArea = horse2Area;
                     break;
                 default:

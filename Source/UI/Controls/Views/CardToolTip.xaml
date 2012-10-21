@@ -1,0 +1,147 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Sanguosha.UI.Controls">
+    
+    <local:cardToolTipConverter x:Key="cardToolTipConverter" />
+
+    <DataTemplate x:Key="BasicCardToolTipTemplate">
+        <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0" Width="330">
+            <FlowDocument>
+                <Paragraph LineHeight="18">
+                    <Run FontWeight="Bold" 
+                                     Text="{Binding Path=TypeString, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Name, Mode=OneWay}" 
+                                     Foreground="#FF65FFCC"
+                                     FontSize="14"/>
+                    <Run Text="  "/>
+                    <Run Text="{Binding Path=Suit, 
+                                     Converter={StaticResource cardToolTipConverter}, ConverterParameter=Suit, Mode=OneWay}" 
+                                     Foreground="{Binding Path=Suit, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=SuitColor}" 
+                                     FontFamily="Arial" FontSize="18"/>
+                    <Run Text="{Binding Path=RankString, Mode=OneWay}"
+                                     Foreground="{Binding Path=Suit, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=SuitColor}"
+                                     FontSize="15"/>
+                    <LineBreak />
+                    <Run Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Description}"/>
+                    <LineBreak />
+                    <Run Text="操作步骤" Foreground="Yellow" />
+                    <LineBreak />
+                    <Run Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Usage}" />
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+    </DataTemplate>
+
+    <DataTemplate x:Key="WeaponToolTipTemplate">
+        <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0" Width="330">
+            <FlowDocument>
+                <Paragraph LineHeight="18">
+                    <Run FontWeight="Bold" 
+                                     Text="{Binding Path=TypeString, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Name, Mode=OneWay}" 
+                                     Foreground="#FF6600CC"
+                                     FontSize="14"/>
+                    <Run Text="  "/>
+                    <Run Text="{Binding Path=Suit, 
+                                     Converter={StaticResource cardToolTipConverter}, ConverterParameter=Suit, Mode=OneWay}" 
+                                     Foreground="{Binding Path=Suit, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=SuitColor}" 
+                                     FontFamily="Arial" FontSize="18"/>
+                    <Run Text="{Binding Path=RankString, Mode=OneWay}"
+                                     Foreground="{Binding Path=Suit, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=SuitColor}"
+                                     FontSize="15"/>
+                    <LineBreak />
+                    <Run Text="攻击范围:" />
+                    <Run Text="{Binding Path=AttackRange, Mode=OneWay}" />
+                    <LineBreak />
+                    <Run Text="特效：" Foreground="#FF00FF00" />
+                    <LineBreak />
+                    <Run Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Description}"/>
+                    <LineBreak />
+                    <Run Text="操作步骤" Foreground="Yellow" />
+                    <LineBreak />
+                    <Run Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Usage}" />
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ArmorToolTipTemplate">
+        <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0" Width="330">
+            <FlowDocument>
+                <Paragraph LineHeight="18">
+                    <Run FontWeight="Bold" 
+                                     Text="{Binding Path=TypeString, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Name, Mode=OneWay}" 
+                                     Foreground="#FF6600CC"
+                                     FontSize="14"/>
+                    <Run Text="  "/>
+                    <Run Text="{Binding Path=Suit, 
+                                     Converter={StaticResource cardToolTipConverter}, ConverterParameter=Suit, Mode=OneWay}" 
+                                     Foreground="{Binding Path=Suit, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=SuitColor}" 
+                                     FontFamily="Arial" FontSize="18"/>
+                    <Run Text="{Binding Path=RankString, Mode=OneWay}"
+                                     Foreground="{Binding Path=Suit, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=SuitColor}"
+                                     FontSize="15"/>
+                    <LineBreak />
+                    <Run Text="防具效果:" />
+                    <Run Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Description}"/>
+                    <LineBreak />
+                    <Run Text="操作步骤" Foreground="Yellow" />
+                    <LineBreak />
+                    <Run Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Usage}" />
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+    </DataTemplate>
+
+    <DataTemplate x:Key="DefensiveHorseToolTipTemplate">
+        <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0" Width="330">
+            <FlowDocument>
+                <Paragraph LineHeight="18">
+                    <Run FontWeight="Bold" 
+                                     Text="{Binding Path=TypeString, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Name, Mode=OneWay}" 
+                                     Foreground="#FF6600CC"
+                                     FontSize="14"/>
+                    <Run Text="  "/>
+                    <Run Text="{Binding Path=Suit, 
+                                     Converter={StaticResource cardToolTipConverter}, ConverterParameter=Suit, Mode=OneWay}" 
+                                     Foreground="{Binding Path=Suit, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=SuitColor}" 
+                                     FontFamily="Arial" FontSize="18"/>
+                    <Run Text="{Binding Path=RankString, Mode=OneWay}"
+                                     Foreground="{Binding Path=Suit, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=SuitColor}"
+                                     FontSize="15"/>
+                    <LineBreak />
+                    <Run Text="其他角色计算与你的距离时，始终+1" />
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+    </DataTemplate>
+
+    <DataTemplate x:Key="OffensiveHorseToolTipTemplate">
+        <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0" Width="330">
+            <FlowDocument>
+                <Paragraph LineHeight="18">
+                    <Run FontWeight="Bold" 
+                                     Text="{Binding Path=TypeString, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Name, Mode=OneWay}" 
+                                     Foreground="#FF6600CC"
+                                     FontSize="14"/>
+                    <Run Text="  "/>
+                    <Run Text="{Binding Path=Suit, 
+                                     Converter={StaticResource cardToolTipConverter}, ConverterParameter=Suit, Mode=OneWay}" 
+                                     Foreground="{Binding Path=Suit, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=SuitColor}" 
+                                     FontFamily="Arial" FontSize="18"/>
+                    <Run Text="{Binding Path=RankString, Mode=OneWay}"
+                                     Foreground="{Binding Path=Suit, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=SuitColor}"
+                                     FontSize="15"/>
+                    <LineBreak />
+                    <Run Text="你计算与其他角色的距离时，始终-1" />
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+    </DataTemplate>
+
+    <local:CardToolTipTemplateSelector BasicCardToolTipTemplate="{StaticResource BasicCardToolTipTemplate}"
+                                       WeaponToolTipTemplate="{StaticResource WeaponToolTipTemplate}"
+                                       ArmorToolTipTemplate="{StaticResource ArmorToolTipTemplate}"
+                                       DefensiveHorseToolTipTemplate="{StaticResource DefensiveHorseToolTipTemplate}"
+                                       OffensiveHorseToolTipTemplate="{StaticResource OffensiveHorseToolTipTemplate}"
+                                       x:Key="cardToolTipTemplateSelector"/>
+    
+</ResourceDictionary>

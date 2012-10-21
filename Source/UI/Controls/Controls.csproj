@@ -69,6 +69,8 @@
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\BigEquipBorder.cs" />
     <Compile Include="Views\CardStack.cs" />
+    <Compile Include="Views\CardToolTipConverter.cs" />
+    <Compile Include="Views\CardToolTipTemplateSelector.cs" />
     <Compile Include="Views\CardView.xaml.cs">
       <DependentUpon>CardView.xaml</DependentUpon>
     </Compile>
@@ -121,6 +123,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardToolTip.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

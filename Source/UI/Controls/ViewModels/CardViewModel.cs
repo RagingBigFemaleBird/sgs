@@ -186,6 +186,30 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public CardCategory Category
+        {            
+            get
+            {
+                return _uiCard.Type.Category;
+            }
+        }
+
+        public int AttackRange
+        {
+            get
+            {
+                if (_uiCard == null) return 0;
+                
+                Weapon weapon = _uiCard.Type as Weapon;
+                if (weapon == null)
+                {
+                    Trace.TraceInformation("Trying to obtain the distance of non-weapon");
+                    return 0;
+                }
+                return weapon.AttackRange;
+            }
+        }
+
         #endregion
     }
 }

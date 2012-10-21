@@ -49,9 +49,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cards.xaml.cs">
-      <DependentUpon>Cards.xaml</DependentUpon>
-    </Compile>
     <Compile Include="FileNameToImageSourceConverter.cs" />
     <Compile Include="ImageBindingExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -177,8 +174,8 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Cards.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Images\HealthBar\HealthBar.xaml">
       <SubType>Designer</SubType>
@@ -326,6 +323,9 @@
     <Resource Include="Images\Buttons\multichoice\normal-left.png" />
     <Resource Include="Images\Buttons\multichoice\normal-middle.png" />
     <Resource Include="Images\Buttons\multichoice\normal-right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="obj\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
