@@ -55,9 +55,13 @@ namespace Sanguosha.UI.Controls
 
         public void AddCards(DeckType deck, IList<CardView> cards)
         {
+            foreach (CardView card in cards)
+            {
+                card.CardViewModel.IsEnabled = false;                
+            }
             if (deck == DeckType.Hand)
             {
-                handCardArea.AddCards(cards, 0.5);
+                handCardArea.AddCards(cards, 0.5d);
             }
             else if (deck == DeckType.Equipment)
             {
@@ -182,7 +186,7 @@ namespace Sanguosha.UI.Controls
 
         public void UpdateCardAreas()
         {
-            handCardArea.RearrangeCards(0.1);
+            handCardArea.RearrangeCards(0d);
         }
     }
 }

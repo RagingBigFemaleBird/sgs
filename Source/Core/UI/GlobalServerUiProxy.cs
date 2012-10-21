@@ -36,10 +36,10 @@ namespace Sanguosha.Core.UI
             proxyListener = new Dictionary<Player, Thread>();
             semAccess = new Semaphore(1, 1);
             semWake = new Semaphore(0, 2);
-            semDone = new Semaphore(proxy.Count - 1, proxy.Count);
-            skill = null;
-            cards = null;
-            players = null;
+            semDone = new Semaphore(proxy.Count - 1, proxy.Count - 1);
+            answerSkill = null;
+            answerCard = null;
+            answerPlayer = null;
             respondingPlayer = null;
             foreach (var player in Game.CurrentGame.Players)
             {
@@ -116,6 +116,7 @@ namespace Sanguosha.Core.UI
             }
             if (!semDone.WaitOne(0))
             {
+                Trace.TraceInformation("All done");
                 semWake.Release(1);
             }
         }

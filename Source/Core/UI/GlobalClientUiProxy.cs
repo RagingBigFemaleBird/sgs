@@ -30,7 +30,11 @@ namespace Sanguosha.Core.UI
             this.verifier = verifier;
             Thread t = new Thread(AskUiThread);
             t.Start();
-            proxy.TryAnswerForCardUsage(prompt, verifier, out skill, out cards, out players);
+            if (!proxy.TryAnswerForCardUsage(prompt, verifier, out skill, out cards, out players))
+            {
+                cards = null;
+                skill = null;
+            }
             t.Abort();
             proxy.NextComm();
             //try to determine who used this

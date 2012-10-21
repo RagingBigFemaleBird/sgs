@@ -51,12 +51,6 @@
         </ResourceDictionary>
     </UserControl.Resources>
 	<i:Interaction.Triggers>
-		<i:EventTrigger EventName="MouseEnter">
-			<ei:GoToStateAction TargetObject="{Binding ElementName=userControl}" StateName="MouseEnterState"/>
-		</i:EventTrigger>
-		<i:EventTrigger EventName="MouseLeave">
-			<ei:GoToStateAction TargetObject="{Binding ElementName=userControl}" StateName="MouseLeaveState"/>
-		</i:EventTrigger>
 		<ei:DataTrigger Value="true" Binding="{Binding IsSelected}">
 			<ei:ChangePropertyAction PropertyName="Offset" TargetObject="{Binding ElementName=userControl, Mode=OneWay}">
 				<ei:ChangePropertyAction.Value>
@@ -72,12 +66,6 @@
 			</ei:ChangePropertyAction>
 		</ei:DataTrigger>
 	</i:Interaction.Triggers>
-	<UserControl.Triggers>
-		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
-			<BeginStoryboard Storyboard="{StaticResource sbFade}"/>
-			<BeginStoryboard Storyboard="{StaticResource sbUnfade}"/>
-		</EventTrigger>
-	</UserControl.Triggers>
     <Grid>
     	<VisualStateManager.VisualStateGroups>
     		<VisualStateGroup x:Name="MouseStates">
@@ -91,6 +79,7 @@
     			<VisualState x:Name="MouseLeaveState">
     				<Storyboard/>
     			</VisualState>
+    			<VisualState x:Name="DisabledState"/>
     		</VisualStateGroup>
     		<VisualStateGroup x:Name="FadeStates">
     			<VisualState x:Name="Faded">

@@ -21,6 +21,7 @@ namespace Sanguosha.UI.Controls
             CardCapacity = int.MaxValue;
             _cards = new List<CardView>();
             this.SizeChanged += new SizeChangedEventHandler(CardStack_SizeChanged);
+            _rearrangeLock = new object();
         }
 
         void CardStack_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -37,6 +38,8 @@ namespace Sanguosha.UI.Controls
             RearrangeCards(_cards, transitionInSeconds);
         }
 
+
+        static object _rearrangeLock;
         /// <summary>
         /// Arrange children cards in this stack.
         /// </summary>
@@ -45,43 +48,46 @@ namespace Sanguosha.UI.Controls
         /// </remarks>
         protected void RearrangeCards(IEnumerable<CardView> cards, double transitionInSeconds)
         {
-            int numCards = cards.Count();
-            if (numCards == 0) return;
-            Trace.Assert(ParentGameView != null && ParentGameView.GlobalCanvas != null);       
-            double cardHeight = (from c in cards select c.Height).Max();
-            double cardWidth = (from c in cards select c.Width).Max();
-            if (KeepHorizontalOrder)
-            {
-                cards = _cards.OrderBy(c => c.Position.X);
-            }
-            int zindex = 0;
-            double maxWidth = this.ActualWidth;
-            double step = Math.Min(MaxCardSpacing, (maxWidth - cardWidth) / (numCards - 1));
-            int i = 0;
-            foreach (CardView card in cards)
-            {
-                double newX = 0;
-                if (CardAlignment == HorizontalAlignment.Center)
+            lock (_rearrangeLock)
+            {                
+                int numCards = cards.Count();
+                if (numCards == 0) return;
+                Trace.Assert(ParentGameView != null && ParentGameView.GlobalCanvas != null);
+                double cardHeight = (from c in cards select c.Height).Max();
+                double cardWidth = (from c in cards select c.Width).Max();
+                if (KeepHorizontalOrder)
                 {
-                    newX = maxWidth / 2 + step * (i - (numCards - 1) / 2.0) - cardWidth / 2;
+                    cards = _cards.OrderBy(c => c.Position.X);
                 }
-                else if (CardAlignment == HorizontalAlignment.Left)
+                int zindex = 0;
+                double maxWidth = this.ActualWidth;
+                double step = Math.Min(MaxCardSpacing, (maxWidth - cardWidth) / (numCards - 1));
+                int i = 0;
+                foreach (CardView card in cards)
                 {
-                    newX = step * i;
+                    double newX = 0;
+                    if (CardAlignment == HorizontalAlignment.Center)
+                    {
+                        newX = maxWidth / 2 + step * (i - (numCards - 1) / 2.0) - cardWidth / 2;
+                    }
+                    else if (CardAlignment == HorizontalAlignment.Left)
+                    {
+                        newX = step * i;
+                    }
+                    else if (CardAlignment == HorizontalAlignment.Right)
+                    {
+                        newX = maxWidth + step * (i - numCards);
+                    }
+                    Point newPosition = new Point(newX, ActualHeight / 2 - cardHeight / 2);
+                    if (!ParentGameView.GlobalCanvas.Children.Contains(card))
+                    {
+                        ParentGameView.GlobalCanvas.Children.Add(card);
+                    }
+                    card.Position = this.TranslatePoint(newPosition, ParentGameView.GlobalCanvas);
+                    card.SetValue(Canvas.ZIndexProperty, zindex++);
+                    card.Rebase(transitionInSeconds);
+                    i++;
                 }
-                else if (CardAlignment == HorizontalAlignment.Right)
-                {
-                    newX = maxWidth + step * (i - numCards);
-                }
-                Point newPosition = new Point(newX, ActualHeight / 2 - cardHeight / 2);
-                if (!ParentGameView.GlobalCanvas.Children.Contains(card))
-                {
-                    ParentGameView.GlobalCanvas.Children.Add(card);
-                }
-                card.Position = this.TranslatePoint(newPosition, ParentGameView.GlobalCanvas);
-                card.SetValue(Canvas.ZIndexProperty, zindex++);
-                card.Rebase(transitionInSeconds);
-                i++;                
             }
         }        
 
@@ -126,7 +132,7 @@ namespace Sanguosha.UI.Controls
                                  select c;
                 RearrangeCards(nonexisted, 0d);
                 _cards = new List<CardView>(_cards.Except(cards));
-                RearrangeCards(0.5d);
+                RearrangeCards(_cards, 0.5d);
             }
         }
 

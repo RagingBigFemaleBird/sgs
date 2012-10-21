@@ -60,7 +60,6 @@ namespace Sanguosha.UI.Controls
             _daMoveX = new DoubleAnimation();
             _daMoveY = new DoubleAnimation();
             _daOpacity = new DoubleAnimation();      
-            ChangeOpacityDurationSeconds = 0.5;
             Storyboard.SetTarget(_daMoveX, this);
             Storyboard.SetTargetProperty(_daMoveX, new PropertyPath(Canvas.LeftProperty));
             Storyboard.SetTarget(_daMoveY, this);
@@ -69,6 +68,9 @@ namespace Sanguosha.UI.Controls
             Storyboard.SetTargetProperty(_daOpacity, new PropertyPath(CardView.OpacityProperty));
             _DisappearAfterMoveHandler = new EventHandler(_DisappearAfterMove);
             _moveAnimation = new Storyboard();
+            _moveAnimation.Children.Add(_daMoveX);
+            _moveAnimation.Children.Add(_daMoveY);
+            _moveAnimation.Children.Add(_daOpacity);
         }
 
         void CardView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -107,65 +109,55 @@ namespace Sanguosha.UI.Controls
         DoubleAnimation _daOpacity;
         Storyboard _moveAnimation;
 
-        public double ChangeOpacityDurationSeconds { get; set; }
-
         public void Rebase(double transitionInSeconds)
         {
             if (Position == null) return;
             if (Parent == null || !(Parent is Canvas)) return;
 
-            _moveAnimation.Stop();
-
-            if (transitionInSeconds == 0)
-            {
-                SetValue(Canvas.LeftProperty, Position.X);
-                SetValue(Canvas.TopProperty, Position.Y);
-                SetValue(CardView.OpacityProperty, CardOpacity);
-                return;
-            }
-
-            double x = (double)GetValue(Canvas.LeftProperty);
-            double y = (double)GetValue(Canvas.TopProperty);
-            if (double.IsNaN(x) || double.IsNaN(y))
-            {
-                SetValue(Canvas.LeftProperty, Position.X);
-                SetValue(Canvas.TopProperty, Position.Y);
-            }           
-
-            
-            Point point = new Point(x, y);
             double destX = Position.X + Offset.X;
             double destY = Position.Y + Offset.Y;
-            if ((x == destX) && (y == destY))
+            
+            lock (_daOpacity)
             {
-                return;
+                if (transitionInSeconds == 0)
+                {
+                    SetValue(Canvas.LeftProperty, destX);
+                    SetValue(Canvas.TopProperty, destY);
+                    SetValue(CardView.OpacityProperty, CardOpacity);
+                    return;
+                }
+
+
+                double x = (double)GetValue(Canvas.LeftProperty);
+                double y = (double)GetValue(Canvas.TopProperty);
+                double opacity = (double)GetValue(Canvas.OpacityProperty);
+
+                if (double.IsNaN(x) || double.IsNaN(y))
+                {
+                    SetValue(Canvas.LeftProperty, destX);
+                    SetValue(Canvas.TopProperty, destY);
+                    return;
+                }
+
+
+                Point point = new Point(x, y);
+                _daMoveX.From = x;
+                _daMoveY.From = y;
+                _daOpacity.From = opacity;
+                _daMoveX.To = destX;
+                _daMoveY.To = destY;
+                _daMoveX.Duration = TimeSpan.FromSeconds(transitionInSeconds);
+                _daMoveY.Duration = TimeSpan.FromSeconds(transitionInSeconds);
+                _daOpacity.To = CardOpacity;
+                _daOpacity.Duration = TimeSpan.FromSeconds(transitionInSeconds);
+
+                if (DisappearAfterMove)
+                {
+                    _daOpacity.Completed += _DisappearAfterMoveHandler;
+                }
+
+                _moveAnimation.Begin(this, true);
             }
-
-            _daMoveX.To = destX;
-            _daMoveY.To = destY;
-            _daMoveX.Duration = TimeSpan.FromSeconds(transitionInSeconds);
-            _daMoveY.Duration = TimeSpan.FromSeconds(transitionInSeconds);
-            _daOpacity.To = CardOpacity;
-            _daOpacity.Duration = TimeSpan.FromSeconds(transitionInSeconds);
-
-            if (DisappearAfterMove)
-            {
-                _daOpacity.Completed += _DisappearAfterMoveHandler;
-            }
-
-            // Stop animation
-            // BeginAnimation(Canvas.LeftProperty, null);
-            // BeginAnimation(Canvas.TopProperty, null);
-            // BeginAnimation(Canvas.OpacityProperty, null);
-            
-            // start new animation
-            
-            
-            _moveAnimation.Children.Clear();
-            _moveAnimation.Children.Add(_daMoveX);
-            _moveAnimation.Children.Add(_daMoveY);
-            _moveAnimation.Children.Add(_daOpacity);
-            _moveAnimation.Begin(this, true);
         }
 
         private EventHandler _DisappearAfterMoveHandler;

@@ -21,5 +21,6 @@
     <system:String x:Key="Hero.GuanYu.Name">关羽</system:String>
     <BitmapImage x:Key="Hero.ZhangHe.Image">Images/Heroes/zhanghe.png</BitmapImage>
     <system:String x:Key="Hero.ZhangHe.Name">张颌</system:String>
+    <system:String x:Key="Hero.WoLong.Name">诸葛亮</system:String>
     <!-- Resource dictionary entries should be defined here. -->
 </ResourceDictionary>    

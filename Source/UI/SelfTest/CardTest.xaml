@@ -6,6 +6,12 @@
     Title="Window1" Height="300" Width="300" xmlns:my="clr-namespace:Sanguosha.UI.Controls;assembly=Controls">
 
     <StackPanel Background="Black">
-        <ctrl:MainPlayerInfoView />  
+        <Canvas>
+            <Rectangle x:Name="rec" Fill="Red" Width="30" Height="30" Canvas.Left="0" Canvas.Top="0" />
+            <Button Content="Button" Height="21" Name="button1" Width="71" Canvas.Left="100" Canvas.Top="200" Click="button1_Click_1" />
+            <Button Content="Button" Height="21" Name="button2" Width="71" Canvas.Left="100" Canvas.Top="220" Click="button2_Click" />
+
+        </Canvas>
+        
     </StackPanel>
 </Window>
