@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace Sanguosha.UI.Controls
 {
-    public class RelayCommand : ICommand
+    public class RelayCommand : ViewModelBase, ICommand
     {
         #region Fields
 

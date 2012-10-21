@@ -124,7 +124,7 @@
                 <local:CardStack x:Name="handCardPlaceHolder" IsCardConsumer="true" CardAlignment="Center" MaxCardSpacing="20" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="130" Width="279" />
                 <Rectangle Fill="Black" Grid.RowSpan="2" />
                 <Image Source="{DynamicResource PlayerInfoView.Decoration.TopLeft}" Width="64" HorizontalAlignment="Left" Margin="-10,-7,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
-                <Path Data="M0,0H124" HorizontalAlignment="Center" Margin="0,15,0,0" Stretch="Fill" VerticalAlignment="Top" Width="124">
+                <Path Data="M0,0H124" HorizontalAlignment="Center" Margin="0,13,0,0" Stretch="Fill" VerticalAlignment="Top" Width="124">
                     <Path.Stroke>
                         <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
                             <GradientStop Color="Black" Offset="0"/>
@@ -135,7 +135,7 @@
                         </LinearGradientBrush>
                     </Path.Stroke>
                 </Path>
-                <Path Data="M0,0H124" HorizontalAlignment="Center" Margin="0,16,0,0" Stretch="Fill" VerticalAlignment="Top" Width="124">
+                <Path Data="M0,0H124" HorizontalAlignment="Center" Margin="0,14,0,0" Stretch="Fill" VerticalAlignment="Top" Width="124">
                     <Path.Stroke>
                         <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
                             <GradientStop Color="Black" Offset="0"/>
@@ -170,8 +170,8 @@
                     </local:OutlinedTextBlock.Effect>
                     </local:OutlinedTextBlock>
                 </Border>
-                <TextBlock x:Name="userLevelText" Text="Lv.0" HorizontalAlignment="Center" Margin="0,4,0,0" Style="{DynamicResource SmallTextBlockStyle}"/>
-                <TextBlock x:Name="userNameText" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="UserName" Margin="0,5,0,0" Style="{DynamicResource SmallTextBlockStyle}"/>
+                <TextBlock x:Name="userLevelText" Text="Lv.0" HorizontalAlignment="Center" Margin="0,2,0,0" Style="{DynamicResource SmallTextBlockStyle}"/>
+                <TextBlock x:Name="userNameText" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="UserName" Margin="0,5,0,0" Style="{DynamicResource SmallTextBlockStyle}" Foreground="White" FontSize="13.333"/>
                 <Border Grid.Row="1" HorizontalAlignment="Left" Height="17" Width="16" VerticalAlignment="Bottom" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22">
                     <TextBlock Margin="0,0,0,0" TextWrapping="Wrap" Text="0" TextAlignment="Center" FontFamily="Arial" Foreground="Black"/>
                 </Border>                

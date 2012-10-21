@@ -177,6 +177,14 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public GameViewModel GameModel
+        {
+            get
+            {
+                return DataContext as GameViewModel;
+            }
+        }
+
         #endregion
 
         #region Private Functions
@@ -394,6 +402,8 @@ namespace Sanguosha.UI.Controls
 
         #endregion
 
+        #region Commands
+
         #region SubmitAnswerCommand
 
         SimpleRelayCommand submitCommand;
@@ -470,6 +480,15 @@ namespace Sanguosha.UI.Controls
         }
         #endregion
 
+        #region MultiChoiceCommand
+        public void ExecuteMultiChoiceCommand(object parameter)
+        {
+            MultipleChoiceAnsweredEvent((int)parameter);
+        }
+        #endregion
+
+        #endregion
+
         #region IAsyncUiProxy
         public Player HostPlayer
         {
@@ -528,22 +547,15 @@ namespace Sanguosha.UI.Controls
         }
 
         CardUsageVerifier currentUsageVerifier;
-        
-        private void _UpdateCommandStatus()
+        bool isMultiChoiceQuestion;
+
+        private void _UpdateCardUsageStatus()
         {
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
             List<Card> cards = _GetSelectedHandCards();
             List<Player> players = _GetSelectedPlayers();
             ISkill skill = null;
             bool isEquipCommand;
             SkillCommand command = _GetSelectedSkillCommand(out isEquipCommand);
-
-            if (currentUsageVerifier == null)
-            {
-                //todo: probably disable everything?
-                return;
-            }
 
             if (command != null)
             {
@@ -567,9 +579,6 @@ namespace Sanguosha.UI.Controls
                     equipCommand.IsEnabled = (currentUsageVerifier.Verify(equipCommand.SkillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
                 }
             }
-            sw.Stop();
-            Trace.TraceError("Pass 1: {0}", sw.ElapsedMilliseconds);
-            sw.Restart();
             if (!isEquipCommand)
             {
                 foreach (var equipCommand in mainPlayerModel.EquipCommands)
@@ -593,10 +602,6 @@ namespace Sanguosha.UI.Controls
                 submitCommand.CanExecuteStatus = true;
             }
 
-            sw.Stop();
-            Trace.TraceError("Pass 2: {0}", sw.ElapsedMilliseconds);
-            sw.Restart();
-
             List<Card> attempt = new List<Card>(cards);
 
             foreach (CardView cardView in mainPlayerPanel.HandCardArea.Cards)
@@ -610,10 +615,6 @@ namespace Sanguosha.UI.Controls
                 cardView.CardViewModel.IsEnabled = !disabled;
                 attempt.Remove(cardView.Card);
             }
-
-            sw.Stop();
-            Trace.TraceError("Pass 3: {0}", sw.ElapsedMilliseconds);
-            sw.Restart();
 
             if (skill != null)
             {
@@ -654,10 +655,6 @@ namespace Sanguosha.UI.Controls
             }
             i = 0;
 
-            sw.Stop();
-            Trace.TraceError("Pass 4: {0}", sw.ElapsedMilliseconds);
-            sw.Restart();
-
             bool allowSelection = (cards.Count != 0 || validCount != 0 || skill != null);
             foreach (var playerModel in playerModels)
             {
@@ -673,9 +670,18 @@ namespace Sanguosha.UI.Controls
                 }
                 i++;
             }
-            sw.Stop();
-            long m = sw.ElapsedMilliseconds;
-            Trace.TraceError("Pass 5: {0}", m);
+        }
+
+        private void _UpdateCommandStatus()
+        {
+            if (currentUsageVerifier != null)
+            {
+                _UpdateCardUsageStatus();
+            }
+            else if (isMultiChoiceQuestion)
+            {
+                _ResetAll();
+            }
         }
 
         private System.Timers.Timer _timer;
@@ -686,6 +692,7 @@ namespace Sanguosha.UI.Controls
             {
                 currentUsageVerifier = verifier;
                 Game.CurrentGame.CurrentActingPlayer = HostPlayer;
+                GameModel.CurrentPrompt = prompt;
 
                 foreach (var equipCommand in mainPlayerModel.EquipCommands)
                 {
@@ -713,17 +720,21 @@ namespace Sanguosha.UI.Controls
                 // @todo: update this.
                 cancelCommand.CanExecuteStatus = true;
                 abortCommand.CanExecuteStatus = true;
-                                
-                mainPlayerModel.TimeOutSeconds = timeOutSeconds;
 
-                _timer = new System.Timers.Timer(timeOutSeconds * 1000);
-                _timer.AutoReset = false;
-                _timer.Elapsed +=
-                    (o, e) => { Application.Current.Dispatcher.Invoke(
-                        (ThreadStart)delegate() { ExecuteAbortCommand(null); });
-                    };
-                _timer.Start();
+                if (timeOutSeconds > 0)
+                {
+                    mainPlayerModel.TimeOutSeconds = timeOutSeconds;
 
+                    _timer = new System.Timers.Timer(timeOutSeconds * 1000);
+                    _timer.AutoReset = false;
+                    _timer.Elapsed +=
+                        (o, e) =>
+                        {
+                            Application.Current.Dispatcher.Invoke(
+                                (ThreadStart)delegate() { ExecuteAbortCommand(null); });
+                        };
+                    _timer.Start();
+                }
                 _UpdateCommandStatus();
             });
         }
@@ -735,9 +746,20 @@ namespace Sanguosha.UI.Controls
             CardChoiceAnsweredEvent(null);
         }
 
-        public void AskForMultipleChoice(string prompt, List<string> questions, int timeOutSeconds)
+        public void AskForMultipleChoice(string prompt, List<string> choices, int timeOutSeconds)
         {
-            MultipleChoiceAnsweredEvent(0);
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                GameModel.CurrentPrompt = prompt;
+                GameModel.MultiChoiceCommands.Clear();
+                for (int i = 0; i < choices.Count; i++)
+                {
+                    GameModel.MultiChoiceCommands.Add(
+                        new MultiChoiceCommand(ExecuteMultiChoiceCommand) { CanExecuteStatus = true, ChoiceKey = choices[i], ChoiceIndex = i });
+                }
+                isMultiChoiceQuestion = true;
+                _UpdateCommandStatus();
+            });
         }
 
         public event CardUsageAnsweredEventHandler CardUsageAnsweredEvent;
@@ -746,6 +768,6 @@ namespace Sanguosha.UI.Controls
 
         public event MultipleChoiceAnsweredEventHandler MultipleChoiceAnsweredEvent;
 
-        #endregion
+        #endregion        
     }
 }

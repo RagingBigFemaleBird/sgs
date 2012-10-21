@@ -6,6 +6,8 @@ using System.ComponentModel;
 
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace Sanguosha.UI.Controls
 {
@@ -19,6 +21,11 @@ namespace Sanguosha.UI.Controls
     public class GameViewModel : ViewModelBase
     {
         private Game _game;
+
+        public GameViewModel()
+        {
+            MultiChoiceCommands = new ObservableCollection<ICommand>();
+        }
 
         public Game Game
         {
@@ -57,8 +64,26 @@ namespace Sanguosha.UI.Controls
                 }
             }
         }
-        
 
-        
+        private string _prompt;
+        public string CurrentPrompt
+        {
+            get
+            {
+                return _prompt;
+            }
+            set
+            {
+                if (_prompt == value) return;
+                _prompt = value;
+                OnPropertyChanged("CurrentPrompt");
+            }
+        }
+
+        public ObservableCollection<ICommand> MultiChoiceCommands
+        {
+            get;
+            private set;
+        }
     }
 }

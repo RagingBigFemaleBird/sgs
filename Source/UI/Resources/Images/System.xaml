@@ -92,6 +92,19 @@
     <BitmapImage x:Key="Button.Skill.SingleUse.Disabled.Right">Buttons/skill/singleuse/disabled-right.png</BitmapImage>
 
 
+    <BitmapImage x:Key="Button.MultiChoice.Up.Left">Buttons/multichoice/normal-left.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Hover.Left">Buttons/multichoice/hover-left.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Down.Left">Buttons/multichoice/normal-left.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Disabled.Left">Buttons/multichoice/disabled-left.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Up.Middle">Buttons/multichoice/normal-middle.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Hover.Middle">Buttons/multichoice/hover-middle.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Down.Middle">Buttons/multichoice/normal-middle.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Disabled.Middle">Buttons/multichoice/disabled-middle.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Up.Right">Buttons/multichoice/normal-right.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Hover.Right">Buttons/multichoice/hover-right.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Down.Right">Buttons/multichoice/normal-right.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Disabled.Right">Buttons/multichoice/disabled-right.png</BitmapImage>
+    
     <BitmapImage x:Key="Game.InfoPanel.Header">Game/infoPlaneHeader.png</BitmapImage>
     <BitmapImage x:Key="Game.InfoPanel.Body">Game/infoPlaneBody.png</BitmapImage>
     <BitmapImage x:Key="Game.InfoPanel.Footer">Game/infoPlaneFooter.png</BitmapImage>

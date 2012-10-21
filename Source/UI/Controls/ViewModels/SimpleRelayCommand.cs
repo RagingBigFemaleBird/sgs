@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace Sanguosha.UI.Controls
 {
-    class SimpleRelayCommand : ICommand
+    public class SimpleRelayCommand : ViewModelBase, ICommand
     {
         #region Fields
 

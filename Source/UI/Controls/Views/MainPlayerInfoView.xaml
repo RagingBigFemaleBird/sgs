@@ -294,14 +294,14 @@
         </Grid>
         <Grid Grid.Row="1" Grid.Column="1">
             <Grid.Background>
-                <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Background.Middle}" TileMode="FlipX" Stretch="Fill" />
+                <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Background.Middle}" TileMode="FlipX" Stretch="None" />
             </Grid.Background>
             <Grid Grid.Row="1" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                 	<ColumnDefinition Width="1*"/>
                 	<ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-                <local:CardStack x:Name="handCardPlaceHolder" VerticalAlignment="Bottom" Margin="5,0,0,0" Height="130" MaxCardSpacing="94" CardAlignment="Left" />
+                <local:CardStack x:Name="handCardPlaceHolder" VerticalAlignment="Bottom" Margin="5,0,10,0" Height="130" MaxCardSpacing="94" CardAlignment="Left" />
                 <Image Grid.Column="1" Source="{DynamicResource MainPlayerInfoView.Background.Platter}"/>                
                 <local:RoleBox x:Name="cbRoleBox" Grid.Column="1" HorizontalAlignment="Right" Width="25" Margin="0,5,6,0" Height="26" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
                     <local:RoleBox.RenderTransform>

@@ -309,7 +309,7 @@ namespace Sanguosha.UI.Controls
         public ObservableCollection<SkillCommand> SkillCommands
         {
             get;
-            set;
+            private set;
         }
 
         public string HeroName
