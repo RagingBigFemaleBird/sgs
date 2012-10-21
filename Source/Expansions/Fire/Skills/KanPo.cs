@@ -13,7 +13,7 @@ using Sanguosha.Expansions.Battle.Cards;
 namespace Sanguosha.Expansions.Fire.Skills
 {
     /// <summary>
-    /// 火计–你可以将你的任意一张黑色手牌当【无懈可击】使用。
+    /// 看破–你可以将你的任意一张黑色手牌当【无懈可击】使用。
     /// </summary>
     public class KanPo : OneToOneCardTransformSkill
     {
