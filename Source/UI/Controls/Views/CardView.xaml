@@ -16,6 +16,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/Cards.xaml"/>
+                <ResourceDictionary Source="CardToolTip.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <local:SuitColorToColorConverter x:Key="suitColorToColorConverter" />
         	<Style x:Key="footNoteStyle" TargetType="{x:Type TextBlock}">
@@ -145,35 +146,6 @@
         </Border>
     </Grid>
     <UserControl.ToolTip>
-        <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top">            
-            <ToolTip.ContentTemplate>
-                <DataTemplate>
-                    <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0" Width="330">
-                        <FlowDocument>
-                            <Paragraph LineHeight="18">
-                                <Run FontWeight="Bold" 
-                                     Text="{Binding Path=TypeString, Converter={StaticResource CardToolTipConverter}, ConverterParameter=Name, Mode=OneWay}" 
-                                     Foreground="#FF65FFCC"
-                                     FontSize="14"/>
-                                <Run Text="  "/>
-                                <Run Text="{Binding Path=Suit, 
-                                     Converter={StaticResource CardToolTipConverter}, ConverterParameter=Suit, Mode=OneWay}" 
-                                     Foreground="{Binding Path=Suit, Mode=OneWay, Converter={StaticResource CardToolTipConverter}, ConverterParameter=SuitColor}" 
-                                     FontFamily="Arial" FontSize="18"/>
-                                <Run Text="{Binding Path=RankString, Mode=OneWay}"
-                                     Foreground="{Binding Path=Suit, Mode=OneWay, Converter={StaticResource CardToolTipConverter}, ConverterParameter=SuitColor}"
-                                     FontSize="15"/>
-                                <LineBreak />
-                                <Run Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource CardToolTipConverter}, ConverterParameter=Description}"/>
-                                <LineBreak />
-                                <Run Text="操作步骤" Foreground="Yellow" />
-                                <LineBreak />
-                                <Run Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource CardToolTipConverter}, ConverterParameter=Usage}" />
-                            </Paragraph>
-                        </FlowDocument>
-                    </RichTextBox>
-                </DataTemplate>
-            </ToolTip.ContentTemplate>
-        </ToolTip>
+        <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top" ContentTemplateSelector="{StaticResource cardToolTipTemplateSelector}"/>
     </UserControl.ToolTip>
 </UserControl>

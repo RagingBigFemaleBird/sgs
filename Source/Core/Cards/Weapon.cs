@@ -11,7 +11,7 @@ namespace Sanguosha.Core.Cards
     {
         protected override void RegisterEquipmentTriggers(Player p)
         {
-            p[PlayerAttribute.RangeAttack] += (WeaponRange - 1);
+            p[PlayerAttribute.AttackRange] += (AttackRange - 1);
             RegisterWeaponTriggers(p);
         }
 
@@ -19,13 +19,13 @@ namespace Sanguosha.Core.Cards
 
         protected override void UnregisterEquipmentTriggers(Player p)
         {
-            p[PlayerAttribute.RangeAttack] -= (WeaponRange - 1);
+            p[PlayerAttribute.AttackRange] -= (AttackRange - 1);
             UnregisterWeaponTriggers(p);
         }
 
         protected abstract void UnregisterWeaponTriggers(Player p);
 
-        public abstract int WeaponRange { get; }
+        public abstract int AttackRange { get; }
         public override CardCategory Category
         {
             get { return CardCategory.Weapon; }

@@ -27,7 +27,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         public override CardCategory Category
         {
-            get { return CardCategory.OffsensiveHorse; }
+            get { return CardCategory.OffensiveHorse; }
         }
 
         protected override void Process(Player source, Player dest, ICard card)

@@ -87,14 +87,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Cards.xaml">
+    <None Include="Basic.Cards.xaml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if not exist $(TargetDir)..\Resources\Texts mkdir  $(TargetDir)..\Resources\Texts
-copy $(ProjectDir)\*.xaml $(TargetDir)..\Resources\Texts</PostBuildEvent>
+    <PostBuildEvent>if not exist $(TargetDir)\Resources\Texts mkdir  $(TargetDir)\Resources\Texts
+copy $(ProjectDir)\*.xaml $(TargetDir)\Resources\Texts</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

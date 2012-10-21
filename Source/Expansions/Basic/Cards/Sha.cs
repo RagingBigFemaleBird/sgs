@@ -152,7 +152,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     {
                         return VerifierResult.Fail;
                     }
-                    if (Game.CurrentGame.DistanceTo(source, t) <= source[PlayerAttribute.RangeAttack] + 1)
+                    if (Game.CurrentGame.DistanceTo(source, t) <= source[PlayerAttribute.AttackRange] + 1)
                     {
                         args.RangeApproval.Add(true);
                     }

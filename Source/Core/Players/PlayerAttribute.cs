@@ -9,7 +9,7 @@ namespace Sanguosha.Core.Players
     {
         public static string RangeMinus = "RangeMinus";
         public static string RangePlus = "RangePlus";
-        public static string RangeAttack = "RangeAttack";
+        public static string AttackRange = "AttackRange";
         public static string IronShackled = "IronShackled";
     }
 }

@@ -82,7 +82,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         }
 
 
-        public override int WeaponRange
+        public override int AttackRange
         {
             get { return 2; }
         }

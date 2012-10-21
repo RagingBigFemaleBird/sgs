@@ -83,7 +83,7 @@ namespace Sanguosha.UI.Controls
                             case CardCategory.DefensiveHorse:
                                 PlayerModel.DefensiveHorseCommand = command;
                                 break;
-                            case CardCategory.OffsensiveHorse:
+                            case CardCategory.OffensiveHorse:
                                 PlayerModel.OffensiveHorseCommand = command;
                                 break;
                         }
@@ -164,7 +164,7 @@ namespace Sanguosha.UI.Controls
                             case CardCategory.DefensiveHorse:
                                 PlayerModel.DefensiveHorseCommand = null;
                                 break;
-                            case CardCategory.OffsensiveHorse:
+                            case CardCategory.OffensiveHorse:
                                 PlayerModel.OffensiveHorseCommand = null;
                                 break;
                         }
