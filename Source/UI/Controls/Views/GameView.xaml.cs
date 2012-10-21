@@ -19,6 +19,7 @@ using Sanguosha.Core.UI;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Skills;
 using System.Threading;
+using System.Timers;
 
 namespace Sanguosha.UI.Controls
 {
@@ -90,10 +91,11 @@ namespace Sanguosha.UI.Controls
             mainPlayerPanel.ParentGameView = this;
             discardDeck.ParentGameView = this;
             this.DataContextChanged +=  new DependencyPropertyChangedEventHandler(GameView_DataContextChanged);
-            canExecuteSubmitCommand = false;
-            _UpdateEnabledStatusHandler = new EventHandler(cardOrPlayer_OnSelectedChanged);
+            _UpdateEnabledStatusHandler = 
+                (o, e) => {_UpdateCommandStatus();};
             this.SizeChanged += new SizeChangedEventHandler(GameView_SizeChanged);
             CardUsageAnsweredEvent += new CardUsageAnsweredEventHandler(GameView_CardUsageAnsweredEvent);
+            _timer = new System.Timers.Timer();
         }
 
         void GameView_CardUsageAnsweredEvent(ISkill skill, List<Card> cards, List<Player> players)
@@ -220,9 +222,9 @@ namespace Sanguosha.UI.Controls
 
             Player self = players[model.MainPlayerSeatNumber];
             mainPlayerModel = new PlayerInfoViewModel();
-            mainPlayerModel.SubmitAnswerCommand = new RelayCommand(ExecuteSubmitCommand, CanExecuteSubmitCommand);
-            mainPlayerModel.CancelAnswerCommand = new RelayCommand(ExecuteCancelCommand, CanExecuteCancelCommand);
-            mainPlayerModel.AbortAnswerCommand = new RelayCommand(ExecuteAbortCommand, CanExecuteAbortCommand);
+            mainPlayerModel.SubmitAnswerCommand = submitCommand = new SimpleRelayCommand(ExecuteSubmitCommand);
+            mainPlayerModel.CancelAnswerCommand = cancelCommand = new SimpleRelayCommand(ExecuteCancelCommand);
+            mainPlayerModel.AbortAnswerCommand = abortCommand = new SimpleRelayCommand(ExecuteAbortCommand);
             mainPlayerModel.Game = model.Game;
             mainPlayerModel.Player = self;
             mainPlayerPanel.DataContext = mainPlayerModel;
@@ -385,21 +387,16 @@ namespace Sanguosha.UI.Controls
                 playerModel.IsSelectionMode = false;
             }
 
-            canExecuteSubmitCommand = false;
-            canExecuteCancelCommand = false;
-            canExecuteAbortCommand = false;
+            submitCommand.CanExecuteStatus = false;
+            cancelCommand.CanExecuteStatus = false;
+            abortCommand.CanExecuteStatus = false;
         }
 
         #endregion
 
         #region SubmitAnswerCommand
 
-        bool canExecuteSubmitCommand;
-
-        public bool CanExecuteSubmitCommand(object parameter)
-        {
-            return canExecuteSubmitCommand;
-        }
+        SimpleRelayCommand submitCommand;
 
         public void ExecuteSubmitCommand(object parameter)
         {
@@ -436,12 +433,7 @@ namespace Sanguosha.UI.Controls
 
         #region CancelAnswerCommand
 
-        bool canExecuteCancelCommand;
-
-        public bool CanExecuteCancelCommand(object parameter)
-        {
-            return canExecuteCancelCommand;
-        }
+        SimpleRelayCommand cancelCommand;
 
         public void ExecuteCancelCommand(object parameter)
         {
@@ -464,15 +456,11 @@ namespace Sanguosha.UI.Controls
 
         #region AbortAnswerCommand
 
-        bool canExecuteAbortCommand;
-
-        public bool CanExecuteAbortCommand(object parameter)
-        {
-            return canExecuteAbortCommand;
-        }
+        SimpleRelayCommand abortCommand;
 
         public void ExecuteAbortCommand(object parameter)
         {
+            _timer.Stop();
             if (currentUsageVerifier != null)
             {
                 CardUsageAnsweredEvent(null, null, null);
@@ -594,7 +582,7 @@ namespace Sanguosha.UI.Controls
             var status = currentUsageVerifier.Verify(skill, cards, players);
             if (status == VerifierResult.Fail || status == VerifierResult.Partial)
             {
-                canExecuteSubmitCommand = false;
+                submitCommand.CanExecuteStatus = false;
                 foreach (var playerModel in playerModels)
                 {
                     playerModel.IsSelected = false;
@@ -602,7 +590,7 @@ namespace Sanguosha.UI.Controls
             }
             else if (status == VerifierResult.Success)
             {
-                canExecuteSubmitCommand = true;
+                submitCommand.CanExecuteStatus = true;
             }
 
             sw.Stop();
@@ -690,6 +678,8 @@ namespace Sanguosha.UI.Controls
             Trace.TraceError("Pass 5: {0}", m);
         }
 
+        private System.Timers.Timer _timer;
+
         public void AskForCardUsage(string prompt, CardUsageVerifier verifier, int timeOutSeconds)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
@@ -721,22 +711,24 @@ namespace Sanguosha.UI.Controls
                 }
 
                 // @todo: update this.
-                canExecuteCancelCommand = true;
-                canExecuteAbortCommand = true;
+                cancelCommand.CanExecuteStatus = true;
+                abortCommand.CanExecuteStatus = true;
                                 
                 mainPlayerModel.TimeOutSeconds = timeOutSeconds;
+
+                _timer = new System.Timers.Timer(timeOutSeconds * 1000);
+                _timer.AutoReset = false;
+                _timer.Elapsed +=
+                    (o, e) => { Application.Current.Dispatcher.Invoke(
+                        (ThreadStart)delegate() { ExecuteAbortCommand(null); });
+                    };
+                _timer.Start();
 
                 _UpdateCommandStatus();
             });
         }
 
         private EventHandler _UpdateEnabledStatusHandler;
-
-        void cardOrPlayer_OnSelectedChanged(object sender, EventArgs e)
-        {
-            _UpdateCommandStatus();
-        }
-
 
         public void AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, int timeOutSeconds)
         {
