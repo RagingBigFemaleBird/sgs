@@ -89,6 +89,7 @@
     <Compile Include="UI\ClientNetworkUiProxy.cs" />
     <Compile Include="UI\ConsoleUiProxy.cs" />
     <Compile Include="UI\GlobalClientUiProxy.cs" />
+    <Compile Include="UI\GlobalDummyProxy.cs" />
     <Compile Include="UI\GlobalServerUiProxy.cs" />
     <Compile Include="UI\IAsyncUiProxy.cs" />
     <Compile Include="UI\IGameLog.cs" />

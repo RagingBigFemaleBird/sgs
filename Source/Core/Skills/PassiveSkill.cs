@@ -28,5 +28,8 @@ namespace Sanguosha.Core.Skills
         }
 
         protected abstract void InstallTriggers(Players.Player owner);
+        protected virtual void UninstallTriggers(Players.Player owner)
+        {
+        }
     }
 }

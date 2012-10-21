@@ -334,7 +334,7 @@ namespace Sanguosha.Core.Games
 
         Dictionary<string, CardHandler> cardHandlers;
 
-        private GlobalServerUiProxy globalServerProxy;
+/*        private GlobalServerUiProxy globalServerProxy;
 
         public GlobalServerUiProxy GlobalServerProxy
         {
@@ -350,6 +350,14 @@ namespace Sanguosha.Core.Games
             set { globalClientProxy = value; }
         }
 
+        private IGlobalUiProxy globalDummyProxy;
+
+        public IGlobalUiProxy GlobalDummyProxy
+        {
+            get { return globalDummyProxy; }
+            set { globalDummyProxy = value; }
+        }
+
         public IGlobalUiProxy GlobalProxy
         {
             get
@@ -362,9 +370,11 @@ namespace Sanguosha.Core.Games
                 {
                     return globalClientProxy;
                 }
-                else return null;
+                else return globalDummyProxy;
             }
         }
+        */
+        public IGlobalUiProxy GlobalProxy { get; set; }
 
         /// <summary>
         /// Card usage handler for a given card's type name.

@@ -92,7 +92,9 @@ namespace Sanguosha.UI.Main
             _game.GameClient = client;
             _game.GameServer = null;
             _game.IsSlave = true;
-            _game.GlobalClientProxy = new GlobalClientUiProxy(_game, activeClientProxy);
+            _game.GlobalProxy = new GlobalClientUiProxy(_game, activeClientProxy);
+#else
+            _game.GlobalProxy = new GlobalDummyProxy();
 #endif
             _player = _game.Players[MainSeat];
             GameViewModel gameModel = new GameViewModel();

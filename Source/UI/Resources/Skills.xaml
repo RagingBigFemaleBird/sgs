@@ -14,4 +14,9 @@
     <sys:String x:Key="Skill.LiJian.Name">离间</sys:String>
     <sys:String x:Key="Skill.HuoJi.Name">火计</sys:String>
     <sys:String x:Key="Skill.KanPo.Name">看破</sys:String>
+    <sys:String x:Key="Skill.ZhiHeng.Name">制衡</sys:String>
+    <sys:String x:Key="Skill.KuRou.Name">苦肉</sys:String>
+    <sys:String x:Key="Skill.JiZhi.Name">集智</sys:String>
+    <sys:String x:Key="Skill.QianXun.Name">谦逊</sys:String>
+    <sys:String x:Key="Skill.QingGuo.Name">倾国</sys:String>
 </ResourceDictionary>

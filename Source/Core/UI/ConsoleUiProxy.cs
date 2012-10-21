@@ -166,6 +166,7 @@ namespace Sanguosha.Core.UI
 
         public bool AskForMultipleChoice(string prompt, List<string> questions, out int answer)
         {
+            /*
             Player p = hostPlayer;
             Console.Write("I AM PLAYER {0}: ", p.Id);
             Console.Write(prompt + ":");
@@ -182,7 +183,9 @@ namespace Sanguosha.Core.UI
                 return false;
             }
             answer = id;
-            return true;
+            return true;*/
+            answer = 0;
+            return false;
         }
         public int TimeOutSeconds { get; set; }
     }
