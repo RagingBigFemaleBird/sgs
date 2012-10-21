@@ -1,8 +1,8 @@
-﻿<Window x:Class="Sanguosha.MainWindow"
+﻿<Window x:Class="Sanguosha.UI.Main.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="768" Width="1024" MinWidth="978" MinHeight="602" Loaded="Window_Loaded">
     <Grid>
-        
+        <Frame x:Name="MainFrame" />
     </Grid>
 </Window>

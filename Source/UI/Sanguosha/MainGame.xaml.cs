@@ -18,24 +18,22 @@ using Sanguosha.Core.UI;
 using System.Threading;
 using Sanguosha.Core.Network;
 
-namespace WpfApplication1
+namespace Sanguosha.UI.Main
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainGame.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainGame : Page
     {
-        public MainWindow()
+        public MainGame()
         {
-            this.InitializeComponent();            
-            InitGame();
+            this.InitializeComponent();
             // Insert code required on object creation below this point.
         }
 
         int MainSeat = 0;
         private void InitGame()
         {
-            GameEngine.LoadExpansions("Expansions");
             _game = new RoleGame();
 #if NETWORKING
             Client client;
@@ -106,10 +104,12 @@ namespace WpfApplication1
         private Game _game;
         private Player _player;
         Thread gameThread;
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            InitGame();
             gameThread = new Thread(_game.Run) { IsBackground = true };
             gameThread.Start();
         }
+
     }
 }

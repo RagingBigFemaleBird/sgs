@@ -546,7 +546,7 @@ namespace Sanguosha.UI.Controls
             });            
         }
 
-        CardUsageVerifier currentUsageVerifier;
+        ICardUsageVerifier currentUsageVerifier;
         bool isMultiChoiceQuestion;
 
         private void _UpdateCardUsageStatus()
@@ -686,7 +686,7 @@ namespace Sanguosha.UI.Controls
 
         private System.Timers.Timer _timer;
 
-        public void AskForCardUsage(string prompt, CardUsageVerifier verifier, int timeOutSeconds)
+        public void AskForCardUsage(string prompt, ICardUsageVerifier verifier, int timeOutSeconds)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {

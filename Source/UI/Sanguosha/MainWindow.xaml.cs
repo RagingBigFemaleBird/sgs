@@ -11,17 +11,55 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
+using Sanguosha.Core.Games;
 
-namespace Sanguosha
+namespace Sanguosha.UI.Main
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static string[] _dictionaryNames = new string[] { "Cards.xaml", "Skills.xaml", "Game.xaml" };
+
+        private void _LoadResources(string folderPath)
+        {
+            try
+            {
+                var files = Directory.GetFiles(string.Format("{0}/Texts", folderPath));
+                foreach (var filePath in files)
+                {
+                    if (!_dictionaryNames.Any(fileName => filePath.Contains(fileName))) continue;
+                    try
+                    {
+                        Uri uri = new Uri(string.Format("pack://siteoforigin:,,,/{0}", filePath));
+                        Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = uri });
+                    }
+                    catch (BadImageFormatException)
+                    {
+                        continue;
+                    }
+                }
+            }
+            catch (DirectoryNotFoundException)
+            {
+            }
+        }
+
+        public static string ExpansionFolder = "Expansions";
+        public static string ResourcesFolder = "Resources";
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            _LoadResources(ResourcesFolder);
+            GameEngine.LoadExpansions(ExpansionFolder);
+            MainFrame.Navigate(new Uri("pack://application:,,,/Sanguosha;component/MainGame.xaml"));
         }
     }
 }

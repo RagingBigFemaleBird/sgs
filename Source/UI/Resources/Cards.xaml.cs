@@ -17,14 +17,6 @@ namespace Sanguosha.UI.Resources
 {
     public class CardToolTipConverter : IValueConverter
     {
-        static ResourceDictionary _resources;
-
-        static CardToolTipConverter()
-        {
-            _resources = new ResourceDictionary();
-            _resources.Source = new Uri("pack://application:,,,/Resources;component/Cards.xaml");
-        }
-
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             string convertType = parameter as string;
@@ -33,7 +25,7 @@ namespace Sanguosha.UI.Resources
             {
                 try
                 {
-                    return _resources[string.Format("Card.{0}.{1}", value.ToString(), convertType)];
+                    return Application.Current.Resources[string.Format("Card.{0}.{1}", value.ToString(), convertType)];
                 }
                 catch (Exception)
                 {
@@ -44,7 +36,7 @@ namespace Sanguosha.UI.Resources
             {
                 try
                 {
-                    return _resources[string.Format("Card.Suit.{0}.SuitText", value.ToString(), convertType)];
+                    return Application.Current.Resources[string.Format("Card.Suit.{0}.SuitText", value.ToString(), convertType)];
                 }
                 catch (Exception)
                 {
@@ -55,7 +47,7 @@ namespace Sanguosha.UI.Resources
             {
                 try
                 {
-                    return _resources[string.Format("Card.Suit.{0}.SuitBrush", value.ToString(), convertType)];
+                    return Application.Current.Resources[string.Format("Card.Suit.{0}.SuitBrush", value.ToString(), convertType)];
                 }
                 catch (Exception)
                 {

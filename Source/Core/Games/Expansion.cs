@@ -11,6 +11,12 @@ using Sanguosha.Core.UI;
 
 namespace Sanguosha.Core.Games
 {
+    public struct DelayedTriggerRegistration
+    {
+        public GameEvent key;
+        public Trigger trigger;
+    }
+
     public abstract class Expansion
     {
         List<Card> cardSet;
@@ -22,6 +28,14 @@ namespace Sanguosha.Core.Games
         {
             get { return cardSet; }
             set { cardSet = value; }
+        }
+
+        List<DelayedTriggerRegistration> triggerRegistration;
+
+        public List<DelayedTriggerRegistration> TriggerRegistration
+        {
+            get { return triggerRegistration; }
+            set { triggerRegistration = value; }
         }
     }
 }

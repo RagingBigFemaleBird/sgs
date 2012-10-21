@@ -32,7 +32,7 @@ namespace Sanguosha.Core.UI
             clientId = id;
         }
 
-        private void SendNoAnswer()
+        public void SendNoAnswer()
         {
             int i;
             for (i = 0; i < server.MaxClients; i++)
@@ -40,7 +40,8 @@ namespace Sanguosha.Core.UI
                 server.SendObject(i, 0);
             }
         }
-        private bool TryAskForCardUsage(string prompt, CardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+
+        public bool TryAskForCardUsage(string prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             cards = null;
             skill = null;
@@ -121,6 +122,11 @@ namespace Sanguosha.Core.UI
                 players = null;
                 return false;
             }
+            return true;
+        }
+
+        public void SendCardUsage(ISkill skill, List<Card> cards, List<Player> players)
+        {
             for (int i = 0; i < server.MaxClients; i++)
             {
                 server.SendObject(i, 1);
@@ -166,10 +172,15 @@ namespace Sanguosha.Core.UI
                     server.SendObject(i, 0);
                 }
             }
-            return true;
+
         }
 
-        public bool AskForCardUsage(string prompt, CardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+        public void NextComm()
+        {
+            server.CommIdInc(clientId);
+        }
+
+        public bool AskForCardUsage(string prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             bool ret = true;
             if (!TryAskForCardUsage(prompt, verifier, out skill, out cards, out players))
@@ -177,6 +188,11 @@ namespace Sanguosha.Core.UI
                 SendNoAnswer();
                 ret = false;
             }
+            else
+            {
+                SendCardUsage(skill, cards, players);
+            }
+            NextComm();
             if (cards == null)
             {
                 cards = new List<Card>();

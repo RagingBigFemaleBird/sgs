@@ -10,7 +10,7 @@
              x:Class="Sanguosha.UI.Controls.MainPlayerInfoView"
 	         mc:Ignorable="d"
              Height="200"
-             d:DesignWidth="990">
+             d:DesignWidth="900">
     <local:PlayerInfoViewBase.Resources>        
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -294,7 +294,7 @@
         </Grid>
         <Grid Grid.Row="1" Grid.Column="1">
             <Grid.Background>
-                <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Background.Middle}" TileMode="FlipX" Stretch="None" />
+                <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Background.Middle}" Viewport="0,0,0.1,1" TileMode="FlipX" Stretch="None" />
             </Grid.Background>
             <Grid Grid.Row="1" Grid.Column="1">
                 <Grid.ColumnDefinitions>

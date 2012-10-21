@@ -77,8 +77,14 @@ namespace Sanguosha.Core.Network
             Listener();
         }
 
+        public void CommIdInc(int clientId)
+        {
+            handlers[clientId].commId++;
+        }
+
         public bool ExpectNext(int clientId, int timeOutSeconds)
         {
+            Trace.TraceInformation("Expecting commId for {0} is {1}", clientId, handlers[clientId].commId);
             Stopwatch sw = new Stopwatch();
             sw.Start();
             while (true)
@@ -97,9 +103,12 @@ namespace Sanguosha.Core.Network
                 if (o is CommandItem)
                 {
                     CommandItem i = (CommandItem)o;
+                    if (i.command == Command.QaId)
+                    {
+                        Trace.TraceInformation("Current commId from {0} is {1}", clientId, i.data);
+                    }
                     if (i.command == Command.QaId && i.data == handlers[clientId].commId)
                     {
-                        handlers[clientId].commId++;
                         break;
                     }
                 }
@@ -237,6 +246,7 @@ namespace Sanguosha.Core.Network
                 item.name = skill.GetType().Name;
                 o = item;
             }
+            Trace.TraceInformation("Sending a {0} to {1}", o, clientId); 
             handlers[clientId].semAccess.WaitOne();
             handlers[clientId].queueOut.Enqueue(o);
             handlers[clientId].semAccess.Release(1);
@@ -275,10 +285,10 @@ namespace Sanguosha.Core.Network
                 object o = r.Receive();
                 if (o is int)
                 {
-                    Trace.TraceInformation("Received a {0}", (int)o);
+                    Trace.TraceInformation("{0} Received a {1}", Thread.CurrentThread.Name, (int)o);
                 }
                 {
-                    Trace.TraceInformation("Received a {0}", o.GetType().Name);
+                    Trace.TraceInformation("{0} Received a {1}", Thread.CurrentThread.Name, o.GetType().Name);
                 }
                 semAccess.WaitOne();
                 queueIn.Enqueue(o);
