@@ -35,7 +35,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             }
             foreach (Card card in cards)
             {
-                if (card.Owner != Owner || card.Place.DeckType != DeckType.Hand)
+                if (card.Owner != Owner)
                 {
                     return VerifierResult.Fail;
                 }

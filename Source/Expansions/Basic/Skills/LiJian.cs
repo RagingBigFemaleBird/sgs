@@ -75,6 +75,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             CardsMovement move;
             move.cards = new List<Card>(cards);
             move.to = new DeckPlace(null, DeckType.Discard);
+            Game.CurrentGame.MoveCards(move, null);
             GameEventArgs args = new GameEventArgs();
             args.Source = arg.Targets[1];
             args.Targets = new List<Player>();
