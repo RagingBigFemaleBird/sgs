@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\Bin\Debug\Expansions\</OutputPath>
+    <OutputPath>..\..\..\Bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\Bin\Release\Expansions\</OutputPath>
+    <OutputPath>..\..\..\Bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -43,11 +43,16 @@
     <Compile Include="FireExpansion.cs" />
     <Compile Include="Skills\HuoJi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Skills\KanPo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.csproj">
       <Project>{31B92003-B490-4EAF-8F8E-F9B020F9B03B}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Basic\Basic.csproj">
+      <Project>{5e948fab-938b-4e4c-bda1-1740339273ea}</Project>
+      <Name>Basic</Name>
     </ProjectReference>
     <ProjectReference Include="..\Battle\Battle.csproj">
       <Project>{850AB9CB-90A0-4625-87FA-1F7CE04A5404}</Project>

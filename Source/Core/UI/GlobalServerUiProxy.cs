@@ -84,7 +84,7 @@ namespace Sanguosha.Core.UI
             foreach (var pair in proxyListener)
             {
                 pair.Value.Abort();
-                proxy[pair.Key].NextComm();
+                proxy[pair.Key].NextQuestion();
             }
             foreach (var player in Game.CurrentGame.Players)
             {

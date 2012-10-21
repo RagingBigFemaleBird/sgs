@@ -36,7 +36,7 @@ namespace Sanguosha.Core.UI
                 skill = null;
             }
             t.Abort();
-            proxy.NextComm();
+            proxy.NextQuestion();
             //try to determine who used this
             respondingPlayer = null;
             if (cards != null && cards.Count > 0)

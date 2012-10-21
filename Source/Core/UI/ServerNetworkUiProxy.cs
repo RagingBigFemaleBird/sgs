@@ -69,6 +69,11 @@ namespace Sanguosha.Core.UI
                 {
                     return false;
                 }
+                if (!HostPlayer.ActionableSkills.Contains(skill))
+                {
+                    Trace.TraceWarning("Client DDOS!");
+                    return false;
+                }
             }
             count = server.GetInt(clientId, 0);
             if (count == null)
@@ -88,6 +93,11 @@ namespace Sanguosha.Core.UI
                 Card item = server.GetCard(clientId, 0);
                 if (item == null)
                 {
+                    return false;
+                }
+                if (item.Owner != HostPlayer)
+                {
+                    Trace.TraceWarning("Client DDOS!");
                     return false;
                 }
                 cards.Add(item);
@@ -175,7 +185,7 @@ namespace Sanguosha.Core.UI
 
         }
 
-        public void NextComm()
+        public void NextQuestion()
         {
             server.CommIdInc(clientId);
         }
@@ -192,7 +202,7 @@ namespace Sanguosha.Core.UI
             {
                 SendCardUsage(skill, cards, players);
             }
-            NextComm();
+            NextQuestion();
             if (cards == null)
             {
                 cards = new List<Card>();
@@ -210,9 +220,47 @@ namespace Sanguosha.Core.UI
             return false;
         }
 
+
+
         public bool AskForMultipleChoice(string prompt, List<string> questions, out int answer)
         {
+            bool ret = true;
+            if (!TryAskForMultipleChoice(prompt, questions, out answer))
+            {
+                SendNoAnswer();
+                ret = false;
+            }
+            else
+            {
+                SendMultipleChoice(answer);
+            }
+            NextQuestion();
+            return ret;
+        }
+
+        private void SendMultipleChoice(int answer)
+        {
+            for (int i = 0; i < server.MaxClients; i++)
+            {
+                server.SendObject(i, answer);
+            }
+        }
+
+        private bool TryAskForMultipleChoice(string prompt, List<string> questions, out int answer)
+        {
             answer = 0;
+            Trace.TraceInformation("Asking Multiple choice to {0}, timeout {1}.", HostPlayer.Id, TimeOutSeconds);
+            int? count;
+            if (!server.ExpectNext(clientId, TimeOutSeconds))
+            {
+                return false;
+            }
+            count = server.GetInt(clientId, 0);
+            if (count == null)
+            {
+                return false;
+            }
+            answer = (int)count;
             return true;
         }
 

@@ -120,7 +120,7 @@ namespace Sanguosha.Core.UI
             return true;
         }
 
-        public void NextComm()
+        public void NextQuestion()
         {
             client.NextComm();
         }
@@ -131,7 +131,7 @@ namespace Sanguosha.Core.UI
             if (active)
             {
                 TryAskForCardUsage(prompt, verifier);
-                NextComm();
+                NextQuestion();
             }
             else
             {
@@ -153,8 +153,49 @@ namespace Sanguosha.Core.UI
 
         public bool AskForMultipleChoice(string prompt, List<string> questions, out int answer)
         {
+            Trace.TraceInformation("Asking Multiple choice to {0}.", HostPlayer.Id);
+            if (active)
+            {
+                TryAskForMultipleChoice(prompt, questions);
+                NextQuestion();
+            }
+            else
+            {
+                Trace.TraceInformation("Not active player, defaulting.");
+            }
+            if (TryAnswerForMultipleChoice(prompt, questions, out answer))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool TryAnswerForMultipleChoice(string prompt, List<string> questions, out int answer)
+        {
             answer = 0;
+            object o = client.Receive();
+            if (o == null)
+            {
+                return false;
+            }
+            answer = (int)o;
             return true;
+        }
+
+        private void TryAskForMultipleChoice(string prompt, List<string> questions)
+        {
+            int answer;
+            if (!proxy.AskForMultipleChoice(prompt, questions, out answer))
+            {
+                Trace.TraceInformation("Invalid answer");
+                client.AnswerNext();
+                client.AnswerItem(0);
+            }
+            else
+            {
+                client.AnswerNext();
+                client.AnswerItem(answer);
+            }
         }
 
         public void NotifyCardMovement(List<CardsMovement> m, List<IGameLog> notes)

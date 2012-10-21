@@ -47,7 +47,7 @@ namespace Sanguosha.UI.Main
             }
         }
 
-        public static string ExpansionFolder = "Expansions";
+        public static string ExpansionFolder = "./";
         public static string ResourcesFolder = "Resources";
 
         public MainWindow()
