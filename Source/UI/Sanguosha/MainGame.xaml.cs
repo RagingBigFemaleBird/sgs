@@ -1,4 +1,4 @@
-﻿// #define NETWORKING
+﻿#define NETWORKING
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -28,6 +28,7 @@ namespace Sanguosha.UI.Main
         public MainGame()
         {
             this.InitializeComponent();
+            InitGame();
             // Insert code required on object creation below this point.
         }
 
@@ -98,15 +99,14 @@ namespace Sanguosha.UI.Main
             gameModel.Game = _game;
             gameModel.MainPlayerSeatNumber = MainSeat;
             gameView.DataContext = gameModel;
-            _game.UiProxies[_game.Players[MainSeat]].HostPlayer = _game.Players[MainSeat];
+            _game.UiProxies[_game.Players[MainSeat]].HostPlayer = _game.Players[MainSeat];            
         }
 
         private Game _game;
         private Player _player;
         Thread gameThread;
         private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            InitGame();
+        {            
             gameThread = new Thread(_game.Run) { IsBackground = true };
             gameThread.Start();
         }

@@ -589,13 +589,18 @@ namespace Sanguosha.UI.Controls
             }
 
             var status = currentUsageVerifier.Verify(skill, cards, players);
-            if (status == VerifierResult.Fail || status == VerifierResult.Partial)
+
+            if (status == VerifierResult.Fail)
             {
                 submitCommand.CanExecuteStatus = false;
                 foreach (var playerModel in playerModels)
                 {
                     playerModel.IsSelected = false;
                 }
+            }
+            else if (status == VerifierResult.Partial)
+            {
+                submitCommand.CanExecuteStatus = false;
             }
             else if (status == VerifierResult.Success)
             {
