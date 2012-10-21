@@ -611,7 +611,7 @@ namespace Sanguosha.UI.Controls
                     continue;
                 }
                 attempt.Add(cardView.Card);
-                bool disabled = (currentUsageVerifier.FastVerify(skill, attempt, players) == VerifierResult.Fail);
+                bool disabled = (currentUsageVerifier.Verify(skill, attempt, players) == VerifierResult.Fail);
                 cardView.CardViewModel.IsEnabled = !disabled;
                 attempt.Remove(cardView.Card);
             }
@@ -623,7 +623,7 @@ namespace Sanguosha.UI.Controls
                     if (equipCommand.IsSelected) continue;
 
                     attempt.Add(equipCommand.Card);
-                    bool disabled = (currentUsageVerifier.FastVerify(skill, attempt, players) == VerifierResult.Fail);
+                    bool disabled = (currentUsageVerifier.Verify(skill, attempt, players) == VerifierResult.Fail);
                     equipCommand.IsEnabled = !disabled;
                     attempt.Remove(equipCommand.Card);
                 }
@@ -643,7 +643,7 @@ namespace Sanguosha.UI.Controls
                     continue;
                 }
                 attempt2.Add(playerModel.Player);
-                bool disabled = (currentUsageVerifier.FastVerify(skill, cards, attempt2) == VerifierResult.Fail);
+                bool disabled = (currentUsageVerifier.Verify(skill, cards, attempt2) == VerifierResult.Fail);
                 if (!disabled)
                 {
                     validCount++;

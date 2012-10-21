@@ -11,4 +11,7 @@
     <sys:String x:Key="Skill.FanJian.Name">反间</sys:String>
     <sys:String x:Key="Skill.JiJiu.Name">急救</sys:String>
     <sys:String x:Key="Skill.FanKui.Name">反馈</sys:String>
+    <sys:String x:Key="Skill.LiJian.Name">离间</sys:String>
+    <sys:String x:Key="Skill.HuoJi.Name">火计</sys:String>
+    <sys:String x:Key="Skill.KanPo.Name">看破</sys:String>
 </ResourceDictionary>
