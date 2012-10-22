@@ -67,7 +67,7 @@ namespace Sanguosha.Core.Cards
             cardsOnHold = null;
         }
 
-        protected bool PlayerIsCardTargetCheck(Player source, ref Player dest, ICard card)
+        public bool PlayerIsCardTargetCheck(Player source, ref Player dest, ICard card)
         {
             while (true)
             {
@@ -87,7 +87,7 @@ namespace Sanguosha.Core.Cards
                 {
                     if (e.Status == TriggerResult.Fail)
                     {
-                        Trace.TraceInformation("Player {0} refuse to be targeted by {1}", dest.Id, this.CardType);
+                        Trace.TraceInformation("Player {0} refuse to be targeted by {1}", dest.Id, card.Type.CardType);
                         return false;
                     }
                     else if (e.Status == TriggerResult.Retry)
@@ -153,19 +153,8 @@ namespace Sanguosha.Core.Cards
                     }
                     if (notReforging)
                     {
-                        try
+                        if (!Game.CurrentGame.PlayerCanUseCard(source, c))
                         {
-                            Game.CurrentGame.Emit(GameEvent.PlayerCanUseCard, new Triggers.GameEventArgs()
-                            {
-                                Source = source,
-                                Targets = targets,
-                                Cards = c.Subcards,
-                                Card = c,
-                            });
-                        }
-                        catch (TriggerResultException e)
-                        {
-                            Trace.Assert(e.Status == TriggerResult.Fail);
                             return VerifierResult.Fail;
                         }
                     }
@@ -191,19 +180,8 @@ namespace Sanguosha.Core.Cards
 
                 if (notReforging)
                 {
-                    try
+                    if (!Game.CurrentGame.PlayerCanUseCard(source, card))
                     {
-                        Game.CurrentGame.Emit(GameEvent.PlayerCanUseCard, new Triggers.GameEventArgs()
-                        {
-                            Source = source,
-                            Targets = targets,
-                            Cards = cards,
-                            Card = card,
-                        });
-                    }
-                    catch (TriggerResultException e)
-                    {
-                        Trace.Assert(e.Status == TriggerResult.Fail);
                         return VerifierResult.Fail;
                     }
                 }
@@ -215,19 +193,8 @@ namespace Sanguosha.Core.Cards
             {
                 if (notReforging)
                 {
-                    try
+                    if (!Game.CurrentGame.PlayerCanBeTargeted(source, targets, card))
                     {
-                        Game.CurrentGame.Emit(GameEvent.PlayerCanBeTargeted, new Triggers.GameEventArgs()
-                        {
-                            Source = Game.CurrentGame.CurrentPlayer,
-                            Targets = targets,
-                            Cards = cards,
-                            Card = card,
-                        });
-                    }
-                    catch (TriggerResultException e)
-                    {
-                        Trace.Assert(e.Status == TriggerResult.Fail);
                         ReleaseHoldInTemp();
                         return VerifierResult.Fail;
                     }

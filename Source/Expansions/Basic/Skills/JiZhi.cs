@@ -42,9 +42,18 @@ namespace Sanguosha.Expansions.Basic.Skills
             }
         }
 
+        Trigger theTrigger;
         protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
         {
-            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerPlayedCard, new JiZhiTrigger(owner));
+            theTrigger = new JiZhiTrigger(owner);
+            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerUsedCard, theTrigger);
         }
+
+        protected override void UninstallTriggers(Sanguosha.Core.Players.Player owner)
+        {
+            Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerUsedCard, theTrigger);
+            theTrigger = null;
+        }
+
     }
 }

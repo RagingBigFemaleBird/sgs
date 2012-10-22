@@ -40,6 +40,10 @@ namespace Sanguosha.Expansions.Basic.Skills
                 {
                     return VerifierResult.Fail;
                 }
+                if (!Game.CurrentGame.PlayerCanDiscardCard(Owner, card))
+                {
+                    return VerifierResult.Fail;
+                }
             }
             if (arg.Targets != null && arg.Targets.Count > 2)
             {
@@ -52,6 +56,23 @@ namespace Sanguosha.Expansions.Basic.Skills
                     return VerifierResult.Fail;
                 }
                 if (p == Owner)
+                {
+                    return VerifierResult.Fail;
+                }
+            }
+            if (arg.Targets != null && arg.Targets.Count == 2)
+            {
+                CompositeCard c = new CompositeCard();
+                c.Type = new JueDou();
+                c.Subcards = null;
+                c[WuXieKeJi.CannotBeCountered] = 1;
+                List<Player> dests = new List<Player>();
+                dests.Add(arg.Targets[0]);
+                if (!Game.CurrentGame.PlayerCanBeTargeted(arg.Targets[1], dests, c))
+                {
+                    return VerifierResult.Fail;
+                }
+                if (!Game.CurrentGame.PlayerCanUseCard(arg.Targets[1], c))
                 {
                     return VerifierResult.Fail;
                 }
@@ -75,6 +96,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             CardsMovement move;
             move.cards = new List<Card>(cards);
             move.to = new DeckPlace(null, DeckType.Discard);
+            Game.CurrentGame.MoveCards(move, null);
             GameEventArgs args = new GameEventArgs();
             args.Source = arg.Targets[1];
             args.Targets = new List<Player>();

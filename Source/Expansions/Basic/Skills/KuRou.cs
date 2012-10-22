@@ -22,11 +22,11 @@ namespace Sanguosha.Expansions.Basic.Skills
     {
         public override VerifierResult Validate(GameEventArgs arg)
         {
-            if (arg.Cards != null || arg.Cards.Count != 0)
+            if (arg.Cards != null && arg.Cards.Count != 0)
             {
                 return VerifierResult.Fail;
             }
-            if (arg.Targets != null || arg.Targets.Count != 0)
+            if (arg.Targets != null && arg.Targets.Count != 0)
             {
                 return VerifierResult.Fail;
             }

@@ -84,7 +84,7 @@ namespace Sanguosha.UI.Main
                     proxy = new ClientNetworkUiProxy(proxy, client, false);
                 }
                 proxy.HostPlayer = player;
-                proxy.TimeOutSeconds = 15;
+                proxy.TimeOutSeconds = 25;
 #endif
                 _game.UiProxies.Add(player, proxy);
             }
@@ -92,7 +92,9 @@ namespace Sanguosha.UI.Main
             _game.GameClient = client;
             _game.GameServer = null;
             _game.IsSlave = true;
-            _game.GlobalClientProxy = new GlobalClientUiProxy(_game, activeClientProxy);
+            _game.GlobalProxy = new GlobalClientUiProxy(_game, activeClientProxy);
+#else
+            _game.GlobalProxy = new GlobalDummyProxy();
 #endif
             _player = _game.Players[MainSeat];
             GameViewModel gameModel = new GameViewModel();

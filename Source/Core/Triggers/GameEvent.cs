@@ -68,6 +68,7 @@ namespace Sanguosha.Core.Triggers
             PlayerCanUseCard = new GameEvent("PlayerCanUseCard");
             PlayerUsedCard = new GameEvent("PlayerUsedCard");
             PlayerPlayedCard = new GameEvent("PlayerPlayedCard");
+            PlayerCanDiscardCard = new GameEvent("PlayerCanDiscardCard");
         }
 
         [Serializable]
@@ -299,6 +300,11 @@ namespace Sanguosha.Core.Triggers
         /// 玩家可以使用卡牌
         /// </summary>
         public static readonly GameEvent PlayerCanUseCard;
+
+        /// <summary>
+        /// 玩家可以弃掉卡牌
+        /// </summary>
+        public static readonly GameEvent PlayerCanDiscardCard;
 
         /// <summary>
         /// 玩家使用牌
