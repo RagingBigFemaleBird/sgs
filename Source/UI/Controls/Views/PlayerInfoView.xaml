@@ -180,7 +180,7 @@
                 <TextBlock x:Name="userLevelText" Text="Lv.0" HorizontalAlignment="Center" Margin="0,2,0,0" Style="{DynamicResource SmallTextBlockStyle}"/>
                 <TextBlock x:Name="userNameText" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="UserName" Margin="0,5,0,0" Style="{DynamicResource SmallTextBlockStyle}" Foreground="White" FontSize="13.333"/>
                 <Border Grid.Row="1" HorizontalAlignment="Left" Height="17" Width="16" VerticalAlignment="Bottom" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22">
-                    <TextBlock Margin="0,0,0,0" TextWrapping="Wrap" Text="0" TextAlignment="Center" FontFamily="Arial" Foreground="Black"/>
+                    <TextBlock x:Name="handCardNum" Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding HandCardCount}" TextAlignment="Center" FontFamily="Arial" Foreground="Black"/>
                 </Border>                
                 <Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="3" Stretch="Fill" Margin="1,2,0,0" Width="13" Height="13" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="3" Stretch="Fill" Margin="1,16,0,0" Width="13" Height="13" HorizontalAlignment="Left" VerticalAlignment="Top"/>

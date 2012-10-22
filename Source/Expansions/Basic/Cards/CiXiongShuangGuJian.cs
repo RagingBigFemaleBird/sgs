@@ -53,7 +53,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                         (eventArgs.Targets[0].IsMale && eventArgs.Source.IsFemale))
                     {
                         int answer;
-                        if (Game.CurrentGame.UiProxies[eventArgs.Source].AskForMultipleChoice("Use CiXiong", Constants.YesNoQuestions, out answer) && answer == 0)
+                        if (Game.CurrentGame.UiProxies[eventArgs.Source].AskForMultipleChoice("Use CiXiong", Constants.YesNoChoices, out answer) && answer == 0)
                         {
                             ISkill skill;
                             List<Card> cards;

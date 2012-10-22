@@ -26,7 +26,7 @@ namespace Sanguosha.UI.Controls
 
         void CardStack_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            RearrangeCards(0.5d);
+            RearrangeCards(0d);
         }
 
         #endregion

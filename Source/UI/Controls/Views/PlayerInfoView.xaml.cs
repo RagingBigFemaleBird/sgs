@@ -75,6 +75,8 @@ namespace Sanguosha.UI.Controls
             model.IsSelected = !model.IsSelected;
         }
 
+        #region PlayerInfoViewBase Members
+
         protected override void AddDelayedTool(CardView card)
         {
             LargeDelayedToolView dtv = new LargeDelayedToolView() { Width = 23, Height = 24 };
@@ -234,5 +236,6 @@ namespace Sanguosha.UI.Controls
             storyBoard.Begin();
             return result;
         }
+        #endregion // PlayerInfoViewBase Members
     }
 }

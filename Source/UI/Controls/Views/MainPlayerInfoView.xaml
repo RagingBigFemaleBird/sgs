@@ -311,7 +311,7 @@
                 <Button x:Name="btnOk" Command="{Binding SubmitAnswerCommand}" Grid.Column="1" Height="82" Margin="3,-1,39,0" Style="{DynamicResource OkButtonStyle}" VerticalAlignment="Top" />
             </Grid>
             <Border HorizontalAlignment="Right" Height="17" Width="16" VerticalAlignment="Top" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22" Margin="0,148,92,0" d:LayoutOverrides="GridBox">
-                <TextBlock Margin="0,0,0,0" TextWrapping="Wrap" Text="0" TextAlignment="Center" FontFamily="Arial" Foreground="Black"/>
+                <TextBlock Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding HandCardCount}" TextAlignment="Center" FontFamily="Arial" Foreground="Black"/>
             </Border>
             <Button Content="" Height="82" Margin="0,0,39,0" Command="{Binding CancelAnswerCommand}" Style="{DynamicResource CancelButtonStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="67"/>
             <Button Content="" Margin="0,44,5,44" Command="{Binding AbortAnswerCommand}" Style="{DynamicResource DiscardButtonStyle}" HorizontalAlignment="Right" Width="33"/>

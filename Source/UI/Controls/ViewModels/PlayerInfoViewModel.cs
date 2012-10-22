@@ -407,5 +407,22 @@ namespace Sanguosha.UI.Controls
         }
 
         #endregion
+
+        #region View Controlled Fields
+
+        private int _handCardCount;
+        
+        public int HandCardCount
+        {
+            get { return _handCardCount; }
+            set
+            {
+                if (_handCardCount == value) return;
+                _handCardCount = value;
+                OnPropertyChanged("HandCardCount");
+            }
+        }
+        
+        #endregion
     }
 }

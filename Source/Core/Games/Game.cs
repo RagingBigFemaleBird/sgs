@@ -94,25 +94,20 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public void UpdateCardIf(Player p, int times = 1)
+        public void RevealCardTo(Player player, Card card, int times = 1)
         {
-            if (GameClient == null)
+            if (GameClient != null)
             {
-                return;
+                if (player.Id != GameClient.SelfId)
+                {
+                    return;
+                }
+                while (times-- > 0)
+                {
+                    GameClient.Receive();
+                }
             }
-            if (p.Id != GameClient.SelfId)
-            {
-                return;
-            }
-            while (times-- > 0)
-            {
-                GameClient.Receive();
-            }
-        }
-
-        public void RevealCardTo(Player player, Card card)
-        {
-            if (GameServer != null)
+            else if (GameServer != null)
             {
                 card.RevealOnce = true;
                 GameServer.SendObject(player.Id, card);
@@ -410,7 +405,6 @@ namespace Sanguosha.Core.Games
                     }
                     if (card.Place.Player != null && move.to.Player != null && move.to.DeckType == DeckType.Hand)
                     {
-                        UpdateCardIf(move.to.Player);
                         RevealCardTo(move.to.Player, card);
                     }
                 }
@@ -494,7 +488,6 @@ namespace Sanguosha.Core.Games
                 List<Card> cardsDrawn = new List<Card>();
                 for (int i = 0; i < num; i++)
                 {
-                    UpdateCardIf(player);
                     RevealCardTo(player, PeekCard(0));
                     cardsDrawn.Add(DrawCard());
                 }

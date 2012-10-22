@@ -44,7 +44,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                     return;
                 }
                 int answer = 0;
-                if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice("FanKui", Constants.YesNoQuestions, out answer) && answer == 0)
+                if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice("FanKui", Constants.YesNoChoices, out answer) && answer == 0)
                 {
                     List<DeckPlace> deck = new List<DeckPlace>();
                     deck.Add(new DeckPlace(eventArgs.Source, DeckType.Hand));

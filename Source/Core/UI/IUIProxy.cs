@@ -52,7 +52,7 @@ namespace Sanguosha.Core.UI
                               ICardChoiceVerifier verifier, out List<List<Card>> answer);
 
         /// <summary>
-        /// 询问多选题目，例如是否发动大姨妈
+        /// 询问多选题目，例如是否发动洛神
         /// </summary>
         /// <param name="prompt"></param>
         /// <param name="questions">问题列表</param>

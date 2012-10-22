@@ -73,6 +73,7 @@ namespace Sanguosha.UI.Controls
                 {
                     OnSelectedChanged(this, new EventArgs());
                 }
+                OnPropertyChanged("IsSelected");
             }
         }
 

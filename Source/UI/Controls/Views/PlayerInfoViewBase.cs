@@ -24,6 +24,7 @@ namespace Sanguosha.UI.Controls
 
         CardStack handCardArea;
 
+        #region Fields
         public PlayerInfoViewModel PlayerModel
         {
             get
@@ -52,6 +53,33 @@ namespace Sanguosha.UI.Controls
                 handCardArea.ParentGameView = value;
             }
         }
+        #endregion
+
+        #region Abstract Functions
+
+        // The following functions are in its essence abstract function. They are not declared
+        // abstract only to make designer happy to render their subclasses. (VS and blend will
+        // not be able to create designer view for abstract class bases.
+
+        protected virtual void AddEquipment(CardView card)
+        {
+        }
+
+        protected virtual CardView RemoveEquipment(Card card)
+        {
+            return null;
+        }
+
+        protected virtual void AddDelayedTool(CardView card)
+        {
+        }
+
+        protected virtual CardView RemoveDelayedTool(Card card)
+        {
+            return null;
+        }
+
+        #endregion
 
         public void AddCards(DeckType deck, IList<CardView> cards)
         {
@@ -62,6 +90,7 @@ namespace Sanguosha.UI.Controls
             if (deck == DeckType.Hand)
             {
                 handCardArea.AddCards(cards, 0.5d);
+                PlayerModel.HandCardCount += cards.Count;
             }
             else if (deck == DeckType.Equipment)
             {
@@ -100,24 +129,6 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        protected virtual void AddEquipment(CardView card)
-        {
-        }
-
-        protected virtual CardView RemoveEquipment(Card card)
-        {
-            return null;
-        }
-
-        protected virtual void AddDelayedTool(CardView card)
-        {
-        }
-
-        protected virtual CardView RemoveDelayedTool(Card card)
-        {
-            return null;
-        }
-
         public IList<CardView> RemoveCards(DeckType deck, IList<Card> cards)
         {
             List<CardView> cardsToRemove = new List<CardView>();
@@ -142,8 +153,9 @@ namespace Sanguosha.UI.Controls
                         cardsToRemove.Add(CardView.CreateCard(card));
                     }
                 }
-
-                handCardArea.RemoveCards(cardsToRemove);
+                Trace.Assert(cardsToRemove.Count == cards.Count);
+                handCardArea.RemoveCards(cardsToRemove);                
+                PlayerModel.HandCardCount -= cardsToRemove.Count;
             }
             else if (deck == DeckType.Equipment)
             {

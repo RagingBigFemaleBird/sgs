@@ -37,7 +37,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         }
 
         protected override void ShunChaiAddtionalCardReveal(Player source, Player dest, Card card)
-        {
+        {            
             Game.CurrentGame.UpdateCard();
             Game.CurrentGame.RevealCardToAll(card);
         }

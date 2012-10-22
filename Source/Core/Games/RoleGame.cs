@@ -78,7 +78,7 @@ namespace Sanguosha.Core.Games
                     List<Card> cards;
                     List<Player> players;
                     PlayerActionStageVerifier v = new PlayerActionStageVerifier();
-                    if (!proxy.AskForCardUsage("Player Action Stage", v, out skill, out cards, out players))
+                    if (!proxy.AskForCardUsage(Constants.PlayingPhasePrompt, v, out skill, out cards, out players))
                     {
                         break;
                     }
@@ -151,7 +151,7 @@ namespace Sanguosha.Core.Games
                     {
                         Game.CurrentGame.PriorityRevealCardsToAll(Game.CurrentGame.Decks[currentPlayer, DeckType.Hand]);
                     }
-                    if (!proxy.AskForCardUsage("Player Discard Stage", v, out skill, out cards, out players))
+                    if (!proxy.AskForCardUsage(Constants.DiscardPhasePrompt, v, out skill, out cards, out players))
                     {
                         if (cannotBeDiscarded > 0)
                         {
@@ -299,15 +299,13 @@ namespace Sanguosha.Core.Games
         {
             List<CardsMovement> moves = new List<CardsMovement>();
             // Deal everyone 4 cards
-            // todo: hacking for debug
             foreach (Player player in game.Players)
             {
                 CardsMovement move = new CardsMovement();
                 move.cards = new List<Card>();
                 move.to = new DeckPlace(player, DeckType.Hand);
-                for (int i = 0; i < 7; i++)
+                for (int i = 0; i < 4; i++)
                 {
-                    game.UpdateCardIf(player);
                     game.RevealCardTo(player, game.PeekCard(0));
                     Card c = game.DrawCard();
                     move.cards.Add(c);

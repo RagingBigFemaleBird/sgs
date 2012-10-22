@@ -158,12 +158,13 @@ namespace Sanguosha.UI.Controls
             {
                 mainPlayerPanel.SetValue(Grid.ColumnSpanProperty, 2);
                 infoPanel.SetValue(Grid.RowSpanProperty, 1);
-            }           
-
+            }
+           
             foreach (var playerView in playersMap.Values)
             {
                 playerView.UpdateCardAreas();
-            }           
+            }
+            discardDeck.RearrangeCards(0d);
         }
         #endregion
 
@@ -379,8 +380,8 @@ namespace Sanguosha.UI.Controls
 
             foreach (var skillCommand in mainPlayerModel.SkillCommands)
             {
-                skillCommand.IsEnabled = false;
-                skillCommand.IsSelected = false;                
+                skillCommand.IsSelected = false;
+                skillCommand.IsEnabled = false;                                
             }
 
             foreach (CardView cardView in mainPlayerPanel.HandCardArea.Cards)

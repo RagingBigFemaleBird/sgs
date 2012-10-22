@@ -119,15 +119,6 @@ namespace Sanguosha.UI.Controls
             
             lock (_daOpacity)
             {
-                if (transitionInSeconds == 0)
-                {
-                    SetValue(Canvas.LeftProperty, destX);
-                    SetValue(Canvas.TopProperty, destY);
-                    SetValue(CardView.OpacityProperty, CardOpacity);
-                    return;
-                }
-
-
                 double x = (double)GetValue(Canvas.LeftProperty);
                 double y = (double)GetValue(Canvas.TopProperty);
                 double opacity = (double)GetValue(Canvas.OpacityProperty);
