@@ -176,7 +176,7 @@ namespace Sanguosha.Core.Triggers
         ///              进行回合的角色会改为【放权】的目标。此时机过后，便是下一名角色的“回合开始前”。
         /// </remarks>
         public static readonly Dictionary<TurnPhase, GameEvent> PhaseEndEvents;
-
+        
         /// <summary>
         /// Inter-phase events.
         /// </summary>

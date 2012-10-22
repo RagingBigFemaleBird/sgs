@@ -130,7 +130,8 @@ namespace Sanguosha.Core.Games
             {
                 Player currentPlayer = eventArgs.Game.CurrentPlayer;
                 Trace.TraceInformation("Player {0} discard.", currentPlayer.Id);
-                if (Game.CurrentGame.Decks[currentPlayer, DeckType.Hand].Count > currentPlayer.Health)
+                int cannotBeDiscarded = 0;
+                while (Game.CurrentGame.Decks[currentPlayer, DeckType.Hand].Count > ((currentPlayer.Health < cannotBeDiscarded) ? cannotBeDiscarded : currentPlayer.Health))
                 {
                     Trace.Assert(Game.CurrentGame.UiProxies.ContainsKey(currentPlayer));
                     IUiProxy proxy = Game.CurrentGame.UiProxies[currentPlayer];
@@ -139,7 +140,7 @@ namespace Sanguosha.Core.Games
                     List<Player> players;
                     PlayerDiscardStageVerifier v = new PlayerDiscardStageVerifier();
                     v.Owner = currentPlayer;
-                    int cannotBeDiscarded = 0;
+                    cannotBeDiscarded = 0;
                     foreach (Card c in Game.CurrentGame.Decks[currentPlayer, DeckType.Hand])
                     {
                         if (!Game.CurrentGame.PlayerCanDiscardCard(currentPlayer, c))
@@ -147,17 +148,24 @@ namespace Sanguosha.Core.Games
                             cannotBeDiscarded++;
                         }
                     }
-                    if (currentPlayer.Health < cannotBeDiscarded)
+                    if (Game.CurrentGame.AwaitConfirmation(currentPlayer.Health < cannotBeDiscarded ? 0 : Game.GameStateConfirmed) != Game.GameStateConfirmed)
                     {
-                        Game.CurrentGame.PriorityRevealCardsToAll(Game.CurrentGame.Decks[currentPlayer, DeckType.Hand]);
+                        Game.CurrentGame.SyncCardsAll(Game.CurrentGame.Decks[currentPlayer, DeckType.Hand]);
                     }
                     if (!proxy.AskForCardUsage(Constants.DiscardPhasePrompt, v, out skill, out cards, out players))
                     {
-                        if (cannotBeDiscarded > 0)
+                        if (Game.CurrentGame.AwaitConfirmation(cannotBeDiscarded > 0 ? 0 : Game.GameStateConfirmed) != Game.GameStateConfirmed)
                         {
-                            Game.CurrentGame.PriorityRevealCardsToAll(Game.CurrentGame.Decks[currentPlayer, DeckType.Hand]);
+                            Game.CurrentGame.SyncCardsAll(Game.CurrentGame.Decks[currentPlayer, DeckType.Hand]);
                         }
-                        Game.CurrentGame.AwaitConfirmation();
+                        cannotBeDiscarded = 0;
+                        foreach (Card c in Game.CurrentGame.Decks[currentPlayer, DeckType.Hand])
+                        {
+                            if (!Game.CurrentGame.PlayerCanDiscardCard(currentPlayer, c))
+                            {
+                                cannotBeDiscarded++;
+                            }
+                        }
                         Trace.TraceInformation("Invalid answer, choosing for you");
                         cards = new List<Card>();
                         int i = 0;
@@ -168,18 +176,17 @@ namespace Sanguosha.Core.Games
                                 cards.Add(c);
                                 i++;
                             }
-                            if (Game.CurrentGame.Decks[currentPlayer, DeckType.Hand].Count - i <= currentPlayer.Health)
+                            if (Game.CurrentGame.Decks[currentPlayer, DeckType.Hand].Count - i <= ((currentPlayer.Health < cannotBeDiscarded) ? cannotBeDiscarded : currentPlayer.Health))
                             {
                                 break;
                             }
                         }
                     }
-                    //todo: Discard goes through triggers when 二张 || 曹植 is implemented
+                    //todo: Discard goes through triggers when 周瑜 || 二张 || 曹植 is implemented
                     CardsMovement m = new CardsMovement();
                     m.cards = cards;
                     m.to = new DeckPlace(null, DeckType.Discard);
                     Game.CurrentGame.MoveCards(m, null);
-
                 }
             }
 
@@ -217,10 +224,6 @@ namespace Sanguosha.Core.Games
                         }
                     }
                     int remainingCards = (Owner.Health > cannotBeDiscarded) ? (Owner.Health) : cannotBeDiscarded;
-                    if (Game.CurrentGame.Decks[Owner, DeckType.Hand].Count - cards.Count > remainingCards)
-                    {
-                        return VerifierResult.Partial;
-                    }
                     if (Game.CurrentGame.Decks[Owner, DeckType.Hand].Count - cards.Count < remainingCards)
                     {
                         return VerifierResult.Fail;
@@ -306,7 +309,7 @@ namespace Sanguosha.Core.Games
                 move.to = new DeckPlace(player, DeckType.Hand);
                 for (int i = 0; i < 4; i++)
                 {
-                    game.RevealCardTo(player, game.PeekCard(0));
+                    game.SyncCard(player, game.PeekCard(0));
                     Card c = game.DrawCard();
                     move.cards.Add(c);
                 }

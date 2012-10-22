@@ -85,8 +85,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             {
                 theCard = answer[0][0];
             }
-            Game.CurrentGame.UpdateCard();
-            Game.CurrentGame.RevealCardToAll(theCard);
+            Game.CurrentGame.SyncCardAll(theCard);
             List<Card> clist = new List<Card>();
             clist.Add(theCard);
             if (theCard.Suit != suit)

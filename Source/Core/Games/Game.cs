@@ -83,18 +83,8 @@ namespace Sanguosha.Core.Games
         public Network.Server GameServer { get; set; }
         public Network.Client GameClient { get; set; }
 
-        public void UpdateCard(int times = 1)
-        {
-            while (times-- > 0)
-            {
-                if (GameClient != null)
-                {
-                    GameClient.Receive();
-                }
-            }
-        }
 
-        public void RevealCardTo(Player player, Card card, int times = 1)
+        public void SyncCard(Player player, Card card)
         {
             if (GameClient != null)
             {
@@ -102,10 +92,7 @@ namespace Sanguosha.Core.Games
                 {
                     return;
                 }
-                while (times-- > 0)
-                {
-                    GameClient.Receive();
-                }
+                GameClient.Receive();
             }
             else if (GameServer != null)
             {
@@ -114,67 +101,48 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public void RevealCardsTo(Player player, List<Card> cards)
+        public void SyncCards(Player player, List<Card> cards)
         {
             foreach (Card c in cards)
             {
-                RevealCardTo(player, c);
+                SyncCard(player, c);
             }
         }
 
-        public void RevealCardToAll(Card card)
+        public void SyncCardAll(Card card)
+        {
+            foreach (Player p in players)
+            {
+                SyncCard(p, card);
+            }
+        }
+
+        public void SyncCardsAll(List<Card> cards)
+        {
+            foreach (Player p in players)
+            {
+                SyncCards(p, cards);
+            }
+        }
+
+        public static int GameStateConfirmed = 1;
+        public int AwaitConfirmation(int confirm)
         {
             if (GameServer != null)
             {
                 for (int i = 0; i < GameServer.MaxClients; i++)
                 {
-                    card.RevealOnce = true;
-                    GameServer.SendObject(i, card);
+                    GameServer.SendObject(i, confirm);
                 }
-            }
-        }
-
-        public void RevealCardsToAll(List<Card> cards)
-        {
-            foreach (Card c in cards)
-            {
-                RevealCardToAll(c);
-            }
-        }
-
-        public void PriorityRevealCardToAll(Card card)
-        {
-            if (GameServer != null)
-            {
-                for (int i = 0; i < GameServer.MaxClients; i++)
-                {
-                    card.RevealOnce = true;
-                    GameServer.SendInterruptedObject(i, card);
-                }
-            }
-        }
-
-        public void PriorityRevealCardsToAll(List<Card> cards)
-        {
-            foreach (Card c in cards)
-            {
-                PriorityRevealCardToAll(c);
-            }
-        }
-
-        public void AwaitConfirmation()
-        {
-            if (GameServer != null)
-            {
-                for (int i = 0; i < GameServer.MaxClients; i++)
-                {
-                    GameServer.SendObject(i, 0);
-                }
+                return confirm;
             }
             else if (GameClient != null)
             {
-                GameClient.Receive();
+                object o = GameClient.Receive();
+                Trace.Assert(o is int);
+                return (int)o;
             }
+            return GameStateConfirmed;
         }
 
         public bool IsSlave { get; set; }
@@ -391,7 +359,7 @@ namespace Sanguosha.Core.Games
             set { players = value; }
         }
 
-        public void MoveCards(List<CardsMovement> moves, List<UI.IGameLog> logs)
+        public void EventlessMoveCards(List<CardsMovement> moves, List<UI.IGameLog> logs)
         {
             foreach (CardsMovement move in moves)
             {
@@ -400,12 +368,11 @@ namespace Sanguosha.Core.Games
                 {
                     if (move.to.Player == null && move.to.DeckType == DeckType.Discard)
                     {
-                        UpdateCard();
-                        RevealCardToAll(card);
+                        SyncCardAll(card);
                     }
                     if (card.Place.Player != null && move.to.Player != null && move.to.DeckType == DeckType.Hand)
                     {
-                        RevealCardTo(move.to.Player, card);
+                        SyncCard(move.to.Player, card);
                     }
                 }
             }
@@ -423,7 +390,7 @@ namespace Sanguosha.Core.Games
                 foreach (Card card in cards)
                 {
                     Trace.TraceInformation("Card {0}{1}{2} from {3}{4} to {5}{6}.", card.Suit, card.Rank, card.Type.CardType.ToString(),
-                        card.Place.Player == null ? "G": card.Place.Player.Id.ToString(), card.Place.DeckType.Name, move.to.Player == null ? "G": move.to.Player.Id.ToString(), move.to.DeckType.Name);
+                        card.Place.Player == null ? "G" : card.Place.Player.Id.ToString(), card.Place.DeckType.Name, move.to.Player == null ? "G" : move.to.Player.Id.ToString(), move.to.DeckType.Name);
                     // unregister triggers for equipment 例如武圣将红色的雌雄双绝（假设有这么一个雌雄双绝）打出杀女性角色，不能发动雌雄
                     if (card.Place.Player != null && card.Place.DeckType == DeckType.Equipment && CardCategoryManager.IsCardCategory(card.Type.Category, CardCategory.Equipment))
                     {
@@ -439,8 +406,14 @@ namespace Sanguosha.Core.Games
                     decks[move.to].Add(card);
                     card.Place = move.to;
                 }
-                // trigger everything here
             }
+        }
+
+        public void MoveCards(List<CardsMovement> moves, List<UI.IGameLog> logs)
+        {
+            // trigger entering discard here
+            EventlessMoveCards(moves, logs);
+            // trigger everything else here
         }
 
         public void MoveCards(CardsMovement move, UI.IGameLog log)
@@ -488,7 +461,7 @@ namespace Sanguosha.Core.Games
                 List<Card> cardsDrawn = new List<Card>();
                 for (int i = 0; i < num; i++)
                 {
-                    RevealCardTo(player, PeekCard(0));
+                    SyncCard(player, PeekCard(0));
                     cardsDrawn.Add(DrawCard());
                 }
                 CardsMovement move;
@@ -704,8 +677,8 @@ namespace Sanguosha.Core.Games
         public Card Judge(Player player)
         {
             Card c = Game.CurrentGame.DrawCard();
-            RevealCardToAll(c);
-            UpdateCard();
+            //todo: move card to judge area and remove this
+            SyncCardAll(c);
             GameEventArgs args = new GameEventArgs();
             args.Source = player;
             args.Card = c;

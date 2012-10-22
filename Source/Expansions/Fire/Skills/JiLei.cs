@@ -48,14 +48,18 @@ namespace Sanguosha.Expansions.Fire.Skills
                 JiLeiQuestion.Add("JiBen");
                 JiLeiQuestion.Add("JinNang");
                 JiLeiQuestion.Add("ZhuangBei");
+                JiLeiQuestion.Add("No");
                 if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice("JiLei", JiLeiQuestion, out answer))
                 {
-                    Trace.Assert(answer >= 0 && answer <= 2);
-                    JiLeiImplementation trigger = new JiLeiImplementation(eventArgs.Source, answer);
-                    Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanDiscardCard, trigger);
-                    Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanUseCard, trigger);
-                    JiLeiRemoval trigger2 = new JiLeiRemoval(eventArgs.Source, trigger);
-                    Game.CurrentGame.RegisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], trigger2);
+                    Trace.Assert(answer >= 0 && answer <= 3);
+                    if (answer != 3)
+                    {
+                        JiLeiImplementation trigger = new JiLeiImplementation(eventArgs.Source, answer);
+                        Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanDiscardCard, trigger);
+                        Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanUseCard, trigger);
+                        JiLeiRemoval trigger2 = new JiLeiRemoval(eventArgs.Source, trigger);
+                        Game.CurrentGame.RegisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], trigger2);
+                    }
                 }
             }
 
