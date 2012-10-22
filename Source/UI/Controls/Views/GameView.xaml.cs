@@ -370,18 +370,18 @@ namespace Sanguosha.UI.Controls
             return players;
         }
 
-        private void _ResetAll()
+        private void _ResetButtons()
         {
             foreach (var equipCommand in mainPlayerModel.EquipCommands)
             {
-                equipCommand.OnSelectedChanged -= _UpdateEnabledStatusHandler;                
+                equipCommand.OnSelectedChanged -= _UpdateEnabledStatusHandler;
                 equipCommand.IsSelectionMode = false;
             }
 
             foreach (var skillCommand in mainPlayerModel.SkillCommands)
             {
                 skillCommand.IsSelected = false;
-                skillCommand.IsEnabled = false;                                
+                skillCommand.IsEnabled = false;
             }
 
             foreach (CardView cardView in mainPlayerPanel.HandCardArea.Cards)
@@ -396,9 +396,17 @@ namespace Sanguosha.UI.Controls
                 playerModel.IsSelectionMode = false;
             }
 
+            GameModel.CurrentPrompt = string.Empty;
+
             submitCommand.CanExecuteStatus = false;
             cancelCommand.CanExecuteStatus = false;
             abortCommand.CanExecuteStatus = false;
+        }
+
+        private void _ResetAll()
+        {
+            GameModel.MultiChoiceCommands.Clear();
+            _ResetButtons();
         }
 
         #endregion
@@ -484,6 +492,7 @@ namespace Sanguosha.UI.Controls
         #region MultiChoiceCommand
         public void ExecuteMultiChoiceCommand(object parameter)
         {
+            _ResetAll();
             MultipleChoiceAnsweredEvent((int)parameter);
         }
         #endregion
@@ -686,19 +695,19 @@ namespace Sanguosha.UI.Controls
             }
             else if (isMultiChoiceQuestion)
             {
-                _ResetAll();
+                _ResetButtons();
             }
         }
 
         private System.Timers.Timer _timer;
 
-        public void AskForCardUsage(string prompt, ICardUsageVerifier verifier, int timeOutSeconds)
+        public void AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, int timeOutSeconds)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 currentUsageVerifier = verifier;
                 Game.CurrentGame.CurrentActingPlayer = HostPlayer;
-                GameModel.CurrentPrompt = prompt;
+                GameModel.CurrentPrompt = PromptFormatter.Format(prompt);
 
                 foreach (var equipCommand in mainPlayerModel.EquipCommands)
                 {
@@ -747,25 +756,39 @@ namespace Sanguosha.UI.Controls
 
         private EventHandler _UpdateEnabledStatusHandler;
 
-        public void AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, int timeOutSeconds)
-        {
-            CardChoiceAnsweredEvent(null);
-        }
-
-        public void AskForMultipleChoice(string prompt, List<string> choices, int timeOutSeconds)
+        public void AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, int timeOutSeconds)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                GameModel.CurrentPrompt = prompt;
-                GameModel.MultiChoiceCommands.Clear();
+                GameModel.CurrentPrompt = PromptFormatter.Format(prompt);
+                CardChoiceAnsweredEvent(null);
+            });
+        }
+
+        public void AskForMultipleChoice(Prompt prompt, List<string> choices, int timeOutSeconds)
+        {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                GameModel.CurrentPrompt = PromptFormatter.Format(prompt);                
                 for (int i = 0; i < choices.Count; i++)
                 {
                     GameModel.MultiChoiceCommands.Add(
-                        new MultiChoiceCommand(ExecuteMultiChoiceCommand) { CanExecuteStatus = true, ChoiceKey = choices[i], ChoiceIndex = i });
+                        new MultiChoiceCommand(ExecuteMultiChoiceCommand) 
+                        {
+                            CanExecuteStatus = true, 
+                            ChoiceKey = choices[i], 
+                            ChoiceIndex = i 
+                        });
                 }
                 isMultiChoiceQuestion = true;
                 _UpdateCommandStatus();
             });
+        }
+
+        public int TimeOutSeconds
+        {
+            get;
+            set;
         }
 
         public event CardUsageAnsweredEventHandler CardUsageAnsweredEvent;

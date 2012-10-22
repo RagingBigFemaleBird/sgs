@@ -84,7 +84,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     ISkill skill;
                     List<Player> p;
                     List<Card> cards;
-                    if (!ui.AskForCardUsage("Shan", v1, out skill, out cards, out p))
+                    if (!ui.AskForCardUsage(new CardUsagePrompt("Sha.Shan", source), v1, out skill, out cards, out p))
                     {
                         cannotProvideShan = true;
                         break;

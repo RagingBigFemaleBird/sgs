@@ -39,6 +39,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             }
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
+                /*
                 if (eventArgs.Targets.IndexOf(Owner) < 0)
                 {
                     return;
@@ -54,7 +55,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                     List<string> deckname = new List<string>();
                     deckname.Add("GangLie choice");
                     GangLieVerifier ver = new GangLieVerifier();
-                    if (!Game.CurrentGame.UiProxies[eventArgs.Source].AskForCardChoice("GangLie", deck, deckname, max, ver, out result))
+                    if (!Game.CurrentGame.UiProxies[eventArgs.Source].AskForCardChoice(new CardUsagePrompt("GangLie", Owner), deck, deckname, max, ver, out result))
                     {
                         Game.CurrentGame.DoDamage(Owner, eventArgs.Source, 1, DamageElement.None, null);
                     }
@@ -65,7 +66,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                         m.to = new DeckPlace(null, DeckType.Discard);
                         Game.CurrentGame.MoveCards(m, null);
                     }
-                }
+                }*/
             }
             public GangLieTrigger(Player p)
             {

@@ -125,24 +125,28 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public static int GameStateConfirmed = 1;
-        public int AwaitConfirmation(int confirm)
+        public void SyncConfirmationStatus(ref bool confirmed)
         {
             if (GameServer != null)
             {
                 for (int i = 0; i < GameServer.MaxClients; i++)
                 {
-                    GameServer.SendObject(i, confirm);
+                    GameServer.SendObject(i, confirmed ? 1 : 0);
                 }
-                return confirm;
             }
             else if (GameClient != null)
             {
                 object o = GameClient.Receive();
                 Trace.Assert(o is int);
-                return (int)o;
+                if ((int)o == 1)
+                {
+                    confirmed = true;
+                }
+                else
+                {
+                    confirmed = false;
+                }
             }
-            return GameStateConfirmed;
         }
 
         public bool IsSlave { get; set; }

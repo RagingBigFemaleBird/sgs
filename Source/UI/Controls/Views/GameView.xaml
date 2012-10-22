@@ -46,12 +46,14 @@
 		    <StackPanel x:Name="stackPanel3" Grid.RowSpan="2" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
 		    <StackPanel x:Name="stackPanel4" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top"/>
 		    <StackPanel x:Name="stackPanel5" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <StackPanel x:Name="spPrompt" Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom">
+            <StackPanel x:Name="spPrompt" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
+                        HorizontalAlignment="Center"  VerticalAlignment="Bottom"
+                        Margin="100, 0, 100, 0">
             <local:OutlinedTextBlock x:Name="tbPrompt" Text="{Binding CurrentPrompt}"
 									 Fill="White" Stroke="Black" StrokeThickness="1"									 
 									 HorizontalAlignment="Center"
 									 FontSize="20" FontFamily="SimHei" Height="28.813" FontWeight="Bold"/>
-            <ItemsControl x:Name="gridChoices" Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom" MaxWidth="300" ItemsSource="{Binding MultiChoiceCommands}">
+                <ItemsControl x:Name="gridChoices" Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom" MaxWidth="1000" ItemsSource="{Binding MultiChoiceCommands}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Rows="1"/>
@@ -59,11 +61,11 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                    	<Viewbox Height="30">
-                        	<Button Style="{DynamicResource MultiChoiceButtonStyle}" CommandParameter="{Binding ChoiceIndex}" Command="{Binding}">
-                            	<local:OutlinedTextBlock HorizontalAlignment="Center" Width="auto" Text="{res:ResourceKeyBinding Path=ChoiceKey, StringFormat=Choice.\{0\}}" FontFamily="SimHei" Fill="White" FontWeight="Bold" Stroke="Black" TextWrapping="NoWrap"/>
-                        	</Button>
-						</Viewbox>
+                        <Viewbox Height="30" Width="auto">
+                            <Button Width="auto" Height="30" Style="{DynamicResource MultiChoiceButtonStyle}" CommandParameter="{Binding ChoiceIndex}" Command="{Binding}" Margin="20, 0, 20, 0">                        
+                           	    <local:OutlinedTextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Width="Auto" Text="{res:ResourceKeyBinding Path=ChoiceKey}" FontFamily="SimHei" Fill="White" FontWeight="Bold" Stroke="Black" TextWrapping="NoWrap"/>
+                       	    </Button>                 
+				        </Viewbox>                            
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

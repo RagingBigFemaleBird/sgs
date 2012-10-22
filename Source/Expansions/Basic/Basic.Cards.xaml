@@ -15,6 +15,22 @@
     <system:String x:Key="Card.WuXieKeJi.Description">抵消目标锦囊牌对一名角色产生的效果，或抵消另一张【无懈可击】产生的效果。</system:String>
     <system:String x:Key="Card.WuXieKeJi.Usage">系统提示→选中【无懈可击】→点“确定”</system:String>
 
+    <system:String x:Key="Card.WanJianQiFa.Name">万剑齐发</system:String>
+    <system:String x:Key="Card.WanJianQiFa.Description">出牌阶段，对所有其他角色使用。每名目标角色需打出一张【闪】，否则受到1点伤害。</system:String>
+    <system:String x:Key="Card.WanJianQiFa.Usage">选中【万剑齐发】→点“确定”</system:String>
+
+    <system:String x:Key="Card.JueDou.Name">决斗</system:String>
+    <system:String x:Key="Card.JueDou.Description">出牌阶段，对一名其他角色使用。由该角色开始，你与其轮流打出一张【杀】。首先不出【杀】的一方受到另一方造成的1点伤害。</system:String>
+    <system:String x:Key="Card.JueDou.Usage">选中【决斗】→选择一个目标→点“确定”</system:String>
+
+    <system:String x:Key="Card.TaoYuanJieYi.Name">桃园结义</system:String>
+    <system:String x:Key="Card.TaoYuanJieYi.Description">出牌阶段，对所有角色使用。每名目标角色回复1点体力。</system:String>
+    <system:String x:Key="Card.TaoYuanJieYi.Usage">选中【桃园结义】→点“确定”</system:String>
+
+    <system:String x:Key="Card.ShunShouQianYang.Name">顺手牵羊</system:String>
+    <system:String x:Key="Card.ShunShouQianYang.Description">出牌阶段，对距离为1且区域内有牌的一名其他角色使用。你获得其区域内的一张牌。</system:String>
+    <system:String x:Key="Card.ShunShouQianYang.Usage">选中【顺手牵羊】→选择距离为1的目标→点“确定”</system:String>
+
     <system:String x:Key="Card.CiXiongShuangGuJian.Name">雌雄双股剑</system:String>
     <system:String x:Key="Card.CiXiongShuangGuJian.Description">你使用【杀】，指定了一名异性角色为目标后，你可以令对方选择一项：自己弃一张手牌或让你从牌堆摸一张牌。</system:String>
     <system:String x:Key="Card.CiXiongShuangGuJian.Usage">系统提示→点“确定”或雌雄双股剑</system:String>

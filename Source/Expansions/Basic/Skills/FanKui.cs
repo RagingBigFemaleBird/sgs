@@ -44,7 +44,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                     return;
                 }
                 int answer = 0;
-                if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice("FanKui", Constants.YesNoChoices, out answer) && answer == 0)
+                if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("FanKui", eventArgs.Source), Prompt.YesNoChoices, out answer) && answer == 0)
                 {
                     List<DeckPlace> deck = new List<DeckPlace>();
                     deck.Add(new DeckPlace(eventArgs.Source, DeckType.Hand));
@@ -61,7 +61,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                     {
                         return;
                     }
-                    if (!Game.CurrentGame.UiProxies[eventArgs.Source].AskForCardChoice("FanKui", deck, deckname, max, ver, out result))
+                    if (!Game.CurrentGame.UiProxies[eventArgs.Source].AskForCardChoice(new CardChoicePrompt("FanKui"), deck, deckname, max, ver, out result))
                     {
 
                         Trace.TraceInformation("Invalid choice for FanKui");

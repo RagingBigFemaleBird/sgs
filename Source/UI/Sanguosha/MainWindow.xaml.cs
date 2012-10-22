@@ -21,7 +21,7 @@ namespace Sanguosha.UI.Main
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static string[] _dictionaryNames = new string[] { "Cards.xaml", "Skills.xaml", "Game.xaml" };
+        private static string[] _dictionaryNames = new string[] { "Cards.xaml", "Skills.xaml", "System.xaml" };
 
         private void _LoadResources(string folderPath)
         {

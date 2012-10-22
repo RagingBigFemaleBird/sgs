@@ -76,7 +76,11 @@ namespace Sanguosha.Expansions.Basic.Skills
             List<List<Card>> answer;
             FanJianVerifier ver = new FanJianVerifier();
             Card theCard;
-            if (!Game.CurrentGame.UiProxies[arg.Targets[0]].AskForCardChoice("FanJian", decks, decknames, max, ver, out answer))
+            int suitAnswer;
+            Game.CurrentGame.UiProxies[arg.Targets[0]].AskForMultipleChoice(new MultipleChoicePrompt("FanJian", Owner), Prompt.SuitChoices, out suitAnswer);
+            suit = (SuitType)suitAnswer;
+
+            if (!Game.CurrentGame.UiProxies[arg.Targets[0]].AskForCardChoice(new CardChoicePrompt("FanJian", Owner), decks, decknames, max, ver, out answer))
             {
                 Trace.TraceInformation("Invalid answer from user");
                 theCard = Game.CurrentGame.Decks[Owner, DeckType.Hand][0];
@@ -84,7 +88,8 @@ namespace Sanguosha.Expansions.Basic.Skills
             else
             {
                 theCard = answer[0][0];
-            }
+            }           
+
             Game.CurrentGame.SyncCardAll(theCard);
             List<Card> clist = new List<Card>();
             clist.Add(theCard);

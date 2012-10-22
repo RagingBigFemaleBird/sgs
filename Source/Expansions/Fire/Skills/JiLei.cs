@@ -45,11 +45,12 @@ namespace Sanguosha.Expansions.Fire.Skills
                 }
                 int answer = 0;
                 List<string> JiLeiQuestion = new List<string>();
-                JiLeiQuestion.Add("JiBen");
-                JiLeiQuestion.Add("JinNang");
-                JiLeiQuestion.Add("ZhuangBei");
-                JiLeiQuestion.Add("No");
-                if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice("JiLei", JiLeiQuestion, out answer))
+                JiLeiQuestion.Add(Prompt.MultipleChoiceOptionPrefix + "JiBen");
+                JiLeiQuestion.Add(Prompt.MultipleChoiceOptionPrefix + "JinNang");
+                JiLeiQuestion.Add(Prompt.MultipleChoiceOptionPrefix + "ZhuangBei");
+                JiLeiQuestion.Add(Prompt.NoChoice);
+                if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(
+                    new MultipleChoicePrompt("JiLei"), JiLeiQuestion, out answer))
                 {
                     Trace.Assert(answer >= 0 && answer <= 3);
                     if (answer != 3)

@@ -84,6 +84,7 @@
     </Compile>
     <Compile Include="Views\IDeckContainer.cs" />
     <Compile Include="Views\PlayerInfoViewBase.cs" />
+    <Compile Include="Views\PromptFormatter.cs" />
     <Compile Include="Views\SkillButton.xaml.cs">
       <DependentUpon>SkillButton.xaml</DependentUpon>
     </Compile>

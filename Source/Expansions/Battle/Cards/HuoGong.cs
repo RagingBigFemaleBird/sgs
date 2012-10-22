@@ -96,7 +96,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             ISkill s;
             List<Player> p;
             List<Card> cards;
-            if (!ui.AskForCardUsage("HuoGong", v1, out s, out cards, out p))
+            if (!ui.AskForCardUsage(new CardUsagePrompt("HuoGong", source), v1, out s, out cards, out p))
             {
                 Trace.TraceInformation("Player {0} Invalid answer", dest);
                 cards = new List<Card>();
@@ -106,7 +106,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             ui = Game.CurrentGame.UiProxies[source];
             HuoGongCardMatchVerifier v2 = new HuoGongCardMatchVerifier(cards[0].Suit);
             v2.Owner = source;
-            if (ui.AskForCardUsage("Choose your card for HuoGong", v2, out s, out cards, out p))
+            if (ui.AskForCardUsage(new CardUsagePrompt("HuoGong2", cards[0].Suit), v2, out s, out cards, out p))
             {
                 CardsMovement m;
                 m.cards = cards;

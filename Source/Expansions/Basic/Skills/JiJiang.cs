@@ -71,7 +71,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                         ISkill skill;
                         List<Player> p;
                         List<Card> cards;
-                        if (!ui.AskForCardUsage("JiJiang", v1, out skill, out cards, out p))
+                        if (!ui.AskForCardUsage(new CardUsagePrompt("JiJiang", Owner), v1, out skill, out cards, out p))
                         {
                             failToRespond = true;
                             break;

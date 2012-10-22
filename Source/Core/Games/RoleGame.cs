@@ -131,8 +131,18 @@ namespace Sanguosha.Core.Games
                 Player currentPlayer = eventArgs.Game.CurrentPlayer;
                 Trace.TraceInformation("Player {0} discard.", currentPlayer.Id);
                 int cannotBeDiscarded = 0;
-                while (Game.CurrentGame.Decks[currentPlayer, DeckType.Hand].Count > ((currentPlayer.Health < cannotBeDiscarded) ? cannotBeDiscarded : currentPlayer.Health))
+                // Have we finished discarding everything?
+                // We finish if 
+                //      玩家手牌数 小于等于 玩家体力值
+                //  或者玩家手牌数 小于等于 不可弃的牌的数目
+                while (true)
                 {
+                    int handCardCount = Game.CurrentGame.Decks[currentPlayer, DeckType.Hand].Count; // 玩家手牌数                    
+                    int cardKept = Math.Max(cannotBeDiscarded, currentPlayer.Health);
+                    if (handCardCount <= cardKept)
+                    {
+                        break;
+                    }
                     Trace.Assert(Game.CurrentGame.UiProxies.ContainsKey(currentPlayer));
                     IUiProxy proxy = Game.CurrentGame.UiProxies[currentPlayer];
                     ISkill skill;
@@ -148,13 +158,23 @@ namespace Sanguosha.Core.Games
                             cannotBeDiscarded++;
                         }
                     }
-                    if (Game.CurrentGame.AwaitConfirmation(currentPlayer.Health < cannotBeDiscarded ? 0 : Game.GameStateConfirmed) != Game.GameStateConfirmed)
+                    //如果玩家体力 小于 不可弃的牌数 则 摊牌
+                    bool status = currentPlayer.Health >= cannotBeDiscarded;
+                    Game.CurrentGame.SyncConfirmationStatus(ref status);
+                    if (!status)
                     {
                         Game.CurrentGame.SyncCardsAll(Game.CurrentGame.Decks[currentPlayer, DeckType.Hand]);
                     }
-                    if (!proxy.AskForCardUsage(new Prompt(Prompt.DiscardPhasePrompt), v, out skill, out cards, out players))
+
+                    int promptCount = handCardCount - currentPlayer.Health;
+                    if (!proxy.AskForCardUsage(new Prompt(Prompt.DiscardPhasePrompt, promptCount),
+                                               v, out skill, out cards, out players))
                     {
-                        if (Game.CurrentGame.AwaitConfirmation(cannotBeDiscarded > 0 ? 0 : Game.GameStateConfirmed) != Game.GameStateConfirmed)
+                        //玩家没有回应(default)
+                        //如果玩家有不可弃掉的牌(这个只有服务器知道） 则通知所有客户端该玩家手牌
+                        status = (cannotBeDiscarded == 0);
+                        Game.CurrentGame.SyncConfirmationStatus(ref status);
+                        if (!status)
                         {
                             Game.CurrentGame.SyncCardsAll(Game.CurrentGame.Decks[currentPlayer, DeckType.Hand]);
                         }
@@ -166,17 +186,19 @@ namespace Sanguosha.Core.Games
                                 cannotBeDiscarded++;
                             }
                         }
+
                         Trace.TraceInformation("Invalid answer, choosing for you");
                         cards = new List<Card>();
-                        int i = 0;
+                        int cardsDiscarded = 0;
                         foreach (Card c in Game.CurrentGame.Decks[currentPlayer, DeckType.Hand])
                         {
                             if (Game.CurrentGame.PlayerCanDiscardCard(currentPlayer, c))
                             {
                                 cards.Add(c);
-                                i++;
+                                cardsDiscarded++;
                             }
-                            if (Game.CurrentGame.Decks[currentPlayer, DeckType.Hand].Count - i <= ((currentPlayer.Health < cannotBeDiscarded) ? cannotBeDiscarded : currentPlayer.Health))
+                            int cardsRemaining = Game.CurrentGame.Decks[currentPlayer, DeckType.Hand].Count - cardsDiscarded;
+                            if (cardsRemaining <= Math.Max(currentPlayer.Health, cannotBeDiscarded))
                             {
                                 break;
                             }
