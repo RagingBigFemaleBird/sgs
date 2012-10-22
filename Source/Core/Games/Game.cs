@@ -901,5 +901,31 @@ namespace Sanguosha.Core.Games
             }
             return true;
         }
+
+        public bool PlayerCanBeTargeted(Player source, List<Player> targets, ICard card)
+        {
+            GameEventArgs arg = new GameEventArgs();
+            arg.Source = source;
+            arg.Targets = targets;
+            arg.Card = card;
+            try
+            {
+                Game.CurrentGame.Emit(GameEvent.PlayerCanBeTargeted, arg);
+                return true;
+            }
+            catch (TriggerResultException e)
+            {
+                if (e.Status == TriggerResult.Fail)
+                {
+                    Trace.TraceInformation("Players cannot be targeted by {0}", card.Type.CardType);
+                    return false;
+                }
+                else
+                {
+                    Trace.Assert(false);
+                }
+            }
+            return true;
+        }
     }
 }

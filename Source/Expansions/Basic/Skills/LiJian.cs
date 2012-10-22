@@ -65,8 +65,10 @@ namespace Sanguosha.Expansions.Basic.Skills
                 CompositeCard c = new CompositeCard();
                 c.Type = new JueDou();
                 c.Subcards = null;
-                Player dest = arg.Targets[0];
-                if (!c.Type.PlayerIsCardTargetCheck(arg.Targets[0], ref dest, c))
+                c[WuXieKeJi.CannotBeCountered] = 1;
+                List<Player> dests = new List<Player>();
+                dests.Add(arg.Targets[0]);
+                if (!Game.CurrentGame.PlayerCanBeTargeted(arg.Targets[1], dests, c))
                 {
                     return VerifierResult.Fail;
                 }

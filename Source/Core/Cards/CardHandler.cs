@@ -193,19 +193,8 @@ namespace Sanguosha.Core.Cards
             {
                 if (notReforging)
                 {
-                    try
+                    if (!Game.CurrentGame.PlayerCanBeTargeted(source, targets, card))
                     {
-                        Game.CurrentGame.Emit(GameEvent.PlayerCanBeTargeted, new Triggers.GameEventArgs()
-                        {
-                            Source = Game.CurrentGame.CurrentPlayer,
-                            Targets = targets,
-                            Cards = cards,
-                            Card = card,
-                        });
-                    }
-                    catch (TriggerResultException e)
-                    {
-                        Trace.Assert(e.Status == TriggerResult.Fail);
                         ReleaseHoldInTemp();
                         return VerifierResult.Fail;
                     }

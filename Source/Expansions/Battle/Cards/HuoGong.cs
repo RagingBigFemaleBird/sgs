@@ -55,7 +55,19 @@ namespace Sanguosha.Expansions.Battle.Cards
 
             public override VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players)
             {
-                if (skill != null || cards == null || cards.Count != 1 || (players != null && players.Count != 0))
+                if (skill != null || (players != null && players.Count != 0))
+                {
+                    return VerifierResult.Fail;
+                }
+                if (cards != null && cards.Count > 1)
+                {
+                    return VerifierResult.Fail;
+                }
+                if (cards == null || cards.Count == 0)
+                {
+                    return VerifierResult.Partial;
+                }
+                if (!Game.CurrentGame.PlayerCanDiscardCard(Owner, cards[0]))
                 {
                     return VerifierResult.Fail;
                 }
@@ -69,7 +81,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                 }
                 return VerifierResult.Success;
             }
-
+            public Player Owner { get; set; }
 
             public override IList<CardHandler> AcceptableCardType
             {
@@ -93,6 +105,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             Trace.TraceInformation("Player {0} HuoGong showed {1}, ", dest.Id, cards[0].Suit);
             ui = Game.CurrentGame.UiProxies[source];
             HuoGongCardMatchVerifier v2 = new HuoGongCardMatchVerifier(cards[0].Suit);
+            v2.Owner = source;
             if (ui.AskForCardUsage("Choose your card for HuoGong", v2, out s, out cards, out p))
             {
                 CardsMovement m;
