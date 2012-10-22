@@ -35,7 +35,7 @@ namespace Sanguosha.Core.UI
         /// <param name="cards"></param>
         /// <param name="players"></param>
         /// <returns>False if user cannot provide an answer.</returns>
-        bool AskForCardUsage(string prompt, ICardUsageVerifier verifier,
+        bool AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier,
                              out ISkill skill, out List<Card> cards, out List<Player> players);
         /// <summary>
         /// 询问用户从若干牌堆中选择卡牌，例如顺手牵羊，观星等等。
@@ -47,7 +47,7 @@ namespace Sanguosha.Core.UI
         /// <param name="verifier"></param>
         /// <param name="answer">用户选择结果。对应resultDeckNames，每个选出的牌堆占用一个list。</param>
         /// <returns>False if user cannot provide an answer.</returns>
-        bool AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames,
+        bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames,
                               List<int> resultDeckMaximums,
                               ICardChoiceVerifier verifier, out List<List<Card>> answer);
 
@@ -58,7 +58,7 @@ namespace Sanguosha.Core.UI
         /// <param name="questions">问题列表</param>
         /// <param name="answer">回答</param>
         /// <returns></returns>
-        bool AskForMultipleChoice(string prompt, List<string> questions, out int answer);
+        bool AskForMultipleChoice(Prompt prompt, List<string> questions, out int answer);
 
         void NotifyCardMovement(List<CardsMovement> m, List<UI.IGameLog> notes);
     }

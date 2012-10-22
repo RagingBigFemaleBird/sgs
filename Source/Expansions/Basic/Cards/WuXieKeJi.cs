@@ -50,17 +50,26 @@ namespace Sanguosha.Expansions.Basic.Cards
                 ISkill skill;
                 Player responder;
                 bool WuXieSuccess = false;
+                Trace.Assert(eventArgs.Targets.Count == 1);
+                Player promptPlayer = eventArgs.Targets[0];
+                ICard promptCard = eventArgs.Card;
                 if ((nCard != null && CardCategoryManager.IsCardCategory(nCard.Type.Category, CardCategory.Tool) && nCard[WuXieKeJi.CannotBeCountered] == 0) ||
                     (cCard != null && CardCategoryManager.IsCardCategory(cCard.Type.Category, CardCategory.Tool) && cCard[WuXieKeJi.CannotBeCountered] == 0))
                 {
                     while (true)
                     {
-                        if (Game.CurrentGame.GlobalProxy.AskForCardUsage("WuXie", v1, out skill, out cards, out players, out responder))
+                        Prompt prompt = new CardUsagePrompt("WuXieKeJi", promptPlayer, promptCard);
+                        if (Game.CurrentGame.GlobalProxy.AskForCardUsage(
+                            prompt, v1, out skill, out cards, out players, out responder))
                         {
                             if (!Game.CurrentGame.HandleCardUse(responder, skill, cards, players))
                             {
                                 continue;
                             }
+                            promptPlayer = responder;
+                            promptCard = new CompositeCard();
+                            promptCard.Type = new WuXieKeJi();
+                            (promptCard as CompositeCard).Subcards = null;
                             WuXieSuccess = !WuXieSuccess;
                         }
                         else

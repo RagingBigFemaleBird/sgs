@@ -78,7 +78,7 @@ namespace Sanguosha.Core.Games
                     List<Card> cards;
                     List<Player> players;
                     PlayerActionStageVerifier v = new PlayerActionStageVerifier();
-                    if (!proxy.AskForCardUsage(Constants.PlayingPhasePrompt, v, out skill, out cards, out players))
+                    if (!proxy.AskForCardUsage(new Prompt(Prompt.PlayingPhasePrompt), v, out skill, out cards, out players))
                     {
                         break;
                     }
@@ -152,7 +152,7 @@ namespace Sanguosha.Core.Games
                     {
                         Game.CurrentGame.SyncCardsAll(Game.CurrentGame.Decks[currentPlayer, DeckType.Hand]);
                     }
-                    if (!proxy.AskForCardUsage(Constants.DiscardPhasePrompt, v, out skill, out cards, out players))
+                    if (!proxy.AskForCardUsage(new Prompt(Prompt.DiscardPhasePrompt), v, out skill, out cards, out players))
                     {
                         if (Game.CurrentGame.AwaitConfirmation(cannotBeDiscarded > 0 ? 0 : Game.GameStateConfirmed) != Game.GameStateConfirmed)
                         {

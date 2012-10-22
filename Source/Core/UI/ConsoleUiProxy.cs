@@ -21,7 +21,7 @@ namespace Sanguosha.Core.UI
             set { hostPlayer = value; }
         }
 
-        bool IUiProxy.AskForCardUsage(string prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+        bool IUiProxy.AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             Player p = hostPlayer;
             Console.Write("I AM PLAYER {0}({1}): ", p.Id, p.Hero.Name);
@@ -151,7 +151,7 @@ namespace Sanguosha.Core.UI
             }
         }
 
-        bool IUiProxy.AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer)
+        bool IUiProxy.AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer)
         {
             answer = null;
             return false;
@@ -164,7 +164,7 @@ namespace Sanguosha.Core.UI
         }
 
 
-        public bool AskForMultipleChoice(string prompt, List<string> questions, out int answer)
+        public bool AskForMultipleChoice(Prompt prompt, List<string> questions, out int answer)
         {
             /*
             Player p = hostPlayer;

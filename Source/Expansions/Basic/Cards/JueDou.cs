@@ -21,6 +21,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             Player current = dest;
             List<Player> sourceList = new List<Player>();
             sourceList.Add(source);
+            bool firstTime = true;
             while (true)
             {
                 IUiProxy ui = Game.CurrentGame.UiProxies[current];
@@ -28,7 +29,17 @@ namespace Sanguosha.Expansions.Basic.Cards
                 ISkill skill;
                 List<Player> p;
                 List<Card> cards;
-                if (!ui.AskForCardUsage("JueDou", v1, out skill, out cards, out p))
+                CardUsagePrompt prompt;
+                if (firstTime)
+                {
+                    prompt = new CardUsagePrompt("JueDou", source);;
+                }
+                else
+                {
+                    prompt = new CardUsagePrompt("JueDou2", current == dest ? source : dest);
+                    firstTime = false;
+                }
+                if (!ui.AskForCardUsage(prompt, v1, out skill, out cards, out p))
                 {
                     Trace.TraceInformation("Player {0} Invalid answer", current);
                     break;

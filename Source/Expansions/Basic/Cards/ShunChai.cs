@@ -49,7 +49,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             List<int> resultDeckMax = new List<int>();
             resultDeckMax.Add(1);
             List<List<Card>> answer;
-            if (!ui.AskForCardChoice(ChoicePrompt, places, resultDeckPlace, resultDeckMax, v1, out answer))
+            if (!ui.AskForCardChoice(new CardChoicePrompt(ChoicePrompt), places, resultDeckPlace, resultDeckMax, v1, out answer))
             {
                 Trace.TraceInformation("Player {0} Invalid answer", dest);
                 answer = new List<List<Card>>();

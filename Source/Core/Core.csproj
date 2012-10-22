@@ -33,13 +33,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accessibility">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cards\CardCategory.cs" />
@@ -65,6 +76,7 @@
     <Compile Include="Games\TurnPhase.cs" />
     <Compile Include="Exceptions\SgsException.cs" />
     <Compile Include="Games\Game.cs" />
+    <Compile Include="UI\Prompt.cs" />
     <Compile Include="Heroes\HeroCardHandler.cs" />
     <Compile Include="Network\Client.cs" />
     <Compile Include="Network\ItemReceiver.cs" />
@@ -98,7 +110,17 @@
     <Compile Include="UI\ServerNetworkUiProxy.cs" />
     <Compile Include="UI\TestUiProxy.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Core.System.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if not exist $(TargetDir)\Resources\Texts mkdir  $(TargetDir)\Resources\Texts
+copy $(ProjectDir)\*.xaml $(TargetDir)\Resources\Texts</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

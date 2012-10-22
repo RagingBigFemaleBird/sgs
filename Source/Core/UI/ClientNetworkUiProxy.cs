@@ -31,7 +31,7 @@ namespace Sanguosha.Core.UI
             active = a;
         }
 
-        public void TryAskForCardUsage(string prompt, ICardUsageVerifier verifier)
+        public void TryAskForCardUsage(Prompt prompt, ICardUsageVerifier verifier)
         {
             ISkill skill;
             List<Card> cards;
@@ -81,7 +81,7 @@ namespace Sanguosha.Core.UI
                 }
             }
         }
-        public bool TryAnswerForCardUsage(string prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+        public bool TryAnswerForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             skill = null;
             cards = null;
@@ -125,7 +125,7 @@ namespace Sanguosha.Core.UI
             client.NextComm();
         }
 
-        public bool AskForCardUsage(string prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+        public bool AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             Trace.TraceInformation("Asking Card Usage to {0}.", HostPlayer.Id);
             if (active)
@@ -145,13 +145,13 @@ namespace Sanguosha.Core.UI
             return false;
         }
 
-        public bool AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer)
+        public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer)
         {
             answer = null;
             return false;
         }
 
-        public bool AskForMultipleChoice(string prompt, List<string> questions, out int answer)
+        public bool AskForMultipleChoice(Prompt prompt, List<string> questions, out int answer)
         {
             Trace.TraceInformation("Asking Multiple choice to {0}.", HostPlayer.Id);
             if (active)
@@ -163,14 +163,14 @@ namespace Sanguosha.Core.UI
             {
                 Trace.TraceInformation("Not active player, defaulting.");
             }
-            if (TryAnswerForMultipleChoice(prompt, questions, out answer))
+            if (TryAnswerForMultipleChoice(questions, out answer))
             {
                 return true;
             }
             return false;
         }
 
-        private bool TryAnswerForMultipleChoice(string prompt, List<string> questions, out int answer)
+        private bool TryAnswerForMultipleChoice(List<string> questions, out int answer)
         {
             answer = 0;
             object o = client.Receive();
@@ -182,7 +182,7 @@ namespace Sanguosha.Core.UI
             return true;
         }
 
-        private void TryAskForMultipleChoice(string prompt, List<string> questions)
+        private void TryAskForMultipleChoice(Prompt prompt, List<string> questions)
         {
             int answer;
             if (!proxy.AskForMultipleChoice(prompt, questions, out answer))

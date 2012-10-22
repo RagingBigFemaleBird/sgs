@@ -11,6 +11,6 @@ namespace Sanguosha.Core.UI
 {
     public interface IGlobalUiProxy
     {
-        bool AskForCardUsage(string prompt, CardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players, out Player respondingPlayer);
+        bool AskForCardUsage(Prompt prompt, CardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players, out Player respondingPlayer);
     }
 }

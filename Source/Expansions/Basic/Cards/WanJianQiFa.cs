@@ -21,7 +21,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             ResponseCardVerifier = new SingleCardUsageVerifier((c) => { return c.Type is Shan; });
         }
 
-        protected override string UsagePrompt
+        protected override string UsagePromptString
         {
             get { return "WanJianQiFa"; }
         }

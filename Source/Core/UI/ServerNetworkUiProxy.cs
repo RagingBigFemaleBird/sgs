@@ -41,7 +41,7 @@ namespace Sanguosha.Core.UI
             }
         }
 
-        public bool TryAskForCardUsage(string prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+        public bool TryAskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             cards = null;
             skill = null;
@@ -190,7 +190,7 @@ namespace Sanguosha.Core.UI
             server.CommIdInc(clientId);
         }
 
-        public bool AskForCardUsage(string prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+        public bool AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             bool ret = true;
             if (!TryAskForCardUsage(prompt, verifier, out skill, out cards, out players))
@@ -214,7 +214,7 @@ namespace Sanguosha.Core.UI
             return ret;
         }
 
-        public bool AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer)
+        public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer)
         {
             answer = null;
             return false;
@@ -222,7 +222,7 @@ namespace Sanguosha.Core.UI
 
 
 
-        public bool AskForMultipleChoice(string prompt, List<string> questions, out int answer)
+        public bool AskForMultipleChoice(Prompt prompt, List<string> questions, out int answer)
         {
             bool ret = true;
             if (!TryAskForMultipleChoice(prompt, questions, out answer))
@@ -246,7 +246,7 @@ namespace Sanguosha.Core.UI
             }
         }
 
-        private bool TryAskForMultipleChoice(string prompt, List<string> questions, out int answer)
+        private bool TryAskForMultipleChoice(Prompt prompt, List<string> questions, out int answer)
         {
             answer = 0;
             Trace.TraceInformation("Asking Multiple choice to {0}, timeout {1}.", HostPlayer.Id, TimeOutSeconds);

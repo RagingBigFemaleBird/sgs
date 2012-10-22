@@ -24,14 +24,15 @@ namespace Sanguosha.Core.UI
         List<Player> answerPlayer;
         Player responder;
         Game game;
-        private struct listenerThreadParameters
+
+        private struct ListenerThreadParameters
         {
             public ServerNetworkUiProxy proxy;
-            public string prompt;
+            public Prompt prompt;
             public CardUsageVerifier verifier;
         }
 
-        public bool AskForCardUsage(string prompt, CardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players, out Player respondingPlayer)
+        public bool AskForCardUsage(Prompt prompt, CardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players, out Player respondingPlayer)
         {
             proxyListener = new Dictionary<Player, Thread>();
             semAccess = new Semaphore(1, 1);
@@ -47,14 +48,14 @@ namespace Sanguosha.Core.UI
                 {
                     continue;
                 }
-                listenerThreadParameters para = new listenerThreadParameters();
+                ListenerThreadParameters para = new ListenerThreadParameters();
                 para.prompt = prompt;
                 para.proxy = proxy[player];
                 para.verifier = verifier;
                 Thread t = new Thread(
                     (ParameterizedThreadStart)
                     ((p) => { 
-                        proxyListenerThread((listenerThreadParameters)p);
+                        proxyListenerThread((ListenerThreadParameters)p);
                     })) { IsBackground = true };
                 t.Start(para);
                 proxyListener.Add(player, t);
@@ -102,7 +103,7 @@ namespace Sanguosha.Core.UI
             return ret;
         }
 
-        private void proxyListenerThread(listenerThreadParameters para)
+        private void proxyListenerThread(ListenerThreadParameters para)
         {
             game.RegisterCurrentThread();
             ISkill skill;

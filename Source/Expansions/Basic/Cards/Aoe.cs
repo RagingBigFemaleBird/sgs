@@ -25,7 +25,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             set { responseCardVerifier = value; }
         }
 
-        protected abstract string UsagePrompt {get;}
+        protected abstract string UsagePromptString { get; }
 
         protected override void Process(Player source, Player dest, ICard card)
         {
@@ -70,7 +70,8 @@ namespace Sanguosha.Expansions.Basic.Cards
                     ISkill skill;
                     List<Player> p;
                     List<Card> cards;
-                    if (!ui.AskForCardUsage(UsagePrompt, v1, out skill, out cards, out p))
+                    if (!ui.AskForCardUsage(new CardUsagePrompt(UsagePromptString, source),
+                                                          v1, out skill, out cards, out p))
                     {
                         Trace.TraceInformation("Player {0} Invalid answer", current);
                         Game.CurrentGame.DoDamage(source, current, 1, DamageElement.None, c);

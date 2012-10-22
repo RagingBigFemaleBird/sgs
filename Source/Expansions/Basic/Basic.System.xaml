@@ -1,0 +1,11 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <sys:String x:Key="CardUsage.Prompt.WanJianQiFa">{0}使用了万箭齐发，请出一张闪</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.JueDou">{0}对你使用了决斗，请出一张杀</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.JueDou2">{0}对你打出一张杀，请出一张杀</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.WuXieKeJi">{0}为{1}询问无懈可击，是否使用无懈可击？</sys:String>
+
+</ResourceDictionary>

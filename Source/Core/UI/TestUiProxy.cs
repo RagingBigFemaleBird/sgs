@@ -60,7 +60,7 @@ namespace Sanguosha.Core.UI
             return true;
         }
 
-        public bool AskForCardUsage(string prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+        public bool AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             line = "U JiJiang 1: 2 3";
             Match m = Regex.Match(line, @"U\s(?<skill>[A-Za-z]*)(?<cards>(\s\d+)*):(?<players>(\s\d+)*)");
@@ -90,7 +90,7 @@ namespace Sanguosha.Core.UI
             }
         }
 
-        public bool AskForCardChoice(string prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer)
+        public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer)
         {
             throw new NotImplementedException();
         }
@@ -101,7 +101,7 @@ namespace Sanguosha.Core.UI
         }
 
 
-        public bool AskForMultipleChoice(string prompt, List<string> questions, out int answer)
+        public bool AskForMultipleChoice(Prompt prompt, List<string> questions, out int answer)
         {
             throw new NotImplementedException();
         }
