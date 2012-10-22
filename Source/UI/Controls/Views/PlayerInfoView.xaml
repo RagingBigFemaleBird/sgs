@@ -13,8 +13,11 @@
     <local:PlayerInfoViewBase.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="EquipButton.xaml"/>
+                <ResourceDictionary Source="SkillButton.xaml"/>
+                <ResourceDictionary Source="SkillToolTip.xaml"/>
                 <ResourceDictionary Source="../Common.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/Heroes.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <Style x:Key="SmallTextBlockStyle" TargetType="{x:Type TextBlock}">
@@ -58,7 +61,11 @@
     	</EventTrigger>
     </local:PlayerInfoViewBase.Triggers>
     <Grid x:Name="LayoutRoot">
-    	<VisualStateManager.CustomVisualStateManager>
+        <Grid.ToolTip>
+            <ToolTip x:Name="toolTip" Content="{Binding}" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
+        </Grid.ToolTip>
+        <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
+        <VisualStateManager.CustomVisualStateManager>
     		<ei:ExtendedVisualStateManager/>
     	</VisualStateManager.CustomVisualStateManager>
     	<VisualStateManager.VisualStateGroups>

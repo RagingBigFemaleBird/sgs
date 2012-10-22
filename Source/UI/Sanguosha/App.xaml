@@ -6,9 +6,8 @@
     <Application.Resources>
         <!-- Resources scoped at the Application level should be defined here. -->
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Resources;component/Skills.xaml"/>
-                <ResourceDictionary Source="/Resources;component/Cards.xaml"/>
+            <ResourceDictionary.MergedDictionaries>                
+                <ResourceDictionary Source="/Resources;component/System.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Style x:Key="{x:Type ToolTip}" TargetType="ToolTip">

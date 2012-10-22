@@ -16,10 +16,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="EquipButton.xaml"/>
                 <ResourceDictionary Source="SkillButton.xaml"/>
+                <ResourceDictionary Source="SkillToolTip.xaml"/>
             	<ResourceDictionary Source="../Common.xaml"/>
-            	<ResourceDictionary Source="pack://application:,,,/Resources;component/Heroes.xaml"/>
-            	<ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/Skills.xaml"/>
+            	<ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
+            	<ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>                
             </ResourceDictionary.MergedDictionaries>
         	<Storyboard x:Key="sbPhaseChange">
         		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="imgPhase">
@@ -322,6 +322,10 @@
                     <Image.Source>
                         <res:ImageBinding Path="HeroName" StringFormat="Resources/Images/Heroes/{0}.png" ResourceKeyFormat="Hero.{0}.Image" CropRect="71,28,145,145" />                        
                     </Image.Source>
+                    <Image.ToolTip>
+                        <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
+                    </Image.ToolTip>
+                    <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>                    
                 </Image>                
 			</Border>
             <Border x:Name="fadeMask" Background="#64000000" Opacity="0" IsHitTestVisible="False">
@@ -357,9 +361,12 @@
                                     </local:OutlinedTextBlock.Effect>
                                 </local:OutlinedTextBlock>
                                 <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="White" Stroke="White" StrokeThickness="1" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify">
-                            </local:OutlinedTextBlock>
-                            
+                            </local:OutlinedTextBlock>                            
                             </Grid>
+                            <ToggleButton.ToolTip>
+                                <ToolTip ContentTemplate="{StaticResource SkillToolTipTemplate}" Content="{Binding Mode=OneWay}" />  
+                            </ToggleButton.ToolTip>
+                            <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
                         </ToggleButton>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

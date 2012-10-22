@@ -74,6 +74,7 @@
     <Compile Include="Views\CardView.xaml.cs">
       <DependentUpon>CardView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\HeroToolTipConverter.cs" />
     <Compile Include="Views\LargeDelayedToolView.xaml.cs">
       <DependentUpon>LargeDelayedToolView.xaml</DependentUpon>
     </Compile>
@@ -87,6 +88,7 @@
       <DependentUpon>SkillButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SkillButtonDock.cs" />
+    <Compile Include="Views\SkillToolTipConverter.cs" />
     <Compile Include="Views\SmallDelayedToolView.xaml.cs">
       <DependentUpon>SmallDelayedToolView.xaml</DependentUpon>
     </Compile>
@@ -149,6 +151,10 @@
     <Page Include="Views\SkillButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SkillToolTip.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SmallDelayedToolView.xaml">
       <SubType>Designer</SubType>

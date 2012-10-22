@@ -10,7 +10,8 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/Cards.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
+                <ResourceDictionary Source="CardToolTip.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <local:SuitColorToColorConverter x:Key="suitColorToColorConverter" />
         </ResourceDictionary>
@@ -26,6 +27,10 @@
         </TextBlock>
         <Image Source="{res:ImageBinding Path=Suit, StringFormat=Resources/Images/Cards/Suit/\{0\}.png, ResourceKeyFormat=Card.Suit.\{0\}.Image.Normal}" 
                Width="10" Height="12" Margin="115,0,0,0"
-               HorizontalAlignment="Left" VerticalAlignment="Center"/>
+               HorizontalAlignment="Left" VerticalAlignment="Center"/>        
     </Grid>
+    <UserControl.ToolTip>
+        <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top" ContentTemplateSelector="{StaticResource cardToolTipTemplateSelector}"/>        
+    </UserControl.ToolTip>
+    <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
 </UserControl>

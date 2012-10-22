@@ -11,7 +11,8 @@
 	xmlns:Sanguosha_UI_Animations="clr-namespace:Sanguosha.UI.Animations;assembly=Animations"
 	mc:Ignorable="d">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/Resources;component/Cards.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
+        <ResourceDictionary Source="CardToolTip.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     <local:SuitColorToColorConverter x:Key="suitColorToColorConverter" />
     <Style x:Key="BigEquipToggleButton" TargetType="{x:Type ToggleButton}">
@@ -156,5 +157,11 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="ToolTip">
+            <Setter.Value>
+                <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top" ContentTemplateSelector="{StaticResource cardToolTipTemplateSelector}"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />      
     </Style>
 </ResourceDictionary>

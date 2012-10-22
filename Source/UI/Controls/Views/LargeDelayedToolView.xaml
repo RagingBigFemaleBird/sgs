@@ -6,7 +6,19 @@
              xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
+                <ResourceDictionary Source="CardToolTip.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Image x:Name="Large" Source="{res:ImageBinding Path=ActualTypeString, StringFormat=Resources/Images/Cards/DelayedTools/\{0\}.png}"/>
     </Grid>
+    <UserControl.ToolTip>
+        <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top" ContentTemplateSelector="{StaticResource cardToolTipTemplateSelector}"/>
+    </UserControl.ToolTip>
+    <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
 </UserControl>

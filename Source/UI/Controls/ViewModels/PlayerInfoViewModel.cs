@@ -39,6 +39,7 @@ namespace Sanguosha.UI.Controls
         {
             IsSelectionMode = false;
             SkillCommands = new ObservableCollection<SkillCommand>();
+            HeroSkillNames = new ObservableCollection<string>();
         }
 
         public PlayerInfoViewModel(Player p) : this()
@@ -124,6 +125,14 @@ namespace Sanguosha.UI.Controls
             else if (name == "Hero")
             {
                 OnPropertyChanged("HeroName");
+                HeroSkillNames.Clear();
+                if (Hero != null)
+                {
+                    foreach (var skill in Hero.Skills)
+                    {
+                        HeroSkillNames.Add(skill.GetType().Name);
+                    }
+                }
             }
             else if (name == "Skills")
             {
@@ -307,6 +316,16 @@ namespace Sanguosha.UI.Controls
 
 
         public ObservableCollection<SkillCommand> SkillCommands
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Returns the skill names of the primary hero.
+        /// </summary>
+        /// <remarks>For displaying tooltip purposes.</remarks>
+        public ObservableCollection<string> HeroSkillNames
         {
             get;
             private set;

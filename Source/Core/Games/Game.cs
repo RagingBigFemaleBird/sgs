@@ -173,7 +173,7 @@ namespace Sanguosha.Core.Games
                     Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, id);
                     Game.CurrentGame.Players[id].Hero = h.Hero;
                     Game.CurrentGame.Players[id].Allegiance = h.Hero.Allegiance;
-                    Game.CurrentGame.Players[id].MaxHealth = Game.CurrentGame.Players[id].Health = h.Hero.DefaultHp;
+                    Game.CurrentGame.Players[id].MaxHealth = Game.CurrentGame.Players[id].Health = h.Hero.MaxHealth;
                     if (id == 0)
                     {
                         Game.CurrentGame.Players[id].Role = Role.Ruler;

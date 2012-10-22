@@ -173,19 +173,11 @@
     <Resource Include="Images\PlayerInfoView\healthBarBg.png" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Cards.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Images\HealthBar\HealthBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Heroes.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Skills.xaml">
+    <Page Include="System.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

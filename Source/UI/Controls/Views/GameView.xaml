@@ -14,7 +14,7 @@
             <ResourceDictionary.MergedDictionaries>
             	<ResourceDictionary Source="../Common.xaml"/>
                 <ResourceDictionary Source="MultiChoiceButton.xaml"/>
-            	<ResourceDictionary Source="pack://application:,,,/Resources;component/Heroes.xaml"/>
+            	<ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
             	<ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

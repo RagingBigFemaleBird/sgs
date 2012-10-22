@@ -17,7 +17,7 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.UI.Controls
 {
-    public class cardToolTipConverter : IValueConverter
+    public class CardToolTipConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
