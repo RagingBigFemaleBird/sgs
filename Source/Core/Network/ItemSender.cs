@@ -19,6 +19,12 @@ namespace Sanguosha.Core.Network
         WhoAmI,
         QaId,
         GameStart,
+        Interrupt,
+    }
+    [Serializable]
+    public struct InterruptedObject
+    {
+        public object obj;
     }
     [Serializable]
     public struct CardItem
@@ -122,12 +128,22 @@ namespace Sanguosha.Core.Network
             {
                 QueueSkill((SkillItem)o);
             }
+            else if (o is InterruptedObject)
+            {
+                QueueInterruptedObject((InterruptedObject)o);
+            }
             else
             {
-                return false;
+                Trace.Assert(false);
             }
 
             return true;
+        }
+
+        private void QueueInterruptedObject(InterruptedObject o)
+        {
+            formatter.Serialize(stream, o);
+            stream.Flush();
         }
     }
 }

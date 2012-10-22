@@ -147,6 +147,41 @@ namespace Sanguosha.Core.Games
             }
         }
 
+        public void PriorityRevealCardToAll(Card card)
+        {
+            if (GameServer != null)
+            {
+                for (int i = 0; i < GameServer.MaxClients; i++)
+                {
+                    card.RevealOnce = true;
+                    GameServer.SendInterruptedObject(i, card);
+                }
+            }
+        }
+
+        public void PriorityRevealCardsToAll(List<Card> cards)
+        {
+            foreach (Card c in cards)
+            {
+                PriorityRevealCardToAll(c);
+            }
+        }
+
+        public void AwaitConfirmation()
+        {
+            if (GameServer != null)
+            {
+                for (int i = 0; i < GameServer.MaxClients; i++)
+                {
+                    GameServer.SendObject(i, 0);
+                }
+            }
+            else if (GameClient != null)
+            {
+                GameClient.Receive();
+            }
+        }
+
         public bool IsSlave { get; set; }
         public virtual void Run()
         {
@@ -311,7 +346,7 @@ namespace Sanguosha.Core.Games
         public void Emit(GameEvent gameEvent, GameEventArgs eventParam)
         {
             if (!this.triggers.ContainsKey(gameEvent)) return;
-            List<Trigger> triggers = this.triggers[gameEvent];
+            List<Trigger> triggers = new List<Trigger>(this.triggers[gameEvent]);
             if (triggers == null) return;
             //todo: sort this
             var sortedTriggers = triggers;
@@ -334,46 +369,6 @@ namespace Sanguosha.Core.Games
 
         Dictionary<string, CardHandler> cardHandlers;
 
-/*        private GlobalServerUiProxy globalServerProxy;
-
-        public GlobalServerUiProxy GlobalServerProxy
-        {
-            get { return globalServerProxy; }
-            set { globalServerProxy = value; }
-        }
-
-        private GlobalClientUiProxy globalClientProxy;
-
-        public GlobalClientUiProxy GlobalClientProxy
-        {
-            get { return globalClientProxy; }
-            set { globalClientProxy = value; }
-        }
-
-        private IGlobalUiProxy globalDummyProxy;
-
-        public IGlobalUiProxy GlobalDummyProxy
-        {
-            get { return globalDummyProxy; }
-            set { globalDummyProxy = value; }
-        }
-
-        public IGlobalUiProxy GlobalProxy
-        {
-            get
-            {
-                if (GameServer != null)
-                {
-                    return globalServerProxy;
-                }
-                else if (GameClient != null && IsSlave)
-                {
-                    return globalClientProxy;
-                }
-                else return globalDummyProxy;
-            }
-        }
-        */
         public IGlobalUiProxy GlobalProxy { get; set; }
 
         /// <summary>
@@ -843,6 +838,66 @@ namespace Sanguosha.Core.Games
             else
             {
                 result = cards[0];
+            }
+            return true;
+        }
+
+        public bool PlayerCanDiscardCard(Player p, Card c)
+        {
+            GameEventArgs arg = new GameEventArgs();
+            arg.Source = p;
+            arg.Card = c;
+            try
+            {
+                Game.CurrentGame.Emit(GameEvent.PlayerCanDiscardCard, arg);
+            }
+            catch (TriggerResultException e)
+            {
+                if (e.Status == TriggerResult.Fail)
+                {
+                    Trace.TraceInformation("Player {0} cannot discard {1}", p.Id, c.Type.CardType);
+                    return false;
+                }
+                else
+                {
+                    Trace.Assert(false);
+                }
+            }
+            return true;
+        }
+
+        public bool PlayerCanUseCard(Player p, ICard c)
+        {
+            GameEventArgs arg = new GameEventArgs();
+            arg.Source = p;
+            arg.Card = c;
+            try
+            {
+                Game.CurrentGame.Emit(GameEvent.PlayerCanUseCard, arg);
+            }
+            catch (TriggerResultException e)
+            {
+                if (e.Status == TriggerResult.Fail)
+                {
+                    Trace.TraceInformation("Player {0} cannot use {1}", p.Id, c.Type.CardType);
+                    return false;
+                }
+                else
+                {
+                    Trace.Assert(false);
+                }
+            }
+            return true;
+        }
+
+        public bool PlayerCanDiscardCards(Player p, List<Card> cards)
+        {
+            foreach (Card c in cards)
+            {
+                if (!PlayerCanDiscardCard(p, c))
+                {
+                    return false;
+                }
             }
             return true;
         }

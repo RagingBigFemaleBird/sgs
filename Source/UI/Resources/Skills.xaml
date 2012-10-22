@@ -19,4 +19,6 @@
     <sys:String x:Key="Skill.JiZhi.Name">集智</sys:String>
     <sys:String x:Key="Skill.QianXun.Name">谦逊</sys:String>
     <sys:String x:Key="Skill.QingGuo.Name">倾国</sys:String>
+    <sys:String x:Key="Skill.KongCheng.Name">空城</sys:String>
+    <sys:String x:Key="Skill.JiLei.Name">鸡肋</sys:String>
 </ResourceDictionary>

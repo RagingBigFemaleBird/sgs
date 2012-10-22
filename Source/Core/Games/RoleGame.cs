@@ -139,15 +139,35 @@ namespace Sanguosha.Core.Games
                     List<Player> players;
                     PlayerDiscardStageVerifier v = new PlayerDiscardStageVerifier();
                     v.Owner = currentPlayer;
+                    int cannotBeDiscarded = 0;
+                    foreach (Card c in Game.CurrentGame.Decks[currentPlayer, DeckType.Hand])
+                    {
+                        if (!Game.CurrentGame.PlayerCanDiscardCard(currentPlayer, c))
+                        {
+                            cannotBeDiscarded++;
+                        }
+                    }
+                    if (currentPlayer.Health < cannotBeDiscarded)
+                    {
+                        Game.CurrentGame.PriorityRevealCardsToAll(Game.CurrentGame.Decks[currentPlayer, DeckType.Hand]);
+                    }
                     if (!proxy.AskForCardUsage("Player Discard Stage", v, out skill, out cards, out players))
                     {
+                        if (cannotBeDiscarded > 0)
+                        {
+                            Game.CurrentGame.PriorityRevealCardsToAll(Game.CurrentGame.Decks[currentPlayer, DeckType.Hand]);
+                        }
+                        Game.CurrentGame.AwaitConfirmation();
                         Trace.TraceInformation("Invalid answer, choosing for you");
                         cards = new List<Card>();
                         int i = 0;
                         foreach (Card c in Game.CurrentGame.Decks[currentPlayer, DeckType.Hand])
                         {
-                            cards.Add(c);
-                            i++;
+                            if (Game.CurrentGame.PlayerCanDiscardCard(currentPlayer, c))
+                            {
+                                cards.Add(c);
+                                i++;
+                            }
                             if (Game.CurrentGame.Decks[currentPlayer, DeckType.Hand].Count - i <= currentPlayer.Health)
                             {
                                 break;
@@ -181,11 +201,27 @@ namespace Sanguosha.Core.Games
                     {
                         return VerifierResult.Partial;
                     }
-                    if (Game.CurrentGame.Decks[Owner, DeckType.Hand].Count - cards.Count > Owner.Health)
+                    foreach (Card c in cards)
+                    {
+                        if (!Game.CurrentGame.PlayerCanDiscardCard(Owner, c))
+                        {
+                            return VerifierResult.Fail;
+                        }
+                    }
+                    int cannotBeDiscarded = 0;
+                    foreach (Card c in Game.CurrentGame.Decks[Owner, DeckType.Hand])
+                    {
+                        if (!Game.CurrentGame.PlayerCanDiscardCard(Owner, c))
+                        {
+                            cannotBeDiscarded++;
+                        }
+                    }
+                    int remainingCards = (Owner.Health > cannotBeDiscarded) ? (Owner.Health) : cannotBeDiscarded;
+                    if (Game.CurrentGame.Decks[Owner, DeckType.Hand].Count - cards.Count > remainingCards)
                     {
                         return VerifierResult.Partial;
                     }
-                    if (Game.CurrentGame.Decks[Owner, DeckType.Hand].Count - cards.Count < Owner.Health)
+                    if (Game.CurrentGame.Decks[Owner, DeckType.Hand].Count - cards.Count < remainingCards)
                     {
                         return VerifierResult.Fail;
                     }

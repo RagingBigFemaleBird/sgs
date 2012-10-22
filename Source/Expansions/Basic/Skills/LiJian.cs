@@ -40,6 +40,10 @@ namespace Sanguosha.Expansions.Basic.Skills
                 {
                     return VerifierResult.Fail;
                 }
+                if (!Game.CurrentGame.PlayerCanDiscardCard(Owner, card))
+                {
+                    return VerifierResult.Fail;
+                }
             }
             if (arg.Targets != null && arg.Targets.Count > 2)
             {
@@ -52,6 +56,21 @@ namespace Sanguosha.Expansions.Basic.Skills
                     return VerifierResult.Fail;
                 }
                 if (p == Owner)
+                {
+                    return VerifierResult.Fail;
+                }
+            }
+            if (arg.Targets != null && arg.Targets.Count == 2)
+            {
+                CompositeCard c = new CompositeCard();
+                c.Type = new JueDou();
+                c.Subcards = null;
+                Player dest = arg.Targets[0];
+                if (!c.Type.PlayerIsCardTargetCheck(arg.Targets[0], ref dest, c))
+                {
+                    return VerifierResult.Fail;
+                }
+                if (!Game.CurrentGame.PlayerCanUseCard(arg.Targets[1], c))
                 {
                     return VerifierResult.Fail;
                 }

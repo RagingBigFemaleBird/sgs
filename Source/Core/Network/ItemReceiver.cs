@@ -27,7 +27,7 @@ namespace Sanguosha.Core.Network
         public object Receive()
         {
             object o = formatter.Deserialize(stream);
-            if (!((o is int) || (o is PlayerItem) || (o is CardItem) || (o is CommandItem) || (o is SkillItem)))
+            if (!((o is int) || (o is PlayerItem) || (o is CardItem) || (o is CommandItem) || (o is SkillItem) || (o is InterruptedObject)))
             {
                 return null;
             }

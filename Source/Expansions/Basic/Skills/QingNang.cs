@@ -43,6 +43,10 @@ namespace Sanguosha.Expansions.Basic.Skills
                 {
                     return VerifierResult.Fail;
                 }
+                if (!Game.CurrentGame.PlayerCanDiscardCard(Owner, card))
+                {
+                    return VerifierResult.Fail;
+                }
             }
             if (arg.Targets != null && arg.Targets.Count == 1 && arg.Targets[0].Health >= arg.Targets[0].MaxHealth)
             {

@@ -34,7 +34,37 @@ namespace Sanguosha.Core.Network
 
         public object Receive()
         {
+            retry:
             object o = receiver.Receive();
+            if (o is CommandItem)
+            {
+                CommandItem item = (CommandItem)o;
+                if (item.command == Command.Interrupt)
+                {
+                    object o2 = receiver.Receive();
+                    Trace.Assert(o2 is InterruptedObject);
+                    InterruptedObject obj = (InterruptedObject)o2;
+                    Trace.Assert(obj.obj is CardItem);
+                    CardItem i = (CardItem)obj.obj;
+                    if (i.Id >= 0)
+                    {
+                        Trace.TraceInformation("Identify {0}{1}{2} is {3}{4}{5}", i.playerId, i.deck, i.place, Game.CurrentGame.SlaveCardSet[i.Id].Suit, Game.CurrentGame.SlaveCardSet[i.Id].Rank, Game.CurrentGame.SlaveCardSet[i.Id].Type.CardType);
+                        if (i.playerId < 0)
+                        {
+                            DeckPlace place = Game.CurrentGame.Decks[null, i.deck][i.place].Place;
+                            Game.CurrentGame.Decks[null, i.deck][i.place].CopyFrom(Game.CurrentGame.SlaveCardSet[i.Id]);
+                            Game.CurrentGame.Decks[null, i.deck][i.place].Place = place;
+                        }
+                        else
+                        {
+                            DeckPlace place = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].Place;
+                            Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].CopyFrom(Game.CurrentGame.SlaveCardSet[i.Id]);
+                            Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].Place = place;
+                        }
+                    }
+                    goto retry;
+                }
+            }
             if (o is int)
             {
                 Trace.TraceInformation("Received a {0}", (int)o);

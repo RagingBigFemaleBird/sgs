@@ -253,6 +253,39 @@ namespace Sanguosha.Core.Network
             handlers[clientId].semOut.Release(1);
         }
 
+        public void SendInterruptedObject(int clientId, Object o)
+        {
+            if (o is Card)
+            {
+                Card card = o as Card;
+                CardItem item = new CardItem();
+                item.playerId = Game.CurrentGame.Players.IndexOf(card.Place.Player);
+                item.deck = card.Place.DeckType;
+                item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
+                Trace.Assert(item.place >= 0);
+                item.Id = card.Id;
+                CommandItem citem = new CommandItem();
+                citem.command = Command.Interrupt;
+                citem.data = 1;
+                Trace.TraceInformation("Interrupted, sending a {0} to {1}", citem, clientId);
+                handlers[clientId].semAccess.WaitOne();
+                handlers[clientId].queueOut.Enqueue(citem);
+                handlers[clientId].semAccess.Release(1);
+                handlers[clientId].semOut.Release(1);
+                InterruptedObject iobj = new InterruptedObject();
+                iobj.obj = item;
+                Trace.TraceInformation("Interrupted, sending a {0} to {1}", iobj, clientId);
+                handlers[clientId].semAccess.WaitOne();
+                handlers[clientId].queueOut.Enqueue(iobj);
+                handlers[clientId].semAccess.Release(1);
+                handlers[clientId].semOut.Release(1);
+            }
+            else
+            {
+                Trace.Assert(false);
+            }
+        }
+
         private void Listener()
         {
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12345);

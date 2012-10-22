@@ -39,6 +39,10 @@ namespace Sanguosha.Expansions.Basic.Skills
                 {
                     return VerifierResult.Fail;
                 }
+                if (!Game.CurrentGame.PlayerCanDiscardCard(Owner, card))
+                {
+                    return VerifierResult.Fail;
+                }
             }
             return VerifierResult.Success;
         }
