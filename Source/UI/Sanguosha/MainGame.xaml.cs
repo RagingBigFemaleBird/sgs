@@ -1,4 +1,4 @@
-﻿#define NETWORKING
+﻿// #define NETWORKING
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -57,36 +57,6 @@ namespace Sanguosha.UI.Main
                 Player player = new Player();
                 player.Id = i;
                 _game.Players.Add(player);
-                IUiProxy proxy = new ConsoleUiProxy();
-                if (i == MainSeat)
-                {
-                    proxy = new AsyncUiAdapter(gameView);
-                }
-                else
-                {
-                    proxy.HostPlayer = player;
-                }
-                if (i == 1)
-                {
-                    player.IsFemale = true;
-                }
-                else
-                {
-                    player.IsMale = true;
-                }
-#if NETWORKING
-                if (i == MainSeat)
-                {
-                    proxy = activeClientProxy = new ClientNetworkUiProxy(proxy, client, true);
-                }
-                else
-                {
-                    proxy = new ClientNetworkUiProxy(proxy, client, false);
-                }
-                proxy.HostPlayer = player;
-                proxy.TimeOutSeconds = 25;
-#endif
-                _game.UiProxies.Add(player, proxy);
             }
 #if NETWORKING
             _game.GameClient = client;
@@ -96,16 +66,28 @@ namespace Sanguosha.UI.Main
 #else
             _game.GlobalProxy = new GlobalDummyProxy();
 #endif
-            _player = _game.Players[MainSeat];
             GameViewModel gameModel = new GameViewModel();
             gameModel.Game = _game;
             gameModel.MainPlayerSeatNumber = MainSeat;
             gameView.DataContext = gameModel;
-            _game.UiProxies[_game.Players[MainSeat]].HostPlayer = _game.Players[MainSeat];            
+            _game.UiProxies[_game.Players[MainSeat]].HostPlayer = _game.Players[MainSeat];
+
+            for (int i = 0; i < _game.Players.Count; i++)
+            {
+                var player = gameModel.PlayerModels[i].Player;
+#if NETWORKING
+                var proxy = new ClientNetworkUiProxy(
+                            new AsyncUiAdapter(gameModel.PlayerModels[i]), client, i == 0);
+                proxy.HostPlayer = player;
+                proxy.TimeOutSeconds = 25;
+#else
+                var proxy = new AsyncUiAdapter(gameModel.PlayerModels[i]);
+#endif
+                _game.UiProxies.Add(player, proxy);
+            }
         }
 
         private Game _game;
-        private Player _player;
         Thread gameThread;
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {            

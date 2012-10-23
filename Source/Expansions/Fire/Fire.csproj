@@ -67,8 +67,6 @@
     <None Include="Fire.Skills.xaml">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Fire.System.xaml">
       <SubType>Designer</SubType>
     </None>

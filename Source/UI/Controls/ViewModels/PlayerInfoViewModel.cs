@@ -16,6 +16,8 @@ using Sanguosha.Core.Cards;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 using System.Threading;
+using Sanguosha.Core.UI;
+using System.Diagnostics;
 
 namespace Sanguosha.UI.Controls
 {
@@ -32,7 +34,7 @@ namespace Sanguosha.UI.Controls
             throw new NotImplementedException();
         }
     }
-    public class PlayerInfoViewModel : SelectableItem
+    public class PlayerInfoViewModel : SelectableItem, IAsyncUiProxy
     {
         #region Constructors
         public PlayerInfoViewModel()
@@ -41,6 +43,14 @@ namespace Sanguosha.UI.Controls
             SkillCommands = new ObservableCollection<SkillCommand>();
             HeroSkillNames = new ObservableCollection<string>();
             heroNameChars = new ObservableCollection<string>();
+            MultiChoiceCommands = new ObservableCollection<ICommand>();
+            
+            SubmitAnswerCommand = new SimpleRelayCommand(ExecuteSubmitAnswerCommand);
+            CancelAnswerCommand = new SimpleRelayCommand(ExecuteCancelCommand);
+            AbortAnswerCommand = new SimpleRelayCommand(ExecuteAbortCommand);
+            
+            _UpdateEnabledStatusHandler = (o, e) => { _UpdateCommandStatus(); };
+            _timer = new System.Timers.Timer();
         }
 
         public PlayerInfoViewModel(Player p) : this()
@@ -52,6 +62,7 @@ namespace Sanguosha.UI.Controls
         #region Fields
         Player _player;
 
+        // @todo: to be deprecated. use HostPlayer instead.
         public Player Player
         {
             get { return _player; }
@@ -74,9 +85,9 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        private Game _game;
+        private GameViewModel _game;
 
-        public Game Game 
+        public GameViewModel GameModel
         {
             get { return _game; }
             set
@@ -182,19 +193,19 @@ namespace Sanguosha.UI.Controls
 
         #region Commands
 
-        public ICommand SubmitAnswerCommand
+        public SimpleRelayCommand SubmitAnswerCommand
         {
             get;
             internal set;
         }
 
-        public ICommand CancelAnswerCommand
+        public SimpleRelayCommand CancelAnswerCommand
         {
             get;
             internal set;
         }
 
-        public ICommand AbortAnswerCommand
+        public SimpleRelayCommand AbortAnswerCommand
         {
             get;
             internal set;
@@ -316,7 +327,7 @@ namespace Sanguosha.UI.Controls
                 if (_game == null) return false;
                 else
                 {
-                    return _player == _game.CurrentPlayer;
+                    return _player == _game.Game.CurrentPlayer;
                 }
             } 
         }
@@ -329,13 +340,19 @@ namespace Sanguosha.UI.Controls
                 {
                     return TurnPhase.Inactive;
                 }
-                return _game.CurrentPhase;
+                return _game.Game.CurrentPhase;
             }
         }
 
         #endregion
         
         #region Derived Player Properties
+
+        public ObservableCollection<CardViewModel> HandCards
+        {
+            get;
+            set;
+        }
 
 
         public ObservableCollection<SkillCommand> SkillCommands
@@ -387,9 +404,9 @@ namespace Sanguosha.UI.Controls
             {
                 List<Role> roles = new List<Role>();
                 roles.Add(Role.Unknown);
-                if (Game != null)
+                if (GameModel != null)
                 {
-                    if (Game is RoleGame)
+                    if (GameModel.Game is RoleGame)
                     {
                         if (_player.Role == Role.Unknown)
                         {
@@ -441,7 +458,96 @@ namespace Sanguosha.UI.Controls
 
         #endregion
 
-        #region View Controlled Fields
+        #region Commands
+
+        #region SubmitAnswerCommand
+
+        public void ExecuteSubmitAnswerCommand(object parameter)
+        {
+            List<Card> cards = _GetSelectedHandCards();
+            List<Player> players = _GetSelectedPlayers();
+            ISkill skill = null;
+            bool isEquipSkill;
+            SkillCommand skillCommand = _GetSelectedSkillCommand(out isEquipSkill);
+
+            foreach (var equipCommand in EquipCommands)
+            {
+                if (!isEquipSkill && equipCommand.IsSelected)
+                {
+                    cards.Add(equipCommand.Card);
+                }
+            }
+
+            if (skillCommand != null)
+            {
+                skill = skillCommand.Skill;
+            }
+
+            _ResetAll();
+
+            // Card usage question
+            if (currentUsageVerifier != null)
+            {
+                currentUsageVerifier = null;
+                CardUsageAnsweredEvent(skill, cards, players);
+            }
+        }
+
+        #endregion
+
+        #region CancelAnswerCommand
+
+        public void ExecuteCancelCommand(object parameter)
+        {
+            if (currentUsageVerifier != null)
+            {
+                // @todo
+                //if (currentUsageVerifier.GetType().Name!="PlayerActionStageVerifier")
+                {
+                    CardUsageAnsweredEvent(null, null, null);
+                    currentUsageVerifier = null;
+                    _ResetAll();
+                }
+                /*else
+                {
+                    _ResetAll();
+                }*/
+            }
+        }
+        #endregion
+
+        #region AbortAnswerCommand
+
+        public void ExecuteAbortCommand(object parameter)
+        {
+            _timer.Stop();
+            if (currentUsageVerifier != null)
+            {
+                CardUsageAnsweredEvent(null, null, null);
+                currentUsageVerifier = null;
+                _ResetAll();
+            }
+        }
+        #endregion
+
+        #region MultiChoiceCommand
+
+        public ObservableCollection<ICommand> MultiChoiceCommands
+        {
+            get;
+            private set;
+        }
+
+        public void ExecuteMultiChoiceCommand(object parameter)
+        {
+            _ResetAll();
+            MultipleChoiceAnsweredEvent((int)parameter);
+        }
+        #endregion
+
+        #endregion
+
+        #region View Related Fields
 
         private int _handCardCount;
         
@@ -455,7 +561,389 @@ namespace Sanguosha.UI.Controls
                 OnPropertyChanged("HandCardCount");
             }
         }
-        
+
+        private string _prompt;
+        public string CurrentPrompt
+        {
+            get
+            {
+                return _prompt;
+            }
+            set
+            {
+                if (_prompt == value) return;
+                _prompt = value;
+                OnPropertyChanged("CurrentPrompt");
+            }
+        }
+
         #endregion
+
+        #region IASyncUiProxy Helpers
+        ICardUsageVerifier currentUsageVerifier;
+        bool isMultiChoiceQuestion;
+
+        SkillCommand _GetSelectedSkillCommand(out bool isEquipSkill)
+        {
+            foreach (var skillCommand in SkillCommands)
+            {
+                if (skillCommand.IsSelected)
+                {
+                    isEquipSkill = false;
+                    return skillCommand;
+                }
+            }
+            foreach (EquipCommand equipCmd in EquipCommands)
+            {
+                if (equipCmd.IsSelected)
+                {
+                    isEquipSkill = true;
+                    return equipCmd.SkillCommand;
+                }
+            }
+            isEquipSkill = false;
+            return null;
+        }
+
+        private List<Card> _GetSelectedHandCards()
+        {
+            List<Card> cards = new List<Card>();
+            foreach (var card in HandCards)
+            {
+                if (card.IsSelected)
+                {
+                    Trace.Assert(card.Card != null);
+                    cards.Add(card.Card);
+                }
+            }
+            return cards;
+        }
+
+        private List<Player> _GetSelectedPlayers()
+        {
+            List<Player> players = new List<Player>();
+            foreach (var playerModel in _game.PlayerModels)
+            {
+                if (playerModel.IsSelected)
+                {
+                    players.Add(playerModel.Player);
+                }
+            }
+            return players;
+        }
+
+        private void _ResetCommands()
+        {
+            foreach (var equipCommand in EquipCommands)
+            {
+                equipCommand.OnSelectedChanged -= _UpdateEnabledStatusHandler;
+                equipCommand.IsSelectionMode = false;
+            }
+
+            foreach (var skillCommand in SkillCommands)
+            {
+                skillCommand.IsSelected = false;
+                skillCommand.IsEnabled = false;
+            }
+
+            foreach (CardViewModel card in HandCards)
+            {
+                card.OnSelectedChanged -= _UpdateEnabledStatusHandler;
+                card.IsSelectionMode = false;
+            }
+
+            foreach (var playerModel in _game.PlayerModels)
+            {
+                playerModel.OnSelectedChanged -= _UpdateEnabledStatusHandler;
+                playerModel.IsSelectionMode = false;
+            }
+
+            CurrentPrompt = string.Empty;
+
+            SubmitAnswerCommand.CanExecuteStatus = false;
+            CancelAnswerCommand.CanExecuteStatus = false;
+            AbortAnswerCommand.CanExecuteStatus = false;
+            TimeOutSeconds = 0;
+        }
+
+        private void _ResetAll()
+        {
+            MultiChoiceCommands.Clear();
+            _ResetCommands();
+        }
+
+        private void _UpdateCardUsageStatus()
+        {
+            List<Card> cards = _GetSelectedHandCards();
+            List<Player> players = _GetSelectedPlayers();
+            ISkill skill = null;
+            bool isEquipCommand;
+            SkillCommand command = _GetSelectedSkillCommand(out isEquipCommand);
+
+            if (command != null)
+            {
+                skill = command.Skill;
+            }
+
+            // Handle skill down            
+            foreach (var skillCommand in SkillCommands)
+            {
+                skillCommand.IsEnabled = (currentUsageVerifier.Verify(skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
+            }
+
+            if (skill == null)
+            {
+                foreach (var equipCommand in EquipCommands)
+                {
+                    if (equipCommand.SkillCommand.Skill == null)
+                    {
+                        equipCommand.IsEnabled = false;
+                    }
+                    equipCommand.IsEnabled = (currentUsageVerifier.Verify(equipCommand.SkillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
+                }
+            }
+            if (!isEquipCommand)
+            {
+                foreach (var equipCommand in EquipCommands)
+                {
+                    if (equipCommand.IsSelected)
+                        cards.Add(equipCommand.Card);
+                }
+            }
+
+            var status = currentUsageVerifier.Verify(skill, cards, players);
+
+            if (status == VerifierResult.Fail)
+            {
+                SubmitAnswerCommand.CanExecuteStatus = false;
+                foreach (var playerModel in _game.PlayerModels)
+                {
+                    playerModel.IsSelected = false;
+                }
+            }
+            else if (status == VerifierResult.Partial)
+            {
+                SubmitAnswerCommand.CanExecuteStatus = false;
+            }
+            else if (status == VerifierResult.Success)
+            {
+                SubmitAnswerCommand.CanExecuteStatus = true;
+            }
+
+            List<Card> attempt = new List<Card>(cards);
+
+            foreach (var card in HandCards)
+            {
+                if (card.IsSelected)
+                {
+                    continue;
+                }
+                attempt.Add(card.Card);
+                bool disabled = (currentUsageVerifier.Verify(skill, attempt, players) == VerifierResult.Fail);
+                card.IsEnabled = !disabled;
+                attempt.Remove(card.Card);
+            }
+
+            if (skill != null)
+            {
+                foreach (var equipCommand in EquipCommands)
+                {
+                    if (equipCommand.IsSelected) continue;
+
+                    attempt.Add(equipCommand.Card);
+                    bool disabled = (currentUsageVerifier.Verify(skill, attempt, players) == VerifierResult.Fail);
+                    equipCommand.IsEnabled = !disabled;
+                    attempt.Remove(equipCommand.Card);
+                }
+            }
+
+            // Invalidate target selection
+            List<Player> attempt2 = new List<Player>(players);
+            int validCount = 0;
+            bool[] enabledMap = new bool[_game.PlayerModels.Count];
+            int i = 0;
+            foreach (var playerModel in _game.PlayerModels)
+            {
+                enabledMap[i] = false;
+                if (playerModel.IsSelected)
+                {
+                    i++;
+                    continue;
+                }
+                attempt2.Add(playerModel.Player);
+                bool disabled = (currentUsageVerifier.Verify(skill, cards, attempt2) == VerifierResult.Fail);
+                if (!disabled)
+                {
+                    validCount++;
+                    enabledMap[i] = true;
+                }
+                attempt2.Remove(playerModel.Player);
+                i++;
+
+            }
+            i = 0;
+
+            bool allowSelection = (cards.Count != 0 || validCount != 0 || skill != null);
+            foreach (var playerModel in _game.PlayerModels)
+            {
+                if (playerModel.IsSelected)
+                {
+                    i++;
+                    continue;
+                }
+                playerModel.IsSelectionMode = allowSelection;
+                if (allowSelection)
+                {
+                    playerModel.IsEnabled = enabledMap[i];
+                }
+                i++;
+            }
+        }
+
+        private void _UpdateCommandStatus()
+        {
+            if (currentUsageVerifier != null)
+            {
+                _UpdateCardUsageStatus();
+            }
+            else if (isMultiChoiceQuestion)
+            {
+                _ResetCommands();
+            }
+        }
+
+        private void _StartTimer(int timeOutSeconds)
+        {
+            if (timeOutSeconds > 0)
+            {
+                TimeOutSeconds = timeOutSeconds;
+
+                _timer = new System.Timers.Timer(timeOutSeconds * 1000);
+                _timer.AutoReset = false;
+                _timer.Elapsed +=
+                    (o, e) =>
+                    {
+                        Application.Current.Dispatcher.Invoke(
+                            (ThreadStart)delegate() { ExecuteAbortCommand(null); });
+                    };
+                _timer.Start();
+            }
+        }
+
+        private System.Timers.Timer _timer;
+
+        private EventHandler _UpdateEnabledStatusHandler;
+        #endregion
+
+        #region IAsyncUiProxy
+        public Player HostPlayer
+        {
+            get
+            {
+                return Player;
+            }
+            set
+            {
+                Player = value;
+            }
+        }
+
+        public void AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, int timeOutSeconds)
+        {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                currentUsageVerifier = verifier;
+                Game.CurrentGame.CurrentActingPlayer = HostPlayer;
+                CurrentPrompt = PromptFormatter.Format(prompt);
+
+                foreach (var equipCommand in EquipCommands)
+                {
+                    equipCommand.OnSelectedChanged += _UpdateEnabledStatusHandler;
+                    equipCommand.IsSelectionMode = true;
+                }
+
+                foreach (var card in HandCards)
+                {
+                    card.IsSelectionMode = true;
+                    card.OnSelectedChanged += _UpdateEnabledStatusHandler;
+                }
+
+                foreach (var playerModel in _game.PlayerModels)
+                {
+                    playerModel.IsSelectionMode = true;
+                    playerModel.OnSelectedChanged += _UpdateEnabledStatusHandler;
+                }
+
+                foreach (var skillCommand in SkillCommands)
+                {
+                    skillCommand.OnSelectedChanged += _UpdateEnabledStatusHandler;
+                }
+
+                // @todo: update this.
+                CancelAnswerCommand.CanExecuteStatus = true;
+                AbortAnswerCommand.CanExecuteStatus = true;
+
+                _StartTimer(timeOutSeconds);
+                
+                _UpdateCommandStatus();
+            });
+        }
+
+        public void AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, int timeOutSeconds)
+        {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                CurrentPrompt = PromptFormatter.Format(prompt);
+                CardChoiceAnsweredEvent(null);
+            });
+        }
+
+        public void AskForMultipleChoice(Prompt prompt, List<string> choices, int timeOutSeconds)
+        {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                CurrentPrompt = PromptFormatter.Format(prompt);
+                for (int i = 0; i < choices.Count; i++)
+                {
+                    if (choices[i] == Prompt.YesChoice)
+                    {
+
+                    }
+                    else if (choices[i] == Prompt.NoChoice)
+                    {
+                    }
+                    else
+                    {
+                        MultiChoiceCommands.Add(
+                            new MultiChoiceCommand(ExecuteMultiChoiceCommand)
+                            {
+                                CanExecuteStatus = true,
+                                ChoiceKey = choices[i],
+                                ChoiceIndex = i
+                            });
+                    }
+                }
+                isMultiChoiceQuestion = true;
+                _UpdateCommandStatus();
+            });
+        }
+
+        public void NotifyCardMovement(List<CardsMovement> m, List<IGameLog> notes)
+        {
+            throw new NotImplementedException();
+        }
+
+        public event CardUsageAnsweredEventHandler CardUsageAnsweredEvent;
+
+        public event CardChoiceAnsweredEventHandler CardChoiceAnsweredEvent;
+
+        public event MultipleChoiceAnsweredEventHandler MultipleChoiceAnsweredEvent;
+
+        public void Freeze()
+        {
+            _ResetAll();
+        }        
+        #endregion
+
     }
 }

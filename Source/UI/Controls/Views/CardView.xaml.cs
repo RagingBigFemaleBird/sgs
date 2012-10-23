@@ -56,7 +56,10 @@ namespace Sanguosha.UI.Controls
         public CardView()
         {
             InitializeComponent();
-            this.MouseLeftButtonDown += new MouseButtonEventHandler(CardView_MouseLeftButtonDown);
+            this.MouseLeftButtonDown += CardView_MouseLeftButtonDown;
+            this.IsEnabledChanged += CardView_IsEnabledChanged;
+            this.MouseEnter += CardView_MouseEnter;
+            this.MouseLeave += CardView_MouseLeave;
             _daMoveX = new DoubleAnimation();
             _daMoveY = new DoubleAnimation();
             _daOpacity = new DoubleAnimation();      
@@ -71,6 +74,31 @@ namespace Sanguosha.UI.Controls
             _moveAnimation.Children.Add(_daMoveX);
             _moveAnimation.Children.Add(_daMoveY);
             _moveAnimation.Children.Add(_daOpacity);
+        }
+
+        void CardView_MouseLeave(object sender, MouseEventArgs e)
+        {
+            (Resources["sbUnHighlight"] as Storyboard).Begin();
+        }
+
+        void CardView_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (IsEnabled)
+            {
+                (Resources["sbHighlight"] as Storyboard).Begin();
+            }
+        }
+
+        void CardView_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (!(bool)e.NewValue)
+            {
+                (Resources["sbUnHighlight"] as Storyboard).Begin();
+            }
+            else if (IsMouseOver)
+            {
+                (Resources["sbHighlight"] as Storyboard).Begin();
+            }
         }
 
         void CardView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -156,6 +184,7 @@ namespace Sanguosha.UI.Controls
         private void _DisappearAfterMove(object sender, EventArgs e)
         {
             _daOpacity.Completed -= _DisappearAfterMoveHandler;
+            _daOpacity.From = (double)GetValue(CardView.OpacityProperty);
             _daOpacity.To = 0.0d;
             _daOpacity.Duration = TimeSpan.FromSeconds(0.2d);            
             _daOpacity.Completed += new EventHandler((o, e2) =>

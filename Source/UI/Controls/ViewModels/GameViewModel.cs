@@ -8,6 +8,7 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Diagnostics;
 
 namespace Sanguosha.UI.Controls
 {
@@ -24,7 +25,13 @@ namespace Sanguosha.UI.Controls
 
         public GameViewModel()
         {
-            MultiChoiceCommands = new ObservableCollection<ICommand>();
+            PlayerModels = new ObservableCollection<PlayerInfoViewModel>();
+        }
+
+        public ObservableCollection<PlayerInfoViewModel> PlayerModels
+        {
+            get;
+            set;
         }
 
         public Game Game
@@ -34,6 +41,43 @@ namespace Sanguosha.UI.Controls
             {
                 _game = value;
                 _game.RegisterCurrentThread();
+                PlayerModels.Clear();
+                foreach (var player in _game.Players)
+                {
+                    PlayerModels.Add(new PlayerInfoViewModel(player));
+                }
+            }
+        }
+
+        public PlayerInfoViewModel MainPlayerModel
+        {
+            get
+            {                
+                return PlayerModels[0];
+            }
+        }
+
+        private void _RearrangeSeats()
+        {
+            Trace.Assert(_game.Players.Count == PlayerModels.Count);
+            int playerCount = _game.Players.Count;
+            for (int i = 0; i < playerCount; i++)
+            {
+                Player gamePlayer = _game.Players[i];
+                for (int j = i; j < playerCount + MainPlayerSeatNumber; j++)
+                {
+                    int currentSeat = j % playerCount;
+                    PlayerInfoViewModel playerModel = PlayerModels[currentSeat];
+                    if (gamePlayer == playerModel.Player)
+                    {
+                        if (i != currentSeat)
+                        {
+                            PlayerModels.Move(currentSeat, i);
+                        }
+                        break;
+                    }
+                    Trace.Assert(false);
+                }
             }
         }
 
@@ -46,6 +90,7 @@ namespace Sanguosha.UI.Controls
             {
                 if (_mainPlayerSeatNumber == value) return;
                 _mainPlayerSeatNumber = value;
+                _RearrangeSeats();
                 OnPropertyChanged("MainPlayerSeatNumber");
             }
         }
@@ -63,27 +108,6 @@ namespace Sanguosha.UI.Controls
                     throw new NotImplementedException();
                 }
             }
-        }
-
-        private string _prompt;
-        public string CurrentPrompt
-        {
-            get
-            {
-                return _prompt;
-            }
-            set
-            {
-                if (_prompt == value) return;
-                _prompt = value;
-                OnPropertyChanged("CurrentPrompt");
-            }
-        }
-
-        public ObservableCollection<ICommand> MultiChoiceCommands
-        {
-            get;
-            private set;
         }
     }
 }

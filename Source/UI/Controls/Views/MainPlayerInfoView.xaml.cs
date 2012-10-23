@@ -15,6 +15,7 @@ using System.ComponentModel;
 using System.Windows.Media.Animation;
 using Sanguosha.Core.Cards;
 using System.Windows.Controls.Primitives;
+using System.Diagnostics;
 
 namespace Sanguosha.UI.Controls
 {
@@ -191,6 +192,7 @@ namespace Sanguosha.UI.Controls
             targetArea.Children.Clear();
             
             CardView result = CardView.CreateCard(card);
+            ParentGameView.GlobalCanvas.Children.Add(result);
             result.Opacity = 0;
             Point dest = targetArea.TranslatePoint(new Point(0, 0), ParentGameView.GlobalCanvas);
             result.Position = dest;
@@ -220,6 +222,9 @@ namespace Sanguosha.UI.Controls
             dtv.Opacity = 0;
             dtv.Margin = new Thickness(50d, 0, 0, 0);
             delayedToolsDock.Children.Add(dtv);
+            dtv.Opacity = 1d;
+            dtv.Margin = new Thickness(0d, 0, 0, 0);
+
 
             Point dest = delayedToolsDock.TranslatePoint(new Point(delayedToolsDock.ActualWidth + 15, delayedToolsDock.ActualHeight / 2),
                                                                    ParentGameView.GlobalCanvas);
@@ -228,7 +233,7 @@ namespace Sanguosha.UI.Controls
             card.CardOpacity = 1.0d;
             card.DisappearAfterMove = true;
             card.Rebase(0.5d);
-
+            
             Storyboard storyBoard = new Storyboard();
             ThicknessAnimation animation1 = new ThicknessAnimation();
             DoubleAnimation animation2 = new DoubleAnimation();
@@ -242,12 +247,34 @@ namespace Sanguosha.UI.Controls
             Storyboard.SetTargetProperty(animation2, new PropertyPath(LargeDelayedToolView.OpacityProperty));
             storyBoard.Children.Add(animation1);
             storyBoard.Children.Add(animation2);
-            storyBoard.Begin();            
+            storyBoard.Begin();        
         }
 
         protected override CardView RemoveDelayedTool(Card card)
         {
-            return base.RemoveDelayedTool(card);
+            LargeDelayedToolView dtv = null;
+            foreach (var tmpDtv in delayedToolsDock.Children)
+            {
+                dtv = tmpDtv as LargeDelayedToolView;
+                Trace.Assert(dtv != null);
+                CardViewModel model = dtv.DataContext as CardViewModel;
+                Trace.Assert(model != null);
+                if (model.Card == card) break;
+                dtv = null;
+            }
+
+            Trace.Assert(dtv != null);
+
+            Point dest = dtv.TranslatePoint(new Point(0, 0),
+                                             ParentGameView.GlobalCanvas);
+            delayedToolsDock.Children.Remove(dtv);
+            CardView result = CardView.CreateCard(card);
+            ParentGameView.GlobalCanvas.Children.Add(result);
+            result.Opacity = 0;
+            result.Position = dest;
+            result.Rebase(0);
+
+            return result;
         }
     }
 }

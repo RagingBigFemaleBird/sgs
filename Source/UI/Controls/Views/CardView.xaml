@@ -49,6 +49,16 @@
         			</EasingDoubleKeyFrame>
         		</DoubleAnimationUsingKeyFrames>
         	</Storyboard>
+        	<Storyboard x:Key="sbHighlight">
+        		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="border">
+        			<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
+        		</DoubleAnimationUsingKeyFrames>
+        	</Storyboard>
+        	<Storyboard x:Key="sbUnHighlight">
+        		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="border">
+        			<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+        		</DoubleAnimationUsingKeyFrames>
+        	</Storyboard>
         </ResourceDictionary>
     </UserControl.Resources>
 	<i:Interaction.Triggers>
@@ -69,31 +79,18 @@
 	</i:Interaction.Triggers>
     <Grid>
     	<VisualStateManager.VisualStateGroups>
-    		<VisualStateGroup x:Name="MouseStates">
-    			<VisualState x:Name="MouseEnterState">
-    				<Storyboard>
-    					<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="border">
-    						<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
-    					</DoubleAnimationUsingKeyFrames>
-    				</Storyboard>
-    			</VisualState>
-    			<VisualState x:Name="MouseLeaveState">
-    				<Storyboard/>
-    			</VisualState>
-    			<VisualState x:Name="DisabledState"/>
-    		</VisualStateGroup>
     		<VisualStateGroup x:Name="FadeStates">
     			<VisualState x:Name="Faded">
     				<Storyboard>
     					<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
-    						<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+    						<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.0"/>
     					</DoubleAnimationUsingKeyFrames>
     				</Storyboard>
     			</VisualState>
     			<VisualState x:Name="Unfaded">
     				<Storyboard>
     					<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
-    						<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+    						<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0.0"/>
     					</DoubleAnimationUsingKeyFrames>
     				</Storyboard>
     			</VisualState>
@@ -101,9 +98,9 @@
     	</VisualStateManager.VisualStateGroups>
         <Viewbox Stretch="Uniform">            
             <Grid Height="130" Width="93">                
-                <Border x:Name="border" Background="#FF7F8178" Margin="-3, -3, -3, -3" Opacity="0">
+                <Border x:Name="border" CornerRadius="2" Background="#FFC3C6B9" Margin="-3, -3, -3, -3" Opacity="0.0">
                     <Border.Effect>
-                        <BlurEffect />
+                        <BlurEffect Radius="2" />
                     </Border.Effect>
                 </Border>
                 <Image Source="{res:ImageBinding Path=TypeString, StringFormat=Resources/Images/Cards/Normal/\{0\}.jpg, ResourceKeyFormat=Card.\{0\}.Image.Normal}"/>
@@ -145,6 +142,9 @@
         	</i:Interaction.Behaviors>
         </Border>
     </Grid>
+	<UserControl.IsEnabled>
+		<Binding Path="IsEnabled" />
+	</UserControl.IsEnabled>
     <UserControl.ToolTip>
         <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top" ContentTemplateSelector="{StaticResource cardToolTipTemplateSelector}"/>
     </UserControl.ToolTip>

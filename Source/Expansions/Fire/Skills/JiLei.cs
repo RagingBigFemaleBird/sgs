@@ -50,7 +50,7 @@ namespace Sanguosha.Expansions.Fire.Skills
                 JiLeiQuestion.Add(Prompt.MultipleChoiceOptionPrefix + "ZhuangBei");
                 JiLeiQuestion.Add(Prompt.NoChoice);
                 if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(
-                    new MultipleChoicePrompt("JiLei"), JiLeiQuestion, out answer))
+                    new MultipleChoicePrompt("JiLei", eventArgs.Source), JiLeiQuestion, out answer))
                 {
                     Trace.Assert(answer >= 0 && answer <= 3);
                     if (answer != 3)
