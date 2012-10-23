@@ -44,12 +44,13 @@ namespace Sanguosha.UI.Controls
             HeroSkillNames = new ObservableCollection<string>();
             heroNameChars = new ObservableCollection<string>();
             MultiChoiceCommands = new ObservableCollection<ICommand>();
-            
-            SubmitAnswerCommand = new SimpleRelayCommand(ExecuteSubmitAnswerCommand);
-            CancelAnswerCommand = new SimpleRelayCommand(ExecuteCancelCommand);
-            AbortAnswerCommand = new SimpleRelayCommand(ExecuteAbortCommand);
+
+            submitCardUsageCommand = new SimpleRelayCommand(SubmitCardUsageCommand);
+            cancelCardUsageCommand = new SimpleRelayCommand(CancelCardUsageCommand);
+            abortCardUsageCommand = new SimpleRelayCommand(AbortCardUsageCommand);
+
             _possibleRoles = new ObservableCollection<Role>();
-            _UpdateEnabledStatusHandler = (o, e) => { _UpdateCommandStatus(); };
+            _UpdateCardUsageStatusHandler = (o, e) => { _UpdateCardUsageStatus(); };
             _timer = new System.Timers.Timer();
 
             HandCards = new ObservableCollection<CardViewModel>();
@@ -205,22 +206,49 @@ namespace Sanguosha.UI.Controls
 
         #region Commands
 
-        public SimpleRelayCommand SubmitAnswerCommand
+        private ICommand _submitAnswerCommand;
+        public ICommand SubmitAnswerCommand
         {
-            get;
-            internal set;
+            get
+            {
+                return _submitAnswerCommand;
+            }
+            internal set
+            {
+                if (_submitAnswerCommand == value) return;
+                _submitAnswerCommand = value;
+                OnPropertyChanged("SubmitAnswerCommand");
+            }
         }
 
-        public SimpleRelayCommand CancelAnswerCommand
+        private ICommand _cancelAnswerCommand;
+        public ICommand CancelAnswerCommand
         {
-            get;
-            internal set;
+            get
+            {
+                return _cancelAnswerCommand;
+            }
+            internal set
+            {
+                if (_cancelAnswerCommand == value) return;
+                _cancelAnswerCommand = value;
+                OnPropertyChanged("CancelAnswerCommand");
+            }
         }
 
-        public SimpleRelayCommand AbortAnswerCommand
+        private ICommand _abortAnswerCommand;
+        public ICommand AbortAnswerCommand
         {
-            get;
-            internal set;
+            get
+            {
+                return _abortAnswerCommand;
+            }
+            internal set
+            {
+                if (_abortAnswerCommand == value) return;
+                _abortAnswerCommand = value;
+                OnPropertyChanged("AbortAnswerCommand");
+            }
         }
 
         #endregion
@@ -493,9 +521,15 @@ namespace Sanguosha.UI.Controls
 
         #region Commands
 
+        private readonly SimpleRelayCommand DisabledCommand = new SimpleRelayCommand((o) => { })
+        {
+            CanExecuteStatus = false
+        };
+
         #region SubmitAnswerCommand
 
-        public void ExecuteSubmitAnswerCommand(object parameter)
+        private SimpleRelayCommand submitCardUsageCommand;
+        public void SubmitCardUsageCommand(object parameter)
         {
             List<Card> cards = _GetSelectedHandCards();
             List<Player> players = _GetSelectedPlayers();
@@ -529,8 +563,8 @@ namespace Sanguosha.UI.Controls
         #endregion
 
         #region CancelAnswerCommand
-
-        public void ExecuteCancelCommand(object parameter)
+        private SimpleRelayCommand cancelCardUsageCommand;
+        public void CancelCardUsageCommand(object parameter)
         {
             if (currentUsageVerifier != null)
             {
@@ -548,10 +582,10 @@ namespace Sanguosha.UI.Controls
             }
         }
         #endregion
-
+        
         #region AbortAnswerCommand
-
-        public void ExecuteAbortCommand(object parameter)
+        private SimpleRelayCommand abortCardUsageCommand;
+        public void AbortCardUsageCommand(object parameter)
         {
             _timer.Stop();
             if (currentUsageVerifier != null)
@@ -562,7 +596,7 @@ namespace Sanguosha.UI.Controls
             }
         }
         #endregion
-
+                
         #region MultiChoiceCommand
 
         public ObservableCollection<ICommand> MultiChoiceCommands
@@ -577,7 +611,7 @@ namespace Sanguosha.UI.Controls
             MultipleChoiceAnsweredEvent((int)parameter);
         }
         #endregion
-
+        
         #endregion
 
         #region View Related Fields
@@ -613,8 +647,7 @@ namespace Sanguosha.UI.Controls
         #endregion
 
         #region IASyncUiProxy Helpers
-        ICardUsageVerifier currentUsageVerifier;
-        bool isMultiChoiceQuestion;
+        ICardUsageVerifier currentUsageVerifier;        
 
         SkillCommand _GetSelectedSkillCommand(out bool isEquipSkill)
         {
@@ -665,11 +698,11 @@ namespace Sanguosha.UI.Controls
             return players;
         }
 
-        private void _ResetCommands()
+        private void _ResetSkillsAndCards()
         {
             foreach (var equipCommand in EquipCommands)
             {
-                equipCommand.OnSelectedChanged -= _UpdateEnabledStatusHandler;
+                equipCommand.OnSelectedChanged -= _UpdateCardUsageStatusHandler;
                 equipCommand.IsSelectionMode = false;
             }
 
@@ -681,25 +714,25 @@ namespace Sanguosha.UI.Controls
 
             foreach (CardViewModel card in HandCards)
             {
-                card.OnSelectedChanged -= _UpdateEnabledStatusHandler;
+                card.OnSelectedChanged -= _UpdateCardUsageStatusHandler;
                 card.IsSelectionMode = false;
             }
 
             foreach (var playerModel in _game.PlayerModels)
             {
-                playerModel.OnSelectedChanged -= _UpdateEnabledStatusHandler;
+                playerModel.OnSelectedChanged -= _UpdateCardUsageStatusHandler;
                 playerModel.IsSelectionMode = false;
-            }
-            
-            SubmitAnswerCommand.CanExecuteStatus = false;
-            CancelAnswerCommand.CanExecuteStatus = false;
-            AbortAnswerCommand.CanExecuteStatus = false;            
+            }           
+
+            SubmitAnswerCommand = DisabledCommand;
+            CancelAnswerCommand = DisabledCommand;
+            AbortAnswerCommand = DisabledCommand; 
         }
 
         private void _ResetAll()
         {
             MultiChoiceCommands.Clear();
-            _ResetCommands();            
+            _ResetSkillsAndCards();            
             CurrentPrompt = string.Empty;
             TimeOutSeconds = 0;
             _timer.Stop();
@@ -712,6 +745,15 @@ namespace Sanguosha.UI.Controls
             ISkill skill = null;
             bool isEquipCommand;
             SkillCommand command = _GetSelectedSkillCommand(out isEquipCommand);
+
+            if (cards.Count != 0 || players.Count != 0 || command != null)
+            {
+                cancelCardUsageCommand.CanExecuteStatus = true;
+            }
+            else
+            {
+                cancelCardUsageCommand.CanExecuteStatus = false;
+            }
 
             if (command != null)
             {
@@ -748,7 +790,7 @@ namespace Sanguosha.UI.Controls
 
             if (status == VerifierResult.Fail)
             {
-                SubmitAnswerCommand.CanExecuteStatus = false;
+                submitCardUsageCommand.CanExecuteStatus = false;
                 foreach (var playerModel in _game.PlayerModels)
                 {
                     playerModel.IsSelected = false;
@@ -756,11 +798,11 @@ namespace Sanguosha.UI.Controls
             }
             else if (status == VerifierResult.Partial)
             {
-                SubmitAnswerCommand.CanExecuteStatus = false;
+                submitCardUsageCommand.CanExecuteStatus = false;
             }
             else if (status == VerifierResult.Success)
             {
-                SubmitAnswerCommand.CanExecuteStatus = true;
+                submitCardUsageCommand.CanExecuteStatus = true;
             }
 
             List<Card> attempt = new List<Card>(cards);
@@ -833,18 +875,6 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        private void _UpdateCommandStatus()
-        {
-            if (currentUsageVerifier != null)
-            {
-                _UpdateCardUsageStatus();
-            }
-            else if (isMultiChoiceQuestion)
-            {
-                _ResetCommands();
-            }
-        }
-
         private void _StartTimer(int timeOutSeconds)
         {
             if (timeOutSeconds > 0)
@@ -857,7 +887,7 @@ namespace Sanguosha.UI.Controls
                     (o, e) =>
                     {
                         Application.Current.Dispatcher.Invoke(
-                            (ThreadStart)delegate() { ExecuteAbortCommand(null); });
+                            (ThreadStart)delegate() { AbortCardUsageCommand(null); });
                     };
                 _timer.Start();
             }
@@ -865,7 +895,7 @@ namespace Sanguosha.UI.Controls
 
         private System.Timers.Timer _timer;
 
-        private EventHandler _UpdateEnabledStatusHandler;
+        private EventHandler _UpdateCardUsageStatusHandler;
         #endregion
 
         #region IAsyncUiProxy
@@ -899,32 +929,35 @@ namespace Sanguosha.UI.Controls
 
                 foreach (var equipCommand in EquipCommands)
                 {
-                    equipCommand.OnSelectedChanged += _UpdateEnabledStatusHandler;
+                    equipCommand.OnSelectedChanged += _UpdateCardUsageStatusHandler;
                     equipCommand.IsSelectionMode = true;
                 }
 
                 foreach (var card in HandCards)
                 {
                     card.IsSelectionMode = true;
-                    card.OnSelectedChanged += _UpdateEnabledStatusHandler;
+                    card.OnSelectedChanged += _UpdateCardUsageStatusHandler;
                 }
 
                 foreach (var playerModel in _game.PlayerModels)
                 {
                     playerModel.IsSelectionMode = true;
-                    playerModel.OnSelectedChanged += _UpdateEnabledStatusHandler;
+                    playerModel.OnSelectedChanged += _UpdateCardUsageStatusHandler;
                 }
 
                 foreach (var skillCommand in SkillCommands)
                 {
-                    skillCommand.OnSelectedChanged += _UpdateEnabledStatusHandler;
+                    skillCommand.OnSelectedChanged += _UpdateCardUsageStatusHandler;
                 }
 
                 // @todo: update this.
-                CancelAnswerCommand.CanExecuteStatus = true;
-                AbortAnswerCommand.CanExecuteStatus = true;
+                SubmitAnswerCommand = submitCardUsageCommand;
+                CancelAnswerCommand = cancelCardUsageCommand;
+                AbortAnswerCommand = abortCardUsageCommand;
+                abortCardUsageCommand.CanExecuteStatus = true;
+                cancelCardUsageCommand.CanExecuteStatus = false;
 
-                _UpdateCommandStatus();         
+                _UpdateCardUsageStatus();         
             });
         }
 
@@ -959,26 +992,25 @@ namespace Sanguosha.UI.Controls
                 CurrentPrompt = PromptFormatter.Format(prompt);
                 for (int i = 0; i < choices.Count; i++)
                 {
+                    MultiChoiceCommand command = new MultiChoiceCommand(ExecuteMultiChoiceCommand)
+                    {
+                        CanExecuteStatus = true,
+                        ChoiceKey = choices[i],
+                        ChoiceIndex = i
+                    };
                     if (choices[i] == Prompt.YesChoice)
                     {
-
+                        SubmitAnswerCommand = command;
                     }
                     else if (choices[i] == Prompt.NoChoice)
                     {
+                        CancelAnswerCommand = command;
                     }
                     else
                     {
-                        MultiChoiceCommands.Add(
-                            new MultiChoiceCommand(ExecuteMultiChoiceCommand)
-                            {
-                                CanExecuteStatus = true,
-                                ChoiceKey = choices[i],
-                                ChoiceIndex = i
-                            });
+                        MultiChoiceCommands.Add(command);
                     }
-                }
-                isMultiChoiceQuestion = true;
-                _UpdateCommandStatus();
+                }                
             });
         }
 

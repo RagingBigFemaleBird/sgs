@@ -62,7 +62,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Viewbox Height="30" Width="auto">
-                            <Button Width="auto" Height="30" Style="{DynamicResource MultiChoiceButtonStyle}" CommandParameter="{Binding ChoiceIndex}" Command="{Binding}" Margin="20, 0, 20, 0">                        
+                            <Button Width="auto" Height="30" Style="{DynamicResource MultiChoiceButtonStyle}" Command="{Binding}" Margin="20, 0, 20, 0">                        
                            	    <local:OutlinedTextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Width="Auto" Text="{res:ResourceKeyBinding Path=ChoiceKey}" FontFamily="SimHei" Fill="White" FontWeight="Bold" Stroke="Black" TextWrapping="NoWrap"/>
                        	    </Button>                 
 				        </Viewbox>                            

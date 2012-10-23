@@ -147,12 +147,13 @@ namespace Sanguosha.Core.UI
             {
                 Trace.TraceInformation("Not active player, defaulting.");
             }
-            proxy.Freeze(); 
             if (TryAnswerForCardUsage(prompt, verifier, out skill, out cards, out players))
             {
+                proxy.Freeze();
                 Trace.Assert(verifier.FastVerify(skill, cards, players) == VerifierResult.Success);
                 return true;
             }
+            proxy.Freeze();
             return false;
         }
 
@@ -174,11 +175,12 @@ namespace Sanguosha.Core.UI
             {
                 Trace.TraceInformation("Not active player, defaulting.");
             }
-            proxy.Freeze();
             if (TryAnswerForMultipleChoice(questions, out answer))
             {
+                proxy.Freeze();
                 return true;
             }
+            proxy.Freeze();
             return false;
         }
 

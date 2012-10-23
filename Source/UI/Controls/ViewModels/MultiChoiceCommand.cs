@@ -12,6 +12,11 @@ namespace Sanguosha.UI.Controls
             CanExecuteStatus = true;
         }
 
+        public override void Execute(object parameter)
+        {
+            base.Execute(choiceIndex);
+        }
+
         private string choiceKey;
         public string ChoiceKey
         {

@@ -12,6 +12,12 @@ namespace Sanguosha.UI.Controls
 
         readonly Action<object> _execute;
 
+        public Action<object> Executor
+        {
+            get { return _execute; }
+        } 
+
+
         private bool _canExecute;
 
         public bool CanExecuteStatus 
@@ -52,7 +58,7 @@ namespace Sanguosha.UI.Controls
 
         public event EventHandler CanExecuteChanged;
 
-        public void Execute(object parameter)
+        public virtual void Execute(object parameter)
         {
             _execute(parameter);
         }
