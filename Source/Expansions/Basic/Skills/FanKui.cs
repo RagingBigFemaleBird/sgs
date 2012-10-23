@@ -72,11 +72,9 @@ namespace Sanguosha.Expansions.Basic.Skills
                     {
                         theCard = result[0][0];
                     }
-                    CardsMovement m = new CardsMovement();
-                    m.cards = new List<Card>();
-                    m.cards.Add(theCard);
-                    m.to = new DeckPlace(Owner, DeckType.Hand);
-                    Game.CurrentGame.MoveCards(m, null);
+                    List<Card> cards = new List<Card>();
+                    cards.Add(theCard);
+                    Game.CurrentGame.HandleCardTransferToHand(eventArgs.Source, Owner, cards);
                 }
             }
             

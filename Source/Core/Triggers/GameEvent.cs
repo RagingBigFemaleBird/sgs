@@ -196,7 +196,7 @@ namespace Sanguosha.Core.Triggers
         /// <remarks>
         /// 能发动的技能：【落英】、【巨象②】、【礼让】。
         /// </remarks>
-        public static readonly GameEvent CardsEnteringDiscardDeck;
+        public static readonly GameEvent CardsEnteringDiscardDeck = new GameEvent("CardsEnteringDiscardDeck");
 
         /// <summary>
         /// 置入弃牌堆后/进入新的区域后 
@@ -207,7 +207,7 @@ namespace Sanguosha.Core.Triggers
         ///              【明哲】、【死谏】、【琴音】、【忍戒】。
         /// b、装备技能：【白银狮子②】。
         /// </remarks>
-        public static readonly GameEvent CardsEnteredDiscardDeck;
+        public static readonly GameEvent CardsEnteredDiscardDeck = new GameEvent("CardsEnteredDiscardDeck");
 
         /// <summary>
         /// 角色获得牌时
@@ -215,7 +215,12 @@ namespace Sanguosha.Core.Triggers
         /// <remarks>
         /// 能发动的技能：【伤逝】、【恩怨①】
         /// </remarks>
-        public static readonly GameEvent CardsAcquired;
+        public static readonly GameEvent CardsAcquired = new GameEvent("CardsAcquired");
+
+        /// <summary>
+        /// 角色失去牌时
+        /// </summary>
+        public static readonly GameEvent CardsLost = new GameEvent("CardsLost");
 
         /// <summary>
         /// 角色获得武将技能时能

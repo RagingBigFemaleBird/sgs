@@ -68,10 +68,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             Owner[QingNangUsed] = 1;
             List<Card> cards = arg.Cards;
             Trace.Assert(cards.Count == 1 && arg.Targets.Count == 1);
-            CardsMovement move = new CardsMovement();
-            move.cards = new List<Card>(cards);
-            move.to = new DeckPlace(null, DeckType.Discard);
-            Game.CurrentGame.MoveCards(move, null);
+            Game.CurrentGame.HandleCardDiscard(Owner, cards);
             Game.CurrentGame.RecoverHealth(Owner, arg.Targets[0], 1);
             return true;
         }

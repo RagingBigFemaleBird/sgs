@@ -32,6 +32,14 @@ namespace Sanguosha.Core.Games
         Lightning,
     }
 
+    public enum DiscardReason
+    {
+        Discard,
+        Play,
+        Use,
+        Judge,
+    }
+
     public abstract class Game : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -363,7 +371,11 @@ namespace Sanguosha.Core.Games
             set { players = value; }
         }
 
-        public void EventlessMoveCards(List<CardsMovement> moves, List<UI.IGameLog> logs)
+        ///<remarks>
+        ///YOU ARE NOT ALLOWED TO TRIGGER ANY EVENT ANYWHERE INSIDE THIS FUNCTION!!!!!
+        ///你不可以在这个函数中触发任何事件!!!!!
+        ///</remarks>
+        public void MoveCards(List<CardsMovement> moves, List<UI.IGameLog> logs)
         {
             foreach (CardsMovement move in moves)
             {
@@ -388,8 +400,6 @@ namespace Sanguosha.Core.Games
             foreach (CardsMovement move in moves)
             {
                 List<Card> cards = new List<Card>(move.cards);
-                // 注意：在此处绝对不能发出任何trigger. cards movement是一个atomic operation必须全部move完毕才可以trigger
-                // 
                 // Update card's deck mapping
                 foreach (Card card in cards)
                 {
@@ -411,13 +421,6 @@ namespace Sanguosha.Core.Games
                     card.Place = move.to;
                 }
             }
-        }
-
-        public void MoveCards(List<CardsMovement> moves, List<UI.IGameLog> logs)
-        {
-            // trigger entering discard here
-            EventlessMoveCards(moves, logs);
-            // trigger everything else here
         }
 
         public void MoveCards(CardsMovement move, UI.IGameLog log)
@@ -698,6 +701,9 @@ namespace Sanguosha.Core.Games
             move.cards = new List<Card>();
             move.cards.Add(c);
             move.to = new DeckPlace(player, DeckType.Discard);
+            PlayerAboutToDiscardCard(player, move.cards, DiscardReason.Judge);
+            MoveCards(move, null);
+            PlayerDiscardedCard(player, move.cards, DiscardReason.Judge);
             return c;
         }
 
@@ -738,7 +744,7 @@ namespace Sanguosha.Core.Games
         /// </summary>
         /// <param name="source"></param>
         /// <param name="c"></param>
-        public void PlayerPlayedCard(Player source, ICard c)
+        protected void PlayerPlayedCard(Player source, ICard c)
         {
             try
             {
@@ -755,12 +761,20 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public bool HandleCardUse(Player p, ISkill skill, List<Card> cards, List<Player> targets)
+        /// <summary>
+        /// 处理玩家打出卡牌
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="skill"></param>
+        /// <param name="cards"></param>
+        /// <param name="targets"></param>
+        /// <returns></returns>
+        public bool HandleCardPlay(Player p, ISkill skill, List<Card> cards, List<Player> targets)
         {
             Trace.Assert(cards != null);
             CardsMovement m;
             ICard result;
-            m.cards = cards;
+            m.cards = new List<Card>(cards);
             m.to = new DeckPlace(null, DeckType.Discard);
             bool status = CommitCardTransform(p, skill, cards, out result, targets);
             if (!status)
@@ -774,9 +788,101 @@ namespace Sanguosha.Core.Games
                 cards.Clear();
                 cards.AddRange(r.Subcards);
             }
-            MoveCards(m, new CardUseLog() { Source = p, Targets = null, Cards = null, Skill = skill });
             PlayerPlayedCard(p, result);
+            PlayerAboutToDiscardCard(p, m.cards, DiscardReason.Play);
+            MoveCards(m, new CardUseLog() { Source = p, Targets = null, Cards = null, Skill = skill });
+            PlayerDiscardedCard(p, m.cards, DiscardReason.Play);
             return true;
+        }
+
+        protected void PlayerDiscardedCard(Player p, List<Card> cards, DiscardReason reason)
+        {
+            try
+            {
+                GameEventArgs arg = new GameEventArgs();
+                arg.Source = p;
+                arg.Targets = null;
+                arg.Cards = cards;
+                arg.IntArg = (int)reason;
+                Emit(GameEvent.CardsEnteredDiscardDeck, arg);
+            }
+            catch (TriggerResultException)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        protected void PlayerAboutToDiscardCard(Player p, List<Card> cards, DiscardReason reason)
+        {
+            try
+            {
+                GameEventArgs arg = new GameEventArgs();
+                arg.Source = p;
+                arg.Targets = null;
+                arg.Cards = cards;
+                arg.IntArg = (int)reason;
+                Emit(GameEvent.CardsEnteringDiscardDeck, arg);
+            }
+            catch (TriggerResultException)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        protected void PlayerLostCard(Player p, List<Card> cards)
+        {
+            try
+            {
+                GameEventArgs arg = new GameEventArgs();
+                arg.Source = p;
+                arg.Targets = null;
+                arg.Cards = cards;
+                Emit(GameEvent.CardsLost, arg);
+            }
+            catch (TriggerResultException)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        protected void PlayerAcquiredCard(Player p, List<Card> cards)
+        {
+            try
+            {
+                GameEventArgs arg = new GameEventArgs();
+                arg.Source = p;
+                arg.Targets = null;
+                arg.Cards = cards;
+                Emit(GameEvent.CardsAcquired, arg);
+            }
+            catch (TriggerResultException)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public void HandleCardDiscard(Player p, List<Card> cards)
+        {
+            CardsMovement move;
+            move.cards = new List<Card>(cards);
+            move.to = new DeckPlace(null, DeckType.Discard);
+            PlayerAboutToDiscardCard(p, move.cards, DiscardReason.Discard);
+            MoveCards(move, null);
+            PlayerDiscardedCard(p, move.cards, DiscardReason.Discard);
+        }
+
+        public void HandleCardTransferToHand(Player from, Player to, List<Card> cards)
+        {
+            CardsMovement move;
+            foreach (Card c in cards)
+            {
+                Trace.Assert(c.Owner == from);
+            }
+            move.cards = new List<Card>(cards);
+            move.to = new DeckPlace(to, DeckType.Hand);
+            MoveCards(move, null);
+            PlayerLostCard(from, cards);
+            PlayerAcquiredCard(to, cards);
         }
 
         public bool CommitCardTransform(Player p, ISkill skill, List<Card> cards, out ICard result, List<Player> targets)

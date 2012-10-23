@@ -93,10 +93,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             Owner[LiJianUsed] = 1;
             List<Card> cards = arg.Cards;
             Trace.Assert(cards.Count == 1 && arg.Targets.Count == 2);
-            CardsMovement move;
-            move.cards = new List<Card>(cards);
-            move.to = new DeckPlace(null, DeckType.Discard);
-            Game.CurrentGame.MoveCards(move, null);
+            Game.CurrentGame.HandleCardDiscard(Owner, cards);
             GameEventArgs args = new GameEventArgs();
             args.Source = arg.Targets[1];
             args.Targets = new List<Player>();

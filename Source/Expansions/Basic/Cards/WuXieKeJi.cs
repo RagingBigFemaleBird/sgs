@@ -62,7 +62,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                         if (Game.CurrentGame.GlobalProxy.AskForCardUsage(
                             prompt, v1, out skill, out cards, out players, out responder))
                         {
-                            if (!Game.CurrentGame.HandleCardUse(responder, skill, cards, players))
+                            if (!Game.CurrentGame.HandleCardPlay(responder, skill, cards, players))
                             {
                                 continue;
                             }

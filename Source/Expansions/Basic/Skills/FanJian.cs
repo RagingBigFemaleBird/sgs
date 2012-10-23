@@ -98,10 +98,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 Trace.TraceInformation("Guessed wrong");
                 Game.CurrentGame.DoDamage(Owner, arg.Targets[0], 1, DamageElement.None, null);
             }
-            CardsMovement m = new CardsMovement();
-            m.cards = clist;
-            m.to = new DeckPlace(arg.Targets[0], DeckType.Hand);
-            Game.CurrentGame.MoveCards(m, null);
+            Game.CurrentGame.HandleCardTransferToHand(Owner, arg.Targets[0], clist);
             return true;
         }
 

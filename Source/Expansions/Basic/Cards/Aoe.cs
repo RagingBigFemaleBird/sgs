@@ -59,7 +59,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     if (e.Status == TriggerResult.Success)
                     {
-                        Game.CurrentGame.PlayerPlayedCard(current, args.Card); 
+                        Game.CurrentGame.HandleCardPlay(current, null, args.Cards, sourceList);
                         continue;
                     }
                 }
@@ -77,7 +77,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     }
                     else
                     {
-                        if (!Game.CurrentGame.HandleCardUse(current, skill, cards, sourceList))
+                        if (!Game.CurrentGame.HandleCardPlay(current, skill, cards, sourceList))
                         {
                             continue;
                         }

@@ -204,11 +204,7 @@ namespace Sanguosha.Core.Games
                             }
                         }
                     }
-                    //todo: Discard goes through triggers when 周瑜 || 二张 || 曹植 is implemented
-                    CardsMovement m = new CardsMovement();
-                    m.cards = cards;
-                    m.to = new DeckPlace(null, DeckType.Discard);
-                    Game.CurrentGame.MoveCards(m, null);
+                    Game.CurrentGame.HandleCardDiscard(currentPlayer, cards);
                 }
             }
 

@@ -108,10 +108,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             v2.Owner = source;
             if (ui.AskForCardUsage(new CardUsagePrompt("HuoGong2", dest, cards[0].Suit), v2, out s, out cards, out p))
             {
-                CardsMovement m;
-                m.cards = cards;
-                m.to = new DeckPlace(null, DeckType.Discard);
-                Game.CurrentGame.MoveCards(m, new CardUseLog() { Source = source, Targets = null, Cards = null, Type = this });
+                Game.CurrentGame.HandleCardDiscard(source, cards);
                 Game.CurrentGame.DoDamage(source, dest, 1, DamageElement.Fire, card);
             }
             else

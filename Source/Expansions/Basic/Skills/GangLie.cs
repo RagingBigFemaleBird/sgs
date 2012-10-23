@@ -87,10 +87,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                         }
                         else
                         {
-                            CardsMovement move = new CardsMovement();
-                            move.cards = new List<Card>(cards);
-                            move.to = new DeckPlace(null, DeckType.Discard);
-                            Game.CurrentGame.MoveCards(move, null);
+                            Game.CurrentGame.HandleCardDiscard(eventArgs.Source, cards);
                         }
                     }
                     else

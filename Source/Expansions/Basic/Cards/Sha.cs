@@ -72,7 +72,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     if (e.Status == TriggerResult.Success)
                     {
-                        Game.CurrentGame.PlayerPlayedCard(dest, args.Card);
+                        Game.CurrentGame.HandleCardPlay(dest, null, args.Cards, sourceList);
                         numberOfShanRequired--;
                         continue;
                     }
@@ -89,7 +89,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                         cannotProvideShan = true;
                         break;
                     }
-                    if (!Game.CurrentGame.HandleCardUse(dest, skill, cards, sourceList))
+                    if (!Game.CurrentGame.HandleCardPlay(dest, skill, cards, sourceList))
                     {
                         continue;
                     }

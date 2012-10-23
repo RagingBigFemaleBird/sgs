@@ -61,10 +61,14 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
             Trace.Assert(answer.Count == 1 && answer[0].Count == 1);
 
-            CardsMovement m;
-            m.cards = new List<Card>(answer[0]);
-            m.to = ShunChaiDest(source, dest);
-            Game.CurrentGame.MoveCards(m, new CardUseLog() { Source = source, Target = dest, Skill = null, Cards = null });
+            if (ShunChaiDest(source, dest).DeckType == DeckType.Discard)
+            {
+                Game.CurrentGame.HandleCardDiscard(dest, answer[0]);
+            }
+            else
+            {
+                Game.CurrentGame.HandleCardTransferToHand(dest, source, answer[0]);
+            }
         }
 
         protected abstract bool ShunChaiAdditionalCheck(Player source, Player dest);

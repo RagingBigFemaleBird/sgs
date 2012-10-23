@@ -44,7 +44,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     Trace.TraceInformation("Player {0} Invalid answer", current);
                     break;
                 }
-                if (!Game.CurrentGame.HandleCardUse(current, skill, cards, sourceList))
+                if (!Game.CurrentGame.HandleCardPlay(current, skill, cards, sourceList))
                 {
                     continue;
                 }
