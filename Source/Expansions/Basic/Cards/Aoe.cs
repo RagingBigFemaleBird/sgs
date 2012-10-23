@@ -34,7 +34,6 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         public override void Process(Player source, List<Player> dests, ICard c)
         {
-            Game.CurrentGame.PlayerUsedCard(source, c);
             Trace.Assert(dests == null || dests.Count == 0);
             Player current = source;
             SingleCardUsageVerifier v1 = responseCardVerifier;

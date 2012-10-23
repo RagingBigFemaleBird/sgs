@@ -29,7 +29,6 @@ namespace Sanguosha.Expansions.Battle.Cards
             }
             else
             {
-                Game.CurrentGame.PlayerUsedCard(source, card);
                 foreach (var player in dests)
                 {
                     Player p = player;
@@ -40,18 +39,15 @@ namespace Sanguosha.Expansions.Battle.Cards
                 }
             }
         }
-
-        public override VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> targets)
+        public override bool NotReforging(Player source, ISkill skill, List<Card> cards, List<Player> targets)
         {
             if (targets == null || targets.Count == 0)
             {
-                return VerifyHelper(source, skill, cards, targets, false);
+                return false;
             }
-            else
-            {
-                return VerifyHelper(source, skill, cards, targets, true);
-            }
+            return true;
         }
+
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
         {
             if (targets != null && targets.Count >= 3)

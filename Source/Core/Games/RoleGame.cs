@@ -307,9 +307,25 @@ namespace Sanguosha.Core.Games
                     m.cards = new List<Card>(eventArgs.Cards);
                 }
                 m.to = new DeckPlace(null, DeckType.Compute);
+                bool runTrigger = c.Type.NotReforging(eventArgs.Source, eventArgs.Skill, m.cards, eventArgs.Targets);
 
                 Game.CurrentGame.MoveCards(m, new CardUseLog() { Source = eventArgs.Source, Targets = eventArgs.Targets, Skill = eventArgs.Skill, Cards = eventArgs.Cards });
-                
+                if (runTrigger)
+                {
+                    try
+                    {
+                        GameEventArgs arg = new GameEventArgs();
+                        arg.Source = eventArgs.Source;
+                        arg.Targets = null;
+                        arg.Card = c;
+
+                        Game.CurrentGame.Emit(GameEvent.PlayerUsedCard, arg);
+                    }
+                    catch (TriggerResultException)
+                    {
+                        throw new NotImplementedException();
+                    }
+                }
                 c.Type.Process(eventArgs.Source, eventArgs.Targets, c);
 
                 m.cards = Game.CurrentGame.Decks[DeckType.Compute];

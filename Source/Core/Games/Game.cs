@@ -734,27 +734,6 @@ namespace Sanguosha.Core.Games
         }
 
         /// <summary>
-        /// 处理玩家使用卡牌事件。
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="c"></param>
-        public void PlayerUsedCard(Player source, ICard c)
-        {
-            try
-            {
-                GameEventArgs arg = new GameEventArgs();
-                arg.Source = source;
-                arg.Targets = null;
-                arg.Card = c;
-
-                Emit(GameEvent.PlayerUsedCard, arg);
-            }
-            catch (TriggerResultException)
-            {
-                throw new NotImplementedException();
-            }
-        }
-        /// <summary>
         /// 处理玩家打出卡牌事件。
         /// </summary>
         /// <param name="source"></param>

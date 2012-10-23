@@ -105,7 +105,6 @@ namespace Sanguosha.Core.Cards
 
         public virtual void Process(Player source, List<Player> dests, ICard card)
         {
-            Game.CurrentGame.PlayerUsedCard(source, card);
             foreach (var player in dests)
             {
                 Player p = player;
@@ -120,9 +119,13 @@ namespace Sanguosha.Core.Cards
 
         public virtual VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> targets)
         {
-            return VerifyHelper(source, skill, cards, targets, true);
+            return VerifyHelper(source, skill, cards, targets, NotReforging(source, skill, cards, targets));
         }
 
+        public virtual bool NotReforging(Player source, ISkill skill, List<Card> cards, List<Player> targets)
+        {
+            return true;
+        }
         /// <summary>
         /// 卡牌UI合法性检查
         /// </summary>
