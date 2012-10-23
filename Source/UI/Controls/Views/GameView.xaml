@@ -49,10 +49,12 @@
             <StackPanel x:Name="spPrompt" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
                         HorizontalAlignment="Center"  VerticalAlignment="Bottom"
                         Margin="100, 0, 100, 0">
-            <local:OutlinedTextBlock x:Name="tbPrompt" Text="{Binding Path=MainPlayerModel.CurrentPrompt}"
+                <Viewbox Height="28.813">
+                    <local:OutlinedTextBlock x:Name="tbPrompt" Text="{Binding Path=MainPlayerModel.CurrentPrompt}"
 									 Fill="White" Stroke="Black" StrokeThickness="1"									 
 									 HorizontalAlignment="Center"
 									 FontSize="20" FontFamily="SimHei" Height="28.813" FontWeight="Bold"/>
+                </Viewbox>
                 <ItemsControl x:Name="gridChoices" Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom" MaxWidth="1000" ItemsSource="{Binding Path=MainPlayerModel.MultiChoiceCommands}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
