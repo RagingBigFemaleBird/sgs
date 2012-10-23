@@ -23,5 +23,6 @@ namespace Sanguosha.Core.UI
         event CardUsageAnsweredEventHandler CardUsageAnsweredEvent;
         event CardChoiceAnsweredEventHandler CardChoiceAnsweredEvent;
         event MultipleChoiceAnsweredEventHandler MultipleChoiceAnsweredEvent;
+        void Freeze();
     }
 }

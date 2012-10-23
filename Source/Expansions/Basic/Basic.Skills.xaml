@@ -44,7 +44,19 @@
     <sys:String x:Key="Skill.FanKui.Name">反馈</sys:String>
     
     <sys:String x:Key="Skill.LiJian.Name">离间</sys:String>
-    
+
+    <sys:String x:Key="Skill.KongCheng.Name">空城</sys:String>
+
+    <sys:String x:Key="Skill.ZhiHeng.Name">制衡</sys:String>
+
+    <sys:String x:Key="Skill.QingGuo.Name">倾国</sys:String>
+
+    <sys:String x:Key="Skill.QianXun.Name">谦逊</sys:String>
+
+    <sys:String x:Key="Skill.JiZhi.Name">集智</sys:String>
+
+    <sys:String x:Key="Skill.KuRou.Name">苦肉</sys:String>
+
     <sys:String x:Key="Skill.GangLie.Name">刚烈</sys:String>
     <sys:String x:Key="Skill.GangLie.Description">每当你受到一次伤害后，你可以进行一次判定，若结果不为红桃，则伤害来源选择一项：弃置两张手牌，或受到你对其造成的1点伤害。</sys:String>
 </ResourceDictionary>

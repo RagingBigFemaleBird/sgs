@@ -23,50 +23,81 @@ namespace Sanguosha.Expansions.Basic.Skills
         class GangLieTrigger : Trigger
         {
             public Player Owner { get; set; }
-            public class GangLieVerifier : ICardChoiceVerifier
+            public class GangLieVerifier : ICardUsageVerifier
             {
-
-                public VerifierResult Verify(List<List<Card>> answer)
+                public VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players)
                 {
-                    Trace.Assert(answer.Count == 1);
-                    if (answer[0].Count < 2)
+                    if (skill != null || (players != null && players.Count != 0))
+                    {
+                        return VerifierResult.Fail;
+                    }
+                    if (cards == null || cards.Count == 0)
+                    {
+                        return VerifierResult.Partial;
+                    }
+                    if (cards.Count > 2)
+                    {
+                        return VerifierResult.Fail;
+                    }
+                    foreach (Card c in cards)
+                    {
+                        if (c.Place.DeckType != DeckType.Hand)
+                        {
+                            return VerifierResult.Fail;
+                        }
+                    }
+                    if (cards.Count < 2)
                     {
                         return VerifierResult.Partial;
                     }
                     return VerifierResult.Success;
-                    
+                }
+
+                public IList<CardHandler> AcceptableCardType
+                {
+                    get { throw new NotImplementedException(); }
+                }
+
+                public VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players)
+                {
+                    return FastVerify(skill, cards, players);
                 }
             }
+
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                /*
                 if (eventArgs.Targets.IndexOf(Owner) < 0)
                 {
                     return;
                 }
-                Card c = Game.CurrentGame.Judge(Owner);
-                if (c.Suit != SuitType.Heart)
+                int answer = 0;
+                if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("GangLie", eventArgs.Source), Prompt.YesNoChoices, out answer) && answer == 0)
                 {
-                    List<DeckPlace> deck = new List<DeckPlace>();
-                    deck.Add(new DeckPlace(eventArgs.Source, DeckType.Hand));
-                    List<int> max = new List<int>();
-                    max.Add(2);
-                    List<List<Card>> result;
-                    List<string> deckname = new List<string>();
-                    deckname.Add("GangLie choice");
-                    GangLieVerifier ver = new GangLieVerifier();
-                    if (!Game.CurrentGame.UiProxies[eventArgs.Source].AskForCardChoice(new CardUsagePrompt("GangLie", Owner), deck, deckname, max, ver, out result))
+                    Card c = Game.CurrentGame.Judge(Owner);
+                    if (c.Suit != SuitType.Heart)
                     {
-                        Game.CurrentGame.DoDamage(Owner, eventArgs.Source, 1, DamageElement.None, null);
+                        List<DeckPlace> deck = new List<DeckPlace>();
+                        GangLieVerifier ver = new GangLieVerifier();
+                        ISkill skill;
+                        List<Card> cards;
+                        List<Player> players;
+                        if (!Game.CurrentGame.UiProxies[eventArgs.Source].AskForCardUsage(new CardUsagePrompt("GangLie", Owner), ver, out skill, out cards, out players))
+                        {
+                            Game.CurrentGame.DoDamage(Owner, eventArgs.Source, 1, DamageElement.None, null);
+                        }
+                        else
+                        {
+                            CardsMovement move = new CardsMovement();
+                            move.cards = new List<Card>(cards);
+                            move.to = new DeckPlace(null, DeckType.Discard);
+                            Game.CurrentGame.MoveCards(move, null);
+                        }
                     }
                     else
                     {
-                        CardsMovement m = new CardsMovement();
-                        m.cards = result[0];
-                        m.to = new DeckPlace(null, DeckType.Discard);
-                        Game.CurrentGame.MoveCards(m, null);
+                        Trace.TraceInformation("Judgement fail");
                     }
-                }*/
+                }
             }
             public GangLieTrigger(Player p)
             {

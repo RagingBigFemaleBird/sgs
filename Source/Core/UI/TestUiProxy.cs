@@ -14,6 +14,10 @@ namespace Sanguosha.Core.UI
 {
     public class TestUiProxy : IUiProxy
     {
+        public void Freeze()
+        {
+        }
+
         private Player hostPlayer;
 
         public Player HostPlayer

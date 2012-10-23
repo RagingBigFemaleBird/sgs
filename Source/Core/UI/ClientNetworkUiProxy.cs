@@ -15,6 +15,11 @@ namespace Sanguosha.Core.UI
     public class ClientNetworkUiProxy : IUiProxy
     {
 
+        public void Freeze()
+        {
+            proxy.Freeze();
+        }
+
         public Player HostPlayer
         {
             get;

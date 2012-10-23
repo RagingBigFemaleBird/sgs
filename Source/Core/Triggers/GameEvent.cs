@@ -317,9 +317,14 @@ namespace Sanguosha.Core.Triggers
         public static readonly GameEvent PlayerPlayedCard;
 
         /// <summary>
-        /// 玩家判定
+        /// 玩家判定生效前
         /// </summary>
-        public static readonly GameEvent PlayerJudge;
+        public static readonly GameEvent PlayerJudgeBegin = new GameEvent("PlayerJudgeBegin");
+
+        /// <summary>
+        /// 玩家判定生效后
+        /// </summary>
+        public static readonly GameEvent PlayerJudgeDone = new GameEvent("PlayerJudgeDone");
 
         /// <summary>
         /// 玩家需要打出一张牌

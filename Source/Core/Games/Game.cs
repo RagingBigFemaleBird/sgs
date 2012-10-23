@@ -680,16 +680,24 @@ namespace Sanguosha.Core.Games
 
         public Card Judge(Player player)
         {
+            SyncCardAll(PeekCard(0));
             Card c = Game.CurrentGame.DrawCard();
-            //todo: move card to judge area and remove this
-            SyncCardAll(c);
+            CardsMovement move = new CardsMovement();
+            move.cards = new List<Card>();
+            move.cards.Add(c);
+            move.to = new DeckPlace(player, DeckType.JudgeResult);
+            MoveCards(move, null);
             GameEventArgs args = new GameEventArgs();
             args.Source = player;
-            args.Card = c;
-            Game.CurrentGame.Emit(GameEvent.PlayerJudge, args);
+            Game.CurrentGame.Emit(GameEvent.PlayerJudgeBegin, args);
+            Game.CurrentGame.Emit(GameEvent.PlayerJudgeDone, args);
             Trace.Assert(args.Source == player);
-            c = (Card)args.Card;
-            Trace.Assert(c != null);
+            Trace.Assert(decks[player, DeckType.JudgeResult].Count == 1);
+            c = decks[player, DeckType.JudgeResult][0];
+            move = new CardsMovement();
+            move.cards = new List<Card>();
+            move.cards.Add(c);
+            move.to = new DeckPlace(player, DeckType.Discard);
             return c;
         }
 

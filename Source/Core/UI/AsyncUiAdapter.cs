@@ -13,6 +13,11 @@ namespace Sanguosha.Core.UI
 {
     public class AsyncUiAdapter : IUiProxy
     {
+        public void Freeze()
+        {
+            proxy.Freeze();
+        }
+        
         private Semaphore answerPending;
         private ISkill answerSkill;
         private List<Card> answerCards;

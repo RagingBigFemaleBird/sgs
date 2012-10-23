@@ -11,6 +11,7 @@
     <sys:String x:Key="CardUsage.Prompt.CiXiong2">{0}发动了雌雄双股剑效果，请弃一张牌或点“取消”让对方摸一张牌</sys:String>
     <sys:String x:Key="CardUsage.Prompt.Sha.Shan">{0}对你使用了杀，请出一张闪</sys:String>
     <sys:String x:Key="CardUsage.Prompt.JiJiang">{0}发动了激将，是否为其出一张杀？</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.GangLie">{0}对你造成一点伤害，是否发动刚烈</sys:String>
     <sys:String x:Key="CardUsage.Prompt.GangLie">{0}发动了刚烈，请弃两张牌或点“取消”受到一点伤害</sys:String>
     <sys:String x:Key="CardChoice.Prompt.FanKui">反馈</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.FanKui">是否对{0}发动反馈？</sys:String>

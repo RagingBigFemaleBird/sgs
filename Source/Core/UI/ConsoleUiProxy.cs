@@ -188,5 +188,10 @@ namespace Sanguosha.Core.UI
             return false;
         }
         public int TimeOutSeconds { get; set; }
+
+
+        public void Freeze()
+        {
+        }
     }
 }

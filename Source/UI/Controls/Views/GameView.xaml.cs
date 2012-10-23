@@ -500,6 +500,10 @@ namespace Sanguosha.UI.Controls
         #endregion
 
         #region IAsyncUiProxy
+        public void Freeze()
+        {
+        }
+
         public Player HostPlayer
         {
             get
