@@ -95,14 +95,42 @@ namespace Sanguosha.UI.Controls
 
         void GameView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            _Resize(e.NewSize);
+        }
+        #endregion
+
+        #region Fields
+
+        public Canvas GlobalCanvas
+        {
+            get
+            {
+                return gameGlobalCanvas;
+            }
+        }
+
+        public GameViewModel GameModel
+        {
+            get
+            {
+                return DataContext as GameViewModel;
+            }
+        }
+
+        #endregion
+
+        #region Private Functions
+
+        private void _Resize(Size size)
+        {
             if (profileBoxes.Count == 0)
             {
                 return;
             }
 
             Size tableBounds = new Size();
-            tableBounds.Width = e.NewSize.Width - gridRoot.ColumnDefinitions[1].Width.Value;
-            tableBounds.Height = e.NewSize.Height - gridRoot.RowDefinitions[1].Height.Value -
+            tableBounds.Width = size.Width - gridRoot.ColumnDefinitions[1].Width.Value;
+            tableBounds.Height = size.Height - gridRoot.RowDefinitions[1].Height.Value -
                                  gridTable.Margin.Bottom;
 
             // Adjust width/height of all controls
@@ -139,7 +167,7 @@ namespace Sanguosha.UI.Controls
 
             // Expand infoPanel if table is wide enough
             int thresh = (int)Resources["GameView.InfoPanelExpansionThresholdWidth"];
-            if (e.NewSize.Width > thresh)
+            if (size.Width > thresh)
             {
                 mainPlayerPanel.SetValue(Grid.ColumnSpanProperty, 1);
                 infoPanel.SetValue(Grid.RowSpanProperty, 2);
@@ -149,36 +177,13 @@ namespace Sanguosha.UI.Controls
                 mainPlayerPanel.SetValue(Grid.ColumnSpanProperty, 2);
                 infoPanel.SetValue(Grid.RowSpanProperty, 1);
             }
-           
+
             foreach (var playerView in playersMap.Values)
             {
                 playerView.UpdateCardAreas();
             }
             discardDeck.RearrangeCards(0d);
         }
-        #endregion
-
-        #region Fields
-
-        public Canvas GlobalCanvas
-        {
-            get
-            {
-                return gameGlobalCanvas;
-            }
-        }
-
-        public GameViewModel GameModel
-        {
-            get
-            {
-                return DataContext as GameViewModel;
-            }
-        }
-
-        #endregion
-
-        #region Private Functions
 
         private void _CreatePlayerInfoView(int indexInGameModel)
         {
@@ -208,6 +213,7 @@ namespace Sanguosha.UI.Controls
             mainPlayerPanel.DataContext = model.MainPlayerModel;
             playersMap.Add(model.MainPlayerModel.Player, mainPlayerPanel);
             RearrangeSeats();
+            _Resize(new Size(this.ActualWidth, this.ActualHeight));
         }
 
         private void _RearrangeSeats()
@@ -218,12 +224,14 @@ namespace Sanguosha.UI.Controls
             for (int i = 1; i < playerCount; i++)
             {
                 var playerModel = model.PlayerModels[i];
+                bool found = false;
                 for (int j = i; j < playerCount - 1; j++)
-                {
+                {                    
                     var playerView = profileBoxes[j];
                     if (playerView.PlayerModel == model.MainPlayerModel)
                     {
                         profileBoxes.RemoveAt(j);
+                        found = true;
                         break;
                     }
                     if (playerModel == playerView.PlayerModel)
@@ -233,8 +241,12 @@ namespace Sanguosha.UI.Controls
                             profileBoxes.Move(j, i - 1);
                             playersMap[playerModel.Player] = playerView;
                         }
+                        found = true;
                         break;
-                    }
+                    }                    
+                }
+                if (!found)
+                {
                     _CreatePlayerInfoView(i);
                 }
             }

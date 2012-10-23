@@ -27,8 +27,7 @@ namespace Sanguosha.UI.Main
     {
         public MainGame()
         {
-            this.InitializeComponent();
-            InitGame();
+            this.InitializeComponent();            
             // Insert code required on object creation below this point.
         }
 
@@ -69,8 +68,7 @@ namespace Sanguosha.UI.Main
             GameViewModel gameModel = new GameViewModel();
             gameModel.Game = _game;
             gameModel.MainPlayerSeatNumber = MainSeat;
-            gameView.DataContext = gameModel;
-            _game.UiProxies[_game.Players[MainSeat]].HostPlayer = _game.Players[MainSeat];
+            gameView.DataContext = gameModel;            
 
             for (int i = 0; i < _game.Players.Count; i++)
             {
@@ -84,13 +82,14 @@ namespace Sanguosha.UI.Main
                 var proxy = new AsyncUiAdapter(gameModel.PlayerModels[i]);
 #endif
                 _game.UiProxies.Add(player, proxy);
-            }
+            }            
         }
 
         private Game _game;
         Thread gameThread;
         private void Page_Loaded(object sender, RoutedEventArgs e)
-        {            
+        {
+            InitGame();
             gameThread = new Thread(_game.Run) { IsBackground = true };
             gameThread.Start();
         }
