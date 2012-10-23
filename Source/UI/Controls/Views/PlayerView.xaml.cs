@@ -21,9 +21,9 @@ namespace Sanguosha.UI.Controls
     /// <summary>
     /// Interaction logic for PlayerInfoView.xaml
     /// </summary>
-    public partial class PlayerInfoView : PlayerInfoViewBase
+    public partial class PlayerView : PlayerViewBase
     {
-        public PlayerInfoView()
+        public PlayerView()
         {
             InitializeComponent();
             this.DataContextChanged += new DependencyPropertyChangedEventHandler(PlayerInfoView_DataContextChanged);
@@ -35,12 +35,12 @@ namespace Sanguosha.UI.Controls
 
         void PlayerInfoView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            PlayerInfoViewModel model = e.OldValue as PlayerInfoViewModel;
+            PlayerViewModel model = e.OldValue as PlayerViewModel;
             if (model != null)
             {
                 model.PropertyChanged -= _OnPropertyChanged;
             }
-            model = e.NewValue as PlayerInfoViewModel;
+            model = e.NewValue as PlayerViewModel;
             if (model != null)
             {
                 model.PropertyChanged += _OnPropertyChanged;
@@ -50,7 +50,7 @@ namespace Sanguosha.UI.Controls
 
         void model_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            PlayerInfoViewModel model = sender as PlayerInfoViewModel;
+            PlayerViewModel model = sender as PlayerViewModel;
             if (e.PropertyName == "CurrentPhase")
             {
                 if (model.CurrentPhase == Core.Games.TurnPhase.Inactive)
@@ -64,15 +64,17 @@ namespace Sanguosha.UI.Controls
                     animation.Begin(this);
                 }
             }
-            else if (e.PropertyName == "PossibleRoles")
+            else if (e.PropertyName == "TimeOutSeconds")
             {
-                cbRoleBox.DataContext = model.PossibleRoles;
+                Duration duration = new Duration(TimeSpan.FromSeconds(model.TimeOutSeconds));
+                DoubleAnimation doubleanimation = new DoubleAnimation(100d, 0d, duration);
+                progressBar.BeginAnimation(ProgressBar.ValueProperty, doubleanimation);
             }
         }
 
         private void mainArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            PlayerInfoViewModel model = DataContext as PlayerInfoViewModel;
+            PlayerViewModel model = DataContext as PlayerViewModel;
             model.IsSelected = !model.IsSelected;
         }
 
@@ -81,7 +83,7 @@ namespace Sanguosha.UI.Controls
         protected override void AddDelayedTool(CardView card)
         {
             SmallDelayedToolView dtv = new SmallDelayedToolView() { Width = 23, Height = 24 };
-            dtv.DataContext = card.CardViewModel;
+            dtv.DataContext = card.CardModel;
             dtv.Opacity = 0;
             dtv.Margin = new Thickness(0, 0, 50d, 0);
             delayedToolsDock.Children.Add(dtv);
@@ -148,7 +150,7 @@ namespace Sanguosha.UI.Controls
             }
 
             SmallEquipView equipLabel = new SmallEquipView();
-            equipLabel.DataContext = card.CardViewModel;
+            equipLabel.DataContext = card.CardModel;
             
             Canvas targetArea = null;
             switch (equip.Category)

@@ -13,6 +13,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using Sanguosha.Core.Games;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace Sanguosha.UI.Controls
 {
@@ -44,9 +46,9 @@ namespace Sanguosha.UI.Controls
             this.DataContextChanged += new DependencyPropertyChangedEventHandler(RoleBox_DataContextChanged);
         }
 
-        void RoleBox_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void _UpdateRoles()
         {
-            List<Role> roles = DataContext as List<Role>;
+            ObservableCollection<Role> roles = DataContext as ObservableCollection<Role>;
             if (roles.Count == 2)
             {
                 foreach (Role role in roles)
@@ -57,15 +59,30 @@ namespace Sanguosha.UI.Controls
                     }
                 }
             }
-            else
+            else if (roles.Contains(Role.Unknown))
             {
                 cbRoles.SelectedItem = Role.Unknown;
             }
+            else if (roles.Count == 1)
+            {
+                cbRoles.SelectedIndex = 0;
+            }
         }
-          
+
+        void RoleBox_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            ObservableCollection<Role> roles = DataContext as ObservableCollection<Role>;
+            if (roles != null)
+            {
+                roles.CollectionChanged += (o, n) => { _UpdateRoles(); };
+                _UpdateRoles();
+            }
+        }
+
+         
         private void cbRoles_DropDownOpened(object sender, EventArgs e)
         {
-            List<Role> roles = DataContext as List<Role>;
+            IList<Role> roles = DataContext as IList<Role>;
             if (roles.Count <= 2)
             {
                 cbRoles.IsDropDownOpen = false;

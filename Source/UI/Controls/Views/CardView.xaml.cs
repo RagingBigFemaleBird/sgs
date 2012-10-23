@@ -122,7 +122,7 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        public CardViewModel CardViewModel
+        public CardViewModel CardModel
         {
             get
             {

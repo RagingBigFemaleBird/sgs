@@ -49,11 +49,11 @@
             <StackPanel x:Name="spPrompt" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3"
                         HorizontalAlignment="Center"  VerticalAlignment="Bottom"
                         Margin="100, 0, 100, 0">
-            <local:OutlinedTextBlock x:Name="tbPrompt" Text="{Binding CurrentPrompt}"
+            <local:OutlinedTextBlock x:Name="tbPrompt" Text="{Binding Path=MainPlayerModel.CurrentPrompt}"
 									 Fill="White" Stroke="Black" StrokeThickness="1"									 
 									 HorizontalAlignment="Center"
 									 FontSize="20" FontFamily="SimHei" Height="28.813" FontWeight="Bold"/>
-                <ItemsControl x:Name="gridChoices" Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom" MaxWidth="1000" ItemsSource="{Binding MultiChoiceCommands}">
+                <ItemsControl x:Name="gridChoices" Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom" MaxWidth="1000" ItemsSource="{Binding Path=MainPlayerModel.MultiChoiceCommands}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Rows="1"/>
@@ -71,7 +71,7 @@
             </ItemsControl>
             </StackPanel>
         </Grid>        
-        <local:MainPlayerInfoView x:Name="mainPlayerPanel" VerticalAlignment="Bottom" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+        <local:MainPlayerView x:Name="mainPlayerPanel" VerticalAlignment="Bottom" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
         <Grid x:Name="infoPanel" Grid.Column="1">
             <Grid>
                 <Grid.RowDefinitions>

@@ -346,7 +346,7 @@ namespace Sanguosha.Core.Games
 
         public IGlobalUiProxy GlobalProxy { get; set; }
 
-        INotificationProxy NotificationProxy { get; set; }
+        public INotificationProxy NotificationProxy { get; set; }
 
         /// <summary>
         /// Card usage handler for a given card's type name.
@@ -395,7 +395,10 @@ namespace Sanguosha.Core.Games
                 }
             }
 
-            NotificationProxy.NotifyCardMovement(moves, logs);
+            if (NotificationProxy != null)
+            {
+                NotificationProxy.NotifyCardMovement(moves, logs);
+            }
             
             foreach (CardsMovement move in moves)
             {

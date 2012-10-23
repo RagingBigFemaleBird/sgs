@@ -101,7 +101,7 @@ namespace Sanguosha.UI.Controls
             {
                 foreach (var card in cards)
                 {
-                    card.CardViewModel.IsSelected = false;
+                    card.CardModel.IsSelected = false;
                     card.CardOpacity = 1d;
                     if (IsCardConsumer)
                     {

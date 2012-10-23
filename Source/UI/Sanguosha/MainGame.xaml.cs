@@ -1,4 +1,4 @@
-﻿// #define NETWORKING
+﻿#define NETWORKING
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -61,28 +61,33 @@ namespace Sanguosha.UI.Main
             _game.GameClient = client;
             _game.GameServer = null;
             _game.IsSlave = true;
-            _game.GlobalProxy = new GlobalClientUiProxy(_game, activeClientProxy);
 #else
             _game.GlobalProxy = new GlobalDummyProxy();
 #endif
             GameViewModel gameModel = new GameViewModel();
             gameModel.Game = _game;
             gameModel.MainPlayerSeatNumber = MainSeat;
-            gameView.DataContext = gameModel;            
+            gameView.DataContext = gameModel;
+            _game.NotificationProxy = gameView;
 
             for (int i = 0; i < _game.Players.Count; i++)
             {
-                var player = gameModel.PlayerModels[i].Player;
+                var player = gameModel.PlayerModels[i].Player;                
 #if NETWORKING
                 var proxy = new ClientNetworkUiProxy(
                             new AsyncUiAdapter(gameModel.PlayerModels[i]), client, i == 0);
                 proxy.HostPlayer = player;
                 proxy.TimeOutSeconds = 25;
+                if (i == 0)
+                {
+                    activeClientProxy = proxy;
+                }
 #else
                 var proxy = new AsyncUiAdapter(gameModel.PlayerModels[i]);
 #endif
                 _game.UiProxies.Add(player, proxy);
-            }            
+            }
+            _game.GlobalProxy = new GlobalClientUiProxy(_game, activeClientProxy);
         }
 
         private Game _game;

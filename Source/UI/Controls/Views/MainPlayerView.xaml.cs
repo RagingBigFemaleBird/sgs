@@ -22,9 +22,9 @@ namespace Sanguosha.UI.Controls
     /// <summary>
     /// Interaction logic for MainPlayerInfoView.xaml
     /// </summary>
-    public partial class MainPlayerInfoView : PlayerInfoViewBase
+    public partial class MainPlayerView : PlayerViewBase
     {
-        public MainPlayerInfoView()
+        public MainPlayerView()
         {
             InitializeComponent();
             this.DataContextChanged += new DependencyPropertyChangedEventHandler(PlayerInfoView_DataContextChanged);
@@ -36,12 +36,12 @@ namespace Sanguosha.UI.Controls
 
         void PlayerInfoView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            PlayerInfoViewModel model = e.OldValue as PlayerInfoViewModel;
+            PlayerViewModel model = e.OldValue as PlayerViewModel;
             if (model != null)
             {
                 model.PropertyChanged -= _OnPropertyChanged;
             }
-            model = e.NewValue as PlayerInfoViewModel;
+            model = e.NewValue as PlayerViewModel;
             if (model != null)
             {
                 model.PropertyChanged += _OnPropertyChanged;
@@ -51,7 +51,7 @@ namespace Sanguosha.UI.Controls
 
         void model_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            PlayerInfoViewModel model = sender as PlayerInfoViewModel;
+            PlayerViewModel model = sender as PlayerViewModel;
             if (e.PropertyName == "CurrentPhase")
             {
                 if (model.CurrentPhase == Core.Games.TurnPhase.Inactive)
@@ -65,10 +65,6 @@ namespace Sanguosha.UI.Controls
                     animation.Begin(this);
                 }
             }
-            else if (e.PropertyName == "PossibleRoles")
-            {
-                cbRoleBox.DataContext = model.PossibleRoles;
-            }
             else if (e.PropertyName == "TimeOutSeconds")
             {
                 Duration duration = new Duration(TimeSpan.FromSeconds(model.TimeOutSeconds));         
@@ -79,7 +75,7 @@ namespace Sanguosha.UI.Controls
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            PlayerInfoViewModel model = DataContext as PlayerInfoViewModel;
+            PlayerViewModel model = DataContext as PlayerViewModel;
             model.IsSelected = !model.IsSelected;
         }
 
@@ -218,7 +214,7 @@ namespace Sanguosha.UI.Controls
         protected override void AddDelayedTool(CardView card)
         {
             LargeDelayedToolView dtv = new LargeDelayedToolView() { Width=30, Height=30 };
-            dtv.DataContext = card.CardViewModel;
+            dtv.DataContext = card.CardModel;
             dtv.Opacity = 0;
             dtv.Margin = new Thickness(50d, 0, 0, 0);
             delayedToolsDock.Children.Add(dtv);

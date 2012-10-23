@@ -27,15 +27,15 @@ namespace Sanguosha.UI.Controls
     /// <summary>
     /// Interaction logic for GameTable.xaml
     /// </summary>
-    public partial class GameView : UserControl
+    public partial class GameView : UserControl, INotificationProxy
     {
         #region Private Members
         protected static int[][] regularSeatIndex;
         protected static int[][] pk3v3SeatIndex;
         protected static int[][] pk1v3SeatIndex;
         private IList<StackPanel> stackPanels;
-        private ObservableCollection<PlayerInfoView> profileBoxes;
-        private IDictionary<Player, PlayerInfoViewBase> playersMap;
+        private ObservableCollection<PlayerView> profileBoxes;
+        private IDictionary<Player, PlayerViewBase> playersMap;
         #endregion
 
         #region Constructors
@@ -84,12 +84,12 @@ namespace Sanguosha.UI.Controls
         {
             InitializeComponent();
             stackPanels = new List<StackPanel>() { stackPanel0, stackPanel1, stackPanel2, stackPanel3, stackPanel4, stackPanel5 };
-            profileBoxes = new ObservableCollection<PlayerInfoView>();
-            playersMap = new Dictionary<Player, PlayerInfoViewBase>();
+            profileBoxes = new ObservableCollection<PlayerView>();
+            playersMap = new Dictionary<Player, PlayerViewBase>();
             mainPlayerPanel.ParentGameView = this;
             discardDeck.ParentGameView = this;
-            this.DataContextChanged +=  new DependencyPropertyChangedEventHandler(GameView_DataContextChanged);
-            this.SizeChanged += new SizeChangedEventHandler(GameView_SizeChanged);
+            this.DataContextChanged +=  GameView_DataContextChanged;
+            this.SizeChanged += GameView_SizeChanged;
             
         }
 
@@ -189,7 +189,7 @@ namespace Sanguosha.UI.Controls
         {
             GameViewModel model = GameModel;
             var playerModel = model.PlayerModels[indexInGameModel];
-            var playerView = new PlayerInfoView() { DataContext = playerModel, ParentGameView = this };
+            var playerView = new PlayerView() { DataContext = playerModel, ParentGameView = this };
             profileBoxes.Insert(indexInGameModel - 1, playerView);
             if (!playersMap.ContainsKey(playerModel.Player))
             {
@@ -207,13 +207,21 @@ namespace Sanguosha.UI.Controls
             playersMap.Clear();
             GameViewModel model = GameModel;
             for (int i = 1; i < model.PlayerModels.Count; i++)
-            {                
+            {
                 _CreatePlayerInfoView(i);
-            }
-            mainPlayerPanel.DataContext = model.MainPlayerModel;
+            }                        
             playersMap.Add(model.MainPlayerModel.Player, mainPlayerPanel);
             RearrangeSeats();
             _Resize(new Size(this.ActualWidth, this.ActualHeight));
+            model.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(model_PropertyChanged);
+        }
+
+        void model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "MainPlayerSeatNumber")
+            {
+                RearrangeSeats();
+            }
         }
 
         private void _RearrangeSeats()
@@ -225,9 +233,9 @@ namespace Sanguosha.UI.Controls
             {
                 var playerModel = model.PlayerModels[i];
                 bool found = false;
-                for (int j = i; j < playerCount - 1; j++)
+                for (int j = i; j < playerCount; j++)
                 {                    
-                    var playerView = profileBoxes[j];
+                    var playerView = profileBoxes[j - 1];
                     if (playerView.PlayerModel == model.MainPlayerModel)
                     {
                         profileBoxes.RemoveAt(j);
@@ -236,7 +244,7 @@ namespace Sanguosha.UI.Controls
                     }
                     if (playerModel == playerView.PlayerModel)
                     {
-                        if (i != j + 1)
+                        if (i != j)
                         {
                             profileBoxes.Move(j, i - 1);
                             playersMap[playerModel.Player] = playerView;
@@ -249,8 +257,9 @@ namespace Sanguosha.UI.Controls
                 {
                     _CreatePlayerInfoView(i);
                 }
-            }
+            }            
             mainPlayerPanel.DataContext = model.MainPlayerModel;
+            playersMap[model.MainPlayerModel.Player] = mainPlayerPanel;
         }
 
         #endregion
@@ -315,7 +324,7 @@ namespace Sanguosha.UI.Controls
                 {
                     foreach (var box in panel.Children)
                     {
-                        PlayerInfoView view = box as PlayerInfoView;
+                        PlayerView view = box as PlayerView;
                         view.Margin = new Thickness(0, vSpacing / 2, 0, vSpacing / 2);
                     }
                 }
@@ -323,7 +332,7 @@ namespace Sanguosha.UI.Controls
                 {
                     foreach (var box in panel.Children)
                     {
-                        PlayerInfoView view = box as PlayerInfoView;
+                        PlayerView view = box as PlayerView;
                         view.Margin = new Thickness(hSpacing / 2, 0, hSpacing / 2, 0);
                     }
                 }
@@ -340,7 +349,7 @@ namespace Sanguosha.UI.Controls
         {
             if (place.Player != null)
             {
-                PlayerInfoViewBase playerView = playersMap[place.Player];
+                PlayerViewBase playerView = playersMap[place.Player];
                 return playerView;                
             }
             else

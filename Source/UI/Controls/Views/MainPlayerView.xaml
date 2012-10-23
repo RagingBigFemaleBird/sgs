@@ -1,4 +1,4 @@
-﻿<local:PlayerInfoViewBase
+﻿<local:PlayerViewBase
  	         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,11 +7,11 @@
              xmlns:local="clr-namespace:Sanguosha.UI.Controls"
              xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
 	         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
-             x:Class="Sanguosha.UI.Controls.MainPlayerInfoView"
+             x:Class="Sanguosha.UI.Controls.MainPlayerView"
 	         mc:Ignorable="d"
              Height="200"
              d:DesignWidth="900">
-    <local:PlayerInfoViewBase.Resources>        
+    <local:PlayerViewBase.Resources>        
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="EquipButton.xaml"/>
@@ -234,12 +234,12 @@
         	</Style>
         	<Storyboard x:Key="Countdown"/>
         </ResourceDictionary>
-    </local:PlayerInfoViewBase.Resources>
-	<local:PlayerInfoViewBase.Triggers>
+    </local:PlayerViewBase.Resources>
+	<local:PlayerViewBase.Triggers>
 		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
 			<BeginStoryboard Storyboard="{StaticResource Countdown}"/>
 		</EventTrigger>
-	</local:PlayerInfoViewBase.Triggers>
+	</local:PlayerViewBase.Triggers>
     <Grid>
     	<VisualStateManager.VisualStateGroups>
     		<VisualStateGroup x:Name="FadeStates">
@@ -405,4 +405,4 @@
             </ItemsControl>
         </Grid>		
     </Grid>
-</local:PlayerInfoViewBase>
+</local:PlayerViewBase>

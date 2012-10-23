@@ -34,10 +34,10 @@ namespace Sanguosha.UI.Controls
             throw new NotImplementedException();
         }
     }
-    public class PlayerInfoViewModel : SelectableItem, IAsyncUiProxy
+    public class PlayerViewModel : SelectableItem, IAsyncUiProxy
     {
         #region Constructors
-        public PlayerInfoViewModel()
+        public PlayerViewModel()
         {
             IsSelectionMode = false;
             SkillCommands = new ObservableCollection<SkillCommand>();
@@ -48,19 +48,29 @@ namespace Sanguosha.UI.Controls
             SubmitAnswerCommand = new SimpleRelayCommand(ExecuteSubmitAnswerCommand);
             CancelAnswerCommand = new SimpleRelayCommand(ExecuteCancelCommand);
             AbortAnswerCommand = new SimpleRelayCommand(ExecuteAbortCommand);
-            
+            _possibleRoles = new ObservableCollection<Role>();
             _UpdateEnabledStatusHandler = (o, e) => { _UpdateCommandStatus(); };
             _timer = new System.Timers.Timer();
+
+            HandCards = new ObservableCollection<CardViewModel>();
         }
 
-        public PlayerInfoViewModel(Player p) : this()
+        public PlayerViewModel(Player player, GameViewModel game, bool isPlayable) : this()
         {
-            Player = p;
+            Player = player;
+            GameModel = game;
+            IsPlayable = isPlayable;
         }
         #endregion
 
         #region Fields
         Player _player;
+
+        public bool IsPlayable
+        {
+            get;
+            set;
+        }
 
         // @todo: to be deprecated. use HostPlayer instead.
         public Player Player
@@ -98,6 +108,7 @@ namespace Sanguosha.UI.Controls
                 _game.PropertyChanged += new PropertyChangedEventHandler(_game_PropertyChanged);
                 if (changed)
                 {
+                    _UpdatePossibleRoles();
                     OnPropertyChanged("PossibleRoles");
                 }
             }
@@ -154,6 +165,7 @@ namespace Sanguosha.UI.Controls
             string name = e.PropertyName;
             if (name == "Role")
             {
+                _UpdatePossibleRoles();
                 OnPropertyChanged("PossibleRoles");
             }
             else if (name == "Hero")
@@ -398,36 +410,57 @@ namespace Sanguosha.UI.Controls
 
         private static List<Role> roleGameRoles = new List<Role>() { Role.Loyalist, Role.Defector, Role.Rebel };
 
-        public List<Role> PossibleRoles
+        ObservableCollection<Role> _possibleRoles;
+
+        private void _UpdatePossibleRolesInternal()
         {
-            get
-            {
-                List<Role> roles = new List<Role>();
-                roles.Add(Role.Unknown);
-                if (GameModel != null)
+            _possibleRoles.Clear();
+            _possibleRoles.Add(Role.Unknown);
+            if (GameModel != null)
+            {                
+                if (GameModel.Game is RoleGame)
                 {
-                    if (GameModel.Game is RoleGame)
+                    if (_player.Role == Role.Unknown)
                     {
-                        if (_player.Role == Role.Unknown)
+                        foreach (Role role in roleGameRoles)
                         {
-                            roles.AddRange(roleGameRoles);
+                            _possibleRoles.Add(role);
                         }
-                        else if (_player.Role == Role.Ruler)
-                        {
-                            roles.Clear();
-                            roles.Add(_player.Role);
-                        }
-                        else
-                        {
-                            roles.Add(_player.Role);
-                        }
+                    }
+                    else if (_player.Role == Role.Ruler)
+                    {
+                        _possibleRoles.Clear();
+                        _possibleRoles.Add(_player.Role);
                     }
                     else
                     {
-                        // @todo: add other possibilities here.
+                        _possibleRoles.Add(_player.Role);
                     }
                 }
-                return roles;
+                else
+                {
+                    // @todo: add other possibilities here.
+                }
+            }
+        }
+
+        private void _UpdatePossibleRoles()
+        {
+            if (Application.Current.Dispatcher.CheckAccess())
+            {
+                _UpdatePossibleRolesInternal();
+            }
+            else
+            {
+                Application.Current.Dispatcher.Invoke((ThreadStart)_UpdatePossibleRolesInternal);
+            }         
+        }
+
+        public ObservableCollection<Role> PossibleRoles
+        {
+            get
+            {               
+                return _possibleRoles;
             }
         }
 
@@ -657,19 +690,19 @@ namespace Sanguosha.UI.Controls
                 playerModel.OnSelectedChanged -= _UpdateEnabledStatusHandler;
                 playerModel.IsSelectionMode = false;
             }
-
-            CurrentPrompt = string.Empty;
-
+            
             SubmitAnswerCommand.CanExecuteStatus = false;
             CancelAnswerCommand.CanExecuteStatus = false;
-            AbortAnswerCommand.CanExecuteStatus = false;
-            TimeOutSeconds = 0;
+            AbortAnswerCommand.CanExecuteStatus = false;            
         }
 
         private void _ResetAll()
         {
             MultiChoiceCommands.Clear();
-            _ResetCommands();
+            _ResetCommands();            
+            CurrentPrompt = string.Empty;
+            TimeOutSeconds = 0;
+            _timer.Stop();
         }
 
         private void _UpdateCardUsageStatus()
@@ -852,6 +885,14 @@ namespace Sanguosha.UI.Controls
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
+                _StartTimer(timeOutSeconds);
+
+                if (!IsPlayable)
+                {
+                    CardUsageAnsweredEvent(null, null, null);
+                    return;
+                }
+
                 currentUsageVerifier = verifier;
                 Game.CurrentGame.CurrentActingPlayer = HostPlayer;
                 CurrentPrompt = PromptFormatter.Format(prompt);
@@ -883,9 +924,7 @@ namespace Sanguosha.UI.Controls
                 CancelAnswerCommand.CanExecuteStatus = true;
                 AbortAnswerCommand.CanExecuteStatus = true;
 
-                _StartTimer(timeOutSeconds);
-                
-                _UpdateCommandStatus();
+                _UpdateCommandStatus();         
             });
         }
 
@@ -893,6 +932,13 @@ namespace Sanguosha.UI.Controls
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
+                _StartTimer(timeOutSeconds);
+                if (!IsPlayable)
+                {
+                    CardChoiceAnsweredEvent(null);
+                    return;
+                }
+
                 CurrentPrompt = PromptFormatter.Format(prompt);
                 CardChoiceAnsweredEvent(null);
             });
@@ -902,6 +948,14 @@ namespace Sanguosha.UI.Controls
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
+                _StartTimer(timeOutSeconds);
+
+                if (!IsPlayable)
+                {
+                    MultipleChoiceAnsweredEvent(0);
+                    return;
+                }
+
                 CurrentPrompt = PromptFormatter.Format(prompt);
                 for (int i = 0; i < choices.Count; i++)
                 {
@@ -936,7 +990,10 @@ namespace Sanguosha.UI.Controls
 
         public void Freeze()
         {
-            _ResetAll();
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                _ResetAll();
+            });
         }        
         #endregion
 

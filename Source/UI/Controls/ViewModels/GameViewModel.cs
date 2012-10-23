@@ -25,10 +25,10 @@ namespace Sanguosha.UI.Controls
 
         public GameViewModel()
         {
-            PlayerModels = new ObservableCollection<PlayerInfoViewModel>();
+            PlayerModels = new ObservableCollection<PlayerViewModel>();
         }
 
-        public ObservableCollection<PlayerInfoViewModel> PlayerModels
+        public ObservableCollection<PlayerViewModel> PlayerModels
         {
             get;
             set;
@@ -44,12 +44,13 @@ namespace Sanguosha.UI.Controls
                 PlayerModels.Clear();
                 foreach (var player in _game.Players)
                 {
-                    PlayerModels.Add(new PlayerInfoViewModel(player));
+                    PlayerModels.Add(new PlayerViewModel(player, this, false));
                 }
+                PlayerModels[0].IsPlayable = true;
             }
         }
 
-        public PlayerInfoViewModel MainPlayerModel
+        public PlayerViewModel MainPlayerModel
         {
             get
             {                
@@ -63,21 +64,24 @@ namespace Sanguosha.UI.Controls
             int playerCount = _game.Players.Count;
             for (int i = 0; i < playerCount; i++)
             {
-                Player gamePlayer = _game.Players[i];
-                for (int j = i; j < playerCount + MainPlayerSeatNumber; j++)
-                {
-                    int currentSeat = j % playerCount;
-                    PlayerInfoViewModel playerModel = PlayerModels[currentSeat];
+                int gameSeat = (i + MainPlayerSeatNumber) % playerCount;
+                Player gamePlayer = _game.Players[gameSeat];
+                bool found = false;
+                for (int j = i; j < playerCount; j++)
+                {                    
+                    PlayerViewModel playerModel = PlayerModels[j];
                     if (gamePlayer == playerModel.Player)
                     {
-                        if (i != currentSeat)
+                        playerModel.IsPlayable = (i == 0);
+                        if (j != i)
                         {
-                            PlayerModels.Move(currentSeat, i);
+                            PlayerModels.Move(j, i);
                         }
+                        found = true;
                         break;
-                    }
-                    Trace.Assert(false);
+                    }                    
                 }
+                Trace.Assert(found);
             }
         }
 
@@ -90,7 +94,7 @@ namespace Sanguosha.UI.Controls
             {
                 if (_mainPlayerSeatNumber == value) return;
                 _mainPlayerSeatNumber = value;
-                _RearrangeSeats();
+                _RearrangeSeats();                
                 OnPropertyChanged("MainPlayerSeatNumber");
             }
         }

@@ -11,11 +11,11 @@ using System.Windows.Input;
 
 namespace Sanguosha.UI.Controls
 {
-    public class PlayerInfoViewBase : UserControl, IDeckContainer
+    public class PlayerViewBase : UserControl, IDeckContainer
     {
         #region Constructors
 
-        public PlayerInfoViewBase()
+        public PlayerViewBase()
         {
             handCardArea = new CardStack();
         }
@@ -25,11 +25,11 @@ namespace Sanguosha.UI.Controls
         CardStack handCardArea;
 
         #region Fields
-        public PlayerInfoViewModel PlayerModel
+        public PlayerViewModel PlayerModel
         {
             get
             {
-                return DataContext as PlayerInfoViewModel;
+                return DataContext as PlayerViewModel;
             }
         }
 
@@ -85,11 +85,15 @@ namespace Sanguosha.UI.Controls
         {
             foreach (CardView card in cards)
             {
-                card.CardViewModel.IsEnabled = false;                
+                card.CardModel.IsEnabled = false;                
             }
             if (deck == DeckType.Hand)
             {
                 handCardArea.AddCards(cards, 0.5d);
+                foreach (var card in cards)
+                {
+                    PlayerModel.HandCards.Add(card.CardModel);
+                }
                 PlayerModel.HandCardCount += cards.Count;
             }
             else if (deck == DeckType.Equipment)
@@ -144,6 +148,7 @@ namespace Sanguosha.UI.Controls
                         if (viewModel.Card == card)
                         {
                             cardsToRemove.Add(cardView);
+                            PlayerModel.HandCards.Remove(viewModel);
                             found = true;
                             break;
                         }

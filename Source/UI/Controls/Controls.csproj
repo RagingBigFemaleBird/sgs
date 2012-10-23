@@ -83,7 +83,7 @@
       <DependentUpon>EquipButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\IDeckContainer.cs" />
-    <Compile Include="Views\PlayerInfoViewBase.cs" />
+    <Compile Include="Views\PlayerViewBase.cs" />
     <Compile Include="Views\PromptFormatter.cs" />
     <Compile Include="Views\SkillButton.xaml.cs">
       <DependentUpon>SkillButton.xaml</DependentUpon>
@@ -107,16 +107,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\PlayerInfoViewModel.cs" />
+    <Compile Include="ViewModels\PlayerViewModel.cs" />
     <Compile Include="Views\HealthBar.xaml.cs">
       <DependentUpon>HealthBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainPlayerInfoView.xaml.cs">
-      <DependentUpon>MainPlayerInfoView.xaml</DependentUpon>
+    <Compile Include="Views\MainPlayerView.xaml.cs">
+      <DependentUpon>MainPlayerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OutlinedTextBlock.cs" />
-    <Compile Include="Views\PlayerInfoView.xaml.cs">
-      <DependentUpon>PlayerInfoView.xaml</DependentUpon>
+    <Compile Include="Views\PlayerView.xaml.cs">
+      <DependentUpon>PlayerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RoleBox.xaml.cs">
       <DependentUpon>RoleBox.xaml</DependentUpon>
@@ -178,11 +178,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainPlayerInfoView.xaml">
+    <Page Include="Views\MainPlayerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PlayerInfoView.xaml">
+    <Page Include="Views\PlayerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -41,6 +41,11 @@ namespace Sanguosha.Core.UI
             ISkill skill;
             List<Card> cards;
             List<Player> players;
+            if (!active)
+            {
+                proxy.AskForCardUsage(prompt, verifier, out skill, out cards, out players);
+                return;
+            }
             if (!proxy.AskForCardUsage(prompt, verifier, out skill, out cards, out players))
             {
                 Trace.TraceInformation("Invalid answer");
@@ -133,15 +138,16 @@ namespace Sanguosha.Core.UI
         public bool AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             Trace.TraceInformation("Asking Card Usage to {0}.", HostPlayer.Id);
+            TryAskForCardUsage(prompt, verifier);
             if (active)
             {
-                TryAskForCardUsage(prompt, verifier);
                 NextQuestion();
             }
             else
             {
                 Trace.TraceInformation("Not active player, defaulting.");
             }
+            proxy.Freeze(); 
             if (TryAnswerForCardUsage(prompt, verifier, out skill, out cards, out players))
             {
                 Trace.Assert(verifier.FastVerify(skill, cards, players) == VerifierResult.Success);
@@ -159,15 +165,16 @@ namespace Sanguosha.Core.UI
         public bool AskForMultipleChoice(Prompt prompt, List<string> questions, out int answer)
         {
             Trace.TraceInformation("Asking Multiple choice to {0}.", HostPlayer.Id);
+            TryAskForMultipleChoice(prompt, questions);
             if (active)
             {
-                TryAskForMultipleChoice(prompt, questions);
                 NextQuestion();
             }
             else
             {
                 Trace.TraceInformation("Not active player, defaulting.");
             }
+            proxy.Freeze();
             if (TryAnswerForMultipleChoice(questions, out answer))
             {
                 return true;
@@ -190,6 +197,11 @@ namespace Sanguosha.Core.UI
         private void TryAskForMultipleChoice(Prompt prompt, List<string> questions)
         {
             int answer;
+            if (!active)
+            {
+                proxy.AskForMultipleChoice(prompt, questions, out answer);
+                return;
+            }
             if (!proxy.AskForMultipleChoice(prompt, questions, out answer))
             {
                 Trace.TraceInformation("Invalid answer");
