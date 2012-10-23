@@ -49,7 +49,15 @@ namespace Sanguosha.Core.UI
             {
                 if (arg is Player)
                 {
-                    _values.Add(string.Format("Hero.{0}.Name", (arg as Player).Hero.Name));
+                    Player player = arg as Player;
+                    if (player == null || player.Hero == null)
+                    {
+                        _values.Add(string.Empty);
+                    }
+                    else
+                    {
+                        _values.Add(string.Format("Hero.{0}.Name", (arg as Player).Hero.Name));
+                    }
                 }
                 else if (arg is ICard)
                 {

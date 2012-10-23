@@ -170,13 +170,39 @@
                 <Image x:Name="allegianceMask" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Mask}" HorizontalAlignment="Left" Grid.RowSpan="2" Width="38" Stretch="Fill" Margin="-3.335,4.333,0,0.667" ClipToBounds="True" Height="119" VerticalAlignment="Top"/>
                 <Image x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" />
                 <local:RoleBox x:Name="cbRoleBox" HorizontalAlignment="Right"/>
-                <Border Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,3,0,0" Width="20">
-                    <local:OutlinedTextBlock x:Name="HeroNameText" TextWrapping="Wrap" Fill="White" Stroke="Black" StrokeThickness="1" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=HeroName, StringFormat=Hero.\{0\}.Name}" FontFamily="LiSu" FontSize="18.667" VerticalAlignment="Center" TextAlignment="Center">
-                    <local:OutlinedTextBlock.Effect>
+                
+                <ItemsControl ItemsSource="{Binding HeroNameChars}" Grid.Row="1"
+                              HorizontalAlignment="Left"                              
+                              Margin="2,3,0,20"
+                              Width="20"
+                              MaxHeight="60">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="1"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Viewbox Margin="0, -2, 0, -2" Stretch="Fill" StretchDirection="DownOnly">
+                                <local:OutlinedTextBlock TextWrapping="NoWrap"
+                                                         Fill="White"
+                                                         Stroke="Black"
+                                                         StrokeThickness="1"
+                                                         FontWeight="Bold"
+                                                         Text="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}" 
+                                                         FontFamily="LiSu" FontSize="18.667" 
+                                                         VerticalAlignment="Center" TextAlignment="Center"
+                                                         TextTrimming="None">                                    
+                                </local:OutlinedTextBlock>
+                            </Viewbox>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.Effect>
                         <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0"/>
-                    </local:OutlinedTextBlock.Effect>
-                    </local:OutlinedTextBlock>
-                </Border>
+                    </ItemsControl.Effect>
+                </ItemsControl>
+
+
                 <TextBlock x:Name="userLevelText" Text="Lv.0" HorizontalAlignment="Center" Margin="0,2,0,0" Style="{DynamicResource SmallTextBlockStyle}"/>
                 <TextBlock x:Name="userNameText" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="UserName" Margin="0,5,0,0" Style="{DynamicResource SmallTextBlockStyle}" Foreground="White" FontSize="13.333"/>
                 <Border Grid.Row="1" HorizontalAlignment="Left" Height="17" Width="16" VerticalAlignment="Bottom" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22">

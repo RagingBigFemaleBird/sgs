@@ -225,7 +225,7 @@ namespace Sanguosha.UI.Controls
                                                                    ParentGameView.GlobalCanvas);
             dest.Offset(-card.Width / 2, -card.Height / 2);
             card.Position = dest;
-            card.CardOpacity = 0.0d;
+            card.CardOpacity = 1.0d;
             card.DisappearAfterMove = true;
             card.Rebase(0.5d);
 

@@ -196,8 +196,8 @@ namespace Sanguosha.UI.Controls
             this.EnsureFormattedText();
             if (this.formattedText == null) return finalSize;
             // update the formatted text with the final size 
-            this.formattedText.MaxTextWidth = finalSize.Width;
-            this.formattedText.MaxTextHeight = finalSize.Height;
+            this.formattedText.MaxTextWidth = Math.Max(finalSize.Width, 1);
+            this.formattedText.MaxTextHeight = Math.Max(finalSize.Height, 1);
 
             // need to re-generate the geometry now that the dimensions have changed 
             this.textGeometry = null;

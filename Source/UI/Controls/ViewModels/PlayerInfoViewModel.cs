@@ -40,6 +40,7 @@ namespace Sanguosha.UI.Controls
             IsSelectionMode = false;
             SkillCommands = new ObservableCollection<SkillCommand>();
             HeroSkillNames = new ObservableCollection<string>();
+            heroNameChars = new ObservableCollection<string>();
         }
 
         public PlayerInfoViewModel(Player p) : this()
@@ -115,6 +116,28 @@ namespace Sanguosha.UI.Controls
             }            
         }
 
+        private void _UpdateHeroInfo()
+        {
+            HeroSkillNames.Clear();
+            heroNameChars.Clear();
+
+            if (Hero != null)
+            {
+                string name = Application.Current.TryFindResource(string.Format("Hero.{0}.Name", Hero.Name)) as string;
+                if (name != null)
+                {
+                    foreach (var heroChar in name)
+                    {
+                        heroNameChars.Add(heroChar.ToString());
+                    }
+                }
+                foreach (var skill in Hero.Skills)
+                {
+                    HeroSkillNames.Add(skill.GetType().Name);
+                }
+            } 
+        }
+
         private void _OnPlayerPropertyChanged(object o, PropertyChangedEventArgs e)
         {
             string name = e.PropertyName;
@@ -123,15 +146,15 @@ namespace Sanguosha.UI.Controls
                 OnPropertyChanged("PossibleRoles");
             }
             else if (name == "Hero")
-            {
-                OnPropertyChanged("HeroName");
-                HeroSkillNames.Clear();
-                if (Hero != null)
+            {       
+                if (Application.Current.Dispatcher.CheckAccess())
                 {
-                    foreach (var skill in Hero.Skills)
-                    {
-                        HeroSkillNames.Add(skill.GetType().Name);
-                    }
+                    _UpdateHeroInfo();
+                }
+                else
+                {
+                    Application.Current.Dispatcher.Invoke((ThreadStart)_UpdateHeroInfo);                    
+                    OnPropertyChanged("HeroName");                    
                 }
             }
             else if (name == "Skills")
@@ -343,6 +366,16 @@ namespace Sanguosha.UI.Controls
                 {
                     return (_player.Hero.Name);
                 }
+            }
+        }
+
+        ObservableCollection<string> heroNameChars;
+
+        public ObservableCollection<string> HeroNameChars
+        {
+            get
+            {
+                return heroNameChars;
             }
         }
 
