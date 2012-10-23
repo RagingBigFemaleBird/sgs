@@ -928,11 +928,6 @@ namespace Sanguosha.UI.Controls
             });
         }
 
-        public void NotifyCardMovement(List<CardsMovement> m, List<IGameLog> notes)
-        {
-            throw new NotImplementedException();
-        }
-
         public event CardUsageAnsweredEventHandler CardUsageAnsweredEvent;
 
         public event CardChoiceAnsweredEventHandler CardChoiceAnsweredEvent;

@@ -346,6 +346,8 @@ namespace Sanguosha.Core.Games
 
         public IGlobalUiProxy GlobalProxy { get; set; }
 
+        INotificationProxy NotificationProxy { get; set; }
+
         /// <summary>
         /// Card usage handler for a given card's type name.
         /// </summary>
@@ -393,10 +395,8 @@ namespace Sanguosha.Core.Games
                 }
             }
 
-            foreach (var v in uiProxies)
-            {
-                v.Value.NotifyCardMovement(moves, logs);
-            }
+            NotificationProxy.NotifyCardMovement(moves, logs);
+            
             foreach (CardsMovement move in moves)
             {
                 List<Card> cards = new List<Card>(move.cards);
@@ -692,19 +692,23 @@ namespace Sanguosha.Core.Games
             MoveCards(move, null);
             GameEventArgs args = new GameEventArgs();
             args.Source = player;
+            args.Card = c;
             Game.CurrentGame.Emit(GameEvent.PlayerJudgeBegin, args);
             Game.CurrentGame.Emit(GameEvent.PlayerJudgeDone, args);
             Trace.Assert(args.Source == player);
-            Trace.Assert(decks[player, DeckType.JudgeResult].Count == 1);
-            c = decks[player, DeckType.JudgeResult][0];
-            move = new CardsMovement();
-            move.cards = new List<Card>();
-            move.cards.Add(c);
-            move.to = new DeckPlace(player, DeckType.Discard);
-            PlayerAboutToDiscardCard(player, move.cards, DiscardReason.Judge);
-            MoveCards(move, null);
-            PlayerDiscardedCard(player, move.cards, DiscardReason.Judge);
-            return c;
+            Trace.Assert(args.Card is Card);
+            if (decks[player, DeckType.JudgeResult].Count != 0)
+            {
+                c = decks[player, DeckType.JudgeResult][0];
+                move = new CardsMovement();
+                move.cards = new List<Card>();
+                move.cards.Add(c);
+                move.to = new DeckPlace(player, DeckType.Discard);
+                PlayerAboutToDiscardCard(player, move.cards, DiscardReason.Judge);
+                MoveCards(move, null);
+                PlayerDiscardedCard(player, move.cards, DiscardReason.Judge);
+            }
+            return args.Card as Card;
         }
 
         public void RecoverHealth(Player source, Player target, int magnitude)
@@ -876,7 +880,7 @@ namespace Sanguosha.Core.Games
             CardsMovement move;
             foreach (Card c in cards)
             {
-                Trace.Assert(c.Owner == from);
+                Trace.Assert(c.Place.Player == from);
             }
             move.cards = new List<Card>(cards);
             move.to = new DeckPlace(to, DeckType.Hand);
