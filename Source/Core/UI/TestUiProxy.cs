@@ -99,11 +99,6 @@ namespace Sanguosha.Core.UI
             throw new NotImplementedException();
         }
 
-        public void NotifyCardMovement(List<CardsMovement> m, List<IGameLog> notes)
-        {
-            throw new NotImplementedException();
-        }
-
 
         public bool AskForMultipleChoice(Prompt prompt, List<string> questions, out int answer)
         {

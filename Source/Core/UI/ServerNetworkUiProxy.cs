@@ -268,10 +268,6 @@ namespace Sanguosha.Core.UI
             return true;
         }
 
-        public void NotifyCardMovement(List<CardsMovement> m, List<IGameLog> notes)
-        {
-            return;
-        }
         public int TimeOutSeconds { get; set; }
     }
 }

@@ -19,7 +19,6 @@ namespace Sanguosha.Core.UI
         void AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, int timeOutSeconds);
         void AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, int timeOutSeconds);
         void AskForMultipleChoice(Prompt prompt, List<string> questions, int timeOutSeconds);
-        void NotifyCardMovement(List<CardsMovement> m, List<IGameLog> notes);
         event CardUsageAnsweredEventHandler CardUsageAnsweredEvent;
         event CardChoiceAnsweredEventHandler CardChoiceAnsweredEvent;
         event MultipleChoiceAnsweredEventHandler MultipleChoiceAnsweredEvent;

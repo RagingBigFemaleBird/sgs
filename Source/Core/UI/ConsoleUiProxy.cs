@@ -158,12 +158,6 @@ namespace Sanguosha.Core.UI
         }
 
 
-        public void NotifyCardMovement(List<CardsMovement> m, List<IGameLog> notes)
-        {
-            return;
-        }
-
-
         public bool AskForMultipleChoice(Prompt prompt, List<string> questions, out int answer)
         {
             /*
