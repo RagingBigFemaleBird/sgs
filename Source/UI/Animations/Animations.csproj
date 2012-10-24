@@ -16,7 +16,7 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <Utf8Output>true</Utf8Output>
-    <ExpressionBlendVersion>4.0.20901.0</ExpressionBlendVersion>
+    <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -76,6 +76,9 @@
     <Compile Include="ShaAnimation.xaml.cs">
       <DependentUpon>ShaAnimation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ShanAnimation.xaml.cs">
+      <DependentUpon>ShanAnimation.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -105,6 +108,12 @@
     <Resource Include="LoseHealthAnimation\7.png" />
     <Resource Include="LoseHealthAnimation\8.png" />
     <Resource Include="LoseHealthAnimation\9.png" />
+    <Resource Include="ShanAnimation\Foreground.png" />
+    <Resource Include="ShanAnimation\Background.png" />
+    <Resource Include="TaoAnimation\foreground.png" />
+    <Resource Include="TaoAnimation\text.png" />
+    <Resource Include="TaoAnimation\smallBg.png" />
+    <Resource Include="TaoAnimation\largeBg.png" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="DamageAnimation.xaml">
@@ -116,6 +125,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ShaAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ShanAnimation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

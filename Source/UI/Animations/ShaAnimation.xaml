@@ -12,7 +12,56 @@
 		<Storyboard x:Key="mainAnimation">
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image">
 				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image1">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.133" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.633" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.767" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image2">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.133" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.249" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[0].(GradientStop.Offset)" Storyboard.TargetName="image2">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.249" Value="0.177"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.767" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[3].(GradientStop.Offset)" Storyboard.TargetName="image2">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.249" Value="0.116"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.767" Value="0.888"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[1].(GradientStop.Offset)" Storyboard.TargetName="image2">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.249" Value="0.052"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.767" Value="0.759"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[2].(GradientStop.Offset)" Storyboard.TargetName="image2">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.249" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.767" Value="0.639"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="image">
+				<EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="5.042"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="image">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="-27.968"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="image">
+				<EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="5.042"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="image">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="-2.459"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image3">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.133" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.233" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.633" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.767" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
 		</Storyboard>
 	</local:AnimationBase.Resources>
@@ -24,17 +73,29 @@
 
 	<Canvas x:Name="LayoutRoot">
 		
-		<Image Height="122" Canvas.Left="30" Source="ShaAnimation/foreground.png" Stretch="Fill" Canvas.Top="23" Width="124"/>
-		<Image Height="122" Canvas.Left="30" Source="ShaAnimation/faded.png" Stretch="Fill" Canvas.Top="23" Width="124">
+		<Image x:Name="image3" Height="209.752" Canvas.Left="-21.333" Source="ShaAnimation/background.png" Stretch="Fill" Canvas.Top="-11.372" Width="219.667" Opacity="0"/>
+		
+		<Image x:Name="image1" Height="110.849" Canvas.Left="41.333" Source="ShaAnimation/foreground.png" Stretch="Fill" Canvas.Top="34.151" Width="112.667" Opacity="0"/>
+		<Image x:Name="image" Height="33" Canvas.Left="80.792" Source="ShaAnimation/foreground.png" Stretch="Fill" Canvas.Top="89.667" Width="33.541" Opacity="0" RenderTransformOrigin="0.5,0.5">
+			<Image.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</Image.RenderTransform>
+		</Image>
+		<Image x:Name="image2" Height="110.85" Canvas.Left="41.333" Source="ShaAnimation/faded.png" Stretch="Fill" Canvas.Top="34.15" Width="112.667" Opacity="0">
 			<Image.OpacityMask>
 				<LinearGradientBrush StartPoint="0, 0" EndPoint="1, 2">
-					<GradientStop Color="#00000000" Offset="0.987"/>
-					<GradientStop Color="White" Offset="0.909"/>
-					<GradientStop Color="#00000000" Offset="0.828"/>
+					<GradientStop Color="#00000000" Offset="0.177"/>
+					<GradientStop Color="White" Offset="0.052"/>
+					<GradientStop Color="#00000000"/>
+					<GradientStop Color="White" Offset="0.116"/>
 				</LinearGradientBrush>
 			</Image.OpacityMask>
 		</Image>
-		<Image x:Name="image" Height="33" Canvas.Left="101.459" Source="ShaAnimation/foreground.png" Stretch="Fill" Canvas.Top="99" Width="33.541" Opacity="0"/>
 		
 	</Canvas>
 </local:AnimationBase>
