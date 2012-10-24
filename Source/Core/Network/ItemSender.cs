@@ -33,6 +33,7 @@ namespace Sanguosha.Core.Network
         public DeckType deck;
         public int place;
         public int Id;
+        public CardHandler additionalType;
     }
     [Serializable]
     public struct CommandItem

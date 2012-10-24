@@ -49,6 +49,10 @@ namespace Sanguosha.UI.Controls
             cancelCardUsageCommand = new SimpleRelayCommand(CancelCardUsageCommand);
             abortCardUsageCommand = new SimpleRelayCommand(AbortCardUsageCommand);
 
+            SubmitAnswerCommand = DisabledCommand;
+            CancelAnswerCommand = DisabledCommand;
+            AbortAnswerCommand = DisabledCommand;
+
             _possibleRoles = new ObservableCollection<Role>();
             _UpdateCardUsageStatusHandler = (o, e) => { _UpdateCardUsageStatus(); };
             _timer = new System.Timers.Timer();

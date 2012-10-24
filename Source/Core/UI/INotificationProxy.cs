@@ -12,5 +12,6 @@ namespace Sanguosha.Core.UI
     public interface INotificationProxy
     {
         void NotifyCardMovement(List<CardsMovement> m, List<UI.IGameLog> notes);
+        void NotifyDamage(Player source, Player target, int magnitude);
     }
 }

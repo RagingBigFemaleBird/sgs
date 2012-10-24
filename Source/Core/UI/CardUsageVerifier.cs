@@ -15,6 +15,7 @@ namespace Sanguosha.Core.UI
         public bool isPlayerRepeatable;
         public bool isActionStage;
         public bool hasNoConfirmation;
+        public bool isGuHuo;
     }
 
     public interface ICardUsageVerifier

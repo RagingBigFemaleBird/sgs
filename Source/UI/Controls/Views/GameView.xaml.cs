@@ -391,5 +391,11 @@ namespace Sanguosha.UI.Controls
         }
 
         #endregion        
+    
+
+        public void NotifyDamage(Player source, Player target, int magnitude)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
