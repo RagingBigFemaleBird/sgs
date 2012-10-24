@@ -87,7 +87,9 @@ namespace Sanguosha.UI.Main
 #endif
                 _game.UiProxies.Add(player, proxy);
             }
+#if NETWORKING
             _game.GlobalProxy = new GlobalClientUiProxy(_game, activeClientProxy);
+#endif
         }
 
         private Game _game;

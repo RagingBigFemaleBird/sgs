@@ -5,7 +5,10 @@
     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
 
-
+    <system:String x:Key="Suit.Heart.Text">红桃</system:String>
+    <system:String x:Key="Suit.Diamond.Text">方片</system:String>
+    <system:String x:Key="Suit.Spade.Text">黑桃</system:String>
+    <system:String x:Key="Suit.Club.Text">草花</system:String>
     <system:String x:Key="Card.Suit.Heart.SuitText">♥</system:String>
     <system:String x:Key="Card.Suit.Diamond.SuitText">♦</system:String>
     <system:String x:Key="Card.Suit.Spade.SuitText">♠</system:String>

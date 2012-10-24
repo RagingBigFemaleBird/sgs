@@ -245,7 +245,7 @@ namespace Sanguosha.UI.Controls
 
         #endregion
 
-        #region Card Creation Helpers
+        #region Card Creation/Destruction Helpers
         public static CardView CreateCard(Card card, int width = 93, int height = 130)
         {
             return new CardView()
@@ -264,6 +264,14 @@ namespace Sanguosha.UI.Controls
                 cardViews.Add(CreateCard(card));
             }
             return cardViews;
+        }
+        #endregion
+
+        #region Helper Tags
+        public int DiscardDeckClearTimeStamp
+        {
+            get;
+            set;
         }
         #endregion
     }

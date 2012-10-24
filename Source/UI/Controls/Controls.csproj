@@ -83,6 +83,7 @@
       <DependentUpon>EquipButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\IDeckContainer.cs" />
+    <Compile Include="Views\MultiChoiceButtonStyleConverter.cs" />
     <Compile Include="Views\PlayerViewBase.cs" />
     <Compile Include="Views\PromptFormatter.cs" />
     <Compile Include="Views\SkillButton.xaml.cs">

@@ -526,7 +526,7 @@ namespace Sanguosha.UI.Controls
             CanExecuteStatus = false
         };
 
-        #region SubmitAnswerCommand
+        #region SubmitCardUsageCommand
 
         private SimpleRelayCommand submitCardUsageCommand;
         public void SubmitCardUsageCommand(object parameter)
@@ -562,28 +562,18 @@ namespace Sanguosha.UI.Controls
 
         #endregion
 
-        #region CancelAnswerCommand
+        #region CancelCardUsageCommand
         private SimpleRelayCommand cancelCardUsageCommand;
         public void CancelCardUsageCommand(object parameter)
         {
-            if (currentUsageVerifier != null)
-            {
-                // @todo
-                //if (currentUsageVerifier.GetType().Name!="PlayerActionStageVerifier")
-                {
-                    CardUsageAnsweredEvent(null, null, null);
-                    currentUsageVerifier = null;
-                    _ResetAll();
-                }
-                /*else
-                {
-                    _ResetAll();
-                }*/
-            }
+            Trace.Assert(currentUsageVerifier != null);
+            CardUsageAnsweredEvent(null, null, null);
+            currentUsageVerifier = null;
+            _ResetAll();
         }
         #endregion
         
-        #region AbortAnswerCommand
+        #region AbortCardUsageCommand
         private SimpleRelayCommand abortCardUsageCommand;
         public void AbortCardUsageCommand(object parameter)
         {
@@ -746,13 +736,9 @@ namespace Sanguosha.UI.Controls
             bool isEquipCommand;
             SkillCommand command = _GetSelectedSkillCommand(out isEquipCommand);
 
-            if (cards.Count != 0 || players.Count != 0 || command != null)
+            if (currentUsageVerifier.Helper.isActionStage)
             {
-                cancelCardUsageCommand.CanExecuteStatus = true;
-            }
-            else
-            {
-                cancelCardUsageCommand.CanExecuteStatus = false;
+                cancelCardUsageCommand.CanExecuteStatus = (cards.Count != 0 || players.Count != 0 || command != null);
             }
 
             if (command != null)
@@ -954,8 +940,8 @@ namespace Sanguosha.UI.Controls
                 SubmitAnswerCommand = submitCardUsageCommand;
                 CancelAnswerCommand = cancelCardUsageCommand;
                 AbortAnswerCommand = abortCardUsageCommand;
-                abortCardUsageCommand.CanExecuteStatus = true;
-                cancelCardUsageCommand.CanExecuteStatus = false;
+                abortCardUsageCommand.CanExecuteStatus = currentUsageVerifier.Helper.isActionStage;
+                cancelCardUsageCommand.CanExecuteStatus = !currentUsageVerifier.Helper.isActionStage;
 
                 _UpdateCardUsageStatus();         
             });

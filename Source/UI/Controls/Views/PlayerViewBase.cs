@@ -198,6 +198,12 @@ namespace Sanguosha.UI.Controls
                     cardsToRemove.Add(cardView);
                 }
             }
+
+            foreach (var card in cardsToRemove)
+            {
+                card.CardModel.IsSelectionMode = false;
+            }
+
             return cardsToRemove;
         }
 

@@ -881,10 +881,6 @@ namespace Sanguosha.Core.Games
         public void HandleCardTransferToHand(Player from, Player to, List<Card> cards)
         {
             CardsMovement move;
-            foreach (Card c in cards)
-            {
-                Trace.Assert(c.Place.Player == from);
-            }
             move.cards = new List<Card>(cards);
             move.to = new DeckPlace(to, DeckType.Hand);
             MoveCards(move, null);
