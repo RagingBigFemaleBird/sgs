@@ -53,13 +53,28 @@
                     </EasingThicknessKeyFrame>
                 </ThicknessAnimationUsingKeyFrames>
             </Storyboard>
+            <Storyboard x:Key="sbTremble">
+            	<ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="grid">
+            		<EasingThicknessKeyFrame KeyTime="0" Value="0"/>
+            		<EasingThicknessKeyFrame KeyTime="0:0:0.133" Value="-10,0,10,0">
+            			<EasingThicknessKeyFrame.EasingFunction>
+            				<BackEase EasingMode="EaseOut"/>
+            			</EasingThicknessKeyFrame.EasingFunction>
+            		</EasingThicknessKeyFrame>
+            		<EasingThicknessKeyFrame KeyTime="0:0:0.4" Value="20,0,-20,0">
+            			<EasingThicknessKeyFrame.EasingFunction>
+            				<BackEase EasingMode="EaseOut"/>
+            			</EasingThicknessKeyFrame.EasingFunction>
+            		</EasingThicknessKeyFrame>
+            		<EasingThicknessKeyFrame KeyTime="0:0:0.6" Value="0">
+            			<EasingThicknessKeyFrame.EasingFunction>
+            				<BackEase EasingMode="EaseOut"/>
+            			</EasingThicknessKeyFrame.EasingFunction>
+            		</EasingThicknessKeyFrame>
+            	</ThicknessAnimationUsingKeyFrames>
+            </Storyboard>
         </ResourceDictionary>
     </local:PlayerViewBase.Resources>
-    <local:PlayerViewBase.Triggers>
-    	<EventTrigger RoutedEvent="FrameworkElement.Loaded" SourceName="imgPhase">
-    		<BeginStoryboard Storyboard="{StaticResource sbPhaseChange}"/>
-    	</EventTrigger>
-    </local:PlayerViewBase.Triggers>
     <Grid x:Name="LayoutRoot">
         <Grid.ToolTip>
             <ToolTip x:Name="toolTip" Content="{Binding}" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
@@ -98,7 +113,7 @@
         	<ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <ProgressBar x:Name="progressBar" Style="{StaticResource TimedProgressBarStyle}" Grid.Column="0" Grid.Row="2" Margin="5,0" />
-        <Grid Grid.Column="0">            
+        <Grid x:Name="grid" Grid.Column="0">            
             <Border x:Name="isPlayingGlow" Visibility="{Binding IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}"  Background="#FF27D317">
                 <Border.Effect>
                     <BlurEffect Radius="10"/>
@@ -157,7 +172,7 @@
                             <Image.Source>
                                 <res:ImageBinding Path="HeroName" StringFormat="Resources/Images/Heroes/{0}.png" ResourceKeyFormat="Hero.{0}.Image" CropRect="28,46,220,132" />
                             </Image.Source>
-                        </Image>                               
+                        </Image>                         
                         <Border x:Name="IsTargetedGlow" Visibility="{Binding IsTargeted, Converter={StaticResource boolToVisibilityConverter}}" BorderBrush="Red" BorderThickness="5" >
                             <Border.Effect>
                                 <BlurEffect Radius="10" />
@@ -239,6 +254,8 @@
             		<ei:DataStateBehavior Value="true" TrueState="Faded" FalseState="Unfaded" Binding="{Binding IsFaded}"/>
             	</i:Interaction.Behaviors>
             </Border>
+            <Canvas x:Name="animationCenter2" Margin="0,0,0,20" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+            <Canvas x:Name="animationCenter1" Margin="0,80,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
         </Grid>
     </Grid>
 </local:PlayerViewBase>

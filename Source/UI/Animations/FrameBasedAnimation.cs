@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 
 namespace Sanguosha.UI.Animations
 {
-    public partial class FrameBasedAnimation : Image
+    public partial class FrameBasedAnimation : Image, IAnimation
     {
         public static readonly DependencyProperty ActiveFrameIndexProperty =
             DependencyProperty.Register("ActiveFrameIndex", typeof(int), typeof(FrameBasedAnimation));

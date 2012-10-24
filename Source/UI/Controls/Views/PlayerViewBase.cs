@@ -8,6 +8,7 @@ using System.Diagnostics;
 using Sanguosha.Core.Cards;
 using System.Windows.Media;
 using System.Windows.Input;
+using Sanguosha.UI.Animations;
 
 namespace Sanguosha.UI.Controls
 {
@@ -210,6 +211,14 @@ namespace Sanguosha.UI.Controls
         public void UpdateCardAreas()
         {
             handCardArea.RearrangeCards(0d);
+        }
+
+        public virtual void PlayAnimation(AnimationBase animation, int playCenter, Point offset)
+        {
+        }
+
+        public virtual void Tremble()
+        {
         }
     }
 }

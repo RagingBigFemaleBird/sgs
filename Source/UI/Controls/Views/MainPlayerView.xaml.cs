@@ -16,6 +16,7 @@ using System.Windows.Media.Animation;
 using Sanguosha.Core.Cards;
 using System.Windows.Controls.Primitives;
 using System.Diagnostics;
+using Sanguosha.UI.Animations;
 
 namespace Sanguosha.UI.Controls
 {
@@ -271,6 +272,18 @@ namespace Sanguosha.UI.Controls
             result.Rebase(0);
 
             return result;
+        }
+
+        public override void PlayAnimation(AnimationBase animation, int playCenter, Point offset)
+        {
+            Canvas canvas;
+            if (playCenter == 1) canvas = animationCenter1;
+            else canvas = animationCenter2;
+
+            animation.SetValue(Canvas.LeftProperty, -animation.Width / 2 + offset.X);
+            animation.SetValue(Canvas.TopProperty, -animation.Height / 2 + offset.Y);
+            canvas.Children.Add(animation);
+            animation.Start();
         }
     }
 }

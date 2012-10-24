@@ -1,0 +1,51 @@
+﻿<local:AnimationBase
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:Sanguosha.UI.Animations"
+	mc:Ignorable="d"
+	x:Class="Sanguosha.UI.Animations.DamageAnimation"
+	x:Name="UserControl"
+	d:DesignWidth="640" d:DesignHeight="480" Width="172" Height="170">
+    <local:AnimationBase.Resources>
+		<Storyboard x:Key="mainAnimation">
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.033" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.067" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image1">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.067" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image2">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.133" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image3">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.133" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.167" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image4">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.167" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.4" Value="{x:Static Visibility.Visible}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image4">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.033" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+    </local:AnimationBase.Resources>
+	
+	<Grid x:Name="LayoutRoot">
+		<Image x:Name="image" Margin="0" Source="DamageAnimation/0.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden" d:IsHidden="True"/>
+		<Image x:Name="image1" Margin="0" Source="DamageAnimation/1.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"/>
+		<Image x:Name="image2" Margin="0" Source="DamageAnimation/2.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden"/>
+		<Image x:Name="image3" Margin="0" Source="DamageAnimation/3.png" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden"/>
+		<Image x:Name="image4" Margin="0" Source="DamageAnimation/4.png" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden"/>
+	</Grid>
+</local:AnimationBase>

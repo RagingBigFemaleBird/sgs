@@ -16,7 +16,7 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <Utf8Output>true</Utf8Output>
-    <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
+    <ExpressionBlendVersion>4.0.20901.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,7 +51,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnimationBase.cs" />
+    <Compile Include="DamageAnimation.xaml.cs">
+      <DependentUpon>DamageAnimation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FrameBasedAnimation.cs" />
+    <Compile Include="IAnimation.cs" />
     <Compile Include="LoseHealthAnimation.xaml.cs">
       <DependentUpon>LoseHealthAnimation.xaml</DependentUpon>
     </Compile>
@@ -67,6 +72,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="ShaAnimation.xaml.cs">
+      <DependentUpon>ShaAnimation.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -99,10 +107,30 @@
     <Resource Include="LoseHealthAnimation\9.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="DamageAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="LoseHealthAnimation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ShaAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="DamageAnimation\0.png" />
+    <Resource Include="DamageAnimation\1.png" />
+    <Resource Include="DamageAnimation\2.png" />
+    <Resource Include="DamageAnimation\3.png" />
+    <Resource Include="DamageAnimation\4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ShaAnimation\foreground.png" />
+    <Resource Include="ShaAnimation\background.png" />
+    <Resource Include="ShaAnimation\faded.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

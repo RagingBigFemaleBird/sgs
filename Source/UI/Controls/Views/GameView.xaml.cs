@@ -21,6 +21,7 @@ using Sanguosha.Core.Skills;
 using System.Threading;
 using System.Timers;
 using System.Collections.ObjectModel;
+using Sanguosha.UI.Animations;
 
 namespace Sanguosha.UI.Controls
 {
@@ -360,7 +361,7 @@ namespace Sanguosha.UI.Controls
 
         #endregion
 
-        #region IAsyncUiProxy
+        #region INotificationProxy
 
         public void NotifyCardMovement(List<CardsMovement> moves, List<IGameLog> notes)
         {
@@ -388,14 +389,23 @@ namespace Sanguosha.UI.Controls
                     _GetMovementDeck(move.to).AddCards(move.to.DeckType, cardsToAdd);
                 }
             });
-        }
-
-        #endregion        
-    
+        }   
 
         public void NotifyDamage(Player source, Player target, int magnitude)
         {
-            throw new NotImplementedException();
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                foreach (var profile in playersMap.Values)
+                {
+                    if (profile.PlayerModel.Player == target)
+                    {
+                        profile.PlayAnimation(new DamageAnimation(), 1, new Point(0, 0));
+                        profile.Tremble();
+                    }
+                }
+            });
         }
+
+        #endregion
     }
 }
