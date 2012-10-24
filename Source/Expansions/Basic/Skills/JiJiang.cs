@@ -19,6 +19,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     class JiJiang : CardTransformSkill
     {
+        public override UiHelper Helper { get { return new UiHelper() { hasNoConfirmation = true }; } }
         public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
         {
             card = null;

@@ -19,6 +19,7 @@ namespace Sanguosha.Core.Games
         {
             private class PlayerActionStageVerifier : CardUsageVerifier
             {
+                public override UiHelper Helper { get { return new UiHelper() { isActionStage = true }; } }
                 public override VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players)
                 {
                     if ((cards == null || cards.Count == 0) && skill == null)
@@ -210,6 +211,7 @@ namespace Sanguosha.Core.Games
 
             private class PlayerDiscardStageVerifier : ICardUsageVerifier
             {
+                public UiHelper Helper { get { return new UiHelper(); } }
                 public Player Owner { get; set; }
 
                 public VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players)

@@ -14,6 +14,7 @@ namespace Sanguosha.Core.Skills
 {
     public abstract class CardTransformSkill : ISkill
     {
+        public virtual UiHelper Helper { get { return new UiHelper(); } }
         public class CardTransformFailureException : SgsException
         {
         }

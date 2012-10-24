@@ -25,6 +25,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             public Player Owner { get; set; }
             public class GangLieVerifier : ICardUsageVerifier
             {
+                public UiHelper Helper { get { return new UiHelper(); } }
                 public VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players)
                 {
                     if (skill != null || (players != null && players.Count != 0))

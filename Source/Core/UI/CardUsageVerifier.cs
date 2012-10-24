@@ -10,11 +10,19 @@ using Sanguosha.Core.Games;
 
 namespace Sanguosha.Core.UI
 {
+    public struct UiHelper
+    {
+        public bool isPlayerRepeatable;
+        public bool isActionStage;
+        public bool hasNoConfirmation;
+    }
+
     public interface ICardUsageVerifier
     {
         VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players);
         IList<CardHandler> AcceptableCardType { get; }
         VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players);
+        UiHelper Helper { get; }
     }
 
     public abstract class CardUsageVerifier : ICardUsageVerifier
@@ -111,5 +119,11 @@ namespace Sanguosha.Core.UI
         public abstract VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players);
 
         public abstract IList<CardHandler> AcceptableCardType { get; }
+
+
+        public virtual UiHelper Helper
+        {
+            get { return new UiHelper(); }
+        }
     }
 }
