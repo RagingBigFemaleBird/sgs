@@ -28,6 +28,7 @@ namespace Sanguosha.Core.Cards
             Type = null;
             RevealOnce = false;
             attributes = null;
+            AddtionalGenericType = null;
         }
 
         public Card(SuitType t, int r, CardHandler c)
@@ -36,6 +37,7 @@ namespace Sanguosha.Core.Cards
             Rank = r;
             Type = c;
             attributes = null;
+            AddtionalGenericType = null;
         }
 
         public void CopyFrom(Card c)
@@ -47,6 +49,7 @@ namespace Sanguosha.Core.Cards
             Place = c.Place;
             Id = c.Id;
             Attributes = c.Attributes;
+            AddtionalGenericType = c.AddtionalGenericType;
         }
 
         public Card(Card c)
@@ -60,6 +63,8 @@ namespace Sanguosha.Core.Cards
             Attributes = c.Attributes;
         }
 
+        public DeckPlace HistoryPlace2 { get; set; }
+        public DeckPlace HistoryPlace1 { get; set; }
         public DeckPlace Place { get; set; }
 
         /// <summary>
@@ -113,6 +118,7 @@ namespace Sanguosha.Core.Cards
         public int Rank {get; set;}
 
         public CardHandler Type { get; set; }
+        public CardHandler AddtionalGenericType { get; set; }
 
         Dictionary<string, int> attributes;
 

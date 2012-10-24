@@ -672,7 +672,10 @@ namespace Sanguosha.Core.Games
                 }
                 Trace.Assert(false);
             }
-
+            if (NotificationProxy != null)
+            {
+                NotificationProxy.NotifyDamage(source, args.Targets[0], -args.IntArg);
+            }
             Trace.Assert(args.Targets.Count == 1);
             args.Targets[0].Health += args.IntArg;
             Trace.TraceInformation("Player {0} Lose {1} hp, @ {2} hp", args.Targets[0].Id, -args.IntArg, args.Targets[0].Health);
@@ -751,7 +754,7 @@ namespace Sanguosha.Core.Games
         /// </summary>
         /// <param name="source"></param>
         /// <param name="c"></param>
-        protected void PlayerPlayedCard(Player source, ICard c)
+        public void PlayerPlayedCard(Player source, ICard c)
         {
             try
             {
@@ -802,7 +805,7 @@ namespace Sanguosha.Core.Games
             return true;
         }
 
-        protected void PlayerDiscardedCard(Player p, List<Card> cards, DiscardReason reason)
+        public void PlayerDiscardedCard(Player p, List<Card> cards, DiscardReason reason)
         {
             try
             {
@@ -819,7 +822,7 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        protected void PlayerAboutToDiscardCard(Player p, List<Card> cards, DiscardReason reason)
+        public void PlayerAboutToDiscardCard(Player p, List<Card> cards, DiscardReason reason)
         {
             try
             {
@@ -836,7 +839,7 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        protected void PlayerLostCard(Player p, List<Card> cards)
+        public void PlayerLostCard(Player p, List<Card> cards)
         {
             try
             {
@@ -852,7 +855,7 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        protected void PlayerAcquiredCard(Player p, List<Card> cards)
+        public void PlayerAcquiredCard(Player p, List<Card> cards)
         {
             try
             {
@@ -993,5 +996,6 @@ namespace Sanguosha.Core.Games
             }
             return true;
         }
+        
     }
 }

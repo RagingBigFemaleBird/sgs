@@ -14,6 +14,7 @@ using Sanguosha.Core.Exceptions;
 
 namespace Sanguosha.Core.Cards
 {
+    [Serializable]
     public abstract class CardHandler
     {
         Dictionary<DeckPlace, List<Card>> deckBackup;

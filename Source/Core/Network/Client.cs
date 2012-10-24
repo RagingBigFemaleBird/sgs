@@ -84,12 +84,14 @@ namespace Sanguosha.Core.Network
                         DeckPlace place = Game.CurrentGame.Decks[null, i.deck][i.place].Place;
                         Game.CurrentGame.Decks[null, i.deck][i.place].CopyFrom(Game.CurrentGame.SlaveCardSet[i.Id]);
                         Game.CurrentGame.Decks[null, i.deck][i.place].Place = place;
+                        Game.CurrentGame.Decks[null, i.deck][i.place].AddtionalGenericType = i.additionalType;
                     }
                     else
                     {
                         DeckPlace place = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].Place;
                         Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].CopyFrom(Game.CurrentGame.SlaveCardSet[i.Id]);
                         Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].Place = place;
+                        Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].AddtionalGenericType = i.additionalType;
                     }
                 }
                 if (i.playerId < 0)
@@ -138,6 +140,7 @@ namespace Sanguosha.Core.Network
                 item.playerId = Game.CurrentGame.Players.IndexOf(card.Place.Player);
                 item.deck = card.Place.DeckType;
                 item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
+                item.additionalType = card.AddtionalGenericType;
                 Trace.Assert(item.place >= 0);
                 o = item;
             }
