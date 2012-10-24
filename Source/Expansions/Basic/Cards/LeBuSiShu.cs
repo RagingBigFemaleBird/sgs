@@ -16,9 +16,23 @@ namespace Sanguosha.Expansions.Basic.Cards
 {
     public class LeBuSiShu : DelayedTool
     {
-        public override void Activate(Player p)
+        public override void Activate(Player p, Card c)
         {
-            throw new NotImplementedException();
+            if (PlayerIsCardTargetCheck(null, ref p, c))
+            {
+                Card result = Game.CurrentGame.Judge(p);
+                if (result.Suit != SuitType.Heart)
+                {
+                    var theTrigger = new LeBuSiShuTrigger();
+                    theTrigger.Owner = p;
+                    Game.CurrentGame.RegisterTrigger(GameEvent.PhaseOutEvents[TurnPhase.Draw], theTrigger);
+                }
+            }
+            CardsMovement move = new CardsMovement();
+            move.cards = new List<Card>();
+            move.cards.Add(c);
+            move.to = new DeckPlace(null, DeckType.Discard);
+            Game.CurrentGame.MoveCards(move, null);
         }
 
         protected override void Process(Player source, Player dest, ICard card)
@@ -44,6 +58,20 @@ namespace Sanguosha.Expansions.Basic.Cards
                 return VerifierResult.Partial;
             }
             return VerifierResult.Success;
+        }
+
+        private class LeBuSiShuTrigger : Trigger
+        {
+            public Player Owner { get; set; }
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                if (Owner == eventArgs.Source)
+                {
+                    Game.CurrentGame.CurrentPhase++;
+                    Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseOutEvents[TurnPhase.Draw], this);
+                    throw new TriggerResultException(TriggerResult.End);
+                }
+            }
         }
     }
 }

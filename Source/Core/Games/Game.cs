@@ -538,7 +538,17 @@ namespace Sanguosha.Core.Games
             {
                 if (gameEvent.ContainsKey(currentPhase))
                 {
-                    Emit(gameEvent[currentPhase], args);
+                    try
+                    {
+                        Emit(gameEvent[currentPhase], args);
+                    }
+                    catch (TriggerResultException e)
+                    {
+                        if (e.Status == TriggerResult.End)
+                        {
+                            break;
+                        }
+                    }
                 }
             }
             
@@ -871,14 +881,14 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public void HandleCardDiscard(Player p, List<Card> cards)
+        public void HandleCardDiscard(Player p, List<Card> cards, DiscardReason reason = DiscardReason.Discard)
         {
             CardsMovement move;
             move.cards = new List<Card>(cards);
             move.to = new DeckPlace(null, DeckType.Discard);
-            PlayerAboutToDiscardCard(p, move.cards, DiscardReason.Discard);
+            PlayerAboutToDiscardCard(p, move.cards, reason);
             MoveCards(move, null);
-            PlayerDiscardedCard(p, move.cards, DiscardReason.Discard);
+            PlayerDiscardedCard(p, move.cards, reason);
         }
 
         public void HandleCardTransferToHand(Player from, Player to, List<Card> cards)

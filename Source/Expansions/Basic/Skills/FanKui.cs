@@ -39,7 +39,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             }
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                if (eventArgs.Targets.IndexOf(Owner) < 0)
+                if (eventArgs.Source == null || eventArgs.Targets.IndexOf(Owner) < 0)
                 {
                     return;
                 }

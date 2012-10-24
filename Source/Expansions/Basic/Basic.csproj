@@ -68,6 +68,7 @@
     <Compile Include="Skills\FanJian.cs" />
     <Compile Include="Skills\FanKui.cs" />
     <Compile Include="Skills\GangLie.cs" />
+    <Compile Include="Skills\GuiCai.cs" />
     <Compile Include="Skills\GuoSe.cs" />
     <Compile Include="Skills\JiJiang.cs" />
     <Compile Include="Skills\JiJiu.cs" />

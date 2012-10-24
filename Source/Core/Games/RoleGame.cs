@@ -263,6 +263,24 @@ namespace Sanguosha.Core.Games
             }
         }
 
+        public class PlayerJudgeStageTrigger : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                Player currentPlayer = eventArgs.Game.CurrentPlayer;
+                Trace.TraceInformation("Player {0} judge.", currentPlayer.Id);
+                while (Game.CurrentGame.Decks[currentPlayer, DeckType.DelayedTools].Count > 0)
+                {
+                    Card card = Game.CurrentGame.Decks[currentPlayer, DeckType.DelayedTools].Last();
+                    if (CardCategoryManager.IsCardCategory(card.Type.Category, CardCategory.DelayedTool))
+                    {
+                        DelayedTool tool = card.Type as DelayedTool;
+                        tool.Activate(currentPlayer, card);
+                    }
+                }
+            }
+        }
+
         public class CommitActionToTargetsTrigger : Trigger
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
@@ -383,6 +401,7 @@ namespace Sanguosha.Core.Games
         protected override void InitTriggers()
         {
             RegisterTrigger(GameEvent.GameStart, new RoleGameRuleTrigger());
+            RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Judge], new PlayerJudgeStageTrigger());
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Play], new PlayerActionTrigger());
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Draw], new PlayerDealStageTrigger());
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Discard], new PlayerDiscardStageTrigger());

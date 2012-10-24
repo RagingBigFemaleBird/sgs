@@ -26,21 +26,25 @@ namespace Sanguosha.Core.Heroes
 
         public Player Owner { get; set; }
 
+        public bool IsMale { get; set; }
+
         public int MaxHealth { get; set; }
 
-        public Hero(string name, Allegiance a, int health, List<ISkill> skills)
+        public Hero(string name, bool isMale, Allegiance a, int health, List<ISkill> skills)
         {
             Allegiance = a;
             Skills = skills;
             Name = name;
             MaxHealth = health;
+            IsMale = isMale;
         }
-        public Hero(string name, Allegiance a, int health, params ISkill[] skills)
+        public Hero(string name, bool isMale, Allegiance a, int health, params ISkill[] skills)
         {
             Allegiance = a;
             Skills = new List<ISkill>(skills);
             Name = name;
             MaxHealth = health;
+            IsMale = isMale;
         }
 
         public string Name { get; set; }
