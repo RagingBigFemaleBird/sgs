@@ -65,7 +65,7 @@ namespace Sanguosha.Core.UI
                 }
                 else if (arg is SuitType)
                 {
-                    _values.Add(string.Format("Suit.{0}.Name", ((SuitType)arg).ToString()));
+                    _values.Add(string.Format("Suit.{0}.Text", ((SuitType)arg).ToString()));
                 }
                 else
                 {

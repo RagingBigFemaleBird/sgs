@@ -348,7 +348,7 @@ namespace Sanguosha.UI.Controls
 
         private IDeckContainer _GetMovementDeck(DeckPlace place)
         {
-            if (place.Player != null)
+            if (place.Player != null && place.DeckType != DeckType.JudgeResult)
             {
                 PlayerViewBase playerView = playersMap[place.Player];
                 return playerView;                

@@ -51,7 +51,7 @@ namespace Sanguosha.Core.Cards
             return false;
         }
 
-        public abstract void Activate(Player p);
+        public abstract void Activate(Player p, Card c);
 
     }
 }
