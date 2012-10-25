@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ViewModels\BoolToVisibilityConverter.cs" />
+    <Compile Include="ViewModels\CardChoiceViewModel.cs" />
     <Compile Include="ViewModels\CardViewModel.cs" />
     <Compile Include="ViewModels\EquipCommand.cs" />
     <Compile Include="ViewModels\GameViewModel.cs" />
@@ -68,12 +69,16 @@
     <Compile Include="ViewModels\SkillCommand.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\BigEquipBorder.cs" />
+    <Compile Include="Views\CardChoiceBox.xaml.cs">
+      <DependentUpon>CardChoiceBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CardStack.cs" />
     <Compile Include="Views\CardToolTipConverter.cs" />
     <Compile Include="Views\CardToolTipTemplateSelector.cs" />
     <Compile Include="Views\CardView.xaml.cs">
       <DependentUpon>CardView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\FluidCardStack.cs" />
     <Compile Include="Views\HeroToolTipConverter.cs" />
     <Compile Include="Views\LargeDelayedToolView.xaml.cs">
       <DependentUpon>LargeDelayedToolView.xaml</DependentUpon>
@@ -129,6 +134,10 @@
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardChoiceBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\CardToolTip.xaml">
       <SubType>Designer</SubType>
@@ -213,6 +222,15 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Views\Resources\CardSelectionBox\leftMiddle.png" />
+    <Resource Include="Views\Resources\CardSelectionBox\middle.png" />
+    <Resource Include="Views\Resources\CardSelectionBox\promptLeft.png" />
+    <Resource Include="Views\Resources\CardSelectionBox\promptMiddle.png" />
+    <Resource Include="Views\Resources\CardSelectionBox\promptRight.png" />
+    <Resource Include="Views\Resources\CardSelectionBox\rightMiddle.png" />
+    <Resource Include="Views\Resources\CardSelectionBox\topLeft.png" />
+    <Resource Include="Views\Resources\CardSelectionBox\topMiddle.png" />
+    <Resource Include="Views\Resources\CardSelectionBox\topRight.png" />
     <Resource Include="Views\Resources\EquipButton\border\0.png" />
     <Resource Include="Views\Resources\EquipButton\border\1.png" />
     <Resource Include="Views\Resources\EquipButton\border\10.png" />
@@ -234,6 +252,11 @@
     <Resource Include="Views\Resources\SkillButton\border\mask4.png" />
     <Resource Include="Views\Resources\SkillButton\border\mask5.png" />
     <Resource Include="Views\Resources\SkillButton\border\mask6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Resources\CardSelectionBox\bottomLeft.png" />
+    <Resource Include="Views\Resources\CardSelectionBox\bottomMiddle.png" />
+    <Resource Include="Views\Resources\CardSelectionBox\bottomRight.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath32)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

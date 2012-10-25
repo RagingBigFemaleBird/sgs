@@ -56,7 +56,8 @@ namespace Sanguosha.UI.Controls
             _possibleRoles = new ObservableCollection<Role>();
             _UpdateCardUsageStatusHandler = (o, e) => { _UpdateCardUsageStatus(); };
             _timer = new System.Timers.Timer();
-
+            
+            CardChoiceModel = new CardChoiceViewModel();
             HandCards = new ObservableCollection<CardViewModel>();
         }
 
@@ -99,7 +100,7 @@ namespace Sanguosha.UI.Controls
                 }
             }
         }
-
+        
         private GameViewModel _game;
 
         public GameViewModel GameModel
@@ -608,6 +609,18 @@ namespace Sanguosha.UI.Controls
         
         #endregion
 
+        #region Card Choice Questions
+        private CardChoiceViewModel _cardChoiceModel;
+
+        public CardChoiceViewModel CardChoiceModel
+        {
+            get { return _cardChoiceModel; }
+            set { _cardChoiceModel = value; }
+        }
+
+
+        #endregion
+
         #region View Related Fields
 
         private int _handCardCount;
@@ -960,9 +973,9 @@ namespace Sanguosha.UI.Controls
                 {
                     CardChoiceAnsweredEvent(null);
                     return;
-                }
-
-                CurrentPrompt = PromptFormatter.Format(prompt);
+                }                
+                
+                CardChoiceModel.Prompt = PromptFormatter.Format(prompt);
                 CardChoiceAnsweredEvent(null);
             });
         }
