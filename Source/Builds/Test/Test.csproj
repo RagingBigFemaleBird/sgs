@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{942E3559-4E91-4C17-ABB8-BF70BCA4A205}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sanguosha.Expansions.Test</RootNamespace>
+    <AssemblyName>Test</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TestExpansion.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Core.csproj">
+      <Project>{31B92003-B490-4EAF-8F8E-F9B020F9B03B}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Expansions\Basic\Basic.csproj">
+      <Project>{5E948FAB-938B-4E4C-BDA1-1740339273EA}</Project>
+      <Name>Basic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Expansions\Battle\Battle.csproj">
+      <Project>{850AB9CB-90A0-4625-87FA-1F7CE04A5404}</Project>
+      <Name>Battle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Expansions\Fire\Fire.csproj">
+      <Project>{E1D27FB1-40B8-4768-A045-DD9772564DDD}</Project>
+      <Name>Fire</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Expansions\Hills\Hills.csproj">
+      <Project>{893E3214-C48D-493C-B09D-7A31756B72B9}</Project>
+      <Name>Hills</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Expansions\OverKnightFame11\OverKnightFame11.csproj">
+      <Project>{E2597958-3624-4481-A64F-D97F78144BB4}</Project>
+      <Name>OverKnightFame11</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Expansions\OverKnightFame12\OverKnightFame12.csproj">
+      <Project>{649C840F-165F-4FAD-A69F-531A2956AC79}</Project>
+      <Name>OverKnightFame12</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Expansions\SP\SP.csproj">
+      <Project>{C207EC66-730A-4FEC-B83D-E8F40B7CC620}</Project>
+      <Name>SP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Expansions\Wind\Wind.csproj">
+      <Project>{7EF64814-44F4-40EA-91C4-FEB67F279F3F}</Project>
+      <Name>Wind</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Expansions\Woods\Woods.csproj">
+      <Project>{6EB21E93-773A-4894-AA51-3128CCF649B7}</Project>
+      <Name>Woods</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,29 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="Suit.Heart.Text">红桃</system:String>
+    <system:String x:Key="Suit.Diamond.Text">方片</system:String>
+    <system:String x:Key="Suit.Spade.Text">黑桃</system:String>
+    <system:String x:Key="Suit.Club.Text">草花</system:String>
+    <system:String x:Key="Card.Suit.Heart.SuitText">♥</system:String>
+    <system:String x:Key="Card.Suit.Diamond.SuitText">♦</system:String>
+    <system:String x:Key="Card.Suit.Spade.SuitText">♠</system:String>
+    <system:String x:Key="Card.Suit.Club.SuitText">♣</system:String>
+    <SolidColorBrush x:Key="Card.Suit.Heart.SuitBrush" Color="Red"/>
+    <SolidColorBrush x:Key="Card.Suit.Diamond.SuitBrush" Color="Red"/>
+    <SolidColorBrush x:Key="Card.Suit.Spade.SuitBrush" Color="#FF999999"/>
+    <SolidColorBrush x:Key="Card.Suit.Club.SuitBrush" Color="#FF999999"/>
+
+    <system:String x:Key="Allegiance.Shu.Name">蜀</system:String>
+    <system:String x:Key="Allegiance.Wei.Name">魏</system:String>
+    <system:String x:Key="Allegiance.Wu.Name">吴</system:String>
+    <system:String x:Key="Allegiance.Qun.Name">群</system:String>
+    <system:String x:Key="Allegiance.Shen.Name">神</system:String>
+    
+    <system:String x:Key="CardUsage.Prompt.Play">出牌阶段，请选择一张卡牌</system:String>
+    <system:String x:Key="CardUsage.Prompt.Discard">您需要弃掉{0}张卡牌，请选牌</system:String>
+    
+
+</ResourceDictionary>
