@@ -23,6 +23,7 @@ using System.Timers;
 using System.Collections.ObjectModel;
 using Sanguosha.UI.Animations;
 using System.ComponentModel;
+using System.Windows.Media.Animation;
 
 namespace Sanguosha.UI.Controls
 {
@@ -208,8 +209,16 @@ namespace Sanguosha.UI.Controls
 
         private void mainPlayer_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            PlayerViewModel model = sender as PlayerViewModel;
+            Trace.Assert(model != null, "Property change is expected to be associate with a PlayerViewModel");
             if (e.PropertyName == "IsCardChoiceQuestionShown")
             {
+            }
+            else if (e.PropertyName == "TimeOutSeconds")
+            {
+                Duration duration = new Duration(TimeSpan.FromSeconds(model.TimeOutSeconds));
+                DoubleAnimation doubleanimation = new DoubleAnimation(100d, 0d, duration);
+                progressBar.BeginAnimation(ProgressBar.ValueProperty, doubleanimation);
             }
         }
 

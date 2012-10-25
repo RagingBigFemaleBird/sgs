@@ -65,13 +65,7 @@ namespace Sanguosha.UI.Controls
                     Storyboard animation = Resources["sbPhaseChange"] as Storyboard;
                     animation.Begin(this);
                 }
-            }
-            else if (e.PropertyName == "TimeOutSeconds")
-            {
-                Duration duration = new Duration(TimeSpan.FromSeconds(model.TimeOutSeconds));         
-                DoubleAnimation doubleanimation = new DoubleAnimation(100d, 0d, duration);
-                progressBar.BeginAnimation(ProgressBar.ValueProperty, doubleanimation);                
-            }
+            }            
         }       
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
