@@ -22,6 +22,7 @@ using System.Threading;
 using System.Timers;
 using System.Collections.ObjectModel;
 using Sanguosha.UI.Animations;
+using System.ComponentModel;
 
 namespace Sanguosha.UI.Controls
 {
@@ -91,6 +92,7 @@ namespace Sanguosha.UI.Controls
             discardDeck.ParentGameView = this;
             this.DataContextChanged +=  GameView_DataContextChanged;
             this.SizeChanged += GameView_SizeChanged;
+            _mainPlayerPropertyChangedHandler = mainPlayer_PropertyChanged;
             
         }
 
@@ -202,6 +204,15 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        private PropertyChangedEventHandler _mainPlayerPropertyChangedHandler;
+
+        private void mainPlayer_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsCardChoiceQuestionShown")
+            {
+            }
+        }
+
         private void GameView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {            
             profileBoxes.Clear();
@@ -215,6 +226,15 @@ namespace Sanguosha.UI.Controls
             RearrangeSeats();
             _Resize(new Size(this.ActualWidth, this.ActualHeight));
             model.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(model_PropertyChanged);
+            Trace.Assert(model.MainPlayerModel != null, "Main player must exists.");
+            
+            var oldModel = e.OldValue as GameViewModel;
+            if (oldModel != null)
+            {
+                Trace.Assert(oldModel.MainPlayerModel != null, "Main player must exists.");
+                oldModel.PropertyChanged -= _mainPlayerPropertyChangedHandler;
+            }
+            model.MainPlayerModel.PropertyChanged += _mainPlayerPropertyChangedHandler;
         }
 
         void model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -258,7 +278,8 @@ namespace Sanguosha.UI.Controls
                 {
                     _CreatePlayerInfoView(i);
                 }
-            }            
+            }
+
             mainPlayerPanel.DataContext = model.MainPlayerModel;
             playersMap[model.MainPlayerModel.Player] = mainPlayerPanel;
         }

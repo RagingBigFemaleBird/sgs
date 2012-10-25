@@ -964,6 +964,33 @@ namespace Sanguosha.UI.Controls
             });
         }
 
+        private CardChoiceLineViewModel _ConstructDeck(DeckPlace deck)
+        {
+            CardChoiceLineViewModel line = new CardChoiceLineViewModel();
+            foreach (var card in Game.CurrentGame.Decks[deck])
+            {
+                CardViewModel model = new CardViewModel() { Card = card };
+                line.Cards.Add(model);
+            }
+            return line;
+        }
+
+        private bool cardChoiceQuestionShown;
+
+        public bool IsCardChoiceQuestionShown
+        {
+            get
+            {
+                return cardChoiceQuestionShown;
+            }
+            set
+            {
+                if (cardChoiceQuestionShown == value) return;
+                cardChoiceQuestionShown = value;
+                OnPropertyChanged("IsCardChoiceQuestionShown");
+            }
+        }
+
         public void AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, int timeOutSeconds)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
@@ -973,9 +1000,14 @@ namespace Sanguosha.UI.Controls
                 {
                     CardChoiceAnsweredEvent(null);
                     return;
-                }                
+                }
                 
                 CardChoiceModel.Prompt = PromptFormatter.Format(prompt);
+                CardChoiceModel.CardStacks.Clear();
+                foreach (var deck in sourceDecks)
+                {
+                    CardChoiceModel.CardStacks.Add(_ConstructDeck(deck));
+                }
                 CardChoiceAnsweredEvent(null);
             });
         }
