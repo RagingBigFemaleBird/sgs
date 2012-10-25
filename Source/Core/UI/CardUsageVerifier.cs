@@ -39,18 +39,17 @@ namespace Sanguosha.Core.UI
 
             if (transformSkill != null)
             {
-                if (transformSkill.PossibleResult == null)
+                if (transformSkill.PossibleResults == null)
                 {
                     return SlowVerify(skill, cards, players);
                 }
                 else
                 {
-                    foreach (var type in AcceptableCardType)
+                    var commonResult = from type1 in AcceptableCardType join type2 in transformSkill.PossibleResults
+                                       on type1 equals type2 select type1;
+                    if (commonResult.Count() > 0)
                     {
-                        if (type.CardType == transformSkill.PossibleResult.CardType)
-                        {
-                            return SlowVerify(skill, cards, players);
-                        }
+                        return SlowVerify(skill, cards, players);
                     }
                 }
                 return VerifierResult.Fail;

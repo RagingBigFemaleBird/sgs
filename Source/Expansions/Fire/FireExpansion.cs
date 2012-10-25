@@ -10,6 +10,7 @@ using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Heroes;
 using Sanguosha.Expansions.Fire.Skills;
+using Sanguosha.Expansions.Basic.Skills;
 
 namespace Sanguosha.Expansions.Fire
 {
@@ -18,7 +19,7 @@ namespace Sanguosha.Expansions.Fire
         public FireExpansion()
         {
             CardSet = new List<Card>();
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("WoLong", true, Allegiance.Shu, 3, new HuoJi(), new KanPo(), new JiLei(), new LuoYing()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("WoLong", true, Allegiance.Shu, 3, new HuoJi(), new KanPo(), new JiLei(), new LuoYing(), new LongDan()))));
         }
     }
 }

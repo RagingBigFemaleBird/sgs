@@ -104,10 +104,5 @@ namespace Sanguosha.Expansions.Fire.Skills
             card.Subcards.Add(Game.CurrentGame.Decks[null, DeckType.GuHuo][0]);
             return true;
         }
-
-        public override CardHandler PossibleResult
-        {
-            get { return null; }
-        }
     }
 }

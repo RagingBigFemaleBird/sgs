@@ -14,7 +14,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// <summary>
     /// 龙胆–出牌阶段，你可以将你手牌的【杀】当【闪】、【闪】当【杀】使用或打出。
     /// </summary>
-    class LongDan : CardTransformSkill
+    public class LongDan : CardTransformSkill
     {
         public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
         {
@@ -48,9 +48,9 @@ namespace Sanguosha.Expansions.Basic.Skills
             return VerifierResult.Fail;
         }
 
-        public override CardHandler PossibleResult
+        public override List<CardHandler> PossibleResults
         {
-            get { return null; }
+            get { return new List<CardHandler>() {new Shan(), new Sha()}; }
         }
     }
 }
