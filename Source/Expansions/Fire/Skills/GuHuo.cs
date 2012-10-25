@@ -53,9 +53,11 @@ namespace Sanguosha.Expansions.Fire.Skills
             move.to = new DeckPlace(null, DeckType.GuHuo);
             Game.CurrentGame.MoveCards(move, null);
             Game.CurrentGame.PlayerLostCard(Owner, move.cards);
-            Player player = Game.CurrentGame.NextPlayer(Owner);
+            List<Player> toProcess = new List<Player>(Game.CurrentGame.Players);
+            toProcess.Remove(Owner);
+            Game.CurrentGame.SortByOrderOfComputation(Owner, toProcess);
             Dictionary<Player, int> believe = new Dictionary<Player,int>();
-            while (player != Owner)
+            foreach (var player in toProcess)
             {
                 int answer = 1;
                 if (!Game.CurrentGame.UiProxies[player].AskForMultipleChoice(new MultipleChoicePrompt("GuHuo", Owner, (move.cards[0].AddtionalGenericType).CardType), Prompt.YesNoChoices, out answer))
@@ -64,7 +66,6 @@ namespace Sanguosha.Expansions.Fire.Skills
                     answer = 1;
                 }
                 believe.Add(player, answer);
-                player = Game.CurrentGame.NextPlayer(player);
             }
             Game.CurrentGame.SyncCardAll(Game.CurrentGame.Decks[null, DeckType.GuHuo][0]);
             bool guhuoSucceed = true;
@@ -80,14 +81,12 @@ namespace Sanguosha.Expansions.Fire.Skills
             {
                 if (Game.CurrentGame.Decks[null, DeckType.GuHuo][0].Type.GetType().IsAssignableFrom(Game.CurrentGame.Decks[null, DeckType.GuHuo][0].AddtionalGenericType.GetType()))
                 {
-                    player = Game.CurrentGame.NextPlayer(Owner);
-                    while (player != Owner)
+                    foreach (var player in toProcess)
                     {
                         if (believe[player] == 0)
                         {
                             Game.CurrentGame.LoseHealth(player, 1);
                         }
-                        player = Game.CurrentGame.NextPlayer(player);
                     }
                 }
                 if (Game.CurrentGame.Decks[null, DeckType.GuHuo][0].Suit != SuitType.Heart)

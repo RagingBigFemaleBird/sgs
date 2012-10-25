@@ -1,4 +1,4 @@
-﻿// #define NETWORKING
+﻿#define NETWORKING
 using System;
 using System.Collections.Generic;
 using System.Text;

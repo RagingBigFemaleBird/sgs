@@ -19,7 +19,7 @@ namespace Sanguosha.Expansions.Fire
         public FireExpansion()
         {
             CardSet = new List<Card>();
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("WoLong", true, Allegiance.Shu, 3, new HuoJi(), new KanPo(), new JiLei(), new LuoYing(), new LongDan()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("WoLong", true, Allegiance.Shu, 3, new RenDe(), new HuoJi(), new KanPo(), new JiLei(), new LuoYing(), new LongDan()))));
         }
     }
 }

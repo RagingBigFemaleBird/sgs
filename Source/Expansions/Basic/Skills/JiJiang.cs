@@ -27,17 +27,19 @@ namespace Sanguosha.Expansions.Basic.Skills
             {
                 return VerifierResult.Fail;
             }
-            Player player = Owner;
-            do
+            List<Player> toProcess = new List<Player>(Game.CurrentGame.Players);
+            toProcess.Remove(Owner);
+            bool noShuHero = true;
+            foreach (var player in toProcess)
             {
-                player = Game.CurrentGame.NextPlayer(player);
                 if (player.Hero.Allegiance == Core.Heroes.Allegiance.Shu)
                 {
+                    noShuHero = false;
                     break;
                 }
-            } while (player != Owner);
+            };
 
-            if (player == Owner)
+            if (noShuHero)
             {
                 return VerifierResult.Fail;
             }
@@ -57,10 +59,12 @@ namespace Sanguosha.Expansions.Basic.Skills
 
         protected override bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets)
         {
-            Player player = Owner;
             ICard result = null;
-            player = Game.CurrentGame.NextPlayer(player);
-            do
+            List<Player> toProcess = new List<Player>(Game.CurrentGame.Players);
+            toProcess.Remove(Owner);
+            Game.CurrentGame.SortByOrderOfComputation(Owner, toProcess);
+            bool noAnswer = true;
+            foreach (var player in toProcess)
             {
                 if (player.Hero.Allegiance == Core.Heroes.Allegiance.Shu)
                 {
@@ -81,7 +85,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                         {
                             continue;
                         }
-
+                        noAnswer = false;
                         Trace.TraceInformation("Player {0} Responded JiJiang with SHA, ", player.Id);
                         break;
                     }
@@ -91,9 +95,9 @@ namespace Sanguosha.Expansions.Basic.Skills
                     }
                     break;
                 }
-            } while ((player = Game.CurrentGame.NextPlayer(player)) != Owner);
+            }
 
-            if (player == Owner)
+            if (noAnswer)
             {
                 return false;
             }

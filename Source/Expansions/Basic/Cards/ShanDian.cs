@@ -18,7 +18,8 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         public override void Activate(Player p, Card c)
         {
-            if (PlayerIsCardTargetCheck(null, ref p, c))
+            Player nullPlayer = null;
+            if (PlayerIsCardTargetCheck(ref nullPlayer, ref p, c))
             {
                 Card result = Game.CurrentGame.Judge(p);
                 if (result.Suit == SuitType.Spade && result.Rank >= 2 && result.Rank <= 9)
@@ -35,8 +36,10 @@ namespace Sanguosha.Expansions.Basic.Cards
                     return;
                 }
             }
-            Player next = p;
-            while ((next = Game.CurrentGame.NextPlayer(next)) != p)
+            List<Player> toProcess = new List<Player>(Game.CurrentGame.Players);
+            toProcess.Remove(p);
+            Game.CurrentGame.SortByOrderOfComputation(p, toProcess);
+            foreach (var next in toProcess)
             {
                 List<Player> targets = new List<Player>();
                 targets.Add(next);

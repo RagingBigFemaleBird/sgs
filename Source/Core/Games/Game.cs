@@ -695,7 +695,7 @@ namespace Sanguosha.Core.Games
             CurrentPhase++;
             if ((int)CurrentPhase >= Enum.GetValues(typeof(TurnPhase)).Length)
             {
-                // todo: fix this.
+                // todo: fix this. this may be skipped if you are skipping stage
                 foreach (string key in CurrentPlayer.AutoResetAttributes)
                 {
                     CurrentPlayer[key] = 0;
@@ -736,6 +736,44 @@ namespace Sanguosha.Core.Games
             {
                 return players[i + 1];
             }
+        }
+
+        public virtual int OrderOf(Player withRespectTo, Player target)
+        {
+            int numPlayers = players.Count;
+            int i;
+            for (i = 0; i < numPlayers; i++)
+            {
+                if (players[i] == withRespectTo)
+                {
+                    break;
+                }
+            }
+
+            // The next player to the last player is the first player.
+            int order = 0;
+            while (players[i] != target)
+            {
+                if (i == numPlayers - 1)
+                {
+                    i = 0;
+                }
+                else
+                {
+                    i = i + 1;
+                }
+                order++;
+            }
+            Trace.Assert(order < numPlayers);
+            return order;
+        }
+
+        public virtual void SortByOrderOfComputation(Player withRespectTo, List<Player> players)
+        {
+            players.Sort((a, b) =>
+                {
+                    return OrderOf(withRespectTo, a).CompareTo(OrderOf(withRespectTo, b));
+                });
         }
 
         /// <summary>

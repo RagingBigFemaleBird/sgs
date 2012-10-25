@@ -32,7 +32,8 @@ namespace Sanguosha.Expansions.Battle.Cards
                 foreach (var player in dests)
                 {
                     Player p = player;
-                    if (PlayerIsCardTargetCheck(source, ref p, card))
+                    Player src = source;
+                    if (PlayerIsCardTargetCheck(ref src, ref p, card))
                     {
                         p[PlayerAttribute.IronShackled] = 1 - p[PlayerAttribute.IronShackled];
                     }

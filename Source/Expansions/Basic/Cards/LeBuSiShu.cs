@@ -18,7 +18,8 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         public override void Activate(Player p, Card c)
         {
-            if (PlayerIsCardTargetCheck(null, ref p, c))
+            Player nullPlayer = null;
+            if (PlayerIsCardTargetCheck(ref nullPlayer, ref p, c))
             {
                 Card result = Game.CurrentGame.Judge(p);
                 if (result.Suit != SuitType.Heart)
