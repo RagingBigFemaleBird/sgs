@@ -52,9 +52,9 @@ namespace Sanguosha.Expansions.Basic.Cards
                 return VerifierResult.Success;
             }
 
-            public override CardHandler PossibleResult
+            public override List<CardHandler> PossibleResults
             {
-                get { return null; }
+                get { return new List<CardHandler>() {new Sha()}; }
             }
         }
 

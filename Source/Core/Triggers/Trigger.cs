@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Sanguosha.Core.Players;
+
 namespace Sanguosha.Core.Triggers
 {
     /// <summary>
@@ -29,12 +31,14 @@ namespace Sanguosha.Core.Triggers
 
     public class Trigger
     {
+        public Player Owner { get; set; }
+
         public Trigger()
         {
             type = TriggerType.GameRule;
             conflicting = false;
             enabled = true;
-            priority = 0.0;
+            priority = 0;
         }
 
         TriggerType type;
@@ -68,13 +72,13 @@ namespace Sanguosha.Core.Triggers
             set { enabled = value; }
         }
 
-        double priority;
+        int priority;
         /// <summary>
         /// Priority of trigger invokation. Greater value means higher priority. When
         /// there are multiple triggers of the same priority. They will be executed in
         /// the order of their registration.
         /// </summary>
-        public double Priority
+        public int Priority
         {
             get { return priority; }
             set { priority = value; }

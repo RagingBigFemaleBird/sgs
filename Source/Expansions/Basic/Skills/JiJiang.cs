@@ -113,9 +113,9 @@ namespace Sanguosha.Expansions.Basic.Skills
             return true;
         }
 
-        public override CardHandler PossibleResult
+        public override List<CardHandler> PossibleResults
         {
-            get { return null; }
+            get { return new List<CardHandler>() { new Sha() }; }
         }
     }
 }

@@ -22,7 +22,6 @@ namespace Sanguosha.Expansions.Basic.Skills
     {
         class FanKuiTrigger : Trigger
         {
-            public Player Owner { get; set; }
             public class FanKuiVerifier : ICardChoiceVerifier
             {
 

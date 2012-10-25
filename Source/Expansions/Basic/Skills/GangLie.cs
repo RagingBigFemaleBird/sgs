@@ -22,7 +22,6 @@ namespace Sanguosha.Expansions.Basic.Skills
     {
         class GangLieTrigger : Trigger
         {
-            public Player Owner { get; set; }
             public class GangLieVerifier : ICardUsageVerifier
             {
                 public UiHelper Helper { get { return new UiHelper(); } }

@@ -55,10 +55,7 @@ namespace Sanguosha.Core.Skills
 
         public Players.Player Owner { get; set; }
 
+        public virtual List<CardHandler> PossibleResults { get { return null; } }
 
-        /// <summary>
-        /// 卡牌转换技能可以转换成的卡牌类型。
-        /// </summary>
-        public abstract CardHandler PossibleResult { get; }
     }
 }

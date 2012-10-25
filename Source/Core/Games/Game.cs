@@ -313,24 +313,90 @@ namespace Sanguosha.Core.Games
             }
         }
 
+        private void EmitTriggers(GameEvent e, List<Trigger> triggers, List<GameEventArgs> param)
+        {
+            int i = 0;
+            triggers.Sort((a, b) =>
+            {
+                int result2 = a.Type.CompareTo(b.Type);
+                if (result2 != 0)
+                {
+                    return result2;
+                }
+                int result = a.Priority.CompareTo(b.Priority);
+                if (result != 0)
+                {
+                    return result;
+                }
+                Player p = NextPlayer(currentPlayer);
+                int result3 = 0; ;
+                if (a.Owner != b.Owner)
+                {
+                    while (p != currentPlayer)
+                    {
+                        if (p == a.Owner)
+                        {
+                            result3 = 1;
+                            break;
+                        }
+                        if (p == b.Owner)
+                        {
+                            result3 = -1;
+                            break;
+                        }
+                        p = NextPlayer(p);
+                    }
+                }
+                return result3;
+            });
+            foreach (var t in triggers)
+            {
+                t.Run(e, param[i]);
+            }
+        }
+
+
         /// <summary>
         /// Emit a game event to invoke associated triggers.
         /// </summary>
         /// <param name="gameEvent">Game event to be emitted.</param>
         /// <param name="eventParam">Additional helper for triggers listening on this game event.</param>
-        public void Emit(GameEvent gameEvent, GameEventArgs eventParam)
+        public void Emit(GameEvent gameEvent, GameEventArgs eventParam, bool beforeMove = false)
         {
             if (!this.triggers.ContainsKey(gameEvent)) return;
             List<Trigger> triggers = new List<Trigger>(this.triggers[gameEvent]);
             if (triggers == null) return;
-            //todo: sort this
-            var sortedTriggers = triggers;
-            foreach (var trigger in sortedTriggers)
+            List<Trigger> triggersToRun = new List<Trigger>();
+            List<GameEventArgs> args = new List<GameEventArgs>();
+            foreach (var t in triggers)
             {
-                if (trigger.Enabled)
+                if (t.Enabled)
                 {
-                    trigger.Run(gameEvent, eventParam);
+                    triggersToRun.Add(t);
+                    args.Add(eventParam);
                 }
+            }
+            if (!atomic)
+            {
+                EmitTriggers(gameEvent, triggersToRun, args);
+            }
+            else
+            {
+                var triggerPlace = atomicTriggers;
+                if (beforeMove)
+                {
+                    triggerPlace = atomicTriggersBeforeMove;
+                }
+                if (!triggerPlace.ContainsKey(gameEvent))
+                {
+                    TriggersWithParams c = new TriggersWithParams();
+                    c.args = new List<GameEventArgs>();
+                    c.triggers = new List<Trigger>();
+                    triggerPlace.Add(gameEvent, c);
+                }
+                triggerPlace[gameEvent].triggers.AddRange(triggersToRun);
+                triggerPlace[gameEvent].args.AddRange(args);
+
             }
         }
 
@@ -373,12 +439,76 @@ namespace Sanguosha.Core.Games
             set { players = value; }
         }
 
+        private bool atomic = false;
+
+        private struct TriggersWithParams
+        {
+            public List<Trigger> triggers;
+            public List<GameEventArgs> args;
+        }
+
+        List<CardsMovement> atomicMoves;
+        Dictionary<GameEvent, TriggersWithParams> atomicTriggers;
+        Dictionary<GameEvent, TriggersWithParams> atomicTriggersBeforeMove;
+        List<UI.IGameLog> atomicLogs;
+        
+        public void EnterAtomicContext()
+        {
+            atomic = true;
+            atomicMoves = new List<CardsMovement>();
+            atomicTriggers = new Dictionary<GameEvent,TriggersWithParams>();
+            atomicLogs = new List<IGameLog>();
+            atomicTriggersBeforeMove = new Dictionary<GameEvent, TriggersWithParams>();
+        }
+
+        public void ExitAtomicContext()
+        {
+            var moves = atomicMoves;
+            var triggers = atomicTriggers;
+            atomic = false;
+            foreach (var v in atomicTriggersBeforeMove)
+            {
+                EmitTriggers(v.Key, v.Value.triggers, v.Value.args);
+            }
+            MoveCards(atomicMoves, atomicLogs);
+            foreach (var v in atomicTriggers)
+            {
+                EmitTriggers(v.Key, v.Value.triggers, v.Value.args);
+            }
+        }
+
+        private void AddAtomicMoves(List<CardsMovement> moves, List<IGameLog> logs)
+        {
+            int i = 0;
+            foreach (var m in moves)
+            {
+                CardsMovement newM = new CardsMovement();
+                newM.cards = m.cards;
+                newM.to = new DeckPlace(m.to.Player, m.to.DeckType);
+                atomicMoves.Add(newM);
+                if (logs != null)
+                {
+                    atomicLogs.Add(logs[i]);
+                }
+                else
+                {
+                    atomicLogs.Add(null);
+                }
+                i++;
+            }
+        }
+
         ///<remarks>
         ///YOU ARE NOT ALLOWED TO TRIGGER ANY EVENT ANYWHERE INSIDE THIS FUNCTION!!!!!
         ///你不可以在这个函数中触发任何事件!!!!!
         ///</remarks>
-        public void MoveCards(List<CardsMovement> moves, List<UI.IGameLog> logs)
+        public void MoveCards(List<CardsMovement> moves, List<IGameLog> logs)
         {
+            if (atomic)
+            {
+                AddAtomicMoves(moves, logs);
+                return;
+            }
             foreach (CardsMovement move in moves)
             {
                 List<Card> cards = new List<Card>(move.cards);
@@ -421,6 +551,7 @@ namespace Sanguosha.Core.Games
                     }
                     decks[card.Place].Remove(card);
                     decks[move.to].Add(card);
+                    card.HistoryPlace1 = card.Place;
                     card.Place = move.to;
                 }
             }
@@ -430,7 +561,16 @@ namespace Sanguosha.Core.Games
         {
             List<CardsMovement> moves = new List<CardsMovement>();
             moves.Add(move);
-            List<UI.IGameLog> logs = new List<IGameLog>();
+            List<UI.IGameLog> logs;
+            if (log != null)
+            {
+                logs = new List<IGameLog>();
+                logs.Add(log);
+            }
+            else
+            {
+                logs = null;
+            }
             MoveCards(moves, logs);
         }
 
@@ -718,11 +858,12 @@ namespace Sanguosha.Core.Games
                 c = decks[player, DeckType.JudgeResult][0];
                 move = new CardsMovement();
                 move.cards = new List<Card>();
+                List<Card> backup = new List<Card>(move.cards);
                 move.cards.Add(c);
                 move.to = new DeckPlace(player, DeckType.Discard);
                 PlayerAboutToDiscardCard(player, move.cards, DiscardReason.Judge);
                 MoveCards(move, null);
-                PlayerDiscardedCard(player, move.cards, DiscardReason.Judge);
+                PlayerDiscardedCard(player, backup, DiscardReason.Judge);
             }
             return args.Card as Card;
         }
@@ -808,10 +949,11 @@ namespace Sanguosha.Core.Games
                 cards.Clear();
                 cards.AddRange(r.Subcards);
             }
+            List<Card> backup = new List<Card>(m.cards);
             PlayerPlayedCard(p, result);
             PlayerAboutToDiscardCard(p, m.cards, DiscardReason.Play);
             MoveCards(m, new CardUseLog() { Source = p, Targets = null, Cards = null, Skill = skill });
-            PlayerDiscardedCard(p, m.cards, DiscardReason.Play);
+            PlayerDiscardedCard(p, backup, DiscardReason.Play);
             return true;
         }
 
@@ -834,6 +976,7 @@ namespace Sanguosha.Core.Games
 
         public void PlayerAboutToDiscardCard(Player p, List<Card> cards, DiscardReason reason)
         {
+            SyncCardsAll(cards);
             try
             {
                 GameEventArgs arg = new GameEventArgs();
@@ -841,7 +984,7 @@ namespace Sanguosha.Core.Games
                 arg.Targets = null;
                 arg.Cards = cards;
                 arg.IntArg = (int)reason;
-                Emit(GameEvent.CardsEnteringDiscardDeck, arg);
+                Emit(GameEvent.CardsEnteringDiscardDeck, arg, true);
             }
             catch (TriggerResultException)
             {
@@ -885,10 +1028,11 @@ namespace Sanguosha.Core.Games
         {
             CardsMovement move;
             move.cards = new List<Card>(cards);
+            List<Card> backup = new List<Card>(move.cards);
             move.to = new DeckPlace(null, DeckType.Discard);
             PlayerAboutToDiscardCard(p, move.cards, reason);
             MoveCards(move, null);
-            PlayerDiscardedCard(p, move.cards, reason);
+            PlayerDiscardedCard(p, backup, reason);
         }
 
         public void HandleCardTransferToHand(Player from, Player to, List<Card> cards)

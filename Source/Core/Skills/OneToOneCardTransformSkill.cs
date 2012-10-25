@@ -53,5 +53,15 @@ namespace Sanguosha.Core.Skills
                 return false;
             }
         }
+
+        /// <summary>
+        /// 卡牌转换技能可以转换成的卡牌类型。
+        /// </summary>
+        public abstract CardHandler PossibleResult { get; }
+
+        public override List<CardHandler> PossibleResults
+        {
+            get { return new List<CardHandler>() { PossibleResult }; }
+        }
     }
 }

@@ -22,7 +22,6 @@ namespace Sanguosha.Expansions.Basic.Skills
     {
         class KongChengTrigger : Trigger
         {
-            public Player Owner { get; set; }
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 Trace.Assert(eventArgs != null);

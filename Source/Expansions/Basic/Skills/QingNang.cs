@@ -86,7 +86,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             }
         }
 
-        public static readonly string QingNangUsed = "QingNangUsed";
+        private static readonly string QingNangUsed = "QingNangUsed";
 
         public override void CardRevealPolicy(Core.Players.Player p, List<Card> cards, List<Core.Players.Player> players)
         {

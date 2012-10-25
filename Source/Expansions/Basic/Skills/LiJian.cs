@@ -114,10 +114,6 @@ namespace Sanguosha.Expansions.Basic.Skills
                 return VerifierResult.Success;
             }
 
-            public override CardHandler PossibleResult
-            {
-                get { throw new NotImplementedException(); }
-            }
         }
 
         public override Core.Players.Player Owner

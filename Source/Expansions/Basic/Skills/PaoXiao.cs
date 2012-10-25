@@ -22,7 +22,6 @@ namespace Sanguosha.Expansions.Basic.Skills
     {
         class PaoXiaoTrigger : Trigger
         {
-            public Player Owner { get; set; }
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 ShaEventArgs args = (ShaEventArgs)eventArgs;
@@ -41,7 +40,6 @@ namespace Sanguosha.Expansions.Basic.Skills
 
         class PaoXiaoAlwaysShaTrigger : Trigger
         {
-            public Player Owner { get; set; }
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 if (eventArgs.Source == Owner)

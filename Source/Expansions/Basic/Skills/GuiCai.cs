@@ -21,8 +21,6 @@ namespace Sanguosha.Expansions.Basic.Skills
     {
         class GuiCaiTrigger : Trigger
         {
-            public Player Owner { get; set; }
-
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 if (Game.CurrentGame.Decks[Owner, DeckType.Hand].Count == 0)
@@ -34,15 +32,17 @@ namespace Sanguosha.Expansions.Basic.Skills
                 List<Player> players;
                 if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("GuiCai", eventArgs.Source, eventArgs.Card.Suit, eventArgs.Card.Rank), new GuiCaiVerifier(), out skill, out cards, out players))
                 {
+                    Game.CurrentGame.EnterAtomicContext();
                     List<Card> toDiscard = new List<Card>(Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult]);
                     eventArgs.Card = cards[0];
                     CardsMovement move = new CardsMovement();
                     move.cards = new List<Card>();
                     move.cards.AddRange(cards);
-                    move.to = new DeckPlace(null, DeckType.Discard);
+                    move.to = new DeckPlace(eventArgs.Source, DeckType.JudgeResult);
                     Game.CurrentGame.MoveCards(move, null);
                     Game.CurrentGame.PlayerLostCard(Owner, cards);
                     Game.CurrentGame.HandleCardDiscard(eventArgs.Source, toDiscard, DiscardReason.Judge);
+                    Game.CurrentGame.ExitAtomicContext();
                 }
             }
 

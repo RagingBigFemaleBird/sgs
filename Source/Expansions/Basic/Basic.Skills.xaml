@@ -59,6 +59,8 @@
 
     <sys:String x:Key="Skill.GuiCai.Name">鬼才</sys:String>
 
+    <sys:String x:Key="Skill.LianYing.Name">连营</sys:String>
+
     <sys:String x:Key="Skill.GangLie.Name">刚烈</sys:String>
     <sys:String x:Key="Skill.GangLie.Description">每当你受到一次伤害后，你可以进行一次判定，若结果不为红桃，则伤害来源选择一项：弃置两张手牌，或受到你对其造成的1点伤害。</sys:String>
 </ResourceDictionary>

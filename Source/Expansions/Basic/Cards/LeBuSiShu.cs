@@ -62,7 +62,6 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         private class LeBuSiShuTrigger : Trigger
         {
-            public Player Owner { get; set; }
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 if (Owner == eventArgs.Source)
