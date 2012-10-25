@@ -55,7 +55,25 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Core.csproj">
+      <Project>{31B92003-B490-4EAF-8F8E-F9B020F9B03B}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Basic\Basic.csproj">
+      <Project>{5E948FAB-938B-4E4C-BDA1-1740339273EA}</Project>
+      <Name>Basic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Battle\Battle.csproj">
+      <Project>{850AB9CB-90A0-4625-87FA-1F7CE04A5404}</Project>
+      <Name>Battle</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if not exist $(TargetDir)\Resources\Texts mkdir  $(TargetDir)\Resources\Texts
+copy $(ProjectDir)\*.xaml $(TargetDir)\Resources\Texts</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

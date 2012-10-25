@@ -11,7 +11,7 @@ using Sanguosha.Core.Heroes;
 
 namespace OverKnightFame12
 {
-    public class OverKnightFame12Expansion
+    public class OverKnightFame12Expansion : Expansion
     {
     }
 }

@@ -38,6 +38,16 @@ namespace Sanguosha.Core.Games
             set { GameEngine.expansions = value; }
         }
 
+        public static void LoadExpansion(string name, Expansion expansion)
+        {
+            expansions.Add(name, expansion);
+            foreach (var card in expansion.CardSet)
+            {
+                card.Id = cardSet.Count;
+                cardSet.Add(card);
+            }
+        }
+
         public static void LoadExpansions(string folderPath)
         {
             var files = Directory.GetFiles(folderPath);
@@ -55,12 +65,7 @@ namespace Sanguosha.Core.Games
                             var exp = Activator.CreateInstance(type) as Expansion;
                             if (exp != null)
                             {
-                                expansions.Add(type.FullName, exp);
-                                foreach (var card in exp.CardSet)
-                                {
-                                    card.Id = cardSet.Count;
-                                    cardSet.Add(card);
-                                }
+                                LoadExpansion(type.FullName, exp);                                
                             }
                         }
                     }
