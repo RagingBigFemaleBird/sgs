@@ -57,7 +57,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Battle.System.xaml">
+    <None Include="Battle.Game.xaml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>

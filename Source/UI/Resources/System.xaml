@@ -4,33 +4,9 @@
     
     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
-
-    <system:String x:Key="Suit.Heart.Text">红桃</system:String>
-    <system:String x:Key="Suit.Diamond.Text">方片</system:String>
-    <system:String x:Key="Suit.Spade.Text">黑桃</system:String>
-    <system:String x:Key="Suit.Club.Text">草花</system:String>
-    <system:String x:Key="Card.Suit.Heart.SuitText">♥</system:String>
-    <system:String x:Key="Card.Suit.Diamond.SuitText">♦</system:String>
-    <system:String x:Key="Card.Suit.Spade.SuitText">♠</system:String>
-    <system:String x:Key="Card.Suit.Club.SuitText">♣</system:String>
-    <SolidColorBrush x:Key="Card.Suit.Heart.SuitBrush" Color="Red"/>
-    <SolidColorBrush x:Key="Card.Suit.Diamond.SuitBrush" Color="Red"/>
-    <SolidColorBrush x:Key="Card.Suit.Spade.SuitBrush" Color="#FF999999"/>
-    <SolidColorBrush x:Key="Card.Suit.Club.SuitBrush" Color="#FF999999"/>
-
-    <!--
-    Define card's default appearance this way:
-    <BitmapImage x:Key="Card.Sha.Image.Normal">Images/Cards/Normal/Sha.jpg</BitmapImage>
-    -->
     <BitmapImage x:Key="Card.Suit.Heart.Image.Normal">Images/Cards/Suit/heart.png</BitmapImage>
     <BitmapImage x:Key="Card.Suit.Spade.Image.Normal">Images/Cards/Suit/spade.png</BitmapImage>
     <BitmapImage x:Key="Card.Suit.Club.Image.Normal">Images/Cards/Suit/club.png</BitmapImage>
     <BitmapImage x:Key="Card.Suit.Diamond.Image.Normal">Images/Cards/Suit/diamond.png</BitmapImage>
-    
-    <system:String x:Key="Allegiance.Shu.Name">蜀</system:String>
-    <system:String x:Key="Allegiance.Wei.Name">魏</system:String>
-    <system:String x:Key="Allegiance.Wu.Name">吴</system:String>
-    <system:String x:Key="Allegiance.Qun.Name">群</system:String>
-    <system:String x:Key="Allegiance.Shen.Name">神</system:String>
 
 </ResourceDictionary>
