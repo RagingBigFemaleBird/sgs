@@ -35,17 +35,20 @@ namespace Sanguosha.Expansions.Basic.Cards
         public override void Process(Player source, List<Player> dests, ICard c)
         {
             Trace.Assert(dests == null || dests.Count == 0);
-            Player current = source;
             SingleCardUsageVerifier v1 = responseCardVerifier;
-            List<Player> sourceList = new List<Player>();
-            sourceList.Add(source);
-            current = Game.CurrentGame.NextPlayer(current);
-            do
+            List<Player> toProcess = new List<Player>(Game.CurrentGame.Players);
+            toProcess.Remove(source);
+            Game.CurrentGame.SortByOrderOfComputation(source, toProcess);
+            foreach (var player in toProcess)
             {
-                if (!PlayerIsCardTargetCheck(source, ref current, c))
+                Player current = player;
+                Player src = source;
+                if (!PlayerIsCardTargetCheck(ref src, ref current, c))
                 {
                     continue;
                 }
+                List<Player> sourceList = new List<Player>();
+                sourceList.Add(src);
                 GameEventArgs args = new GameEventArgs();
                 args.Source = current;
                 args.Targets = null;
@@ -69,11 +72,11 @@ namespace Sanguosha.Expansions.Basic.Cards
                     ISkill skill;
                     List<Player> p;
                     List<Card> cards;
-                    if (!ui.AskForCardUsage(new CardUsagePrompt(UsagePromptString, source),
+                    if (!ui.AskForCardUsage(new CardUsagePrompt(UsagePromptString, src),
                                                           v1, out skill, out cards, out p))
                     {
                         Trace.TraceInformation("Player {0} Invalid answer", current);
-                        Game.CurrentGame.DoDamage(source, current, 1, DamageElement.None, c);
+                        Game.CurrentGame.DoDamage(src, current, 1, DamageElement.None, c);
                     }
                     else
                     {
@@ -85,9 +88,8 @@ namespace Sanguosha.Expansions.Basic.Cards
                     }
                     break;
                 }
-                current = Game.CurrentGame.NextPlayer(current);
 
-            } while (current != source);
+            }
         }
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)

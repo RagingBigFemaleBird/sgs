@@ -47,7 +47,7 @@ namespace Sanguosha.Core.UI
                 {
                     var commonResult = from type1 in AcceptableCardType join type2 in transformSkill.PossibleResults
                                        on type1 equals type2 select type1;
-                    if (commonResult.Count() > 0)
+                    if (commonResult.Count() == 0)
                     {
                         return SlowVerify(skill, cards, players);
                     }
@@ -83,7 +83,8 @@ namespace Sanguosha.Core.UI
                 {
                     tryList.AddRange(cards);
                 }
-                foreach (Card c in (Game.CurrentGame.Decks[player, DeckType.Hand].Concat(Game.CurrentGame.Decks[player, DeckType.Equipment])))
+                var cardsToTry = new List<Card>(Game.CurrentGame.Decks[player, DeckType.Hand].Concat(Game.CurrentGame.Decks[player, DeckType.Equipment]));
+                foreach (Card c in cardsToTry)
                 {
                     tryList.Add(c);
                     if (FastVerify(skill, tryList, players) != VerifierResult.Fail)

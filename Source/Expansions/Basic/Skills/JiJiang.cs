@@ -17,7 +17,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// <summary>
     /// 激将―主公技，当你需要使用或打出一张【杀】时，你可令其他蜀势力角色打出一张【杀】(视为由你使用或打出)。
     /// </summary>
-    class JiJiang : CardTransformSkill
+    public class JiJiang : CardTransformSkill
     {
         public override UiHelper Helper { get { return new UiHelper() { hasNoConfirmation = true }; } }
         public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
@@ -27,17 +27,19 @@ namespace Sanguosha.Expansions.Basic.Skills
             {
                 return VerifierResult.Fail;
             }
-            Player player = Owner;
-            do
+            List<Player> toProcess = new List<Player>(Game.CurrentGame.Players);
+            toProcess.Remove(Owner);
+            bool noShuHero = true;
+            foreach (var player in toProcess)
             {
-                player = Game.CurrentGame.NextPlayer(player);
                 if (player.Hero.Allegiance == Core.Heroes.Allegiance.Shu)
                 {
+                    noShuHero = false;
                     break;
                 }
-            } while (player != Owner);
+            };
 
-            if (player == Owner)
+            if (noShuHero)
             {
                 return VerifierResult.Fail;
             }
@@ -57,10 +59,12 @@ namespace Sanguosha.Expansions.Basic.Skills
 
         protected override bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets)
         {
-            Player player = Owner;
             ICard result = null;
-            player = Game.CurrentGame.NextPlayer(player);
-            do
+            List<Player> toProcess = new List<Player>(Game.CurrentGame.Players);
+            toProcess.Remove(Owner);
+            Game.CurrentGame.SortByOrderOfComputation(Owner, toProcess);
+            bool noAnswer = true;
+            foreach (var player in toProcess)
             {
                 if (player.Hero.Allegiance == Core.Heroes.Allegiance.Shu)
                 {
@@ -81,7 +85,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                         {
                             continue;
                         }
-
+                        noAnswer = false;
                         Trace.TraceInformation("Player {0} Responded JiJiang with SHA, ", player.Id);
                         break;
                     }
@@ -91,9 +95,9 @@ namespace Sanguosha.Expansions.Basic.Skills
                     }
                     break;
                 }
-            } while ((player = Game.CurrentGame.NextPlayer(player)) != Owner);
+            }
 
-            if (player == Owner)
+            if (noAnswer)
             {
                 return false;
             }

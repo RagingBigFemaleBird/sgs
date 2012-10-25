@@ -24,22 +24,25 @@ namespace Sanguosha.Expansions.Basic.Cards
         public override void Process(Player source, List<Player> dests, ICard card)
         {
             Trace.Assert(dests == null || dests.Count == 0);
-            Player current = source;
-            do
+            List<Player> toProcess = new List<Player>(Game.CurrentGame.Players);
+            Game.CurrentGame.SortByOrderOfComputation(source, toProcess);
+            foreach (Player player in toProcess)
             {
+                Player current = player;
                 GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), Cards = Game.CurrentGame.Decks[null, DeckType.Compute], IntArg = 1, IntArg2 = 0 };
                 args.Targets.Add(current);
                 if (args.Targets[0].Health >= args.Targets[0].MaxHealth)
                 {
                     continue;
                 }
-                if (!PlayerIsCardTargetCheck(source, ref current, card))
+                Player src = source;
+                if (!PlayerIsCardTargetCheck(ref src, ref current, card))
                 {
                     continue;
                 }
-                Game.CurrentGame.RecoverHealth(source, current, 1);
+                Game.CurrentGame.RecoverHealth(src, current, 1);
 
-            } while ((current = Game.CurrentGame.NextPlayer(current)) != source);
+            }
         }
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)

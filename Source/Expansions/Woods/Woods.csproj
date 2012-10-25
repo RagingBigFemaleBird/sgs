@@ -8,7 +8,7 @@
     <ProjectGuid>{6EB21E93-773A-4894-AA51-3128CCF649B7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Woods</RootNamespace>
+    <RootNamespace>Sanguosha.Expansions.Woods</RootNamespace>
     <AssemblyName>Woods</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -42,6 +42,20 @@
   <ItemGroup>
     <Compile Include="WoodsExpansion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Core.csproj">
+      <Project>{31B92003-B490-4EAF-8F8E-F9B020F9B03B}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Basic\Basic.csproj">
+      <Project>{5E948FAB-938B-4E4C-BDA1-1740339273EA}</Project>
+      <Name>Basic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Battle\Battle.csproj">
+      <Project>{850AB9CB-90A0-4625-87FA-1F7CE04A5404}</Project>
+      <Name>Battle</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

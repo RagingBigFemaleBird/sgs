@@ -33,7 +33,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected override bool ShunChaiAdditionalCheck(Player source, Player dest)
         {
-            // todo: 邓艾
+            // todo: 黄月英 trigger
             if (Game.CurrentGame.DistanceTo(source, dest) > 1)
             {
                 return false;

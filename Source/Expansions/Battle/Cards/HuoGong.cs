@@ -100,6 +100,11 @@ namespace Sanguosha.Expansions.Battle.Cards
             {
                 Trace.TraceInformation("Player {0} Invalid answer", dest);
                 cards = new List<Card>();
+                if (Game.CurrentGame.Decks[dest, DeckType.Hand].Count == 0)
+                {
+                    Trace.TraceError("HuoGong Cannot Show Card! This should NOT have happened!");
+                    return;
+                }
                 cards.Add(Game.CurrentGame.Decks[dest, DeckType.Hand][0]);
             }
             Trace.TraceInformation("Player {0} HuoGong showed {1}, ", dest.Id, cards[0].Suit);

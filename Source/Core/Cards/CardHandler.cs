@@ -41,6 +41,7 @@ namespace Sanguosha.Core.Cards
                 if (!deckBackup.ContainsKey(c.Place))
                 {
                     deckBackup.Add(c.Place, new List<Card>(Game.CurrentGame.Decks[c.Place]));
+                    Game.CurrentGame.Decks[c.Place].Remove(c);
                 }
             }
             cardsOnHold = cards;
@@ -62,13 +63,14 @@ namespace Sanguosha.Core.Cards
             }
             foreach (DeckPlace p in deckBackup.Keys)
             {
-                Game.CurrentGame.Decks[p] = new List<Card>(deckBackup[p]);
+                Game.CurrentGame.Decks[p].Clear();
+                Game.CurrentGame.Decks[p].AddRange(deckBackup[p]);
             }
             deckBackup = null;
             cardsOnHold = null;
         }
 
-        public bool PlayerIsCardTargetCheck(Player source, ref Player dest, ICard card)
+        public bool PlayerIsCardTargetCheck(ref Player source, ref Player dest, ICard card)
         {
             while (true)
             {
@@ -93,6 +95,7 @@ namespace Sanguosha.Core.Cards
                     }
                     else if (e.Status == TriggerResult.Retry)
                     {
+                        source = arg.Source;
                         dest = arg.Targets[0];
                         continue;
                     }
@@ -109,9 +112,10 @@ namespace Sanguosha.Core.Cards
             foreach (var player in dests)
             {
                 Player p = player;
-                if (PlayerIsCardTargetCheck(source, ref p, card)) 
+                Player src = source;
+                if (PlayerIsCardTargetCheck(ref src, ref p, card)) 
                 {
-                    Process(source, p, card);
+                    Process(src, p, card);
                 }
             }
         }
@@ -142,7 +146,6 @@ namespace Sanguosha.Core.Cards
             if (skill != null)
             {
                 CompositeCard c;
-                // todo: check owner
                 if (skill is CardTransformSkill)
                 {
                     CardTransformSkill s = skill as CardTransformSkill;

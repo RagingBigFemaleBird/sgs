@@ -13,7 +13,7 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Exceptions;
 
-namespace Sanguosha.Expansions.Fire.Skills
+namespace Sanguosha.Expansions.OverKnightFame11.Skills
 {
     /// <summary>
     /// 落英-当其他角色的梅花牌，因弃牌或判定而进入弃牌堆时，你可以获得之。

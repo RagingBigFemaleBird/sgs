@@ -24,6 +24,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         public override void Process(Player source, List<Player> dests, ICard card)
         {
             source[NumberOfShaUsed]++;
+            Game.CurrentGame.SortByOrderOfComputation(source, dests);
             base.Process(source, dests, card);
         }
 
@@ -138,12 +139,18 @@ namespace Sanguosha.Expansions.Basic.Cards
             Game.CurrentGame.Emit(PlayerShaTargetEnd, args);
         }
 
+        public VerifierResult ShaVerifyForJieDaoShaRenOnly(Player source, ICard card, List<Player> targets)
+        {
+            return Verify(source, card, targets);
+        }
+
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
         {
             if (targets != null && targets.Count > 0)
             {
                 ShaEventArgs args = new ShaEventArgs();
                 args.Source = source;
+                args.Card = card;
                 args.RangeApproval = new List<bool>(targets.Count);
                 args.TargetApproval = new List<bool>(targets.Count);
                 foreach (Player t in targets)

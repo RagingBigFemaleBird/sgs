@@ -32,6 +32,7 @@ namespace Sanguosha.UI.Main
         }
 
         int MainSeat = 0;
+        const int numberOfHeros = 5;
         private void InitGame()
         {
             _game = new RoleGame();
@@ -48,7 +49,7 @@ namespace Sanguosha.UI.Main
             }
 #if NETWORKING
             ClientNetworkUiProxy activeClientProxy = null;
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < numberOfHeros; i++)
 #else
             for (int i = 0; i < 8; i++)
 #endif
