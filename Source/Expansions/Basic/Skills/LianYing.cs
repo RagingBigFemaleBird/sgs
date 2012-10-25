@@ -16,43 +16,34 @@ using Sanguosha.Core.Exceptions;
 namespace Sanguosha.Expansions.Basic.Skills
 {
     /// <summary>
-    /// 集智-当你使用一张非延时类锦囊牌时，你可以摸一张牌。
+    /// 连营-当你失去最后一张手牌时，你可以摸一张牌。
     /// </summary>
-    public class JiZhi : PassiveSkill
+    public class LianYing : PassiveSkill
     {
-        class JiZhiTrigger : Trigger
+        class LianYingTrigger : Trigger
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                Trace.Assert(eventArgs != null);
-                if (eventArgs.Source != Owner)
+                if (eventArgs.Source == null || eventArgs.Source != Owner || Game.CurrentGame.Decks[Owner, DeckType.Hand].Count > 0)
                 {
                     return;
                 }
-                if (CardCategoryManager.IsCardCategory(eventArgs.Card.Type.Category, CardCategory.ImmediateTool))
+                int answer = 0;
+                if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("LianYing"), Prompt.YesNoChoices, out answer) && answer == 0)
                 {
                     Game.CurrentGame.DrawCards(Owner, 1);
                 }
-                return;
             }
-            public JiZhiTrigger(Player p)
+
+            public LianYingTrigger(Player p)
             {
                 Owner = p;
             }
         }
 
-        Trigger theTrigger;
         protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
         {
-            theTrigger = new JiZhiTrigger(owner);
-            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerUsedCard, theTrigger);
+            Game.CurrentGame.RegisterTrigger(GameEvent.CardsLost, new LianYingTrigger(owner));
         }
-
-        protected override void UninstallTriggers(Sanguosha.Core.Players.Player owner)
-        {
-            Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerUsedCard, theTrigger);
-            theTrigger = null;
-        }
-
     }
 }

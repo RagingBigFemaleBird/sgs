@@ -22,7 +22,6 @@ namespace Sanguosha.Expansions.Fire.Skills
     {
         class JiLeiTrigger : Trigger
         {
-            public Player Owner { get; set; }
             public class FanKuiVerifier : ICardChoiceVerifier
             {
 
@@ -110,7 +109,6 @@ namespace Sanguosha.Expansions.Fire.Skills
                 }
             }
 
-            public Player Owner { get; set; }
             int type;
             public JiLeiImplementation(Player p, int type)
             {
@@ -132,7 +130,6 @@ namespace Sanguosha.Expansions.Fire.Skills
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], this);
             }
 
-            public Player Owner { get; set; }
             JiLeiImplementation theTrigger;
             public JiLeiRemoval(Player p, JiLeiImplementation t)
             {

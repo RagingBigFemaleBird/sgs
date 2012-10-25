@@ -62,17 +62,18 @@ namespace Sanguosha.Core.Cards
             {
                 if (CardCategoryManager.IsCardCategory(c.Type.Category, this.Category))
                 {
-                    CardsMovement detachMove = new CardsMovement();
-                    detachMove.cards = new List<Card>();
-                    detachMove.cards.Add(c);
-                    detachMove.to = new DeckPlace(null, DeckType.Discard);
-
-                    List<CardsMovement> l = new List<CardsMovement>();
-                    l.Add(detachMove);
-                    l.Add(attachMove);
                     Equipment e = (Equipment)c.Type;
                     Trace.Assert(e != null);
-                    Game.CurrentGame.MoveCards(l, null);
+                    List<Card> cardsLost = new List<Card>();
+                    List<Card> cardsToDiscard = new List<Card>();
+                    cardsToDiscard.Add(c);
+                    cardsLost.Add(c);
+                    cardsLost.Add(card);
+                    Game.CurrentGame.EnterAtomicContext();
+                    Game.CurrentGame.PlayerLostCard(p, cardsLost);
+                    Game.CurrentGame.HandleCardDiscard(p, cardsToDiscard);
+                    Game.CurrentGame.MoveCards(attachMove, null);
+                    Game.CurrentGame.ExitAtomicContext();
                     return;
                 }
             }

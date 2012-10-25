@@ -24,7 +24,10 @@ namespace Sanguosha.Expansions.Basic.Cards
         public override void Process(Player source, List<Player> dests, ICard card)
         {
             Trace.Assert(dests == null || dests.Count == 0);
-            Game.CurrentGame.DrawCards(source, 2);
+            if (PlayerIsCardTargetCheck(source, ref source, card))
+            {
+                Game.CurrentGame.DrawCards(source, 2);
+            }
         }
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)

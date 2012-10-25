@@ -42,7 +42,6 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         class CiXiongShuangGuJianTrigger : Trigger
         {
-            public Player Owner { get; set; }
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 Trace.Assert(eventArgs.Targets.Count == 1);

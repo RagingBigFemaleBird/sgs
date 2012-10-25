@@ -326,6 +326,9 @@ namespace Sanguosha.Core.Games
                 bool runTrigger = c.Type.NotReforging(eventArgs.Source, eventArgs.Skill, m.cards, eventArgs.Targets);
 
                 Game.CurrentGame.MoveCards(m, new CardUseLog() { Source = eventArgs.Source, Targets = eventArgs.Targets, Skill = eventArgs.Skill, Cards = eventArgs.Cards });
+                Game.CurrentGame.PlayerLostCard(eventArgs.Source, eventArgs.Cards);
+                Player savedSource = eventArgs.Source;
+
                 if (runTrigger)
                 {
                     try
@@ -346,7 +349,9 @@ namespace Sanguosha.Core.Games
 
                 m.cards = Game.CurrentGame.Decks[DeckType.Compute];
                 m.to = new DeckPlace(null, DeckType.Discard);
+                Game.CurrentGame.PlayerAboutToDiscardCard(savedSource, m.cards, DiscardReason.Use);
                 Game.CurrentGame.MoveCards(m, null);
+                Game.CurrentGame.PlayerDiscardedCard(savedSource, m.cards, DiscardReason.Use);
                 Trace.Assert(Game.CurrentGame.Decks[DeckType.Compute].Count == 0);
                 Game.CurrentGame.Decks[DeckType.Compute] = new List<Card>(computeBackup);
             }
@@ -356,12 +361,13 @@ namespace Sanguosha.Core.Games
         {
             List<CardsMovement> moves = new List<CardsMovement>();
             // Deal everyone 4 cards
+            // todo: for testing
             foreach (Player player in game.Players)
             {
                 CardsMovement move = new CardsMovement();
                 move.cards = new List<Card>();
                 move.to = new DeckPlace(player, DeckType.Hand);
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 8; i++)
                 {
                     game.SyncCard(player, game.PeekCard(0));
                     Card c = game.DrawCard();

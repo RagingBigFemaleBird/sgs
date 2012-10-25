@@ -4,5 +4,6 @@
     <sys:String x:Key="Hero.WoLong.Name">诸葛亮</sys:String>
     <sys:String x:Key="Skill.HuoJi.Name">火计</sys:String>
     <sys:String x:Key="Skill.KanPo.Name">看破</sys:String>
+    <sys:String x:Key="Skill.LuoYing.Name">落英</sys:String>
     <sys:String x:Key="Skill.JiLei.Name">鸡肋</sys:String>
 </ResourceDictionary>

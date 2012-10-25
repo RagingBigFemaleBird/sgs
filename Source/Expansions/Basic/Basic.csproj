@@ -75,6 +75,7 @@
     <Compile Include="Skills\JiZhi.cs" />
     <Compile Include="Skills\KongCheng.cs" />
     <Compile Include="Skills\KuRou.cs" />
+    <Compile Include="Skills\LianYing.cs" />
     <Compile Include="Skills\LiJian.cs" />
     <Compile Include="Skills\LongDan.cs" />
     <Compile Include="Skills\PaoXiao.cs" />

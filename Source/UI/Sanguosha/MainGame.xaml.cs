@@ -56,6 +56,14 @@ namespace Sanguosha.UI.Main
                 Player player = new Player();
                 player.Id = i;
                 _game.Players.Add(player);
+                if (i == 1)
+                {
+                    player.IsFemale = true;
+                }
+                else
+                {
+                    player.IsMale = true;
+                }
             }
 #if NETWORKING
             _game.GameClient = client;

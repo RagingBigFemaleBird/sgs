@@ -46,7 +46,6 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         class ZhuGeLianNuTrigger : Trigger
         {
-            public Player Owner { get; set; }
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 ShaEventArgs args = (ShaEventArgs)eventArgs;
@@ -65,7 +64,6 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         class ZhuGeLianNuAlwaysShaTrigger : Trigger
         {
-            public Player Owner { get; set; }
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 if (eventArgs.Source == Owner)

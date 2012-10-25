@@ -17,5 +17,6 @@
     <sys:String x:Key="MultiChoice.Prompt.FanKui">是否对{0}发动反馈？</sys:String>
     <sys:String x:Key="CardChoice.Prompt.FanJian">反间</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.FanJian">{0}对你发动了反间，请选择一种花色</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.LianYing">是否发动联营？</sys:String>
     <sys:String x:Key="CardUsage.Prompt.GuiCai">{0}判定结果是{1}{2}，若要发动鬼才，请选择一张手牌代替之，或点取消不发动</sys:String>
 </ResourceDictionary>
