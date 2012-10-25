@@ -143,16 +143,16 @@ namespace Sanguosha.Expansions.Basic
 
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("Test", true, Allegiance.Shu, 4, new RenDe(), new PaoXiao(), new JiJiang(), new WuSheng(), new FanJian(), new QingNang(), new JiJiu(), new LiJian(), new KongCheng(), new FanKui(), new ZhiHeng(), new JiZhi(), new KuRou()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("Test2", true, Allegiance.Shu, 4, new PaoXiao(), new FanKui(), new LiJian(), new QianXun(), new QingGuo(), new GangLie(), new GuiCai(), new LianYing(), new RenDe()))));
-            /*
-                        CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("LiuBei", true, Allegiance.Shu, 4, new RenDe(), new JiJiang()))));
-                        CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhangFei", true, Allegiance.Shu, 4, new PaoXiao()))));
-                        CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhaoYun", true, Allegiance.Shu, 4, new LongDan()))));
-                        CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("GuanYu", true, Allegiance.Shu, 4, new WuSheng()))));
-                        CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("DaQiao", false, Allegiance.Wu, 3, new GuoSe()))));
-                        CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("GanNing", true, Allegiance.Wu, 4, new QiXi()))));
-                        CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhenJi", false, Allegiance.Wei, 3, new QingGuo()))));
-                        CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HuaTuo", true, Allegiance.Qun, 3, new QingNang(), new JiJiu()))));
-            */
+            
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("LiuBei", true, Allegiance.Shu, 4, new RenDe(), new JiJiang()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhangFei", true, Allegiance.Shu, 4, new PaoXiao()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhaoYun", true, Allegiance.Shu, 4, new LongDan()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("GuanYu", true, Allegiance.Shu, 4, new WuSheng()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("DaQiao", false, Allegiance.Wu, 3, new GuoSe()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("GanNing", true, Allegiance.Wu, 4, new QiXi()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhenJi", false, Allegiance.Wei, 3, new QingGuo()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HuaTuo", true, Allegiance.Qun, 3, new QingNang(), new JiJiu()))));
+            
             TriggerRegistration = new List<DelayedTriggerRegistration>();
             TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.PlayerIsCardTarget, trigger = new WuXieKeJiTrigger() });
         }

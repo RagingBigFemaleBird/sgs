@@ -24,14 +24,6 @@ namespace Sanguosha
             {
                 var player = new Player();
                 player.Id = i;
-                if (i == 1)
-                {
-                    player.IsFemale = true;
-                }
-                else
-                {
-                    player.IsMale = true;
-                }
                 game.Players.Add(player);
                 IUiProxy proxy;
                 proxy = new ServerNetworkUiProxy(server, i);
