@@ -19,6 +19,11 @@ namespace Sanguosha.Core.Games
 
     public abstract class Expansion
     {
+        public Expansion()
+        {
+            CardSet = new List<Card>();
+        }
+
         List<Card> cardSet;
         
         /// <summary>

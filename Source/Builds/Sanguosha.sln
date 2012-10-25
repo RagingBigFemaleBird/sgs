@@ -37,7 +37,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OverKnightFame11", "..\Expa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OverKnightFame12", "..\Expansions\OverKnightFame12\OverKnightFame12.csproj", "{649C840F-165F-4FAD-A69F-531A2956AC79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{942E3559-4E91-4C17-ABB8-BF70BCA4A205}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "..\Expansions\Test\Test.csproj", "{942E3559-4E91-4C17-ABB8-BF70BCA4A205}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
