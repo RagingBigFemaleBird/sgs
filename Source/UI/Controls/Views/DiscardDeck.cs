@@ -83,56 +83,76 @@ namespace Sanguosha.UI.Controls
             DeckType from = cards[0].Card.Place.DeckType;
             Canvas canvas = cards[0].Parent as Canvas;
             Trace.Assert(canvas != null);
-            
-            Point rightMost;
-            rightMost = TranslatePoint(
-                new Point(this.ActualWidth / 2 - cards[0].ActualWidth / 2, 
-                this.ActualHeight / 2 - cards[0].ActualHeight / 2), canvas);
-            if (Cards.Count > 0)
+                       
+            // Do not show cards that move from compute area to discard area
+            // or from judge result area to discard aresa
+            if (from != DeckType.Compute && from != DeckType.JudgeResult)
             {
-                CardView lastCard = Cards.Last();
-                rightMost = lastCard.TranslatePoint(new Point(lastCard.ActualWidth, 0), canvas);
+                // If the card is from dealing area to discard/judge result area,
+                // do "append" animation rather than "move" animation
+                if (from == DeckType.Dealing)
+                {
+                    // Compute the position that the cards should appear
+                    Point rightMost;
+                    rightMost = TranslatePoint(
+                        new Point(this.ActualWidth / 2 - cards[0].ActualWidth / 2,
+                        this.ActualHeight / 2 - cards[0].ActualHeight / 2), canvas);
+                    if (Cards.Count > 0)
+                    {
+                        CardView lastCard = Cards.Last();
+                        rightMost = lastCard.TranslatePoint(new Point(lastCard.ActualWidth * 3, 0), canvas);
+                    }
+
+                    foreach (var card in cards)
+                    {
+                        card.Opacity = 0d;
+                        card.CardOpacity = 1d;
+                        card.CardModel.IsFaded = false;
+                        card.SetValue(Canvas.LeftProperty, rightMost.X);
+                        card.SetValue(Canvas.TopProperty, rightMost.Y);
+                        rightMost.X += card.ActualWidth;
+                        Cards.Add(card);
+                    }
+                    RearrangeCards(0.3d);
+                }
+                else // from hand/equip to discard area.
+                {
+                    AddCards(cards, 0.3d);
+                }
             }
 
-            if (from == DeckType.Compute)
+            
+            
+            // When a card enters discard area, every thing in the deck should fade out (but
+            // not disappear).
+            if (deck == DeckType.Discard)
             {
                 foreach (var card in cards)
                 {
-                    canvas.Children.Remove(card);
+                    if (canvas.Children.Contains(card))
+                    {
+                        canvas.Children.Remove(card);
+                    }
                 }
                 foreach (var card in Cards)
                 {
                     MarkClearance(card);
                 }
             }
-            else if (from == DeckType.Dealing || from == DeckType.JudgeResult)
-            {
-                foreach (var card in cards)
-                {
-                    card.Opacity = 0d;
-                    card.CardOpacity = 1d;
-                    card.CardModel.IsFaded = false;
-                    card.SetValue(Canvas.LeftProperty, rightMost.X);
-                    card.SetValue(Canvas.TopProperty, rightMost.Y);
-                    rightMost.X += card.ActualWidth;
-                    Cards.Add(card);
-                }
-                RearrangeCards(0.3d);
-            }
             else
             {
-                AddCards(cards, 0.3d);
-            }
+                // Card just entered compute area should hold until they enter discard area.
+                foreach (var card in cards)
+                {
+                    card.DiscardDeckClearTimeStamp = int.MaxValue;
+                }
 
-            foreach (var card in cards)
-            {
-                card.DiscardDeckClearTimeStamp = int.MaxValue;
-            }
-
-            for (int i = 0; i < numRemoved; i++)
-            {
-                MarkClearance(Cards[i]);
-            }
+                // When there are too many cards in the deck, remove the dated ones.
+                for (int i = 0; i < numRemoved; i++)
+                {
+                    MarkClearance(Cards[i]);
+                }
+            }           
         }
 
         public IList<CardView> RemoveCards(DeckType deck, IList<Card> cards)

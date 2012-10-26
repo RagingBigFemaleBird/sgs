@@ -6,14 +6,17 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d"
 	x:Class="Sanguosha.UI.Controls.CardChoiceBox"
-	x:Name="UserControl">
+	x:Name="UserControl"
+    Template="{DynamicResource PromptBox}">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="PromptBox.xaml"/>
                 <ResourceDictionary Source="../Common.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+        
             <DataTemplate x:Key="CardStackTemplate">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -36,93 +39,20 @@
             </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
-	<Grid x:Name="LayoutRoot">
-		<Grid x:Name="gridBackground">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="38"/>
-				<ColumnDefinition Width="1*"/>
-				<ColumnDefinition Width="38"/>
-			</Grid.ColumnDefinitions>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="44"/>
-				<RowDefinition Height="1*"/>
-				<RowDefinition Height="47"/>
-			</Grid.RowDefinitions>
-			<Rectangle StrokeThickness="0">
-				<Rectangle.Fill>
-					<ImageBrush ImageSource="Resources/CardSelectionBox/topLeft.png" Viewport="0,0,39,46" ViewportUnits="Absolute" Stretch="None"/>
-				</Rectangle.Fill>
-			</Rectangle>
-			<Rectangle Grid.Column="1" StrokeThickness="0">
-				<Rectangle.Fill>
-					<ImageBrush ImageSource="Resources/CardSelectionBox/topMiddle.png" Viewport="0,0,28,46" ViewportUnits="Absolute" Stretch="None" TileMode="FlipX"/>
-				</Rectangle.Fill>
-			</Rectangle>
-			<Rectangle Grid.Column="2" StrokeThickness="0">
-				<Rectangle.Fill>
-					<ImageBrush Stretch="None" ImageSource="Resources/CardSelectionBox/topRight.png" Viewport="0,0,39,46" ViewportUnits="Absolute"/>
-				</Rectangle.Fill>
-			</Rectangle>
-			<Rectangle Grid.Row="1" StrokeThickness="0">
-				<Rectangle.Fill>
-					<ImageBrush Stretch="None" TileMode="FlipY" ImageSource="Resources/CardSelectionBox/leftMiddle.png" Viewport="0,0,39,22" ViewportUnits="Absolute" />
-				</Rectangle.Fill>
-			</Rectangle>
-			<Rectangle Grid.Column="1" Grid.Row="1" StrokeThickness="0">
-				<Rectangle.Fill>
-					<ImageBrush Stretch="None" TileMode="FlipXY" ImageSource="Resources/CardSelectionBox/middle.png" Viewport="0,0,48,48" ViewportUnits="Absolute" />
-				</Rectangle.Fill>
-			</Rectangle>
-			<Rectangle Grid.Column="2" Grid.Row="1" StrokeThickness="0">
-				<Rectangle.Fill>
-					<ImageBrush ImageSource="Resources/CardSelectionBox/rightMiddle.png" Stretch="None" TileMode="FlipY" Viewport="0,0,39,22" ViewportUnits="Absolute" />
-				</Rectangle.Fill>
-			</Rectangle>
-			<Rectangle Grid.Row="2" StrokeThickness="0">
-				<Rectangle.Fill>
-					<ImageBrush ImageSource="Resources/CardSelectionBox/bottomLeft.png" Viewport="0,0,39,47" ViewportUnits="Absolute" />
-				</Rectangle.Fill>
-			</Rectangle>
-			<Rectangle Grid.Column="1" Grid.Row="2" StrokeThickness="0">
-				<Rectangle.Fill>
-					<ImageBrush ImageSource="Resources/CardSelectionBox/bottomMiddle.png" Viewport="0,0,47,47" ViewportUnits="Absolute" Stretch="None" TileMode="FlipX"/>
-				</Rectangle.Fill>
-			</Rectangle>
-			<Rectangle Grid.Column="2" Grid.Row="2" StrokeThickness="0">
-				<Rectangle.Fill>
-					<ImageBrush ImageSource="Resources/CardSelectionBox/bottomRight.png" Viewport="0,0,39,47" ViewportUnits="Absolute" Stretch="None"/>
-				</Rectangle.Fill>
-			</Rectangle>
-			<Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Height="23">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="19"/>
-					<ColumnDefinition Width="auto" MinWidth="20"/>
-					<ColumnDefinition Width="19"/>
-				</Grid.ColumnDefinitions>
-				<Image HorizontalAlignment="Left" Grid.Column="0" Height="23" Source="Resources/CardSelectionBox/promptLeft.png" Stretch="Fill"/>
-				<Grid Grid.Column="1">
-					<Grid.Background>
-						<ImageBrush ImageSource="Resources/CardSelectionBox/promptMiddle.png"/>
-					</Grid.Background>
-					<local:OutlinedTextBlock x:Name="txtPrompt" Text="{Binding Prompt}" FontFamily="LiSu" Fill="#FFE4D5A0" VerticalAlignment="Center" FontSize="18"/>
-				</Grid>
-				<Image HorizontalAlignment="Left" Grid.Column="2" Source="Resources/CardSelectionBox/promptRight.png" Stretch="Fill" VerticalAlignment="Top"/>
-			</Grid>
-            <Grid Grid.ColumnSpan="3" Grid.RowSpan="3" HorizontalAlignment="Center" Margin="16,31,18,19" Name="grid1" VerticalAlignment="Center">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <ItemsControl ItemsSource="{Binding CardStacks}" ItemTemplate="{StaticResource CardStackTemplate}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
 
-                <ProgressBar x:Name="progressBar" Style="{StaticResource TimedProgressBarStyle}" MaxWidth="263" Height="15"  Grid.Column="0" Grid.Row="1" Margin="30,0" />
-            </Grid>
-        </Grid>		
-	</Grid>
+    <Grid Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <ItemsControl ItemsSource="{Binding CardStacks}" ItemTemplate="{StaticResource CardStackTemplate}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+
+        <ProgressBar x:Name="progressBar" Style="{StaticResource TimedProgressBarStyle}" MaxWidth="263" Height="15"  Grid.Column="0" Grid.Row="1" Margin="30,0" />
+    </Grid>
 </UserControl>

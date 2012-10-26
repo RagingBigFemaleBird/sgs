@@ -104,7 +104,9 @@
     <BitmapImage x:Key="Button.MultiChoice.Hover.Right">Buttons/multichoice/hover-right.png</BitmapImage>
     <BitmapImage x:Key="Button.MultiChoice.Down.Right">Buttons/multichoice/normal-right.png</BitmapImage>
     <BitmapImage x:Key="Button.MultiChoice.Disabled.Right">Buttons/multichoice/disabled-right.png</BitmapImage>
-    
+
+    <BitmapImage x:Key="Login.Background">System/loginBg.jpg</BitmapImage>
+
     <BitmapImage x:Key="Game.InfoPanel.Header">Game/infoPlaneHeader.png</BitmapImage>
     <BitmapImage x:Key="Game.InfoPanel.Body">Game/infoPlaneBody.png</BitmapImage>
     <BitmapImage x:Key="Game.InfoPanel.Footer">Game/infoPlaneFooter.png</BitmapImage>

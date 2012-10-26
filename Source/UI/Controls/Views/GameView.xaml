@@ -123,7 +123,7 @@
         </StackPanel>
         <Canvas x:Name="gameGlobalCanvas" Grid.RowSpan="2" Grid.ColumnSpan="2" />
         <Popup>
-        	<Grid Background="#FFE5E5E5" Height="100" Width="100"/>
+        	<local:CardChoiceBox />
         </Popup>
     </Grid>
 </UserControl>

@@ -319,6 +319,9 @@
   <ItemGroup>
     <Folder Include="obj\" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\System\loginBg.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /S /Y $(ProjectDir)*.* $(TargetDir)Resources\
