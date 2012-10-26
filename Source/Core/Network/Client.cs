@@ -54,12 +54,14 @@ namespace Sanguosha.Core.Network
                             DeckPlace place = Game.CurrentGame.Decks[null, i.deck][i.place].Place;
                             Game.CurrentGame.Decks[null, i.deck][i.place].CopyFrom(Game.CurrentGame.SlaveCardSet[i.Id]);
                             Game.CurrentGame.Decks[null, i.deck][i.place].Place = place;
+                            Game.CurrentGame.Decks[null, i.deck][i.place].Id = i.Id;
                         }
                         else
                         {
                             DeckPlace place = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].Place;
                             Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].CopyFrom(Game.CurrentGame.SlaveCardSet[i.Id]);
                             Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].Place = place;
+                            Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].Id = i.Id;
                         }
                     }
                     goto retry;

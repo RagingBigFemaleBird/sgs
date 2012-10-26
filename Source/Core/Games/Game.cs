@@ -172,62 +172,44 @@ namespace Sanguosha.Core.Games
             {
                 GameServer.Ready();
             }
-            int id = 0;
             int serial = 0;
             foreach (var g in cardSet)
             {
                 g.Id = serial;
-                if (id < players.Count && g.Type is Core.Heroes.HeroCardHandler)
-                {
-                    Core.Heroes.HeroCardHandler h = (Core.Heroes.HeroCardHandler)g.Type;
-                    Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, id);
-                    Game.CurrentGame.Players[id].Hero = h.Hero;
-                    Game.CurrentGame.Players[id].Allegiance = h.Hero.Allegiance;
-                    Game.CurrentGame.Players[id].MaxHealth = Game.CurrentGame.Players[id].Health = h.Hero.MaxHealth;
-                    if (id == 0)
-                    {
-                        Game.CurrentGame.Players[id].Role = Role.Ruler;
-                    }
-                    else if (id == 1)
-                    {
-                        Game.CurrentGame.Players[id].Role = Role.Defector;
-                    }
-                    else if (id < 4)
-                    {
-                        Game.CurrentGame.Players[id].Role = Role.Loyalist;
-                    }
-                    else
-                    {
-                        Game.CurrentGame.Players[id].Role = Role.Rebel;
-                    }
-                    id++;
-                }
                 serial++;
-                //todo: hero card go somewhere else
             }
-            if (IsSlave)
+            slaveCardSet = cardSet;
+            cardSet = new List<Card>();
+            for (int i = 0; i < slaveCardSet.Count; i++)
             {
-                slaveCardSet = cardSet;
-                cardSet = new List<Card>();
-                for (int i = 0; i < slaveCardSet.Count; i++)
+                //you are client. everything is unknown
+                if (IsSlave)
                 {
                     unknownCard = new Card();
                     unknownCard.Id = Card.UnknownCardId;
                     unknownCard.Rank = 0;
                     unknownCard.Suit = SuitType.None;
-                    unknownCard.Type = new UnknownCardHandler();
-                    cardSet.Add(unknownCard);
+                    if (slaveCardSet[i].Type is Heroes.HeroCardHandler)
+                    {
+                        unknownCard.Type = new Heroes.UnknownHeroCardHandler();
+                    }
+                    else
+                    {
+                        unknownCard.Type = new UnknownCardHandler();
+                    }
                 }
+                //you are server.
+                else
+                {
+                    unknownCard = new Card();
+                    unknownCard.CopyFrom(slaveCardSet[i]);
+                }
+                cardSet.Add(unknownCard);
             }
+
             foreach (var trig in triggersToRegister)
             {
                 RegisterTrigger(trig.key, trig.trigger);
-            }
-            // Put the whole deck in the dealing deck
-            decks[DeckType.Dealing] = cardSet.GetRange(0, cardSet.Count);
-            foreach (Card card in cardSet)
-            {
-                card.Place = new DeckPlace(null, DeckType.Dealing);
             }
 
             InitTriggers();
@@ -239,10 +221,12 @@ namespace Sanguosha.Core.Games
             {
 
             }
-            /*catch (Exception e)
+#if RELEASE
+            catch (Exception e)
             {
                 Trace.TraceError(e.StackTrace);
-            }*/
+            }
+#endif
         }
 
         /// <summary>
@@ -553,6 +537,11 @@ namespace Sanguosha.Core.Games
                     decks[move.to].Add(card);
                     card.HistoryPlace1 = card.Place;
                     card.Place = move.to;
+                    //reset card type if entering hand or discard
+                    if (!IsSlave && (move.to.DeckType == DeckType.Discard || move.to.DeckType == DeckType.Hand))
+                    {
+                        card.Type = slaveCardSet[card.Id].Type;
+                    }
                 }
             }
         }
@@ -877,9 +866,23 @@ namespace Sanguosha.Core.Games
 
         public Card Judge(Player player)
         {
-            SyncCardAll(PeekCard(0));
-            Card c = Game.CurrentGame.DrawCard();
             CardsMovement move = new CardsMovement();
+            Card c;
+            if (decks[player, DeckType.JudgeResult].Count != 0)
+            {
+                c = decks[player, DeckType.JudgeResult][0];
+                move = new CardsMovement();
+                move.cards = new List<Card>();
+                List<Card> backup = new List<Card>(move.cards);
+                move.cards.Add(c);
+                move.to = new DeckPlace(player, DeckType.Discard);
+                PlayerAboutToDiscardCard(player, move.cards, DiscardReason.Judge);
+                MoveCards(move, null);
+                PlayerDiscardedCard(player, backup, DiscardReason.Judge);
+            }
+            SyncCardAll(PeekCard(0));
+            c = Game.CurrentGame.DrawCard();
+            move = new CardsMovement();
             move.cards = new List<Card>();
             move.cards.Add(c);
             move.to = new DeckPlace(player, DeckType.JudgeResult);

@@ -39,7 +39,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OverKnightFame12", "..\Expa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "..\Expansions\Test\Test.csproj", "{942E3559-4E91-4C17-ABB8-BF70BCA4A205}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SanguoshaXBap", "SanguoshaXBap\SanguoshaXBap.csproj", "{C0058FAF-82B6-4C40-A1F6-09C874A7CA9F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SanguoshaXBap", "..\UI\SanguoshaXBap\SanguoshaXBap.csproj", "{C0058FAF-82B6-4C40-A1F6-09C874A7CA9F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
