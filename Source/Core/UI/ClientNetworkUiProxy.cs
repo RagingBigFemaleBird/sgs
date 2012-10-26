@@ -159,7 +159,23 @@ namespace Sanguosha.Core.UI
 
         public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, List<bool> rearrangeable, CardChoiceRearrangeCallback callback)
         {
-            answer = null;
+            Trace.TraceInformation("Asking Card Choice to {0}.", HostPlayer.Id);
+            TryAskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, rearrangeable, callback);
+            if (active)
+            {
+                NextQuestion();
+            }
+            else
+            {
+                Trace.TraceInformation("Not active player, defaulting.");
+            }
+            if (TryAnswerForCardChoice(prompt, verifier, out answer, callback))
+            {
+                proxy.Freeze();
+                Trace.Assert(verifier.Verify(answer) == VerifierResult.Success);
+                return true;
+            }
+            proxy.Freeze();
             return false;
         }
 
@@ -225,7 +241,7 @@ namespace Sanguosha.Core.UI
                 proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, out answer, rearrangeable, callback);
                 return;
             }
-/*            if (!proxy.AskForCardUsage(prompt, verifier, out skill, out cards, out players))
+            if (!proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, out answer, rearrangeable, callback))
             {
                 Trace.TraceInformation("Invalid answer");
                 client.AnswerNext();
@@ -235,46 +251,21 @@ namespace Sanguosha.Core.UI
             {
                 client.AnswerNext();
                 client.AnswerItem(1);
-                if (skill == null)
+                client.AnswerItem(answer.Count);
+                foreach (var subList in answer)
                 {
-                    client.AnswerItem(0);
-                }
-                else
-                {
-                    client.AnswerItem(1);
-                    client.AnswerItem(skill);
-                }
-                if (cards == null)
-                {
-                    client.AnswerItem(0);
-                }
-                else
-                {
-                    client.AnswerItem(cards.Count);
-                    foreach (Card c in cards)
+                    client.AnswerItem(subList.Count);
+                    foreach (Card c in subList)
                     {
                         client.AnswerItem(c);
                     }
                 }
-                if (players == null)
-                {
-                    client.AnswerItem(0);
-                }
-                else
-                {
-                    client.AnswerItem(players.Count);
-                    foreach (Player p in players)
-                    {
-                        client.AnswerItem(p);
-                    }
-                }
-            }*/
+            }
         }
-        public bool TryAnswerForCardChoice(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+
+        public bool TryAnswerForCardChoice(Prompt prompt, ICardChoiceVerifier verifier, out List<List<Card>> answer, CardChoiceRearrangeCallback callback)
         {
-            skill = null;
-            cards = null;
-            players = null;
+            answer = null;
             object o = client.Receive();
             if (o == null)
             {
@@ -284,30 +275,32 @@ namespace Sanguosha.Core.UI
             {
                 return false;
             }
-            cards = new List<Card>();
+            answer = new List<List<Card>>();
             o = client.Receive();
             int count = (int)o;
-            if (count == 1)
-            {
-                skill = (ISkill)client.Receive();
-            }
-            o = client.Receive();
-            count = (int)o;
             while (count-- > 0)
             {
                 o = client.Receive();
-                cards.Add((Card)o);
-            }
-            players = new List<Player>();
-            o = client.Receive();
-            count = (int)o;
-            while (count-- > 0)
-            {
-                o = client.Receive();
-                players.Add((Player)o);
+                if (o == null)
+                {
+                    return false;
+                }
+                int subCount = (int)o;
+                var theList = new List<Card>();
+                answer.Add(theList);
+                while (subCount-- > 0)
+                {
+                    o = client.Receive();
+                    if (o == null)
+                    {
+                        return false;
+                    }
+                    theList.Add((Card)o);
+                }
             }
             return true;
         }
+
         int timeOutSeconds;
         public int TimeOutSeconds
         {
