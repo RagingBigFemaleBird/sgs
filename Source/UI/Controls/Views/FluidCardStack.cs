@@ -75,6 +75,8 @@ namespace Sanguosha.UI.Controls
                 resultSize.Height = Math.Max(resultSize.Height, child.DesiredSize.Height);
             }
 
+            resultSize.Width += 2 * HighlightItemExtraSpacing;
+
             if (resultSize.Width > availableSize.Width)
             {
                 resultSize.Width = Math.Max(availableSize.Width, CardWidth);
@@ -90,11 +92,11 @@ namespace Sanguosha.UI.Controls
                 return new Size(0, 0);
             }
             int childCount = Children.Count;
-            bool doExtraSpacing = (focusedCard != null);            
+            bool doExtraSpacing = (focusedCard != null);
 
             double width = Math.Min(finalSize.Width, CardWidth);
             double height = finalSize.Height;
-            double space = (finalSize.Width - width) / (childCount - 1);
+            double space = (finalSize.Width - width - 3 * HighlightItemExtraSpacing) / (childCount - 1);
             double totalMargin = 0;
             bool spacingStart = false;
             for (int i = 0; i < childCount; i++)
@@ -120,8 +122,8 @@ namespace Sanguosha.UI.Controls
                 }
                 
                 Thickness margin = (Thickness)card.GetValue(Panel.MarginProperty);
-                
-                card.Arrange(new Rect(i * space + totalMargin + spacing, 0, 
+
+                card.Arrange(new Rect(HighlightItemExtraSpacing + i * space + totalMargin + spacing, 0, 
                              card.DesiredSize.Width + margin.Left + margin.Right, height));
                 totalMargin += margin.Left + margin.Right;
             }

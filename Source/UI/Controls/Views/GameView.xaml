@@ -47,18 +47,7 @@
 		    <StackPanel x:Name="stackPanel2" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 		    <StackPanel x:Name="stackPanel3" Grid.RowSpan="2" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
 		    <StackPanel x:Name="stackPanel4" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-		    <StackPanel x:Name="stackPanel5" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" />
-        	<Grid Grid.RowSpan="2" Grid.ColumnSpan="3" 
-                  HorizontalAlignment="Center" VerticalAlignment="Center"
-        		  Visibility="{Binding MainPlayerModel.IsCardChoiceQuestionShown, Converter={StaticResource boolToVisibilityConverter}}">
-        		<i:Interaction.Behaviors>
-        			<ei:MouseDragElementBehavior/>
-        		</i:Interaction.Behaviors>
-        		<Grid.Effect>
-        			<DropShadowEffect ShadowDepth="0"/>
-        		</Grid.Effect>
-        		<local:CardChoiceBox DataContext="{Binding MainPlayerModel.CardChoiceModel, PresentationTraceSources.TraceLevel=High}"/>
-        	</Grid>
+		    <StackPanel x:Name="stackPanel5" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" />        	
         </Grid>
         <StackPanel x:Name="spPrompt" Grid.Column="0" Grid.Row="0"
                         HorizontalAlignment="Center"  VerticalAlignment="Bottom"
@@ -161,6 +150,14 @@
         	</RichTextBox>
 			<local:ChatWidget Grid.Row="2" Height="18" VerticalAlignment="Top" Margin="5,0"/>
         </Grid>
-        <Canvas x:Name="gameGlobalCanvas" Grid.RowSpan="2" Grid.ColumnSpan="2" />        
+        <Canvas x:Name="gameGlobalCanvas" Grid.RowSpan="2" Grid.ColumnSpan="2" />
+        <Grid x:Name="gridCardChoiceBox"                  
+                  HorizontalAlignment="Center" VerticalAlignment="Center"
+        		  Visibility="{Binding MainPlayerModel.IsCardChoiceQuestionShown, Converter={StaticResource boolToVisibilityConverter}}">
+            <Grid.Effect>
+                <DropShadowEffect ShadowDepth="0"/>
+            </Grid.Effect>
+            <local:CardChoiceBox DataContext="{Binding MainPlayerModel.CardChoiceModel, PresentationTraceSources.TraceLevel=High}"/>
+        </Grid>
     </Grid>
 </UserControl>

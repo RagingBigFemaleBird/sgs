@@ -55,7 +55,6 @@ namespace Sanguosha.UI.Controls
 
             _possibleRoles = new ObservableCollection<Role>();
             _UpdateCardUsageStatusHandler = (o, e) => { _UpdateCardUsageStatus(); };
-            _timer = new System.Timers.Timer();
             IsCardChoiceQuestionShown = false;
 
             CardChoiceModel = new CardChoiceViewModel();
@@ -565,7 +564,7 @@ namespace Sanguosha.UI.Controls
                 if (currentUsageVerifier != null)
                 {
                     currentUsageVerifier = null;
-                    CardUsageAnsweredEvent(skill, cards, players);
+                    CardUsageAnsweredEvent(skill, cards, players);                    
                 }
             }
         }
@@ -589,16 +588,20 @@ namespace Sanguosha.UI.Controls
         #region AbortCardUsageCommand
         private SimpleRelayCommand abortCardUsageCommand;
         public void AbortCardUsageCommand(object parameter)
-        {
-            _timer.Stop();
+        {     
             lock (verifierLock)
             {
-                if (currentUsageVerifier != null)
+                if (currentUsageVerifier == null)
                 {
-                    CardUsageAnsweredEvent(null, null, null);
-                    currentUsageVerifier = null;
-                    _ResetAll();
+                    Trace.Assert(_timer == null);
+                    return;
                 }
+                _timer.Stop();
+                _timer = null;
+                Trace.Assert(currentUsageVerifier != null);
+                CardUsageAnsweredEvent(null, null, null);
+                currentUsageVerifier = null;
+                _ResetAll();                
             }
         }
         #endregion
@@ -753,7 +756,11 @@ namespace Sanguosha.UI.Controls
             _ResetSkillsAndCards();            
             CurrentPrompt = string.Empty;
             TimeOutSeconds = 0;
-            _timer.Stop();
+            if (_timer != null)
+            {
+                _timer.Stop();
+                _timer = null;
+            }
         }
 
         private void _UpdateCardUsageStatus()
@@ -892,7 +899,7 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        private void _StartTimer(int timeOutSeconds)
+        private void _StartCardUsageTimer(int timeOutSeconds)
         {
             if (timeOutSeconds > 0)
             {
@@ -905,6 +912,69 @@ namespace Sanguosha.UI.Controls
                             (ThreadStart)delegate() { AbortCardUsageCommand(null); });
                     };
                 _timer.Start();
+            }
+        }
+
+        private void _StartCardChoiceTimer(int timeOutSeconds)
+        {
+            if (timeOutSeconds > 0)
+            {
+                _timer = new System.Timers.Timer(timeOutSeconds * 1000);
+                _timer.AutoReset = false;
+                _timer.Elapsed +=
+                    (o, e) =>
+                    {
+                        Application.Current.Dispatcher.Invoke(
+                            (ThreadStart)delegate() { _AbortCardChoice(); });
+                    };
+                _timer.Start();
+            }
+        }
+
+        private void _AbortCardChoice()
+        {
+            lock(verifierLock)
+            {
+                if (_timer == null)
+                {
+                    Trace.Assert(!IsCardChoiceQuestionShown);
+                    return;
+                }
+                CardChoiceModel.TimeOutSeconds = 0;
+                IsCardChoiceQuestionShown = false;
+                CardChoiceAnsweredEvent(null);
+                _timer.Stop();
+                _timer = null;
+            }            
+        }
+
+        private void _StartMultiChoiceTimer(int timeOutSeconds)
+        {
+            Trace.Assert(_timer == null);
+            if (timeOutSeconds > 0)
+            {                
+                _timer = new System.Timers.Timer(timeOutSeconds * 1000);
+                _timer.AutoReset = false;
+                _timer.Elapsed +=
+                    (o, e) =>
+                    {
+                        Application.Current.Dispatcher.Invoke(
+                            (ThreadStart)delegate() { _AbortMultipleChoice(); });
+                    };
+                _timer.Start();
+            }
+        }
+
+        private void _AbortMultipleChoice()
+        {
+            lock (verifierLock)
+            {
+                SubmitAnswerCommand = DisabledCommand;
+                CancelAnswerCommand = DisabledCommand;
+                AbortAnswerCommand = DisabledCommand;
+                MultiChoiceCommands.Clear();
+                CurrentPrompt = string.Empty;
+                MultipleChoiceAnsweredEvent(0);
             }
         }
 
@@ -930,7 +1000,7 @@ namespace Sanguosha.UI.Controls
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                _StartTimer(timeOutSeconds);
+                _StartCardUsageTimer(timeOutSeconds);
                 TimeOutSeconds = timeOutSeconds;
                 if (!IsPlayable)
                 {
@@ -1008,6 +1078,7 @@ namespace Sanguosha.UI.Controls
             Trace.Assert(model != null);
             if (!model.IsSelected) return;
             CardChoiceAnsweredEvent(new List<List<Card>>() { new List<Card>() { model.Card } });
+            CardChoiceModel.TimeOutSeconds = 0;
             IsCardChoiceQuestionShown = false;
         }
 
@@ -1040,7 +1111,7 @@ namespace Sanguosha.UI.Controls
 
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                _StartTimer(timeOutSeconds);
+                _StartCardChoiceTimer(timeOutSeconds);
                 if (!IsPlayable)
                 {
                     CardChoiceAnsweredEvent(null);
@@ -1058,7 +1129,7 @@ namespace Sanguosha.UI.Controls
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                _StartTimer(timeOutSeconds);
+                _StartMultiChoiceTimer(timeOutSeconds);
                 TimeOutSeconds = timeOutSeconds;
                 if (!IsPlayable)
                 {

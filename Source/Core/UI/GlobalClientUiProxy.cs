@@ -66,10 +66,11 @@ namespace Sanguosha.Core.UI
                 skill = null;
             }
             t.Abort();
-            foreach (var z in inactiveProxies)
+            foreach (var otherProxy in inactiveProxies)
             {
-                z.Freeze();
+               otherProxy.Freeze();
             }
+            proxy.Freeze();
             proxy.NextQuestion();
             //try to determine who used this
             respondingPlayer = null;

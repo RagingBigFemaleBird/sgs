@@ -131,13 +131,6 @@ namespace Sanguosha.UI.Controls
             // not disappear).
             if (deck == DeckType.Discard)
             {
-                foreach (var card in cards)
-                {
-                    if (canvas.Children.Contains(card))
-                    {
-                        canvas.Children.Remove(card);
-                    }
-                }
                 foreach (var card in Cards)
                 {
                     MarkClearance(card);
