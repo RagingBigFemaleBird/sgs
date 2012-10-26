@@ -14,51 +14,82 @@
 
 
     <sys:String x:Key="Skill.RenDe.Name">仁德</sys:String>
-    <sys:String x:Key="Skill.RenDe.Description">出牌阶段，你可以将任意数量的手牌交给其他角色，若此阶段你给出的牌张数达到两张或更多时，你回复1点体力。</sys:String>
-    <sys:String x:Key="Skill.RenDe.Usage">点"仁德"→选中数张手牌→选择目标→“确定”</sys:String>
+    <sys:String x:Key="Skill.RenDe.Description">出牌阶段，你可以将任意数量的手牌交给其他角色，若你于此阶段内给出的牌张数达到两张或更多时，你回复1点体力。</sys:String>
+    <sys:String x:Key="Skill.RenDe.Usage">点“仁德”→选中数张手牌→选择目标→“确定”</sys:String>
     
     <sys:String x:Key="Skill.JiJiang.Name">激将</sys:String>
-    <sys:String x:Key="Skill.JiJiang.Description">主公技，当你需要使用或打出一张【杀】时，你可令其他蜀势力角色打出一张【杀】(视为由你使用或打出)。</sys:String>
-    <sys:String x:Key="Skill.JiJiang.Usage">点"激将"→选择攻击距离内的目标→点“确定”\n\n须响应【杀】时→点“激将”</sys:String>
+    <sys:String x:Key="Skill.JiJiang.Description">主公技，当你需要使用或打出一张【杀】时，你可以令其他蜀势力角色打出一张【杀】（视为由你使用或打出）。</sys:String>
+    <sys:String x:Key="Skill.JiJiang.Usage">点“激将”→选择攻击距离内的目标→点“确定”\n\n响应出【杀】时→点“激将”</sys:String>
     
     <sys:String x:Key="Skill.WuSheng.Name">武圣</sys:String>
     <sys:String x:Key="Skill.WuSheng.Description">你可以将一张红色牌当【杀】使用或打出。</sys:String>
+    <sys:String x:Key="Skill.WuSheng.Usage">点“武圣”→选中1张牌（红色手牌或装备）→选择攻击距离内的目标→点“确定”\n\n响应出【杀】时→点“武圣”→选中1张牌（红色手牌或装备）→点“确定”</sys:String>
     
     <sys:String x:Key="Skill.PaoXiao.Name">咆哮</sys:String>
+    <sys:String x:Key="Skill.PaoXiao.Description">锁定技，你在出牌阶段内使用【杀】时无次数限制。</sys:String>
+    <sys:String x:Key="Skill.PaoXiao.Usage">无</sys:String>
     
     <sys:String x:Key="Skill.LongDan.Name">龙胆</sys:String>
-    
+    <sys:String x:Key="Skill.LongDan.Description">你可以将一张【杀】当【闪】，一张【闪】当【杀】使用或打出。</sys:String>
+    <sys:String x:Key="Skill.LongDan.Usage">需要出【杀】时→点“龙胆”→选择【闪】→点“确定”\n\n需要出【闪】时→点“龙胆”→选择【杀】→点“确定”</sys:String>
+
     <sys:String x:Key="Skill.GuoSe.Name">国色</sys:String>
-    <sys:String x:Key="Skill.GuoSe.Description">出牌阶段，你可以将一张方块牌当【乐不思蜀】使用。</sys:String>
-    
+    <sys:String x:Key="Skill.GuoSe.Description">你可以将一张方块牌当【乐不思蜀】使用。</sys:String>
+    <sys:String x:Key="Skill.GuoSe.Usage">点“国色”→选中1张牌（方块花色手牌或装备）→选择目标→点“确定”</sys:String>
+
     <sys:String x:Key="Skill.QingNang.Name">青囊</sys:String>
-    <sys:String x:Key="Skill.QingNang.Description">青囊―出牌阶段，你可以弃置一张手牌，令一名已受伤的角色回复1点体力。每阶段限一次。</sys:String>
-    
+    <sys:String x:Key="Skill.QingNang.Description">出牌阶段，你可以弃置一张手牌，令一名已受伤的角色回复1点体力。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.QingNang.Usage">点“青囊”→选中1张手牌→选择目标→点“确定”</sys:String>
+
     <sys:String x:Key="Skill.FanJian.Name">反间</sys:String>
-    <sys:String x:Key="Skill.FanJian.Description">出牌阶段，你可以指定一名其他角色，该角色选择一种花色后获得你的一张手牌并展示之，若此牌与所选花色不同，则你对该角色造成1点伤害。每阶段限一次。</sys:String>
-    
+    <sys:String x:Key="Skill.FanJian.Description">出牌阶段，你可以令一名其他角色选择一种花色后获得你的一张手牌并展示之，若此牌的花色与其所选的不同，你对该角色造成1点伤害。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.FanJian.Usage">点“反间”→选择目标→点“确定”</sys:String>
+
     <sys:String x:Key="Skill.JiJiu.Name">急救</sys:String>
-    
+    <sys:String x:Key="Skill.JiJiu.Description">你的回合外，你可以将一张红色牌当【桃】使用。</sys:String>
+    <sys:String x:Key="Skill.JiJiu.Usage">非自己回合需使用【桃】时→点“急救”→选中1张牌（红色手牌或装备）→点“确定”</sys:String>
+
     <sys:String x:Key="Skill.FanKui.Name">反馈</sys:String>
-    
+    <sys:String x:Key="Skill.FanKui.Description">每当你受到一次伤害后，你可以获得伤害来源的一张牌。</sys:String>
+    <sys:String x:Key="Skill.FanKui.Usage">系统提示→点“确定”→点选获得目标1张牌（手牌或装备）</sys:String>
+
     <sys:String x:Key="Skill.LiJian.Name">离间</sys:String>
+    <sys:String x:Key="Skill.LiJian.Description">出牌阶段，你可以弃置一张牌并选择两名男性角色，视为其中一名男性角色对另一名男性角色使用一张【决斗】（不可以使用【无懈可击】对此【决斗】进行响应）。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.LiJian.Usage">点“离间”→选中1张牌（手牌或装备）→选择先出【杀】的目标→选择后出【杀】的目标→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.KongCheng.Name">空城</sys:String>
+    <sys:String x:Key="Skill.KongCheng.Description">锁定技，若你没有手牌，你不能被选择为【杀】或【决斗】的目标。</sys:String>
+    <sys:String x:Key="Skill.KongCheng.Usage">无</sys:String>
 
     <sys:String x:Key="Skill.ZhiHeng.Name">制衡</sys:String>
+    <sys:String x:Key="Skill.ZhiHeng.Description">出牌阶段，你可以弃置任意数量的牌，然后摸等量的牌。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.ZhiHeng.Usage">点“制衡”→选中数张牌（手牌或装备）→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.QingGuo.Name">倾国</sys:String>
+    <sys:String x:Key="Skill.QingGuo.Description">你可以将一张黑色手牌当【闪】使用或打出。</sys:String>
+    <sys:String x:Key="Skill.QingGuo.Usage">需要出【闪】时→点“倾国”→选中1张手牌→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.QianXun.Name">谦逊</sys:String>
+    <sys:String x:Key="Skill.QianXun.Description">锁定技，你不能被选择为【顺手牵羊】和【乐不思蜀】的目标。</sys:String>
+    <sys:String x:Key="Skill.QianXun.Usage">无</sys:String>
 
     <sys:String x:Key="Skill.JiZhi.Name">集智</sys:String>
+    <sys:String x:Key="Skill.JiZhi.Description">当你使用非延时类锦囊牌选择目标后，你可以摸一张牌。</sys:String>
+    <sys:String x:Key="Skill.JiZhi.Usage">系统提示→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.KuRou.Name">苦肉</sys:String>
+    <sys:String x:Key="Skill.KuRou.Description">出牌阶段，你可以失去1点体力，然后摸两张牌。</sys:String>
+    <sys:String x:Key="Skill.KuRou.Usage">点“苦肉”</sys:String>
 
     <sys:String x:Key="Skill.GuiCai.Name">鬼才</sys:String>
+    <sys:String x:Key="Skill.GuiCai.Description">在一名角色的判定牌生效前，你可以打出一张手牌代替之。</sys:String>
+    <sys:String x:Key="Skill.GuiCai.Usage">系统提示→点“确定”→选中1张手牌→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.LianYing.Name">连营</sys:String>
+    <sys:String x:Key="Skill.LianYing.Description">当你失去最后的手牌时，你可以摸一张牌。</sys:String>
+    <sys:String x:Key="Skill.LianYing.Usage">系统提示→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.GangLie.Name">刚烈</sys:String>
-    <sys:String x:Key="Skill.GangLie.Description">每当你受到一次伤害后，你可以进行一次判定，若结果不为红桃，则伤害来源选择一项：弃置两张手牌，或受到你对其造成的1点伤害。</sys:String>
+    <sys:String x:Key="Skill.GangLie.Description">每当你受到一次伤害后，你可以进行一次判定，若判定结果不为红桃，则伤害来源选择一项：弃置两张手牌，或受到你对其造成的1点伤害。</sys:String>
+    <sys:String x:Key="Skill.GangLie.Usage">系统提示→点“确定”</sys:String>
 </ResourceDictionary>
