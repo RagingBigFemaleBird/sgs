@@ -31,5 +31,10 @@ namespace Sanguosha.Core.Skills
         protected virtual void UninstallTriggers(Players.Player owner)
         {
         }
+
+        public virtual bool isRulerOnly { get { return false; } }
+        public virtual bool isSingleUse { get { return false; } }
+        public virtual bool isAwakening { get { return false; } }
+        public virtual bool isEnforced { get { return false; } }
     }
 }

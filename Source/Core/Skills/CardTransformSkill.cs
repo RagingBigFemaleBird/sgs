@@ -57,5 +57,10 @@ namespace Sanguosha.Core.Skills
 
         public virtual List<CardHandler> PossibleResults { get { return null; } }
 
+        public virtual bool isRulerOnly { get { return false; } }
+        public virtual bool isSingleUse { get { return false; } }
+        public virtual bool isAwakening { get { return false; } }
+        public bool isEnforced { get { return false; } }
+
     }
 }

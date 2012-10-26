@@ -12,5 +12,7 @@ namespace Sanguosha.Core.UI
     public interface IGlobalUiProxy
     {
         bool AskForCardUsage(Prompt prompt, CardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players, out Player respondingPlayer);
+
+        void AskForHeroChoice(Dictionary<Player, List<Card>> restDraw, Dictionary<Player, Card> heroSelection);
     }
 }

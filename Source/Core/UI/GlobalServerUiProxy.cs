@@ -143,5 +143,9 @@ namespace Sanguosha.Core.UI
 
         public int TimeOutSeconds { get; set; }
 
+        public void AskForHeroChoice(Dictionary<Player, List<Card>> restDraw, Dictionary<Player, Card> heroSelection)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
