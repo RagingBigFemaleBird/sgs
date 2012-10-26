@@ -74,13 +74,17 @@ namespace Sanguosha.Core.UI
         public void AskForHeroChoice(Dictionary<Player, List<Card>> restDraw, Dictionary<Player, Card> heroSelection)
         {
             DeckType temp = new DeckType("Temp");
+            if (!restDraw.ContainsKey(proxy.HostPlayer))
+            {
+                return;
+            }
             Game.CurrentGame.Decks[null, temp].AddRange(restDraw[proxy.HostPlayer]);
             List<DeckPlace> sourceDecks = new List<DeckPlace>();
             sourceDecks.Add(new DeckPlace(null, temp));
             List<string> resultDeckNames = new List<string>() { "HeroChoice" };
             List<int> resultDeckMaximums = new List<int>() { 1 };
             List<List<Card>> answer;
-            proxy.AskForCardChoice(new CardChoicePrompt("HeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new SimpleCardChoiceVerifier(), out answer, null, null);
+            proxy.AskForCardChoice(new CardChoicePrompt("HeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new SimpleCardChoiceVerifier(), out answer, new List<bool>() {false}, null);
         }
     }
 }
