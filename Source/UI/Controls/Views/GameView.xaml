@@ -96,7 +96,7 @@
 					 VerticalAlignment="Bottom"/>
         </StackPanel>
         <local:MainPlayerView x:Name="mainPlayerPanel" VerticalAlignment="Bottom" Grid.Row="1" Grid.ColumnSpan="2"/>
-        <Grid x:Name="infoPanel" Grid.Column="1">
+        <Grid x:Name="infoPanel" Grid.Column="1" Background="#FFA79865">
             <Grid>
                 <Grid.RowDefinitions>
                 	<RowDefinition Height="103"/>
@@ -106,18 +106,40 @@
                 <Image Source="{DynamicResource Game.InfoPanel.Header}" />
                 <Border Grid.Row="1">
                     <Border.Background>
-                        <ImageBrush ImageSource="{DynamicResource Game.InfoPanel.Body}"/>
+                        <ImageBrush ImageSource="{DynamicResource Game.InfoPanel.Body}" Viewport="0,0,308,149" ViewportUnits="Absolute" TileMode="FlipY" Stretch="UniformToFill"/>
                     </Border.Background>
                     <Image Source="{DynamicResource Game.InfoPanel.Splitter}" VerticalAlignment="Top" Margin="2,205,2,0"/>
                 </Border>                
                 <Image Source="{DynamicResource Game.InfoPanel.Footer}" Grid.Row="2"/>
             </Grid>
         </Grid>
-        <StackPanel x:Name="spInfoPanel" Grid.Column="1">
-            <Canvas Width="213" Height="419">
+        <Grid x:Name="gridInfoPanel" Grid.Column="1">
+        	<Grid.RowDefinitions>
+        		<RowDefinition Height="313" /> 
+				<RowDefinition />
+				<RowDefinition Height="25" />
+			</Grid.RowDefinitions>
+            <Canvas Width="213" Height="311">
                 <TabControl x:Name="infoPlanTab" Width="211" Canvas.Top="57.334" Height="255" Background="{x:Null}" BorderBrush="{x:Null}" Margin="3,0">
                     <TabItem Header="牌局" x:Name="tabLogBox" Style="{DynamicResource TabItemStyle}">                    	
-                        <Grid />
+                        <Grid >
+                        	<RichTextBox Background="Transparent" Margin="-8,21,-2,0" Style="{DynamicResource RichTextBoxStyle}" Foreground="#FFF6DE9C" FontFamily="SimSun" FontSize="13.333" BorderBrush="Transparent" VerticalScrollBarVisibility="Visible" IsReadOnly="True" IsReadOnlyCaretVisible="True">
+                        		<FlowDocument>
+                        			<Paragraph><Run Language="zh-cn" Text="这是第一行"/></Paragraph>
+                        			<Paragraph><Run Language="zh-cn" Text="黄月英从牌堆里摸了4张卡牌"/></Paragraph>
+                        			<Paragraph><Run Language="zh-cn" Text="黄月英从牌堆里摸了4张卡牌"/></Paragraph>
+                        			<Paragraph><Run Language="zh-cn" Text="黄月英从牌堆里摸了4张卡牌"/></Paragraph>
+                        			<Paragraph><Run Language="zh-cn" Text="黄月英从牌堆里摸了4张卡牌"/></Paragraph>
+                        			<Paragraph><Run Language="zh-cn" Text="黄月英从牌堆里摸了4张卡牌"/></Paragraph>
+                        			<Paragraph><Run Language="zh-cn" Text="黄月英从牌堆里摸了4张卡牌"/></Paragraph>
+                        			<Paragraph><Run Language="zh-cn" Text="黄月英从牌堆里摸了4张卡牌"/></Paragraph>
+                        			<Paragraph><Run Language="zh-cn" Text="黄月英从牌堆里摸了4张卡牌"/></Paragraph>
+                        			<Paragraph><Run Language="zh-cn" Text="黄月英从牌堆里摸了4张卡牌"/></Paragraph>
+                        			<Paragraph><Run Language="zh-cn" Text="黄月英从牌堆里摸了4张卡牌"/></Paragraph>
+                        			<Paragraph><Run Language="zh-cn" Text="这是最后一行"/></Paragraph>
+                        		</FlowDocument>
+                        	</RichTextBox>
+                        </Grid>
                     </TabItem>
 					<TabItem Header="房间" x:Name="tabRoomInfo" Style="{DynamicResource TabItemStyle}">
                         <Grid />
@@ -127,13 +149,18 @@
                     </TabItem>
                 </TabControl>
             </Canvas>
-            <Grid>
-                <Grid.RowDefinitions>
-                	<RowDefinition />
-                	<RowDefinition />
-                </Grid.RowDefinitions>
-            </Grid>
-        </StackPanel>
+            <RichTextBox Grid.Row="1" Background="Transparent" Margin="0,0,2,0" Style="{DynamicResource RichTextBoxStyle}" Foreground="#FFDCDBBD" FontFamily="SimSun" FontSize="13.333" BorderBrush="Transparent" VerticalScrollBarVisibility="Visible" IsReadOnly="True" IsReadOnlyCaretVisible="True">
+                        		<FlowDocument>                        			
+                        			<Paragraph><Run Language="zh-cn" Text="刘备：黄月英，你要那么多牌干什么？"/></Paragraph>
+                        			<Paragraph><Run Language="zh-cn" Text="黄月英：你给我的好不？"/></Paragraph>
+                        			<Paragraph><Run Language="zh-cn" Text="刘备：自己去看游戏记录，那些牌都是从牌堆里摸的"/></Paragraph>
+                        			<Paragraph><Run Language="zh-cn" Text="黄月英：是么，我怎么不记得了？"/></Paragraph>
+                        			<Paragraph><Run Language="zh-cn" Text="张飞：要不，英姐你拿张手牌给军师，他那现在一张牌都没有呢。"/></Paragraph>
+                        			<Paragraph><Run Language="zh-cn" Text="关羽：别吵了，那张黑色的闪电给军师，剩下的都是红牌，都给我。"/></Paragraph>                      			
+                        		</FlowDocument>
+        	</RichTextBox>
+			<local:ChatWidget Grid.Row="2" Height="18" VerticalAlignment="Top" Margin="5,0"/>
+        </Grid>
         <Canvas x:Name="gameGlobalCanvas" Grid.RowSpan="2" Grid.ColumnSpan="2" />        
     </Grid>
 </UserControl>

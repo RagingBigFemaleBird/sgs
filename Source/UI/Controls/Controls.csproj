@@ -79,6 +79,9 @@
     <Compile Include="Views\CardView.xaml.cs">
       <DependentUpon>CardView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ChatWidget.xaml.cs">
+      <DependentUpon>ChatWidget.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FluidCardStack.cs" />
     <Compile Include="Views\HeroToolTipConverter.cs" />
     <Compile Include="Views\LargeDelayedToolView.xaml.cs">
@@ -147,6 +150,10 @@
     <Page Include="Views\CardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ChatWidget.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\LargeDelayedToolView.xaml">
       <SubType>Designer</SubType>

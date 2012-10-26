@@ -43,7 +43,7 @@ namespace Sanguosha.Core.Heroes
 
         public override CardCategory Category
         {
-            get { return CardCategory.Unknown; }
+            get { return CardCategory.Hero; }
         }
 
         public override string CardType
