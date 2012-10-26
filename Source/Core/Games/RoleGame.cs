@@ -411,7 +411,7 @@ namespace Sanguosha.Core.Games
                 int rulerId = 0;
                 if (!game.IsSlave)
                 {
-                    //rulerId = random.Next(0, game.Players.Count - 1);
+                    rulerId = random.Next(0, game.Players.Count - 1);
                 }
                 if (game.GameClient != null)
                 {
@@ -549,7 +549,7 @@ namespace Sanguosha.Core.Games
                 }
 
                 StartGameDeal(game);
-                game.CurrentPlayer = game.Players.First();
+                game.CurrentPlayer = game.Players[rulerId];
                 game.CurrentPhase = TurnPhase.BeforeStart;
 
                 while (true)
