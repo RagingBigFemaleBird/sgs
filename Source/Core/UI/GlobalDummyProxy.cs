@@ -22,5 +22,11 @@ namespace Sanguosha.Core.UI
             respondingPlayer = null;
             return false;
         }
+
+
+        public void AskForHeroChoice(Dictionary<Player, List<Card>> restDraw, Dictionary<Player, Card> heroSelection)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

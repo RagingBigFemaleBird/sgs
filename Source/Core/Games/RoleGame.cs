@@ -450,6 +450,7 @@ namespace Sanguosha.Core.Games
                         game.GameServer.SendObject(p.Id, rulerId);
                     }
                 }
+                game.Decks[DeckType.Heroes].OrderBy((i) => random.Next());
                 List<Card> rulerDraw = new List<Card>();
                 rulerDraw.Add(game.Decks[DeckType.Heroes][0]);
                 rulerDraw.Add(game.Decks[DeckType.Heroes][1]);
@@ -467,10 +468,25 @@ namespace Sanguosha.Core.Games
                 resultDeckMaximums.Add(1);
                 List<List<Card>> answer;
                 Game.CurrentGame.UiProxies[game.Players[rulerId]].AskForCardChoice(new CardUsagePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, null, out answer);
-                foreach (Card c in rulerDraw)
+                game.Decks[DeckType.Heroes].Remove(answer[0][0]);
+                game.Decks[DeckType.Heroes].OrderBy((i) => random.Next());
+                Dictionary<Player, List<Card>> restDraw = new Dictionary<Player, List<Card>>();
+                List<Player> players = new List<Player>(game.Players);
+                players.Remove(game.Players[rulerId]);
+                int idx = 0;
+                foreach (Player p in players)
                 {
-                    game.Decks[DeckType.Heroes].Remove(c);
+                    restDraw.Add(p, new List<Card>());
+                    for (int n = 0; n < 3; n++)
+                    {
+                        game.SyncCard(p, game.Decks[DeckType.Heroes][idx]);
+                        restDraw[p].Add(game.Decks[DeckType.Heroes][idx]);
+                        idx++;
+                    }
                 }
+
+                var heroSelection = new Dictionary<Player, Card>();
+                game.GlobalProxy.AskForHeroChoice(restDraw, heroSelection);
                 
                 StartGameDeal(game);
                 game.CurrentPlayer = game.Players.First();

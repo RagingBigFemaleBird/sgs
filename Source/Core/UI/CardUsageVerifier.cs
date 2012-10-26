@@ -32,6 +32,11 @@ namespace Sanguosha.Core.UI
         {
             CardTransformSkill transformSkill = skill as CardTransformSkill;
 
+            if (skill is PassiveSkill)
+            {
+                return VerifierResult.Fail;
+            }
+
             if (AcceptableCardType == null)
             {
                 return SlowVerify(skill, cards, players);

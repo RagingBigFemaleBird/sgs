@@ -32,5 +32,10 @@ namespace Sanguosha.Core.Skills
         public virtual void CardRevealPolicy(Players.Player p, List<Card> cards, List<Players.Player> players)
         {
         }
+
+        public virtual bool isRulerOnly { get { return false; } }
+        public virtual bool isSingleUse { get { return false; } }
+        public virtual bool isAwakening { get { return false; } }
+        public bool isEnforced { get { return false; } }
     }
 }
