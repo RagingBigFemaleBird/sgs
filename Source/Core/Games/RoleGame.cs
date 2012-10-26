@@ -425,12 +425,29 @@ namespace Sanguosha.Core.Games
                     }
                 }
                 Shuffle(game.Decks[DeckType.Heroes]);
+                if (!game.IsSlave)
+                {
+                    foreach (var hero in new List<Card>(game.Decks[DeckType.Heroes]))
+                    {
+                        foreach (var s in (hero.Type as HeroCardHandler).Hero.Skills)
+                        {
+                            if (s.isRulerOnly)
+                            {
+                                game.Decks[DeckType.Heroes].Remove(hero);
+                                game.Decks[DeckType.Heroes].Insert(0, hero);
+                            }
+                        }
+                    }
+                }
                 List<Card> rulerDraw = new List<Card>();
                 rulerDraw.Add(game.Decks[DeckType.Heroes][0]);
                 rulerDraw.Add(game.Decks[DeckType.Heroes][1]);
                 rulerDraw.Add(game.Decks[DeckType.Heroes][2]);
                 rulerDraw.Add(game.Decks[DeckType.Heroes][3]);
                 rulerDraw.Add(game.Decks[DeckType.Heroes][4]);
+                rulerDraw.Add(game.Decks[DeckType.Heroes][5]);
+                rulerDraw.Add(game.Decks[DeckType.Heroes][6]);
+                rulerDraw.Add(game.Decks[DeckType.Heroes][7]);
                 game.SyncCards(game.Players[rulerId], rulerDraw);
                 DeckType tempHero = new DeckType("TempHero");
                 game.Decks[null, tempHero].AddRange(rulerDraw);
@@ -443,7 +460,12 @@ namespace Sanguosha.Core.Games
                 List<int> resultDeckMaximums = new List<int>();
                 resultDeckMaximums.Add(1);
                 List<List<Card>> answer;
-                game.UiProxies[game.Players[rulerId]].AskForCardChoice(new CardChoicePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new AlwaysTrueChoiceVerifier(), out answer, new List<bool>() { false });
+                if (!game.UiProxies[game.Players[rulerId]].AskForCardChoice(new CardChoicePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new AlwaysTrueChoiceVerifier(), out answer, new List<bool>() { false }))
+                {
+                    answer = new List<List<Card>>();
+                    answer.Add(new List<Card>());
+                    answer[0].Add(game.Decks[DeckType.Heroes][0]);
+                }
                 game.SyncCardAll(answer[0][0]);
                 game.Decks[DeckType.Heroes].Remove(answer[0][0]);
 
@@ -508,6 +530,13 @@ namespace Sanguosha.Core.Games
                     toRemove.Add(c);
                     h = (HeroCardHandler)c.Type;
                     Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, p.Id);
+                    foreach (var skill in new List<ISkill>(h.Hero.Skills))
+                    {
+                        if (skill.isRulerOnly)
+                        {
+                            h.Hero.Skills.Remove(skill);
+                        }
+                    }
                     p.Hero = h.Hero;
                     p.Allegiance = h.Hero.Allegiance;
                     p.MaxHealth = p.Health = h.Hero.MaxHealth;
