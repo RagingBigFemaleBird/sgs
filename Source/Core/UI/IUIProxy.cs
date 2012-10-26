@@ -16,6 +16,30 @@ namespace Sanguosha.Core.UI
         Partial,
         Fail,
     }
+
+    public class ResultDeckOptions
+    {
+        public string Name { get; set; }
+        public int Maximum { get; set; }
+        public bool Rearrangeable { get; set; }
+        ResultDeckOptions()
+        {
+            Name = null;
+            Maximum = 1;
+            Rearrangeable = false;
+        }
+    }
+
+    public class CardChoiceAddtionalOptions
+    {
+        List<ResultDeckOptions> ResultDecks { get; set; }
+        int WindowId { get; set; }
+        CardChoiceAddtionalOptions()
+        {
+            ResultDecks = new List<ResultDeckOptions>();
+            WindowId = -1;
+        }
+    }
     
     public interface ICardChoiceVerifier
     {

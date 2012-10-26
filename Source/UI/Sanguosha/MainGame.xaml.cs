@@ -78,7 +78,7 @@ namespace Sanguosha.UI.Main
             gameModel.MainPlayerSeatNumber = MainSeat;
             gameView.DataContext = gameModel;
             _game.NotificationProxy = gameView;
-
+            List<ClientNetworkUiProxy> inactive = new List<ClientNetworkUiProxy>();
             for (int i = 0; i < _game.Players.Count; i++)
             {
                 var player = gameModel.PlayerModels[i].Player;                
@@ -91,13 +91,17 @@ namespace Sanguosha.UI.Main
                 {
                     activeClientProxy = proxy;
                 }
+                else
+                {
+                    inactive.Add(proxy);
+                }
 #else
                 var proxy = new AsyncUiAdapter(gameModel.PlayerModels[i]);
 #endif
                 _game.UiProxies.Add(player, proxy);
             }
 #if NETWORKING
-            _game.GlobalProxy = new GlobalClientUiProxy(_game, activeClientProxy);
+            _game.GlobalProxy = new GlobalClientUiProxy(_game, activeClientProxy, inactive);
 #endif
         }
 

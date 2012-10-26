@@ -15,19 +15,49 @@ namespace Sanguosha.Core.UI
     public class GlobalClientUiProxy : IGlobalUiProxy
     {
         ClientNetworkUiProxy proxy;
+        List<ClientNetworkUiProxy> inactiveProxies;
         Prompt prompt;
         ICardUsageVerifier verifier;
         Game game;
-        public GlobalClientUiProxy(Game g, ClientNetworkUiProxy p)
+
+        private class NullVerifier : ICardUsageVerifier
+        {
+            public VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players)
+            {
+                return VerifierResult.Fail;
+            }
+
+            public IList<CardHandler> AcceptableCardType
+            {
+                get { return null; }
+            }
+
+            public VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players)
+            {
+                return VerifierResult.Fail;
+            }
+
+            public UiHelper Helper
+            {
+                get { return new UiHelper(); }
+            }
+        }
+
+        public GlobalClientUiProxy(Game g, ClientNetworkUiProxy p, List<ClientNetworkUiProxy> inactive)
         {
             game = g;
             proxy = p;
+            inactiveProxies = inactive;
         }
 
         public bool AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players, out Player respondingPlayer)
         {
             this.prompt = prompt;
             this.verifier = verifier;
+            foreach (var z in inactiveProxies)
+            {
+                z.TryAskForCardUsage(new CardUsagePrompt(""), new NullVerifier());
+            }
             Thread t = new Thread(AskUiThread) { IsBackground = true };
             t.Start();
             if (!proxy.TryAnswerForCardUsage(prompt, verifier, out skill, out cards, out players))
@@ -36,6 +66,10 @@ namespace Sanguosha.Core.UI
                 skill = null;
             }
             t.Abort();
+            foreach (var z in inactiveProxies)
+            {
+                z.Freeze();
+            }
             proxy.NextQuestion();
             //try to determine who used this
             respondingPlayer = null;
