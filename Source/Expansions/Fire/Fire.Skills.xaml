@@ -3,7 +3,18 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <sys:String x:Key="Hero.WoLong.Name">诸葛亮</sys:String>
     <sys:String x:Key="Skill.HuoJi.Name">火计</sys:String>
+    <sys:String x:Key="Skill.HuoJi.Description">你可以将一张红色手牌当【火攻】使用。</sys:String>
+    <sys:String x:Key="Skill.HuoJi.Usage">点“火计”→选中1张手牌（红桃或方块）→选择目标（至少有一张手牌）→点“确定”</sys:String>
+
     <sys:String x:Key="Skill.KanPo.Name">看破</sys:String>
+    <sys:String x:Key="Skill.KanPo.Description">你可以将一张黑色手牌当【无懈可击】使用。</sys:String>
+    <sys:String x:Key="Skill.KanPo.Usage">点“看破”→选中1张手牌（黑桃或草花）→点“确定”</sys:String>
+
     <sys:String x:Key="Skill.LuoYing.Name">落英</sys:String>
+    <sys:String x:Key="Skill.LuoYing.Description">当其他角色的一张梅花牌因弃置或判定而置入弃牌堆时，你可以获得之。</sys:String>
+    <sys:String x:Key="Skill.LuoYing.Usage">系统提示→点“确定”</sys:String>
+
     <sys:String x:Key="Skill.JiLei.Name">鸡肋</sys:String>
+    <sys:String x:Key="Skill.JiLei.Description">每当你受到伤害时，你可以说出一种牌的类别，令伤害来源不能使用、打出或弃置其此类别的手牌，直到回合结束。</sys:String>
+    <sys:String x:Key="Skill.JiLei.Usage">系统提示→点“确定”</sys:String>
 </ResourceDictionary>
