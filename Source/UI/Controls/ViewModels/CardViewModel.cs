@@ -194,6 +194,16 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public HeroViewModel HeroModel
+        {
+            get
+            {
+                var heroCard = _uiCard.Type as HeroCardHandler;
+                if (heroCard == null) return null;
+                return new HeroViewModel(heroCard.Hero);
+            }
+        }
+
         public int AttackRange
         {
             get

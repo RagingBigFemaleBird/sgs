@@ -3,6 +3,7 @@
 	                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	                xmlns:local="clr-namespace:Sanguosha.UI.Controls"
 	                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
 	                mc:Ignorable="d">
     
         <ResourceDictionary.MergedDictionaries>
@@ -12,7 +13,7 @@
         </ResourceDictionary.MergedDictionaries>     
     
         <ControlTemplate x:Key="PromptBox" TargetType="{x:Type ContentControl}">
-            <Grid x:Name="gridBackground" SnapsToDevicePixels="True">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="39"/>
                     <ColumnDefinition Width="1*"/>
@@ -79,7 +80,7 @@
                         <Grid.Background>
                             <ImageBrush ImageSource="Resources/CardSelectionBox/promptMiddle.png"/>
                         </Grid.Background>
-                        <local:OutlinedTextBlock x:Name="txtPrompt" Text="{Binding Prompt}" FontFamily="LiSu" Fill="#FFE4D5A0" VerticalAlignment="Center" FontSize="18"/>
+                        <local:OutlinedTextBlock x:Name="txtPrompt" Text="{Binding Path=Prompt}" FontFamily="LiSu" Fill="#FFE4D5A0" VerticalAlignment="Center" FontSize="18"/>
                     </Grid>
                     <Image HorizontalAlignment="Left" Grid.Column="2" Source="Resources/CardSelectionBox/promptRight.png" Stretch="Fill" VerticalAlignment="Top"/>
                 </Grid>

@@ -469,7 +469,7 @@ namespace Sanguosha.Core.Games
                 List<int> resultDeckMaximums = new List<int>();
                 resultDeckMaximums.Add(1);
                 List<List<Card>> answer;
-                Game.CurrentGame.UiProxies[game.Players[rulerId]].AskForCardChoice(new CardUsagePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new SimpleCardChoiceVerifier(), out answer, new List<bool>() { false });
+                Game.CurrentGame.UiProxies[game.Players[rulerId]].AskForCardChoice(new CardChoicePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new SimpleCardChoiceVerifier(), out answer, new List<bool>() { false });
                 game.Decks[DeckType.Heroes].Remove(answer[0][0]);
                 game.Decks[DeckType.Heroes].OrderBy((i) => random.Next());
                 Dictionary<Player, List<Card>> restDraw = new Dictionary<Player, List<Card>>();

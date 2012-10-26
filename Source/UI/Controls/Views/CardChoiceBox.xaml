@@ -30,7 +30,7 @@
                             <ItemsPanelTemplate>
                                 <local:FluidCardStack CardWidth="93" CardHeight="130" CardSpacing="10" HighlightItemExtraSpacing="10">
                                     <i:Interaction.Behaviors>
-                                        <ei:FluidMoveBehavior AppliesTo="Children" Duration="00:00:00.2000000" />
+                                        <ei:FluidMoveBehavior AppliesTo="Children" Duration="00:00:00.2" />
                                     </i:Interaction.Behaviors>
                                 </local:FluidCardStack>
                             </ItemsPanelTemplate>
@@ -38,7 +38,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Canvas Width="93" Height="130">
-                                    <local:CardView Width="93" Height="130" CardOpacity="1" Opacity="1"/>
+                                    <local:CardView Width="93" Height="130" CardOpacity="1" Opacity="1" Cursor="Hand"/>
                                 </Canvas>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -49,7 +49,7 @@
     </UserControl.Resources>
 
     <ContentControl Template="{DynamicResource PromptBox}">
-    <Grid Name="LayoutRoot" Margin="20, 5, 50, 5">
+    <Grid Name="LayoutRoot" Margin="20, 5" HorizontalAlignment="Center" VerticalAlignment="Top">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
@@ -62,7 +62,7 @@
             </ItemsControl.ItemsPanel>
         </ItemsControl>
 
-        <ProgressBar x:Name="progressBar" Style="{StaticResource TimedProgressBarStyle}" MaxWidth="263" Height="15"  Grid.Column="0" Grid.Row="1" Margin="30,0" />
+        <ProgressBar x:Name="progressBar" Style="{StaticResource TimedProgressBarStyle}" MaxWidth="263" Height="15"  Grid.Column="0" Grid.Row="1" Margin="30,20,30,0" />
     </Grid>
     </ContentControl>
 </UserControl>

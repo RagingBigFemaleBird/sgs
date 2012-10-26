@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:Sanguosha.UI.Controls"
              xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
              xmlns:diagnostics="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+	         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
 	         x:Class="Sanguosha.UI.Controls.GameView"
 	         mc:Ignorable="d"
              d:DesignHeight="747" d:DesignWidth="1076" Width="Auto" Height="Auto">
@@ -40,23 +41,30 @@
     	    	<RowDefinition Height="220"/>
     	    	<RowDefinition/>
     	    </Grid.RowDefinitions>
-            <Grid Grid.ColumnSpan="3" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
-                  Visibility="{Binding MainPlayerModel.IsCardChoiceQuestionShown, Converter={StaticResource boolToVisibilityConverter}}" >
-                <local:CardChoiceBox DataContext="{Binding MainPlayerModel.CardChoiceModel, diagnostics:PresentationTraceSources.TraceLevel=High}"/>
-            </Grid>
             <local:DiscardDeck x:Name="discardDeck" CardAlignment="Center" MaxCardSpacing="93" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Height="130" Margin="20,0,20,30"/>
     	    <StackPanel x:Name="stackPanel0" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
             <StackPanel x:Name="stackPanel1" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Top"/>		
 		    <StackPanel x:Name="stackPanel2" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 		    <StackPanel x:Name="stackPanel3" Grid.RowSpan="2" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
 		    <StackPanel x:Name="stackPanel4" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-		    <StackPanel x:Name="stackPanel5" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>            
+		    <StackPanel x:Name="stackPanel5" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" />
+        	<Grid Grid.RowSpan="2" Grid.ColumnSpan="3" 
+                  HorizontalAlignment="Center" VerticalAlignment="Center"
+        		  Visibility="{Binding MainPlayerModel.IsCardChoiceQuestionShown, Converter={StaticResource boolToVisibilityConverter}}">
+        		<i:Interaction.Behaviors>
+        			<ei:MouseDragElementBehavior/>
+        		</i:Interaction.Behaviors>
+        		<Grid.Effect>
+        			<DropShadowEffect ShadowDepth="0"/>
+        		</Grid.Effect>
+        		<local:CardChoiceBox DataContext="{Binding MainPlayerModel.CardChoiceModel, PresentationTraceSources.TraceLevel=High}"/>
+        	</Grid>
         </Grid>
         <StackPanel x:Name="spPrompt" Grid.Column="0" Grid.Row="0"
                         HorizontalAlignment="Center"  VerticalAlignment="Bottom"
                         Margin="100, 0, 100, 0">
             <Viewbox Height="58" StretchDirection="DownOnly">
-                <local:OutlinedTextBlock x:Name="tbPrompt" Text="{Binding Path=MainPlayerModel.CurrentPrompt}" 
+                <local:OutlinedTextBlock x:Name="tbPrompt" Text="{Binding MainPlayerModel.CurrentPrompt}" 
 			   				 Fill="White" Stroke="Black" StrokeThickness="1"									 
 							 HorizontalAlignment="Center"
                              VerticalAlignment="Bottom"
@@ -65,7 +73,7 @@
                              Width="500"
 				    		 FontSize="20" FontFamily="SimHei" FontWeight="Bold"/>
             </Viewbox>
-            <ItemsControl x:Name="gridChoices" Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom" MaxWidth="1000" ItemsSource="{Binding Path=MainPlayerModel.MultiChoiceCommands}">
+            <ItemsControl x:Name="gridChoices" Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom" MaxWidth="1000" ItemsSource="{Binding MainPlayerModel.MultiChoiceCommands}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Rows="1"/>
@@ -74,7 +82,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Viewbox Height="30" Width="auto">
-                            <Button Width="auto" Height="30" Style="{Binding ChoiceKey, Mode=OneWay, Converter={StaticResource multiChoiceButtonStyleConverter}}" DataContext="{Binding}" Command="{Binding}" Margin="20, 0, 20, 0">
+                            <Button Width="auto" Height="30" Style="{Binding ChoiceKey, Converter={StaticResource multiChoiceButtonStyleConverter}, Mode=OneWay}" DataContext="{Binding}" Command="{Binding}" Margin="20, 0, 20, 0">
                                 <local:OutlinedTextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Width="Auto" Text="{res:ResourceKeyBinding Path=ChoiceKey}" FontFamily="SimHei" Fill="White" FontWeight="Bold" Stroke="Black" TextWrapping="NoWrap"/>
                             </Button>
                         </Viewbox>
@@ -87,7 +95,7 @@
 					 Margin="0,0,0,7"
 					 VerticalAlignment="Bottom"/>
         </StackPanel>
-        <local:MainPlayerView x:Name="mainPlayerPanel" VerticalAlignment="Bottom" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+        <local:MainPlayerView x:Name="mainPlayerPanel" VerticalAlignment="Bottom" Grid.Row="1" Grid.ColumnSpan="2"/>
         <Grid x:Name="infoPanel" Grid.Column="1">
             <Grid>
                 <Grid.RowDefinitions>

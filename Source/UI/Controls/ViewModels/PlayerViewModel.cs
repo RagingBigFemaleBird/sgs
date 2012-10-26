@@ -273,7 +273,7 @@ namespace Sanguosha.UI.Controls
             {
                 if (_timeOutSeconds == value) return;
                 _timeOutSeconds = value;
-                OnPropertyChanged("TimeOutSeconds");                
+                OnPropertyChanged("TimeOutSeconds");
             }
         }
 
@@ -896,8 +896,6 @@ namespace Sanguosha.UI.Controls
         {
             if (timeOutSeconds > 0)
             {
-                TimeOutSeconds = timeOutSeconds;
-
                 _timer = new System.Timers.Timer(timeOutSeconds * 1000);
                 _timer.AutoReset = false;
                 _timer.Elapsed +=
@@ -933,7 +931,7 @@ namespace Sanguosha.UI.Controls
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 _StartTimer(timeOutSeconds);
-
+                TimeOutSeconds = timeOutSeconds;
                 if (!IsPlayable)
                 {
                     CardUsageAnsweredEvent(null, null, null);
@@ -999,7 +997,9 @@ namespace Sanguosha.UI.Controls
                     line.Cards.Add(model);
                 }
                 CardChoiceModel.CardStacks.Add(line);
-            }            
+            }
+
+            CardChoiceModel.TimeOutSeconds = timeOutSeconds;
         }
 
         private void cardChoice_OnSelectedChanged(object sender, EventArgs e)
@@ -1059,7 +1059,7 @@ namespace Sanguosha.UI.Controls
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 _StartTimer(timeOutSeconds);
-
+                TimeOutSeconds = timeOutSeconds;
                 if (!IsPlayable)
                 {
                     MultipleChoiceAnsweredEvent(0);

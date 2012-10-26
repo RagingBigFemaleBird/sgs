@@ -16,7 +16,8 @@ namespace Sanguosha.Core.Cards
         OffensiveHorse = Equipment | (1 << 7),
         Armor = Equipment | (1 << 8),
         Weapon = Equipment | (1 << 9),
-        Unknown = (1 << 31),
+        Hero = 1 << 10,
+        Unknown = (1 << 31)
     }
 
     public class CardCategoryManager

@@ -130,8 +130,8 @@ namespace Sanguosha.UI.Controls
             UIElement element = visualAdded as UIElement;
             if (element != null)
             {
-                element.AddHandler(UIElement.MouseEnterEvent,
-                        new RoutedEventHandler(element_MouseEnter), true);            
+                element.AddHandler(UIElement.MouseMoveEvent,
+                        new RoutedEventHandler(element_MouseMove), true);            
                 element.AddHandler(UIElement.MouseLeaveEvent,
                         new RoutedEventHandler(element_MouseLeave), true);
             }
@@ -139,13 +139,36 @@ namespace Sanguosha.UI.Controls
 
         private UIElement focusedCard;
 
-        private void element_MouseEnter(object sender, EventArgs args)
+
+        private void element_MouseMove(object sender, EventArgs args)
         {
             lock (syncFocusedCard)
             {
                 UIElement element = sender as UIElement;
                 if (element != null && element != focusedCard)
                 {
+                    var container = element as FrameworkElement;
+
+                    if (container != null)
+                    {
+                        CardViewModel card = container.DataContext as CardViewModel;
+                        if (card != null)
+                        {
+                            card.IsEnabled = true;
+                            card.IsFaded = false;
+                            foreach (var otherElement in Children)
+                            {
+                                container = otherElement as FrameworkElement;
+                                if (container == null) continue;
+                                CardViewModel otherCard = container.DataContext as CardViewModel;
+                                if (otherCard != null && otherCard != card)
+                                {
+                                    otherCard.IsEnabled = false;
+                                    otherCard.IsFaded = true;
+                                }
+                            }
+                        }
+                    }
                     focusedCard = element;
                     InvalidateArrange();
                 }
@@ -159,8 +182,29 @@ namespace Sanguosha.UI.Controls
                 UIElement element = sender as UIElement;
                 if (element != null && element == focusedCard)
                 {
+                    var container = element as FrameworkElement;
+                    if (container != null)
+                    {
+                        CardViewModel card = container.DataContext as CardViewModel;
+                        if (card != null)
+                        {
+                            card.IsEnabled = true;
+                            card.IsFaded = false;
+                            foreach (var anyElement in Children)
+                            {
+                                container = anyElement as FrameworkElement;
+                                if (container == null) continue;
+                                CardViewModel anyCard = container.DataContext as CardViewModel;
+                                if (anyCard != null)
+                                {
+                                    anyCard.IsEnabled = true;
+                                    anyCard.IsFaded = false;
+                                }
+                            }
+                        }
+                    }
                     focusedCard = null;
-                    InvalidateArrange();
+                    // InvalidateArrange();
                 }
             }
         }

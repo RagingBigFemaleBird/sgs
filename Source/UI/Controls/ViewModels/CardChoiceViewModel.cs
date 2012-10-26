@@ -71,5 +71,20 @@ namespace Sanguosha.UI.Controls
                 OnPropertyChanged("CardStacks");
             }
         }
+
+        private double _timeOutSeconds;
+        public double TimeOutSeconds
+        {
+            get
+            {
+                return _timeOutSeconds;
+            }
+            set
+            {
+                if (_timeOutSeconds == value) return;
+                _timeOutSeconds = value;
+                OnPropertyChanged("TimeOutSeconds");
+            }
+        }
     }
 }
