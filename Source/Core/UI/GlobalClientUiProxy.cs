@@ -16,7 +16,7 @@ namespace Sanguosha.Core.UI
     {
         ClientNetworkUiProxy proxy;
         Prompt prompt;
-        CardUsageVerifier verifier;
+        ICardUsageVerifier verifier;
         Game game;
         public GlobalClientUiProxy(Game g, ClientNetworkUiProxy p)
         {
@@ -24,7 +24,7 @@ namespace Sanguosha.Core.UI
             proxy = p;
         }
 
-        public bool AskForCardUsage(Prompt prompt, CardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players, out Player respondingPlayer)
+        public bool AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players, out Player respondingPlayer)
         {
             this.prompt = prompt;
             this.verifier = verifier;

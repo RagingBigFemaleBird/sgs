@@ -14,7 +14,7 @@ namespace Sanguosha.Core.UI
 {
     public class GlobalDummyProxy : IGlobalUiProxy
     {
-        public bool AskForCardUsage(Prompt prompt, CardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players, out Player respondingPlayer)
+        public bool AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players, out Player respondingPlayer)
         {
             cards = null;
             skill = null;
