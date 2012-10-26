@@ -121,6 +121,7 @@ namespace Sanguosha.Core.Network
             return true;
         }
 
+        //todo: timeout for others, when 0, wait on a minimal timeout (1s)?
         public Card GetCard(int clientId, int timeOutSeconds)
         {
             handlers[clientId].semIn.WaitOne();

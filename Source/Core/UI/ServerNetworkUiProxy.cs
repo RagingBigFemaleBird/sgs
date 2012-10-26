@@ -218,12 +218,111 @@ namespace Sanguosha.Core.UI
             return ret;
         }
 
+
+        public bool TryAskForCardChoice(List<DeckPlace> sourceDecks, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, List<bool> rearrangeable, CardChoiceRearrangeCallback callback)
+        {
+            answer = null;
+            Trace.TraceInformation("Asking Card Choice to {0}, timeout {1}.", HostPlayer.Id, TimeOutSeconds);
+            int? count;
+            if (!server.ExpectNext(clientId, TimeOutSeconds))
+            {
+                return false;
+            }
+
+            count = server.GetInt(clientId, 0);
+            if (count == null || count == 0)
+            {
+                return false;
+            }
+            if (count == null)
+            {
+                return false;
+            }
+            answer = new List<List<Card>>();
+
+            count = server.GetInt(clientId, 0);
+            while (count-- > 0)
+            {
+                int? subCount = server.GetInt(clientId, 0); ;
+                var theList = new List<Card>();
+                answer.Add(theList);
+                while (subCount-- > 0)
+                {
+                    Card item = server.GetCard(clientId, 0);
+                    if (item == null)
+                    {
+                        return false;
+                    }
+                    bool exist = false;
+                    foreach (var v in sourceDecks)
+                    {
+                        if (Game.CurrentGame.Decks[v].Contains(item))
+                        {
+                            exist = true;
+                            break;
+                        }
+                    }
+                    if (!exist)
+                    {
+                        Trace.TraceWarning("Client DDOS!");
+                        return false;
+                    }
+                    theList.Add(item);
+                }
+            }
+
+
+            if (verifier.Verify(answer) != VerifierResult.Success)
+            {
+                Trace.TraceWarning("Client seems to be sending invalid answers at us. DDOS?");
+                answer = null;
+                return false;
+            }
+            return true;
+        }
+
+        public void SendCardChoice(List<List<Card>> answer)
+        {
+            for (int i = 0; i < server.MaxClients; i++)
+            {
+                server.SendObject(i, 1);
+                server.SendObject(i, answer.Count);
+                foreach (var cards in answer)
+                {
+                    server.SendObject(i, cards.Count);
+                    foreach (Card c in cards)
+                    {
+                        c.RevealOnce = true;
+                        server.SendObject(i, c);
+                    }
+                }
+            }
+
+        }
         public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, List<bool> rearrangeable, CardChoiceRearrangeCallback callback)
         {
             answer = null;
-            return false;
+            bool ret = true;
+            if (!TryAskForCardChoice(sourceDecks, resultDeckMaximums, verifier, out answer, rearrangeable, callback))
+            {
+                SendNoAnswer();
+                ret = false;
+            }
+            else
+            {
+                SendCardChoice(answer);
+            }
+            NextQuestion();
+            if (answer == null)
+            {
+                answer = new List<List<Card>>();
+                foreach (var v in resultDeckMaximums)
+                {
+                    answer.Add(new List<Card>());
+                }
+            }
+            return ret;
         }
-
 
 
         public bool AskForMultipleChoice(Prompt prompt, List<string> questions, out int answer)
