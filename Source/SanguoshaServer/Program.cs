@@ -13,7 +13,7 @@ namespace Sanguosha
 {
     class Program
     {
-        static int totalNumberOfPlayers = 5;
+        static int totalNumberOfPlayers = 2;
         static void Main(string[] args)
         {
             Trace.Listeners.Add(new ConsoleTraceListener());

@@ -10,6 +10,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Sanguosha.Core.Games;
+using Sanguosha.UI.Controls;
 
 namespace Sanguosha.UI.Main
 {
@@ -21,18 +23,9 @@ namespace Sanguosha.UI.Main
         public TestFluidCardStack()
         {
             InitializeComponent();
-        }
-
-        private void border3_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-        	border3.Margin = new Thickness(10, 0, 10, 0);
-			// TODO: Add event handler implementation here.
-        }
-
-        private void border3_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-			border3.Margin = new Thickness(0, 0, 0, 0);
-        	// TODO: Add event handler implementation here.
+            GameEngine.LoadExpansions("./");
+            var model = new CardViewModel() { Card = GameEngine.CardSet.First() };
+            cardView1.DataContext = model;
         }
     }
 }

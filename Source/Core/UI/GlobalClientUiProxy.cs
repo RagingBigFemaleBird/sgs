@@ -71,14 +71,6 @@ namespace Sanguosha.Core.UI
             proxy.TryAskForCardUsage(prompt, verifier);
         }
 
-        private class HeroChoiceVerifier : ICardChoiceVerifier
-        {
-            public VerifierResult Verify(List<List<Card>> answer)
-            {
-                return VerifierResult.Success;
-            }
-        }
-
         public void AskForHeroChoice(Dictionary<Player, List<Card>> restDraw, Dictionary<Player, Card> heroSelection)
         {
             DeckType temp = new DeckType("Temp");
@@ -88,7 +80,7 @@ namespace Sanguosha.Core.UI
             List<string> resultDeckNames = new List<string>() { "HeroChoice" };
             List<int> resultDeckMaximums = new List<int>() { 1 };
             List<List<Card>> answer;
-            proxy.AskForCardChoice(new CardChoicePrompt("HeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new HeroChoiceVerifier(), out answer, null, null);
+            proxy.AskForCardChoice(new CardChoicePrompt("HeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new SimpleCardChoiceVerifier(), out answer, null, null);
         }
     }
 }

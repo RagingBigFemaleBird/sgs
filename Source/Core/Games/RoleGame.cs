@@ -437,7 +437,7 @@ namespace Sanguosha.Core.Games
                 int rulerId = 0;
                 if (!game.IsSlave)
                 {
-                    rulerId = random.Next(0, game.Players.Count - 1);
+                    //rulerId = random.Next(0, game.Players.Count - 1);
                 }
                 if (game.GameClient != null)
                 {
@@ -458,16 +458,18 @@ namespace Sanguosha.Core.Games
                 rulerDraw.Add(game.Decks[DeckType.Heroes][3]);
                 rulerDraw.Add(game.Decks[DeckType.Heroes][4]);
                 game.SyncCards(game.Players[rulerId], rulerDraw);
+                DeckType tempHero = new DeckType("TempHero");
+                game.Decks[null, tempHero].AddRange(rulerDraw);
                 Trace.TraceInformation("Ruler is {0}", rulerId);
                 game.Players[rulerId].Role = Role.Ruler;
                 List<DeckPlace> sourceDecks = new List<DeckPlace>();
-                sourceDecks.Add(new DeckPlace(null, DeckType.Heroes));
+                sourceDecks.Add(new DeckPlace(null, tempHero));
                 List<string> resultDeckNames = new List<string>();
                 resultDeckNames.Add("HeroChoice");
                 List<int> resultDeckMaximums = new List<int>();
                 resultDeckMaximums.Add(1);
                 List<List<Card>> answer;
-                Game.CurrentGame.UiProxies[game.Players[rulerId]].AskForCardChoice(new CardUsagePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, null, out answer);
+                Game.CurrentGame.UiProxies[game.Players[rulerId]].AskForCardChoice(new CardUsagePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new SimpleCardChoiceVerifier(), out answer, new List<bool>() { false });
                 game.Decks[DeckType.Heroes].Remove(answer[0][0]);
                 game.Decks[DeckType.Heroes].OrderBy((i) => random.Next());
                 Dictionary<Player, List<Card>> restDraw = new Dictionary<Player, List<Card>>();

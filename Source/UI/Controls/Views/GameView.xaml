@@ -6,6 +6,7 @@
 	         xmlns:ee="http://schemas.microsoft.com/expression/2010/effects"
              xmlns:local="clr-namespace:Sanguosha.UI.Controls"
              xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
+             xmlns:diagnostics="clr-namespace:System.Diagnostics;assembly=WindowsBase"
 	         x:Class="Sanguosha.UI.Controls.GameView"
 	         mc:Ignorable="d"
              d:DesignHeight="747" d:DesignWidth="1076" Width="Auto" Height="Auto">
@@ -40,8 +41,8 @@
     	    	<RowDefinition/>
     	    </Grid.RowDefinitions>
             <Grid Grid.ColumnSpan="3" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"
-                  Visibility="{Binding MainPlayerModel.IsCardChoiceQuestionShown, Converter={StaticResource boolToVisibilityConverter}}" > 
-                <local:CardChoiceBox DataContext="{Binding MainPlayerModel.CardChoiceModel}"/>
+                  Visibility="{Binding MainPlayerModel.IsCardChoiceQuestionShown, Converter={StaticResource boolToVisibilityConverter}}" >
+                <local:CardChoiceBox DataContext="{Binding MainPlayerModel.CardChoiceModel, diagnostics:PresentationTraceSources.TraceLevel=High}"/>
             </Grid>
             <local:DiscardDeck x:Name="discardDeck" CardAlignment="Center" MaxCardSpacing="93" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Height="130" Margin="20,0,20,30"/>
     	    <StackPanel x:Name="stackPanel0" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>

@@ -994,13 +994,12 @@ namespace Sanguosha.UI.Controls
                 CardChoiceLineViewModel line = new CardChoiceLineViewModel();
                 foreach (var card in Game.CurrentGame.Decks[deck])
                 {
-                    CardViewModel model = new CardViewModel() { Card = card };
+                    CardViewModel model = new CardViewModel() { Card = card, IsSelectionMode = true, IsEnabled = true };
                     model.OnSelectedChanged += cardChoice_OnSelectedChanged;
                     line.Cards.Add(model);
                 }
                 CardChoiceModel.CardStacks.Add(line);
-            }
-            
+            }            
         }
 
         private void cardChoice_OnSelectedChanged(object sender, EventArgs e)

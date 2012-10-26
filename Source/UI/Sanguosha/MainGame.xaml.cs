@@ -32,7 +32,7 @@ namespace Sanguosha.UI.Main
         }
 
         int MainSeat = 0;
-        const int numberOfHeros = 5;
+        const int numberOfHeros = 2;
         private void InitGame()
         {
             _game = new RoleGame();

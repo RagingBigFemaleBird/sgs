@@ -159,8 +159,7 @@ namespace Sanguosha.Core.UI
 
         public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, List<bool> rearrangeable, CardChoiceRearrangeCallback callback)
         {
-            answer = null;
-            return false;
+            return proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, out answer, rearrangeable, callback);
         }
 
         public bool AskForMultipleChoice(Prompt prompt, List<string> questions, out int answer)

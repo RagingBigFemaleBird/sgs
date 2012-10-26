@@ -11,7 +11,7 @@
              x:Name="userControl"
              x:Class="Sanguosha.UI.Controls.CardView"
 			 mc:Ignorable="d"
-             d:DesignHeight="130" d:DesignWidth="93" Opacity="0">
+             d:DesignHeight="130" d:DesignWidth="93">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -97,12 +97,13 @@
     		</VisualStateGroup>
     	</VisualStateManager.VisualStateGroups>
         <Viewbox Stretch="Uniform">            
-            <Grid Height="130" Width="93">                
-                <Border x:Name="border" CornerRadius="2" Background="#FFC3C6B9" Margin="-3, -3, -3, -3" Opacity="0.0">
+            <Grid Height="130" Width="93" Background="Black">                
+                <Border x:Name="border" CornerRadius="3" Background="#FFC3C6B9" Margin="-1, -1, -1, -1" Opacity="0.0">
                     <Border.Effect>
-                        <BlurEffect Radius="2" />
+                        <BlurEffect Radius="3" />
                     </Border.Effect>
                 </Border>
+                <TextBlock Text="{Binding TypeString}" Foreground="Yellow"/>
                 <Image Source="{res:ImageBinding Path=TypeString, StringFormat=Resources/Images/Cards/Normal/\{0\}.jpg, ResourceKeyFormat=Card.\{0\}.Image.Normal}"/>
                 <TextBlock x:Name="tbRank" Text="{Binding RankString}"
                        Margin="9,5"

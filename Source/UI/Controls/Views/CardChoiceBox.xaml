@@ -4,10 +4,12 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="clr-namespace:Sanguosha.UI.Controls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	mc:Ignorable="d"
+	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+    mc:Ignorable="d"
 	x:Class="Sanguosha.UI.Controls.CardChoiceBox"
 	x:Name="UserControl"
-    Template="{DynamicResource PromptBox}">
+    xmlns:diagnostics="clr-namespace:System.Diagnostics;assembly=WindowsBase" d:DesignHeight="145" d:DesignWidth="168">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -23,15 +25,21 @@
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <ItemsControl ItemsSource="{Binding Cards}">
+                    <ItemsControl ItemsSource="{Binding Cards, diagnostics:PresentationTraceSources.TraceLevel=High}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <local:FluidCardStack />
+                                <local:FluidCardStack CardWidth="93" CardHeight="130" CardSpacing="10" HighlightItemExtraSpacing="10">
+                                    <i:Interaction.Behaviors>
+                                        <ei:FluidMoveBehavior AppliesTo="Children" Duration="00:00:00.2000000" />
+                                    </i:Interaction.Behaviors>
+                                </local:FluidCardStack>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <local:CardView IsEnabled="{Binding IsEnabled}"/>
+                                <Canvas Width="93" Height="130">
+                                    <local:CardView Width="93" Height="130" CardOpacity="1" Opacity="1"/>
+                                </Canvas>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -40,7 +48,8 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Name="LayoutRoot">
+    <ContentControl Template="{DynamicResource PromptBox}">
+    <Grid Name="LayoutRoot" Margin="20, 5, 50, 5">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
@@ -55,4 +64,5 @@
 
         <ProgressBar x:Name="progressBar" Style="{StaticResource TimedProgressBarStyle}" MaxWidth="263" Height="15"  Grid.Column="0" Grid.Row="1" Margin="30,0" />
     </Grid>
+    </ContentControl>
 </UserControl>

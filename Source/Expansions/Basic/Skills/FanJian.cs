@@ -80,7 +80,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             Game.CurrentGame.UiProxies[arg.Targets[0]].AskForMultipleChoice(new MultipleChoicePrompt("FanJian", Owner), Prompt.SuitChoices, out suitAnswer);
             suit = (SuitType)suitAnswer;
 
-            if (!Game.CurrentGame.UiProxies[arg.Targets[0]].AskForCardChoice(new CardChoicePrompt("FanJian", Owner), decks, decknames, max, ver, out answer))
+            if (!Game.CurrentGame.UiProxies[arg.Targets[0]].AskForCardChoice(new CardChoicePrompt("FanJian", Owner), decks, decknames, max, ver, out answer, new List<bool>() { false }))
             {
                 Trace.TraceInformation("Invalid answer from user");
                 theCard = Game.CurrentGame.Decks[Owner, DeckType.Hand][0];

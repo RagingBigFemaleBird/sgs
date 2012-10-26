@@ -37,6 +37,18 @@ namespace Sanguosha.UI.Controls
 
 
 
+        public double CardSpacing
+        {
+            get { return (double)GetValue(CardSpacingProperty); }
+            set { SetValue(CardSpacingProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CardSpacing.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CardSpacingProperty =
+            DependencyProperty.Register("CardSpacing", typeof(double), typeof(FluidCardStack), new UIPropertyMetadata(0d));
+
+        
+
         public double HighlightItemExtraSpacing
         {
             get { return (double)GetValue(HighlightItemExtraSpacingProperty); }
@@ -45,12 +57,12 @@ namespace Sanguosha.UI.Controls
 
         // Using a DependencyProperty as the backing store for HighlightItemExtraSpacing.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty HighlightItemExtraSpacingProperty =
-            DependencyProperty.Register("HighlightItemExtraSpacing", typeof(double), typeof(FluidCardStack), new UIPropertyMetadata(3d));
+            DependencyProperty.Register("HighlightItemExtraSpacing", typeof(double), typeof(FluidCardStack), new UIPropertyMetadata(6d));
 
         
         protected override Size MeasureOverride(Size availableSize)
         {
-            Size resultSize = new Size(0, 0);
+            Size resultSize = new Size(CardSpacing * (Children.Count - 1), 0);
 
             foreach (UIElement child in Children)
             {

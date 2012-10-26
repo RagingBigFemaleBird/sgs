@@ -51,7 +51,7 @@ namespace Sanguosha.Core.UI
         /// <returns>False if user cannot provide an answer.</returns>
         bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames,
                               List<int> resultDeckMaximums,
-                              ICardChoiceVerifier verifier, out List<List<Card>> answer, List<bool> rearrangeable = null, CardChoiceRearrangeCallback callback = null);
+                              ICardChoiceVerifier verifier, out List<List<Card>> answer, List<bool> rearrangeable, CardChoiceRearrangeCallback callback = null);
 
         /// <summary>
         /// 询问多选题目，例如是否发动洛神
