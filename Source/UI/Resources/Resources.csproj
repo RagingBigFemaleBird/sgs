@@ -322,6 +322,10 @@
     <Folder Include="obj\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\System\chat-emotion.png" />
+    <Resource Include="Images\System\chat-enter.png" />
+    <Resource Include="Images\System\chat-face.png" />
+    <Resource Include="Images\System\chat-snippet.png" />
     <Resource Include="Images\System\loginBg.jpg" />
   </ItemGroup>
   <ItemGroup>

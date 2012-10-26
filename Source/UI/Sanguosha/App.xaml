@@ -177,7 +177,11 @@
         								<RowDefinition Height="0.00001*"/>
         								<RowDefinition Height="4"/>
         							</Grid.RowDefinitions>
-        							<RepeatButton Command="{x:Static ScrollBar.LineUpCommand}" IsEnabled="{TemplateBinding IsMouseOver}" Style="{StaticResource ScrollBarButton}" Microsoft_Windows_Themes:ScrollChrome.ScrollGlyph="UpArrow"/>
+        							<RepeatButton Command="{x:Static ScrollBar.LineUpCommand}" IsEnabled="{TemplateBinding IsMouseOver}" Style="{StaticResource ScrollBarButton}" Microsoft_Windows_Themes:ScrollChrome.ScrollGlyph="UpArrow" Width="7" HorizontalAlignment="Center">
+        								<RepeatButton.Background>
+        									<ImageBrush Stretch="None"/>
+        								</RepeatButton.Background>
+        							</RepeatButton>
         							<Track x:Name="PART_Track" IsDirectionReversed="true" IsEnabled="{TemplateBinding IsMouseOver}" Grid.Row="1" Margin="0,3">
         								<Track.DecreaseRepeatButton>
         									<RepeatButton Command="{x:Static ScrollBar.PageUpCommand}" Style="{StaticResource VerticalScrollBarPageButton}">
@@ -205,7 +209,11 @@
         									<Thumb Style="{StaticResource ScrollBarThumb}" Microsoft_Windows_Themes:ScrollChrome.ScrollGlyph="VerticalGripper"/>
         								</Track.Thumb>
         							</Track>
-        							<RepeatButton Command="{x:Static ScrollBar.LineDownCommand}" IsEnabled="{TemplateBinding IsMouseOver}" Grid.Row="2" Style="{DynamicResource ScrollDownButton}" Microsoft_Windows_Themes:ScrollChrome.ScrollGlyph="DownArrow"/>
+        							<RepeatButton Command="{x:Static ScrollBar.LineDownCommand}" IsEnabled="{TemplateBinding IsMouseOver}" Grid.Row="2" Style="{DynamicResource ScrollDownButton}" Microsoft_Windows_Themes:ScrollChrome.ScrollGlyph="DownArrow" Width="7" HorizontalAlignment="Center">
+        								<RepeatButton.Background>
+        									<ImageBrush Stretch="None"/>
+        								</RepeatButton.Background>
+        							</RepeatButton>
         						</Grid>
         					</Border>
         					<ControlTemplate.Triggers>
