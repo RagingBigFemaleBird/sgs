@@ -32,6 +32,14 @@ namespace Sanguosha.UI.Controls
                     {
                         _uiCard = new Card();
                         _uiCard.Id = _card.Id;
+                        if (_uiCard.Id == Card.UnknownCardId)
+                        {
+                            _uiCard.Type = new UnknownCardHandler();
+                        }
+                        else if (_uiCard.Id == Card.UnknownHeroId)
+                        {
+                            _uiCard.Type = new UnknownHeroCardHandler();
+                        }
                     }
                 }
                 else

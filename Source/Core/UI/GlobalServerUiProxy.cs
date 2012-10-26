@@ -37,6 +37,9 @@ namespace Sanguosha.Core.UI
             public ServerNetworkUiProxy proxy;
             public ICardChoiceVerifier verifier;
             public Player player;
+            public List<DeckPlace> places;
+            public List<int> resultMax;
+            public List<bool> rearrangeable;
         }
 
         public bool AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players, out Player respondingPlayer)
@@ -157,8 +160,9 @@ namespace Sanguosha.Core.UI
             proxyListener = new Dictionary<Player, Thread>();
             semAccess = new Semaphore(1, 1);
             semWake = new Semaphore(0, 2);
-            semDone = new Semaphore(proxy.Count - 1, proxy.Count - 1);
+            semDone = new Semaphore(proxy.Count - 2, proxy.Count - 1);
             answerHero = heroSelection;
+            DeckType temp = new DeckType("Temp");
             foreach (var player in Game.CurrentGame.Players)
             {
                 if (!proxy.ContainsKey(player) || player.Role == Role.Ruler)
@@ -169,6 +173,10 @@ namespace Sanguosha.Core.UI
                 para.proxy = proxy[player];
                 para.verifier = null;
                 para.player = player;
+                para.places = new List<DeckPlace>() { new DeckPlace(player, temp) };
+                para.rearrangeable = new List<bool>() { false };
+                para.resultMax = new List<int> { 1 };
+                Game.CurrentGame.Decks[player, temp].AddRange(restDraw[player]);
                 Thread t = new Thread(
                     (ParameterizedThreadStart)
                     ((p) =>
@@ -186,7 +194,6 @@ namespace Sanguosha.Core.UI
             foreach (var pair in proxyListener)
             {
                 pair.Value.Abort();
-                proxy[pair.Key].NextQuestion();
             }
 
         }
@@ -195,14 +202,14 @@ namespace Sanguosha.Core.UI
         {
             game.RegisterCurrentThread();
             List<List<Card>> answer;
-            if (para.proxy.TryAskForCardChoice(null, null, null, out answer, null, null))
+            if (para.proxy.TryAskForCardChoice(para.places, para.resultMax, new AlwaysTrueChoiceVerifier(), out answer, para.rearrangeable, null))
             {
                 semAccess.WaitOne();
                 if (answer != null && answer.Count != 0 && answer[0] != null && answer[0].Count != 0)
                 {
                     answerHero.Add(para.player, answer[0][0]);
                 }
-                semWake.Release(1);
+                semAccess.Release();
             }
             if (!semDone.WaitOne(0))
             {

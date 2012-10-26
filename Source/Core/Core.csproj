@@ -100,8 +100,9 @@
     <Compile Include="UI\IGameLog.cs" />
     <Compile Include="UI\IGlobalUiProxy.cs" />
     <Compile Include="UI\IUIProxy.cs" />
+    <Compile Include="UI\RequireOneCardChoiceVerifier.cs" />
     <Compile Include="UI\ServerNetworkUiProxy.cs" />
-    <Compile Include="UI\SimpleCardChoiceVerifier.cs" />
+    <Compile Include="UI\AlwaysTrueChoiceVerifier.cs" />
     <Compile Include="UI\TestUiProxy.cs" />
   </ItemGroup>
   <ItemGroup>

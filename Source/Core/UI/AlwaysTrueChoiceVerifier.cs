@@ -7,7 +7,7 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Core.UI
 {
-    public class SimpleCardChoiceVerifier : ICardChoiceVerifier
+    public class AlwaysTrueChoiceVerifier : ICardChoiceVerifier
     {
         public VerifierResult Verify(List<List<Card>> answer)
         {

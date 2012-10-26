@@ -78,13 +78,12 @@ namespace Sanguosha.Core.UI
             {
                 return;
             }
-            Game.CurrentGame.Decks[null, temp].AddRange(restDraw[proxy.HostPlayer]);
+            Game.CurrentGame.Decks[proxy.HostPlayer, temp].AddRange(restDraw[proxy.HostPlayer]);
             List<DeckPlace> sourceDecks = new List<DeckPlace>();
-            sourceDecks.Add(new DeckPlace(null, temp));
+            sourceDecks.Add(new DeckPlace(proxy.HostPlayer, temp));
             List<string> resultDeckNames = new List<string>() { "HeroChoice" };
             List<int> resultDeckMaximums = new List<int>() { 1 };
-            List<List<Card>> answer;
-            proxy.AskForCardChoice(new CardChoicePrompt("HeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new SimpleCardChoiceVerifier(), out answer, new List<bool>() {false}, null);
+            proxy.TryAskForCardChoice(new CardChoicePrompt("HeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new AlwaysTrueChoiceVerifier(), new List<bool>() {false}, null);
         }
     }
 }

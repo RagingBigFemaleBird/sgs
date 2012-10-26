@@ -49,19 +49,6 @@ namespace Sanguosha.Expansions.Basic.Skills
             return VerifierResult.Success;
         }
 
-        public class FanJianVerifier : ICardChoiceVerifier
-        {
-            public VerifierResult Verify(List<List<Card>> answer)
-            {
-                Trace.Assert(answer.Count == 1);
-                if (answer[0].Count == 0)
-                {
-                    return VerifierResult.Partial;
-                }
-                return VerifierResult.Success;
-            }
-        }
-
         public override bool Commit(GameEventArgs arg)
         {
             Owner[FanJianUsed] = 1;
@@ -74,13 +61,12 @@ namespace Sanguosha.Expansions.Basic.Skills
             List<string> decknames = new List<string>();
             decknames.Add("FanJianChoice");
             List<List<Card>> answer;
-            FanJianVerifier ver = new FanJianVerifier();
             Card theCard;
             int suitAnswer;
             Game.CurrentGame.UiProxies[arg.Targets[0]].AskForMultipleChoice(new MultipleChoicePrompt("FanJian", Owner), Prompt.SuitChoices, out suitAnswer);
             suit = (SuitType)suitAnswer;
 
-            if (!Game.CurrentGame.UiProxies[arg.Targets[0]].AskForCardChoice(new CardChoicePrompt("FanJian", Owner), decks, decknames, max, ver, out answer, new List<bool>() { false }))
+            if (!Game.CurrentGame.UiProxies[arg.Targets[0]].AskForCardChoice(new CardChoicePrompt("FanJian", Owner), decks, decknames, max, new RequireOneCardChoiceVerifier(), out answer, new List<bool>() { false }))
             {
                 Trace.TraceInformation("Invalid answer from user");
                 theCard = Game.CurrentGame.Decks[Owner, DeckType.Hand][0];
