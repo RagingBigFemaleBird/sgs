@@ -22,20 +22,6 @@ namespace Sanguosha.Expansions.Basic.Skills
     {
         class FanKuiTrigger : Trigger
         {
-            public class FanKuiVerifier : ICardChoiceVerifier
-            {
-
-                public VerifierResult Verify(List<List<Card>> answer)
-                {
-                    Trace.Assert(answer.Count == 1);
-                    if (answer[0].Count < 1)
-                    {
-                        return VerifierResult.Partial;
-                    }
-                    return VerifierResult.Success;
-
-                }
-            }
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 if (eventArgs.Source == null || eventArgs.Targets.IndexOf(Owner) < 0)
@@ -53,14 +39,13 @@ namespace Sanguosha.Expansions.Basic.Skills
                     List<List<Card>> result;
                     List<string> deckname = new List<string>();
                     deckname.Add("FanKui choice");
-                    FanKuiVerifier ver = new FanKuiVerifier();
                     Card theCard;
                     if (Game.CurrentGame.Decks[eventArgs.Source, DeckType.Hand].Count == 0 &&
                         Game.CurrentGame.Decks[eventArgs.Source, DeckType.Equipment].Count == 0)
                     {
                         return;
                     }
-                    if (!Game.CurrentGame.UiProxies[eventArgs.Source].AskForCardChoice(new CardChoicePrompt("FanKui"), deck, deckname, max, ver, out result, new List<bool>() { false }))
+                    if (!Game.CurrentGame.UiProxies[eventArgs.Source].AskForCardChoice(new CardChoicePrompt("FanKui"), deck, deckname, max, new RequireOneCardChoiceVerifier(), out result, new List<bool>() { false }))
                     {
 
                         Trace.TraceInformation("Invalid choice for FanKui");

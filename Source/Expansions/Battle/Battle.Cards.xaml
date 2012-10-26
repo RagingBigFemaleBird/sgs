@@ -4,11 +4,14 @@
     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <system:String x:Key="Card.HuoGong.Name">火攻</system:String>
-    <system:String x:Key="Card.HuoGong.Description"></system:String>
-    <system:String x:Key="Card.HuoGong.Usage"></system:String>
+    <system:String x:Key="Card.HuoGong.Description">出牌阶段，对一名有手牌的角色使用。该角色须展示一张手牌，然后若你弃置一张与所展示牌相同花色的手牌，则对其造成1点火焰伤害。</system:String>
+    <system:String x:Key="Card.HuoGong.Usage">选中【火攻】→选择目标（至少有1张手牌）→点“确定”</system:String>
 
     <system:String x:Key="Card.TieSuoLianHuan.Name">铁锁连环</system:String>
-    <system:String x:Key="Card.TieSuoLianHuan.Description"></system:String>
-    <system:String x:Key="Card.TieSuoLianHuan.Usage"></system:String>
+    <system:String x:Key="Card.TieSuoLianHuan.Description">出牌阶段，对一至两名角色使用，目标角色分别横置或重置其武将牌（被横置武将牌的角色处于“连环状态”，重置武将牌即解除“连环状态”）。
+重铸：出牌阶段，你可以将此牌置入弃牌堆，然后摸1张牌。</system:String>
+    <system:String x:Key="Card.TieSuoLianHuan.Usage">连锁和重置：选中【铁索连环】→选择1至2个目标→点“确定”
+    
+重铸：选中【铁索连环】→点“确定”</system:String>
 
 </ResourceDictionary>

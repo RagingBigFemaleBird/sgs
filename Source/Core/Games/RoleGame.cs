@@ -384,32 +384,6 @@ namespace Sanguosha.Core.Games
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 Game game = eventArgs.Game;
-                /*                if (id < players.Count && g.Type is Core.Heroes.HeroCardHandler)
-                                {
-                                    Core.Heroes.HeroCardHandler h = (Core.Heroes.HeroCardHandler)g.Type;
-                                    Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, id);
-                                    Game.CurrentGame.Players[id].Hero = h.Hero;
-                                    Game.CurrentGame.Players[id].Allegiance = h.Hero.Allegiance;
-                                    Game.CurrentGame.Players[id].MaxHealth = Game.CurrentGame.Players[id].Health = h.Hero.MaxHealth;
-                                    if (id == 0)
-                                    {
-                                        Game.CurrentGame.Players[id].Role = Role.Ruler;
-                                    }
-                                    else if (id == 1)
-                                    {
-                                        Game.CurrentGame.Players[id].Role = Role.Defector;
-                                    }
-                                    else if (id < 4)
-                                    {
-                                        Game.CurrentGame.Players[id].Role = Role.Loyalist;
-                                    }
-                                    else
-                                    {
-                                        Game.CurrentGame.Players[id].Role = Role.Rebel;
-                                    }
-                                    id++;
-                                }
-                */
 
                 // Put the whole deck in the dealing deck
                 game.Decks[DeckType.Dealing] = game.CardSet.GetRange(0, game.CardSet.Count);
@@ -450,7 +424,7 @@ namespace Sanguosha.Core.Games
                         game.GameServer.SendObject(p.Id, rulerId);
                     }
                 }
-                game.Decks[DeckType.Heroes].OrderBy((i) => random.Next());
+                Shuffle(game.Decks[DeckType.Heroes]);
                 List<Card> rulerDraw = new List<Card>();
                 rulerDraw.Add(game.Decks[DeckType.Heroes][0]);
                 rulerDraw.Add(game.Decks[DeckType.Heroes][1]);
@@ -469,9 +443,18 @@ namespace Sanguosha.Core.Games
                 List<int> resultDeckMaximums = new List<int>();
                 resultDeckMaximums.Add(1);
                 List<List<Card>> answer;
-                Game.CurrentGame.UiProxies[game.Players[rulerId]].AskForCardChoice(new CardChoicePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new SimpleCardChoiceVerifier(), out answer, new List<bool>() { false });
+                game.UiProxies[game.Players[rulerId]].AskForCardChoice(new CardChoicePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new AlwaysTrueChoiceVerifier(), out answer, new List<bool>() { false });
+                game.SyncCardAll(answer[0][0]);
                 game.Decks[DeckType.Heroes].Remove(answer[0][0]);
-                game.Decks[DeckType.Heroes].OrderBy((i) => random.Next());
+
+                HeroCardHandler h = (HeroCardHandler)answer[0][0].Type;
+                Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, rulerId);
+                Game.CurrentGame.Players[rulerId].Hero = h.Hero;
+                Game.CurrentGame.Players[rulerId].Allegiance = h.Hero.Allegiance;
+                Game.CurrentGame.Players[rulerId].MaxHealth = Game.CurrentGame.Players[rulerId].Health = h.Hero.MaxHealth;
+
+
+                Shuffle(game.Decks[DeckType.Heroes]);
                 Dictionary<Player, List<Card>> restDraw = new Dictionary<Player, List<Card>>();
                 List<Player> players = new List<Player>(game.Players);
                 players.Remove(game.Players[rulerId]);
@@ -489,7 +472,53 @@ namespace Sanguosha.Core.Games
 
                 var heroSelection = new Dictionary<Player, Card>();
                 game.GlobalProxy.AskForHeroChoice(restDraw, heroSelection);
-                
+
+                bool notUsed = true;
+                game.SyncConfirmationStatus(ref notUsed);
+
+                List<Card> toRemove = new List<Card>();
+                foreach (Player p in players)
+                {
+                    Card c;
+                    //only server has the result
+                    if (!game.IsSlave)
+                    {
+                        idx = 0;
+                        if (heroSelection.ContainsKey(p))
+                        {
+                            c = heroSelection[p];
+                            idx = restDraw[p].IndexOf(c);
+                        }
+                        else
+                        {
+                            c = restDraw[p][0];
+                        }
+                        foreach (Player s in game.Players)
+                        {
+                            game.GameServer.SendObject(s.Id, idx);
+                        }
+                    }
+                    // you are client
+                    else
+                    {
+                        idx = (int)game.GameClient.Receive();
+                        c = restDraw[p][idx];
+                    }
+                    game.SyncCardAll(c);
+                    toRemove.Add(c);
+                    h = (HeroCardHandler)c.Type;
+                    Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, p.Id);
+                    p.Hero = h.Hero;
+                    p.Allegiance = h.Hero.Allegiance;
+                    p.MaxHealth = p.Health = h.Hero.MaxHealth;
+                    
+                }
+
+                foreach (var z in toRemove)
+                {
+                    game.Decks[DeckType.Heroes].Remove(z);
+                }
+
                 StartGameDeal(game);
                 game.CurrentPlayer = game.Players.First();
                 game.CurrentPhase = TurnPhase.BeforeStart;
@@ -503,6 +532,20 @@ namespace Sanguosha.Core.Games
 
         public RoleGame()
         {
+        }
+
+        public static void Shuffle(IList<Card> list)
+        {
+            Random rng = new Random();
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                Card value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
         }
 
         protected override void InitTriggers()

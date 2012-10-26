@@ -22,20 +22,6 @@ namespace Sanguosha.Expansions.SP.Skills
     {
         class JiLeiTrigger : Trigger
         {
-            public class FanKuiVerifier : ICardChoiceVerifier
-            {
-
-                public VerifierResult Verify(List<List<Card>> answer)
-                {
-                    Trace.Assert(answer.Count == 1);
-                    if (answer[0].Count < 1)
-                    {
-                        return VerifierResult.Partial;
-                    }
-                    return VerifierResult.Success;
-
-                }
-            }
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 if (eventArgs.Source == null || eventArgs.Targets.IndexOf(Owner) < 0)

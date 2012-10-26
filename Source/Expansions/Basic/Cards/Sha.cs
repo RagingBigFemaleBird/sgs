@@ -122,21 +122,11 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     if (e.Status == TriggerResult.Retry)
                     {
-                        args.Source = source;
-                        args.Targets = new List<Player>();
-                        args.Targets.Add(dest);
-                        args.Card = card;
-                        Game.CurrentGame.Emit(PlayerShaTargetEnd, args);
                         goto retrySha;
                     }
                     Trace.Assert(false);
                 }
             }
-            args.Source = source;
-            args.Targets = new List<Player>();
-            args.Targets.Add(dest);
-            args.Card = card;
-            Game.CurrentGame.Emit(PlayerShaTargetEnd, args);
         }
 
         public VerifierResult ShaVerifyForJieDaoShaRenOnly(Player source, ICard card, List<Player> targets)

@@ -62,6 +62,10 @@ namespace Sanguosha.UI.Controls
         
         protected override Size MeasureOverride(Size availableSize)
         {
+            if (Children.Count == 0)
+            {
+                return new Size(0, 0);
+            }
             Size resultSize = new Size(CardSpacing * (Children.Count - 1), 0);
 
             foreach (UIElement child in Children)
@@ -81,6 +85,10 @@ namespace Sanguosha.UI.Controls
 
         protected override Size ArrangeOverride(Size finalSize)
         {
+            if (Children.Count == 0)
+            {
+                return new Size(0, 0);
+            }
             int childCount = Children.Count;
             bool doExtraSpacing = (focusedCard != null);            
 

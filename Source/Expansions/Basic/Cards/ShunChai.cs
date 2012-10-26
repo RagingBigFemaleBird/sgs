@@ -16,18 +16,6 @@ namespace Sanguosha.Expansions.Basic.Cards
 {
     public abstract class ShunChai : CardHandler
     {
-        public class ShunChaiCardChoiceVerifier : ICardChoiceVerifier
-        {
-            public VerifierResult Verify(List<List<Card>> answer)
-            {
-                Trace.Assert(answer.Count == 1);
-                if (answer[0].Count == 0)
-                {
-                    return VerifierResult.Partial;
-                }
-                return VerifierResult.Success;
-            }
-        }
 
         protected abstract string ResultDeckName {get;}
 
@@ -38,8 +26,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected override void Process(Player source, Player dest, ICard card)
         {
-            IUiProxy ui = Game.CurrentGame.UiProxies[dest];
-            ShunChaiCardChoiceVerifier v1 = new ShunChaiCardChoiceVerifier();
+            IUiProxy ui = Game.CurrentGame.UiProxies[source];
             List<DeckPlace> places = new List<DeckPlace>();
             places.Add(new DeckPlace(dest, DeckType.DelayedTools));
             places.Add(new DeckPlace(dest, DeckType.Equipment));
@@ -49,7 +36,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             List<int> resultDeckMax = new List<int>();
             resultDeckMax.Add(1);
             List<List<Card>> answer;
-            if (!ui.AskForCardChoice(new CardChoicePrompt(ChoicePrompt), places, resultDeckPlace, resultDeckMax, v1, out answer, new List<bool>() { false }))
+            if (!ui.AskForCardChoice(new CardChoicePrompt(ChoicePrompt), places, resultDeckPlace, resultDeckMax, new RequireOneCardChoiceVerifier(), out answer, new List<bool>() { false }))
             {
                 Trace.TraceInformation("Player {0} Invalid answer", dest);
                 answer = new List<List<Card>>();

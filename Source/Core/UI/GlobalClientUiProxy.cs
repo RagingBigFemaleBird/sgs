@@ -16,7 +16,7 @@ namespace Sanguosha.Core.UI
     {
         ClientNetworkUiProxy proxy;
         Prompt prompt;
-        CardUsageVerifier verifier;
+        ICardUsageVerifier verifier;
         Game game;
         public GlobalClientUiProxy(Game g, ClientNetworkUiProxy p)
         {
@@ -24,7 +24,7 @@ namespace Sanguosha.Core.UI
             proxy = p;
         }
 
-        public bool AskForCardUsage(Prompt prompt, CardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players, out Player respondingPlayer)
+        public bool AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players, out Player respondingPlayer)
         {
             this.prompt = prompt;
             this.verifier = verifier;
@@ -74,13 +74,16 @@ namespace Sanguosha.Core.UI
         public void AskForHeroChoice(Dictionary<Player, List<Card>> restDraw, Dictionary<Player, Card> heroSelection)
         {
             DeckType temp = new DeckType("Temp");
-            Game.CurrentGame.Decks[null, temp].AddRange(restDraw[proxy.HostPlayer]);
+            if (!restDraw.ContainsKey(proxy.HostPlayer))
+            {
+                return;
+            }
+            Game.CurrentGame.Decks[proxy.HostPlayer, temp].AddRange(restDraw[proxy.HostPlayer]);
             List<DeckPlace> sourceDecks = new List<DeckPlace>();
-            sourceDecks.Add(new DeckPlace(null, temp));
+            sourceDecks.Add(new DeckPlace(proxy.HostPlayer, temp));
             List<string> resultDeckNames = new List<string>() { "HeroChoice" };
             List<int> resultDeckMaximums = new List<int>() { 1 };
-            List<List<Card>> answer;
-            proxy.AskForCardChoice(new CardChoicePrompt("HeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new SimpleCardChoiceVerifier(), out answer, null, null);
+            proxy.TryAskForCardChoice(new CardChoicePrompt("HeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new AlwaysTrueChoiceVerifier(), new List<bool>() {false}, null);
         }
     }
 }

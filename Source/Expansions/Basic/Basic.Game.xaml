@@ -7,8 +7,8 @@
     <sys:String x:Key="CardUsage.Prompt.JueDou">{0}对你使用了决斗，请出一张杀</sys:String>
     <sys:String x:Key="CardUsage.Prompt.JueDou2">{0}为决斗打出一张杀，请出一张杀</sys:String>
     <sys:String x:Key="CardUsage.Prompt.WuXieKeJi">{0}为{1}询问无懈可击，是否使用无懈可击？</sys:String>
-    <sys:String x:Key="CardUsage.Prompt.CiXiong">是否发动雌雄双股剑效果？</sys:String>
-    <sys:String x:Key="CardUsage.Prompt.CiXiong2">{0}发动了雌雄双股剑效果，请弃一张牌或点“取消”让对方摸一张牌</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.CiXiong">是否发动雌雄双股剑效果？</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.CiXiong2">{0}发动了雌雄双股剑效果，请弃一张牌或点“取消”让对方摸一张牌</sys:String>
     <sys:String x:Key="CardUsage.Prompt.Sha.Shan">{0}对你使用了杀，请出一张闪</sys:String>
     <sys:String x:Key="CardUsage.Prompt.JiJiang">{0}发动了激将，是否为其出一张杀？</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.GangLie">{0}对你造成一点伤害，是否发动刚烈</sys:String>
