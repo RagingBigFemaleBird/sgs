@@ -59,6 +59,7 @@ namespace Sanguosha.UI.Controls
             
             CardChoiceModel = new CardChoiceViewModel();
             HandCards = new ObservableCollection<CardViewModel>();
+            verifierLock = new object();
         }
 
         public PlayerViewModel(Player player, GameViewModel game, bool isPlayable) : this()
@@ -558,10 +559,13 @@ namespace Sanguosha.UI.Controls
             _ResetAll();
 
             // Card usage question
-            if (currentUsageVerifier != null)
+            lock (verifierLock)
             {
-                currentUsageVerifier = null;
-                CardUsageAnsweredEvent(skill, cards, players);
+                if (currentUsageVerifier != null)
+                {
+                    currentUsageVerifier = null;
+                    CardUsageAnsweredEvent(skill, cards, players);
+                }
             }
         }
 
@@ -571,10 +575,13 @@ namespace Sanguosha.UI.Controls
         private SimpleRelayCommand cancelCardUsageCommand;
         public void CancelCardUsageCommand(object parameter)
         {
-            Trace.Assert(currentUsageVerifier != null);
-            CardUsageAnsweredEvent(null, null, null);
-            currentUsageVerifier = null;
-            _ResetAll();
+            lock (verifierLock)
+            {
+                Trace.Assert(currentUsageVerifier != null);
+                CardUsageAnsweredEvent(null, null, null);
+                currentUsageVerifier = null;
+                _ResetAll();
+            }
         }
         #endregion
         
@@ -583,11 +590,14 @@ namespace Sanguosha.UI.Controls
         public void AbortCardUsageCommand(object parameter)
         {
             _timer.Stop();
-            if (currentUsageVerifier != null)
+            lock (verifierLock)
             {
-                CardUsageAnsweredEvent(null, null, null);
-                currentUsageVerifier = null;
-                _ResetAll();
+                if (currentUsageVerifier != null)
+                {
+                    CardUsageAnsweredEvent(null, null, null);
+                    currentUsageVerifier = null;
+                    _ResetAll();
+                }
             }
         }
         #endregion
@@ -753,128 +763,131 @@ namespace Sanguosha.UI.Controls
             bool isEquipCommand;
             SkillCommand command = _GetSelectedSkillCommand(out isEquipCommand);
 
-            if (currentUsageVerifier.Helper.isActionStage)
+            lock (verifierLock)
             {
-                cancelCardUsageCommand.CanExecuteStatus = (cards.Count != 0 || players.Count != 0 || command != null);
-            }
-
-            if (command != null)
-            {
-                skill = command.Skill;
-            }
-
-            // Handle skill down            
-            foreach (var skillCommand in SkillCommands)
-            {
-                skillCommand.IsEnabled = (currentUsageVerifier.Verify(skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
-            }
-
-            if (skill == null)
-            {
-                foreach (var equipCommand in EquipCommands)
+                if (currentUsageVerifier.Helper.isActionStage)
                 {
-                    if (equipCommand.SkillCommand.Skill == null)
+                    cancelCardUsageCommand.CanExecuteStatus = (cards.Count != 0 || players.Count != 0 || command != null);
+                }
+
+                if (command != null)
+                {
+                    skill = command.Skill;
+                }
+
+                // Handle skill down            
+                foreach (var skillCommand in SkillCommands)
+                {
+                    skillCommand.IsEnabled = (currentUsageVerifier.Verify(skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
+                }
+
+                if (skill == null)
+                {
+                    foreach (var equipCommand in EquipCommands)
                     {
-                        equipCommand.IsEnabled = false;
+                        if (equipCommand.SkillCommand.Skill == null)
+                        {
+                            equipCommand.IsEnabled = false;
+                        }
+                        equipCommand.IsEnabled = (currentUsageVerifier.Verify(equipCommand.SkillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
                     }
-                    equipCommand.IsEnabled = (currentUsageVerifier.Verify(equipCommand.SkillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
                 }
-            }
-            if (!isEquipCommand)
-            {
-                foreach (var equipCommand in EquipCommands)
+                if (!isEquipCommand)
                 {
-                    if (equipCommand.IsSelected)
-                        cards.Add(equipCommand.Card);
+                    foreach (var equipCommand in EquipCommands)
+                    {
+                        if (equipCommand.IsSelected)
+                            cards.Add(equipCommand.Card);
+                    }
                 }
-            }
 
-            var status = currentUsageVerifier.Verify(skill, cards, players);
+                var status = currentUsageVerifier.Verify(skill, cards, players);
 
-            if (status == VerifierResult.Fail)
-            {
-                submitCardUsageCommand.CanExecuteStatus = false;
+                if (status == VerifierResult.Fail)
+                {
+                    submitCardUsageCommand.CanExecuteStatus = false;
+                    foreach (var playerModel in _game.PlayerModels)
+                    {
+                        playerModel.IsSelected = false;
+                    }
+                }
+                else if (status == VerifierResult.Partial)
+                {
+                    submitCardUsageCommand.CanExecuteStatus = false;
+                }
+                else if (status == VerifierResult.Success)
+                {
+                    submitCardUsageCommand.CanExecuteStatus = true;
+                }
+
+                List<Card> attempt = new List<Card>(cards);
+
+                foreach (var card in HandCards)
+                {
+                    if (card.IsSelected)
+                    {
+                        continue;
+                    }
+                    attempt.Add(card.Card);
+                    bool disabled = (currentUsageVerifier.Verify(skill, attempt, players) == VerifierResult.Fail);
+                    card.IsEnabled = !disabled;
+                    attempt.Remove(card.Card);
+                }
+
+                if (skill != null)
+                {
+                    foreach (var equipCommand in EquipCommands)
+                    {
+                        if (equipCommand.IsSelected) continue;
+
+                        attempt.Add(equipCommand.Card);
+                        bool disabled = (currentUsageVerifier.Verify(skill, attempt, players) == VerifierResult.Fail);
+                        equipCommand.IsEnabled = !disabled;
+                        attempt.Remove(equipCommand.Card);
+                    }
+                }
+
+                // Invalidate target selection
+                List<Player> attempt2 = new List<Player>(players);
+                int validCount = 0;
+                bool[] enabledMap = new bool[_game.PlayerModels.Count];
+                int i = 0;
                 foreach (var playerModel in _game.PlayerModels)
                 {
-                    playerModel.IsSelected = false;
-                }
-            }
-            else if (status == VerifierResult.Partial)
-            {
-                submitCardUsageCommand.CanExecuteStatus = false;
-            }
-            else if (status == VerifierResult.Success)
-            {
-                submitCardUsageCommand.CanExecuteStatus = true;
-            }
-
-            List<Card> attempt = new List<Card>(cards);
-
-            foreach (var card in HandCards)
-            {
-                if (card.IsSelected)
-                {
-                    continue;
-                }
-                attempt.Add(card.Card);
-                bool disabled = (currentUsageVerifier.Verify(skill, attempt, players) == VerifierResult.Fail);
-                card.IsEnabled = !disabled;
-                attempt.Remove(card.Card);
-            }
-
-            if (skill != null)
-            {
-                foreach (var equipCommand in EquipCommands)
-                {
-                    if (equipCommand.IsSelected) continue;
-
-                    attempt.Add(equipCommand.Card);
-                    bool disabled = (currentUsageVerifier.Verify(skill, attempt, players) == VerifierResult.Fail);
-                    equipCommand.IsEnabled = !disabled;
-                    attempt.Remove(equipCommand.Card);
-                }
-            }
-
-            // Invalidate target selection
-            List<Player> attempt2 = new List<Player>(players);
-            int validCount = 0;
-            bool[] enabledMap = new bool[_game.PlayerModels.Count];
-            int i = 0;
-            foreach (var playerModel in _game.PlayerModels)
-            {
-                enabledMap[i] = false;
-                if (playerModel.IsSelected)
-                {
+                    enabledMap[i] = false;
+                    if (playerModel.IsSelected)
+                    {
+                        i++;
+                        continue;
+                    }
+                    attempt2.Add(playerModel.Player);
+                    bool disabled = (currentUsageVerifier.Verify(skill, cards, attempt2) == VerifierResult.Fail);
+                    if (!disabled)
+                    {
+                        validCount++;
+                        enabledMap[i] = true;
+                    }
+                    attempt2.Remove(playerModel.Player);
                     i++;
-                    continue;
-                }
-                attempt2.Add(playerModel.Player);
-                bool disabled = (currentUsageVerifier.Verify(skill, cards, attempt2) == VerifierResult.Fail);
-                if (!disabled)
-                {
-                    validCount++;
-                    enabledMap[i] = true;
-                }
-                attempt2.Remove(playerModel.Player);
-                i++;
 
-            }
-            i = 0;
+                }
+                i = 0;
 
-            bool allowSelection = (cards.Count != 0 || validCount != 0 || skill != null);
-            foreach (var playerModel in _game.PlayerModels)
-            {
-                if (playerModel.IsSelected)
+                bool allowSelection = (cards.Count != 0 || validCount != 0 || skill != null);
+                foreach (var playerModel in _game.PlayerModels)
                 {
+                    if (playerModel.IsSelected)
+                    {
+                        i++;
+                        continue;
+                    }
+                    playerModel.IsSelectionMode = allowSelection;
+                    if (allowSelection)
+                    {
+                        playerModel.IsEnabled = enabledMap[i];
+                    }
                     i++;
-                    continue;
                 }
-                playerModel.IsSelectionMode = allowSelection;
-                if (allowSelection)
-                {
-                    playerModel.IsEnabled = enabledMap[i];
-                }
-                i++;
             }
         }
 
@@ -926,10 +939,12 @@ namespace Sanguosha.UI.Controls
                     return;
                 }
 
-                currentUsageVerifier = verifier;
-                Game.CurrentGame.CurrentActingPlayer = HostPlayer;
-                CurrentPrompt = PromptFormatter.Format(prompt);
-
+                lock (verifierLock)
+                {
+                    currentUsageVerifier = verifier;
+                    Game.CurrentGame.CurrentActingPlayer = HostPlayer;
+                    CurrentPrompt = PromptFormatter.Format(prompt);
+                }
                 foreach (var equipCommand in EquipCommands)
                 {
                     equipCommand.OnSelectedChanged += _UpdateCardUsageStatusHandler;
@@ -991,7 +1006,8 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        public void AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, int timeOutSeconds)
+        public void AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, 
+                                     ICardChoiceVerifier verifier, int timeOutSeconds, List<bool> rearrangeable, CardChoiceRearrangeCallback callback)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
@@ -1064,5 +1080,8 @@ namespace Sanguosha.UI.Controls
         }        
         #endregion
 
+        #region Private Members
+        private object verifierLock;
+        #endregion
     }
 }

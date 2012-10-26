@@ -10,6 +10,7 @@ using Sanguosha.Core.Cards;
 using Sanguosha.Core.UI;
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.Exceptions;
+using Sanguosha.Core.Heroes;
 
 namespace Sanguosha.Core.Games
 {
@@ -383,12 +384,94 @@ namespace Sanguosha.Core.Games
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 Game game = eventArgs.Game;
+                /*                if (id < players.Count && g.Type is Core.Heroes.HeroCardHandler)
+                                {
+                                    Core.Heroes.HeroCardHandler h = (Core.Heroes.HeroCardHandler)g.Type;
+                                    Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, id);
+                                    Game.CurrentGame.Players[id].Hero = h.Hero;
+                                    Game.CurrentGame.Players[id].Allegiance = h.Hero.Allegiance;
+                                    Game.CurrentGame.Players[id].MaxHealth = Game.CurrentGame.Players[id].Health = h.Hero.MaxHealth;
+                                    if (id == 0)
+                                    {
+                                        Game.CurrentGame.Players[id].Role = Role.Ruler;
+                                    }
+                                    else if (id == 1)
+                                    {
+                                        Game.CurrentGame.Players[id].Role = Role.Defector;
+                                    }
+                                    else if (id < 4)
+                                    {
+                                        Game.CurrentGame.Players[id].Role = Role.Loyalist;
+                                    }
+                                    else
+                                    {
+                                        Game.CurrentGame.Players[id].Role = Role.Rebel;
+                                    }
+                                    id++;
+                                }
+                */
+
+                // Put the whole deck in the dealing deck
+                game.Decks[DeckType.Dealing] = game.CardSet.GetRange(0, game.CardSet.Count);
+                foreach (Card card in new List<Card>(game.Decks[DeckType.Dealing]))
+                {
+                    // We don't want hero cards
+                    if (card.Type is HeroCardHandler)
+                    {
+                        game.Decks[DeckType.Dealing].Remove(card);
+                        game.Decks[DeckType.Heroes].Add(card);
+                        card.Place = new DeckPlace(null, DeckType.Heroes);
+                    }
+                    else
+                    {
+                        card.Place = new DeckPlace(null, DeckType.Dealing);
+                    }
+                }
 
                 if (game.Players.Count == 0)
                 {
                     return;
                 }
-
+                // Await role decision
+                Random random = new Random(DateTime.Now.Millisecond);
+                int rulerId = 0;
+                if (!game.IsSlave)
+                {
+                    rulerId = random.Next(0, game.Players.Count - 1);
+                }
+                if (game.GameClient != null)
+                {
+                    rulerId = (int)game.GameClient.Receive();
+                }
+                foreach (Player p in game.Players)
+                {
+                    if (game.GameServer != null)
+                    {
+                        game.GameServer.SendObject(p.Id, rulerId);
+                    }
+                }
+                List<Card> rulerDraw = new List<Card>();
+                rulerDraw.Add(game.Decks[DeckType.Heroes][0]);
+                rulerDraw.Add(game.Decks[DeckType.Heroes][1]);
+                rulerDraw.Add(game.Decks[DeckType.Heroes][2]);
+                rulerDraw.Add(game.Decks[DeckType.Heroes][3]);
+                rulerDraw.Add(game.Decks[DeckType.Heroes][4]);
+                game.SyncCards(game.Players[rulerId], rulerDraw);
+                Trace.TraceInformation("Ruler is {0}", rulerId);
+                game.Players[rulerId].Role = Role.Ruler;
+                List<DeckPlace> sourceDecks = new List<DeckPlace>();
+                sourceDecks.Add(new DeckPlace(null, DeckType.Heroes));
+                List<string> resultDeckNames = new List<string>();
+                resultDeckNames.Add("HeroChoice");
+                List<int> resultDeckMaximums = new List<int>();
+                resultDeckMaximums.Add(1);
+                List<List<Card>> answer;
+                Game.CurrentGame.UiProxies[game.Players[rulerId]].AskForCardChoice(new CardUsagePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, null, out answer);
+                foreach (Card c in rulerDraw)
+                {
+                    game.Decks[DeckType.Heroes].Remove(c);
+                }
+                
                 StartGameDeal(game);
                 game.CurrentPlayer = game.Players.First();
                 game.CurrentPhase = TurnPhase.BeforeStart;

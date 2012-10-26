@@ -78,8 +78,7 @@ namespace Sanguosha.Core.Cards
             get
             {
                 if (Place.DeckType == DeckType.Hand ||
-                    Place.DeckType == DeckType.Equipment ||
-                    Place.DeckType == DeckType.JudgeResult)
+                    Place.DeckType == DeckType.Equipment)
                 {
                     return Place.Player;
                 }

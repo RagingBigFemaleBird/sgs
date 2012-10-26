@@ -69,6 +69,7 @@
     <Compile Include="Games\TurnPhase.cs" />
     <Compile Include="Exceptions\SgsException.cs" />
     <Compile Include="Games\Game.cs" />
+    <Compile Include="Heroes\UnknownHeroCardHandler.cs" />
     <Compile Include="UI\INotificationProxy.cs" />
     <Compile Include="UI\Prompt.cs" />
     <Compile Include="Heroes\HeroCardHandler.cs" />

@@ -21,6 +21,7 @@ namespace Sanguosha.Core.Cards
             JudgeResult = new DeckType("JudgeResult");
             GuHuo = new DeckType("GuHuo");
             None = new DeckType("None");
+            Heroes = new DeckType("Heroes");
         }
 
         public DeckType(string name)
@@ -84,5 +85,6 @@ namespace Sanguosha.Core.Cards
         public static DeckType DelayedTools;
         public static DeckType JudgeResult;
         public static DeckType GuHuo;
+        public static DeckType Heroes;
     }
 }

@@ -157,7 +157,7 @@ namespace Sanguosha.Core.UI
             return false;
         }
 
-        public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer)
+        public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, List<bool> rearrangeable, CardChoiceRearrangeCallback callback)
         {
             answer = null;
             return false;
@@ -217,6 +217,97 @@ namespace Sanguosha.Core.UI
             }
         }
 
+        public void TryAskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, List<bool> rearrangeable, CardChoiceRearrangeCallback callback)
+        {
+            List<List<Card>> answer;
+            if (!active)
+            {
+                proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, out answer, rearrangeable, callback);
+                return;
+            }
+/*            if (!proxy.AskForCardUsage(prompt, verifier, out skill, out cards, out players))
+            {
+                Trace.TraceInformation("Invalid answer");
+                client.AnswerNext();
+                client.AnswerItem(0);
+            }
+            else
+            {
+                client.AnswerNext();
+                client.AnswerItem(1);
+                if (skill == null)
+                {
+                    client.AnswerItem(0);
+                }
+                else
+                {
+                    client.AnswerItem(1);
+                    client.AnswerItem(skill);
+                }
+                if (cards == null)
+                {
+                    client.AnswerItem(0);
+                }
+                else
+                {
+                    client.AnswerItem(cards.Count);
+                    foreach (Card c in cards)
+                    {
+                        client.AnswerItem(c);
+                    }
+                }
+                if (players == null)
+                {
+                    client.AnswerItem(0);
+                }
+                else
+                {
+                    client.AnswerItem(players.Count);
+                    foreach (Player p in players)
+                    {
+                        client.AnswerItem(p);
+                    }
+                }
+            }*/
+        }
+        public bool TryAnswerForCardChoice(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+        {
+            skill = null;
+            cards = null;
+            players = null;
+            object o = client.Receive();
+            if (o == null)
+            {
+                return false;
+            }
+            if ((int)o == 0)
+            {
+                return false;
+            }
+            cards = new List<Card>();
+            o = client.Receive();
+            int count = (int)o;
+            if (count == 1)
+            {
+                skill = (ISkill)client.Receive();
+            }
+            o = client.Receive();
+            count = (int)o;
+            while (count-- > 0)
+            {
+                o = client.Receive();
+                cards.Add((Card)o);
+            }
+            players = new List<Player>();
+            o = client.Receive();
+            count = (int)o;
+            while (count-- > 0)
+            {
+                o = client.Receive();
+                players.Add((Player)o);
+            }
+            return true;
+        }
         int timeOutSeconds;
         public int TimeOutSeconds
         {

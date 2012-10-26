@@ -121,7 +121,11 @@ namespace Sanguosha.UI.Controls
                 }
             }
 
-            
+            // Card just entered compute area should hold until they enter discard area.
+            foreach (var card in cards)
+            {
+                card.DiscardDeckClearTimeStamp = int.MaxValue;
+            }            
             
             // When a card enters discard area, every thing in the deck should fade out (but
             // not disappear).
@@ -141,12 +145,6 @@ namespace Sanguosha.UI.Controls
             }
             else
             {
-                // Card just entered compute area should hold until they enter discard area.
-                foreach (var card in cards)
-                {
-                    card.DiscardDeckClearTimeStamp = int.MaxValue;
-                }
-
                 // When there are too many cards in the deck, remove the dated ones.
                 for (int i = 0; i < numRemoved; i++)
                 {
