@@ -5,6 +5,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Class="Sanguosha.UI.Main.TestFluidCardStack"
         Title="TestFluidCardStack" Height="470" Width="595">
     <Grid>
+        <StackPanel>
         <my:FluidCardStack Height="130" HorizontalAlignment="Center" x:Name="fluidCardStack1" VerticalAlignment="Top" CardWidth="93" CardHeight="130">
         	<i:Interaction.Behaviors>
         		<ei:FluidMoveBehavior AppliesTo="Children" Duration="00:00:00.2000000" />
@@ -18,5 +19,19 @@
             <my:CardView x:Name="cardView7"/>
             <my:CardView x:Name="cardView8"/>
         </my:FluidCardStack>
+        <my:FluidCardStack Height="130" HorizontalAlignment="Center" x:Name="fluidCardStack2" VerticalAlignment="Top" CardWidth="93" CardHeight="130">
+                <i:Interaction.Behaviors>
+                    <ei:FluidMoveBehavior AppliesTo="Children" Duration="00:00:00.2000000" />
+                </i:Interaction.Behaviors>
+                <my:CardView x:Name="cardView21" CardOpacity="1" Opacity="1"/>
+                <my:CardView x:Name="cardView22"/>
+                <my:CardView x:Name="cardView23"/>
+                <my:CardView x:Name="cardView24"/>
+                <my:CardView x:Name="cardView25"/>
+                <my:CardView x:Name="cardView62"/>
+                <my:CardView x:Name="cardView722"/>
+                <my:CardView x:Name="cardView82"/>
+            </my:FluidCardStack>
+        </StackPanel>
     </Grid>
 </Window>

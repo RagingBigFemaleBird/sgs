@@ -20,7 +20,7 @@
             </ResourceDictionary.MergedDictionaries>
         
             <DataTemplate x:Key="CardStackTemplate">
-                <Grid>
+                <Grid Margin="0, 10, 0, 10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
@@ -28,7 +28,7 @@
                     <ItemsControl ItemsSource="{Binding Cards, diagnostics:PresentationTraceSources.TraceLevel=High}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <local:FluidCardStack CardWidth="93" CardHeight="130" CardSpacing="10" HighlightItemExtraSpacing="10">
+                                <local:FluidCardStack CardWidth="93" CardHeight="138" CardSpacing="10" HighlightItemExtraSpacing="10">
                                     <i:Interaction.Behaviors>
                                         <ei:FluidMoveBehavior AppliesTo="Children" Duration="00:00:00.2" />
                                     </i:Interaction.Behaviors>
@@ -37,8 +37,8 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Canvas Width="93" Height="130">
-                                    <local:CardView Width="93" Height="130" CardOpacity="1" Opacity="1" Cursor="Hand"/>
+                                <Canvas Width="96" Height="138">
+                                    <local:CardView Canvas.Top="3" Width="93" Height="130" CardOpacity="1" Opacity="1" Cursor="Hand"/>
                                 </Canvas>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -51,8 +51,8 @@
     <ContentControl Template="{DynamicResource PromptBox}">
     <Grid Name="LayoutRoot" Margin="20, 5" HorizontalAlignment="Center" VerticalAlignment="Top">
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <ItemsControl ItemsSource="{Binding CardStacks}" ItemTemplate="{StaticResource CardStackTemplate}">
             <ItemsControl.ItemsPanel>
@@ -62,7 +62,7 @@
             </ItemsControl.ItemsPanel>
         </ItemsControl>
 
-        <ProgressBar x:Name="progressBar" Style="{StaticResource TimedProgressBarStyle}" MaxWidth="263" Height="15"  Grid.Column="0" Grid.Row="1" Margin="30,20,30,0" />
+        <ProgressBar x:Name="progressBar" Style="{StaticResource TimedProgressBarStyle}" MaxWidth="263" Height="15"  Grid.Column="0" Grid.Row="1" Margin="30,0,30,0" VerticalAlignment="Bottom" />
     </Grid>
     </ContentControl>
 </UserControl>

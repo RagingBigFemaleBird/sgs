@@ -1061,14 +1061,37 @@ namespace Sanguosha.UI.Controls
 
             CardChoiceModel.CardStacks.Clear();
             
+            int numLines = sourceDecks.Count;
+
             foreach (var deck in sourceDecks)
             {
+                if (Game.CurrentGame.Decks[deck].Count == 0)
+                {
+                    continue;
+                }
                 CardChoiceLineViewModel line = new CardChoiceLineViewModel();
+                int i = 0;
+                int numCards = Game.CurrentGame.Decks[deck].Count;
+                int maxColumns = Math.Max(numCards / 2 + 1, 5);
+                bool firstRow = true;
                 foreach (var card in Game.CurrentGame.Decks[deck])
                 {
-                    CardViewModel model = new CardViewModel() { Card = card, IsSelectionMode = true, IsEnabled = true };
+                    if (numLines == 1 && i >= maxColumns && firstRow)
+                    {
+                        Trace.Assert(CardChoiceModel.CardStacks.Count == 0);                        
+                        CardChoiceModel.CardStacks.Add(line);                        
+                        line = new CardChoiceLineViewModel();         
+                        firstRow = false;
+                    }
+                    CardViewModel model = new CardViewModel() 
+                    {
+                        Card = card,
+                        IsSelectionMode = true,
+                        IsEnabled = true 
+                    };
                     model.OnSelectedChanged += cardChoice_OnSelectedChanged;
                     line.Cards.Add(model);
+                    i++;
                 }
                 CardChoiceModel.CardStacks.Add(line);
             }
