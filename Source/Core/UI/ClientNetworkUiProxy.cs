@@ -241,7 +241,8 @@ namespace Sanguosha.Core.UI
                 proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, out answer, rearrangeable, callback);
                 return;
             }
-            if (!proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, out answer, rearrangeable, callback))
+            if (!proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, out answer, rearrangeable, callback) ||
+                answer == null)
             {
                 Trace.TraceInformation("Invalid answer");
                 client.AnswerNext();
