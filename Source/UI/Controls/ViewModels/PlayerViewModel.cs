@@ -556,11 +556,11 @@ namespace Sanguosha.UI.Controls
                 skill = skillCommand.Skill;
             }
 
-            _ResetAll();
 
             // Card usage question
             lock (verifierLock)
             {
+                _ResetAll();
                 if (currentUsageVerifier != null)
                 {
                     currentUsageVerifier = null;
@@ -616,7 +616,10 @@ namespace Sanguosha.UI.Controls
 
         public void ExecuteMultiChoiceCommand(object parameter)
         {
-            _ResetAll();
+            lock (verifierLock)
+            {
+                _ResetAll();
+            }
             MultipleChoiceAnsweredEvent((int)parameter);
         }
         #endregion
@@ -755,6 +758,7 @@ namespace Sanguosha.UI.Controls
             MultiChoiceCommands.Clear();
             _ResetSkillsAndCards();            
             CurrentPrompt = string.Empty;
+            currentUsageVerifier = null;
             TimeOutSeconds = 0;
             if (_timer != null)
             {
@@ -1172,7 +1176,10 @@ namespace Sanguosha.UI.Controls
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                _ResetAll();
+                lock (verifierLock)
+                {
+                    _ResetAll();
+                }
             });
         }        
         #endregion

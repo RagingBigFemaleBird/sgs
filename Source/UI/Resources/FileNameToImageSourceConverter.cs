@@ -49,7 +49,7 @@ namespace Sanguosha.UI.Resources
                 {
                     object imageObj = (new ImageSourceConverter()).ConvertFromString(fileName);
                     var image = imageObj as ImageSource;
-                    if (image != null) 
+                    if (image != null)
                     {
                         if (CropRect == null) return image;
                         else if (image is BitmapSource)
@@ -64,6 +64,10 @@ namespace Sanguosha.UI.Resources
                 }
                 catch (NotSupportedException)
                 {
+                }
+                catch (ArgumentException)
+                {
+                    Trace.TraceWarning("Image not in expected size: {0}", fileName);
                 }
 
             }

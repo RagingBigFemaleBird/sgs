@@ -28,9 +28,9 @@ namespace Sanguosha.Expansions.Basic.Cards
         {
             IUiProxy ui = Game.CurrentGame.UiProxies[source];
             List<DeckPlace> places = new List<DeckPlace>();
+            places.Add(new DeckPlace(dest, DeckType.Hand));
             places.Add(new DeckPlace(dest, DeckType.DelayedTools));
             places.Add(new DeckPlace(dest, DeckType.Equipment));
-            places.Add(new DeckPlace(dest, DeckType.Hand));
             List<string> resultDeckPlace = new List<string>();
             resultDeckPlace.Add(ResultDeckName);
             List<int> resultDeckMax = new List<int>();
@@ -38,7 +38,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             List<List<Card>> answer;
             if (!ui.AskForCardChoice(new CardChoicePrompt(ChoicePrompt), places, resultDeckPlace, resultDeckMax, new RequireOneCardChoiceVerifier(), out answer, new List<bool>() { false }))
             {
-                Trace.TraceInformation("Player {0} Invalid answer", dest);
+                Trace.TraceInformation("Player {0} Invalid answer", source.Id);
                 answer = new List<List<Card>>();
                 answer.Add(new List<Card>());
                 var collection = Game.CurrentGame.Decks[dest, DeckType.Hand].Concat
