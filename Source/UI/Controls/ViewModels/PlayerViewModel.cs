@@ -593,11 +593,13 @@ namespace Sanguosha.UI.Controls
             {
                 if (currentUsageVerifier == null)
                 {
-                    Trace.Assert(_timer == null);
                     return;
                 }
-                _timer.Stop();
-                _timer = null;
+                if (_timer != null)
+                {
+                    _timer.Stop();
+                    _timer = null;
+                }
                 Trace.Assert(currentUsageVerifier != null);
                 CardUsageAnsweredEvent(null, null, null);
                 currentUsageVerifier = null;
@@ -620,6 +622,7 @@ namespace Sanguosha.UI.Controls
             {
                 Trace.Assert(currentUsageVerifier == null);
                 _ResetAll();
+                IsMultiChoiceQuestionShown = false;
             }
             MultipleChoiceAnsweredEvent((int)parameter);
         }
@@ -757,7 +760,7 @@ namespace Sanguosha.UI.Controls
         private void _ResetAll()
         {
             MultiChoiceCommands.Clear();
-            _ResetSkillsAndCards();            
+            _ResetSkillsAndCards();     
             CurrentPrompt = string.Empty;
             TimeOutSeconds = 0;
             if (_timer != null)
@@ -954,18 +957,20 @@ namespace Sanguosha.UI.Controls
 
         private void _StartMultiChoiceTimer(int timeOutSeconds)
         {
-            Trace.Assert(_timer == null);
-            if (timeOutSeconds > 0)
-            {                
-                _timer = new System.Timers.Timer(timeOutSeconds * 1000);
-                _timer.AutoReset = false;
-                _timer.Elapsed +=
-                    (o, e) =>
-                    {
-                        Application.Current.Dispatcher.Invoke(
-                            (ThreadStart)delegate() { _AbortMultipleChoice(); });
-                    };
-                _timer.Start();
+            lock (verifierLock)
+            {
+                if (timeOutSeconds > 0)
+                {
+                    _timer = new System.Timers.Timer(timeOutSeconds * 1000);
+                    _timer.AutoReset = false;
+                    _timer.Elapsed +=
+                        (o, e) =>
+                        {
+                            Application.Current.Dispatcher.Invoke(
+                                (ThreadStart)delegate() { _AbortMultipleChoice(); });
+                        };
+                    _timer.Start();
+                }
             }
         }
 
@@ -1004,16 +1009,19 @@ namespace Sanguosha.UI.Controls
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                _StartCardUsageTimer(timeOutSeconds);
-                TimeOutSeconds = timeOutSeconds;
                 if (!IsPlayable)
                 {
+                    Trace.Assert(currentUsageVerifier == null);
+                    _StartCardUsageTimer(timeOutSeconds);
+                    TimeOutSeconds = timeOutSeconds;
                     CardUsageAnsweredEvent(null, null, null);
                     return;
                 }
 
                 lock (verifierLock)
-                {                    
+                {
+                    _StartCardUsageTimer(timeOutSeconds);
+                    TimeOutSeconds = timeOutSeconds;
                     currentUsageVerifier = verifier;
                     Trace.Assert(currentUsageVerifier != null);
                     Game.CurrentGame.CurrentActingPlayer = HostPlayer;
@@ -1126,6 +1134,22 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        private bool multiChoiceQuestionShown;
+
+        public bool IsMultiChoiceQuestionShown
+        {
+            get
+            {
+                return multiChoiceQuestionShown;
+            }
+            set
+            {
+                if (multiChoiceQuestionShown == value) return;
+                multiChoiceQuestionShown = value;
+                OnPropertyChanged("IsMultiChoiceQuestionShown");
+            }
+        }
+
         public void AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks,
                                      List<string> resultDeckNames,
                                      List<int> resultDeckMaximums, 
@@ -1139,17 +1163,22 @@ namespace Sanguosha.UI.Controls
 
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                _StartCardChoiceTimer(timeOutSeconds);
                 if (!IsPlayable)
                 {
+                    Trace.Assert(currentUsageVerifier == null);
+                    _StartCardChoiceTimer(timeOutSeconds);
                     CardChoiceAnsweredEvent(null);
                     return;
                 }
-                
-                CardChoiceModel.Prompt = PromptFormatter.Format(prompt);
-                _ConstructCardChoiceModel(sourceDecks, resultDeckNames, resultDeckMaximums, rearrangeable, timeOutSeconds, callback);                   
-                
-                IsCardChoiceQuestionShown = true;
+
+                lock (verifierLock)
+                {
+                    _StartCardChoiceTimer(timeOutSeconds);
+                    CardChoiceModel.Prompt = PromptFormatter.Format(prompt);
+                    _ConstructCardChoiceModel(sourceDecks, resultDeckNames, resultDeckMaximums, rearrangeable, timeOutSeconds, callback);
+
+                    IsCardChoiceQuestionShown = true;
+                }
             });
         }
 
@@ -1157,10 +1186,11 @@ namespace Sanguosha.UI.Controls
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                _StartMultiChoiceTimer(timeOutSeconds);
-                TimeOutSeconds = timeOutSeconds;
                 if (!IsPlayable)
                 {
+                    Trace.Assert(currentUsageVerifier == null);
+                    _StartMultiChoiceTimer(timeOutSeconds);
+                    TimeOutSeconds = timeOutSeconds;
                     MultipleChoiceAnsweredEvent(0);
                     return;
                 }
@@ -1186,7 +1216,13 @@ namespace Sanguosha.UI.Controls
                     {
                         MultiChoiceCommands.Add(command);
                     }
-                }                
+                }
+                lock (verifierLock)
+                {
+                    _StartMultiChoiceTimer(timeOutSeconds);
+                    IsMultiChoiceQuestionShown = true;
+                    TimeOutSeconds = timeOutSeconds;
+                }
             });
         }
 

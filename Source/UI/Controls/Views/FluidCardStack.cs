@@ -96,7 +96,11 @@ namespace Sanguosha.UI.Controls
 
             double width = Math.Min(finalSize.Width, CardWidth);
             double height = finalSize.Height;
-            double space = (finalSize.Width - width - 3 * HighlightItemExtraSpacing) / (childCount - 1);
+            double space = 0;
+            if (childCount > 1)
+            {
+                space = (finalSize.Width - width - 3 * HighlightItemExtraSpacing) / (childCount - 1);
+            }
             double totalMargin = 0;
             bool spacingStart = false;
             for (int i = 0; i < childCount; i++)

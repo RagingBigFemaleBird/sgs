@@ -864,7 +864,7 @@ namespace Sanguosha.Core.Games
                 move.cards = new List<Card>();
                 List<Card> backup = new List<Card>(move.cards);
                 move.cards.Add(c);
-                move.to = new DeckPlace(player, DeckType.Discard);
+                move.to = new DeckPlace(null, DeckType.Discard);
                 PlayerAboutToDiscardCard(player, move.cards, DiscardReason.Judge);
                 MoveCards(move, null);
                 PlayerDiscardedCard(player, backup, DiscardReason.Judge);
@@ -890,7 +890,7 @@ namespace Sanguosha.Core.Games
                 move.cards = new List<Card>();
                 List<Card> backup = new List<Card>(move.cards);
                 move.cards.Add(c);
-                move.to = new DeckPlace(player, DeckType.Discard);
+                move.to = new DeckPlace(null, DeckType.Discard);
                 PlayerAboutToDiscardCard(player, move.cards, DiscardReason.Judge);
                 MoveCards(move, null);
                 PlayerDiscardedCard(player, backup, DiscardReason.Judge);

@@ -45,7 +45,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                     {
                         return;
                     }
-                    if (!Game.CurrentGame.UiProxies[eventArgs.Source].AskForCardChoice(new CardChoicePrompt("FanKui"), deck, deckname, max, new RequireOneCardChoiceVerifier(), out result, new List<bool>() { false }))
+                    if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("FanKui", eventArgs.Source), deck, deckname, max, new RequireOneCardChoiceVerifier(), out result, new List<bool>() { false }))
                     {
 
                         Trace.TraceInformation("Invalid choice for FanKui");
