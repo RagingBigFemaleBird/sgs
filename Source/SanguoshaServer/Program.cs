@@ -8,14 +8,29 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.UI;
 using Sanguosha.Core.Network;
+using System.IO;
 
 namespace Sanguosha
 {
     class Program
     {
-        static int totalNumberOfPlayers = 2;
+        static int totalNumberOfPlayers = 3;
         static void Main(string[] args)
         {
+            Trace.Listeners.Clear();
+
+            TextWriterTraceListener twtl = new TextWriterTraceListener(Path.Combine(Directory.GetCurrentDirectory(), AppDomain.CurrentDomain.FriendlyName + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + ".txt"));
+            twtl.Name = "TextLogger";
+            twtl.TraceOutputOptions = TraceOptions.ThreadId | TraceOptions.DateTime;
+
+            ConsoleTraceListener ctl = new ConsoleTraceListener(false);
+            ctl.TraceOutputOptions = TraceOptions.DateTime;
+
+            Trace.Listeners.Add(twtl);
+            Trace.Listeners.Add(ctl);
+            Trace.AutoFlush = true;
+
+            Trace.WriteLine("Log starting");
             Trace.Listeners.Add(new ConsoleTraceListener());
             Game game = new RoleGame();
             Server server;
@@ -27,12 +42,12 @@ namespace Sanguosha
                 game.Players.Add(player);
                 IUiProxy proxy;
                 proxy = new ServerNetworkUiProxy(server, i);
-                proxy.TimeOutSeconds = 25;
+                proxy.TimeOutSeconds = 3;
                 proxy.HostPlayer = player;
                 game.UiProxies.Add(player, proxy);
             }
             GlobalServerUiProxy pxy = new GlobalServerUiProxy(game, game.UiProxies);
-            pxy.TimeOutSeconds = 25;
+            pxy.TimeOutSeconds = 3;
             game.GlobalProxy = pxy;
             GameEngine.LoadExpansions("./");
             foreach (var g in GameEngine.Expansions.Values)

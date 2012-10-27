@@ -112,7 +112,7 @@ namespace Sanguosha.Core.UI
         public static readonly string ClubChoice = MultipleChoiceOptionPrefix + "Club";
         public static readonly string DiamondChoice = MultipleChoiceOptionPrefix + "Diamond";
         public static readonly List<string> YesNoChoices = new List<string>() { YesChoice, NoChoice };
-        public static readonly List<string> SuitChoices = new List<string>() { HeartChoice, SpadeChoice, ClubChoice, DiamondChoice };
+        public static readonly List<string> SuitChoices = new List<string>() { ClubChoice, SpadeChoice, HeartChoice, DiamondChoice };
         #endregion
     }
 }

@@ -915,8 +915,11 @@ namespace Sanguosha.UI.Controls
                 _timer.Elapsed +=
                     (o, e) =>
                     {
-                        Application.Current.Dispatcher.Invoke(
-                            (ThreadStart)delegate() { AbortCardUsageCommand(null); });
+                        if (_timer != null)
+                        {
+                            Application.Current.Dispatcher.Invoke(
+                                (ThreadStart)delegate() { AbortCardUsageCommand(null); });
+                        }
                     };
                 _timer.Start();
             }

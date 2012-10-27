@@ -584,23 +584,23 @@ namespace Sanguosha.Core.Games
 
         public void DrawCards(Player player, int num)
         {
+            List<Card> cardsDrawn = new List<Card>();
             try
             {
-                List<Card> cardsDrawn = new List<Card>();
                 for (int i = 0; i < num; i++)
                 {
                     SyncCard(player, PeekCard(0));
                     cardsDrawn.Add(DrawCard());
                 }
-                CardsMovement move;
-                move.cards = cardsDrawn;
-                move.to = new DeckPlace(player, DeckType.Hand);
-                MoveCards(move, new UI.CardUseLog() { Source = player, Targets = null, Skill = null, Cards = null });
             }
             catch (ArgumentException)
             {
                 throw new EndOfDealingDeckException();
-            }            
+            }
+            CardsMovement move;
+            move.cards = cardsDrawn;
+            move.to = new DeckPlace(player, DeckType.Hand);
+            MoveCards(move, new UI.CardUseLog() { Source = player, Targets = null, Skill = null, Cards = null });
         }
 
         Player currentActingPlayer;

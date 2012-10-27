@@ -17,6 +17,8 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.UI;
 using System.Threading;
 using Sanguosha.Core.Network;
+using System.Diagnostics;
+using System.IO;
 
 namespace Sanguosha.UI.Main
 {
@@ -32,9 +34,21 @@ namespace Sanguosha.UI.Main
         }
 
         int MainSeat = 0;
-        const int numberOfHeros = 2;
+        const int numberOfHeros = 3;
         private void InitGame()
         {
+            TextWriterTraceListener twtl = new TextWriterTraceListener(System.IO.Path.Combine(Directory.GetCurrentDirectory(), AppDomain.CurrentDomain.FriendlyName + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + ".txt"));
+            twtl.Name = "TextLogger";
+            twtl.TraceOutputOptions = TraceOptions.ThreadId | TraceOptions.DateTime;
+
+            ConsoleTraceListener ctl = new ConsoleTraceListener(false);
+            ctl.TraceOutputOptions = TraceOptions.DateTime;
+
+            Trace.Listeners.Add(twtl);
+            Trace.Listeners.Add(ctl);
+            Trace.AutoFlush = true;
+
+            Trace.WriteLine("Log starting");
             _game = new RoleGame();
 #if NETWORKING
             Client client;
@@ -86,7 +100,7 @@ namespace Sanguosha.UI.Main
                 var proxy = new ClientNetworkUiProxy(
                             new AsyncUiAdapter(gameModel.PlayerModels[i]), client, i == 0);
                 proxy.HostPlayer = player;
-                proxy.TimeOutSeconds = 25;
+                proxy.TimeOutSeconds = 5;
                 if (i == 0)
                 {
                     activeClientProxy = proxy;
