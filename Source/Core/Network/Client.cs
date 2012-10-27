@@ -48,18 +48,18 @@ namespace Sanguosha.Core.Network
                     CardItem i = (CardItem)obj.obj;
                     if (i.Id >= 0)
                     {
-                        Trace.TraceInformation("Identify {0}{1}{2} is {3}{4}{5}", i.playerId, i.deck, i.place, Game.CurrentGame.SlaveCardSet[i.Id].Suit, Game.CurrentGame.SlaveCardSet[i.Id].Rank, Game.CurrentGame.SlaveCardSet[i.Id].Type.CardType);
+                        Trace.TraceInformation("Identify {0}{1}{2} is {3}{4}{5}", i.playerId, i.deck, i.place, GameEngine.CardSet[i.Id].Suit, GameEngine.CardSet[i.Id].Rank, GameEngine.CardSet[i.Id].Type.CardType);
                         if (i.playerId < 0)
                         {
                             DeckPlace place = Game.CurrentGame.Decks[null, i.deck][i.place].Place;
-                            Game.CurrentGame.Decks[null, i.deck][i.place].CopyFrom(Game.CurrentGame.SlaveCardSet[i.Id]);
+                            Game.CurrentGame.Decks[null, i.deck][i.place].CopyFrom(GameEngine.CardSet[i.Id]);
                             Game.CurrentGame.Decks[null, i.deck][i.place].Place = place;
                             Game.CurrentGame.Decks[null, i.deck][i.place].Id = i.Id;
                         }
                         else
                         {
                             DeckPlace place = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].Place;
-                            Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].CopyFrom(Game.CurrentGame.SlaveCardSet[i.Id]);
+                            Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].CopyFrom(GameEngine.CardSet[i.Id]);
                             Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].Place = place;
                             Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].Id = i.Id;
                         }
@@ -80,18 +80,18 @@ namespace Sanguosha.Core.Network
                 CardItem i = (CardItem)o;
                 if (i.Id >= 0)
                 {
-                    Trace.TraceInformation("Identify {0}{1}{2} is {3}{4}{5}", i.playerId, i.deck, i.place, Game.CurrentGame.SlaveCardSet[i.Id].Suit, Game.CurrentGame.SlaveCardSet[i.Id].Rank, Game.CurrentGame.SlaveCardSet[i.Id].Type.CardType);
+                    Trace.TraceInformation("Identify {0}{1}{2} is {3}{4}{5}", i.playerId, i.deck, i.place, GameEngine.CardSet[i.Id].Suit, GameEngine.CardSet[i.Id].Rank, GameEngine.CardSet[i.Id].Type.CardType);
                     if (i.playerId < 0)
                     {
                         DeckPlace place = Game.CurrentGame.Decks[null, i.deck][i.place].Place;
-                        Game.CurrentGame.Decks[null, i.deck][i.place].CopyFrom(Game.CurrentGame.SlaveCardSet[i.Id]);
+                        Game.CurrentGame.Decks[null, i.deck][i.place].CopyFrom(GameEngine.CardSet[i.Id]);
                         Game.CurrentGame.Decks[null, i.deck][i.place].Place = place;
                         Game.CurrentGame.Decks[null, i.deck][i.place].AddtionalGenericType = i.additionalType;
                     }
                     else
                     {
                         DeckPlace place = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].Place;
-                        Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].CopyFrom(Game.CurrentGame.SlaveCardSet[i.Id]);
+                        Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].CopyFrom(GameEngine.CardSet[i.Id]);
                         Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].Place = place;
                         Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].AddtionalGenericType = i.additionalType;
                     }

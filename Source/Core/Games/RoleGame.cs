@@ -409,7 +409,7 @@ namespace Sanguosha.Core.Games
                 // Await role decision
                 Random random = new Random(DateTime.Now.Millisecond);
                 int rulerId = 0;
-                if (!game.IsSlave)
+                if (!game.IsClient)
                 {
                     rulerId = random.Next(0, game.Players.Count - 1);
                 }
@@ -425,7 +425,7 @@ namespace Sanguosha.Core.Games
                     }
                 }
                 Shuffle(game.Decks[DeckType.Heroes]);
-                if (!game.IsSlave)
+                if (!game.IsClient)
                 {
                     foreach (var hero in new List<Card>(game.Decks[DeckType.Heroes]))
                     {
@@ -503,7 +503,7 @@ namespace Sanguosha.Core.Games
                 {
                     Card c;
                     //only server has the result
-                    if (!game.IsSlave)
+                    if (!game.IsClient)
                     {
                         idx = 0;
                         if (heroSelection.ContainsKey(p))

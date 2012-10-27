@@ -69,7 +69,7 @@ namespace Sanguosha.UI.Main
 #if NETWORKING
             _game.GameClient = client;
             _game.GameServer = null;
-            _game.IsSlave = true;
+            _game.IsClient = true;
 #else
             _game.GlobalProxy = new GlobalDummyProxy();
 #endif

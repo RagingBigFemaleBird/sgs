@@ -120,6 +120,13 @@ namespace Sanguosha.UI.Controls
                     AddCards(cards, 0.3d);
                 }
             }
+            else
+            {
+                foreach (var card in cards)
+                {
+                    canvas.Children.Remove(card);
+                }
+            }
 
             // Card just entered compute area should hold until they enter discard area.
             foreach (var card in cards)

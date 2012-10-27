@@ -157,7 +157,7 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public bool IsSlave { get; set; }
+        public bool IsClient { get; set; }
         public virtual void Run()
         {
             if (games.ContainsKey(Thread.CurrentThread))
@@ -172,18 +172,15 @@ namespace Sanguosha.Core.Games
             {
                 GameServer.Ready();
             }
-            int serial = 0;
-            foreach (var g in cardSet)
-            {
-                g.Id = serial;
-                serial++;
-            }
+
+            List<Card> slaveCardSet;
+
             slaveCardSet = cardSet;
             cardSet = new List<Card>();
             for (int i = 0; i < slaveCardSet.Count; i++)
             {
                 //you are client. everything is unknown
-                if (IsSlave)
+                if (IsClient)
                 {
                     unknownCard = new Card();
                     unknownCard.Id = Card.UnknownCardId;
@@ -259,14 +256,6 @@ namespace Sanguosha.Core.Games
         {
             get { return cardSet; }
             set { cardSet = value; }
-        }
-
-        List<Card> slaveCardSet;
-
-        public List<Card> SlaveCardSet
-        {
-            get { return slaveCardSet; }
-            set { slaveCardSet = value; }
         }
 
         Card unknownCard;
@@ -538,9 +527,9 @@ namespace Sanguosha.Core.Games
                     card.HistoryPlace1 = card.Place;
                     card.Place = move.to;
                     //reset card type if entering hand or discard
-                    if (!IsSlave && (move.to.DeckType == DeckType.Discard || move.to.DeckType == DeckType.Hand))
+                    if (!IsClient && (move.to.DeckType == DeckType.Discard || move.to.DeckType == DeckType.Hand))
                     {
-                        card.Type = slaveCardSet[card.Id].Type;
+                        card.Type = GameEngine.CardSet[card.Id].Type;
                     }
                 }
             }
