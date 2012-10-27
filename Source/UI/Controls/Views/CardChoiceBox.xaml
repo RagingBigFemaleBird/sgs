@@ -18,14 +18,15 @@
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-        
+            <local:DeckNameToCardChoiceIconConverter x:Key="deckNameToCardChoiceIconConverter" />
             <DataTemplate x:Key="CardStackTemplate">
                 <Grid Margin="0, 10, 0, 10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <ItemsControl ItemsSource="{Binding Cards, diagnostics:PresentationTraceSources.TraceLevel=High}">
+                    <Image Grid.Column="0" VerticalAlignment="Center" Stretch="None" Source="{Binding DeckName, Converter={StaticResource deckNameToCardChoiceIconConverter}}" />
+                    <ItemsControl Grid.Column="1" ItemsSource="{Binding Cards, diagnostics:PresentationTraceSources.TraceLevel=High}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <local:FluidCardStack CardWidth="93" CardHeight="138" CardSpacing="10" HighlightItemExtraSpacing="10">

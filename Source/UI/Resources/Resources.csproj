@@ -338,6 +338,11 @@
     <Resource Include="Images\System\scrollUp-hover.png" />
     <Resource Include="Images\System\scrollUp-normal.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Game\delayedToolsArea.png" />
+    <Resource Include="Images\Game\equipArea.png" />
+    <Resource Include="Images\Game\handArea.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /S /Y $(ProjectDir)*.* $(TargetDir)Resources\

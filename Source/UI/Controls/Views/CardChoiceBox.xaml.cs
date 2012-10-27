@@ -16,6 +16,39 @@ using System.Diagnostics;
 
 namespace Sanguosha.UI.Controls
 {
+    public class DeckNameToCardChoiceIconConverter : IValueConverter
+    {
+        static ResourceDictionary dict = new ResourceDictionary() 
+        { 
+            Source = new Uri("pack://application:,,,/Resources;component/Images/System.xaml")
+        };
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            string deckName = value.ToString();
+            string resKey = string.Format("Game.CardChoice.Area.{0}", deckName);
+            if (!dict.Contains(resKey))
+            {
+                Trace.TraceInformation("Image for deck key {0} not found.", resKey);
+                return null;
+            }
+            else
+            {
+                var image = dict[resKey] as ImageSource;
+                if (image == null)
+                {
+                    Trace.TraceWarning("Cannot load image {0}", resKey);
+                }
+                return image;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 	/// <summary>
 	/// Interaction logic for CardChoiceBox.xaml
 	/// </summary>

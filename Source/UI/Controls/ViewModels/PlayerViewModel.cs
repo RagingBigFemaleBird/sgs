@@ -1079,6 +1079,7 @@ namespace Sanguosha.UI.Controls
                     continue;
                 }
                 CardChoiceLineViewModel line = new CardChoiceLineViewModel();
+                line.DeckName = deck.DeckType.Name;
                 int i = 0;
                 int numCards = Game.CurrentGame.Decks[deck].Count;
                 int maxColumns = Math.Max(numCards / 2 + 1, 5);
@@ -1089,7 +1090,8 @@ namespace Sanguosha.UI.Controls
                     {
                         Trace.Assert(CardChoiceModel.CardStacks.Count == 0);                        
                         CardChoiceModel.CardStacks.Add(line);                        
-                        line = new CardChoiceLineViewModel();         
+                        line = new CardChoiceLineViewModel();
+                        line.DeckName = deck.DeckType.Name;
                         firstRow = false;
                     }
                     CardViewModel model = new CardViewModel() 

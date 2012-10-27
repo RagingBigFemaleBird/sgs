@@ -112,6 +112,9 @@
     <BitmapImage x:Key="Game.InfoPanel.Footer">Game/infoPlaneFooter.png</BitmapImage>
     <BitmapImage x:Key="Game.InfoPanel.Splitter">Game/infoPlaneSplitter.png</BitmapImage>
     <BitmapImage x:Key="Game.Table.Background">Game/tableBg.jpg</BitmapImage>
+    <BitmapImage x:Key="Game.CardChoice.Area.Hand">Game/handArea.png</BitmapImage>
+    <BitmapImage x:Key="Game.CardChoice.Area.Equipment">Game/equipArea.png</BitmapImage>
+    <BitmapImage x:Key="Game.CardChoice.Area.DelayedTools">Game/delayedToolsArea.png</BitmapImage>
     <sys:Int32 x:Key="GameView.InfoPanelExpansionThresholdWidth">1220</sys:Int32>
     <CroppedBitmap x:Key="HealthBar.0.Large" Source="HealthBar/large.png" SourceRect="0,0,19,22" />
     <CroppedBitmap x:Key="HealthBar.1.Large" Source="HealthBar/large.png" SourceRect="19,0,19,22" />
