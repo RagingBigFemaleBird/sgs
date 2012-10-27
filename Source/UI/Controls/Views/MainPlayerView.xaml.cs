@@ -17,6 +17,7 @@ using Sanguosha.Core.Cards;
 using System.Windows.Controls.Primitives;
 using System.Diagnostics;
 using Sanguosha.UI.Animations;
+using Sanguosha.Core.Games;
 
 namespace Sanguosha.UI.Controls
 {
@@ -149,7 +150,8 @@ namespace Sanguosha.UI.Controls
 
         protected override CardView RemoveEquipment(Card card)
         {
-            Equipment equip = card.Type as Equipment;
+            Trace.Assert(card.Id >= 0, "Cannot remove unknown card from equip area.");
+            Equipment equip = GameEngine.CardSet[card.Id].Type as Equipment;
 
             if (equip == null)
             {

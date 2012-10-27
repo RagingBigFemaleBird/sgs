@@ -618,6 +618,7 @@ namespace Sanguosha.UI.Controls
         {
             lock (verifierLock)
             {
+                Trace.Assert(currentUsageVerifier == null);
                 _ResetAll();
             }
             MultipleChoiceAnsweredEvent((int)parameter);
@@ -758,7 +759,6 @@ namespace Sanguosha.UI.Controls
             MultiChoiceCommands.Clear();
             _ResetSkillsAndCards();            
             CurrentPrompt = string.Empty;
-            currentUsageVerifier = null;
             TimeOutSeconds = 0;
             if (_timer != null)
             {
@@ -1013,8 +1013,9 @@ namespace Sanguosha.UI.Controls
                 }
 
                 lock (verifierLock)
-                {
+                {                    
                     currentUsageVerifier = verifier;
+                    Trace.Assert(currentUsageVerifier != null);
                     Game.CurrentGame.CurrentActingPlayer = HostPlayer;
                     CurrentPrompt = PromptFormatter.Format(prompt);
                 }
@@ -1202,6 +1203,7 @@ namespace Sanguosha.UI.Controls
                 lock (verifierLock)
                 {
                     _ResetAll();
+                    currentUsageVerifier = null;
                 }
             });
         }        
