@@ -150,7 +150,7 @@ namespace Sanguosha.Core.UI
             if (TryAnswerForCardUsage(prompt, verifier, out skill, out cards, out players))
             {
                 proxy.Freeze();
-                Trace.Assert(verifier.FastVerify(skill, cards, players) == VerifierResult.Success);
+                Trace.Assert(verifier.FastVerify(HostPlayer, skill, cards, players) == VerifierResult.Success);
                 return true;
             }
             proxy.Freeze();

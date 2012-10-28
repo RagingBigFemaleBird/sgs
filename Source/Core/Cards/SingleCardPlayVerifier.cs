@@ -13,7 +13,7 @@ using Sanguosha.Core.Exceptions;
 
 namespace Sanguosha.Core.Cards
 {
-    public class SingleCardPlayVerifier : CardUsageVerifier
+    public class SingleCardDiscardVerifier : CardUsageVerifier
     {
         public delegate bool CardMatcher(ICard card);
         private CardMatcher match;
@@ -26,7 +26,7 @@ namespace Sanguosha.Core.Cards
 
         IList<CardHandler> possibleMatch;
 
-        public SingleCardPlayVerifier(CardMatcher m = null, CardHandler handler = null)
+        public SingleCardDiscardVerifier(CardMatcher m = null, CardHandler handler = null)
         {
             Match = m;
             if (handler != null)
@@ -40,7 +40,7 @@ namespace Sanguosha.Core.Cards
             }
         }
 
-        public override VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players)
+        public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
         {
             if (skill != null || (cards != null && cards.Count > 1) || (players != null && players.Count != 0))
             {
@@ -55,6 +55,10 @@ namespace Sanguosha.Core.Cards
                 return VerifierResult.Fail;
             }
             if (Match != null && !Match(cards[0]))
+            {
+                return VerifierResult.Fail;
+            }
+            if (!Game.CurrentGame.PlayerCanDiscardCard(source, cards[0]))
             {
                 return VerifierResult.Fail;
             }

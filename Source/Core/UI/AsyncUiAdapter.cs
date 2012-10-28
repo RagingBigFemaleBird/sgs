@@ -74,7 +74,7 @@ namespace Sanguosha.Core.UI
             skill = answerSkill;
             cards = answerCards;
             players = answerPlayers;
-            if (verifier.FastVerify(answerSkill, answerCards, answerPlayers) == VerifierResult.Success)
+            if (verifier.FastVerify(HostPlayer, answerSkill, answerCards, answerPlayers) == VerifierResult.Success)
             {
                 return true;
             }

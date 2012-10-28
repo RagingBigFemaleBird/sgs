@@ -128,7 +128,7 @@ namespace Sanguosha.Core.UI
                 }
                 players.Add(item);
             }
-            if (verifier.FastVerify(skill, cards, players) != VerifierResult.Success)
+            if (verifier.FastVerify(HostPlayer, skill, cards, players) != VerifierResult.Success)
             {
                 Trace.TraceWarning("Client seems to be sending invalid answers at us. DDOS?");
                 cards = null;

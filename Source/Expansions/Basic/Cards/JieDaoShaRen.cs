@@ -23,7 +23,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         private class JieDaoShaRenVerifier : CardUsageVerifier
         {
-            public override VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players)
+            public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
             {
                 if (players == null)
                 {
@@ -36,7 +36,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     return VerifierResult.Fail;
                 }
-                return (new Sha()).Verify(owner, skill, cards, newList);
+                return (new Sha()).Verify(source, skill, cards, newList);
             }
 
             public override IList<CardHandler> AcceptableCardType
@@ -44,11 +44,10 @@ namespace Sanguosha.Expansions.Basic.Cards
                 get { return new List<CardHandler>() {new Sha()}; }
             }
 
-            Player owner, target;
+            Player target;
 
-            public JieDaoShaRenVerifier(Player p, Player t)
+            public JieDaoShaRenVerifier(Player t)
             {
-                owner = p;
                 target = t;
             }
         }
@@ -62,7 +61,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 ISkill skill;
                 List<Card> cards;
                 List<Player> players;
-                if (Game.CurrentGame.UiProxies[initiator].AskForCardUsage(new CardUsagePrompt("JieDaoShaRen", dests[1]), new JieDaoShaRenVerifier(initiator, dests[1]), out skill, out cards, out players))
+                if (Game.CurrentGame.UiProxies[initiator].AskForCardUsage(new CardUsagePrompt("JieDaoShaRen", dests[1]), new JieDaoShaRenVerifier(dests[1]), out skill, out cards, out players))
                 {
                     GameEventArgs args = new GameEventArgs();
                     args.Source = initiator;

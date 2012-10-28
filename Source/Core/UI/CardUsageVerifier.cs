@@ -20,15 +20,15 @@ namespace Sanguosha.Core.UI
 
     public interface ICardUsageVerifier
     {
-        VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players);
+        VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players);
         IList<CardHandler> AcceptableCardType { get; }
-        VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players);
+        VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> players);
         UiHelper Helper { get; }
     }
 
     public abstract class CardUsageVerifier : ICardUsageVerifier
     {
-        public virtual VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players)
+        public virtual VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> players)
         {
             CardTransformSkill transformSkill = skill as CardTransformSkill;
 
@@ -39,14 +39,14 @@ namespace Sanguosha.Core.UI
 
             if (AcceptableCardType == null)
             {
-                return SlowVerify(skill, cards, players);
+                return SlowVerify(source, skill, cards, players);
             }
 
             if (transformSkill != null)
             {
                 if (transformSkill.PossibleResults == null)
                 {
-                    return SlowVerify(skill, cards, players);
+                    return SlowVerify(source, skill, cards, players);
                 }
                 else
                 {
@@ -54,7 +54,7 @@ namespace Sanguosha.Core.UI
                                        on type1 equals type2 select type1;
                     if (commonResult.Count() == 0)
                     {
-                        return SlowVerify(skill, cards, players);
+                        return SlowVerify(source, skill, cards, players);
                     }
                 }
                 return VerifierResult.Fail;
@@ -62,18 +62,18 @@ namespace Sanguosha.Core.UI
 
             if (skill is ActiveSkill)
             {
-                if (SlowVerify(skill, null, null) == VerifierResult.Fail)
+                if (SlowVerify(source, skill, null, null) == VerifierResult.Fail)
                 {
                     return VerifierResult.Fail;
                 }
             }
 
-            return SlowVerify(skill, cards, players);
+            return SlowVerify(source, skill, cards, players);
         }
 
-        private VerifierResult SlowVerify(ISkill skill, List<Card> cards, List<Player> players)
+        private VerifierResult SlowVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
         {
-            VerifierResult initialResult = FastVerify(skill, cards, players);
+            VerifierResult initialResult = FastVerify(source, skill, cards, players);
 
             if (Game.CurrentGame.CurrentActingPlayer != null && skill != null)
             {
@@ -92,7 +92,7 @@ namespace Sanguosha.Core.UI
                 foreach (Card c in cardsToTry)
                 {
                     tryList.Add(c);
-                    if (FastVerify(skill, tryList, players) != VerifierResult.Fail)
+                    if (FastVerify(source, skill, tryList, players) != VerifierResult.Fail)
                     {
                         NothingWorks = false;
                         break;
@@ -107,7 +107,7 @@ namespace Sanguosha.Core.UI
                 foreach (Player p in Game.CurrentGame.Players)
                 {
                     tryList2.Add(p);
-                    if (FastVerify(skill, cards, tryList2) != VerifierResult.Fail)
+                    if (FastVerify(source, skill, cards, tryList2) != VerifierResult.Fail)
                     {
                         NothingWorks = false;
                         break;
@@ -122,7 +122,7 @@ namespace Sanguosha.Core.UI
             return initialResult;
         }
 
-        public abstract VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players);
+        public abstract VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players);
 
         public abstract IList<CardHandler> AcceptableCardType { get; }
 
@@ -131,5 +131,6 @@ namespace Sanguosha.Core.UI
         {
             get { return new UiHelper(); }
         }
+
     }
 }

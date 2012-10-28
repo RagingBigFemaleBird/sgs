@@ -49,7 +49,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             public class GuiCaiVerifier : ICardUsageVerifier
             {
 
-                public VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players)
+                public VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
                 {
                     if (skill != null || (players != null && players.Count > 0))
                     {
@@ -75,9 +75,9 @@ namespace Sanguosha.Expansions.Basic.Skills
                     get { return null; }
                 }
 
-                public VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players)
+                public VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> players)
                 {
-                    return FastVerify(skill, cards, players);
+                    return FastVerify(source, skill, cards, players);
                 }
 
                 public UiHelper Helper

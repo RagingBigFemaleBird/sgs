@@ -793,7 +793,7 @@ namespace Sanguosha.UI.Controls
                 // Handle skill down            
                 foreach (var skillCommand in SkillCommands)
                 {
-                    skillCommand.IsEnabled = (currentUsageVerifier.Verify(skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
+                    skillCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
                 }
 
                 if (skill == null)
@@ -804,7 +804,7 @@ namespace Sanguosha.UI.Controls
                         {
                             equipCommand.IsEnabled = false;
                         }
-                        equipCommand.IsEnabled = (currentUsageVerifier.Verify(equipCommand.SkillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
+                        equipCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, equipCommand.SkillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
                     }
                 }
                 if (!isEquipCommand)
@@ -816,7 +816,7 @@ namespace Sanguosha.UI.Controls
                     }
                 }
 
-                var status = currentUsageVerifier.Verify(skill, cards, players);
+                var status = currentUsageVerifier.Verify(HostPlayer, skill, cards, players);
 
                 if (status == VerifierResult.Fail)
                 {
@@ -844,7 +844,7 @@ namespace Sanguosha.UI.Controls
                         continue;
                     }
                     attempt.Add(card.Card);
-                    bool disabled = (currentUsageVerifier.Verify(skill, attempt, players) == VerifierResult.Fail);
+                    bool disabled = (currentUsageVerifier.Verify(HostPlayer, skill, attempt, players) == VerifierResult.Fail);
                     card.IsEnabled = !disabled;
                     attempt.Remove(card.Card);
                 }
@@ -856,7 +856,7 @@ namespace Sanguosha.UI.Controls
                         if (equipCommand.IsSelected) continue;
 
                         attempt.Add(equipCommand.Card);
-                        bool disabled = (currentUsageVerifier.Verify(skill, attempt, players) == VerifierResult.Fail);
+                        bool disabled = (currentUsageVerifier.Verify(HostPlayer, skill, attempt, players) == VerifierResult.Fail);
                         equipCommand.IsEnabled = !disabled;
                         attempt.Remove(equipCommand.Card);
                     }
@@ -876,7 +876,7 @@ namespace Sanguosha.UI.Controls
                         continue;
                     }
                     attempt2.Add(playerModel.Player);
-                    bool disabled = (currentUsageVerifier.Verify(skill, cards, attempt2) == VerifierResult.Fail);
+                    bool disabled = (currentUsageVerifier.Verify(HostPlayer, skill, cards, attempt2) == VerifierResult.Fail);
                     if (!disabled)
                     {
                         validCount++;

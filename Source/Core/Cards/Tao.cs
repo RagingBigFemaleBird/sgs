@@ -12,7 +12,7 @@ using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.Cards;
 
-namespace Sanguosha.Expansions.Basic.Cards
+namespace Sanguosha.Core.Cards
 {
     public class Tao : CardHandler
     {
@@ -33,11 +33,24 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
         {
-            if (targets != null && targets.Count >= 1)
+            if (Game.CurrentGame.IsDying.Count == 0 && targets != null && targets.Count >= 1)
             {
                 return VerifierResult.Fail;
             }
-            if (source.Health >= source.MaxHealth)
+            if (Game.CurrentGame.IsDying.Count > 0 && (targets == null || targets.Count != 1))
+            {
+                return VerifierResult.Fail;
+            }
+            Player p;
+            if (Game.CurrentGame.IsDying.Count == 0)
+            {
+                p = source;
+            }
+            else
+            {
+                p = targets[0];
+            }
+            if (p.Health >= p.MaxHealth)
             {
                 return VerifierResult.Fail;
             }

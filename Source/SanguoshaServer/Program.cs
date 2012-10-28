@@ -15,6 +15,7 @@ namespace Sanguosha
     class Program
     {
         static int totalNumberOfPlayers = 3;
+        static int timeOutSeconds = 25;
         static void Main(string[] args)
         {
             Trace.Listeners.Clear();
@@ -42,12 +43,12 @@ namespace Sanguosha
                 game.Players.Add(player);
                 IUiProxy proxy;
                 proxy = new ServerNetworkUiProxy(server, i);
-                proxy.TimeOutSeconds = 3;
+                proxy.TimeOutSeconds = timeOutSeconds;
                 proxy.HostPlayer = player;
                 game.UiProxies.Add(player, proxy);
             }
             GlobalServerUiProxy pxy = new GlobalServerUiProxy(game, game.UiProxies);
-            pxy.TimeOutSeconds = 3;
+            pxy.TimeOutSeconds = timeOutSeconds;
             game.GlobalProxy = pxy;
             GameEngine.LoadExpansions("./");
             foreach (var g in GameEngine.Expansions.Values)

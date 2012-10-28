@@ -19,7 +19,7 @@ namespace Sanguosha.Expansions.Battle.Cards
 
         public class HuoGongCardChoiceVerifier : CardUsageVerifier
         {
-            public override VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players)
+            public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
             {
                 if (skill != null || cards == null || cards.Count != 1 || (players != null && players.Count != 0))
                 {
@@ -53,7 +53,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                 suit = s;
             }
 
-            public override VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players)
+            public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
             {
                 if (skill != null || (players != null && players.Count != 0))
                 {

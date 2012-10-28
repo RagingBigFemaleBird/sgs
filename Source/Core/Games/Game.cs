@@ -77,6 +77,7 @@ namespace Sanguosha.Core.Games
             uiProxies = new Dictionary<Player, IUiProxy>();
             currentActingPlayer = null;
             triggersToRegister = new List<DelayedTriggerRegistration>();
+            isDying = new Stack<Player>();
         }
 
         public void LoadExpansion(Expansion expansion)
@@ -301,7 +302,7 @@ namespace Sanguosha.Core.Games
                 {
                     return result;
                 }
-                Player p = NextPlayer(currentPlayer);
+                Player p = NextAlivePlayer(currentPlayer);
                 int result3 = 0; ;
                 if (a.Owner != b.Owner)
                 {
@@ -317,7 +318,7 @@ namespace Sanguosha.Core.Games
                             result3 = -1;
                             break;
                         }
-                        p = NextPlayer(p);
+                        p = NextAlivePlayer(p);
                     }
                 }
                 return result3;
@@ -678,14 +679,29 @@ namespace Sanguosha.Core.Games
                 {
                     CurrentPlayer[key] = 0;
                 }
-                CurrentPlayer = NextPlayer(currentPlayer);
+                CurrentPlayer = NextAlivePlayer(currentPlayer);
                 CurrentPhase = TurnPhase.BeforeStart;
             }
             
         }
 
         /// <summary>
-        /// Get player next to the a player in counter-clock seat map.
+        /// Get player next to the a player in counter-clock seat map. (must be alive)
+        /// </summary>
+        /// <param name="p">Player</param>
+        /// <returns></returns>
+        public virtual Player NextAlivePlayer(Player p)
+        {
+            p = NextPlayer(p);
+            while (p.IsDead)
+            {
+                p = NextPlayer(p);
+            }
+            return p;
+        }
+
+        /// <summary>
+        /// Get player next to the a player in counter-clock seat map. (must be alive)
         /// </summary>
         /// <param name="p">Player</param>
         /// <returns></returns>
@@ -710,7 +726,7 @@ namespace Sanguosha.Core.Games
             {
                 return null;
             }
-            else 
+            else
             {
                 return players[i + 1];
             }
@@ -792,7 +808,7 @@ namespace Sanguosha.Core.Games
             Player p = from;
             while (p != to)
             {
-                p = NextPlayer(p);
+                p = NextAlivePlayer(p);
                 distRight++;
             }
             distRight += to[PlayerAttribute.RangePlus];
@@ -1180,6 +1196,110 @@ namespace Sanguosha.Core.Games
             }
             return true;
         }
+
+        Stack<Player> isDying;
+
+        public Stack<Player> IsDying
+        {
+            get { return isDying; }
+            set { isDying = value; }
+        }
+
+        public class PlayerHpChanged : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                Trace.Assert(eventArgs.Targets.Count == 1);
+                Player target = eventArgs.Targets[0];
+                if (target.Health <= 0)
+                {
+                    Trace.TraceInformation("Player {0} dying", target.Id);
+                    GameEventArgs args = new GameEventArgs();
+                    args.Source = target;
+                    try
+                    {
+                        Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToDie, args);
+                    }
+                    catch (TriggerResultException)
+                    {
+                    }
+                    try
+                    {
+                        Game.CurrentGame.Emit(GameEvent.PlayerDying, args);
+                    }
+                    catch (TriggerResultException)
+                    {
+                    }
+                }
+            }
+        }
+
+        private class TaoJiuVerifier : CardUsageVerifier
+        {
+            public Player DyingPlayer { get; set; }
+            public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
+            {
+                List<Player> l = new List<Player>();
+                if (players != null) l.AddRange(players);
+                l.Add(DyingPlayer);
+                return (new Tao()).Verify(source, skill, cards, l);
+            }
+
+            public override IList<CardHandler> AcceptableCardType
+            {
+                get { return new List<CardHandler>() {new Tao()}; }
+            }
+        }
+
+        public class PlayerDying : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                Player target = eventArgs.Source;
+                if (target.Health > 0) return;
+                Game.CurrentGame.IsDying.Push(target);
+                List<Player> toAsk = new List<Player>(Game.CurrentGame.Players);
+                Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, toAsk);
+                TaoJiuVerifier v = new TaoJiuVerifier();
+                v.DyingPlayer = target;
+                foreach (Player p in toAsk)
+                {
+                    while (true)
+                    {
+                        ISkill skill;
+                        List<Card> cards;
+                        List<Player> players;
+                        if (Game.CurrentGame.UiProxies[p].AskForCardUsage(new CardUsagePrompt("SaveALife", target), v, out skill, out cards, out players))
+                        {
+                            if (!Game.CurrentGame.HandleCardPlay(p, skill, cards, players))
+                            {
+                                continue;
+                            }
+                            Game.CurrentGame.RecoverHealth(p, target, 1);
+                            if (target.Health > 0)
+                            {
+                                goto recovered;
+                            }
+                        }
+                        break;
+                    }
+                }
+                target.IsDead = true;
+                CardsMovement move = new CardsMovement();
+                move.cards = new List<Card>();
+                move.cards.AddRange(Game.CurrentGame.Decks[target, DeckType.Hand]);
+                move.cards.AddRange(Game.CurrentGame.Decks[target, DeckType.Equipment]);
+                move.cards.AddRange(Game.CurrentGame.Decks[target, DeckType.DelayedTools]);
+                move.to = new DeckPlace(null, DeckType.Discard);
+                Game.CurrentGame.MoveCards(move, null);
+            recovered:
+                Trace.Assert(target == Game.CurrentGame.IsDying.Pop());
+
+            }
+        }
+    
         
+
     }
 }
+

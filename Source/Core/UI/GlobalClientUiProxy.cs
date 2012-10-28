@@ -22,7 +22,7 @@ namespace Sanguosha.Core.UI
 
         private class NullVerifier : ICardUsageVerifier
         {
-            public VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players)
+            public VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
             {
                 return VerifierResult.Fail;
             }
@@ -32,7 +32,7 @@ namespace Sanguosha.Core.UI
                 get { return null; }
             }
 
-            public VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players)
+            public VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> players)
             {
                 return VerifierResult.Fail;
             }
@@ -93,7 +93,7 @@ namespace Sanguosha.Core.UI
             {
                 Trace.Assert(respondingPlayer != null);
             }
-            if (verifier.Verify(skill, cards, players) == VerifierResult.Success)
+            if (verifier.Verify(respondingPlayer, skill, cards, players) == VerifierResult.Success)
             {
                 return true;
             }

@@ -40,7 +40,7 @@ namespace Sanguosha.Core.Cards
             }
         }
 
-        public override VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players)
+        public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
         {
             if (players != null && players.Count != 0)
             {
@@ -63,6 +63,10 @@ namespace Sanguosha.Core.Cards
                 {
                     return VerifierResult.Fail;
                 }
+                if (!Game.CurrentGame.PlayerCanUseCard(source, card))
+                {
+                    return VerifierResult.Fail;
+                }
                 return VerifierResult.Success;
             }
             if (cards != null && cards.Count > 1)
@@ -78,6 +82,10 @@ namespace Sanguosha.Core.Cards
                 return VerifierResult.Fail;
             }
             if (!Match(cards[0]))
+            {
+                return VerifierResult.Fail;
+            }
+            if (!Game.CurrentGame.PlayerCanUseCard(source, cards[0]))
             {
                 return VerifierResult.Fail;
             }

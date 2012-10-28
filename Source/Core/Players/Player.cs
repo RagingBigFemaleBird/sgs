@@ -17,6 +17,7 @@ namespace Sanguosha.Core.Players
     {
         public Player()
         {
+            isDead = false;
             id = 0;
             isMale = false;
             isFemale = false;
@@ -34,6 +35,14 @@ namespace Sanguosha.Core.Players
         {
             get { return id; }
             set { id = value; }
+        }
+
+        bool isDead;
+
+        public bool IsDead
+        {
+            get { return isDead; }
+            set { isDead = value; }
         }
 
         bool isMale;

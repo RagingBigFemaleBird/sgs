@@ -21,7 +21,7 @@ namespace Sanguosha.Core.Games
             private class PlayerActionStageVerifier : CardUsageVerifier
             {
                 public override UiHelper Helper { get { return new UiHelper() { isActionStage = true }; } }
-                public override VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players)
+                public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
                 {
                     if ((cards == null || cards.Count == 0) && skill == null)
                     {
@@ -151,7 +151,6 @@ namespace Sanguosha.Core.Games
                     List<Card> cards;
                     List<Player> players;
                     PlayerDiscardStageVerifier v = new PlayerDiscardStageVerifier();
-                    v.Owner = currentPlayer;
                     cannotBeDiscarded = 0;
                     foreach (Card c in Game.CurrentGame.Decks[currentPlayer, DeckType.Hand])
                     {
@@ -213,9 +212,8 @@ namespace Sanguosha.Core.Games
             private class PlayerDiscardStageVerifier : ICardUsageVerifier
             {
                 public UiHelper Helper { get { return new UiHelper(); } }
-                public Player Owner { get; set; }
 
-                public VerifierResult FastVerify(ISkill skill, List<Card> cards, List<Player> players)
+                public VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
                 {
                     if (skill != null)
                     {
@@ -231,21 +229,21 @@ namespace Sanguosha.Core.Games
                     }
                     foreach (Card c in cards)
                     {
-                        if (!Game.CurrentGame.PlayerCanDiscardCard(Owner, c))
+                        if (!Game.CurrentGame.PlayerCanDiscardCard(source, c))
                         {
                             return VerifierResult.Fail;
                         }
                     }
                     int cannotBeDiscarded = 0;
-                    foreach (Card c in Game.CurrentGame.Decks[Owner, DeckType.Hand])
+                    foreach (Card c in Game.CurrentGame.Decks[source, DeckType.Hand])
                     {
-                        if (!Game.CurrentGame.PlayerCanDiscardCard(Owner, c))
+                        if (!Game.CurrentGame.PlayerCanDiscardCard(source, c))
                         {
                             cannotBeDiscarded++;
                         }
                     }
-                    int remainingCards = (Owner.Health > cannotBeDiscarded) ? (Owner.Health) : cannotBeDiscarded;
-                    if (Game.CurrentGame.Decks[Owner, DeckType.Hand].Count - cards.Count < remainingCards)
+                    int remainingCards = (source.Health > cannotBeDiscarded) ? (source.Health) : cannotBeDiscarded;
+                    if (Game.CurrentGame.Decks[source, DeckType.Hand].Count - cards.Count < remainingCards)
                     {
                         return VerifierResult.Fail;
                     }
@@ -257,9 +255,9 @@ namespace Sanguosha.Core.Games
                     get { throw new NotImplementedException(); }
                 }
 
-                public VerifierResult Verify(ISkill skill, List<Card> cards, List<Player> players)
+                public VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> players)
                 {
-                    return FastVerify(skill, cards, players);
+                    return FastVerify(source, skill, cards, players);
                 }
             }
         }
@@ -585,6 +583,8 @@ namespace Sanguosha.Core.Games
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Draw], new PlayerDealStageTrigger());
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Discard], new PlayerDiscardStageTrigger());
             RegisterTrigger(GameEvent.CommitActionToTargets, new CommitActionToTargetsTrigger());
+            RegisterTrigger(GameEvent.AfterHealthChanged, new PlayerHpChanged());
+            RegisterTrigger(GameEvent.PlayerDying, new PlayerDying());
         }
     }
 

@@ -57,7 +57,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                             ISkill skill;
                             List<Card> cards;
                             List<Player> players;
-                            SingleCardPlayVerifier v = new SingleCardPlayVerifier();
+                            SingleCardDiscardVerifier v = new SingleCardDiscardVerifier();
                             if (!Game.CurrentGame.UiProxies[eventArgs.Targets[0]].AskForCardUsage(new Prompt("CiXiong2", eventArgs.Source), v, out skill, out cards, out players))
                             {
                                 Game.CurrentGame.DrawCards(eventArgs.Source, 1);

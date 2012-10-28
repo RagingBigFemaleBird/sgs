@@ -336,6 +336,16 @@ namespace Sanguosha.Core.Triggers
         /// </summary>
         public static readonly GameEvent PlayerRequireCard = new GameEvent("PlayerRequireCard");
 
+        /// <summary>
+        /// 处于频死
+        /// </summary>
+        public static readonly GameEvent PlayerDying = new GameEvent("PlayerDying");
+
+        /// <summary>
+        /// 进入频死
+        /// </summary>
+        public static readonly GameEvent PlayerIsAboutToDie = new GameEvent("PlayerIsAboutToDie");
+
         public override bool Equals(object obj)
         {
             if (obj == this)

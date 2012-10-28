@@ -100,7 +100,7 @@ namespace Sanguosha.UI.Main
                 var proxy = new ClientNetworkUiProxy(
                             new AsyncUiAdapter(gameModel.PlayerModels[i]), client, i == 0);
                 proxy.HostPlayer = player;
-                proxy.TimeOutSeconds = 5;
+                proxy.TimeOutSeconds = 15;
                 if (i == 0)
                 {
                     activeClientProxy = proxy;
