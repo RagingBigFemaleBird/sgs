@@ -337,12 +337,12 @@ namespace Sanguosha.Core.Triggers
         public static readonly GameEvent PlayerRequireCard = new GameEvent("PlayerRequireCard");
 
         /// <summary>
-        /// 处于频死
+        /// 处于濒死
         /// </summary>
         public static readonly GameEvent PlayerDying = new GameEvent("PlayerDying");
 
         /// <summary>
-        /// 进入频死
+        /// 进入濒死
         /// </summary>
         public static readonly GameEvent PlayerIsAboutToDie = new GameEvent("PlayerIsAboutToDie");
 
