@@ -233,6 +233,10 @@ namespace Sanguosha.Core.Games
                         {
                             return VerifierResult.Fail;
                         }
+                        if (c.Place.DeckType != DeckType.Hand)
+                        {
+                            return VerifierResult.Fail;
+                        }
                     }
                     int cannotBeDiscarded = 0;
                     foreach (Card c in Game.CurrentGame.Decks[source, DeckType.Hand])
@@ -472,6 +476,8 @@ namespace Sanguosha.Core.Games
                 Game.CurrentGame.Players[rulerId].Hero = h.Hero;
                 Game.CurrentGame.Players[rulerId].Allegiance = h.Hero.Allegiance;
                 Game.CurrentGame.Players[rulerId].MaxHealth = Game.CurrentGame.Players[rulerId].Health = h.Hero.MaxHealth;
+                Game.CurrentGame.Players[rulerId].IsMale = h.Hero.IsMale ? true : false;
+                Game.CurrentGame.Players[rulerId].IsFemale = h.Hero.IsMale ? false : true;
 
 
                 Shuffle(game.Decks[DeckType.Heroes]);
@@ -538,6 +544,8 @@ namespace Sanguosha.Core.Games
                     p.Hero = h.Hero;
                     p.Allegiance = h.Hero.Allegiance;
                     p.MaxHealth = p.Health = h.Hero.MaxHealth;
+                    p.IsMale = h.Hero.IsMale ? true : false;
+                    p.IsFemale = h.Hero.IsMale ? false : true;
                     
                 }
 

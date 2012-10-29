@@ -75,20 +75,19 @@ namespace Sanguosha.Core.UI
         {
             VerifierResult initialResult = FastVerify(source, skill, cards, players);
 
-            if (Game.CurrentGame.CurrentActingPlayer != null && skill != null)
+            if (skill != null)
             {
                 if (initialResult == VerifierResult.Success)
                 {
                     return VerifierResult.Success;
                 }
                 bool NothingWorks = true;
-                Player player = Game.CurrentGame.CurrentActingPlayer;
                 List<Card> tryList = new List<Card>();
                 if (cards != null)
                 {
                     tryList.AddRange(cards);
                 }
-                var cardsToTry = new List<Card>(Game.CurrentGame.Decks[player, DeckType.Hand].Concat(Game.CurrentGame.Decks[player, DeckType.Equipment]));
+                var cardsToTry = new List<Card>(Game.CurrentGame.Decks[source, DeckType.Hand].Concat(Game.CurrentGame.Decks[source, DeckType.Equipment]));
                 foreach (Card c in cardsToTry)
                 {
                     tryList.Add(c);

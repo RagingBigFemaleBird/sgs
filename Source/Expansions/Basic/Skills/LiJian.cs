@@ -60,21 +60,27 @@ namespace Sanguosha.Expansions.Basic.Skills
                     return VerifierResult.Fail;
                 }
             }
-            if (arg.Targets != null && arg.Targets.Count == 2)
+            if (arg.Targets != null && arg.Targets.Count <= 2)
             {
                 CompositeCard c = new CompositeCard();
                 c.Type = new JueDou();
                 c.Subcards = null;
                 c[WuXieKeJi.CannotBeCountered] = 1;
                 List<Player> dests = new List<Player>();
-                dests.Add(arg.Targets[0]);
-                if (!Game.CurrentGame.PlayerCanBeTargeted(arg.Targets[1], dests, c))
+                if (arg.Targets.Count >= 1)
                 {
-                    return VerifierResult.Fail;
+                    dests.Add(arg.Targets[0]);
+                    if (!Game.CurrentGame.PlayerCanBeTargeted(null, dests, c))
+                    {
+                        return VerifierResult.Fail;
+                    }
                 }
-                if (!Game.CurrentGame.PlayerCanUseCard(arg.Targets[1], c))
+                if (arg.Targets.Count == 2)
                 {
-                    return VerifierResult.Fail;
+                    if (!Game.CurrentGame.PlayerCanUseCard(arg.Targets[1], c))
+                    {
+                        return VerifierResult.Fail;
+                    }
                 }
             }
             if (arg.Targets == null || arg.Targets.Count < 2)

@@ -217,7 +217,7 @@ namespace Sanguosha.Core.Games
             }
             catch (GameOverException)
             {
-
+                Trace.TraceError("Game is over");
             }
 #if RELEASE
             catch (Exception e)

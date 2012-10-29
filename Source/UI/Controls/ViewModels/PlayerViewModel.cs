@@ -780,6 +780,10 @@ namespace Sanguosha.UI.Controls
 
             lock (verifierLock)
             {
+                if (currentUsageVerifier == null)
+                {
+                    return;
+                }
                 if (currentUsageVerifier.Helper.isActionStage)
                 {
                     cancelCardUsageCommand.CanExecuteStatus = (cards.Count != 0 || players.Count != 0 || command != null);
@@ -804,7 +808,10 @@ namespace Sanguosha.UI.Controls
                         {
                             equipCommand.IsEnabled = false;
                         }
-                        equipCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, equipCommand.SkillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
+                        else
+                        {
+                            equipCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, equipCommand.SkillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
+                        }
                     }
                 }
                 if (!isEquipCommand)
