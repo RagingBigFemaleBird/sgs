@@ -595,15 +595,10 @@ namespace Sanguosha.UI.Controls
                 {
                     return;
                 }
-                if (_timer != null)
-                {
-                    _timer.Stop();
-                    _timer = null;
-                }
                 Trace.Assert(currentUsageVerifier != null);
                 CardUsageAnsweredEvent(null, null, null);
                 currentUsageVerifier = null;
-                _ResetAll();                
+                _ResetAll();        
             }
         }
         #endregion
@@ -763,11 +758,6 @@ namespace Sanguosha.UI.Controls
             _ResetSkillsAndCards();     
             CurrentPrompt = string.Empty;
             TimeOutSeconds = 0;
-            if (_timer != null)
-            {
-                _timer.Stop();
-                _timer = null;
-            }
         }
 
         private void _UpdateCardUsageStatus()
@@ -913,75 +903,13 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        private void _StartCardUsageTimer(int timeOutSeconds)
-        {
-            if (timeOutSeconds > 0)
-            {
-                _timer = new System.Timers.Timer(timeOutSeconds * 1000);
-                _timer.AutoReset = false;
-                _timer.Elapsed +=
-                    (o, e) =>
-                    {
-                        if (_timer != null)
-                        {
-                            Application.Current.Dispatcher.Invoke(
-                                (ThreadStart)delegate() { AbortCardUsageCommand(null); });
-                        }
-                    };
-                _timer.Start();
-            }
-        }
-
-        private void _StartCardChoiceTimer(int timeOutSeconds)
-        {
-            if (timeOutSeconds > 0)
-            {
-                _timer = new System.Timers.Timer(timeOutSeconds * 1000);
-                _timer.AutoReset = false;
-                _timer.Elapsed +=
-                    (o, e) =>
-                    {
-                        Application.Current.Dispatcher.Invoke(
-                            (ThreadStart)delegate() { _AbortCardChoice(); });
-                    };
-                _timer.Start();
-            }
-        }
-
         private void _AbortCardChoice()
         {
             lock(verifierLock)
             {
-                if (_timer == null)
-                {
-                    Trace.Assert(!IsCardChoiceQuestionShown);
-                    return;
-                }
                 CardChoiceModel.TimeOutSeconds = 0;
                 IsCardChoiceQuestionShown = false;
-                CardChoiceAnsweredEvent(null);
-                _timer.Stop();
-                _timer = null;
             }            
-        }
-
-        private void _StartMultiChoiceTimer(int timeOutSeconds)
-        {
-            lock (verifierLock)
-            {
-                if (timeOutSeconds > 0)
-                {
-                    _timer = new System.Timers.Timer(timeOutSeconds * 1000);
-                    _timer.AutoReset = false;
-                    _timer.Elapsed +=
-                        (o, e) =>
-                        {
-                            Application.Current.Dispatcher.Invoke(
-                                (ThreadStart)delegate() { _AbortMultipleChoice(); });
-                        };
-                    _timer.Start();
-                }
-            }
         }
 
         private void _AbortMultipleChoice()
@@ -993,11 +921,8 @@ namespace Sanguosha.UI.Controls
                 AbortAnswerCommand = DisabledCommand;
                 MultiChoiceCommands.Clear();
                 CurrentPrompt = string.Empty;
-                MultipleChoiceAnsweredEvent(0);
             }
         }
-
-        private System.Timers.Timer _timer;
 
         private EventHandler _UpdateCardUsageStatusHandler;
         #endregion
@@ -1022,7 +947,6 @@ namespace Sanguosha.UI.Controls
                 if (!IsPlayable)
                 {
                     Trace.Assert(currentUsageVerifier == null);
-                    _StartCardUsageTimer(timeOutSeconds);
                     TimeOutSeconds = timeOutSeconds;
                     CardUsageAnsweredEvent(null, null, null);
                     return;
@@ -1030,7 +954,6 @@ namespace Sanguosha.UI.Controls
 
                 lock (verifierLock)
                 {
-                    _StartCardUsageTimer(timeOutSeconds);
                     TimeOutSeconds = timeOutSeconds;
                     currentUsageVerifier = verifier;
                     Trace.Assert(currentUsageVerifier != null);
@@ -1178,14 +1101,12 @@ namespace Sanguosha.UI.Controls
                 if (!IsPlayable)
                 {
                     Trace.Assert(currentUsageVerifier == null);
-                    _StartCardChoiceTimer(timeOutSeconds);
                     CardChoiceAnsweredEvent(null);
                     return;
                 }
 
                 lock (verifierLock)
                 {
-                    _StartCardChoiceTimer(timeOutSeconds);
                     CardChoiceModel.Prompt = PromptFormatter.Format(prompt);
                     _ConstructCardChoiceModel(sourceDecks, resultDeckNames, resultDeckMaximums, rearrangeable, timeOutSeconds, callback);
 
@@ -1201,7 +1122,6 @@ namespace Sanguosha.UI.Controls
                 if (!IsPlayable)
                 {
                     Trace.Assert(currentUsageVerifier == null);
-                    _StartMultiChoiceTimer(timeOutSeconds);
                     TimeOutSeconds = timeOutSeconds;
                     MultipleChoiceAnsweredEvent(0);
                     return;
@@ -1231,7 +1151,6 @@ namespace Sanguosha.UI.Controls
                 }
                 lock (verifierLock)
                 {
-                    _StartMultiChoiceTimer(timeOutSeconds);
                     IsMultiChoiceQuestionShown = true;
                     TimeOutSeconds = timeOutSeconds;
                 }
@@ -1250,8 +1169,19 @@ namespace Sanguosha.UI.Controls
             {
                 lock (verifierLock)
                 {
-                    _ResetAll();
-                    currentUsageVerifier = null;
+                    if (currentUsageVerifier != null)
+                    {
+                        _ResetAll();
+                        currentUsageVerifier = null;
+                    }
+                    else if (IsCardChoiceQuestionShown)
+                    {
+                        _AbortCardChoice();
+                    }
+                    else if (IsMultiChoiceQuestionShown)
+                    {
+                        _AbortMultipleChoice();
+                    }
                 }
             });
         }        

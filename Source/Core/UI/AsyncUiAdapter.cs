@@ -70,10 +70,19 @@ namespace Sanguosha.Core.UI
         {
             answerPending = new Semaphore(0, 1);
             proxy.AskForCardUsage(prompt, verifier, TimeOutSeconds);
-            answerPending.WaitOne(TimeOutSeconds * 1000);
-            skill = answerSkill;
-            cards = answerCards;
-            players = answerPlayers;
+            if (answerPending.WaitOne(TimeOutSeconds * 1000))
+            {
+                skill = answerSkill;
+                cards = answerCards;
+                players = answerPlayers;
+            }
+            else
+            {
+                skill = null;
+                cards = null;
+                players = null;
+            }
+            Freeze();
             if (verifier.FastVerify(HostPlayer, answerSkill, answerCards, answerPlayers) == VerifierResult.Success)
             {
                 return true;
@@ -85,8 +94,15 @@ namespace Sanguosha.Core.UI
         {
             answerPending = new Semaphore(0, 1);
             proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, TimeOutSeconds, rearrangeable, callback);
-            answerPending.WaitOne(TimeOutSeconds * 1000);
-            answer = answerCardsOfCards;
+            if (answerPending.WaitOne(TimeOutSeconds * 1000))
+            {
+                answer = answerCardsOfCards;
+            }
+            else
+            {
+                answer = null;
+            }
+            Freeze();
             if (verifier.Verify(answer) == VerifierResult.Success)
             {
                 return true;
@@ -98,8 +114,15 @@ namespace Sanguosha.Core.UI
         {
             answerPending = new Semaphore(0, 1);
             proxy.AskForMultipleChoice(prompt, questions, TimeOutSeconds);
-            answerPending.WaitOne(TimeOutSeconds * 1000);
-            answer = answerMultipleChoice;
+            if (answerPending.WaitOne(TimeOutSeconds * 1000))
+            {
+                answer = answerMultipleChoice;
+            }
+            else
+            {
+                answer = 0;
+            }
+            Freeze();
             return true;
         }
 
