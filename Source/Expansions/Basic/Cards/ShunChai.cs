@@ -29,8 +29,8 @@ namespace Sanguosha.Expansions.Basic.Cards
             IUiProxy ui = Game.CurrentGame.UiProxies[source];
             List<DeckPlace> places = new List<DeckPlace>();
             places.Add(new DeckPlace(dest, DeckType.Hand));
-            places.Add(new DeckPlace(dest, DeckType.DelayedTools));
             places.Add(new DeckPlace(dest, DeckType.Equipment));
+            places.Add(new DeckPlace(dest, DeckType.DelayedTools));
             List<string> resultDeckPlace = new List<string>();
             resultDeckPlace.Add(ResultDeckName);
             List<int> resultDeckMax = new List<int>();

@@ -70,7 +70,7 @@ namespace Sanguosha.Core.UI
         {
             answerPending = new Semaphore(0, 1);
             proxy.AskForCardUsage(prompt, verifier, TimeOutSeconds);
-            answerPending.WaitOne();
+            answerPending.WaitOne(TimeOutSeconds * 1000);
             skill = answerSkill;
             cards = answerCards;
             players = answerPlayers;
@@ -85,7 +85,7 @@ namespace Sanguosha.Core.UI
         {
             answerPending = new Semaphore(0, 1);
             proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, TimeOutSeconds, rearrangeable, callback);
-            answerPending.WaitOne();
+            answerPending.WaitOne(TimeOutSeconds * 1000);
             answer = answerCardsOfCards;
             if (verifier.Verify(answer) == VerifierResult.Success)
             {
@@ -98,7 +98,7 @@ namespace Sanguosha.Core.UI
         {
             answerPending = new Semaphore(0, 1);
             proxy.AskForMultipleChoice(prompt, questions, TimeOutSeconds);
-            answerPending.WaitOne();
+            answerPending.WaitOne(TimeOutSeconds * 1000);
             answer = answerMultipleChoice;
             return true;
         }

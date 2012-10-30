@@ -15,16 +15,36 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// <summary>
     /// 急救-你的回合外，你可以将一张红色牌当【桃】使用。
     /// </summary>
-    public class JiJiu : OneToOneCardTransformSkill
+    public class JiJiu : CardTransformSkill
     {
-        public override bool VerifyInput(Card card, object arg)
+        public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
         {
-            return card.SuitColor == SuitColorType.Red;
+            card = null;
+            if (Owner == Game.CurrentGame.CurrentPlayer)
+            {
+                return VerifierResult.Fail;
+            }
+            if (cards == null || cards.Count < 1)
+            {
+                return VerifierResult.Partial;
+            }
+            if (cards.Count > 1)
+            {
+                return VerifierResult.Fail;
+            }
+            if (cards[0].Owner != Owner || cards[0].Place.DeckType != DeckType.Hand)
+            {
+                return VerifierResult.Fail;
+            }
+            card = new CompositeCard();
+            card.Subcards = new List<Card>(cards);
+            card.Type = new Tao();
+            return VerifierResult.Success;
         }
 
-        public override CardHandler PossibleResult
+        public override List<CardHandler> PossibleResults
         {
-            get { return new Tao(); }
+            get { return new List<CardHandler>() { new Tao() }; }
         }
     }
 }
