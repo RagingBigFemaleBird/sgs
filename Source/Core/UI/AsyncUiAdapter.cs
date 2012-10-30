@@ -82,7 +82,6 @@ namespace Sanguosha.Core.UI
                 cards = null;
                 players = null;
             }
-            Freeze();
             if (verifier.FastVerify(HostPlayer, answerSkill, answerCards, answerPlayers) == VerifierResult.Success)
             {
                 return true;
@@ -102,7 +101,6 @@ namespace Sanguosha.Core.UI
             {
                 answer = null;
             }
-            Freeze();
             if (verifier.Verify(answer) == VerifierResult.Success)
             {
                 return true;
@@ -122,7 +120,6 @@ namespace Sanguosha.Core.UI
             {
                 answer = 0;
             }
-            Freeze();
             return true;
         }
 

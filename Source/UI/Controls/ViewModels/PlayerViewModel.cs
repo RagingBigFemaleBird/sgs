@@ -60,6 +60,7 @@ namespace Sanguosha.UI.Controls
             CardChoiceModel = new CardChoiceViewModel();
             HandCards = new ObservableCollection<CardViewModel>();
             verifierLock = new object();
+            _lastSelectedPlayers = new List<Player>();
         }
 
         public PlayerViewModel(Player player, GameViewModel game, bool isPlayable) : this()
@@ -708,17 +709,22 @@ namespace Sanguosha.UI.Controls
             return cards;
         }
 
+        private List<Player> _lastSelectedPlayers;
+
         private List<Player> _GetSelectedPlayers()
         {
-            List<Player> players = new List<Player>();
             foreach (var playerModel in _game.PlayerModels)
             {
-                if (playerModel.IsSelected)
+                if (playerModel.IsSelected && !_lastSelectedPlayers.Contains(playerModel.Player))
                 {
-                    players.Add(playerModel.Player);
+                    _lastSelectedPlayers.Add(playerModel.Player);
+                }
+                else if (!playerModel.IsSelected && _lastSelectedPlayers.Contains(playerModel.Player))
+                {
+                    _lastSelectedPlayers.Remove(playerModel.Player);
                 }
             }
-            return players;
+            return new List<Player>(_lastSelectedPlayers);
         }
 
         private void _ResetSkillsAndCards()
@@ -745,8 +751,8 @@ namespace Sanguosha.UI.Controls
             {
                 playerModel.OnSelectedChanged -= _UpdateCardUsageStatusHandler;
                 playerModel.IsSelectionMode = false;
-            }           
-
+            }
+            _lastSelectedPlayers.Clear();
             SubmitAnswerCommand = DisabledCommand;
             CancelAnswerCommand = DisabledCommand;
             AbortAnswerCommand = DisabledCommand; 
@@ -1101,6 +1107,7 @@ namespace Sanguosha.UI.Controls
                 if (!IsPlayable)
                 {
                     Trace.Assert(currentUsageVerifier == null);
+                    TimeOutSeconds = timeOutSeconds;
                     CardChoiceAnsweredEvent(null);
                     return;
                 }
@@ -1109,7 +1116,6 @@ namespace Sanguosha.UI.Controls
                 {
                     CardChoiceModel.Prompt = PromptFormatter.Format(prompt);
                     _ConstructCardChoiceModel(sourceDecks, resultDeckNames, resultDeckMaximums, rearrangeable, timeOutSeconds, callback);
-
                     IsCardChoiceQuestionShown = true;
                 }
             });
@@ -1169,9 +1175,9 @@ namespace Sanguosha.UI.Controls
             {
                 lock (verifierLock)
                 {
+                    _ResetAll();
                     if (currentUsageVerifier != null)
-                    {
-                        _ResetAll();
+                    {                        
                         currentUsageVerifier = null;
                     }
                     else if (IsCardChoiceQuestionShown)
