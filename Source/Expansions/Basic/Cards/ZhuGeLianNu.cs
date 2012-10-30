@@ -14,11 +14,11 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    public class ZhuGeLianNu : Equipment
+    public class ZhuGeLianNu : Weapon
     {
         private Trigger trigger1, trigger2;
 
-        protected override void RegisterEquipmentTriggers(Player p)
+        protected override void RegisterWeaponTriggers(Player p)
         {
             trigger1 = new ZhuGeLianNuTrigger(p);
             trigger2 = new ZhuGeLianNuAlwaysShaTrigger(p);
@@ -26,17 +26,12 @@ namespace Sanguosha.Expansions.Basic.Cards
             Game.CurrentGame.RegisterTrigger(Sha.PlayerNumberOfShaCheck, trigger2);
         }
 
-        protected override void UnregisterEquipmentTriggers(Player p)
+        protected override void UnregisterWeaponTriggers(Player p)
         {
             Game.CurrentGame.UnregisterTrigger(Sha.PlayerShaTargetValidation, trigger1);
             Game.CurrentGame.UnregisterTrigger(Sha.PlayerNumberOfShaCheck, trigger2);
             trigger1 = null;
             trigger2 = null;
-        }
-
-        public override CardCategory Category
-        {
-            get { return CardCategory.Weapon; }
         }
 
         protected override void Process(Player source, Player dest, ICard card)
@@ -77,5 +72,10 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
         }
 
+
+        public override int AttackRange
+        {
+            get { return 1; }
+        }
     }
 }

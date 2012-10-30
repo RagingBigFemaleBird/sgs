@@ -30,11 +30,6 @@ namespace Sanguosha.Expansions.Basic.Cards
             trigger1 = null;
         }
 
-        public override CardCategory Category
-        {
-            get { return CardCategory.Weapon; }
-        }
-
         protected override void Process(Player source, Player dest, ICard card)
         {
             throw new NotImplementedException();
