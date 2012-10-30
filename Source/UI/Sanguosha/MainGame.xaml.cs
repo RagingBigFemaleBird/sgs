@@ -49,7 +49,7 @@ namespace Sanguosha.UI.Main
             Trace.AutoFlush = true;
 
             Trace.WriteLine("Log starting");
-            _game = new RoleGame();
+            _game = new RoleGame(1);
 #if NETWORKING
             Client client;
             client = new Client();

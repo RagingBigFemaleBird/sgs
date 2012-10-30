@@ -33,7 +33,7 @@ namespace Sanguosha
 
             Trace.WriteLine("Log starting");
             Trace.Listeners.Add(new ConsoleTraceListener());
-            Game game = new RoleGame();
+            Game game = new RoleGame(1);
             Server server;
             server = new Server(game, totalNumberOfPlayers);
             for (int i = 0; i < totalNumberOfPlayers; i++)
