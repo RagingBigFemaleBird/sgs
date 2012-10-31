@@ -32,6 +32,18 @@ namespace Sanguosha.Core.Skills
         {
         }
 
+        protected void NotifyAction(Players.Player source, List<Players.Player> targets, List<Card> cards)
+        {
+            ActionLog log = new ActionLog();
+            log.GameAction = GameAction.None;
+            log.CardAction = null;
+            log.SkillAction = this;
+            log.Source = source;
+            log.Targets = targets;
+            log.Cards = cards;
+            Games.Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
+        }
+
         public virtual bool isRulerOnly { get { return false; } }
         public virtual bool isSingleUse { get { return false; } }
         public virtual bool isAwakening { get { return false; } }

@@ -499,10 +499,7 @@ namespace Sanguosha.Core.Games
                 }
             }
 
-            if (NotificationProxy != null)
-            {
-                NotificationProxy.NotifyCardMovement(moves, logs);
-            }
+            NotificationProxy.NotifyCardMovement(moves, logs);
             
             foreach (CardsMovement move in moves)
             {
@@ -854,10 +851,7 @@ namespace Sanguosha.Core.Games
                 }
                 Trace.Assert(false);
             }
-            if (NotificationProxy != null)
-            {
-                NotificationProxy.NotifyDamage(source, args.Targets[0], -args.IntArg);
-            }
+            NotificationProxy.NotifyDamage(source, args.Targets[0], -args.IntArg);
             Trace.Assert(args.Targets.Count == 1);
             args.Targets[0].Health += args.IntArg;
             Trace.TraceInformation("Player {0} Lose {1} hp, @ {2} hp", args.Targets[0].Id, -args.IntArg, args.Targets[0].Health);
@@ -1234,71 +1228,6 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        private class TaoJiuVerifier : CardUsageVerifier
-        {
-            public Player DyingPlayer { get; set; }
-            public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
-            {
-                List<Player> l = new List<Player>();
-                if (players != null) l.AddRange(players);
-                l.Add(DyingPlayer);
-                return (new Tao()).Verify(source, skill, cards, l);
-            }
-
-            public override IList<CardHandler> AcceptableCardType
-            {
-                get { return new List<CardHandler>() {new Tao()}; }
-            }
-        }
-
-        public class PlayerDying : Trigger
-        {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                Player target = eventArgs.Source;
-                if (target.Health > 0) return;
-                Game.CurrentGame.IsDying.Push(target);
-                List<Player> toAsk = new List<Player>(Game.CurrentGame.Players);
-                Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, toAsk);
-                TaoJiuVerifier v = new TaoJiuVerifier();
-                v.DyingPlayer = target;
-                foreach (Player p in toAsk)
-                {
-                    while (true)
-                    {
-                        ISkill skill;
-                        List<Card> cards;
-                        List<Player> players;
-                        if (Game.CurrentGame.UiProxies[p].AskForCardUsage(new CardUsagePrompt("SaveALife", target), v, out skill, out cards, out players))
-                        {
-                            if (!Game.CurrentGame.HandleCardPlay(p, skill, cards, players))
-                            {
-                                continue;
-                            }
-                            Game.CurrentGame.RecoverHealth(p, target, 1);
-                            if (target.Health > 0)
-                            {
-                                goto recovered;
-                            }
-                        }
-                        break;
-                    }
-                }
-                target.IsDead = true;
-                CardsMovement move = new CardsMovement();
-                move.cards = new List<Card>();
-                move.cards.AddRange(Game.CurrentGame.Decks[target, DeckType.Hand]);
-                move.cards.AddRange(Game.CurrentGame.Decks[target, DeckType.Equipment]);
-                move.cards.AddRange(Game.CurrentGame.Decks[target, DeckType.DelayedTools]);
-                move.to = new DeckPlace(null, DeckType.Discard);
-                Game.CurrentGame.MoveCards(move, null);
-            recovered:
-                Trace.Assert(target == Game.CurrentGame.IsDying.Pop());
-
-            }
-        }
-    
-        
 
     }
 }

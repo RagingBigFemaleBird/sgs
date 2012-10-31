@@ -12,8 +12,7 @@ using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.Cards;
 
-
-namespace Sanguosha.Core.Cards
+namespace Sanguosha.Expansions.Basic.Cards
 {
     public class WuXieKeJi : CardHandler
     {

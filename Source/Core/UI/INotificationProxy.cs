@@ -13,5 +13,21 @@ namespace Sanguosha.Core.UI
     {
         void NotifyCardMovement(List<CardsMovement> m, List<UI.IGameLog> notes);
         void NotifyDamage(Player source, Player target, int magnitude);
+        void NotifySkillUse(ActionLog log);
+    }
+
+    public class DummyNotificationProxy : INotificationProxy
+    {
+        public void NotifyCardMovement(List<CardsMovement> m, List<IGameLog> notes)
+        {
+        }
+
+        public void NotifyDamage(Player source, Player target, int magnitude)
+        {
+        }
+
+        public void NotifySkillUse(ActionLog log)
+        {
+        }
     }
 }

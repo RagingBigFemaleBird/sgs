@@ -30,5 +30,10 @@ namespace Sanguosha.Core.Games
             Role = r;
         }
     }
-
+    public class UnknownRoleCardHandler : RoleCardHandler
+    {
+        public UnknownRoleCardHandler() : base(Role.Unknown)
+        {
+        }   
+    }
 }

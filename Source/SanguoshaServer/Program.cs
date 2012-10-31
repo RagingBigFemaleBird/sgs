@@ -50,6 +50,7 @@ namespace Sanguosha
             GlobalServerUiProxy pxy = new GlobalServerUiProxy(game, game.UiProxies);
             pxy.TimeOutSeconds = timeOutSeconds;
             game.GlobalProxy = pxy;
+            game.NotificationProxy = new DummyNotificationProxy();
             GameEngine.LoadExpansions("./");
             foreach (var g in GameEngine.Expansions.Values)
             {

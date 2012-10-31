@@ -454,5 +454,11 @@ namespace Sanguosha.UI.Controls
         }
 
         #endregion
+
+
+        public void NotifySkillUse(ActionLog log)
+        {
+            
+        }
     }
 }

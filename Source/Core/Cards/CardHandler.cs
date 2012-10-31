@@ -109,6 +109,33 @@ namespace Sanguosha.Core.Cards
 
         public virtual void Process(Player source, List<Player> dests, ICard card)
         {
+            List<Player> logTargets = LogTargetsModifier(source, dests);
+            ActionLog log = new ActionLog();
+            log.CardAction = this;
+            log.Source = source;
+            log.Targets = logTargets;
+            log.SkillAction = null;
+            log.GameAction = GameAction.Use;
+            Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
+            if (card is Card)
+            {
+                if ((card as Card).Logs == null)
+                {
+                    (card as Card).Logs = new List<ActionLog>();
+                }
+                (card as Card).Logs.Add(log);
+            }
+            else if (card is CompositeCard)
+            {
+                foreach (var s in (card as CompositeCard).Subcards)
+                {
+                    if (s.Logs == null)
+                    {
+                        s.Logs = new List<ActionLog>();
+                    }
+                    s.Logs.Add(log);
+                }
+            }
             foreach (var player in dests)
             {
                 Player p = player;
@@ -118,6 +145,11 @@ namespace Sanguosha.Core.Cards
                     Process(src, p, card);
                 }
             }
+        }
+
+        protected virtual List<Player> LogTargetsModifier(Player source, List<Player> dests)
+        {
+            return new List<Player>(dests);
         }
 
         protected abstract void Process(Player source, Player dest, ICard card);

@@ -92,6 +92,12 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
         }
 
+        protected override List<Player> LogTargetsModifier(Player source, List<Player> dests)
+        {
+            var z = new List<Player>(Game.CurrentGame.Players);
+            z.Remove(source);
+            return z;
+        }
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
         {
             if (targets != null && targets.Count >= 1)

@@ -160,5 +160,13 @@ namespace Sanguosha.Core.Cards
                 attributes[key] = value;
             }
         }
+
+        List<UI.ActionLog> logs;
+
+        public List<UI.ActionLog> Logs
+        {
+            get { return logs; }
+            set { logs = value; }
+        }
     }    
 }

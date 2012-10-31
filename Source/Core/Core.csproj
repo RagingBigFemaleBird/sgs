@@ -58,10 +58,8 @@
     <Compile Include="Cards\Card.cs" />
     <Compile Include="Cards\SingleCardPlayVerifier.cs" />
     <Compile Include="Cards\SingleCardUsageVerifier.cs" />
-    <Compile Include="Cards\Tao.cs" />
     <Compile Include="Cards\UnknownCardHandler.cs" />
     <Compile Include="Cards\Weapon.cs" />
-    <Compile Include="Cards\WuXieKeJi.cs" />
     <Compile Include="Exceptions\DuplicateCardHandlerException.cs" />
     <Compile Include="Games\Expansion.cs" />
     <Compile Include="Games\GameEngine.cs" />

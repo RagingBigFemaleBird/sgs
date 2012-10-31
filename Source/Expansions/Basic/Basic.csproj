@@ -59,8 +59,10 @@
     <Compile Include="Cards\ShanDian.cs" />
     <Compile Include="Cards\ShunChai.cs" />
     <Compile Include="Cards\ShunShouQianYang.cs" />
+    <Compile Include="Cards\Tao.cs" />
     <Compile Include="Cards\TaoYuanJieYi.cs" />
     <Compile Include="Cards\WanJianQiFa.cs" />
+    <Compile Include="Cards\WuXieKeJi.cs" />
     <Compile Include="Cards\WuZhongShengYou.cs" />
     <Compile Include="Cards\ZhangBaSheMao.cs" />
     <Compile Include="Cards\ZhuGeLianNu.cs" />

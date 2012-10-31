@@ -51,4 +51,22 @@ namespace Sanguosha.Core.UI
         int Delta { get; set; }
     }
 
+    public enum GameAction
+    {
+        None,
+        Play,
+        Use,
+        Discard,
+        PlaceIntoDiscard,
+    }
+
+    public class ActionLog : IGameLog
+    {
+        public GameAction GameAction { get; set; }
+        public ISkill SkillAction { get; set; }
+        public CardHandler CardAction { get; set; }
+        public Player Source { get; set; }
+        public List<Player> Targets { get; set; }
+        public List<Card> Cards { get; set; }
+    }
 }

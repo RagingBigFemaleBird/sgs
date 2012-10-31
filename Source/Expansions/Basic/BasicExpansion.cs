@@ -156,6 +156,7 @@ namespace Sanguosha.Expansions.Basic
 
             TriggerRegistration = new List<DelayedTriggerRegistration>();
             TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.PlayerIsCardTarget, trigger = new WuXieKeJiTrigger() });
+            TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.PlayerDying, trigger = new PlayerDying() });
         }
     }
 }

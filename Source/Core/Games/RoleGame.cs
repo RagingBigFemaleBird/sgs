@@ -461,7 +461,7 @@ namespace Sanguosha.Core.Games
                     game.Decks[null, role].Clear();
                     while (count-- > 0)
                     {
-                        Card c = new Card(SuitType.None, 0, new RoleCardHandler(Role.Unknown));
+                        Card c = new Card(SuitType.None, 0, new UnknownCardHandler());
                         c.Place = new DeckPlace(null, role);
                         game.Decks[null, role].Add(c);
                     }
@@ -678,7 +678,6 @@ namespace Sanguosha.Core.Games
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Discard], new PlayerDiscardStageTrigger());
             RegisterTrigger(GameEvent.CommitActionToTargets, new CommitActionToTargetsTrigger());
             RegisterTrigger(GameEvent.AfterHealthChanged, new PlayerHpChanged());
-            RegisterTrigger(GameEvent.PlayerDying, new PlayerDying());
         }
     }
 
