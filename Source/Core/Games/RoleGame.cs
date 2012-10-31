@@ -461,7 +461,7 @@ namespace Sanguosha.Core.Games
                     game.Decks[null, role].Clear();
                     while (count-- > 0)
                     {
-                        Card c = new Card(SuitType.None, 0, new UnknownCardHandler());
+                        Card c = new Card(SuitType.None, 0, new RoleCardHandler(Role.Unknown));
                         c.Place = new DeckPlace(null, role);
                         game.Decks[null, role].Add(c);
                     }
