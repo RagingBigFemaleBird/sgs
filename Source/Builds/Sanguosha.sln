@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "..\Expansions\Test\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SanguoshaXBap", "..\UI\SanguoshaXBap\SanguoshaXBap.csproj", "{C0058FAF-82B6-4C40-A1F6-09C874A7CA9F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Effects", "..\UI\Effects\Effects.csproj", "{2CFB7F48-6D2E-4F60-9B9C-6C41F9518817}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -221,6 +223,16 @@ Global
 		{C0058FAF-82B6-4C40-A1F6-09C874A7CA9F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C0058FAF-82B6-4C40-A1F6-09C874A7CA9F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C0058FAF-82B6-4C40-A1F6-09C874A7CA9F}.Release|x86.ActiveCfg = Release|Any CPU
+		{2CFB7F48-6D2E-4F60-9B9C-6C41F9518817}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CFB7F48-6D2E-4F60-9B9C-6C41F9518817}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CFB7F48-6D2E-4F60-9B9C-6C41F9518817}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{2CFB7F48-6D2E-4F60-9B9C-6C41F9518817}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{2CFB7F48-6D2E-4F60-9B9C-6C41F9518817}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2CFB7F48-6D2E-4F60-9B9C-6C41F9518817}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CFB7F48-6D2E-4F60-9B9C-6C41F9518817}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CFB7F48-6D2E-4F60-9B9C-6C41F9518817}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{2CFB7F48-6D2E-4F60-9B9C-6C41F9518817}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{2CFB7F48-6D2E-4F60-9B9C-6C41F9518817}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -241,5 +253,6 @@ Global
 		{7D1B2955-5722-437A-B054-68FBD5F52422} = {B167E0B3-7CBF-487A-941F-CDCD5D6AABDC}
 		{3E20314A-1CF8-4EC2-8C67-A4C5F40459C4} = {B167E0B3-7CBF-487A-941F-CDCD5D6AABDC}
 		{C0058FAF-82B6-4C40-A1F6-09C874A7CA9F} = {B167E0B3-7CBF-487A-941F-CDCD5D6AABDC}
+		{2CFB7F48-6D2E-4F60-9B9C-6C41F9518817} = {B167E0B3-7CBF-487A-941F-CDCD5D6AABDC}
 	EndGlobalSection
 EndGlobal

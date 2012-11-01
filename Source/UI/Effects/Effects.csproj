@@ -5,18 +5,16 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7D1B2955-5722-437A-B054-68FBD5F52422}</ProjectGuid>
+    <ProjectGuid>{2CFB7F48-6D2E-4F60-9B9C-6C41F9518817}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sanguosha.UI.Animations</RootNamespace>
-    <AssemblyName>Animations</AssemblyName>
+    <RootNamespace>Sanguosha.UI.Effects</RootNamespace>
+    <AssemblyName>Effects</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
-    <Utf8Output>true</Utf8Output>
-    <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,17 +49,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnimationBase.cs" />
-    <Compile Include="DamageAnimation.xaml.cs">
-      <DependentUpon>DamageAnimation.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="FiredImage.cs" />
-    <Compile Include="FireGenerator.cs" />
-    <Compile Include="FrameBasedAnimation.cs" />
-    <Compile Include="IAnimation.cs" />
-    <Compile Include="LoseHealthAnimation.xaml.cs">
-      <DependentUpon>LoseHealthAnimation.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="EffectLibrary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -75,12 +63,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ShaAnimation.xaml.cs">
-      <DependentUpon>ShaAnimation.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ShanAnimation.xaml.cs">
-      <DependentUpon>ShanAnimation.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="ZoomBlurEffect.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -90,63 +73,10 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="ShaderSource\ZoomBlur.fx" />
+    <Resource Include="ShaderSource\ZoomBlur.ps" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="LoseHealthAnimation\0.png" />
-    <Resource Include="LoseHealthAnimation\1.png" />
-    <Resource Include="LoseHealthAnimation\10.png" />
-    <Resource Include="LoseHealthAnimation\11.png" />
-    <Resource Include="LoseHealthAnimation\12.png" />
-    <Resource Include="LoseHealthAnimation\13.png" />
-    <Resource Include="LoseHealthAnimation\14.png" />
-    <Resource Include="LoseHealthAnimation\15.png" />
-    <Resource Include="LoseHealthAnimation\16.png" />
-    <Resource Include="LoseHealthAnimation\17.png" />
-    <Resource Include="LoseHealthAnimation\2.png" />
-    <Resource Include="LoseHealthAnimation\3.png" />
-    <Resource Include="LoseHealthAnimation\4.png" />
-    <Resource Include="LoseHealthAnimation\5.png" />
-    <Resource Include="LoseHealthAnimation\6.png" />
-    <Resource Include="LoseHealthAnimation\7.png" />
-    <Resource Include="LoseHealthAnimation\8.png" />
-    <Resource Include="LoseHealthAnimation\9.png" />
-    <Resource Include="ShanAnimation\Foreground.png" />
-    <Resource Include="ShanAnimation\Background.png" />
-    <Resource Include="TaoAnimation\foreground.png" />
-    <Resource Include="TaoAnimation\text.png" />
-    <Resource Include="TaoAnimation\smallBg.png" />
-    <Resource Include="TaoAnimation\largeBg.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="DamageAnimation.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="LoseHealthAnimation.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ShaAnimation.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ShanAnimation.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="DamageAnimation\0.png" />
-    <Resource Include="DamageAnimation\1.png" />
-    <Resource Include="DamageAnimation\2.png" />
-    <Resource Include="DamageAnimation\3.png" />
-    <Resource Include="DamageAnimation\4.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="ShaAnimation\foreground.png" />
-    <Resource Include="ShaAnimation\background.png" />
-    <Resource Include="ShaAnimation\faded.png" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

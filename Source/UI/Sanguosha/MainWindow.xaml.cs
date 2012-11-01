@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using Sanguosha.Core.Games;
+using System.Threading;
 
 namespace Sanguosha.UI.Main
 {
@@ -52,14 +53,21 @@ namespace Sanguosha.UI.Main
 
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();            
+        }
+
+        private Thread loadingThread;
+
+        private void _Load()
+        {
+            _LoadResources(ResourcesFolder);
+            GameEngine.LoadExpansions(ExpansionFolder);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            _LoadResources(ResourcesFolder);
-            GameEngine.LoadExpansions(ExpansionFolder);
-            MainFrame.Navigate(new Uri("pack://application:,,,/Sanguosha;component/MainGame.xaml"));
+            loadingThread = new Thread(_Load) { IsBackground = true };            
+            // MainFrame.Navigate(new Uri("pack://application:,,,/Sanguosha;component/MainGame.xaml"));
         }
     }
 }
