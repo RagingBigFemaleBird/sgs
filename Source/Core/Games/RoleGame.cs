@@ -23,6 +23,10 @@ namespace Sanguosha.Core.Games
                 public override UiHelper Helper { get { return new UiHelper() { isActionStage = true }; } }
                 public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
                 {
+                    if (!Game.CurrentGame.AllAlive(players))
+                    {
+                        return VerifierResult.Fail;
+                    }
                     if ((cards == null || cards.Count == 0) && skill == null)
                     {
                         return VerifierResult.Fail;
@@ -697,6 +701,19 @@ namespace Sanguosha.Core.Games
             }
         }
 
+        private class DeadManStopper : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                Trace.Assert(eventArgs.Targets.Count == 1);
+                if (eventArgs.Targets[0].IsDead)
+                {
+                    Trace.TraceInformation("RIP {0}", eventArgs.Targets[0].Id);
+                    throw new TriggerResultException(TriggerResult.Fail);
+                }
+            }
+        }
+
         protected override void InitTriggers()
         {
             RegisterTrigger(GameEvent.GameStart, new RoleGameRuleTrigger());
@@ -707,6 +724,8 @@ namespace Sanguosha.Core.Games
             RegisterTrigger(GameEvent.CommitActionToTargets, new CommitActionToTargetsTrigger());
             RegisterTrigger(GameEvent.AfterHealthChanged, new PlayerHpChanged());
             RegisterTrigger(GameEvent.PlayerIsDead, new PlayerIsDead());
+            RegisterTrigger(GameEvent.PlayerIsCardTarget, new DeadManStopper() { Priority = int.MaxValue });
+            RegisterTrigger(GameEvent.PlayerIsCardTarget, new DeadManStopper() { Priority = int.MinValue });
         }
     }
 
