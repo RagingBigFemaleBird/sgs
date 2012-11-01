@@ -669,6 +669,34 @@ namespace Sanguosha.Core.Games
             }
         }
 
+        private class PlayerIsDead : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                Player p = eventArgs.Source;
+                if (p.Hero != null)
+                {
+                    foreach (ISkill s in p.Hero.Skills)
+                    {
+                        if (s is PassiveSkill)
+                        {
+                            (s as PassiveSkill).Owner = null;
+                        }
+                    }
+                }
+                if (p.Hero2 != null)
+                {
+                    foreach (ISkill s in p.Hero2.Skills)
+                    {
+                        if (s is PassiveSkill)
+                        {
+                            (s as PassiveSkill).Owner = null;
+                        }
+                    }
+                }
+            }
+        }
+
         protected override void InitTriggers()
         {
             RegisterTrigger(GameEvent.GameStart, new RoleGameRuleTrigger());
@@ -678,6 +706,7 @@ namespace Sanguosha.Core.Games
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Discard], new PlayerDiscardStageTrigger());
             RegisterTrigger(GameEvent.CommitActionToTargets, new CommitActionToTargetsTrigger());
             RegisterTrigger(GameEvent.AfterHealthChanged, new PlayerHpChanged());
+            RegisterTrigger(GameEvent.PlayerIsDead, new PlayerIsDead());
         }
     }
 

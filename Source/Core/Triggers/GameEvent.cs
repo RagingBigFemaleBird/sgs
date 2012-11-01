@@ -346,6 +346,11 @@ namespace Sanguosha.Core.Triggers
         /// </summary>
         public static readonly GameEvent PlayerIsAboutToDie = new GameEvent("PlayerIsAboutToDie");
 
+        /// <summary>
+        /// 玩家死亡
+        /// </summary>
+        public static readonly GameEvent PlayerIsDead = new GameEvent("PlayerIsDead");
+
         public override bool Equals(object obj)
         {
             if (obj == this)

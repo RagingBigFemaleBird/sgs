@@ -21,16 +21,18 @@ namespace Sanguosha.Core.Skills
         {
             get { return owner; }
             set 
-            { 
+            {
+                if (owner != null)
+                {
+                    UninstallTriggers(owner);
+                }
                 owner = value;
                 InstallTriggers(owner);
             }
         }
 
         protected abstract void InstallTriggers(Players.Player owner);
-        protected virtual void UninstallTriggers(Players.Player owner)
-        {
-        }
+        protected abstract void UninstallTriggers(Players.Player owner);
 
         protected void NotifyAction(Players.Player source, List<Players.Player> targets, List<Card> cards)
         {

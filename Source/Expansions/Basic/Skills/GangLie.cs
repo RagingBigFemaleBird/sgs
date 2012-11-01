@@ -102,9 +102,20 @@ namespace Sanguosha.Expansions.Basic.Skills
             }
         }
 
+        Trigger theTrigger;
+
         protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
         {
-            Game.CurrentGame.RegisterTrigger(GameEvent.AfterDamageInflicted, new GangLieTrigger(owner));
+            theTrigger = new GangLieTrigger(owner); 
+            Game.CurrentGame.RegisterTrigger(GameEvent.AfterDamageInflicted, theTrigger);
+        }
+
+        protected override void UninstallTriggers(Player owner)
+        {
+            if (theTrigger != null)
+            {
+                Game.CurrentGame.UnregisterTrigger(GameEvent.AfterDamageInflicted, theTrigger);
+            }
         }
     }
 }

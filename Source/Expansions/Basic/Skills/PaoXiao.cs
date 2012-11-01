@@ -53,10 +53,25 @@ namespace Sanguosha.Expansions.Basic.Skills
             }
         }
 
+        Trigger theTrigger1, theTrigger2;
         protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
         {
-            Game.CurrentGame.RegisterTrigger(Sha.PlayerShaTargetValidation, new PaoXiaoTrigger(owner));
-            Game.CurrentGame.RegisterTrigger(Sha.PlayerNumberOfShaCheck, new PaoXiaoAlwaysShaTrigger(owner));
+            theTrigger1 = new PaoXiaoTrigger(owner);
+            theTrigger2 = new PaoXiaoAlwaysShaTrigger(owner);
+            Game.CurrentGame.RegisterTrigger(Sha.PlayerShaTargetValidation, theTrigger1);
+            Game.CurrentGame.RegisterTrigger(Sha.PlayerNumberOfShaCheck, theTrigger2);
+        }
+
+        protected override void UninstallTriggers(Player owner)
+        {
+            if (theTrigger1 != null)
+            {
+                Game.CurrentGame.UnregisterTrigger(Sha.PlayerShaTargetValidation, theTrigger1);
+            }
+            if (theTrigger2 != null)
+            {
+                Game.CurrentGame.UnregisterTrigger(Sha.PlayerNumberOfShaCheck, theTrigger2);
+            }
         }
     }
 }

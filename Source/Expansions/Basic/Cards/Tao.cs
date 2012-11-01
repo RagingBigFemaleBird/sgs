@@ -113,7 +113,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     break;
                 }
             }
-            target.IsDead = true;
+            Game.CurrentGame.Emit(GameEvent.PlayerIsDead, eventArgs);
             CardsMovement move = new CardsMovement();
             move.cards = new List<Card>();
             move.cards.AddRange(Game.CurrentGame.Decks[target, DeckType.Hand]);
@@ -121,6 +121,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             move.cards.AddRange(Game.CurrentGame.Decks[target, DeckType.DelayedTools]);
             move.to = new DeckPlace(null, DeckType.Discard);
             Game.CurrentGame.MoveCards(move, null);
+            target.IsDead = true;
         recovered:
             Trace.Assert(target == Game.CurrentGame.IsDying.Pop());
 

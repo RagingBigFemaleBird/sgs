@@ -68,9 +68,20 @@ namespace Sanguosha.Expansions.Basic.Skills
             }
         }
 
+        Trigger theTrigger;
+
         protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
         {
+            theTrigger = new FanKuiTrigger(owner);
             Game.CurrentGame.RegisterTrigger(GameEvent.AfterDamageInflicted, new FanKuiTrigger(owner));
+        }
+
+        protected override void UninstallTriggers(Player owner)
+        {
+            if (theTrigger != null)
+            {
+                Game.CurrentGame.UnregisterTrigger(GameEvent.AfterDamageInflicted, theTrigger);
+            }
         }
     }
 }

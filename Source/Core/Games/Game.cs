@@ -325,7 +325,10 @@ namespace Sanguosha.Core.Games
             });
             foreach (var t in triggers)
             {
-                t.Run(e, param[i]);
+                if (t.Owner == null || !t.Owner.IsDead)
+                {
+                    t.Run(e, param[i]);
+                }
             }
         }
 
@@ -840,6 +843,11 @@ namespace Sanguosha.Core.Games
                 Game.CurrentGame.Emit(GameEvent.DamageComputingStarted, args);
                 Game.CurrentGame.Emit(GameEvent.DamageCaused, args);
                 Game.CurrentGame.Emit(GameEvent.DamageInflicted, args);
+                if (args.IntArg == 0)
+                {
+                    Trace.TraceInformation("Damage is 0, aborting");
+                    return;
+                }
                 Game.CurrentGame.Emit(GameEvent.BeforeHealthChanged, args);
             }
             catch (TriggerResultException e)

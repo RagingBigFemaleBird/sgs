@@ -41,9 +41,20 @@ namespace Sanguosha.Expansions.Basic.Skills
             }
         }
 
+        Trigger theTrigger;
+
         protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
         {
-            Game.CurrentGame.RegisterTrigger(GameEvent.CardsLost, new LianYingTrigger(owner));
+            theTrigger = new LianYingTrigger(owner);
+            Game.CurrentGame.RegisterTrigger(GameEvent.CardsLost, theTrigger);
+        }
+
+        protected override void UninstallTriggers(Player owner)
+        {
+            if (theTrigger != null)
+            {
+                Game.CurrentGame.UnregisterTrigger(GameEvent.CardsLost, theTrigger);
+            }
         }
     }
 }

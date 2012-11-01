@@ -50,9 +50,20 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             }
         }
 
+        Trigger theTrigger;
+
         protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
         {
-            Game.CurrentGame.RegisterTrigger(GameEvent.CardsEnteringDiscardDeck, new LuoYingTrigger(owner));
+            theTrigger = new LuoYingTrigger(owner);
+            Game.CurrentGame.RegisterTrigger(GameEvent.CardsEnteringDiscardDeck, theTrigger);
+        }
+
+        protected override void UninstallTriggers(Player owner)
+        {
+            if (theTrigger != null)
+            {
+                Game.CurrentGame.UnregisterTrigger(GameEvent.CardsEnteringDiscardDeck, theTrigger);
+            }
         }
     }
 }

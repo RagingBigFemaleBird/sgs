@@ -41,9 +41,20 @@ namespace Sanguosha.Expansions.Basic.Skills
             }
         }
 
+        Trigger theTrigger;
+
         protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
         {
-            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanBeTargeted, new QianXunTrigger(owner));
+            theTrigger = new QianXunTrigger(owner);
+            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanBeTargeted, theTrigger);
+        }
+
+        protected override void UninstallTriggers(Player owner)
+        {
+            if (theTrigger != null)
+            {
+                Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerCanBeTargeted, theTrigger);
+            }
         }
     }
 }
