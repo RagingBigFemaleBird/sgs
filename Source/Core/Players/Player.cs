@@ -24,8 +24,7 @@ namespace Sanguosha.Core.Players
             maxHealth = 0;
             health = 0;
             hero = hero2 = null;
-            attributes = new Dictionary<string, int>();
-            AutoResetAttributes = new HashSet<string>();
+            attributes = new Dictionary<PlayerAttribute, int>();
             equipmentSkills = new List<ISkill>();
         }
 
@@ -109,22 +108,14 @@ namespace Sanguosha.Core.Players
             }
         }
 
-        Dictionary<string, int> attributes;
+        Dictionary<PlayerAttribute, int> attributes;
 
-        /// <summary>
-        /// 回合结束阶段过后自动清零的属性名称。
-        /// </summary>
-        public HashSet<string> AutoResetAttributes { get; set; }
-
-        public void AddAutoResetAttribute(string name)
+        public Dictionary<PlayerAttribute, int> Attributes
         {
-            if (!AutoResetAttributes.Contains(name))
-            {
-                AutoResetAttributes.Add(name);
-            }
+            get { return attributes; }            
         }
 
-        public int this[string key]
+        public int this[PlayerAttribute key]
         {
             get
             {
@@ -284,5 +275,10 @@ namespace Sanguosha.Core.Players
             get { return isTargeted; }
             set { isTargeted = value; OnPropertyChanged("IsTargeted"); }
         }
+
+        public static PlayerAttribute RangeMinus = PlayerAttribute.Register("RangeMinus", false);
+        public static PlayerAttribute RangePlus = PlayerAttribute.Register("RangePlus", false);
+        public static PlayerAttribute AttackRange = PlayerAttribute.Register("AttackRange", false);
+        public static PlayerAttribute IronShackled = PlayerAttribute.Register("IronShackled", false);
     }
 }

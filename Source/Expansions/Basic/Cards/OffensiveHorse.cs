@@ -17,12 +17,12 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         protected override void RegisterEquipmentTriggers(Player p)
         {
-            p[PlayerAttribute.RangeMinus]--;
+            p[Player.RangeMinus]--;
         }
 
         protected override void UnregisterEquipmentTriggers(Player p)
         {
-            p[PlayerAttribute.RangeMinus]++;
+            p[Player.RangeMinus]++;
         }
 
         public override CardCategory Category

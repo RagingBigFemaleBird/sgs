@@ -36,7 +36,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                     Player src = source;
                     if (PlayerIsCardTargetCheck(ref src, ref p, card))
                     {
-                        p[PlayerAttribute.IronShackled] = 1 - p[PlayerAttribute.IronShackled];
+                        p[Player.IronShackled] = 1 - p[Player.IronShackled];
                     }
                 }
             }

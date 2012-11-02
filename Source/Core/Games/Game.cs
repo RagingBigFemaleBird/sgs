@@ -698,9 +698,12 @@ namespace Sanguosha.Core.Games
             if ((int)CurrentPhase >= Enum.GetValues(typeof(TurnPhase)).Length)
             {
                 // todo: fix this. this may be skipped if you are skipping stage
-                foreach (string key in CurrentPlayer.AutoResetAttributes)
+                foreach (var pair in CurrentPlayer.Attributes)
                 {
-                    CurrentPlayer[key] = 0;
+                    if (pair.Key.AutoReset)
+                    {
+                        CurrentPlayer[pair.Key] = 0;
+                    }
                 }
                 CurrentPlayer = NextAlivePlayer(currentPlayer);
                 CurrentPhase = TurnPhase.BeforeStart;
@@ -842,21 +845,21 @@ namespace Sanguosha.Core.Games
 
         public virtual int DistanceTo(Player from, Player to)
         {
-            int distRight = from[PlayerAttribute.RangeMinus], distLeft = from[PlayerAttribute.RangeMinus];
+            int distRight = from[Player.RangeMinus], distLeft = from[Player.RangeMinus];
             Player p = from;
             while (p != to)
             {
                 p = NextAlivePlayer(p);
                 distRight++;
             }
-            distRight += to[PlayerAttribute.RangePlus];
+            distRight += to[Player.RangePlus];
             p = from;
             while (p != to)
             {
                 p = PreviousPlayer(p);
                 distLeft++;
             }
-            distLeft += to[PlayerAttribute.RangePlus];
+            distLeft += to[Player.RangePlus];
             return distRight > distLeft ? distLeft : distRight;
         }
 

@@ -122,20 +122,7 @@ namespace Sanguosha.Expansions.Basic.Skills
 
         }
 
-        public override Core.Players.Player Owner
-        {
-            get
-            {
-                return base.Owner;
-            }
-            set
-            {
-                base.Owner = value;
-                Owner.AddAutoResetAttribute(LiJianUsed);
-            }
-        }
-
-        public static readonly string LiJianUsed = "LiJianUsed";
+        public static PlayerAttribute LiJianUsed = PlayerAttribute.Register("LiJianUsed", true);
 
         public override void CardRevealPolicy(Core.Players.Player p, List<Card> cards, List<Core.Players.Player> players)
         {

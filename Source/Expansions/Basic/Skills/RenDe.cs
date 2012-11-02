@@ -10,6 +10,7 @@ using Sanguosha.Core.UI;
 using Sanguosha.Core.Skills;
 using Sanguosha.Expansions.Basic.Cards;
 using Sanguosha.Core.Games;
+using Sanguosha.Core.Players;
 
 namespace Sanguosha.Expansions.Basic.Skills
 {
@@ -61,20 +62,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             return true;
         }
 
-        public static string RenDeNumberOfCardsGiven = "RenDeNumberOfCardsGiven";
-
-        public override Core.Players.Player Owner
-        {
-            get
-            {
-                return base.Owner;
-            }
-            set
-            {
-                base.Owner = value;
-                Owner.AddAutoResetAttribute(RenDeNumberOfCardsGiven);
-            }
-        }
+        public static PlayerAttribute RenDeNumberOfCardsGiven = PlayerAttribute.Register("RenDeNumberOfCardsGiven", true);
 
         public override void CardRevealPolicy(Core.Players.Player p, List<Card> cards, List<Core.Players.Player> players)
         {

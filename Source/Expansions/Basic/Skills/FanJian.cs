@@ -88,19 +88,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             return true;
         }
 
-        public static string FanJianUsed = "FanJianUsed";
-        public override Core.Players.Player Owner
-        {
-            get
-            {
-                return base.Owner;
-            }
-            set
-            {
-                base.Owner = value;
-                Owner.AddAutoResetAttribute(FanJianUsed);
-            }
-        }
+        public static PlayerAttribute FanJianUsed = PlayerAttribute.Register("FanJianUsed", true);
 
     }
 }

@@ -23,7 +23,6 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         public override void Process(Player source, List<Player> dests, ICard card)
         {
-            source.AddAutoResetAttribute(NumberOfShaUsed);
             source[NumberOfShaUsed]++;
             Game.CurrentGame.SortByOrderOfComputation(source, dests);
             base.Process(source, dests, card);
@@ -150,7 +149,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     {
                         return VerifierResult.Fail;
                     }
-                    if (Game.CurrentGame.DistanceTo(source, t) <= source[PlayerAttribute.AttackRange] + 1)
+                    if (Game.CurrentGame.DistanceTo(source, t) <= source[Player.AttackRange] + 1)
                     {
                         args.RangeApproval.Add(true);
                     }
@@ -210,7 +209,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         {
             get { return CardCategory.Basic; }
         }
-        public static string NumberOfShaUsed = "NumberOfShaUsed";
+        public static PlayerAttribute NumberOfShaUsed = PlayerAttribute.Register("NumberOfShaUsed", true);
         /// <summary>
         /// 玩家使用杀的目标检测
         /// </summary>

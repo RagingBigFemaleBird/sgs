@@ -10,6 +10,7 @@ using Sanguosha.Core.UI;
 using Sanguosha.Core.Skills;
 using Sanguosha.Expansions.Basic.Cards;
 using Sanguosha.Core.Games;
+using Sanguosha.Core.Players;
 
 namespace Sanguosha.Expansions.Basic.Skills
 {
@@ -58,20 +59,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             return true;
         }
 
-        public override Core.Players.Player Owner
-        {
-            get
-            {
-                return base.Owner;
-            }
-            set
-            {
-                base.Owner = value;
-                Owner.AddAutoResetAttribute(ZhiHengUsed);
-            }
-        }
-
-        public static readonly string ZhiHengUsed = "ZhiHengUsed";
+        public static PlayerAttribute ZhiHengUsed = PlayerAttribute.Register("ZhiHengUsed", true);
 
         public override void CardRevealPolicy(Core.Players.Player p, List<Card> cards, List<Core.Players.Player> players)
         {
