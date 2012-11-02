@@ -86,5 +86,10 @@ namespace Sanguosha.Core.Cards
         public static DeckType JudgeResult;
         public static DeckType GuHuo;
         public static DeckType Heroes;
+
+        public override string ToString()
+        {
+            return name;
+        }
     }
 }

@@ -30,6 +30,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 List<Player> p;
                 List<Card> cards;
                 CardUsagePrompt prompt;
+                if (current.IsDead) return;
                 if (firstTime)
                 {
                     prompt = new CardUsagePrompt("JueDou", source);;

@@ -27,6 +27,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         protected override void Process(Player source, Player dest, ICard card)
         {
             IUiProxy ui = Game.CurrentGame.UiProxies[source];
+            if (source.IsDead) return;
             List<DeckPlace> places = new List<DeckPlace>();
             places.Add(new DeckPlace(dest, DeckType.Hand));
             places.Add(new DeckPlace(dest, DeckType.Equipment));

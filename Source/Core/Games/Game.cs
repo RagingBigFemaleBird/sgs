@@ -770,6 +770,21 @@ namespace Sanguosha.Core.Games
                 });
         }
 
+        public virtual bool AllAlive(List<Player> players)
+        {
+            if (players != null)
+            {
+                foreach (Player p in players)
+                {
+                    if (p.IsDead)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
         /// <summary>
         /// Get player previous to a player in counter-clock seat map
         /// </summary>
@@ -1217,7 +1232,8 @@ namespace Sanguosha.Core.Games
                 {
                     Trace.TraceInformation("Player {0} dying", target.Id);
                     GameEventArgs args = new GameEventArgs();
-                    args.Source = target;
+                    args.Source = eventArgs.Source;
+                    args.Targets = new List<Player>() {target};
                     try
                     {
                         Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToDie, args);

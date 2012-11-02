@@ -96,6 +96,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             ISkill s;
             List<Player> p;
             List<Card> cards;
+            if (dest.IsDead) return;
             if (!ui.AskForCardUsage(new CardUsagePrompt("HuoGong", source), v1, out s, out cards, out p))
             {
                 Trace.TraceInformation("Player {0} Invalid answer", dest);
@@ -108,6 +109,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                 cards.Add(Game.CurrentGame.Decks[dest, DeckType.Hand][0]);
             }
             Trace.TraceInformation("Player {0} HuoGong showed {1}, ", dest.Id, cards[0].Suit);
+            if (source.IsDead) return;
             ui = Game.CurrentGame.UiProxies[source];
             HuoGongCardMatchVerifier v2 = new HuoGongCardMatchVerifier(cards[0].Suit);
             v2.Owner = source;

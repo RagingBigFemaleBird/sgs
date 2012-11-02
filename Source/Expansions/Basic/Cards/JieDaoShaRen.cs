@@ -25,6 +25,10 @@ namespace Sanguosha.Expansions.Basic.Cards
         {
             public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
             {
+                if (!Game.CurrentGame.AllAlive(players))
+                {
+                    return VerifierResult.Fail;
+                }
                 if (players == null)
                 {
                     players = new List<Player>();
@@ -61,7 +65,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 ISkill skill;
                 List<Card> cards;
                 List<Player> players;
-                if (Game.CurrentGame.UiProxies[initiator].AskForCardUsage(new CardUsagePrompt("JieDaoShaRen", dests[1]), new JieDaoShaRenVerifier(dests[1]), out skill, out cards, out players))
+                if (!dests[1].IsDead && Game.CurrentGame.UiProxies[initiator].AskForCardUsage(new CardUsagePrompt("JieDaoShaRen", dests[1]), new JieDaoShaRenVerifier(dests[1]), out skill, out cards, out players))
                 {
                     GameEventArgs args = new GameEventArgs();
                     args.Source = initiator;
@@ -73,6 +77,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 }
                 else
                 {
+                    if (source.IsDead) return;
                     Card theWeapon = null;
                     foreach (Card c in Game.CurrentGame.Decks[initiator, DeckType.Equipment])
                     {
