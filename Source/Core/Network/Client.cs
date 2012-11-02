@@ -54,9 +54,15 @@ namespace Sanguosha.Core.Network
             commId = 0;
         }
 
+        private void _DeserializeCardItem(Card gameCard, int cardId)
+        {
+            var place = gameCard.Place;
+            gameCard.CopyFrom(GameEngine.CardSet[cardId]);
+            gameCard.Place = place;
+        }
+
         public object Receive()
         {
-            retry:
             object o = receiver.Receive();
             if (o is CommandItem)
             {
@@ -71,52 +77,41 @@ namespace Sanguosha.Core.Network
                     if (i.Id >= 0)
                     {
                         Trace.TraceInformation("Identify {0}{1}{2} is {3}{4}{5}", i.playerId, i.deck, i.place, GameEngine.CardSet[i.Id].Suit, GameEngine.CardSet[i.Id].Rank, GameEngine.CardSet[i.Id].Type.CardType);
+                        Card gameCard;
                         if (i.playerId < 0)
                         {
-                            DeckPlace place = Game.CurrentGame.Decks[null, i.deck][i.place].Place;
-                            Game.CurrentGame.Decks[null, i.deck][i.place].CopyFrom(GameEngine.CardSet[i.Id]);
-                            Game.CurrentGame.Decks[null, i.deck][i.place].Place = place;
-                            Game.CurrentGame.Decks[null, i.deck][i.place].Id = i.Id;
+                            gameCard = Game.CurrentGame.Decks[null, i.deck][i.place];
                         }
                         else
                         {
-                            DeckPlace place = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].Place;
-                            Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].CopyFrom(GameEngine.CardSet[i.Id]);
-                            Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].Place = place;
-                            Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].Id = i.Id;
+                            gameCard = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place];
                         }
+                        _DeserializeCardItem(gameCard, i.Id);
                     }
-                    goto retry;
+                    return Receive();
                 }
             }
-            if (o is int)
+            else if (o is int)
             {
                 Trace.TraceInformation("Received a {0}", (int)o);
             }
-            else
-            {
-                Trace.TraceInformation("Received a {0}", o.GetType().Name);
-            }
-            if (o is CardItem)
+            else if (o is CardItem)
             {
                 CardItem i = (CardItem)o;
                 if (i.Id >= 0)
                 {
                     Trace.TraceInformation("Identify {0}{1}{2} is {3}{4}{5}", i.playerId, i.deck, i.place, GameEngine.CardSet[i.Id].Suit, GameEngine.CardSet[i.Id].Rank, GameEngine.CardSet[i.Id].Type.CardType);
+                    Card gameCard;
                     if (i.playerId < 0)
-                    {
-                        DeckPlace place = Game.CurrentGame.Decks[null, i.deck][i.place].Place;
-                        Game.CurrentGame.Decks[null, i.deck][i.place].CopyFrom(GameEngine.CardSet[i.Id]);
-                        Game.CurrentGame.Decks[null, i.deck][i.place].Place = place;
-                        Game.CurrentGame.Decks[null, i.deck][i.place].AddtionalGenericType = i.additionalType;
+                    {                        
+                        gameCard = Game.CurrentGame.Decks[null, i.deck][i.place];
                     }
                     else
                     {
-                        DeckPlace place = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].Place;
-                        Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].CopyFrom(GameEngine.CardSet[i.Id]);
-                        Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].Place = place;
-                        Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place].AddtionalGenericType = i.additionalType;
+                        gameCard = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place];
                     }
+                    _DeserializeCardItem(gameCard, i.Id);
+                    gameCard.AddtionalGenericType = i.additionalType;
                 }
                 if (i.playerId < 0)
                 {

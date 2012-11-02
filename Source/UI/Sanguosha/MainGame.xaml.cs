@@ -41,28 +41,30 @@ namespace Sanguosha.UI.Main
             set { _networkClient = value; }
         }
 
-        int MainSeat = 0;
+        int _mainSeat;
+
+        public int MainSeat
+        {
+            get { return _mainSeat; }
+            set { _mainSeat = value; }
+        }
+
         const int numberOfHeros = 3;
         private void InitGame()
         {
+#if DEBUG
+
             TextWriterTraceListener twtl = new TextWriterTraceListener(System.IO.Path.Combine(Directory.GetCurrentDirectory(), AppDomain.CurrentDomain.FriendlyName + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + ".txt"));
             twtl.Name = "TextLogger";
             twtl.TraceOutputOptions = TraceOptions.ThreadId | TraceOptions.DateTime;
-
             ConsoleTraceListener ctl = new ConsoleTraceListener(false);
             ctl.TraceOutputOptions = TraceOptions.DateTime;
-
             Trace.Listeners.Add(twtl);
             Trace.Listeners.Add(ctl);
             Trace.AutoFlush = true;
-
             Trace.WriteLine("Log starting");
-            _game = new RoleGame(1);
-#if NETWORKING
-            
-            MainSeat = (int)NetworkClient.Receive();
-            NetworkClient.SelfId = MainSeat;
 #endif
+            _game = new RoleGame(1);
             foreach (var g in GameEngine.Expansions.Values)
             {
                 _game.LoadExpansion(g);
@@ -88,8 +90,6 @@ namespace Sanguosha.UI.Main
             }
 #if NETWORKING
             _game.GameClient = NetworkClient;
-            _game.GameServer = null;
-            _game.IsClient = true;
 #else
             _game.GlobalProxy = new GlobalDummyProxy();
 #endif

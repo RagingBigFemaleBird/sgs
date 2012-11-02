@@ -30,17 +30,17 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected override void Process(Player source, Player dest, ICard card)
         {
-            List<Player> sourceList = new List<Player>();
-            sourceList.Add(source);
-
-            retrySha:
-            GameEventArgs args = new GameEventArgs();
-            args.Source = source;
-            args.Targets = new List<Player>();
-            args.Targets.Add(dest);
-            args.Card = card;
-            args.IntArg = 1;
-            args.IntArg2 = 0;
+            List<Player> sourceList = new List<Player>() { source };
+            
+        retrySha:
+            GameEventArgs args = new GameEventArgs()
+            {
+                Source = source,
+                Targets = new List<Player>() { dest },
+                Card = card,
+                IntArg = 1,
+                IntArg2 = 0
+            };
             Game.CurrentGame.Emit(PlayerShaTargetModifier, args);
             int numberOfShanRequired = args.IntArg;
             bool cannotUseShan = args.IntArg2 == 1 ? true : false;

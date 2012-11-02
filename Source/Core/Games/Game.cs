@@ -158,7 +158,14 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public bool IsClient { get; set; }
+        public bool IsClient 
+        {
+            get
+            {
+                return GameClient != null;
+            }
+        }
+        
         public virtual void Run()
         {
             if (games.ContainsKey(Thread.CurrentThread))

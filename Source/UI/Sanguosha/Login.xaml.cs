@@ -115,6 +115,7 @@ namespace Sanguosha.UI.Main
             if (loginTab.SelectedIndex == 0)
             {                
                 Client client;
+                int mainSeat = 0;
                 try
                 {
                     client = new Client();
@@ -130,6 +131,8 @@ namespace Sanguosha.UI.Main
                         client.PortNumber = 12345;
                     }
                     client.Start();
+                    mainSeat = (int)client.Receive();
+                    client.SelfId = mainSeat;
                 }
                 catch(Exception)
                 {
@@ -137,7 +140,9 @@ namespace Sanguosha.UI.Main
                     return;
                 }
                 MainGame game = new MainGame();
+                game.MainSeat = mainSeat;
                 game.NetworkClient = client;
+                
                 this.NavigationService.Navigate(game);
             }
         }

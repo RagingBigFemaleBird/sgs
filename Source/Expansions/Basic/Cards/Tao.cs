@@ -107,7 +107,8 @@ namespace Sanguosha.Expansions.Basic.Cards
                         Game.CurrentGame.RecoverHealth(p, target, 1);
                         if (target.Health > 0)
                         {
-                            goto recovered;
+                            Trace.Assert(target == Game.CurrentGame.IsDying.Pop());
+                            return;
                         }
                     }
                     break;
@@ -124,7 +125,6 @@ namespace Sanguosha.Expansions.Basic.Cards
             move.cards.AddRange(Game.CurrentGame.Decks[target, DeckType.DelayedTools]);
             move.to = new DeckPlace(null, DeckType.Discard);
             Game.CurrentGame.MoveCards(move, null);
-        recovered:
             Trace.Assert(target == Game.CurrentGame.IsDying.Pop());
 
         }

@@ -57,8 +57,6 @@ namespace Sanguosha
                 game.LoadExpansion(g);
             }
             game.GameServer = server;
-            game.GameClient = null;
-            game.IsClient = false;
             game.Run();
         }
     }
