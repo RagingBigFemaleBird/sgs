@@ -780,7 +780,7 @@ namespace Sanguosha.UI.Controls
                 {
                     return;
                 }
-                if (currentUsageVerifier.Helper.isActionStage)
+                if (currentUsageVerifier.Helper.IsActionStage)
                 {
                     cancelCardUsageCommand.CanExecuteStatus = (cards.Count != 0 || players.Count != 0 || command != null);
                 }
@@ -993,8 +993,8 @@ namespace Sanguosha.UI.Controls
                 SubmitAnswerCommand = submitCardUsageCommand;
                 CancelAnswerCommand = cancelCardUsageCommand;
                 AbortAnswerCommand = abortCardUsageCommand;
-                abortCardUsageCommand.CanExecuteStatus = currentUsageVerifier.Helper.isActionStage;
-                cancelCardUsageCommand.CanExecuteStatus = !currentUsageVerifier.Helper.isActionStage;
+                abortCardUsageCommand.CanExecuteStatus = currentUsageVerifier.Helper.IsActionStage;
+                cancelCardUsageCommand.CanExecuteStatus = !currentUsageVerifier.Helper.IsActionStage;
 
                 _UpdateCardUsageStatus();         
             });

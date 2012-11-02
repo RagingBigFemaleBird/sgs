@@ -24,7 +24,7 @@ namespace Sanguosha.Core.Games
         {
             private class PlayerActionStageVerifier : CardUsageVerifier
             {
-                public override UiHelper Helper { get { return new UiHelper() { isActionStage = true }; } }
+                public override UiHelper Helper { get { return new UiHelper() { IsActionStage = true }; } }
                 public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
                 {
                     if (!Game.CurrentGame.AllAlive(players))

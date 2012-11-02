@@ -39,6 +39,16 @@ namespace Sanguosha.Expansions.Basic.Skills
             Game.CurrentGame.DrawCards(Owner, 2);
             return true;
         }
-        public override UiHelper Helper { get { return new UiHelper() { hasNoConfirmation = true }; } }
+        
+        public override UiHelper Helper 
+        {
+            get 
+            {
+                return new UiHelper() 
+                {
+                    HasNoConfirmation = true 
+                }; 
+            } 
+        }
     }
 }

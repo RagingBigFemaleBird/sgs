@@ -41,19 +41,19 @@ namespace Sanguosha.Expansions.Basic.Skills
             }
         }
 
-        Trigger theTrigger;
+        Trigger qianXunTrigger;
 
         protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
         {
-            theTrigger = new QianXunTrigger(owner);
-            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanBeTargeted, theTrigger);
+            qianXunTrigger = new QianXunTrigger(owner);
+            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanBeTargeted, qianXunTrigger);
         }
 
         protected override void UninstallTriggers(Player owner)
         {
-            if (theTrigger != null)
+            if (qianXunTrigger != null)
             {
-                Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerCanBeTargeted, theTrigger);
+                Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerCanBeTargeted, qianXunTrigger);
             }
         }
     }

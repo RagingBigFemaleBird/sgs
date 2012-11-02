@@ -23,7 +23,7 @@ namespace Sanguosha.Expansions.Wind.Skills
         {
             get
             {
-                return new UiHelper() { isGuHuo = true };
+                return new UiHelper() { IsGuHuo = true };
             }
         }
         public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
@@ -40,7 +40,7 @@ namespace Sanguosha.Expansions.Wind.Skills
 
             card = new CompositeCard();
             card.Subcards = null;
-            card.Type = cards[0].AddtionalGenericType;
+            card.Type = cards[0].GuHuoType;
             return VerifierResult.Success;
         }
 
@@ -60,7 +60,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             foreach (var player in toProcess)
             {
                 int answer = 1;
-                if (!Game.CurrentGame.UiProxies[player].AskForMultipleChoice(new MultipleChoicePrompt("GuHuo", Owner, (move.cards[0].AddtionalGenericType).CardType), Prompt.YesNoChoices, out answer))
+                if (!Game.CurrentGame.UiProxies[player].AskForMultipleChoice(new MultipleChoicePrompt("GuHuo", Owner, (move.cards[0].GuHuoType).CardType), Prompt.YesNoChoices, out answer))
                 {
                     //override default answer to no
                     answer = 1;
@@ -79,7 +79,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             }
             if (!guhuoSucceed)
             {
-                if (Game.CurrentGame.Decks[null, DeckType.GuHuo][0].Type.GetType().IsAssignableFrom(Game.CurrentGame.Decks[null, DeckType.GuHuo][0].AddtionalGenericType.GetType()))
+                if (Game.CurrentGame.Decks[null, DeckType.GuHuo][0].Type.GetType().IsAssignableFrom(Game.CurrentGame.Decks[null, DeckType.GuHuo][0].GuHuoType.GetType()))
                 {
                     foreach (var player in toProcess)
                     {
