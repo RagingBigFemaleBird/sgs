@@ -81,6 +81,9 @@
     <Compile Include="ShaAnimation.xaml.cs">
       <DependentUpon>ShaAnimation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ShaAnimation2.xaml.cs">
+      <DependentUpon>ShaAnimation2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ShanAnimation.xaml.cs">
       <DependentUpon>ShanAnimation.xaml</DependentUpon>
     </Compile>
@@ -137,6 +140,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="ShaAnimation2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ShanAnimation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -162,6 +169,12 @@
     <Resource Include="RevealRoleAnimation\4.png" />
     <Resource Include="RevealRoleAnimation\5.png" />
     <Resource Include="RevealRoleAnimation\6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ShaAnimation\faded2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ShaAnimation\foreground2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

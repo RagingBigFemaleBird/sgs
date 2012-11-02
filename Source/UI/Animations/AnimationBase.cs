@@ -12,19 +12,33 @@ namespace Sanguosha.UI.Animations
     {
         protected Storyboard mainAnimation;
 
+        public AnimationBase()
+        {
+            IsHitTestVisible = false;
+        }
+
         public void Start()
         {
-            if (mainAnimation == null) return;
+            if (mainAnimation == null)
+            {
+                if (!Resources.Contains("mainAnimation"))
+                {
+                    Trace.TraceError("Animation not found");
+                    return;
+                }
+                mainAnimation = Resources["mainAnimation"] as Storyboard;
+                if (mainAnimation == null) return;
+            }
             mainAnimation.Completed += mainAnimation_Completed;
             StartMainAnimation();
         }
 
         void mainAnimation_Completed(object sender, EventArgs e)
         {
-            Canvas canvas = this.VisualParent as Canvas;
-            if (canvas != null && canvas.Children.Contains(this))
+            Panel panel = this.VisualParent as Panel;
+            if (panel != null && panel.Children.Contains(this))
             {
-                canvas.Children.Remove(this);
+                panel.Children.Remove(this);
             }
             else
             {

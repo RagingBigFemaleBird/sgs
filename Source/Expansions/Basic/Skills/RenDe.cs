@@ -72,7 +72,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             set
             {
                 base.Owner = value;
-                Owner.AutoResetAttributes.Add(RenDeNumberOfCardsGiven);
+                Owner.AddAutoResetAttribute(RenDeNumberOfCardsGiven);
             }
         }
 

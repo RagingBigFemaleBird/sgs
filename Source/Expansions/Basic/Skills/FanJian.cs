@@ -98,7 +98,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             set
             {
                 base.Owner = value;
-                Owner.AutoResetAttributes.Add(FanJianUsed);
+                Owner.AddAutoResetAttribute(FanJianUsed);
             }
         }
 

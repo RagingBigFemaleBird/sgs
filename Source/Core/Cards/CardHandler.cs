@@ -107,24 +107,28 @@ namespace Sanguosha.Core.Cards
             }
         }
 
-        protected void NotifyCardUse(Player source, List<Player> dests, List<Player> secondary, ICard card)
+        public void NotifyCardUse(Player source, List<Player> dests, List<Player> secondary, ICard card)
         {
             List<Player> logTargets = LogTargetsModifier(source, dests);
             ActionLog log = new ActionLog();
-            log.CardAction = this;
             log.Source = source;
             log.Targets = logTargets;
             log.SecondaryTargets = secondary;
             log.SkillAction = null;
             log.GameAction = GameAction.Use;
+            log.CardAction = card;
             Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
             if (card is Card)
             {
-                if ((card as Card).Log == null)
+                Card terminalCard = card as Card;
+                if (terminalCard.Log == null)
                 {
-                    (card as Card).Log = new ActionLog();
+                    terminalCard.Log = new ActionLog();
                 }
-                (card as Card).Log.CardAction = this;
+                terminalCard.Log.Source = source;
+                terminalCard.Log.Targets = dests;
+                terminalCard.Log.SecondaryTargets = secondary;
+                terminalCard.Log.CardAction = card;
             }
             else if (card is CompositeCard)
             {
@@ -134,7 +138,10 @@ namespace Sanguosha.Core.Cards
                     {
                         s.Log = new ActionLog();
                     }
-                    s.Log.CardAction = this;
+                    s.Log.Source = source;
+                    s.Log.Targets = dests;
+                    s.Log.SecondaryTargets = secondary;
+                    s.Log.CardAction = card;
                 }
             }
         }

@@ -23,6 +23,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         public override void Process(Player source, List<Player> dests, ICard card)
         {
+            source.AddAutoResetAttribute(NumberOfShaUsed);
             source[NumberOfShaUsed]++;
             Game.CurrentGame.SortByOrderOfComputation(source, dests);
             base.Process(source, dests, card);

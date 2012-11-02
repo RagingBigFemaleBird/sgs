@@ -25,7 +25,7 @@ namespace Sanguosha.Core.Players
             health = 0;
             hero = hero2 = null;
             attributes = new Dictionary<string, int>();
-            AutoResetAttributes = new List<string>();
+            AutoResetAttributes = new HashSet<string>();
             equipmentSkills = new List<ISkill>();
         }
 
@@ -114,7 +114,15 @@ namespace Sanguosha.Core.Players
         /// <summary>
         /// 回合结束阶段过后自动清零的属性名称。
         /// </summary>
-        public List<string> AutoResetAttributes { get; set; }
+        public HashSet<string> AutoResetAttributes { get; set; }
+
+        public void AddAutoResetAttribute(string name)
+        {
+            if (!AutoResetAttributes.Contains(name))
+            {
+                AutoResetAttributes.Add(name);
+            }
+        }
 
         public int this[string key]
         {

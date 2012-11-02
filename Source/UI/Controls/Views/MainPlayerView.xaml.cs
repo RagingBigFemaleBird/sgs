@@ -129,7 +129,7 @@ namespace Sanguosha.UI.Controls
             card.Position = dest;
             card.CardOpacity = 1.0;
             card.DisappearAfterMove = true;
-            card.Rebase(0.3d);
+            card.Rebase(0.5d);
 
             Storyboard storyBoard = new Storyboard();
             ThicknessAnimation animation1 = new ThicknessAnimation();

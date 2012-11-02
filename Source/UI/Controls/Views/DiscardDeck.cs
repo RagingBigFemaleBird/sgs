@@ -117,7 +117,7 @@ namespace Sanguosha.UI.Controls
                 }
                 else // from hand/equip to discard area.
                 {
-                    AddCards(cards, 0.3d);
+                    AddCards(cards, 0.5d);
                 }
             }
             else

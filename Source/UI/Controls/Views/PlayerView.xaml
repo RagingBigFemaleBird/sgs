@@ -254,8 +254,8 @@
             		<ei:DataStateBehavior Value="true" TrueState="Faded" FalseState="Unfaded" Binding="{Binding IsFaded}"/>
             	</i:Interaction.Behaviors>
             </Border>
-            <Canvas x:Name="animationCenter2" Margin="0,0,0,20" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
-            <Canvas x:Name="animationCenter1" Margin="0,80,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <Canvas x:Name="animationCenter2" Margin="0,0,0,20" VerticalAlignment="Bottom" HorizontalAlignment="Center" IsHitTestVisible="False" />
+            <Canvas x:Name="animationCenter1" Margin="0,80,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" IsHitTestVisible="False" />
         </Grid>
     </Grid>
 </local:PlayerViewBase>

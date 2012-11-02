@@ -74,6 +74,8 @@ namespace Sanguosha.UI.Controls
             _moveAnimation.Children.Add(_daMoveX);
             _moveAnimation.Children.Add(_daMoveY);
             _moveAnimation.Children.Add(_daOpacity);
+            _moveAnimation.AccelerationRatio = 0.4;
+            _moveAnimation.DecelerationRatio = 0.4;
         }
 
         void CardView_MouseLeave(object sender, MouseEventArgs e)
@@ -175,6 +177,7 @@ namespace Sanguosha.UI.Controls
                     _daOpacity.Completed += _DisappearAfterMoveHandler;
                 }
 
+                _moveAnimation.Duration = TimeSpan.FromSeconds(transitionInSeconds);
                 _moveAnimation.Begin(this, true);
             }
         }
@@ -201,7 +204,7 @@ namespace Sanguosha.UI.Controls
         {
             CardView card = d as CardView;
             if (card == null) return;
-            card.Rebase(0.1);
+            card.Rebase(0.3d);
         }
 
         #region Dependency Properties

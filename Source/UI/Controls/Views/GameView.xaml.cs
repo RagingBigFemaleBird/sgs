@@ -26,6 +26,7 @@ using System.ComponentModel;
 using System.Windows.Media.Animation;
 using System.Windows.Interactivity;
 using Microsoft.Expression.Interactivity.Layout;
+using Sanguosha.Expansions.Basic.Cards;
 
 namespace Sanguosha.UI.Controls
 {
@@ -309,7 +310,7 @@ namespace Sanguosha.UI.Controls
             mainPlayerPanel.DataContext = model.MainPlayerModel;
             playersMap[model.MainPlayerModel.Player] = mainPlayerPanel;
         }
-
+        
         #endregion
 
         #region Layout Related
@@ -409,7 +410,7 @@ namespace Sanguosha.UI.Controls
         #endregion
 
         #region INotificationProxy
-
+        
         public void NotifyCardMovement(List<CardsMovement> moves, List<IGameLog> notes)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
@@ -419,7 +420,7 @@ namespace Sanguosha.UI.Controls
                     var cardsToAdd = new List<CardView>();
                     var cardsRemoved = new Dictionary<DeckPlace, List<Card>>();
                     foreach (Card card in move.cards)
-                    {
+                    {                        
                         if (!cardsRemoved.ContainsKey(card.Place))
                         {
                             cardsRemoved.Add(card.Place, new List<Card>());
@@ -453,12 +454,39 @@ namespace Sanguosha.UI.Controls
             });
         }
 
-        #endregion
-
-
         public void NotifySkillUse(ActionLog log)
         {
-            
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                PlayerViewBase player = playersMap[log.Source];
+
+                if (log.SkillAction != null)
+                {
+
+                }
+                if (log.CardAction != null)
+                {
+                    if (log.CardAction.Type is Shan)
+                    {                        
+                        player.PlayAnimation(new ShanAnimation(), 0, new Point(0, 0));
+                    }
+                    else if (log.CardAction.Type is Sha)
+                    {
+                        AnimationBase sha;
+                        if (log.CardAction.SuitColor == SuitColorType.Red)
+                        {
+                            sha = new ShaAnimation();
+                        }
+                        else
+                        {
+                            sha = new ShaAnimation2();
+                        }
+                        player.PlayAnimation(sha, 0, new Point(0, 0));
+                    }
+                }
+            });
         }
+
+        #endregion
     }
 }

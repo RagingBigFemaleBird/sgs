@@ -29,6 +29,7 @@ namespace Sanguosha.Core.Cards
             RevealOnce = false;
             attributes = null;
             GuHuoType = null;
+            Log = new UI.ActionLog();
         }
 
         public Card(SuitType t, int r, CardHandler c)

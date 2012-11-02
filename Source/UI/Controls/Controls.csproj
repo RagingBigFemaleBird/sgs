@@ -219,6 +219,14 @@
       <Project>{31B92003-B490-4EAF-8F8E-F9B020F9B03B}</Project>
       <Name>Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Expansions\Basic\Basic.csproj">
+      <Project>{5E948FAB-938B-4E4C-BDA1-1740339273EA}</Project>
+      <Name>Basic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Expansions\Battle\Battle.csproj">
+      <Project>{850AB9CB-90A0-4625-87FA-1F7CE04A5404}</Project>
+      <Name>Battle</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Animations\Animations.csproj">
       <Project>{7D1B2955-5722-437A-B054-68FBD5F52422}</Project>
       <Name>Animations</Name>

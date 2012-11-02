@@ -1035,6 +1035,7 @@ namespace Sanguosha.Core.Games
                 cards.Clear();
                 cards.AddRange(r.Subcards);
             }
+            result.Type.NotifyCardUse(p, targets, null, result);
             List<Card> backup = new List<Card>(m.cards);
             PlayerPlayedCard(p, result);
             PlayerAboutToDiscardCard(p, m.cards, DiscardReason.Play);
