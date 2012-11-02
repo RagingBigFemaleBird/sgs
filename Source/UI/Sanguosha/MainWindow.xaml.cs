@@ -53,6 +53,7 @@ namespace Sanguosha.UI.Main
 
         public MainWindow()
         {
+            _Load();
             InitializeComponent();            
         }
 

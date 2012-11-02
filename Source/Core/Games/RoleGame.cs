@@ -16,6 +16,9 @@ namespace Sanguosha.Core.Games
 {
     public class RoleGame : Game
     {
+        public int NumberOfRebels { get; set; }
+        public int NumberOfDefectors { get; set; }
+
         public class PlayerActionTrigger : Trigger
         {
             private class PlayerActionStageVerifier : CardUsageVerifier
@@ -439,6 +442,8 @@ namespace Sanguosha.Core.Games
                     loyalist = remaining - rebel - 1;
                 }
                 Trace.Assert(rebel + loyalist + numberOfDefectors + 1 == game.Players.Count);
+                (game as RoleGame).NumberOfDefectors = numberOfDefectors;
+                (game as RoleGame).NumberOfRebels = rebel;
 
                 while (rebel-- > 0)
                 {
@@ -510,6 +515,18 @@ namespace Sanguosha.Core.Games
                     i++;
                 }
 
+                List<CardsMovement> moves = new List<CardsMovement>();
+                i = 0;
+                foreach (Player p in game.Players)
+                {
+                    CardsMovement move = new CardsMovement();
+                    move.cards = new List<Card>() { game.Decks[null, role][i] };
+                    move.to = new DeckPlace(p, role);
+                    moves.Add(move);
+                    i++;
+                }
+                game.MoveCards(moves, null);
+                
                 //hero allocation
                 Shuffle(game.Decks[DeckType.Heroes]);
                 if (!game.IsClient)
@@ -677,7 +694,7 @@ namespace Sanguosha.Core.Games
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                Player p = eventArgs.Source;
+                Player p = eventArgs.Targets[0];
                 if (p.Hero != null)
                 {
                     foreach (ISkill s in p.Hero.Skills)
@@ -697,6 +714,64 @@ namespace Sanguosha.Core.Games
                             (s as PassiveSkill).Owner = null;
                         }
                     }
+                }
+                Player source = eventArgs.Source;
+                Trace.TraceInformation("Player {0} killed by Player {1}", p.Id, source.Id);
+                DeckType role = new DeckType("Role");
+                Trace.Assert(Game.CurrentGame.Decks[p, role].Count == 1);
+                Game.CurrentGame.SyncCardAll(Game.CurrentGame.Decks[p, role][0]);
+                Trace.TraceInformation("Player {0} is {1}", p.Id, (Game.CurrentGame.Decks[p, role][0].Type as RoleCardHandler).Role);
+                p.Role = (Game.CurrentGame.Decks[p, role][0].Type as RoleCardHandler).Role;
+
+                if (p.Role == Role.Ruler)
+                {
+                    Trace.TraceInformation("Ruler dead. Game over");
+                    throw new GameOverException();
+                }
+                if (p.Role == Role.Rebel || p.Role == Role.Defector)
+                {
+                    int deadRebel = 0;
+                    int deadDefector = 0;
+                    foreach (Player z in Game.CurrentGame.Players)
+                    {
+                        if (z.Role == Role.Rebel && z.IsDead)
+                        {
+                            deadRebel++;
+                        }
+                        if (z.Role == Role.Defector && z.IsDead)
+                        {
+                            deadDefector++;
+                        }
+                    }
+                    Trace.TraceInformation("Deathtoll: Rebel {0}/{1}, Defector {2}/{3}", deadRebel, (Game.CurrentGame as RoleGame).NumberOfRebels, deadDefector, (Game.CurrentGame as RoleGame).NumberOfDefectors);
+                    if (deadRebel == (Game.CurrentGame as RoleGame).NumberOfRebels && deadDefector == (Game.CurrentGame as RoleGame).NumberOfDefectors)
+                    {
+                        Trace.TraceInformation("Ruler wins.");
+                        throw new GameOverException();
+                    }
+                    if (!source.IsDead)
+                    {
+                        Trace.TraceInformation("Killed rebel. GIVING YOU THREE CARDS OMG WIN GAME RIGHT THERE!!!");
+                        Game.CurrentGame.DrawCards(source, 3);
+                    }
+                }
+                if (p.Role == Role.Loyalist && source.Role == Role.Ruler)
+                {
+                    Trace.TraceInformation("Loyalist killl by ruler. GG");
+                    Game.CurrentGame.SyncCardsAll(Game.CurrentGame.Decks[source, DeckType.Hand]);
+                    CardsMovement move = new CardsMovement();
+                    move.cards = new List<Card>();
+                    foreach (Card c in Game.CurrentGame.Decks[source, DeckType.Hand])
+                    {
+                        if (Game.CurrentGame.PlayerCanDiscardCard(source, c))
+                        {
+                            move.cards.Add(c);
+                        }
+                    }
+                    move.cards.AddRange(Game.CurrentGame.Decks[source, DeckType.Equipment]);
+                    move.cards.AddRange(Game.CurrentGame.Decks[source, DeckType.DelayedTools]);
+                    move.to = new DeckPlace(null, DeckType.Discard);
+                    Game.CurrentGame.MoveCards(move, null);
                 }
             }
         }

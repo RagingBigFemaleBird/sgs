@@ -30,5 +30,10 @@ namespace Sanguosha.Core.Cards
             get { return deckType; }
             set { deckType = value; }
         }
+
+        public override string ToString()
+        {
+            return "Player " + player.Id + ", " + deckType.ToString();
+        }
     }
 }
