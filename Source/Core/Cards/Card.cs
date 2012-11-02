@@ -161,12 +161,12 @@ namespace Sanguosha.Core.Cards
             }
         }
 
-        List<UI.ActionLog> logs;
+        UI.ActionLog log;
 
-        public List<UI.ActionLog> Logs
+        public UI.ActionLog Log
         {
-            get { return logs; }
-            set { logs = value; }
+            get { return log; }
+            set { log = value; }
         }
     }    
 }

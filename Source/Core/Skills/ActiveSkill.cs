@@ -33,16 +33,33 @@ namespace Sanguosha.Core.Skills
         {
         }
 
-        protected void NotifyAction(Players.Player source, List<Players.Player> targets, List<Card> cards)
+        public void NotifyAction(Players.Player source, List<Players.Player> targets, List<Card> cards)
         {
             ActionLog log = new ActionLog();
             log.GameAction = GameAction.None;
             log.CardAction = null;
             log.SkillAction = this;
             log.Source = source;
-            log.Targets = targets;
+            List<Players.Player> ft, st;
+            TargetsSplit(targets, out ft, out st);
+            log.Targets = ft;
+            log.SecondaryTargets = st;
             log.Cards = cards;
+            foreach (Card c in cards)
+            {
+                if (c.Log == null)
+                {
+                    c.Log = new ActionLog();
+                }
+                c.Log.SkillAction = this;
+            }
             Games.Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
+        }
+
+        protected void TargetsSplit(List<Players.Player> targets, out List<Players.Player> firstTargets, out List<Players.Player> secondaryTargets)
+        {
+            firstTargets = new List<Players.Player>(targets);
+            secondaryTargets = null;
         }
 
         public virtual bool isRulerOnly { get { return false; } }

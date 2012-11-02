@@ -1114,6 +1114,10 @@ namespace Sanguosha.Core.Games
         {
             CardsMovement move;
             move.cards = new List<Card>(cards);
+            foreach (Card c in cards)
+            {
+                c.Log.GameAction = GameAction.Discard;
+            }
             List<Card> backup = new List<Card>(move.cards);
             move.to = new DeckPlace(null, DeckType.Discard);
             PlayerAboutToDiscardCard(p, move.cards, reason);

@@ -75,11 +75,11 @@ namespace Sanguosha.Core.Skills
             Games.Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
             foreach (Card c in cards)
             {
-                if (c.Logs == null)
+                if (c.Log == null)
                 {
-                    c.Logs = new List<ActionLog>();
+                    c.Log = new ActionLog();
                 }
-                c.Logs.Add(log);
+                c.Log.SkillAction = this;
             }
         }
 

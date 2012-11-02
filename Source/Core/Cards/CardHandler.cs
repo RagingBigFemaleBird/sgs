@@ -120,21 +120,21 @@ namespace Sanguosha.Core.Cards
             Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
             if (card is Card)
             {
-                if ((card as Card).Logs == null)
+                if ((card as Card).Log == null)
                 {
-                    (card as Card).Logs = new List<ActionLog>();
+                    (card as Card).Log = new ActionLog();
                 }
-                (card as Card).Logs.Add(log);
+                (card as Card).Log.CardAction = this;
             }
             else if (card is CompositeCard)
             {
                 foreach (var s in (card as CompositeCard).Subcards)
                 {
-                    if (s.Logs == null)
+                    if (s.Log == null)
                     {
-                        s.Logs = new List<ActionLog>();
+                        s.Log = new ActionLog();
                     }
-                    s.Logs.Add(log);
+                    s.Log.CardAction = this;
                 }
             }
         }
