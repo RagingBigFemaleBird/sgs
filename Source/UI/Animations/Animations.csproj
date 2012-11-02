@@ -52,6 +52,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimationBase.cs" />
+    <Compile Include="RevealRoleAnimation.xaml.cs">
+      <DependentUpon>RevealRoleAnimation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DamageAnimation.xaml.cs">
       <DependentUpon>DamageAnimation.xaml</DependentUpon>
     </Compile>
@@ -118,6 +121,10 @@
     <Resource Include="TaoAnimation\largeBg.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="RevealRoleAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="DamageAnimation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -146,6 +153,15 @@
     <Resource Include="ShaAnimation\foreground.png" />
     <Resource Include="ShaAnimation\background.png" />
     <Resource Include="ShaAnimation\faded.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="RevealRoleAnimation\0.png" />
+    <Resource Include="RevealRoleAnimation\1.png" />
+    <Resource Include="RevealRoleAnimation\2.png" />
+    <Resource Include="RevealRoleAnimation\3.png" />
+    <Resource Include="RevealRoleAnimation\4.png" />
+    <Resource Include="RevealRoleAnimation\5.png" />
+    <Resource Include="RevealRoleAnimation\6.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

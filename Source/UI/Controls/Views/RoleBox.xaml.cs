@@ -58,6 +58,7 @@ namespace Sanguosha.UI.Controls
                         cbRoles.SelectedItem = role;
                     }
                 }
+                revealRoleAnimation.Start();
             }
             else if (roles.Contains(Role.Unknown))
             {
@@ -66,6 +67,7 @@ namespace Sanguosha.UI.Controls
             else if (roles.Count == 1)
             {
                 cbRoles.SelectedIndex = 0;
+                revealRoleAnimation.Start();
             }
         }
 

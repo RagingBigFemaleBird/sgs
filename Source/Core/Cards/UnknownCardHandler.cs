@@ -21,5 +21,15 @@ namespace Sanguosha.Core.Cards
         {
             throw new NotImplementedException();
         }
+
+        public override string CardType
+        {
+            get
+            {
+                return _cardTypeString;
+            }
+        }
+
+        private static string _cardTypeString = "Unknown";
     }
 }

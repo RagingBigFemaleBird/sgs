@@ -187,7 +187,9 @@ namespace Sanguosha.UI.Controls
             CardView result = CardView.CreateCard(card);
             ParentGameView.GlobalCanvas.Children.Add(result);
             result.Opacity = 0;
-            Point dest = targetArea.TranslatePoint(new Point(0, 0), ParentGameView.GlobalCanvas);
+            Point dest = targetArea.TranslatePoint(new Point(targetArea.Width / 2, targetArea.Height / 2),
+                                                   ParentGameView.GlobalCanvas);
+            dest.Offset(-result.Width / 2, -result.Height / 2);
             result.Position = dest;
             result.Rebase(0);
 
@@ -267,6 +269,50 @@ namespace Sanguosha.UI.Controls
             result.Position = dest;
             result.Rebase(0);
 
+            return result;
+        }
+
+        protected override void AddRoleCard(CardView card)
+        {
+            card.Position = ComputeCardCenterPos(card, cbRoleBox);
+            card.RenderTransformOrigin = new Point(0.5, 0.5);
+            card.Opacity = 1.0;
+
+            RotateTransform rotate = new RotateTransform();
+            ScaleTransform scale = new ScaleTransform();
+            var transformGroup = new TransformGroup();
+            transformGroup.Children.Add(rotate);
+            transformGroup.Children.Add(scale);
+            card.RenderTransform = transformGroup;
+
+            DoubleAnimation rotateAnim = new DoubleAnimation(720, new Duration(TimeSpan.FromSeconds(0.8d)));
+            DoubleAnimation scaleXAnim = new DoubleAnimation(0.1, new Duration(TimeSpan.FromSeconds(0.8d)));
+            DoubleAnimation scaleYAnim = new DoubleAnimation(0.1, new Duration(TimeSpan.FromSeconds(0.8d)));
+            Storyboard.SetTarget(rotateAnim, card);
+            Storyboard.SetTarget(scaleXAnim, card);
+            Storyboard.SetTarget(scaleYAnim, card);
+            Storyboard.SetTargetProperty(rotateAnim, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)"));
+            Storyboard.SetTargetProperty(scaleXAnim, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[1].(ScaleTransform.ScaleX)"));
+            Storyboard.SetTargetProperty(scaleYAnim, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[1].(ScaleTransform.ScaleY)"));
+            Storyboard storyboard = new Storyboard();
+            storyboard.Children.Add(rotateAnim);
+            storyboard.Children.Add(scaleXAnim);
+            storyboard.Children.Add(scaleYAnim);
+            storyboard.AccelerationRatio = 0.4d;
+            storyboard.Begin();
+
+            card.CardOpacity = 1.0;
+            card.DisappearAfterMove = true;
+            card.Rebase(1.0d);
+        }
+
+        protected override CardView RemoveRoleCard(Card card)
+        {
+            CardView result = CardView.CreateCard(card);
+            ParentGameView.GlobalCanvas.Children.Add(result);
+            result.Opacity = 0;
+            result.Position = ComputeCardCenterPos(result, cbRoleBox);
+            result.Rebase(0);
             return result;
         }
 

@@ -18,12 +18,18 @@ namespace Sanguosha.UI.Animations
             DependencyProperty.Register("IsActive", typeof(bool), typeof(FrameBasedAnimation));
 
         public static readonly DependencyProperty FramesPerSecondProperty =
-            DependencyProperty.Register("FramesPerSecond", typeof(double), typeof(FrameBasedAnimation));
+            DependencyProperty.Register("FramesPerSecond", typeof(double), typeof(FrameBasedAnimation), new PropertyMetadata(30d));
 
         public static readonly DependencyProperty WrapAroundProperty =
             DependencyProperty.Register("WrapAround", typeof(bool), typeof(FrameBasedAnimation));
 
-        public ImageSource ActiveFrame { get { return Frames[ActiveFrameIndex]; } }
+        public ImageSource ActiveFrame 
+        { 
+            get 
+            {
+                return Frames[ActiveFrameIndex];
+            } 
+        }
 
         public int ActiveFrameIndex
         {
@@ -100,6 +106,7 @@ namespace Sanguosha.UI.Animations
 
         public FrameBasedAnimation()
         {
+            Visibility = Visibility.Hidden;
             Frames = new List<ImageSource>();
             FramesPerSecond = 30;
         }
@@ -139,6 +146,7 @@ namespace Sanguosha.UI.Animations
 
         public void Start()
         {
+            Visibility = Visibility.Visible;
             Resume();
             ActiveFrameIndex = 0;
         }
@@ -146,6 +154,7 @@ namespace Sanguosha.UI.Animations
         public void Stop()
         {
             IsActive = false;
+            Visibility = Visibility.Hidden;
             EventHandler handler = Completed;
             if (handler != null)
             {

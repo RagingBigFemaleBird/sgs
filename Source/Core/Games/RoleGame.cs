@@ -11,6 +11,7 @@ using Sanguosha.Core.UI;
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.Heroes;
+using System.Threading;
 
 namespace Sanguosha.Core.Games
 {
@@ -388,6 +389,8 @@ namespace Sanguosha.Core.Games
             game.MoveCards(moves, null);
         }
 
+        public static DeckType RoleDeckType = new DeckType("Role");
+
         public class RoleGameRuleTrigger : Trigger
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
@@ -419,14 +422,14 @@ namespace Sanguosha.Core.Games
                 // Await role decision
                 Random random = new Random(DateTime.Now.Millisecond);
                 int rulerId = 0;
-                DeckType role = new DeckType("Role");
-                game.Decks[null, role].Add(new Card(SuitType.None, 0, new RoleCardHandler(Role.Ruler)));
+
+                game.Decks[null, RoleDeckType].Add(new Card(SuitType.None, 0, new RoleCardHandler(Role.Ruler)));
                 Trace.Assert(game.Players.Count > 1);
                 Trace.Assert(numberOfDefectors + 1 <= game.Players.Count);
                 int t = numberOfDefectors;
                 while (t-- > 0)
                 {
-                    game.Decks[null, role].Add(new Card(SuitType.None, 0, new RoleCardHandler(Role.Defector)));
+                    game.Decks[null, RoleDeckType].Add(new Card(SuitType.None, 0, new RoleCardHandler(Role.Defector)));
                 }
                 int remaining = game.Players.Count - numberOfDefectors;
                 int rebel;
@@ -441,77 +444,62 @@ namespace Sanguosha.Core.Games
                     rebel = (int)Math.Ceiling(((double)remaining) / 2);
                     loyalist = remaining - rebel - 1;
                 }
+
                 Trace.Assert(rebel + loyalist + numberOfDefectors + 1 == game.Players.Count);
                 (game as RoleGame).NumberOfDefectors = numberOfDefectors;
                 (game as RoleGame).NumberOfRebels = rebel;
 
                 while (rebel-- > 0)
                 {
-                    game.Decks[null, role].Add(new Card(SuitType.None, 0, new RoleCardHandler(Role.Rebel)));
+                    game.Decks[null, RoleDeckType].Add(new Card(SuitType.None, 0, new RoleCardHandler(Role.Rebel)));
                 }
                 while (loyalist-- > 0)
                 {
-                    game.Decks[null, role].Add(new Card(SuitType.None, 0, new RoleCardHandler(Role.Loyalist)));
+                    game.Decks[null, RoleDeckType].Add(new Card(SuitType.None, 0, new RoleCardHandler(Role.Loyalist)));
                 }
 
 
-                foreach (Card c in game.Decks[null, role])
+                foreach (Card c in game.Decks[null, RoleDeckType])
                 {
-                    c.Place = new DeckPlace(null, role);
+                    c.Place = new DeckPlace(null, RoleDeckType);
                     c.Id = GameEngine.CardSet.Count;
                     GameEngine.CardSet.Add(c);
                 }
 
-                Shuffle(game.Decks[null, role]);
+                Shuffle(game.Decks[null, RoleDeckType]);
 
                 if (game.IsClient)
                 {
-                    int count = game.Decks[null, role].Count;
-                    game.Decks[null, role].Clear();
+                    int count = game.Decks[null, RoleDeckType].Count;
+                    game.Decks[null, RoleDeckType].Clear();
                     while (count-- > 0)
                     {
-                        Card c = new Card(SuitType.None, 0, new UnknownCardHandler());
-                        c.Place = new DeckPlace(null, role);
-                        game.Decks[null, role].Add(c);
+                        Card c = new Card(SuitType.None, 0, new UnknownRoleCardHandler());
+                        c.Id = Card.UnknownRoleId;
+                        c.Place = new DeckPlace(null, RoleDeckType);
+                        game.Decks[null, RoleDeckType].Add(c);
                     }
-
                 }
 
                 if (!game.IsClient)
                 {
-                    foreach (Card c in game.Decks[null, role])
+                    foreach (Card c in game.Decks[null, RoleDeckType])
                     {
                         if ((c.Type as RoleCardHandler).Role == Role.Ruler)
                         {
                             game.SyncCardAll(c);
                         }
-                        else
-                        {
-                        }
                     }
                 }
                 else
                 {
-                    game.SyncCardAll(game.Decks[null, role][0]);
-                }
-                int u = 0;
-                foreach (Card c in game.Decks[null, role])
-                {
-                    game.SyncCard(game.Players[u], game.Decks[null, role][u]);
-                    u++;
+                    game.SyncCardAll(game.Decks[null, RoleDeckType][0]);
                 }
 
                 int i = 0;
-                foreach (Card c in game.Decks[null, role])
+                for (i = 0; i < game.Players.Count; i++)
                 {
-                    if (c.Type is RoleCardHandler)
-                    {
-                        if ((c.Type as RoleCardHandler).Role == Role.Ruler)
-                        {
-                            rulerId = i;
-                        }
-                        game.Players[i].Role = (c.Type as RoleCardHandler).Role;
-                    }
+                    game.SyncCard(game.Players[i], game.Decks[null, RoleDeckType][i]);
                     i++;
                 }
 
@@ -520,12 +508,30 @@ namespace Sanguosha.Core.Games
                 foreach (Player p in game.Players)
                 {
                     CardsMovement move = new CardsMovement();
-                    move.cards = new List<Card>() { game.Decks[null, role][i] };
-                    move.to = new DeckPlace(p, role);
+                    move.cards = new List<Card>() { game.Decks[null, RoleDeckType][i] };
+                    move.to = new DeckPlace(p, RoleDeckType);
                     moves.Add(move);
                     i++;
                 }
                 game.MoveCards(moves, null);
+
+                Thread.Sleep(500);
+
+                i = 0;
+                foreach (Player player in game.Players)
+                {
+                    Card card = game.Decks[player, RoleDeckType][0];
+                    var role = card.Type as RoleCardHandler;
+                    if (role != null)
+                    {
+                        if (role.Role == Role.Ruler)
+                        {
+                            rulerId = i;
+                        }
+                        player.Role = role.Role;
+                    }
+                    i++;
+                }
                 
                 //hero allocation
                 Shuffle(game.Decks[DeckType.Heroes]);
@@ -621,9 +627,9 @@ namespace Sanguosha.Core.Games
                         {
                             c = restDraw[p][0];
                         }
-                        foreach (Player s in game.Players)
+                        foreach (Player player in game.Players)
                         {
-                            game.GameServer.SendObject(s.Id, idx);
+                            game.GameServer.SendObject(player.Id, idx);
                         }
                     }
                     // you are client
@@ -651,9 +657,9 @@ namespace Sanguosha.Core.Games
                     
                 }
 
-                foreach (var z in toRemove)
+                foreach (var card in toRemove)
                 {
-                    game.Decks[DeckType.Heroes].Remove(z);
+                    game.Decks[DeckType.Heroes].Remove(card);
                 }
 
                 StartGameDeal(game);

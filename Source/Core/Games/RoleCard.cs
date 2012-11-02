@@ -29,11 +29,29 @@ namespace Sanguosha.Core.Games
         {
             Role = r;
         }
+
+        public override string CardType
+        {
+            get
+            {
+                return Role.ToString();
+            }
+        }
     }
     public class UnknownRoleCardHandler : RoleCardHandler
     {
         public UnknownRoleCardHandler() : base(Role.Unknown)
         {
-        }   
+        }
+
+        public override string CardType
+        {
+            get
+            {
+                return _cardTypeString;
+            }
+        }
+
+        private static string _cardTypeString = "UnknownRole";
     }
 }

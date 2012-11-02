@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Sanguosha.UI.Controls"
+             xmlns:anim="clr-namespace:Sanguosha.UI.Animations;assembly=Animations"
              xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -88,7 +89,7 @@
         </Style>
     </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
+    <local:NonClipGrid>
         <ComboBox x:Name="cbRoles" Style="{StaticResource RoleComboBoxStyle}" ItemsSource="{Binding}" DropDownOpened="cbRoles_DropDownOpened" SelectionChanged="cbRoles_SelectionChanged">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
@@ -101,13 +102,7 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="ComboBoxItem">
                                 <Grid>
-                                    <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Left">
-                                        <ContentPresenter.ContentTemplate>
-                                            <DataTemplate>
-                                                <Image Source="{res:ResourceKeyBinding StringFormat=Role.{0}.Facial}" Margin="0,2,0,0" Height="{Binding Converter={StaticResource roleHeightConverter}}"/>
-                                            </DataTemplate>
-                                        </ContentPresenter.ContentTemplate>
-                                    </ContentPresenter>
+                                    <Image Source="{res:ResourceKeyBinding StringFormat=Role.{0}.Facial}" Margin="0,2,0,0" Height="{Binding Converter={StaticResource roleHeightConverter}}"/>
                                 </Grid>
                             </ControlTemplate>
                         </Setter.Value>
@@ -115,5 +110,6 @@
                 </Style>
             </ComboBox.ItemContainerStyle>
         </ComboBox>
-    </Grid>
+        <anim:RevealRoleAnimation x:Name="revealRoleAnimation" Stretch="Fill" FramesPerSecond="10" Margin="-25, -25"/>
+    </local:NonClipGrid>
 </UserControl>

@@ -12,6 +12,12 @@ namespace Sanguosha.UI.Controls
 {
     public class CardViewModel : SelectableItem
     {
+        #region Constructors
+        public CardViewModel()
+        {
+        }
+        #endregion
+        
         #region Fields
         private Card _card;
         private Card _uiCard;
@@ -39,6 +45,10 @@ namespace Sanguosha.UI.Controls
                         else if (_uiCard.Id == Card.UnknownHeroId)
                         {
                             _uiCard.Type = new UnknownHeroCardHandler();
+                        }
+                        else if (_uiCard.Id == Card.UnknownRoleId)
+                        {
+                            _uiCard.Type = new UnknownRoleCardHandler();
                         }
                     }
                 }
@@ -131,35 +141,16 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        public static string UnknownCardTypeString = "Unknown";
-
-        public static string UnknownHeroCardTypeString = "UnknownHero";
-
         public string _TypeStringHelper(Card card)
         {
-            
-                if (card == null || card.Id == Card.UnknownCardId)
-                {
-                    return UnknownCardTypeString;
-                }
-                else if (card.Id == Card.UnknownHeroId)
-                {
-                    return UnknownHeroCardTypeString;
-                }
-                else if (card.Type is HeroCardHandler)
-                {
-                    var cardType = card.Type as HeroCardHandler;
-                    return cardType.Hero.Name;
-                }
-                else if (card.Type is Equipment)
-                {
-                    return card.Type.CardType;
-                }
-                else
-                {
-                    return card.Type.GetType().Name;
-                }
-            
+            if (card == null)
+            {
+                return string.Empty;
+            }
+            else
+            {
+                return card.Type.CardType;
+            }
         }
 
         /// <summary>

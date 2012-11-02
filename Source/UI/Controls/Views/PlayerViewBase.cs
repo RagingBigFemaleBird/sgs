@@ -9,6 +9,7 @@ using Sanguosha.Core.Cards;
 using System.Windows.Media;
 using System.Windows.Input;
 using Sanguosha.UI.Animations;
+using Sanguosha.Core.Games;
 
 namespace Sanguosha.UI.Controls
 {
@@ -80,6 +81,35 @@ namespace Sanguosha.UI.Controls
             return null;
         }
 
+        protected virtual void AddRoleCard(CardView card)
+        {
+        }
+
+        protected virtual CardView RemoveRoleCard(Card card)
+        {
+            return null;
+        }
+
+        #endregion
+
+        #region Helpers
+        /// <summary>
+        /// Compute card position on global canvas such that the card center is aligned to the center of <paramref name="element"/>.
+        /// </summary>
+        /// <param name="card">Card to be aligned.</param>
+        /// <param name="element">FrameworkElement to be aligned to.</param>
+        /// <returns>Position of card relative to global canvas.</returns>
+        protected Point ComputeCardCenterPos(CardView card, FrameworkElement element)
+        {
+            double width = element.ActualWidth;
+            double height = element.ActualHeight;
+            if (width == 0) width = element.Width;
+            if (height == 0) height = element.Height;
+            Point dest = element.TranslatePoint(new Point(element.Width / 2, element.Height / 2),
+                                                   ParentGameView.GlobalCanvas);
+            dest.Offset(-card.Width / 2, -card.Height / 2);
+            return dest;
+        }
         #endregion
 
         public void AddCards(DeckType deck, IList<CardView> cards)
@@ -130,6 +160,13 @@ namespace Sanguosha.UI.Controls
                 foreach (var card in cards)
                 {
                     AddDelayedTool(card);
+                }
+            }
+            else if (deck == RoleGame.RoleDeckType)
+            {
+                foreach (var card in cards)
+                {
+                    AddRoleCard(card);
                 }
             }
         }
@@ -196,6 +233,14 @@ namespace Sanguosha.UI.Controls
                 foreach (var card in cards)
                 {
                     CardView cardView = RemoveDelayedTool(card);
+                    cardsToRemove.Add(cardView);
+                }
+            }
+            else if (deck == RoleGame.RoleDeckType)
+            {
+                foreach (var card in cards)
+                {
+                    CardView cardView = RemoveRoleCard(card);
                     cardsToRemove.Add(cardView);
                 }
             }

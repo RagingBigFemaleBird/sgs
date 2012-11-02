@@ -181,10 +181,7 @@ namespace Sanguosha.UI.Controls
             targetArea.Children.Clear();
             targetArea.Children.Add(equipLabel);
 
-            Point dest = targetArea.TranslatePoint(new Point(targetArea.Width / 2, targetArea.Height / 2),
-                                                   ParentGameView.GlobalCanvas);
-            dest.Offset(-card.Width / 2, -card.Height / 2);
-            card.Position = dest;
+            card.Position = ComputeCardCenterPos(card, targetArea);
             card.CardOpacity = 0.0;
             card.DisappearAfterMove = true;
             card.Rebase(0.3d);
@@ -246,8 +243,7 @@ namespace Sanguosha.UI.Controls
             CardView result = CardView.CreateCard(card);
             ParentGameView.GlobalCanvas.Children.Add(result);
             result.Opacity = 0;
-            Point dest = targetArea.TranslatePoint(new Point(0, 0), ParentGameView.GlobalCanvas);
-            result.Position = dest;
+            result.Position = ComputeCardCenterPos(result, targetArea);
             result.Rebase(0);
 
             Storyboard storyBoard = new Storyboard();
@@ -264,6 +260,24 @@ namespace Sanguosha.UI.Controls
             storyBoard.Children.Add(animation1);
             storyBoard.Children.Add(animation2);
             storyBoard.Begin();
+            return result;
+        }
+
+        protected override void AddRoleCard(CardView card)
+        {
+            card.Position = ComputeCardCenterPos(card, cbRoleBox);
+            card.CardOpacity = 1.0;
+            card.DisappearAfterMove = true;
+            card.Rebase(0.3d);
+        }
+
+        protected override CardView RemoveRoleCard(Card card)
+        {
+            CardView result = CardView.CreateCard(card);
+            ParentGameView.GlobalCanvas.Children.Add(result);
+            result.Opacity = 0;
+            result.Position = ComputeCardCenterPos(result, cbRoleBox);
+            result.Rebase(0);
             return result;
         }
 

@@ -184,7 +184,7 @@
                 </Border>
                 <Image x:Name="allegianceMask" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Mask}" HorizontalAlignment="Left" Grid.RowSpan="2" Width="38" Stretch="Fill" Margin="-3.335,4.333,0,0.667" ClipToBounds="True" Height="119" VerticalAlignment="Top"/>
                 <Image x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" />
-                <local:RoleBox x:Name="cbRoleBox" HorizontalAlignment="Right"/>
+                <local:RoleBox x:Name="cbRoleBox" HorizontalAlignment="Right" Width="25" Height="26"/>
                 
                 <ItemsControl ItemsSource="{Binding HeroNameChars}" Grid.Row="1"
                               HorizontalAlignment="Left"                              
