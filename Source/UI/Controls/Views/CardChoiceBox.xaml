@@ -23,7 +23,7 @@
                 <Grid Margin="0, 10, 0, 10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <Image Grid.Column="0" VerticalAlignment="Center" Stretch="None" Source="{Binding DeckName, Converter={StaticResource deckNameToCardChoiceIconConverter}}" />
                     <ItemsControl Grid.Column="1" ItemsSource="{Binding Cards, diagnostics:PresentationTraceSources.TraceLevel=High}">

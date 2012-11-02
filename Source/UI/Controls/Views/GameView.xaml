@@ -31,7 +31,7 @@
         	<RowDefinition Height="170" />
         </Grid.RowDefinitions>        
         <Image x:Name="tableBg" Source="{DynamicResource Game.Table.Background}" Stretch="Fill" />
-        <Grid x:Name="gridTable" Margin="0,0,0,30">
+        <local:NonClipGrid x:Name="gridTable" Margin="0,0,0,30">
     	    <Grid.ColumnDefinitions>
     	    	<ColumnDefinition Width="190"/>
     	    	<ColumnDefinition />
@@ -47,8 +47,8 @@
 		    <StackPanel x:Name="stackPanel2" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 		    <StackPanel x:Name="stackPanel3" Grid.RowSpan="2" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
 		    <StackPanel x:Name="stackPanel4" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-		    <StackPanel x:Name="stackPanel5" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" />        	
-        </Grid>
+		    <StackPanel x:Name="stackPanel5" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" />
+        </local:NonClipGrid>
         <StackPanel x:Name="spPrompt" Grid.Column="0" Grid.Row="0"
                         HorizontalAlignment="Center"  VerticalAlignment="Bottom"
                         Margin="100, 0, 100, 0">
@@ -153,13 +153,14 @@
         </Grid>
         </Grid>
         <Canvas x:Name="gameGlobalCanvas" Grid.RowSpan="2" Grid.ColumnSpan="2" />
-        <Grid x:Name="gridCardChoiceBox"                  
+        <local:NonClipGrid x:Name="gridCardChoiceBox"                  
                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                  MaxWidth="600"
         		  Visibility="{Binding MainPlayerModel.IsCardChoiceQuestionShown, Converter={StaticResource boolToVisibilityConverter}}">
             <Grid.Effect>
                 <DropShadowEffect ShadowDepth="0"/>
             </Grid.Effect>
             <local:CardChoiceBox DataContext="{Binding MainPlayerModel.CardChoiceModel, PresentationTraceSources.TraceLevel=High}"/>
-        </Grid>
+        </local:NonClipGrid>
     </Grid>
 </UserControl>

@@ -3,14 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-			 xmlns:local="clr-namespace:Sanguosha.UI.Controls"
+             xmlns:local="clr-namespace:Sanguosha.UI.Controls"
              xmlns:ee="http://schemas.microsoft.com/expression/2010/effects" 
              xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
-			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              x:Name="userControl"
              x:Class="Sanguosha.UI.Controls.CardView"
-			 mc:Ignorable="d"
+             mc:Ignorable="d"
              d:DesignHeight="130" d:DesignWidth="93">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -19,83 +19,83 @@
                 <ResourceDictionary Source="CardToolTip.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <local:SuitColorToColorConverter x:Key="suitColorToColorConverter" />
-        	<Style x:Key="footNoteStyle" TargetType="{x:Type TextBlock}">
-        		<Setter Property="TextWrapping" Value="WrapWithOverflow"/>
-        		<Setter Property="TextTrimming" Value="None"/>
-				<Setter Property="VerticalAlignment" Value="Bottom"/>
-				<Setter Property="FontFamily" Value="SimSun" />
-				<Setter Property="TextAlignment" Value="Center" />
-				<Setter Property="FontSize" Value="12"/>
-				<Setter Property="Margin" Value="3.666,0,7.333,7"/>
-				<Setter Property="Foreground" Value="#FFF9FBE6" />
-				<Setter Property="Text" Value="{Binding Footnote}" />
-        	</Style>
-        	<Storyboard x:Key="sbFade">
-        		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
-        			<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-        			<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1">
-        				<EasingDoubleKeyFrame.EasingFunction>
-        					<CubicEase EasingMode="EaseOut"/>
-        				</EasingDoubleKeyFrame.EasingFunction>
-        			</EasingDoubleKeyFrame>
-        		</DoubleAnimationUsingKeyFrames>
-        	</Storyboard>
-        	<Storyboard x:Key="sbUnfade">
-        		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
-        			<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0">
-        				<EasingDoubleKeyFrame.EasingFunction>
-        					<CubicEase EasingMode="EaseOut"/>
-        				</EasingDoubleKeyFrame.EasingFunction>
-        			</EasingDoubleKeyFrame>
-        		</DoubleAnimationUsingKeyFrames>
-        	</Storyboard>
-        	<Storyboard x:Key="sbHighlight">
-        		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="border">
-        			<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
-        		</DoubleAnimationUsingKeyFrames>
-        	</Storyboard>
-        	<Storyboard x:Key="sbUnHighlight">
-        		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="border">
-        			<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
-        		</DoubleAnimationUsingKeyFrames>
-        	</Storyboard>
+            <Style x:Key="footNoteStyle" TargetType="{x:Type TextBlock}">
+                <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+                <Setter Property="TextTrimming" Value="None"/>
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                <Setter Property="FontFamily" Value="SimSun" />
+                <Setter Property="TextAlignment" Value="Center" />
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="Margin" Value="3.666,0,7.333,7"/>
+                <Setter Property="Foreground" Value="#FFF9FBE6" />
+                <Setter Property="Text" Value="{Binding Footnote}" />
+            </Style>
+            <Storyboard x:Key="sbFade">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="sbUnfade">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="sbHighlight">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="border">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="sbUnHighlight">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="border">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
         </ResourceDictionary>
     </UserControl.Resources>
-	<i:Interaction.Triggers>
-		<ei:DataTrigger Value="true" Binding="{Binding IsSelected}">
-			<ei:ChangePropertyAction PropertyName="Offset" TargetObject="{Binding ElementName=userControl, Mode=OneWay}">
-				<ei:ChangePropertyAction.Value>
-					<Point>0,-20</Point>
-				</ei:ChangePropertyAction.Value>
-			</ei:ChangePropertyAction>
-		</ei:DataTrigger>
-		<ei:DataTrigger Value="false" Binding="{Binding IsSelected}">
-			<ei:ChangePropertyAction PropertyName="Offset" TargetObject="{Binding ElementName=userControl, Mode=OneWay}">
-				<ei:ChangePropertyAction.Value>
-					<Point>0,0</Point>
-				</ei:ChangePropertyAction.Value>
-			</ei:ChangePropertyAction>
-		</ei:DataTrigger>
-	</i:Interaction.Triggers>
+    <i:Interaction.Triggers>
+        <ei:DataTrigger Value="true" Binding="{Binding IsSelected}">
+            <ei:ChangePropertyAction PropertyName="Offset" TargetObject="{Binding ElementName=userControl, Mode=OneWay}">
+                <ei:ChangePropertyAction.Value>
+                    <Point>0,-20</Point>
+                </ei:ChangePropertyAction.Value>
+            </ei:ChangePropertyAction>
+        </ei:DataTrigger>
+        <ei:DataTrigger Value="false" Binding="{Binding IsSelected}">
+            <ei:ChangePropertyAction PropertyName="Offset" TargetObject="{Binding ElementName=userControl, Mode=OneWay}">
+                <ei:ChangePropertyAction.Value>
+                    <Point>0,0</Point>
+                </ei:ChangePropertyAction.Value>
+            </ei:ChangePropertyAction>
+        </ei:DataTrigger>
+    </i:Interaction.Triggers>
     <Grid>
-    	<VisualStateManager.VisualStateGroups>
-    		<VisualStateGroup x:Name="FadeStates">
-    			<VisualState x:Name="Faded">
-    				<Storyboard>
-    					<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
-    						<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.0"/>
-    					</DoubleAnimationUsingKeyFrames>
-    				</Storyboard>
-    			</VisualState>
-    			<VisualState x:Name="Unfaded">
-    				<Storyboard>
-    					<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
-    						<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0.0"/>
-    					</DoubleAnimationUsingKeyFrames>
-    				</Storyboard>
-    			</VisualState>
-    		</VisualStateGroup>
-    	</VisualStateManager.VisualStateGroups>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="FadeStates">
+                <VisualState x:Name="Faded">
+                    <Storyboard>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.0"/>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Unfaded">
+                    <Storyboard>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0.0"/>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Viewbox Stretch="Uniform">            
             <Grid Height="130" Width="93" Background="Black">                
                 <Border x:Name="border" CornerRadius="3" Background="#FFC3C6B9" Margin="-1, -1, -1, -1" Opacity="0.0">
@@ -110,42 +110,42 @@
                        HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold"
                        FontSize="13.333"
                        Foreground="{Binding SuitColor, Converter={StaticResource suitColorToColorConverter}}">
-    			<TextBlock.Effect>
-    				<DropShadowEffect Color="#FFFFFFAA" ShadowDepth="0"/>
-    			</TextBlock.Effect>
+                <TextBlock.Effect>
+                    <DropShadowEffect Color="#FFFFFFAA" ShadowDepth="0"/>
+                </TextBlock.Effect>
                 </TextBlock>
                 <Image x:Name="tbSuit" Source="{res:ResourceKeyBinding Path=Suit, StringFormat=Card.Suit.\{0\}.Image.Normal}" Width="14" Height="14" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5.666,19.334,0,0"/>
             </Grid>
         </Viewbox>
         <TextBlock x:Name="tbFootnote2" Style="{DynamicResource footNoteStyle}">
-				<TextBlock.Effect>
-					<DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="1" Direction="0"/>
-				</TextBlock.Effect>
+                <TextBlock.Effect>
+                    <DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="1" Direction="0"/>
+                </TextBlock.Effect>
         </TextBlock>
         <TextBlock x:Name="tbFootnote3" Style="{DynamicResource footNoteStyle}">
-				<TextBlock.Effect>
-					<DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="1" Direction="90"/>
-				</TextBlock.Effect>
+                <TextBlock.Effect>
+                    <DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="1" Direction="90"/>
+                </TextBlock.Effect>
         </TextBlock>
         <TextBlock x:Name="tbFootnote4" Style="{DynamicResource footNoteStyle}">
-				<TextBlock.Effect>
-					<DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="1" Direction="180"/>
-				</TextBlock.Effect>
+                <TextBlock.Effect>
+                    <DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="1" Direction="180"/>
+                </TextBlock.Effect>
         </TextBlock>
         <TextBlock x:Name="tbFootnote" Style="{DynamicResource footNoteStyle}">
-				<TextBlock.Effect>
-					<DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="1" Direction="270"/>
-				</TextBlock.Effect>
+                <TextBlock.Effect>
+                    <DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="1" Direction="270"/>
+                </TextBlock.Effect>
         </TextBlock>
         <Border x:Name="fadeMask" Background="#64000000" Opacity="0">
-        	<i:Interaction.Behaviors>
-        		<ei:DataStateBehavior Value="true" TrueState="Faded" FalseState="Unfaded" Binding="{Binding IsFaded}"/>
-        	</i:Interaction.Behaviors>
+            <i:Interaction.Behaviors>
+                <ei:DataStateBehavior Value="true" TrueState="Faded" FalseState="Unfaded" Binding="{Binding IsFaded}"/>
+            </i:Interaction.Behaviors>
         </Border>
     </Grid>
-	<UserControl.IsEnabled>
-		<Binding Path="IsEnabled" />
-	</UserControl.IsEnabled>
+    <UserControl.IsEnabled>
+        <Binding Path="IsEnabled" />
+    </UserControl.IsEnabled>
     <UserControl.ToolTip>
         <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top" ContentTemplateSelector="{StaticResource cardToolTipTemplateSelector}"/>
     </UserControl.ToolTip>

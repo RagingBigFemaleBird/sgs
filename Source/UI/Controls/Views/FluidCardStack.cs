@@ -100,6 +100,7 @@ namespace Sanguosha.UI.Controls
             if (childCount > 1)
             {
                 space = (finalSize.Width - width - 3 * HighlightItemExtraSpacing) / (childCount - 1);
+                space = Math.Min(space, CardWidth + CardSpacing);
             }
             double totalMargin = 0;
             bool spacingStart = false;
