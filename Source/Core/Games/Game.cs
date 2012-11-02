@@ -423,6 +423,22 @@ namespace Sanguosha.Core.Games
             set { players = value; }
         }
 
+        public List<Player> AlivePlayers
+        {
+            get
+            {
+                var list = new List<Player>();
+                foreach (Player p in players)
+                {
+                    if (!p.IsDead)
+                    {
+                        list.Add(p);
+                    }
+                }
+                return list;
+            }
+        }
+
         private bool atomic = false;
 
         private struct TriggersWithParams

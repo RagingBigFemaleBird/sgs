@@ -24,6 +24,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         public override void Process(Player source, List<Player> dests, ICard card)
         {
             Trace.Assert(dests == null || dests.Count == 0);
+            NotifyCardUse(source, new List<Player>() {source}, null, card);
             if (!PlayerIsCardTargetCheck(ref source, ref source, card))
             {
                 return;
@@ -87,7 +88,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             Player target = eventArgs.Targets[0];
             if (target.Health > 0) return;
             Game.CurrentGame.IsDying.Push(target);
-            List<Player> toAsk = new List<Player>(Game.CurrentGame.Players);
+            List<Player> toAsk = new List<Player>(Game.CurrentGame.AlivePlayers);
             Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, toAsk);
             TaoJiuVerifier v = new TaoJiuVerifier();
             v.DyingPlayer = target;

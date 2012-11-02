@@ -662,6 +662,8 @@ namespace Sanguosha.Core.Games
                     game.Decks[DeckType.Heroes].Remove(card);
                 }
 
+                Shuffle(game.Decks[null, DeckType.Dealing]);
+
                 StartGameDeal(game);
                 game.CurrentPlayer = game.Players[rulerId];
                 game.CurrentPhase = TurnPhase.BeforeStart;

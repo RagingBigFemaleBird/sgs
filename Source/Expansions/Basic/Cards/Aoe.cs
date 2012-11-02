@@ -35,8 +35,9 @@ namespace Sanguosha.Expansions.Basic.Cards
         public override void Process(Player source, List<Player> dests, ICard c)
         {
             Trace.Assert(dests == null || dests.Count == 0);
+            NotifyCardUse(source, dests, null, c);
             SingleCardUsageVerifier v1 = responseCardVerifier;
-            List<Player> toProcess = new List<Player>(Game.CurrentGame.Players);
+            List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
             toProcess.Remove(source);
             Game.CurrentGame.SortByOrderOfComputation(source, toProcess);
             foreach (var player in toProcess)
@@ -94,10 +95,11 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected override List<Player> LogTargetsModifier(Player source, List<Player> dests)
         {
-            var z = new List<Player>(Game.CurrentGame.Players);
+            var z = new List<Player>(Game.CurrentGame.AlivePlayers);
             z.Remove(source);
             return z;
         }
+
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
         {
             if (targets != null && targets.Count >= 1)

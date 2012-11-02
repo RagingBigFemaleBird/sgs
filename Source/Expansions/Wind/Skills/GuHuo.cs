@@ -53,7 +53,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             move.to = new DeckPlace(null, DeckType.GuHuo);
             Game.CurrentGame.MoveCards(move, null);
             Game.CurrentGame.PlayerLostCard(Owner, move.cards);
-            List<Player> toProcess = new List<Player>(Game.CurrentGame.Players);
+            List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
             toProcess.Remove(Owner);
             Game.CurrentGame.SortByOrderOfComputation(Owner, toProcess);
             Dictionary<Player, int> believe = new Dictionary<Player,int>();
