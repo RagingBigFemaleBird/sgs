@@ -24,7 +24,8 @@ namespace Sanguosha.Expansions.Basic.Cards
         public override void Process(Player source, List<Player> dests, ICard card)
         {
             Trace.Assert(dests == null || dests.Count == 0);
-            List<Player> toProcess = new List<Player>(Game.CurrentGame.Players);
+            NotifyCardUse(source, dests, null, card);
+            List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
             Game.CurrentGame.SortByOrderOfComputation(source, toProcess);
             foreach (Player player in toProcess)
             {
@@ -57,6 +58,13 @@ namespace Sanguosha.Expansions.Basic.Cards
         public override CardCategory Category
         {
             get { return CardCategory.ImmediateTool; }
+        }
+
+        protected override List<Player> LogTargetsModifier(Player source, List<Player> dests)
+        {
+            var z = new List<Player>(Game.CurrentGame.AlivePlayers);
+            z.Remove(source);
+            return z;
         }
     }
 }

@@ -67,6 +67,7 @@ namespace Sanguosha.Core.UI
         public CardHandler CardAction { get; set; }
         public Player Source { get; set; }
         public List<Player> Targets { get; set; }
+        public List<Player> SecondaryTargets { get; set; }
         public List<Card> Cards { get; set; }
     }
 }

@@ -107,13 +107,14 @@ namespace Sanguosha.Core.Cards
             }
         }
 
-        public virtual void Process(Player source, List<Player> dests, ICard card)
+        protected void NotifyCardUse(Player source, List<Player> dests, List<Player> secondary, ICard card)
         {
             List<Player> logTargets = LogTargetsModifier(source, dests);
             ActionLog log = new ActionLog();
             log.CardAction = this;
             log.Source = source;
             log.Targets = logTargets;
+            log.SecondaryTargets = secondary;
             log.SkillAction = null;
             log.GameAction = GameAction.Use;
             Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
@@ -136,6 +137,11 @@ namespace Sanguosha.Core.Cards
                     s.Logs.Add(log);
                 }
             }
+        }
+
+        public virtual void Process(Player source, List<Player> dests, ICard card)
+        {
+            NotifyCardUse(source, dests, null, card);
             foreach (var player in dests)
             {
                 Player p = player;

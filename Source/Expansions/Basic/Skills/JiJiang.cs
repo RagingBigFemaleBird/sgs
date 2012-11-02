@@ -27,7 +27,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             {
                 return VerifierResult.Fail;
             }
-            List<Player> toProcess = new List<Player>(Game.CurrentGame.Players);
+            List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
             toProcess.Remove(Owner);
             bool noShuHero = true;
             foreach (var player in toProcess)
@@ -60,7 +60,7 @@ namespace Sanguosha.Expansions.Basic.Skills
         protected override bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets)
         {
             ICard result = null;
-            List<Player> toProcess = new List<Player>(Game.CurrentGame.Players);
+            List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
             toProcess.Remove(Owner);
             Game.CurrentGame.SortByOrderOfComputation(Owner, toProcess);
             bool noAnswer = true;

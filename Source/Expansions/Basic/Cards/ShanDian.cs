@@ -36,7 +36,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     return;
                 }
             }
-            List<Player> toProcess = new List<Player>(Game.CurrentGame.Players);
+            List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
             toProcess.Remove(p);
             Game.CurrentGame.SortByOrderOfComputation(p, toProcess);
             foreach (var next in toProcess)
