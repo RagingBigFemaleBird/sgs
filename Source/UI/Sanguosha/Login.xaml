@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	  xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
       xmlns:Sanguosha_UI_Effects="clr-namespace:Sanguosha.UI.Effects;assembly=Effects"
 	  x:Class="Sanguosha.UI.Main.Login" 
 	  xmlns:Sanguosha_UI_Animations="clr-namespace:Sanguosha.UI.Animations;assembly=Animations"
@@ -84,11 +85,25 @@
     			<EasingColorKeyFrame KeyTime="0:0:2.1" Value="Black"/>
     		</ColorAnimationUsingKeyFrames>
     	</Storyboard>
+    	<Storyboard x:Key="RotatingRoundNotch" RepeatBehavior="Forever">    		
+    		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="image1">
+    			<EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
+    			<EasingDoubleKeyFrame KeyTime="0:0:6.0" Value="360"/>
+    		</DoubleAnimationUsingKeyFrames>
+    	</Storyboard>
     </ResourceDictionary>
     </Page.Resources>
 	<Page.Triggers>
 		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
-			<BeginStoryboard Storyboard="{StaticResource OnLoaded1}"/>
+			<BeginStoryboard Storyboard="{StaticResource OnLoaded1}"/>			
+		</EventTrigger>
+		<EventTrigger RoutedEvent="Mouse.MouseEnter" SourceName="startButton">
+			<ResumeStoryboard BeginStoryboardName="RotatingRoundNotch_BeginStoryboard"/>
+			<BeginStoryboard x:Name="RotatingRoundNotch_BeginStoryboard" Storyboard="{StaticResource RotatingRoundNotch}"/>
+		</EventTrigger>
+		<EventTrigger RoutedEvent="Mouse.MouseLeave" SourceName="startButton">
+			<StopStoryboard BeginStoryboardName="RotatingRoundNotch_BeginStoryboard"/>
+			<PauseStoryboard BeginStoryboardName="RotatingRoundNotch_BeginStoryboard"/>
 		</EventTrigger>
 	</Page.Triggers>
     <Grid>
@@ -136,37 +151,50 @@
         	<Image.Effect>
         		<Sanguosha_UI_Effects:ZoomBlurEffect/>
         	</Image.Effect>
-        </Image>		
-        <TabControl TabStripPlacement="Left" Style="{DynamicResource LoginTabControlStyle}" Width="480" Height="300" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,250,0,0" Background="#FF4A3B2D" BorderThickness="1">
-        	<TabItem Style="{DynamicResource LoginTabItemStyle}">
-        		<TabItem.Header>
-        			<TextBlock Foreground="#FFDFCF93" Margin="5,10" Text="启动客户端" Width="20" TextWrapping="Wrap" FontSize="18" LineStackingStrategy="BlockLineHeight" LineHeight="14" FontFamily="LiSu"/> 
-				</TabItem.Header>
-        		<Grid>
-        			<TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" Text="服务器地址：" FontFamily="SimHei" FontSize="17.333" />
-        			<TextBox Margin="151,39.846,73,0" Text="127.0.0.1" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
-        			<TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" Text="用户名：" FontFamily="SimHei" FontSize="17.333" />
-        			<TextBox Margin="151,83.846,73,0" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
-        			<TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Margin="42,135,0,133" TextWrapping="Wrap" Width="111" Text="密码：" FontFamily="SimHei" FontSize="17.333"/>
-					<TextBox Margin="151,129.846,73,0" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
-        		</Grid>
-        	</TabItem>
-        	<TabItem Style="{DynamicResource LoginTabItemStyle}">
-        		<TabItem.Header>
-        			<TextBlock Foreground="#FFDFCF93" Margin="5,10" Text="启动服务器" Width="20" TextWrapping="Wrap" FontSize="18" LineStackingStrategy="BlockLineHeight" LineHeight="14" FontFamily="LiSu"/> 
-				</TabItem.Header>
-        		<Grid>
-        			<TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="暂时没有选项，请直接点开始" FontFamily="SimHei" FontSize="17.333" />
-        		</Grid>
-        	</TabItem>
-			<TabItem Style="{DynamicResource LoginTabItemStyle}">
-				<TabItem.Header>
-        			<TextBlock Foreground="#FFDFCF93" Margin="5,10" Text="单机游戏" Width="20" TextWrapping="Wrap" FontSize="18" LineStackingStrategy="BlockLineHeight" LineHeight="14" FontFamily="LiSu"/> 
-				</TabItem.Header>
-        		<Grid>
-        			<TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="暂时没有选项，请直接点开始" FontFamily="SimHei" FontSize="17.333" />
-        		</Grid>
-        	</TabItem>
-        </TabControl>
+        </Image>
+        <Grid Width="480" Height="300" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,250,0,0">
+        	<TabControl x:Name="loginTab" TabStripPlacement="Left" Style="{DynamicResource LoginTabControlStyle}" Background="#FF4A3B2D" BorderThickness="1">
+        		<TabItem Style="{DynamicResource LoginTabItemStyle}">
+        			<TabItem.Header>
+        				<TextBlock Foreground="#FFDFCF93" Margin="5,10" Text="启动客户端" Width="20" TextWrapping="Wrap" FontSize="18" LineStackingStrategy="BlockLineHeight" LineHeight="14" FontFamily="LiSu"/> 
+        			</TabItem.Header>
+        			<Grid>
+        				<TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" Text="服务器地址：" FontFamily="SimHei" FontSize="17.333" />
+        				<TextBox x:Name="tab0HostName" Margin="151,39.846,73,0" Text="127.0.0.1" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
+        				<TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" Text="用户名：" FontFamily="SimHei" FontSize="17.333" />
+        				<TextBox Margin="151,83.846,73,0" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
+        				<TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Margin="42,135,0,133" TextWrapping="Wrap" Width="111" Text="密码：" FontFamily="SimHei" FontSize="17.333"/>
+        				<TextBox Margin="151,129.846,73,0" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
+        			</Grid>
+        		</TabItem>
+        		<TabItem Style="{DynamicResource LoginTabItemStyle}">
+        			<TabItem.Header>
+        				<TextBlock Foreground="#FFDFCF93" Margin="5,10" Text="启动服务器" Width="20" TextWrapping="Wrap" FontSize="18" LineStackingStrategy="BlockLineHeight" LineHeight="14" FontFamily="LiSu"/> 
+        			</TabItem.Header>
+        			<Grid>
+        				<TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="暂时没有选项，请直接点开始" FontFamily="SimHei" FontSize="17.333" />
+        			</Grid>
+        		</TabItem>
+        		<TabItem Style="{DynamicResource LoginTabItemStyle}">
+        			<TabItem.Header>
+        				<TextBlock Foreground="#FFDFCF93" Margin="5,10" Text="单机游戏" Width="20" TextWrapping="Wrap" FontSize="18" LineStackingStrategy="BlockLineHeight" LineHeight="14" FontFamily="LiSu"/> 
+        			</TabItem.Header>
+        			<Grid>
+        				<TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="暂时没有选项，请直接点开始" FontFamily="SimHei" FontSize="17.333" />
+        			</Grid>
+        		</TabItem>
+        	</TabControl>
+        	<Image x:Name="image1" Source="/Resources;component/Images/System/roundNotch.png" Stretch="None" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,-78,-77" RenderTransformOrigin="0.5,0.5" >
+        		<Image.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform/>
+        				<TranslateTransform/>
+        			</TransformGroup>
+        		</Image.RenderTransform>
+        	</Image>
+        	<Button x:Name="startButton" Content="Button" HorizontalAlignment="Right" Height="100" Margin="0,0,-43,-39" Style="{DynamicResource StartButtonStyle}" VerticalAlignment="Bottom" Width="88" IsEnabled="False" Click="startButton_Click" />
+        </Grid>
     </Grid>
 </Page>

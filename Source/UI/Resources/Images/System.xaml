@@ -106,7 +106,11 @@
     <BitmapImage x:Key="Button.MultiChoice.Disabled.Right">Buttons/multichoice/disabled-right.png</BitmapImage>
 
     <BitmapImage x:Key="Login.Background">System/loginBg.jpg</BitmapImage>
-
+    <BitmapImage x:Key="Login.Button.Start.Up">Buttons/start/normal.png</BitmapImage>
+    <BitmapImage x:Key="Login.Button.Start.Hover">Buttons/start/hover.png</BitmapImage>
+    <BitmapImage x:Key="Login.Button.Start.Down">Buttons/start/down.png</BitmapImage>
+    <BitmapImage x:Key="Login.Button.Start.Disabled">Buttons/start/disabled.png</BitmapImage>
+    
     <BitmapImage x:Key="Game.InfoPanel.Header">Game/infoPlaneHeader.png</BitmapImage>
     <BitmapImage x:Key="Game.InfoPanel.Body">Game/infoPlaneBody.png</BitmapImage>
     <BitmapImage x:Key="Game.InfoPanel.Footer">Game/infoPlaneFooter.png</BitmapImage>

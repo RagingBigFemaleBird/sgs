@@ -333,6 +333,7 @@
     <Resource Include="Images\System\logo.png" />
     <Resource Include="Images\System\logoFrame.png" />
     <Resource Include="Images\System\logoUnderLine.png" />
+    <Resource Include="Images\System\roundNotch.png" />
     <Resource Include="Images\System\scroll-bottom.png" />
     <Resource Include="Images\System\scroll-top.png" />
     <Resource Include="Images\System\scrollDown-down.png" />
@@ -346,6 +347,15 @@
     <Resource Include="Images\Game\delayedToolsArea.png" />
     <Resource Include="Images\Game\equipArea.png" />
     <Resource Include="Images\Game\handArea.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Buttons\start\disabled.png" />
+    <Resource Include="Images\Buttons\start\down.png" />
+    <Resource Include="Images\Buttons\start\hover.png" />
+    <Resource Include="Images\Buttons\start\normal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\System\roundLid.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

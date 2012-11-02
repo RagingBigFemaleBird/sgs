@@ -33,6 +33,14 @@ namespace Sanguosha.UI.Main
             // Insert code required on object creation below this point.
         }
 
+        private Client _networkClient;
+
+        public Client NetworkClient
+        {
+            get { return _networkClient; }
+            set { _networkClient = value; }
+        }
+
         int MainSeat = 0;
         const int numberOfHeros = 3;
         private void InitGame()
@@ -51,11 +59,9 @@ namespace Sanguosha.UI.Main
             Trace.WriteLine("Log starting");
             _game = new RoleGame(1);
 #if NETWORKING
-            Client client;
-            client = new Client();
-            client.Start();
-            MainSeat = (int)client.Receive();
-            client.SelfId = MainSeat;
+            
+            MainSeat = (int)NetworkClient.Receive();
+            NetworkClient.SelfId = MainSeat;
 #endif
             foreach (var g in GameEngine.Expansions.Values)
             {
@@ -81,7 +87,7 @@ namespace Sanguosha.UI.Main
                 }
             }
 #if NETWORKING
-            _game.GameClient = client;
+            _game.GameClient = NetworkClient;
             _game.GameServer = null;
             _game.IsClient = true;
 #else
@@ -98,7 +104,7 @@ namespace Sanguosha.UI.Main
                 var player = gameModel.PlayerModels[i].Player;                
 #if NETWORKING
                 var proxy = new ClientNetworkUiProxy(
-                            new AsyncUiAdapter(gameModel.PlayerModels[i]), client, i == 0);
+                            new AsyncUiAdapter(gameModel.PlayerModels[i]), NetworkClient, i == 0);
                 proxy.HostPlayer = player;
                 proxy.TimeOutSeconds = 15;
                 if (i == 0)

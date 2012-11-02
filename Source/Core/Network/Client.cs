@@ -20,10 +20,32 @@ namespace Sanguosha.Core.Network
         ItemReceiver receiver;
         ItemSender sender;
         int commId;
+        
         public int SelfId { get; set; }
+
+        private string ipString;
+
+        public string IpString
+        {
+            get { return ipString; }
+            set { ipString = value; }
+        }
+        private int portNumber;
+
+        public int PortNumber
+        {
+            get { return portNumber; }
+            set { portNumber = value; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <exception cref="System.ArgumentOutOfRangeException" />
+        /// <exception cref="System.Net.Sockets.SocketException" />
         public void Start()
         {
-            IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12345);
+            IPEndPoint ep = new IPEndPoint(IPAddress.Parse(IpString), PortNumber);
             TcpClient client = new TcpClient();
             client.Connect(ep);
             stream = client.GetStream();
