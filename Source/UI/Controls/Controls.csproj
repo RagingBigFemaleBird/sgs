@@ -57,6 +57,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Views\NonClipGrid.cs" />
     <Compile Include="ViewModels\BoolToVisibilityConverter.cs" />
     <Compile Include="ViewModels\CardChoiceViewModel.cs" />
     <Compile Include="ViewModels\CardViewModel.cs" />

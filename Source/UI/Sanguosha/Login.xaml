@@ -3,198 +3,203 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-	  xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
+      xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
+      xmlns:ctrl="clr-namespace:Sanguosha.UI.Controls;assembly=Controls"
       xmlns:Sanguosha_UI_Effects="clr-namespace:Sanguosha.UI.Effects;assembly=Effects"
-	  x:Class="Sanguosha.UI.Main.Login" 
-	  xmlns:Sanguosha_UI_Animations="clr-namespace:Sanguosha.UI.Animations;assembly=Animations"
+      x:Class="Sanguosha.UI.Main.Login" 
+      xmlns:Sanguosha_UI_Animations="clr-namespace:Sanguosha.UI.Animations;assembly=Animations"
       mc:Ignorable="d" 
       d:DesignHeight="768" d:DesignWidth="1024"
-	  Title="Login">
+      Title="Login">
     <Page.Resources>
     <ResourceDictionary>
         <ResourceDictionary.MergedDictionaries>
             <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
             <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
         </ResourceDictionary.MergedDictionaries>
-		<LinearGradientBrush x:Key="FiredTextBrush" EndPoint="0.5,1" StartPoint="0.5,0">
-			<GradientStop Color="#FFF9BB51" Offset="1"/>
-    		<GradientStop Color="#FFF88749"/>
+        <LinearGradientBrush x:Key="FiredTextBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFF9BB51" Offset="1"/>
+            <GradientStop Color="#FFF88749"/>
         </LinearGradientBrush>
-    	<Storyboard x:Key="OnLoaded1">
-    		<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image">
-    			<DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Visible}"/>
-    		</ObjectAnimationUsingKeyFrames>
-    		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="image">
-    			<EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="4"/>
-    			<EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1"/>
-    		</DoubleAnimationUsingKeyFrames>
-    		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="image">
-    			<EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="4"/>
-    			<EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1"/>
-    		</DoubleAnimationUsingKeyFrames>
-    		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:ZoomBlurEffect.BlurAmount)" Storyboard.TargetName="image">
-    			<EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="2"/>
-    			<EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0"/>
-    		</DoubleAnimationUsingKeyFrames>
-    		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image2">
-    			<EasingDoubleKeyFrame KeyTime="0:0:0.633" Value="0"/>
-    			<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
-    		</DoubleAnimationUsingKeyFrames>
-    		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image3">
-    			<EasingDoubleKeyFrame KeyTime="0:0:0.633" Value="0"/>
-    			<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
-    		</DoubleAnimationUsingKeyFrames>
-    		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="image2">
-    			<EasingDoubleKeyFrame KeyTime="0:0:0.633" Value="-300"/>
-    			<EasingDoubleKeyFrame KeyTime="0:0:1.167" Value="0"/>
-    		</DoubleAnimationUsingKeyFrames>
-    		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="image3">
-    			<EasingDoubleKeyFrame KeyTime="0:0:0.633" Value="300"/>
-    			<EasingDoubleKeyFrame KeyTime="0:0:1.167" Value="0"/>
-    		</DoubleAnimationUsingKeyFrames>
-    		<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="firedImage">
-    			<DiscreteObjectKeyFrame KeyTime="0:0:1.2" Value="{x:Static Visibility.Visible}"/>
-    		</ObjectAnimationUsingKeyFrames>
-    		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="firedImage">
-    			<EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="200"/>
-    		</DoubleAnimationUsingKeyFrames>
-    		<ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="firedImage">
-    			<EasingThicknessKeyFrame KeyTime="0:0:1.2" Value="0"/>
-    		</ThicknessAnimationUsingKeyFrames>
-    		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="firedImage">
-    			<EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="410"/>
-    		</DoubleAnimationUsingKeyFrames>
-    		<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="grid">
-    			<DiscreteObjectKeyFrame KeyTime="0:0:1.2" Value="{x:Static Visibility.Visible}"/>
-    			<DiscreteObjectKeyFrame KeyTime="0:0:2.1" Value="{x:Static Visibility.Visible}"/>
-    		</ObjectAnimationUsingKeyFrames>
-    		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[3].(GradientStop.Offset)" Storyboard.TargetName="grid">
-    			<EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="0.988"/>
-    			<EasingDoubleKeyFrame KeyTime="0:0:2.1" Value="0.57"/>
-    		</DoubleAnimationUsingKeyFrames>
-    		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[2].(GradientStop.Offset)" Storyboard.TargetName="grid">
-    			<EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="0.976"/>
-    			<EasingDoubleKeyFrame KeyTime="0:0:2.1" Value="0.028"/>
-    		</DoubleAnimationUsingKeyFrames>
-    		<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[2].(GradientStop.Color)" Storyboard.TargetName="grid">
-    			<EasingColorKeyFrame KeyTime="0:0:1.2" Value="Transparent"/>
-    			<EasingColorKeyFrame KeyTime="0:0:2.1" Value="Transparent"/>
-    		</ColorAnimationUsingKeyFrames>
-    		<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[3].(GradientStop.Color)" Storyboard.TargetName="grid">
-    			<EasingColorKeyFrame KeyTime="0:0:1.2" Value="#FF5A5A5A"/>
-    			<EasingColorKeyFrame KeyTime="0:0:2.1" Value="Black"/>
-    		</ColorAnimationUsingKeyFrames>
-    	</Storyboard>
-    	<Storyboard x:Key="RotatingRoundNotch" RepeatBehavior="Forever">    		
-    		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="image1">
-    			<EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
-    			<EasingDoubleKeyFrame KeyTime="0:0:6.0" Value="360"/>
-    		</DoubleAnimationUsingKeyFrames>
-    	</Storyboard>
+        <Storyboard x:Key="OnLoaded1">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="image">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="4"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="image">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="4"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:ZoomBlurEffect.BlurAmount)" Storyboard.TargetName="image">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="2"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image2">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.633" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image3">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.633" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="image2">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.633" Value="-300"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.167" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="image3">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.633" Value="300"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:1.167" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="firedImage">
+                <DiscreteObjectKeyFrame KeyTime="0:0:1.2" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="firedImage">
+                <EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="200"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="firedImage">
+                <EasingThicknessKeyFrame KeyTime="0:0:1.2" Value="0"/>
+            </ThicknessAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="firedImage">
+                <EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="410"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="grid">
+                <DiscreteObjectKeyFrame KeyTime="0:0:1.2" Value="{x:Static Visibility.Visible}"/>
+                <DiscreteObjectKeyFrame KeyTime="0:0:2.1" Value="{x:Static Visibility.Visible}"/>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[3].(GradientStop.Offset)" Storyboard.TargetName="grid">
+                <EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="0.988"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:2.1" Value="0.57"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[2].(GradientStop.Offset)" Storyboard.TargetName="grid">
+                <EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="0.976"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:2.1" Value="0.028"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[2].(GradientStop.Color)" Storyboard.TargetName="grid">
+                <EasingColorKeyFrame KeyTime="0:0:1.2" Value="Transparent"/>
+                <EasingColorKeyFrame KeyTime="0:0:2.1" Value="Transparent"/>
+            </ColorAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[3].(GradientStop.Color)" Storyboard.TargetName="grid">
+                <EasingColorKeyFrame KeyTime="0:0:1.2" Value="#FF5A5A5A"/>
+                <EasingColorKeyFrame KeyTime="0:0:2.1" Value="Black"/>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="RotatingRoundNotch">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Angle" RepeatBehavior="Forever" Storyboard.TargetName="notchRotation" IsAdditive="True" IsCumulative="True">
+                <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:6.0" Value="360"/>
+             </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
     </ResourceDictionary>
     </Page.Resources>
-	<Page.Triggers>
-		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
-			<BeginStoryboard Storyboard="{StaticResource OnLoaded1}"/>			
-		</EventTrigger>
-		<EventTrigger RoutedEvent="Mouse.MouseEnter" SourceName="startButton">
-			<ResumeStoryboard BeginStoryboardName="RotatingRoundNotch_BeginStoryboard"/>
-			<BeginStoryboard x:Name="RotatingRoundNotch_BeginStoryboard" Storyboard="{StaticResource RotatingRoundNotch}"/>
-		</EventTrigger>
-		<EventTrigger RoutedEvent="Mouse.MouseLeave" SourceName="startButton">
-			<StopStoryboard BeginStoryboardName="RotatingRoundNotch_BeginStoryboard"/>
-			<PauseStoryboard BeginStoryboardName="RotatingRoundNotch_BeginStoryboard"/>
-		</EventTrigger>
-	</Page.Triggers>
+    <Page.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource OnLoaded1}"/>			
+        </EventTrigger>
+        <EventTrigger RoutedEvent="Mouse.MouseEnter" SourceName="startButton">
+            <BeginStoryboard x:Name="RotatingRoundNotch_BeginStoryboard" Storyboard="{StaticResource RotatingRoundNotch}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="Mouse.MouseLeave" SourceName="startButton">
+            <PauseStoryboard BeginStoryboardName="RotatingRoundNotch_BeginStoryboard"/>
+        </EventTrigger>
+    </Page.Triggers>
     <Grid>
-        <Image Source="{DynamicResource Login.Background}" Stretch="UniformToFill" HorizontalAlignment="Center"/>
-		<Grid x:Name="grid" Height="200" VerticalAlignment="Top" Width="410" Margin="0,50,0,0" Visibility="Hidden">
-			<Grid.OpacityMask>
-				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-					<GradientStop Color="Black" Offset="1"/>
-					<GradientStop/>
-					<GradientStop Color="Transparent" Offset="0.966"/>
-					<GradientStop Color="#FF5A5A5A" Offset="0.647"/>
-				</LinearGradientBrush>
-			</Grid.OpacityMask>
-        	<Sanguosha_UI_Animations:FiredImage x:Name="firedImage" Source="/Resources;component/Images/System/logoFrame.png"  Visibility="Hidden"/>
-		</Grid>
-        <Image x:Name="image2" Height="22" Margin="0,231,0,0" Source="/Resources;component/Images/System/logoUnderLine.png" Stretch="Fill" VerticalAlignment="Top" HorizontalAlignment="Center" Width="410" RenderTransformOrigin="0.5,0.5" Opacity="0">
-        	<Image.RenderTransform>
-        		<TransformGroup>
-        			<ScaleTransform/>
-        			<SkewTransform/>
-        			<RotateTransform/>
-        			<TranslateTransform X="-300"/>
-        		</TransformGroup>
-        	</Image.RenderTransform>
-        </Image>
-        <Image x:Name="image3" Height="22" Margin="0,231,0,0" Source="/Resources;component/Images/System/logoUnderLine.png" Stretch="Fill" VerticalAlignment="Top" HorizontalAlignment="Center" Width="410" RenderTransformOrigin="0.5,0.5" Opacity="0">
-        	<Image.RenderTransform>
-        		<TransformGroup>
-        			<ScaleTransform/>
-        			<SkewTransform/>
-        			<RotateTransform/>
-        			<TranslateTransform X="300"/>
-        		</TransformGroup>
-        	</Image.RenderTransform>
-        </Image>
-        <Image x:Name="image" Height="165" Source="/Resources;component/Images/System/logo.png" Stretch="Fill" VerticalAlignment="Top" Margin="0,86,0,0" HorizontalAlignment="Stretch" Width="410" Visibility="Hidden" RenderTransformOrigin="0.5,0.5">
-        	<Image.RenderTransform>
-        		<TransformGroup>
-        			<ScaleTransform/>
-        			<SkewTransform/>
-        			<RotateTransform/>
-        			<TranslateTransform/>
-        		</TransformGroup>
-        	</Image.RenderTransform>        	
-        	<Image.Effect>
-        		<Sanguosha_UI_Effects:ZoomBlurEffect/>
-        	</Image.Effect>
-        </Image>
-        <Grid Width="480" Height="300" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,250,0,0">
-        	<TabControl x:Name="loginTab" TabStripPlacement="Left" Style="{DynamicResource LoginTabControlStyle}" Background="#FF4A3B2D" BorderThickness="1">
-        		<TabItem Style="{DynamicResource LoginTabItemStyle}">
-        			<TabItem.Header>
-        				<TextBlock Foreground="#FFDFCF93" Margin="5,10" Text="启动客户端" Width="20" TextWrapping="Wrap" FontSize="18" LineStackingStrategy="BlockLineHeight" LineHeight="14" FontFamily="LiSu"/> 
-        			</TabItem.Header>
-        			<Grid>
-        				<TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" Text="服务器地址：" FontFamily="SimHei" FontSize="17.333" />
-        				<TextBox x:Name="tab0HostName" Margin="151,39.846,73,0" Text="127.0.0.1" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
-        				<TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" Text="用户名：" FontFamily="SimHei" FontSize="17.333" />
-        				<TextBox Margin="151,83.846,73,0" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
-        				<TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Margin="42,135,0,133" TextWrapping="Wrap" Width="111" Text="密码：" FontFamily="SimHei" FontSize="17.333"/>
-        				<TextBox Margin="151,129.846,73,0" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
-        			</Grid>
-        		</TabItem>
-        		<TabItem Style="{DynamicResource LoginTabItemStyle}">
-        			<TabItem.Header>
-        				<TextBlock Foreground="#FFDFCF93" Margin="5,10" Text="启动服务器" Width="20" TextWrapping="Wrap" FontSize="18" LineStackingStrategy="BlockLineHeight" LineHeight="14" FontFamily="LiSu"/> 
-        			</TabItem.Header>
-        			<Grid>
-        				<TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="暂时没有选项，请直接点开始" FontFamily="SimHei" FontSize="17.333" />
-        			</Grid>
-        		</TabItem>
-        		<TabItem Style="{DynamicResource LoginTabItemStyle}">
-        			<TabItem.Header>
-        				<TextBlock Foreground="#FFDFCF93" Margin="5,10" Text="单机游戏" Width="20" TextWrapping="Wrap" FontSize="18" LineStackingStrategy="BlockLineHeight" LineHeight="14" FontFamily="LiSu"/> 
-        			</TabItem.Header>
-        			<Grid>
-        				<TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="暂时没有选项，请直接点开始" FontFamily="SimHei" FontSize="17.333" />
-        			</Grid>
-        		</TabItem>
-        	</TabControl>
-        	<Image x:Name="image1" Source="/Resources;component/Images/System/roundNotch.png" Stretch="None" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,-78,-77" RenderTransformOrigin="0.5,0.5" >
-        		<Image.RenderTransform>
-        			<TransformGroup>
-        				<ScaleTransform/>
-        				<SkewTransform/>
-        				<RotateTransform/>
-        				<TranslateTransform/>
-        			</TransformGroup>
-        		</Image.RenderTransform>
-        	</Image>
-        	<Button x:Name="startButton" Content="Button" HorizontalAlignment="Right" Height="100" Margin="0,0,-43,-39" Style="{DynamicResource StartButtonStyle}" VerticalAlignment="Bottom" Width="88" IsEnabled="False" Click="startButton_Click" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.4*" MinHeight="200" MaxHeight="300" />
+            <RowDefinition Height="0.6*"/>  	
+        </Grid.RowDefinitions>
+        <Image Grid.RowSpan="2" Source="{DynamicResource Login.Background}" Stretch="UniformToFill" HorizontalAlignment="Center"/>
+        <ctrl:NonClipGrid Height="203" VerticalAlignment="Bottom">
+            <Grid x:Name="grid" Width="410" Margin="0,0,0,3" Visibility="Hidden">
+                <Grid.OpacityMask>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black" Offset="1"/>
+                        <GradientStop/>
+                        <GradientStop Color="Transparent" Offset="0.966"/>
+                        <GradientStop Color="#FF5A5A5A" Offset="0.647"/>
+                    </LinearGradientBrush>
+                </Grid.OpacityMask>
+                <Sanguosha_UI_Animations:FiredImage x:Name="firedImage" Source="/Resources;component/Images/System/logoFrame.png"  Visibility="Hidden"/>
+            </Grid>
+            <Image x:Name="image2" Height="22" Source="/Resources;component/Images/System/logoUnderLine.png" Stretch="Fill" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="410" RenderTransformOrigin="0.5,0.5" Opacity="0">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="-300"/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+            <Image x:Name="image3" Height="22" Source="/Resources;component/Images/System/logoUnderLine.png" Stretch="Fill" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="410" RenderTransformOrigin="0.5,0.5" Opacity="0">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform X="300"/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+            <Image x:Name="image" Source="/Resources;component/Images/System/logo.png" Stretch="Fill" Margin="0,36,0,2" Width="410" Visibility="Hidden" RenderTransformOrigin="0.5,0.5">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>        	
+                <Image.Effect>
+                    <Sanguosha_UI_Effects:ZoomBlurEffect/>
+                </Image.Effect>
+            </Image>
+        </ctrl:NonClipGrid>
+        <Grid Grid.Row="1" Width="520" Height="300" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-50,0,0,0">
+            <TabControl x:Name="loginTab" TabStripPlacement="Left" Style="{DynamicResource LoginTabControlStyle}" Background="#FF4A3B2D" BorderThickness="1">
+                <TabItem Style="{DynamicResource LoginTabItemStyle}">
+                    <TabItem.Header>
+                        <TextBlock Foreground="#FFDFCF93" Margin="5,10" Text="启动客户端" Width="20" TextWrapping="Wrap" FontSize="18" LineStackingStrategy="BlockLineHeight" LineHeight="14" FontFamily="LiSu"/> 
+                    </TabItem.Header>
+                    <Grid>
+                        <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" Text="服务器地址：" FontFamily="SimHei" FontSize="17.333" />
+                        <TextBox x:Name="tab0HostName" Margin="151,39.846,73,0" Text="127.0.0.1" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
+                        <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" Text="用户名：" FontFamily="SimHei" FontSize="17.333" />
+                        <TextBox Margin="151,83.846,73,0" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
+                        <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Margin="42,135,0,133" TextWrapping="Wrap" Width="111" Text="密码：" FontFamily="SimHei" FontSize="17.333"/>
+                        <TextBox Margin="151,129.846,73,0" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Style="{DynamicResource LoginTabItemStyle}">
+                    <TabItem.Header>
+                        <TextBlock Foreground="#FFDFCF93" Margin="5,10" Text="启动服务器" Width="20" TextWrapping="Wrap" FontSize="18" LineStackingStrategy="BlockLineHeight" LineHeight="14" FontFamily="LiSu"/> 
+                    </TabItem.Header>
+                    <Grid>
+                        <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="暂时没有选项，请直接点开始" FontFamily="SimHei" FontSize="17.333" />
+                    </Grid>
+                </TabItem>
+                <TabItem Style="{DynamicResource LoginTabItemStyle}">
+                    <TabItem.Header>
+                        <TextBlock Foreground="#FFDFCF93" Margin="5,10" Text="单机游戏" Width="20" TextWrapping="Wrap" FontSize="18" LineStackingStrategy="BlockLineHeight" LineHeight="14" FontFamily="LiSu"/> 
+                    </TabItem.Header>
+                    <Grid>
+                        <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="暂时没有选项，请直接点开始" FontFamily="SimHei" FontSize="17.333" />
+                    </Grid>
+                </TabItem>
+            </TabControl>
+            <Image x:Name="image1" Source="/Resources;component/Images/System/roundNotch.png" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,-90,0" RenderTransformOrigin="0.5,0.5" >
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform x:Name="notchRotation"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+            <Button x:Name="startButton" Content="Button" HorizontalAlignment="Right" Height="100" Margin="0,-18,-55,0" Style="{DynamicResource StartButtonStyle}" VerticalAlignment="Center" Width="88" IsEnabled="False" Click="startButton_Click" />
         </Grid>
     </Grid>
 </Page>
