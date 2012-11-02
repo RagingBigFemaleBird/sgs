@@ -12,10 +12,51 @@ namespace Sanguosha.Core.UI
 {
     public struct UiHelper
     {
-        public bool isPlayerRepeatable;
-        public bool isActionStage;
-        public bool hasNoConfirmation;
-        public bool isGuHuo;
+        private bool isPlayerRepeatable;
+        /// <summary>
+        /// Whether a player can be targeted more than once (e.g. 业炎).
+        /// </summary>
+        public bool IsPlayerRepeatable
+        {
+            get { return isPlayerRepeatable; }
+            set { isPlayerRepeatable = value; }
+        }
+        
+        private bool isActionStage;
+        /// <summary>
+        /// Whether it is related to the action stage.
+        /// </summary>
+        /// <remarks>
+        /// 出牌阶段和求闪/桃阶段，取消和结束按钮的作用不同，故设置此参数。
+        /// </remarks>
+        public bool IsActionStage
+        {
+            get { return isActionStage; }
+            set { isActionStage = value; }
+        }
+
+        private bool hasNoConfirmation;
+        /// <summary>
+        /// Whether "Confirm" button needs to be clicked to invoke the skill (e.g. 苦肉，乱舞).
+        /// </summary>        
+        public bool HasNoConfirmation
+        {
+            get { return hasNoConfirmation; }
+            set { hasNoConfirmation = value; }
+        }
+
+        private bool isGuHuo;
+        /// <summary>
+        /// Whether the skill is GuHuo.
+        /// </summary>
+        /// <remarks>
+        /// 蛊惑，奇策需要特殊UI，故设置此参数。
+        /// </remarks>
+        public bool IsGuHuo
+        {
+            get { return isGuHuo; }
+            set { isGuHuo = value; }
+        }
     }
 
     public interface ICardUsageVerifier

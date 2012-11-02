@@ -28,7 +28,7 @@ namespace Sanguosha.Core.Cards
             Type = null;
             RevealOnce = false;
             attributes = null;
-            AddtionalGenericType = null;
+            GuHuoType = null;
         }
 
         public Card(SuitType t, int r, CardHandler c)
@@ -37,7 +37,7 @@ namespace Sanguosha.Core.Cards
             Rank = r;
             Type = c;
             attributes = null;
-            AddtionalGenericType = null;
+            GuHuoType = null;
         }
 
         public void CopyFrom(Card c)
@@ -49,7 +49,7 @@ namespace Sanguosha.Core.Cards
             Place = c.Place;
             Id = c.Id;
             Attributes = c.Attributes;
-            AddtionalGenericType = c.AddtionalGenericType;
+            GuHuoType = c.GuHuoType;
         }
 
         public Card(Card c)
@@ -117,7 +117,11 @@ namespace Sanguosha.Core.Cards
         public int Rank {get; set;}
 
         public CardHandler Type { get; set; }
-        public CardHandler AddtionalGenericType { get; set; }
+
+        /// <summary>
+        /// Used by UI to tell game core the GuHuo's target card type.
+        /// </summary>
+        public CardHandler GuHuoType { get; set; }
 
         Dictionary<string, int> attributes;
 
