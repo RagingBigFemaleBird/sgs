@@ -65,7 +65,17 @@ namespace Sanguosha.Core.Games
                             var exp = Activator.CreateInstance(type) as Expansion;
                             if (exp != null)
                             {
-                                LoadExpansion(type.FullName, exp);                                
+                                if (expansions.ContainsKey(type.FullName))
+                                {
+                                    if (!expansions.ContainsValue(exp))
+                                    {
+                                        Trace.TraceWarning("Cannot load two different expansions with same name: {0}.", type.FullName);
+                                    }
+                                }
+                                else
+                                {
+                                    LoadExpansion(type.FullName, exp);
+                                }
                             }
                         }
                     }

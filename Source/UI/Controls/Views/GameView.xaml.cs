@@ -409,8 +409,68 @@ namespace Sanguosha.UI.Controls
 
         #endregion
 
-        #region INotificationProxy
+        #region Game Event Notification
+        private static Duration _lineUpDuration = new Duration(TimeSpan.FromSeconds(1d));
+
+        private void _LineUp(Player source, IList<Player> targets)
+        {
+            Storyboard lineUpGroup = new Storyboard();
+            List<Line> lines = new List<Line>();
+            var src = playersMap[source];
+            Point srcPoint = src.TranslatePoint(new Point(src.ActualWidth / 2, src.ActualHeight / 2), GlobalCanvas);
+            foreach (var target in targets)
+            {
+                var dest = playersMap[target];
+                Point dstPoint = dest.TranslatePoint(new Point(dest.ActualWidth / 2, dest.ActualHeight / 2), GlobalCanvas);
+                double distance = Math.Sqrt((srcPoint.X - dstPoint.X) * (srcPoint.X - dstPoint.X) + (srcPoint.Y - dstPoint.Y) * (srcPoint.Y - dstPoint.Y)); 
+                
+                Line line = new Line();
+                line.Stroke = Resources["indicatorLineBrush"] as Brush;
+                line.X1 = srcPoint.X;
+                line.X2 = dstPoint.X;
+                line.Y1 = srcPoint.X;
+                line.Y2 = dstPoint.Y;
+                line.StrokeThickness = 1;                
+                lines.Add(line);
+
+                Line line2 = new Line();
+                line2.Stroke = Resources["indicatorLineGlowBrush"] as Brush;
+                line2.X1 = srcPoint.X;
+                line2.X2 = dstPoint.X;
+                line2.Y1 = srcPoint.X;
+                line2.Y2 = dstPoint.Y;
+                line2.StrokeThickness = 3;
+                lines.Add(line2);
+            }
+
+            foreach (var line in lines)
+            {
+                double distance = Math.Sqrt((line.X2 - line.X1) * (line.X2 - line.X1) + (line.Y2 - line.Y1) * (line.Y2 - line.Y1));
+                line.StrokeDashArray = new DoubleCollection() { distance, 10000d };
+                line.StrokeDashOffset = distance;
+                line.StrokeDashCap = PenLineCap.Triangle;
+
+                DoubleAnimation animation = new DoubleAnimation(distance, -distance, _lineUpDuration);
+                Storyboard.SetTarget(animation, line);
+                Storyboard.SetTargetProperty(animation, new PropertyPath(Line.StrokeDashOffsetProperty));
+                lineUpGroup.Children.Add(animation);
+                GlobalCanvas.Children.Add(line);
+                animation.Completed += (o, e) =>
+                {
+                    var da = (o as AnimationClock).Timeline;
+                    Line l = Storyboard.GetTarget(da) as Line;
+                    GlobalCanvas.Children.Remove(l);
+                };
+            }
+
+            lineUpGroup.Begin();
+        }
+
         
+        #endregion
+
+        #region INotificationProxy
+
         public void NotifyCardMovement(List<CardsMovement> moves, List<IGameLog> notes)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
@@ -483,6 +543,11 @@ namespace Sanguosha.UI.Controls
                         }
                         player.PlayAnimation(sha, 0, new Point(0, 0));
                     }
+                }
+
+                if (log.Targets.Count > 0)
+                {
+                    _LineUp(log.Source, log.Targets);
                 }
             });
         }

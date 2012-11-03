@@ -47,21 +47,21 @@ namespace Sanguosha.UI.Main
             catch (DirectoryNotFoundException)
             {
             }
-            AsyncLoadCompleted = true;
+            PreloadCompleted = true;
+            _UpdateStartButton();
         }
 
         public static string ExpansionFolder = "./";
         public static string ResourcesFolder = "Resources";
 
-        private bool _asyncLoadCompleted;
+        private static bool _preloadCompleted = false;
 
-        internal bool AsyncLoadCompleted
+        internal static bool PreloadCompleted
         {
-            get { return _asyncLoadCompleted; }
+            get { return _preloadCompleted; }
             set 
             {
-                _asyncLoadCompleted = value;
-                _UpdateStartButton();
+                _preloadCompleted = value;
             }
         }
 
@@ -81,13 +81,13 @@ namespace Sanguosha.UI.Main
         {
             if (Application.Current.Dispatcher.CheckAccess())
             {
-                startButton.IsEnabled = _startButtonEnabled && _asyncLoadCompleted;
+                startButton.IsEnabled = _startButtonEnabled && _preloadCompleted;
             }
             else
             {
                 Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
                 {
-                    startButton.IsEnabled = _startButtonEnabled && _asyncLoadCompleted;
+                    startButton.IsEnabled = _startButtonEnabled && _preloadCompleted;
                 });
             }
         }
@@ -96,17 +96,24 @@ namespace Sanguosha.UI.Main
 
         private void _Load()
         {
-            _asyncLoadCompleted = false;
-            _startButtonEnabled = true; // @todo: change this.
             _LoadResources(ResourcesFolder);
+            
             GameEngine.LoadExpansions(ExpansionFolder);
 
         }
 
         public Login()
         {
-            loadingThread = new Thread(_Load) { IsBackground = true };
-            loadingThread.Start();
+            _startButtonEnabled = true; // @todo: change this.
+            if (!PreloadCompleted)
+            {
+                loadingThread = new Thread(_Load) { IsBackground = true };
+                loadingThread.Start();
+            }
+            else
+            {                
+                _UpdateStartButton();
+            }
             InitializeComponent();
         }
 
