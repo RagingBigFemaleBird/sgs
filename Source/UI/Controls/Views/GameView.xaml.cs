@@ -410,7 +410,7 @@ namespace Sanguosha.UI.Controls
         #endregion
 
         #region Game Event Notification
-        private static Duration _lineUpDuration = new Duration(TimeSpan.FromSeconds(1d));
+        private static Duration _lineUpDuration = new Duration(TimeSpan.FromSeconds(1.5d));
 
         private void _LineUp(Player source, IList<Player> targets)
         {
@@ -446,11 +446,11 @@ namespace Sanguosha.UI.Controls
             foreach (var line in lines)
             {
                 double distance = Math.Sqrt((line.X2 - line.X1) * (line.X2 - line.X1) + (line.Y2 - line.Y1) * (line.Y2 - line.Y1));
-                line.StrokeDashArray = new DoubleCollection() { distance, 10000d };
+                line.StrokeDashArray = new DoubleCollection() { distance * 1.2, 10000d };
                 line.StrokeDashOffset = distance;
                 line.StrokeDashCap = PenLineCap.Triangle;
 
-                DoubleAnimation animation = new DoubleAnimation(distance, -distance, _lineUpDuration);
+                DoubleAnimation animation = new DoubleAnimation(distance * 1.2, -distance, _lineUpDuration);
                 Storyboard.SetTarget(animation, line);
                 Storyboard.SetTargetProperty(animation, new PropertyPath(Line.StrokeDashOffsetProperty));
                 lineUpGroup.Children.Add(animation);

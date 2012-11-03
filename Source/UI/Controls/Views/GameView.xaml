@@ -29,9 +29,9 @@
             <LinearGradientBrush x:Key="indicatorLineGlowBrush" EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="#00F1EC8A" Offset="0"/>
                 <GradientStop Color="#00F1EC8A" Offset="1"/>
-                <GradientStop Color="#4FE9AF49" Offset="0.5"/>
-                <GradientStop Color="#4FF1EC8A" Offset="0.082"/>
-                <GradientStop Color="#4FF1EC8A" Offset="0.94"/>
+                <GradientStop Color="#7FE9AF49" Offset="0.5"/>
+                <GradientStop Color="#7FF1EC8A" Offset="0.082"/>
+                <GradientStop Color="#7FF1EC8A" Offset="0.94"/>
             </LinearGradientBrush>
         </ResourceDictionary>
     </UserControl.Resources>
