@@ -428,7 +428,7 @@ namespace Sanguosha.UI.Controls
                 line.Stroke = Resources["indicatorLineBrush"] as Brush;
                 line.X1 = srcPoint.X;
                 line.X2 = dstPoint.X;
-                line.Y1 = srcPoint.X;
+                line.Y1 = srcPoint.Y;
                 line.Y2 = dstPoint.Y;
                 line.StrokeThickness = 1;                
                 lines.Add(line);
@@ -437,7 +437,7 @@ namespace Sanguosha.UI.Controls
                 line2.Stroke = Resources["indicatorLineGlowBrush"] as Brush;
                 line2.X1 = srcPoint.X;
                 line2.X2 = dstPoint.X;
-                line2.Y1 = srcPoint.X;
+                line2.Y1 = srcPoint.Y;
                 line2.Y2 = dstPoint.Y;
                 line2.StrokeThickness = 3;
                 lines.Add(line2);
