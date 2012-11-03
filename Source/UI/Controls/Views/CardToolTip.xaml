@@ -24,9 +24,7 @@
                     <LineBreak />
                     <Run Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Description}"/>
                     <LineBreak />
-                    <Run Text="操作步骤" Foreground="Yellow" />
-                    <LineBreak />
-                    <Run Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Usage}" />
+                    <ContentPresenter Content="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Usage}" />
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
@@ -56,9 +54,7 @@
                     <LineBreak />
                     <Run Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Description}"/>
                     <LineBreak />
-                    <Run Text="操作步骤" Foreground="Yellow" />
-                    <LineBreak />
-                    <Run Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Usage}" />
+                    <ContentPresenter Content="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Usage}" />
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
@@ -84,9 +80,7 @@
                     <Run Text="防具效果:" />
                     <Run Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Description}"/>
                     <LineBreak />
-                    <Run Text="操作步骤" Foreground="Yellow" />
-                    <LineBreak />
-                    <Run Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Usage}" />
+                    <ContentPresenter Content="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Usage}" />
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>

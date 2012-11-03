@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <sys:String x:Key="Hero.LiuBei.Name">刘备</sys:String>
@@ -27,7 +27,6 @@
     
     <sys:String x:Key="Skill.PaoXiao.Name">咆哮</sys:String>
     <sys:String x:Key="Skill.PaoXiao.Description">锁定技，你在出牌阶段内使用【杀】时无次数限制。</sys:String>
-    <sys:String x:Key="Skill.PaoXiao.Usage">无</sys:String>
     
     <sys:String x:Key="Skill.LongDan.Name">龙胆</sys:String>
     <sys:String x:Key="Skill.LongDan.Description">你可以将一张【杀】当【闪】，一张【闪】当【杀】使用或打出。</sys:String>
@@ -59,7 +58,6 @@
 
     <sys:String x:Key="Skill.KongCheng.Name">空城</sys:String>
     <sys:String x:Key="Skill.KongCheng.Description">锁定技，若你没有手牌，你不能被选择为【杀】或【决斗】的目标。</sys:String>
-    <sys:String x:Key="Skill.KongCheng.Usage">无</sys:String>
 
     <sys:String x:Key="Skill.ZhiHeng.Name">制衡</sys:String>
     <sys:String x:Key="Skill.ZhiHeng.Description">出牌阶段，你可以弃置任意数量的牌，然后摸等量的牌。每阶段限一次。</sys:String>
@@ -71,7 +69,6 @@
 
     <sys:String x:Key="Skill.QianXun.Name">谦逊</sys:String>
     <sys:String x:Key="Skill.QianXun.Description">锁定技，你不能被选择为【顺手牵羊】和【乐不思蜀】的目标。</sys:String>
-    <sys:String x:Key="Skill.QianXun.Usage">无</sys:String>
 
     <sys:String x:Key="Skill.JiZhi.Name">集智</sys:String>
     <sys:String x:Key="Skill.JiZhi.Description">当你使用非延时类锦囊牌选择目标后，你可以摸一张牌。</sys:String>

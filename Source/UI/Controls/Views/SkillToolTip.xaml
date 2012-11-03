@@ -14,10 +14,8 @@
                          Foreground="Orange" />
                     <LineBreak />
                     <Run Text="{Binding Path=SkillName, Mode=OneWay, Converter={StaticResource skillToolTipConverter}, ConverterParameter=Description}"/> 
-                    <LineBreak />                    
-                    <Run Text="操作步骤" Foreground="Yellow" />
                     <LineBreak />
-                    <Run Text="{Binding Path=SkillName, Mode=OneWay, Converter={StaticResource skillToolTipConverter}, ConverterParameter=Usage}" />
+                    <ContentPresenter Content="{Binding Path=SkillName, Mode=OneWay, Converter={StaticResource skillToolTipConverter}, ConverterParameter=Usage}" />
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
@@ -32,9 +30,8 @@
                     <LineBreak />
                     <Run Text="{Binding Path=DataContext, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource skillToolTipConverter}, ConverterParameter=Description}"/>
                     <LineBreak />
-                    <Run Text="操作步骤" Foreground="Yellow" />
+                    <ContentControl Content="{Binding Path=DataContext, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource skillToolTipConverter}, ConverterParameter=Usage}" />
                     <LineBreak />
-                    <Run Text="{Binding Path=DataContext, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource skillToolTipConverter}, ConverterParameter=Usage}" />
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>

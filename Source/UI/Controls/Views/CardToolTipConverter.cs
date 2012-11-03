@@ -23,7 +23,7 @@ namespace Sanguosha.UI.Controls
         {
             string convertType = parameter as string;
             if (convertType == null || value == null) return null;
-            if (convertType == "Name" || convertType == "Description" || convertType == "Usage")
+            if (convertType == "Name" || convertType == "Description")
             {
                 try
                 {
@@ -32,6 +32,22 @@ namespace Sanguosha.UI.Controls
                 catch (Exception)
                 {
                     Trace.TraceWarning("Cannot find card {0}'s {1}", value.ToString(), convertType.ToLower());
+                }
+            }
+            else if (convertType == "Usage")
+            {
+                string usage = Application.Current.TryFindResource(string.Format("Card.{0}.Usage", value.ToString())) as string;
+                if (usage == null) return string.Empty;
+                else
+                {
+                    TextBlock block = new TextBlock();
+                    Run run1 = new Run(Application.Current.Resources["Translation.Usage"] as string);
+                    run1.Foreground = new SolidColorBrush(Colors.Yellow);
+                    Run run2 = new Run(usage);
+                    block.Inlines.Add(run1);
+                    block.Inlines.Add(new LineBreak());
+                    block.Inlines.Add(run2);
+                    return block;
                 }
             }
             else if (convertType == "Suit")
