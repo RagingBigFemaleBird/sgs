@@ -583,7 +583,7 @@ namespace Sanguosha.Core.Games
                 Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, rulerId);
                 Game.CurrentGame.Players[rulerId].Hero = h.Hero;
                 Game.CurrentGame.Players[rulerId].Allegiance = h.Hero.Allegiance;
-                Game.CurrentGame.Players[rulerId].MaxHealth = Game.CurrentGame.Players[rulerId].Health = h.Hero.MaxHealth;
+                Game.CurrentGame.Players[rulerId].MaxHealth = Game.CurrentGame.Players[rulerId].Health = ((game.Players.Count > 4) ? h.Hero.MaxHealth + 1 : h.Hero.MaxHealth);
                 Game.CurrentGame.Players[rulerId].IsMale = h.Hero.IsMale ? true : false;
                 Game.CurrentGame.Players[rulerId].IsFemale = h.Hero.IsMale ? false : true;
 
@@ -662,7 +662,7 @@ namespace Sanguosha.Core.Games
                     game.Decks[DeckType.Heroes].Remove(card);
                 }
 
-                //Shuffle(game.Decks[null, DeckType.Dealing]);
+                Shuffle(game.Decks[null, DeckType.Dealing]);
 
                 StartGameDeal(game);
                 game.CurrentPlayer = game.Players[rulerId];
