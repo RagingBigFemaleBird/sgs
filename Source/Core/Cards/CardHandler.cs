@@ -155,6 +155,7 @@ namespace Sanguosha.Core.Cards
 
         public virtual void Process(Player source, List<Player> dests, ICard card)
         {
+            TagAndNotify(source, dests, card);
             foreach (var player in dests)
             {
                 Player p = player;
