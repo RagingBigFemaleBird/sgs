@@ -72,6 +72,17 @@ namespace Sanguosha.UI.Animations
             }
         }
 
+        private int fadeFactor;
+        public int FadeFactor
+        {
+            get { return fadeFactor; }
+            set 
+            {
+                if (fadeFactor < 0 || fadeFactor > 255) return;
+                fadeFactor = value; 
+            }
+        }
+
         public void UpdateFire()
         {
             GenerateBaseline();
@@ -120,8 +131,8 @@ namespace Sanguosha.UI.Animations
                     }
 
                     // auto reduce it so you get lest of the forced fade and more vibrant fire waves
-                    if (avg > 3)
-                        avg -= 3;
+                    if (avg > FadeFactor)
+                        avg -= FadeFactor;
 
                     if (avg < 0 || avg > 255)
                         throw new Exception("Average color calc is out of range 0-255");

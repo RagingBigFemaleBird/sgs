@@ -357,6 +357,9 @@
   <ItemGroup>
     <Resource Include="Images\System\roundLid.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\System\roundFrame.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /S /Y $(ProjectDir)*.* $(TargetDir)Resources\

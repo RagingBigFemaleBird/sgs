@@ -128,7 +128,12 @@
                     <TabItem Header="牌局" x:Name="tabLogBox" Style="{DynamicResource TabItemStyle}">                    	
                         <Grid >
                         	<RichTextBox Background="Transparent" Margin="-8,21,-2,0" Style="{DynamicResource RichTextBoxStyle}" Foreground="#FFF6DE9C" FontFamily="SimSun" FontSize="13.333" BorderBrush="Transparent" VerticalScrollBarVisibility="Auto" IsReadOnly="True" IsReadOnlyCaretVisible="True">
-                        		<FlowDocument>
+                                    <RichTextBox.Resources>
+                                        <Style TargetType="{x:Type Paragraph}">
+                                            <Setter Property="Margin" Value="0,5"/>
+                                        </Style>
+                                    </RichTextBox.Resources>
+                                <FlowDocument>
                         			<Paragraph><Run Language="zh-cn" Text="这是第一行"/></Paragraph>
                         			<Paragraph><Run Language="zh-cn" Text="黄月英从牌堆里摸了4张卡牌"/></Paragraph>
                         			<Paragraph><Run Language="zh-cn" Text="黄月英从牌堆里摸了4张卡牌"/></Paragraph>
