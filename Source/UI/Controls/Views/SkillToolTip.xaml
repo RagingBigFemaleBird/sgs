@@ -13,8 +13,8 @@
                     <Run Text="{Binding Path=SkillName, Mode=OneWay, Converter={StaticResource skillToolTipConverter}, ConverterParameter=Name}"
                          Foreground="Orange" />
                     <LineBreak />
-                    <Run Text="{Binding Path=SkillName, Mode=OneWay, Converter={StaticResource skillToolTipConverter}, ConverterParameter=Description}"/> 
-                    <LineBreak />
+                    <Run Text="{Binding Path=SkillName, Mode=OneWay, Converter={StaticResource skillToolTipConverter}, ConverterParameter=Description}"/>
+                    <LineBreak/>
                     <ContentPresenter Content="{Binding Path=SkillName, Mode=OneWay, Converter={StaticResource skillToolTipConverter}, ConverterParameter=Usage}" />
                 </Paragraph>
             </FlowDocument>
@@ -22,16 +22,15 @@
     </DataTemplate>
 
     <DataTemplate x:Key="SkillToolTipTemplate2">
-        <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0" Width="330">
+        <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0" Width="330" Margin="0,0,0,5">
             <FlowDocument>
                 <Paragraph LineHeight="18">
                     <Run Text="{Binding Path=DataContext, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource skillToolTipConverter}, ConverterParameter=Name}"
                          Foreground="#FF00FF00" />
                     <LineBreak />
                     <Run Text="{Binding Path=DataContext, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource skillToolTipConverter}, ConverterParameter=Description}"/>
-                    <LineBreak />
-                    <ContentControl Content="{Binding Path=DataContext, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource skillToolTipConverter}, ConverterParameter=Usage}" />
-                    <LineBreak />
+                    <LineBreak/>
+                    <ContentControl MinHeight="0" Content="{Binding Path=DataContext, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource skillToolTipConverter}, ConverterParameter=Usage}" />
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
