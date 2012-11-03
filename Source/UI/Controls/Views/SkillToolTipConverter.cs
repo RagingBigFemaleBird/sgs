@@ -35,6 +35,7 @@ namespace Sanguosha.UI.Controls
                 else
                 {
                     TextBlock block = new TextBlock();
+                    block.TextWrapping = TextWrapping.Wrap;
                     Run run1 = new Run(Application.Current.Resources["Translation.Usage"] as string);
                     run1.Foreground = new SolidColorBrush(Colors.Yellow);
                     Run run2 = new Run(usage);

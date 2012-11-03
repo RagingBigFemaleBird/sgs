@@ -31,8 +31,6 @@ namespace Sanguosha.Expansions.Basic.Cards
         protected override void Process(Player source, Player dest, ICard card)
         {
             List<Player> sourceList = new List<Player>() { source };
-            
-        retrySha:
             GameEventArgs args = new GameEventArgs()
             {
                 Source = source,
@@ -122,7 +120,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     if (e.Status == TriggerResult.Retry)
                     {
-                        goto retrySha;
+                        Process(source, dest, card);
                     }
                     Trace.Assert(false);
                 }
