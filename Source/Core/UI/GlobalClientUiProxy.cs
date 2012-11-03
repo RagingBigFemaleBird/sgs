@@ -62,7 +62,8 @@ namespace Sanguosha.Core.UI
             t.Start();
             if (!proxy.TryAnswerForCardUsage(prompt, verifier, out skill, out cards, out players))
             {
-                cards = null;
+                cards = new List<Card>();
+                players = new List<Player>();
                 skill = null;
             }
             t.Abort();

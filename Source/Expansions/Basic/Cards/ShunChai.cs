@@ -59,7 +59,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
         }
 
-        protected abstract bool ShunChaiAdditionalCheck(Player source, Player dest);
+        protected abstract bool ShunChaiAdditionalCheck(Player source, Player dest, ICard card);
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
         {
@@ -76,7 +76,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 return VerifierResult.Fail;
             }
-            if (!ShunChaiAdditionalCheck(source, player))
+            if (!ShunChaiAdditionalCheck(source, player, card))
             {
                 return VerifierResult.Fail;
             }

@@ -57,5 +57,12 @@ namespace Sanguosha.Expansions.Basic.Skills
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerCanBeTargeted, theTrigger);
             }
         }
+        public override bool isEnforced
+        {
+            get
+            {
+                return true;
+            }
+        }
     }
 }

@@ -16,11 +16,11 @@ using Sanguosha.Core.Exceptions;
 namespace Sanguosha.Expansions.Basic.Skills
 {
     /// <summary>
-    /// 谦逊-锁定技，你不能取得游戏的胜利。
+    /// 奇才-锁定技，你使用任何锦囊牌无距离限制。
     /// </summary>
-    public class QianXun : PassiveSkill
+    public class QiCai : PassiveSkill
     {
-        class QianXunTrigger : Trigger
+        class QiCaiTrigger : Trigger
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
@@ -29,31 +29,31 @@ namespace Sanguosha.Expansions.Basic.Skills
                 {
                     return;
                 }
-                if ((eventArgs.Card.Type is ShunShouQianYang) || (eventArgs.Card.Type is LeBuSiShu))
+                if (CardCategoryManager.IsCardCategory(eventArgs.Card.Type.Category, CardCategory.Tool))
                 {
-                    throw new TriggerResultException(TriggerResult.Fail);
+                    eventArgs.IntArg += 16;
                 }
                 return;
             }
-            public QianXunTrigger(Player p)
+            public QiCaiTrigger(Player p)
             {
                 Owner = p;
             }
         }
 
-        Trigger qianXunTrigger;
+        Trigger theTrigger;
 
         protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
         {
-            qianXunTrigger = new QianXunTrigger(owner);
-            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanBeTargeted, qianXunTrigger);
+            theTrigger = new QiCaiTrigger(owner);
+            Game.CurrentGame.RegisterTrigger(GameEvent.CardRangeModifier, theTrigger);
         }
 
         protected override void UninstallTriggers(Player owner)
         {
-            if (qianXunTrigger != null)
+            if (theTrigger != null)
             {
-                Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerCanBeTargeted, qianXunTrigger);
+                Game.CurrentGame.UnregisterTrigger(GameEvent.CardRangeModifier, theTrigger);
             }
         }
         public override bool isEnforced

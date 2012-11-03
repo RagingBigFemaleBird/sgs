@@ -31,7 +31,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             return new DeckPlace(null, DeckType.Discard);
         }
 
-        protected override bool ShunChaiAdditionalCheck(Player source, Player dest)
+        protected override bool ShunChaiAdditionalCheck(Player source, Player dest, ICard card)
         {
             return true;
         }

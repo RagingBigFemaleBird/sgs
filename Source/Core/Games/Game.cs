@@ -232,6 +232,7 @@ namespace Sanguosha.Core.Games
                 Trace.TraceError(e.StackTrace);
             }
 #endif
+            Trace.TraceError("Game exited normally");
         }
 
         /// <summary>
@@ -676,6 +677,7 @@ namespace Sanguosha.Core.Games
                          { GameEvent.PhaseBeginEvents, GameEvent.PhaseProceedEvents,
                            GameEvent.PhaseEndEvents, GameEvent.PhaseOutEvents };
             GameEventArgs args = new GameEventArgs() { Game = this, Source = currentPlayer };
+            Trace.TraceInformation("Main game loop running {0}:{1}", currentPlayer.Id, currentPhase);
             foreach (var gameEvent in events)
             {
                 if (gameEvent.ContainsKey(currentPhase))
@@ -697,8 +699,9 @@ namespace Sanguosha.Core.Games
             CurrentPhase++;
             if ((int)CurrentPhase >= Enum.GetValues(typeof(TurnPhase)).Length)
             {
+                var temp = new Dictionary<PlayerAttribute, int>(CurrentPlayer.Attributes);
                 // todo: fix this. this may be skipped if you are skipping stage
-                foreach (var pair in CurrentPlayer.Attributes)
+                foreach (var pair in temp)
                 {
                     if (pair.Key.AutoReset)
                     {

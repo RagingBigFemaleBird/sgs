@@ -92,6 +92,8 @@ namespace Sanguosha.Core.UI
             {
                 ret = false;
             }
+            if (cards == null) cards = new List<Card>();
+            if (players == null) players = new List<Player>();
             foreach (var pair in proxyListener)
             {
                 pair.Value.Abort();

@@ -63,7 +63,7 @@ namespace Sanguosha.Core.Skills
         public virtual bool isAwakening { get { return false; } }
         public bool isEnforced { get { return false; } }
 
-        protected void NotifyAction(Players.Player source, List<Players.Player> targets, List<Card> cards)
+        protected virtual void NotifyAction(Players.Player source, List<Players.Player> targets, List<Card> cards)
         {
             ActionLog log = new ActionLog();
             log.GameAction = GameAction.None;

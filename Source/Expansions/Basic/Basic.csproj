@@ -80,8 +80,10 @@
     <Compile Include="Skills\LianYing.cs" />
     <Compile Include="Skills\LiJian.cs" />
     <Compile Include="Skills\LongDan.cs" />
+    <Compile Include="Skills\MaShu.cs" />
     <Compile Include="Skills\PaoXiao.cs" />
     <Compile Include="Skills\QianXun.cs" />
+    <Compile Include="Skills\QiCai.cs" />
     <Compile Include="Skills\QingGuo.cs" />
     <Compile Include="Skills\QingNang.cs" />
     <Compile Include="Skills\QiXi.cs" />

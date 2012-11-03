@@ -458,8 +458,8 @@ namespace Sanguosha.UI.Controls
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
+                Trace.Assert(log.Source != null);
                 PlayerViewBase player = playersMap[log.Source];
-
                 if (log.SkillAction != null)
                 {
 

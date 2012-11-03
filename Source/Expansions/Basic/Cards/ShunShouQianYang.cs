@@ -31,9 +31,15 @@ namespace Sanguosha.Expansions.Basic.Cards
             return new DeckPlace(source, DeckType.Hand);
         }
 
-        protected override bool ShunChaiAdditionalCheck(Player source, Player dest)
+        protected override bool ShunChaiAdditionalCheck(Player source, Player dest, ICard card)
         {
             // todo: 黄月英 trigger
+            GameEventArgs args = new GameEventArgs();
+            args.Source = source;
+            args.Targets = new List<Player>() { dest };
+            args.Card = card;
+            args.IntArg = 0;
+            Game.CurrentGame.Emit(GameEvent.CardRangeModifier, args);
             if (Game.CurrentGame.DistanceTo(source, dest) > 1)
             {
                 return false;
