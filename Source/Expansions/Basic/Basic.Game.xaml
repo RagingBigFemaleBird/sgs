@@ -21,4 +21,7 @@
     <sys:String x:Key="CardUsage.Prompt.GuiCai">{0}判定结果是{1}{2}，若要发动鬼才，请选择一张手牌代替之，或点取消不发动</sys:String>
     <sys:String x:Key="CardChoice.Prompt.ShunShou">顺手牵羊</sys:String>
     <sys:String x:Key="CardChoice.Prompt.GuoHe">过河拆桥</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.TianDu">是否发动天妒？</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.LuoShen">是否发动洛神？</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.JianXiong">是否发动奸雄？</sys:String>
 </ResourceDictionary>
