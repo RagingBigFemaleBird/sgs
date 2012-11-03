@@ -19,11 +19,18 @@ namespace Sanguosha.Expansions.Basic.Cards
         protected override void Process(Player source, Player dest, ICard card)
         {
             Player current = dest;
-            List<Player> sourceList = new List<Player>();
-            sourceList.Add(source);
             bool firstTime = true;
             while (true)
             {
+                List<Player> sourceList = new List<Player>();
+                if (current == dest)
+                {
+                    sourceList.Add(source);
+                }
+                else
+                {
+                    sourceList.Add(dest);
+                }
                 IUiProxy ui = Game.CurrentGame.UiProxies[current];
                 SingleCardUsageVerifier v1 = new SingleCardUsageVerifier((c) => { return c.Type is Sha; });
                 ISkill skill;

@@ -7,6 +7,8 @@ using System.Diagnostics;
 using Sanguosha.Core.Cards;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Heroes;
+using Sanguosha.Core.UI;
+using System.Windows;
 
 namespace Sanguosha.UI.Controls
 {
@@ -15,6 +17,7 @@ namespace Sanguosha.UI.Controls
         #region Constructors
         public CardViewModel()
         {
+            isFootnoteVisible = false;
         }
         #endregion
         
@@ -51,6 +54,10 @@ namespace Sanguosha.UI.Controls
                             _uiCard.Type = new UnknownRoleCardHandler();
                         }
                     }
+                    if (_card.Log != null)
+                    {
+                        Footnote = LogFormatter.TranslateCardFootnote(_card.Log);
+                    }
                 }
                 else
                 {
@@ -72,7 +79,25 @@ namespace Sanguosha.UI.Controls
                 OnPropertyChanged("Footnote");
             }
         }
-        
+
+        public void UpdateFootnote()
+        {
+            Footnote = LogFormatter.TranslateCardFootnote(_card.Log);
+        }
+
+        private bool isFootnoteVisible;
+
+        public bool IsFootnoteVisible
+        {
+            get { return isFootnoteVisible; }
+            set
+            {
+                if (isFootnoteVisible == value) return;
+                isFootnoteVisible = value;
+                OnPropertyChanged("IsFootnoteVisible");
+            }
+        }
+
         #endregion
 
         #region Mediated Card Properties

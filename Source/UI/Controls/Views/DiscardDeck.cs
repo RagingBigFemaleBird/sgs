@@ -83,7 +83,13 @@ namespace Sanguosha.UI.Controls
             DeckType from = cards[0].Card.Place.DeckType;
             Canvas canvas = cards[0].Parent as Canvas;
             Trace.Assert(canvas != null);
-                       
+
+            foreach (var card in cards)
+            {
+                card.CardModel.UpdateFootnote();
+                card.CardModel.IsFootnoteVisible = true;
+            }
+
             // Do not show cards that move from compute area to discard area
             // or from judge result area to discard aresa
             if (from != DeckType.Compute && from != DeckType.JudgeResult)

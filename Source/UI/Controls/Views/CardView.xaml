@@ -15,11 +15,13 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Common.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
                 <ResourceDictionary Source="CardToolTip.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <local:SuitColorToColorConverter x:Key="suitColorToColorConverter" />
             <Style x:Key="footNoteStyle" TargetType="{x:Type TextBlock}">
+                <Setter Property="Visibility" Value="{Binding IsFootnoteVisible, Converter={StaticResource boolToVisibilityConverter}}" />
                 <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
                 <Setter Property="TextTrimming" Value="None"/>
                 <Setter Property="VerticalAlignment" Value="Bottom"/>

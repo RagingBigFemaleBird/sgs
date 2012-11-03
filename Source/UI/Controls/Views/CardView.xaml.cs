@@ -204,7 +204,7 @@ namespace Sanguosha.UI.Controls
         {
             CardView card = d as CardView;
             if (card == null) return;
-            card.Rebase(0.3d);
+            card.Rebase(0.2d);
         }
 
         #region Dependency Properties

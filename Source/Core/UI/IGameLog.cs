@@ -62,6 +62,12 @@ namespace Sanguosha.Core.UI
 
     public class ActionLog : IGameLog
     {
+        public ActionLog()
+        {
+            Targets = new List<Player>();
+            SecondaryTargets = new List<Player>();
+            Cards = new List<Card>();
+        }
         public GameAction GameAction { get; set; }
         public ISkill SkillAction { get; set; }
         public ICard CardAction { get; set; }

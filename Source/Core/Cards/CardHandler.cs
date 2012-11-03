@@ -129,6 +129,7 @@ namespace Sanguosha.Core.Cards
                 terminalCard.Log.Targets = dests;
                 terminalCard.Log.SecondaryTargets = secondary;
                 terminalCard.Log.CardAction = card;
+                terminalCard.Log.GameAction = GameAction.Use;
             }
             else if (card is CompositeCard)
             {
@@ -142,13 +143,19 @@ namespace Sanguosha.Core.Cards
                     s.Log.Targets = dests;
                     s.Log.SecondaryTargets = secondary;
                     s.Log.CardAction = card;
+                    s.Log.GameAction = GameAction.Use;
                 }
             }
         }
 
-        public virtual void Process(Player source, List<Player> dests, ICard card)
+        public virtual void TagAndNotify(Player source, List<Player> dests, ICard card)
         {
             NotifyCardUse(source, dests, new List<Player>(), card);
+
+        }
+
+        public virtual void Process(Player source, List<Player> dests, ICard card)
+        {
             foreach (var player in dests)
             {
                 Player p = player;

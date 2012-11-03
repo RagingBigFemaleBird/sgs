@@ -554,6 +554,7 @@ namespace Sanguosha.Core.Games
                     //reset card type if entering hand or discard
                     if (!IsClient && (move.to.DeckType == DeckType.Discard || move.to.DeckType == DeckType.Hand))
                     {
+                        card.Log = new ActionLog();
                         card.Type = GameEngine.CardSet[card.Id].Type;
                     }
                 }
@@ -1041,7 +1042,7 @@ namespace Sanguosha.Core.Games
                 cards.Clear();
                 cards.AddRange(r.Subcards);
             }
-            result.Type.NotifyCardUse(p, targets, new List<Player>(), result);
+            result.Type.TagAndNotify(p, targets, result);
             List<Card> backup = new List<Card>(m.cards);
             PlayerPlayedCard(p, result);
             PlayerAboutToDiscardCard(p, m.cards, DiscardReason.Play);
@@ -1123,7 +1124,13 @@ namespace Sanguosha.Core.Games
             move.cards = new List<Card>(cards);
             foreach (Card c in cards)
             {
-                c.Log.GameAction = GameAction.Discard;
+                c.Log.Source = p;
+                if (reason == DiscardReason.Discard)
+                    c.Log.GameAction = GameAction.Discard;
+                else if (reason == DiscardReason.Play)
+                    c.Log.GameAction = GameAction.Play;
+                else if (reason == DiscardReason.Use)
+                    c.Log.GameAction = GameAction.Use;
             }
             List<Card> backup = new List<Card>(move.cards);
             move.to = new DeckPlace(null, DeckType.Discard);

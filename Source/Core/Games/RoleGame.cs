@@ -335,7 +335,7 @@ namespace Sanguosha.Core.Games
                 }
                 m.to = new DeckPlace(null, DeckType.Compute);
                 bool runTrigger = c.Type.NotReforging(eventArgs.Source, eventArgs.Skill, m.cards, eventArgs.Targets);
-
+                c.Type.TagAndNotify(eventArgs.Source, eventArgs.Targets, c);
                 Game.CurrentGame.MoveCards(m, new CardUseLog() { Source = eventArgs.Source, Targets = eventArgs.Targets, Skill = eventArgs.Skill, Cards = eventArgs.Cards });
                 Game.CurrentGame.PlayerLostCard(eventArgs.Source, eventArgs.Cards);
                 Player savedSource = eventArgs.Source;

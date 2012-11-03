@@ -39,6 +39,7 @@ namespace Sanguosha.Core.Cards
             Type = c;
             attributes = null;
             GuHuoType = null;
+            Log = new UI.ActionLog();
         }
 
         public void CopyFrom(Card c)
@@ -62,6 +63,7 @@ namespace Sanguosha.Core.Cards
             Place = c.Place;
             Id = c.Id;
             Attributes = c.Attributes;
+            Log = new UI.ActionLog();
         }
 
         public DeckPlace HistoryPlace2 { get; set; }

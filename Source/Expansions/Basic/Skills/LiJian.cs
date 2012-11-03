@@ -99,6 +99,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             Owner[LiJianUsed] = 1;
             List<Card> cards = arg.Cards;
             Trace.Assert(cards.Count == 1 && arg.Targets.Count == 2);
+            NotifyAction(arg.Source, arg.Targets, cards);
             Game.CurrentGame.HandleCardDiscard(Owner, cards);
             GameEventArgs args = new GameEventArgs();
             args.Source = arg.Targets[1];
