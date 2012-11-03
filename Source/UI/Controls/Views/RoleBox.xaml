@@ -22,11 +22,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ToggleButton}">
                         <Grid>
-                            <Border x:Name="Background">
-                                <Grid>
-                                    <Rectangle Fill="Transparent" />
-                                </Grid>
-                            </Border>
+                            <Rectangle Fill="Transparent" />
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
