@@ -23,14 +23,14 @@
     
     <sys:String x:Key="Skill.WuSheng.Name">武圣</sys:String>
     <sys:String x:Key="Skill.WuSheng.Description">你可以将一张红色牌当【杀】使用或打出。</sys:String>
-    <sys:String x:Key="Skill.WuSheng.Usage">点“武圣”→选中1张牌（红色手牌或装备）→选择攻击距离内的目标→点“确定”&#10;响应出【杀】时→点“武圣”→选中1张牌（红色手牌或装备）→点“确定”</sys:String>
+    <sys:String x:Key="Skill.WuSheng.Usage" xml:space="preserve">点“武圣”→选中1张牌（红色手牌或装备）→选择攻击距离内的目标→点“确定”&#10;响应出【杀】时→点“武圣”→选中1张牌（红色手牌或装备）→点“确定”</sys:String>
     
     <sys:String x:Key="Skill.PaoXiao.Name">咆哮</sys:String>
     <sys:String x:Key="Skill.PaoXiao.Description">锁定技，你在出牌阶段内使用【杀】时无次数限制。</sys:String>
     
     <sys:String x:Key="Skill.LongDan.Name">龙胆</sys:String>
     <sys:String x:Key="Skill.LongDan.Description">你可以将一张【杀】当【闪】，一张【闪】当【杀】使用或打出。</sys:String>
-    <sys:String x:Key="Skill.LongDan.Usage">需要出【杀】时→点“龙胆”→选择【闪】→点“确定”&#10;需要出【闪】时→点“龙胆”→选择【杀】→点“确定”</sys:String>
+    <sys:String x:Key="Skill.LongDan.Usage" xml:space="preserve">需要出【杀】时→点“龙胆”→选择【闪】→点“确定”&#10;需要出【闪】时→点“龙胆”→选择【杀】→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.GuoSe.Name">国色</sys:String>
     <sys:String x:Key="Skill.GuoSe.Description">你可以将一张方块牌当【乐不思蜀】使用。</sys:String>
