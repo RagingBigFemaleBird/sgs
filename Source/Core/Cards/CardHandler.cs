@@ -151,7 +151,6 @@ namespace Sanguosha.Core.Cards
         public virtual void TagAndNotify(Player source, List<Player> dests, ICard card)
         {
             NotifyCardUse(source, dests, new List<Player>(), card);
-
         }
 
         public virtual void Process(Player source, List<Player> dests, ICard card)
@@ -176,12 +175,12 @@ namespace Sanguosha.Core.Cards
 
         public virtual VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> targets)
         {
-            return VerifyHelper(source, skill, cards, targets, NotReforging(source, skill, cards, targets));
+            return VerifyHelper(source, skill, cards, targets, IsReforging(source, skill, cards, targets));
         }
 
-        public virtual bool NotReforging(Player source, ISkill skill, List<Card> cards, List<Player> targets)
+        public virtual bool IsReforging(Player source, ISkill skill, List<Card> cards, List<Player> targets)
         {
-            return true;
+            return false;
         }
         /// <summary>
         /// 卡牌UI合法性检查
@@ -192,7 +191,7 @@ namespace Sanguosha.Core.Cards
         /// <param name="targets"></param>
         /// <param name="notReforging">不是重铸中，检查PlayerCanUseCard</param>
         /// <returns></returns>
-        protected VerifierResult VerifyHelper(Player source, ISkill skill, List<Card> cards, List<Player> targets, bool notReforging)
+        protected VerifierResult VerifyHelper(Player source, ISkill skill, List<Card> cards, List<Player> targets, bool isReforging)
         {
             ICard card;
             if (skill != null)
@@ -210,7 +209,7 @@ namespace Sanguosha.Core.Cards
                     {
                         return VerifierResult.Fail;
                     }
-                    if (notReforging)
+                    if (!isReforging)
                     {
                         if (!Game.CurrentGame.PlayerCanUseCard(source, c))
                         {
@@ -237,7 +236,7 @@ namespace Sanguosha.Core.Cards
                     return VerifierResult.Fail;
                 }
 
-                if (notReforging)
+                if (!isReforging)
                 {
                     if (!Game.CurrentGame.PlayerCanUseCard(source, card))
                     {
@@ -250,7 +249,7 @@ namespace Sanguosha.Core.Cards
 
             if (targets != null && targets.Count != 0)
             {
-                if (notReforging)
+                if (!isReforging)
                 {
                     if (!Game.CurrentGame.PlayerCanBeTargeted(source, targets, card))
                     {

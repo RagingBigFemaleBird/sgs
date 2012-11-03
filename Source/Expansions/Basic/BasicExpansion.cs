@@ -136,7 +136,7 @@ namespace Sanguosha.Expansions.Basic
             CardSet.Add(new Card(SuitType.Diamond, 12, new FangTianHuaJi()));
 
             CardSet.Add(new Card(SuitType.Spade, 13, new NanManRuQin()));
-            CardSet.Add(new Card(SuitType.Spade, 13, new OffensiveHorse("DaWan")));
+            CardSet.Add(new Card(SuitType.Spade, 13, new OffensiveHorse("DaYuan")));
             CardSet.Add(new Card(SuitType.Heart, 13, new Shan()));
             CardSet.Add(new Card(SuitType.Heart, 13, new DefensiveHorse("ZhuaHuangFeiDian")));
             CardSet.Add(new Card(SuitType.Club, 13, new JieDaoShaRen()));

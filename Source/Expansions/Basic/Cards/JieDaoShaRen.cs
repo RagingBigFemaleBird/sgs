@@ -33,12 +33,10 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     players = new List<Player>();
                 }
-                List<Player> newList = new List<Player>();
-                newList.Add(target);
-                newList.AddRange(players);
-                if (newList.Distinct().Count() != newList.Count)
+                List<Player> newList = new List<Player>(players);
+                if (!newList.Contains(target))
                 {
-                    return VerifierResult.Fail;
+                    newList.Add(target);
                 }
                 return (new Sha()).Verify(source, skill, cards, newList);
             }
@@ -119,11 +117,11 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
             if (targets.Count == 2)
             {
-                if (!Game.CurrentGame.PlayerCanBeTargeted(source, new List<Player>() { targets[1] }, new CompositeCard() { Type = new Sha() }))
+                if (!Game.CurrentGame.PlayerCanBeTargeted(targets[0], new List<Player>() { targets[1] }, new CompositeCard() { Type = new Sha() }))
                 {
                     return VerifierResult.Fail;
                 }
-                if ((new Sha()).ShaVerifyForJieDaoShaRenOnly(source, null, new List<Player>() { targets[1] }) != VerifierResult.Success)
+                if ((new Sha()).ShaVerifyForJieDaoShaRenOnly(targets[0], null, new List<Player>() { targets[1] }) != VerifierResult.Success)
                 {
                     return VerifierResult.Fail;
                 }

@@ -371,8 +371,22 @@
                     <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0"/>
                 </ItemsControl.Effect>
             </ItemsControl>
-            
-            <ItemsControl x:Name="skillButtonDock" HorizontalAlignment="Left" Margin="6,0,0,4" VerticalAlignment="Bottom" Width="134" ItemsSource="{Binding SkillCommands}">
+            <Grid Margin="6,10,0,3" Width="134" HorizontalAlignment="Left">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+            <Border x:Name="IsTargetedGlow" Visibility="{Binding IsTargeted, Converter={StaticResource boolToVisibilityConverter}}" ClipToBounds="True" BorderBrush="Red" BorderThickness="5" >
+                <Border.Effect>
+                    <BlurEffect Radius="10" />
+                </Border.Effect>
+            </Border>
+                <Border x:Name="IsSelectedGlow" Visibility="{Binding IsSelected, Converter={StaticResource boolToVisibilityConverter}}" ClipToBounds="True" BorderBrush="#FFFF6B00" BorderThickness="5" >
+                <Border.Effect>
+                    <BlurEffect Radius="10" />
+                </Border.Effect>
+            </Border>
+                <ItemsControl Grid.Row="1" x:Name="skillButtonDock" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="134" ItemsSource="{Binding SkillCommands}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <local:SkillButtonDock />
@@ -398,6 +412,7 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+            </Grid>
             <Canvas x:Name="animationCenter1" HorizontalAlignment="Left" Height="16" Margin="63,69,0,0" VerticalAlignment="Top" Width="18" IsHitTestVisible="False"/>
         </Grid>
 		<Canvas x:Name="animationCenter2" HorizontalAlignment="Center" Margin="0" Grid.ColumnSpan="2" VerticalAlignment="Top"/>		

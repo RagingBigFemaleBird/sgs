@@ -47,13 +47,13 @@ namespace Sanguosha.Expansions.Basic.Cards
                         (eventArgs.Targets[0].IsMale && eventArgs.Source.IsFemale))
                     {
                         int answer;
-                        if (Game.CurrentGame.UiProxies[eventArgs.Source].AskForMultipleChoice(new Prompt("CiXiong"), Prompt.YesNoChoices, out answer) && answer == 0)
+                        if (Game.CurrentGame.UiProxies[eventArgs.Source].AskForMultipleChoice(new MultipleChoicePrompt("CiXiong"), Prompt.YesNoChoices, out answer) && answer == 0)
                         {
                             ISkill skill;
                             List<Card> cards;
                             List<Player> players;
                             SingleCardDiscardVerifier v = new SingleCardDiscardVerifier();
-                            if (!Game.CurrentGame.UiProxies[eventArgs.Targets[0]].AskForCardUsage(new Prompt("CiXiong2", eventArgs.Source), v, out skill, out cards, out players))
+                            if (!Game.CurrentGame.UiProxies[eventArgs.Targets[0]].AskForCardUsage(new CardUsagePrompt("CiXiong2", eventArgs.Source), v, out skill, out cards, out players))
                             {
                                 Game.CurrentGame.DrawCards(eventArgs.Source, 1);
                             }
