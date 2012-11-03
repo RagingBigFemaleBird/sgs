@@ -12,6 +12,7 @@ namespace Sanguosha.Core.Exceptions
         Success,
         End,
         Abort,
+        Skip,
     }
     public class TriggerResultException : SgsException
     {

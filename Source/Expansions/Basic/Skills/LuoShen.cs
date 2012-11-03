@@ -65,7 +65,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                     do
                     {
                         c = Game.CurrentGame.Judge(Owner);
-                    } while (c.SuitColor == SuitColorType.Black);
+                    } while (c.SuitColor == SuitColorType.Black && Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("LuoShen"), Prompt.YesNoChoices, out answer) && answer == 0);
                 }
             }
 
