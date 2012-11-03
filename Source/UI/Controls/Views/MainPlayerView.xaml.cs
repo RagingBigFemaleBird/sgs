@@ -303,7 +303,7 @@ namespace Sanguosha.UI.Controls
 
             card.CardOpacity = 1.0;
             card.DisappearAfterMove = true;
-            card.Rebase(1.0d);
+            card.Rebase(1.2d);
         }
 
         protected override CardView RemoveRoleCard(Card card)

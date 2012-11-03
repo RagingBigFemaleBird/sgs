@@ -29,7 +29,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             }
             else
             {
-                NotifyCardUse(source, dests, null, card);
+                NotifyCardUse(source, dests, new List<Player>(), card);
                 foreach (var player in dests)
                 {
                     Player p = player;
