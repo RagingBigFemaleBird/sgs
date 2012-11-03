@@ -557,6 +557,21 @@ namespace Sanguosha.Core.Games
                         card.Log = new ActionLog();
                         card.Type = GameEngine.CardSet[card.Id].Type;
                     }
+                    //reset own hand card and anonymize others'
+                    if (IsClient && move.to.DeckType == DeckType.Hand)
+                    {
+                        if (GameClient.SelfId == move.to.Player.Id)
+                        {
+                            card.Log = new ActionLog();
+                            card.Type = GameEngine.CardSet[card.Id].Type;
+                        }
+                        else
+                        {
+                            card.Log = new ActionLog();
+                            card.Id = Card.UnknownCardId;
+                            card.Type = new UnknownCardHandler();
+                        }
+                    }
                 }
             }
         }
