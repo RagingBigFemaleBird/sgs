@@ -93,9 +93,9 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
         }
 
-        public override void TagAndNotify(Player source, List<Player> dests, ICard card)
+        public override void TagAndNotify(Player source, List<Player> dests, ICard card, GameAction action = GameAction.Use)
         {
-            NotifyCardUse(source, new List<Player>() { dests[0] }, new List<Player>() { dests[1] }, card);
+            NotifyCardUse(source, new List<Player>() { dests[0] }, new List<Player>() { dests[1] }, card, action);
         }
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)

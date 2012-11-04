@@ -34,7 +34,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 {
                     Game.CurrentGame.EnterAtomicContext();
                     List<Card> toDiscard = new List<Card>(Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult]);
-                    eventArgs.Card = cards[0];
+                    eventArgs.Card = new SymbolicCard(cards[0]);
                     CardsMovement move = new CardsMovement();
                     move.cards = new List<Card>();
                     move.cards.AddRange(cards);

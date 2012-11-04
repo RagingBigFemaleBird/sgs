@@ -73,7 +73,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 int answer = 0;
                 if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("GangLie", eventArgs.Source), Prompt.YesNoChoices, out answer) && answer == 0)
                 {
-                    Card c = Game.CurrentGame.Judge(Owner);
+                    SymbolicCard c = Game.CurrentGame.Judge(Owner);
                     if (c.Suit != SuitType.Heart)
                     {
                         List<DeckPlace> deck = new List<DeckPlace>();
