@@ -106,6 +106,6 @@
                 </Style>
             </ComboBox.ItemContainerStyle>
         </ComboBox>
-        <anim:RevealRoleAnimation x:Name="revealRoleAnimation" Stretch="Fill" FramesPerSecond="10" Margin="-25, -25"/>
+        <anim:RevealRoleAnimation x:Name="revealRoleAnimation" Stretch="Fill" FramesPerSecond="30" Margin="-25, -25"/>
     </local:NonClipGrid>
 </UserControl>

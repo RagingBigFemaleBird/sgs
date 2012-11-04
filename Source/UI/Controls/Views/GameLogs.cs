@@ -38,12 +38,13 @@ namespace Sanguosha.UI.Controls
             var docs = (from pair in Logs
                         where (log.Targets.Contains(pair.Key) || log.Source == pair.Key)
                         select pair.Value).Concat(new List<FlowDocument>() { GlobalLog });
-            
-            var paragraph = LogFormatter.RichTranslateMainLog(log);
-            if (paragraph.Inlines.Count > 0)
+
+            foreach (var doc in docs)
             {
-                foreach (var doc in docs)
+                var paragraph = LogFormatter.RichTranslateMainLog(log);
+                if (paragraph.Inlines.Count > 0)
                 {
+
                     doc.Blocks.Add(paragraph);
                 }
             }
@@ -62,10 +63,12 @@ namespace Sanguosha.UI.Controls
             var docs = (from pair in Logs
                         where (source.Player == pair.Key || dest.Player == pair.Key)
                         select pair.Value).Concat(new List<FlowDocument>() { GlobalLog });
-            var paragraph = LogFormatter.RichTranslateCardMove(cards, source, dest, reason);
-            if (paragraph.Inlines.Count > 0)
+            
+            foreach (var doc in docs)
             {
-                foreach (var doc in docs)
+                var paragraph = LogFormatter.RichTranslateCardMove(cards, source, dest, reason);
+                
+                if (paragraph.Inlines.Count > 0)
                 {
                     doc.Blocks.Add(paragraph);
                 }

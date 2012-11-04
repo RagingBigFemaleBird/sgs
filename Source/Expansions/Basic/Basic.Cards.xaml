@@ -52,11 +52,12 @@
     <system:String x:Key="Card.ShanDian.Name">闪电</system:String>
     <system:String x:Key="Card.ShanDianCardHandler.Name">闪电</system:String>
     <system:String x:Key="Card.Tao.Name">桃</system:String>
+    <system:String x:Key="Card.WuZhongShengYou.Name">无中生有</system:String>
     <!--
     Define card's default appearance this way:
     <BitmapImage x:Key="Card.Sha.Image.Normal">Images/Cards/Normal/Sha.jpg</BitmapImage>
-    -->
+    
     <BitmapImage x:Key="Card.ZhangBaSheMao.Image.BigEquip">../Images/Cards/BigEquip/ZhangBaSheMao.png</BitmapImage>
     <BitmapImage x:Key="Card.CiXiongShuangGuJian.Image.BigEquip">../Images/Cards/BigEquip/CiXiongShuangGuJian.png</BitmapImage>
-
+    -->
 </ResourceDictionary>
