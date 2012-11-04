@@ -516,7 +516,7 @@ namespace Sanguosha.UI.Controls
         public void NotifyCardMovement(List<CardsMovement> moves, List<IGameLog> notes)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
-            {
+            {               
                 foreach (CardsMovement move in moves)
                 {
                     var cardsToAdd = new List<CardView>();
@@ -533,11 +533,13 @@ namespace Sanguosha.UI.Controls
                     {
                         IDeckContainer deck = _GetMovementDeck(stackCards.Key);
                         IList<CardView> cards;
+                        gameLogs.AppendCardMoveLog(stackCards.Value, stackCards.Key, move.to);
                         cards = deck.RemoveCards(stackCards.Key.DeckType, stackCards.Value);
                         cardsToAdd.AddRange(cards);
                     }
                     _GetMovementDeck(move.to).AddCards(move.to.DeckType, cardsToAdd);
                 }
+                rtbLog.ScrollToEnd();
             });
         }   
 

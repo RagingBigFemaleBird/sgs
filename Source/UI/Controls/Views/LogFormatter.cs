@@ -19,6 +19,10 @@ namespace Sanguosha.UI.Controls
         public static string Translate(Player player)
         {
             if (player == null) return string.Empty;
+            if (player.Hero == null)
+            {
+                return player.UserName ?? string.Empty;
+            }
             string key = string.Format("Hero.{0}.Name", player.Hero.Name);
             string name = Application.Current.TryFindResource(key) as string;
             if (name == null) return string.Empty;
@@ -61,6 +65,18 @@ namespace Sanguosha.UI.Controls
             return string.Empty;
         }
 
+        public static IList<Inline> RichTranslate(CardHandler cardType)
+        {
+            IList<Inline> list = new List<Inline>();
+            if (cardType == null) return list;
+            string typeString = Application.Current.TryFindResource(string.Format("Card.{0}.Name", cardType.CardType)) as string;
+            if (typeString != null)
+            {
+                list.Add(new Run(string.Format("【{0}】")) { Foreground = new SolidColorBrush(Colors.Yellow) });
+            }
+            return list;
+        }
+
         public static IList<Inline> RichTranslate(Card c)
         {
             IList<Inline> list = new List<Inline>();
@@ -83,8 +99,11 @@ namespace Sanguosha.UI.Controls
         {
             List<Inline> list = new List<Inline>();
             if (cards.Count == 0) return list;
-            else if (cards.Count > 1) list.Add(new Run("{0}张"));
-            list.Add(new Run("卡牌"));
+            else if (cards.Count > 1 || cards[0].Id < 0)
+            {
+                list.Add(new Run(string.Format("{0}张卡牌", cards.Count)));
+            }
+            
             foreach (var card in cards)
             {
                 list.AddRange(RichTranslate(card));
@@ -108,6 +127,20 @@ namespace Sanguosha.UI.Controls
             return list;
         }
 
+        public static IList<Inline> RichTranslate(ICard card)
+        {
+            List<Inline> list = new List<Inline>();
+            if (card is Card)
+            {
+                list.AddRange(RichTranslate(card as Card));
+            }
+            else
+            {
+                list.AddRange(RichTranslate(card.Type));
+            }
+            return list;
+        }
+
         public static IList<Inline> RichTranslate(ISkill skill)
         {
             IList<Inline> list = new List<Inline>();
@@ -115,24 +148,28 @@ namespace Sanguosha.UI.Controls
             list.Add(new Run(skillstr) { Foreground = new SolidColorBrush(Colors.Yellow) });
             return list;
         }
-
-        public static Block RichTranslateMainLog(ActionLog log)
+        
+        public static string Translate(IList<Player> players)
+        {
+            if (players != null && players.Count > 0)
+            {
+                StringBuilder builder = new StringBuilder();
+                builder.Append(Translate(players[0]));
+                for (int i = 1; i < players.Count; i++)
+                {
+                    builder.Append("，");
+                    builder.Append(Translate(players[i]));
+                }
+                return builder.ToString();
+            }
+            return string.Empty;
+        }
+        
+        public static Paragraph RichTranslateMainLog(ActionLog log)
         {
             Paragraph paragraph = new Paragraph();
             string source = Translate(log.Source);
-            string dests = string.Empty;
-            Trace.Assert(log.Targets != null);
-            if (log.Targets != null && log.Targets.Count > 0)
-            {
-                StringBuilder builder = new StringBuilder();                
-                builder.Append(Translate(log.Targets[0]));
-                for (int i = 1; i < log.Targets.Count; i++)
-                {
-                    builder.Append("，");
-                    builder.Append(Translate(log.Targets[1]));
-                }
-                dests = builder.ToString();
-            }
+            string dests = Translate(log.Targets);
             
             string skill = Translate(log.SkillAction);
             string formatter = source;
@@ -152,21 +189,11 @@ namespace Sanguosha.UI.Controls
                 case GameAction.Use:
                     string toDests = (dests == string.Empty) ?  string.Empty : ("对" + dests);
                     paragraph.Inlines.Add(string.Format("{0}{1}使用了", source, toDests));
-                    if (log.CardAction is CompositeCard)
-                    {
-                        // paragraph.Inlines.AddRange(RichTranslate((log.CardAction as CompositeCard).Subcards));
-                    }
-                    else if (log.CardAction is Card)
-                    {
-                        paragraph.Inlines.AddRange(RichTranslate(log.CardAction as Card));
-                    }
-                    else
-                    {
-                        Trace.Assert(false);
-                    }
+                    paragraph.Inlines.AddRange(RichTranslate(log.CardAction));
                     break;
                 case GameAction.Play:
-                    // return string.Format("{0}{2}{1}打出", source, dest, skill);
+                    paragraph.Inlines.Add(string.Format("{0}打出了"));
+                    paragraph.Inlines.AddRange(RichTranslate(log.CardAction));
                     break;
                 case GameAction.PlaceIntoDiscard:
                     // return string.Format("{0}{1}置入弃牌堆", source, skill);
@@ -174,6 +201,67 @@ namespace Sanguosha.UI.Controls
                 case GameAction.Discard:
                     //return string.Format("{0}{1}弃置", source, skill);
                     break;
+            }
+            return paragraph;
+        }
+
+        public static Paragraph RichTranslateCardMove(List<Card> cards, DeckPlace source, DeckPlace dest, GameAction reason)
+        {
+            string sourceStr = Translate(source.Player);
+            string destStr = Translate(dest.Player);
+            var cardsInline = RichTranslate(cards);
+            Paragraph paragraph = new Paragraph();
+            if (source.Player != null)
+            {
+                if (reason == GameAction.Discard)
+                {
+                    paragraph.Inlines.Add(string.Format("{0}弃置了", sourceStr));
+                    paragraph.Inlines.AddRange(cardsInline);
+                }
+                else if (reason == GameAction.PlaceIntoDiscard)
+                {
+                    paragraph.Inlines.Add(string.Format("{0}将", sourceStr));
+                    paragraph.Inlines.AddRange(cardsInline);
+                    paragraph.Inlines.Add("置入了齐牌堆");
+                }
+            }
+
+            if (dest.Player != null)
+            {
+                if (source.DeckType == DeckType.Dealing)
+                {
+                    paragraph.Inlines.Add(string.Format("{0}从牌堆里摸了", destStr));
+                }
+                else if (source.DeckType == DeckType.Discard)
+                {
+                    paragraph.Inlines.Add(string.Format("{0}从弃牌堆里回收了", destStr));
+                }
+                else if (source.Player == dest.Player)
+                {
+                    if (source.DeckType == DeckType.Hand && dest.DeckType == DeckType.Equipment)
+                    {
+                        paragraph.Inlines.Add(string.Format("{0}装备了", destStr));
+                    }
+                    else if (source.DeckType == DeckType.Hand && dest.DeckType == DeckType.Hand)
+                    {
+                        paragraph.Inlines.Add(string.Format("{0}获得了自己的", destStr));
+                    }
+                }
+                else
+                {
+                    var owners = (from card in cards select card.Owner).Distinct();
+                    if (owners.Contains(null))
+                    {
+                        Trace.TraceWarning("Cannot resolve log: reason is {0}, from {1}{2} to {3}{4}", reason, Translate(source.Player), source.DeckType, Translate(dest.Player), dest.DeckType);
+                        paragraph.Inlines.Add(string.Format("{0}获得了", destStr));
+                    }
+                    else
+                    {
+                        List<Player> players = new List<Player>(owners);
+                        paragraph.Inlines.Add(string.Format("{0}获得了{1}的", destStr, Translate(players)));
+                    }
+                }
+                paragraph.Inlines.AddRange(cardsInline);
             }
             return paragraph;
         }

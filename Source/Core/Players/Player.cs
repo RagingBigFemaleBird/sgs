@@ -36,6 +36,14 @@ namespace Sanguosha.Core.Players
             set { id = value; }
         }
 
+        string userName;
+
+        public string UserName
+        {
+            get { return userName; }
+            set { userName = value; }
+        }
+
         bool isDead;
 
         public bool IsDead
