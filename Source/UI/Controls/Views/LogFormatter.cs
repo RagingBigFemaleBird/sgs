@@ -72,7 +72,7 @@ namespace Sanguosha.UI.Controls
             string typeString = Application.Current.TryFindResource(string.Format("Card.{0}.Name", cardType.CardType)) as string;
             if (typeString != null)
             {
-                list.Add(new Run(string.Format("【{0}】")) { Foreground = new SolidColorBrush(Colors.Yellow) });
+                list.Add(new Run(string.Format("【{0}】", typeString)) { Foreground = new SolidColorBrush(Colors.Yellow) });
             }
             return list;
         }
