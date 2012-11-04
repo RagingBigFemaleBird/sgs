@@ -318,12 +318,12 @@ namespace Sanguosha.Core.Games
                     {
                         if (p == a.Owner)
                         {
-                            result3 = 1;
+                            result3 = -1;
                             break;
                         }
                         if (p == b.Owner)
                         {
-                            result3 = -1;
+                            result3 = 1;
                             break;
                         }
                         p = NextAlivePlayer(p);
@@ -897,6 +897,22 @@ namespace Sanguosha.Core.Games
         public void DoDamage(Player source, Player dest, int magnitude, DamageElement elemental, ICard card)
         {
             GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), Card = card, IntArg = -magnitude, IntArg2 = (int)(elemental) };
+            if (card is CompositeCard)
+            {
+                if ((card as CompositeCard).Subcards != null)
+                {
+                    args.Cards = new List<Card>((card as CompositeCard).Subcards);
+                }
+            }
+            else if (card is Card)
+            {
+                args.Cards = new List<Card>();
+                args.Cards.Add(card as Card);
+            }
+            else
+            {
+                Trace.Assert(false);
+            }
             args.Targets.Add(dest);
 
             try

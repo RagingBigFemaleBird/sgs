@@ -358,11 +358,14 @@ namespace Sanguosha.Core.Games
                 }
                 c.Type.Process(eventArgs.Source, eventArgs.Targets, c);
 
-                m.cards = Game.CurrentGame.Decks[DeckType.Compute];
-                m.to = new DeckPlace(null, DeckType.Discard);
-                Game.CurrentGame.PlayerAboutToDiscardCard(savedSource, m.cards, DiscardReason.Use);
-                Game.CurrentGame.MoveCards(m, null);
-                Game.CurrentGame.PlayerDiscardedCard(savedSource, m.cards, DiscardReason.Use);
+                if (Game.CurrentGame.Decks[DeckType.Compute].Count > 0)
+                {
+                    m.cards = Game.CurrentGame.Decks[DeckType.Compute];
+                    m.to = new DeckPlace(null, DeckType.Discard);
+                    Game.CurrentGame.PlayerAboutToDiscardCard(savedSource, m.cards, DiscardReason.Use);
+                    Game.CurrentGame.MoveCards(m, null);
+                    Game.CurrentGame.PlayerDiscardedCard(savedSource, m.cards, DiscardReason.Use);
+                }
                 Trace.Assert(Game.CurrentGame.Decks[DeckType.Compute].Count == 0);
                 Game.CurrentGame.Decks[DeckType.Compute] = new List<Card>(computeBackup);
             }
@@ -420,7 +423,9 @@ namespace Sanguosha.Core.Games
                     return;
                 }
                 // Await role decision
-                Random random = new Random(DateTime.Now.Millisecond);
+                int seed = DateTime.Now.Millisecond;
+                Trace.TraceError("Seed is {0}", seed);
+                Random random = new Random(seed);
                 int rulerId = 0;
 
                 game.Decks[null, RoleDeckType].Add(new Card(SuitType.None, 0, new RoleCardHandler(Role.Ruler)));
