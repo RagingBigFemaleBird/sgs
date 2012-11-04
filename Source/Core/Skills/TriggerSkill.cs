@@ -41,6 +41,7 @@ namespace Sanguosha.Core.Skills
 
             public AutoNotifyPassiveSkillTrigger(TriggerSkill skill, RelayTrigger innerTrigger)
             {
+                AskForConfirmation = null;
                 IsAutoNotify = true;
                 Skill = skill;
                 InnerTrigger = innerTrigger;
@@ -48,6 +49,7 @@ namespace Sanguosha.Core.Skills
             }
 
             public bool IsAutoNotify { get; set; }
+            public bool? AskForConfirmation { get; set; }
 
             public override Player Owner
             {
@@ -81,7 +83,7 @@ namespace Sanguosha.Core.Skills
                 }
                 if (InnerTrigger.CanExecute(Owner, gameEvent, eventArgs))
                 {
-                    if (!Skill.IsEnforced && !AskForSkillUse())
+                    if (((AskForConfirmation == null && !Skill.IsEnforced) || (AskForConfirmation == true)) && !AskForSkillUse())
                     {
                         return;
                     }

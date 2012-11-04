@@ -49,6 +49,12 @@ namespace Sanguosha.Expansions.Basic.Skills
         {
             Triggers.Add(Sha.PlayerShaTargetValidation, new PaoXiaoTrigger());
             Triggers.Add(Sha.PlayerNumberOfShaCheck, new PaoXiaoAlwaysShaTrigger());
+            AutoNotifyPassiveSkillTrigger aooo = new AutoNotifyPassiveSkillTrigger(
+                this,
+                (p, e, a) => { return p[Sha.NumberOfShaUsed] >= 1 && (a.Card.Type is Sha); },
+                (p, e, a) => { },
+                TriggerCondition.OwnerIsSource) { AskForConfirmation = false };
+            Triggers.Add(GameEvent.PlayerUsedCard, aooo);
         }
     }
 }
