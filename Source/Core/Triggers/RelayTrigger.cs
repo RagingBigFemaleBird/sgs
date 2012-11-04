@@ -12,15 +12,14 @@ namespace Sanguosha.Core.Triggers
 
     public delegate void TriggerAction(Player owner, GameEvent gameEvent, GameEventArgs args);
 
-    [Flags]
     public enum TriggerCondition
     {
-        SourceHasCards,
-        SourceHasHandCards,
-        SourceHasNoHandCards,
-        OwnerIsSource,
-        OwnerIsTarget,
-        Global
+        Global = (1 << 0),
+        SourceHasCards = (1 << 1),
+        SourceHasHandCards = (1 << 2),
+        SourceHasNoHandCards = (1 << 3),
+        OwnerIsSource = (1 << 4),
+        OwnerIsTarget = (1 << 5),
     }
 
     public class RelayTrigger : Trigger
@@ -70,7 +69,7 @@ namespace Sanguosha.Core.Triggers
             return (Condition & checkAgainst) == checkAgainst;
         }
 
-        private bool CheckConditions(GameEvent gameEvent, GameEventArgs eventArgs)
+        public bool CheckConditions(GameEvent gameEvent, GameEventArgs eventArgs)
         {
             if (CheckCondition(TriggerCondition.OwnerIsSource)
                 && (eventArgs.Source == null || eventArgs.Source != Owner))

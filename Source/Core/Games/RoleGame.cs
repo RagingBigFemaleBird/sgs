@@ -484,9 +484,9 @@ namespace Sanguosha.Core.Games
                         c.Place = new DeckPlace(null, RoleDeckType);
                         game.Decks[null, RoleDeckType].Add(c);
                     }
+                    game.SyncCardAll(game.Decks[null, RoleDeckType][0]);
                 }
-
-                if (!game.IsClient)
+                else
                 {
                     foreach (Card c in game.Decks[null, RoleDeckType])
                     {
@@ -496,16 +496,11 @@ namespace Sanguosha.Core.Games
                         }
                     }
                 }
-                else
-                {
-                    game.SyncCardAll(game.Decks[null, RoleDeckType][0]);
-                }
 
                 int i = 0;
                 for (i = 0; i < game.Players.Count; i++)
                 {
                     game.SyncCard(game.Players[i], game.Decks[null, RoleDeckType][i]);
-                    i++;
                 }
 
                 List<CardsMovement> moves = new List<CardsMovement>();

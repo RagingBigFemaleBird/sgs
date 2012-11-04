@@ -61,7 +61,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("LuoShen"), Prompt.YesNoChoices, out answer) && answer == 0)
                 {
                     Game.CurrentGame.RegisterTrigger(GameEvent.PlayerJudgeDone, new LuoShenJudgeTrigger(Owner));
-                    SymbolicCard c;
+                    ReadOnlyCard c;
                     do
                     {
                         c = Game.CurrentGame.Judge(Owner);

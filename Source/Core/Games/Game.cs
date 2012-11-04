@@ -881,7 +881,11 @@ namespace Sanguosha.Core.Games
         /// <param name="cards">造成伤害的牌</param>
         public void DoDamage(Player source, Player dest, int magnitude, DamageElement elemental, ICard card)
         {
-            GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), Card = new SymbolicCard(card), IntArg = -magnitude, IntArg2 = (int)(elemental) };
+            GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), IntArg = -magnitude, IntArg2 = (int)(elemental) };
+            if (card != null)
+            {
+                args.Card = new ReadOnlyCard(card);
+            }
             if (card is CompositeCard)
             {
                 if ((card as CompositeCard).Subcards != null)
@@ -935,7 +939,7 @@ namespace Sanguosha.Core.Games
 
         }
 
-        public SymbolicCard Judge(Player player)
+        public ReadOnlyCard Judge(Player player)
         {
             CardsMovement move = new CardsMovement();
             Card c;
@@ -960,11 +964,11 @@ namespace Sanguosha.Core.Games
             MoveCards(move, null);
             GameEventArgs args = new GameEventArgs();
             args.Source = player;
-            args.Card = new SymbolicCard(c);
+            args.Card = new ReadOnlyCard(c);
             Game.CurrentGame.Emit(GameEvent.PlayerJudgeBegin, args);
             Game.CurrentGame.Emit(GameEvent.PlayerJudgeDone, args);
             Trace.Assert(args.Source == player);
-            Trace.Assert(args.Card is SymbolicCard);
+            Trace.Assert(args.Card is ReadOnlyCard);
             if (decks[player, DeckType.JudgeResult].Count != 0)
             {
                 c = decks[player, DeckType.JudgeResult][0];
@@ -977,7 +981,7 @@ namespace Sanguosha.Core.Games
                 MoveCards(move, null);
                 PlayerDiscardedCard(player, backup, DiscardReason.Judge);
             }
-            return args.Card as SymbolicCard;
+            return args.Card as ReadOnlyCard;
         }
 
         public void RecoverHealth(Player source, Player target, int magnitude)

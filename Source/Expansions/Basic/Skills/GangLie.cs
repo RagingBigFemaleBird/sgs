@@ -64,7 +64,7 @@ namespace Sanguosha.Expansions.Basic.Skills
 
         public void OnAfterDamageInflicted(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            Card c = Game.CurrentGame.Judge(owner);
+            ReadOnlyCard c = Game.CurrentGame.Judge(owner);
             if (c.Suit != SuitType.Heart)
             {
                 NotifyAction(owner, new List<Player>() { eventArgs.Source });

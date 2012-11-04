@@ -120,7 +120,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 card[WuXieKeJi.CannotBeCountered] = 1;
                 return VerifierResult.Success;
             }
-            protected override void NotifyAction(Player source, List<Player> targets, List<Card> cards)
+            protected override void NotifyAction(Player source, List<Player> targets, CompositeCard cards)
             {
             }
         }

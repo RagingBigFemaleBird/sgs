@@ -62,6 +62,10 @@ namespace Sanguosha.Core.Skills
 
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
+                if (!InnerTrigger.CheckConditions(gameEvent, eventArgs))
+                {
+                    return;
+                }
                 if (InnerTrigger.CanExecute(Owner, gameEvent, eventArgs))
                 {
                     if (!Skill.IsEnforced && !AskForSkillUse())

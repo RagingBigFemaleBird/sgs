@@ -8,9 +8,9 @@ using System.Diagnostics;
 
 namespace Sanguosha.Core.Cards
 {
-    public class SymbolicCard : ICard
+    public class ReadOnlyCard : ICard
     {
-        public SymbolicCard(ICard card)
+        public ReadOnlyCard(ICard card)
         {
             type = card.Type;
             place = card.Place;

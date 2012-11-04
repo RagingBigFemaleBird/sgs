@@ -41,7 +41,7 @@ namespace Sanguosha.Core.Skills
             {
                 throw new CardTransformFailureException();
             }
-            NotifyAction(Owner, targets, card.Subcards);
+            NotifyAction(Owner, targets, card);
             foreach (Card c in card.Subcards)
             {
                 c.Type = card.Type;
@@ -63,22 +63,25 @@ namespace Sanguosha.Core.Skills
         public virtual bool IsAwakening { get { return false; } }
         public bool IsEnforced { get { return false; } }
 
-        protected virtual void NotifyAction(Players.Player source, List<Players.Player> targets, List<Card> cards)
+        protected virtual void NotifyAction(Players.Player source, List<Players.Player> targets, CompositeCard card)
         {
             ActionLog log = new ActionLog();
             log.GameAction = GameAction.None;
-            log.CardAction = null;
+            log.CardAction = card;
             log.SkillAction = this;
             log.Source = source;
             log.Targets = targets;
             Games.Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
-            foreach (Card c in cards)
+            if (card.Subcards != null)
             {
-                if (c.Log == null)
+                foreach (Card c in card.Subcards)
                 {
-                    c.Log = new ActionLog();
+                    if (c.Log == null)
+                    {
+                        c.Log = new ActionLog();
+                    }
+                    c.Log.SkillAction = this;
                 }
-                c.Log.SkillAction = this;
             }
         }
 

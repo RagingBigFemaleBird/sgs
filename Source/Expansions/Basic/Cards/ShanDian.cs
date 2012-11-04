@@ -21,7 +21,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             Player nullPlayer = null;
             if (PlayerIsCardTargetCheck(ref nullPlayer, ref p, c))
             {
-                SymbolicCard result = Game.CurrentGame.Judge(p);
+                ReadOnlyCard result = Game.CurrentGame.Judge(p);
                 if (result.Suit == SuitType.Spade && result.Rank >= 2 && result.Rank <= 9)
                 {
                     GameEventArgs args = new GameEventArgs();

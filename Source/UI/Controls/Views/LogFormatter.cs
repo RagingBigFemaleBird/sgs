@@ -211,7 +211,7 @@ namespace Sanguosha.UI.Controls
                     paragraph.Inlines.AddRange(RichTranslate(log.CardAction));
                     break;
                 case GameAction.Play:
-                    paragraph.Inlines.Add(string.Format("{0}打出了"));
+                    paragraph.Inlines.Add(string.Format("{0}打出了", source));
                     paragraph.Inlines.AddRange(RichTranslate(log.CardAction));
                     break;
                 case GameAction.PlaceIntoDiscard:
