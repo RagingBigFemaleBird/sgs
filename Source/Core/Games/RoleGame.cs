@@ -130,7 +130,7 @@ namespace Sanguosha.Core.Games
             {
                 Player currentPlayer = eventArgs.Game.CurrentPlayer;
                 Trace.TraceInformation("Player {0} deal.", currentPlayer.Id);
-                Game.CurrentGame.DrawCards(currentPlayer, 2);
+                Game.CurrentGame.DrawCards(currentPlayer, 2 + currentPlayer[Player.DealAdjustment]);
             }
         }
 
@@ -583,7 +583,7 @@ namespace Sanguosha.Core.Games
                 Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, rulerId);
                 Game.CurrentGame.Players[rulerId].Hero = h.Hero;
                 Game.CurrentGame.Players[rulerId].Allegiance = h.Hero.Allegiance;
-                Game.CurrentGame.Players[rulerId].MaxHealth = Game.CurrentGame.Players[rulerId].Health = h.Hero.MaxHealth;
+                Game.CurrentGame.Players[rulerId].MaxHealth = Game.CurrentGame.Players[rulerId].Health = ((game.Players.Count > 4) ? h.Hero.MaxHealth + 1 : h.Hero.MaxHealth);
                 Game.CurrentGame.Players[rulerId].IsMale = h.Hero.IsMale ? true : false;
                 Game.CurrentGame.Players[rulerId].IsFemale = h.Hero.IsMale ? false : true;
 
@@ -662,7 +662,7 @@ namespace Sanguosha.Core.Games
                     game.Decks[DeckType.Heroes].Remove(card);
                 }
 
-                //Shuffle(game.Decks[null, DeckType.Dealing]);
+                Shuffle(game.Decks[null, DeckType.Dealing]);
 
                 StartGameDeal(game);
                 game.CurrentPlayer = game.Players[rulerId];
@@ -802,7 +802,7 @@ namespace Sanguosha.Core.Games
             RegisterTrigger(GameEvent.GameStart, new RoleGameRuleTrigger());
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Judge], new PlayerJudgeStageTrigger());
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Play], new PlayerActionTrigger());
-            RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Draw], new PlayerDealStageTrigger());
+            RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Draw], new PlayerDealStageTrigger() { Priority = int.MinValue });
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Discard], new PlayerDiscardStageTrigger());
             RegisterTrigger(GameEvent.CommitActionToTargets, new CommitActionToTargetsTrigger());
             RegisterTrigger(GameEvent.AfterHealthChanged, new PlayerHpChanged());

@@ -303,12 +303,12 @@ namespace Sanguosha.Core.Games
                 int result2 = a.Type.CompareTo(b.Type);
                 if (result2 != 0)
                 {
-                    return result2;
+                    return -result2;
                 }
                 int result = a.Priority.CompareTo(b.Priority);
                 if (result != 0)
                 {
-                    return result;
+                    return -result;
                 }
                 Player p = NextAlivePlayer(currentPlayer);
                 int result3 = 0; ;
@@ -707,6 +707,10 @@ namespace Sanguosha.Core.Games
                         if (e.Status == TriggerResult.End)
                         {
                             break;
+                        }
+                        if (e.Status == TriggerResult.Skip)
+                        {
+                            continue;
                         }
                     }
                 }

@@ -89,4 +89,16 @@
     <sys:String x:Key="Skill.GangLie.Name">刚烈</sys:String>
     <sys:String x:Key="Skill.GangLie.Description">每当你受到一次伤害后，你可以进行一次判定，若判定结果不为红桃，则伤害来源选择一项：弃置两张手牌，或受到你对其造成的1点伤害。</sys:String>
     <sys:String x:Key="Skill.GangLie.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.TianDu.Name">天妒</sys:String>
+    <sys:String x:Key="Skill.TianDu.Description">每当你受到一次伤害后，你可以进行一次判定，若判定结果不为红桃，则伤害来源选择一项：弃置两张手牌，或受到你对其造成的1点伤害。</sys:String>
+    <sys:String x:Key="Skill.TianDu.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.LuoShen.Name">洛神</sys:String>
+    <sys:String x:Key="Skill.LuoShen.Description">每当你受到一次伤害后，你可以进行一次判定，若判定结果不为红桃，则伤害来源选择一项：弃置两张手牌，或受到你对其造成的1点伤害。</sys:String>
+    <sys:String x:Key="Skill.LuoShen.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.JianXiong.Name">奸雄</sys:String>
+    <sys:String x:Key="Skill.JianXiong.Description">每当你受到一次伤害后，你可以进行一次判定，若判定结果不为红桃，则伤害来源选择一项：弃置两张手牌，或受到你对其造成的1点伤害。</sys:String>
+    <sys:String x:Key="Skill.JianXiong.Usage">系统提示→点“确定”</sys:String>
 </ResourceDictionary>
