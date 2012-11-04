@@ -28,15 +28,14 @@ namespace Sanguosha.Expansions.Basic.Skills
                 {
                     return;
                 }
-                // someone grabbed it before us...
-                if (Game.CurrentGame.Decks[null, DeckType.Compute].Count == 0)
+                if (eventArgs.Cards == null || eventArgs.Cards.Count == 0)
                 {
                     return;
                 }
                 int answer = 0;
                 if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("JianXiong", eventArgs.Source), Prompt.YesNoChoices, out answer) && answer == 0)
                 {
-                    Game.CurrentGame.HandleCardTransferToHand(null, Owner, new List<Card>(Game.CurrentGame.Decks[null, DeckType.Compute]));
+                    Game.CurrentGame.HandleCardTransferToHand(null, Owner, new List<Card>(eventArgs.Cards));
                 }
             }
             public JianXiongTrigger(Player p)

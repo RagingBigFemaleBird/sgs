@@ -47,12 +47,12 @@ namespace Sanguosha.Core.UI
             proxyListener = new Dictionary<Player, Thread>();
             semAccess = new Semaphore(1, 1);
             semWake = new Semaphore(0, 2);
-            semDone = new Semaphore(proxy.Count - 1, proxy.Count - 1);
+            semDone = new Semaphore(Game.CurrentGame.AlivePlayers.Count - 1, Game.CurrentGame.AlivePlayers.Count - 1);
             answerSkill = null;
             answerCard = null;
             answerPlayer = null;
             respondingPlayer = null;
-            foreach (var player in Game.CurrentGame.Players)
+            foreach (var player in Game.CurrentGame.AlivePlayers)
             {
                 if (!proxy.ContainsKey(player))
                 {
