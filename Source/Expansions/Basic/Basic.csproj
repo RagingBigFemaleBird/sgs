@@ -67,6 +67,7 @@
     <Compile Include="Cards\ZhangBaSheMao.cs" />
     <Compile Include="Cards\ZhuGeLianNu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Skills\BiYue.cs" />
     <Compile Include="Skills\FanJian.cs" />
     <Compile Include="Skills\FanKui.cs" />
     <Compile Include="Skills\GangLie.cs" />
