@@ -515,7 +515,7 @@ namespace Sanguosha.Core.Games
                 }
                 game.MoveCards(moves, null);
 
-                Thread.Sleep(500);
+                Thread.Sleep(1200);
 
                 i = 0;
                 foreach (Player player in game.Players)

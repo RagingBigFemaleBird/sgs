@@ -266,9 +266,28 @@ namespace Sanguosha.UI.Controls
         protected override void AddRoleCard(CardView card)
         {
             card.Position = ComputeCardCenterPos(card, cbRoleBox);
+            
+            ScaleTransform scale = new ScaleTransform();
+            var transformGroup = new TransformGroup();
+            transformGroup.Children.Add(scale);
+            card.RenderTransform = transformGroup;
+
+            card.RenderTransformOrigin = new Point(0.5, 0.5);
+            DoubleAnimation scaleXAnim = new DoubleAnimation(0.1, new Duration(TimeSpan.FromSeconds(0.5d)));
+            DoubleAnimation scaleYAnim = new DoubleAnimation(0.1, new Duration(TimeSpan.FromSeconds(0.5d)));
+            Storyboard.SetTarget(scaleXAnim, card);
+            Storyboard.SetTarget(scaleYAnim, card);
+            Storyboard.SetTargetProperty(scaleXAnim, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"));
+            Storyboard.SetTargetProperty(scaleYAnim, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"));
+            Storyboard storyboard = new Storyboard();
+            storyboard.Children.Add(scaleXAnim);
+            storyboard.Children.Add(scaleYAnim);
+            storyboard.AccelerationRatio = 0.4d;
+            storyboard.Begin();
+
             card.CardOpacity = 1.0;
             card.DisappearAfterMove = true;
-            card.Rebase(0.3d);
+            card.Rebase(0.5d);
         }
 
         protected override CardView RemoveRoleCard(Card card)

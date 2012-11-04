@@ -74,8 +74,7 @@ namespace Sanguosha.UI.Controls
             _moveAnimation.Children.Add(_daMoveX);
             _moveAnimation.Children.Add(_daMoveY);
             _moveAnimation.Children.Add(_daOpacity);
-            _moveAnimation.AccelerationRatio = 0.4;
-            _moveAnimation.DecelerationRatio = 0.4;
+            _moveAnimation.AccelerationRatio = 0.2;
         }
 
         void CardView_MouseLeave(object sender, MouseEventArgs e)

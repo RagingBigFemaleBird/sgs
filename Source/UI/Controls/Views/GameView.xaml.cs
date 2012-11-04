@@ -103,6 +103,7 @@ namespace Sanguosha.UI.Controls
             _mainPlayerPropertyChangedHandler = mainPlayer_PropertyChanged;
             gameLogs = new GameLogs();
             logDocs = new List<FlowDocument>() { gameLogs.GlobalLog };
+            rtbLog.Document = gameLogs.GlobalLog;
             for (int i = 0; i < 10; i++)
             {
                 logDocs.Add(new FlowDocument());                
@@ -112,6 +113,7 @@ namespace Sanguosha.UI.Controls
                 radioLogs[i].Checked += (o, e) =>
                 {
                     rtbLog.Document = logDocs[radioLogs.IndexOf(o as RadioButton)];
+                    rtbLog.ScrollToEnd();
                 };
             }
         }
@@ -450,7 +452,7 @@ namespace Sanguosha.UI.Controls
         #endregion
 
         #region Game Event Notification
-        private static Duration _lineUpDuration = new Duration(TimeSpan.FromSeconds(1.5d));
+        private static Duration _lineUpDuration = new Duration(TimeSpan.FromSeconds(0.8d));
 
         private void _LineUp(Player source, IList<Player> targets)
         {
@@ -486,11 +488,11 @@ namespace Sanguosha.UI.Controls
             foreach (var line in lines)
             {
                 double distance = Math.Sqrt((line.X2 - line.X1) * (line.X2 - line.X1) + (line.Y2 - line.Y1) * (line.Y2 - line.Y1));
-                line.StrokeDashArray = new DoubleCollection() { distance * 1.2, 10000d };
+                line.StrokeDashArray = new DoubleCollection() { distance * 2.0, 10000d };
                 line.StrokeDashOffset = distance;
                 line.StrokeDashCap = PenLineCap.Triangle;
 
-                DoubleAnimation animation = new DoubleAnimation(distance * 1.2, -distance, _lineUpDuration);
+                DoubleAnimation animation = new DoubleAnimation(distance * 2.0, -distance, _lineUpDuration);
                 Storyboard.SetTarget(animation, line);
                 Storyboard.SetTargetProperty(animation, new PropertyPath(Line.StrokeDashOffsetProperty));
                 lineUpGroup.Children.Add(animation);
@@ -502,7 +504,7 @@ namespace Sanguosha.UI.Controls
                     GlobalCanvas.Children.Remove(l);
                 };
             }
-
+            lineUpGroup.AccelerationRatio = 0.6;
             lineUpGroup.Begin();
         }
 
@@ -591,6 +593,7 @@ namespace Sanguosha.UI.Controls
                 }
 
                 gameLogs.AppendLog(log);
+                rtbLog.ScrollToEnd();
             });
         }
 

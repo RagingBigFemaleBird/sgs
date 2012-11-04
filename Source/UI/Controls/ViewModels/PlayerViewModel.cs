@@ -828,6 +828,8 @@ namespace Sanguosha.UI.Controls
                     {
                         playerModel.IsSelected = false;
                     }
+                    _lastSelectedPlayers.Clear();
+                    
                 }
                 else if (status == VerifierResult.Partial)
                 {
