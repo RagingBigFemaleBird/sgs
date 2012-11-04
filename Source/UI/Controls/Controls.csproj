@@ -57,6 +57,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Views\GameLogs.cs" />
     <Compile Include="Views\LogFormatter.cs" />
     <Compile Include="Views\NonClipGrid.cs" />
     <Compile Include="ViewModels\BoolToVisibilityConverter.cs" />

@@ -40,8 +40,11 @@ namespace Sanguosha.UI.Controls
         protected static int[][] pk3v3SeatIndex;
         protected static int[][] pk1v3SeatIndex;
         private IList<StackPanel> stackPanels;
+        private IList<RadioButton> radioLogs;
+        private IList<FlowDocument> logDocs;
         private ObservableCollection<PlayerView> profileBoxes;
         private IDictionary<Player, PlayerViewBase> playersMap;
+        private GameLogs gameLogs;
         #endregion
 
         #region Constructors
@@ -90,6 +93,7 @@ namespace Sanguosha.UI.Controls
         {
             InitializeComponent();
             stackPanels = new List<StackPanel>() { stackPanel0, stackPanel1, stackPanel2, stackPanel3, stackPanel4, stackPanel5 };
+            radioLogs = new List<RadioButton>() { rbLog0, rbLog1, rbLog2, rbLog3, rbLog4, rbLog5, rbLog6, rbLog7, rbLog8, rbLog9, rbLog10 };            
             profileBoxes = new ObservableCollection<PlayerView>();
             playersMap = new Dictionary<Player, PlayerViewBase>();
             mainPlayerPanel.ParentGameView = this;
@@ -97,7 +101,19 @@ namespace Sanguosha.UI.Controls
             this.DataContextChanged +=  GameView_DataContextChanged;
             this.SizeChanged += GameView_SizeChanged;
             _mainPlayerPropertyChangedHandler = mainPlayer_PropertyChanged;
-            
+            gameLogs = new GameLogs();
+            logDocs = new List<FlowDocument>() { gameLogs.GlobalLog };
+            for (int i = 0; i < 10; i++)
+            {
+                logDocs.Add(new FlowDocument());                
+            }
+            for (int i = 0; i < 11; i++)
+            {
+                radioLogs[i].Checked += (o, e) =>
+                {
+                    rtbLog.Document = logDocs[radioLogs.IndexOf(o as RadioButton)];
+                };
+            }
         }
 
         void GameView_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -262,7 +278,31 @@ namespace Sanguosha.UI.Controls
                 oldModel.PropertyChanged -= _mainPlayerPropertyChangedHandler;
             }
             model.MainPlayerModel.PropertyChanged += _mainPlayerPropertyChangedHandler;
-        }
+
+            // Initialize game logs.
+            gameLogs.Logs.Clear();
+            int count = model.PlayerModels.Count;
+            for (int i = 0; i < 11; i++)
+            {
+                var rb = radioLogs[i];
+                if (i <= count)
+                {
+                    rb.Visibility = Visibility.Visible;
+                    rb.IsEnabled = true;                    
+                }
+                else
+                {
+                    rb.Visibility = Visibility.Hidden;
+                    rb.IsEnabled = false;
+                }                
+            }
+            radioLogs[0].IsChecked = true;
+            for (int i = 0; i < count; i++)
+            {
+                var player = model.PlayerModels[i];
+                gameLogs.Logs.Add(player.Player, logDocs[i + 1]);
+            }            
+        }       
 
         void model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
@@ -549,6 +589,8 @@ namespace Sanguosha.UI.Controls
                 {
                     _LineUp(log.Source, log.Targets);
                 }
+
+                gameLogs.AppendLog(log);
             });
         }
 

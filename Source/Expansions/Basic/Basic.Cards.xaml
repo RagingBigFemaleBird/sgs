@@ -51,7 +51,7 @@
     <system:String x:Key="Card.GuoHeChaiQiao.Name">过河拆桥</system:String>
     <system:String x:Key="Card.ShanDian.Name">闪电</system:String>
     <system:String x:Key="Card.ShanDianCardHandler.Name">闪电</system:String>
-
+    <system:String x:Key="Card.Tao.Name">桃</system:String>
     <!--
     Define card's default appearance this way:
     <BitmapImage x:Key="Card.Sha.Image.Normal">Images/Cards/Normal/Sha.jpg</BitmapImage>
