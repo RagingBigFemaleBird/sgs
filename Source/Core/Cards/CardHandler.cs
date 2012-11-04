@@ -107,7 +107,7 @@ namespace Sanguosha.Core.Cards
             }
         }
 
-        public void NotifyCardUse(Player source, List<Player> dests, List<Player> secondary, ICard card)
+        public void NotifyCardUse(Player source, List<Player> dests, List<Player> secondary, ICard card, GameAction action)
         {
             List<Player> logTargets = LogTargetsModifier(source, dests);
             ActionLog log = new ActionLog();
@@ -115,7 +115,7 @@ namespace Sanguosha.Core.Cards
             log.Targets = logTargets;
             log.SecondaryTargets = secondary;
             log.SkillAction = null;
-            log.GameAction = GameAction.Use;
+            log.GameAction = action;
             log.CardAction = card;
             Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
             if (card is Card)
@@ -129,7 +129,7 @@ namespace Sanguosha.Core.Cards
                 terminalCard.Log.Targets = dests;
                 terminalCard.Log.SecondaryTargets = secondary;
                 terminalCard.Log.CardAction = card;
-                terminalCard.Log.GameAction = GameAction.Use;
+                terminalCard.Log.GameAction = action;
             }
             else if (card is CompositeCard)
             {
@@ -143,14 +143,14 @@ namespace Sanguosha.Core.Cards
                     s.Log.Targets = dests;
                     s.Log.SecondaryTargets = secondary;
                     s.Log.CardAction = card;
-                    s.Log.GameAction = GameAction.Use;
+                    s.Log.GameAction = action;
                 }
             }
         }
 
-        public virtual void TagAndNotify(Player source, List<Player> dests, ICard card)
+        public virtual void TagAndNotify(Player source, List<Player> dests, ICard card, GameAction action = GameAction.Use)
         {
-            NotifyCardUse(source, dests, new List<Player>(), card);
+            NotifyCardUse(source, dests, new List<Player>(), card, action);
         }
 
         public virtual void Process(Player source, List<Player> dests, ICard card)

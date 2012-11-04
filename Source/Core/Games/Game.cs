@@ -557,21 +557,6 @@ namespace Sanguosha.Core.Games
                         card.Log = new ActionLog();
                         card.Type = GameEngine.CardSet[card.Id].Type;
                     }
-                    //reset own hand card and anonymize others'
-                    if (IsClient && move.to.DeckType == DeckType.Hand)
-                    {
-                        if (GameClient.SelfId == move.to.Player.Id)
-                        {
-                            card.Log = new ActionLog();
-                            card.Type = GameEngine.CardSet[card.Id].Type;
-                        }
-                        else
-                        {
-                            card.Log = new ActionLog();
-                            card.Id = Card.UnknownCardId;
-                            card.Type = new UnknownCardHandler();
-                        }
-                    }
                 }
             }
         }
@@ -896,7 +881,7 @@ namespace Sanguosha.Core.Games
         /// <param name="cards">造成伤害的牌</param>
         public void DoDamage(Player source, Player dest, int magnitude, DamageElement elemental, ICard card)
         {
-            GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), Card = card, IntArg = -magnitude, IntArg2 = (int)(elemental) };
+            GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), Card = new SymbolicCard(card), IntArg = -magnitude, IntArg2 = (int)(elemental) };
             if (card is CompositeCard)
             {
                 if ((card as CompositeCard).Subcards != null)
@@ -950,7 +935,7 @@ namespace Sanguosha.Core.Games
 
         }
 
-        public Card Judge(Player player)
+        public SymbolicCard Judge(Player player)
         {
             CardsMovement move = new CardsMovement();
             Card c;
@@ -975,11 +960,11 @@ namespace Sanguosha.Core.Games
             MoveCards(move, null);
             GameEventArgs args = new GameEventArgs();
             args.Source = player;
-            args.Card = c;
+            args.Card = new SymbolicCard(c);
             Game.CurrentGame.Emit(GameEvent.PlayerJudgeBegin, args);
             Game.CurrentGame.Emit(GameEvent.PlayerJudgeDone, args);
             Trace.Assert(args.Source == player);
-            Trace.Assert(args.Card is Card);
+            Trace.Assert(args.Card is SymbolicCard);
             if (decks[player, DeckType.JudgeResult].Count != 0)
             {
                 c = decks[player, DeckType.JudgeResult][0];
@@ -992,7 +977,7 @@ namespace Sanguosha.Core.Games
                 MoveCards(move, null);
                 PlayerDiscardedCard(player, backup, DiscardReason.Judge);
             }
-            return args.Card as Card;
+            return args.Card as SymbolicCard;
         }
 
         public void RecoverHealth(Player source, Player target, int magnitude)
@@ -1076,7 +1061,7 @@ namespace Sanguosha.Core.Games
                 cards.Clear();
                 cards.AddRange(r.Subcards);
             }
-            result.Type.TagAndNotify(p, targets, result);
+            result.Type.TagAndNotify(p, targets, result, GameAction.Play);
             List<Card> backup = new List<Card>(m.cards);
             PlayerPlayedCard(p, result);
             PlayerAboutToDiscardCard(p, m.cards, DiscardReason.Play);
