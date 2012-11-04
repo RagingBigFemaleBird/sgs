@@ -18,7 +18,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// <summary>
     /// 洛神-回合开始阶段开始时，你可以进行一次判定：若结果为黑色（通常是完全不可能的），你获得此牌；你可以重复此流程，直到出现红色的判定结果为止。
     /// </summary>
-    public class LuoShen : PassiveSkill
+    public class LuoShen : TriggerSkill
     {
         class LuoShenJudgeTrigger : Trigger
         {
@@ -68,28 +68,11 @@ namespace Sanguosha.Expansions.Basic.Skills
                     } while (c.SuitColor == SuitColorType.Black && Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("LuoShen"), Prompt.YesNoChoices, out answer) && answer == 0);
                 }
             }
-
-            public LuoShenTrigger(Player p)
-            {
-                Owner = p;
-            }
         }
 
-        Trigger theTrigger;
-
-        protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
+        public LuoShen()
         {
-            theTrigger = new LuoShenTrigger(owner);
-            Game.CurrentGame.RegisterTrigger(GameEvent.PhaseBeginEvents[TurnPhase.Start], theTrigger);
+            Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Start], new LuoShenTrigger());
         }
-
-        protected override void UninstallTriggers(Player owner)
-        {
-            if (theTrigger != null)
-            {
-                Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseBeginEvents[TurnPhase.Start], theTrigger);
-            }
-        }
-
     }
 }

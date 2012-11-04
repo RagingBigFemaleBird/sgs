@@ -906,12 +906,11 @@ namespace Sanguosha.Core.Games
             }
             else if (card is Card)
             {
-                args.Cards = new List<Card>();
-                args.Cards.Add(card as Card);
+                args.Cards = new List<Card>() { card as Card };
             }
             else
             {
-                Trace.Assert(false);
+                args.Cards = new List<Card>();
             }
             args.Targets.Add(dest);
 

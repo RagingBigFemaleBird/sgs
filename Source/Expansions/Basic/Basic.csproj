@@ -92,6 +92,7 @@
     <Compile Include="Skills\QingNang.cs" />
     <Compile Include="Skills\QiXi.cs" />
     <Compile Include="Skills\RenDe.cs" />
+    <Compile Include="Skills\SkillPriority.cs" />
     <Compile Include="Skills\TianDu.cs" />
     <Compile Include="Skills\TuXi.cs" />
     <Compile Include="Skills\WuSheng.cs" />

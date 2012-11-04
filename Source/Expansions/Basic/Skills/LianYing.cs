@@ -18,43 +18,16 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// <summary>
     /// 连营-当你失去最后一张手牌时，你可以摸一张牌。
     /// </summary>
-    public class LianYing : PassiveSkill
+    public class LianYing : TriggerSkill
     {
-        class LianYingTrigger : Trigger
+        public LianYing()
         {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                if (eventArgs.Source == null || eventArgs.Source != Owner || Game.CurrentGame.Decks[Owner, DeckType.Hand].Count > 0)
-                {
-                    return;
-                }
-                int answer = 0;
-                if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("LianYing"), Prompt.YesNoChoices, out answer) && answer == 0)
-                {
-                    Game.CurrentGame.DrawCards(Owner, 1);
-                }
-            }
-
-            public LianYingTrigger(Player p)
-            {
-                Owner = p;
-            }
-        }
-
-        Trigger lianYingTrigger;
-
-        protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
-        {
-            lianYingTrigger = new LianYingTrigger(owner);
-            Game.CurrentGame.RegisterTrigger(GameEvent.CardsLost, lianYingTrigger);
-        }
-
-        protected override void UninstallTriggers(Player owner)
-        {
-            if (lianYingTrigger != null)
-            {
-                Game.CurrentGame.UnregisterTrigger(GameEvent.CardsLost, lianYingTrigger);
-            }
+            var trigger = new AutoNotifyPassiveSkillTrigger(
+                this,
+                (p, e, a) => { Game.CurrentGame.DrawCards(Owner, 1); },
+                TriggerCondition.OwnerIsSource | TriggerCondition.SourceHasNoHandCards
+            );
+            Triggers.Add(GameEvent.CardsLost, trigger);
         }
     }
 }

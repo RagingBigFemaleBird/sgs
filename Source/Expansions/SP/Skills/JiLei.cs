@@ -18,7 +18,7 @@ namespace Sanguosha.Expansions.SP.Skills
     /// <summary>
     /// 鸡肋―当你受到伤害时，说出一种牌的类别（基本牌、锦囊牌、装备牌），对你造成伤害的角色不能使用、打出或弃掉该类别的手牌直到回合结束。
     /// </summary>
-    public class JiLei : PassiveSkill
+    public class JiLei : TriggerSkill
     {
         class JiLeiTrigger : Trigger
         {
@@ -47,11 +47,6 @@ namespace Sanguosha.Expansions.SP.Skills
                         Game.CurrentGame.RegisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], trigger2);
                     }
                 }
-            }
-
-            public JiLeiTrigger(Player p)
-            {
-                Owner = p;
             }
         }
 
@@ -124,20 +119,9 @@ namespace Sanguosha.Expansions.SP.Skills
             }
         }
 
-        Trigger theTrigger;
-
-        protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
+        public JiLei()
         {
-            theTrigger = new JiLeiTrigger(owner);
-            Game.CurrentGame.RegisterTrigger(GameEvent.DamageInflicted, theTrigger);
-        }
-
-        protected override void UninstallTriggers(Player owner)
-        {
-            if (theTrigger != null)
-            {
-                Game.CurrentGame.UnregisterTrigger(GameEvent.DamageInflicted, theTrigger);
-            }
+            Triggers.Add(GameEvent.DamageInflicted, new JiLeiTrigger());
         }
     }
 }

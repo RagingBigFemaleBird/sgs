@@ -18,7 +18,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// <summary>
     /// 奇才-锁定技，你使用任何锦囊牌无距离限制。
     /// </summary>
-    public class QiCai : PassiveSkill
+    public class QiCai : TriggerSkill
     {
         class QiCaiTrigger : Trigger
         {
@@ -35,28 +35,14 @@ namespace Sanguosha.Expansions.Basic.Skills
                 }
                 return;
             }
-            public QiCaiTrigger(Player p)
-            {
-                Owner = p;
-            }
         }
 
-        Trigger theTrigger;
-
-        protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
+        public QiCai()
         {
-            theTrigger = new QiCaiTrigger(owner);
-            Game.CurrentGame.RegisterTrigger(GameEvent.CardRangeModifier, theTrigger);
+            Triggers.Add(GameEvent.CardRangeModifier, new QiCaiTrigger());
         }
 
-        protected override void UninstallTriggers(Player owner)
-        {
-            if (theTrigger != null)
-            {
-                Game.CurrentGame.UnregisterTrigger(GameEvent.CardRangeModifier, theTrigger);
-            }
-        }
-        public override bool isEnforced
+        public override bool IsEnforced
         {
             get
             {

@@ -44,7 +44,6 @@ namespace Sanguosha.Core.Skills
             TargetsSplit(targets, out ft, out st);
             log.Targets = ft;
             log.SecondaryTargets = st;
-            log.Cards = cards;
             foreach (Card c in cards)
             {
                 if (c.Log == null)
@@ -62,9 +61,9 @@ namespace Sanguosha.Core.Skills
             secondaryTargets = null;
         }
 
-        public virtual bool isRulerOnly { get { return false; } }
-        public virtual bool isSingleUse { get { return false; } }
-        public virtual bool isAwakening { get { return false; } }
-        public bool isEnforced { get { return false; } }
+        public virtual bool IsRulerOnly { get { return false; } }
+        public virtual bool IsSingleUse { get { return false; } }
+        public virtual bool IsAwakening { get { return false; } }
+        public bool IsEnforced { get { return false; } }
     }
 }

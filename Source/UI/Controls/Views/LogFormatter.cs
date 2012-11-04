@@ -171,18 +171,37 @@ namespace Sanguosha.UI.Controls
             string source = Translate(log.Source);
             string dests = Translate(log.Targets);
             
-            string skill = Translate(log.SkillAction);
+            IList<Inline> skillInline = RichTranslate(log.SkillAction);
             string formatter = source;
             switch (log.GameAction)
             {
                 case GameAction.None:
                     if (log.SkillAction != null)
                     {
-                        paragraph.Inlines.Add(string.Format("{0}发动了技能", source));
-                        paragraph.Inlines.AddRange(RichTranslate(log.SkillAction));
-                        if (dests != string.Empty)
+                        ISkill skill = log.SkillAction;
+                        if (skill is TriggerSkill || skill is ActiveSkill)
                         {
-                            paragraph.Inlines.Add("，目标是" + dests);
+                            paragraph.Inlines.Add(string.Format("{0}发动了技能", source));
+                            paragraph.Inlines.AddRange(RichTranslate(log.SkillAction));
+                            if (dests != string.Empty)
+                            {
+                                paragraph.Inlines.Add("，目标是" + dests);
+                            }
+                        }
+                        else if (skill is CardTransformSkill)
+                        {
+                            CompositeCard card = log.CardAction as CompositeCard;
+                            Trace.Assert(card != null);
+                            paragraph.Inlines.Add(string.Format("{0}发动了技能", source));
+                            paragraph.Inlines.AddRange(RichTranslate(log.SkillAction));
+                            if (card.Subcards.Count > 0)
+                            {
+                                paragraph.Inlines.Add("，将");
+                                paragraph.Inlines.AddRange(RichTranslate(card.Subcards));
+                                paragraph.Inlines.Add("当作一张");
+                                paragraph.Inlines.AddRange(RichTranslate(card.Type));
+                                paragraph.Inlines.Add("打出");
+                            }
                         }
                     }
                     break;
@@ -228,7 +247,7 @@ namespace Sanguosha.UI.Controls
 
             if (dest.Player != null)
             {
-                if (source.DeckType == DeckType.Dealing)
+                if (source.DeckType == DeckType.Dealing && dest.DeckType == DeckType.Hand)
                 {
                     paragraph.Inlines.Add(string.Format("{0}从牌堆里摸了", destStr));
                 }

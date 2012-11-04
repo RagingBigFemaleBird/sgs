@@ -66,7 +66,6 @@ namespace Sanguosha.Core.UI
         {
             Targets = new List<Player>();
             SecondaryTargets = new List<Player>();
-            Cards = new List<Card>();
         }
         public GameAction GameAction { get; set; }
         public ISkill SkillAction { get; set; }
@@ -74,6 +73,5 @@ namespace Sanguosha.Core.UI
         public Player Source { get; set; }
         public List<Player> Targets { get; set; }
         public List<Player> SecondaryTargets { get; set; }
-        public List<Card> Cards { get; set; }
     }
 }

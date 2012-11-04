@@ -47,6 +47,9 @@
     <system:String x:Key="Card.ZhangBaSheMao.Usage">选中【丈八蛇矛】→选择两张手牌→选择攻击距离内目标→点“确定”</system:String>
 
     <system:String x:Key="Card.ZhuGeLianNu.Name">诸葛连弩</system:String>
+    <system:String x:Key="Card.FangTianHuaJi.Name">方天画戟</system:String>
+    <system:String x:Key="Card.DiLu.Name">的卢</system:String>
+    <system:String x:Key="Card.DaYuan.Name">大宛</system:String>
     <system:String x:Key="Card.LeBuSiShu.Name">乐不思蜀</system:String>
     <system:String x:Key="Card.GuoHeChaiQiao.Name">过河拆桥</system:String>
     <system:String x:Key="Card.ShanDian.Name">闪电</system:String>

@@ -18,107 +18,77 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// <summary>
     /// 流离-当你成为【杀】的目标时，你可以弃置一张牌将此【杀】转移给你攻击范围内的一名其他角色，该角色不得是此【杀】的使用者。
     /// </summary>
-    public class LiuLi : PassiveSkill
+    public class LiuLi : TriggerSkill
     {
-        class LiuLiTrigger : Trigger
+        class LiuLiVerifier : CardUsageVerifier
         {
-            class LiuLiVerifier : CardUsageVerifier
+            public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
             {
-                public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
+                if (skill != null)
                 {
-                    if (skill != null)
-                    {
-                        return VerifierResult.Fail;
-                    }
-                    if (players != null && players.Count > 1)
-                    {
-                        return VerifierResult.Fail;
-                    }
-                    if (players != null && players.Count != 0 && (players[0] == source || players[0] == ShaSource))
-                    {
-                        return VerifierResult.Fail;
-                    }
-                    if (players != null && players.Count != 0 && Game.CurrentGame.DistanceTo(source, players[0]) > players[0][Player.AttackRange] + 1)
-                    {
-                        return VerifierResult.Fail;
-                    }
-                    if (cards != null && cards.Count > 1)
-                    {
-                        return VerifierResult.Fail;
-                    }
-                    if (cards == null || cards.Count == 0)
-                    {
-                        return VerifierResult.Partial;
-                    }
-                    if (players == null || players.Count == 0)
-                    {
-                        return VerifierResult.Partial;
-                    }
-                    return VerifierResult.Success;
+                    return VerifierResult.Fail;
                 }
-
-                public override IList<CardHandler> AcceptableCardType
+                if (players != null && players.Count > 1)
                 {
-                    get { return new List<CardHandler>(); }
+                    return VerifierResult.Fail;
                 }
-
-                Player ShaSource;
-                public LiuLiVerifier(Player p)
+                if (players != null && players.Count != 0 && (players[0] == source || players[0] == ShaSource))
                 {
-                    ShaSource = p;
+                    return VerifierResult.Fail;
                 }
+                if (players != null && players.Count != 0 && Game.CurrentGame.DistanceTo(source, players[0]) > players[0][Player.AttackRange] + 1)
+                {
+                    return VerifierResult.Fail;
+                }
+                if (cards != null && cards.Count > 1)
+                {
+                    return VerifierResult.Fail;
+                }
+                if (cards == null || cards.Count == 0)
+                {
+                    return VerifierResult.Partial;
+                }
+                if (players == null || players.Count == 0)
+                {
+                    return VerifierResult.Partial;
+                }
+                return VerifierResult.Success;
             }
 
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            public override IList<CardHandler> AcceptableCardType
             {
-                Trace.Assert(eventArgs.Targets.Count == 1);
-                if (!eventArgs.Targets.Contains(Owner))
-                {
-                    return;
-                }
-                if (!(eventArgs.Card.Type is Sha))
-                {
-                    return;
-                }
-                ISkill skill;
-                List<Card> cards;
-                List<Player> players;
-                if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("LiuLi"), new LiuLiVerifier(eventArgs.Source), out skill, out cards, out players))
-                {
-                    Game.CurrentGame.HandleCardDiscard(players[0], cards);
-                    eventArgs.Targets = new List<Player>(players);
-                    throw new TriggerResultException(TriggerResult.Retry);
-                }
-                return;
+                get { return new List<CardHandler>(); }
             }
-            public LiuLiTrigger(Player p)
+
+            Player ShaSource;
+            public LiuLiVerifier(Player p)
             {
-                Owner = p;
+                ShaSource = p;
             }
         }
 
-        Trigger theTrigger;
-
-        protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
+        public void OnPlayerIsCardTarget(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            theTrigger = new LiuLiTrigger(owner);
-            theTrigger.Priority = int.MaxValue;
-            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerIsCardTarget, theTrigger);
-        }
-
-        protected override void UninstallTriggers(Player owner)
-        {
-            if (theTrigger != null)
+            ISkill skill;
+            List<Card> cards;
+            List<Player> players;
+            if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("LiuLi"), new LiuLiVerifier(eventArgs.Source), out skill, out cards, out players))
             {
-                Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerIsCardTarget, theTrigger);
+                Game.CurrentGame.HandleCardDiscard(players[0], cards);
+                eventArgs.Targets = new List<Player>(players);
+                throw new TriggerResultException(TriggerResult.Retry);
             }
         }
-        public override bool isEnforced
+
+        public LiuLi()
         {
-            get
-            {
-                return true;
-            }
+            var trigger = new AutoNotifyPassiveSkillTrigger(
+                this,
+                (p, e, a) => { return a.Card.Type is Sha; },
+                OnPlayerIsCardTarget,
+                TriggerCondition.OwnerIsTarget
+            ) { Priority = SkillPriority.LiuLi };
+            Triggers.Add(GameEvent.PlayerIsCardTarget, trigger);
         }
     }
 }

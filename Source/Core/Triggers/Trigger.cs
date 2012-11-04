@@ -31,7 +31,7 @@ namespace Sanguosha.Core.Triggers
 
     public class Trigger
     {
-        public Player Owner { get; set; }
+        public virtual Player Owner { get; set; }
 
         public Trigger()
         {
@@ -40,7 +40,7 @@ namespace Sanguosha.Core.Triggers
             enabled = true;
             priority = 0;
         }
-
+        
         TriggerType type;
         /// <summary>
         /// The source of trigger definition. Helps decide whether which triggers

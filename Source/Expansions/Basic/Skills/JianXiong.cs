@@ -18,46 +18,24 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// <summary>
     /// 奸雄-每当你受到一次伤害后，你可以获得对你造成伤害的牌。
     /// </summary>
-    public class JianXiong : PassiveSkill
+    public class JianXiong : TriggerSkill
     {
-        class JianXiongTrigger : Trigger
+        public JianXiong()
         {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                if (eventArgs.Source == null || eventArgs.Targets.IndexOf(Owner) < 0)
+            var trigger = new AutoNotifyPassiveSkillTrigger(
+                this,
+                (p, e, a) =>
                 {
-                    return;
-                }
-                if (eventArgs.Cards == null || eventArgs.Cards.Count == 0)
+                    Trace.Assert(a.Cards != null);
+                    return a.Cards.Count > 0;
+                },
+                (p, e, a) =>
                 {
-                    return;
-                }
-                int answer = 0;
-                if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("JianXiong", eventArgs.Source), Prompt.YesNoChoices, out answer) && answer == 0)
-                {
-                    Game.CurrentGame.HandleCardTransferToHand(null, Owner, new List<Card>(eventArgs.Cards));
-                }
-            }
-            public JianXiongTrigger(Player p)
-            {
-                Owner = p;
-            }
-        }
-
-        Trigger theTrigger;
-
-        protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
-        {
-            theTrigger = new JianXiongTrigger(owner);
-            Game.CurrentGame.RegisterTrigger(GameEvent.AfterDamageInflicted, theTrigger);
-        }
-
-        protected override void UninstallTriggers(Player owner)
-        {
-            if (theTrigger != null)
-            {
-                Game.CurrentGame.UnregisterTrigger(GameEvent.AfterDamageInflicted, theTrigger);
-            }
+                    Game.CurrentGame.HandleCardTransferToHand(null, Owner, new List<Card>(a.Cards));
+                },
+                TriggerCondition.OwnerIsTarget
+            );
+            Triggers.Add(GameEvent.AfterDamageInflicted, trigger);
         }
     }
 }

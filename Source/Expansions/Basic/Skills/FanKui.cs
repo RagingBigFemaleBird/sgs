@@ -18,70 +18,43 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// <summary>
     /// 反馈-每当你受到一次伤害后，你可以获得伤害来源的一张牌。
     /// </summary>
-    public class FanKui : PassiveSkill
+    public class FanKui : TriggerSkill
     {
-        class FanKuiTrigger : Trigger
+        public void OnAfterDamageInflicted(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            NotifyAction(owner, new List<Player>() { eventArgs.Source });
+            List<DeckPlace> deck = new List<DeckPlace>();
+            deck.Add(new DeckPlace(eventArgs.Source, DeckType.Hand));
+            deck.Add(new DeckPlace(eventArgs.Source, DeckType.Equipment));
+            List<int> max = new List<int>() { 1 };
+            List<List<Card>> result;
+            List<string> deckname = new List<string>() {"FanKui choice"};
+            Card theCard;
+                
+            if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("FanKui", eventArgs.Source), deck, deckname, max, new RequireOneCardChoiceVerifier(), out result, new List<bool>() { false }))
             {
-                if (eventArgs.Source == null || eventArgs.Targets.IndexOf(Owner) < 0)
-                {
-                    return;
-                }
-                int answer = 0;
-                if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("FanKui", eventArgs.Source), Prompt.YesNoChoices, out answer) && answer == 0)
-                {
-                    List<DeckPlace> deck = new List<DeckPlace>();
-                    deck.Add(new DeckPlace(eventArgs.Source, DeckType.Hand));
-                    deck.Add(new DeckPlace(eventArgs.Source, DeckType.Equipment));
-                    List<int> max = new List<int>();
-                    max.Add(1);
-                    List<List<Card>> result;
-                    List<string> deckname = new List<string>();
-                    deckname.Add("FanKui choice");
-                    Card theCard;
-                    if (Game.CurrentGame.Decks[eventArgs.Source, DeckType.Hand].Count == 0 &&
-                        Game.CurrentGame.Decks[eventArgs.Source, DeckType.Equipment].Count == 0)
-                    {
-                        return;
-                    }
-                    if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("FanKui", eventArgs.Source), deck, deckname, max, new RequireOneCardChoiceVerifier(), out result, new List<bool>() { false }))
-                    {
 
-                        Trace.TraceInformation("Invalid choice for FanKui");
-                        theCard = Game.CurrentGame.Decks[eventArgs.Source, DeckType.Hand]
-                            .Concat(Game.CurrentGame.Decks[eventArgs.Source, DeckType.Equipment]).First();
-                    }
-                    else
-                    {
-                        theCard = result[0][0];
-                    }
-                    List<Card> cards = new List<Card>();
-                    cards.Add(theCard);
-                    Game.CurrentGame.HandleCardTransferToHand(eventArgs.Source, Owner, cards);
-                }
+                Trace.TraceInformation("Invalid choice for FanKui");
+                theCard = Game.CurrentGame.Decks[eventArgs.Source, DeckType.Hand]
+                    .Concat(Game.CurrentGame.Decks[eventArgs.Source, DeckType.Equipment]).First();
             }
-            
-            public FanKuiTrigger(Player p)
+            else
             {
-                Owner = p;
+                theCard = result[0][0];
             }
+            List<Card> cards = new List<Card>();
+            cards.Add(theCard);
+            Game.CurrentGame.HandleCardTransferToHand(eventArgs.Source, owner, cards);
         }
 
-        Trigger theTrigger;
-
-        protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
+        public FanKui()
         {
-            theTrigger = new FanKuiTrigger(owner);
-            Game.CurrentGame.RegisterTrigger(GameEvent.AfterDamageInflicted, new FanKuiTrigger(owner));
-        }
-
-        protected override void UninstallTriggers(Player owner)
-        {
-            if (theTrigger != null)
-            {
-                Game.CurrentGame.UnregisterTrigger(GameEvent.AfterDamageInflicted, theTrigger);
-            }
+            var trigger = new AutoNotifyPassiveSkillTrigger(
+                this,
+                OnAfterDamageInflicted,
+                TriggerCondition.OwnerIsTarget | TriggerCondition.SourceHasCards
+            );
+            Triggers.Add(GameEvent.AfterDamageInflicted, trigger);
         }
     }
 }

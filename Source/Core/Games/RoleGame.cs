@@ -546,7 +546,7 @@ namespace Sanguosha.Core.Games
                     {
                         foreach (var s in (hero.Type as HeroCardHandler).Hero.Skills)
                         {
-                            if (s.isRulerOnly)
+                            if (s.IsRulerOnly)
                             {
                                 game.Decks[DeckType.Heroes].Remove(hero);
                                 game.Decks[DeckType.Heroes].Insert(0, hero);
@@ -649,7 +649,7 @@ namespace Sanguosha.Core.Games
                     Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, p.Id);
                     foreach (var skill in new List<ISkill>(h.Hero.Skills))
                     {
-                        if (skill.isRulerOnly)
+                        if (skill.IsRulerOnly)
                         {
                             h.Hero.Skills.Remove(skill);
                         }
@@ -712,9 +712,9 @@ namespace Sanguosha.Core.Games
                 {
                     foreach (ISkill s in p.Hero.Skills)
                     {
-                        if (s is PassiveSkill)
+                        if (s is TriggerSkill)
                         {
-                            (s as PassiveSkill).Owner = null;
+                            (s as TriggerSkill).Owner = null;
                         }
                     }
                 }
@@ -722,9 +722,9 @@ namespace Sanguosha.Core.Games
                 {
                     foreach (ISkill s in p.Hero2.Skills)
                     {
-                        if (s is PassiveSkill)
+                        if (s is TriggerSkill)
                         {
-                            (s as PassiveSkill).Owner = null;
+                            (s as TriggerSkill).Owner = null;
                         }
                     }
                 }

@@ -6,6 +6,7 @@ using System.Text;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Cards;
+using Sanguosha.Core.Skills;
 
 namespace Sanguosha.Core.UI
 {
@@ -26,8 +27,8 @@ namespace Sanguosha.Core.UI
 
     public class MultipleChoicePrompt : Prompt
     {
-        public MultipleChoicePrompt(string cardName, params object[] args)
-            : base(MultipleChoicePromptPrefix + cardName, args)
+        public MultipleChoicePrompt(string name, params object[] args)
+            : base(MultipleChoicePromptPrefix + name, args)
         {
         }
     }
@@ -67,6 +68,10 @@ namespace Sanguosha.Core.UI
                 {
                     _values.Add(string.Format("Suit.{0}.Text", ((SuitType)arg).ToString()));
                 }
+                else if (arg is ISkill)
+                {
+                    _values.Add(string.Format("Skill.{0}.Name", arg.GetType().Name));
+                }
                 else
                 {
                     _values.Add(string.Format(DirectOutputPrefix + arg.ToString()));
@@ -105,6 +110,7 @@ namespace Sanguosha.Core.UI
         #region Multiple Choice Constants
         public static readonly string MultipleChoicePromptPrefix = "MultiChoice.Prompt.";
         public static readonly string MultipleChoiceOptionPrefix = "MultiChoice.Choice.";
+        public static readonly string SkillUseYewNoPrompt = "SkillYesNo";
         public static readonly string YesChoice = MultipleChoiceOptionPrefix + "Yes";
         public static readonly string NoChoice = MultipleChoiceOptionPrefix + "No";
         public static readonly string HeartChoice = MultipleChoiceOptionPrefix + "Heart";

@@ -273,8 +273,8 @@ namespace Sanguosha.UI.Controls
             card.RenderTransform = transformGroup;
 
             card.RenderTransformOrigin = new Point(0.5, 0.5);
-            DoubleAnimation scaleXAnim = new DoubleAnimation(0.1, new Duration(TimeSpan.FromSeconds(0.5d)));
-            DoubleAnimation scaleYAnim = new DoubleAnimation(0.1, new Duration(TimeSpan.FromSeconds(0.5d)));
+            DoubleAnimation scaleXAnim = new DoubleAnimation(0.2, new Duration(TimeSpan.FromSeconds(0.5d)));
+            DoubleAnimation scaleYAnim = new DoubleAnimation(0.2, new Duration(TimeSpan.FromSeconds(0.5d)));
             Storyboard.SetTarget(scaleXAnim, card);
             Storyboard.SetTarget(scaleYAnim, card);
             Storyboard.SetTargetProperty(scaleXAnim, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"));

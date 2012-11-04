@@ -18,7 +18,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// <summary>
     /// 天妒-在你的判定牌生效后，你可以获得此牌。
     /// </summary>
-    public class TianDu : PassiveSkill
+    public class TianDu : TriggerSkill
     {
         class TianDuTrigger : Trigger
         {
@@ -40,26 +40,11 @@ namespace Sanguosha.Expansions.Basic.Skills
                 }
                 return;
             }
-            public TianDuTrigger(Player p)
-            {
-                Owner = p;
-            }
         }
 
-        Trigger theTrigger;
-
-        protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
+        public TianDu()
         {
-            theTrigger = new TianDuTrigger(owner);
-            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerJudgeDone, theTrigger);
-        }
-
-        protected override void UninstallTriggers(Player owner)
-        {
-            if (theTrigger != null)
-            {
-                Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerJudgeDone, theTrigger);
-            }
+            Triggers.Add(GameEvent.PlayerJudgeDone, new TianDuTrigger());
         }
 
     }

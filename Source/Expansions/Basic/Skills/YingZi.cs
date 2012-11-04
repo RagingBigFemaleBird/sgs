@@ -18,7 +18,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// <summary>
     /// 英姿-摸牌阶段摸牌时，你可以额外摸一张牌。
     /// </summary>
-    public class YingZi : PassiveSkill
+    public class YingZi : TriggerSkill
     {
         class YingZiTrigger : Trigger
         {
@@ -35,26 +35,11 @@ namespace Sanguosha.Expansions.Basic.Skills
                 }
                 return;
             }
-            public YingZiTrigger(Player p)
-            {
-                Owner = p;
-            }
         }
 
-        Trigger theTrigger;
-
-        protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
+        public YingZi()
         {
-            theTrigger = new YingZiTrigger(owner);
-            Game.CurrentGame.RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Draw], theTrigger);
-        }
-
-        protected override void UninstallTriggers(Player owner)
-        {
-            if (theTrigger != null)
-            {
-                Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Draw], theTrigger);
-            }
+            Triggers.Add(GameEvent.PhaseProceedEvents[TurnPhase.Draw], new YingZiTrigger());
         }
 
     }

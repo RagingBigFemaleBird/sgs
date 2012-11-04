@@ -50,7 +50,7 @@ namespace Sanguosha.UI.Controls
                 {
                     return SkillType.Active;
                 }
-                else if (Skill is PassiveSkill)
+                else if (Skill is TriggerSkill)
                 {
                     return SkillType.Trigger;
                 }

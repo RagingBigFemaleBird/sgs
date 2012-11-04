@@ -58,10 +58,10 @@ namespace Sanguosha.Core.Skills
 
         public virtual List<CardHandler> PossibleResults { get { return null; } }
 
-        public virtual bool isRulerOnly { get { return false; } }
-        public virtual bool isSingleUse { get { return false; } }
-        public virtual bool isAwakening { get { return false; } }
-        public bool isEnforced { get { return false; } }
+        public virtual bool IsRulerOnly { get { return false; } }
+        public virtual bool IsSingleUse { get { return false; } }
+        public virtual bool IsAwakening { get { return false; } }
+        public bool IsEnforced { get { return false; } }
 
         protected virtual void NotifyAction(Players.Player source, List<Players.Player> targets, List<Card> cards)
         {
@@ -71,7 +71,6 @@ namespace Sanguosha.Core.Skills
             log.SkillAction = this;
             log.Source = source;
             log.Targets = targets;
-            log.Cards = null;
             Games.Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
             foreach (Card c in cards)
             {

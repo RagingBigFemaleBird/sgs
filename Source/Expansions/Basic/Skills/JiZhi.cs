@@ -18,41 +18,15 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// <summary>
     /// 集智-当你使用一张非延时类锦囊牌时，你可以摸一张牌。
     /// </summary>
-    public class JiZhi : PassiveSkill
+    public class JiZhi : TriggerSkill
     {
-        class JiZhiTrigger : Trigger
+        public JiZhi()
         {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                Trace.Assert(eventArgs != null);
-                if (eventArgs.Source != Owner)
-                {
-                    return;
-                }
-                if (CardCategoryManager.IsCardCategory(eventArgs.Card.Type.Category, CardCategory.ImmediateTool))
-                {
-                    Game.CurrentGame.DrawCards(Owner, 1);
-                }
-                return;
-            }
-            public JiZhiTrigger(Player p)
-            {
-                Owner = p;
-            }
+            Triggers.Add(GameEvent.PlayerUsedCard, new AutoNotifyPassiveSkillTrigger(this,
+                (p, e, a) => { return CardCategoryManager.IsCardCategory(a.Card.Type.Category, CardCategory.ImmediateTool); },
+                (p, e, a) => { Game.CurrentGame.DrawCards(p, 1); },
+                TriggerCondition.OwnerIsSource
+            ));
         }
-
-        Trigger theTrigger;
-        protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
-        {
-            theTrigger = new JiZhiTrigger(owner);
-            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerUsedCard, theTrigger);
-        }
-
-        protected override void UninstallTriggers(Sanguosha.Core.Players.Player owner)
-        {
-            Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerUsedCard, theTrigger);
-            theTrigger = null;
-        }
-
     }
 }

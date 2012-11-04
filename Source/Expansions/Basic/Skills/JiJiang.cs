@@ -122,7 +122,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             get { return new List<CardHandler>() { new Sha() }; }
         }
 
-        public override bool isRulerOnly
+        public override bool IsRulerOnly
         {
             get
             {

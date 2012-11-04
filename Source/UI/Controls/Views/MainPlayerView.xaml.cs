@@ -286,8 +286,8 @@ namespace Sanguosha.UI.Controls
             card.RenderTransform = transformGroup;
 
             DoubleAnimation rotateAnim = new DoubleAnimation(720, new Duration(TimeSpan.FromSeconds(0.8d)));
-            DoubleAnimation scaleXAnim = new DoubleAnimation(0.1, new Duration(TimeSpan.FromSeconds(0.8d)));
-            DoubleAnimation scaleYAnim = new DoubleAnimation(0.1, new Duration(TimeSpan.FromSeconds(0.8d)));
+            DoubleAnimation scaleXAnim = new DoubleAnimation(0.25, new Duration(TimeSpan.FromSeconds(0.8d)));
+            DoubleAnimation scaleYAnim = new DoubleAnimation(0.25, new Duration(TimeSpan.FromSeconds(0.8d)));
             Storyboard.SetTarget(rotateAnim, card);
             Storyboard.SetTarget(scaleXAnim, card);
             Storyboard.SetTarget(scaleYAnim, card);

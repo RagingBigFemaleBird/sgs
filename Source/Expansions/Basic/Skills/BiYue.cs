@@ -18,44 +18,21 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// <summary>
     /// 闭月-回合结束阶段开始时，你可以摸一张牌。
     /// </summary>
-    public class BiYue : PassiveSkill
+    public class BiYue : TriggerSkill
     {
-        class BiYueTrigger : Trigger
+        public BiYue()
         {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                if (eventArgs.Source != Owner)
+            Trigger trigger = new AutoNotifyPassiveSkillTrigger
+            (
+                this,
+                (p, a, e) =>
                 {
-                    return;
-                }
-                int answer = 0;
-                if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("BiYue"), Prompt.YesNoChoices, out answer) && answer == 0)
-                {
-                    Game.CurrentGame.DrawCards(Owner, 1);
-                }
-            }
+                    Game.CurrentGame.DrawCards(p, 1);
+                },
+                TriggerCondition.OwnerIsSource
+            );
 
-            public BiYueTrigger(Player p)
-            {
-                Owner = p;
-            }
+            Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger);
         }
-
-        Trigger theTrigger;
-
-        protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
-        {
-            theTrigger = new BiYueTrigger(owner);
-            Game.CurrentGame.RegisterTrigger(GameEvent.PhaseBeginEvents[TurnPhase.End], theTrigger);
-        }
-
-        protected override void UninstallTriggers(Player owner)
-        {
-            if (theTrigger != null)
-            {
-                Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseBeginEvents[TurnPhase.End], theTrigger);
-            }
-        }
-
     }
 }

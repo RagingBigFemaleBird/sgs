@@ -18,7 +18,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
     /// <summary>
     /// 落英-当其他角色的梅花牌，因弃牌或判定而进入弃牌堆时，你可以获得之。
     /// </summary>
-    public class LuoYing : PassiveSkill
+    public class LuoYing : TriggerSkill
     {
         class LuoYingTrigger : Trigger
         {
@@ -43,27 +43,11 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                     }
                 }
             }
-
-            public LuoYingTrigger(Player p)
-            {
-                Owner = p;
-            }
         }
 
-        Trigger theTrigger;
-
-        protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
+        public LuoYing()
         {
-            theTrigger = new LuoYingTrigger(owner);
-            Game.CurrentGame.RegisterTrigger(GameEvent.CardsEnteringDiscardDeck, theTrigger);
-        }
-
-        protected override void UninstallTriggers(Player owner)
-        {
-            if (theTrigger != null)
-            {
-                Game.CurrentGame.UnregisterTrigger(GameEvent.CardsEnteringDiscardDeck, theTrigger);
-            }
+            Triggers.Add(GameEvent.CardsEnteringDiscardDeck, new LuoYingTrigger());
         }
     }
 }

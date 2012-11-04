@@ -18,7 +18,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// <summary>
     /// 突袭-摸牌阶段，你可以放弃摸牌，改为获得一至两名其他角色的各一张手牌。
     /// </summary>
-    public class TuXi : PassiveSkill
+    public class TuXi : TriggerSkill
     {
         class TuXiTrigger : Trigger
         {
@@ -88,34 +88,12 @@ namespace Sanguosha.Expansions.Basic.Skills
                 }
                 return;
             }
-            public TuXiTrigger(Player p)
-            {
-                Owner = p;
-            }
+
         }
 
-        Trigger theTrigger;
-
-        protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
+        public TuXi()
         {
-            theTrigger = new TuXiTrigger(owner);
-            theTrigger.Priority = int.MaxValue;
-            Game.CurrentGame.RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Draw], theTrigger);
-        }
-
-        protected override void UninstallTriggers(Player owner)
-        {
-            if (theTrigger != null)
-            {
-                Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Draw], theTrigger);
-            }
-        }
-        public override bool isEnforced
-        {
-            get
-            {
-                return true;
-            }
+            Triggers.Add(GameEvent.PhaseProceedEvents[TurnPhase.Draw], new TuXiTrigger() { Priority = SkillPriority.TuXi });
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             owner[Player.RangeMinus]++;
         }
 
-        public override bool isEnforced
+        public override bool IsEnforced
         {
             get
             {

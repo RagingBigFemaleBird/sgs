@@ -6,13 +6,16 @@ using System.Text;
 using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Cards;
 using Sanguosha.Core.UI;
+using Sanguosha.Core.Games;
+using System.Diagnostics;
+using Sanguosha.Core.Players;
 
 namespace Sanguosha.Core.Skills
 {
     public abstract class PassiveSkill : ISkill
     {
         private Players.Player owner;
-
+        
         /// <summary>
         /// Owner of the skill.
         /// </summary>
@@ -32,9 +35,10 @@ namespace Sanguosha.Core.Skills
         }
 
         protected abstract void InstallTriggers(Players.Player owner);
+
         protected abstract void UninstallTriggers(Players.Player owner);
 
-        protected void NotifyAction(Players.Player source, List<Players.Player> targets, List<Card> cards)
+        protected void NotifyAction(Players.Player source, List<Players.Player> targets)
         {
             ActionLog log = new ActionLog();
             log.GameAction = GameAction.None;
@@ -42,13 +46,27 @@ namespace Sanguosha.Core.Skills
             log.SkillAction = this;
             log.Source = source;
             log.Targets = targets;
-            log.Cards = cards;
             Games.Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
         }
 
-        public virtual bool isRulerOnly { get { return false; } }
-        public virtual bool isSingleUse { get { return false; } }
-        public virtual bool isAwakening { get { return false; } }
-        public virtual bool isEnforced { get { return false; } }
+        /// <summary>
+        /// 返回该技能是否是主公技。
+        /// </summary>
+        public virtual bool IsRulerOnly { get { return false; } }
+
+        /// <summary>
+        /// 返回该技能是否是限定技。
+        /// </summary>
+        public virtual bool IsSingleUse { get { return false; } }
+
+        /// <summary>
+        /// 返回该技能是否是觉醒技。
+        /// </summary>
+        public virtual bool IsAwakening { get { return false; } }
+
+        /// <summary>
+        /// 返回该技能是否是锁定技。
+        /// </summary>
+        public virtual bool IsEnforced { get { return false; } }
     }
 }

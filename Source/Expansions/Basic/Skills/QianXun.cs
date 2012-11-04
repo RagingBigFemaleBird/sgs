@@ -18,7 +18,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// <summary>
     /// 谦逊-锁定技，你不能取得游戏的胜利。
     /// </summary>
-    public class QianXun : PassiveSkill
+    public class QianXun : TriggerSkill
     {
         class QianXunTrigger : Trigger
         {
@@ -35,28 +35,15 @@ namespace Sanguosha.Expansions.Basic.Skills
                 }
                 return;
             }
-            public QianXunTrigger(Player p)
-            {
-                Owner = p;
-            }
         }
 
-        Trigger qianXunTrigger;
-
-        protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
+        public QianXun()
         {
-            qianXunTrigger = new QianXunTrigger(owner);
-            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanBeTargeted, qianXunTrigger);
+            Triggers.Add(GameEvent.PlayerCanBeTargeted, new QianXunTrigger());
         }
 
-        protected override void UninstallTriggers(Player owner)
-        {
-            if (qianXunTrigger != null)
-            {
-                Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerCanBeTargeted, qianXunTrigger);
-            }
-        }
-        public override bool isEnforced
+
+        public override bool IsEnforced
         {
             get
             {

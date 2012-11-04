@@ -18,46 +18,31 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// <summary>
     /// 空城-锁定技，若你没有手牌，你不能成为【杀】或【决斗】的目标。
     /// </summary>
-    public class KongCheng : PassiveSkill
+    public class KongCheng : TriggerSkill
     {
-        class KongChengTrigger : Trigger
+        public KongCheng()
         {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                Trace.Assert(eventArgs != null);
-                if (eventArgs.Targets.IndexOf(Owner) < 0)
+            var notifier = new AutoNotifyPassiveSkillTrigger(
+                this,
+                (p, e, a) => { },
+                TriggerCondition.OwnerIsSource | TriggerCondition.SourceHasNoHandCards
+            );
+
+            Triggers.Add(GameEvent.PlayerCanBeTargeted, new RelayTrigger(
+                (p, e, a) =>
                 {
-                    return;
-                }
-                if (((eventArgs.Card.Type is Sha) || (eventArgs.Card.Type is JueDou))
-                    && (Game.CurrentGame.Decks[Owner, DeckType.Hand].Count == 0))
+                    return (a.Card.Type is Sha) || (a.Card.Type is JueDou);
+                },
+                (p, e, a) =>
                 {
                     throw new TriggerResultException(TriggerResult.Fail);
-                }
-                return;
-            }
-            public KongChengTrigger(Player p)
-            {
-                Owner = p;
-            }
+                },
+                TriggerCondition.OwnerIsTarget | TriggerCondition.SourceHasNoHandCards
+                ));
+            Triggers.Add(GameEvent.CardsLost, notifier);
         }
 
-        Trigger theTrigger;
-
-        protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
-        {
-            theTrigger = new KongChengTrigger(owner);
-            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanBeTargeted, theTrigger);
-        }
-
-        protected override void UninstallTriggers(Player owner)
-        {
-            if (theTrigger != null)
-            {
-                Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerCanBeTargeted, theTrigger);
-            }
-        }
-        public override bool isEnforced
+        public override bool IsEnforced
         {
             get
             {

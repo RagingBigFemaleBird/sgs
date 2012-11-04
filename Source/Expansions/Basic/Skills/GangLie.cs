@@ -18,104 +18,84 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// <summary>
     /// 刚烈-每当你受到一次伤害后，你可以进行一次判定，若结果不为红桃，则伤害来源选择一项：弃置两张手牌，或受到你对其造成的1点伤害。
     /// </summary>
-    public class GangLie : PassiveSkill
+    public class GangLie : TriggerSkill
     {
-        class GangLieTrigger : Trigger
+        public class GangLieVerifier : ICardUsageVerifier
         {
-            public class GangLieVerifier : ICardUsageVerifier
+            public UiHelper Helper { get { return new UiHelper(); } }
+            public VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
             {
-                public UiHelper Helper { get { return new UiHelper(); } }
-                public VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
+                if (skill != null || (players != null && players.Count != 0))
                 {
-                    if (skill != null || (players != null && players.Count != 0))
+                    return VerifierResult.Fail;
+                }
+                if (cards == null || cards.Count == 0)
+                {
+                    return VerifierResult.Partial;
+                }
+                if (cards.Count > 2)
+                {
+                    return VerifierResult.Fail;
+                }
+                foreach (Card c in cards)
+                {
+                    if (c.Place.DeckType != DeckType.Hand)
                     {
                         return VerifierResult.Fail;
                     }
-                    if (cards == null || cards.Count == 0)
-                    {
-                        return VerifierResult.Partial;
-                    }
-                    if (cards.Count > 2)
-                    {
-                        return VerifierResult.Fail;
-                    }
-                    foreach (Card c in cards)
-                    {
-                        if (c.Place.DeckType != DeckType.Hand)
-                        {
-                            return VerifierResult.Fail;
-                        }
-                    }
-                    if (cards.Count < 2)
-                    {
-                        return VerifierResult.Partial;
-                    }
-                    return VerifierResult.Success;
                 }
-
-                public IList<CardHandler> AcceptableCardType
+                if (cards.Count < 2)
                 {
-                    get { throw new NotImplementedException(); }
+                    return VerifierResult.Partial;
                 }
-
-                public VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> players)
-                {
-                    return FastVerify(source, skill, cards, players);
-                }
+                return VerifierResult.Success;
             }
 
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            public IList<CardHandler> AcceptableCardType
             {
-                if (eventArgs.Source == null || eventArgs.Targets.IndexOf(Owner) < 0)
-                {
-                    return;
-                }
-                int answer = 0;
-                if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("GangLie", eventArgs.Source), Prompt.YesNoChoices, out answer) && answer == 0)
-                {
-                    Card c = Game.CurrentGame.Judge(Owner);
-                    if (c.Suit != SuitType.Heart)
-                    {
-                        List<DeckPlace> deck = new List<DeckPlace>();
-                        GangLieVerifier ver = new GangLieVerifier();
-                        ISkill skill;
-                        List<Card> cards;
-                        List<Player> players;
-                        if (!Game.CurrentGame.UiProxies[eventArgs.Source].AskForCardUsage(new CardUsagePrompt("GangLie", Owner), ver, out skill, out cards, out players))
-                        {
-                            Game.CurrentGame.DoDamage(Owner, eventArgs.Source, 1, DamageElement.None, null);
-                        }
-                        else
-                        {
-                            Game.CurrentGame.HandleCardDiscard(eventArgs.Source, cards);
-                        }
-                    }
-                    else
-                    {
-                        Trace.TraceInformation("Judgement fail");
-                    }
-                }
+                get { throw new NotImplementedException(); }
             }
-            public GangLieTrigger(Player p)
+
+            public VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> players)
             {
-                Owner = p;
+                return FastVerify(source, skill, cards, players);
             }
         }
 
-        Trigger theTrigger;
-
-        protected override void InstallTriggers(Sanguosha.Core.Players.Player owner)
+        public void OnAfterDamageInflicted(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            theTrigger = new GangLieTrigger(owner); 
-            Game.CurrentGame.RegisterTrigger(GameEvent.AfterDamageInflicted, theTrigger);
+            Card c = Game.CurrentGame.Judge(owner);
+            if (c.Suit != SuitType.Heart)
+            {
+                NotifyAction(owner, new List<Player>() { eventArgs.Source });
+                List<DeckPlace> deck = new List<DeckPlace>();
+                GangLieVerifier ver = new GangLieVerifier();
+                ISkill skill;
+                List<Card> cards;
+                List<Player> players;
+                if (!Game.CurrentGame.UiProxies[eventArgs.Source].AskForCardUsage(new CardUsagePrompt("GangLie", Owner), ver, out skill, out cards, out players))
+                {
+                    Game.CurrentGame.DoDamage(owner, eventArgs.Source, 1, DamageElement.None, null);
+                }
+                else
+                {
+                    Game.CurrentGame.HandleCardDiscard(eventArgs.Source, cards);
+                }
+            }
+            else
+            {
+                Trace.TraceInformation("Judgement fail");
+            }
         }
 
-        protected override void UninstallTriggers(Player owner)
+        public GangLie()
         {
-            if (theTrigger != null)
-            {
-                Game.CurrentGame.UnregisterTrigger(GameEvent.AfterDamageInflicted, theTrigger);
-            }
+            var trigger = new AutoNotifyPassiveSkillTrigger(
+                this,                
+                OnAfterDamageInflicted,
+                TriggerCondition.OwnerIsTarget
+            );
+            Triggers.Add(GameEvent.AfterDamageInflicted, trigger);
         }
     }
 }
