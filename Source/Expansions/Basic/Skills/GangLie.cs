@@ -67,7 +67,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             ReadOnlyCard c = Game.CurrentGame.Judge(owner);
             if (c.Suit != SuitType.Heart)
             {
-                NotifyAction(owner, new List<Player>() { eventArgs.Source });
+                NotifySkillUse(new List<Player>() { eventArgs.Source });
                 List<DeckPlace> deck = new List<DeckPlace>();
                 GangLieVerifier ver = new GangLieVerifier();
                 ISkill skill;
@@ -91,10 +91,10 @@ namespace Sanguosha.Expansions.Basic.Skills
         public GangLie()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
-                this,                
+                this,
                 OnAfterDamageInflicted,
                 TriggerCondition.OwnerIsTarget
-            );
+            ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.AfterDamageInflicted, trigger);
         }
     }

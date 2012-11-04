@@ -19,6 +19,16 @@ namespace Sanguosha.Core.Skills
             Triggers = new Dictionary<GameEvent, Trigger>();
         }
 
+        public void NotifySkillUse(List<Player> targets)
+        {
+            ActionLog log = new ActionLog();
+            log.GameAction = GameAction.None;
+            log.SkillAction = this;
+            log.Source = Owner;
+            log.Targets = targets;
+            Games.Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
+        }
+
         protected class AutoNotifyPassiveSkillTrigger : Trigger
         {
             public AutoNotifyPassiveSkillTrigger(TriggerSkill skill, TriggerPredicate canExecute, TriggerAction execute, TriggerCondition condition) :
@@ -31,10 +41,13 @@ namespace Sanguosha.Core.Skills
 
             public AutoNotifyPassiveSkillTrigger(TriggerSkill skill, RelayTrigger innerTrigger)
             {
+                IsAutoNotify = true;
                 Skill = skill;
                 InnerTrigger = innerTrigger;
                 base.Owner = InnerTrigger.Owner;
             }
+
+            public bool IsAutoNotify { get; set; }
 
             public override Player Owner
             {
@@ -72,12 +85,10 @@ namespace Sanguosha.Core.Skills
                     {
                         return;
                     }
-
-                    ActionLog log = new ActionLog();
-                    log.GameAction = GameAction.None;
-                    log.SkillAction = Skill;
-                    log.Source = Owner;
-                    Games.Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
+                    if (IsAutoNotify)
+                    {
+                        Skill.NotifySkillUse(new List<Player>());
+                    }
                     InnerTrigger.Execute(Owner, gameEvent, eventArgs);
                 }
             }

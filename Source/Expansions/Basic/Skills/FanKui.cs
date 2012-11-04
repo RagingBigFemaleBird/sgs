@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     {
         public void OnAfterDamageInflicted(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            NotifyAction(owner, new List<Player>() { eventArgs.Source });
+            NotifySkillUse(new List<Player>() { eventArgs.Source });
             List<DeckPlace> deck = new List<DeckPlace>();
             deck.Add(new DeckPlace(eventArgs.Source, DeckType.Hand));
             deck.Add(new DeckPlace(eventArgs.Source, DeckType.Equipment));
@@ -53,8 +53,9 @@ namespace Sanguosha.Expansions.Basic.Skills
                 this,
                 OnAfterDamageInflicted,
                 TriggerCondition.OwnerIsTarget | TriggerCondition.SourceHasCards
-            );
+            ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.AfterDamageInflicted, trigger);
         }
+
     }
 }

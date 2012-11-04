@@ -82,7 +82,7 @@ namespace Sanguosha.Core.Triggers
                 return false;
             }
             else if (CheckCondition(TriggerCondition.SourceHasCards)
-                     && (Game.CurrentGame.Decks[eventArgs.Source, DeckType.Hand].Count == 0 ||
+                     && (Game.CurrentGame.Decks[eventArgs.Source, DeckType.Hand].Count == 0 &&
                         Game.CurrentGame.Decks[eventArgs.Source, DeckType.Equipment].Count == 0))
             {
                 return false;

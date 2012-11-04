@@ -30,24 +30,16 @@ namespace Sanguosha.Core.Skills
                     UninstallTriggers(owner);
                 }
                 owner = value;
-                InstallTriggers(owner);
+                if (owner != null)
+                {
+                    InstallTriggers(owner);
+                }
             }
         }
 
         protected abstract void InstallTriggers(Players.Player owner);
 
         protected abstract void UninstallTriggers(Players.Player owner);
-
-        protected void NotifyAction(Players.Player source, List<Players.Player> targets)
-        {
-            ActionLog log = new ActionLog();
-            log.GameAction = GameAction.None;
-            log.CardAction = null;
-            log.SkillAction = this;
-            log.Source = source;
-            log.Targets = targets;
-            Games.Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
-        }
 
         /// <summary>
         /// 返回该技能是否是主公技。
