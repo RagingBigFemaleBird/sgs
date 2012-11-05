@@ -25,10 +25,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             Trigger trigger = new AutoNotifyPassiveSkillTrigger
             (
                 this,
-                (p, a, e) =>
-                {
-                    Game.CurrentGame.DrawCards(p, 1);
-                },
+                (p, e, a) => { Game.CurrentGame.DrawCards(p, 1); },
                 TriggerCondition.OwnerIsSource
             );
 

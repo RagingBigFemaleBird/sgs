@@ -12,7 +12,7 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Exceptions;
 
-namespace Sanguosha.Expansions.SP.Skills
+namespace Sanguosha.Expansions.OverKnightFame11.Skills
 {
     /// <summary>
     /// 绝情-锁定计，你造成的伤害均为体力流失。

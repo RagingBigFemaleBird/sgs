@@ -928,7 +928,7 @@ namespace Sanguosha.Core.Games
                 }
                 Trace.Assert(false);
             }
-            NotificationProxy.NotifyDamage(source, args.Targets[0], -args.IntArg, (DamageElement)args.IntArg);
+            NotificationProxy.NotifyDamage(source, args.Targets[0], -args.IntArg, (DamageElement)args.IntArg2);
             Trace.Assert(args.Targets.Count == 1);
             args.Targets[0].Health += args.IntArg;
             Trace.TraceInformation("Player {0} Lose {1} hp, @ {2} hp", args.Targets[0].Id, -args.IntArg, args.Targets[0].Health);
