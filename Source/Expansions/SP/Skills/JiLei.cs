@@ -20,32 +20,30 @@ namespace Sanguosha.Expansions.SP.Skills
     /// </summary>
     public class JiLei : TriggerSkill
     {
-        class JiLeiTrigger : Trigger
+        void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            if (eventArgs.Source == null || eventArgs.Targets.IndexOf(Owner) < 0)
             {
-                if (eventArgs.Source == null || eventArgs.Targets.IndexOf(Owner) < 0)
+                return;
+            }
+            int answer = 0;
+            List<string> JiLeiQuestion = new List<string>();
+            JiLeiQuestion.Add(Prompt.MultipleChoiceOptionPrefix + "JiBen");
+            JiLeiQuestion.Add(Prompt.MultipleChoiceOptionPrefix + "JinNang");
+            JiLeiQuestion.Add(Prompt.MultipleChoiceOptionPrefix + "ZhuangBei");
+            JiLeiQuestion.Add(Prompt.NoChoice);
+            if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(
+                new MultipleChoicePrompt("JiLei", eventArgs.Source), JiLeiQuestion, out answer))
+            {
+                Trace.Assert(answer >= 0 && answer <= 3);
+                if (answer != 3)
                 {
-                    return;
-                }
-                int answer = 0;
-                List<string> JiLeiQuestion = new List<string>();
-                JiLeiQuestion.Add(Prompt.MultipleChoiceOptionPrefix + "JiBen");
-                JiLeiQuestion.Add(Prompt.MultipleChoiceOptionPrefix + "JinNang");
-                JiLeiQuestion.Add(Prompt.MultipleChoiceOptionPrefix + "ZhuangBei");
-                JiLeiQuestion.Add(Prompt.NoChoice);
-                if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(
-                    new MultipleChoicePrompt("JiLei", eventArgs.Source), JiLeiQuestion, out answer))
-                {
-                    Trace.Assert(answer >= 0 && answer <= 3);
-                    if (answer != 3)
-                    {
-                        JiLeiImplementation trigger = new JiLeiImplementation(eventArgs.Source, answer);
-                        Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanDiscardCard, trigger);
-                        Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanUseCard, trigger);
-                        JiLeiRemoval trigger2 = new JiLeiRemoval(eventArgs.Source, trigger);
-                        Game.CurrentGame.RegisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], trigger2);
-                    }
+                    NotifySkillUse(new List<Player>());
+                    JiLeiImplementation trigger = new JiLeiImplementation(eventArgs.Source, answer);
+                    Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanDiscardCard, trigger);
+                    Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanUseCard, trigger);
+                    JiLeiRemoval trigger2 = new JiLeiRemoval(eventArgs.Source, trigger);
+                    Game.CurrentGame.RegisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], trigger2);
                 }
             }
         }
@@ -121,7 +119,12 @@ namespace Sanguosha.Expansions.SP.Skills
 
         public JiLei()
         {
-            Triggers.Add(GameEvent.DamageInflicted, new JiLeiTrigger());
+            var trigger = new AutoNotifyPassiveSkillTrigger(
+                this,
+                Run,
+                TriggerCondition.Global
+            ) { IsAutoNotify = false, AskForConfirmation = false };
+            Triggers.Add(GameEvent.DamageInflicted, trigger);
         }
     }
 }
