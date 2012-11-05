@@ -119,5 +119,17 @@ namespace Sanguosha.UI.Controls
                 doc.Blocks.Add(para);
             }
         }
+
+        public void AppendDamageLog(Player source, Player target, int magnitude, DamageElement element)
+        {
+            Trace.Assert(target != null);
+            List<FlowDocument> docs = new List<FlowDocument>() { Logs[target], GlobalLog };
+            if (source != null) docs.Add(Logs[source]);
+            foreach (var doc in docs)
+            {
+                Paragraph para = LogFormatter.RichTranslateDamage(source, target, magnitude, element);
+                doc.Blocks.Add(para);
+            }
+        }
     }
 }

@@ -20,17 +20,11 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     public class YingZi : TriggerSkill
     {
-        void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
-        {
-            Owner[Player.DealAdjustment]++;
-        }
-
         public YingZi()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return true; },
-                Run,
+                (p, e, a) => { p[Player.DealAdjustment]++; },
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.PhaseProceedEvents[TurnPhase.Draw], trigger);

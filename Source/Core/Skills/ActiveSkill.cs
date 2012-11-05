@@ -11,7 +11,13 @@ namespace Sanguosha.Core.Skills
 {
     public abstract class ActiveSkill : ISkill
     {
-        public virtual UiHelper Helper { get { return new UiHelper(); } }
+        public UiHelper UiHelper { get; protected set; }
+
+        public ActiveSkill()
+        {
+            UiHelper = new UiHelper();
+        }
+
         /// <summary>
         /// 检查主动技的合法性。
         /// </summary>

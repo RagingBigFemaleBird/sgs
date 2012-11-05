@@ -601,6 +601,8 @@ namespace Sanguosha.UI.Controls
                         profile.Tremble();
                     }
                 }
+                gameLogs.AppendDamageLog(source, target, magnitude, element);
+                rtbLog.ScrollToEnd();
             });
         }
 

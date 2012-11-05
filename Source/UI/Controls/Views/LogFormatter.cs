@@ -317,5 +317,35 @@ namespace Sanguosha.UI.Controls
             para.Inlines.Add(new Run("作为" + (isPrimaryHero ? "武将" : "副将")) { Foreground = new SolidColorBrush(new Color() { R = 255, G = 102, B = 0, A = 255 }) });
             return para;
         }
+
+        public static string Translate(DamageElement element)
+        {
+            switch(element)
+            {
+                case DamageElement.None:
+                    return string.Empty;
+                case DamageElement.Fire:
+                    return "火属性";
+                case DamageElement.Lightning:
+                    return "雷属性";
+            }
+            Trace.Assert(false);
+            return string.Empty;
+        }
+
+        public static Paragraph RichTranslateDamage(Player source, Player target, int magnitude, DamageElement element)
+        {
+            Paragraph para = new Paragraph();
+            para.Inlines.Add(new Run(Translate(target)));
+            string sourceStr = Translate(source);
+            if (sourceStr != string.Empty)
+            {
+                sourceStr += "造成的";
+            }
+            string damageStr = string.Format("受到{0}{1}点{2}伤害，体力值为{3}", sourceStr, magnitude, Translate(element), source.Health);
+            
+            para.Inlines.Add(new Run(damageStr) { Foreground = new SolidColorBrush(new Color() { R = 204, G = 0, B = 0, A = 255 }) });
+            return para;
+        }
     }
 }

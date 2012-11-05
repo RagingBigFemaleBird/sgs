@@ -10,7 +10,7 @@ using Sanguosha.Core.Games;
 
 namespace Sanguosha.Core.UI
 {
-    public struct UiHelper
+    public class UiHelper
     {
         private bool isPlayerRepeatable;
         /// <summary>

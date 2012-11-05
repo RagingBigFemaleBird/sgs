@@ -20,6 +20,11 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     public class KuRou : ActiveSkill
     {
+        public KuRou()
+        {
+            UiHelper.HasNoConfirmation = true;
+        }
+
         public override VerifierResult Validate(GameEventArgs arg)
         {
             if (arg.Cards != null && arg.Cards.Count != 0)
@@ -38,17 +43,6 @@ namespace Sanguosha.Expansions.Basic.Skills
             Game.CurrentGame.LoseHealth(Owner, 1);
             Game.CurrentGame.DrawCards(Owner, 2);
             return true;
-        }
-        
-        public override UiHelper Helper 
-        {
-            get 
-            {
-                return new UiHelper() 
-                {
-                    HasNoConfirmation = true 
-                }; 
-            } 
         }
     }
 }

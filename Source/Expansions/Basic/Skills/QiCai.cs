@@ -20,17 +20,12 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     public class QiCai : TriggerSkill
     {
-        void CardRangeModifier(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
-        {
-            eventArgs.IntArg += 16;
-        }
-
         public QiCai()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => { return CardCategoryManager.IsCardCategory(a.Card.Type.Category, CardCategory.Tool); },
-                CardRangeModifier,
+                (p, e, a) => { a.IntArg += 16; },
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.CardRangeModifier, trigger);

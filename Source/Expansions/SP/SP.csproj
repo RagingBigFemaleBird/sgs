@@ -43,7 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Skills\JiLei.cs" />
-    <Compile Include="Skills\JueQing.cs" />
     <Compile Include="SpExpansion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
