@@ -647,11 +647,9 @@ namespace Sanguosha.UI.Controls
 
         #endregion
 
-
         public void NotifyMultipleChoiceResult(Player p, string answer)
         {
         }
-
 
         public void NotifyJudge(Player p, Card card, ActionLog log)
         {

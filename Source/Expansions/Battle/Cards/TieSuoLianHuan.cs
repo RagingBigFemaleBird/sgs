@@ -29,7 +29,6 @@ namespace Sanguosha.Expansions.Battle.Cards
             }
             else
             {
-                TagAndNotify(source, dests, card);
                 foreach (var player in dests)
                 {
                     Player p = player;

@@ -63,6 +63,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             List<Player> players;
             if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("TuXi"), new TuXiVerifier(), out skill, out cards, out players))
             {
+                NotifySkillUse(players);
                 Game.CurrentGame.EnterAtomicContext();
                 foreach (Player p in players)
                 {
@@ -90,7 +91,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 (p, e, a) => { return true; },
                 GetTheirCards,
                 TriggerCondition.OwnerIsSource
-            ) { AskForConfirmation = false, Priority = SkillPriority.TuXi };
+            ) { AskForConfirmation = false, Priority = SkillPriority.TuXi, IsAutoNotify = false };
             Triggers.Add(GameEvent.PhaseProceedEvents[TurnPhase.Draw], trigger);
         }
     }

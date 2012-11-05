@@ -24,7 +24,6 @@ namespace Sanguosha.Expansions.Basic.Cards
         public override void Process(Player source, List<Player> dests, ICard card)
         {
             Trace.Assert(dests == null || dests.Count == 0);
-            TagAndNotify(source, dests, card);
             List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
             Game.CurrentGame.SortByOrderOfComputation(source, toProcess);
             foreach (Player player in toProcess)
