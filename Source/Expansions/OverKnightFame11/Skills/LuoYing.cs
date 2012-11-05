@@ -32,6 +32,21 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 List<Card> cardsToProcess = new List<Card>(eventArgs.Cards);
                 foreach (Card c in cardsToProcess)
                 {
+                    if (c.Suit == SuitType.Club)
+                    {
+                        CardsMovement temp = new CardsMovement();
+                        temp.cards = new List<Card>(cardsToProcess);
+                        temp.to = new DeckPlace(null, DeckType.Discard);
+                        Game.CurrentGame.NotificationProxy.NotifyCardMovement(new List<CardsMovement>() { temp }, new List<IGameLog>());
+                        foreach (Card cc in cardsToProcess)
+                        {
+                            cc.PlaceOverride = new DeckPlace(null, DeckType.Discard);
+                        }
+                        break;
+                    }
+                }
+                foreach (Card c in cardsToProcess)
+                {
                     var prompt = new MultipleChoicePrompt("LuoYing", c);
                     if (c.Suit == SuitType.Club &&
                         Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(prompt, Prompt.YesNoChoices, out answer) && answer == 0)

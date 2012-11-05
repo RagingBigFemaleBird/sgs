@@ -666,6 +666,7 @@ namespace Sanguosha.Core.Games
 
                 StartGameDeal(game);
                 game.CurrentPlayer = game.Players[rulerId];
+                game.CurrentPhaseEventIndex = 0;
                 game.CurrentPhase = TurnPhase.BeforeStart;
 
                 while (true)

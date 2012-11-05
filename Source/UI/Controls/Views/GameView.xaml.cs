@@ -568,12 +568,14 @@ namespace Sanguosha.UI.Controls
                     var cardsToAdd = new List<CardView>();
                     var cardsRemoved = new Dictionary<DeckPlace, List<Card>>();
                     foreach (Card card in move.cards)
-                    {                        
-                        if (!cardsRemoved.ContainsKey(card.Place))
+                    {
+                        var place = card.PlaceOverride ?? card.Place;
+                        card.PlaceOverride = null;
+                        if (!cardsRemoved.ContainsKey(place))
                         {
-                            cardsRemoved.Add(card.Place, new List<Card>());
+                            cardsRemoved.Add(place, new List<Card>());
                         }
-                        cardsRemoved[card.Place].Add(card);
+                        cardsRemoved[place].Add(card);
                     }
                     foreach (var stackCards in cardsRemoved)
                     {

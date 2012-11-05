@@ -168,6 +168,7 @@ namespace Sanguosha.Core.Cards
             }
         }
 
+        #region UI Related
         UI.ActionLog log;
 
         public UI.ActionLog Log
@@ -175,5 +176,8 @@ namespace Sanguosha.Core.Cards
             get { return log; }
             set { log = value; }
         }
+
+        public DeckPlace PlaceOverride { get; set; }
+        #endregion
     }    
 }

@@ -68,6 +68,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 if (Owner == eventArgs.Source)
                 {
                     Game.CurrentGame.CurrentPhase++;
+                    Game.CurrentGame.CurrentPhaseEventIndex = 2;
                     Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseOutEvents[TurnPhase.Draw], this);
                     throw new TriggerResultException(TriggerResult.End);
                 }

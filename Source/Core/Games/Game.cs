@@ -310,7 +310,7 @@ namespace Sanguosha.Core.Games
                 {
                     return -result;
                 }
-                Player p = NextAlivePlayer(currentPlayer);
+                Player p = currentPlayer;
                 int result3 = 0; ;
                 if (a.Owner != b.Owner)
                 {
@@ -673,51 +673,57 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public virtual void Advance()
+        int currentPhaseEventIndex;
+
+        public int CurrentPhaseEventIndex
         {
-            var events = new Dictionary<TurnPhase,GameEvent>[]
+            get { return currentPhaseEventIndex; }
+            set { currentPhaseEventIndex = value; }
+        }
+
+        private static Dictionary<TurnPhase, GameEvent>[] phaseEvents = new Dictionary<TurnPhase, GameEvent>[]
                          { GameEvent.PhaseBeginEvents, GameEvent.PhaseProceedEvents,
                            GameEvent.PhaseEndEvents, GameEvent.PhaseOutEvents };
+
+        public virtual void Advance()
+        {
             GameEventArgs args = new GameEventArgs() { Game = this, Source = currentPlayer };
             Trace.TraceInformation("Main game loop running {0}:{1}", currentPlayer.Id, currentPhase);
-            foreach (var gameEvent in events)
+            try
             {
-                if (gameEvent.ContainsKey(currentPhase))
+                var phaseEvent = phaseEvents[CurrentPhaseEventIndex];
+                if (phaseEvent.ContainsKey(currentPhase))
                 {
-                    try
-                    {
-                        Emit(gameEvent[currentPhase], args);
-                    }
-                    catch (TriggerResultException e)
-                    {
-                        if (e.Status == TriggerResult.End)
-                        {
-                            break;
-                        }
-                        if (e.Status == TriggerResult.Skip)
-                        {
-                            continue;
-                        }
-                    }
+                    Emit(phaseEvents[currentPhaseEventIndex][currentPhase], args);
                 }
             }
-            
-            CurrentPhase++;
-            if ((int)CurrentPhase >= Enum.GetValues(typeof(TurnPhase)).Length)
+            catch (TriggerResultException e)
             {
-                var temp = new Dictionary<PlayerAttribute, int>(CurrentPlayer.Attributes);
-                // todo: fix this. this may be skipped if you are skipping stage
-                foreach (var pair in temp)
+                if (e.Status == TriggerResult.End)
                 {
-                    if (pair.Key.AutoReset)
-                    {
-                        CurrentPlayer[pair.Key] = 0;
-                    }
                 }
-                CurrentPlayer = NextAlivePlayer(currentPlayer);
-                CurrentPhase = TurnPhase.BeforeStart;
             }
-            
+
+            currentPhaseEventIndex++;
+            if (currentPhaseEventIndex >= phaseEvents.Length)
+            {
+                currentPhaseEventIndex = 0;
+                CurrentPhase++;
+                if ((int)CurrentPhase >= Enum.GetValues(typeof(TurnPhase)).Length)
+                {
+                    var temp = new Dictionary<PlayerAttribute, int>(CurrentPlayer.Attributes);
+                    // todo: fix this. this may be skipped if you are skipping stage
+                    foreach (var pair in temp)
+                    {
+                        if (pair.Key.AutoReset)
+                        {
+                            CurrentPlayer[pair.Key] = 0;
+                        }
+                    }
+                    CurrentPlayer = NextAlivePlayer(currentPlayer);
+                    CurrentPhase = TurnPhase.BeforeStart;
+                }
+            }
         }
 
         /// <summary>

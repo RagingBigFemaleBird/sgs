@@ -7,7 +7,7 @@ using Sanguosha.Core.Players;
 
 namespace Sanguosha.Core.Cards
 {
-    public struct DeckPlace
+    public class DeckPlace
     {
         public DeckPlace(Player player, DeckType deckType)
         {

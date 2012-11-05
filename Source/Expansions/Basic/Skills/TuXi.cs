@@ -78,8 +78,8 @@ namespace Sanguosha.Expansions.Basic.Skills
                     Game.CurrentGame.HandleCardTransferToHand(p, Owner, answer[0]);
                 }
                 Game.CurrentGame.ExitAtomicContext();
-
-                throw new TriggerResultException(TriggerResult.Skip);
+                Game.CurrentGame.CurrentPhaseEventIndex++;
+                throw new TriggerResultException(TriggerResult.End);
             }
         }
 
