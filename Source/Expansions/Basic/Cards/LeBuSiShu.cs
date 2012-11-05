@@ -21,7 +21,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             Player nullPlayer = null;
             if (PlayerIsCardTargetCheck(ref nullPlayer, ref p, c))
             {
-                ReadOnlyCard result = Game.CurrentGame.Judge(p);
+                ReadOnlyCard result = Game.CurrentGame.Judge(p, null, c);
                 if (result.Suit != SuitType.Heart)
                 {
                     var theTrigger = new LeBuSiShuTrigger();

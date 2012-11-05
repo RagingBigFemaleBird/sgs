@@ -627,6 +627,7 @@ namespace Sanguosha.Core.Games
             move.cards = cardsDrawn;
             move.to = new DeckPlace(player, DeckType.Hand);
             MoveCards(move, new UI.CardUseLog() { Source = player, Targets = null, Skill = null, Cards = null });
+            PlayerAcquiredCard(player, cardsDrawn);
         }
 
         Player currentActingPlayer;
@@ -927,7 +928,7 @@ namespace Sanguosha.Core.Games
                 }
                 Trace.Assert(false);
             }
-            NotificationProxy.NotifyDamage(source, args.Targets[0], -args.IntArg);
+            NotificationProxy.NotifyDamage(source, args.Targets[0], -args.IntArg, (DamageElement)args.IntArg);
             Trace.Assert(args.Targets.Count == 1);
             args.Targets[0].Health += args.IntArg;
             Trace.TraceInformation("Player {0} Lose {1} hp, @ {2} hp", args.Targets[0].Id, -args.IntArg, args.Targets[0].Health);
@@ -939,7 +940,7 @@ namespace Sanguosha.Core.Games
 
         }
 
-        public ReadOnlyCard Judge(Player player)
+        public ReadOnlyCard Judge(Player player, ISkill skill = null, ICard handler = null)
         {
             CardsMovement move = new CardsMovement();
             Card c;
@@ -969,6 +970,13 @@ namespace Sanguosha.Core.Games
             Game.CurrentGame.Emit(GameEvent.PlayerJudgeDone, args);
             Trace.Assert(args.Source == player);
             Trace.Assert(args.Card is ReadOnlyCard);
+
+            ActionLog log = new ActionLog();
+            log.SkillAction = skill;
+            log.CardAction = handler;
+            log.Source = player;
+            Game.CurrentGame.NotificationProxy.NotifyJudge(player, args.Cards[0], log);
+
             if (decks[player, DeckType.JudgeResult].Count != 0)
             {
                 c = decks[player, DeckType.JudgeResult][0];

@@ -730,10 +730,19 @@ namespace Sanguosha.Core.Games
                 Game.CurrentGame.SyncCardAll(Game.CurrentGame.Decks[p, role][0]);
                 Trace.TraceInformation("Player {0} is {1}", p.Id, (Game.CurrentGame.Decks[p, role][0].Type as RoleCardHandler).Role);
                 p.Role = (Game.CurrentGame.Decks[p, role][0].Type as RoleCardHandler).Role;
+                Game.CurrentGame.NotificationProxy.NotifyDeath(p, source);
 
                 if (p.Role == Role.Ruler)
                 {
                     Trace.TraceInformation("Ruler dead. Game over");
+                    if (Game.CurrentGame.AlivePlayers.Count == 2)
+                    {
+                        Game.CurrentGame.NotificationProxy.NotifyGameOver(GameResult.Defector);
+                    }
+                    else
+                    {
+                        Game.CurrentGame.NotificationProxy.NotifyGameOver(GameResult.Rebel);
+                    }
                     throw new GameOverException();
                 }
                 if (p.Role == Role.Rebel || p.Role == Role.Defector)
@@ -755,6 +764,7 @@ namespace Sanguosha.Core.Games
                     if (deadRebel == (Game.CurrentGame as RoleGame).NumberOfRebels && deadDefector == (Game.CurrentGame as RoleGame).NumberOfDefectors)
                     {
                         Trace.TraceInformation("Ruler wins.");
+                        Game.CurrentGame.NotificationProxy.NotifyGameOver(GameResult.Ruler);
                         throw new GameOverException();
                     }
                     if (!source.IsDead)
