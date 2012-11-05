@@ -20,80 +20,78 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     public class TuXi : TriggerSkill
     {
-        class TuXiTrigger : Trigger
+        class TuXiVerifier : CardUsageVerifier
         {
-            class TuXiVerifier : CardUsageVerifier
+            public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
             {
-                public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
+                if (skill != null || (cards != null && cards.Count != 0))
                 {
-                    if (skill != null || (cards != null && cards.Count != 0))
+                    return VerifierResult.Fail;
+                }
+                if (players == null || players.Count == 0)
+                {
+                    return VerifierResult.Partial;
+                }
+                foreach (Player p in players)
+                {
+                    if (p == source)
                     {
                         return VerifierResult.Fail;
                     }
-                    if (players == null || players.Count == 0)
-                    {
-                        return VerifierResult.Partial;
-                    }
-                    foreach (Player p in players)
-                    {
-                        if (p == source)
-                        {
-                            return VerifierResult.Fail;
-                        }
-                        if (Game.CurrentGame.Decks[p, DeckType.Hand].Count == 0)
-                        {
-                            return VerifierResult.Fail;
-                        }
-                    }
-                    if (players.Count > 2)
+                    if (Game.CurrentGame.Decks[p, DeckType.Hand].Count == 0)
                     {
                         return VerifierResult.Fail;
                     }
-                    return VerifierResult.Success;
                 }
-
-                public override IList<CardHandler> AcceptableCardType
+                if (players.Count > 2)
                 {
-                    get { return new List<CardHandler>(); }
+                    return VerifierResult.Fail;
                 }
+                return VerifierResult.Success;
             }
 
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            public override IList<CardHandler> AcceptableCardType
             {
-                if (eventArgs.Source != Owner)
-                {
-                    return;
-                }
-                ISkill skill;
-                List<Card> cards;
-                List<Player> players;
-                if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("TuXi"), new TuXiVerifier(), out skill, out cards, out players))
-                {
-                    Game.CurrentGame.EnterAtomicContext();
-                    foreach (Player p in players)
-                    {
-                        List<List<Card>> answer;
-                        if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("TuXi"), new List<DeckPlace>() { new DeckPlace(p, DeckType.Hand) },
-                            new List<string>() { "TuXi" }, new List<int>() { 1 }, new RequireOneCardChoiceVerifier(), out answer, new List<bool>() { false }))
-                        {
-                            answer = new List<List<Card>>();
-                            answer.Add(new List<Card>());
-                            answer[0].Add(Game.CurrentGame.Decks[p, DeckType.Hand][0]);
-                        }
-                        Game.CurrentGame.HandleCardTransferToHand(p, Owner, answer[0]);
-                    }
-                    Game.CurrentGame.ExitAtomicContext();
-                        
-                    throw new TriggerResultException(TriggerResult.Skip);
-                }
-                return;
+                get { return new List<CardHandler>(); }
             }
-
         }
+
+        void GetTheirCards(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
+        {
+            ISkill skill;
+            List<Card> cards;
+            List<Player> players;
+            if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("TuXi"), new TuXiVerifier(), out skill, out cards, out players))
+            {
+                Game.CurrentGame.EnterAtomicContext();
+                foreach (Player p in players)
+                {
+                    List<List<Card>> answer;
+                    if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("TuXi"), new List<DeckPlace>() { new DeckPlace(p, DeckType.Hand) },
+                        new List<string>() { "TuXi" }, new List<int>() { 1 }, new RequireOneCardChoiceVerifier(), out answer, new List<bool>() { false }))
+                    {
+                        answer = new List<List<Card>>();
+                        answer.Add(new List<Card>());
+                        answer[0].Add(Game.CurrentGame.Decks[p, DeckType.Hand][0]);
+                    }
+                    Game.CurrentGame.HandleCardTransferToHand(p, Owner, answer[0]);
+                }
+                Game.CurrentGame.ExitAtomicContext();
+
+                throw new TriggerResultException(TriggerResult.Skip);
+            }
+        }
+
 
         public TuXi()
         {
-            Triggers.Add(GameEvent.PhaseProceedEvents[TurnPhase.Draw], new TuXiTrigger() { Priority = SkillPriority.TuXi });
+            var trigger = new AutoNotifyPassiveSkillTrigger(
+                this,
+                (p, e, a) => { return true; },
+                GetTheirCards,
+                TriggerCondition.OwnerIsSource
+            ) { AskForConfirmation = false, Priority = SkillPriority.TuXi };
+            Triggers.Add(GameEvent.PhaseProceedEvents[TurnPhase.Draw], trigger);
         }
     }
 }
