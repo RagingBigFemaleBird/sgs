@@ -20,26 +20,20 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     public class YingZi : TriggerSkill
     {
-        class YingZiTrigger : Trigger
+        void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                if (eventArgs.Source != Owner)
-                {
-                    return;
-                }
-                int answer = 0;
-                if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("YingZi"), Prompt.YesNoChoices, out answer) && answer == 0)
-                {
-                    Owner[Player.DealAdjustment]++;
-                }
-                return;
-            }
+            Owner[Player.DealAdjustment]++;
         }
 
         public YingZi()
         {
-            Triggers.Add(GameEvent.PhaseProceedEvents[TurnPhase.Draw], new YingZiTrigger());
+            var trigger = new AutoNotifyPassiveSkillTrigger(
+                this,
+                (p, e, a) => { return true; },
+                Run,
+                TriggerCondition.OwnerIsSource
+            );
+            Triggers.Add(GameEvent.PhaseProceedEvents[TurnPhase.Draw], trigger);
         }
 
     }

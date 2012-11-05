@@ -966,6 +966,7 @@ namespace Sanguosha.Core.Games
             GameEventArgs args = new GameEventArgs();
             args.Source = player;
             args.Card = new ReadOnlyCard(c);
+            args.Cards = new List<Card>() { c };
             Game.CurrentGame.Emit(GameEvent.PlayerJudgeBegin, args);
             Game.CurrentGame.Emit(GameEvent.PlayerJudgeDone, args);
             Trace.Assert(args.Source == player);

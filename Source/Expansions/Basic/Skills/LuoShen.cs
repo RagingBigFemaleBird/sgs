@@ -49,30 +49,29 @@ namespace Sanguosha.Expansions.Basic.Skills
             }
         }
 
-        class LuoShenTrigger : Trigger
+        void OnPhaseBegin(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            int answer = 0;
+            if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("LuoShen"), Prompt.YesNoChoices, out answer) && answer == 0)
             {
-                if (eventArgs.Source != Owner)
+                Game.CurrentGame.RegisterTrigger(GameEvent.PlayerJudgeDone, new LuoShenJudgeTrigger(Owner));
+                ReadOnlyCard c;
+                do
                 {
-                    return;
-                }
-                int answer = 0;
-                if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("LuoShen"), Prompt.YesNoChoices, out answer) && answer == 0)
-                {
-                    Game.CurrentGame.RegisterTrigger(GameEvent.PlayerJudgeDone, new LuoShenJudgeTrigger(Owner));
-                    ReadOnlyCard c;
-                    do
-                    {
-                        c = Game.CurrentGame.Judge(Owner);
-                    } while (c.SuitColor == SuitColorType.Black && Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("LuoShen"), Prompt.YesNoChoices, out answer) && answer == 0);
-                }
+                    c = Game.CurrentGame.Judge(Owner);
+                } while (c.SuitColor == SuitColorType.Black && Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("LuoShen"), Prompt.YesNoChoices, out answer) && answer == 0);
             }
         }
 
         public LuoShen()
         {
-            Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Start], new LuoShenTrigger());
+            var trigger = new AutoNotifyPassiveSkillTrigger(
+                this,
+                (p, e, a) => { return true; },
+                OnPhaseBegin,
+                TriggerCondition.OwnerIsSource
+            ) { AskForConfirmation = false };
+            Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Start], trigger);
         }
     }
 }

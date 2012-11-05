@@ -20,26 +20,20 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     public class QianXun : TriggerSkill
     {
-        class QianXunTrigger : Trigger
+        void OnPlayerCanBeTargeted(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                Trace.Assert(eventArgs != null);
-                if (eventArgs.Targets.IndexOf(Owner) < 0)
-                {
-                    return;
-                }
-                if ((eventArgs.Card.Type is ShunShouQianYang) || (eventArgs.Card.Type is LeBuSiShu))
-                {
-                    throw new TriggerResultException(TriggerResult.Fail);
-                }
-                return;
-            }
+            throw new TriggerResultException(TriggerResult.Fail);
         }
 
         public QianXun()
         {
-            Triggers.Add(GameEvent.PlayerCanBeTargeted, new QianXunTrigger());
+            var trigger = new AutoNotifyPassiveSkillTrigger(
+                this,
+                (p, e, a) => { return (a.Card.Type is ShunShouQianYang) || (a.Card.Type is LeBuSiShu); },
+                OnPlayerCanBeTargeted,
+                TriggerCondition.OwnerIsTarget
+            );
+            Triggers.Add(GameEvent.PlayerCanBeTargeted, trigger);
         }
 
 

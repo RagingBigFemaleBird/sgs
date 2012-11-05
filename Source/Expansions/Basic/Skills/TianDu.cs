@@ -20,32 +20,21 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     public class TianDu : TriggerSkill
     {
-        class TianDuTrigger : Trigger
+        void GetMyCard(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                if (eventArgs.Source != Owner)
-                {
-                    return;
-                }
-                //someone already took it...
-                if (Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult].Count == 0)
-                {
-                    return;
-                }
-                int answer = 0;
-                if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("TianDu"), Prompt.YesNoChoices, out answer) && answer == 0)
-                {
-                    Game.CurrentGame.HandleCardTransferToHand(Owner, Owner, new List<Card>(Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult]));
-                }
-                return;
-            }
+            Game.CurrentGame.HandleCardTransferToHand(Owner, Owner, new List<Card>(Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult]));
         }
+
 
         public TianDu()
         {
-            Triggers.Add(GameEvent.PlayerJudgeDone, new TianDuTrigger());
+            var trigger = new AutoNotifyPassiveSkillTrigger(
+                this,
+                (p, e, a) => { return Game.CurrentGame.Decks[a.Source, DeckType.JudgeResult].Count >= 0; },
+                GetMyCard,
+                TriggerCondition.OwnerIsSource
+            );
+            Triggers.Add(GameEvent.PlayerJudgeDone, trigger);
         }
-
     }
 }
