@@ -311,10 +311,10 @@ namespace Sanguosha.Core.Games
                     return -result;
                 }
                 Player p = currentPlayer;
-                int result3 = 0; ;
+                int result3 = 0;
                 if (a.Owner != b.Owner)
                 {
-                    while (p != currentPlayer)
+                    do
                     {
                         if (p == a.Owner)
                         {
@@ -327,7 +327,8 @@ namespace Sanguosha.Core.Games
                             break;
                         }
                         p = NextAlivePlayer(p);
-                    }
+                    } while (p != currentPlayer);
+
                 }
                 return result3;
             });
