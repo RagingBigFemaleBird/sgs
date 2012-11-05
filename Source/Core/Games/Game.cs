@@ -655,7 +655,19 @@ namespace Sanguosha.Core.Games
             get { return currentPlayer; }
             set 
             {
+                Trace.Assert(value != null);
                 if (currentPlayer == value) return;
+                if (currentPlayer != null)
+                {
+                    var temp = new Dictionary<PlayerAttribute, int>(currentPlayer.Attributes);
+                    foreach (var pair in temp)
+                    {
+                        if (pair.Key.AutoReset)
+                        {
+                            currentPlayer[pair.Key] = 0;
+                        }
+                    }
+                }
                 currentPlayer = value;
                 OnPropertyChanged("CurrentPlayer");
             }
@@ -712,15 +724,6 @@ namespace Sanguosha.Core.Games
                 CurrentPhase++;
                 if ((int)CurrentPhase >= Enum.GetValues(typeof(TurnPhase)).Length)
                 {
-                    var temp = new Dictionary<PlayerAttribute, int>(CurrentPlayer.Attributes);
-                    // todo: fix this. this may be skipped if you are skipping stage
-                    foreach (var pair in temp)
-                    {
-                        if (pair.Key.AutoReset)
-                        {
-                            CurrentPlayer[pair.Key] = 0;
-                        }
-                    }
                     CurrentPlayer = NextAlivePlayer(currentPlayer);
                     CurrentPhase = TurnPhase.BeforeStart;
                 }
