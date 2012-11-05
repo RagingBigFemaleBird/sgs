@@ -46,7 +46,19 @@ namespace Sanguosha.UI.Controls
             get
             {
                 // @todo: add more skill types
-                if (Skill is CardTransformSkill || Skill is ActiveSkill)
+                if (Skill.IsEnforced)
+                {
+                    return SkillType.Enforced;
+                }
+                else if (Skill.IsSingleUse)
+                {
+                    return SkillType.SingleUse;
+                }
+                else if (Skill.IsAwakening)
+                {
+                    return SkillType.Awakening;
+                }
+                else if (Skill is CardTransformSkill || Skill is ActiveSkill)
                 {
                     return SkillType.Active;
                 }
