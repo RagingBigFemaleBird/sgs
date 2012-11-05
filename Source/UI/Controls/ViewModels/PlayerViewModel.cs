@@ -129,7 +129,7 @@ namespace Sanguosha.UI.Controls
             {   
                 OnPropertyChanged("IsCurrentPlayer");
             }
-            else if (name == "CurrentPhase")
+            else if (name == "CurrentPhase" && IsCurrentPlayer)
             {                
                 OnPropertyChanged("CurrentPhase");
             }

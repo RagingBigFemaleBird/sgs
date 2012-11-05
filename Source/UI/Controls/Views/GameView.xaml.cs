@@ -270,7 +270,8 @@ namespace Sanguosha.UI.Controls
             playersMap.Add(model.MainPlayerModel.Player, mainPlayerPanel);
             RearrangeSeats();
             _Resize(new Size(this.ActualWidth, this.ActualHeight));
-            model.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(model_PropertyChanged);
+            model.PropertyChanged += new PropertyChangedEventHandler(model_PropertyChanged);
+            model.Game.PropertyChanged += new PropertyChangedEventHandler(_game_PropertyChanged);
             Trace.Assert(model.MainPlayerModel != null, "Main player must exists.");
             
             var oldModel = e.OldValue as GameViewModel;
@@ -301,9 +302,25 @@ namespace Sanguosha.UI.Controls
             radioLogs[0].IsChecked = true;
             for (int i = 0; i < count; i++)
             {
-                var player = model.PlayerModels[i];
+                var player = model.PlayerModels[(i + model.MainPlayerSeatNumber) % count];
+                model.PlayerModels[i].PropertyChanged += new PropertyChangedEventHandler(_player_PropertyChanged);
                 gameLogs.Logs.Add(player.Player, logDocs[i + 1]);
             }            
+        }
+
+        void _player_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            PlayerViewModel model = sender as PlayerViewModel;
+            int count = GameModel.PlayerModels.Count;
+            int i;
+            for (i = 0; i < count; i++)
+            {
+                var playerModel = GameModel.PlayerModels[(i + GameModel.MainPlayerSeatNumber) % count];
+                if (playerModel == model) break;
+            }
+            Trace.Assert(i < count);
+            // @todo: Add hero log here.
+            throw new NotImplementedException();
         }       
 
         void model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -312,6 +329,18 @@ namespace Sanguosha.UI.Controls
             {
                 RearrangeSeats();
             }
+        }
+
+        void _game_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                string name = e.PropertyName;
+                if (name == "CurrentPlayer")
+                {
+                    gameLogs.AppendSeparator();
+                }
+            });
         }
 
         private void _RearrangeSeats()

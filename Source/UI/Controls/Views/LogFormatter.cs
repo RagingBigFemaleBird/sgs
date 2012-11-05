@@ -244,9 +244,10 @@ namespace Sanguosha.UI.Controls
                     paragraph.Inlines.Add("置入了齐牌堆");
                 }
             }
-
+                       
             if (dest.Player != null)
             {
+                bool added = true;
                 if (source.DeckType == DeckType.Dealing && dest.DeckType == DeckType.Hand)
                 {
                     paragraph.Inlines.Add(string.Format("{0}从牌堆里摸了", destStr));
@@ -266,7 +267,7 @@ namespace Sanguosha.UI.Controls
                         paragraph.Inlines.Add(string.Format("{0}获得了自己的", destStr));
                     }
                 }
-                else
+                else if (dest.DeckType == DeckType.Hand || dest.DeckType == DeckType.Equipment)
                 {
                     var owners = (from card in cards select card.Owner).Distinct();
                     if (owners.Contains(null))
@@ -280,7 +281,14 @@ namespace Sanguosha.UI.Controls
                         paragraph.Inlines.Add(string.Format("{0}获得了{1}的", destStr, Translate(players)));
                     }
                 }
-                paragraph.Inlines.AddRange(cardsInline);
+                else
+                {
+                    added = false;
+                }
+                if (added)
+                {
+                    paragraph.Inlines.AddRange(cardsInline);
+                }                
             }
             return paragraph;
         }

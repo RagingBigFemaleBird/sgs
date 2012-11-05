@@ -149,6 +149,7 @@
         <Binding Path="IsEnabled" />
     </UserControl.IsEnabled>
     <UserControl.ToolTip>
-        <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top" ContentTemplateSelector="{StaticResource cardToolTipTemplateSelector}"/>
+        <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top" ContentTemplateSelector="{StaticResource cardToolTipTemplateSelector}"/>        
     </UserControl.ToolTip>
+    <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
 </UserControl>

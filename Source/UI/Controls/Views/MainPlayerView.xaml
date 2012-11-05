@@ -323,7 +323,7 @@
                     <Image.ToolTip>
                         <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
                     </Image.ToolTip>
-                    <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>                    
+                    <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
                 </Image>                
 			</Border>
             <Border x:Name="fadeMask" Background="#64000000" Opacity="0" IsHitTestVisible="False">

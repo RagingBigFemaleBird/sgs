@@ -8,6 +8,8 @@ using Sanguosha.Core.UI;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Cards;
 using System.Diagnostics;
+using System.Windows.Shapes;
+using System.Windows.Media;
 
 namespace Sanguosha.UI.Controls
 {
@@ -50,6 +52,11 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public void AppendPickHeroLog(Player player)
+        {
+            List<FlowDocument> docs = new List<FlowDocument>() {
+        }
+
         public void AppendCardMoveLog(List<Card> cards, DeckPlace source, DeckPlace dest)
         {
             if (source.Player == null && dest.Player == null || cards.Count == 0)
@@ -72,6 +79,36 @@ namespace Sanguosha.UI.Controls
                 {
                     doc.Blocks.Add(paragraph);
                 }
+            }
+        }
+        private static string _separatorMagic = "a432kdfsad9f134";
+
+        public void AppendSeparator()
+        {
+            var docs = Logs.Values.Concat(new List<FlowDocument>() { GlobalLog });
+            foreach (var doc in docs)
+            {
+                if (doc.Blocks.Last().Name == _separatorMagic)
+                {
+                    continue;
+                }
+
+                var para = new Paragraph();
+                para.Name = _separatorMagic;
+                var rect1 = new Rectangle();
+                rect1.Width = 210;
+                rect1.Height = 1;
+                rect1.Fill = new SolidColorBrush(Colors.Black);
+                
+                var rect2 = new Rectangle();
+                rect2.Width = 210;
+                rect2.Height = 1;
+                rect2.Fill = new SolidColorBrush(new Color(){ R = 77, G=74, B = 66, A = 255 });
+
+                para.Inlines.Add(rect1);
+                para.Inlines.Add(rect2);
+
+                doc.Blocks.Add(para);
             }
         }
     }

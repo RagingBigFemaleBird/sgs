@@ -39,17 +39,18 @@ namespace Sanguosha.UI.Controls
             get { return _game; }
             set 
             {
+                if (_game == value) return;
                 _game = value;
                 _game.RegisterCurrentThread();
-                PlayerModels.Clear();
+                PlayerModels.Clear();                
                 foreach (var player in _game.Players)
                 {
                     PlayerModels.Add(new PlayerViewModel(player, this, false));
                 }
                 PlayerModels[0].IsPlayable = true;
             }
-        }
-
+        }        
+        
         public PlayerViewModel MainPlayerModel
         {
             get
