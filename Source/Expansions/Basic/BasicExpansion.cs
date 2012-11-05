@@ -146,7 +146,6 @@ namespace Sanguosha.Expansions.Basic
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SimaYi", true, Allegiance.Wei, 3, new FanKui(), new GuiCai()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("XiahouDun", true, Allegiance.Wei, 4, new GangLie()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhangLiao", true, Allegiance.Wei, 4, new TuXi()))));
-#if DAMUBIE
             //CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("XuChu", true, Allegiance.Wei, 4, new LuoYi()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("GuoJia", true, Allegiance.Wei, 3, new TianDu()/*, new YiJi()*/))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhenJi", false, Allegiance.Wei, 3, new QingGuo(), new LuoShen()))));
@@ -163,7 +162,6 @@ namespace Sanguosha.Expansions.Basic
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HuangGai", true, Allegiance.Wu, 4, new KuRou()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhouYu", true, Allegiance.Wu, 3, new YingZi(), new FanJian()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("DaQiao", false, Allegiance.Wu, 3, new GuoSe(), new LiuLi()))));
-#endif
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("LuXun", true, Allegiance.Wu, 3, new QianXun(), new LianYing()))));
             //CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SunShangxiang", false, Allegiance.Wu, 3, new JieYin(), new XiaoJi()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HuaTuo", true, Allegiance.Qun, 3, new JiJiu(), new QingNang()))));
