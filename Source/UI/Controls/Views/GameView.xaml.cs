@@ -570,9 +570,9 @@ namespace Sanguosha.UI.Controls
                 }
                 rtbLog.ScrollToEnd();
             });
-        }   
+        }
 
-        public void NotifyDamage(Player source, Player target, int magnitude)
+        public void NotifyDamage(Player source, Player target, int magnitude, DamageElement element)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
@@ -629,5 +629,23 @@ namespace Sanguosha.UI.Controls
         }
 
         #endregion
+
+
+        public void NotifyMultipleChoiceResult(Player p, string answer)
+        {
+        }
+
+
+        public void NotifyJudge(Player p, Card card, ActionLog log)
+        {
+        }
+
+        public void NotifyDeath(Player p, Player by)
+        {
+        }
+
+        public void NotifyGameOver(GameResult result)
+        {
+        }
     }
 }
