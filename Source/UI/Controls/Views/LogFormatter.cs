@@ -11,6 +11,8 @@ using System.Windows.Documents;
 using Sanguosha.Core.Cards;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Sanguosha.Core.Games;
+using Sanguosha.Core.Heroes;
 
 namespace Sanguosha.UI.Controls
 {
@@ -109,6 +111,11 @@ namespace Sanguosha.UI.Controls
                 list.AddRange(RichTranslate(card));
             }
             return list;
+        }
+
+        private static string TranslateHeroName(Hero hero)
+        {
+            return Application.Current.TryFindResource(string.Format("Hero.{0}.Name", hero.Name)) as string;
         }
 
         public static IList<Inline> RichTranslate(CardViewModel card)
@@ -291,6 +298,24 @@ namespace Sanguosha.UI.Controls
                 }                
             }
             return paragraph;
+        }
+
+        public static Paragraph RichTranslatePickHero(Player player, bool isPrimaryHero)
+        {
+            Paragraph para = new Paragraph();
+            var hero = isPrimaryHero ? player.Hero : player.Hero2;
+            string name;
+            if (player.Role == Role.Ruler)
+            {
+                name = "主公";
+            }
+            else name = player.UserName;
+
+            string heroName = TranslateHeroName(hero);
+            para.Inlines.Add(new Run(string.Format("{0}选择了", name)) { Foreground = new SolidColorBrush(new Color() { R = 255, G = 102, B = 0, A = 255 }) });
+            para.Inlines.Add(heroName);
+            para.Inlines.Add(new Run("作为" + (isPrimaryHero ? "武将" : "副将")) { Foreground = new SolidColorBrush(new Color() { R = 255, G = 102, B = 0, A = 255 }) });
+            return para;
         }
     }
 }

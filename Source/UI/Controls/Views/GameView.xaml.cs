@@ -112,6 +112,7 @@ namespace Sanguosha.UI.Controls
             {
                 radioLogs[i].Checked += (o, e) =>
                 {
+                    if (!radioLogs.Contains(o)) return;
                     rtbLog.Document = logDocs[radioLogs.IndexOf(o as RadioButton)];
                     rtbLog.ScrollToEnd();
                 };
@@ -272,12 +273,12 @@ namespace Sanguosha.UI.Controls
             _Resize(new Size(this.ActualWidth, this.ActualHeight));
             model.PropertyChanged += new PropertyChangedEventHandler(model_PropertyChanged);
             model.Game.PropertyChanged += new PropertyChangedEventHandler(_game_PropertyChanged);
-            Trace.Assert(model.MainPlayerModel != null, "Main player must exists.");
+            Trace.Assert(model.MainPlayerModel != null, "Main player must exist.");
             
             var oldModel = e.OldValue as GameViewModel;
             if (oldModel != null)
             {
-                Trace.Assert(oldModel.MainPlayerModel != null, "Main player must exists.");
+                Trace.Assert(oldModel.MainPlayerModel != null, "Main player must exist.");
                 oldModel.PropertyChanged -= _mainPlayerPropertyChangedHandler;
             }
             model.MainPlayerModel.PropertyChanged += _mainPlayerPropertyChangedHandler;
@@ -301,26 +302,42 @@ namespace Sanguosha.UI.Controls
             }
             radioLogs[0].IsChecked = true;
             for (int i = 0; i < count; i++)
-            {
-                var player = model.PlayerModels[(i + model.MainPlayerSeatNumber) % count];
-                model.PlayerModels[i].PropertyChanged += new PropertyChangedEventHandler(_player_PropertyChanged);
-                gameLogs.Logs.Add(player.Player, logDocs[i + 1]);
-            }            
+            {                
+                model.PlayerModels[i].PropertyChanged += new PropertyChangedEventHandler(_player_PropertyChanged);                
+            }       
         }
 
         void _player_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            PlayerViewModel model = sender as PlayerViewModel;
-            int count = GameModel.PlayerModels.Count;
-            int i;
-            for (i = 0; i < count; i++)
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                var playerModel = GameModel.PlayerModels[(i + GameModel.MainPlayerSeatNumber) % count];
-                if (playerModel == model) break;
-            }
-            Trace.Assert(i < count);
-            // @todo: Add hero log here.
-            throw new NotImplementedException();
+                PlayerViewModel model = sender as PlayerViewModel;
+                int count = GameModel.PlayerModels.Count;
+
+                if (e.PropertyName == "Role")
+                {
+                    int index;
+                    for (index = 0; index < count; index++)
+                    {
+                        var playerModel = GameModel.PlayerModels[index];
+                        if (playerModel == model) break;
+                    }
+                    Trace.Assert(index < count);
+
+                    if (model.Player.Role == Role.Ruler)
+                    {
+                        gameLogs.Logs.Clear();
+                        for (int i = 0; i < count; i++)
+                        {
+                            gameLogs.Logs.Add(GameModel.PlayerModels[(i + index) % count].Player, logDocs[i + 1]);
+                        }
+                    }
+                }
+                else if (e.PropertyName == "Hero")
+                {
+                    gameLogs.AppendPickHeroLog(model.Player, true);
+                }
+            });
         }       
 
         void model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

@@ -52,9 +52,17 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        public void AppendPickHeroLog(Player player)
+        public void AppendPickHeroLog(Player player, bool isPrimaryHero)
         {
-            List<FlowDocument> docs = new List<FlowDocument>() {
+            if (isPrimaryHero && player.Hero == null) return;
+            else if (!isPrimaryHero && player.Hero2 == null) return;
+
+            List<FlowDocument> docs = new List<FlowDocument>() { Logs[player], GlobalLog };
+            foreach (var doc in docs)
+            {
+                Paragraph para = LogFormatter.RichTranslatePickHero(player, isPrimaryHero);
+                doc.Blocks.Add(para);
+            }
         }
 
         public void AppendCardMoveLog(List<Card> cards, DeckPlace source, DeckPlace dest)

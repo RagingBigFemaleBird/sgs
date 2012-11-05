@@ -174,6 +174,7 @@ namespace Sanguosha.UI.Controls
             if (name == "Role")
             {
                 _UpdatePossibleRoles();
+                OnPropertyChanged("Role");
                 OnPropertyChanged("PossibleRoles");
             }
             else if (name == "Hero")
@@ -184,7 +185,8 @@ namespace Sanguosha.UI.Controls
                 }
                 else
                 {
-                    Application.Current.Dispatcher.Invoke((ThreadStart)_UpdateHeroInfo);                    
+                    Application.Current.Dispatcher.Invoke((ThreadStart)_UpdateHeroInfo);
+                    OnPropertyChanged("Hero");
                     OnPropertyChanged("HeroName");                    
                 }
             }
@@ -292,6 +294,15 @@ namespace Sanguosha.UI.Controls
                 {
                     return _player.Allegiance;
                 }
+            }
+        }
+
+        public Role Role
+        {
+            get
+            {
+                if (_player == null) return Role.Unknown;
+                else return _player.Role;
             }
         }
 
