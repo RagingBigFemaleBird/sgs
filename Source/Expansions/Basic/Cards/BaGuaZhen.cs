@@ -33,6 +33,12 @@ namespace Sanguosha.Expansions.Basic.Cards
                     if (c.SuitColor == SuitColorType.Red)
                     {
                         eventArgs.Cards = new List<Card>();
+                        ActionLog log = new ActionLog();
+                        log.Source = Owner;
+                        log.SkillAction = null;
+                        log.CardAction = new Card() { Type = new BaGuaZhen() };
+                        log.GameAction = GameAction.None;
+                        Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
                         throw new TriggerResultException(TriggerResult.Success);
                     }
                 }
@@ -48,7 +54,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected override void RegisterEquipmentTriggers(Player p)
         {
-            theTrigger = new BaGuaTrigger(p);
+            theTrigger = new BaGuaTrigger(p) { Type = TriggerType.Card };
             Game.CurrentGame.RegisterTrigger(GameEvent.PlayerRequireCard, theTrigger);
         }
 

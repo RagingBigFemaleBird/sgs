@@ -113,7 +113,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 CanHuJia,
                 CallOfShan,
                 TriggerCondition.OwnerIsSource
-            );
+            ) { Type = TriggerType.Skill };
             Triggers.Add(GameEvent.PlayerRequireCard, trigger);
         }
 

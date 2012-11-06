@@ -29,6 +29,10 @@ namespace Sanguosha.Expansions.Basic.Cards
         {
             Owner = p;
         }
+
+        protected override void NotifyAction(Player source, List<Player> targets, CompositeCard card)
+        {
+        }
     }
 
     public class Sha : CardHandler
