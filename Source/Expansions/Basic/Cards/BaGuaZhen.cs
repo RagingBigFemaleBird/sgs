@@ -15,63 +15,47 @@ namespace Sanguosha.Expansions.Basic.Cards
 {
     public class BaGuaZhen : Armor
     {
-        class BaGuaZhenSkill : PassiveSkill
+        public class BaGuaZhenSkill : TriggerSkill
         {
-            protected override void InstallTriggers(Player owner)
+            void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                throw new NotImplementedException();
-            }
-
-            protected override void UninstallTriggers(Player owner)
-            {
-                throw new NotImplementedException();
-            }
-        }
-        class BaGuaTrigger : Trigger
-        {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                if (eventArgs.Source != Owner)
+                ReadOnlyCard c = Game.CurrentGame.Judge(Owner, null, new Card() { Type = new BaGuaZhen() });
+                if (c.SuitColor == SuitColorType.Red)
                 {
-                    return;
-                }
-                if (!((eventArgs.Card is CompositeCard) && ((eventArgs.Card as CompositeCard).Type is Shan)))
-                {
-                }
-                int answer;
-                if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("BaGua"), Prompt.YesNoChoices, out answer) && answer == 0)
-                {
-                    ReadOnlyCard c = Game.CurrentGame.Judge(Owner, null, new Card() { Type = new BaGuaZhen() });
-                    if (c.SuitColor == SuitColorType.Red)
-                    {
-                        eventArgs.Cards = new List<Card>();
-                        ActionLog log = new ActionLog();
-                        log.Source = Owner;
-                        log.SkillAction = new BaGuaZhenSkill();
-                        log.GameAction = GameAction.None;
-                        Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
-                        throw new TriggerResultException(TriggerResult.Success);
-                    }
+                    eventArgs.Cards = new List<Card>();
+                    ActionLog log = new ActionLog();
+                    log.Source = Owner;
+                    log.SkillAction = new BaGuaZhenSkill();
+                    log.GameAction = GameAction.None;
+                    Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
+                    throw new TriggerResultException(TriggerResult.Success);
                 }
             }
-
-            public BaGuaTrigger(Player p)
+            public BaGuaZhenSkill()
             {
-                Owner = p;
+                var trigger = new AutoNotifyPassiveSkillTrigger(
+                    this,
+                    (p, e, a) => { return (a.Card is CompositeCard) && ((a.Card as CompositeCard).Type is Shan); },
+                    Run,
+                    TriggerCondition.OwnerIsSource
+                ) { IsAutoNotify = false };
+                Triggers.Add(GameEvent.PlayerRequireCard, trigger);
             }
         }
 
-        Trigger theTrigger;
+        ISkill theSkill;
 
-        protected override void RegisterEquipmentTriggers(Player p)
+        public BaGuaZhen()
         {
-            theTrigger = new BaGuaTrigger(p) { Type = TriggerType.Card };
-            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerRequireCard, theTrigger);
+            theSkill = new BaGuaZhenSkill();
         }
 
-        protected override void UnregisterEquipmentTriggers(Player p)
+        public override ISkill EquipmentSkill
         {
-            Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerRequireCard, theTrigger);
+            get
+            {
+                return theSkill;
+            }
         }
     }
 }

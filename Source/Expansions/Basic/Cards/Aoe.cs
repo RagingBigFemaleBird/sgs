@@ -64,7 +64,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     if (e.Status == TriggerResult.Success)
                     {
-                        Game.CurrentGame.HandleCardPlay(current, null, args.Cards, sourceList);
+                        Game.CurrentGame.HandleCardPlay(current, new CardWrapper(current, RequiredCard()), args.Cards, sourceList);
                         continue;
                     }
                 }

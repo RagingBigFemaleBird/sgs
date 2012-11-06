@@ -14,20 +14,22 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-
-    public class ShanWrapper : CardTransformSkill
+    public class CardWrapper : CardTransformSkill
     {
         public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
         {
             card = new CompositeCard();
-            card.Type = new Shan();
+            card.Type = handler;
             card.Subcards = new List<Card>(cards);
             return VerifierResult.Success;
         }
 
-        public ShanWrapper(Player p)
+        CardHandler handler;
+
+        public CardWrapper(Player p, CardHandler h)
         {
             Owner = p;
+            handler = h;
         }
 
         protected override void NotifyAction(Player source, List<Player> targets, CompositeCard card)
@@ -92,7 +94,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     if (e.Status == TriggerResult.Success)
                     {
-                        Game.CurrentGame.HandleCardPlay(dest, new ShanWrapper(dest), args.Cards, sourceList);
+                        Game.CurrentGame.HandleCardPlay(dest, new CardWrapper(dest, new Shan()), args.Cards, sourceList);
                         numberOfShanRequired--;
                         continue;
                     }

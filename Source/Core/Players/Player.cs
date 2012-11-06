@@ -226,6 +226,7 @@ namespace Sanguosha.Core.Players
 
         public void LoseEquipmentSkill(ISkill skill)
         {
+            skill.Owner = null;
             equipmentSkills.Remove(skill);
             OnPropertyChanged("Skills");
         }

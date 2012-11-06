@@ -126,6 +126,7 @@ namespace Sanguosha.Core.Skills
         {
             Trace.Assert(_isTriggerInstalled,
                 string.Format("Trigger not installed yet for skill {0}", this.GetType().FullName));
+            _isTriggerInstalled = false;
             foreach (var pair in Triggers)
             {
                 pair.Value.Owner = null;

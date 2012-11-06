@@ -442,6 +442,7 @@ namespace Sanguosha.Core.Games
         }
 
         private bool atomic = false;
+        private int atomicLevel = 0;
 
         private struct TriggersWithParams
         {
@@ -457,14 +458,23 @@ namespace Sanguosha.Core.Games
         public void EnterAtomicContext()
         {
             atomic = true;
-            atomicMoves = new List<CardsMovement>();
-            atomicTriggers = new Dictionary<GameEvent,TriggersWithParams>();
-            atomicLogs = new List<IGameLog>();
-            atomicTriggersBeforeMove = new Dictionary<GameEvent, TriggersWithParams>();
+            if (atomicLevel == 0)
+            {
+                atomicMoves = new List<CardsMovement>();
+                atomicTriggers = new Dictionary<GameEvent, TriggersWithParams>();
+                atomicLogs = new List<IGameLog>();
+                atomicTriggersBeforeMove = new Dictionary<GameEvent, TriggersWithParams>();
+            }
+            atomicLevel++;
         }
 
         public void ExitAtomicContext()
         {
+            atomicLevel--;
+            if (atomicLevel > 0)
+            {
+                return;
+            }
             var moves = atomicMoves;
             var triggers = atomicTriggers;
             atomic = false;

@@ -20,12 +20,16 @@ namespace Sanguosha.Core.Cards
         /// 注册装备应有的trigger到玩家
         /// </summary>
         /// <param name="p"></param>
-        protected abstract void RegisterEquipmentTriggers(Player p);
+        protected virtual void RegisterEquipmentTriggers(Player p)
+        {
+        }
         /// <summary>
         /// 从玩家注销装备应有的trigger
         /// </summary>
         /// <param name="p"></param>
-        protected abstract void UnregisterEquipmentTriggers(Player p);
+        protected virtual void UnregisterEquipmentTriggers(Player p)
+        {
+        }
 
         public virtual void RegisterTriggers(Player p)
         {
