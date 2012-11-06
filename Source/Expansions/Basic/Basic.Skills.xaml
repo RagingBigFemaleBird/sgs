@@ -182,4 +182,8 @@
     <sys:String x:Key="Skill.BiYue.Name">闭月</sys:String>
     <sys:String x:Key="Skill.BiYue.Description">回合结束阶段开始时，你可以摸一张牌。</sys:String>
     <sys:String x:Key="Skill.BiYue.Usage">系统提示→点“确定”</sys:String>
+    
+    <sys:String x:Key="Skill.HuJia.Name">护驾</sys:String>
+    <sys:String x:Key="Skill.HuJia.Description">回合结束阶段开始时，你可以摸一张牌。</sys:String>
+    <sys:String x:Key="Skill.HuJia.Usage">系统提示→点“确定”</sys:String>
 </ResourceDictionary>

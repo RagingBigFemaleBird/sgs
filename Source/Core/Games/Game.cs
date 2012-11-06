@@ -558,6 +558,10 @@ namespace Sanguosha.Core.Games
                         card.Log = new ActionLog();
                         card.Type = GameEngine.CardSet[card.Id].Type;
                     }
+                    if (IsClient && (move.to.DeckType == DeckType.Hand && GameClient.SelfId != move.to.Player.Id))
+                    {
+                        card.Id = -1;
+                    }
                 }
             }
         }
@@ -938,10 +942,10 @@ namespace Sanguosha.Core.Games
                 }
                 Trace.Assert(false);
             }
-            NotificationProxy.NotifyDamage(source, args.Targets[0], -args.IntArg, (DamageElement)args.IntArg2);
             Trace.Assert(args.Targets.Count == 1);
             args.Targets[0].Health += args.IntArg;
             Trace.TraceInformation("Player {0} Lose {1} hp, @ {2} hp", args.Targets[0].Id, -args.IntArg, args.Targets[0].Health);
+            NotificationProxy.NotifyDamage(source, args.Targets[0], -args.IntArg, (DamageElement)args.IntArg2);
 
             Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, args);
             Game.CurrentGame.Emit(GameEvent.AfterDamageCaused, args);

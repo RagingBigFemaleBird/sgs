@@ -14,6 +14,23 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
+
+    public class ShanWrapper : CardTransformSkill
+    {
+        public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
+        {
+            card = new CompositeCard();
+            card.Type = new Shan();
+            card.Subcards = new List<Card>(cards);
+            return VerifierResult.Success;
+        }
+
+        public ShanWrapper(Player p)
+        {
+            Owner = p;
+        }
+    }
+
     public class Sha : CardHandler
     {
         public virtual DamageElement ShaDamageElement
@@ -60,7 +77,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             while (numberOfShanRequired > 0 && !cannotUseShan)
             {
                 args.Source = dest;
-                args.Targets = null;
+                args.Targets = sourceList;
                 args.Card = new CompositeCard();
                 args.Card.Type = new Shan();
                 try
@@ -71,7 +88,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     if (e.Status == TriggerResult.Success)
                     {
-                        Game.CurrentGame.HandleCardPlay(dest, null, args.Cards, sourceList);
+                        Game.CurrentGame.HandleCardPlay(dest, new ShanWrapper(dest), args.Cards, sourceList);
                         numberOfShanRequired--;
                         continue;
                     }

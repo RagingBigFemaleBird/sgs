@@ -25,5 +25,10 @@ namespace Sanguosha.Expansions.Basic.Cards
         {
             get { return "WanJianQiFa"; }
         }
+
+        protected override CardHandler RequiredCard()
+        {
+            return new Shan();
+        }
     }
 }

@@ -8,6 +8,8 @@
     <sys:String x:Key="Hero.Test3.Name">大母猹</sys:String>
     <sys:String x:Key="Hero.Test4.Name">松鼠</sys:String>
     <sys:String x:Key="Hero.Test5.Name">河马</sys:String>
+    <sys:String x:Key="Hero.Test6.Name">长颈鹿</sys:String>
+    <sys:String x:Key="Hero.Test7.Name">孔雀</sys:String>
     <!-- Examples
     <sys:String x:Key="Hero.LiuBei.Name">刘备</sys:String>
     <sys:String x:Key="Skill.RenDe.Name">仁德</sys:String>

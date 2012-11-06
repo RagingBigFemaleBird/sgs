@@ -26,6 +26,10 @@
     <system:String x:Key="Card.WanJianQiFa.Description">出牌阶段，对所有其他角色使用。每名目标角色需打出一张【闪】，否则受到1点伤害。</system:String>
     <system:String x:Key="Card.WanJianQiFa.Usage">选中【万剑齐发】→点“确定”</system:String>
 
+    <system:String x:Key="Card.NanManRuQin.Name">南蛮入侵</system:String>
+    <system:String x:Key="Card.NanManRuQin.Description">出牌阶段，对所有其他角色使用。每名目标角色需打出一张【杀】，否则受到1点伤害。</system:String>
+    <system:String x:Key="Card.NanManRuQin.Usage">选中【南蛮入侵】→点“确定”</system:String>
+
     <system:String x:Key="Card.JueDou.Name">决斗</system:String>
     <system:String x:Key="Card.JueDou.Description">出牌阶段，对一名其他角色使用。由该角色开始，你与其轮流打出一张【杀】。首先不出【杀】的一方受到另一方造成的1点伤害。</system:String>
     <system:String x:Key="Card.JueDou.Usage">选中【决斗】→选择一个目标→点“确定”</system:String>

@@ -76,12 +76,5 @@ namespace Sanguosha.Expansions.Basic.Skills
 
         private static PlayerAttribute QingNangUsed = PlayerAttribute.Register("QingNangUsed", true);
 
-        public override void CardRevealPolicy(Core.Players.Player p, List<Card> cards, List<Core.Players.Player> players)
-        {
-            foreach (Card c in cards)
-            {
-                c.RevealOnce = true;
-            }
-        }
     }
 }

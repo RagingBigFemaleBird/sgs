@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="BasicExpansion.cs" />
     <Compile Include="Cards\Aoe.cs" />
+    <Compile Include="Cards\BaGuaZhen.cs" />
     <Compile Include="Cards\CiXiongShuangGuJian.cs" />
     <Compile Include="Cards\FangTianHuaJi.cs" />
     <Compile Include="Cards\GuoHeChaiQiao.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Skills\GangLie.cs" />
     <Compile Include="Skills\GuiCai.cs" />
     <Compile Include="Skills\GuoSe.cs" />
+    <Compile Include="Skills\HuJia.cs" />
     <Compile Include="Skills\JianXiong.cs" />
     <Compile Include="Skills\JiJiang.cs" />
     <Compile Include="Skills\JiJiu.cs" />

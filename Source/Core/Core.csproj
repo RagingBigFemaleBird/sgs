@@ -51,6 +51,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cards\Armor.cs" />
     <Compile Include="Cards\CardCategory.cs" />
     <Compile Include="Cards\CardHandler.cs" />
     <Compile Include="Cards\CardPlace.cs" />

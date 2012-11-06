@@ -127,12 +127,5 @@ namespace Sanguosha.Expansions.Basic.Skills
 
         public static PlayerAttribute LiJianUsed = PlayerAttribute.Register("LiJianUsed", true);
 
-        public override void CardRevealPolicy(Core.Players.Player p, List<Card> cards, List<Core.Players.Player> players)
-        {
-            foreach (Card c in cards)
-            {
-                c.RevealOnce = true;
-            }
-        }
     }
 }

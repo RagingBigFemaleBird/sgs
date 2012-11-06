@@ -32,6 +32,8 @@ namespace Sanguosha.Expansions.Basic.Cards
             throw new NotImplementedException();
         }
 
+        protected abstract CardHandler RequiredCard();
+
         public override void Process(Player source, List<Player> dests, ICard c)
         {
             Trace.Assert(dests == null || dests.Count == 0);
@@ -53,7 +55,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 args.Source = current;
                 args.Targets = null;
                 args.Card = new CompositeCard();
-                args.Card.Type = new Shan();
+                args.Card.Type = RequiredCard();
                 try
                 {
                     Game.CurrentGame.Emit(GameEvent.PlayerRequireCard, args);
