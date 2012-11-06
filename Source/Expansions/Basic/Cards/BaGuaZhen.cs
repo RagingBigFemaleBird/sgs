@@ -15,6 +15,18 @@ namespace Sanguosha.Expansions.Basic.Cards
 {
     public class BaGuaZhen : Armor
     {
+        class BaGuaZhenSkill : PassiveSkill
+        {
+            protected override void InstallTriggers(Player owner)
+            {
+                throw new NotImplementedException();
+            }
+
+            protected override void UninstallTriggers(Player owner)
+            {
+                throw new NotImplementedException();
+            }
+        }
         class BaGuaTrigger : Trigger
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
@@ -35,8 +47,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                         eventArgs.Cards = new List<Card>();
                         ActionLog log = new ActionLog();
                         log.Source = Owner;
-                        log.SkillAction = null;
-                        log.CardAction = new Card() { Type = new BaGuaZhen() };
+                        log.SkillAction = new BaGuaZhenSkill();
                         log.GameAction = GameAction.None;
                         Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
                         throw new TriggerResultException(TriggerResult.Success);

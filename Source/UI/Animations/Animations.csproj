@@ -52,6 +52,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimationBase.cs" />
+    <Compile Include="BaGuaAnimation.xaml.cs">
+      <DependentUpon>BaGuaAnimation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RevealRoleAnimation.xaml.cs">
       <DependentUpon>RevealRoleAnimation.xaml</DependentUpon>
     </Compile>
@@ -124,6 +127,10 @@
     <Resource Include="TaoAnimation\largeBg.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="BaGuaAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="RevealRoleAnimation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -175,6 +182,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ShaAnimation\foreground2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="BaGuaAnimation\Inner.png" />
+    <Resource Include="BaGuaAnimation\Outside.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

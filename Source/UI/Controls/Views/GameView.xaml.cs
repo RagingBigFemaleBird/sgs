@@ -616,7 +616,7 @@ namespace Sanguosha.UI.Controls
                 PlayerViewBase player = playersMap[log.Source];
                 if (log.SkillAction != null)
                 {
-
+                    if (log.SkillAction is Sanguosha.Expansions.Basic.Cards.BaGuaZhenSkill)
                 }
                 if (log.CardAction != null)
                 {
