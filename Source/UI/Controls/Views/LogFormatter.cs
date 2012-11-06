@@ -152,7 +152,7 @@ namespace Sanguosha.UI.Controls
         {
             IList<Inline> list = new List<Inline>();
             string skillstr = string.Format("\"{0}\"", Translate(skill));
-            list.Add(new Run(skillstr) { Foreground = new SolidColorBrush(Colors.Yellow) });
+            list.Add(new Run(skillstr) { Foreground = YellowBrush });
             return list;
         }
         
@@ -312,9 +312,9 @@ namespace Sanguosha.UI.Controls
             else name = player.UserName;
 
             string heroName = TranslateHeroName(hero);
-            para.Inlines.Add(new Run(string.Format("{0}选择了", name)) { Foreground = new SolidColorBrush(new Color() { R = 255, G = 102, B = 0, A = 255 }) });
+            para.Inlines.Add(new Run(string.Format("{0}选择了", name)) { Foreground = OrangeBrush });
             para.Inlines.Add(heroName);
-            para.Inlines.Add(new Run("作为" + (isPrimaryHero ? "武将" : "副将")) { Foreground = new SolidColorBrush(new Color() { R = 255, G = 102, B = 0, A = 255 }) });
+            para.Inlines.Add(new Run("作为" + (isPrimaryHero ? "武将" : "副将")) { Foreground = OrangeBrush });
             return para;
         }
 
@@ -349,6 +349,8 @@ namespace Sanguosha.UI.Controls
         }
 
         static Brush RedBrush =  new SolidColorBrush(new Color() { R = 204, G = 0, B = 0, A = 255 });
+        static Brush OrangeBrush = new SolidColorBrush(new Color() { R = 255, G = 102, B = 0, A = 255 });
+        static Brush YellowBrush = new SolidColorBrush(Colors.Yellow);
 
         public static Paragraph RichTranslateDeath(Player p, Player by)
         {
@@ -376,17 +378,27 @@ namespace Sanguosha.UI.Controls
         {
             Paragraph para = new Paragraph();
             string roleStr = Translate(p.Role);
-            if (roleStr == string.Empty) return para;
+            if (roleStr == string.Empty) return null;
             para.Inlines.Add(string.Format("{0}的身份是{1}", Translate(p), roleStr));
             return para;
         }
 
-        private static string Translate(Role role)
+        public static string Translate(Role role)
         {
             string key = string.Format("Role.{0}.Name", role);
             string name = Application.Current.TryFindResource(key) as string;
             if (name == null) return string.Empty;
             return name;
+        }
+
+        public static Paragraph RichTranslateChoice(Player p, string answer)
+        {
+            Paragraph para = new Paragraph();
+            string name = Application.Current.TryFindResource(answer) as string;
+            if (name == null || name == string.Empty) return null;
+            para.Inlines.Add(string.Format("{0}选择了", Translate(p)));
+            para.Inlines.Add(new Run(string.Format("“{0}”", name)) { Foreground = YellowBrush } );
+            return para;
         }
     }
 }

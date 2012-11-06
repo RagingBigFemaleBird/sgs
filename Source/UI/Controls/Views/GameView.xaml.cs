@@ -651,6 +651,10 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyMultipleChoiceResult(Player p, string answer)
         {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                gameLogs.AppendMultipleChoiceLog(p, answer);
+            });
         }
 
         public void NotifyJudge(Player p, Card card, ActionLog log)
@@ -660,7 +664,7 @@ namespace Sanguosha.UI.Controls
         public void NotifyDeath(Player p, Player by)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
-            { 
+            {
                 gameLogs.AppendDeathLog(p, by);
             });
         }
@@ -668,6 +672,7 @@ namespace Sanguosha.UI.Controls
         public void NotifyGameOver(GameResult result)
         {
         }
+
         #endregion
     }
 }

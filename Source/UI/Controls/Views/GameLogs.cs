@@ -44,9 +44,8 @@ namespace Sanguosha.UI.Controls
             foreach (var doc in docs)
             {
                 var paragraph = LogFormatter.RichTranslateMainLog(log);
-                if (paragraph.Inlines.Count > 0)
+                if (paragraph != null && paragraph.Inlines.Count > 0)
                 {
-
                     doc.Blocks.Add(paragraph);
                 }
             }
@@ -61,7 +60,10 @@ namespace Sanguosha.UI.Controls
             foreach (var doc in docs)
             {
                 Paragraph para = LogFormatter.RichTranslatePickHero(player, isPrimaryHero);
-                doc.Blocks.Add(para);
+                if (para != null)
+                {
+                    doc.Blocks.Add(para);
+                }
             }
         }
 
@@ -128,7 +130,10 @@ namespace Sanguosha.UI.Controls
             foreach (var doc in docs)
             {
                 Paragraph para = LogFormatter.RichTranslateDamage(source, target, magnitude, element);
-                doc.Blocks.Add(para);
+                if (para != null)
+                {
+                    doc.Blocks.Add(para);
+                }
             }
         }
 
@@ -139,9 +144,32 @@ namespace Sanguosha.UI.Controls
             foreach (var doc in docs)
             {
                 Paragraph para = LogFormatter.RichTranslateDeath(p, by);
-                doc.Blocks.Add(para);
+                if (para != null)
+                {
+                    doc.Blocks.Add(para);
+                }
                 para = LogFormatter.RichTranslateRole(p);
-                doc.Blocks.Add(para);
+                if (para != null && para.Inlines.Count > 0)
+                {
+                    doc.Blocks.Add(para);
+                }
+            }
+        }
+
+        internal void AppendMultipleChoiceLog(Player p, string answer)
+        {
+            List<FlowDocument> docs = new List<FlowDocument>() { Logs[p], GlobalLog };
+            foreach (var doc in docs)
+            {
+                Paragraph para = LogFormatter.RichTranslateChoice(p, answer);
+                if (para != null && para.Inlines.Count > 0)
+                {
+                    doc.Blocks.Add(para);
+                }
+                else
+                {
+                    break;
+                }
             }
         }
     }
