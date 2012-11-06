@@ -88,7 +88,6 @@ namespace Sanguosha.Expansions.Basic.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return true; },
                 GetTheirCards,
                 TriggerCondition.OwnerIsSource
             ) { AskForConfirmation = false, Priority = SkillPriority.TuXi, IsAutoNotify = false };

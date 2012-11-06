@@ -22,10 +22,6 @@ namespace Sanguosha.Expansions.SP.Skills
     {
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            if (eventArgs.Source == null || eventArgs.Targets.IndexOf(Owner) < 0)
-            {
-                return;
-            }
             int answer = 0;
             List<string> JiLeiQuestion = new List<string>();
             JiLeiQuestion.Add(Prompt.MultipleChoiceOptionPrefix + "JiBen");
@@ -121,8 +117,9 @@ namespace Sanguosha.Expansions.SP.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
+                (p, e, a) => { return a.Source != null; },
                 Run,
-                TriggerCondition.Global
+                TriggerCondition.OwnerIsTarget
             ) { IsAutoNotify = false, AskForConfirmation = false };
             Triggers.Add(GameEvent.DamageInflicted, trigger);
         }
