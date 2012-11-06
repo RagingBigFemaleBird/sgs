@@ -627,7 +627,7 @@ namespace Sanguosha.UI.Controls
                     {                        
                         player.PlayAnimation(new ShanAnimation(), 0, new Point(0, 0));
                     }
-                    else if (log.CardAction.Type is Sha)
+                    else if (log.CardAction.Type is RegularSha)
                     {
                         AnimationBase sha;
                         if (log.CardAction.SuitColor == SuitColorType.Red)

@@ -11,9 +11,11 @@
     -->
     
     <system:String x:Key="Card.Sha.Name">杀</system:String>
-    <system:String x:Key="Card.Sha.Description">你的出牌阶段，对除你外，你攻击范围内的一名角色使用，效果是对该角色造成1点伤害。</system:String>
-    <system:String x:Key="Card.Sha.Usage">选中【杀】→选择攻击距离内目标→点“确定”</system:String>
-    
+
+    <system:String x:Key="Card.RegularSha.Name">杀</system:String>
+    <system:String x:Key="Card.RegularSha.Description">你的出牌阶段，对除你外，你攻击范围内的一名角色使用，效果是对该角色造成1点伤害。</system:String>
+    <system:String x:Key="Card.RegularSha.Usage">选中【杀】→选择攻击距离内目标→点“确定”</system:String>
+
     <system:String x:Key="Card.Shan.Name">闪</system:String>
     <system:String x:Key="Card.Shan.Description">当你受到【杀】的攻击时，你可以使用一张【闪】来抵消【杀】的效果。</system:String>
     <system:String x:Key="Card.Shan.Usage">选中【闪】→点“确定”</system:String>

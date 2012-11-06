@@ -35,7 +35,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             {
                 card = new CompositeCard();
                 card.Subcards = new List<Card>(cards);
-                card.Type = new Sha();
+                card.Type = new RegularSha();
                 return VerifierResult.Success;
             }
             else if (cards[0].Type is Sha)

@@ -107,13 +107,14 @@ namespace Sanguosha.Expansions.Basic.Skills
             if (result is CompositeCard)
             {
                 card.Subcards.AddRange(((CompositeCard)result).Subcards);
+                card.Type = ((CompositeCard)result).Type;
             }
             else
             {
                 Trace.Assert(result is Card);
                 card.Subcards.Add((Card)result);
+                card.Type = ((Card)result).Type;
             }
-            card.Type = new Sha();
             return true;
         }
 

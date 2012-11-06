@@ -48,7 +48,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 }
                 card = new CompositeCard();
                 card.Subcards = new List<Card>(cards);
-                card.Type = new Sha();
+                card.Type = new RegularSha();
                 return VerifierResult.Success;
             }
 

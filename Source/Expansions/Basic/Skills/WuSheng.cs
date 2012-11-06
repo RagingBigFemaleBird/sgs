@@ -23,7 +23,7 @@ namespace Sanguosha.Expansions.Basic.Skills
 
         public override CardHandler PossibleResult
         {
-            get { return new Sha(); }
+            get { return new RegularSha(); }
         }
     }
 }
