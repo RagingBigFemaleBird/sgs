@@ -12,6 +12,7 @@ using Sanguosha.Expansions.Basic.Cards;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Exceptions;
+using Sanguosha.Core.Heroes;
 
 namespace Sanguosha.Expansions.Basic.Skills
 {
@@ -102,17 +103,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             {
                 return false;
             }
-            List<Player> players = new List<Player>(Game.CurrentGame.AlivePlayers);
-            bool hasWei = false;
-            foreach (Player pp in players)
-            {
-                if (p != pp && pp.Allegiance == Core.Heroes.Allegiance.Wei)
-                {
-                    hasWei = true;
-                    break;
-                }
-            }
-            return hasWei;
+            return Game.CurrentGame.AlivePlayers.Any(weiHero => weiHero != p && weiHero.Allegiance == Allegiance.Wei);
         }
 
         public HuJia()
@@ -125,6 +116,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             );
             Triggers.Add(GameEvent.PlayerRequireCard, trigger);
         }
+
         public override bool IsRulerOnly
         {
             get
