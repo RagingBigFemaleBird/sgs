@@ -402,6 +402,14 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public bool IsDead
+        {
+            get
+            {
+                return _player.IsDead;
+            }
+        }
+
         #endregion
         
         #region Derived Player Properties

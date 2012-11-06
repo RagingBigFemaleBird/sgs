@@ -21,7 +21,12 @@
     <system:String x:Key="Allegiance.Wu.Name">吴</system:String>
     <system:String x:Key="Allegiance.Qun.Name">群</system:String>
     <system:String x:Key="Allegiance.Shen.Name">神</system:String>
-    
+
+    <system:String x:Key="Role.Rebel.Name">反贼</system:String>
+    <system:String x:Key="Role.Loyalist.Name">忠臣</system:String>
+    <system:String x:Key="Role.Defector.Name">内奸</system:String>
+    <system:String x:Key="Role.Ruler.Name">主公</system:String>
+
     <system:String x:Key="CardUsage.Prompt.Play">出牌阶段，请选择一张卡牌</system:String>
     <system:String x:Key="CardUsage.Prompt.Discard">您需要弃掉{0}张卡牌，请选牌</system:String>
     <system:String x:Key="CardChoice.Prompt.RulerHeroChoice">您的身份是主公，请选择一名武将</system:String>

@@ -131,5 +131,18 @@ namespace Sanguosha.UI.Controls
                 doc.Blocks.Add(para);
             }
         }
+
+        public void AppendDeathLog(Player p, Player by)
+        {
+            List<FlowDocument> docs = new List<FlowDocument>() { Logs[p], GlobalLog };
+            if (by != null) docs.Add(Logs[by]);
+            foreach (var doc in docs)
+            {
+                Paragraph para = LogFormatter.RichTranslateDeath(p, by);
+                doc.Blocks.Add(para);
+                para = LogFormatter.RichTranslateRole(p);
+                doc.Blocks.Add(para);
+            }
+        }
     }
 }

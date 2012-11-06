@@ -360,6 +360,15 @@
   <ItemGroup>
     <Resource Include="Images\System\roundFrame.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Death\Defector.png" />
+    <Resource Include="Images\Death\image 372.png" />
+    <Resource Include="Images\Death\image 378.png" />
+    <Resource Include="Images\Death\Loyalist.png" />
+    <Resource Include="Images\Death\Rebel.png" />
+    <Resource Include="Images\Death\Ruler.png" />
+    <Resource Include="Images\Death\Unknown.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /S /Y $(ProjectDir)*.* $(TargetDir)Resources\

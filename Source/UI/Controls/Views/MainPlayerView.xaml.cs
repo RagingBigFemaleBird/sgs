@@ -66,7 +66,21 @@ namespace Sanguosha.UI.Controls
                     Storyboard animation = Resources["sbPhaseChange"] as Storyboard;
                     animation.Begin(this);
                 }
-            }            
+
+            }
+            else if (e.PropertyName == "IsDead")
+            {
+                Storyboard deathAnimation = (Resources["sbDeathTransition"] as Storyboard);
+                Trace.Assert(deathAnimation != null);
+                if (model.IsDead)
+                {
+                    deathAnimation.Begin();
+                }
+                else
+                {
+                    deathAnimation.Stop();
+                }
+            }
         }       
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

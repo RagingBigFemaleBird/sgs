@@ -344,8 +344,49 @@ namespace Sanguosha.UI.Controls
             }
             string damageStr = string.Format("受到{0}{1}点{2}伤害，体力值为{3}", sourceStr, magnitude, Translate(element), target.Health);
             
-            para.Inlines.Add(new Run(damageStr) { Foreground = new SolidColorBrush(new Color() { R = 204, G = 0, B = 0, A = 255 }) });
+            para.Inlines.Add(new Run(damageStr) { Foreground = RedBrush });
             return para;
+        }
+
+        static Brush RedBrush =  new SolidColorBrush(new Color() { R = 204, G = 0, B = 0, A = 255 });
+
+        public static Paragraph RichTranslateDeath(Player p, Player by)
+        {
+            Paragraph para = new Paragraph();
+            string deadPerson = Translate(p);
+            if (by == p)
+            {
+                para.Inlines.Add(deadPerson);
+                para.Inlines.Add(new Run("自杀"){ Foreground = RedBrush });
+                return para;
+            }
+            else if (by != null)
+            {
+                para.Inlines.Add(Translate(by));
+                para.Inlines.Add(new Run("杀死了") { Foreground = RedBrush });
+                para.Inlines.Add(deadPerson);
+                para.Inlines.Add(new Run("，") { Foreground = RedBrush });
+            }
+            para.Inlines.Add(deadPerson);
+            para.Inlines.Add(new Run("阵亡") { Foreground = RedBrush });
+            return para;
+        }
+
+        public static Paragraph RichTranslateRole(Player p)
+        {
+            Paragraph para = new Paragraph();
+            string roleStr = Translate(p.Role);
+            if (roleStr == string.Empty) return para;
+            para.Inlines.Add(string.Format("{0}的身份是{1}", Translate(p), roleStr));
+            return para;
+        }
+
+        private static string Translate(Role role)
+        {
+            string key = string.Format("Role.{0}.Name", role);
+            string name = Application.Current.TryFindResource(key) as string;
+            if (name == null) return string.Empty;
+            return name;
         }
     }
 }

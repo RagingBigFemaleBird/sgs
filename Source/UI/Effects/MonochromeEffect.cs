@@ -36,7 +36,7 @@ using UIPropertyMetadata = System.Windows.PropertyMetadata ;
         /// <summary>
         /// Gets or sets the Strength variable within the shader.
         /// </summary>
-        public static readonly DependencyProperty StrengthProperty = DependencyProperty.Register("Strength", typeof(double), typeof(MonochromeEffect), new UIPropertyMetadata(1.0d, PixelShaderConstantCallback(0), CoerceStrength));
+        public static readonly DependencyProperty StrengthProperty = DependencyProperty.Register("Strength", typeof(double), typeof(MonochromeEffect), new UIPropertyMetadata(1.0d, PixelShaderConstantCallback(1), CoerceStrength));
 
         /// <summary>
         /// Gets or sets the Input of the shader.
@@ -71,10 +71,10 @@ using UIPropertyMetadata = System.Windows.PropertyMetadata ;
         public MonochromeEffect()
         {
             this.PixelShader = pixelShader;
-
+                        
+            UpdateShaderValue(InputProperty);
             UpdateShaderValue(FilterColorProperty);
             UpdateShaderValue(StrengthProperty);
-            UpdateShaderValue(InputProperty);
         }
 
         #endregion

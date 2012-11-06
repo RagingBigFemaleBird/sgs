@@ -49,7 +49,12 @@ namespace Sanguosha.Core.Players
         public bool IsDead
         {
             get { return isDead; }
-            set { isDead = value; }
+            set 
+            {
+                if (isDead == value) return;
+                isDead = value;
+                OnPropertyChanged("IsDead");
+            }
         }
 
         bool isMale;

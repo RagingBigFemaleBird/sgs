@@ -6,8 +6,8 @@
     xmlns:ee="http://schemas.microsoft.com/expression/2010/effects"
     xmlns:local="clr-namespace:Sanguosha.UI.Controls"
     xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
-    xmlns:eff="clr-namespace:Sanguosha.UI.Effects;assembly=Effects"
-	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+    xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:Sanguosha_UI_Effects="clr-namespace:Sanguosha.UI.Effects;assembly=Effects"
     x:Class="Sanguosha.UI.Controls.PlayerView"
     mc:Ignorable="d"
     MaxWidth="168" MaxHeight="210" MinWidth="138" MinHeight="174" d:DesignHeight="210" d:DesignWidth="168">
@@ -74,19 +74,35 @@
             		</EasingThicknessKeyFrame>
             	</ThicknessAnimationUsingKeyFrames>
             </Storyboard>
-            <Storyboard x:Key="DeathTransition"/>
+            <Storyboard x:Key="sbDeathTransition">
+            	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:MonochromeEffect.Strength)" Storyboard.TargetName="grid">
+            		<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+            		<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+            	</DoubleAnimationUsingKeyFrames>
+            	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="image">
+            		<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="3"/>
+            		<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+            	</DoubleAnimationUsingKeyFrames>
+            	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="image">
+            		<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="3"/>
+            		<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+            	</DoubleAnimationUsingKeyFrames>
+            	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image">
+            		<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+            		<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+            	</DoubleAnimationUsingKeyFrames>
+            </Storyboard>
         </ResourceDictionary>
     </local:PlayerViewBase.Resources>
 	<local:PlayerViewBase.Triggers>
-		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
-			<BeginStoryboard Storyboard="{StaticResource DeathTransition}"/>
-		</EventTrigger>
 	</local:PlayerViewBase.Triggers>
     <Grid x:Name="LayoutRoot">
         <Grid.ToolTip>
             <ToolTip x:Name="toolTip" Content="{Binding}" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
         </Grid.ToolTip>
-        <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
+        <ToolTipService.ShowOnDisabled>
+        	<System:Boolean>True</System:Boolean>
+</ToolTipService.ShowOnDisabled>
         <VisualStateManager.CustomVisualStateManager>
     		<ei:ExtendedVisualStateManager/>
     	</VisualStateManager.CustomVisualStateManager>
@@ -120,7 +136,10 @@
         	<ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <ProgressBar x:Name="progressBar" Style="{StaticResource TimedProgressBarStyle}" Grid.Column="0" Grid.Row="2" Margin="5,0" />
-        <Grid x:Name="grid" Grid.Column="0">        	
+        <Grid x:Name="grid" Grid.Column="0">            
+        	<Grid.Effect>
+        		<Sanguosha_UI_Effects:MonochromeEffect Strength="0"/>
+        	</Grid.Effect>            
             <Border x:Name="isPlayingGlow" Visibility="{Binding IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}"  Background="#FF27D317">
                 <Border.Effect>
                     <BlurEffect Radius="10"/>
@@ -152,7 +171,7 @@
                 </Grid.RowDefinitions>
                 <local:CardStack x:Name="handCardPlaceHolder" IsCardConsumer="true" CardAlignment="Center" MaxCardSpacing="20" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="130" Width="279" />
                 <Rectangle Fill="Black" Grid.RowSpan="2" />
-                <Image Source="{DynamicResource PlayerInfoView.Decoration.TopLeft}" Width="64" HorizontalAlignment="Left" Margin="-10,-7,0,0" Grid.RowSpan="2" VerticalAlignment="Top" />
+                <Image Source="{DynamicResource PlayerInfoView.Decoration.TopLeft}" Width="64" HorizontalAlignment="Left" Margin="-10,-7,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
                 <Path Data="M0,0H124" HorizontalAlignment="Center" Margin="0,13,0,0" Stretch="Fill" VerticalAlignment="Top" Width="124">
                     <Path.Stroke>
                         <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
@@ -175,11 +194,7 @@
                 </Path>
                 <Border Margin="2,0,2,4" Grid.Row="1" BorderBrush="#FF79786B" CornerRadius="1" BorderThickness="1" ClipToBounds="True">
                     <Grid>
-                        <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top">
-                            <Image.Source>
-                                <res:ImageBinding Path="HeroName" StringFormat="Resources/Images/Heroes/{0}.png" ResourceKeyFormat="Hero.{0}.Image" CropRect="28,46,220,132" />
-                            </Image.Source>
-                        </Image>                         
+                        <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=28\,46\,220\,132, Path=HeroName, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/\{0\}.png}"/>                         
                         <Border x:Name="IsTargetedGlow" Visibility="{Binding IsTargeted, Converter={StaticResource boolToVisibilityConverter}}" BorderBrush="Red" BorderThickness="5" >
                             <Border.Effect>
                                 <BlurEffect Radius="10" />
@@ -212,11 +227,10 @@
                                                          Stroke="Black"
                                                          StrokeThickness="1"
                                                          FontWeight="Bold"
-                                                         Text="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}" 
+                                                         Text="{Binding DataContext, RelativeSource={RelativeSource Self}}" 
                                                          FontFamily="LiSu" FontSize="18.667" 
                                                          VerticalAlignment="Center" TextAlignment="Center"
-                                                         TextTrimming="None">                                    
-                                </local:OutlinedTextBlock>
+                                                         TextTrimming="None"/>
                             </Viewbox>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -264,5 +278,15 @@
             <Canvas x:Name="animationCenter2" Margin="0,0,0,20" VerticalAlignment="Bottom" HorizontalAlignment="Center" IsHitTestVisible="False" />
             <Canvas x:Name="animationCenter1" Margin="0,80,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" IsHitTestVisible="False" />
         </Grid>
+        <Image x:Name="image" Source="{res:ImageBinding Path=Role, ResourceKeyFormat=Death.Role.\{0\}.Image, StringFormat=Resources/Images/Death/\{0\}.png}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False" Opacity="0">
+        	<Image.RenderTransform>
+        		<TransformGroup>
+        			<ScaleTransform/>
+        			<SkewTransform/>
+        			<RotateTransform/>
+        			<TranslateTransform/>
+        		</TransformGroup>
+        	</Image.RenderTransform>
+        </Image>
     </Grid>
 </local:PlayerViewBase>

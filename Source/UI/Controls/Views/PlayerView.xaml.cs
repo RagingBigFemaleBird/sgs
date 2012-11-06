@@ -72,6 +72,19 @@ namespace Sanguosha.UI.Controls
                 DoubleAnimation doubleanimation = new DoubleAnimation(100d, 0d, duration);
                 progressBar.BeginAnimation(ProgressBar.ValueProperty, doubleanimation);
             }
+            else if (e.PropertyName == "IsDead")
+            {
+                Storyboard deathAnimation = (Resources["sbDeathTransition"] as Storyboard);
+                Trace.Assert(deathAnimation != null);
+                if (model.IsDead)
+                {
+                    deathAnimation.Begin();
+                }
+                else
+                {
+                    deathAnimation.Stop();
+                }
+            }
         }
 
         private void mainArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

@@ -157,5 +157,11 @@
     <BitmapImage x:Key="Role.Rebel.Facial">Roles/rebel.png</BitmapImage>
     <BitmapImage x:Key="Role.Defector.Facial">Roles/defector.png</BitmapImage>
     <BitmapImage x:Key="Role.Ruler.Facial">Roles/ruler.png</BitmapImage>
-    
+
+    <BitmapImage x:Key="Death.Role.Loyalist.Image">Death/Loyalist.png</BitmapImage>
+    <BitmapImage x:Key="Death.Role.Rebel.Image">Death/Rebel.png</BitmapImage>
+    <BitmapImage x:Key="Death.Role.Defector.Image">Death/Defector.png</BitmapImage>
+    <BitmapImage x:Key="Death.Role.Ruler.Image">Death/Ruler.png</BitmapImage>
+    <BitmapImage x:Key="Death.Role.Unknown.Image">Death/Unknown.png</BitmapImage>
+
 </ResourceDictionary>

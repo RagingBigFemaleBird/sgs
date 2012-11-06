@@ -649,8 +649,6 @@ namespace Sanguosha.UI.Controls
             });
         }
 
-        #endregion
-
         public void NotifyMultipleChoiceResult(Player p, string answer)
         {
         }
@@ -661,10 +659,15 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyDeath(Player p, Player by)
         {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            { 
+                gameLogs.AppendDeathLog(p, by);
+            });
         }
 
         public void NotifyGameOver(GameResult result)
         {
         }
+        #endregion
     }
 }

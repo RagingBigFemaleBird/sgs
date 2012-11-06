@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:Sanguosha.UI.Controls"
              xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
 	         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+             xmlns:Sanguosha_UI_Effects="clr-namespace:Sanguosha.UI.Effects;assembly=Effects" xmlns:System="clr-namespace:System;assembly=mscorlib" 
              x:Class="Sanguosha.UI.Controls.MainPlayerView"
 	         mc:Ignorable="d"
              Height="200"
@@ -233,13 +234,26 @@
         		</Setter>
         	</Style>
         	<Storyboard x:Key="Countdown"/>
+        	<Storyboard x:Key="sbDeathTransition">
+        		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:MonochromeEffect.Strength)" Storyboard.TargetName="grid">
+        			<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+        			<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+        		</DoubleAnimationUsingKeyFrames>
+        		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="image">
+        			<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="3"/>
+        			<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+        		</DoubleAnimationUsingKeyFrames>
+        		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="image">
+        			<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="3"/>
+        			<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+        		</DoubleAnimationUsingKeyFrames>
+        		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image">
+        			<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+        			<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+        		</DoubleAnimationUsingKeyFrames>
+        	</Storyboard>
         </ResourceDictionary>
-    </local:PlayerViewBase.Resources>
-	<local:PlayerViewBase.Triggers>
-		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
-			<BeginStoryboard Storyboard="{StaticResource Countdown}"/>
-		</EventTrigger>
-	</local:PlayerViewBase.Triggers>
+    </local:PlayerViewBase.Resources>	
     <Grid>
     	<VisualStateManager.VisualStateGroups>
     		<VisualStateGroup x:Name="FadeStates">
@@ -281,7 +295,7 @@
             <Grid.Background>
                 <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Background.Left}"/>
             </Grid.Background>
-            <StackPanel Height="29" Orientation="Horizontal" HorizontalAlignment="Left" Margin="8,0,0,0" Name="delayedToolsDock" VerticalAlignment="Top" >
+            <StackPanel Height="29" Orientation="Horizontal" HorizontalAlignment="Left" Margin="8,0,0,0" x:Name="delayedToolsDock" VerticalAlignment="Top" >
             	<i:Interaction.Behaviors>
             		<ei:FluidMoveBehavior AppliesTo="Children" Duration="0:0:5">
             			<ei:FluidMoveBehavior.EaseX>
@@ -313,17 +327,29 @@
             </Border>
             <Button Content="" Height="82" Margin="0,0,39,0" Command="{Binding CancelAnswerCommand}" Style="{DynamicResource CancelButtonStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="67"/>
             <Button Content="" Margin="0,44,5,44" Command="{Binding AbortAnswerCommand}" Style="{DynamicResource DiscardButtonStyle}" HorizontalAlignment="Right" Width="33"/>
+            <Image x:Name="image" Source="{res:ImageBinding Path=Role, ResourceKeyFormat=Death.Role.\{0\}.Image, StringFormat=Resources/Images/Death/\{0\}.png}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False" Opacity="0">
+            	<Image.RenderTransform>
+            		<TransformGroup>
+            			<ScaleTransform/>
+            			<SkewTransform/>
+            			<RotateTransform/>
+            			<TranslateTransform/>
+            		</TransformGroup>
+            	</Image.RenderTransform>
+            </Image>
         </Grid>		
-		<Grid Grid.Row="1" Grid.Column="2" Background="Black">
+		<Grid x:Name="grid" Grid.Row="1" Grid.Column="2" Background="Black">
+			<Grid.Effect>
+				<Sanguosha_UI_Effects:MonochromeEffect Strength="0"/>
+			</Grid.Effect>
 			<Border Margin="9,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="134" Height="134" IsEnabled="{Binding IsEnabled}" MouseLeftButtonDown="Border_MouseLeftButtonDown">
-                <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top">
-                    <Image.Source>
-                        <res:ImageBinding Path="HeroName" StringFormat="Resources/Images/Heroes/{0}.png" ResourceKeyFormat="Hero.{0}.Image" CropRect="71,28,145,145" />                        
-                    </Image.Source>
+                <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=71\,28\,145\,145, Path=HeroName, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/\{0\}.png}">
                     <Image.ToolTip>
                         <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
                     </Image.ToolTip>
-                    <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
+                    <ToolTipService.ShowOnDisabled>
+                    	<System:Boolean>True</System:Boolean>
+</ToolTipService.ShowOnDisabled>
                 </Image>                
 			</Border>
             <Border x:Name="fadeMask" Background="#64000000" Opacity="0" IsHitTestVisible="False">
@@ -354,11 +380,10 @@
                                                          Stroke="Black"
                                                          StrokeThickness="1"
                                                          FontWeight="Bold"
-                                                         Text="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}" 
+                                                         Text="{Binding DataContext, RelativeSource={RelativeSource Self}}" 
                                                          FontFamily="LiSu" FontSize="18.667" 
                                                          VerticalAlignment="Center" TextAlignment="Center"
-                                                         TextTrimming="None">
-                            </local:OutlinedTextBlock>
+                                                         TextTrimming="None"/>
                         </Viewbox>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -390,19 +415,20 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <ToggleButton Style="{StaticResource SkillButtonStyle}" IsEnabled="{Binding IsEnabled}" IsChecked="{Binding IsSelected}">
+                            <ToggleButton.ToolTip>
+                                <ToolTip ContentTemplate="{StaticResource SkillToolTipTemplate}" Content="{Binding Mode=OneWay}" />  
+                            </ToggleButton.ToolTip>
+                            <ToolTipService.ShowOnDisabled>
+                            	<System:Boolean>True</System:Boolean>
+</ToolTipService.ShowOnDisabled>
                             <Grid>
                                 <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="Black" Stroke="Black" StrokeThickness="3" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify">
                                     <local:OutlinedTextBlock.Effect>
                                         <BlurEffect />
                                     </local:OutlinedTextBlock.Effect>
                                 </local:OutlinedTextBlock>
-                                <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="White" Stroke="White" StrokeThickness="1" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify">
-                            </local:OutlinedTextBlock>                            
+                                <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="White" Stroke="White" StrokeThickness="1" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify"/>                            
                             </Grid>
-                            <ToggleButton.ToolTip>
-                                <ToolTip ContentTemplate="{StaticResource SkillToolTipTemplate}" Content="{Binding Mode=OneWay}" />  
-                            </ToggleButton.ToolTip>
-                            <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
                         </ToggleButton>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
