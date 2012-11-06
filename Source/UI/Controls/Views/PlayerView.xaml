@@ -6,7 +6,8 @@
     xmlns:ee="http://schemas.microsoft.com/expression/2010/effects"
     xmlns:local="clr-namespace:Sanguosha.UI.Controls"
     xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
-    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+    xmlns:eff="clr-namespace:Sanguosha.UI.Effects;assembly=Effects"
+	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
     x:Class="Sanguosha.UI.Controls.PlayerView"
     mc:Ignorable="d"
     MaxWidth="168" MaxHeight="210" MinWidth="138" MinHeight="174" d:DesignHeight="210" d:DesignWidth="168">
@@ -73,8 +74,14 @@
             		</EasingThicknessKeyFrame>
             	</ThicknessAnimationUsingKeyFrames>
             </Storyboard>
+            <Storyboard x:Key="DeathTransition"/>
         </ResourceDictionary>
     </local:PlayerViewBase.Resources>
+	<local:PlayerViewBase.Triggers>
+		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
+			<BeginStoryboard Storyboard="{StaticResource DeathTransition}"/>
+		</EventTrigger>
+	</local:PlayerViewBase.Triggers>
     <Grid x:Name="LayoutRoot">
         <Grid.ToolTip>
             <ToolTip x:Name="toolTip" Content="{Binding}" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
@@ -113,7 +120,7 @@
         	<ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <ProgressBar x:Name="progressBar" Style="{StaticResource TimedProgressBarStyle}" Grid.Column="0" Grid.Row="2" Margin="5,0" />
-        <Grid x:Name="grid" Grid.Column="0">            
+        <Grid x:Name="grid" Grid.Column="0">        	
             <Border x:Name="isPlayingGlow" Visibility="{Binding IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}"  Background="#FF27D317">
                 <Border.Effect>
                     <BlurEffect Radius="10"/>
@@ -145,7 +152,7 @@
                 </Grid.RowDefinitions>
                 <local:CardStack x:Name="handCardPlaceHolder" IsCardConsumer="true" CardAlignment="Center" MaxCardSpacing="20" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="130" Width="279" />
                 <Rectangle Fill="Black" Grid.RowSpan="2" />
-                <Image Source="{DynamicResource PlayerInfoView.Decoration.TopLeft}" Width="64" HorizontalAlignment="Left" Margin="-10,-7,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
+                <Image Source="{DynamicResource PlayerInfoView.Decoration.TopLeft}" Width="64" HorizontalAlignment="Left" Margin="-10,-7,0,0" Grid.RowSpan="2" VerticalAlignment="Top" />
                 <Path Data="M0,0H124" HorizontalAlignment="Center" Margin="0,13,0,0" Stretch="Fill" VerticalAlignment="Top" Width="124">
                     <Path.Stroke>
                         <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">

@@ -233,6 +233,10 @@
       <Project>{7D1B2955-5722-437A-B054-68FBD5F52422}</Project>
       <Name>Animations</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Effects\Effects.csproj">
+      <Project>{2CFB7F48-6D2E-4F60-9B9C-6C41F9518817}</Project>
+      <Name>Effects</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Resources\Resources.csproj">
       <Project>{EB489F73-A03C-43DA-87C0-D2CCA65CDD5C}</Project>
       <Name>Resources</Name>
