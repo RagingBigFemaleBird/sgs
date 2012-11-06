@@ -35,5 +35,38 @@ namespace Sanguosha.Core.Cards
         {
             return "Player " + player.Id + ", " + deckType.ToString();
         }
+
+        public override bool Equals(object obj)
+        {
+            DeckPlace dp = obj as DeckPlace;
+            if (dp == null)
+                return false;
+            return player == dp.player && deckType == dp.deckType;
+        }
+
+        public override int GetHashCode()
+        {
+            return ((player == null) ? 0 : player.GetHashCode()) + ((deckType == null) ? 0 : deckType.GetHashCode());
+        }
+
+        public static bool operator ==(DeckPlace a, DeckPlace b)
+        {
+            if (System.Object.ReferenceEquals(a, b))
+            {
+                return true;
+            }
+
+            if (((object)a == null) || ((object)b == null))
+            {
+                return false;
+            }
+
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(DeckPlace a, DeckPlace b)
+        {
+            return !(a == b);
+        }
     }
 }

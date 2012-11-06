@@ -36,18 +36,27 @@ namespace Sanguosha.Expansions.Basic.Skills
                 {
                     return VerifierResult.Fail;
                 }
-                if (players != null && players.Count != 0 && Game.CurrentGame.DistanceTo(source, players[0]) > players[0][Player.AttackRange] + 1)
+                if (cards != null && cards.Count > 1)
                 {
                     return VerifierResult.Fail;
                 }
-                if (cards != null && cards.Count > 1)
+                if ((cards == null || cards.Count == 0) && players != null && players.Count > 0)
                 {
+                    // if we have players but we don't have cards. it's not allowed
                     return VerifierResult.Fail;
                 }
                 if (cards == null || cards.Count == 0)
                 {
                     return VerifierResult.Partial;
                 }
+                CardHandler handler = new Sha();
+                handler.HoldInTemp(cards);
+                if (players != null && players.Count != 0 && Game.CurrentGame.DistanceTo(source, players[0]) > source[Player.AttackRange] + 1)
+                {
+                    handler.ReleaseHoldInTemp();
+                    return VerifierResult.Fail;
+                }
+                handler.ReleaseHoldInTemp();
                 if (players == null || players.Count == 0)
                 {
                     return VerifierResult.Partial;
@@ -57,7 +66,7 @@ namespace Sanguosha.Expansions.Basic.Skills
 
             public override IList<CardHandler> AcceptableCardType
             {
-                get { return new List<CardHandler>(); }
+                get { return null; }
             }
 
             Player ShaSource;

@@ -698,8 +698,11 @@ namespace Sanguosha.UI.Controls
             {
                 if (equipCmd.IsSelected)
                 {
-                    isEquipSkill = true;
-                    return equipCmd.SkillCommand;
+                    if (equipCmd.SkillCommand.Skill != null)
+                    {
+                        isEquipSkill = true;
+                        return equipCmd.SkillCommand;
+                    }
                 }
             }
             isEquipSkill = false;
@@ -807,15 +810,23 @@ namespace Sanguosha.UI.Controls
                     skillCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
                 }
 
+                // are we really able to use this equip as command?
+                if (isEquipCommand)
+                {
+                    Trace.Assert(skill != null);
+                    if (currentUsageVerifier.Verify(HostPlayer, skill, new List<Card>(), new List<Player>()) == VerifierResult.Fail)
+                    {
+                        //nope, not really
+                        isEquipCommand = false;
+                        skill = null;
+                    }
+                }
+
                 if (skill == null)
                 {
                     foreach (var equipCommand in EquipCommands)
                     {
-                        if (equipCommand.SkillCommand.Skill == null)
-                        {
-                            equipCommand.IsEnabled = false;
-                        }
-                        else
+                        if (equipCommand.SkillCommand.Skill != null)
                         {
                             equipCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, equipCommand.SkillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
                         }
@@ -840,7 +851,7 @@ namespace Sanguosha.UI.Controls
                         playerModel.IsSelected = false;
                     }
                     _lastSelectedPlayers.Clear();
-                    
+
                 }
                 else if (status == VerifierResult.Partial)
                 {
@@ -865,17 +876,21 @@ namespace Sanguosha.UI.Controls
                     attempt.Remove(card.Card);
                 }
 
-                if (skill != null)
+                foreach (var equipCommand in EquipCommands)
                 {
-                    foreach (var equipCommand in EquipCommands)
-                    {
-                        if (equipCommand.IsSelected) continue;
+                    if (equipCommand.IsSelected) continue;
 
-                        attempt.Add(equipCommand.Card);
-                        bool disabled = (currentUsageVerifier.Verify(HostPlayer, skill, attempt, players) == VerifierResult.Fail);
+                    attempt.Add(equipCommand.Card);
+                    bool disabled = (currentUsageVerifier.Verify(HostPlayer, skill, attempt, players) == VerifierResult.Fail);
+                    //we do not have a skill and yet the equip is enabled!
+                    //therefore it must be due to it being a valid command.
+                    // kindly override in this case (this test does not count)
+                    // otherwise we take this result as the result
+                    if (!(skill == null && equipCommand.IsEnabled && equipCommand.SkillCommand.Skill != null))
+                    {
                         equipCommand.IsEnabled = !disabled;
-                        attempt.Remove(equipCommand.Card);
                     }
+                    attempt.Remove(equipCommand.Card);
                 }
 
                 // Invalidate target selection

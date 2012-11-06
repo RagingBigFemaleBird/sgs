@@ -32,7 +32,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             {
                 return VerifierResult.Fail;
             }
-            if (cards[0].Owner != Owner || cards[0].Place.DeckType != DeckType.Hand)
+            if (cards[0].SuitColor != SuitColorType.Red || cards[0].Owner != Owner || cards[0].Place.DeckType != DeckType.Hand)
             {
                 return VerifierResult.Fail;
             }

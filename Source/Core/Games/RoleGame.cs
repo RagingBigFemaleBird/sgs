@@ -66,6 +66,10 @@ namespace Sanguosha.Core.Games
                     {
                         return VerifierResult.Fail;
                     }
+                    if (cards[0].Place.DeckType != DeckType.Hand)
+                    {
+                        return VerifierResult.Fail;
+                    }
                     return cards[0].Type.Verify(Game.CurrentGame.CurrentPlayer, skill, cards, players);
                 }
 

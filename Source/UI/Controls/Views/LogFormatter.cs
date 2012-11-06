@@ -342,7 +342,7 @@ namespace Sanguosha.UI.Controls
             {
                 sourceStr += "造成的";
             }
-            string damageStr = string.Format("受到{0}{1}点{2}伤害，体力值为{3}", sourceStr, magnitude, Translate(element), source.Health);
+            string damageStr = string.Format("受到{0}{1}点{2}伤害，体力值为{3}", sourceStr, magnitude, Translate(element), target.Health);
             
             para.Inlines.Add(new Run(damageStr) { Foreground = new SolidColorBrush(new Color() { R = 204, G = 0, B = 0, A = 255 }) });
             return para;

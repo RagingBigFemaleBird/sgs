@@ -73,7 +73,7 @@ namespace Sanguosha.Core.UI
         {
             CardTransformSkill transformSkill = skill as CardTransformSkill;
 
-            if (skill is TriggerSkill)
+            if (skill is PassiveSkill)
             {
                 return VerifierResult.Fail;
             }

@@ -91,6 +91,10 @@ namespace Sanguosha.Expansions.Basic.Cards
                 Game.CurrentGame.DoDamage(null, dest, 3, DamageElement.Lightning, card);
             }
 
+            public override void TagAndNotify(Player source, List<Player> dests, ICard card, GameAction action = GameAction.Use)
+            {
+            }
+
             protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
             {
                 throw new NotImplementedException();
