@@ -73,6 +73,17 @@ namespace Sanguosha.UI.Controls
             });
         }
 
+        /// <summary>
+        /// Fade out all the cards currently in the deck and make them disappear after certain interval.
+        /// </summary>
+        public void UnlockCards()
+        {
+            foreach (var card in Cards)
+            {
+                MarkClearance(card);
+            }
+        }
+
         public void AddCards(DeckType deck, IList<CardView> cards)
         {
             if (cards.Count == 0) return;
@@ -142,21 +153,11 @@ namespace Sanguosha.UI.Controls
             
             // When a card enters discard area, every thing in the deck should fade out (but
             // not disappear).
-            if (deck == DeckType.Discard)
+            // When there are too many cards in the deck, remove the dated ones.
+            for (int i = 0; i < numRemoved; i++)
             {
-                foreach (var card in Cards)
-                {
-                    MarkClearance(card);
-                }
-            }
-            else
-            {
-                // When there are too many cards in the deck, remove the dated ones.
-                for (int i = 0; i < numRemoved; i++)
-                {
-                    MarkClearance(Cards[i]);
-                }
-            }           
+                MarkClearance(Cards[i]);
+            }                      
         }
 
         public IList<CardView> RemoveCards(DeckType deck, IList<Card> cards)

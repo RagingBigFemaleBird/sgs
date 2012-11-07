@@ -522,6 +522,22 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        private bool _isResponsing;
+
+        public bool IsResponsing
+        {
+            get
+            {
+                return _isResponsing;
+            }
+            protected set
+            {
+                if (_isResponsing == value) return;
+                _isResponsing = value;
+                OnPropertyChanged("IsResponsing");
+            }
+        }
+
         #endregion
 
         #region Equipments and DelayedTools

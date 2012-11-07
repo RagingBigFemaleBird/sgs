@@ -151,6 +151,11 @@
                     <BlurEffect Radius="10"/>
                 </Border.Effect>
             </Border>
+            <Border x:Name="IsResponsingGlow" Visibility="{Binding IsResponsing, Converter={StaticResource boolToVisibilityConverter}}"  Background="Red">
+                <Border.Effect>
+                    <BlurEffect Radius="10" />
+                </Border.Effect>
+            </Border>
             <Border Margin="5" CornerRadius="3" BorderBrush="Black" BorderThickness="1">
                 <Border.Background>
                     <ImageBrush ImageSource="{DynamicResource PlayerInfoView.Background}" TileMode="Tile"/>
@@ -201,7 +206,7 @@
                             <Border.Effect>
                                 <BlurEffect Radius="10" />
                             </Border.Effect>
-                        </Border>                        
+                        </Border>
                         <local:HealthBar x:Name="healthBar" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                                          Height="14" Margin="0,0,3,0" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}"/>
                     </Grid>
@@ -261,9 +266,11 @@
                 </Border>
             </Grid>
             <Image Source="{DynamicResource PlayerInfoView.Decoration.BottomRight}" Width="64" HorizontalAlignment="Right" Margin="-10,-50,0,0" Grid.RowSpan="2" VerticalAlignment="Bottom" IsHitTestVisible="False" />
-            <Image Margin="-9,0,-10,59" Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Height="22" VerticalAlignment="Bottom" IsHitTestVisible="False" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}"/>
-            <anim:TieSuoAnimation2 x:Name="tieSuoAnimation2" FramesPerSecond="15" Height="22" Margin="-9,0,-10,59" VerticalAlignment="Bottom" Stretch="Fill" IsHitTestVisible="False"/>
-            <Image x:Name="imgPhase" Visibility="{Binding IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}" Source="{res:ResourceKeyBinding Path=CurrentPhase, StringFormat=Phases.\{0\}.Small}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120" IsHitTestVisible="False" />
+			<Grid Height="22" VerticalAlignment="Bottom" Margin="-9,0,-10,59">
+            	<Image Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}"/>
+            	<anim:TieSuoAnimation2 x:Name="tieSuoAnimation2" FramesPerSecond="15" Stretch="Fill" IsHitTestVisible="False"/>
+            </Grid>
+			<Image x:Name="imgPhase" Visibility="{Binding IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}" Source="{res:ResourceKeyBinding Path=CurrentPhase, StringFormat=Phases.\{0\}.Small}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120" IsHitTestVisible="False" />
             <StackPanel x:Name="delayedToolsDock"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="-12,0,15,0" >
                 <i:Interaction.Behaviors>
                     <ei:FluidMoveBehavior AppliesTo="Children" Duration="0:0:5">

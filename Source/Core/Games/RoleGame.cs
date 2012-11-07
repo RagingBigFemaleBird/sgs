@@ -124,6 +124,7 @@ namespace Sanguosha.Core.Games
                     catch (TriggerResultException)
                     {
                     }
+                    Game.CurrentGame.NotificationProxy.NotifyActionComplete();
                 }
             }
         }

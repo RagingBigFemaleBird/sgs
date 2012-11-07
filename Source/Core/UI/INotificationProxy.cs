@@ -24,6 +24,8 @@ namespace Sanguosha.Core.UI
         void NotifyJudge(Player p, Card card, ActionLog log);
         void NotifyDeath(Player p, Player by);
         void NotifyGameOver(GameResult result);
+
+        void NotifyActionComplete();
     }
 
     public class DummyNotificationProxy : INotificationProxy
@@ -55,6 +57,10 @@ namespace Sanguosha.Core.UI
         }
 
         public void NotifyGameOver(GameResult result)
+        {
+        }
+
+        public void NotifyActionComplete()
         {
         }
     }

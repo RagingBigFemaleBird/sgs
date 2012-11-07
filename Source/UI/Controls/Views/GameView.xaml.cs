@@ -357,6 +357,7 @@ namespace Sanguosha.UI.Controls
                 if (name == "CurrentPlayer")
                 {
                     gameLogs.AppendSeparator();
+                    discardDeck.UnlockCards();
                 }
             });
         }
@@ -657,6 +658,10 @@ namespace Sanguosha.UI.Controls
                 if (log.Targets.Count > 0)
                 {
                     _LineUp(log.Source, log.Targets);
+                    foreach (var target in log.Targets)
+                    {
+                        target.IsTargeted = true;
+                    }
                 }
 
                 gameLogs.AppendLog(log);
@@ -688,6 +693,17 @@ namespace Sanguosha.UI.Controls
         {
         }
 
+        public void NotifyActionComplete()
+        {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                foreach (var player in GameModel.PlayerModels)
+                {
+                    player.Player.IsTargeted = false;
+                }
+                discardDeck.UnlockCards();
+            });
+        }
         #endregion
     }
 }
