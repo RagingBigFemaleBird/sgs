@@ -90,6 +90,18 @@ namespace Sanguosha.UI.Controls
             return null;
         }
 
+        public virtual void PlayAnimation(AnimationBase animation, int playCenter, Point offset)
+        {
+        }
+
+        public virtual void PlayIronShackleAnimation()
+        {
+        }
+
+        public virtual void Tremble()
+        {
+        }
+
         #endregion
 
         #region Helpers
@@ -258,13 +270,6 @@ namespace Sanguosha.UI.Controls
             handCardArea.RearrangeCards(0d);
         }
 
-        public virtual void PlayAnimation(AnimationBase animation, int playCenter, Point offset)
-        {
-        }
-
-        public virtual void Tremble()
-        {
-        }
 
         protected override Geometry GetLayoutClip(Size layoutSlotSize)
         {

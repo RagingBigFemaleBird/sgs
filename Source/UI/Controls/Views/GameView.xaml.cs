@@ -27,6 +27,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Interactivity;
 using Microsoft.Expression.Interactivity.Layout;
 using Sanguosha.Expansions.Basic.Cards;
+using Sanguosha.Expansions.Battle.Cards;
 
 namespace Sanguosha.UI.Controls
 {
@@ -643,6 +644,13 @@ namespace Sanguosha.UI.Controls
                             sha = new ShaAnimation2();
                         }
                         player.PlayAnimation(sha, 0, new Point(0, 0));
+                    }
+                    else if (log.CardAction.Type is TieSuoLianHuan)
+                    {
+                        foreach (var p in log.Targets)
+                        {
+                            playersMap[p].PlayIronShackleAnimation();
+                        }                        
                     }
                 }
 

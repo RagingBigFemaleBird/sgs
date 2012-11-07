@@ -89,14 +89,14 @@ namespace Sanguosha.UI.Controls
             {
                 if (model.IsIronShackled)
                 {
-                    tieSuoAnimation.Start();
                     tieSuoAnimation2.Start();
                 }
-                else
-                {
-                    tieSuoAnimation.Start();
-                }
             }
+        }
+
+        public override void PlayIronShackleAnimation()
+        {
+            tieSuoAnimation.Start();
         }
 
         private void mainArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
