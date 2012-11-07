@@ -30,7 +30,7 @@ namespace Sanguosha.Expansions.Basic.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return Game.CurrentGame.Decks[a.Source, DeckType.JudgeResult].Count >= 0; },
+                (p, e, a) => { return Game.CurrentGame.Decks[a.Source, DeckType.JudgeResult].Count > 0; },
                 GetMyCard,
                 TriggerCondition.OwnerIsSource
             );

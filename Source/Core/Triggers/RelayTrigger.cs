@@ -19,8 +19,8 @@ namespace Sanguosha.Core.Triggers
         SourceHasHandCards = (1 << 2),
         SourceHasNoHandCards = (1 << 3),
         OwnerHasNoHandCards = (1 << 4),
-        OwnerIsSource = (1 << 4),
-        OwnerIsTarget = (1 << 5),
+        OwnerIsSource = (1 << 5),
+        OwnerIsTarget = (1 << 6),
     }
 
     public class RelayTrigger : Trigger

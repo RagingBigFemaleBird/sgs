@@ -92,6 +92,7 @@ namespace Sanguosha.Expansions.Basic.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
+                (p, e, a) => { return a.Source != null; },
                 OnAfterDamageInflicted,
                 TriggerCondition.OwnerIsTarget
             ) { IsAutoNotify = false };
