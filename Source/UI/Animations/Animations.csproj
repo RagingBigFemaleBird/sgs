@@ -36,8 +36,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Expression.Effects" />
+    <Reference Include="Microsoft.Expression.Interactions" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -54,6 +57,12 @@
     <Compile Include="AnimationBase.cs" />
     <Compile Include="BaGuaAnimation.xaml.cs">
       <DependentUpon>BaGuaAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CiXiongAnimation.xaml.cs">
+      <DependentUpon>CiXiongAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ZhangBaAnimation.xaml.cs">
+      <DependentUpon>ZhangBaAnimation.xaml</DependentUpon>
     </Compile>
     <Compile Include="RevealRoleAnimation.xaml.cs">
       <DependentUpon>RevealRoleAnimation.xaml</DependentUpon>
@@ -131,6 +140,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="CiXiongAnimation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ZhangBaAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="RevealRoleAnimation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -186,6 +203,41 @@
   <ItemGroup>
     <Resource Include="BaGuaAnimation\Inner.png" />
     <Resource Include="BaGuaAnimation\Outside.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="CiXiongAnimation\Blade.png" />
+    <Resource Include="CiXiongAnimation\1.png" />
+    <Resource Include="CiXiongAnimation\2.png" />
+    <Resource Include="CiXiongAnimation\3.png" />
+    <Resource Include="CiXiongAnimation\4.png" />
+    <Resource Include="CiXiongAnimation\5.png" />
+    <Resource Include="CiXiongAnimation\6.png" />
+    <Resource Include="CiXiongAnimation\7.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ZhangBaAnimation\Ball.png" />
+    <Resource Include="ZhangBaAnimation\1.png" />
+    <Resource Include="ZhangBaAnimation\2.png" />
+    <Resource Include="ZhangBaAnimation\3.png" />
+    <Resource Include="ZhangBaAnimation\4.png" />
+    <Resource Include="ZhangBaAnimation\5.png" />
+    <Resource Include="ZhangBaAnimation\6.png" />
+    <Resource Include="ZhangBaAnimation\Spear.png" />
+    <Resource Include="ZhangBaAnimation\Dragon.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="FangTianAnimation\Halberd.png" />
+    <Resource Include="FangTianAnimation\0.png" />
+    <Resource Include="FangTianAnimation\1.png" />
+    <Resource Include="FangTianAnimation\2.png" />
+    <Resource Include="FangTianAnimation\3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="LianNuAnimation\Bow.png" />
+    <Resource Include="LianNuAnimation\Arrow.png" />
+    <Resource Include="LianNuAnimation\Boom.png" />
+    <Resource Include="LianNuAnimation\Ray.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

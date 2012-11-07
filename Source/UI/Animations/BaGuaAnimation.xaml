@@ -18,15 +18,15 @@
 				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:0.592" Value="1"/>
 			</DoubleAnimationUsingKeyFrames>
-			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="image">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="outterGrid">
 				<EasingDoubleKeyFrame KeyTime="0" Value="3"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:0.576" Value="1"/>
 			</DoubleAnimationUsingKeyFrames>
-			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="image">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="outterGrid">
 				<EasingDoubleKeyFrame KeyTime="0" Value="3"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:0.576" Value="1"/>
 			</DoubleAnimationUsingKeyFrames>
-			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(BlurEffect.Radius)" Storyboard.TargetName="image">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(BlurEffect.Radius)" Storyboard.TargetName="outterGrid">
 				<EasingDoubleKeyFrame KeyTime="0" Value="20"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
@@ -38,7 +38,7 @@
 				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:2" Value="-360"/>
 			</DoubleAnimationUsingKeyFrames>
-			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="image">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="outterGrid">
 				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:1.8" Value="360"/>
 			</DoubleAnimationUsingKeyFrames>
@@ -48,11 +48,37 @@
 				<EasingDoubleKeyFrame KeyTime="0:0:1.482" Value="1"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:2" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
-			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="outterGrid">
 				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:0.576" Value="1"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:1.44" Value="1"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:1.8" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>			
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)" Storyboard.TargetName="image1">
+				<EasingDoubleKeyFrame KeyTime="0" Value="5"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="20">
+					<EasingDoubleKeyFrame.EasingFunction>
+						<ElasticEase EasingMode="EaseOut" Oscillations="1" Springiness="0"/>
+					</EasingDoubleKeyFrame.EasingFunction>
+				</EasingDoubleKeyFrame>
+				<EasingDoubleKeyFrame KeyTime="0:0:2" Value="15">
+					<EasingDoubleKeyFrame.EasingFunction>
+						<ElasticEase EasingMode="EaseOut" Oscillations="1" Springiness="0"/>
+					</EasingDoubleKeyFrame.EasingFunction>
+				</EasingDoubleKeyFrame>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)" Storyboard.TargetName="image">
+				<EasingDoubleKeyFrame KeyTime="0" Value="5"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="20">
+					<EasingDoubleKeyFrame.EasingFunction>
+						<ElasticEase EasingMode="EaseOut" Oscillations="1" Springiness="0"/>
+					</EasingDoubleKeyFrame.EasingFunction>
+				</EasingDoubleKeyFrame>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.8" Value="15">
+					<EasingDoubleKeyFrame.EasingFunction>
+						<ElasticEase EasingMode="EaseOut" Oscillations="1" Springiness="0"/>
+					</EasingDoubleKeyFrame.EasingFunction>
+				</EasingDoubleKeyFrame>
 			</DoubleAnimationUsingKeyFrames>			
 		</Storyboard>
 	</local:AnimationBase.Resources>
@@ -77,22 +103,27 @@
 			</Grid.Effect>							
 			<Image x:Name="image1" Source="BaGuaAnimation/Inner.png" Stretch="None">
 				<Image.Effect>
-					<DropShadowEffect ShadowDepth="0" Color="#FF78F6FF" />
+					<DropShadowEffect ShadowDepth="0" Color="#FF04EEFF" BlurRadius="0" />
 				</Image.Effect>
 			</Image>
 		</Grid>
-		<Image x:Name="image" Source="BaGuaAnimation/Outside.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
-			<Image.RenderTransform>
+		<Grid x:Name="outterGrid" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+			<Image x:Name="image" Source="BaGuaAnimation/Outside.png" Stretch="None" >
+				<Image.Effect>
+					<DropShadowEffect BlurRadius="20" Color="#FF90FFFF" ShadowDepth="0"/>
+				</Image.Effect>
+			</Image>
+			<Grid.RenderTransform>
 				<TransformGroup>
 					<ScaleTransform/>
 					<SkewTransform/>
 					<RotateTransform/>
 					<TranslateTransform/>
 				</TransformGroup>
-			</Image.RenderTransform>
-			<Image.Effect>
+			</Grid.RenderTransform>
+			<Grid.Effect>
 				<BlurEffect/>
-			</Image.Effect>
-		</Image>
+			</Grid.Effect>		
+		</Grid>
 	</Grid>
 </local:AnimationBase>
