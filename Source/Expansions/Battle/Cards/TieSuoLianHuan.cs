@@ -29,13 +29,14 @@ namespace Sanguosha.Expansions.Battle.Cards
             }
             else
             {
+                Game.CurrentGame.SortByOrderOfComputation(source, dests);
                 foreach (var player in dests)
                 {
                     Player p = player;
                     Player src = source;
                     if (PlayerIsCardTargetCheck(ref src, ref p, card))
                     {
-                        p[Player.IronShackled] = 1 - p[Player.IronShackled];
+                        p.IsIronShackled = !p.IsIronShackled;
                     }
                 }
             }
@@ -63,4 +64,5 @@ namespace Sanguosha.Expansions.Battle.Cards
             get { return CardCategory.ImmediateTool; }
         }
     }
+
 }

@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Include="BattleExpansion.cs" />
     <Compile Include="Cards\HuoGong.cs" />
+    <Compile Include="Cards\HuoSha.cs" />
+    <Compile Include="Cards\LeiSha.cs" />
     <Compile Include="Cards\TieSuoLianHuan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -51,6 +53,10 @@
     <ProjectReference Include="..\..\Core\Core.csproj">
       <Project>{31B92003-B490-4EAF-8F8E-F9B020F9B03B}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Basic\Basic.csproj">
+      <Project>{5e948fab-938b-4e4c-bda1-1740339273ea}</Project>
+      <Name>Basic</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

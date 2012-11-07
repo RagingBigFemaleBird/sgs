@@ -8,6 +8,7 @@ using Sanguosha.Core.Cards;
 using Sanguosha.Core.UI;
 using Sanguosha.Core.Skills;
 using Sanguosha.Expansions.Battle.Cards;
+using Sanguosha.Expansions.Basic.Cards;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Heroes;
 
@@ -18,6 +19,71 @@ namespace Sanguosha.Expansions.Battle
         public BattleExpansion()
         {
             CardSet = new List<Card>();
+
+            //        CardSet.Add(new Card(SuitType.Spade, 1, GUDIANDAO()));
+            CardSet.Add(new Card(SuitType.Heart, 1, new WuXieKeJi()));
+            //        CardSet.Add(new Card(SuitType.Club, 1, BAIYINSHIZI()));
+            //        CardSet.Add(new Card(SuitType.Diamond, 1, ZHUQUEYUSHAN()));
+
+            //        CardSet.Add(new Card(SuitType.Spade, 2, TENGJIA()));
+            CardSet.Add(new Card(SuitType.Heart, 2, new HuoGong()));
+            //        CardSet.Add(new Card(SuitType.Club, 2, TENGJIA()));
+            CardSet.Add(new Card(SuitType.Diamond, 2, new Tao()));
+
+            //        CardSet.Add(new Card(SuitType.Spade, 3, JIU()));
+            CardSet.Add(new Card(SuitType.Heart, 3, new HuoSha()));
+           //         CardSet.Add(new Card(SuitType.Club, 3, JIU()));
+            CardSet.Add(new Card(SuitType.Diamond, 3, new Tao()));
+
+            CardSet.Add(new Card(SuitType.Spade, 4, new LeiSha()));
+            CardSet.Add(new Card(SuitType.Heart, 4, new HuoGong()));
+            //        CardSet.Add(new Card(SuitType.Club, 4, BINGLIANGCUNDUAN()));
+            CardSet.Add(new Card(SuitType.Diamond, 4, new HuoSha()));
+
+            CardSet.Add(new Card(SuitType.Spade, 5, new LeiSha()));
+            CardSet.Add(new Card(SuitType.Heart, 5, new Tao()));
+            CardSet.Add(new Card(SuitType.Club, 5, new LeiSha()));
+            CardSet.Add(new Card(SuitType.Diamond, 5, new HuoSha()));
+
+            CardSet.Add(new Card(SuitType.Spade, 6, new LeiSha()));
+            CardSet.Add(new Card(SuitType.Heart, 6, new Tao()));
+            CardSet.Add(new Card(SuitType.Club, 6, new LeiSha()));
+            CardSet.Add(new Card(SuitType.Diamond, 6, new Shan()));
+
+            CardSet.Add(new Card(SuitType.Spade, 7, new LeiSha()));
+            CardSet.Add(new Card(SuitType.Heart, 7, new HuoSha()));
+            CardSet.Add(new Card(SuitType.Club, 7, new LeiSha()));
+            CardSet.Add(new Card(SuitType.Diamond, 7, new Shan()));
+
+            CardSet.Add(new Card(SuitType.Spade, 8, new LeiSha()));
+            CardSet.Add(new Card(SuitType.Heart, 8, new Shan()));
+            CardSet.Add(new Card(SuitType.Club, 8, new LeiSha()));
+            CardSet.Add(new Card(SuitType.Diamond, 8, new Shan()));
+
+            //        CardSet.Add(new Card(SuitType.Spade, 9, JIU()));
+            CardSet.Add(new Card(SuitType.Heart, 9, new Shan()));
+            //        CardSet.Add(new Card(SuitType.Club, 9, JIU()));
+            //        CardSet.Add(new Card(SuitType.Diamond, 9, JIU()));
+
+            //        CardSet.Add(new Card(SuitType.Spade, 10, BINGLIANGCUNDUAN()));
+            CardSet.Add(new Card(SuitType.Heart, 10, new HuoSha()));
+            CardSet.Add(new Card(SuitType.Club, 10, new TieSuoLianHuan()));
+            CardSet.Add(new Card(SuitType.Diamond, 10, new Shan()));
+
+            CardSet.Add(new Card(SuitType.Spade, 11, new TieSuoLianHuan()));
+            CardSet.Add(new Card(SuitType.Heart, 11, new Shan()));
+            CardSet.Add(new Card(SuitType.Club, 11, new TieSuoLianHuan()));
+            CardSet.Add(new Card(SuitType.Diamond, 11, new Shan()));
+
+            CardSet.Add(new Card(SuitType.Spade, 12, new TieSuoLianHuan()));
+            CardSet.Add(new Card(SuitType.Heart, 12, new Shan()));
+            CardSet.Add(new Card(SuitType.Club, 12, new TieSuoLianHuan()));
+            CardSet.Add(new Card(SuitType.Diamond, 12, new HuoGong()));
+
+            CardSet.Add(new Card(SuitType.Spade, 13, new WuXieKeJi()));
+            CardSet.Add(new Card(SuitType.Heart, 13, new WuXieKeJi()));
+            CardSet.Add(new Card(SuitType.Club, 13, new TieSuoLianHuan()));
+            CardSet.Add(new Card(SuitType.Diamond, 13, new DefensiveHorse("HuaLiu")));
         }
     }
 }

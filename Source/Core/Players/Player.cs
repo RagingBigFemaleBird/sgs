@@ -44,6 +44,39 @@ namespace Sanguosha.Core.Players
             set { userName = value; }
         }
 
+        bool isIronShackled;
+
+        /// <summary>
+        /// 铁锁
+        /// </summary>
+        public bool IsIronShackled
+        {
+            get { return isIronShackled; }
+            set
+            {
+                if (isIronShackled == value) return;
+                isIronShackled = value;
+                OnPropertyChanged("IronShackled");
+            }
+        }
+
+        bool isImprisoned;
+
+        /// <summary>
+        /// 翻面
+        /// </summary>
+        public bool IsImprisoned
+        {
+            get { return isImprisoned; }
+            set
+            {
+                if (isImprisoned == value) return;
+                isImprisoned = value;
+                OnPropertyChanged("Imprisoned");
+            }
+        }
+
+
         bool isDead;
 
         public bool IsDead
@@ -293,7 +326,6 @@ namespace Sanguosha.Core.Players
         public static PlayerAttribute RangeMinus = PlayerAttribute.Register("RangeMinus", false);
         public static PlayerAttribute RangePlus = PlayerAttribute.Register("RangePlus", false);
         public static PlayerAttribute AttackRange = PlayerAttribute.Register("AttackRange", false);
-        public static PlayerAttribute IronShackled = PlayerAttribute.Register("IronShackled", false);
         public static PlayerAttribute DealAdjustment = PlayerAttribute.Register("DealAdjustment", true);
     }
 }

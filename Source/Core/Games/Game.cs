@@ -738,8 +738,10 @@ namespace Sanguosha.Core.Games
                 CurrentPhase++;
                 if ((int)CurrentPhase >= Enum.GetValues(typeof(TurnPhase)).Length)
                 {
-                    CurrentPlayer = NextAlivePlayer(currentPlayer);
                     CurrentPhase = TurnPhase.BeforeStart;
+                    for (CurrentPlayer = NextAlivePlayer(currentPlayer);
+                        CurrentPlayer.IsImprisoned;
+                        CurrentPlayer.IsImprisoned = false, CurrentPlayer = NextAlivePlayer(currentPlayer));
                 }
             }
         }
@@ -906,7 +908,9 @@ namespace Sanguosha.Core.Games
         /// <param name="cards">造成伤害的牌</param>
         public void DoDamage(Player source, Player dest, int magnitude, DamageElement elemental, ICard card)
         {
-            GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), IntArg = -magnitude, IntArg2 = (int)(elemental) };
+            GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), IntArg = -magnitude, IntArg2 = (int)(elemental), IntArg3 = 0 };
+            int ironShackledDamage = 0;
+            DamageElement ironShackledDamageElement = DamageElement.None;
             if (card != null)
             {
                 args.Card = new ReadOnlyCard(card);
@@ -936,11 +940,20 @@ namespace Sanguosha.Core.Games
                 Game.CurrentGame.Emit(GameEvent.DamageComputingStarted, args);
                 Game.CurrentGame.Emit(GameEvent.DamageCaused, args);
                 Game.CurrentGame.Emit(GameEvent.DamageInflicted, args);
-                if (args.IntArg == 0)
+                if (args.IntArg + args.IntArg3 == 0)
                 {
                     Trace.TraceInformation("Damage is 0, aborting");
                     return;
                 }
+                if (args.Targets[0].IsIronShackled && (DamageElement)args.IntArg2 != DamageElement.None)
+                {
+                    ironShackledDamage = -args.IntArg3 - args.IntArg;
+                    Trace.TraceInformation("IronShackled damage {0}", ironShackledDamage);
+                    ironShackledDamageElement = (DamageElement)args.IntArg2;
+                    args.Targets[0].IsIronShackled = false;
+                }
+                args.IntArg = args.IntArg + args.IntArg3;
+                args.IntArg3 = 0;
                 Game.CurrentGame.Emit(GameEvent.BeforeHealthChanged, args);
             }
             catch (TriggerResultException e)
@@ -961,7 +974,18 @@ namespace Sanguosha.Core.Games
             Game.CurrentGame.Emit(GameEvent.AfterDamageCaused, args);
             Game.CurrentGame.Emit(GameEvent.AfterDamageInflicted, args);
             Game.CurrentGame.Emit(GameEvent.DamageComputingFinished, args);
-
+            if (ironShackledDamage != 0)
+            {
+                List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
+                Game.CurrentGame.SortByOrderOfComputation(args.Targets[0], toProcess);
+                foreach (Player p in toProcess)
+                {
+                    if (p.IsIronShackled)
+                    {
+                        DoDamage(args.Source, p, ironShackledDamage, (DamageElement)ironShackledDamageElement, card);
+                    }
+                }
+            }
         }
 
         public ReadOnlyCard Judge(Player player, ISkill skill = null, ICard handler = null)
