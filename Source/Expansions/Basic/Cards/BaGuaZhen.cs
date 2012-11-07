@@ -10,6 +10,7 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.Cards;
+using System.Diagnostics;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
@@ -17,7 +18,7 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         public class BaGuaZhenSkill : TriggerSkill
         {
-            void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
+            protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 ReadOnlyCard c = Game.CurrentGame.Judge(Owner, null, new Card() { Type = new BaGuaZhen() });
                 if (c.SuitColor == SuitColorType.Red)
@@ -35,7 +36,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 var trigger = new AutoNotifyPassiveSkillTrigger(
                     this,
-                    (p, e, a) => { return (a.Card is CompositeCard) && ((a.Card as CompositeCard).Type is Shan); },
+                    (p, e, a) => { return a.Card.Type is Shan; },
                     Run,
                     TriggerCondition.OwnerIsSource
                 ) { IsAutoNotify = false };

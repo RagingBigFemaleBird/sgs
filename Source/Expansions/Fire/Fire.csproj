@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FireExpansion.cs" />
+    <Compile Include="Skills\BaZhen.cs" />
     <Compile Include="Skills\HuoJi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Skills\KanPo.cs" />

@@ -19,6 +19,17 @@ namespace Sanguosha.Expansions.Basic
         public BasicExpansion()
         {
             CardSet = new List<Card>();
+            CardSet.Add(new Card(SuitType.Spade, 2, new BaGuaZhen()));
+            CardSet.Add(new Card(SuitType.Spade, 2, new BaGuaZhen()));
+            CardSet.Add(new Card(SuitType.Spade, 2, new BaGuaZhen()));
+            CardSet.Add(new Card(SuitType.Spade, 2, new BaGuaZhen()));
+            CardSet.Add(new Card(SuitType.Spade, 2, new BaGuaZhen()));
+            CardSet.Add(new Card(SuitType.Spade, 2, new BaGuaZhen()));
+            CardSet.Add(new Card(SuitType.Spade, 2, new BaGuaZhen()));
+            CardSet.Add(new Card(SuitType.Spade, 2, new BaGuaZhen()));
+            CardSet.Add(new Card(SuitType.Spade, 2, new BaGuaZhen()));
+            CardSet.Add(new Card(SuitType.Spade, 2, new BaGuaZhen()));
+            CardSet.Add(new Card(SuitType.Spade, 2, new BaGuaZhen()));
 
             CardSet.Add(new Card(SuitType.Spade, 1, new JueDou()));
             CardSet.Add(new Card(SuitType.Spade, 1, new ShanDian()));

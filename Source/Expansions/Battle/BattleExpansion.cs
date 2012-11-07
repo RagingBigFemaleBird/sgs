@@ -84,6 +84,13 @@ namespace Sanguosha.Expansions.Battle
             CardSet.Add(new Card(SuitType.Heart, 13, new WuXieKeJi()));
             CardSet.Add(new Card(SuitType.Club, 13, new TieSuoLianHuan()));
             CardSet.Add(new Card(SuitType.Diamond, 13, new DefensiveHorse("HuaLiu")));
+
+            // the following are EX cards
+//            CardSet.Add(new Card(SuitType.Spade, 2, HanBingJian()));
+//            CardSet.Add(new Card(SuitType.Club, 2, RenWangDun()));
+            CardSet.Add(new Card(SuitType.Heart, 12, new ShanDian()));
+            CardSet.Add(new Card(SuitType.Diamond, 12, new WuXieKeJi()));
+
         }
     }
 }
