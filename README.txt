@@ -4,4 +4,4 @@ Open Sanguosha.sln under Source\Sanguosha
 
 To run:
 
-Copy Source\UI\Resources directories to Bin\Debug or/and Bin\Release
+Go to Bin/Debug, first run SanguoshaServer.exe, then run Sanguosha.exe
