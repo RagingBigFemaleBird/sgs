@@ -6,6 +6,7 @@
     xmlns:ee="http://schemas.microsoft.com/expression/2010/effects"
     xmlns:local="clr-namespace:Sanguosha.UI.Controls"
     xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
+    xmlns:anim="clr-namespace:Sanguosha.UI.Animations;assembly=Animations"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
     xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:Sanguosha_UI_Effects="clr-namespace:Sanguosha.UI.Effects;assembly=Effects"
     x:Class="Sanguosha.UI.Controls.PlayerView"
@@ -55,91 +56,91 @@
                 </ThicknessAnimationUsingKeyFrames>
             </Storyboard>
             <Storyboard x:Key="sbTremble">
-            	<ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="grid">
-            		<EasingThicknessKeyFrame KeyTime="0" Value="0"/>
-            		<EasingThicknessKeyFrame KeyTime="0:0:0.133" Value="-10,0,10,0">
-            			<EasingThicknessKeyFrame.EasingFunction>
-            				<BackEase EasingMode="EaseOut"/>
-            			</EasingThicknessKeyFrame.EasingFunction>
-            		</EasingThicknessKeyFrame>
-            		<EasingThicknessKeyFrame KeyTime="0:0:0.4" Value="20,0,-20,0">
-            			<EasingThicknessKeyFrame.EasingFunction>
-            				<BackEase EasingMode="EaseOut"/>
-            			</EasingThicknessKeyFrame.EasingFunction>
-            		</EasingThicknessKeyFrame>
-            		<EasingThicknessKeyFrame KeyTime="0:0:0.6" Value="0">
-            			<EasingThicknessKeyFrame.EasingFunction>
-            				<BackEase EasingMode="EaseOut"/>
-            			</EasingThicknessKeyFrame.EasingFunction>
-            		</EasingThicknessKeyFrame>
-            	</ThicknessAnimationUsingKeyFrames>
+                <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="grid">
+                    <EasingThicknessKeyFrame KeyTime="0" Value="0"/>
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.133" Value="-10,0,10,0">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <BackEase EasingMode="EaseOut"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.4" Value="20,0,-20,0">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <BackEase EasingMode="EaseOut"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.6" Value="0">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <BackEase EasingMode="EaseOut"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                </ThicknessAnimationUsingKeyFrames>
             </Storyboard>
             <Storyboard x:Key="sbDeathTransition">
-            	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:MonochromeEffect.Strength)" Storyboard.TargetName="grid">
-            		<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-            		<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
-            	</DoubleAnimationUsingKeyFrames>
-            	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="image">
-            		<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="3"/>
-            		<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
-            	</DoubleAnimationUsingKeyFrames>
-            	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="image">
-            		<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="3"/>
-            		<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
-            	</DoubleAnimationUsingKeyFrames>
-            	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image">
-            		<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
-            		<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
-            	</DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:MonochromeEffect.Strength)" Storyboard.TargetName="grid">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="image">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="3"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="image">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="3"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
             </Storyboard>
         </ResourceDictionary>
     </local:PlayerViewBase.Resources>
-	<local:PlayerViewBase.Triggers>
-	</local:PlayerViewBase.Triggers>
+    <local:PlayerViewBase.Triggers>
+    </local:PlayerViewBase.Triggers>
     <Grid x:Name="LayoutRoot">
         <Grid.ToolTip>
             <ToolTip x:Name="toolTip" Content="{Binding}" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
         </Grid.ToolTip>
         <ToolTipService.ShowOnDisabled>
-        	<System:Boolean>True</System:Boolean>
+            <System:Boolean>True</System:Boolean>
 </ToolTipService.ShowOnDisabled>
         <VisualStateManager.CustomVisualStateManager>
-    		<ei:ExtendedVisualStateManager/>
-    	</VisualStateManager.CustomVisualStateManager>
-    	<VisualStateManager.VisualStateGroups>
-    		<VisualStateGroup x:Name="FadedStates" ei:ExtendedVisualStateManager.UseFluidLayout="True">
-    			<VisualStateGroup.Transitions>
-    				<VisualTransition GeneratedDuration="0:0:0.2"/>
-    			</VisualStateGroup.Transitions>
-    			<VisualState x:Name="Faded">
-    				<Storyboard>
-    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="fadeMask">
-    						<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-    					</ObjectAnimationUsingKeyFrames>
-    				</Storyboard>
-    			</VisualState>
-    			<VisualState x:Name="Unfaded">
-    				<Storyboard>
-    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="fadeMask">
-    						<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
-    					</ObjectAnimationUsingKeyFrames>
-    				</Storyboard>
-    			</VisualState>
-    		</VisualStateGroup>
-    	</VisualStateManager.VisualStateGroups>        
+            <ei:ExtendedVisualStateManager/>
+        </VisualStateManager.CustomVisualStateManager>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="FadedStates" ei:ExtendedVisualStateManager.UseFluidLayout="True">
+                <VisualStateGroup.Transitions>
+                    <VisualTransition GeneratedDuration="0:0:0.2"/>
+                </VisualStateGroup.Transitions>
+                <VisualState x:Name="Faded">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="fadeMask">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Unfaded">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="fadeMask">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>        
         <Grid.RowDefinitions>
-        	<RowDefinition/>
-        	<RowDefinition Height="12"/>
+            <RowDefinition/>
+            <RowDefinition Height="12"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-        	<ColumnDefinition/>
-        	<ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <ProgressBar x:Name="progressBar" Style="{StaticResource TimedProgressBarStyle}" Grid.Column="0" Grid.Row="2" Margin="5,0" />
         <Grid x:Name="grid" Grid.Column="0">            
-        	<Grid.Effect>
-        		<Sanguosha_UI_Effects:MonochromeEffect Strength="0"/>
-        	</Grid.Effect>            
+            <Grid.Effect>
+                <Sanguosha_UI_Effects:MonochromeEffect Strength="0"/>
+            </Grid.Effect>            
             <Border x:Name="isPlayingGlow" Visibility="{Binding IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}"  Background="#FF27D317">
                 <Border.Effect>
                     <BlurEffect Radius="10"/>
@@ -194,7 +195,8 @@
                 </Path>
                 <Border Margin="2,0,2,4" Grid.Row="1" BorderBrush="#FF79786B" CornerRadius="1" BorderThickness="1" ClipToBounds="True">
                     <Grid>
-                        <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=28\,46\,220\,132, Path=HeroName, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/\{0\}.png}"/>                         
+                        <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=28\,46\,220\,132, Path=HeroName, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/\{0\}.png}"/>
+                        <Image Margin="0" Source="/Resources;component/Images/PlayerInfoView/imprisoned.png" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}"/>                         
                         <Border x:Name="IsTargetedGlow" Visibility="{Binding IsTargeted, Converter={StaticResource boolToVisibilityConverter}}" BorderBrush="Red" BorderThickness="5" >
                             <Border.Effect>
                                 <BlurEffect Radius="10" />
@@ -239,7 +241,6 @@
                     </ItemsControl.Effect>
                 </ItemsControl>
 
-
                 <TextBlock x:Name="userLevelText" Text="Lv.0" HorizontalAlignment="Center" Margin="0,2,0,0" Style="{DynamicResource SmallTextBlockStyle}"/>
                 <TextBlock x:Name="userNameText" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="UserName" Margin="0,5,0,0" Style="{DynamicResource SmallTextBlockStyle}" Foreground="White" FontSize="13.333"/>
                 <Border Grid.Row="1" HorizontalAlignment="Left" Height="17" Width="16" VerticalAlignment="Bottom" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22">
@@ -260,33 +261,36 @@
                 </Border>
             </Grid>
             <Image Source="{DynamicResource PlayerInfoView.Decoration.BottomRight}" Width="64" HorizontalAlignment="Right" Margin="-10,-50,0,0" Grid.RowSpan="2" VerticalAlignment="Bottom" IsHitTestVisible="False" />
+            <Image Margin="-9,0,-10,59" Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Height="22" VerticalAlignment="Bottom" IsHitTestVisible="False" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}"/>
+            <anim:TieSuoAnimation2 x:Name="tieSuoAnimation2" FramesPerSecond="15" Height="22" Margin="-9,0,-10,59" VerticalAlignment="Bottom" Stretch="Fill" IsHitTestVisible="False"/>
             <Image x:Name="imgPhase" Visibility="{Binding IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}" Source="{res:ResourceKeyBinding Path=CurrentPhase, StringFormat=Phases.\{0\}.Small}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120" IsHitTestVisible="False" />
             <StackPanel x:Name="delayedToolsDock"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="-12,0,15,0" >
-            	<i:Interaction.Behaviors>
-            		<ei:FluidMoveBehavior AppliesTo="Children" Duration="0:0:5">
-            			<ei:FluidMoveBehavior.EaseX>
-            				<BackEase EasingMode="EaseOut"/>
-            			</ei:FluidMoveBehavior.EaseX>
-            		</ei:FluidMoveBehavior>
-            	</i:Interaction.Behaviors>
+                <i:Interaction.Behaviors>
+                    <ei:FluidMoveBehavior AppliesTo="Children" Duration="0:0:5">
+                        <ei:FluidMoveBehavior.EaseX>
+                            <BackEase EasingMode="EaseOut"/>
+                        </ei:FluidMoveBehavior.EaseX>
+                    </ei:FluidMoveBehavior>
+                </i:Interaction.Behaviors>
             </StackPanel>
             <Border x:Name="fadeMask" Background="#64000000" Margin="6" Visibility="Hidden" IsHitTestVisible="False">
-            	<i:Interaction.Behaviors>
-            		<ei:DataStateBehavior Value="true" TrueState="Faded" FalseState="Unfaded" Binding="{Binding IsFaded}"/>
-            	</i:Interaction.Behaviors>
+                <i:Interaction.Behaviors>
+                    <ei:DataStateBehavior Value="true" TrueState="Faded" FalseState="Unfaded" Binding="{Binding IsFaded}"/>
+                </i:Interaction.Behaviors>
             </Border>
             <Canvas x:Name="animationCenter2" Margin="0,0,0,20" VerticalAlignment="Bottom" HorizontalAlignment="Center" IsHitTestVisible="False" />
             <Canvas x:Name="animationCenter1" Margin="0,80,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" IsHitTestVisible="False" />
+            <anim:TieSuoAnimation x:Name="tieSuoAnimation" FramesPerSecond="15" IsHitTestVisible="False" Height="180" Width="202" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,20"/>            
         </Grid>
         <Image x:Name="image" Source="{res:ImageBinding Path=Role, ResourceKeyFormat=Death.Role.\{0\}.Image, StringFormat=Resources/Images/Death/\{0\}.png}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False" Opacity="0">
-        	<Image.RenderTransform>
-        		<TransformGroup>
-        			<ScaleTransform/>
-        			<SkewTransform/>
-        			<RotateTransform/>
-        			<TranslateTransform/>
-        		</TransformGroup>
-        	</Image.RenderTransform>
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
         </Image>
     </Grid>
 </local:PlayerViewBase>

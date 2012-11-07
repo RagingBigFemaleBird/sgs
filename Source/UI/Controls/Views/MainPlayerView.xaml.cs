@@ -81,6 +81,18 @@ namespace Sanguosha.UI.Controls
                     deathAnimation.Stop();
                 }
             }
+            else if (e.PropertyName == "IsIronShackled")
+            {
+                if (model.IsIronShackled)
+                {
+                    tieSuoAnimation.Start();
+                    tieSuoAnimation2.Start();
+                }
+                else
+                {
+                    tieSuoAnimation.Start();
+                }
+            }
         }       
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

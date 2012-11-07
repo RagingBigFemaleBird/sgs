@@ -376,6 +376,10 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public bool IsIronShackled { get { return _player.IsIronShackled; } }
+
+        public bool IsImprisoned { get { return _player.IsImprisoned; } }
+
         public bool IsTargeted { get { return _player.IsTargeted; } }
 
         public bool IsCurrentPlayer 

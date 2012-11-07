@@ -56,7 +56,7 @@ namespace Sanguosha.Core.Players
             {
                 if (isIronShackled == value) return;
                 isIronShackled = value;
-                OnPropertyChanged("IronShackled");
+                OnPropertyChanged("IsIronShackled");
             }
         }
 
@@ -72,7 +72,7 @@ namespace Sanguosha.Core.Players
             {
                 if (isImprisoned == value) return;
                 isImprisoned = value;
-                OnPropertyChanged("Imprisoned");
+                OnPropertyChanged("IsImprisoned");
             }
         }
 

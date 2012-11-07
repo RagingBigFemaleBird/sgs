@@ -61,6 +61,12 @@
     <Compile Include="CiXiongAnimation.xaml.cs">
       <DependentUpon>CiXiongAnimation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TieSuoAnimation.xaml.cs">
+      <DependentUpon>TieSuoAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TieSuoAnimation2.xaml.cs">
+      <DependentUpon>TieSuoAnimation2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ZhangBaAnimation.xaml.cs">
       <DependentUpon>ZhangBaAnimation.xaml</DependentUpon>
     </Compile>
@@ -141,6 +147,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="CiXiongAnimation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TieSuoAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TieSuoAnimation2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -225,7 +239,30 @@
     <Resource Include="ZhangBaAnimation\Spear.png" />
     <Resource Include="ZhangBaAnimation\Dragon.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="TieSuoAnimation2\0.png" />
+    <Resource Include="TieSuoAnimation2\1.png" />
+    <Resource Include="TieSuoAnimation2\10.png" />
+    <Resource Include="TieSuoAnimation2\2.png" />
+    <Resource Include="TieSuoAnimation2\3.png" />
+    <Resource Include="TieSuoAnimation2\4.png" />
+    <Resource Include="TieSuoAnimation2\5.png" />
+    <Resource Include="TieSuoAnimation2\6.png" />
+    <Resource Include="TieSuoAnimation2\7.png" />
+    <Resource Include="TieSuoAnimation2\8.png" />
+    <Resource Include="TieSuoAnimation2\9.png" />
+    <Resource Include="TieSuoAnimation\0.png" />
+    <Resource Include="TieSuoAnimation\1.png" />
+    <Resource Include="TieSuoAnimation\10.png" />
+    <Resource Include="TieSuoAnimation\2.png" />
+    <Resource Include="TieSuoAnimation\3.png" />
+    <Resource Include="TieSuoAnimation\4.png" />
+    <Resource Include="TieSuoAnimation\5.png" />
+    <Resource Include="TieSuoAnimation\6.png" />
+    <Resource Include="TieSuoAnimation\7.png" />
+    <Resource Include="TieSuoAnimation\8.png" />
+    <Resource Include="TieSuoAnimation\9.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="FangTianAnimation\Halberd.png" />
     <Resource Include="FangTianAnimation\0.png" />

@@ -6,6 +6,7 @@
 	         xmlns:ee="http://schemas.microsoft.com/expression/2010/effects"
              xmlns:local="clr-namespace:Sanguosha.UI.Controls"
              xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
+			 xmlns:anim="clr-namespace:Sanguosha.UI.Animations;assembly=Animations"
 	         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
              xmlns:Sanguosha_UI_Effects="clr-namespace:Sanguosha.UI.Effects;assembly=Effects" xmlns:System="clr-namespace:System;assembly=mscorlib" 
              x:Class="Sanguosha.UI.Controls.MainPlayerView"
@@ -342,16 +343,15 @@
 			<Grid.Effect>
 				<Sanguosha_UI_Effects:MonochromeEffect Strength="0"/>
 			</Grid.Effect>
-			<Border Margin="9,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="134" Height="134" IsEnabled="{Binding IsEnabled}" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+			<Grid Margin="9,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="134" Height="134" IsEnabled="{Binding IsEnabled}" MouseLeftButtonDown="Border_MouseLeftButtonDown">
                 <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=71\,28\,145\,145, Path=HeroName, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/\{0\}.png}">
                     <Image.ToolTip>
                         <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
                     </Image.ToolTip>
-                    <ToolTipService.ShowOnDisabled>
-                    	<System:Boolean>True</System:Boolean>
-</ToolTipService.ShowOnDisabled>
-                </Image>                
-			</Border>
+                    <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
+                </Image>
+                <Image Source="/Resources;component/Images/MainPlayerInfoView/imprisoned.png" Stretch="Fill" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}"/>
+			</Grid>
             <Border x:Name="fadeMask" Background="#64000000" Opacity="0" IsHitTestVisible="False">
             	<i:Interaction.Behaviors>
             		<ei:DataStateBehavior TrueState="Faded" FalseState="UnFaded" Value="true" Binding="{Binding IsFaded}"/>
@@ -391,10 +391,10 @@
                     <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0"/>
                 </ItemsControl.Effect>
             </ItemsControl>
-            <Grid Margin="6,10,0,3" Width="134" HorizontalAlignment="Left">
+            <Grid Margin="8,12,0,1" Width="134" HorizontalAlignment="Left">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="auto" />
+                    <RowDefinition />
+                    <RowDefinition Height="auto" MinHeight="26" />
                 </Grid.RowDefinitions>
             <Border x:Name="IsTargetedGlow" Visibility="{Binding IsTargeted, Converter={StaticResource boolToVisibilityConverter}}" ClipToBounds="True" BorderBrush="Red" BorderThickness="5" >
                 <Border.Effect>
@@ -435,6 +435,10 @@
             </ItemsControl>
                 
             </Grid>
+			<Grid Margin="-6,15,0,0" Height="22" VerticalAlignment="Top" IsHitTestVisible="False" Width="169" HorizontalAlignment="Left">
+				<Image Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}" />
+            	<anim:TieSuoAnimation2 x:Name="tieSuoAnimation2" FramesPerSecond="15" Stretch="Fill"/>				
+			</Grid>
             <Canvas x:Name="animationCenter1" HorizontalAlignment="Left" Height="16" Margin="63,69,0,0" VerticalAlignment="Top" Width="18" IsHitTestVisible="False"/>            
         </Grid>
         <local:RoleBox x:Name="cbRoleBox" Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Right" Width="25" Margin="0,5,6,0" Height="26" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
@@ -442,6 +446,7 @@
                 <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
             </local:RoleBox.RenderTransform>
         </local:RoleBox>
-        <Canvas x:Name="animationCenter2" HorizontalAlignment="Center" Margin="0" Grid.ColumnSpan="2" VerticalAlignment="Top"/>		
-    </Grid>
+        <Canvas x:Name="animationCenter2" HorizontalAlignment="Center" Margin="0" Grid.ColumnSpan="2" VerticalAlignment="Top"/>
+		<anim:TieSuoAnimation x:Name="tieSuoAnimation" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="0,-40,0,0" IsHitTestVisible="False" FramesPerSecond="15" Height="180" Width="202"/>
+	</Grid>
 </local:PlayerViewBase>
