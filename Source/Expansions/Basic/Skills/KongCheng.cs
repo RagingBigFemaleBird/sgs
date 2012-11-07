@@ -37,7 +37,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 {
                     throw new TriggerResultException(TriggerResult.Fail);
                 },
-                TriggerCondition.OwnerIsTarget | TriggerCondition.SourceHasNoHandCards
+                TriggerCondition.OwnerIsTarget | TriggerCondition.OwnerHasNoHandCards
                 ));
             Triggers.Add(GameEvent.CardsLost, notifier);
         }

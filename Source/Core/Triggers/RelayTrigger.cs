@@ -18,6 +18,7 @@ namespace Sanguosha.Core.Triggers
         SourceHasCards = (1 << 1),
         SourceHasHandCards = (1 << 2),
         SourceHasNoHandCards = (1 << 3),
+        OwnerHasNoHandCards = (1 << 4),
         OwnerIsSource = (1 << 4),
         OwnerIsTarget = (1 << 5),
     }
@@ -92,6 +93,10 @@ namespace Sanguosha.Core.Triggers
                 return false;
             }
             else if (CheckCondition(TriggerCondition.SourceHasNoHandCards) && (Game.CurrentGame.Decks[eventArgs.Source, DeckType.Hand].Count > 0))
+            {
+                return false;
+            }
+            else if (CheckCondition(TriggerCondition.OwnerHasNoHandCards) && (Game.CurrentGame.Decks[Owner, DeckType.Hand].Count > 0))
             {
                 return false;
             }
