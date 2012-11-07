@@ -264,12 +264,12 @@
                         <Canvas x:Name="horse2Area" Margin="-15,42,0,0" Height="13" Width="140"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
                     </Grid>
                 </Border>
+                <Grid Grid.Row="2" Height="22" VerticalAlignment="Top" Margin="-15,-15,-15,0" ToolTip="{DynamicResource State.TieSuoLianHuan.Description}">
+                    <Image Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}"/>
+                    <anim:TieSuoAnimation2 x:Name="tieSuoAnimation2" FramesPerSecond="15" Stretch="Fill" IsHitTestVisible="False"/>
+                </Grid>
             </Grid>
-            <Image Source="{DynamicResource PlayerInfoView.Decoration.BottomRight}" Width="64" HorizontalAlignment="Right" Margin="-10,-50,0,0" Grid.RowSpan="2" VerticalAlignment="Bottom" IsHitTestVisible="False" />
-			<Grid Height="22" VerticalAlignment="Bottom" Margin="-9,0,-10,59">
-            	<Image Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}"/>
-            	<anim:TieSuoAnimation2 x:Name="tieSuoAnimation2" FramesPerSecond="15" Stretch="Fill" IsHitTestVisible="False"/>
-            </Grid>
+            <Image Source="{DynamicResource PlayerInfoView.Decoration.BottomRight}" Width="64" HorizontalAlignment="Right" Margin="-10,-50,0,0" Grid.RowSpan="2" VerticalAlignment="Bottom" IsHitTestVisible="False" />			
 			<Image x:Name="imgPhase" Visibility="{Binding IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}" Source="{res:ResourceKeyBinding Path=CurrentPhase, StringFormat=Phases.\{0\}.Small}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120" IsHitTestVisible="False" />
             <StackPanel x:Name="delayedToolsDock"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="-12,0,15,0" >
                 <i:Interaction.Behaviors>

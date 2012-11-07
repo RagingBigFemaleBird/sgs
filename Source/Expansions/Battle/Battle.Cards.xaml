@@ -8,10 +8,8 @@
     <system:String x:Key="Card.HuoGong.Usage">选中【火攻】→选择目标（至少有1张手牌）→点“确定”</system:String>
 
     <system:String x:Key="Card.TieSuoLianHuan.Name">铁锁连环</system:String>
-    <system:String x:Key="Card.TieSuoLianHuan.Description">出牌阶段，对一至两名角色使用，目标角色分别横置或重置其武将牌（被横置武将牌的角色处于“连环状态”，重置武将牌即解除“连环状态”）。
-重铸：出牌阶段，你可以将此牌置入弃牌堆，然后摸1张牌。</system:String>
-    <system:String x:Key="Card.TieSuoLianHuan.Usage">连锁和重置：选中【铁索连环】→选择1至2个目标→点“确定”
-    
-重铸：选中【铁索连环】→点“确定”</system:String>
+    <system:String x:Key="Card.TieSuoLianHuan.Description"  xml:space="preserve">出牌阶段，对一至两名角色使用，目标角色分别横置或重置其武将牌（被横置武将牌的角色处于“连环状态”，重置武将牌即解除“连环状态”）。&#10;重铸：出牌阶段，你可以将此牌置入弃牌堆，然后摸1张牌。</system:String>
+    <system:String x:Key="Card.TieSuoLianHuan.Usage" xml:space="preserve">连锁和重置：选中【铁索连环】→选择1至2个目标→点“确定”&#10;&#10;重铸：选中【铁索连环】→点“确定”</system:String>
+    <system:String x:Key="State.TieSuoLianHuan.Description">当处于连环状态的一名角色受到属性伤害后，其他处于连环状态下的角色亦会依次受到与该伤害同来源、同程度、同属性的伤害；并重置所有受到该伤害角色的武将牌。</system:String>
 
 </ResourceDictionary>
