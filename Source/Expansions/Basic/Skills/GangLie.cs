@@ -39,6 +39,10 @@ namespace Sanguosha.Expansions.Basic.Skills
                 }
                 foreach (Card c in cards)
                 {
+                    if (!Game.CurrentGame.PlayerCanDiscardCard(source, c))
+                    {
+                        return VerifierResult.Fail;
+                    }
                     if (c.Place.DeckType != DeckType.Hand)
                     {
                         return VerifierResult.Fail;

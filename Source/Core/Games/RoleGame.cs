@@ -144,139 +144,17 @@ namespace Sanguosha.Core.Games
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 Player currentPlayer = eventArgs.Game.CurrentPlayer;
-                Trace.TraceInformation("Player {0} discard.", currentPlayer.Id);
-                int cannotBeDiscarded = 0;
-                // Have we finished discarding everything?
-                // We finish if 
-                //      玩家手牌数 小于等于 玩家体力值
-                //  或者玩家手牌数 小于等于 不可弃的牌的数目
-                while (true)
-                {
-                    int handCardCount = Game.CurrentGame.Decks[currentPlayer, DeckType.Hand].Count; // 玩家手牌数                    
-                    int cardKept = Math.Max(cannotBeDiscarded, currentPlayer.Health);
-                    if (handCardCount <= cardKept)
-                    {
-                        break;
-                    }
-                    Trace.Assert(Game.CurrentGame.UiProxies.ContainsKey(currentPlayer));
-                    IUiProxy proxy = Game.CurrentGame.UiProxies[currentPlayer];
-                    ISkill skill;
-                    List<Card> cards;
-                    List<Player> players;
-                    PlayerDiscardStageVerifier v = new PlayerDiscardStageVerifier();
-                    cannotBeDiscarded = 0;
-                    foreach (Card c in Game.CurrentGame.Decks[currentPlayer, DeckType.Hand])
-                    {
-                        if (!Game.CurrentGame.PlayerCanDiscardCard(currentPlayer, c))
-                        {
-                            cannotBeDiscarded++;
-                        }
-                    }
-                    //如果玩家体力 小于 不可弃的牌数 则 摊牌
-                    bool status = currentPlayer.Health >= cannotBeDiscarded;
-                    Game.CurrentGame.SyncConfirmationStatus(ref status);
-                    if (!status)
-                    {
-                        Game.CurrentGame.SyncCardsAll(Game.CurrentGame.Decks[currentPlayer, DeckType.Hand]);
-                    }
-
-                    int promptCount = handCardCount - currentPlayer.Health;
-                    if (!proxy.AskForCardUsage(new Prompt(Prompt.DiscardPhasePrompt, promptCount),
-                                               v, out skill, out cards, out players))
-                    {
-                        //玩家没有回应(default)
-                        //如果玩家有不可弃掉的牌(这个只有服务器知道） 则通知所有客户端该玩家手牌
-                        status = (cannotBeDiscarded == 0);
-                        Game.CurrentGame.SyncConfirmationStatus(ref status);
-                        if (!status)
-                        {
-                            Game.CurrentGame.SyncCardsAll(Game.CurrentGame.Decks[currentPlayer, DeckType.Hand]);
-                        }
-                        cannotBeDiscarded = 0;
-                        foreach (Card c in Game.CurrentGame.Decks[currentPlayer, DeckType.Hand])
-                        {
-                            if (!Game.CurrentGame.PlayerCanDiscardCard(currentPlayer, c))
-                            {
-                                cannotBeDiscarded++;
-                            }
-                        }
-
-                        Trace.TraceInformation("Invalid answer, choosing for you");
-                        cards = new List<Card>();
-                        int cardsDiscarded = 0;
-                        foreach (Card c in Game.CurrentGame.Decks[currentPlayer, DeckType.Hand])
-                        {
-                            if (Game.CurrentGame.PlayerCanDiscardCard(currentPlayer, c))
-                            {
-                                cards.Add(c);
-                                cardsDiscarded++;
-                            }
-                            int cardsRemaining = Game.CurrentGame.Decks[currentPlayer, DeckType.Hand].Count - cardsDiscarded;
-                            if (cardsRemaining <= Math.Max(currentPlayer.Health, cannotBeDiscarded))
-                            {
-                                break;
-                            }
-                        }
-                    }
-                    Game.CurrentGame.HandleCardDiscard(currentPlayer, cards);
-                }
+                Trace.TraceInformation("Player {0} discard stage.", currentPlayer.Id);
+                Game.CurrentGame.ForcePlayerDiscard(currentPlayer, 
+                    (p, d) => 
+                    { 
+                        int i = Game.CurrentGame.Decks[p, DeckType.Hand].Count - p.Health;
+                        if (i < 0) i = 0;
+                        return i;
+                    }, 
+                    false);
             }
 
-            private class PlayerDiscardStageVerifier : ICardUsageVerifier
-            {
-                public UiHelper Helper { get { return new UiHelper(); } }
-
-                public VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
-                {
-                    if (skill != null)
-                    {
-                        return VerifierResult.Fail;
-                    }
-                    if (players != null && players.Count > 0)
-                    {
-                        return VerifierResult.Fail;
-                    }
-                    if (cards == null || cards.Count == 0)
-                    {
-                        return VerifierResult.Partial;
-                    }
-                    foreach (Card c in cards)
-                    {
-                        if (!Game.CurrentGame.PlayerCanDiscardCard(source, c))
-                        {
-                            return VerifierResult.Fail;
-                        }
-                        if (c.Place.DeckType != DeckType.Hand)
-                        {
-                            return VerifierResult.Fail;
-                        }
-                    }
-                    int cannotBeDiscarded = 0;
-                    foreach (Card c in Game.CurrentGame.Decks[source, DeckType.Hand])
-                    {
-                        if (!Game.CurrentGame.PlayerCanDiscardCard(source, c))
-                        {
-                            cannotBeDiscarded++;
-                        }
-                    }
-                    int remainingCards = (source.Health > cannotBeDiscarded) ? (source.Health) : cannotBeDiscarded;
-                    if (Game.CurrentGame.Decks[source, DeckType.Hand].Count - cards.Count < remainingCards)
-                    {
-                        return VerifierResult.Fail;
-                    }
-                    return VerifierResult.Success;
-                }
-
-                public IList<CardHandler> AcceptableCardType
-                {
-                    get { throw new NotImplementedException(); }
-                }
-
-                public VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> players)
-                {
-                    return FastVerify(source, skill, cards, players);
-                }
-            }
         }
 
         public class PlayerJudgeStageTrigger : Trigger

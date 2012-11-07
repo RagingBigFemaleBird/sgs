@@ -44,13 +44,12 @@ namespace Sanguosha.Expansions.Basic.Cards
             foreach (var player in toProcess)
             {
                 Player current = player;
-                Player src = source;
-                if (!PlayerIsCardTargetCheck(ref src, ref current, c))
+                if (!PlayerIsCardTargetCheck(ref source, ref current, c))
                 {
                     continue;
                 }
                 List<Player> sourceList = new List<Player>();
-                sourceList.Add(src);
+                sourceList.Add(source);
                 GameEventArgs args = new GameEventArgs();
                 args.Source = current;
                 args.Targets = null;
@@ -74,11 +73,11 @@ namespace Sanguosha.Expansions.Basic.Cards
                     ISkill skill;
                     List<Player> p;
                     List<Card> cards;
-                    if (!ui.AskForCardUsage(new CardUsagePrompt(UsagePromptString, src),
+                    if (!ui.AskForCardUsage(new CardUsagePrompt(UsagePromptString, source),
                                                           v1, out skill, out cards, out p))
                     {
                         Trace.TraceInformation("Player {0} Invalid answer", current);
-                        Game.CurrentGame.DoDamage(src, current, 1, DamageElement.None, c);
+                        Game.CurrentGame.DoDamage(source, current, 1, DamageElement.None, c);
                     }
                     else
                     {

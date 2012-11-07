@@ -158,10 +158,9 @@ namespace Sanguosha.Core.Cards
             foreach (var player in dests)
             {
                 Player p = player;
-                Player src = source;
-                if (PlayerIsCardTargetCheck(ref src, ref p, card)) 
+                if (PlayerIsCardTargetCheck(ref source, ref p, card)) 
                 {
-                    Process(src, p, card);
+                    Process(source, p, card);
                 }
             }
         }

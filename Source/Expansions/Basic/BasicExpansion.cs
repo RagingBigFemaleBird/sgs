@@ -143,6 +143,7 @@ namespace Sanguosha.Expansions.Basic
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SimaYi", true, Allegiance.Wei, 3, new FanKui(), new GuiCai()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("XiahouDun", true, Allegiance.Wei, 4, new GangLie()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhangLiao", true, Allegiance.Wei, 4, new TuXi()))));
+#if DAMUBIE
             //CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("XuChu", true, Allegiance.Wei, 4, new LuoYi()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("GuoJia", true, Allegiance.Wei, 3, new TianDu()/*, new YiJi()*/))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhenJi", false, Allegiance.Wei, 3, new QingGuo(), new LuoShen()))));
@@ -164,6 +165,7 @@ namespace Sanguosha.Expansions.Basic
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HuaTuo", true, Allegiance.Qun, 3, new JiJiu(), new QingNang()))));
             //CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("LvBu", true, Allegiance.Qun, 4, new WuShuang()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("DiaoChan", false, Allegiance.Qun, 3, new LiJian(), new BiYue()))));
+#endif
 
             TriggerRegistration = new List<DelayedTriggerRegistration>();
             TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.PlayerIsCardTarget, trigger = new WuXieKeJiTrigger() });

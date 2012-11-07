@@ -79,12 +79,13 @@ namespace Sanguosha.Expansions.Basic.Skills
             Game.CurrentGame.SyncCardAll(theCard);
             List<Card> clist = new List<Card>();
             clist.Add(theCard);
-            if (theCard.Suit != suit + 1)
+            SuitType theCardSuit = theCard.Suit;
+            Game.CurrentGame.HandleCardTransferToHand(Owner, arg.Targets[0], clist);
+            if (theCardSuit != suit + 1)
             {
                 Trace.TraceInformation("Guessed wrong");
                 Game.CurrentGame.DoDamage(Owner, arg.Targets[0], 1, DamageElement.None, null);
             }
-            Game.CurrentGame.HandleCardTransferToHand(Owner, arg.Targets[0], clist);
             return true;
         }
 

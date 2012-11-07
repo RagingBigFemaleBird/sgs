@@ -49,6 +49,10 @@ namespace Sanguosha.Expansions.Basic.Skills
                 {
                     return VerifierResult.Partial;
                 }
+                if (!Game.CurrentGame.PlayerCanDiscardCard(source, cards[0]))
+                {
+                    return VerifierResult.Fail;
+                }
                 CardHandler handler = new Sha();
                 handler.HoldInTemp(cards);
                 if (players != null && players.Count != 0 && Game.CurrentGame.DistanceTo(source, players[0]) > source[Player.AttackRange] + 1)

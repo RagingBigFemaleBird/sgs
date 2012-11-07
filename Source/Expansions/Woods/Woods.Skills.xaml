@@ -9,5 +9,9 @@
     <sys:String x:Key="Skill.RenDe.Description">出牌阶段，你可以将任意数量的手牌交给其他角色，若此阶段你给出的牌张数达到两张或更多时，你回复1点体力。</sys:String>
     <sys:String x:Key="Skill.RenDe.Usage">点"仁德"→选中数张手牌→选择目标→“确定”</sys:String>
     -->
-    
+
+    <sys:String x:Key="Skill.FangZhu.Name">放逐</sys:String>
+    <sys:String x:Key="Skill.FangZhu.Description">出牌阶段，你可以将任意数量的手牌交给其他角色，若此阶段你给出的牌张数达到两张或更多时，你回复1点体力。</sys:String>
+    <sys:String x:Key="Skill.FangZhu.Usage">点"仁德"→选中数张手牌→选择目标→“确定”</sys:String>
+
 </ResourceDictionary>
