@@ -67,7 +67,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 }
             }
             Player won = current == dest ? source : dest;
-            Game.CurrentGame.DoDamage(won, current, 1, DamageElement.Fire, card);
+            Game.CurrentGame.DoDamage(won, current, 1, DamageElement.None, card);
         }
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
