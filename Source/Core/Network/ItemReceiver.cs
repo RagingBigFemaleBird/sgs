@@ -38,11 +38,6 @@ namespace Sanguosha.Core.Network
             {
                 return null;
             }
-            if (o is PlayerItem)
-            {
-                PlayerItem i = (PlayerItem)o;
-                o = Game.CurrentGame.Players[i.id];
-            }
             return o;
         }
     }
