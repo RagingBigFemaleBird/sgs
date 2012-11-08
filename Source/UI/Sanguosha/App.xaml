@@ -23,16 +23,14 @@
         					</Border>
         				</ControlTemplate>
         			</Setter.Value>
-        		</Setter>
-                <Setter Property="ContentTemplate">
-                    <Setter.Value>
-                        <DataTemplate>
-                            <TextBlock TextWrapping="Wrap" FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" Width="330" Text="{Binding}"/>
-                        </DataTemplate>
-                    </Setter.Value>
-                </Setter>
+        		</Setter>                
         	</Style>
-        	<ControlTemplate x:Key="ThinScrollViewerControlTemplate" TargetType="{x:Type ScrollViewer}">
+
+            <DataTemplate x:Key="ToolTipTextTemplate">
+                <TextBlock TextWrapping="Wrap" FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" Width="330" Text="{Binding}"/>
+            </DataTemplate>
+            
+            <ControlTemplate x:Key="ThinScrollViewerControlTemplate" TargetType="{x:Type ScrollViewer}">
         		<Grid x:Name="Grid" Background="{TemplateBinding Background}">
         			<Grid.ColumnDefinitions>
         				<ColumnDefinition Width="*"/>

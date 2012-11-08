@@ -264,7 +264,10 @@
                         <Canvas x:Name="horse2Area" Margin="-15,42,0,0" Height="13" Width="140"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
                     </Grid>
                 </Border>
-                <Grid Grid.Row="2" Height="22" VerticalAlignment="Top" Margin="-15,-15,-15,0" ToolTip="{DynamicResource State.TieSuoLianHuan.Description}">
+                <Grid Grid.Row="2" Height="22" VerticalAlignment="Top" Margin="-15,-15,-15,0">
+                    <Grid.ToolTip>
+                        <ToolTip Content="{DynamicResource State.TieSuoLianHuan.Description}" ContentTemplate="{DynamicResource ToolTipTextTemplate}" />
+                    </Grid.ToolTip>
                     <Image Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}"/>
                     <anim:TieSuoAnimation2 x:Name="tieSuoAnimation2" FramesPerSecond="15" Stretch="Fill" IsHitTestVisible="False"/>
                 </Grid>
