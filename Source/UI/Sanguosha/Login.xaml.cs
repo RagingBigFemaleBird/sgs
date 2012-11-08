@@ -137,6 +137,7 @@ namespace Sanguosha.UI.Main
                     {
                         client.PortNumber = 12345;
                     }
+                    //client.Start(isReplay, FileStream = file.open(...))
                     client.Start();
                     mainSeat = (int)client.Receive();
                     client.SelfId = mainSeat;

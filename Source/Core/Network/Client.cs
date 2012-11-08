@@ -11,12 +11,12 @@ using Sanguosha.Core.Players;
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
 using System.Diagnostics;
+using System.IO;
 
 namespace Sanguosha.Core.Network
 {
     public class Client
     {
-        NetworkStream stream;
         ItemReceiver receiver;
         ItemSender sender;
         int commId;
@@ -38,19 +38,32 @@ namespace Sanguosha.Core.Network
             set { portNumber = value; }
         }
 
+        bool isReplay;
+        Stream replayFile;
+
         /// <summary>
         /// 
         /// </summary>
         /// <exception cref="System.ArgumentOutOfRangeException" />
         /// <exception cref="System.Net.Sockets.SocketException" />
-        public void Start()
+        public void Start(bool isReplay = false, Stream replayStream = null)
         {
-            IPEndPoint ep = new IPEndPoint(IPAddress.Parse(IpString), PortNumber);
-            TcpClient client = new TcpClient();
-            client.Connect(ep);
-            stream = client.GetStream();
-            receiver = new ItemReceiver(stream);
-            sender = new ItemSender(stream);
+            this.isReplay = isReplay;
+            replayFile = replayStream;
+            if (isReplay)
+            {
+                receiver = new ItemReceiver(replayFile);
+                sender = new ItemSender(Stream.Null);
+            }
+            else
+            {
+                IPEndPoint ep = new IPEndPoint(IPAddress.Parse(IpString), PortNumber);
+                TcpClient client = new TcpClient();
+                client.Connect(ep);
+                NetworkStream stream = client.GetStream();
+                receiver = new ItemReceiver(stream, replayFile);
+                sender = new ItemSender(stream);
+            }
             commId = 0;
         }
 
@@ -63,7 +76,12 @@ namespace Sanguosha.Core.Network
 
         public object Receive()
         {
+            if (isReplay)
+            {
+                Thread.Sleep(500);
+            }
             object o = receiver.Receive();
+            
             if (o is CommandItem)
             {
                 CommandItem item = (CommandItem)o;

@@ -11,6 +11,7 @@ using Sanguosha.Core.Cards;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
+using System.IO;
 
 namespace Sanguosha.Core.Network
 {
@@ -54,9 +55,9 @@ namespace Sanguosha.Core.Network
     }
     public class ItemSender
     {
-        private NetworkStream stream;
+        private Stream stream;
         static IFormatter formatter = new BinaryFormatter();
-        public ItemSender(NetworkStream s)
+        public ItemSender(Stream s)
         {
             stream = s;
         }
