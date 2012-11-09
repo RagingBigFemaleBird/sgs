@@ -37,32 +37,25 @@ namespace Sanguosha.Expansions.Basic.Cards
                 Targets = new List<Player>() { dest },
                 Card = card,
                 IntArg = 1,
-                IntArg2 = 0
+                IntArg2 = 0,
+                IntArg3 = 0
             };
-            Game.CurrentGame.Emit(PlayerShaTargetModifier, args);
+            Game.CurrentGame.Emit(PlayerShaTargetShanModifier, args);
             int numberOfShanRequired = args.IntArg;
             bool cannotUseShan = args.IntArg2 == 1 ? true : false;
-            try
+            bool invalidated = args.IntArg3 == 1 ? true: false;
+            bool cannotProvideShan = false;
+            if (invalidated)
             {
-                Game.CurrentGame.Emit(PlayerShaTargetArmorModifier, args);
-            }
-            catch (TriggerResultException e)
-            {
-                Trace.Assert(e.Status == TriggerResult.Fail);
-                args.Source = source;
-                args.Targets = new List<Player>();
-                args.Targets.Add(dest);
-                args.Card = card;
-                Game.CurrentGame.Emit(PlayerShaTargetEnd, args);
                 return;
             }
-            bool cannotProvideShan = false;
             while (numberOfShanRequired > 0 && !cannotUseShan)
             {
                 args.Source = dest;
                 args.Targets = sourceList;
                 args.Card = new CompositeCard();
                 args.Card.Type = new Shan();
+                args.ExtraCard = card;
                 try
                 {
                     Game.CurrentGame.Emit(GameEvent.PlayerRequireCard, args);
@@ -215,19 +208,11 @@ namespace Sanguosha.Expansions.Basic.Cards
         /// <summary>
         /// 杀目标的修正
         /// </summary>
-        public static readonly GameEvent PlayerShaTargetModifier = new GameEvent("PlayerShaTargetModifier");
+        public static readonly GameEvent PlayerShaTargetShanModifier = new GameEvent("PlayerShaTargetShanModifier");
         /// <summary>
         /// 杀被闪
         /// </summary>
         public static readonly GameEvent PlayerShaTargetDodged = new GameEvent("PlayerShaTargetDodged");
-        /// <summary>
-        /// 杀结算结束
-        /// </summary>
-        public static readonly GameEvent PlayerShaTargetEnd = new GameEvent("PlayerShaTargetEnd");
-        /// <summary>
-        /// 杀目标防具的闪的数目和杀的有效性修正
-        /// </summary>
-        public static readonly GameEvent PlayerShaTargetArmorModifier = new GameEvent("PlayerShaTargetArmorModifier");
     }
 
 

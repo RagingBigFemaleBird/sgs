@@ -567,7 +567,9 @@ namespace Sanguosha.Core.Games
                     {
                         card.Log = new ActionLog();
                         card.Type = GameEngine.CardSet[card.Id].Type;
+                        if (card.Attributes != null) card.Attributes.Clear();
                     }
+
                     if (IsClient && (move.to.DeckType == DeckType.Hand && GameClient.SelfId != move.to.Player.Id))
                     {
                         card.Id = -1;

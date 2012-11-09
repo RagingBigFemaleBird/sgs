@@ -31,5 +31,7 @@ namespace Sanguosha.Core.Cards
         CardHandler Type { get; set; }
         SuitType Suit { get; set; }
         SuitColorType SuitColor { get; }
+        Dictionary<CardAttribute, int> Attributes { get; }
+        int this[CardAttribute key] { get; set; }
     }
 }

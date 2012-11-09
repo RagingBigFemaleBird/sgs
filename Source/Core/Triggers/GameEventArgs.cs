@@ -74,5 +74,13 @@ namespace Sanguosha.Core.Triggers
             set { card = value; }
         }
 
+        private ICard extraCard;
+
+        public ICard ExtraCard
+        {
+            get { return extraCard; }
+            set { extraCard = value; }
+        }
+
     }
 }

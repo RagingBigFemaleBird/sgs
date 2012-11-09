@@ -12,9 +12,9 @@ using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.Cards;
 
-namespace Sanguosha.Expansions.Basic.Cards
+namespace Sanguosha.Expansions.Battle.Cards
 {
-    public class LeBuSiShu : DelayedTool
+    public class BingLiangCunDuan : DelayedTool
     {
         public override void Activate(Player p, Card c)
         {
@@ -22,11 +22,11 @@ namespace Sanguosha.Expansions.Basic.Cards
             if (PlayerIsCardTargetCheck(ref nullPlayer, ref p, c))
             {
                 ReadOnlyCard result = Game.CurrentGame.Judge(p, null, c);
-                if (result.Suit != SuitType.Heart)
+                if (result.Suit != SuitType.Club)
                 {
-                    var theTrigger = new LeBuSiShuTrigger() { Priority = int.MaxValue };
+                    var theTrigger = new BingLiangCunDuanTrigger() { Priority = int.MaxValue };
                     theTrigger.Owner = p;
-                    Game.CurrentGame.RegisterTrigger(GameEvent.PhaseOutEvents[TurnPhase.Draw], theTrigger);
+                    Game.CurrentGame.RegisterTrigger(GameEvent.PhaseOutEvents[TurnPhase.Judge], theTrigger);
                 }
             }
             CardsMovement move = new CardsMovement();
@@ -58,10 +58,21 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 return VerifierResult.Partial;
             }
+            Player dest = targets[0];
+            GameEventArgs args = new GameEventArgs();
+            args.Source = source;
+            args.Targets = new List<Player>() { dest };
+            args.Card = card;
+            args.IntArg = 0;
+            Game.CurrentGame.Emit(GameEvent.CardRangeModifier, args);
+            if (Game.CurrentGame.DistanceTo(source, dest) > 1)
+            {
+                return VerifierResult.Fail;
+            }
             return VerifierResult.Success;
         }
 
-        private class LeBuSiShuTrigger : Trigger
+        private class BingLiangCunDuanTrigger : Trigger
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
@@ -69,7 +80,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     Game.CurrentGame.CurrentPhase++;
                     Game.CurrentGame.CurrentPhaseEventIndex = 2;
-                    Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseOutEvents[TurnPhase.Draw], this);
+                    Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseOutEvents[TurnPhase.Judge], this);
                     throw new TriggerResultException(TriggerResult.End);
                 }
             }

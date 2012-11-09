@@ -18,6 +18,14 @@ namespace Sanguosha.Core.Cards
             suit = card.Suit;
             owner = card.Owner;
             suitColor = card.SuitColor;
+            if (card.Attributes == null)
+            {
+                attributes = new Dictionary<CardAttribute, int>();
+            }
+            else
+            {
+                attributes = new Dictionary<CardAttribute, int>(card.Attributes);
+            }
         }
         Player owner;
         public Player Owner { get { return owner; } }
@@ -31,5 +39,33 @@ namespace Sanguosha.Core.Cards
         public SuitType Suit { get { return suit; } set { Trace.Assert(false); } }
         SuitColorType suitColor;
         public SuitColorType SuitColor { get { return suitColor; } }
+
+
+
+        Dictionary<CardAttribute, int> attributes;
+
+        public Dictionary<CardAttribute, int> Attributes
+        {
+            get { return attributes; }
+        }
+
+        public int this[CardAttribute key]
+        {
+            get
+            {
+                if (!attributes.ContainsKey(key))
+                {
+                    return 0;
+                }
+                else
+                {
+                    return attributes[key];
+                }
+            }
+            set
+            {
+                Trace.Assert(false);
+            }
+        }
     }
 }

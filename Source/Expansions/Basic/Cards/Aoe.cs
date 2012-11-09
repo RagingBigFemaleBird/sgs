@@ -55,6 +55,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 args.Targets = null;
                 args.Card = new CompositeCard();
                 args.Card.Type = RequiredCard();
+                args.ExtraCard = c;
                 try
                 {
                     Game.CurrentGame.Emit(GameEvent.PlayerRequireCard, args);

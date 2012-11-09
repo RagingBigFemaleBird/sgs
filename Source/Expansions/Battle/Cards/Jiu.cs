@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Diagnostics;
 
 using Sanguosha.Core.UI;
 using Sanguosha.Core.Skills;
@@ -11,10 +10,12 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.Cards;
+using Sanguosha.Expansions.Basic.Cards;
+using System.Diagnostics;
 
-namespace Sanguosha.Expansions.Basic.Cards
+namespace Sanguosha.Expansions.Battle.Cards
 {
-    public class Tao : LifeSaver
+    public class Jiu : LifeSaver
     {
         protected override void Process(Player source, Player dest, ICard card)
         {
@@ -28,7 +29,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 return;
             }
-            Game.CurrentGame.RecoverHealth(source, source, 1);
+            source[JiuUsed] = 1;
         }
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
@@ -41,18 +42,19 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 return VerifierResult.Fail;
             }
-            Player p;
             if (Game.CurrentGame.IsDying.Count == 0)
             {
-                p = source;
+                if (source[JiuUsed] == 1)
+                {
+                    return VerifierResult.Fail;
+                }
             }
             else
             {
-                p = targets[0];
-            }
-            if (p.Health >= p.MaxHealth)
-            {
-                return VerifierResult.Fail;
+                if (targets[0] != source)
+                {
+                    return VerifierResult.Fail;
+                }
             }
             return VerifierResult.Success;
         }
@@ -60,6 +62,20 @@ namespace Sanguosha.Expansions.Basic.Cards
         public override CardCategory Category
         {
             get { return CardCategory.Basic; }
+        }
+
+        public static PlayerAttribute JiuUsed = PlayerAttribute.Register("JiuUsed", true);
+    }
+
+    public class JiuDamage : Trigger
+    {
+        public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+        {
+            if (eventArgs.Source[Jiu.JiuUsed] == 1)
+            {
+                eventArgs.Source[Jiu.JiuUsed] = 0;
+                eventArgs.IntArg3--;
+            }
         }
     }
 }

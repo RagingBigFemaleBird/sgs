@@ -141,4 +141,9 @@ namespace Sanguosha.Core.Skills
         }
 
     }
+
+
+    public abstract class ArmorTriggerSkill : TriggerSkill
+    {
+    }
 }

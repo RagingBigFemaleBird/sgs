@@ -126,20 +126,21 @@ namespace Sanguosha.Core.Cards
         /// </summary>
         public CardHandler GuHuoType { get; set; }
 
-        Dictionary<string, int> attributes;
+        Dictionary<CardAttribute, int> attributes;
 
-        public Dictionary<string, int> Attributes
+        public Dictionary<CardAttribute, int> Attributes
         {
             get { return attributes; }
-            set { attributes = value; }
+            private set { attributes = value; }
         }
-        public int this[string key]
+
+        public int this[CardAttribute key]
         {
             get
             {
                 if (attributes == null)
                 {
-                    attributes = new Dictionary<string, int>();
+                    attributes = new Dictionary<CardAttribute, int>();
                 }
                 if (!attributes.ContainsKey(key))
                 {
@@ -154,7 +155,7 @@ namespace Sanguosha.Core.Cards
             {
                 if (attributes == null)
                 {
-                    attributes = new Dictionary<string, int>();
+                    attributes = new Dictionary<CardAttribute, int>();
                 }
                 if (!attributes.ContainsKey(key))
                 {

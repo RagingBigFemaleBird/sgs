@@ -16,7 +16,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 {
     public class WuXieKeJi : CardHandler
     {
-        public static readonly string CannotBeCountered = "CannotBeCountered";
+        public static readonly CardAttribute CannotBeCountered = CardAttribute.Register("CannotBeCountered");
 
         protected override void Process(Player source, Player dest, ICard card)
         {

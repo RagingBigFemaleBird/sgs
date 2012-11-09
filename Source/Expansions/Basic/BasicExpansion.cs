@@ -19,47 +19,18 @@ namespace Sanguosha.Expansions.Basic
         public BasicExpansion()
         {
             CardSet = new List<Card>();
-
-            CardSet.Add(new Card(SuitType.Spade, 5, new DefensiveHorse("JueYing")));
-            CardSet.Add(new Card(SuitType.Heart, 5, new QiLinGong()));
-            CardSet.Add(new Card(SuitType.Spade, 5, new DefensiveHorse("JueYing")));
-            CardSet.Add(new Card(SuitType.Heart, 5, new QiLinGong()));
-            CardSet.Add(new Card(SuitType.Spade, 5, new DefensiveHorse("JueYing")));
-            CardSet.Add(new Card(SuitType.Heart, 5, new QiLinGong()));
-            CardSet.Add(new Card(SuitType.Spade, 5, new DefensiveHorse("JueYing")));
-            CardSet.Add(new Card(SuitType.Heart, 5, new QiLinGong()));
-            CardSet.Add(new Card(SuitType.Spade, 5, new DefensiveHorse("JueYing")));
-            CardSet.Add(new Card(SuitType.Heart, 5, new QiLinGong()));
-            CardSet.Add(new Card(SuitType.Spade, 5, new DefensiveHorse("JueYing")));
-            CardSet.Add(new Card(SuitType.Heart, 5, new QiLinGong()));
-            CardSet.Add(new Card(SuitType.Spade, 5, new DefensiveHorse("JueYing")));
-            CardSet.Add(new Card(SuitType.Heart, 5, new QiLinGong()));
-            CardSet.Add(new Card(SuitType.Spade, 5, new DefensiveHorse("JueYing")));
-            CardSet.Add(new Card(SuitType.Heart, 5, new QiLinGong()));
-            CardSet.Add(new Card(SuitType.Spade, 5, new DefensiveHorse("JueYing")));
-            CardSet.Add(new Card(SuitType.Heart, 5, new OffensiveHorse("ChiTu")));
-            CardSet.Add(new Card(SuitType.Heart, 5, new OffensiveHorse("ChiTu")));
-            CardSet.Add(new Card(SuitType.Heart, 5, new OffensiveHorse("ChiTu")));
-            CardSet.Add(new Card(SuitType.Heart, 5, new OffensiveHorse("ChiTu")));
-            CardSet.Add(new Card(SuitType.Heart, 5, new OffensiveHorse("ChiTu")));
-            CardSet.Add(new Card(SuitType.Heart, 5, new OffensiveHorse("ChiTu")));
-            CardSet.Add(new Card(SuitType.Heart, 5, new OffensiveHorse("ChiTu")));
-            CardSet.Add(new Card(SuitType.Heart, 5, new OffensiveHorse("ChiTu")));
-            CardSet.Add(new Card(SuitType.Heart, 5, new OffensiveHorse("ChiTu")));
-            CardSet.Add(new Card(SuitType.Heart, 5, new QiLinGong()));
-            CardSet.Add(new Card(SuitType.Spade, 2, new CiXiongShuangGuJian()));
-            CardSet.Add(new Card(SuitType.Spade, 2, new CiXiongShuangGuJian()));
-            CardSet.Add(new Card(SuitType.Spade, 2, new CiXiongShuangGuJian()));
-            CardSet.Add(new Card(SuitType.Spade, 2, new CiXiongShuangGuJian()));
-            CardSet.Add(new Card(SuitType.Spade, 2, new CiXiongShuangGuJian()));
-            CardSet.Add(new Card(SuitType.Spade, 2, new CiXiongShuangGuJian()));
-            CardSet.Add(new Card(SuitType.Spade, 2, new CiXiongShuangGuJian()));
-            CardSet.Add(new Card(SuitType.Spade, 2, new CiXiongShuangGuJian()));
-            CardSet.Add(new Card(SuitType.Spade, 2, new CiXiongShuangGuJian()));
-            CardSet.Add(new Card(SuitType.Spade, 2, new CiXiongShuangGuJian()));
-            CardSet.Add(new Card(SuitType.Spade, 2, new CiXiongShuangGuJian()));
-            CardSet.Add(new Card(SuitType.Spade, 2, new CiXiongShuangGuJian()));
-            CardSet.Add(new Card(SuitType.Spade, 2, new CiXiongShuangGuJian()));
+            CardSet.Add(new Card(SuitType.Spade, 6, new QingGangJian()));
+            CardSet.Add(new Card(SuitType.Spade, 6, new QingGangJian()));
+            CardSet.Add(new Card(SuitType.Spade, 6, new QingGangJian()));
+            CardSet.Add(new Card(SuitType.Spade, 6, new QingGangJian()));
+            CardSet.Add(new Card(SuitType.Spade, 6, new QingGangJian()));
+            CardSet.Add(new Card(SuitType.Spade, 6, new QingGangJian()));
+            CardSet.Add(new Card(SuitType.Spade, 6, new QingGangJian()));
+            CardSet.Add(new Card(SuitType.Spade, 6, new QingGangJian()));
+            CardSet.Add(new Card(SuitType.Spade, 6, new QingGangJian()));
+            CardSet.Add(new Card(SuitType.Spade, 6, new QingGangJian()));
+            CardSet.Add(new Card(SuitType.Spade, 6, new QingGangJian()));
+            CardSet.Add(new Card(SuitType.Spade, 6, new QingGangJian()));
 
             CardSet.Add(new Card(SuitType.Spade, 1, new JueDou()));
             CardSet.Add(new Card(SuitType.Spade, 1, new ShanDian()));
@@ -108,7 +79,7 @@ namespace Sanguosha.Expansions.Basic
 
 
             CardSet.Add(new Card(SuitType.Spade, 6, new LeBuSiShu()));
-            //            CardSet.Add(new Card(SuitType.Spade, 6, QINGGANGJIAN()));
+            CardSet.Add(new Card(SuitType.Spade, 6, new QingGangJian()));
             CardSet.Add(new Card(SuitType.Heart, 6, new Tao()));
             CardSet.Add(new Card(SuitType.Heart, 6, new LeBuSiShu()));
             CardSet.Add(new Card(SuitType.Club, 6, new RegularSha()));
