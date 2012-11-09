@@ -91,7 +91,7 @@
     <Resource Include="Images\Cards\BigEquip\HanBingJian.png" />
     <Resource Include="Images\Cards\BigEquip\HuaLiu.png" />
     <Resource Include="Images\Cards\BigEquip\JueYing.png" />
-    <Resource Include="Images\Cards\BigEquip\QiLingGong.png" />
+    <Resource Include="Images\Cards\BigEquip\QiLinGong.png" />
     <Resource Include="Images\Cards\BigEquip\QingGangJian.png" />
     <Resource Include="Images\Cards\BigEquip\QingLongYanYueDao.png" />
     <Resource Include="Images\Cards\BigEquip\RenWangDun.png" />
@@ -119,7 +119,7 @@
     <Resource Include="Images\Cards\SmallEquip\HanBingJian.png" />
     <Resource Include="Images\Cards\SmallEquip\HuaLiu.png" />
     <Resource Include="Images\Cards\SmallEquip\JueYing.png" />
-    <Resource Include="Images\Cards\SmallEquip\QiLingGong.png" />
+    <Resource Include="Images\Cards\SmallEquip\QiLinGong.png" />
     <Resource Include="Images\Cards\SmallEquip\QinGangJian.png" />
     <Resource Include="Images\Cards\SmallEquip\QingLongYanYueDao.png" />
     <Resource Include="Images\Cards\SmallEquip\RenWangDun.png" />

@@ -44,19 +44,10 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
         }
 
-        ISkill theSkill;
-
         public BaGuaZhen()
         {
-            theSkill = new BaGuaZhenSkill();
+            EquipmentSkill = new BaGuaZhenSkill();
         }
 
-        public override ISkill EquipmentSkill
-        {
-            get
-            {
-                return theSkill;
-            }
-        }
     }
 }

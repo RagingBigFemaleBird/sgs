@@ -78,7 +78,7 @@ namespace Sanguosha.Core.Network
         {
             if (isReplay)
             {
-                Thread.Sleep(500);
+                Thread.Sleep(100);
             }
             object o = receiver.Receive();
             
@@ -108,6 +108,11 @@ namespace Sanguosha.Core.Network
                     }
                     return Receive();
                 }
+            }
+            else if (o is PlayerItem)
+            {
+                PlayerItem i = (PlayerItem)o;
+                o = Game.CurrentGame.Players[i.id];
             }
             else if (o is int)
             {

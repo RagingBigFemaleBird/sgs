@@ -49,6 +49,7 @@
     <Compile Include="Cards\CardWrapper.cs" />
     <Compile Include="Cards\CiXiongShuangGuJian.cs" />
     <Compile Include="Cards\FangTianHuaJi.cs" />
+    <Compile Include="Cards\GuanShiFu.cs" />
     <Compile Include="Cards\GuoHeChaiQiao.cs" />
     <Compile Include="Cards\JieDaoShaRen.cs" />
     <Compile Include="Cards\OffensiveHorse.cs" />
@@ -56,6 +57,8 @@
     <Compile Include="Cards\JueDou.cs" />
     <Compile Include="Cards\LeBuSiShu.cs" />
     <Compile Include="Cards\NanManRuQin.cs" />
+    <Compile Include="Cards\QiLinGong.cs" />
+    <Compile Include="Cards\QingLongYanYueDao.cs" />
     <Compile Include="Cards\RegularSha.cs" />
     <Compile Include="Cards\Sha.cs" />
     <Compile Include="Cards\Shan.cs" />

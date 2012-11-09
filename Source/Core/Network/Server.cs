@@ -164,9 +164,10 @@ namespace Sanguosha.Core.Network
                 Trace.TraceWarning("Expected Player but null");
                 return null;
             }
-            if (o is Player)
+            if (o is PlayerItem)
             {
-                return (Player)o;
+                PlayerItem i = (PlayerItem)o;
+                return Game.CurrentGame.Players[i.id];
             }
             Trace.TraceWarning("Expected Player but type is {0}", o.GetType());
             return null;

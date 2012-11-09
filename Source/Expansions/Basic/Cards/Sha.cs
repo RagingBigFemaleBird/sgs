@@ -116,12 +116,8 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     Game.CurrentGame.Emit(PlayerShaTargetDodged, args);
                 }
-                catch (TriggerResultException e)
+                catch (TriggerResultException)
                 {
-                    if (e.Status == TriggerResult.Retry)
-                    {
-                        Process(source, dest, card);
-                    }
                     Trace.Assert(false);
                 }
             }
