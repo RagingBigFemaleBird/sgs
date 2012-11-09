@@ -1,0 +1,204 @@
+﻿<local:AnimationBase
+             x:Class="Sanguosha.UI.Animations.GuDingAnimation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Sanguosha.UI.Animations"
+             mc:Ignorable="d" 
+             Width="300" Height="300">
+	<local:AnimationBase.Resources>
+		<Storyboard x:Key="mainAnimation">
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image">
+				<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.433" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.467" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image1">
+				<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="viewbox">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.433" Value="-360"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.867" Value="-360"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="viewbox">
+				<EasingDoubleKeyFrame KeyTime="0" Value="50"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.433" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.867" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="viewbox">
+				<EasingDoubleKeyFrame KeyTime="0" Value="-35"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.433" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.867" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="viewbox">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0.5"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.433" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.867" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="viewbox">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0.5"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.433" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.867" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0.5"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.433" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image2">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.467" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image3">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.533" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image4">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.533" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.567" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image5">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.567" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.6" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image6">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.6" Value="{x:Static Visibility.Visible}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(DropShadowEffect.BlurRadius)" Storyboard.TargetName="image1">
+				<EasingDoubleKeyFrame KeyTime="0" Value="6">
+					<EasingDoubleKeyFrame.EasingFunction>
+						<ElasticEase EasingMode="EaseOut" Springiness="0"/>
+					</EasingDoubleKeyFrame.EasingFunction>
+				</EasingDoubleKeyFrame>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.615" Value="10">
+					<EasingDoubleKeyFrame.EasingFunction>
+						<ElasticEase EasingMode="EaseOut" Springiness="0" Oscillations="3"/>
+					</EasingDoubleKeyFrame.EasingFunction>
+				</EasingDoubleKeyFrame>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.233" Value="6">
+					<EasingDoubleKeyFrame.EasingFunction>
+						<ElasticEase EasingMode="EaseOut" Oscillations="3" Springiness="0"/>
+					</EasingDoubleKeyFrame.EasingFunction>
+				</EasingDoubleKeyFrame>
+			</DoubleAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image7">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.467" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.833" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.867" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="image7">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.467" Value="9"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="image7">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.467" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(LinearGradientBrush.StartPoint)" Storyboard.TargetName="image7">
+				<EasingPointKeyFrame KeyTime="0:0:0.467" Value="1,0"/>
+			</PointAnimationUsingKeyFrames>
+			<PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(LinearGradientBrush.EndPoint)" Storyboard.TargetName="image7">
+				<EasingPointKeyFrame KeyTime="0:0:0.467" Value="0,1"/>
+			</PointAnimationUsingKeyFrames>
+			<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="image7">
+				<EasingColorKeyFrame KeyTime="0:0:0.467" Value="#00000000"/>
+			</ColorAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[1].(GradientStop.Offset)" Storyboard.TargetName="image7">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.467" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="0.916"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[2].(GradientStop.Offset)" Storyboard.TargetName="image7">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.467" Value="0.096"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="0.996"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[0].(GradientStop.Offset)" Storyboard.TargetName="image7">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.467" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="0.823"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[3].(GradientStop.Offset)" Storyboard.TargetName="image7">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.467" Value="0.197"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="viewbox">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.867" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image6">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image8">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="image8">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="3"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="image8">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="3"/>
+			</DoubleAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image8">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.8" Value="{x:Static Visibility.Hidden}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.833" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:1.2" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+		</Storyboard>
+	</local:AnimationBase.Resources>
+	<local:AnimationBase.Triggers>
+		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
+			<BeginStoryboard Storyboard="{StaticResource mainAnimation}"/>
+		</EventTrigger>
+	</local:AnimationBase.Triggers>
+	<Grid>
+		<Image x:Name="image8" Source="GuDingAnimation/7.png" Stretch="None" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" Opacity="0" Margin="0,121,0,103" Visibility="Hidden" d:LayoutOverrides="Height">
+			<Image.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</Image.RenderTransform>
+		</Image>
+		<Image x:Name="image2" Margin="14,144.5,90,72.5" Source="GuDingAnimation/2.png" Stretch="None" d:LayoutOverrides="Width, Height" Visibility="Hidden"/>
+		<Image x:Name="image3" Margin="14,144.5,90,72.5" Source="GuDingAnimation/3.png" Stretch="None" d:LayoutOverrides="Width, Height" Visibility="Hidden"/>
+		<Image x:Name="image4" Margin="14,144.5,90,72.5" Source="GuDingAnimation/4.png" Stretch="None" d:LayoutOverrides="Width, Height" Visibility="Hidden"/>
+		<Image x:Name="image5" Margin="14,144.5,90,72.5" Source="GuDingAnimation/5.png" Stretch="None" d:LayoutOverrides="Width, Height" Visibility="Hidden"/>
+		<Image x:Name="image6" Margin="14,144.5,90,72.5" Source="GuDingAnimation/6.png" Stretch="None" d:LayoutOverrides="Width, Height" Visibility="Hidden"/>
+		<Viewbox x:Name="viewbox" Margin="63,59,100.5,101" Stretch="Fill" RenderTransformOrigin="1,0.2">
+			<Viewbox.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</Viewbox.RenderTransform>
+			<Grid Height="140" Width="136.5">
+				<Image x:Name="image" Margin="0,0,22.5,0" Source="GuDingAnimation/0.png" Stretch="None" d:LayoutOverrides="Width, Height" Visibility="Hidden"/>
+				<Image x:Name="image1" Margin="36.75,61,0.75,3" Source="GuDingAnimation/1.png" Stretch="None" Visibility="Hidden" d:LayoutOverrides="Width, Height">
+					<Image.Effect>
+						<DropShadowEffect Color="#FF559DFF" ShadowDepth="0" BlurRadius="10"/>
+					</Image.Effect>
+				</Image>
+			</Grid>
+		</Viewbox>
+		<Image x:Name="image7" Margin="0" Source="GuDingAnimation/7.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden" RenderTransformOrigin="0.5,0.5">
+			<Image.OpacityMask>
+				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+					<GradientStop Color="Black" Offset="0"/>
+					<GradientStop Color="White" Offset="1"/>
+					<GradientStop Color="White" Offset="0.518"/>
+					<GradientStop Offset="1"/>
+				</LinearGradientBrush>
+			</Image.OpacityMask>
+			<Image.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</Image.RenderTransform>
+		</Image></Grid>
+</local:AnimationBase>

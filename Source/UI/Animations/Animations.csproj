@@ -61,6 +61,36 @@
     <Compile Include="CiXiongAnimation.xaml.cs">
       <DependentUpon>CiXiongAnimation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BaiYinAnimation.xaml.cs">
+      <DependentUpon>BaiYinAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TengJiaAnimation2.xaml.cs">
+      <DependentUpon>TengJiaAnimation2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TengJiaAnimation.xaml.cs">
+      <DependentUpon>TengJiaAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RenWangAnimation.xaml.cs">
+      <DependentUpon>RenWangAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="QingLongAnimation.xaml.cs">
+      <DependentUpon>QingLongAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HanBingAnimation.xaml.cs">
+      <DependentUpon>HanBingAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LianNuAnimation.xaml.cs">
+      <DependentUpon>LianNuAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GuDingAnimation.xaml.cs">
+      <DependentUpon>GuDingAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GuanShiAnimation.xaml.cs">
+      <DependentUpon>GuanShiAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FangTianAnimation.xaml.cs">
+      <DependentUpon>FangTianAnimation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TieSuoAnimation.xaml.cs">
       <DependentUpon>TieSuoAnimation.xaml</DependentUpon>
     </Compile>
@@ -149,6 +179,46 @@
     <Page Include="CiXiongAnimation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BaiYinAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TengJiaAnimation2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TengJiaAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RenWangAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="QingLongAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="HanBingAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LianNuAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GuDingAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GuanShiAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FangTianAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="TieSuoAnimation.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -275,6 +345,60 @@
     <Resource Include="LianNuAnimation\Arrow.png" />
     <Resource Include="LianNuAnimation\Boom.png" />
     <Resource Include="LianNuAnimation\Ray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="BaiYinAnimation\0.png" />
+    <Resource Include="BaiYinAnimation\1.png" />
+    <Resource Include="BaiYinAnimation\2.png" />
+    <Resource Include="BaiYinAnimation\3.png" />
+    <Resource Include="GuanShiAnimation\0.png" />
+    <Resource Include="GuanShiAnimation\1.png" />
+    <Resource Include="GuanShiAnimation\2.png" />
+    <Resource Include="GuanShiAnimation\3.png" />
+    <Resource Include="GuanShiAnimation\4.png" />
+    <Resource Include="GuanShiAnimation\5.png" />
+    <Resource Include="GuDingAnimation\0.png" />
+    <Resource Include="GuDingAnimation\1.png" />
+    <Resource Include="GuDingAnimation\2.png" />
+    <Resource Include="GuDingAnimation\3.png" />
+    <Resource Include="GuDingAnimation\4.png" />
+    <Resource Include="GuDingAnimation\5.png" />
+    <Resource Include="GuDingAnimation\6.png" />
+    <Resource Include="GuDingAnimation\7.png" />
+    <Resource Include="HanBingAnimation\0.png" />
+    <Resource Include="HanBingAnimation\1.png" />
+    <Resource Include="HanBingAnimation\2.png" />
+    <Resource Include="HanBingAnimation\3.png" />
+    <Resource Include="HanBingAnimation\4.png" />
+    <Resource Include="HanBingAnimation\5.png" />
+    <Resource Include="HanBingAnimation\Blade.png" />
+    <Resource Include="HanBingAnimation\Snowflake.png" />
+    <Resource Include="QiLinAnimation\Arrow.png" />
+    <Resource Include="QiLinAnimation\Bow.png" />
+    <Resource Include="QiLinAnimation\QiLin.png" />
+    <Resource Include="QingLongAnimation\0.png" />
+    <Resource Include="QingLongAnimation\1.png" />
+    <Resource Include="QingLongAnimation\2.png" />
+    <Resource Include="QingLongAnimation\3.png" />
+    <Resource Include="QingLongAnimation\4.png" />
+    <Resource Include="QingLongAnimation\Blade.png" />
+    <Resource Include="QingLongAnimation\Dragon.png" />
+    <Resource Include="RenWangAnimation\RoundShine.png" />
+    <Resource Include="RenWangAnimation\Shield.png" />
+    <Resource Include="RenWangAnimation\ShieldShadow.png" />
+    <Resource Include="RenWangAnimation\StarShine.png" />
+    <Resource Include="TengJiaAnimation\0.png" />
+    <Resource Include="TengJiaAnimation\1.png" />
+    <Resource Include="TengJiaAnimation\2.png" />
+    <Resource Include="TengJiaAnimation\3.png" />
+    <Resource Include="TengJiaAnimation\4.png" />
+    <Resource Include="ZhuQueAnimation\0.png" />
+    <Resource Include="ZhuQueAnimation\1.png" />
+    <Resource Include="ZhuQueAnimation\2.png" />
+    <Resource Include="ZhuQueAnimation\3.png" />
+    <Resource Include="ZhuQueAnimation\4.png" />
+    <Resource Include="ZhuQueAnimation\5.png" />
+    <Resource Include="ZhuQueAnimation\6.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
