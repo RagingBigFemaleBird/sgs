@@ -570,6 +570,13 @@ namespace Sanguosha.Core.Games
                         if (card.Attributes != null) card.Attributes.Clear();
                     }
 
+                    //reset card type if entering hand or discard
+                    if (IsClient && (move.to.DeckType == DeckType.Discard || move.to.DeckType == DeckType.Hand))
+                    {
+                        card.Log = new ActionLog();
+                        if (card.Attributes != null) card.Attributes.Clear();
+                    }
+
                     if (IsClient && (move.to.DeckType == DeckType.Hand && GameClient.SelfId != move.to.Player.Id))
                     {
                         card.Id = -1;
