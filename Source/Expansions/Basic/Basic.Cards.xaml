@@ -44,10 +44,6 @@
     <system:String x:Key="Card.ShunShouQianYang.Description">出牌阶段，对距离为1且区域内有牌的一名其他角色使用。你获得其区域内的一张牌。</system:String>
     <system:String x:Key="Card.ShunShouQianYang.Usage">选中【顺手牵羊】→选择距离为1的目标→点“确定”</system:String>
 
-    <system:String x:Key="Card.CiXiongShuangGuJian.Name">雌雄双股剑</system:String>
-    <system:String x:Key="Card.CiXiongShuangGuJian.Description">你使用【杀】，指定了一名异性角色为目标后，你可以令对方选择一项：自己弃一张手牌或让你从牌堆摸一张牌。</system:String>
-    <system:String x:Key="Card.CiXiongShuangGuJian.Usage">系统提示→点“确定”或雌雄双股剑</system:String>
-
     <system:String x:Key="Card.ZhangBaSheMao.Name">丈八蛇矛</system:String>
     <system:String x:Key="Card.ZhangBaSheMao.Description">你可以将两张手牌当【杀】使用或打出。</system:String>
     <system:String x:Key="Card.ZhangBaSheMao.Usage">选中【丈八蛇矛】→选择两张手牌→选择攻击距离内目标→点“确定”</system:String>
@@ -62,6 +58,15 @@
     <system:String x:Key="Card.ShanDianCardHandler.Name">闪电</system:String>
     <system:String x:Key="Card.Tao.Name">桃</system:String>
     <system:String x:Key="Card.WuZhongShengYou.Name">无中生有</system:String>
+
+    <system:String x:Key="Card.CiXiongShuangGuJian.Name">雌雄双股剑</system:String>
+    <system:String x:Key="Card.CiXiongShuangGuJian.Description">你使用【杀】，指定了一名异性角色为目标后，你可以令对方选择一项：自己弃一张手牌或让你从牌堆摸一张牌。</system:String>
+    <system:String x:Key="Card.CiXiongShuangGuJian.Usage">系统提示→点“确定”或雌雄双股剑</system:String>
+
+    <system:String x:Key="Card.BaGuaZhen.Name">八卦阵</system:String>
+    <system:String x:Key="Card.QiLinGong.Name">麒麟弓</system:String>
+    <system:String x:Key="Card.GuanShiFu.Name">贯石斧</system:String>
+    <system:String x:Key="Card.QingLongYanYueDao.Name">青龙偃月刀</system:String>
     <!--
     Define card's default appearance this way:
     <BitmapImage x:Key="Card.Sha.Image.Normal">Images/Cards/Normal/Sha.jpg</BitmapImage>

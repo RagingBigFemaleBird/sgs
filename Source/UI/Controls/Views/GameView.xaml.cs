@@ -625,7 +625,11 @@ namespace Sanguosha.UI.Controls
                     else if (log.SkillAction is Sanguosha.Expansions.Basic.Cards.ZhangBaSheMao.ZhangBaSheMaoTransform)
                     {
                         player.PlayAnimation(new ZhangBaAnimation(), 0, new Point(20, -50));
-                    }                    
+                    }
+                    else if (log.SkillAction is Sanguosha.Expansions.Basic.Cards.CiXiongShuangGuJian.CiXiongShuangGuJianSkill)
+                    {
+                        player.PlayAnimation(new CiXiongAnimation(), 0, new Point(0, -50));
+                    }
                 }
                 if (log.CardAction != null)
                 {

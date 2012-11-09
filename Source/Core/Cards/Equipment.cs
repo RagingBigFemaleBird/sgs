@@ -103,12 +103,9 @@ namespace Sanguosha.Core.Cards
             return VerifierResult.Fail;
         }
 
-        public virtual ISkill EquipmentSkill
+        public ISkill EquipmentSkill
         {
-            get
-            {
-                return null;
-            }
+            get; protected set;
         }
     }
 }

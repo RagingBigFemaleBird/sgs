@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Diagnostics;
 
 using Sanguosha.Core.UI;
 using Sanguosha.Core.Skills;
@@ -14,49 +13,47 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    public class CiXiongShuangGuJian : Weapon
+    public class QingLongYanYueDao : Weapon
     {
-        public CiXiongShuangGuJian()
+        public QingLongYanYueDao()
         {
-            EquipmentSkill = new CiXiongShuangGuJianSkill();
+            EquipmentSkill = new QingLongYanYueSkill();
         }
 
-        public class CiXiongShuangGuJianSkill : TriggerSkill
+        public class QingLongYanYueSkill : TriggerSkill
         {
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 ISkill skill;
                 List<Card> cards;
                 List<Player> players;
-                SingleCardDiscardVerifier v = new SingleCardDiscardVerifier();
-                if (!Game.CurrentGame.UiProxies[eventArgs.Targets[0]].AskForCardUsage(new CardUsagePrompt("CiXiong2", eventArgs.Source), v, out skill, out cards, out players))
+                if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("QingLongYanYueDao"),
+                    new SingleCardUsageVerifier((c) => {return c.Type is Sha;}),
+                    out skill, out cards, out players))
                 {
-                    Game.CurrentGame.DrawCards(eventArgs.Source, 1);
-                }
-                else
-                {
-                    Game.CurrentGame.HandleCardDiscard(eventArgs.Targets[0], cards);
+                    NotifySkillUse(new List<Player>());
+                    GameEventArgs args = new GameEventArgs();
+                    args.Source = eventArgs.Source;
+                    args.Targets = eventArgs.Targets;
+                    args.Skill = skill;
+                    args.Cards = cards;
+                    Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
                 }
             }
-            public CiXiongShuangGuJianSkill()
+            public QingLongYanYueSkill()
             {
                 var trigger = new AutoNotifyPassiveSkillTrigger(
                     this,
-                    (p, e, a) =>
-                    {
-                        return (a.Targets[0].IsFemale && a.Source.IsMale) ||
-                            (a.Targets[0].IsMale && a.Source.IsFemale);
-                    },
                     Run,
                     TriggerCondition.OwnerIsSource
-                );
-                Triggers.Add(Sha.PlayerShaTargetModifier, trigger);
+                ) { IsAutoNotify = false, AskForConfirmation = false };
+                Triggers.Add(Sha.PlayerShaTargetDodged, trigger);
             }
         }
 
         public override int AttackRange
         {
-            get { return 2; }
+            get { return 3; }
         }
 
         protected override void RegisterWeaponTriggers(Player p)

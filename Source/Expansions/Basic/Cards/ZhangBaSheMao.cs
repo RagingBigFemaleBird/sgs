@@ -15,10 +15,9 @@ namespace Sanguosha.Expansions.Basic.Cards
 {
     public class ZhangBaSheMao : Weapon
     {
-        CardTransformSkill skill;
         public ZhangBaSheMao()
         {
-            skill = new ZhangBaSheMaoTransform();
+            EquipmentSkill = new ZhangBaSheMaoTransform();
         }
 
         public class ZhangBaSheMaoTransform : CardTransformSkill
@@ -73,12 +72,5 @@ namespace Sanguosha.Expansions.Basic.Cards
             return;
         }
 
-        public override ISkill EquipmentSkill
-        {
-            get
-            {
-                return skill;
-            }
-        }
     }
 }
