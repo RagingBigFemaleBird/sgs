@@ -44,29 +44,83 @@
     <system:String x:Key="Card.ShunShouQianYang.Description">出牌阶段，对距离为1且区域内有牌的一名其他角色使用。你获得其区域内的一张牌。</system:String>
     <system:String x:Key="Card.ShunShouQianYang.Usage">选中【顺手牵羊】→选择距离为1的目标→点“确定”</system:String>
 
+    <system:String x:Key="Card.ZhuGeLianNu.Name">诸葛连弩</system:String>
+    <system:String x:Key="Card.ZhuGeLianNu.Description">锁定技，你在出牌阶段内使用【杀】时无次数限制。</system:String>
+
+    <system:String x:Key="Card.QingGangJian.Name">青釭剑</system:String>
+    <system:String x:Key="Card.QingGangJian.Description">锁定技，当你使用【杀】指定一名角色为目标后，你无视其防具。</system:String>
+    
+    <system:String x:Key="Card.CiXiongShuangGuJian.Name">雌雄双股剑</system:String>
+    <system:String x:Key="Card.CiXiongShuangGuJian.Description">当你使用【杀】指定一名异性角色为目标后，你可以令其选择一项：弃置一张手牌，或令你摸一张牌。</system:String>
+    <system:String x:Key="Card.CiXiongShuangGuJian.Usage">系统提示→点“确定”</system:String>
+
+    <system:String x:Key="Card.HanBingJian.Name">寒冰剑</system:String>
+    <system:String x:Key="Card.HanBingJian.Description">每当你使用【杀】对目标角色造成伤害时，若该角色有牌，你可以防止此伤害，改为依次弃置其两张牌。</system:String>
+    <system:String x:Key="Card.HanBingJian.Usage">系统提示→点“确定”→点选第一张牌（手牌或装备）→点选第二张牌（手牌或装备）</system:String>
+
+    <system:String x:Key="Card.GuanShiFu.Name">贯石斧</system:String>
+    <system:String x:Key="Card.GuanShiFu.Description">当你使用的【杀】被【闪】抵消时，你可以弃置两张牌，则此【杀】依然造成伤害。</system:String>
+    <system:String x:Key="Card.GuanShiFu.Usage">系统提示→选择两张牌（手牌或装备）→点“确定”</system:String>
+
+    <system:String x:Key="Card.QingLongYanYueDao.Name">青龙偃月刀</system:String>
+    <system:String x:Key="Card.QingLongYanYueDao.Description">当你使用的【杀】被【闪】抵消时，你可以对相同的目标再使用一张【杀】（无距离限制）。</system:String>
+    <system:String x:Key="Card.QingLongYanYueDao.Usage">系统提示→选中一张【杀】→点“确定”</system:String>
+
     <system:String x:Key="Card.ZhangBaSheMao.Name">丈八蛇矛</system:String>
     <system:String x:Key="Card.ZhangBaSheMao.Description">你可以将两张手牌当【杀】使用或打出。</system:String>
     <system:String x:Key="Card.ZhangBaSheMao.Usage">选中【丈八蛇矛】→选择两张手牌→选择攻击距离内目标→点“确定”</system:String>
 
-    <system:String x:Key="Card.ZhuGeLianNu.Name">诸葛连弩</system:String>
     <system:String x:Key="Card.FangTianHuaJi.Name">方天画戟</system:String>
-    <system:String x:Key="Card.DiLu.Name">的卢</system:String>
-    <system:String x:Key="Card.DaYuan.Name">大宛</system:String>
-    <system:String x:Key="Card.LeBuSiShu.Name">乐不思蜀</system:String>
-    <system:String x:Key="Card.GuoHeChaiQiao.Name">过河拆桥</system:String>
-    <system:String x:Key="Card.ShanDian.Name">闪电</system:String>
-    <system:String x:Key="Card.ShanDianCardHandler.Name">闪电</system:String>
-    <system:String x:Key="Card.Tao.Name">桃</system:String>
-    <system:String x:Key="Card.WuZhongShengYou.Name">无中生有</system:String>
+    <system:String x:Key="Card.FangTianHuaJi.Description">当你使用【杀】时，若此【杀】是你最后的手牌，你可以额外选择至多两个目标。</system:String>
 
-    <system:String x:Key="Card.CiXiongShuangGuJian.Name">雌雄双股剑</system:String>
-    <system:String x:Key="Card.CiXiongShuangGuJian.Description">你使用【杀】，指定了一名异性角色为目标后，你可以令对方选择一项：自己弃一张手牌或让你从牌堆摸一张牌。</system:String>
-    <system:String x:Key="Card.CiXiongShuangGuJian.Usage">系统提示→点“确定”或雌雄双股剑</system:String>
+    <system:String x:Key="Card.QiLinGong.Name">麒麟弓</system:String>
+    <system:String x:Key="Card.QiLinGong.Description">每当你使用【杀】对目标角色造成伤害时，你可以弃置其装备区里的一张坐骑牌。</system:String>
+    <system:String x:Key="Card.QiLinGong.Usage">系统提示→点“确定”→点选一张坐骑牌</system:String>
 
     <system:String x:Key="Card.BaGuaZhen.Name">八卦阵</system:String>
-    <system:String x:Key="Card.QiLinGong.Name">麒麟弓</system:String>
-    <system:String x:Key="Card.GuanShiFu.Name">贯石斧</system:String>
-    <system:String x:Key="Card.QingLongYanYueDao.Name">青龙偃月刀</system:String>
+    <system:String x:Key="Card.BaGuaZhen.Description">当你需要使用或打出一张【闪】时，你可以进行一次判定，若判定结果为红色，则视为你使用或打出了一张【闪】。</system:String>
+    <system:String x:Key="Card.BaGuaZhen.Usage">系统提示→点“确定”</system:String>
+
+    <system:String x:Key="Card.RenWangDun.Name">仁王盾</system:String>
+    <system:String x:Key="Card.RenWangDun.Description">锁定技，黑色的【杀】对你无效。</system:String>
+
+    <system:String x:Key="Card.JueYing.Name">绝影</system:String>
+    <system:String x:Key="Card.JueYing.Description">锁定技，你计算的与其他角色的距离-1。</system:String>
+
+    <system:String x:Key="Card.ZhuaHuangFeiDian.Name">爪黄飞电</system:String>
+    <system:String x:Key="Card.ZhuaHuangFeiDian.Description">锁定技，你计算的与其他角色的距离-1。</system:String>
+
+    <system:String x:Key="Card.DiLu.Name">的卢</system:String>
+    <system:String x:Key="Card.DiLu.Description">锁定技，你计算的与其他角色的距离-1。</system:String>
+
+    <system:String x:Key="Card.DaYuan.Name">大宛</system:String>
+    <system:String x:Key="Card.DaYuan.Description">锁定技，其他角色计算的与你的距离+1。</system:String>
+
+    <system:String x:Key="Card.ChiTu.Name">赤兔</system:String>
+    <system:String x:Key="Card.ChiTu.Description">锁定技，其他角色计算的与你的距离+1。</system:String>
+
+    <system:String x:Key="Card.ZiXing.Name">紫骍</system:String>
+    <system:String x:Key="Card.ZiXing.Description">锁定技，其他角色计算的与你的距离+1。</system:String>
+    
+    <system:String x:Key="Card.LeBuSiShu.Name">乐不思蜀</system:String>
+    <system:String x:Key="Card.LeBuSiShu.Description">出牌阶段，你可以将【乐不思蜀】置于一名其他角色的判定区里。该角色在判定阶段须进行一次判定，若判定结果不为红桃，跳过目标角色的出牌阶段；若判定结果为红桃，则没有事发生。</system:String>
+    <system:String x:Key="Card.LeBuSiShu.Usage">选中【乐不思蜀】→选择一个目标→点“确定”</system:String>
+
+    <system:String x:Key="Card.GuoHeChaiQiao.Name">过河拆桥</system:String>
+    <system:String x:Key="Card.GuoHeChaiQiao.Description">出牌阶段，对区域内有牌的一名其他角色使用。你弃置其区域内的一张牌。</system:String>
+    <system:String x:Key="Card.GuoHeChaiQiao.Usage">选中【过河拆桥】→选择一个目标→点“确定”</system:String>
+    
+    <system:String x:Key="Card.ShanDian.Name">闪电</system:String>
+    <system:String x:Key="Card.ShanDianCardHandler.Name">闪电</system:String>
+
+    <system:String x:Key="Card.Tao.Name">桃</system:String>
+    <system:String x:Key="Card.Tao.Description">出牌阶段，对已受伤的自己使用，或有角色处于濒死状态时对该角色使用，令目标角色回复1点体力。</system:String>
+    <system:String x:Key="Card.Tao.Usage" xml:space="preserve">选中【桃】→点“确定”&#10;响应出【桃】时→选中【桃】→点“确定”</system:String>
+
+    <system:String x:Key="Card.WuZhongShengYou.Name">无中生有</system:String>
+    <system:String x:Key="Card.WuZhongShengYou.Description">出牌阶段，对自己使用，令目标角色摸两张牌。</system:String>
+    <system:String x:Key="Card.WuZhongShengYou.Usage">选中【无中生有】→点“确定”</system:String>
+
     <!--
     Define card's default appearance this way:
     <BitmapImage x:Key="Card.Sha.Image.Normal">Images/Cards/Normal/Sha.jpg</BitmapImage>
