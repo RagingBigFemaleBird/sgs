@@ -50,4 +50,18 @@ namespace Sanguosha.Expansions.Battle.Cards
         }
 
     }
+
+    public class BaiYinShiZiRegen : Trigger
+    {
+        public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+        {
+            foreach (Card c in eventArgs.Cards)
+            {
+                if ((c.Type is BaiYinShiZi) && c.HistoryPlace1.DeckType == DeckType.Equipment)
+                {
+                    Game.CurrentGame.RecoverHealth(c.HistoryPlace1.Player, c.HistoryPlace1.Player, 1);
+                }
+            }
+        }
+    }
 }

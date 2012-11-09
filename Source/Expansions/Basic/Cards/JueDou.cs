@@ -47,15 +47,28 @@ namespace Sanguosha.Expansions.Basic.Cards
                     prompt = new CardUsagePrompt("JueDou2", current == dest ? source : dest);
                     firstTime = false;
                 }
-                if (!ui.AskForCardUsage(prompt, v1, out skill, out cards, out p))
+                GameEventArgs args = new GameEventArgs();
+                args.Source = current == dest ? source : dest;
+                args.Targets = new List<Player>() {current};
+                args.Card = card;
+                args.IntArg = 1;
+                Game.CurrentGame.Emit(JueDouModifier, args);
+                bool cannotProvideSha = false;
+                while (args.IntArg > 0)
                 {
-                    Trace.TraceInformation("Player {0} Invalid answer", current);
-                    break;
+                    if (!ui.AskForCardUsage(prompt, v1, out skill, out cards, out p))
+                    {
+                        Trace.TraceInformation("Player {0} Invalid answer", current);
+                        cannotProvideSha = true;
+                        break;
+                    }
+                    if (!Game.CurrentGame.HandleCardPlay(current, skill, cards, sourceList))
+                    {
+                        continue;
+                    }
+                    args.IntArg--;
                 }
-                if (!Game.CurrentGame.HandleCardPlay(current, skill, cards, sourceList))
-                {
-                    continue;
-                }
+                if (cannotProvideSha) break;
                 Trace.TraceInformation("Player {0} SHA, ", current.Id);
                 if (current == dest)
                 {
@@ -91,5 +104,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         {
             get { return CardCategory.ImmediateTool; }
         }
+
+        public static readonly GameEvent JueDouModifier = new GameEvent("JueDouModifier");
     }
 }

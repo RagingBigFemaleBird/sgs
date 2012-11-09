@@ -103,8 +103,10 @@
     <Compile Include="Skills\RenDe.cs" />
     <Compile Include="Skills\SkillPriority.cs" />
     <Compile Include="Skills\TianDu.cs" />
+    <Compile Include="Skills\TieJi.cs" />
     <Compile Include="Skills\TuXi.cs" />
     <Compile Include="Skills\WuSheng.cs" />
+    <Compile Include="Skills\WuShuang.cs" />
     <Compile Include="Skills\YingZi.cs" />
     <Compile Include="Skills\ZhiHeng.cs" />
   </ItemGroup>
