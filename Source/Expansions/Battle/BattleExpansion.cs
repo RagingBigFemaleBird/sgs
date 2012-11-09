@@ -19,25 +19,71 @@ namespace Sanguosha.Expansions.Battle
         public BattleExpansion()
         {
             CardSet = new List<Card>();
+            CardSet.Add(new Card(SuitType.Club, 2, new RenWangDun()));
+            CardSet.Add(new Card(SuitType.Club, 2, new RenWangDun()));
+            CardSet.Add(new Card(SuitType.Club, 2, new RenWangDun()));
+            CardSet.Add(new Card(SuitType.Club, 2, new RenWangDun()));
+            CardSet.Add(new Card(SuitType.Club, 2, new RenWangDun()));
+            CardSet.Add(new Card(SuitType.Club, 2, new RenWangDun()));
+            CardSet.Add(new Card(SuitType.Club, 2, new RenWangDun()));
+            CardSet.Add(new Card(SuitType.Club, 2, new RenWangDun()));
+            CardSet.Add(new Card(SuitType.Club, 2, new RenWangDun()));
+            CardSet.Add(new Card(SuitType.Spade, 2, new TengJia()));
+            CardSet.Add(new Card(SuitType.Spade, 2, new TengJia()));
+            CardSet.Add(new Card(SuitType.Spade, 2, new TengJia()));
+            CardSet.Add(new Card(SuitType.Spade, 2, new TengJia()));
+            CardSet.Add(new Card(SuitType.Club, 1, new BaiYinShiZi()));
+            CardSet.Add(new Card(SuitType.Club, 1, new BaiYinShiZi()));
+            CardSet.Add(new Card(SuitType.Club, 1, new BaiYinShiZi()));
+            CardSet.Add(new Card(SuitType.Club, 1, new BaiYinShiZi()));
+            CardSet.Add(new Card(SuitType.Club, 1, new BaiYinShiZi()));
+            CardSet.Add(new Card(SuitType.Club, 1, new BaiYinShiZi()));
+            CardSet.Add(new Card(SuitType.Club, 1, new BaiYinShiZi()));
+            CardSet.Add(new Card(SuitType.Club, 1, new BaiYinShiZi()));
+            CardSet.Add(new Card(SuitType.Club, 1, new BaiYinShiZi()));
+            CardSet.Add(new Card(SuitType.Club, 1, new BaiYinShiZi()));
+            CardSet.Add(new Card(SuitType.Club, 1, new BaiYinShiZi()));
+            CardSet.Add(new Card(SuitType.Club, 1, new BaiYinShiZi()));
+            CardSet.Add(new Card(SuitType.Club, 1, new BaiYinShiZi()));
+            CardSet.Add(new Card(SuitType.Club, 4, new BingLiangCunDuan()));
+            CardSet.Add(new Card(SuitType.Club, 4, new BingLiangCunDuan()));
+            CardSet.Add(new Card(SuitType.Club, 4, new BingLiangCunDuan()));
+            CardSet.Add(new Card(SuitType.Club, 4, new BingLiangCunDuan()));
+            CardSet.Add(new Card(SuitType.Club, 4, new BingLiangCunDuan()));
+            CardSet.Add(new Card(SuitType.Club, 4, new BingLiangCunDuan()));
+            CardSet.Add(new Card(SuitType.Club, 4, new BingLiangCunDuan()));
+            CardSet.Add(new Card(SuitType.Club, 4, new BingLiangCunDuan()));
+            CardSet.Add(new Card(SuitType.Club, 4, new BingLiangCunDuan()));
+            CardSet.Add(new Card(SuitType.Club, 4, new BingLiangCunDuan()));
+            CardSet.Add(new Card(SuitType.Spade, 9, new Jiu()));
+            CardSet.Add(new Card(SuitType.Spade, 9, new Jiu()));
+            CardSet.Add(new Card(SuitType.Spade, 9, new Jiu()));
+            CardSet.Add(new Card(SuitType.Spade, 9, new Jiu()));
+            CardSet.Add(new Card(SuitType.Spade, 9, new Jiu()));
+            CardSet.Add(new Card(SuitType.Spade, 9, new Jiu()));
+            CardSet.Add(new Card(SuitType.Spade, 9, new Jiu()));
+            CardSet.Add(new Card(SuitType.Spade, 9, new Jiu()));
+            CardSet.Add(new Card(SuitType.Spade, 9, new Jiu()));
+            CardSet.Add(new Card(SuitType.Spade, 9, new Jiu()));
 
             //        CardSet.Add(new Card(SuitType.Spade, 1, GUDIANDAO()));
             CardSet.Add(new Card(SuitType.Heart, 1, new WuXieKeJi()));
-            //        CardSet.Add(new Card(SuitType.Club, 1, BAIYINSHIZI()));
+            CardSet.Add(new Card(SuitType.Club, 1, new BaiYinShiZi()));
             //        CardSet.Add(new Card(SuitType.Diamond, 1, ZHUQUEYUSHAN()));
 
-            //        CardSet.Add(new Card(SuitType.Spade, 2, TENGJIA()));
+            CardSet.Add(new Card(SuitType.Spade, 2, new TengJia()));
             CardSet.Add(new Card(SuitType.Heart, 2, new HuoGong()));
-            //        CardSet.Add(new Card(SuitType.Club, 2, TENGJIA()));
+            CardSet.Add(new Card(SuitType.Club, 2, new TengJia()));
             CardSet.Add(new Card(SuitType.Diamond, 2, new Tao()));
 
-            //        CardSet.Add(new Card(SuitType.Spade, 3, JIU()));
+            CardSet.Add(new Card(SuitType.Spade, 3, new Jiu()));
             CardSet.Add(new Card(SuitType.Heart, 3, new HuoSha()));
-           //         CardSet.Add(new Card(SuitType.Club, 3, JIU()));
+            CardSet.Add(new Card(SuitType.Club, 3, new Jiu()));
             CardSet.Add(new Card(SuitType.Diamond, 3, new Tao()));
 
             CardSet.Add(new Card(SuitType.Spade, 4, new LeiSha()));
             CardSet.Add(new Card(SuitType.Heart, 4, new HuoGong()));
-            //        CardSet.Add(new Card(SuitType.Club, 4, BINGLIANGCUNDUAN()));
+            CardSet.Add(new Card(SuitType.Club, 4, new BingLiangCunDuan()));
             CardSet.Add(new Card(SuitType.Diamond, 4, new HuoSha()));
 
             CardSet.Add(new Card(SuitType.Spade, 5, new LeiSha()));
@@ -60,12 +106,12 @@ namespace Sanguosha.Expansions.Battle
             CardSet.Add(new Card(SuitType.Club, 8, new LeiSha()));
             CardSet.Add(new Card(SuitType.Diamond, 8, new Shan()));
 
-            //        CardSet.Add(new Card(SuitType.Spade, 9, JIU()));
+            CardSet.Add(new Card(SuitType.Spade, 9, new Jiu()));
             CardSet.Add(new Card(SuitType.Heart, 9, new Shan()));
-            //        CardSet.Add(new Card(SuitType.Club, 9, JIU()));
-            //        CardSet.Add(new Card(SuitType.Diamond, 9, JIU()));
+            CardSet.Add(new Card(SuitType.Club, 9, new Jiu()));
+            CardSet.Add(new Card(SuitType.Diamond, 9, new Jiu()));
 
-            //        CardSet.Add(new Card(SuitType.Spade, 10, BINGLIANGCUNDUAN()));
+            CardSet.Add(new Card(SuitType.Spade, 10, new BingLiangCunDuan()));
             CardSet.Add(new Card(SuitType.Heart, 10, new HuoSha()));
             CardSet.Add(new Card(SuitType.Club, 10, new TieSuoLianHuan()));
             CardSet.Add(new Card(SuitType.Diamond, 10, new Shan()));
@@ -87,9 +133,12 @@ namespace Sanguosha.Expansions.Battle
 
             // the following are EX cards
 //            CardSet.Add(new Card(SuitType.Spade, 2, HanBingJian()));
-//            CardSet.Add(new Card(SuitType.Club, 2, RenWangDun()));
+            CardSet.Add(new Card(SuitType.Club, 2, new RenWangDun()));
             CardSet.Add(new Card(SuitType.Heart, 12, new ShanDian()));
             CardSet.Add(new Card(SuitType.Diamond, 12, new WuXieKeJi()));
+
+            TriggerRegistration = new List<DelayedTriggerRegistration>();
+            TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.DamageElementConfirmed, trigger = new JiuDamage() });
 
         }
     }

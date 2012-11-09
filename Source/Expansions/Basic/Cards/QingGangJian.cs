@@ -14,43 +14,40 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    public class CiXiongShuangGuJian : Weapon
+    public class QingGangJian : Weapon
     {
-        public CiXiongShuangGuJian()
+        public QingGangJian()
         {
-            EquipmentSkill = new CiXiongShuangGuJianSkill();
+            EquipmentSkill = new QingGangJianSkill();
         }
 
-        public class CiXiongShuangGuJianSkill : TriggerSkill
+        public class QingGangJianSkill : TriggerSkill
         {
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                ISkill skill;
-                List<Card> cards;
-                List<Player> players;
-                SingleCardDiscardVerifier v = new SingleCardDiscardVerifier();
-                if (!Game.CurrentGame.UiProxies[eventArgs.Targets[0]].AskForCardUsage(new CardUsagePrompt("CiXiong2", eventArgs.Source), v, out skill, out cards, out players))
-                {
-                    Game.CurrentGame.DrawCards(eventArgs.Source, 1);
-                }
-                else
-                {
-                    Game.CurrentGame.HandleCardDiscard(eventArgs.Targets[0], cards);
-                }
+                eventArgs.Card[Armor.IgnoreAllArmor] = 1;
             }
-            public CiXiongShuangGuJianSkill()
+
+            public QingGangJianSkill()
             {
                 var trigger = new AutoNotifyPassiveSkillTrigger(
                     this,
                     (p, e, a) =>
                     {
-                        return (a.Targets[0].IsFemale && a.Source.IsMale) ||
-                            (a.Targets[0].IsMale && a.Source.IsFemale);
+                        return a.Card != null && (a.Card.Type is Sha);
                     },
                     Run,
                     TriggerCondition.OwnerIsSource
                 );
-                Triggers.Add(Sha.PlayerShaTargetShanModifier, trigger);
+                Triggers.Add(GameEvent.PlayerIsCardTarget, trigger);
+            }
+
+            public override bool IsEnforced
+            {
+                get
+                {
+                    return true;
+                }
             }
         }
 

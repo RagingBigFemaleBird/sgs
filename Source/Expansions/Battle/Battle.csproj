@@ -44,9 +44,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BattleExpansion.cs" />
+    <Compile Include="Cards\BaiYinShiZi.cs" />
+    <Compile Include="Cards\BingLiangCunDuan.cs" />
     <Compile Include="Cards\HuoGong.cs" />
     <Compile Include="Cards\HuoSha.cs" />
+    <Compile Include="Cards\Jiu.cs" />
     <Compile Include="Cards\LeiSha.cs" />
+    <Compile Include="Cards\RenWangDun.cs" />
+    <Compile Include="Cards\TengJia.cs" />
     <Compile Include="Cards\TieSuoLianHuan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -16,7 +16,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 {
     public class BaGuaZhen : Armor
     {
-        public class BaGuaZhenSkill : TriggerSkill
+        public class BaGuaZhenSkill : ArmorTriggerSkill
         {
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {
@@ -26,7 +26,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     eventArgs.Cards = new List<Card>();
                     ActionLog log = new ActionLog();
                     log.Source = Owner;
-                    log.SkillAction = new BaGuaZhenSkill();
+                    log.SkillAction = this;
                     log.GameAction = GameAction.None;
                     Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
                     throw new TriggerResultException(TriggerResult.Success);
@@ -36,7 +36,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 var trigger = new AutoNotifyPassiveSkillTrigger(
                     this,
-                    (p, e, a) => { return a.Card.Type is Shan; },
+                    (p, e, a) => { return a.Card.Type is Shan && a.ExtraCard[Armor.IgnoreAllArmor] == 0 && a.ExtraCard[Armor.IgnorePlayerArmor] != Owner.Id + 1; },
                     Run,
                     TriggerCondition.OwnerIsSource
                 ) { IsAutoNotify = false };

@@ -101,7 +101,7 @@ namespace Sanguosha.Expansions.Hills.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return a.Card.Type is Sha; },
+                (p, e, a) => { return a.Card != null && (a.Card.Type is Sha); },
                 OnAfterDamageInflicted,
                 TriggerCondition.Global
             ) { IsAutoNotify = false, AskForConfirmation = false };

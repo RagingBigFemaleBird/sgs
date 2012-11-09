@@ -3,6 +3,14 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
+    <system:String x:Key="Card.HuoSha.Name">火杀</system:String>
+    <system:String x:Key="Card.HuoSha.Description">你的出牌阶段，对除你外，你攻击范围内的一名角色使用，效果是对该角色造成1点火焰属性伤害。</system:String>
+    <system:String x:Key="Card.HuoSha.Usage">选中【杀】→选择攻击距离内目标→点“确定”</system:String>
+
+    <system:String x:Key="Card.LeiSha.Name">雷杀</system:String>
+    <system:String x:Key="Card.LeiSha.Description">你的出牌阶段，对除你外，你攻击范围内的一名角色使用，效果是对该角色造成1点雷电属性伤害。</system:String>
+    <system:String x:Key="Card.LeiSha.Usage">选中【杀】→选择攻击距离内目标→点“确定”</system:String>
+
     <system:String x:Key="Card.HuoGong.Name">火攻</system:String>
     <system:String x:Key="Card.HuoGong.Description">出牌阶段，对一名有手牌的角色使用。该角色须展示一张手牌，然后若你弃置一张与所展示牌相同花色的手牌，则对其造成1点火焰伤害。</system:String>
     <system:String x:Key="Card.HuoGong.Usage">选中【火攻】→选择目标（至少有1张手牌）→点“确定”</system:String>

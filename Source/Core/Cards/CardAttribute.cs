@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Sanguosha.Core.Players
+namespace Sanguosha.Core.Cards
 {
-    public class PlayerAttribute
+    public class CardAttribute
     {
-        private PlayerAttribute(string attrName, bool autoReset)
+        private CardAttribute(string attrName)
         {
             Name = attrName;
-            AutoReset = autoReset;
         }
 
         private string name;
@@ -21,33 +20,26 @@ namespace Sanguosha.Core.Players
             set { name = value; }
         }
 
-        private bool autoReset;
-
-        public bool AutoReset
+        public static CardAttribute Register(string attributeName)
         {
-            get { return autoReset; }
-            set { autoReset = value; }
+            return new CardAttribute(attributeName);
         }
 
-        public static PlayerAttribute Register(string attributeName, bool autoReset = false)
-        {
-            return new PlayerAttribute(attributeName, autoReset);
-        }
         public override bool Equals(object obj)
         {
             if (System.Object.ReferenceEquals(obj, this))
             {
                 return true;
             }
-            if (!(obj is PlayerAttribute))
+            if (!(obj is CardAttribute))
             {
                 return false;
             }
-            PlayerAttribute type2 = (PlayerAttribute)obj;
+            CardAttribute type2 = (CardAttribute)obj;
             return name == type2.name;
         }
 
-        public static bool operator ==(PlayerAttribute a, PlayerAttribute b)
+        public static bool operator ==(CardAttribute a, CardAttribute b)
         {
             if (System.Object.ReferenceEquals(a, b))
             {
@@ -62,7 +54,7 @@ namespace Sanguosha.Core.Players
             return a.name == b.name;
         }
 
-        public static bool operator !=(PlayerAttribute a, PlayerAttribute b)
+        public static bool operator !=(CardAttribute a, CardAttribute b)
         {
             return !(a == b);
         }
