@@ -217,4 +217,42 @@
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="CaretBrush" Value="#FFE4D5A0"/>
     </Style>
+    <LinearGradientBrush x:Key="MenuBackground" EndPoint="0,1" StartPoint="0,0">
+    	<GradientStop Color="#F6F6F6" Offset="0.25"/>
+    	<GradientStop Color="#EAE8E8" Offset="0.25"/>
+    	<GradientStop Color="#DCD9D9" Offset="0.8"/>
+    	<GradientStop Color="White" Offset="1"/>
+    </LinearGradientBrush>
+    <Style x:Key="MainMenuStyle" TargetType="{x:Type Menu}">
+    	<Setter Property="Background" Value="{StaticResource MenuBackground}"/>
+    	<Setter Property="FontFamily" Value="{DynamicResource {x:Static SystemFonts.MenuFontFamilyKey}}"/>
+    	<Setter Property="FontSize" Value="{DynamicResource {x:Static SystemFonts.MenuFontSizeKey}}"/>
+    	<Setter Property="FontStyle" Value="{DynamicResource {x:Static SystemFonts.MenuFontStyleKey}}"/>
+    	<Setter Property="FontWeight" Value="{DynamicResource {x:Static SystemFonts.MenuFontWeightKey}}"/>
+    	<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.MenuTextBrushKey}}"/>
+    	<Setter Property="Template">
+    		<Setter.Value>
+    			<ControlTemplate TargetType="{x:Type Menu}">
+    				<Grid>
+    					<Grid.ColumnDefinitions>
+    						<ColumnDefinition Width="33"/>
+							<ColumnDefinition />
+							<ColumnDefinition Width="63"/>			
+						</Grid.ColumnDefinitions>
+    					<ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+    					<Image Source="Images/System/menu-left.png" Stretch="Fill"/>
+    					<Image Grid.Column="2" Source="Images/System/menu-right.png" Stretch="Fill"/>
+    					<Rectangle Grid.Column="1">
+    						<Rectangle.Fill>
+    							<ImageBrush ImageSource="Images/System/menu-middle.png" Stretch="None" Viewport="0,0,28,20" ViewportUnits="Absolute" TileMode="FlipX"/>
+    						</Rectangle.Fill>
+    					</Rectangle>
+    					<Grid.Effect>
+    						<DropShadowEffect Direction="270" BlurRadius="5" Opacity="0.4" Color="#7F6C6C6C" />			
+						</Grid.Effect>
+					</Grid>
+				</ControlTemplate>
+    		</Setter.Value>
+    	</Setter>
+    </Style>
 </ResourceDictionary>

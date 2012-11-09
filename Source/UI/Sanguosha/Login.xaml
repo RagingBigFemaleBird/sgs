@@ -108,11 +108,12 @@
     </Page.Triggers>
     <Grid>
         <Grid.RowDefinitions>
+        	<RowDefinition Height="20" />
             <RowDefinition Height="0.4*" MinHeight="200" MaxHeight="300" />
             <RowDefinition Height="0.6*"/>  	
         </Grid.RowDefinitions>
-        <Image Grid.RowSpan="2" Source="{DynamicResource Login.Background}" Stretch="UniformToFill" HorizontalAlignment="Center"/>
-        <ctrl:NonClipGrid Height="203" VerticalAlignment="Bottom">
+        <Image Grid.Row="1" Grid.RowSpan="2" Source="{DynamicResource Login.Background}" Stretch="UniformToFill" HorizontalAlignment="Center"/>
+        <ctrl:NonClipGrid Grid.Row="1" Height="203" VerticalAlignment="Bottom">
             <Grid x:Name="grid" Width="410" Margin="0,0,0,3" Visibility="Hidden">
                 <Grid.OpacityMask>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -158,7 +159,7 @@
                 </Image.Effect>
             </Image>
         </ctrl:NonClipGrid>
-        <Grid Grid.Row="1" Width="520" Height="300" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-50,0,0,0">
+        <Grid Grid.Row="2" Width="520" Height="300" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-50,0,0,0">
             <TabControl x:Name="loginTab" TabStripPlacement="Left" Style="{DynamicResource LoginTabControlStyle}" Background="#FF4A3B2D" BorderThickness="1">
                 <TabItem Style="{DynamicResource LoginTabItemStyle}">
                     <TabItem.Header>
@@ -202,5 +203,8 @@
             </Image>
             <Button x:Name="startButton" Content="Button" HorizontalAlignment="Right" Height="100" Margin="0,-18,-55,0" Style="{DynamicResource StartButtonStyle}" VerticalAlignment="Center" Width="88" IsEnabled="False" Click="startButton_Click" />
         </Grid>
+        <Menu Style="{DynamicResource MainMenuStyle}">
+        	<MenuItem/>
+        </Menu>
     </Grid>
 </Page>
