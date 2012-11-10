@@ -65,6 +65,14 @@ namespace Sanguosha.Core.Games
             games = new Dictionary<Thread,Game>();
         }
 
+        List<CardHandler> availableCards;
+
+        public List<CardHandler> AvailableCards
+        {
+            get { return availableCards; }
+        }
+
+
         List<DelayedTriggerRegistration> triggersToRegister;
 
         public Game()
@@ -179,6 +187,24 @@ namespace Sanguosha.Core.Games
             if (GameServer != null)
             {
                 GameServer.Ready();
+            }
+
+            availableCards = new List<CardHandler>();
+            foreach (Card c in cardSet)
+            {
+                bool typeCheck = false;
+                foreach (var type in availableCards)
+                {
+                    if (type.GetType().Name.Equals(c.Type.GetType().Name))
+                    {
+                        typeCheck = true;
+                        break;
+                    }
+                }
+                if (!typeCheck)
+                {
+                    availableCards.Add(c.Type);
+                }
             }
 
             List<Card> slaveCardSet;

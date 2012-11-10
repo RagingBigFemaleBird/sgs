@@ -710,7 +710,8 @@ namespace Sanguosha.UI.Controls
         #endregion
 
         #region IASyncUiProxy Helpers
-        ICardUsageVerifier currentUsageVerifier;        
+        ICardUsageVerifier currentUsageVerifier;
+        List<CardHandler> canGuHuo;
 
         SkillCommand _GetSelectedSkillCommand(out bool isEquipSkill)
         {
@@ -833,12 +834,37 @@ namespace Sanguosha.UI.Controls
                 }
 
                 var sc = new List<SkillCommand>(SkillCommands);
+                bool hasGuHuo = false;
+                CardTransformSkill guhuoSkill = null;
                 // Handle skill down            
                 foreach (var skillCommand in sc)
                 {
-                    skillCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
+                    if (skillCommand.Skill is CardTransformSkill && (skillCommand.Skill as CardTransformSkill).Helper.IsGuHuo)
+                    {
+                        hasGuHuo = true;
+                        skillCommand.IsEnabled = true;
+                        guhuoSkill = skillCommand.Skill as CardTransformSkill;
+                    }
+                    else
+                    {
+                        skillCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
+                    }
                 }
 
+                if (hasGuHuo && canGuHuo == null && HandCards.Count > 0)
+                {
+                    Card dummy = HandCards[0].Card;
+                    canGuHuo = new List<CardHandler>(Game.CurrentGame.AvailableCards);
+                    foreach (var c in new List<CardHandler>(canGuHuo))
+                    {
+                        dummy.AddtionalType = c;
+                        if (currentUsageVerifier.Verify(HostPlayer, guhuoSkill, new List<Card>() { dummy }, new List<Player>()) == VerifierResult.Fail)
+                        {
+                            canGuHuo.Remove(c);
+                        }
+                    }
+                    dummy.AddtionalType = null;
+                }
                 // are we really able to use this equip as command?
                 if (isEquipCommand)
                 {
@@ -891,35 +917,38 @@ namespace Sanguosha.UI.Controls
                     submitCardUsageCommand.CanExecuteStatus = true;
                 }
 
-                List<Card> attempt = new List<Card>(cards);
-
-                foreach (var card in HandCards)
+                if (skill == null || !(skill is CardTransformSkill) || !(skill as CardTransformSkill).Helper.IsGuHuo)
                 {
-                    if (card.IsSelected)
-                    {
-                        continue;
-                    }
-                    attempt.Add(card.Card);
-                    bool disabled = (currentUsageVerifier.Verify(HostPlayer, skill, attempt, players) == VerifierResult.Fail);
-                    card.IsEnabled = !disabled;
-                    attempt.Remove(card.Card);
-                }
+                    List<Card> attempt = new List<Card>(cards);
 
-                foreach (var equipCommand in EquipCommands)
-                {
-                    if (equipCommand.IsSelected) continue;
-
-                    attempt.Add(equipCommand.Card);
-                    bool disabled = (currentUsageVerifier.Verify(HostPlayer, skill, attempt, players) == VerifierResult.Fail);
-                    //we do not have a skill and yet the equip is enabled!
-                    //therefore it must be due to it being a valid command.
-                    // kindly override in this case (this test does not count)
-                    // otherwise we take this result as the result
-                    if (!(skill == null && equipCommand.IsEnabled && equipCommand.SkillCommand.Skill != null))
+                    foreach (var card in HandCards)
                     {
-                        equipCommand.IsEnabled = !disabled;
+                        if (card.IsSelected)
+                        {
+                            continue;
+                        }
+                        attempt.Add(card.Card);
+                        bool disabled = (currentUsageVerifier.Verify(HostPlayer, skill, attempt, players) == VerifierResult.Fail);
+                        card.IsEnabled = !disabled;
+                        attempt.Remove(card.Card);
                     }
-                    attempt.Remove(equipCommand.Card);
+
+                    foreach (var equipCommand in EquipCommands)
+                    {
+                        if (equipCommand.IsSelected) continue;
+
+                        attempt.Add(equipCommand.Card);
+                        bool disabled = (currentUsageVerifier.Verify(HostPlayer, skill, attempt, players) == VerifierResult.Fail);
+                        //we do not have a skill and yet the equip is enabled!
+                        //therefore it must be due to it being a valid command.
+                        // kindly override in this case (this test does not count)
+                        // otherwise we take this result as the result
+                        if (!(skill == null && equipCommand.IsEnabled && equipCommand.SkillCommand.Skill != null))
+                        {
+                            equipCommand.IsEnabled = !disabled;
+                        }
+                        attempt.Remove(equipCommand.Card);
+                    }
                 }
 
                 // Invalidate target selection
@@ -1019,6 +1048,7 @@ namespace Sanguosha.UI.Controls
                 {
                     TimeOutSeconds = timeOutSeconds;
                     currentUsageVerifier = verifier;
+                    canGuHuo = null;
                     Trace.Assert(currentUsageVerifier != null);
                     Game.CurrentGame.CurrentActingPlayer = HostPlayer;
                     CurrentPrompt = PromptFormatter.Format(prompt);
@@ -1232,6 +1262,7 @@ namespace Sanguosha.UI.Controls
             {
                 lock (verifierLock)
                 {
+                    canGuHuo = null;
                     _ResetAll();
                     if (currentUsageVerifier != null)
                     {                        

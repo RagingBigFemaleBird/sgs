@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fire", "..\Expansions\Fire\Fire.csproj", "{E1D27FB1-40B8-4768-A045-DD9772564DDD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Expansions", "Expansions", "{06A6C3D0-33B4-491B-BFBF-900643176EB0}"
@@ -42,6 +42,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SanguoshaXBap", "..\UI\SanguoshaXBap\SanguoshaXBap.csproj", "{C0058FAF-82B6-4C40-A1F6-09C874A7CA9F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Effects", "..\UI\Effects\Effects.csproj", "{2CFB7F48-6D2E-4F60-9B9C-6C41F9518817}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lobby", "..\Core\Lobby\Lobby.csproj", "{7DE81BE7-26D1-4954-9037-B7184C1DF9BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -233,6 +235,16 @@ Global
 		{2CFB7F48-6D2E-4F60-9B9C-6C41F9518817}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{2CFB7F48-6D2E-4F60-9B9C-6C41F9518817}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2CFB7F48-6D2E-4F60-9B9C-6C41F9518817}.Release|x86.ActiveCfg = Release|Any CPU
+		{7DE81BE7-26D1-4954-9037-B7184C1DF9BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DE81BE7-26D1-4954-9037-B7184C1DF9BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DE81BE7-26D1-4954-9037-B7184C1DF9BD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7DE81BE7-26D1-4954-9037-B7184C1DF9BD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7DE81BE7-26D1-4954-9037-B7184C1DF9BD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7DE81BE7-26D1-4954-9037-B7184C1DF9BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DE81BE7-26D1-4954-9037-B7184C1DF9BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DE81BE7-26D1-4954-9037-B7184C1DF9BD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7DE81BE7-26D1-4954-9037-B7184C1DF9BD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7DE81BE7-26D1-4954-9037-B7184C1DF9BD}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

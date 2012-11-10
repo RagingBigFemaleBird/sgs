@@ -85,7 +85,8 @@ namespace Sanguosha.Core.UI
 
             if (transformSkill != null)
             {
-                if (transformSkill.PossibleResults == null)
+                if (transformSkill.Helper.IsGuHuo ||
+                    transformSkill.PossibleResults == null)
                 {
                     return SlowVerify(source, skill, cards, players);
                 }
