@@ -64,6 +64,15 @@
     <Compile Include="BaiYinAnimation.xaml.cs">
       <DependentUpon>BaiYinAnimation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="QiLinAnimation.xaml.cs">
+      <DependentUpon>QiLinAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="QingGangAnimation.xaml.cs">
+      <DependentUpon>QingGangAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ZhuQueAnimation.xaml.cs">
+      <DependentUpon>ZhuQueAnimation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TengJiaAnimation2.xaml.cs">
       <DependentUpon>TengJiaAnimation2.xaml</DependentUpon>
     </Compile>
@@ -164,6 +173,10 @@
     <Resource Include="LoseHealthAnimation\7.png" />
     <Resource Include="LoseHealthAnimation\8.png" />
     <Resource Include="LoseHealthAnimation\9.png" />
+    <Resource Include="QingGangAnimation\0.png" />
+    <Resource Include="QingGangAnimation\1.png" />
+    <Resource Include="QingGangAnimation\2.png" />
+    <Resource Include="QingGangAnimation\3.png" />
     <Resource Include="ShanAnimation\Foreground.png" />
     <Resource Include="ShanAnimation\Background.png" />
     <Resource Include="TaoAnimation\foreground.png" />
@@ -181,6 +194,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BaiYinAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="QiLinAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="QingGangAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ZhuQueAnimation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

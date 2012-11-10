@@ -1,0 +1,201 @@
+﻿<local:AnimationBase
+             x:Class="Sanguosha.UI.Animations.QiLinAnimation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Sanguosha.UI.Animations"
+             mc:Ignorable="d" 
+             Width="300" Height="300">
+	<local:AnimationBase.Resources>
+		<Storyboard x:Key="mainAnimation">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="image">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="360"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.85" Value="360"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.85" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:2.1" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="image">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0.2"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.85" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="image">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0.2"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.85" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="path">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.65" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.85" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:2.1" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="path1">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.65" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.85" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:2.1" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="path">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="0.2"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.05" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="0.448"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.65" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.85" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="path1">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="0.2"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.05" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="1.445"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.65" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.85" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="path">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="0.2"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.05" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="1.076"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.65" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.85" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="path1">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="0.2"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.05" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="0.777"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.65" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.85" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image1">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.05" Value="0.42857142857142855"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.25" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.65" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.95" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:2.1" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="image1">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="-25"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.05" Value="-3.8571428571428568"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.25" Value="5"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="14"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.65" Value="-12.055"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:2.1" Value="-144"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="image1">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="-11"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="2"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.05" Value="-0.14285714285714279"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.25" Value="5"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="9"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.65" Value="-5.031"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:2.1" Value="-75"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="path">
+				<EasingDoubleKeyFrame KeyTime="0:0:1.05" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="17"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.65" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.85" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="path">
+				<EasingDoubleKeyFrame KeyTime="0:0:1.05" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="9"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.65" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.85" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="path1">
+				<EasingDoubleKeyFrame KeyTime="0:0:1.05" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="17"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.65" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.85" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="path1">
+				<EasingDoubleKeyFrame KeyTime="0:0:1.05" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="9"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.65" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.85" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image2">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.45" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.85" Value="0.21739130434782605"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:2.1" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+	</local:AnimationBase.Resources>
+	<local:AnimationBase.Triggers>
+		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
+			<BeginStoryboard Storyboard="{StaticResource mainAnimation}"/>
+		</EventTrigger>
+	</local:AnimationBase.Triggers>
+	<Grid>
+		<Image x:Name="image2" Margin="101,102,60,86" Source="QiLinAnimation/QiLin.png" Stretch="Fill" Opacity="0"/>
+		<Path x:Name="path" Data="M211,102 L175,160" Fill="#FFF4F4F5" Margin="0,108.332,94.998,139.168" Stretch="Fill" HorizontalAlignment="Right" Width="30.783" RenderTransformOrigin="0,1" StrokeThickness="2" Opacity="0">
+			<Path.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</Path.RenderTransform>
+			<Path.Effect>
+				<DropShadowEffect Color="#FFFFB357" ShadowDepth="0"/>
+			</Path.Effect>
+			<Path.Stroke>
+				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+					<GradientStop Color="#FF686868" Offset="0"/>
+					<GradientStop Color="White" Offset="1"/>
+				</LinearGradientBrush>
+			</Path.Stroke>
+		</Path>
+		<Path x:Name="path1" Data="M175,161 L135,214" Fill="#FFF4F4F5" Height="53.875" Margin="144.002,0,124.531,86.668" Stretch="Fill" VerticalAlignment="Bottom" RenderTransformOrigin="1,0" StrokeThickness="2" Opacity="0">
+			<Path.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</Path.RenderTransform>
+			<Path.Effect>
+				<DropShadowEffect Color="#FFFFAA53" ShadowDepth="0"/>
+			</Path.Effect>
+			<Path.Stroke>
+				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+					<GradientStop Color="#FF686868" Offset="1"/>
+					<GradientStop Color="White"/>
+				</LinearGradientBrush>
+			</Path.Stroke>
+		</Path>
+		<Image x:Name="image" Margin="135,91,81,76" Source="QiLinAnimation/Bow.png" Stretch="Fill" Opacity="0" RenderTransformOrigin="0.5,0.5">
+			<Image.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</Image.RenderTransform>
+			<Image.Effect>
+				<DropShadowEffect Color="#FFFF8D3D" ShadowDepth="0"/>
+			</Image.Effect>
+		</Image>
+		<Image x:Name="image1" Margin="61,91,93,123" Source="QiLinAnimation/Arrow.png" Stretch="Fill" Opacity="0" RenderTransformOrigin="0.5,0.5">
+			<Image.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</Image.RenderTransform>
+		</Image></Grid>
+</local:AnimationBase>

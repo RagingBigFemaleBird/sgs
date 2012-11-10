@@ -6,36 +6,29 @@
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image">
 				<EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:0.65" Value="1"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image1">
 				<EasingDoubleKeyFrame KeyTime="0:0:0.65" Value="0"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image2">
-				<EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="1"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image3">
-				<EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.75" Value="1"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.85" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image4">
-				<EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:0.85" Value="1"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image5">
-				<EasingDoubleKeyFrame KeyTime="0:0:0.85" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.85" Value="1"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="1"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.95" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image6">
-				<EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="0"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.95" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.9" Value="1"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:1.05" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="image8">
@@ -91,6 +84,34 @@
 			<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
 				<EasingColorKeyFrame KeyTime="0:0:0.3" Value="#4CFF9800"/>
 			</ColorAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image1">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.65" Value="{x:Static Visibility.Hidden}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.7" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image2">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.7" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.75" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image4">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.8" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.85" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image6">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.9" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:1.05" Value="{x:Static Visibility.Visible}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.65" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.7" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image3">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.75" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.8" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image5">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.85" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.9" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
 		</Storyboard>
 	</local:AnimationBase.Resources>
 	<local:AnimationBase.Triggers>
@@ -100,12 +121,12 @@
 	</local:AnimationBase.Triggers>
     <Grid>
     	<Image x:Name="image" Source="CiXiongAnimation/1.png" Stretch="None" Margin="35,124,133,34" Opacity="0" d:LayoutOverrides="Width, Height"/>
-    	<Image x:Name="image1" Margin="35,124,133,34" Source="CiXiongAnimation/2.png" Stretch="None" Opacity="0" d:LayoutOverrides="Width, Height"/>
-    	<Image x:Name="image2" Margin="35,124,133,34" Source="CiXiongAnimation/3.png" Stretch="None" Opacity="0" d:LayoutOverrides="Width"/>
-    	<Image x:Name="image3" Margin="35,124,133,34" Source="CiXiongAnimation/4.png" Stretch="None" Opacity="0" d:LayoutOverrides="Width"/>
-    	<Image x:Name="image4" Margin="35,124,133,34" Source="CiXiongAnimation/5.png" Stretch="None" Opacity="0" d:LayoutOverrides="Width"/>
-    	<Image x:Name="image5" Margin="35,124,133,34" Source="CiXiongAnimation/6.png" Stretch="None" Opacity="0"/>
-    	<Image x:Name="image6" Margin="35,124,133,34" Source="CiXiongAnimation/7.png" Stretch="None" Opacity="0" d:LayoutOverrides="Width"/>
+    	<Image x:Name="image1" Margin="35,124,133,34" Source="CiXiongAnimation/2.png" Stretch="None" Opacity="0" d:LayoutOverrides="Width, Height" Visibility="Hidden"/>
+    	<Image x:Name="image2" Margin="35,124,133,34" Source="CiXiongAnimation/3.png" Stretch="None" Opacity="0" d:LayoutOverrides="Width" Visibility="Hidden"/>
+    	<Image x:Name="image3" Margin="35,124,133,34" Source="CiXiongAnimation/4.png" Stretch="None" Opacity="0" d:LayoutOverrides="Width" Visibility="Hidden"/>
+    	<Image x:Name="image4" Margin="35,124,133,34" Source="CiXiongAnimation/5.png" Stretch="None" Opacity="0" d:LayoutOverrides="Width" Visibility="Hidden"/>
+    	<Image x:Name="image5" Margin="35,122,133,36" Source="CiXiongAnimation/6.png" Stretch="None" Opacity="0" Visibility="Hidden"/>
+    	<Image x:Name="image6" Margin="35,124,133,34" Source="CiXiongAnimation/7.png" Stretch="None" Opacity="0" d:LayoutOverrides="Width" Visibility="Hidden"/>
     	<Image x:Name="image8" Margin="77,124,0,36" Source="CiXiongAnimation/Blade.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="52">
     		<Image.RenderTransform>
     			<TransformGroup>
