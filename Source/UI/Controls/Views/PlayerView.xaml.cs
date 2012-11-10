@@ -104,6 +104,19 @@ namespace Sanguosha.UI.Controls
             PlayerViewModel model = DataContext as PlayerViewModel;
             model.IsSelected = !model.IsSelected;
         }
+		
+		
+        private void btnSpectate_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+        	// TODO: Add event handler implementation here.
+			EventHandler handler = OnRequestSpectate;
+			if (handler != null)
+			{
+				handler(this, new EventArgs());
+			}
+        }
+		
+		public event EventHandler OnRequestSpectate;
 
         #region PlayerInfoViewBase Members
 
@@ -341,7 +354,6 @@ namespace Sanguosha.UI.Controls
         {
             (Resources["sbTremble"] as Storyboard).Begin();
         }
-
         #endregion // PlayerInfoViewBase Members
 
     }

@@ -325,6 +325,7 @@
     <Folder Include="obj\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\System\btnSettings.png" />
     <Resource Include="Images\System\chat-emotion.png" />
     <Resource Include="Images\System\chat-enter.png" />
     <Resource Include="Images\System\chat-face.png" />
@@ -379,6 +380,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Game\IronShackled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Buttons\spectate\disabled.png" />
+    <Resource Include="Images\Buttons\spectate\down.png" />
+    <Resource Include="Images\Buttons\spectate\hover.png" />
+    <Resource Include="Images\Buttons\spectate\normal.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

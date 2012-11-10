@@ -327,7 +327,7 @@ namespace Sanguosha.UI.Controls
             storyboard.AccelerationRatio = 0.4d;
             storyboard.Begin();
 
-            card.CardOpacity = 1.0;
+            card.CardOpacity = 0.5;
             card.DisappearAfterMove = true;
             card.Rebase(1.2d);
         }

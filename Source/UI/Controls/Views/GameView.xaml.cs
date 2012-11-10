@@ -217,6 +217,7 @@ namespace Sanguosha.UI.Controls
             GameViewModel model = GameModel;
             var playerModel = model.PlayerModels[indexInGameModel];
             var playerView = new PlayerView() { DataContext = playerModel, ParentGameView = this };
+            playerView.OnRequestSpectate += playerView_OnRequestSpectate;
             profileBoxes.Insert(indexInGameModel - 1, playerView);
             if (!playersMap.ContainsKey(playerModel.Player))
             {
@@ -226,6 +227,14 @@ namespace Sanguosha.UI.Controls
             {
                 playersMap[playerModel.Player] = playerView;
             }
+        }
+
+        void playerView_OnRequestSpectate(object sender, EventArgs e)
+        {
+            var view = sender as PlayerView;
+            Trace.Assert(view != null);
+            
+            GameModel.MainPlayerSeatNumber = GameModel.Game.Players.IndexOf(view.PlayerModel.Player);
         }
 
         private PropertyChangedEventHandler _mainPlayerPropertyChangedHandler;
@@ -367,26 +376,32 @@ namespace Sanguosha.UI.Controls
             GameViewModel model = GameModel;
             Trace.Assert(model.PlayerModels.Count == profileBoxes.Count + 1);
             int playerCount = model.PlayerModels.Count;
+
+            // First remove main player
+            for (int j = 0; j < profileBoxes.Count; j++)
+            {                    
+                var playerView = profileBoxes[j];
+                if (playerView.PlayerModel == model.MainPlayerModel)
+                {
+                    profileBoxes.RemoveAt(j);
+                    break;
+                }
+            }
+
             for (int i = 1; i < playerCount; i++)
             {
                 var playerModel = model.PlayerModels[i];
                 bool found = false;
-                for (int j = i; j < playerCount; j++)
+                for (int j = 0; j < profileBoxes.Count; j++)
                 {                    
-                    var playerView = profileBoxes[j - 1];
-                    if (playerView.PlayerModel == model.MainPlayerModel)
-                    {
-                        profileBoxes.RemoveAt(j);
-                        found = true;
-                        break;
-                    }
+                    var playerView = profileBoxes[j];
                     if (playerModel == playerView.PlayerModel)
                     {
-                        if (i != j)
-                        {
-                            profileBoxes.Move(j, i - 1);
-                            playersMap[playerModel.Player] = playerView;
-                        }
+                        if (i - 1 < j)
+                        {                           
+                            profileBoxes.Move(j, i - 1);                            
+                        }                        
+                        playersMap[playerModel.Player] = playerView;
                         found = true;
                         break;
                     }                    

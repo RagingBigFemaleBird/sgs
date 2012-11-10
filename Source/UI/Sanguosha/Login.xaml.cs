@@ -15,6 +15,7 @@ using System.Threading;
 using System.IO;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Network;
+using Microsoft.Win32;
 
 namespace Sanguosha.UI.Main
 {
@@ -153,6 +154,41 @@ namespace Sanguosha.UI.Main
                 
                 this.NavigationService.Navigate(game);
             }
+        }
+
+        private void btnReplay_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.DefaultExt = ".sgs"; // Default file extension
+            dlg.Filter = "Replay File (.sgs)|*.sgs|All Files (*.*)|*.*"; // Filter files by extension
+            bool? result = dlg.ShowDialog();
+            if (result != true) return;
+
+            string fileName = dlg.FileName;
+            
+            Client client;
+            int mainSeat = 0;
+            MainGame game = null;
+            try
+            {
+                client = new Client();
+                client.Start(true, File.Open(fileName, FileMode.Open));
+                mainSeat = (int)client.Receive();
+                client.SelfId = mainSeat;
+                game = new MainGame();
+                game.MainSeat = mainSeat;
+                game.NetworkClient = client;
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Failed to open replay file.");
+                return;
+            }
+            if (game != null)
+            {
+                this.NavigationService.Navigate(game);
+            }
+
         }
     }
 }
