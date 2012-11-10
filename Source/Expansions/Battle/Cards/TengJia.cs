@@ -31,7 +31,7 @@ namespace Sanguosha.Expansions.Battle.Cards
 
             void RunBurnToDeath(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                eventArgs.IntArg3++;
+                eventArgs.IntArg3--;
             }
 
             public TengJiaSkill()

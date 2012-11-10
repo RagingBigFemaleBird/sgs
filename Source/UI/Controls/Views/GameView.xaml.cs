@@ -630,6 +630,27 @@ namespace Sanguosha.UI.Controls
                     {
                         player.PlayAnimation(new CiXiongAnimation(), 0, new Point(0, -50));
                     }
+                    else if (log.SkillAction is Sanguosha.Expansions.Basic.Cards.GuanShiFu.GuanShiFuSkill)
+                    {
+                        player.PlayAnimation(new GuanShiAnimation(), 0, new Point(0, 0));
+                    }
+                    else if (log.SkillAction is Sanguosha.Expansions.Basic.Cards.QingLongYanYueDao.QingLongYanYueSkill)
+                    {
+                        player.PlayAnimation(new QingLongAnimation(), 0, new Point(0, 0));
+                    }
+                    else if (log.SkillAction is Sanguosha.Expansions.Battle.Cards.BaiYinShiZi.BaiYinShiZiSkill)
+                    {
+                        player.PlayAnimation(new BaiYinAnimation(), 0, new Point(0, 0));
+                    }
+                    else if (log.SkillAction is Sanguosha.Expansions.Battle.Cards.GuDingDao.GuDianDaoSkill)
+                    {
+                        player.PlayAnimation(new GuDingAnimation(), 0, new Point(0, 0));
+                    }
+                    else if (log.SkillAction is Sanguosha.Expansions.Battle.Cards.RenWangDun.RenWangDunSkill)
+                    {
+                        player.PlayAnimation(new RenWangAnimation(), 0, new Point(0, 0));
+                    }
+
                 }
                 if (log.CardAction != null)
                 {

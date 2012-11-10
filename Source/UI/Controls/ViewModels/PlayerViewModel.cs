@@ -832,8 +832,9 @@ namespace Sanguosha.UI.Controls
                     skill = command.Skill;
                 }
 
+                var sc = new List<SkillCommand>(SkillCommands);
                 // Handle skill down            
-                foreach (var skillCommand in SkillCommands)
+                foreach (var skillCommand in sc)
                 {
                     skillCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
                 }
