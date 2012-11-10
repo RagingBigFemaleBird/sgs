@@ -14,6 +14,7 @@ using System.Diagnostics;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
+    [Serializable]
     public class QiLinGong : Weapon
     {
         public QiLinGong()

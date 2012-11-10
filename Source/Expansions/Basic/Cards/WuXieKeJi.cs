@@ -14,6 +14,7 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
+    [Serializable]
     public class WuXieKeJi : CardHandler
     {
         public static readonly CardAttribute CannotBeCountered = CardAttribute.Register("CannotBeCountered");

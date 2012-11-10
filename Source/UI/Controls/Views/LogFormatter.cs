@@ -400,5 +400,15 @@ namespace Sanguosha.UI.Controls
             para.Inlines.Add(new Run(string.Format("“{0}”", name)) { Foreground = YellowBrush } );
             return para;
         }
+
+        internal static Paragraph RichTranslateLoseHealth(Player player, int delta)
+        {
+            Paragraph para = new Paragraph();
+            para.Inlines.Add(new Run(Translate(player)));
+            string damageStr = string.Format("失去了{0}点体力，体力值为{1}", delta, player.Health);
+
+            para.Inlines.Add(new Run(damageStr) { Foreground = RedBrush });
+            return para;
+        }
     }
 }

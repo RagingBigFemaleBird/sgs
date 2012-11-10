@@ -14,6 +14,7 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
+    [Serializable]
     public class Sha : CardHandler
     {
         public virtual DamageElement ShaDamageElement

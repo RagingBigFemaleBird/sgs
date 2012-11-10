@@ -14,6 +14,7 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
+    [Serializable]
     public class LeBuSiShu : DelayedTool
     {
         public override void Activate(Player p, Card c)

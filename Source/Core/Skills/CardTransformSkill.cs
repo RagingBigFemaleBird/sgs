@@ -42,11 +42,15 @@ namespace Sanguosha.Core.Skills
                 throw new CardTransformFailureException();
             }
             NotifyAction(Owner, targets, card);
-            foreach (Card c in card.Subcards)
+            bool ret = DoTransformSideEffect(card, arg, targets);
+            if (ret)
             {
-                c.Type = card.Type;
+                foreach (Card c in card.Subcards)
+                {
+                    c.Type = card.Type;
+                }
             }
-            return DoTransformSideEffect(card, arg, targets);
+            return ret;
         }
         
         protected virtual bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets)

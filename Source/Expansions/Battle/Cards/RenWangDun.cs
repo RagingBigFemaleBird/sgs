@@ -15,6 +15,7 @@ using Sanguosha.Expansions.Basic.Cards;
 
 namespace Sanguosha.Expansions.Battle.Cards
 {
+    [Serializable]
     public class RenWangDun : Armor
     {
         public class RenWangDunSkill : ArmorTriggerSkill

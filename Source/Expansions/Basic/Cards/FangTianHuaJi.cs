@@ -14,6 +14,7 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
+    [Serializable]
     public class FangTianHuaJi : Weapon
     {
         private Trigger trigger1;

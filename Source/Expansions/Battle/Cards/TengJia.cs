@@ -15,6 +15,7 @@ using System.Diagnostics;
 
 namespace Sanguosha.Expansions.Battle.Cards
 {
+    [Serializable]
     public class TengJia : Armor
     {
         public class TengJiaSkill : ArmorTriggerSkill

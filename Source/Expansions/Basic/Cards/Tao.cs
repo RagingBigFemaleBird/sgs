@@ -14,6 +14,7 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
+    [Serializable]
     public class Tao : LifeSaver
     {
         protected override void Process(Player source, Player dest, ICard card)

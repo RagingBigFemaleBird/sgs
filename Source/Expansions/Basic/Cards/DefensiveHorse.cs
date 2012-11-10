@@ -13,6 +13,7 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
+    [Serializable]
     public class DefensiveHorse : Equipment
     {
         protected override void RegisterEquipmentTriggers(Player p)

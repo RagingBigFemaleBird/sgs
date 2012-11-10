@@ -14,6 +14,7 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Battle.Cards
 {
+    [Serializable]
     public class BingLiangCunDuan : DelayedTool
     {
         public override void Activate(Player p, Card c)

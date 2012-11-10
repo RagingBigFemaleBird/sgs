@@ -1078,6 +1078,7 @@ namespace Sanguosha.Core.Games
             Trace.Assert(args.Targets.Count == 1);
             args.Targets[0].Health += args.IntArg;
             Trace.TraceInformation("Player {0} lose {1} hp, @ {2} hp", args.Targets[0].Id, args.IntArg, args.Targets[0].Health);
+            Game.CurrentGame.NotificationProxy.NotifyLoseHealth(args.Targets[0], -args.IntArg);
 
             Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, args);
         }

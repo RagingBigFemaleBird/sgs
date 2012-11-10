@@ -134,7 +134,7 @@ namespace Sanguosha.Core.Network
                         gameCard = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place];
                     }
                     _DeserializeCardItem(gameCard, i.Id);
-                    gameCard.GuHuoType = i.additionalType;
+                    gameCard.AddtionalType = i.additionalType;
                 }
                 if (i.playerId < 0)
                 {
@@ -182,7 +182,7 @@ namespace Sanguosha.Core.Network
                 item.playerId = Game.CurrentGame.Players.IndexOf(card.Place.Player);
                 item.deck = card.Place.DeckType;
                 item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
-                item.additionalType = card.GuHuoType;
+                item.additionalType = card.AddtionalType;
                 Trace.Assert(item.place >= 0);
                 o = item;
             }

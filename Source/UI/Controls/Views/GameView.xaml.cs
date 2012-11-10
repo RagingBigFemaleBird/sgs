@@ -717,6 +717,17 @@ namespace Sanguosha.UI.Controls
                 discardDeck.UnlockCards();
             });
         }
+
+        public void NotifyLoseHealth(Player player, int delta)
+        {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                gameLogs.AppendLoseHealthLog(player, delta);
+                rtbLog.ScrollToEnd();
+            });
+        }
         #endregion
+
+
     }
 }

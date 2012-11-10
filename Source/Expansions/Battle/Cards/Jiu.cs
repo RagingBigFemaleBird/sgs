@@ -15,6 +15,7 @@ using System.Diagnostics;
 
 namespace Sanguosha.Expansions.Battle.Cards
 {
+    [Serializable]
     public class Jiu : LifeSaver
     {
         protected override void Process(Player source, Player dest, ICard card)

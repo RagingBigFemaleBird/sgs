@@ -14,6 +14,7 @@ using System.Diagnostics;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
+    [Serializable]
     public class GuanShiFu : Weapon
     {
         public GuanShiFu()

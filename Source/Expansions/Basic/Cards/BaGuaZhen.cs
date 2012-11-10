@@ -14,6 +14,7 @@ using System.Diagnostics;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
+    [Serializable]
     public class BaGuaZhen : Armor
     {
         public class BaGuaZhenSkill : ArmorTriggerSkill
