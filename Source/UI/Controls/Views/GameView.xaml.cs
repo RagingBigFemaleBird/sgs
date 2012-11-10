@@ -610,6 +610,8 @@ namespace Sanguosha.UI.Controls
             });
         }
 
+        private static ResourceDictionary equipAnimationResources = new ResourceDictionary() { Source = new Uri("pack://application:,,,/Animations;component/EquipmentAnimations.xaml") };
+
         public void NotifySkillUse(ActionLog log)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
@@ -618,37 +620,23 @@ namespace Sanguosha.UI.Controls
                 PlayerViewBase player = playersMap[log.Source];
                 if (log.SkillAction != null)
                 {
-                    if (log.SkillAction is Sanguosha.Expansions.Basic.Cards.BaGuaZhen.BaGuaZhenSkill)
+                    string key1 = string.Format("{0}.Animation", log.SkillAction.GetType().Name);
+                    string key2 = key1 + ".Offset";
+                    lock (equipAnimationResources)
                     {
-                        player.PlayAnimation(new BaGuaAnimation(), 0, new Point(0, 0));
-                    }
-                    else if (log.SkillAction is Sanguosha.Expansions.Basic.Cards.ZhangBaSheMao.ZhangBaSheMaoTransform)
-                    {
-                        player.PlayAnimation(new ZhangBaAnimation(), 0, new Point(20, -50));
-                    }
-                    else if (log.SkillAction is Sanguosha.Expansions.Basic.Cards.CiXiongShuangGuJian.CiXiongShuangGuJianSkill)
-                    {
-                        player.PlayAnimation(new CiXiongAnimation(), 0, new Point(0, -50));
-                    }
-                    else if (log.SkillAction is Sanguosha.Expansions.Basic.Cards.GuanShiFu.GuanShiFuSkill)
-                    {
-                        player.PlayAnimation(new GuanShiAnimation(), 0, new Point(0, 0));
-                    }
-                    else if (log.SkillAction is Sanguosha.Expansions.Basic.Cards.QingLongYanYueDao.QingLongYanYueSkill)
-                    {
-                        player.PlayAnimation(new QingLongAnimation(), 0, new Point(0, 0));
-                    }
-                    else if (log.SkillAction is Sanguosha.Expansions.Battle.Cards.BaiYinShiZi.BaiYinShiZiSkill)
-                    {
-                        player.PlayAnimation(new BaiYinAnimation(), 0, new Point(0, 0));
-                    }
-                    else if (log.SkillAction is Sanguosha.Expansions.Battle.Cards.GuDingDao.GuDianDaoSkill)
-                    {
-                        player.PlayAnimation(new GuDingAnimation(), 0, new Point(0, 0));
-                    }
-                    else if (log.SkillAction is Sanguosha.Expansions.Battle.Cards.RenWangDun.RenWangDunSkill)
-                    {
-                        player.PlayAnimation(new RenWangAnimation(), 0, new Point(0, 0));
+                        if (equipAnimationResources.Contains(key1))
+                        {
+                            AnimationBase animation = equipAnimationResources[key1] as AnimationBase;
+                            if (animation != null && animation.Parent == null)
+                            {
+                                Point offset = new Point(0, 0);
+                                if (equipAnimationResources.Contains(key2))
+                                {
+                                    offset = (Point)equipAnimationResources[key2];                                    
+                                }
+                                player.PlayAnimation(animation, 0, offset);
+                            }
+                        }
                     }
 
                 }
