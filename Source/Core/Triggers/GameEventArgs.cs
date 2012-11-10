@@ -14,6 +14,12 @@ namespace Sanguosha.Core.Triggers
     [Serializable]
     public class GameEventArgs
     {
+        public GameEventArgs()
+        {
+            Targets = new List<Player>();
+            Cards = new List<Card>();
+        }
+
         private Player source;
 
         public Player Source

@@ -70,6 +70,9 @@
     <Compile Include="QingGangAnimation.xaml.cs">
       <DependentUpon>QingGangAnimation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ZoomTextAnimation.xaml.cs">
+      <DependentUpon>ZoomTextAnimation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ZhuQueAnimation.xaml.cs">
       <DependentUpon>ZhuQueAnimation.xaml</DependentUpon>
     </Compile>
@@ -206,6 +209,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="QingGangAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ZoomTextAnimation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -428,6 +435,12 @@
     <Resource Include="ZhuQueAnimation\4.png" />
     <Resource Include="ZhuQueAnimation\5.png" />
     <Resource Include="ZhuQueAnimation\6.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Effects\Effects.csproj">
+      <Project>{2CFB7F48-6D2E-4F60-9B9C-6C41F9518817}</Project>
+      <Name>Effects</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

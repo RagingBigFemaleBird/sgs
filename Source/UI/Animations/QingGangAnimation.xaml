@@ -65,11 +65,6 @@
 			</DoubleAnimationUsingKeyFrames>
 		</Storyboard>
 	</local:AnimationBase.Resources>
-	<local:AnimationBase.Triggers>
-		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
-			<BeginStoryboard Storyboard="{StaticResource mainAnimation}"/>
-		</EventTrigger>
-	</local:AnimationBase.Triggers>
 	<Grid>
 		<Viewbox x:Name="viewbox" Margin="57.5,95" Stretch="Fill" Visibility="Hidden" RenderTransformOrigin="0.5,0.5">
 			<Viewbox.RenderTransform>

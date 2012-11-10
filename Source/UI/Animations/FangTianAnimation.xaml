@@ -73,11 +73,6 @@
 			</DoubleAnimationUsingKeyFrames>
 		</Storyboard>
 	</local:AnimationBase.Resources>
-	<local:AnimationBase.Triggers>
-		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
-			<BeginStoryboard Storyboard="{StaticResource mainAnimation}"/>
-		</EventTrigger>
-	</local:AnimationBase.Triggers>
 	<Grid>
 		<Image x:Name="image1" Source="FangTianAnimation/1.png" Stretch="None" RenderTransformOrigin="0.5,0.5" Margin="30.5,95,106.5,59" d:LayoutOverrides="Height" Visibility="Hidden">
 			<Image.RenderTransform>

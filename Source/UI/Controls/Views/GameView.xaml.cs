@@ -622,6 +622,7 @@ namespace Sanguosha.UI.Controls
                 {
                     string key1 = string.Format("{0}.Animation", log.SkillAction.GetType().Name);
                     string key2 = key1 + ".Offset";
+                    bool animPlayed = false;
                     lock (equipAnimationResources)
                     {
                         if (equipAnimationResources.Contains(key1))
@@ -635,7 +636,18 @@ namespace Sanguosha.UI.Controls
                                     offset = (Point)equipAnimationResources[key2];                                    
                                 }
                                 player.PlayAnimation(animation, 0, offset);
+                                animPlayed = true;
                             }
+                        }
+                    }
+                    if (!animPlayed && player != mainPlayerPanel)
+                    {
+                        string s = LogFormatter.Translate(log.SkillAction);
+                        if (s != string.Empty)
+                        {
+                            ZoomTextAnimation anim = new ZoomTextAnimation() { Text = s };
+                            player.PlayAnimation(anim, 1, new Point(0, 0));
+                            animPlayed = true;
                         }
                     }
 

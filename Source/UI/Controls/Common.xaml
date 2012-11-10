@@ -3,8 +3,10 @@
                     xmlns:local="clr-namespace:Sanguosha.UI.Controls"
                     xmlns:anim="clr-namespace:Sanguosha.UI.Animations;assembly=Animations"
                     xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
+					xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" >
     <local:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
+	<sys:String x:Key="State.TieSuoLianHuan.Description">当处于连环状态的一名角色受到属性伤害后，其他处于连环状态下的角色亦会依次受到与该伤害同来源、同程度、同属性的伤害；并重置所有受到该伤害角色的武将牌。</sys:String>
     <Style x:Key="TimedProgressBarStyle" TargetType="{x:Type ProgressBar}">
                 <Setter Property="Template">
                     <Setter.Value>
