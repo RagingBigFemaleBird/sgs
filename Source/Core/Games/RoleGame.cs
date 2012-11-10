@@ -229,7 +229,7 @@ namespace Sanguosha.Core.Games
                     {
                         GameEventArgs arg = new GameEventArgs();
                         arg.Source = eventArgs.Source;
-                        arg.Targets = null;
+                        arg.Targets = eventArgs.Targets;
                         arg.Card = c;
 
                         Game.CurrentGame.Emit(GameEvent.PlayerUsedCard, arg);

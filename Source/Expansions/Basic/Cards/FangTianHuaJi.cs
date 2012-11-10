@@ -17,35 +17,16 @@ namespace Sanguosha.Expansions.Basic.Cards
     [Serializable]
     public class FangTianHuaJi : Weapon
     {
-        private Trigger trigger1;
-
-        protected override void RegisterWeaponTriggers(Player p)
+        public FangTianHuaJi()
         {
-            trigger1 = new FangTianHuaJiTrigger(p);
-            Game.CurrentGame.RegisterTrigger(Sha.PlayerShaTargetValidation, trigger1);
+            EquipmentSkill = new FangTianHuaJiSkill();
         }
-
-        protected override void UnregisterWeaponTriggers(Player p)
+        class FangTianHuaJiSkill : TriggerSkill
         {
-            Game.CurrentGame.UnregisterTrigger(Sha.PlayerShaTargetValidation, trigger1);
-            trigger1 = null;
-        }
-
-        protected override void Process(Player source, Player dest, ICard card)
-        {
-            throw new NotImplementedException();
-        }
-
-        class FangTianHuaJiTrigger : Trigger
-        {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 ShaEventArgs args = (ShaEventArgs)eventArgs;
                 Trace.Assert(args != null);
-                if (args.Source != Owner)
-                {
-                    return;
-                }
                 List<Card> theList;
                 if (args.Card is CompositeCard)
                 {
@@ -94,16 +75,44 @@ namespace Sanguosha.Expansions.Basic.Cards
 
                 }
             }
-            public FangTianHuaJiTrigger(Player p)
+            public FangTianHuaJiSkill()
             {
-                Owner = p;
+                var trigger = new AutoNotifyPassiveSkillTrigger(
+                    this,
+                    (p, e, a) =>
+                    {
+                        return a.Source != null && Game.CurrentGame.Decks[a.Source, DeckType.Hand].Count == 0 && a.Targets.Count > 1 && a.Card.Type is Sha;
+                    },
+                    (p, e, a) => { },
+                    TriggerCondition.OwnerIsSource
+                ) { AskForConfirmation = false };
+                var trigger2 = new AutoNotifyPassiveSkillTrigger(
+                    this,
+                    Run,
+                    TriggerCondition.OwnerIsSource
+                ) { IsAutoNotify = false, AskForConfirmation = false };
+                Triggers.Add(GameEvent.PlayerUsedCard, trigger);
+                Triggers.Add(Sha.PlayerShaTargetValidation, trigger2);
             }
         }
 
+        protected override void Process(Player source, Player dest, ICard card)
+        {
+            throw new NotImplementedException();
+        }
 
         public override int AttackRange
         {
             get { return 4; }
         }
+
+        protected override void RegisterWeaponTriggers(Player p)
+        {
+        }
+
+        protected override void UnregisterWeaponTriggers(Player p)
+        {
+        }
+
     }
 }

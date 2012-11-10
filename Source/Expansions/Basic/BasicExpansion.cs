@@ -19,20 +19,6 @@ namespace Sanguosha.Expansions.Basic
         public BasicExpansion()
         {
             CardSet = new List<Card>();
-            CardSet.Add(new Card(SuitType.Spade, 5, new QingLongYanYueDao()));
-            CardSet.Add(new Card(SuitType.Spade, 5, new QingLongYanYueDao()));
-            CardSet.Add(new Card(SuitType.Spade, 5, new QingLongYanYueDao()));
-            CardSet.Add(new Card(SuitType.Spade, 5, new QingLongYanYueDao()));
-            CardSet.Add(new Card(SuitType.Spade, 5, new QingLongYanYueDao()));
-            CardSet.Add(new Card(SuitType.Spade, 5, new QingLongYanYueDao()));
-            CardSet.Add(new Card(SuitType.Spade, 5, new QingLongYanYueDao()));
-            CardSet.Add(new Card(SuitType.Diamond, 5, new GuanShiFu()));
-            CardSet.Add(new Card(SuitType.Diamond, 5, new GuanShiFu()));
-            CardSet.Add(new Card(SuitType.Diamond, 5, new GuanShiFu()));
-            CardSet.Add(new Card(SuitType.Diamond, 5, new GuanShiFu()));
-            CardSet.Add(new Card(SuitType.Diamond, 5, new GuanShiFu()));
-            CardSet.Add(new Card(SuitType.Diamond, 5, new GuanShiFu()));
-            CardSet.Add(new Card(SuitType.Diamond, 5, new GuanShiFu()));
 
             CardSet.Add(new Card(SuitType.Spade, 1, new JueDou()));
             CardSet.Add(new Card(SuitType.Spade, 1, new ShanDian()));

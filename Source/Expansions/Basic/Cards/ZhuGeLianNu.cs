@@ -17,66 +17,66 @@ namespace Sanguosha.Expansions.Basic.Cards
     [Serializable]
     public class ZhuGeLianNu : Weapon
     {
-        private Trigger trigger1, trigger2;
-
-        protected override void RegisterWeaponTriggers(Player p)
-        {
-            trigger1 = new ZhuGeLianNuTrigger(p);
-            trigger2 = new ZhuGeLianNuAlwaysShaTrigger(p);
-            Game.CurrentGame.RegisterTrigger(Sha.PlayerShaTargetValidation, trigger1);
-            Game.CurrentGame.RegisterTrigger(Sha.PlayerNumberOfShaCheck, trigger2);
-        }
-
-        protected override void UnregisterWeaponTriggers(Player p)
-        {
-            Game.CurrentGame.UnregisterTrigger(Sha.PlayerShaTargetValidation, trigger1);
-            Game.CurrentGame.UnregisterTrigger(Sha.PlayerNumberOfShaCheck, trigger2);
-            trigger1 = null;
-            trigger2 = null;
-        }
-
         protected override void Process(Player source, Player dest, ICard card)
         {
             throw new NotImplementedException();
         }
 
-        class ZhuGeLianNuTrigger : Trigger
+        public ZhuGeLianNu()
         {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            EquipmentSkill = new ZhuGeLianNuSkill();
+        }
+        class ZhuGeLianNuSkill : TriggerSkill
+        {
+            public ZhuGeLianNuSkill()
             {
-                ShaEventArgs args = (ShaEventArgs)eventArgs;
-                Trace.Assert(args != null);
-                if (args.Source != Owner)
-                {
-                    return;
-                }
-                args.TargetApproval[0] = true;
+                var trigger = new AutoNotifyPassiveSkillTrigger(
+                    this,
+                    (p, e, a) =>
+                    {
+                        return a.Source[Sha.NumberOfShaUsed] > 0 &&  a.Card.Type is Sha;
+                    },
+                    (p, e, a) => { },
+                    TriggerCondition.OwnerIsSource
+                );
+                var trigger2 = new AutoNotifyPassiveSkillTrigger(
+                    this,
+                    (p, e, a) => { throw new TriggerResultException(TriggerResult.Success); },
+                    TriggerCondition.OwnerIsSource
+                ) { IsAutoNotify = false };
+                var trigger3 = new AutoNotifyPassiveSkillTrigger(
+                    this,
+                    (p, e, a) =>
+                    {
+                        ShaEventArgs args = (ShaEventArgs)a;
+                        args.TargetApproval[0] = true;
+                    },
+                    TriggerCondition.OwnerIsSource
+                ) { IsAutoNotify = false };
+                Triggers.Add(GameEvent.PlayerUsedCard, trigger);
+                Triggers.Add(Sha.PlayerNumberOfShaCheck, trigger2);
+                Triggers.Add(Sha.PlayerShaTargetValidation, trigger3);
             }
-            public ZhuGeLianNuTrigger(Player p)
+            public override bool IsEnforced
             {
-                Owner = p;
+                get
+                {
+                    return true;
+                }
             }
         }
-
-        class ZhuGeLianNuAlwaysShaTrigger : Trigger
-        {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                if (eventArgs.Source == Owner)
-                {
-                    throw new TriggerResultException(TriggerResult.Success);
-                }
-            }
-            public ZhuGeLianNuAlwaysShaTrigger(Player p)
-            {
-                Owner = p;
-            }
-        }
-
 
         public override int AttackRange
         {
             get { return 1; }
+        }
+
+        protected override void RegisterWeaponTriggers(Player p)
+        {
+        }
+
+        protected override void UnregisterWeaponTriggers(Player p)
+        {
         }
     }
 }

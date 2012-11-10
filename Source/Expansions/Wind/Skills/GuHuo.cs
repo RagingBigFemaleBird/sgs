@@ -40,6 +40,10 @@ namespace Sanguosha.Expansions.Wind.Skills
 
             card = new CompositeCard();
             card.Subcards = new List<Card>();
+            if (cards[0].AddtionalType == null)
+            {
+                return VerifierResult.Fail;
+            }
             card.Type = cards[0].AddtionalType;
             card.Subcards.Add(cards[0]);
             return VerifierResult.Success;
