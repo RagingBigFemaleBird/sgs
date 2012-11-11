@@ -56,6 +56,7 @@
     <Compile Include="Cards\CardCategory.cs" />
     <Compile Include="Cards\CardHandler.cs" />
     <Compile Include="Cards\CardPlace.cs" />
+    <Compile Include="Cards\CardsAndTargetsVerifier.cs" />
     <Compile Include="Cards\CompositeCard.cs" />
     <Compile Include="Cards\DeckContainer.cs" />
     <Compile Include="Cards\DeckPlace.cs" />

@@ -1,0 +1,103 @@
+﻿using Sanguosha.Core.Games;
+using Sanguosha.Core.Players;
+using Sanguosha.Core.Skills;
+using Sanguosha.Core.UI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Sanguosha.Core.Cards
+{
+    public class CardsAndTargetsVerifier : ICardUsageVerifier
+    {
+        protected int minPlayers;
+        protected int maxPlayers;
+        protected int minCards;
+        protected int maxCards;
+        protected bool discarding;
+
+        public CardsAndTargetsVerifier()
+        {
+            minPlayers = 0;
+            maxPlayers = 0;
+            minCards = 0;
+            maxCards = 0;
+            discarding = false;
+        }
+
+        protected virtual bool VerifyCard(Player source, Card card)
+        {
+            return true;
+        }
+
+        protected virtual bool VerifyPlayer(Player souorce, Player player)
+        {
+            return true;
+        }
+
+        public VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
+        {
+            if (skill != null)
+            {
+                return VerifierResult.Fail;
+            }
+            if (cards != null && cards.Count > maxCards)
+            {
+                return VerifierResult.Fail;
+            }
+            if (cards != null && cards.Count > 0)
+            {
+                foreach (Card c in cards)
+                {
+                    if (discarding && !Game.CurrentGame.PlayerCanDiscardCard(source, c))
+                    {
+                        return VerifierResult.Fail;
+                    }
+                    if (!VerifyCard(source, c))
+                    {
+                        return VerifierResult.Fail;
+                    }
+                }
+            }
+            if (players != null && players.Count > maxPlayers)
+            {
+                return VerifierResult.Fail;
+            }
+            if (players != null && players.Count > 0)
+            {
+                foreach (Player p in players)
+                {
+                    if (!VerifyPlayer(source, p))
+                    {
+                        return VerifierResult.Fail;
+                    }
+                }
+            }
+            if (players == null || players.Count < minPlayers)
+            {
+                return VerifierResult.Partial;
+            }
+            if (cards == null || cards.Count < minCards)
+            {
+                return VerifierResult.Partial;
+            }
+            return VerifierResult.Success;
+        }
+
+        public virtual IList<CardHandler> AcceptableCardType
+        {
+            get { return null; }
+        }
+
+        public VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> players)
+        {
+            return FastVerify(source, skill, cards, players);
+        }
+
+        public virtual UiHelper Helper
+        {
+            get { return new UiHelper(); }
+        }
+    }
+}

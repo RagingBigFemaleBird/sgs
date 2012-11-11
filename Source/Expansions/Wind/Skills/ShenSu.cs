@@ -23,58 +23,25 @@ namespace Sanguosha.Expansions.Wind.Skills
     /// </summary>
     public class ShenSu : TriggerSkill
     {
-        public class ShenSuStage2Verifier : ICardUsageVerifier
+        public class ShenSuStage2Verifier : CardsAndTargetsVerifier
         {
-
-            public VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
+            public ShenSuStage2Verifier()
             {
-                if (skill != null)
-                {
-                    return VerifierResult.Fail;
-                }
-                if (cards != null && cards.Count > 1)
-                {
-                    return VerifierResult.Fail;
-                }
-                if (cards != null && cards.Count > 0)
-                {
-                    if (!CardCategoryManager.IsCardCategory(cards[0].Type.Category, CardCategory.Equipment))
-                    {
-                        return VerifierResult.Fail;
-                    }
-                }
-                if (players != null && players.Count > 1)
-                {
-                    return VerifierResult.Fail;
-                }
-                if (players != null && players.Count > 0 && players[0] == source)
-                {
-                    return VerifierResult.Fail;
-                }
-                if (players == null || players.Count == 0)
-                {
-                    return VerifierResult.Partial;
-                }
-                if (cards == null || cards.Count == 0)
-                {
-                    return VerifierResult.Partial;
-                }
-                return VerifierResult.Success;
+                minPlayers = 1;
+                maxPlayers = 1;
+                minCards = 1;
+                maxCards = 1;
+                discarding = true;
             }
 
-            public IList<CardHandler> AcceptableCardType
+            protected override bool VerifyPlayer(Player source, Player player)
             {
-                get { return null; }
+                return player != source;
             }
 
-            public VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> players)
+            protected override bool VerifyCard(Player source, Card card)
             {
-                return FastVerify(source, skill, cards, players);
-            }
-
-            public UiHelper Helper
-            {
-                get { return new UiHelper(); }
+                return CardCategoryManager.IsCardCategory(card.Type.Category, CardCategory.Equipment);
             }
         }
 
