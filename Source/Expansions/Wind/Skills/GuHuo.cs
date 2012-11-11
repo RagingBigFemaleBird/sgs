@@ -44,6 +44,14 @@ namespace Sanguosha.Expansions.Wind.Skills
             {
                 return VerifierResult.Fail;
             }
+            if (CardCategoryManager.IsCardCategory(cards[0].AddtionalType.Category, CardCategory.Equipment))
+            {
+                return VerifierResult.Fail;
+            }
+            if (CardCategoryManager.IsCardCategory(cards[0].AddtionalType.Category, CardCategory.DelayedTool))
+            {
+                return VerifierResult.Fail;
+            }
             card.Type = cards[0].AddtionalType;
             card.Subcards.Add(cards[0]);
             return VerifierResult.Success;
