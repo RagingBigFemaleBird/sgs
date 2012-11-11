@@ -36,12 +36,11 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     continue;
                 }
-                Player src = source;
-                if (!PlayerIsCardTargetCheck(ref src, ref current, card))
+                if (!PlayerIsCardTargetCheck(ref source, ref current, card))
                 {
                     continue;
                 }
-                Game.CurrentGame.RecoverHealth(src, current, 1);
+                Game.CurrentGame.RecoverHealth(source, current, 1);
 
             }
         }
@@ -63,7 +62,6 @@ namespace Sanguosha.Expansions.Basic.Cards
         protected override List<Player> LogTargetsModifier(Player source, List<Player> dests)
         {
             var z = new List<Player>(Game.CurrentGame.AlivePlayers);
-            z.Remove(source);
             return z;
         }
     }

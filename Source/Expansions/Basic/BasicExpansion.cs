@@ -41,7 +41,7 @@ namespace Sanguosha.Expansions.Basic
             CardSet.Add(new Card(SuitType.Spade, 3, new GuoHeChaiQiao()));
             CardSet.Add(new Card(SuitType.Spade, 3, new ShunShouQianYang()));
             CardSet.Add(new Card(SuitType.Heart, 3, new Tao()));
-            //            CardSet.Add(new Card(SuitType.Heart, 3, WUGUFENGDENG()));
+            CardSet.Add(new Card(SuitType.Heart, 3, new WuGuFengDeng()));
             CardSet.Add(new Card(SuitType.Club, 3, new RegularSha()));
             CardSet.Add(new Card(SuitType.Club, 3, new GuoHeChaiQiao()));
             CardSet.Add(new Card(SuitType.Diamond, 3, new Shan()));
@@ -50,7 +50,7 @@ namespace Sanguosha.Expansions.Basic
             CardSet.Add(new Card(SuitType.Spade, 4, new GuoHeChaiQiao()));
             CardSet.Add(new Card(SuitType.Spade, 4, new ShunShouQianYang()));
             CardSet.Add(new Card(SuitType.Heart, 4, new Tao()));
-            //            CardSet.Add(new Card(SuitType.Heart, 4, WUGUFENGDENG()));
+            CardSet.Add(new Card(SuitType.Heart, 4, new WuGuFengDeng()));
             CardSet.Add(new Card(SuitType.Club, 4, new RegularSha()));
             CardSet.Add(new Card(SuitType.Club, 4, new GuoHeChaiQiao()));
             CardSet.Add(new Card(SuitType.Diamond, 4, new Shan()));
