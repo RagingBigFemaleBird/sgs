@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Skills\GongXin.cs" />
     <Compile Include="Skills\GuHuo.cs" />
     <Compile Include="Skills\GuiDao.cs" />
     <Compile Include="Skills\JuShou.cs" />

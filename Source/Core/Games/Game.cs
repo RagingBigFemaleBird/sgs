@@ -540,7 +540,7 @@ namespace Sanguosha.Core.Games
         ///YOU ARE NOT ALLOWED TO TRIGGER ANY EVENT ANYWHERE INSIDE THIS FUNCTION!!!!!
         ///你不可以在这个函数中触发任何事件!!!!!
         ///</remarks>
-        public void MoveCards(List<CardsMovement> moves, List<IGameLog> logs)
+        public void MoveCards(List<CardsMovement> moves, List<IGameLog> logs, List<bool> insertBefore = null)
         {
             if (atomic)
             {
@@ -564,6 +564,7 @@ namespace Sanguosha.Core.Games
             }
 
             NotificationProxy.NotifyCardMovement(moves, logs);
+            int i = 0;
             
             foreach (CardsMovement move in moves)
             {
@@ -585,7 +586,14 @@ namespace Sanguosha.Core.Games
                         e.RegisterTriggers(move.to.Player);
                     }
                     decks[card.Place].Remove(card);
-                    decks[move.to].Add(card);
+                    if (insertBefore != null && insertBefore[i])
+                    {
+                        decks[move.to].Insert(0, card);
+                    }
+                    else
+                    {
+                        decks[move.to].Add(card);
+                    }
                     card.HistoryPlace1 = card.Place;
                     card.Place = move.to;
                     //reset card type if entering hand or discard
@@ -608,10 +616,11 @@ namespace Sanguosha.Core.Games
                         card.Id = -1;
                     }
                 }
+                i++;
             }
         }
 
-        public void MoveCards(CardsMovement move, UI.IGameLog log)
+        public void MoveCards(CardsMovement move, UI.IGameLog log, bool insertBefore = false)
         {
             List<CardsMovement> moves = new List<CardsMovement>();
             moves.Add(move);
@@ -625,7 +634,7 @@ namespace Sanguosha.Core.Games
             {
                 logs = null;
             }
-            MoveCards(moves, logs);
+            MoveCards(moves, logs, new List<bool>() {insertBefore});
         }
 
         public Card PeekCard(int i)
@@ -1553,6 +1562,30 @@ namespace Sanguosha.Core.Games
             }
         }
 
+
+        public void InsertBeforeDeal(Player target, List<Card> list)
+        {
+            CardsMovement move = new CardsMovement();
+            move.cards = new List<Card>(list);
+            move.to = new DeckPlace(null, DeckType.Dealing);
+            MoveCards(move, null, true);
+            if (target != null)
+            {
+                PlayerLostCard(target, list);
+            }
+        }
+
+        public void PlaceIntoDiscard(Player target, List<Card> list)
+        {
+            CardsMovement move = new CardsMovement();
+            move.cards = new List<Card>(list);
+            move.to = new DeckPlace(null, DeckType.Discard);
+            MoveCards(move, null);
+            if (target != null)
+            {
+                PlayerLostCard(target, list);
+            }
+        }
     }
 }
 
