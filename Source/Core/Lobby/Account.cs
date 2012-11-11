@@ -8,6 +8,11 @@ namespace Sanguosha.Lobby
 {
     public class Account
     {
+        public Account()
+        {
+            enabledHeroes = new List<string>();
+        }
+
         string username;
 
         public string Username

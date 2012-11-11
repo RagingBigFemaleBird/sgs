@@ -16,8 +16,8 @@ namespace Sanguosha.Lobby.HeroUnlock
             set { heroName = value; }
         }
 
-        List<HeroMapNode> hardHeroRequirements;
-        List<HeroMapNode> softHeroRequirements;
-        List<Achievement> hardAchievementRequirements;
+//        List<HeroMapNode> hardHeroRequirements;
+//        List<HeroMapNode> softHeroRequirements;
+//        List<Achievement> hardAchievementRequirements;
     }
 }

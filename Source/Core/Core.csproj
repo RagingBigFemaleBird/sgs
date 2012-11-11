@@ -64,6 +64,7 @@
     <Compile Include="Cards\Equipment.cs" />
     <Compile Include="Cards\ICard.cs" />
     <Compile Include="Cards\Card.cs" />
+    <Compile Include="Cards\OneTargetNoSelfVerifier.cs" />
     <Compile Include="Cards\SingleCardPlayVerifier.cs" />
     <Compile Include="Cards\SingleCardUsageVerifier.cs" />
     <Compile Include="Cards\ReadOnlyCard.cs" />

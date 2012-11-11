@@ -41,6 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Skills\GuHuo.cs" />
+    <Compile Include="Skills\GuiDao.cs" />
+    <Compile Include="Skills\JuShou.cs" />
+    <Compile Include="Skills\KuangGu.cs" />
+    <Compile Include="Skills\LeiJi.cs" />
+    <Compile Include="Skills\LieGong.cs" />
+    <Compile Include="Skills\ShenSu.cs" />
+    <Compile Include="Skills\TianXiang.cs" />
     <Compile Include="WindExpansion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

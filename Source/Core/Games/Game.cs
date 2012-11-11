@@ -966,6 +966,7 @@ namespace Sanguosha.Core.Games
                 args.Cards = new List<Card>();
             }
             args.Targets.Add(dest);
+            args.ExtraCard = card;
 
             try
             {
