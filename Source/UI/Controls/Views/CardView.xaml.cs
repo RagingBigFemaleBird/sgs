@@ -61,19 +61,14 @@ namespace Sanguosha.UI.Controls
             this.MouseEnter += CardView_MouseEnter;
             this.MouseLeave += CardView_MouseLeave;
             _daMoveX = new DoubleAnimation();
-            _daMoveY = new DoubleAnimation();
-            _daOpacity = new DoubleAnimation();      
+            _daMoveY = new DoubleAnimation();            
             Storyboard.SetTarget(_daMoveX, this);
             Storyboard.SetTargetProperty(_daMoveX, new PropertyPath(Canvas.LeftProperty));
             Storyboard.SetTarget(_daMoveY, this);
-            Storyboard.SetTargetProperty(_daMoveY, new PropertyPath(Canvas.TopProperty));
-            Storyboard.SetTarget(_daOpacity, this);
-            Storyboard.SetTargetProperty(_daOpacity, new PropertyPath(CardView.OpacityProperty));
-            _DisappearAfterMoveHandler = new EventHandler(_DisappearAfterMove);
+            Storyboard.SetTargetProperty(_daMoveY, new PropertyPath(Canvas.TopProperty));                        
             _moveAnimation = new Storyboard();
             _moveAnimation.Children.Add(_daMoveX);
-            _moveAnimation.Children.Add(_daMoveY);
-            _moveAnimation.Children.Add(_daOpacity);
+            _moveAnimation.Children.Add(_daMoveY);            
             _moveAnimation.AccelerationRatio = 0.2;
         }
 
@@ -134,8 +129,7 @@ namespace Sanguosha.UI.Controls
         public static double WidthHeightRatio = 0.7154;
 
         DoubleAnimation _daMoveX;
-        DoubleAnimation _daMoveY;
-        DoubleAnimation _daOpacity;
+        DoubleAnimation _daMoveY;        
         Storyboard _moveAnimation;
 
         public void Rebase(double transitionInSeconds)
@@ -146,7 +140,7 @@ namespace Sanguosha.UI.Controls
             double destX = Position.X + Offset.X;
             double destY = Position.Y + Offset.Y;
             
-            lock (_daOpacity)
+            lock (_daMoveX)
             {
                 double x = (double)GetValue(Canvas.LeftProperty);
                 double y = (double)GetValue(Canvas.TopProperty);
@@ -162,41 +156,37 @@ namespace Sanguosha.UI.Controls
 
                 Point point = new Point(x, y);
                 _daMoveX.From = x;
-                _daMoveY.From = y;
-                _daOpacity.From = opacity;
+                _daMoveY.From = y;                
                 _daMoveX.To = destX;
                 _daMoveY.To = destY;
                 _daMoveX.Duration = TimeSpan.FromSeconds(transitionInSeconds);
                 _daMoveY.Duration = TimeSpan.FromSeconds(transitionInSeconds);
-                _daOpacity.To = CardOpacity;
-                _daOpacity.Duration = TimeSpan.FromSeconds(transitionInSeconds);
-
-                if (DisappearAfterMove)
-                {
-                    _daOpacity.Completed += _DisappearAfterMoveHandler;
-                }
 
                 _moveAnimation.Duration = TimeSpan.FromSeconds(transitionInSeconds);
                 _moveAnimation.Begin(this, true);
             }
         }
 
-        private EventHandler _DisappearAfterMoveHandler;
-
-        private void _DisappearAfterMove(object sender, EventArgs e)
+        public void Appear(double duration)
         {
-            _daOpacity.Completed -= _DisappearAfterMoveHandler;
-            _daOpacity.From = (double)GetValue(CardView.OpacityProperty);
-            _daOpacity.To = 0.0d;
-            _daOpacity.Duration = TimeSpan.FromSeconds(0.2d);            
-            _daOpacity.Completed += new EventHandler((o, e2) =>
+            if (duration == 0) Opacity = 1.0;
+            Storyboard appear = Resources["sbAppear"] as Storyboard;
+            appear.SpeedRatio = 1 / duration;            
+            appear.Begin();
+        }
+
+        public void Disappear(double duration)
+        {
+            Panel panel = this.Parent as Panel;
+            if (panel == null) return;
+            else if (duration == 0) Opacity = 0.0;
+            Storyboard disappear = Resources["sbDisappear"] as Storyboard;
+            disappear.Completed += new EventHandler((o, e2) =>
             {
-                Canvas canvas = this.Parent as Canvas;
-                Trace.Assert(canvas != null);
-                canvas.Children.Remove(this);
+                panel.Children.Remove(this);
             });
-            BeginAnimation(Canvas.OpacityProperty, _daOpacity);
-            // CardOpacity = 0;
+            disappear.SpeedRatio = 1 / duration;
+            disappear.Begin();            
         }
 
         private static void OnOffsetPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -228,23 +218,7 @@ namespace Sanguosha.UI.Controls
         // Using a DependencyProperty as the backing store for Position.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PositionProperty =
             DependencyProperty.Register("Position", typeof(Point), typeof(CardView), new UIPropertyMetadata(new Point(0,0)));
-
-        public double CardOpacity
-        {
-            get { return (double)GetValue(CardOpacityProperty); }
-            set { SetValue(CardOpacityProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for CardOpacity.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CardOpacityProperty =
-            DependencyProperty.Register("CardOpacity", typeof(double), typeof(CardView), new UIPropertyMetadata(0d));
-
-        public bool DisappearAfterMove
-        {
-            get;
-            set;
-        }
-
+        
         #endregion
 
         #region Card Creation/Destruction Helpers
@@ -254,7 +228,8 @@ namespace Sanguosha.UI.Controls
             {
                 DataContext = new CardViewModel() { Card = card },
                 Width = width,
-                Height = height
+                Height = height,
+                Opacity = 0d
             };
         }
 

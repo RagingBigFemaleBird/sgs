@@ -101,14 +101,14 @@ namespace Sanguosha.UI.Controls
             {
                 foreach (var card in cards)
                 {
-                    card.CardModel.IsSelected = false;
-                    card.CardOpacity = 1d;
+                    card.CardModel.IsSelected = false;                    
                     if (IsCardConsumer)
                     {
-                        card.DisappearAfterMove = true;
+                        card.Disappear(transitionInSeconds);
                     }
                     else
                     {
+                        card.Appear(transitionInSeconds);
                         _cards.Add(card);
                     }
                 }

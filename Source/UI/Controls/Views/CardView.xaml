@@ -61,6 +61,25 @@
                     <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
                 </DoubleAnimationUsingKeyFrames>
             </Storyboard>
+            <Storyboard x:Key="sbAppear">
+            	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="userControl">
+            		<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+            	</DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="sbDisappear">
+            	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="userControl">
+            		<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1">
+            			<EasingDoubleKeyFrame.EasingFunction>
+            				<QuadraticEase EasingMode="EaseOut"/>
+            			</EasingDoubleKeyFrame.EasingFunction>
+            		</EasingDoubleKeyFrame>
+            		<EasingDoubleKeyFrame KeyTime="0:0:1" Value="0">
+            			<EasingDoubleKeyFrame.EasingFunction>
+            				<QuarticEase EasingMode="EaseIn"/>
+            			</EasingDoubleKeyFrame.EasingFunction>
+            		</EasingDoubleKeyFrame>
+            	</DoubleAnimationUsingKeyFrames>
+            </Storyboard>
         </ResourceDictionary>
     </UserControl.Resources>
     <i:Interaction.Triggers>

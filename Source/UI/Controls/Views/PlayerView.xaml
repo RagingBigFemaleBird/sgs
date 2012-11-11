@@ -255,7 +255,7 @@
                     </Path.Stroke>
                 </Path>
                 <Border Margin="2,0,2,4" Grid.Row="1" BorderBrush="#FF79786B" CornerRadius="1" BorderThickness="1" ClipToBounds="True">
-                    <Grid>
+                    <Grid>                       
                         <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=28\,46\,220\,132, Path=HeroName, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/\{0\}.png}"/>
                         <Image Margin="0" Source="/Resources;component/Images/PlayerInfoView/imprisoned.png" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}"/>                         
                         <Border x:Name="IsTargetedGlow" Visibility="{Binding IsTargeted, Converter={StaticResource boolToVisibilityConverter}}" BorderBrush="Red" BorderThickness="5" >
@@ -327,23 +327,7 @@
                 	<Image Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}"/>
                 	<anim:TieSuoAnimation2 x:Name="tieSuoAnimation2" FramesPerSecond="15" Stretch="Fill" IsHitTestVisible="False"/>
                 </Grid>
-                <Grid x:Name="gridSpectate" HorizontalAlignment="Left" Height="24" Margin="16.664,0,0,-0.666" Grid.Row="1" Width="24" VerticalAlignment="Bottom" Background="#02FFFFFF" >
-                	<i:Interaction.Triggers>
-                		<i:EventTrigger EventName="MouseEnter">
-                			<ei:ChangePropertyAction PropertyName="Visibility" TargetObject="{Binding ElementName=btnSpectate}">
-                				<ei:ChangePropertyAction.Value>
-                					<Visibility>Visible</Visibility>
-                				</ei:ChangePropertyAction.Value>
-                			</ei:ChangePropertyAction>
-                		</i:EventTrigger>
-                		<i:EventTrigger EventName="MouseLeave">
-                			<ei:ChangePropertyAction PropertyName="Visibility" TargetObject="{Binding ElementName=btnSpectate}">
-                				<ei:ChangePropertyAction.Value>
-                					<Visibility>Hidden</Visibility>
-                				</ei:ChangePropertyAction.Value>
-                			</ei:ChangePropertyAction>
-                		</i:EventTrigger>
-                	</i:Interaction.Triggers>
+                <Grid x:Name="gridSpectate" HorizontalAlignment="Left" Height="24" Margin="16.664,0,0,-0.666" Grid.Row="1" Width="24" VerticalAlignment="Bottom">
 					<Button x:Name="btnSpectate" Content="Button" Style="{DynamicResource SpectateButton}" Visibility="Hidden" Click="btnSpectate_Click">
                 		<Button.Clip>
                 			<RectangleGeometry Rect="0, 5, 25, 15"/>

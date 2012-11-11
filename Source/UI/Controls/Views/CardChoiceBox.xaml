@@ -39,7 +39,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Canvas Width="96" Height="138">
-                                    <local:CardView Canvas.Top="3" Width="93" Height="130" CardOpacity="1" Opacity="1" Cursor="Hand"/>
+                                    <local:CardView Canvas.Top="3" Width="93" Height="130" Opacity="1" Cursor="Hand"/>
                                 </Canvas>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

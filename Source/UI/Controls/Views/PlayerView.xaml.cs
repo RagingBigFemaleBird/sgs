@@ -132,8 +132,7 @@ namespace Sanguosha.UI.Controls
                                                                    ParentGameView.GlobalCanvas);
             dest.Offset(-card.Width / 2, -card.Height / 2);
             card.Position = dest;
-            card.CardOpacity = 0.0d;
-            card.DisappearAfterMove = true;
+            card.Disappear(0.5d);
             card.Rebase(0.5d);
 
             Storyboard storyBoard = new Storyboard();
@@ -220,8 +219,7 @@ namespace Sanguosha.UI.Controls
             targetArea.Children.Add(equipLabel);
 
             card.Position = ComputeCardCenterPos(card, targetArea);
-            card.CardOpacity = 0.0;
-            card.DisappearAfterMove = true;
+            card.Disappear(0.3d);            
             card.Rebase(0.3d);
 
             Storyboard storyBoard = new Storyboard();
@@ -323,8 +321,7 @@ namespace Sanguosha.UI.Controls
             storyboard.AccelerationRatio = 0.4d;
             storyboard.Begin();
 
-            card.CardOpacity = 1.0;
-            card.DisappearAfterMove = true;
+            card.Disappear(0.5d);
             card.Rebase(0.5d);
         }
 

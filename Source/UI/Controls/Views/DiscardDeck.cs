@@ -30,9 +30,7 @@ namespace Sanguosha.UI.Controls
 
         private void _MakeDisappear(CardView card)
         {
-            card.DisappearAfterMove = true;
-            card.CardOpacity = 0d;
-            card.Rebase(0.5d);
+            card.Disappear(0.5d);
             Cards.Remove(card);
         }
 
@@ -123,7 +121,7 @@ namespace Sanguosha.UI.Controls
                     foreach (var card in cards)
                     {
                         card.Opacity = 0d;
-                        card.CardOpacity = 1d;
+                        card.Appear(0.3d);
                         card.CardModel.IsFaded = false;
                         card.SetValue(Canvas.LeftProperty, rightMost.X);
                         card.SetValue(Canvas.TopProperty, rightMost.Y);

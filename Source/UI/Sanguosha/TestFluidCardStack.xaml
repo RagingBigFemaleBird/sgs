@@ -10,7 +10,7 @@
         	<i:Interaction.Behaviors>
         		<ei:FluidMoveBehavior AppliesTo="Children" Duration="00:00:00.2000000" />
         	</i:Interaction.Behaviors>
-            <my:CardView x:Name="cardView1" CardOpacity="1" Opacity="1"/>
+            <my:CardView x:Name="cardView1" Opacity="1"/>
             <my:CardView x:Name="cardView2"/>
             <my:CardView x:Name="cardView3"/>
             <my:CardView x:Name="cardView4"/>
@@ -23,7 +23,7 @@
                 <i:Interaction.Behaviors>
                     <ei:FluidMoveBehavior AppliesTo="Children" Duration="00:00:00.2000000" />
                 </i:Interaction.Behaviors>
-                <my:CardView x:Name="cardView21" CardOpacity="1" Opacity="1"/>
+                <my:CardView x:Name="cardView21" Opacity="1"/>
                 <my:CardView x:Name="cardView22"/>
                 <my:CardView x:Name="cardView23"/>
                 <my:CardView x:Name="cardView24"/>
