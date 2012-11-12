@@ -50,7 +50,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             List<List<Card>> answer;
             if (Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("GongXin"),
                     new List<DeckPlace>() { new DeckPlace(target, DeckType.Hand) },
-                    new List<string>() { "PaiDuiDing", "PaiDuiDi" },
+                    new List<string>() { "PaiDuiDing", "QiPaiDui" },
                     new List<int>() { 1, 1 },
                     new GongXinVerifier(),
                     out answer,

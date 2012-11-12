@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.Wind.Skills
     {
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            Game.CurrentGame.RecoverHealth(Owner, Owner, 1);
+            Game.CurrentGame.RecoverHealth(Owner, Owner, -eventArgs.IntArg);
         }
 
         public KuangGu()
