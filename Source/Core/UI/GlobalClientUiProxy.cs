@@ -50,6 +50,57 @@ namespace Sanguosha.Core.UI
             inactiveProxies = inactive;
         }
 
+        public void AskForMultipleCardUsage(Prompt prompt, ICardUsageVerifier verifier, List<Player> players, out Dictionary<Player, ISkill> askill, out Dictionary<Player, List<Card>> acards, out Dictionary<Player, List<Player>> aplayers)
+        {
+            this.prompt = prompt;
+            this.verifier = verifier;
+            foreach (var z in inactiveProxies)
+            {
+                if (players.Contains(z.HostPlayer))
+                {
+                    z.TryAskForCardUsage(new CardUsagePrompt(""), new NullVerifier());
+                }
+            }
+            Thread t = null;
+            if (players.Contains(proxy.HostPlayer))
+            {
+                t = new Thread(AskUiThread) { IsBackground = true };
+                t.Start();
+            }
+            askill = new Dictionary<Player, ISkill>();
+            acards = new Dictionary<Player, List<Card>>();
+            aplayers = new Dictionary<Player, List<Player>>();
+            foreach (var p in players)
+            {
+                ISkill tempSkill;
+                List<Card> tempCards;
+                List<Player> tempPlayers;
+                if (!proxy.TryAnswerForCardUsage(prompt, verifier, out tempSkill, out tempCards, out tempPlayers))
+                {
+                    tempCards = new List<Card>();
+                    tempPlayers = new List<Player>();
+                    tempSkill = null;
+                }
+                askill.Add(p, tempSkill);
+                acards.Add(p, tempCards);
+                aplayers.Add(p, tempPlayers);
+            }
+            if (players.Contains(proxy.HostPlayer))
+            {
+                t.Abort();
+                proxy.Freeze();
+                proxy.NextQuestion();
+            }
+            foreach (var otherProxy in inactiveProxies)
+            {
+                if (players.Contains(otherProxy.HostPlayer))
+                {
+                    otherProxy.Freeze();
+                }
+            }
+
+        }
+
         public bool AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players, out Player respondingPlayer)
         {
             this.prompt = prompt;

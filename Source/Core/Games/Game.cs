@@ -1170,9 +1170,9 @@ namespace Sanguosha.Core.Games
             }
             result.Type.TagAndNotify(p, targets, result, GameAction.Play);
             List<Card> backup = new List<Card>(m.cards);
-            PlayerPlayedCard(p, result);
             PlayerAboutToDiscardCard(p, m.cards, DiscardReason.Play);
             MoveCards(m, new CardUseLog() { Source = p, Targets = null, Cards = null, Skill = skill });
+            PlayerPlayedCard(p, result);
             PlayerDiscardedCard(p, backup, DiscardReason.Play);
             return true;
         }
@@ -1584,6 +1584,80 @@ namespace Sanguosha.Core.Games
             if (target != null)
             {
                 PlayerLostCard(target, list);
+            }
+        }
+
+        public bool PinDian(Player from, Player to)
+        {
+            Dictionary<Player, ISkill> aSkill;
+            Dictionary<Player, List<Card>> aCards;
+            Dictionary<Player, List<Player>> aPlayers;
+
+            GlobalProxy.AskForMultipleCardUsage(new CardUsagePrompt("PinDian"), new PinDianVerifier(), new List<Player>() { from, to }, out aSkill, out aCards, out aPlayers);
+            Card card1, card2;
+            if (!aCards.ContainsKey(from) || aCards[from].Count == 0)
+            {
+                card1 = Game.CurrentGame.Decks[from, DeckType.Hand][0];
+                SyncCardAll(card1);
+            }
+            else
+            {
+                card1 = aCards[from][0];
+            }
+            if (!aCards.ContainsKey(to) || aCards[to].Count == 0)
+            {
+                card2 = Game.CurrentGame.Decks[to, DeckType.Hand][0];
+                SyncCardAll(card2);
+            }
+            else
+            {
+                card2 = aCards[to][0];
+            }
+            EnterAtomicContext();
+            PlaceIntoDiscard(from, new List<Card>() { card1 });
+            PlaceIntoDiscard(from, new List<Card>() { card2 });
+            PlayerLostCard(from, new List<Card>() { card1 });
+            PlayerLostCard(from, new List<Card>() { card2 });
+            ExitAtomicContext();
+            return card1.Rank > card2.Rank;
+        }
+
+        public class PinDianVerifier : ICardUsageVerifier
+        {
+            public VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
+            {
+                if (skill != null || (players != null && players.Count > 0))
+                {
+                    return VerifierResult.Fail;
+                }
+                if (cards == null || cards.Count == 0)
+                {
+                    return VerifierResult.Partial;
+                }
+                if (cards.Count > 1)
+                {
+                    return VerifierResult.Fail;
+                }
+                if (cards[0].Place.DeckType != DeckType.Hand)
+                {
+                    return VerifierResult.Fail;
+                }
+                return VerifierResult.Success;
+            }
+
+            public IList<CardHandler> AcceptableCardType
+            {
+                get { return null; }
+            }
+
+            public VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> players)
+            {
+                return FastVerify(source, skill, cards, players);
+            }
+
+            public UiHelper Helper
+            {
+                get { return new UiHelper(); }
             }
         }
     }

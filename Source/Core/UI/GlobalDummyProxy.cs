@@ -28,5 +28,11 @@ namespace Sanguosha.Core.UI
         {
             throw new NotImplementedException();
         }
+
+
+        public void AskForMultipleCardUsage(Prompt prompt, ICardUsageVerifier verifier, List<Player> players, out Dictionary<Player, ISkill> askill, out Dictionary<Player, List<Card>> acards, out Dictionary<Player, List<Player>> aplayers)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -31,7 +31,7 @@ namespace Sanguosha.Core.Cards
             return true;
         }
 
-        protected virtual bool VerifyPlayer(Player souorce, Player player)
+        protected virtual bool VerifyPlayer(Player source, Player player)
         {
             return true;
         }
@@ -74,10 +74,12 @@ namespace Sanguosha.Core.Cards
                     }
                 }
             }
-            if (players == null || players.Count < minPlayers)
+            int count = players == null ? 0 : players.Count;
+            if (count < minPlayers)
             {
                 return VerifierResult.Partial;
             }
+            count = cards == null ? 0 : cards.Count;
             if (cards == null || cards.Count < minCards)
             {
                 return VerifierResult.Partial;

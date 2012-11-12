@@ -66,13 +66,25 @@ namespace Sanguosha.Expansions.Basic.Cards
                 List<Player> players;
                 if (!dests[1].IsDead && Game.CurrentGame.UiProxies[initiator].AskForCardUsage(new CardUsagePrompt("JieDaoShaRen", dests[1]), new JieDaoShaRenVerifier(dests[1]), out skill, out cards, out players))
                 {
-                    GameEventArgs args = new GameEventArgs();
-                    args.Source = initiator;
-                    args.Targets = players;
-                    args.Targets.Add(dests[1]);
-                    args.Skill = skill;
-                    args.Cards = cards;
-                    Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
+                    while (true)
+                    {
+                        try
+                        {
+                            GameEventArgs args = new GameEventArgs();
+                            args.Source = initiator;
+                            args.Targets = players;
+                            args.Targets.Add(dests[1]);
+                            args.Skill = skill;
+                            args.Cards = cards;
+                            Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
+                        }
+                        catch (TriggerResultException e)
+                        {
+                            Trace.Assert(e.Status == TriggerResult.Retry);
+                            continue;
+                        }
+                        break;
+                    }
                 }
                 else
                 {

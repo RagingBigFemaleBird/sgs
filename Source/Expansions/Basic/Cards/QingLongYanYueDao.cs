@@ -10,6 +10,7 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.Cards;
+using System.Diagnostics;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
@@ -32,13 +33,25 @@ namespace Sanguosha.Expansions.Basic.Cards
                     new SingleCardUsageVerifier((c) => {return c.Type is Sha;}),
                     out skill, out cards, out players))
                 {
-                    NotifySkillUse(new List<Player>());
-                    GameEventArgs args = new GameEventArgs();
-                    args.Source = eventArgs.Source;
-                    args.Targets = eventArgs.Targets;
-                    args.Skill = skill;
-                    args.Cards = cards;
-                    Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
+                    while (true)
+                    {
+                        try
+                        {
+                            NotifySkillUse(new List<Player>());
+                            GameEventArgs args = new GameEventArgs();
+                            args.Source = eventArgs.Source;
+                            args.Targets = eventArgs.Targets;
+                            args.Skill = skill;
+                            args.Cards = cards;
+                            Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
+                        }
+                        catch (TriggerResultException e)
+                        {
+                            Trace.Assert(e.Status == TriggerResult.Retry);
+                            continue;
+                        }
+                        break;
+                    }
                 }
             }
             public QingLongYanYueSkill()

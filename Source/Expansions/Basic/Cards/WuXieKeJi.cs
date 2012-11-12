@@ -62,8 +62,18 @@ namespace Sanguosha.Expansions.Basic.Cards
                         if (Game.CurrentGame.GlobalProxy.AskForCardUsage(
                             prompt, v1, out skill, out cards, out players, out responder))
                         {
-                            if (!Game.CurrentGame.HandleCardPlay(responder, skill, cards, players))
+                            try
                             {
+                                GameEventArgs args = new GameEventArgs();
+                                args.Source = responder;
+                                args.Targets = players;
+                                args.Skill = skill;
+                                args.Cards = cards;
+                                Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
+                            }
+                            catch (TriggerResultException e)
+                            {
+                                Trace.Assert(e.Status == TriggerResult.Retry);
                                 continue;
                             }
                             promptPlayer = responder;

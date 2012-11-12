@@ -30,6 +30,7 @@ namespace Sanguosha.Core.UI
             public ServerNetworkUiProxy proxy;
             public Prompt prompt;
             public ICardUsageVerifier verifier;
+            public Player player;
         }
 
         private struct ChoiceListenerThreadParameters
@@ -41,6 +42,109 @@ namespace Sanguosha.Core.UI
             public List<int> resultMax;
             public List<bool> rearrangeable;
         }
+
+        Dictionary<Player, ISkill> manswerSkill;
+        Dictionary<Player, List<Card>> manswerCards;
+        Dictionary<Player, List<Player>> manswerPlayers;
+
+        public void AskForMultipleCardUsage(Prompt prompt, ICardUsageVerifier verifier, List<Player> players, out Dictionary<Player, ISkill> askill, out Dictionary<Player, List<Card>> acards, out Dictionary<Player, List<Player>> aplayers)
+        {
+            proxyListener = new Dictionary<Player, Thread>();
+            semAccess = new Semaphore(1, 1);
+            semWake = new Semaphore(0, 2);
+            semDone = new Semaphore(players.Count - 1, players.Count - 1);
+            manswerSkill = new Dictionary<Player,ISkill>();
+            manswerCards = new Dictionary<Player,List<Card>>();
+            manswerPlayers = new Dictionary<Player,List<Player>>();
+            foreach (var player in players)
+            {
+                if (!proxy.ContainsKey(player))
+                {
+                    continue;
+                }
+                UsageListenerThreadParameters para = new UsageListenerThreadParameters();
+                para.player = player;
+                para.prompt = prompt;
+                para.proxy = proxy[player];
+                para.verifier = verifier;
+                Thread t = new Thread(
+                    (ParameterizedThreadStart)
+                    ((p) =>
+                    {
+                        MultiUsageProxyListenerThread((UsageListenerThreadParameters)p);
+                    })) { IsBackground = true };
+                t.Start(para);
+                proxyListener.Add(player, t);
+            }
+            semWake.WaitOne(TimeOutSeconds * 1000);
+            semAccess.WaitOne(100);
+
+            foreach (var pair in proxyListener)
+            {
+                pair.Value.Abort();
+                proxy[pair.Key].NextQuestion();
+            }
+
+            foreach (var player in players)
+            {
+                if (!manswerSkill.ContainsKey(player))
+                {
+                    manswerSkill.Add(player, null);
+                }
+                if (!manswerCards.ContainsKey(player))
+                {
+                    manswerCards.Add(player, new List<Card>());
+                }
+                if (!manswerPlayers.ContainsKey(player))
+                {
+                    manswerPlayers.Add(player, new List<Player>());
+                }
+            }
+
+            foreach (var player in Game.CurrentGame.Players)
+            {
+                if (!proxy.ContainsKey(player))
+                {
+                    continue;
+                }
+                else
+                {
+                    foreach (var p in players)
+                    {
+                        proxy[player].SendCardUsage(manswerSkill[p], manswerCards[p], manswerPlayers[p]);
+                    }
+                    break;
+                }
+            }
+
+            askill = manswerSkill;
+            acards = manswerCards;
+            aplayers = manswerPlayers;
+
+        }
+
+        private void MultiUsageProxyListenerThread(UsageListenerThreadParameters para)
+        {
+            game.RegisterCurrentThread();
+            ISkill skill;
+            List<Card> cards;
+            List<Player> players;
+            if (para.proxy.TryAskForCardUsage(para.prompt, para.verifier, out skill, out cards, out players))
+            {
+
+                semAccess.WaitOne();
+                manswerSkill.Add(para.player, skill);
+                manswerCards.Add(para.player, cards);
+                manswerPlayers.Add(para.player, players);
+                semAccess.Release(1);
+            }
+            if (!semDone.WaitOne(0))
+            {
+                Trace.TraceInformation("All done");
+                semWake.Release(1);
+            }
+        }
+
 
         public bool AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players, out Player respondingPlayer)
         {

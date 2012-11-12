@@ -187,7 +187,7 @@ namespace Sanguosha.Core.Games
                     CardTransformSkill s = (CardTransformSkill)eventArgs.Skill;                    
                     if (!s.Transform(eventArgs.Cards, null, out card, eventArgs.Targets))
                     {
-                        return;
+                        throw new TriggerResultException(TriggerResult.Retry);
                     }
                     c = card;
                 }

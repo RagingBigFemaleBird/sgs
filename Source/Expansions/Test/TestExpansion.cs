@@ -23,13 +23,13 @@ namespace Sanguosha.Expansions.Test
         public TestExpansion()
         {
             CardSet = new List<Card>();
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("Test", false, Allegiance.Wei, 7, new SheLie(), new GuHuo(), new TieJi(), new GuiDao(), new JuShou(), new KuangGu(), new LeiJi(), new LieGong(), new ShenSu(), new TianXiang(),  new TianDu(), new KongCheng(), new HuJia(), new RenDe(), new FanJian()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("Test", false, Allegiance.Wei, 7, new JiZhi(), new KanPo(), new SheLie(), new GuHuo(), new JuShou(), new KuangGu(), new LeiJi(), new LieGong(), new ShenSu(), new TianXiang(), new HuJia(), new RenDe(), new FanJian()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("Test2", true, Allegiance.Shu, 7, new WuShuang(), new LongDan(), new PaoXiao(), new FanKui(), new LiJian(), new QianXun(), new QingGuo(), new GangLie(), new GuiCai(), new LianYing(), new RenDe()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("Test3", true, Allegiance.Shu, 7, new FangZhu(), new JueQing(), new FanKui(), new GangLie(), new JianXiong(), new YingZi(), new TuXi(), new LiJian(), new RenDe(), new HuoJi(), new KanPo(), new JiLei(), new LuoYing(), new LongDan()))));
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("Test4", true, Allegiance.Shu, 7, new FanKui(), new GangLie(), new JianXiong(), new LiuLi(), new YingZi(), new TuXi(), new GuiCai(), new LiJian(), new RenDe(), new HuoJi(), new KanPo(), new JiLei(), new LongDan()))));
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("Test5", true, Allegiance.Shu, 7, new WuShuang(), new FanKui(), new GangLie(), new JianXiong(), new LiuLi(), new LiJian(), new RenDe(), new HuoJi(), new KanPo(), new JiLei(), new LongDan()))));
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("Test6", true, Allegiance.Wei, 7, new WuShuang(), new FanKui(), new GangLie(), new JianXiong(), new LiuLi(), new LiJian(), new RenDe(), new HuoJi(), new KanPo(), new JiLei(), new LongDan()))));
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("Test7", true, Allegiance.Wei, 7, new WuShuang(), new FanKui(), new GangLie(), new JianXiong(), new LiuLi(), new LiJian(), new RenDe(), new HuoJi(), new KanPo(), new JiLei(), new LongDan()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("Test4", true, Allegiance.Shu, 7, new QuHu(), new FanKui(), new GangLie(), new JianXiong(), new LiuLi(), new YingZi(), new TuXi(), new GuiCai(), new LiJian(), new RenDe(), new HuoJi(), new KanPo(), new JiLei(), new LongDan()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("Test5", true, Allegiance.Shu, 7, new QuHu(), new WuShuang(), new FanKui(), new GangLie(), new JianXiong(), new LiuLi(), new LiJian(), new RenDe(), new HuoJi(), new KanPo(), new JiLei(), new LongDan()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("Test6", true, Allegiance.Wei, 7, new QuHu(), new WuShuang(), new FanKui(), new GangLie(), new JianXiong(), new LiuLi(), new LiJian(), new RenDe(), new HuoJi(), new KanPo(), new JiLei(), new LongDan()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("Test7", true, Allegiance.Wei, 7, new QuHu(), new WuShuang(), new FanKui(), new GangLie(), new JianXiong(), new LiuLi(), new LiJian(), new RenDe(), new HuoJi(), new KanPo(), new JiLei(), new LongDan()))));
         }
     }
 }
