@@ -17,63 +17,8 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// <summary>
     /// 结姻―出牌阶段，你可以弃置两张手牌并选择一名已受伤的男性角色，你与其各回复1点体力。每阶段限一次。
     /// </summary>
-    public class JieYin : ActiveSkill
+    public class JieYin : AutoVerifiedActiveSkill
     {
-        public override VerifierResult Validate(GameEventArgs arg)
-        {
-            if (Owner[JieYinUsed] != 0)
-            {
-                return VerifierResult.Fail;
-            }
-            List<Card> cards = arg.Cards;
-            if (cards == null || cards.Count <= 1)
-            {
-                if (arg.Targets == null || arg.Targets.Count == 0)
-                {
-                    return VerifierResult.Partial;
-                }
-                else
-                {
-                    return VerifierResult.Fail;
-                }
-            }
-            if (cards != null && cards.Count > 2)
-            {
-                return VerifierResult.Fail;
-            }
-            foreach (Card card in cards)
-            {
-                if (card.Owner != Owner || card.Place.DeckType != DeckType.Hand)
-                {
-                    return VerifierResult.Fail;
-                }
-                if (!Game.CurrentGame.PlayerCanDiscardCard(Owner, card))
-                {
-                    return VerifierResult.Fail;
-                }
-            }
-            if (arg.Targets != null && arg.Targets.Count > 1)
-            {
-                return VerifierResult.Fail;
-            }
-            if (arg.Targets != null && arg.Targets.Count == 1)
-            {
-                if (!arg.Targets[0].IsMale)
-                {
-                    return VerifierResult.Fail;
-                }
-                if (arg.Targets[0].Health >= arg.Targets[0].MaxHealth)
-                {
-                    return VerifierResult.Fail;
-                }
-            }
-            if (arg.Targets == null || arg.Targets.Count == 0)
-            {
-                return VerifierResult.Partial;
-            }
-            return VerifierResult.Success;
-        }
-
         public override bool Commit(GameEventArgs arg)
         {
             Owner[JieYinUsed] = 1;
@@ -88,6 +33,24 @@ namespace Sanguosha.Expansions.Basic.Skills
 
         public static PlayerAttribute JieYinUsed = PlayerAttribute.Register("JieYinUsed", true);
 
+        protected override bool VerifyCard(Player source, Card card)
+        {
+            return card.Place.DeckType == DeckType.Hand;
+        }
+
+        protected override bool VerifyPlayer(Player source, Player player)
+        {
+            return player.IsMale && player.Health < player.MaxHealth;
+        }
+
+        public JieYin()
+        {
+            minCards = 2;
+            maxCards = 2;
+            minPlayers = 1;
+            maxPlayers = 1;
+            discarding = true;
+        }
     }
 }
 
