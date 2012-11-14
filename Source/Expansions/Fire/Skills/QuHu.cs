@@ -58,7 +58,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             }
             protected override bool VerifyPlayer(Player source, Player player)
             {
-                return source != player && Game.CurrentGame.DistanceTo(target, player) <= target[Player.AttackRange] + 1;
+                return target != player && Game.CurrentGame.DistanceTo(target, player) <= target[Player.AttackRange] + 1;
             }
             Player target;
         }

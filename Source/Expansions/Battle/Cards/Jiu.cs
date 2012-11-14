@@ -18,18 +18,8 @@ namespace Sanguosha.Expansions.Battle.Cards
     [Serializable]
     public class Jiu : LifeSaver
     {
-        protected override void Process(Player source, Player dest, ICard card)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
         {
-            throw new NotImplementedException();
-        }
-
-        public override void Process(Player source, List<Player> dests, ICard card)
-        {
-            Trace.Assert(dests == null || dests.Count == 0);
-            if (!PlayerIsCardTargetCheck(ref source, ref source, card))
-            {
-                return;
-            }
             source[JiuUsed] = 1;
         }
 
@@ -65,6 +55,10 @@ namespace Sanguosha.Expansions.Battle.Cards
             get { return CardCategory.Basic; }
         }
 
+        public override List<Player> ActualTargets(Player source, List<Player> targets)
+        {
+            return new List<Player>() {source};
+        }
         public static PlayerAttribute JiuUsed = PlayerAttribute.Register("JiuUsed", true);
     }
 
@@ -72,7 +66,7 @@ namespace Sanguosha.Expansions.Battle.Cards
     {
         public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            if (eventArgs.Source[Jiu.JiuUsed] == 1)
+            if (eventArgs.Source != null && eventArgs.Source[Jiu.JiuUsed] == 1)
             {
                 eventArgs.Source[Jiu.JiuUsed] = 0;
                 eventArgs.IntArg3--;

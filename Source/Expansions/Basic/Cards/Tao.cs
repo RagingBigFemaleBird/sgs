@@ -17,19 +17,21 @@ namespace Sanguosha.Expansions.Basic.Cards
     [Serializable]
     public class Tao : LifeSaver
     {
-        protected override void Process(Player source, Player dest, ICard card)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
         {
-            throw new NotImplementedException();
+            Game.CurrentGame.RecoverHealth(source, dest, 1);
         }
 
-        public override void Process(Player source, List<Player> dests, ICard card)
+        public override List<Player> ActualTargets(Player source, List<Player> targets)
         {
-            Trace.Assert(dests == null || dests.Count == 0);
-            if (!PlayerIsCardTargetCheck(ref source, ref source, card))
+            if (Game.CurrentGame.IsDying.Count > 0)
             {
-                return;
+                return new List<Player>() { Game.CurrentGame.IsDying.First() };
             }
-            Game.CurrentGame.RecoverHealth(source, source, 1);
+            else
+            {
+                return new List<Player>() { source };
+            }
         }
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)

@@ -70,46 +70,9 @@ namespace Sanguosha.Core.Cards
             cardsOnHold = null;
         }
 
-        public bool PlayerIsCardTargetCheck(ref Player source, ref Player dest, ICard card)
-        {
-            while (true)
-            {
-                GameEventArgs arg = new GameEventArgs();
-                arg.Source = source;
-                arg.Targets = new List<Player>();
-                arg.Targets.Add(dest);
-                arg.Card = card;
-                try
-                {
-
-                    Game.CurrentGame.Emit(GameEvent.PlayerIsCardTarget, arg);
-                    Trace.Assert(arg.Targets.Count == 1);
-                    return true;
-                }
-                catch (TriggerResultException e)
-                {
-                    if (e.Status == TriggerResult.Fail)
-                    {
-                        Trace.TraceInformation("Player {0} refuse to be targeted by {1}", dest.Id, card.Type.CardType);
-                        return false;
-                    }
-                    else if (e.Status == TriggerResult.Retry)
-                    {
-                        source = arg.Source;
-                        dest = arg.Targets[0];
-                        continue;
-                    }
-                    else
-                    {
-                        Trace.Assert(false);
-                    }
-                }
-            }
-        }
-
         public void NotifyCardUse(Player source, List<Player> dests, List<Player> secondary, ICard card, GameAction action)
         {
-            List<Player> logTargets = LogTargetsModifier(source, dests);
+            List<Player> logTargets = ActualTargets(source, dests);
             ActionLog log = new ActionLog();
             log.Source = source;
             log.Targets = logTargets;
@@ -153,28 +116,48 @@ namespace Sanguosha.Core.Cards
             NotifyCardUse(source, dests, new List<Player>(), card, action);
         }
 
-        public virtual void Process(Player source, List<Player> dests, ICard card)
+        public virtual void Process(Player source, List<Player> dests, ICard card, ReadOnlyCard readonlyCard)
         {
+            Game.CurrentGame.SortByOrderOfComputation(source, dests);
             foreach (var player in dests)
             {
-                Player p = player;
-                if (PlayerIsCardTargetCheck(ref source, ref p, card)) 
+                GameEventArgs args = new GameEventArgs();
+                args.Source = source;
+                args.Targets = new List<Player>() {player};
+                args.Card = card;
+                args.ReadonlyCard = readonlyCard;
+                try
                 {
-                    Process(source, p, card);
+                    Game.CurrentGame.Emit(GameEvent.PlayerIsCardTargetInvalidated, args);
                 }
+                catch (TriggerResultException e)
+                {
+                    Trace.Assert(e.Status == TriggerResult.End);
+                    continue;
+                }
+                try
+                {
+                    Game.CurrentGame.Emit(GameEvent.PlayerIsCardTargetBeforeEffected, args);
+                }
+                catch (TriggerResultException e)
+                {
+                    Trace.Assert(e.Status == TriggerResult.End);
+                    continue;
+                }
+                Process(source, player, card, readonlyCard);
             }
         }
 
-        protected virtual List<Player> LogTargetsModifier(Player source, List<Player> dests)
-        {
-            return new List<Player>(dests);
-        }
-
-        protected abstract void Process(Player source, Player dest, ICard card);
+        protected abstract void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard);
 
         public virtual VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> targets)
         {
             return VerifyHelper(source, skill, cards, targets, IsReforging(source, skill, cards, targets));
+        }
+
+        public virtual List<Player> ActualTargets(Player source, List<Player> targets)
+        {
+            return targets;
         }
 
         public virtual bool IsReforging(Player source, ISkill skill, List<Card> cards, List<Player> targets)

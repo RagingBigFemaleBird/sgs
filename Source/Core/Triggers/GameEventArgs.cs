@@ -80,12 +80,12 @@ namespace Sanguosha.Core.Triggers
             set { card = value; }
         }
 
-        private ICard extraCard;
+        private ReadOnlyCard readonlyCard;
 
-        public ICard ExtraCard
+        public ReadOnlyCard ReadonlyCard
         {
-            get { return extraCard; }
-            set { extraCard = value; }
+            get { return readonlyCard; }
+            set { readonlyCard = value; }
         }
 
     }

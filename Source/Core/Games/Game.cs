@@ -957,7 +957,7 @@ namespace Sanguosha.Core.Games
             DamageElement ironShackledDamageElement = DamageElement.None;
             if (card != null)
             {
-                args.Card = new ReadOnlyCard(card);
+                args.ReadonlyCard = new ReadOnlyCard(card);
             }
             if (card is CompositeCard)
             {
@@ -975,7 +975,7 @@ namespace Sanguosha.Core.Games
                 args.Cards = new List<Card>();
             }
             args.Targets.Add(dest);
-            args.ExtraCard = card;
+            args.Card = card;
 
             try
             {

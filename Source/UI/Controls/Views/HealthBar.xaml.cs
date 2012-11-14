@@ -57,7 +57,7 @@ namespace Sanguosha.UI.Controls
             else
             {
                 oldHealth = Math.Min(oldHealth, 5);
-                for (int i = newHealth; i < oldHealth; i++)
+                for (int i = Math.Max(newHealth, 0); i < oldHealth; i++)
                 {
                     Trace.Assert(i < 5);
                     LoseHealthAnimation animation = new LoseHealthAnimation();

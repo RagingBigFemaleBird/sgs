@@ -13,7 +13,7 @@ namespace Sanguosha.Core.Games
             get { return CardCategory.Unknown; }
         }
 
-        protected override void Process(Players.Player source, Players.Player dest, ICard card)
+        protected override void Process(Players.Player source, Players.Player dest, ICard card, ReadOnlyCard cardr)
         {
             throw new NotImplementedException();
         }

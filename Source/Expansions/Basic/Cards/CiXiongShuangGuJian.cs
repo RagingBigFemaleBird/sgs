@@ -45,13 +45,13 @@ namespace Sanguosha.Expansions.Basic.Cards
                     this,
                     (p, e, a) =>
                     {
-                        return (a.Targets[0].IsFemale && a.Source.IsMale) ||
-                            (a.Targets[0].IsMale && a.Source.IsFemale);
+                        return (a.ReadonlyCard.Type is Sha) && ((a.Targets[0].IsFemale && a.Source.IsMale) ||
+                            (a.Targets[0].IsMale && a.Source.IsFemale));
                     },
                     Run,
                     TriggerCondition.OwnerIsSource
                 );
-                Triggers.Add(Sha.PlayerShaTargetShanModifier, trigger);
+                Triggers.Add(GameEvent.PlayerIsCardTargetConfirmed, trigger);
             }
         }
 

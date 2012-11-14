@@ -12,7 +12,7 @@ namespace Sanguosha.Core.Heroes
 {
     public class HeroCardHandler : CardHandler
     {
-        protected override void Process(Players.Player source, Players.Player dest, ICard card)
+        protected override void Process(Players.Player source, Players.Player dest, ICard card, ReadOnlyCard readonlyCard)
         {
             throw new NotImplementedException();
         }

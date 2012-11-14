@@ -201,7 +201,7 @@ namespace Sanguosha.Core.Games
                 if (CardCategoryManager.IsCardCategory(c.Type.Category, CardCategory.DelayedTool)
                     || CardCategoryManager.IsCardCategory(c.Type.Category, CardCategory.Equipment))
                 {
-                    c.Type.Process(eventArgs.Source, eventArgs.Targets, c);
+                    c.Type.Process(eventArgs.Source, eventArgs.Targets, c, null);
                     return;
                 }
 
@@ -223,23 +223,27 @@ namespace Sanguosha.Core.Games
                 Game.CurrentGame.PlayerLostCard(eventArgs.Source, eventArgs.Cards);
                 Player savedSource = eventArgs.Source;
 
+                GameEventArgs arg = new GameEventArgs();
+                arg.Source = eventArgs.Source;
+                arg.Targets = c.Type.ActualTargets(arg.Source, eventArgs.Targets);
+                arg.Card = c;
+                arg.ReadonlyCard = new ReadOnlyCard(c);
                 if (runTrigger)
                 {
                     try
                     {
-                        GameEventArgs arg = new GameEventArgs();
-                        arg.Source = eventArgs.Source;
-                        arg.Targets = eventArgs.Targets;
-                        arg.Card = c;
-
                         Game.CurrentGame.Emit(GameEvent.PlayerUsedCard, arg);
+                        Game.CurrentGame.Emit(GameEvent.PlayerIsCardTarget, arg);
+                        Game.CurrentGame.Emit(GameEvent.PlayerIsCardTargetConfirmed, arg);
                     }
                     catch (TriggerResultException)
                     {
                         throw new NotImplementedException();
                     }
                 }
-                c.Type.Process(eventArgs.Source, eventArgs.Targets, c);
+
+
+                c.Type.Process(arg.Source, arg.Targets, c, arg.ReadonlyCard);
 
                 if (Game.CurrentGame.Decks[DeckType.Compute].Count > 0)
                 {
@@ -701,8 +705,8 @@ namespace Sanguosha.Core.Games
             RegisterTrigger(GameEvent.CommitActionToTargets, new CommitActionToTargetsTrigger());
             RegisterTrigger(GameEvent.AfterHealthChanged, new PlayerHpChanged());
             RegisterTrigger(GameEvent.PlayerIsDead, new PlayerIsDead());
-            RegisterTrigger(GameEvent.PlayerIsCardTarget, new DeadManStopper() { Priority = int.MaxValue });
-            RegisterTrigger(GameEvent.PlayerIsCardTarget, new DeadManStopper() { Priority = int.MinValue });
+            RegisterTrigger(GameEvent.PlayerIsCardTargetBeforeEffected, new DeadManStopper() { Priority = int.MaxValue });
+            RegisterTrigger(GameEvent.PlayerIsCardTargetBeforeEffected, new DeadManStopper() { Priority = int.MinValue });
         }
     }
 

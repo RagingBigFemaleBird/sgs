@@ -19,9 +19,21 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         public override void Activate(Player p, Card c)
         {
-            Player nullPlayer = null;
-            if (PlayerIsCardTargetCheck(ref nullPlayer, ref p, c))
+            while (true)
             {
+                GameEventArgs args = new GameEventArgs();
+                args.Source = null;
+                args.Targets = new List<Player>() { p };
+                args.Card = c;
+                try
+                {
+                    Game.CurrentGame.Emit(GameEvent.PlayerIsCardTargetBeforeEffected, args);
+                }
+                catch (TriggerResultException e)
+                {
+                    Trace.Assert(e.Status == TriggerResult.End);
+                    break;
+                }
                 ReadOnlyCard result = Game.CurrentGame.Judge(p, null, c);
                 if (result.Suit != SuitType.Heart)
                 {
@@ -29,6 +41,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     theTrigger.Owner = p;
                     Game.CurrentGame.RegisterTrigger(GameEvent.PhaseOutEvents[TurnPhase.Draw], theTrigger);
                 }
+                break;
             }
             CardsMovement move = new CardsMovement();
             move.cards = new List<Card>();
@@ -37,12 +50,12 @@ namespace Sanguosha.Expansions.Basic.Cards
             Game.CurrentGame.MoveCards(move, null);
         }
 
-        protected override void Process(Player source, Player dest, ICard card)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
         {
             throw new NotImplementedException();
         }
 
-        public override void Process(Player source, List<Player> dests, ICard card)
+        public override void Process(Player source, List<Player> dests, ICard card, ReadOnlyCard readonlyCard)
         {
             Trace.Assert(dests.Count == 1);
             AttachTo(source, dests[0], card);

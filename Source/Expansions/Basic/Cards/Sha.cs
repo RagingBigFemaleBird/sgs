@@ -22,99 +22,15 @@ namespace Sanguosha.Expansions.Basic.Cards
             get { return DamageElement.None; }
         }
 
-        public override void Process(Player source, List<Player> dests, ICard card)
+        public override void Process(Player source, List<Player> dests, ICard card, ReadOnlyCard readonlyCard)
         {
             source[NumberOfShaUsed]++;
-            Game.CurrentGame.SortByOrderOfComputation(source, dests);
-            base.Process(source, dests, card);
+            base.Process(source, dests, card, readonlyCard);
         }
 
-        protected override void Process(Player source, Player dest, ICard card)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
         {
-            List<Player> sourceList = new List<Player>() { source };
-            GameEventArgs args = new GameEventArgs()
-            {
-                Source = source,
-                Targets = new List<Player>() { dest },
-                Card = card,
-                IntArg = 1,
-                IntArg2 = 0,
-                IntArg3 = 0
-            };
-            Game.CurrentGame.Emit(PlayerShaTargetShanModifier, args);
-            int numberOfShanRequired = args.IntArg;
-            bool cannotUseShan = args.IntArg2 == 1 ? true : false;
-            bool invalidated = args.IntArg3 == 1 ? true: false;
-            bool cannotProvideShan = false;
-            if (invalidated)
-            {
-                return;
-            }
-            while (numberOfShanRequired > 0 && !cannotUseShan)
-            {
-                args.Source = dest;
-                args.Targets = sourceList;
-                args.Card = new CompositeCard();
-                args.Card.Type = new Shan();
-                args.ExtraCard = card;
-                try
-                {
-                    Game.CurrentGame.Emit(GameEvent.PlayerRequireCard, args);
-                }
-                catch (TriggerResultException e)
-                {
-                    if (e.Status == TriggerResult.Success)
-                    {
-                        Game.CurrentGame.HandleCardPlay(dest, new CardWrapper(dest, new Shan()), args.Cards, sourceList);
-                        numberOfShanRequired--;
-                        continue;
-                    }
-                }
-                while (true)
-                {
-                    IUiProxy ui = Game.CurrentGame.UiProxies[dest];
-                    SingleCardUsageVerifier v1 = new SingleCardUsageVerifier((c) => { return c.Type is Shan; });
-                    ISkill skill;
-                    List<Player> p;
-                    List<Card> cards;
-                    if (!ui.AskForCardUsage(new CardUsagePrompt("Sha.Shan", source), v1, out skill, out cards, out p))
-                    {
-                        cannotProvideShan = true;
-                        break;
-                    }
-                    if (!Game.CurrentGame.HandleCardPlay(dest, skill, cards, sourceList))
-                    {
-                        continue;
-                    }
-                    break;
-                }
-                if (cannotProvideShan)
-                {
-                    break;
-                }
-                numberOfShanRequired--;
-            }
-            if (cannotUseShan || numberOfShanRequired > 0)
-            {
-                Game.CurrentGame.DoDamage(source, dest, 1, ShaDamageElement, card);
-            }
-            else
-            {
-                Trace.TraceInformation("Successfully dodged");
-                args = new GameEventArgs();
-                args.Source = source;
-                args.Targets = new List<Player>();
-                args.Targets.Add(dest);
-                args.Card = card;
-                try
-                {
-                    Game.CurrentGame.Emit(PlayerShaTargetDodged, args);
-                }
-                catch (TriggerResultException)
-                {
-                    Trace.Assert(false);
-                }
-            }
+            Game.CurrentGame.DoDamage(source, dest, 1, ShaDamageElement, card);
         }
 
         public VerifierResult ShaVerifyForJieDaoShaRenOnly(Player source, ICard card, List<Player> targets)
@@ -206,14 +122,6 @@ namespace Sanguosha.Expansions.Basic.Cards
         /// 是否可以使用杀 
         /// </summary>
         public static readonly GameEvent PlayerNumberOfShaCheck = new GameEvent("PlayerNumberOfShaCheck");
-        /// <summary>
-        /// 杀目标的修正
-        /// </summary>
-        public static readonly GameEvent PlayerShaTargetShanModifier = new GameEvent("PlayerShaTargetShanModifier");
-        /// <summary>
-        /// 杀被闪
-        /// </summary>
-        public static readonly GameEvent PlayerShaTargetDodged = new GameEvent("PlayerShaTargetDodged");
     }
 
 

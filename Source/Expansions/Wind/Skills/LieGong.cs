@@ -22,21 +22,17 @@ namespace Sanguosha.Expansions.Wind.Skills
     /// </summary>
     public class LieGong : TriggerSkill
     {
-        void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
-        {
-            eventArgs.IntArg2 = 1;
-        }
 
         public LieGong()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return Game.CurrentGame.Decks[a.Targets[0], DeckType.Hand].Count >= a.Source.Health || Game.CurrentGame.Decks[a.Targets[0], DeckType.Hand].Count <= a.Source[Player.AttackRange] + 1; },
-                Run,
+                (p, e, a) => { return (a.ReadonlyCard.Type is Sha) && (Game.CurrentGame.Decks[a.Targets[0], DeckType.Hand].Count >= a.Source.Health || Game.CurrentGame.Decks[a.Targets[0], DeckType.Hand].Count <= a.Source[Player.AttackRange] + 1); },
+                (p, e, a) => { a.ReadonlyCard[ShaCancelling.CannotProvideShan] = 1;},
                 TriggerCondition.OwnerIsSource
             );
 
-            Triggers.Add(Sha.PlayerShaTargetShanModifier, trigger);
+            Triggers.Add(GameEvent.PlayerIsCardTargetConfirmed, trigger);
         }
 
     }

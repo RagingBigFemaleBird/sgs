@@ -85,11 +85,11 @@ namespace Sanguosha.Expansions.Basic.Skills
             ISkill skill;
             List<Card> cards;
             List<Player> players;
-            if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("LiuLi"), new LiuLiVerifier(eventArgs.Source), out skill, out cards, out players))
+            if (Game.CurrentGame.UiProxies[owner].AskForCardUsage(new CardUsagePrompt("LiuLi"), new LiuLiVerifier(eventArgs.Source), out skill, out cards, out players))
             {
                 Game.CurrentGame.HandleCardDiscard(players[0], cards);
-                eventArgs.Targets = new List<Player>(players);
-                throw new TriggerResultException(TriggerResult.Retry);
+                eventArgs.Targets.Remove(owner);
+                eventArgs.Targets.Add(players[0]);
             }
         }
 

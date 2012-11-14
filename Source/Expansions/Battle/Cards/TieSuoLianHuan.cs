@@ -17,12 +17,12 @@ namespace Sanguosha.Expansions.Battle.Cards
     [Serializable]
     public class TieSuoLianHuan : CardHandler
     {
-        protected override void Process(Player source, Player dest, ICard card)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard cardr)
         {
-            throw new NotImplementedException();
+            dest.IsIronShackled = !dest.IsIronShackled;
         }
 
-        public override void Process(Player source, List<Player> dests, ICard card)
+        public override void Process(Player source, List<Player> dests, ICard card, ReadOnlyCard readonlyCard)
         {
             if (dests == null || dests.Count == 0)
             {
@@ -30,16 +30,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             }
             else
             {
-                Game.CurrentGame.SortByOrderOfComputation(source, dests);
-                foreach (var player in dests)
-                {
-                    Player p = player;
-                    Player src = source;
-                    if (PlayerIsCardTargetCheck(ref src, ref p, card))
-                    {
-                        p.IsIronShackled = !p.IsIronShackled;
-                    }
-                }
+                base.Process(source, dests, card, readonlyCard);
             }
         }
         public override bool IsReforging(Player source, ISkill skill, List<Card> cards, List<Player> targets)

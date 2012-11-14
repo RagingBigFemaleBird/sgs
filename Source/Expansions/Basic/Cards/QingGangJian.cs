@@ -26,7 +26,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         {
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                eventArgs.Card[Armor.IgnoreAllArmor] = 1;
+                eventArgs.ReadonlyCard[Armor.IgnoreAllArmor] = 1;
             }
 
             public QingGangJianSkill()
@@ -35,12 +35,12 @@ namespace Sanguosha.Expansions.Basic.Cards
                     this,
                     (p, e, a) =>
                     {
-                        return a.Card != null && (a.Card.Type is Sha);
+                        return a.ReadonlyCard != null && (a.ReadonlyCard.Type is Sha);
                     },
                     Run,
                     TriggerCondition.OwnerIsSource
                 );
-                Triggers.Add(GameEvent.PlayerIsCardTarget, trigger);
+                Triggers.Add(GameEvent.PlayerIsCardTargetConfirmed, trigger);
             }
 
             public override bool IsEnforced
@@ -57,15 +57,13 @@ namespace Sanguosha.Expansions.Basic.Cards
             get { return 2; }
         }
 
+
         protected override void RegisterWeaponTriggers(Player p)
         {
-            return;
         }
 
         protected override void UnregisterWeaponTriggers(Player p)
         {
-            return;
         }
-
     }
 }

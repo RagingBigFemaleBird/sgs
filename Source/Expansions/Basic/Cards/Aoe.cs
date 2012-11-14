@@ -28,74 +28,56 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected abstract string UsagePromptString { get; }
 
-        protected override void Process(Player source, Player dest, ICard card)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
         {
-            throw new NotImplementedException();
+            SingleCardUsageVerifier v1 = responseCardVerifier;
+            List<Player> sourceList = new List<Player>();
+            sourceList.Add(source);
+            GameEventArgs args = new GameEventArgs();
+            args.Source = dest;
+            args.Targets = null;
+            args.Card = new CompositeCard();
+            args.Card.Type = RequiredCard();
+            args.ReadonlyCard = readonlyCard;
+            try
+            {
+                Game.CurrentGame.Emit(GameEvent.PlayerRequireCard, args);
+            }
+            catch (TriggerResultException e)
+            {
+                if (e.Status == TriggerResult.Success)
+                {
+                    Game.CurrentGame.HandleCardPlay(dest, new CardWrapper(dest, RequiredCard()), args.Cards, sourceList);
+                    return;
+                }
+            }
+            while (true)
+            {
+                IUiProxy ui = Game.CurrentGame.UiProxies[dest];
+                ISkill skill;
+                List<Player> p;
+                List<Card> cards;
+                if (!ui.AskForCardUsage(new CardUsagePrompt(UsagePromptString, source),
+                                                      v1, out skill, out cards, out p))
+                {
+                    Trace.TraceInformation("Player {0} Invalid answer", dest);
+                    Game.CurrentGame.DoDamage(source, dest, 1, DamageElement.None, card);
+                }
+                else
+                {
+                    if (!Game.CurrentGame.HandleCardPlay(dest, skill, cards, sourceList))
+                    {
+                        continue;
+                    }
+                    Trace.TraceInformation("Player {0} Responded. ", dest.Id);
+                }
+                break;
+            }
         }
 
         protected abstract CardHandler RequiredCard();
 
-        public override void Process(Player source, List<Player> dests, ICard c)
-        {
-            Trace.Assert(dests == null || dests.Count == 0);
-            SingleCardUsageVerifier v1 = responseCardVerifier;
-            List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
-            toProcess.Remove(source);
-            Game.CurrentGame.SortByOrderOfComputation(source, toProcess);
-            foreach (var player in toProcess)
-            {
-                Player current = player;
-                if (!PlayerIsCardTargetCheck(ref source, ref current, c))
-                {
-                    continue;
-                }
-                List<Player> sourceList = new List<Player>();
-                sourceList.Add(source);
-                GameEventArgs args = new GameEventArgs();
-                args.Source = current;
-                args.Targets = null;
-                args.Card = new CompositeCard();
-                args.Card.Type = RequiredCard();
-                args.ExtraCard = c;
-                try
-                {
-                    Game.CurrentGame.Emit(GameEvent.PlayerRequireCard, args);
-                }
-                catch (TriggerResultException e)
-                {
-                    if (e.Status == TriggerResult.Success)
-                    {
-                        Game.CurrentGame.HandleCardPlay(current, new CardWrapper(current, RequiredCard()), args.Cards, sourceList);
-                        continue;
-                    }
-                }
-                while (true)
-                {
-                    IUiProxy ui = Game.CurrentGame.UiProxies[current];
-                    ISkill skill;
-                    List<Player> p;
-                    List<Card> cards;
-                    if (!ui.AskForCardUsage(new CardUsagePrompt(UsagePromptString, source),
-                                                          v1, out skill, out cards, out p))
-                    {
-                        Trace.TraceInformation("Player {0} Invalid answer", current);
-                        Game.CurrentGame.DoDamage(source, current, 1, DamageElement.None, c);
-                    }
-                    else
-                    {
-                        if (!Game.CurrentGame.HandleCardPlay(current, skill, cards, sourceList))
-                        {
-                            continue;
-                        }
-                        Trace.TraceInformation("Player {0} Responded. ", current.Id);
-                    }
-                    break;
-                }
-
-            }
-        }
-
-        protected override List<Player> LogTargetsModifier(Player source, List<Player> dests)
+        public override List<Player> ActualTargets(Player source, List<Player> dests)
         {
             var z = new List<Player>(Game.CurrentGame.AlivePlayers);
             z.Remove(source);

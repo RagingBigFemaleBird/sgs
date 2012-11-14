@@ -20,16 +20,6 @@ namespace Sanguosha.Expansions.Battle.Cards
     {
         public class TengJiaSkill : ArmorTriggerSkill
         {
-            void RunSha(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                eventArgs.IntArg3 = 1;
-            }
-
-            void RunAoe(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                throw new TriggerResultException(TriggerResult.Fail);
-            }
-
             void RunBurnToDeath(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 eventArgs.IntArg3--;
@@ -39,25 +29,18 @@ namespace Sanguosha.Expansions.Battle.Cards
             {
                 var trigger = new AutoNotifyPassiveSkillTrigger(
                     this,
-                    (p, e, a) => { return a.Card != null && (a.Card.Type is RegularSha) && a.Card[Armor.IgnoreAllArmor] == 0 && a.Card[Armor.IgnorePlayerArmor] != Owner.Id + 1; },
-                    RunSha,
+                    (p, e, a) => { return a.ReadonlyCard != null && ((a.ReadonlyCard.Type is Aoe) || (a.ReadonlyCard.Type is RegularSha)) && a.ReadonlyCard[Armor.IgnoreAllArmor] == 0 && a.ReadonlyCard[Armor.IgnorePlayerArmor] != Owner.Id + 1; },
+                    (p, e, a) => { throw new TriggerResultException(TriggerResult.End); },
                     TriggerCondition.OwnerIsTarget
                 );
                 var trigger2 = new AutoNotifyPassiveSkillTrigger(
-                    this,
-                    (p, e, a) => { return a.Card != null && a.Card.Type is Aoe && a.Card[Armor.IgnoreAllArmor] == 0 && a.Card[Armor.IgnorePlayerArmor] != Owner.Id + 1; },
-                    RunAoe,
-                    TriggerCondition.OwnerIsTarget
-                );
-                var trigger3 = new AutoNotifyPassiveSkillTrigger(
                     this,
                     (p, e, a) => { return (DamageElement)a.IntArg2 == DamageElement.Fire && a.Card[Armor.IgnoreAllArmor] == 0 && a.Card[Armor.IgnorePlayerArmor] != Owner.Id + 1; },
                     RunBurnToDeath,
                     TriggerCondition.OwnerIsTarget
                 );
-                Triggers.Add(Sha.PlayerShaTargetShanModifier, trigger);
-                Triggers.Add(GameEvent.PlayerIsCardTarget, trigger2);
-                Triggers.Add(GameEvent.DamageInflicted, trigger3);
+                Triggers.Add(GameEvent.PlayerIsCardTargetInvalidated, trigger);
+                Triggers.Add(GameEvent.DamageInflicted, trigger2);
             }
 
             public override bool IsEnforced

@@ -29,7 +29,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             {
                 var trigger = new AutoNotifyPassiveSkillTrigger(
                     this,
-                    (p, e, a) => { return a.IntArg3 < 0 && a.Card[Armor.IgnoreAllArmor] == 0 && a.Card[Armor.IgnorePlayerArmor] != Owner.Id + 1; },
+                    (p, e, a) => { return a.IntArg3 < 0 && a.ReadonlyCard[Armor.IgnoreAllArmor] == 0 && a.ReadonlyCard[Armor.IgnorePlayerArmor] != Owner.Id + 1; },
                     Run,
                     TriggerCondition.OwnerIsTarget
                 );

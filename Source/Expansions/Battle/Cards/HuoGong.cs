@@ -90,7 +90,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             }
         }
 
-        protected override void Process(Player source, Player dest, ICard card)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard cardr)
         {
             IUiProxy ui = Game.CurrentGame.UiProxies[dest];
             HuoGongCardChoiceVerifier v1 = new HuoGongCardChoiceVerifier();

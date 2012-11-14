@@ -17,7 +17,7 @@ namespace Sanguosha.Expansions.Basic.Cards
     [Serializable]
     public class JueDou : CardHandler
     {
-        protected override void Process(Player source, Player dest, ICard card)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
         {
             Player current = dest;
             bool firstTime = true;
@@ -48,14 +48,9 @@ namespace Sanguosha.Expansions.Basic.Cards
                     prompt = new CardUsagePrompt("JueDou2", current == dest ? source : dest);
                     firstTime = false;
                 }
-                GameEventArgs args = new GameEventArgs();
-                args.Source = current == dest ? source : dest;
-                args.Targets = new List<Player>() {current};
-                args.Card = card;
-                args.IntArg = 1;
-                Game.CurrentGame.Emit(JueDouModifier, args);
+                int numberOfShaRequired = current == dest ? readonlyCard[CardAttribute.TargetRequireTwoResponses] + 1 : readonlyCard[CardAttribute.SourceRequireTwoResponses] + 1;
                 bool cannotProvideSha = false;
-                while (args.IntArg > 0)
+                while (numberOfShaRequired > 0)
                 {
                     if (!ui.AskForCardUsage(prompt, v1, out skill, out cards, out p))
                     {
@@ -67,7 +62,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     {
                         continue;
                     }
-                    args.IntArg--;
+                    numberOfShaRequired--;
                 }
                 if (cannotProvideSha) break;
                 Trace.TraceInformation("Player {0} SHA, ", current.Id);

@@ -25,7 +25,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             var card = Game.CurrentGame.Judge(Owner);
             if (card.SuitColor == SuitColorType.Red)
             {
-                eventArgs.IntArg2 = 1;
+                eventArgs.ReadonlyCard[ShaCancelling.CannotProvideShan] = 1;
             }
         }
 
@@ -33,11 +33,12 @@ namespace Sanguosha.Expansions.Basic.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
+                (p, e, a) => { return a.ReadonlyCard.Type is Sha; },
                 Run,
                 TriggerCondition.OwnerIsSource
             );
 
-            Triggers.Add(Sha.PlayerShaTargetShanModifier, trigger);
+            Triggers.Add(GameEvent.PlayerIsCardTargetConfirmed, trigger);
         }
 
     }

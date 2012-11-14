@@ -64,7 +64,15 @@ namespace Sanguosha.Core.Cards
             }
             set
             {
-                Trace.Assert(false);
+                if (!attributes.ContainsKey(key))
+                {
+                    attributes.Add(key, value);
+                }
+                else if (attributes[key] == value)
+                {
+                    return;
+                }
+                attributes[key] = value;
             }
         }
     }

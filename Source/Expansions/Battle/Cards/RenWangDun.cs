@@ -20,19 +20,15 @@ namespace Sanguosha.Expansions.Battle.Cards
     {
         public class RenWangDunSkill : ArmorTriggerSkill
         {
-            protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                eventArgs.IntArg3 = 1;
-            }
             public RenWangDunSkill()
             {
                 var trigger = new AutoNotifyPassiveSkillTrigger(
                     this,
-                    (p, e, a) => { return a.Card != null && a.Card.SuitColor == SuitColorType.Black && a.Card[Armor.IgnoreAllArmor] == 0 && a.Card[Armor.IgnorePlayerArmor] != Owner.Id + 1; },
-                    Run,
+                    (p, e, a) => { return a.ReadonlyCard != null && (a.ReadonlyCard.Type is Sha) && a.ReadonlyCard.SuitColor == SuitColorType.Black && a.ReadonlyCard[Armor.IgnoreAllArmor] == 0 && a.ReadonlyCard[Armor.IgnorePlayerArmor] != Owner.Id + 1; },
+                    (p, e, a) => { throw new TriggerResultException(TriggerResult.End);},
                     TriggerCondition.OwnerIsTarget
                 );
-                Triggers.Add(Sha.PlayerShaTargetShanModifier, trigger);
+                Triggers.Add(GameEvent.PlayerIsCardTargetInvalidated, trigger);
             }
 
             public override bool IsEnforced

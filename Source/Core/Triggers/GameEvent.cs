@@ -297,9 +297,32 @@ namespace Sanguosha.Core.Triggers
         public static readonly GameEvent CommitActionToTargets;
 
         /// <summary>
-        /// 玩家成为卡牌的目标
+        /// 指定/成为目标时：目标有可能改变。
+        /// 能发动的技能：【享乐】、【流离】、【天命】。
         /// </summary>
         public static readonly GameEvent PlayerIsCardTarget;
+
+        /// <summary>
+        /// 指定/成为目标后：目标确定，不会再改变。
+        /// 能发动的技能依次为： a、武将技能：【啖酪】、【铁骑】、【烈弓】、【祸首②】、【救援】、【激昂】、【无双】、【肉林】、【谋溃】。b、装备技能：【青釭剑】、【雌雄双股剑】。
+        /// </summary>
+        public static readonly GameEvent PlayerIsCardTargetConfirmed = new GameEvent("PlayerIsCardTargetConfirmed");
+
+        /// <summary>
+        /// 至此使用结算开始，首先须检测该牌对目标的有效性，会产生影响的技能：【仁王盾】、【藤甲①】、【毅重】、【啖酪】、【祸首①】、【巨象①】、【享乐】、
+        /// 【智迟】、发动【陷阵】获得的技能、【无前】。如果该牌对目标无效，则中止对该目标的结算，使用结算完毕；如果该牌对目标有效，则继续对该目标进行结算。
+        /// </summary>
+        public static readonly GameEvent PlayerIsCardTargetInvalidated = new GameEvent("PlayerIsCardTargetInvalidated");
+
+        /// <summary>
+        /// 生效前：目标可以对该牌进行响应。
+        /// 能进行响应的牌/技能依次为：（使用【杀】）首先可以发动武将技能【护驾】，其次可以发动装备技能【八卦阵】，如果上述方式未能成功使用【闪】，仍可以用下列方式使用一张【闪】：
+        /// 使用手牌里的一张【闪】或发动【倾国】、【龙胆】、【蛊惑】、【龙魂】；（使用锦囊牌）使用一张【无懈可击】/【无懈可击·国】或发动【看破】、【蛊惑】、【龙魂】。
+        /// 会产生影响的技能：（使用【杀】）【无双①】、【肉林】。
+        /// ◆对于延时类锦囊牌来说，“生效前”这个时机即翻开判定牌前。
+        /// ◆该牌的效果被抵消则该牌的使用结算完毕。其中【杀】的效果被抵消时能发动的技能依次为：a、武将技能：【猛进】。b、装备技能：【贯石斧】、【青龙偃月刀】。另外，如果穆顺之前已经发动【谋溃】，在此时机须执行“该角色弃置你的一张牌”的效果。
+        /// </summary>
+        public static readonly GameEvent PlayerIsCardTargetBeforeEffected = new GameEvent("PlayerIsCardTargetBeforeEffected");
 
         /// <summary>
         /// 玩家可以使用卡牌

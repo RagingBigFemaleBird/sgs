@@ -17,18 +17,9 @@ namespace Sanguosha.Expansions.Basic.Cards
     [Serializable]
     public class WuZhongShengYou : CardHandler
     {
-        protected override void Process(Player source, Player dest, ICard card)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
         {
-            throw new NotImplementedException();
-        }
-
-        public override void Process(Player source, List<Player> dests, ICard card)
-        {
-            Trace.Assert(dests == null || dests.Count == 0);
-            if (PlayerIsCardTargetCheck(ref source, ref source, card))
-            {
-                Game.CurrentGame.DrawCards(source, 2);
-            }
+            Game.CurrentGame.DrawCards(source, 2);
         }
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
@@ -38,6 +29,11 @@ namespace Sanguosha.Expansions.Basic.Cards
                 return VerifierResult.Fail;
             }
             return VerifierResult.Success;
+        }
+
+        public override List<Player> ActualTargets(Player source, List<Player> targets)
+        {
+            return new List<Player>() { source };
         }
 
         public override CardCategory Category

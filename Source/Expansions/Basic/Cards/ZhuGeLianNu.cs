@@ -17,7 +17,7 @@ namespace Sanguosha.Expansions.Basic.Cards
     [Serializable]
     public class ZhuGeLianNu : Weapon
     {
-        protected override void Process(Player source, Player dest, ICard card)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
         {
             throw new NotImplementedException();
         }

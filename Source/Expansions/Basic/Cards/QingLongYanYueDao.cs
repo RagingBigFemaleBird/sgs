@@ -61,7 +61,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     Run,
                     TriggerCondition.OwnerIsSource
                 ) { IsAutoNotify = false, AskForConfirmation = false };
-                Triggers.Add(Sha.PlayerShaTargetDodged, trigger);
+                Triggers.Add(ShaCancelling.PlayerShaTargetDodged, trigger);
             }
         }
 

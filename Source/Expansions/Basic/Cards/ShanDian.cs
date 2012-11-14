@@ -19,23 +19,28 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         public override void Activate(Player p, Card c)
         {
-            Player nullPlayer = null;
-            if (PlayerIsCardTargetCheck(ref nullPlayer, ref p, c))
+            while (true)
             {
+                GameEventArgs args = new GameEventArgs();
+                args.Source = null;
+                args.Targets = new List<Player>() { p };
+                args.Card = c;
+                try
+                {
+                    Game.CurrentGame.Emit(GameEvent.PlayerIsCardTargetBeforeEffected, args);
+                }
+                catch (TriggerResultException e)
+                {
+                    Trace.Assert(e.Status == TriggerResult.End);
+                    break;
+                }
                 ReadOnlyCard result = Game.CurrentGame.Judge(p, null, c);
                 if (result.Suit == SuitType.Spade && result.Rank >= 2 && result.Rank <= 9)
                 {
-                    GameEventArgs args = new GameEventArgs();
-                    args.Source = null;
-                    args.Targets = new List<Player>();
-                    args.Targets.Add(p);
-                    args.Skill = null;
-                    args.Cards = new List<Card>();
-                    args.Cards.Add(c);
-                    c.Type = new ShanDianCardHandler();
-                    Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
+                    Game.CurrentGame.DoDamage(null, p, 3, DamageElement.Lightning, c);
                     return;
                 }
+                break;
             }
             List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
             toProcess.Remove(p);
@@ -56,12 +61,12 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
         }
 
-        protected override void Process(Player source, Player dest, ICard card)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
         {
             throw new NotImplementedException();
         }
 
-        public override void Process(Player source, List<Player> dests, ICard card)
+        public override void Process(Player source, List<Player> dests, ICard card, ReadOnlyCard readonlyCard)
         {
             Trace.Assert(dests == null || dests.Count == 0);
             AttachTo(source, source, card);
@@ -80,26 +85,5 @@ namespace Sanguosha.Expansions.Basic.Cards
             return VerifierResult.Fail;
         }
 
-        private class ShanDianCardHandler : CardHandler
-        {
-            public override CardCategory Category
-            {
-                get { return CardCategory.Unknown; }
-            }
-
-            protected override void Process(Player source, Player dest, ICard card)
-            {
-                Game.CurrentGame.DoDamage(null, dest, 3, DamageElement.Lightning, card);
-            }
-
-            public override void TagAndNotify(Player source, List<Player> dests, ICard card, GameAction action = GameAction.Use)
-            {
-            }
-
-            protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
-            {
-                throw new NotImplementedException();
-            }
-        }
     }
 }

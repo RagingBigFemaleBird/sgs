@@ -20,32 +20,28 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     public class WuShuang : TriggerSkill
     {
-        void RunSha(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
+        void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            eventArgs.IntArg = 2;
-        }
-
-        void RunJueDou(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
-        {
-            eventArgs.IntArg = 2;
+            if (eventArgs.Targets.Contains(Owner))
+            {
+                eventArgs.ReadonlyCard[CardAttribute.SourceRequireTwoResponses] = 1;
+            }
+            if (eventArgs.Source == Owner)
+            {
+                eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses] = 1;
+            }
         }
 
         public WuShuang()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                RunSha,
-                TriggerCondition.OwnerIsSource
+                (p, e, a) => { return (a.Targets.Contains(p) || a.Source == p) && ((a.ReadonlyCard.Type is Sha) || (a.ReadonlyCard.Type is JueDou)); },
+                Run,
+                TriggerCondition.Global
             );
 
-            var trigger2 = new AutoNotifyPassiveSkillTrigger(
-                this,
-                RunJueDou,
-                TriggerCondition.OwnerIsSource
-            );
-
-            Triggers.Add(Sha.PlayerShaTargetShanModifier, trigger);
-            Triggers.Add(JueDou.JueDouModifier, trigger2);
+            Triggers.Add(GameEvent.PlayerIsCardTargetConfirmed, trigger);
         }
 
         public override bool IsEnforced

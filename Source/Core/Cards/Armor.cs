@@ -16,7 +16,7 @@ namespace Sanguosha.Core.Cards
             get { return CardCategory.Armor; }
         }
 
-        protected override void Process(Player source, Players.Player dest, ICard card)
+        protected override void Process(Player source, Players.Player dest, ICard card, ReadOnlyCard cardr)
         {
             throw new NotImplementedException();
         }
