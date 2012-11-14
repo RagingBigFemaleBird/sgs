@@ -47,7 +47,9 @@ namespace Sanguosha.Core.Skills
             set { maxCards = value; }
         }
         private bool discarding;
-
+        /// <summary>
+        /// Cards must pass "Game.CanDiscardCard" verification
+        /// </summary>
         protected bool Discarding
         {
             get { return discarding; }

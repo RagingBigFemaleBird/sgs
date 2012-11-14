@@ -36,6 +36,7 @@ namespace Sanguosha.Expansions.Basic.Skills
         {
             MinCards = 1;
             MaxPlayers = 0;
+            Discarding = true;
         }
 
         protected override bool AdditionalVerify(Player source, List<Card> cards, List<Player> players)

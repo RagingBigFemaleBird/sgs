@@ -41,6 +41,9 @@ namespace Sanguosha.Core.Cards
         }
         private bool discarding;
 
+        /// <summary>
+        /// Cards must pass "Game.CanDiscardCard" verification
+        /// </summary>
         protected bool Discarding
         {
             get { return discarding; }

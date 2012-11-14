@@ -175,6 +175,20 @@ namespace Sanguosha.Core.Games
             }
         }
 
+        /// <summary>
+        /// </summary>
+        /// <remarks>
+        /// CardHandler and Damage eventArg format:
+        /// Source : source of action/damage
+        /// Targets: targets of action/damage
+        /// Card:    the card (Card or CompositeCard) that produced the action / caused the damage
+        /// Cards (damage only): the actual card(s), i.e. Card / subCards of CompositeCard
+        /// ReadonlyCard: A readonly version (Cannot be moved, cannot set anything else other than its attributes) of the Card
+        /// Note to developers:
+        ///     In case you want to add properties to the card, you must add attributes to ReadonlyCard,
+        ///     because the actual card (Card / Cards) can be moved to any place (therefore has its face type changed) during
+        ///     multi-target computation.
+        /// </remarks>
         public class CommitActionToTargetsTrigger : Trigger
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
