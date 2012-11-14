@@ -27,11 +27,11 @@ namespace Sanguosha.Expansions.Wind.Skills
         {
             public ShenSuStage2Verifier()
             {
-                minPlayers = 1;
-                maxPlayers = 1;
-                minCards = 1;
-                maxCards = 1;
-                discarding = true;
+                MinPlayers = 1;
+                MaxPlayers = 1;
+                MinCards = 1;
+                MaxCards = 1;
+                Discarding = true;
             }
 
             protected override bool VerifyPlayer(Player source, Player player)

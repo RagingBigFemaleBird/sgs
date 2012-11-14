@@ -18,24 +18,59 @@ namespace Sanguosha.Core.Skills
             return Verify(Owner, arg.Cards, arg.Targets);
         }
 
-        protected int minPlayers;
-        protected int maxPlayers;
-        protected int minCards;
-        protected int maxCards;
-        protected bool discarding;
+        private int minPlayers;
+
+        protected int MinPlayers
+        {
+            get { return minPlayers; }
+            set { minPlayers = value; }
+        }
+        private int maxPlayers;
+
+        protected int MaxPlayers
+        {
+            get { return maxPlayers; }
+            set { maxPlayers = value; }
+        }
+        private int minCards;
+
+        protected int MinCards
+        {
+            get { return minCards; }
+            set { minCards = value; }
+        }
+        private int maxCards;
+
+        protected int MaxCards
+        {
+            get { return maxCards; }
+            set { maxCards = value; }
+        }
+        private bool discarding;
+
+        protected bool Discarding
+        {
+            get { return discarding; }
+            set { discarding = value; }
+        }
 
         public AutoVerifiedActiveSkill()
         {
             minPlayers = 0;
-            maxPlayers = 0;
+            maxPlayers = int.MaxValue;
             minCards = 0;
-            maxCards = 0;
+            maxCards = int.MaxValue;
             discarding = false;
         }
 
         protected abstract bool VerifyCard(Player source, Card card);
 
         protected abstract bool VerifyPlayer(Player source, Player player);
+
+        protected virtual bool AdditionalVerify(Player source, List<Card> cards, List<Player> players)
+        {
+            return true;
+        }
 
         public VerifierResult Verify(Player source, List<Card> cards, List<Player> players)
         {
@@ -70,6 +105,10 @@ namespace Sanguosha.Core.Skills
                         return VerifierResult.Fail;
                     }
                 }
+            }
+            if (!AdditionalVerify(source, cards, players))
+            {
+                return VerifierResult.Fail;
             }
             int count = players == null ? 0 : players.Count;
             if (count < minPlayers)

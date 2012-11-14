@@ -49,11 +49,11 @@ namespace Sanguosha.Expansions.Fire.Skills
         {
             public QuHuDamageTargetVerifier(Player t)
             {
-                minCards = 0;
-                maxCards = 0;
-                minPlayers = 1;
-                maxPlayers = 1;
-                discarding = false;
+                MinCards = 0;
+                MaxCards = 0;
+                MinPlayers = 1;
+                MaxPlayers = 1;
+                Discarding = false;
                 target = t;
             }
             protected override bool VerifyPlayer(Player source, Player player)

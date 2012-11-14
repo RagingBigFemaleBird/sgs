@@ -45,11 +45,16 @@ namespace Sanguosha.Expansions.Basic.Skills
 
         public JieYin()
         {
-            minCards = 2;
-            maxCards = 2;
-            minPlayers = 1;
-            maxPlayers = 1;
-            discarding = true;
+            MinCards = 2;
+            MaxCards = 2;
+            MinPlayers = 1;
+            MaxPlayers = 1;
+            Discarding = true;
+        }
+
+        protected override bool AdditionalVerify(Player source, List<Card> cards, List<Player> players)
+        {
+            return source[JieYinUsed] == 0;
         }
     }
 }

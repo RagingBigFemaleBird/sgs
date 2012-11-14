@@ -17,37 +17,8 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// <summary>
     /// 制衡-出牌阶段，你可以弃置任意数量的牌，然后摸等量的牌，每阶段限一次。 
     /// </summary>
-    public class ZhiHeng : ActiveSkill
+    public class ZhiHeng : AutoVerifiedActiveSkill
     {
-        public override VerifierResult Validate(GameEventArgs arg)
-        {
-            if (Owner[ZhiHengUsed] != 0)
-            {
-                return VerifierResult.Fail;
-            }
-            List<Card> cards = arg.Cards;
-            if (arg.Targets != null && arg.Targets.Count != 0)
-            {
-                return VerifierResult.Fail;
-            }
-            if (cards == null || cards.Count == 0)
-            {
-                return VerifierResult.Partial;
-            }
-            foreach (Card card in cards)
-            {
-                if (card.Owner != Owner)
-                {
-                    return VerifierResult.Fail;
-                }
-                if (!Game.CurrentGame.PlayerCanDiscardCard(Owner, card))
-                {
-                    return VerifierResult.Fail;
-                }
-            }
-            return VerifierResult.Success;
-        }
-
         public override bool Commit(GameEventArgs arg)
         {
             Owner[ZhiHengUsed] = 1;
@@ -61,5 +32,25 @@ namespace Sanguosha.Expansions.Basic.Skills
 
         public static PlayerAttribute ZhiHengUsed = PlayerAttribute.Register("ZhiHengUsed", true);
 
+        public ZhiHeng()
+        {
+            MinCards = 1;
+            MaxPlayers = 0;
+        }
+
+        protected override bool AdditionalVerify(Player source, List<Card> cards, List<Player> players)
+        {
+            return source[ZhiHengUsed] == 0;
+        }
+
+        protected override bool VerifyCard(Player source, Card card)
+        {
+            return card.Place.DeckType == DeckType.Hand;
+        }
+
+        protected override bool VerifyPlayer(Player source, Player player)
+        {
+            return true;
+        }
     }
 }

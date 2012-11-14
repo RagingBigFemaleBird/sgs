@@ -11,18 +11,48 @@ namespace Sanguosha.Core.Cards
 {
     public class CardsAndTargetsVerifier : ICardUsageVerifier
     {
-        protected int minPlayers;
-        protected int maxPlayers;
-        protected int minCards;
-        protected int maxCards;
-        protected bool discarding;
+        private int minPlayers;
+
+        protected int MinPlayers
+        {
+            get { return minPlayers; }
+            set { minPlayers = value; }
+        }
+        private int maxPlayers;
+
+        protected int MaxPlayers
+        {
+            get { return maxPlayers; }
+            set { maxPlayers = value; }
+        }
+        private int minCards;
+
+        protected int MinCards
+        {
+            get { return minCards; }
+            set { minCards = value; }
+        }
+        private int maxCards;
+
+        protected int MaxCards
+        {
+            get { return maxCards; }
+            set { maxCards = value; }
+        }
+        private bool discarding;
+
+        protected bool Discarding
+        {
+            get { return discarding; }
+            set { discarding = value; }
+        }
 
         public CardsAndTargetsVerifier()
         {
             minPlayers = 0;
-            maxPlayers = 0;
+            maxPlayers = int.MaxValue;
             minCards = 0;
-            maxCards = 0;
+            maxCards = int.MaxValue;
             discarding = false;
         }
 
