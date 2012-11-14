@@ -100,18 +100,29 @@ namespace Sanguosha.Expansions.Basic.Cards
                     List<Player> players;
                     if (Game.CurrentGame.UiProxies[p].AskForCardUsage(new CardUsagePrompt("SaveALife", target), v, out skill, out cards, out players))
                     {
-                        if (!Game.CurrentGame.HandleCardPlay(p, skill, cards, players))
+                        try
                         {
+                            GameEventArgs args = new GameEventArgs();
+                            args.Source = p;
+                            args.Skill = skill;
+                            args.Cards = cards;
+                            Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
+                        }
+                        catch (TriggerResultException e)
+                        {
+                            Trace.Assert(e.Status == TriggerResult.Retry);
                             continue;
                         }
-                        Game.CurrentGame.RecoverHealth(p, target, 1);
                         if (target.Health > 0)
                         {
                             Trace.Assert(target == Game.CurrentGame.IsDying.Pop());
                             return;
                         }
                     }
-                    break;
+                    else
+                    {
+                        break;
+                    }
                 }
             }
             Trace.TraceInformation("Player {0} dead", target.Id);

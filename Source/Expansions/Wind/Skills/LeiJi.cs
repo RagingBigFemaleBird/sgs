@@ -31,7 +31,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                 var result = Game.CurrentGame.Judge(players[0]);
                 if (result.Suit == SuitType.Spade)
                 {
-                    Game.CurrentGame.DoDamage(Owner, players[0], 2, DamageElement.Lightning, null);
+                    Game.CurrentGame.DoDamage(Owner, players[0], 2, DamageElement.Lightning, null, null);
                 }
             }
         }

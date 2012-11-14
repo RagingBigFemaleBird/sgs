@@ -84,7 +84,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             if (theCardSuit != suit + 1)
             {
                 Trace.TraceInformation("Guessed wrong");
-                Game.CurrentGame.DoDamage(Owner, arg.Targets[0], 1, DamageElement.None, null);
+                Game.CurrentGame.DoDamage(Owner, arg.Targets[0], 1, DamageElement.None, null, null);
             }
             return true;
         }

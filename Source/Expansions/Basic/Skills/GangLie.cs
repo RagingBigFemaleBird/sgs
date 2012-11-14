@@ -79,7 +79,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 List<Player> players;
                 if (!Game.CurrentGame.UiProxies[eventArgs.Source].AskForCardUsage(new CardUsagePrompt("GangLie", Owner), ver, out skill, out cards, out players))
                 {
-                    Game.CurrentGame.DoDamage(owner, eventArgs.Source, 1, DamageElement.None, null);
+                    Game.CurrentGame.DoDamage(owner, eventArgs.Source, 1, DamageElement.None, null, null);
                 }
                 else
                 {

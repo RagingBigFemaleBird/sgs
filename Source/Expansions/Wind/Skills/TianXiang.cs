@@ -52,7 +52,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                 out skill, out cards, out players))
             {
                 Game.CurrentGame.HandleCardDiscard(Owner, cards);
-                Game.CurrentGame.DoDamage(eventArgs.Source, players[0], -eventArgs.IntArg - eventArgs.IntArg3, (DamageElement)eventArgs.IntArg2, eventArgs.Card);
+                Game.CurrentGame.DoDamage(eventArgs.Source, players[0], -eventArgs.IntArg - eventArgs.IntArg3, (DamageElement)eventArgs.IntArg2, eventArgs.Card, eventArgs.ReadonlyCard);
                 Game.CurrentGame.DrawCards(players[0], players[0].MaxHealth - players[0].Health);
                 throw new TriggerResultException(TriggerResult.End);
             }

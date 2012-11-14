@@ -37,7 +37,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 ReadOnlyCard result = Game.CurrentGame.Judge(p, null, c);
                 if (result.Suit == SuitType.Spade && result.Rank >= 2 && result.Rank <= 9)
                 {
-                    Game.CurrentGame.DoDamage(null, p, 3, DamageElement.Lightning, c);
+                    Game.CurrentGame.DoDamage(null, p, 3, DamageElement.Lightning, c, new ReadOnlyCard(c));
                     return;
                 }
                 break;

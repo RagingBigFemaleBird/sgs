@@ -91,7 +91,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     NotifySkillUse(new List<Player>());
                     Game.CurrentGame.HandleCardDiscard(Owner, cards);
                     Trace.Assert(eventArgs.Card.Type is Sha);
-                    Game.CurrentGame.DoDamage(eventArgs.Source, eventArgs.Targets[0], 1, (eventArgs.Card.Type as Sha).ShaDamageElement, eventArgs.Card);
+                    Game.CurrentGame.DoDamage(eventArgs.Source, eventArgs.Targets[0], 1, (eventArgs.Card.Type as Sha).ShaDamageElement, eventArgs.Card, eventArgs.ReadonlyCard);
                 }
             }
             public GuanShiFuSkill()

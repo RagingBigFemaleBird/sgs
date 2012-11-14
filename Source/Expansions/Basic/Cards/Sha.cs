@@ -30,7 +30,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
         {
-            Game.CurrentGame.DoDamage(source, dest, 1, ShaDamageElement, card);
+            Game.CurrentGame.DoDamage(source, dest, 1, ShaDamageElement, card, readonlyCard);
         }
 
         public VerifierResult ShaVerifyForJieDaoShaRenOnly(Player source, ICard card, List<Player> targets)

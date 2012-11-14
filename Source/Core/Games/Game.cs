@@ -950,15 +950,12 @@ namespace Sanguosha.Core.Games
         /// <param name="magnitude">伤害点数</param>
         /// <param name="elemental">伤害属性</param>
         /// <param name="cards">造成伤害的牌</param>
-        public void DoDamage(Player source, Player dest, int magnitude, DamageElement elemental, ICard card)
+        public void DoDamage(Player source, Player dest, int magnitude, DamageElement elemental, ICard card, ReadOnlyCard readonlyCard)
         {
             GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), IntArg = -magnitude, IntArg2 = (int)(elemental), IntArg3 = 0 };
             int ironShackledDamage = 0;
             DamageElement ironShackledDamageElement = DamageElement.None;
-            if (card != null)
-            {
-                args.ReadonlyCard = new ReadOnlyCard(card);
-            }
+            args.ReadonlyCard = readonlyCard;
             if (card is CompositeCard)
             {
                 if ((card as CompositeCard).Subcards != null)
@@ -1027,7 +1024,7 @@ namespace Sanguosha.Core.Games
                 {
                     if (p.IsIronShackled)
                     {
-                        DoDamage(args.Source, p, ironShackledDamage, (DamageElement)ironShackledDamageElement, card);
+                        DoDamage(args.Source, p, ironShackledDamage, (DamageElement)ironShackledDamageElement, card, readonlyCard);
                     }
                 }
             }
@@ -1262,6 +1259,7 @@ namespace Sanguosha.Core.Games
             move.to = new DeckPlace(null, DeckType.Discard);
             PlayerAboutToDiscardCard(p, move.cards, reason);
             MoveCards(move, null);
+            PlayerLostCard(p, backup);
             PlayerDiscardedCard(p, backup, reason);
         }
 

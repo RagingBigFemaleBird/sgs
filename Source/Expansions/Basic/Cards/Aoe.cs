@@ -61,7 +61,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                                                       v1, out skill, out cards, out p))
                 {
                     Trace.TraceInformation("Player {0} Invalid answer", dest);
-                    Game.CurrentGame.DoDamage(source, dest, 1, DamageElement.None, card);
+                    Game.CurrentGame.DoDamage(source, dest, 1, DamageElement.None, card, readonlyCard);
                 }
                 else
                 {

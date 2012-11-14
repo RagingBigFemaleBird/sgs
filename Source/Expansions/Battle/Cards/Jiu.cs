@@ -20,7 +20,15 @@ namespace Sanguosha.Expansions.Battle.Cards
     {
         protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
         {
-            source[JiuUsed] = 1;
+            if (Game.CurrentGame.IsDying.Count > 0)
+            {
+                Game.CurrentGame.RecoverHealth(source, dest, 1);
+            }
+            else
+            {
+                source[JiuUsed] = 1;
+                source[JiuStatus] = 1;
+            }
         }
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
@@ -60,17 +68,31 @@ namespace Sanguosha.Expansions.Battle.Cards
             return new List<Player>() {source};
         }
         public static PlayerAttribute JiuUsed = PlayerAttribute.Register("JiuUsed", true);
+        public static PlayerAttribute JiuStatus = PlayerAttribute.Register("JiuStatus", true);
+        public static CardAttribute JiuSha = CardAttribute.Register("JiuSha");
     }
 
     public class JiuDamage : Trigger
     {
         public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            if (eventArgs.Source != null && eventArgs.Source[Jiu.JiuUsed] == 1)
+            if (eventArgs.Source != null && eventArgs.ReadonlyCard != null && eventArgs.ReadonlyCard[Jiu.JiuSha] == 1)
             {
-                eventArgs.Source[Jiu.JiuUsed] = 0;
                 eventArgs.IntArg3--;
             }
         }
     }
+
+    public class JiuSha : Trigger
+    {
+        public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+        {
+            if (eventArgs.ReadonlyCard != null && eventArgs.ReadonlyCard.Type is Sha && eventArgs.Source[Jiu.JiuStatus] == 1)
+            {
+                eventArgs.ReadonlyCard[Jiu.JiuSha] = 1;
+                eventArgs.Source[Jiu.JiuStatus] = 0;
+            }
+        }
+    }
+
 }

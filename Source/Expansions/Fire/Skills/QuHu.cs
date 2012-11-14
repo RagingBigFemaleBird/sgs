@@ -86,12 +86,12 @@ namespace Sanguosha.Expansions.Fire.Skills
                 }
                 if (players != null && players.Count > 0)
                 {
-                    Game.CurrentGame.DoDamage(arg.Targets[0], players[0], 1, DamageElement.None, null);
+                    Game.CurrentGame.DoDamage(arg.Targets[0], players[0], 1, DamageElement.None, null, null);
                 }
             }
             else
             {
-                Game.CurrentGame.DoDamage(arg.Targets[0], Owner, 1, DamageElement.None, null);
+                Game.CurrentGame.DoDamage(arg.Targets[0], Owner, 1, DamageElement.None, null, null);
             }
             return true;
         }

@@ -90,7 +90,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             }
         }
 
-        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard cardr)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
         {
             IUiProxy ui = Game.CurrentGame.UiProxies[dest];
             HuoGongCardChoiceVerifier v1 = new HuoGongCardChoiceVerifier();
@@ -117,7 +117,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             if (ui.AskForCardUsage(new CardUsagePrompt("HuoGong2", dest, cards[0].Suit), v2, out s, out cards, out p))
             {
                 Game.CurrentGame.HandleCardDiscard(source, cards);
-                Game.CurrentGame.DoDamage(source, dest, 1, DamageElement.Fire, card);
+                Game.CurrentGame.DoDamage(source, dest, 1, DamageElement.Fire, card, readonlyCard);
             }
             else
             {

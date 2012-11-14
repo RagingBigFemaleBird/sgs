@@ -49,15 +49,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             Player dest = eventArgs.Targets[0];
             ICard card = eventArgs.Card;
             List<Player> sourceList = new List<Player>() { source };
-            GameEventArgs args = new GameEventArgs()
-            {
-                Source = source,
-                Targets = new List<Player>() { dest },
-                Card = card,
-                IntArg = 1,
-                IntArg2 = 0,
-                IntArg3 = 0
-            };
+            GameEventArgs args = new GameEventArgs();
             Game.CurrentGame.Emit(PlayerShaTargetShanModifier, args);
             int numberOfShanRequired = eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses] + 1;
             bool cannotUseShan = eventArgs.ReadonlyCard[CannotProvideShan] == 1 ? true : false;
@@ -123,6 +115,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             args.Targets = new List<Player>();
             args.Targets.Add(dest);
             args.Card = card;
+            args.ReadonlyCard = eventArgs.ReadonlyCard;
             try
             {
                 Game.CurrentGame.Emit(PlayerShaTargetDodged, args);
