@@ -49,7 +49,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             bool WuXieSuccess = false;
             Trace.Assert(eventArgs.Targets.Count == 1);
             Player promptPlayer = eventArgs.Targets[0];
-            ICard promptCard = eventArgs.Card;
+            ICard promptCard = eventArgs.ReadonlyCard;
             if (card != null && CardCategoryManager.IsCardCategory(card.Type.Category, CardCategory.Tool) && card[WuXieKeJi.CannotBeCountered] == 0)
             {
                 while (true)

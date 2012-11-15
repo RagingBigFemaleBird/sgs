@@ -20,35 +20,15 @@ namespace Sanguosha.Expansions.Wind.Skills
     /// </summary>
     public class HongYan : TriggerSkill
     {
-        void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
-        {
-            foreach (Card c in eventArgs.Cards)
-            {
-                if (c.Suit == SuitType.Spade)
-                {
-                    c.Suit = SuitType.Heart;
-                    if (c.Log == null) c.Log = new ActionLog();
-                    c.Log.SkillAction = this;
-                }
-            }
-        }
-
         public HongYan()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return a.Card != null && a.Card.Suit == SuitType.Spade; },
-                (p, e, a) => { Card c = new Card(a.Card); c.Suit = SuitType.Heart; a.Card = new ReadOnlyCard(c); },
-                TriggerCondition.OwnerIsSource
-            );
-            var trigger2 = new AutoNotifyPassiveSkillTrigger(
-                this,
-                Run,
+                (p, e, a) => { return (a.Card.Place.DeckType == DeckType.Hand || a.Card.Place.DeckType == DeckType.JudgeResult) && a.Card != null && a.Card.Suit == SuitType.Spade; },
+                (p, e, a) => { a.Card.Suit = SuitType.Heart; },
                 TriggerCondition.OwnerIsSource
             ) { IsAutoNotify = false };
-            Triggers.Add(GameEvent.PlayerJudgeBegin, trigger);
-            Triggers.Add(GameEvent.PlayerJudgeDone, trigger);
-            Triggers.Add(GameEvent.CardsAcquired, trigger2);
+            Triggers.Add(GameEvent.EnforcedCardTransform, trigger);
         }
 
         public override bool IsEnforced

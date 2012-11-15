@@ -111,7 +111,6 @@
     <system:String x:Key="Card.GuoHeChaiQiao.Usage">选中【过河拆桥】→选择一个目标→点“确定”</system:String>
     
     <system:String x:Key="Card.ShanDian.Name">闪电</system:String>
-    <system:String x:Key="Card.ShanDianCardHandler.Name">闪电</system:String>
 
     <system:String x:Key="Card.Tao.Name">桃</system:String>
     <system:String x:Key="Card.Tao.Description">出牌阶段，对已受伤的自己使用，或有角色处于濒死状态时对该角色使用，令目标角色回复1点体力。</system:String>

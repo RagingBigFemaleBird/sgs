@@ -41,27 +41,16 @@ namespace Sanguosha.Expansions.Wind.Skills
             }
         }
 
-        void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
-        {
-            foreach (Card c in eventArgs.Cards)
-            {
-                if (c.Suit == SuitType.Heart)
-                {
-                    c.Type = new RegularSha();
-                    if (c.Log == null) c.Log = new ActionLog();
-                    c.Log.SkillAction = this;
-                }
-            }
-        }
 
         public WuShen()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                Run,
+                (p, e, a) => { return a.Card.Place.DeckType == DeckType.Hand && a.Card != null && a.Card.Suit == SuitType.Heart; },
+                (p, e, a) => { a.Card.Type = new RegularSha(); },
                 TriggerCondition.OwnerIsSource
             ) { IsAutoNotify = false };
-            Triggers.Add(GameEvent.CardsAcquired, trigger);
+            Triggers.Add(GameEvent.EnforcedCardTransform, trigger);
             Triggers.Add(Sha.PlayerShaTargetValidation, new WuShenShaTrigger());
         }
 

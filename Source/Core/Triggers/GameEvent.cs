@@ -380,6 +380,11 @@ namespace Sanguosha.Core.Triggers
         /// </summary>
         public static readonly GameEvent CardRangeModifier = new GameEvent("CardRangeModifier");
 
+        /// <summary>
+        /// 锁定计：你的X视为Y
+        /// </summary>
+        public static readonly GameEvent EnforcedCardTransform = new GameEvent("EnforcedCardTransform");
+
         public override bool Equals(object obj)
         {
             if (obj == this)

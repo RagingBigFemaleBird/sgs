@@ -622,6 +622,13 @@ namespace Sanguosha.Core.Games
                     {
                         card.Id = -1;
                     }
+                    if (move.to.Player != null)
+                    {
+                        GameEventArgs args = new GameEventArgs();
+                        args.Source = move.to.Player;
+                        args.Card = card;
+                        Emit(GameEvent.EnforcedCardTransform, args);
+                    }
                 }
                 i++;
             }
@@ -1062,9 +1069,10 @@ namespace Sanguosha.Core.Games
             MoveCards(move, null);
             GameEventArgs args = new GameEventArgs();
             args.Source = player;
+            Game.CurrentGame.Emit(GameEvent.PlayerJudgeBegin, args);
+            c = Game.CurrentGame.Decks[player, DeckType.JudgeResult][0];
             args.Card = new ReadOnlyCard(c);
             args.Cards = new List<Card>() { c };
-            Game.CurrentGame.Emit(GameEvent.PlayerJudgeBegin, args);
             Game.CurrentGame.Emit(GameEvent.PlayerJudgeDone, args);
             Trace.Assert(args.Source == player);
             Trace.Assert(args.Card is ReadOnlyCard);
