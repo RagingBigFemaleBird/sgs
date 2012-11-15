@@ -5,6 +5,6 @@ using System.Text;
 
 namespace Sanguosha.Core.Exceptions
 {
-    [Serializable]
+    
     class DuplicateCardHandlerException : SgsException { }
 }

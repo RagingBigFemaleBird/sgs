@@ -14,6 +14,7 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Core.Cards
 {
+    
     public abstract class DelayedTool : CardHandler
     {
         public override CardCategory Category

@@ -12,6 +12,7 @@ using Sanguosha.Core.Players;
 
 namespace Sanguosha.Core.Skills
 {
+    
     public abstract class TriggerSkill : PassiveSkill
     {
         public TriggerSkill()
@@ -29,6 +30,7 @@ namespace Sanguosha.Core.Skills
             Games.Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
         }
 
+        
         protected class AutoNotifyPassiveSkillTrigger : Trigger
         {
             public AutoNotifyPassiveSkillTrigger(TriggerSkill skill, TriggerPredicate canExecute, TriggerAction execute, TriggerCondition condition) :
@@ -143,6 +145,7 @@ namespace Sanguosha.Core.Skills
     }
 
 
+    
     public abstract class ArmorTriggerSkill : TriggerSkill
     {
     }

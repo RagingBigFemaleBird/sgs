@@ -74,6 +74,32 @@ namespace Sanguosha.Core.Network
             gameCard.Place = place;
         }
 
+        CardHandler _DeserializeType(Type type, String horseName)
+        {
+            if (type == null) return null;
+            if (horseName == null)
+            {
+                return Activator.CreateInstance(type) as CardHandler;
+            }
+            else
+            {
+                return Activator.CreateInstance(type, horseName) as CardHandler;
+            }
+        }
+
+        void _SerializeType(ref Type type, ref String horse, CardHandler handler)
+        {
+            if (handler is RoleCardHandler || handler is Heroes.HeroCardHandler || handler == null)
+            {
+                type = null;
+                horse = null;
+                return;
+            }
+            type = handler.GetType();
+            if (handler is OffensiveHorse || handler is DefensiveHorse) horse = handler.CardType;
+            else horse = null;
+        }
+
         public object Receive()
         {
             if (isReplay)
@@ -94,7 +120,7 @@ namespace Sanguosha.Core.Network
                     CardItem i = (CardItem)obj.obj;
                     if (i.Id >= 0)
                     {
-                        Trace.TraceInformation("Identify {0}{1}{2} is {3}{4}{5}", i.playerId, i.deck, i.place, GameEngine.CardSet[i.Id].Suit, GameEngine.CardSet[i.Id].Rank, GameEngine.CardSet[i.Id].Type.CardType);
+                        Trace.TraceInformation("Identify {0}{1}{2} is {3}{4}{5}", i.playerId, i.deck, i.place, i.suit, i.rank, i.type);
                         Card gameCard;
                         if (i.playerId < 0)
                         {
@@ -105,6 +131,10 @@ namespace Sanguosha.Core.Network
                             gameCard = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place];
                         }
                         _DeserializeCardItem(gameCard, i.Id);
+                        gameCard.Rank = i.rank;
+                        gameCard.Suit = (SuitType)i.suit;
+                        if (i.type != null) gameCard.Type = _DeserializeType(i.type, i.typeHorseName);
+                        gameCard.AddtionalType = _DeserializeType(i.additionalType, i.additionalTypeHorseName);
                     }
                     return Receive();
                 }
@@ -123,7 +153,7 @@ namespace Sanguosha.Core.Network
                 CardItem i = (CardItem)o;
                 if (i.Id >= 0)
                 {
-                    Trace.TraceInformation("Identify {0}{1}{2} is {3}{4}{5}", i.playerId, i.deck, i.place, GameEngine.CardSet[i.Id].Suit, GameEngine.CardSet[i.Id].Rank, GameEngine.CardSet[i.Id].Type.CardType);
+                    Trace.TraceInformation("Identify {0}{1}{2} is {3}{4}{5}", i.playerId, i.deck, i.place, i.suit, i.rank, i.type);
                     Card gameCard;
                     if (i.playerId < 0)
                     {                        
@@ -134,7 +164,10 @@ namespace Sanguosha.Core.Network
                         gameCard = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place];
                     }
                     _DeserializeCardItem(gameCard, i.Id);
-                    gameCard.AddtionalType = i.additionalType;
+                    gameCard.Rank = i.rank;
+                    gameCard.Suit = (SuitType)i.suit;
+                    if (i.type != null) gameCard.Type = _DeserializeType(i.type, i.typeHorseName);
+                    gameCard.AddtionalType = _DeserializeType(i.additionalType, i.additionalTypeHorseName);
                 }
                 if (i.playerId < 0)
                 {
@@ -182,7 +215,7 @@ namespace Sanguosha.Core.Network
                 item.playerId = Game.CurrentGame.Players.IndexOf(card.Place.Player);
                 item.deck = card.Place.DeckType;
                 item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
-                item.additionalType = card.AddtionalType;
+                _SerializeType(ref item.type, ref item.typeHorseName, card.Type);
                 Trace.Assert(item.place >= 0);
                 o = item;
             }

@@ -14,7 +14,7 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Battle.Cards
 {
-    [Serializable]
+    
     public class HuoGong : CardHandler
     {
 

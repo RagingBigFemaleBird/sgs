@@ -53,8 +53,6 @@
     <Compile Include="Cards\GuoHeChaiQiao.cs" />
     <Compile Include="Cards\JieDaoShaRen.cs" />
     <Compile Include="Cards\LifeSaver.cs" />
-    <Compile Include="Cards\OffensiveHorse.cs" />
-    <Compile Include="Cards\DefensiveHorse.cs" />
     <Compile Include="Cards\JueDou.cs" />
     <Compile Include="Cards\LeBuSiShu.cs" />
     <Compile Include="Cards\NanManRuQin.cs" />

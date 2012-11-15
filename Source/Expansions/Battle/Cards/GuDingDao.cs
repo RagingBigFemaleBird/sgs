@@ -15,7 +15,7 @@ using Sanguosha.Expansions.Basic.Cards;
 
 namespace Sanguosha.Expansions.Battle.Cards
 {
-    [Serializable]
+    
     public class GuDingDao : Weapon
     {
         public GuDingDao()
@@ -23,6 +23,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             EquipmentSkill = new GuDianDaoSkill();
         }
 
+        
         public class GuDianDaoSkill : TriggerSkill
         {
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)

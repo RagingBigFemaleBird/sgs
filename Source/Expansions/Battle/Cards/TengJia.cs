@@ -15,9 +15,10 @@ using System.Diagnostics;
 
 namespace Sanguosha.Expansions.Battle.Cards
 {
-    [Serializable]
+    
     public class TengJia : Armor
     {
+        
         public class TengJiaSkill : ArmorTriggerSkill
         {
             void RunBurnToDeath(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)

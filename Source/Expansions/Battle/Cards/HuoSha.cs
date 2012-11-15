@@ -8,7 +8,7 @@ using Sanguosha.Core.Games;
 
 namespace Sanguosha.Expansions.Battle.Cards
 {
-    [Serializable]
+    
     public class HuoSha : Sha
     {
         public override DamageElement ShaDamageElement

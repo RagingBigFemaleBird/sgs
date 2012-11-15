@@ -16,7 +16,7 @@ using Sanguosha.Core.Skills;
 
 namespace Sanguosha.Core.Games
 {
-    [Serializable]
+    
     public class GameOverException : SgsException { }
 
     public struct CardsMovement
@@ -54,10 +54,10 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        [Serializable]
+        
         class EndOfDealingDeckException : SgsException { }
 
-        [Serializable]
+        
         class GameAlreadyStartedException : SgsException { }
 
         static Game()
@@ -601,7 +601,14 @@ namespace Sanguosha.Core.Games
                     {
                         card.Log = new ActionLog();
                         card.Type = GameEngine.CardSet[card.Id].Type;
+                        card.Suit = GameEngine.CardSet[card.Id].Suit;
                         if (card.Attributes != null) card.Attributes.Clear();
+                    }
+
+                    //reset color if entering delayedtools
+                    if (move.to.DeckType == DeckType.DelayedTools)
+                    {
+                        card.Suit = GameEngine.CardSet[card.Id].Suit;
                     }
 
                     //reset card type if entering hand or discard

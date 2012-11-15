@@ -14,7 +14,7 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    [Serializable]
+    
     public class CiXiongShuangGuJian : Weapon
     {
         public CiXiongShuangGuJian()
@@ -22,6 +22,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             EquipmentSkill = new CiXiongShuangGuJianSkill();
         }
 
+        
         public class CiXiongShuangGuJianSkill : TriggerSkill
         {
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)

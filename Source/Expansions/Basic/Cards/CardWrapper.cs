@@ -13,7 +13,7 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    [Serializable]
+    
     public class CardWrapper : CardTransformSkill
     {
         public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)

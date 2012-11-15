@@ -15,7 +15,7 @@ using Sanguosha.Expansions.Basic.Cards;
 
 namespace Sanguosha.Expansions.Battle.Cards
 {
-    [Serializable]
+    
     public class HanBingJian : Weapon
     {
         public HanBingJian()
@@ -23,6 +23,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             EquipmentSkill = new HanBingJianSkill();
         }
 
+        
         public class HanBingJianSkill : TriggerSkill
         {
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)

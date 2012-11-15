@@ -7,6 +7,7 @@ using Sanguosha.Core.Players;
 
 namespace Sanguosha.Core.Cards
 {
+    
     public abstract class Weapon : Equipment
     {
         protected override void RegisterEquipmentTriggers(Player p)

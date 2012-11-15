@@ -14,7 +14,7 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    [Serializable]
+    
     public class WuZhongShengYou : CardHandler
     {
         protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)

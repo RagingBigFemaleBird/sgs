@@ -11,7 +11,7 @@ using Sanguosha.Core.Skills;
 
 namespace Sanguosha.Core.Triggers
 {
-    [Serializable]
+    
     public class GameEventArgs
     {
         public GameEventArgs()

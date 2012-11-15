@@ -7,7 +7,7 @@ using Sanguosha.Core.Players;
 
 namespace Sanguosha.Core.Cards
 {
-    [Serializable]
+    [Serializable]    
     public class DeckType
     {
         static DeckType()

@@ -14,7 +14,7 @@ using System.Diagnostics;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    [Serializable]
+    
     public class GuanShiFu : Weapon
     {
         public GuanShiFu()
@@ -77,6 +77,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         }
 
+        
         public class GuanShiFuSkill : TriggerSkill
         {
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)

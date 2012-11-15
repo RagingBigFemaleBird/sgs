@@ -14,7 +14,7 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Battle.Cards
 {
-    [Serializable]
+    
     public class TieSuoLianHuan : CardHandler
     {
         protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard cardr)

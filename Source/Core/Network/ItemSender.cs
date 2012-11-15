@@ -15,6 +15,7 @@ using System.IO;
 
 namespace Sanguosha.Core.Network
 {
+    [Serializable]
     public enum Command
     {
         WhoAmI,
@@ -22,37 +23,48 @@ namespace Sanguosha.Core.Network
         GameStart,
         Interrupt,
     }
+
     [Serializable]
     public struct InterruptedObject
     {
         public object obj;
     }
+
     [Serializable]
     public struct CardItem
     {
         public int playerId;
         public DeckType deck;
         public int place;
+        public int rank;
+        public int suit;
         public int Id;
-        public CardHandler additionalType;
+        public Type type;
+        public Type additionalType;
+        public string typeHorseName;
+        public string additionalTypeHorseName;
     }
+
     [Serializable]
     public struct CommandItem
     {
         public Command command;
         public int data;
     }
+
     [Serializable]
     public struct PlayerItem
     {
         public int id;
     }
+
     [Serializable]
     public struct SkillItem
     {
         public int playerId;
         public string name;
     }
+
     public class ItemSender
     {
         private Stream stream;

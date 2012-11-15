@@ -66,6 +66,18 @@ namespace Sanguosha.Core.Cards
             Log = new UI.ActionLog();
         }
 
+        public Card(ICard c)
+        {
+            Suit = c.Suit;
+            Rank = c.Rank;
+            Type = c.Type;
+            RevealOnce = false;
+            Place = c.Place;
+            Id = -1;
+            Attributes = c.Attributes;
+            Log = new UI.ActionLog();
+        }
+
         public DeckPlace HistoryPlace2 { get; set; }
         public DeckPlace HistoryPlace1 { get; set; }
         public DeckPlace Place { get; set; }

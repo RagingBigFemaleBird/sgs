@@ -14,7 +14,7 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    [Serializable]
+    
     public class ShunShouQianYang : ShunChai
     {
         protected override string ResultDeckName
@@ -34,7 +34,6 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected override bool ShunChaiAdditionalCheck(Player source, Player dest, ICard card)
         {
-            // todo: 黄月英 trigger
             GameEventArgs args = new GameEventArgs();
             args.Source = source;
             args.Targets = new List<Player>() { dest };

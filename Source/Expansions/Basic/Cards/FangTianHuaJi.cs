@@ -14,13 +14,15 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    [Serializable]
+    
     public class FangTianHuaJi : Weapon
     {
         public FangTianHuaJi()
         {
             EquipmentSkill = new FangTianHuaJiSkill();
         }
+
+        
         class FangTianHuaJiSkill : TriggerSkill
         {
             void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)

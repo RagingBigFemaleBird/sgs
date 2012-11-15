@@ -29,6 +29,7 @@ namespace Sanguosha.Core.Triggers
         Skill
     }
 
+    
     public class Trigger
     {
         public virtual Player Owner { get; set; }

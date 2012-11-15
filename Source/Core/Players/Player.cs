@@ -12,7 +12,7 @@ using System.Collections.ObjectModel;
 
 namespace Sanguosha.Core.Players
 {
-    [Serializable]
+    
     public class Player : INotifyPropertyChanged
     {
         public Player()

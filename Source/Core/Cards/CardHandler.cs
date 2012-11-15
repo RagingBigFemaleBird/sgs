@@ -14,10 +14,12 @@ using Sanguosha.Core.Exceptions;
 
 namespace Sanguosha.Core.Cards
 {
-    [Serializable]
+    
     public abstract class CardHandler
     {
+        [NonSerialized]
         Dictionary<DeckPlace, List<Card>> deckBackup;
+        [NonSerialized]
         List<Card> cardsOnHold;
 
         public abstract CardCategory Category {get;}

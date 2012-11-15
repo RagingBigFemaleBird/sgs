@@ -82,6 +82,32 @@ namespace Sanguosha.Core.Network
             handlers[clientId].commId++;
         }
 
+        CardHandler _DeserializeType(Type type, String horseName)
+        {
+            if (type == null) return null;
+            if (horseName == null)
+            {
+                return Activator.CreateInstance(type) as CardHandler;
+            }
+            else
+            {
+                return Activator.CreateInstance(type, horseName) as CardHandler;
+            }
+        }
+
+        void _SerializeType(ref Type type, ref String horse, CardHandler handler)
+        {
+            if (handler is RoleCardHandler || handler is Heroes.HeroCardHandler || handler == null)
+            {
+                type = null;
+                horse = null;
+                return;
+            }
+            type = handler.GetType();
+            if (handler is OffensiveHorse || handler is DefensiveHorse) horse = handler.CardType;
+            else horse = null;
+        }
+
         public bool ExpectNext(int clientId, int timeOutSeconds)
         {
             Trace.TraceInformation("Expecting commId for {0} is {1}", clientId, handlers[clientId].commId);
@@ -139,12 +165,12 @@ namespace Sanguosha.Core.Network
                 if (i.playerId < 0)
                 {
                     o = Game.CurrentGame.Decks[null, i.deck][i.place];
-                    (o as Card).AddtionalType = i.additionalType;
+                    (o as Card).AddtionalType = _DeserializeType(i.additionalType, i.additionalTypeHorseName);
                 }
                 else
                 {
                     o = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place];
-                    (o as Card).AddtionalType = i.additionalType;
+                    (o as Card).AddtionalType = _DeserializeType(i.additionalType, i.additionalTypeHorseName);
                 }
 
                 return o as Card;
@@ -230,11 +256,16 @@ namespace Sanguosha.Core.Network
                 item.playerId = Game.CurrentGame.Players.IndexOf(card.Place.Player);
                 item.deck = card.Place.DeckType;
                 item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
-                item.additionalType = card.AddtionalType;
+                if (card.AddtionalType == null) item.additionalType = null;
+                else item.additionalType = card.AddtionalType.GetType();
                 Trace.Assert(item.place >= 0);
                 if (card.RevealOnce)
                 {
                     item.Id = card.Id;
+                    item.suit = (int)card.Suit;
+                    item.rank = (int)card.Rank;
+                    _SerializeType(ref item.type, ref item.typeHorseName, card.Type);
+                    _SerializeType(ref item.additionalType, ref item.additionalTypeHorseName, card.AddtionalType);
                     card.RevealOnce = false;
                 }
                 else
@@ -269,6 +300,8 @@ namespace Sanguosha.Core.Network
                 item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
                 Trace.Assert(item.place >= 0);
                 item.Id = card.Id;
+                item.rank = card.Rank;
+                item.suit = (int)card.Suit;
                 CommandItem citem = new CommandItem();
                 citem.command = Command.Interrupt;
                 citem.data = 1;

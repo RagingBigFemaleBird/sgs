@@ -14,7 +14,7 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    [Serializable]
+    
     public class JieDaoShaRen : CardHandler
     {
         protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
@@ -22,6 +22,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             throw new NotImplementedException();
         }
 
+        
         private class JieDaoShaRenVerifier : CardUsageVerifier
         {
             public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)

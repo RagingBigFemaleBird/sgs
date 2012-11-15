@@ -14,7 +14,7 @@ using System.Diagnostics;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    [Serializable]
+    
     public class QingLongYanYueDao : Weapon
     {
         public QingLongYanYueDao()
@@ -22,6 +22,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             EquipmentSkill = new QingLongYanYueSkill();
         }
 
+        
         public class QingLongYanYueSkill : TriggerSkill
         {
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)

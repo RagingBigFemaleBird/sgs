@@ -11,6 +11,7 @@ using Sanguosha.Core.Skills;
 
 namespace Sanguosha.Core.Triggers
 {
+    
     public class GameEvent
     {
         static GameEvent()
@@ -71,7 +72,7 @@ namespace Sanguosha.Core.Triggers
             PlayerCanDiscardCard = new GameEvent("PlayerCanDiscardCard");
         }
 
-        [Serializable]
+        
         public class DuplicateGameEventException : SgsException { }
 
         public List<GameEvent> DefinedGameEvents

@@ -13,7 +13,7 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    [Serializable]
+    
     public class ZhangBaSheMao : Weapon
     {
         public ZhangBaSheMao()
@@ -21,6 +21,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             EquipmentSkill = new ZhangBaSheMaoTransform();
         }
 
+        
         public class ZhangBaSheMaoTransform : CardTransformSkill
         {
             public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)

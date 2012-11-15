@@ -7,7 +7,7 @@ using Sanguosha.Core.Players;
 
 namespace Sanguosha.Core.Exceptions
 {
-    [Serializable]
+    
     public class PlayerIsDeadException : SgsException
     {
         public Player Player { get; set; }

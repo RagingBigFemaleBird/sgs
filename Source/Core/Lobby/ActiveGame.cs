@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sanguosha.Lobby
 {
-    [Serializable]
+    
     public struct ActiveGame
     {
         public int id;

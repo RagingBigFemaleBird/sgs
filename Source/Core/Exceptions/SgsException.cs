@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Sanguosha.Core.Exceptions
 {
-    [Serializable]
+    
     public class SgsException : Exception
     {
     }

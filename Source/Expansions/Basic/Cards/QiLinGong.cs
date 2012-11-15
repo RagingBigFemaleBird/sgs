@@ -14,7 +14,7 @@ using System.Diagnostics;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    [Serializable]
+    
     public class QiLinGong : Weapon
     {
         public QiLinGong()
@@ -22,6 +22,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             EquipmentSkill = new QiLinGongSkill();
         }
 
+        
         public class QiLinGongSkill : TriggerSkill
         {
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)

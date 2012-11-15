@@ -7,6 +7,7 @@ using Sanguosha.Core.Players;
 
 namespace Sanguosha.Core.Cards
 {
+    
     public abstract class Armor : Equipment
     {
         public static readonly CardAttribute IgnoreAllArmor = CardAttribute.Register("IgnoreAllArmor");

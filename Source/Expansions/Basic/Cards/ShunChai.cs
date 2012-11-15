@@ -14,11 +14,10 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
+    
     public abstract class ShunChai : CardHandler
     {
-
         protected abstract string ResultDeckName {get;}
-
 
         protected abstract string ChoicePrompt {get;}
 

@@ -11,9 +11,9 @@ using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.Cards;
 
-namespace Sanguosha.Expansions.Basic.Cards
+namespace Sanguosha.Core.Cards
 {
-    [Serializable]
+    
     public class OffensiveHorse : Equipment
     {
         protected override void RegisterEquipmentTriggers(Player p)

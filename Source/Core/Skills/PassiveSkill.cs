@@ -12,6 +12,7 @@ using Sanguosha.Core.Players;
 
 namespace Sanguosha.Core.Skills
 {
+    
     public abstract class PassiveSkill : ISkill
     {
         private Players.Player owner;

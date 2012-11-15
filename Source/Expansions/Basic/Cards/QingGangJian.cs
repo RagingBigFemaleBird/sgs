@@ -14,7 +14,7 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    [Serializable]
+    
     public class QingGangJian : Weapon
     {
         public QingGangJian()
@@ -22,6 +22,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             EquipmentSkill = new QingGangJianSkill();
         }
 
+        
         public class QingGangJianSkill : TriggerSkill
         {
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
