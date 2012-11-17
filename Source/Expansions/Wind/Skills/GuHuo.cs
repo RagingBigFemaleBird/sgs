@@ -19,13 +19,7 @@ namespace Sanguosha.Expansions.Wind.Skills
     /// </summary>
     public class GuHuo : CardTransformSkill, IAdditionalTypedSkill
     {
-        public override UiHelper Helper
-        {
-            get
-            {
-                return new UiHelper() { IsGuHuo = true };
-            }
-        }
+
         public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
         {
             card = null;

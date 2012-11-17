@@ -839,7 +839,7 @@ namespace Sanguosha.UI.Controls
                 // Handle skill down            
                 foreach (var skillCommand in sc)
                 {
-                    if (skillCommand.Skill is CardTransformSkill && (skillCommand.Skill as CardTransformSkill).Helper.IsGuHuo)
+                    if (skillCommand.Skill is CardTransformSkill && (skillCommand.Skill as CardTransformSkill).Helper is IAdditionalTypedSkill)
                     {
                         hasGuHuo = true;
                         skillCommand.IsEnabled = true;
@@ -917,7 +917,7 @@ namespace Sanguosha.UI.Controls
                     submitCardUsageCommand.CanExecuteStatus = true;
                 }
 
-                if (skill == null || !(skill is CardTransformSkill) || !(skill as CardTransformSkill).Helper.IsGuHuo)
+                if (skill == null || !(skill is CardTransformSkill) || !(skill is IAdditionalTypedSkill))
                 {
                     List<Card> attempt = new List<Card>(cards);
 

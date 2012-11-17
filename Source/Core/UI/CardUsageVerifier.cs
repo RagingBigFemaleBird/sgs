@@ -44,19 +44,6 @@ namespace Sanguosha.Core.UI
             get { return hasNoConfirmation; }
             set { hasNoConfirmation = value; }
         }
-
-        private bool isGuHuo;
-        /// <summary>
-        /// Whether the skill is GuHuo.
-        /// </summary>
-        /// <remarks>
-        /// 蛊惑，奇策需要特殊UI，故设置此参数。
-        /// </remarks>
-        public bool IsGuHuo
-        {
-            get { return isGuHuo; }
-            set { isGuHuo = value; }
-        }
     }
 
     public interface ICardUsageVerifier
@@ -85,7 +72,7 @@ namespace Sanguosha.Core.UI
 
             if (transformSkill != null)
             {
-                if (transformSkill.Helper.IsGuHuo ||
+                if (transformSkill is IAdditionalTypedSkill ||
                     transformSkill.PossibleResults == null)
                 {
                     return SlowVerify(source, skill, cards, players);
