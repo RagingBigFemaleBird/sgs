@@ -34,10 +34,6 @@ namespace Sanguosha.Core.Network
                 formatter.Serialize(replayStream, o);
                 replayStream.Flush();
             }
-            if (!((o is int) || (o is PlayerItem) || (o is CardItem) || (o is CommandItem) || (o is SkillItem) || (o is InterruptedObject)))
-            {
-                return null;
-            }
             return o;
         }
     }

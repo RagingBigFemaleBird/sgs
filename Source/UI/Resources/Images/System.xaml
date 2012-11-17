@@ -44,7 +44,7 @@
     <BitmapImage x:Key="Button.Skill.Enforced.Hover.Left">Buttons/skill/enforced/disabled-left.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.Enforced.Down.Left">Buttons/skill/enforced/disabled-left.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.Enforced.Disabled.Left">Buttons/skill/enforced/disabled-left.png</BitmapImage>
-    <BitmapImage x:Key="Button.Skill.SingleUse.Up.Left">Buttons/skill/singleuse/disabled-left.png</BitmapImage>
+    <BitmapImage x:Key="Button.Skill.SingleUse.Up.Left">Buttons/skill/singleuse/normal-left.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.SingleUse.Hover.Left">Buttons/skill/singleuse/hover-left.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.SingleUse.Down.Left">Buttons/skill/singleuse/normal-left.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.SingleUse.Disabled.Left">Buttons/skill/singleuse/disabled-left.png</BitmapImage>
@@ -65,7 +65,7 @@
     <BitmapImage x:Key="Button.Skill.Enforced.Hover.Middle">Buttons/skill/enforced/disabled-middle.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.Enforced.Down.Middle">Buttons/skill/enforced/disabled-middle.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.Enforced.Disabled.Middle">Buttons/skill/enforced/disabled-middle.png</BitmapImage>
-    <BitmapImage x:Key="Button.Skill.SingleUse.Up.Middle">Buttons/skill/singleuse/disabled-middle.png</BitmapImage>
+    <BitmapImage x:Key="Button.Skill.SingleUse.Up.Middle">Buttons/skill/singleuse/normal-middle.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.SingleUse.Hover.Middle">Buttons/skill/singleuse/hover-middle.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.SingleUse.Down.Middle">Buttons/skill/singleuse/normal-middle.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.SingleUse.Disabled.Middle">Buttons/skill/singleuse/disabled-middle.png</BitmapImage>
@@ -86,7 +86,7 @@
     <BitmapImage x:Key="Button.Skill.Enforced.Hover.Right">Buttons/skill/enforced/disabled-right.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.Enforced.Down.Right">Buttons/skill/enforced/disabled-right.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.Enforced.Disabled.Right">Buttons/skill/enforced/disabled-right.png</BitmapImage>
-    <BitmapImage x:Key="Button.Skill.SingleUse.Up.Right">Buttons/skill/singleuse/disabled-right.png</BitmapImage>
+    <BitmapImage x:Key="Button.Skill.SingleUse.Up.Right">Buttons/skill/singleuse/normal-right.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.SingleUse.Hover.Right">Buttons/skill/singleuse/hover-right.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.SingleUse.Down.Right">Buttons/skill/singleuse/normal-right.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.SingleUse.Disabled.Right">Buttons/skill/singleuse/disabled-right.png</BitmapImage>

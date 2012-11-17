@@ -17,6 +17,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>             
             	<ResourceDictionary Source="../Common.xaml"/>
+                <ResourceDictionary Source="CardButton.xaml"/>
             	<ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
             	<ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>                
             </ResourceDictionary.MergedDictionaries>

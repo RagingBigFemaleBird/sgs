@@ -34,7 +34,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             }
 
 
-            public override IList<CardHandler> AcceptableCardType
+            public override IList<CardHandler> AcceptableCardTypes
             {
                 get { return null; }
             }
@@ -84,7 +84,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             }
             public Player Owner { get; set; }
 
-            public override IList<CardHandler> AcceptableCardType
+            public override IList<CardHandler> AcceptableCardTypes
             {
                 get { return null; }
             }

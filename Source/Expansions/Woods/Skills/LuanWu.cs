@@ -20,6 +20,11 @@ namespace Sanguosha.Expansions.Woods.Skills
     /// </summary>
     public class LuanWu : ActiveSkill
     {
+        public LuanWu()
+        {
+            UiHelper.HasNoConfirmation = true;
+        }
+
         private static PlayerAttribute LuanWuUsed = PlayerAttribute.Register("LuanWuUsed", false);
 
         public override VerifierResult Validate(GameEventArgs arg)
@@ -103,7 +108,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                 return (new Sha()).Verify(source, skill, cards, players);
             }
 
-            public override IList<CardHandler> AcceptableCardType
+            public override IList<CardHandler> AcceptableCardTypes
             {
                 get { return new List<CardHandler>() {new Sha()}; }
             }

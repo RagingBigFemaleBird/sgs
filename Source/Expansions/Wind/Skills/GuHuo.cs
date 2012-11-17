@@ -33,18 +33,16 @@ namespace Sanguosha.Expansions.Wind.Skills
 
             card = new CompositeCard();
             card.Subcards = new List<Card>();
-            if (cards[0].AdditionalType == null)
+            if (AdditionalType == null)
+            {
+                return VerifierResult.Partial;
+            }
+            if (!CardCategoryManager.IsCardCategory(AdditionalType.Category, CardCategory.Basic) &&
+                !CardCategoryManager.IsCardCategory(AdditionalType.Category, CardCategory.ImmediateTool))
             {
                 return VerifierResult.Fail;
             }
-            if (CardCategoryManager.IsCardCategory(cards[0].AdditionalType.Category, CardCategory.Equipment))
-            {
-                return VerifierResult.Fail;
-            }
-            if (CardCategoryManager.IsCardCategory(cards[0].AdditionalType.Category, CardCategory.DelayedTool))
-            {
-                return VerifierResult.Fail;
-            }
+            
             card.Type = AdditionalType;
             card.Subcards.Add(cards[0]);
             return VerifierResult.Success;
@@ -66,7 +64,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             foreach (var player in toProcess)
             {
                 int answer = 1;
-                if (!Game.CurrentGame.UiProxies[player].AskForMultipleChoice(new MultipleChoicePrompt("GuHuo", Owner, (move.cards[0].AdditionalType).CardType), Prompt.YesNoChoices, out answer))
+                if (!Game.CurrentGame.UiProxies[player].AskForMultipleChoice(new MultipleChoicePrompt("GuHuo", Owner, AdditionalType.CardType), Prompt.YesNoChoices, out answer))
                 {
                     //override default answer to no
                     answer = 1;
@@ -86,7 +84,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             bool ret = true;
             if (!guhuoSucceed)
             {
-                if (Game.CurrentGame.Decks[null, DeckType.GuHuo][0].Type.GetType().IsAssignableFrom(Game.CurrentGame.Decks[null, DeckType.GuHuo][0].AdditionalType.GetType()))
+                if (Game.CurrentGame.Decks[null, DeckType.GuHuo][0].Type.GetType().IsAssignableFrom(AdditionalType.GetType()))
                 {
                     foreach (var player in toProcess)
                     {

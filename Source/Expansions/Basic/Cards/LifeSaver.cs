@@ -74,7 +74,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             return card.Type.Verify(source, skill, cards, l);
         }
 
-        public override IList<CardHandler> AcceptableCardType
+        public override IList<CardHandler> AcceptableCardTypes
         {
             get { return new List<CardHandler>() { new LifeSaver() }; }
         }

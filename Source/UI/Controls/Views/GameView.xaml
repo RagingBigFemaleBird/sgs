@@ -206,7 +206,7 @@
             <local:NonClipGrid.Effect>
                 <DropShadowEffect ShadowDepth="0"/>
             </local:NonClipGrid.Effect>
-            <local:CardChoiceBox DataContext="{Binding MainPlayerModel.CardChoiceModel, PresentationTraceSources.TraceLevel=High}"/>
+            <local:CardChoiceBox DataContext="{Binding MainPlayerModel.CardChoiceModel}"/>
         </local:NonClipGrid>		
     </Grid>
 </UserControl>

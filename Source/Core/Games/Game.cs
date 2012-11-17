@@ -1470,7 +1470,7 @@ namespace Sanguosha.Core.Games
                 return VerifierResult.Success;
             }
 
-            public IList<CardHandler> AcceptableCardType
+            public IList<CardHandler> AcceptableCardTypes
             {
                 get { throw new NotImplementedException(); }
             }
@@ -1658,7 +1658,7 @@ namespace Sanguosha.Core.Games
                 return VerifierResult.Success;
             }
 
-            public IList<CardHandler> AcceptableCardType
+            public IList<CardHandler> AcceptableCardTypes
             {
                 get { return null; }
             }

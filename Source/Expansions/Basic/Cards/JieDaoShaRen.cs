@@ -47,7 +47,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 return (new Sha()).Verify(source, skill, cards, newList);
             }
 
-            public override IList<CardHandler> AcceptableCardType
+            public override IList<CardHandler> AcceptableCardTypes
             {
                 get { return new List<CardHandler>() {new Sha()}; }
             }

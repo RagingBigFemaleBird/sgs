@@ -11,11 +11,19 @@ namespace Sanguosha.Core.Skills
 {
     public abstract class ActiveSkill : ISkill
     {
-        public UiHelper UiHelper { get; protected set; }
+        private UiHelper helper;
+
+        public UiHelper UiHelper 
+        {
+            get
+            {
+                return helper;
+            }
+        }
 
         public ActiveSkill()
         {
-            UiHelper = new UiHelper();
+            helper = new UiHelper();
         }
 
         /// <summary>

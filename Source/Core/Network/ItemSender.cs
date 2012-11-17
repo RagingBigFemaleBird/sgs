@@ -40,11 +40,9 @@ namespace Sanguosha.Core.Network
         public int suit;
         public int Id;
         public Type type;
-        public Type additionalType;
         public string typeHorseName;
-        public string additionalTypeHorseName;
     }
-
+    
     [Serializable]
     public struct CommandItem
     {
@@ -63,6 +61,8 @@ namespace Sanguosha.Core.Network
     {
         public int playerId;
         public string name;
+        public Type additionalType;
+        public string additionalTypeHorseName;
     }
 
     public class ItemSender

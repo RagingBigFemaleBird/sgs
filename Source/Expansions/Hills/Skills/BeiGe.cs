@@ -43,7 +43,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 return VerifierResult.Success;
             }
 
-            public IList<CardHandler> AcceptableCardType
+            public IList<CardHandler> AcceptableCardTypes
             {
                 get { throw new NotImplementedException(); }
             }

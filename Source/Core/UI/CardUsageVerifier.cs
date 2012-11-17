@@ -49,7 +49,7 @@ namespace Sanguosha.Core.UI
     public interface ICardUsageVerifier
     {
         VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players);
-        IList<CardHandler> AcceptableCardType { get; }
+        IList<CardHandler> AcceptableCardTypes { get; }
         VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> players);
         UiHelper Helper { get; }
     }
@@ -65,22 +65,24 @@ namespace Sanguosha.Core.UI
                 return VerifierResult.Fail;
             }
 
-            if (AcceptableCardType == null)
+            if (AcceptableCardTypes == null)
             {
                 return SlowVerify(source, skill, cards, players);
             }
 
             if (transformSkill != null)
             {
-                if (transformSkill is IAdditionalTypedSkill ||
-                    transformSkill.PossibleResults == null)
+                if (transformSkill is IAdditionalTypedSkill
+                    || transformSkill.PossibleResults == null)
                 {
                     return SlowVerify(source, skill, cards, players);
                 }
                 else
                 {
-                    var commonResult = from type1 in AcceptableCardType join type2 in transformSkill.PossibleResults
-                                       on type1 equals type2 select type1;
+                    var commonResult = from type1 in AcceptableCardTypes
+                                       join type2 in transformSkill.PossibleResults
+                                           on type1 equals type2
+                                       select type1;
                     if (commonResult.Count() == 0)
                     {
                         return SlowVerify(source, skill, cards, players);
@@ -152,7 +154,7 @@ namespace Sanguosha.Core.UI
 
         public abstract VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players);
 
-        public abstract IList<CardHandler> AcceptableCardType { get; }
+        public abstract IList<CardHandler> AcceptableCardTypes { get; }
 
 
         public virtual UiHelper Helper

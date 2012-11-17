@@ -50,7 +50,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 return VerifierResult.Success;
             }
 
-            public override IList<CardHandler> AcceptableCardType
+            public override IList<CardHandler> AcceptableCardTypes
             {
                 get { return new List<CardHandler>(); }
             }

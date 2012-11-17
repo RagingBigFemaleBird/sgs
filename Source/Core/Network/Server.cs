@@ -165,12 +165,10 @@ namespace Sanguosha.Core.Network
                 if (i.playerId < 0)
                 {
                     o = Game.CurrentGame.Decks[null, i.deck][i.place];
-                    (o as Card).AdditionalType = _DeserializeType(i.additionalType, i.additionalTypeHorseName);
                 }
                 else
                 {
                     o = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place];
-                    (o as Card).AdditionalType = _DeserializeType(i.additionalType, i.additionalTypeHorseName);
                 }
 
                 return o as Card;
@@ -255,9 +253,7 @@ namespace Sanguosha.Core.Network
                 CardItem item = new CardItem();
                 item.playerId = Game.CurrentGame.Players.IndexOf(card.Place.Player);
                 item.deck = card.Place.DeckType;
-                item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
-                if (card.AdditionalType == null) item.additionalType = null;
-                else item.additionalType = card.AdditionalType.GetType();
+                item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);                
                 Trace.Assert(item.place >= 0);
                 if (card.RevealOnce)
                 {
@@ -265,7 +261,6 @@ namespace Sanguosha.Core.Network
                     item.suit = (int)card.Suit;
                     item.rank = (int)card.Rank;
                     _SerializeType(ref item.type, ref item.typeHorseName, card.Type);
-                    _SerializeType(ref item.additionalType, ref item.additionalTypeHorseName, card.AdditionalType);
                     card.RevealOnce = false;
                 }
                 else
@@ -280,6 +275,10 @@ namespace Sanguosha.Core.Network
                 SkillItem item = new SkillItem();
                 item.playerId = skill.Owner.Id;
                 item.name = skill.GetType().Name;
+                if (skill is IAdditionalTypedSkill)
+                {
+                    item.additionalType = (skill as IAdditionalTypedSkill).AdditionalType.GetType();
+                }
                 o = item;
             }
             Trace.TraceInformation("Sending a {0} to {1}", o, clientId); 

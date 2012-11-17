@@ -591,7 +591,7 @@ namespace Sanguosha.UI.Controls
             ISkill skill = null;
             bool isEquipSkill;
             SkillCommand skillCommand = _GetSelectedSkillCommand(out isEquipSkill);
-
+            
             foreach (var equipCommand in EquipCommands)
             {
                 if (!isEquipSkill && equipCommand.IsSelected)
@@ -787,10 +787,6 @@ namespace Sanguosha.UI.Controls
 
             foreach (var skillCommand in SkillCommands)
             {
-                if (skillCommand is GuHuoSkillCommand)
-                {
-                    (skillCommand as GuHuoSkillCommand).GuHuoChoice = null;
-                }
                 skillCommand.IsSelected = false;
                 skillCommand.IsEnabled = false;
             }
@@ -849,23 +845,42 @@ namespace Sanguosha.UI.Controls
                 // Handle skill down            
                 foreach (var skillCommand in sc)
                 {
-                    skillCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
-                    if (skillCommand.IsEnabled && skillCommand is GuHuoSkillCommand)
+                    // Handle kurou and luanwu
+                    if (skillCommand.Skill != null && skillCommand.IsSelected)
                     {
-                        GuHuoSkillCommand cmdGuhuo = skillCommand as GuHuoSkillCommand;
-                        if (cmdGuhuo.GuHuoTypes.Count == 0 && cmdGuhuo.GuHuoChoice == null)
+                        var activeSkill = skillCommand.Skill as ActiveSkill;
+                        if (activeSkill != null && activeSkill.UiHelper.HasNoConfirmation)
                         {
-                            foreach (var c in Game.CurrentGame.AvailableCards)
+                            SubmitAnswerCommand.Execute(null);
+                            return;
+                        }
+                    }
+                
+                    skillCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
+
+                    GuHuoSkillCommand cmdGuhuo = skillCommand as GuHuoSkillCommand;
+                    if (cmdGuhuo != null)
+                    {
+                        if (skillCommand.IsEnabled)
+                        {
+                            if (cmdGuhuo.GuHuoTypes.Count == 0 && cmdGuhuo.GuHuoChoice == null)
                             {
-                                cmdGuhuo.GuHuoChoice = c;
-                                if (currentUsageVerifier.Verify(HostPlayer, cmdGuhuo.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail)
+                                foreach (var c in Game.CurrentGame.AvailableCards)
                                 {
-                                    cmdGuhuo.GuHuoTypes.Add(c);
+                                    cmdGuhuo.GuHuoChoice = c;
+                                    if (currentUsageVerifier.Verify(HostPlayer, cmdGuhuo.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail)
+                                    {
+                                        cmdGuhuo.GuHuoTypes.Add(c);
+                                    }
                                 }
+                                cmdGuhuo.GuHuoChoice = null;
                             }
+                        }
+                        else if (skillCommand.IsSelected && !skillCommand.IsSelected)
+                        {
                             cmdGuhuo.GuHuoChoice = null;
                         }
-                    }                    
+                    }
                 }
 
                 // are we really able to use this equip as command?
@@ -1075,6 +1090,10 @@ namespace Sanguosha.UI.Controls
 
                 foreach (var skillCommand in SkillCommands)
                 {
+                    if (skillCommand is GuHuoSkillCommand)
+                    {
+                        (skillCommand as GuHuoSkillCommand).GuHuoChoice = null;
+                    }
                     skillCommand.OnSelectedChanged += _UpdateCardUsageStatusHandler;
                 }
 

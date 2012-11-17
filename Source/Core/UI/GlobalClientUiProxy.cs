@@ -27,7 +27,7 @@ namespace Sanguosha.Core.UI
                 return VerifierResult.Fail;
             }
 
-            public IList<CardHandler> AcceptableCardType
+            public IList<CardHandler> AcceptableCardTypes
             {
                 get { return null; }
             }

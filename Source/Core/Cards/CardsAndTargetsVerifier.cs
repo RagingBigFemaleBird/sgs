@@ -120,7 +120,7 @@ namespace Sanguosha.Core.Cards
             return VerifierResult.Success;
         }
 
-        public virtual IList<CardHandler> AcceptableCardType
+        public virtual IList<CardHandler> AcceptableCardTypes
         {
             get { return null; }
         }

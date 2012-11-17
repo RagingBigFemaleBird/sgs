@@ -45,7 +45,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                 return VerifierResult.Success;
             }
 
-            public IList<CardHandler> AcceptableCardType
+            public IList<CardHandler> AcceptableCardTypes
             {
                 get { throw new NotImplementedException(); }
             }

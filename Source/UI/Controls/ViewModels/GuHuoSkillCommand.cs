@@ -14,7 +14,7 @@ namespace Sanguosha.UI.Controls
         public GuHuoSkillCommand()
         {
             guHuoTypes = new ObservableCollection<CardHandler>();
-            guHuoCommand = new GuHuoChoiceCommand();
+            guHuoCommand = new GuHuoChoiceCommand() { ParentSkillCommand = this };
         }
 
         class GuHuoChoiceCommand : ICommand

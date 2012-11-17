@@ -93,7 +93,7 @@ namespace Sanguosha.Core.Cards
         }
 
 
-        public override IList<CardHandler> AcceptableCardType
+        public override IList<CardHandler> AcceptableCardTypes
         {
             get { return possibleMatch; }
         }

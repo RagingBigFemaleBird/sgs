@@ -32,8 +32,8 @@
                     <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="White" Stroke="White" StrokeThickness="1" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify"/>
                 </Grid>
             </ToggleButton>
-            <Popup PopupAnimation="Fade" Placement="Top" IsOpen="{Binding IsDropDown, RelativeSource={RelativeSource Self}}">
-                <ItemsControl x:Name="GuHuoBox" ItemsSource="{Binding GuHuoTypes}">
+        <Popup x:Name="popupChoices" PopupAnimation="Fade" Placement="Top" AllowsTransparency="True">
+            <ItemsControl x:Name="GuHuoBox" ItemsSource="{Binding GuHuoTypes}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Columns="3" />

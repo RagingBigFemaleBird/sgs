@@ -74,7 +74,7 @@ namespace Sanguosha.Core.Network
             gameCard.Place = place;
         }
 
-        CardHandler _DeserializeType(Type type, String horseName)
+        CardHandler _DeserializeType(Type type, string horseName)
         {
             if (type == null) return null;
             if (horseName == null)
@@ -134,7 +134,6 @@ namespace Sanguosha.Core.Network
                         gameCard.Rank = i.rank;
                         gameCard.Suit = (SuitType)i.suit;
                         if (i.type != null) gameCard.Type = _DeserializeType(i.type, i.typeHorseName);
-                        gameCard.AdditionalType = _DeserializeType(i.additionalType, i.additionalTypeHorseName);
                     }
                     return Receive();
                 }
@@ -166,8 +165,7 @@ namespace Sanguosha.Core.Network
                     _DeserializeCardItem(gameCard, i.Id);
                     gameCard.Rank = i.rank;
                     gameCard.Suit = (SuitType)i.suit;
-                    if (i.type != null) gameCard.Type = _DeserializeType(i.type, i.typeHorseName);
-                    gameCard.AdditionalType = _DeserializeType(i.additionalType, i.additionalTypeHorseName);
+                    if (i.type != null) gameCard.Type = _DeserializeType(i.type, i.typeHorseName);                    
                 }
                 if (i.playerId < 0)
                 {
@@ -186,7 +184,11 @@ namespace Sanguosha.Core.Network
                 foreach (var skill in Game.CurrentGame.Players[i.playerId].ActionableSkills)
                 {
                     if (skill.GetType().Name.Equals(i.name))
-                    {
+                    {                        
+                        if (skill is IAdditionalTypedSkill)
+                        {
+                            (skill as IAdditionalTypedSkill).AdditionalType  = _DeserializeType(i.additionalType, i.additionalTypeHorseName);
+                        }
                         return skill;
                     }
                 }

@@ -69,7 +69,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 return VerifierResult.Success;
             }
 
-            public IList<CardHandler> AcceptableCardType
+            public IList<CardHandler> AcceptableCardTypes
             {
                 get { return null; }
             }
