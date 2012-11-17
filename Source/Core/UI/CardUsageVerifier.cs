@@ -72,8 +72,11 @@ namespace Sanguosha.Core.UI
 
             if (transformSkill != null)
             {
-                if (transformSkill is IAdditionalTypedSkill ||
-                    transformSkill.PossibleResults == null)
+                if (transformSkill is IAdditionalTypedSkill)
+                {
+                    return FastVerify(source, skill, cards, players);
+                }
+                else if (transformSkill.PossibleResults == null)
                 {
                     return SlowVerify(source, skill, cards, players);
                 }

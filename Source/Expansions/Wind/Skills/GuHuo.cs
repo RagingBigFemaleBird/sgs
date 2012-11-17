@@ -31,17 +31,17 @@ namespace Sanguosha.Expansions.Wind.Skills
                 return VerifierResult.Fail;
             }
 
+            if (AdditionalType == null)
+            {
+                return VerifierResult.Partial;
+            }
             card = new CompositeCard();
             card.Subcards = new List<Card>();
-            if (cards[0].AdditionalType == null)
+            if (CardCategoryManager.IsCardCategory(AdditionalType.Category, CardCategory.Equipment))
             {
                 return VerifierResult.Fail;
             }
-            if (CardCategoryManager.IsCardCategory(cards[0].AdditionalType.Category, CardCategory.Equipment))
-            {
-                return VerifierResult.Fail;
-            }
-            if (CardCategoryManager.IsCardCategory(cards[0].AdditionalType.Category, CardCategory.DelayedTool))
+            if (CardCategoryManager.IsCardCategory(AdditionalType.Category, CardCategory.DelayedTool))
             {
                 return VerifierResult.Fail;
             }
