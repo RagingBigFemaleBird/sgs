@@ -40,6 +40,10 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     newList.Add(target);
                 }
+                else
+                {
+                    return VerifierResult.Fail;
+                }
                 return (new Sha()).Verify(source, skill, cards, newList);
             }
 

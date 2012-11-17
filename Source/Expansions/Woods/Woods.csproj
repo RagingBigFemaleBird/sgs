@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Skills\FangZhu.cs" />
+    <Compile Include="Skills\LuanWu.cs" />
     <Compile Include="WoodsExpansion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
