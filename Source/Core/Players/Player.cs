@@ -11,8 +11,7 @@ using Sanguosha.Core.Games;
 using System.Collections.ObjectModel;
 
 namespace Sanguosha.Core.Players
-{
-    
+{   
     public class Player : INotifyPropertyChanged
     {
         public Player()

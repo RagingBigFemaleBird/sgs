@@ -68,7 +68,11 @@ namespace Sanguosha.UI.Controls
                 var skill = Skill as IAdditionalTypedSkill;
                 if (skill != null)
                 {
-                    skill.AdditionalType = value;
+                    if (skill.AdditionalType != value)
+                    {
+                        skill.AdditionalType = value;
+                        SelectedChanged();
+                    }
                 }
             }
         }

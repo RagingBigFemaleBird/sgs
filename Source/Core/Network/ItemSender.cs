@@ -15,56 +15,6 @@ using System.IO;
 
 namespace Sanguosha.Core.Network
 {
-    [Serializable]
-    public enum Command
-    {
-        WhoAmI,
-        QaId,
-        GameStart,
-        Interrupt,
-    }
-
-    [Serializable]
-    public struct InterruptedObject
-    {
-        public object obj;
-    }
-
-    [Serializable]
-    public struct CardItem
-    {
-        public int playerId;
-        public DeckType deck;
-        public int place;
-        public int rank;
-        public int suit;
-        public int Id;
-        public Type type;
-        public string typeHorseName;
-    }
-    
-    [Serializable]
-    public struct CommandItem
-    {
-        public Command command;
-        public int data;
-    }
-
-    [Serializable]
-    public struct PlayerItem
-    {
-        public int id;
-    }
-
-    [Serializable]
-    public struct SkillItem
-    {
-        public int playerId;
-        public string name;
-        public Type additionalType;
-        public string additionalTypeHorseName;
-    }
-
     public class ItemSender
     {
         private Stream stream;

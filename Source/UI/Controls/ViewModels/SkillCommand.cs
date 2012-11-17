@@ -81,15 +81,21 @@ namespace Sanguosha.UI.Controls
             {
                 if (_isSelected == value) return;
                 _isSelected = value;
-                if (OnSelectedChanged != null)
-                {
-                    OnSelectedChanged(this, new EventArgs());
-                }
+                SelectedChanged();
                 OnPropertyChanged("IsSelected");
             }
         }
 
         public event EventHandler OnSelectedChanged;
+
+        protected virtual void SelectedChanged()
+        {
+            EventHandler handle = OnSelectedChanged;
+            if (handle != null)
+            {
+                handle(this, new EventArgs());
+            }
+        }
 
         private bool isEnabled;
         public bool IsEnabled

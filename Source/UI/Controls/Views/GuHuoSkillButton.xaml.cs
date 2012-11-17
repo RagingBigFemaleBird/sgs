@@ -52,7 +52,9 @@ namespace Sanguosha.UI.Controls
         {
             GuHuoSkillButton button = d as GuHuoSkillButton;
             if (button != null)
-                button.popupChoices.IsOpen = ((bool)e.NewValue);
+            {
+                button.popupChoices.IsOpen = ((bool)e.NewValue);                
+            }
         }
 
         private void btnGuHuoType_Click(object sender, RoutedEventArgs e)

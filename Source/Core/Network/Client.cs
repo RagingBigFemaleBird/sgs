@@ -74,38 +74,8 @@ namespace Sanguosha.Core.Network
             gameCard.Place = place;
         }
 
-        CardHandler _DeserializeType(Type type, string horseName)
-        {
-            if (type == null) return null;
-            if (horseName == null)
-            {
-                return Activator.CreateInstance(type) as CardHandler;
-            }
-            else
-            {
-                return Activator.CreateInstance(type, horseName) as CardHandler;
-            }
-        }
-
-        void _SerializeType(ref Type type, ref String horse, CardHandler handler)
-        {
-            if (handler is RoleCardHandler || handler is Heroes.HeroCardHandler || handler == null)
-            {
-                type = null;
-                horse = null;
-                return;
-            }
-            type = handler.GetType();
-            if (handler is OffensiveHorse || handler is DefensiveHorse) horse = handler.CardType;
-            else horse = null;
-        }
-
         public object Receive()
         {
-            if (isReplay)
-            {
-                Thread.Sleep(100);
-            }
             object o = receiver.Receive();
             
             if (o is CommandItem)
@@ -133,7 +103,7 @@ namespace Sanguosha.Core.Network
                         _DeserializeCardItem(gameCard, i.Id);
                         gameCard.Rank = i.rank;
                         gameCard.Suit = (SuitType)i.suit;
-                        if (i.type != null) gameCard.Type = _DeserializeType(i.type, i.typeHorseName);
+                        if (i.type != null) gameCard.Type = Translator.TranslateCardType(i.type, i.typeHorseName);
                     }
                     return Receive();
                 }
@@ -165,7 +135,7 @@ namespace Sanguosha.Core.Network
                     _DeserializeCardItem(gameCard, i.Id);
                     gameCard.Rank = i.rank;
                     gameCard.Suit = (SuitType)i.suit;
-                    if (i.type != null) gameCard.Type = _DeserializeType(i.type, i.typeHorseName);                    
+                    if (i.type != null) gameCard.Type = Translator.TranslateCardType(i.type, i.typeHorseName);                    
                 }
                 if (i.playerId < 0)
                 {
@@ -180,20 +150,7 @@ namespace Sanguosha.Core.Network
             }
             else if (o is SkillItem)
             {
-                SkillItem i = (SkillItem)o;
-                foreach (var skill in Game.CurrentGame.Players[i.playerId].ActionableSkills)
-                {
-                    if (skill.GetType().Name.Equals(i.name))
-                    {                        
-                        if (skill is IAdditionalTypedSkill)
-                        {
-                            (skill as IAdditionalTypedSkill).AdditionalType  = _DeserializeType(i.additionalType, i.additionalTypeHorseName);
-                        }
-                        return skill;
-                    }
-                }
-                Trace.TraceWarning("Client seem to be sending invalid skills. DDOS?");
-                return null;
+                return Translator.Translate((SkillItem)o);
             }
             return o;
         }
@@ -208,28 +165,30 @@ namespace Sanguosha.Core.Network
             commId++;
         }
 
-        public void AnswerItem(object o)
+        public void AnswerItem(Card card)
+        {            
+            CardItem item = new CardItem();
+            item.playerId = Game.CurrentGame.Players.IndexOf(card.Place.Player);
+            item.deck = card.Place.DeckType;
+            item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
+            Translator.TranslateCardType(ref item.type, ref item.typeHorseName, card.Type);
+            Trace.Assert(item.place >= 0);           
+            sender.Send(item);
+        }
+
+        public void AnswerItem(ISkill skill)
         {
-            if (o is Card)
-            {
-                Card card = o as Card;
-                CardItem item = new CardItem();
-                item.playerId = Game.CurrentGame.Players.IndexOf(card.Place.Player);
-                item.deck = card.Place.DeckType;
-                item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
-                _SerializeType(ref item.type, ref item.typeHorseName, card.Type);
-                Trace.Assert(item.place >= 0);
-                o = item;
-            }
-            if (o is ISkill)
-            {
-                ISkill skill = o as ISkill;
-                SkillItem item = new SkillItem();
-                item.playerId = skill.Owner.Id;
-                item.name = skill.GetType().Name;
-                o = item;
-            }
-            sender.Send(o);
+            sender.Send(Translator.Translate(skill));
+        }
+
+        public void AnswerItem(int i)
+        {            
+            sender.Send(i);
+        }
+
+        public void AnswerItem(Player p)
+        {
+            sender.Send(p);
         }
     }
 }

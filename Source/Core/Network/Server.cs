@@ -229,17 +229,7 @@ namespace Sanguosha.Core.Network
             }
             if (o is SkillItem)
             {
-                SkillItem i = (SkillItem)o;
-                if (i.playerId >= 0 && i.playerId < Game.CurrentGame.Players.Count)
-                {
-                    foreach (var s in Game.CurrentGame.Players[i.playerId].ActionableSkills)
-                    {
-                        if (s.GetType().Name.Equals(i.name))
-                        {
-                            return s;
-                        }
-                    }
-                }
+                return Translator.Translate((SkillItem)o);
             }
             Trace.TraceWarning("Expected Skill but type is {0}", o.GetType());
             return null;
@@ -271,15 +261,7 @@ namespace Sanguosha.Core.Network
             }
             if (o is ISkill)
             {
-                ISkill skill = o as ISkill;
-                SkillItem item = new SkillItem();
-                item.playerId = skill.Owner.Id;
-                item.name = skill.GetType().Name;
-                if (skill is IAdditionalTypedSkill)
-                {
-                    item.additionalType = (skill as IAdditionalTypedSkill).AdditionalType.GetType();
-                }
-                o = item;
+                o = Translator.Translate(o as ISkill);
             }
             Trace.TraceInformation("Sending a {0} to {1}", o, clientId); 
             handlers[clientId].semAccess.WaitOne();
