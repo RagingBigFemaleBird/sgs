@@ -5,10 +5,49 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:Controls="clr-namespace:Sanguosha.UI.Controls;assembly=Controls"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
-	  Title="MainGame" Loaded="Page_Loaded">
+      d:DesignHeight="600" d:DesignWidth="800"
+      Title="MainGame" Loaded="Page_Loaded">
 
     <Grid>
-        <Controls:GameView x:Name="gameView" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition></RowDefinition>  	
+        </Grid.RowDefinitions>
+        <Controls:GameView Grid.Row="1" x:Name="gameView" />
+        <Menu Style="{DynamicResource MainMenuStyle}">
+        	<MenuItem Padding="0" Style="{DynamicResource MenuItemStyle1}" Height="20">
+        		<MenuItem.Header>
+        			<Button Style="{DynamicResource DefaultButtonStyleDark}" Height="20" Padding="1,0,2,0" Margin="0,0,0,0">
+		        		<Image Height="14" Source="/Resources;component/Images/System/btnSettings.png" Stretch="Fill" Width="16"/>	        	
+					</Button>    		
+				</MenuItem.Header>     	
+			</MenuItem>
+            <MenuItem Padding="3, 0" Style="{DynamicResource MenuItemStyle1}" Height="20">
+                <MenuItem.Header>
+                    <TextBlock Text="作弊" Style="{DynamicResource MenuTextStyle}" />
+                </MenuItem.Header>
+                <MenuItem Padding="3, 0" Style="{DynamicResource MenuItemStyle1}" Height="20">
+                    <MenuItem.Header>
+                        <Button x:Name="btnGetCard" Style="{DynamicResource DefaultButtonStyle1}" Height="20" Padding="8,0,8,0">
+	        				<TextBlock Text="获得卡牌" Style="{DynamicResource MenuTextStyle}" />
+						</Button>
+                    </MenuItem.Header>
+                </MenuItem>
+                <MenuItem Padding="3, 0" Style="{DynamicResource MenuItemStyle1}" Height="20">
+                    <MenuItem.Header>
+                        <Button x:Name="btnGetSkill" Style="{DynamicResource DefaultButtonStyle1}" Height="20" Padding="8,0,8,0">
+	        				<TextBlock Text="获得技能" Style="{DynamicResource MenuTextStyle}" />
+						</Button>
+                    </MenuItem.Header>
+                </MenuItem>
+            </MenuItem>
+			<MenuItem Padding="0" Style="{DynamicResource MenuItemStyle1}" Height="20">
+        		<MenuItem.Header>
+        			<Button Style="{DynamicResource DefaultButtonStyleRed}" Height="20" Padding="2,0,4,0" Margin="0,0,0,0">
+		        		<TextBlock Text="返回" Style="{DynamicResource MenuTextStyle}" />        	
+					</Button>    		
+				</MenuItem.Header>     	
+			</MenuItem>
+        </Menu>
     </Grid>
 </Page>

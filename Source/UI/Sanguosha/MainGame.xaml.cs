@@ -19,6 +19,7 @@ using System.Threading;
 using Sanguosha.Core.Network;
 using System.Diagnostics;
 using System.IO;
+using System.Windows.Navigation;
 
 namespace Sanguosha.UI.Main
 {
@@ -29,7 +30,7 @@ namespace Sanguosha.UI.Main
     {
         public MainGame()
         {
-            this.InitializeComponent();            
+            this.InitializeComponent();
             // Insert code required on object creation below this point.
         }
 

@@ -185,7 +185,7 @@ namespace Sanguosha.UI.Main
                 return;
             }
             if (game != null)
-            {
+            {            
                 this.NavigationService.Navigate(game);
             }
 

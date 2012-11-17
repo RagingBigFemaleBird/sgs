@@ -205,7 +205,7 @@
         </Grid>
         <Menu Style="{DynamicResource MainMenuStyle}" />
 		<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-			<Button Style="{DynamicResource DefaultButtonStyle1}" Height="20" Padding="1,0,2,0" Margin="0,0,0,0">
+			<Button Style="{DynamicResource DefaultButtonStyleDark}" Height="20" Padding="1,0,2,0" Margin="0,0,0,0">
         		<Image Height="14" Source="/Resources;component/Images/System/btnSettings.png" Stretch="Fill" Width="16"/>	        	
 			</Button>			
 			<Button x:Name="btnReplay" Style="{DynamicResource DefaultButtonStyle1}" Height="20" Padding="8,0,8,0" Click="btnReplay_Click">
