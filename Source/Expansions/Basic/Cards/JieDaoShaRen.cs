@@ -71,7 +71,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             args.ReadonlyCard = readonlyCard;
             try
             {
-                Game.CurrentGame.Emit(GameEvent.PlayerIsCardTargetInvalidated, args);
+                Game.CurrentGame.Emit(GameEvent.CardUsageTargetValidating, args);
             }
             catch (TriggerResultException e)
             {
@@ -80,7 +80,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
             try
             {
-                Game.CurrentGame.Emit(GameEvent.PlayerIsCardTargetBeforeEffected, args);
+                Game.CurrentGame.Emit(GameEvent.CardUsageBeforeEffected, args);
             }
             catch (TriggerResultException e)
             {

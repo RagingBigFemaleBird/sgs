@@ -32,7 +32,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                 TriggerCondition.OwnerIsSource
             );
 
-            Triggers.Add(GameEvent.PlayerIsCardTargetConfirmed, trigger);
+            Triggers.Add(GameEvent.CardUsageTargetConfirmed, trigger);
         }
 
     }

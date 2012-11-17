@@ -44,7 +44,7 @@
     <BitmapImage x:Key="Button.Skill.Enforced.Hover.Left">Buttons/skill/enforced/disabled-left.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.Enforced.Down.Left">Buttons/skill/enforced/disabled-left.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.Enforced.Disabled.Left">Buttons/skill/enforced/disabled-left.png</BitmapImage>
-    <BitmapImage x:Key="Button.Skill.SingleUse.Up.Left">Buttons/skill/enforced/disabled-left.png</BitmapImage>
+    <BitmapImage x:Key="Button.Skill.SingleUse.Up.Left">Buttons/skill/singleuse/disabled-left.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.SingleUse.Hover.Left">Buttons/skill/singleuse/hover-left.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.SingleUse.Down.Left">Buttons/skill/singleuse/normal-left.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.SingleUse.Disabled.Left">Buttons/skill/singleuse/disabled-left.png</BitmapImage>
@@ -65,7 +65,7 @@
     <BitmapImage x:Key="Button.Skill.Enforced.Hover.Middle">Buttons/skill/enforced/disabled-middle.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.Enforced.Down.Middle">Buttons/skill/enforced/disabled-middle.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.Enforced.Disabled.Middle">Buttons/skill/enforced/disabled-middle.png</BitmapImage>
-    <BitmapImage x:Key="Button.Skill.SingleUse.Up.Middle">Buttons/skill/enforced/disabled-middle.png</BitmapImage>
+    <BitmapImage x:Key="Button.Skill.SingleUse.Up.Middle">Buttons/skill/singleuse/disabled-middle.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.SingleUse.Hover.Middle">Buttons/skill/singleuse/hover-middle.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.SingleUse.Down.Middle">Buttons/skill/singleuse/normal-middle.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.SingleUse.Disabled.Middle">Buttons/skill/singleuse/disabled-middle.png</BitmapImage>
@@ -86,7 +86,7 @@
     <BitmapImage x:Key="Button.Skill.Enforced.Hover.Right">Buttons/skill/enforced/disabled-right.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.Enforced.Down.Right">Buttons/skill/enforced/disabled-right.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.Enforced.Disabled.Right">Buttons/skill/enforced/disabled-right.png</BitmapImage>
-    <BitmapImage x:Key="Button.Skill.SingleUse.Up.Right">Buttons/skill/enforced/disabled-right.png</BitmapImage>
+    <BitmapImage x:Key="Button.Skill.SingleUse.Up.Right">Buttons/skill/singleuse/disabled-right.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.SingleUse.Hover.Right">Buttons/skill/singleuse/hover-right.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.SingleUse.Down.Right">Buttons/skill/singleuse/normal-right.png</BitmapImage>
     <BitmapImage x:Key="Button.Skill.SingleUse.Disabled.Right">Buttons/skill/singleuse/disabled-right.png</BitmapImage>
@@ -164,4 +164,79 @@
     <BitmapImage x:Key="Death.Role.Ruler.Image">Death/Ruler.png</BitmapImage>
     <BitmapImage x:Key="Death.Role.Unknown.Image">Death/Unknown.png</BitmapImage>
 
+    <CroppedBitmap x:Key="GuHuo.Sha.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,0,94,25" />
+    <CroppedBitmap x:Key="GuHuo.Shan.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,26,94,25" />
+    <CroppedBitmap x:Key="GuHuo.Tao.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,52,94,25" />
+    <CroppedBitmap x:Key="GuHuo.HuoSha.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,78,94,25" />
+    <CroppedBitmap x:Key="GuHuo.LeiSha.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,104,94,25" />
+    <CroppedBitmap x:Key="GuHuo.Jiu.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,130,94,25" />
+    <CroppedBitmap x:Key="GuHuo.GuoHeChaiQiao.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,156,94,25" />
+    <CroppedBitmap x:Key="GuHuo.TaoYuanJieYi.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,182,94,25" />
+    <CroppedBitmap x:Key="GuHuo.WuZhongShengYou.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,208,94,25" />
+    <CroppedBitmap x:Key="GuHuo.ShunShouQianYang.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,234,94,25" />
+    <CroppedBitmap x:Key="GuHuo.NanManRuQin.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,260,94,25" />
+    <CroppedBitmap x:Key="GuHuo.WanJianQiFa.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,286,94,25" />
+    <CroppedBitmap x:Key="GuHuo.WuXieKeJi.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,312,94,25" />
+    <CroppedBitmap x:Key="GuHuo.WuGuFengDeng.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,338,94,25" />
+    <CroppedBitmap x:Key="GuHuo.JueDou.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,364,94,25" />
+    <CroppedBitmap x:Key="GuHuo.JieDaoShaRen.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,390,94,25" />
+    <CroppedBitmap x:Key="GuHuo.HuoGong.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,416,94,25" />
+    <CroppedBitmap x:Key="GuHuo.TieSuoLianHuan.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,442,94,25" />
+
+    <CroppedBitmap x:Key="GuHuo.Sha.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,0,94,25" />
+    <CroppedBitmap x:Key="GuHuo.Shan.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,26,94,25" />
+    <CroppedBitmap x:Key="GuHuo.Tao.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,52,94,25" />
+    <CroppedBitmap x:Key="GuHuo.HuoSha.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,78,94,25" />
+    <CroppedBitmap x:Key="GuHuo.LeiSha.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,104,94,25" />
+    <CroppedBitmap x:Key="GuHuo.Jiu.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,130,94,25" />
+    <CroppedBitmap x:Key="GuHuo.GuoHeChaiQiao.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,156,94,25" />
+    <CroppedBitmap x:Key="GuHuo.TaoYuanJieYi.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,182,94,25" />
+    <CroppedBitmap x:Key="GuHuo.WuZhongShengYou.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,208,94,25" />
+    <CroppedBitmap x:Key="GuHuo.ShunShouQianYang.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,234,94,25" />
+    <CroppedBitmap x:Key="GuHuo.NanManRuQin.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,260,94,25" />
+    <CroppedBitmap x:Key="GuHuo.WanJianQiFa.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,286,94,25" />
+    <CroppedBitmap x:Key="GuHuo.WuXieKeJi.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,312,94,25" />
+    <CroppedBitmap x:Key="GuHuo.WuGuFengDeng.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,338,94,25" />
+    <CroppedBitmap x:Key="GuHuo.JueDou.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,364,94,25" />
+    <CroppedBitmap x:Key="GuHuo.JieDaoShaRen.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,390,94,25" />
+    <CroppedBitmap x:Key="GuHuo.HuoGong.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,416,94,25" />
+    <CroppedBitmap x:Key="GuHuo.TieSuoLianHuan.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,442,94,25" />
+
+    <CroppedBitmap x:Key="GuHuo.Sha.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,0,94,25" />
+    <CroppedBitmap x:Key="GuHuo.Shan.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,26,94,25" />
+    <CroppedBitmap x:Key="GuHuo.Tao.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,52,94,25" />
+    <CroppedBitmap x:Key="GuHuo.HuoSha.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,78,94,25" />
+    <CroppedBitmap x:Key="GuHuo.LeiSha.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,104,94,25" />
+    <CroppedBitmap x:Key="GuHuo.Jiu.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,130,94,25" />
+    <CroppedBitmap x:Key="GuHuo.GuoHeChaiQiao.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,156,94,25" />
+    <CroppedBitmap x:Key="GuHuo.TaoYuanJieYi.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,182,94,25" />
+    <CroppedBitmap x:Key="GuHuo.WuZhongShengYou.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,208,94,25" />
+    <CroppedBitmap x:Key="GuHuo.ShunShouQianYang.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,234,94,25" />
+    <CroppedBitmap x:Key="GuHuo.NanManRuQin.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,260,94,25" />
+    <CroppedBitmap x:Key="GuHuo.WanJianQiFa.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,286,94,25" />
+    <CroppedBitmap x:Key="GuHuo.WuXieKeJi.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,312,94,25" />
+    <CroppedBitmap x:Key="GuHuo.WuGuFengDeng.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,338,94,25" />
+    <CroppedBitmap x:Key="GuHuo.JueDou.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,364,94,25" />
+    <CroppedBitmap x:Key="GuHuo.JieDaoShaRen.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,390,94,25" />
+    <CroppedBitmap x:Key="GuHuo.HuoGong.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,416,94,25" />
+    <CroppedBitmap x:Key="GuHuo.TieSuoLianHuan.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,442,94,25" />
+
+    <CroppedBitmap x:Key="GuHuo.Sha.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,0,94,25" />
+    <CroppedBitmap x:Key="GuHuo.Shan.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,26,94,25" />
+    <CroppedBitmap x:Key="GuHuo.Tao.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,52,94,25" />
+    <CroppedBitmap x:Key="GuHuo.HuoSha.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,78,94,25" />
+    <CroppedBitmap x:Key="GuHuo.LeiSha.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,104,94,25" />
+    <CroppedBitmap x:Key="GuHuo.Jiu.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,130,94,25" />
+    <CroppedBitmap x:Key="GuHuo.GuoHeChaiQiao.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,156,94,25" />
+    <CroppedBitmap x:Key="GuHuo.TaoYuanJieYi.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,182,94,25" />
+    <CroppedBitmap x:Key="GuHuo.WuZhongShengYou.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,208,94,25" />
+    <CroppedBitmap x:Key="GuHuo.ShunShouQianYang.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,234,94,25" />
+    <CroppedBitmap x:Key="GuHuo.NanManRuQin.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,260,94,25" />
+    <CroppedBitmap x:Key="GuHuo.WanJianQiFa.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,286,94,25" />
+    <CroppedBitmap x:Key="GuHuo.WuXieKeJi.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,312,94,25" />
+    <CroppedBitmap x:Key="GuHuo.WuGuFengDeng.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,338,94,25" />
+    <CroppedBitmap x:Key="GuHuo.JueDou.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,364,94,25" />
+    <CroppedBitmap x:Key="GuHuo.JieDaoShaRen.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,390,94,25" />
+    <CroppedBitmap x:Key="GuHuo.HuoGong.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,416,94,25" />
+    <CroppedBitmap x:Key="GuHuo.TieSuoLianHuan.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,442,94,25" />
 </ResourceDictionary>

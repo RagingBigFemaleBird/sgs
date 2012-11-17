@@ -142,7 +142,16 @@ namespace Sanguosha.UI.Controls
             SkillCommands.Clear();
             foreach (ISkill skill in _player.Skills)
             {
-                SkillCommands.Add(new SkillCommand() { Skill = skill, IsEnabled = false });
+                SkillCommand command;
+                if (skill is IAdditionalTypedSkill)
+                {
+                    command = new GuHuoSkillCommand() { Skill = skill, IsEnabled = false };
+                }
+                else
+                {
+                    command = new SkillCommand() { Skill = skill, IsEnabled = false };
+                }
+                SkillCommands.Add(command);
             }            
         }
 
@@ -711,8 +720,6 @@ namespace Sanguosha.UI.Controls
 
         #region IASyncUiProxy Helpers
         ICardUsageVerifier currentUsageVerifier;
-        List<CardHandler> canGuHuo;
-
         SkillCommand _GetSelectedSkillCommand(out bool isEquipSkill)
         {
             foreach (var skillCommand in SkillCommands)
@@ -780,6 +787,10 @@ namespace Sanguosha.UI.Controls
 
             foreach (var skillCommand in SkillCommands)
             {
+                if (skillCommand is GuHuoSkillCommand)
+                {
+                    (skillCommand as GuHuoSkillCommand).GuHuoChoice = null;
+                }
                 skillCommand.IsSelected = false;
                 skillCommand.IsEnabled = false;
             }
@@ -834,37 +845,29 @@ namespace Sanguosha.UI.Controls
                 }
 
                 var sc = new List<SkillCommand>(SkillCommands);
-                bool hasGuHuo = false;
-                CardTransformSkill guhuoSkill = null;
+                
                 // Handle skill down            
                 foreach (var skillCommand in sc)
                 {
-                    if (skillCommand.Skill is CardTransformSkill && (skillCommand.Skill as CardTransformSkill).Helper is IAdditionalTypedSkill)
+                    skillCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
+                    if (skillCommand.IsEnabled && skillCommand is GuHuoSkillCommand)
                     {
-                        hasGuHuo = true;
-                        skillCommand.IsEnabled = true;
-                        guhuoSkill = skillCommand.Skill as CardTransformSkill;
-                    }
-                    else
-                    {
-                        skillCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
-                    }
+                        GuHuoSkillCommand cmdGuhuo = skillCommand as GuHuoSkillCommand;
+                        if (cmdGuhuo.GuHuoTypes.Count == 0 && cmdGuhuo.GuHuoChoice == null)
+                        {
+                            foreach (var c in Game.CurrentGame.AvailableCards)
+                            {
+                                cmdGuhuo.GuHuoChoice = c;
+                                if (currentUsageVerifier.Verify(HostPlayer, cmdGuhuo.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail)
+                                {
+                                    cmdGuhuo.GuHuoTypes.Add(c);
+                                }
+                            }
+                            cmdGuhuo.GuHuoChoice = null;
+                        }
+                    }                    
                 }
 
-                if (hasGuHuo && canGuHuo == null && HandCards.Count > 0)
-                {
-                    Card dummy = HandCards[0].Card;
-                    canGuHuo = new List<CardHandler>(Game.CurrentGame.AvailableCards);
-                    foreach (var c in new List<CardHandler>(canGuHuo))
-                    {
-                        dummy.AdditionalType = c;
-                        if (currentUsageVerifier.Verify(HostPlayer, guhuoSkill, new List<Card>() { dummy }, new List<Player>()) == VerifierResult.Fail)
-                        {
-                            canGuHuo.Remove(c);
-                        }
-                    }
-                    dummy.AdditionalType = null;
-                }
                 // are we really able to use this equip as command?
                 if (isEquipCommand)
                 {
@@ -1047,8 +1050,7 @@ namespace Sanguosha.UI.Controls
                 lock (verifierLock)
                 {
                     TimeOutSeconds = timeOutSeconds;
-                    currentUsageVerifier = verifier;
-                    canGuHuo = null;
+                    currentUsageVerifier = verifier;                    
                     Trace.Assert(currentUsageVerifier != null);
                     Game.CurrentGame.CurrentActingPlayer = HostPlayer;
                     CurrentPrompt = PromptFormatter.Format(prompt);
@@ -1261,9 +1263,17 @@ namespace Sanguosha.UI.Controls
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 lock (verifierLock)
-                {
-                    canGuHuo = null;
+                {                    
                     _ResetAll();
+
+                    foreach (var skillCommand in SkillCommands)
+                    {
+                        if (skillCommand is GuHuoSkillCommand)
+                        {
+                            (skillCommand as GuHuoSkillCommand).GuHuoTypes.Clear();
+                        }
+                    }
+
                     if (currentUsageVerifier != null)
                     {                        
                         currentUsageVerifier = null;

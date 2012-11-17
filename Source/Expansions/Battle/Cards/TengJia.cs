@@ -40,7 +40,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                     RunBurnToDeath,
                     TriggerCondition.OwnerIsTarget
                 );
-                Triggers.Add(GameEvent.PlayerIsCardTargetInvalidated, trigger);
+                Triggers.Add(GameEvent.CardUsageTargetValidating, trigger);
                 Triggers.Add(GameEvent.DamageInflicted, trigger2);
             }
 

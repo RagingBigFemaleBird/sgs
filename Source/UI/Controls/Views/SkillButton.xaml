@@ -7,6 +7,8 @@
 	mc:Ignorable="d"
 	xmlns:local="clr-namespace:Sanguosha.UI.Controls">
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="CardButton.xaml"/>
+		<ResourceDictionary Source="SkillToolTip.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>        
     </ResourceDictionary.MergedDictionaries>
     <Style x:Key="SkillButtonStyle" TargetType="{x:Type ToggleButton}">        
@@ -272,4 +274,19 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <DataTemplate x:Key="SkillButtonTemplate" DataType="{x:Type local:SkillCommand}">
+        <ToggleButton Style="{StaticResource SkillButtonStyle}" IsEnabled="{Binding IsEnabled}" IsChecked="{Binding IsSelected}" ToolTipService.ShowOnDisabled="True">
+            <ToggleButton.ToolTip>
+                <ToolTip ContentTemplate="{StaticResource SkillToolTipTemplate}" Content="{Binding Mode=OneWay}" />
+            </ToggleButton.ToolTip>
+            <Grid>
+                <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="Black" Stroke="Black" StrokeThickness="3" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify">
+                    <local:OutlinedTextBlock.Effect>
+                        <BlurEffect />
+                    </local:OutlinedTextBlock.Effect>
+                </local:OutlinedTextBlock>
+                <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="White" Stroke="White" StrokeThickness="1" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify"/>
+            </Grid>
+        </ToggleButton>
+    </DataTemplate>
 </ResourceDictionary>

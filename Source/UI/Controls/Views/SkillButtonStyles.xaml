@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Sanguosha.UI.Controls"
+                    xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
+			        xmlns:anim="clr-namespace:Sanguosha.UI.Animations;assembly=Animations">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="SkillButton.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    <DataTemplate x:Key="GuHuoButtonTemplate" DataType="{x:Type local:GuHuoSkillCommand}">
+        <local:GuHuoSkillButton />
+    </DataTemplate>
+</ResourceDictionary>

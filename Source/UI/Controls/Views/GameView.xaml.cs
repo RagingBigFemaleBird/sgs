@@ -665,7 +665,6 @@ namespace Sanguosha.UI.Controls
                             animPlayed = true;
                         }
                     }
-
                 }
                 if (log.CardAction != null)
                 {

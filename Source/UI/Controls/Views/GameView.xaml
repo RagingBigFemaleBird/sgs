@@ -3,7 +3,7 @@
              d:DesignHeight="747" d:DesignWidth="1076" Width="Auto" Height="Auto" mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.MergedDictionaries>            	
             	<ResourceDictionary Source="../Common.xaml"/>
             	<ResourceDictionary Source="MultiChoiceButton.xaml"/>
             	<ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
@@ -207,6 +207,6 @@
                 <DropShadowEffect ShadowDepth="0"/>
             </local:NonClipGrid.Effect>
             <local:CardChoiceBox DataContext="{Binding MainPlayerModel.CardChoiceModel, PresentationTraceSources.TraceLevel=High}"/>
-        </local:NonClipGrid>
+        </local:NonClipGrid>		
     </Grid>
 </UserControl>

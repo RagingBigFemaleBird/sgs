@@ -41,7 +41,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 TriggerCondition.Global
             );
 
-            Triggers.Add(GameEvent.PlayerIsCardTargetConfirmed, trigger);
+            Triggers.Add(GameEvent.CardUsageTargetConfirmed, trigger);
         }
 
         public override bool IsEnforced

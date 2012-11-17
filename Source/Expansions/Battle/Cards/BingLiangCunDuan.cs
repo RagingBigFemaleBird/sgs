@@ -27,7 +27,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                 args.Card = c;
                 try
                 {
-                    Game.CurrentGame.Emit(GameEvent.PlayerIsCardTargetBeforeEffected, args);
+                    Game.CurrentGame.Emit(GameEvent.CardUsageBeforeEffected, args);
                 }
                 catch (TriggerResultException e)
                 {

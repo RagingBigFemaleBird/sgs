@@ -15,15 +15,12 @@
              d:DesignWidth="900">
     <local:PlayerViewBase.Resources>        
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="EquipButton.xaml"/>
-                <ResourceDictionary Source="SkillButton.xaml"/>
-                <ResourceDictionary Source="SkillToolTip.xaml"/>
+            <ResourceDictionary.MergedDictionaries>             
             	<ResourceDictionary Source="../Common.xaml"/>
             	<ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
             	<ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>                
             </ResourceDictionary.MergedDictionaries>
-        	<Storyboard x:Key="sbPhaseChange">
+            <Storyboard x:Key="sbPhaseChange">
         		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="imgPhase">
         			<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
         			<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1">
@@ -41,6 +38,7 @@
         			</EasingThicknessKeyFrame>
         		</ThicknessAnimationUsingKeyFrames>
         	</Storyboard>
+            <local:SkillButtonTemplateSelector x:Key="skillButtonTemplateSelector" />
         	<Style x:Key="OkButtonStyle" TargetType="{x:Type Button}">
         		<Setter Property="Template">
         			<Setter.Value>
@@ -406,30 +404,15 @@
                     <BlurEffect Radius="10" />
                 </Border.Effect>
             </Border>
-                <ItemsControl Grid.Row="1" x:Name="skillButtonDock" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="134" ItemsSource="{Binding SkillCommands}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <local:SkillButtonDock />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <ToggleButton Style="{StaticResource SkillButtonStyle}" IsEnabled="{Binding IsEnabled}" IsChecked="{Binding IsSelected}" ToolTipService.ShowOnDisabled="True">
-                            <ToggleButton.ToolTip>
-                                <ToolTip ContentTemplate="{StaticResource SkillToolTipTemplate}" Content="{Binding Mode=OneWay}" />  
-                            </ToggleButton.ToolTip>                            
-                            <Grid>
-                                <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="Black" Stroke="Black" StrokeThickness="3" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify">
-                                    <local:OutlinedTextBlock.Effect>
-                                        <BlurEffect />
-                                    </local:OutlinedTextBlock.Effect>
-                                </local:OutlinedTextBlock>
-                                <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="White" Stroke="White" StrokeThickness="1" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify"/>                            
-                            </Grid>
-                        </ToggleButton>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                <ItemsControl Grid.Row="1" x:Name="skillButtonDock" HorizontalAlignment="Left"
+                              VerticalAlignment="Bottom" Width="134" ItemsSource="{Binding SkillCommands}"
+                              ItemTemplateSelector="{StaticResource skillButtonTemplateSelector}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <local:SkillButtonDock />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
                 
             </Grid>
             <Grid Margin="-6,15,0,0" Height="22" VerticalAlignment="Top" Width="169" HorizontalAlignment="Left">

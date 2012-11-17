@@ -57,7 +57,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ViewModels\GuHuoSkillCommand.cs" />
     <Compile Include="Views\GameLogs.cs" />
+    <Compile Include="Views\GuHuoSkillButton.xaml.cs">
+      <DependentUpon>GuHuoSkillButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LogFormatter.cs" />
     <Compile Include="Views\NonClipGrid.cs" />
     <Compile Include="ViewModels\BoolToVisibilityConverter.cs" />
@@ -91,8 +95,8 @@
       <DependentUpon>LargeDelayedToolView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DiscardDeck.cs" />
-    <Compile Include="Views\EquipButton.xaml.cs">
-      <DependentUpon>EquipButton.xaml</DependentUpon>
+    <Compile Include="Views\CardButton.xaml.cs">
+      <DependentUpon>CardButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\IDeckContainer.cs" />
     <Compile Include="Views\MultiChoiceButtonStyleConverter.cs" />
@@ -102,6 +106,7 @@
       <DependentUpon>SkillButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SkillButtonDock.cs" />
+    <Compile Include="Views\SkillButtonTemplateSelector.cs" />
     <Compile Include="Views\SkillToolTipConverter.cs" />
     <Compile Include="Views\SmallDelayedToolView.xaml.cs">
       <DependentUpon>SmallDelayedToolView.xaml</DependentUpon>
@@ -158,11 +163,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\GuHuoSkillButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LargeDelayedToolView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\EquipButton.xaml">
+    <Page Include="Views\CardButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -177,6 +186,10 @@
     <Page Include="Views\SkillButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SkillButtonStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SkillToolTip.xaml">
       <SubType>Designer</SubType>

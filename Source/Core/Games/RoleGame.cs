@@ -247,8 +247,8 @@ namespace Sanguosha.Core.Games
                     try
                     {
                         Game.CurrentGame.Emit(GameEvent.PlayerUsedCard, arg);
-                        Game.CurrentGame.Emit(GameEvent.PlayerIsCardTarget, arg);
-                        Game.CurrentGame.Emit(GameEvent.PlayerIsCardTargetConfirmed, arg);
+                        Game.CurrentGame.Emit(GameEvent.CardUsageTargetConfirming, arg);
+                        Game.CurrentGame.Emit(GameEvent.CardUsageTargetConfirmed, arg);
                     }
                     catch (TriggerResultException)
                     {
@@ -725,8 +725,8 @@ namespace Sanguosha.Core.Games
             RegisterTrigger(GameEvent.CommitActionToTargets, new CommitActionToTargetsTrigger());
             RegisterTrigger(GameEvent.AfterHealthChanged, new PlayerHpChanged());
             RegisterTrigger(GameEvent.PlayerIsDead, new PlayerIsDead());
-            RegisterTrigger(GameEvent.PlayerIsCardTargetBeforeEffected, new DeadManStopper() { Priority = int.MaxValue });
-            RegisterTrigger(GameEvent.PlayerIsCardTargetBeforeEffected, new DeadManStopper() { Priority = int.MinValue });
+            RegisterTrigger(GameEvent.CardUsageBeforeEffected, new DeadManStopper() { Priority = int.MaxValue });
+            RegisterTrigger(GameEvent.CardUsageBeforeEffected, new DeadManStopper() { Priority = int.MinValue });
         }
     }
 

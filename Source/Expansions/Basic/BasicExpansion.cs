@@ -166,8 +166,8 @@ namespace Sanguosha.Expansions.Basic
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("DiaoChan", false, Allegiance.Qun, 3, new LiJian(), new BiYue()))));
 
             TriggerRegistration = new List<DelayedTriggerRegistration>();
-            TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.PlayerIsCardTargetBeforeEffected, trigger = new WuXieKeJiTrigger() });
-            TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.PlayerIsCardTargetBeforeEffected, trigger = new ShaCancelling() });
+            TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.CardUsageBeforeEffected, trigger = new WuXieKeJiTrigger() });
+            TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.CardUsageBeforeEffected, trigger = new ShaCancelling() });
             TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.PlayerDying, trigger = new PlayerDying() });
         }
     }

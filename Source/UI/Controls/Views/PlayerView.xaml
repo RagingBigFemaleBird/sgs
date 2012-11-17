@@ -15,7 +15,7 @@
     <local:PlayerViewBase.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="EquipButton.xaml"/>
+                <ResourceDictionary Source="CardButton.xaml"/>
                 <ResourceDictionary Source="SkillButton.xaml"/>
                 <ResourceDictionary Source="SkillToolTip.xaml"/>
                 <ResourceDictionary Source="../Common.xaml"/>

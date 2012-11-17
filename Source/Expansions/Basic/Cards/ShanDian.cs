@@ -28,7 +28,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 args.ReadonlyCard = new ReadOnlyCard(c);
                 try
                 {
-                    Game.CurrentGame.Emit(GameEvent.PlayerIsCardTargetBeforeEffected, args);
+                    Game.CurrentGame.Emit(GameEvent.CardUsageBeforeEffected, args);
                 }
                 catch (TriggerResultException e)
                 {

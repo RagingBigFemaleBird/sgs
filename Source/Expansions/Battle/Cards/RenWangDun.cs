@@ -29,7 +29,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                     (p, e, a) => { throw new TriggerResultException(TriggerResult.End);},
                     TriggerCondition.OwnerIsTarget
                 );
-                Triggers.Add(GameEvent.PlayerIsCardTargetInvalidated, trigger);
+                Triggers.Add(GameEvent.CardUsageTargetValidating, trigger);
             }
 
             public override bool IsEnforced
