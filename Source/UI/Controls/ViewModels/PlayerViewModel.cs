@@ -857,13 +857,13 @@ namespace Sanguosha.UI.Controls
                     canGuHuo = new List<CardHandler>(Game.CurrentGame.AvailableCards);
                     foreach (var c in new List<CardHandler>(canGuHuo))
                     {
-                        dummy.AddtionalType = c;
+                        dummy.AdditionalType = c;
                         if (currentUsageVerifier.Verify(HostPlayer, guhuoSkill, new List<Card>() { dummy }, new List<Player>()) == VerifierResult.Fail)
                         {
                             canGuHuo.Remove(c);
                         }
                     }
-                    dummy.AddtionalType = null;
+                    dummy.AdditionalType = null;
                 }
                 // are we really able to use this equip as command?
                 if (isEquipCommand)

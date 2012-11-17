@@ -84,6 +84,7 @@
     <Compile Include="Heroes\UnknownHeroCardHandler.cs" />
     <Compile Include="Games\RoleCard.cs" />
     <Compile Include="Skills\AutoVerifiedActiveSkill.cs" />
+    <Compile Include="Skills\IAdditionalTypedSkill.cs" />
     <Compile Include="Skills\TriggerSkill.cs" />
     <Compile Include="Triggers\RelayTrigger.cs" />
     <Compile Include="UI\INotificationProxy.cs" />

@@ -165,12 +165,12 @@ namespace Sanguosha.Core.Network
                 if (i.playerId < 0)
                 {
                     o = Game.CurrentGame.Decks[null, i.deck][i.place];
-                    (o as Card).AddtionalType = _DeserializeType(i.additionalType, i.additionalTypeHorseName);
+                    (o as Card).AdditionalType = _DeserializeType(i.additionalType, i.additionalTypeHorseName);
                 }
                 else
                 {
                     o = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place];
-                    (o as Card).AddtionalType = _DeserializeType(i.additionalType, i.additionalTypeHorseName);
+                    (o as Card).AdditionalType = _DeserializeType(i.additionalType, i.additionalTypeHorseName);
                 }
 
                 return o as Card;
@@ -256,8 +256,8 @@ namespace Sanguosha.Core.Network
                 item.playerId = Game.CurrentGame.Players.IndexOf(card.Place.Player);
                 item.deck = card.Place.DeckType;
                 item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
-                if (card.AddtionalType == null) item.additionalType = null;
-                else item.additionalType = card.AddtionalType.GetType();
+                if (card.AdditionalType == null) item.additionalType = null;
+                else item.additionalType = card.AdditionalType.GetType();
                 Trace.Assert(item.place >= 0);
                 if (card.RevealOnce)
                 {
@@ -265,7 +265,7 @@ namespace Sanguosha.Core.Network
                     item.suit = (int)card.Suit;
                     item.rank = (int)card.Rank;
                     _SerializeType(ref item.type, ref item.typeHorseName, card.Type);
-                    _SerializeType(ref item.additionalType, ref item.additionalTypeHorseName, card.AddtionalType);
+                    _SerializeType(ref item.additionalType, ref item.additionalTypeHorseName, card.AdditionalType);
                     card.RevealOnce = false;
                 }
                 else

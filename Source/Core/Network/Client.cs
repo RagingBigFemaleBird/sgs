@@ -134,7 +134,7 @@ namespace Sanguosha.Core.Network
                         gameCard.Rank = i.rank;
                         gameCard.Suit = (SuitType)i.suit;
                         if (i.type != null) gameCard.Type = _DeserializeType(i.type, i.typeHorseName);
-                        gameCard.AddtionalType = _DeserializeType(i.additionalType, i.additionalTypeHorseName);
+                        gameCard.AdditionalType = _DeserializeType(i.additionalType, i.additionalTypeHorseName);
                     }
                     return Receive();
                 }
@@ -167,7 +167,7 @@ namespace Sanguosha.Core.Network
                     gameCard.Rank = i.rank;
                     gameCard.Suit = (SuitType)i.suit;
                     if (i.type != null) gameCard.Type = _DeserializeType(i.type, i.typeHorseName);
-                    gameCard.AddtionalType = _DeserializeType(i.additionalType, i.additionalTypeHorseName);
+                    gameCard.AdditionalType = _DeserializeType(i.additionalType, i.additionalTypeHorseName);
                 }
                 if (i.playerId < 0)
                 {
