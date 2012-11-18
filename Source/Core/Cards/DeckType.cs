@@ -53,7 +53,7 @@ namespace Sanguosha.Core.Cards
                 return false;
             }
             DeckType type2 = (DeckType)obj;
-            return name == type2.name;
+            return name.Equals(type2.name);
         }
 
         public static bool operator ==(DeckType a, DeckType b)
@@ -68,7 +68,7 @@ namespace Sanguosha.Core.Cards
                 return false;
             }
 
-            return a.name == b.name;
+            return a.name.Equals(b.name);
         }
 
         public static bool operator !=(DeckType a, DeckType b)

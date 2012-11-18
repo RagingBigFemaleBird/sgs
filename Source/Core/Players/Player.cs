@@ -259,6 +259,7 @@ namespace Sanguosha.Core.Players
         public void LoseEquipmentSkill(ISkill skill)
         {
             skill.Owner = null;
+            Trace.Assert(equipmentSkills.Contains(skill));
             equipmentSkills.Remove(skill);
             OnPropertyChanged("Skills");
         }

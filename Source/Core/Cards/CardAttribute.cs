@@ -38,7 +38,7 @@ namespace Sanguosha.Core.Cards
                 return false;
             }
             CardAttribute type2 = (CardAttribute)obj;
-            return name == type2.name;
+            return name.Equals(type2.name);
         }
 
         public static bool operator ==(CardAttribute a, CardAttribute b)
