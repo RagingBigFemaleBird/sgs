@@ -78,6 +78,7 @@ namespace Sanguosha.Core.Games
         public Game()
         {
             cardSet = new List<Card>();
+            originalCardSet = new List<Card>();
             triggers = new Dictionary<GameEvent, List<Trigger>>();
             decks = new DeckContainer();
             players = new List<Player>();
@@ -90,7 +91,8 @@ namespace Sanguosha.Core.Games
 
         public void LoadExpansion(Expansion expansion)
         {
-            cardSet.AddRange(expansion.CardSet);
+            OriginalCardSet.AddRange(expansion.CardSet);
+
             if (expansion.TriggerRegistration != null)
             {
                 triggersToRegister.AddRange(expansion.TriggerRegistration);
@@ -211,11 +213,7 @@ namespace Sanguosha.Core.Games
                 }
             }
 
-            List<Card> slaveCardSet;
-
-            slaveCardSet = cardSet;
-            cardSet = new List<Card>();
-            for (int i = 0; i < slaveCardSet.Count; i++)
+            foreach (var card in OriginalCardSet)
             {
                 //you are client. everything is unknown
                 if (IsClient)
@@ -224,7 +222,7 @@ namespace Sanguosha.Core.Games
                     unknownCard.Id = Card.UnknownCardId;
                     unknownCard.Rank = 0;
                     unknownCard.Suit = SuitType.None;
-                    if (slaveCardSet[i].Type is Heroes.HeroCardHandler)
+                    if (card.Type is Heroes.HeroCardHandler)
                     {
                         unknownCard.Type = new Heroes.UnknownHeroCardHandler();
                     }
@@ -237,7 +235,7 @@ namespace Sanguosha.Core.Games
                 else
                 {
                     unknownCard = new Card();
-                    unknownCard.CopyFrom(slaveCardSet[i]);
+                    unknownCard.CopyFrom(card);
                 }
                 cardSet.Add(unknownCard);
             }
@@ -289,12 +287,25 @@ namespace Sanguosha.Core.Games
             games.Add(Thread.CurrentThread, this);
         }
 
+        List<Card> originalCardSet;
+
+        /// <summary>
+        /// All eligible card copied verbatim from the game engine. All cards in this set are known cards.
+        /// </summary>
+        public List<Card> OriginalCardSet
+        {
+            get { return originalCardSet; }
+        }
+
         List<Card> cardSet;
 
+        /// <summary>
+        /// Current state of all cards used in the game. Some of the cards can be unknown in the client side.
+        /// The collection is empty before Run() is called.
+        /// </summary>
         public List<Card> CardSet
         {
             get { return cardSet; }
-            set { cardSet = value; }
         }
 
         Card unknownCard;

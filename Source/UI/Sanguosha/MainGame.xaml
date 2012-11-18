@@ -1,53 +1,52 @@
-﻿<Page x:Class="Sanguosha.UI.Main.MainGame"
+﻿<Page
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:Controls="clr-namespace:Sanguosha.UI.Controls;assembly=Controls"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="Sanguosha.UI.Main.MainGame"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="800"
       Title="MainGame" Loaded="Page_Loaded">
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
-            <RowDefinition></RowDefinition>  	
+            <RowDefinition/>  	
         </Grid.RowDefinitions>
         <Controls:GameView Grid.Row="1" x:Name="gameView" />
-        <Menu Style="{DynamicResource MainMenuStyle}">
-        	<MenuItem Padding="0" Style="{DynamicResource MenuItemStyle1}" Height="20">
-        		<MenuItem.Header>
-        			<Button Style="{DynamicResource DefaultButtonStyleDark}" Height="20" Padding="1,0,2,0" Margin="0,0,0,0">
-		        		<Image Height="14" Source="/Resources;component/Images/System/btnSettings.png" Stretch="Fill" Width="16"/>	        	
-					</Button>    		
-				</MenuItem.Header>     	
-			</MenuItem>
-            <MenuItem Padding="3, 0" Style="{DynamicResource MenuItemStyle1}" Height="20">
+        <Menu x:Name="mainMenu" Style="{DynamicResource MainMenuStyle}">
+            <MenuItem Padding="0" Style="{DynamicResource MenuItemStyle1}" Height="20">
+                <MenuItem.Header>
+                    <Button Style="{DynamicResource DefaultButtonStyleDark}" Height="20" Padding="1,0,2,0" Margin="0,0,0,0">
+                        <Image Height="14" Source="/Resources;component/Images/System/btnSettings.png" Stretch="Fill" Width="16"/>	        	
+                    </Button>    		
+                </MenuItem.Header>     	
+            </MenuItem>
+            <MenuItem x:Name="menuCheat" Padding="3, 0" Style="{DynamicResource MenuItemStyle1}" Height="20">
                 <MenuItem.Header>
                     <TextBlock Text="作弊" Style="{DynamicResource MenuTextStyle}" />
                 </MenuItem.Header>
-                <MenuItem Padding="3, 0" Style="{DynamicResource MenuItemStyle1}" Height="20">
+                <MenuItem Padding="3, 0" Style="{DynamicResource MenuItemStyle1}" Height="20" Click="btnGetCard_Click">
                     <MenuItem.Header>
-                        <Button x:Name="btnGetCard" Style="{DynamicResource DefaultButtonStyle1}" Height="20" Padding="8,0,8,0">
-	        				<TextBlock Text="获得卡牌" Style="{DynamicResource MenuTextStyle}" />
-						</Button>
+                        <TextBlock Text="获得卡牌" Style="{DynamicResource MenuTextStyle}" />
                     </MenuItem.Header>
                 </MenuItem>
                 <MenuItem Padding="3, 0" Style="{DynamicResource MenuItemStyle1}" Height="20">
                     <MenuItem.Header>
-                        <Button x:Name="btnGetSkill" Style="{DynamicResource DefaultButtonStyle1}" Height="20" Padding="8,0,8,0">
-	        				<TextBlock Text="获得技能" Style="{DynamicResource MenuTextStyle}" />
-						</Button>
+                        <TextBlock Text="获得技能" Style="{DynamicResource MenuTextStyle}" />
                     </MenuItem.Header>
                 </MenuItem>
             </MenuItem>
-			<MenuItem Padding="0" Style="{DynamicResource MenuItemStyle1}" Height="20">
-        		<MenuItem.Header>
-        			<Button Style="{DynamicResource DefaultButtonStyleRed}" Height="20" Padding="2,0,4,0" Margin="0,0,0,0">
-		        		<TextBlock Text="返回" Style="{DynamicResource MenuTextStyle}" />        	
-					</Button>    		
-				</MenuItem.Header>     	
-			</MenuItem>
+            <MenuItem Padding="0" Style="{DynamicResource MenuItemStyle1}" Height="20">
+                <MenuItem.Header>
+                    <Button Style="{DynamicResource DefaultButtonStyleRed}" Height="20" Padding="2,0,4,0" Margin="0,0,0,0">
+                        <TextBlock Text="返回" Style="{DynamicResource MenuTextStyle}" />        	
+                    </Button>    		
+                </MenuItem.Header>     	
+            </MenuItem>
         </Menu>
+        <xctk:ChildWindow Grid.RowSpan="2" x:Name="windowGetCard" Caption="获取卡牌" WindowStartupLocation="Center" Template="{DynamicResource ChildWindowControlTemplate1}">
+            <Controls:CardSetView x:Name="ctrlGetCard"/>
+        </xctk:ChildWindow>
     </Grid>
 </Page>

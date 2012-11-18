@@ -6,6 +6,7 @@
       xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
       xmlns:ctrl="clr-namespace:Sanguosha.UI.Controls;assembly=Controls"
       xmlns:Sanguosha_UI_Effects="clr-namespace:Sanguosha.UI.Effects;assembly=Effects"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
       x:Class="Sanguosha.UI.Main.Login" 
       xmlns:Sanguosha_UI_Animations="clr-namespace:Sanguosha.UI.Animations;assembly=Animations"
       mc:Ignorable="d" 
@@ -172,6 +173,7 @@
                         <TextBox Margin="151,83.846,73,0" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
                         <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Margin="42,135,0,133" TextWrapping="Wrap" Width="111" Text="密码：" FontFamily="SimHei" FontSize="17.333"/>
                         <TextBox Margin="151,129.846,73,0" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
+                        <xctk:BusyIndicator x:Name="busyIndicator" BusyContent="正在连接服务器，请稍后。。。" Height="82" VerticalAlignment="Bottom" Margin="42,0,73,25" />
                     </Grid>
                 </TabItem>
                 <TabItem Style="{DynamicResource LoginTabItemStyle}">

@@ -67,6 +67,14 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public int Id
+        {
+            get
+            {
+                return _uiCard.Id;
+            }
+        }
+
         private string footnote;
 
         public string Footnote

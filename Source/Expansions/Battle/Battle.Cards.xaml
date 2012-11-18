@@ -17,6 +17,16 @@
 
     <system:String x:Key="Card.TieSuoLianHuan.Name">铁锁连环</system:String>
     <system:String x:Key="Card.TieSuoLianHuan.Description"  xml:space="preserve">出牌阶段，对一至两名角色使用，目标角色分别横置或重置其武将牌（被横置武将牌的角色处于“连环状态”，重置武将牌即解除“连环状态”）。&#10;重铸：出牌阶段，你可以将此牌置入弃牌堆，然后摸1张牌。</system:String>
-    <system:String x:Key="Card.TieSuoLianHuan.Usage" xml:space="preserve">连锁和重置：选中【铁索连环】→选择1至2个目标→点“确定”&#10;&#10;重铸：选中【铁索连环】→点“确定”</system:String>    
+    <system:String x:Key="Card.TieSuoLianHuan.Usage" xml:space="preserve">连锁和重置：选中【铁索连环】→选择1至2个目标→点“确定”&#10;&#10;重铸：选中【铁索连环】→点“确定”</system:String>
 
+    <system:String x:Key="Card.Jiu.Name">酒</system:String>
+
+    <system:String x:Key="Card.GuDingDao.Name">古锭刀</system:String>
+
+    <system:String x:Key="Card.BingLiangCunDuan.Name">兵粮寸断</system:String>
+
+    <system:String x:Key="Card.BaiYinShiZi.Name">白银狮子</system:String>
+
+    <system:String x:Key="Card.TengJia.Name">藤甲</system:String>
+    
 </ResourceDictionary>

@@ -40,7 +40,6 @@
     <Reference Include="Microsoft.Expression.Controls" />
     <Reference Include="Microsoft.Expression.Effects" />
     <Reference Include="Microsoft.Expression.Interactions" />
-    <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity" />
@@ -55,6 +54,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit.Extended, Version=1.8.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Lib\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ViewModels\GuHuoSkillCommand.cs" />
@@ -304,6 +306,9 @@
     <Resource Include="Views\Resources\CardSelectionBox\bottomLeft.png" />
     <Resource Include="Views\Resources\CardSelectionBox\bottomMiddle.png" />
     <Resource Include="Views\Resources\CardSelectionBox\bottomRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="WPFToolkit.Extended.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath32)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -21,6 +21,7 @@ using Sanguosha.Core.Network;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Navigation;
+using System.Collections.ObjectModel;
 
 namespace Sanguosha.UI.Main
 {
@@ -137,6 +138,22 @@ namespace Sanguosha.UI.Main
             InitGame();
             gameThread = new Thread(_game.Run) { IsBackground = true };
             gameThread.Start();
+        }
+
+        private void btnGetCard_Click(object sender, RoutedEventArgs e)
+        {
+            windowGetCard.Show();
+            ObservableCollection<CardViewModel> model = new ObservableCollection<CardViewModel>();
+
+            foreach (var card in _game.OriginalCardSet)
+            {
+                if (card.Id > 0 && !(card.Type is HeroCardHandler) && !(card.Type is RoleCardHandler))
+                {
+                    model.Add(new CardViewModel() { Card = card });
+                }
+            }
+            ctrlGetCard.DataContext = model;
+            
         }
 
     }

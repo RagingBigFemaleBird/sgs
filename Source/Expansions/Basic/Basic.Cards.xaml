@@ -101,7 +101,9 @@
 
     <system:String x:Key="Card.ZiXing.Name">紫骍</system:String>
     <system:String x:Key="Card.ZiXing.Description">锁定技，其他角色计算的与你的距离+1。</system:String>
-    
+
+    <system:String x:Key="Card.HuaLiu.Name">骅骝</system:String>
+
     <system:String x:Key="Card.LeBuSiShu.Name">乐不思蜀</system:String>
     <system:String x:Key="Card.LeBuSiShu.Description">出牌阶段，你可以将【乐不思蜀】置于一名其他角色的判定区里。该角色在判定阶段须进行一次判定，若判定结果不为红桃，跳过目标角色的出牌阶段；若判定结果为红桃，则没有事发生。</system:String>
     <system:String x:Key="Card.LeBuSiShu.Usage">选中【乐不思蜀】→选择一个目标→点“确定”</system:String>
@@ -109,7 +111,9 @@
     <system:String x:Key="Card.GuoHeChaiQiao.Name">过河拆桥</system:String>
     <system:String x:Key="Card.GuoHeChaiQiao.Description">出牌阶段，对区域内有牌的一名其他角色使用。你弃置其区域内的一张牌。</system:String>
     <system:String x:Key="Card.GuoHeChaiQiao.Usage">选中【过河拆桥】→选择一个目标→点“确定”</system:String>
-    
+
+    <system:String x:Key="Card.JieDaoShaRen.Name">借刀杀人</system:String>
+
     <system:String x:Key="Card.ShanDian.Name">闪电</system:String>
 
     <system:String x:Key="Card.Tao.Name">桃</system:String>
@@ -120,6 +124,8 @@
     <system:String x:Key="Card.WuZhongShengYou.Description">出牌阶段，对自己使用，令目标角色摸两张牌。</system:String>
     <system:String x:Key="Card.WuZhongShengYou.Usage">选中【无中生有】→点“确定”</system:String>
 
+    <system:String x:Key="Card.WuGuFengDeng.Name">五谷丰登</system:String>
+    
     <!--
     Define card's default appearance this way:
     <BitmapImage x:Key="Card.Sha.Image.Normal">Images/Cards/Normal/Sha.jpg</BitmapImage>

@@ -37,40 +37,15 @@ namespace Sanguosha.UI.Controls
             else if (convertType == "Usage")
             {
                 string usage = Application.Current.TryFindResource(string.Format("Card.{0}.Usage", value.ToString())) as string;
-                if (usage == null) return string.Empty;
-                else
-                {
-                    TextBlock block = new TextBlock();
-                    Run run1 = new Run(Application.Current.Resources["Translation.Usage"] as string);
-                    run1.Foreground = new SolidColorBrush(Colors.Yellow);
-                    Run run2 = new Run(usage);
-                    block.Inlines.Add(run1);
-                    block.Inlines.Add(new LineBreak());
-                    block.Inlines.Add(run2);
-                    return block;
-                }
+                return usage;  
             }
             else if (convertType == "Suit")
             {
-                try
-                {
-                    return Application.Current.Resources[string.Format("Card.Suit.{0}.SuitText", value.ToString(), convertType)];
-                }
-                catch (Exception)
-                {
-                    Trace.TraceWarning("Cannot find card suit: {0}", value.ToString());
-                }
+                return Application.Current.TryFindResource(string.Format("Card.Suit.{0}.SuitText", value.ToString(), convertType)) as string;               
             }
             else if (convertType == "SuitColor")
             {
-                try
-                {
-                    return Application.Current.Resources[string.Format("Card.Suit.{0}.SuitBrush", value.ToString(), convertType)];
-                }
-                catch (Exception)
-                {
-                    Trace.TraceWarning("Cannot find card suit color: {0}", value.ToString());
-                }
+                return Application.Current.TryFindResource(string.Format("Card.Suit.{0}.SuitBrush", value.ToString(), convertType)) as string;
             }
             return null;
         }

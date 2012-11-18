@@ -16,6 +16,7 @@ using System.IO;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Network;
 using Microsoft.Win32;
+using System.ComponentModel;
 
 namespace Sanguosha.UI.Main
 {
@@ -124,35 +125,58 @@ namespace Sanguosha.UI.Main
             {                
                 Client client;
                 int mainSeat = 0;
-                try
+
+                client = new Client();
+                string addr = tab0HostName.Text;
+                string[] args = addr.Split(':');
+                client.IpString = args[0];
+                if (args.Length >= 2)
                 {
-                    client = new Client();
-                    string addr = tab0HostName.Text;
-                    string[] args = addr.Split(':');
-                    client.IpString = args[0];
-                    if (args.Length >= 2)
+                    client.PortNumber = int.Parse(args[1]);
+                }
+                else
+                {
+                    client.PortNumber = 12345;
+                }
+
+                busyIndicator.IsBusy = true;
+
+                //client.Start(isReplay, FileStream = file.open(...))
+                BackgroundWorker worker = new BackgroundWorker();
+                
+                worker.DoWork += (o, ea) =>
+                {
+                    try
                     {
-                        client.PortNumber = int.Parse(args[1]);
+                        ea.Result = false;
+                        client.Start();
+                        mainSeat = (int)client.Receive();
+                        client.SelfId = mainSeat;
+                        ea.Result = true;
+                    }
+                    catch (Exception)
+                    {
+                    }                        
+                };
+
+                worker.RunWorkerCompleted += (o, ea) =>
+                {
+                    if ((bool)ea.Result)
+                    {
+                        MainGame game = new MainGame();
+                        game.MainSeat = mainSeat;
+                        game.NetworkClient = client;
+                        this.NavigationService.Navigate(game);
+                        busyIndicator.IsBusy = false;
+                        return;
                     }
                     else
                     {
-                        client.PortNumber = 12345;
+                        MessageBox.Show("Failed to create connection");
                     }
-                    //client.Start(isReplay, FileStream = file.open(...))
-                    client.Start();
-                    mainSeat = (int)client.Receive();
-                    client.SelfId = mainSeat;
-                }
-                catch(Exception)
-                {
-                    MessageBox.Show("Failed to create connection");
-                    return;
-                }
-                MainGame game = new MainGame();
-                game.MainSeat = mainSeat;
-                game.NetworkClient = client;
-                
-                this.NavigationService.Navigate(game);
+                };
+
+                worker.RunWorkerAsync();
             }
         }
 

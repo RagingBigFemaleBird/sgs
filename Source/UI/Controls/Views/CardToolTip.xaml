@@ -1,12 +1,13 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Sanguosha.UI.Controls">
+                    xmlns:local="clr-namespace:Sanguosha.UI.Controls"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <local:SkillToolTipConverter x:Key="skillToolTipConverter" />
     <local:HeroToolTipConverter x:Key="heroToolTipConverter" />
     <local:CardToolTipConverter x:Key="cardToolTipConverter" />
 
     <DataTemplate x:Key="BasicCardToolTipTemplate">
-        <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0" Width="330">
+        <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0">
             <FlowDocument>
                 <Paragraph LineHeight="18">
                     <Run FontWeight="Bold" 
@@ -23,15 +24,23 @@
                                      FontSize="15"/>
                     <LineBreak />
                     <Run Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Description}"/>
-                    <LineBreak />
-                    <ContentPresenter Content="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Usage}" />
+                    <TextBlock x:Name="usageBlock" TextWrapping="Wrap">
+                        <Run Text="操作步骤" Foreground="Orange"/>
+                        <LineBreak />
+                        <Run x:Name="usageText" Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Usage}"/>
+                    </TextBlock>
                 </Paragraph>
-            </FlowDocument>
+            </FlowDocument>           
         </RichTextBox>
+        <DataTemplate.Triggers>
+            <Trigger Property="Text" SourceName="usageText" Value="{x:Static sys:String.Empty}">
+                <Setter Property="Visibility" TargetName="usageBlock" Value="Collapsed" />
+            </Trigger>
+        </DataTemplate.Triggers>
     </DataTemplate>
 
     <DataTemplate x:Key="WeaponToolTipTemplate">
-        <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0" Width="330">
+        <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0">
             <FlowDocument>
                 <Paragraph LineHeight="18">
                     <Run FontWeight="Bold" 
@@ -54,14 +63,23 @@
                     <LineBreak />
                     <Run Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Description}"/>
                     <LineBreak />
-                    <ContentPresenter Content="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Usage}" />
+                    <TextBlock x:Name="usageBlock" TextWrapping="Wrap">
+                        <Run Text="操作步骤" Foreground="Orange"/>
+                        <LineBreak />
+                        <Run x:Name="usageText" Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Usage}"/>
+                    </TextBlock>
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
+        <DataTemplate.Triggers>
+            <Trigger Property="Text" SourceName="usageText" Value="{x:Static sys:String.Empty}">
+                <Setter Property="Visibility" TargetName="usageBlock" Value="Collapsed" />
+            </Trigger>
+        </DataTemplate.Triggers>
     </DataTemplate>
 
     <DataTemplate x:Key="ArmorToolTipTemplate">
-        <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0" Width="330">
+        <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0">
             <FlowDocument>
                 <Paragraph LineHeight="18">
                     <Run FontWeight="Bold" 
@@ -80,14 +98,23 @@
                     <Run Text="防具效果:" />
                     <Run Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Description}"/>
                     <LineBreak />
-                    <ContentPresenter Content="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Usage}" />
+                    <TextBlock x:Name="usageBlock" TextWrapping="Wrap">
+                        <Run Text="操作步骤" Foreground="Orange"/>
+                        <LineBreak />
+                        <Run x:Name="usageText" Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Usage}"/>
+                    </TextBlock>
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
+        <DataTemplate.Triggers>
+            <Trigger Property="Text" SourceName="usageText" Value="{x:Static sys:String.Empty}">
+                <Setter Property="Visibility" TargetName="usageBlock" Value="Collapsed" />
+            </Trigger>
+        </DataTemplate.Triggers>
     </DataTemplate>
 
     <DataTemplate x:Key="DefensiveHorseToolTipTemplate">
-        <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0" Width="330">
+        <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0">
             <FlowDocument>
                 <Paragraph LineHeight="18">
                     <Run FontWeight="Bold" 
@@ -110,7 +137,7 @@
     </DataTemplate>
 	
     <DataTemplate x:Key="OffensiveHorseToolTipTemplate">
-        <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0" Width="330">
+        <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0">
             <FlowDocument>
                 <Paragraph LineHeight="18">
                     <Run FontWeight="Bold" 
@@ -134,7 +161,7 @@
 
     <DataTemplate x:Key="HeroToolTipTemplate">
         <StackPanel>
-            <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0" Width="330">
+            <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0">
                 <FlowDocument>
                     <Paragraph LineHeight="18">
                         <Run Text="{Binding Path=HeroModel.Name, Mode=OneWay, Converter={StaticResource heroToolTipConverter}, ConverterParameter=Name}"
@@ -149,7 +176,7 @@
             <ItemsControl ItemsSource="{Binding HeroModel.SkillNames, Mode=OneTime}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                    <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0" Width="330">
+                    <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0">
                         <FlowDocument>
                             <Paragraph LineHeight="18">
                                 <Run Text="{Binding Path=DataContext, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource skillToolTipConverter}, ConverterParameter=Name}"

@@ -22,5 +22,31 @@ namespace Sanguosha.UI.Controls
 		{
 			this.InitializeComponent();
 		}
+
+        public bool IsGetCardButtonShown
+        {
+            get { return (bool)GetValue(IsGetCardButtonShownProperty); }
+            set { SetValue(IsGetCardButtonShownProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsGetCardButtonShown.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsGetCardButtonShownProperty =
+            DependencyProperty.Register("IsGetCardButtonShown", typeof(bool), typeof(CardSetView), new UIPropertyMetadata(true, new PropertyChangedCallback(_IsGetCardButtonShown_Changed)));
+
+        public static void _IsGetCardButtonShown_Changed(DependencyObject o, DependencyPropertyChangedEventArgs args)
+        {
+            CardSetView view = o as CardSetView;
+            if (view != null)
+            {
+                view.btnGetCard.Visibility = (bool)args.NewValue ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        private void gridDataSet_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = gridCardSet.SelectedItem;
+            if (item == null) btnGetCard.IsEnabled = false;
+            else btnGetCard.IsEnabled = true;
+        }
 	}
 }
