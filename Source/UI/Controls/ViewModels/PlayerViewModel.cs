@@ -935,7 +935,7 @@ namespace Sanguosha.UI.Controls
                     submitCardUsageCommand.CanExecuteStatus = true;
                 }
 
-                if (skill == null || !(skill is CardTransformSkill))
+                if (skill == null || (skill is CardTransformSkill) || (skill is ActiveSkill))
                 {
                     List<Card> attempt = new List<Card>(cards);
 

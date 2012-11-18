@@ -162,7 +162,7 @@ namespace Sanguosha.Core.UI
                     }
                     foreach (Card c in cards)
                     {
-                        if (!(skill is ActiveSkill))
+                        if (!(skill is ActiveSkill) && !(skill != null && skill.GetType().Name.Contains("GuHuo")))
                         {
                             c.RevealOnce = true;
                         }
