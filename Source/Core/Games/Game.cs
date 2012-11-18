@@ -103,6 +103,10 @@ namespace Sanguosha.Core.Games
 
         public void SyncCard(Player player, Card card)
         {
+            if (card.Place.DeckType == DeckType.Equipment || card.Place.DeckType == DeckType.DelayedTools)
+            {
+                return;
+            }
             if (GameClient != null)
             {
                 if (player.Id != GameClient.SelfId)
@@ -317,6 +321,7 @@ namespace Sanguosha.Core.Games
             }
             if (triggers.ContainsKey(gameEvent))
             {
+                Trace.Assert(triggers[gameEvent].Contains(trigger));
                 triggers[gameEvent].Remove(trigger);
             }
         }

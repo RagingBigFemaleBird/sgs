@@ -12,7 +12,6 @@ using Sanguosha.Core.Players;
 
 namespace Sanguosha.Core.Skills
 {
-    
     public abstract class PassiveSkill : ISkill
     {
         private Players.Player owner;
@@ -26,6 +25,7 @@ namespace Sanguosha.Core.Skills
             get { return owner; }
             set 
             {
+                if (owner == value) return;
                 if (owner != null)
                 {
                     UninstallTriggers(owner);

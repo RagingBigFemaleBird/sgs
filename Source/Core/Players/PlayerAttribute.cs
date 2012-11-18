@@ -44,7 +44,7 @@ namespace Sanguosha.Core.Players
                 return false;
             }
             PlayerAttribute type2 = (PlayerAttribute)obj;
-            return name == type2.name;
+            return name.Equals(type2.name);
         }
 
         public static bool operator ==(PlayerAttribute a, PlayerAttribute b)
@@ -59,7 +59,7 @@ namespace Sanguosha.Core.Players
                 return false;
             }
 
-            return a.name == b.name;
+            return a.name.Equals(b.name);
         }
 
         public static bool operator !=(PlayerAttribute a, PlayerAttribute b)

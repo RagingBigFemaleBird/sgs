@@ -396,7 +396,7 @@ namespace Sanguosha.Core.Triggers
                 return false;
             }
             GameEvent event2 = (GameEvent)obj;
-            return name == event2.name;
+            return name.Equals(event2.name);
         }
 
         public override int GetHashCode()

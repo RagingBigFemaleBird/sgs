@@ -1,4 +1,5 @@
 ﻿#define NETWORKING
+#define CLIENTLOG
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -53,6 +54,21 @@ namespace Sanguosha.UI.Main
         const int numberOfHeros = 3;
         private void InitGame()
         {
+#if CLIENTLOG
+            TextWriterTraceListener twtl = new TextWriterTraceListener(System.IO.Path.Combine(Directory.GetCurrentDirectory(), AppDomain.CurrentDomain.FriendlyName + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + ".txt"));
+            twtl.Name = "TextLogger";
+            twtl.TraceOutputOptions = TraceOptions.ThreadId | TraceOptions.DateTime;
+
+            ConsoleTraceListener ctl = new ConsoleTraceListener(false);
+            ctl.TraceOutputOptions = TraceOptions.DateTime;
+
+            Trace.Listeners.Add(twtl);
+            Trace.Listeners.Add(ctl);
+            Trace.AutoFlush = true;
+
+            Trace.WriteLine("Log starting");
+#endif
+
             _game = new RoleGame(1);
             foreach (var g in GameEngine.Expansions.Values)
             {
