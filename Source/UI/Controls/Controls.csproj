@@ -58,6 +58,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ViewModels\GuHuoSkillCommand.cs" />
+    <Compile Include="Views\CardSetView.xaml.cs">
+      <DependentUpon>CardSetView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GameLogs.cs" />
     <Compile Include="Views\GuHuoSkillButton.xaml.cs">
       <DependentUpon>GuHuoSkillButton.xaml</DependentUpon>
@@ -148,6 +151,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CardChoiceBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CardSetView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

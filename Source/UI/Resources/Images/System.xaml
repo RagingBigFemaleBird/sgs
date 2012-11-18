@@ -238,5 +238,5 @@
     <CroppedBitmap x:Key="GuHuo.JueDou.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,364,94,25" />
     <CroppedBitmap x:Key="GuHuo.JieDaoShaRen.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,390,94,25" />
     <CroppedBitmap x:Key="GuHuo.HuoGong.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,416,94,25" />
-    <CroppedBitmap x:Key="GuHuo.TieSuoLianHuan.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,442,94,25" />
+    <CroppedBitmap x:Key="GuHuo.TieSuoLianHuan.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,442,94,25" />    
 </ResourceDictionary>

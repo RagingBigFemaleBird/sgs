@@ -118,7 +118,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <Viewbox Stretch="Uniform">            
-            <Grid Height="130" Width="93" Background="Black">                
+            <Grid Height="130" Width="93">                
                 <Border x:Name="border" CornerRadius="3" Background="#FFC3C6B9" Margin="-1, -1, -1, -1" Opacity="0.0">
                     <Border.Effect>
                         <BlurEffect Radius="3" />
