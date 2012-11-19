@@ -52,12 +52,10 @@
     <Compile Include="Cards\BaiYinShiZi.cs" />
     <Compile Include="Cards\BingLiangCunDuan.cs" />
     <Compile Include="Cards\GuDingDao.cs" />
-    <Compile Include="Cards\HanBingJian.cs" />
     <Compile Include="Cards\HuoGong.cs" />
     <Compile Include="Cards\HuoSha.cs" />
     <Compile Include="Cards\Jiu.cs" />
     <Compile Include="Cards\LeiSha.cs" />
-    <Compile Include="Cards\RenWangDun.cs" />
     <Compile Include="Cards\TengJia.cs" />
     <Compile Include="Cards\TieSuoLianHuan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
