@@ -10,4 +10,8 @@
     <sys:String x:Key="Skill.KanPo.Description">你可以将一张黑色手牌当【无懈可击】使用。</sys:String>
     <sys:String x:Key="Skill.KanPo.Usage">点“看破”→选中1张手牌（黑桃或草花）→点“确定”</sys:String>
 
+    <sys:String x:Key="Skill.QinYin.Name">琴音</sys:String>
+    <sys:String x:Key="Skill.LianHuan.Name">连环</sys:String>
+    <sys:String x:Key="Skill.QuHu.Name">驱虎</sys:String>
+
 </ResourceDictionary>

@@ -196,7 +196,7 @@ namespace Sanguosha.Core.Games
             }
 
             availableCards = new List<CardHandler>();
-            foreach (Card c in cardSet)
+            foreach (Card c in OriginalCardSet)
             {
                 bool typeCheck = false;
                 foreach (var type in availableCards)

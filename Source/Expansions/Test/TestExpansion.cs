@@ -23,7 +23,7 @@ namespace Sanguosha.Expansions.Test
         public TestExpansion()
         {
             CardSet = new List<Card>();
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("Test", false, Allegiance.Wei, 7, new RenDe(), new GuHuo(), new LuanWu(), new KuRou(), new JiJiang()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("Test", false, Allegiance.Wei, 7, new JiLei(), new QinYin(), new RenDe(), new GuHuo(), new LuanWu(), new KuRou(), new JiJiang()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("Test2", true, Allegiance.Shu, 7, new WuShuang(), new LongDan(), new PaoXiao(), new FanKui(), new LiJian(), new QianXun(), new QingGuo(), new GangLie(), new GuiCai(), new LianYing(), new RenDe()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("Test3", true, Allegiance.Shu, 7, new GuiCai(), new FangZhu(), new JueQing(), new FanKui(), new GangLie(), new JianXiong(), new YingZi(), new TuXi(), new LiJian(), new RenDe(), new HuoJi(), new KanPo(), new JiLei(), new LuoYing(), new LongDan()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("Test4", true, Allegiance.Shu, 7, new QuHu(), new FanKui(), new GangLie(), new JianXiong(), new LiuLi(), new YingZi(), new TuXi(), new GuiCai(), new LiJian(), new RenDe(), new HuoJi(), new KanPo(), new JiLei(), new LongDan()))));

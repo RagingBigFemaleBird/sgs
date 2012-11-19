@@ -57,12 +57,24 @@ namespace Sanguosha.Expansions.Woods.Skills
                 if (Game.CurrentGame.UiProxies[target].AskForCardUsage(new CardUsagePrompt("LuanWu"), new LuanWuVerifier(),
                     out skill, out cards, out players))
                 {
-                    GameEventArgs args = new GameEventArgs();
-                    args.Source = target;
-                    args.Targets = players;
-                    args.Skill = skill;
-                    args.Cards = cards;
-                    Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
+                    while (true)
+                    {
+                        try
+                        {
+                            GameEventArgs args = new GameEventArgs();
+                            args.Source = target;
+                            args.Targets = players;
+                            args.Skill = skill;
+                            args.Cards = cards;
+                            Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
+                        }
+                        catch (TriggerResultException e)
+                        {
+                            Trace.Assert(e.Status == TriggerResult.Retry);
+                            continue;
+                        }
+                        break;
+                    }
                 }
                 else
                 {

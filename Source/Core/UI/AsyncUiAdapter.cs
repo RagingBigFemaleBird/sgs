@@ -120,7 +120,6 @@ namespace Sanguosha.Core.UI
             {
                 answer = 0;
             }
-            Game.CurrentGame.NotificationProxy.NotifyMultipleChoiceResult(HostPlayer, questions[answer]);
             return true;
         }
 

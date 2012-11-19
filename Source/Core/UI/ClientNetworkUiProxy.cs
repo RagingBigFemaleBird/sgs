@@ -193,9 +193,11 @@ namespace Sanguosha.Core.UI
             }
             if (TryAnswerForMultipleChoice(questions, out answer))
             {
+                Game.CurrentGame.NotificationProxy.NotifyMultipleChoiceResult(HostPlayer, questions[answer]);
                 proxy.Freeze();
                 return true;
             }
+            Game.CurrentGame.NotificationProxy.NotifyMultipleChoiceResult(HostPlayer, questions[answer]);
             proxy.Freeze();
             return false;
         }
