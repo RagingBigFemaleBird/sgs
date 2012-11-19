@@ -217,14 +217,8 @@
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="CaretBrush" Value="#FFE4D5A0"/>
     </Style>
-    <LinearGradientBrush x:Key="MenuBackground" EndPoint="0,1" StartPoint="0,0">
-        <GradientStop Color="#F6F6F6" Offset="0.25"/>
-        <GradientStop Color="#EAE8E8" Offset="0.25"/>
-        <GradientStop Color="#DCD9D9" Offset="0.8"/>
-        <GradientStop Color="White" Offset="1"/>
-    </LinearGradientBrush>
     <Style x:Key="MainMenuStyle" TargetType="{x:Type Menu}">
-        <Setter Property="Background" Value="{StaticResource MenuBackground}"/>
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="FontFamily" Value="{DynamicResource {x:Static SystemFonts.MenuFontFamilyKey}}"/>
         <Setter Property="FontSize" Value="{DynamicResource {x:Static SystemFonts.MenuFontSizeKey}}"/>
         <Setter Property="FontStyle" Value="{DynamicResource {x:Static SystemFonts.MenuFontStyleKey}}"/>
@@ -375,10 +369,10 @@
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" Storyboard.TargetName="border">
-                                            <EasingColorKeyFrame KeyTime="0" Value="#FF50554E"/>
+                                            <EasingColorKeyFrame KeyTime="0" Value="#FF7E8579"/>
                                         </ColorAnimationUsingKeyFrames>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="border">
-                                            <EasingColorKeyFrame KeyTime="0" Value="#FF292F26"/>
+                                            <EasingColorKeyFrame KeyTime="0" Value="#FF4C5647"/>
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -549,10 +543,10 @@
                 <Setter Property="Background" TargetName="border">
                     <Setter.Value>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#FF282A52" Offset="0"/>
-                            <GradientStop Color="#FF002A27" Offset="1"/>
-                            <GradientStop Color="#FF242638" Offset="0.418"/>
-                            <GradientStop Color="#FF282A32" Offset="0.509"/>
+                            <GradientStop Color="#FF787878" Offset="0"/>
+                            <GradientStop Color="#FF1D1D1D" Offset="1"/>
+                            <GradientStop Color="#FF3D3D3E" Offset="0.418"/>
+                            <GradientStop Color="#FF343434" Offset="0.509"/>
                         </LinearGradientBrush>
                     </Setter.Value>
                 </Setter>
@@ -567,7 +561,6 @@
         <GradientStop Color="#50717070" Offset="0.75"/>
         <GradientStop Color="#90717070" Offset="1"/>
     </LinearGradientBrush>
-    <SolidColorBrush x:Key="SubMenuBackgroundBrush" Color="#FFF5F5F5"/>
     <Geometry x:Key="UpArrow">M 0,4 L 3.5,0 L 7,4 Z</Geometry>    
     <Geometry x:Key="DownArrow">M 0,0 L 3.5,4 L 7,0 Z</Geometry>   
  

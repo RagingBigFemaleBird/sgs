@@ -38,7 +38,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="点数" Binding="{Binding RankString}"/>
-                <DataGridTextColumn Header="牌面" Width="100" Binding="{Binding TypeString, ConverterParameter=Name, Converter={StaticResource cardToolTipConverter}, Mode=OneWay}"/>
+                <DataGridTextColumn Header="牌面" Width="93" Binding="{Binding TypeString, ConverterParameter=Name, Converter={StaticResource cardToolTipConverter}, Mode=OneWay}"/>
             </DataGrid.Columns>
         </DataGrid>
         <local:CardView Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Width="93" Height="130" Margin="0,29,0,0" DataContext="{Binding SelectedItem, Mode=OneWay, ElementName=gridCardSet}" />

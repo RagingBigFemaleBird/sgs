@@ -7,7 +7,7 @@
     <local:CardToolTipConverter x:Key="cardToolTipConverter" />
 
     <DataTemplate x:Key="BasicCardToolTipTemplate">
-        <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0">
+        <RichTextBox IsReadOnly="True" FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0">
             <FlowDocument>
                 <Paragraph LineHeight="18">
                     <Run FontWeight="Bold" 
@@ -40,7 +40,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="WeaponToolTipTemplate">
-        <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0">
+        <RichTextBox IsReadOnly="True" FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0">
             <FlowDocument>
                 <Paragraph LineHeight="18">
                     <Run FontWeight="Bold" 
@@ -79,7 +79,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="ArmorToolTipTemplate">
-        <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0">
+        <RichTextBox IsReadOnly="True" FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0">
             <FlowDocument>
                 <Paragraph LineHeight="18">
                     <Run FontWeight="Bold" 
@@ -114,7 +114,7 @@
     </DataTemplate>
 
     <DataTemplate x:Key="DefensiveHorseToolTipTemplate">
-        <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0">
+        <RichTextBox IsReadOnly="True" FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0">
             <FlowDocument>
                 <Paragraph LineHeight="18">
                     <Run FontWeight="Bold" 
@@ -137,7 +137,7 @@
     </DataTemplate>
 	
     <DataTemplate x:Key="OffensiveHorseToolTipTemplate">
-        <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0">
+        <RichTextBox IsReadOnly="True" FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0">
             <FlowDocument>
                 <Paragraph LineHeight="18">
                     <Run FontWeight="Bold" 
@@ -161,7 +161,7 @@
 
     <DataTemplate x:Key="HeroToolTipTemplate">
         <StackPanel>
-            <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0">
+            <RichTextBox IsReadOnly="True" FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0">
                 <FlowDocument>
                     <Paragraph LineHeight="18">
                         <Run Text="{Binding Path=HeroModel.Name, Mode=OneWay, Converter={StaticResource heroToolTipConverter}, ConverterParameter=Name}"
