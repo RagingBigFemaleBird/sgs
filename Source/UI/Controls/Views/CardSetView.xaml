@@ -25,9 +25,9 @@
     <Grid x:Name="LayoutRoot">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="205" />
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="gridCardSet" Block.TextAlignment="Center" ItemsSource="{Binding Mode=OneWay}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Style="{DynamicResource DataGridStyle1}" Background="#CC4A3C2D" Foreground="#FFE4D5A0" HeadersVisibility="Column" FontFamily="SimSun" SelectionUnit="FullRow" SelectionChanged="gridDataSet_SelectionChanged">
+        <DataGrid x:Name="gridCardSet" RowHeaderWidth="0" Block.TextAlignment="Center" ItemsSource="{Binding Mode=OneWay}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Style="{DynamicResource DataGridStyle1}" Background="#CC4A3C2D" Foreground="#FFE4D5A0" HeadersVisibility="Column" FontFamily="SimSun" SelectionUnit="FullRow" SelectionChanged="gridDataSet_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="编号" Binding="{Binding Id}" />
                 <DataGridTemplateColumn Header="花色">

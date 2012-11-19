@@ -1112,7 +1112,7 @@
                                         </LinearGradientBrush>
                                     </ContentControl.Foreground>
                                 </ContentControl>
-								<Border x:Name="PART_DragWidget" Grid.ColumnSpan="2" CornerRadius="5,5,0,0" Margin="1,1,1,0" />
+								<Border x:Name="PART_DragWidget" Grid.ColumnSpan="2" CornerRadius="5,5,0,0" Margin="1,1,1,0" Background="#01000000" />
                             	<Button Margin="5,0" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" x:Name="PART_CloseButton" IsTabStop="False" Style="{DynamicResource SimpleCloseButtonStyle}" Visibility="{TemplateBinding CloseButtonVisibility}" />									
                         </Grid>
                     </Border>

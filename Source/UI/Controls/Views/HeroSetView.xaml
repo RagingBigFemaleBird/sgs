@@ -140,9 +140,9 @@
 	<Grid x:Name="LayoutRoot">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition />
-			<ColumnDefinition Width="280" />
+			<ColumnDefinition Width="275" />
 		</Grid.ColumnDefinitions>		
-		<DataGrid x:Name="gridHeroSet" Block.TextAlignment="Center" ItemsSource="{Binding Mode=OneWay}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Style="{DynamicResource DataGridStyle1}" Background="#CC4A3C2D" Foreground="#FFE4D5A0" HeadersVisibility="Column" FontFamily="SimSun" SelectionUnit="FullRow" SelectionChanged="gridHeroSet_SelectionChanged">
+		<DataGrid RowHeaderWidth="0" x:Name="gridHeroSet" Block.TextAlignment="Center" ItemsSource="{Binding Mode=OneWay}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Style="{DynamicResource DataGridStyle1}" Background="#CC4A3C2D" Foreground="#FFE4D5A0" HeadersVisibility="Column" FontFamily="SimSun" SelectionUnit="FullRow" SelectionChanged="gridHeroSet_SelectionChanged">
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="编号" Binding="{Binding Id, Mode=OneWay}" />
 				<DataGridTextColumn Header="武将" Width="80"  Binding="{Binding Name, ConverterParameter=Name, Converter={StaticResource heroToolTipConverter}, Mode=OneWay}" />
