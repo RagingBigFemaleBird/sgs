@@ -20,4 +20,5 @@
     <sys:String x:Key="MultiChoice.Choice.JinNang">锦囊牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.ZhuangBei">装备牌</sys:String>    
     -->
+    <sys:String x:Key="MultiChoice.Prompt.LuoYing">是否发动落英获得【{0}】?</sys:String>
 </ResourceDictionary>

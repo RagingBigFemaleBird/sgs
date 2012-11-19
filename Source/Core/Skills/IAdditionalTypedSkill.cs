@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Sanguosha.Core.Skills
 {
-    public interface IAdditionalTypedSkill
+    public interface IAdditionalTypedSkill : ISkill
     {
         Cards.CardHandler AdditionalType { get; set; }
     }

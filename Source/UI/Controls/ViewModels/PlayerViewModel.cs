@@ -734,7 +734,7 @@ namespace Sanguosha.UI.Controls
             {
                 if (equipCmd.IsSelected)
                 {
-                    if (equipCmd.SkillCommand.Skill != null)
+                    if (equipCmd.SkillCommand.Skill != null && equipCmd.SkillCommand.Skill is CardTransformSkill)
                     {
                         isEquipSkill = true;
                         return equipCmd.SkillCommand;
@@ -865,15 +865,16 @@ namespace Sanguosha.UI.Controls
                         {
                             if (cmdGuhuo.GuHuoTypes.Count == 0 && cmdGuhuo.GuHuoChoice == null)
                             {
+                                var trySkill = Activator.CreateInstance(cmdGuhuo.Skill.GetType()) as IAdditionalTypedSkill;
+
                                 foreach (var c in Game.CurrentGame.AvailableCards)
                                 {
-                                    cmdGuhuo.GuHuoChoice = c;
-                                    if (currentUsageVerifier.Verify(HostPlayer, cmdGuhuo.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail)
+                                    trySkill.AdditionalType = c;
+                                    if (currentUsageVerifier.Verify(HostPlayer, trySkill, new List<Card>(), new List<Player>()) != VerifierResult.Fail)
                                     {
                                         cmdGuhuo.GuHuoTypes.Add(c);
                                     }
                                 }
-                                cmdGuhuo.GuHuoChoice = null;
                             }
                         }
                         else if (skillCommand.IsSelected && !skillCommand.IsSelected)
@@ -899,9 +900,13 @@ namespace Sanguosha.UI.Controls
                 {
                     foreach (var equipCommand in EquipCommands)
                     {
-                        if (equipCommand.SkillCommand.Skill != null)
+                        if (equipCommand.SkillCommand.Skill != null && equipCommand.SkillCommand.Skill is CardTransformSkill)
                         {
                             equipCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, equipCommand.SkillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
+                        }
+                        else
+                        {
+                            equipCommand.IsEnabled = false;
                         }
                     }
                 }

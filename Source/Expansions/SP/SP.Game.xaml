@@ -20,4 +20,8 @@
     <sys:String x:Key="MultiChoice.Choice.JinNang">锦囊牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.ZhuangBei">装备牌</sys:String>    
     -->
+    <sys:String x:Key="MultiChoice.Prompt.JiLei">{0}对你造成伤害，请选择要发动鸡肋的卡牌类别，或点“取消”不发动技能</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.JiBen">基本牌</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.JinNang">锦囊牌</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.ZhuangBei">装备牌</sys:String>
 </ResourceDictionary>

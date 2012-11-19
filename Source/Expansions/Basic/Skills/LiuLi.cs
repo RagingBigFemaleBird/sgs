@@ -100,7 +100,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 (p, e, a) => { return a.Card.Type is Sha; },
                 OnPlayerIsCardTarget,
                 TriggerCondition.OwnerIsTarget
-            ) { Priority = SkillPriority.LiuLi };
+            ) { Priority = SkillPriority.LiuLi, AskForConfirmation = false };
             Triggers.Add(GameEvent.CardUsageTargetConfirming, trigger);
         }
     }
