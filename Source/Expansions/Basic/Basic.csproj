@@ -51,6 +51,7 @@
     <Compile Include="Cards\FangTianHuaJi.cs" />
     <Compile Include="Cards\GuanShiFu.cs" />
     <Compile Include="Cards\GuoHeChaiQiao.cs" />
+    <Compile Include="Cards\HanBingJian.cs" />
     <Compile Include="Cards\JieDaoShaRen.cs" />
     <Compile Include="Cards\LifeSaver.cs" />
     <Compile Include="Cards\JueDou.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="Cards\QingGangJian.cs" />
     <Compile Include="Cards\QingLongYanYueDao.cs" />
     <Compile Include="Cards\RegularSha.cs" />
+    <Compile Include="Cards\RenWangDun.cs" />
     <Compile Include="Cards\Sha.cs" />
     <Compile Include="Cards\Shan.cs" />
     <Compile Include="Cards\ShanDian.cs" />

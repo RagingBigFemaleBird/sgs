@@ -84,12 +84,6 @@ namespace Sanguosha.Expansions.Battle
             CardSet.Add(new Card(SuitType.Club, 13, new TieSuoLianHuan()));
             CardSet.Add(new Card(SuitType.Diamond, 13, new DefensiveHorse("HuaLiu")));
 
-            // the following are EX cards
-            CardSet.Add(new Card(SuitType.Spade, 2, new HanBingJian()));
-            CardSet.Add(new Card(SuitType.Club, 2, new RenWangDun()));
-            CardSet.Add(new Card(SuitType.Heart, 12, new ShanDian()));
-            CardSet.Add(new Card(SuitType.Diamond, 12, new WuXieKeJi()));
-
             TriggerRegistration = new List<DelayedTriggerRegistration>();
             TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.DamageElementConfirmed, trigger = new JiuDamage() });
             TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.PlayerUsedCard, trigger = new JiuSha() });
