@@ -10,7 +10,9 @@
     <sys:String x:Key="Hero.XiaoQiao.Name">小乔</sys:String>
     <sys:String x:Key="Hero.ZhouTai.Name">周泰</sys:String>
     <sys:String x:Key="Hero.ZhangJiao.Name">张角</sys:String>
-    <sys:String x:Key="Hero.YuJi.Name">张角</sys:String>
+    <sys:String x:Key="Hero.YuJi.Name">于吉</sys:String>
+    <sys:String x:Key="Hero.ShenGuanYu.Name">神关羽</sys:String>
+    <sys:String x:Key="Hero.ShenLvMeng.Name">神吕蒙</sys:String>
 
 
     <sys:String x:Key="Skill.ShenSu.Name">神速</sys:String>
@@ -54,5 +56,19 @@
     <sys:String x:Key="Skill.GuHuo.Name">蛊惑</sys:String>
     <sys:String x:Key="Skill.GuHuo.Description">你可以说出一张基本牌或非延时类锦囊牌的名称，并背面朝上使用或打出一张手牌。若无其他角色质疑，则亮出此牌并按你所述之牌结算。若有其他角色质疑则亮出验明：若为真，质疑者各失去1点体力；若为假，质疑者各摸一张牌。除非被质疑的牌为红桃且为真，此牌仍然进行结算，否则无论真假，将此牌置入弃牌堆。</sys:String>
     <sys:String x:Key="Skill.GuHuo.Usage">点“蛊惑”→选中1张手牌→选择想要“蛊惑”成的牌→选择目标（可略过）→点“确定”</sys:String>
-    
+
+    <sys:String x:Key="Skill.WuShen.Name">武神</sys:String>
+    <sys:String x:Key="Skill.WuShen.Description">锁定技，你的红桃手牌均视为【杀】；你使用红桃【杀】时无距离限制。</sys:String>
+
+    <sys:String x:Key="Skill.WuHun.Name">武魂</sys:String>
+    <sys:String x:Key="Skill.WuHun.Description">锁定技，每当你受到1点伤害后，伤害来源获得一枚“梦魇”标记；你死亡时，令拥有最多该标记的一名其他角色进行一次判定，若判定结果不为【桃】或【桃园结义】，该角色死亡。</sys:String>
+
+    <sys:String x:Key="Skill.SheLie.Name">涉猎</sys:String>
+    <sys:String x:Key="Skill.SheLie.Description">摸牌阶段开始时，你可以放弃摸牌，改为从牌堆顶亮出五张牌，你获得不同花色的牌各一张，将其余的牌置入弃牌堆。</sys:String>
+    <sys:String x:Key="Skill.SheLie.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.GongXin.Name">攻心</sys:String>
+    <sys:String x:Key="Skill.GongXin.Description">出牌阶段，你可以观看一名其他角色的手牌，并可以展示其中一张红桃牌，然后将之弃置或置于牌堆顶。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.GongXin.Usage">点“攻心”→选择目标→点“确定”</sys:String>
+
 </ResourceDictionary>
