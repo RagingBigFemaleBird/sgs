@@ -114,7 +114,7 @@
                              Width="500"
 				    		 FontSize="20" FontFamily="SimHei" FontWeight="Bold"/>
             </Viewbox>
-            <ItemsControl x:Name="gridChoices" Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom" MaxWidth="1000" ItemsSource="{Binding MainPlayerModel.MultiChoiceCommands}">
+            <ItemsControl x:Name="gridChoices" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="0,0,0,2" MaxWidth="1000" ItemsSource="{Binding MainPlayerModel.MultiChoiceCommands}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Rows="1"/>
@@ -123,8 +123,8 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Viewbox Height="30" Width="auto">
-                            <Button Width="auto" Height="30" Style="{Binding ChoiceKey, Converter={StaticResource multiChoiceButtonStyleConverter}, Mode=OneWay}" DataContext="{Binding}" Command="{Binding}" Margin="20, 0, 20, 0">
-                                <local:OutlinedTextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Width="Auto" Text="{res:ResourceKeyBinding Path=ChoiceKey}" FontFamily="SimHei" Fill="White" FontWeight="Bold" Stroke="Black" TextWrapping="NoWrap"/>
+                            <Button Width="auto" Height="26" Style="{Binding ChoiceKey, Converter={StaticResource multiChoiceButtonStyleConverter}, Mode=OneWay}" DataContext="{Binding}" Command="{Binding}" Margin="20, 0, 20, 0">
+                                <local:OutlinedTextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Width="Auto" Text="{res:ResourceKeyBinding Path=ChoiceKey}" FontFamily="SimHei" Fill="White" FontWeight="Bold" Stroke="Black" TextWrapping="NoWrap"/>
                             </Button>
                         </Viewbox>
                     </DataTemplate>
