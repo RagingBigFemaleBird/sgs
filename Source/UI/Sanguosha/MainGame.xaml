@@ -31,7 +31,7 @@
                         <TextBlock Text="获得卡牌" Style="{DynamicResource MenuTextStyle}" />
                     </MenuItem.Header>
                 </MenuItem>
-                <MenuItem Padding="3, 0" Style="{DynamicResource MenuItemStyle1}" Height="20">
+                <MenuItem Padding="3, 0" Style="{DynamicResource MenuItemStyle1}" Height="20" Click="MenuItem_Click">
                     <MenuItem.Header>
                         <TextBlock Text="获得技能" Style="{DynamicResource MenuTextStyle}" />
                     </MenuItem.Header>
@@ -48,5 +48,9 @@
         <xctk:ChildWindow Grid.RowSpan="2" x:Name="windowGetCard" Caption="获取卡牌" WindowStartupLocation="Center" Template="{DynamicResource ChildWindowControlTemplate1}">
             <Controls:CardSetView x:Name="ctrlGetCard"/>
         </xctk:ChildWindow>
+		<xctk:ChildWindow Grid.RowSpan="2" x:Name="windowGetSkill" Caption="获取技能" WindowStartupLocation="Center" Template="{DynamicResource ChildWindowControlTemplate1}">
+            <Controls:HeroSetView x:Name="ctrlGetSkill"/>
+        </xctk:ChildWindow>
+        
     </Grid>
 </Page>

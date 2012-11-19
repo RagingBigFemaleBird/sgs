@@ -40,6 +40,7 @@
     <Reference Include="Microsoft.Expression.Controls" />
     <Reference Include="Microsoft.Expression.Effects" />
     <Reference Include="Microsoft.Expression.Interactions" />
+    <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity" />
@@ -66,6 +67,9 @@
     <Compile Include="Views\GameLogs.cs" />
     <Compile Include="Views\GuHuoSkillButton.xaml.cs">
       <DependentUpon>GuHuoSkillButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HeroSetView.xaml.cs">
+      <DependentUpon>HeroSetView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LogFormatter.cs" />
     <Compile Include="Views\NonClipGrid.cs" />
@@ -175,6 +179,10 @@
     <Page Include="Views\GuHuoSkillButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HeroSetView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\LargeDelayedToolView.xaml">
       <SubType>Designer</SubType>

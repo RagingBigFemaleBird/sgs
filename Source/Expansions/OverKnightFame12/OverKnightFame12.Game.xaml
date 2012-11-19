@@ -20,4 +20,5 @@
     <sys:String x:Key="MultiChoice.Choice.JinNang">锦囊牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.ZhuangBei">装备牌</sys:String>    
     -->
+	<sys:String x:Key="Expansion.OverKnightFame12Expansion.Name">一将12</sys:String>
 </ResourceDictionary>

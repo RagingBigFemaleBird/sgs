@@ -1,0 +1,178 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:local="clr-namespace:Sanguosha.UI.Controls"
+    xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+	xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+	xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
+	mc:Ignorable="d"
+	x:Class="Sanguosha.UI.Controls.HeroSetView"
+	x:Name="UserControl"
+	Width="600" Height="600">
+	
+	<UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Common.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
+                <ResourceDictionary Source="SkillToolTip.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <local:SuitColorToColorConverter x:Key="suitColorToColorConverter" />
+        	<Style x:Key="SkillChoiceButtonStyle" TargetType="{x:Type Button}">
+        		<Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}"/>
+        		<Setter Property="Background" Value="{StaticResource ButtonNormalBackground}"/>
+        		<Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}"/>
+        		<Setter Property="BorderThickness" Value="1"/>
+        		<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        		<Setter Property="HorizontalContentAlignment" Value="Center"/>
+        		<Setter Property="VerticalContentAlignment" Value="Center"/>
+        		<Setter Property="Padding" Value="1"/>
+        		<Setter Property="Template">
+        			<Setter.Value>
+        				<ControlTemplate TargetType="{x:Type Button}">
+        					<ControlTemplate.Triggers>
+        						<Trigger Property="IsKeyboardFocused" Value="true">
+        							<!--Setter Property="RenderDefaulted" TargetName="Chrome" Value="true"/-->
+        						</Trigger>
+        						<Trigger Property="ToggleButton.IsChecked" Value="true">
+        							<!--Setter Property="RenderPressed" TargetName="Chrome" Value="true"/-->
+        						</Trigger>
+        						<Trigger Property="IsEnabled" Value="false">
+        							<Setter Property="Foreground" Value="#ADADAD"/>
+        						</Trigger>
+        					</ControlTemplate.Triggers>
+							<Grid>
+        						<Grid.ColumnDefinitions>
+        							<ColumnDefinition Width="38.25"/>
+        							<ColumnDefinition Width="*"/>
+        						</Grid.ColumnDefinitions>
+        						<VisualStateManager.VisualStateGroups>
+        							<VisualStateGroup x:Name="CommonStates">
+        								<VisualState x:Name="Normal">
+        									<Storyboard>
+        										<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="path">
+        											<EasingColorKeyFrame KeyTime="0" Value="#FFD2FF76"/>
+        										</ColorAnimationUsingKeyFrames>
+        									</Storyboard>
+        								</VisualState>
+        								<VisualState x:Name="MouseOver">
+        									<Storyboard>
+        										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="border">
+        											<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+        										</ObjectAnimationUsingKeyFrames>
+        										<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="path">
+        											<EasingColorKeyFrame KeyTime="0" Value="#FFFFFBD5"/>
+        										</ColorAnimationUsingKeyFrames>
+        										<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="path">
+        											<EasingColorKeyFrame KeyTime="0" Value="#FFF0FFD1"/>
+        										</ColorAnimationUsingKeyFrames>
+        									</Storyboard>
+        								</VisualState>
+        								<VisualState x:Name="Pressed">
+        									<Storyboard>
+        										<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="textBlock">
+        											<EasingDoubleKeyFrame KeyTime="0" Value="0.667"/>
+        										</DoubleAnimationUsingKeyFrames>
+        										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="border">
+        											<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+        										</ObjectAnimationUsingKeyFrames>
+        										<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="textBlock1">
+        											<EasingDoubleKeyFrame KeyTime="0" Value="0.667"/>
+        										</DoubleAnimationUsingKeyFrames>
+        										<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="textBlock1">
+        											<EasingDoubleKeyFrame KeyTime="0" Value="0.667"/>
+        										</DoubleAnimationUsingKeyFrames>
+        									</Storyboard>
+        								</VisualState>
+        								<VisualState x:Name="Disabled"/>
+        							</VisualStateGroup>
+        						</VisualStateManager.VisualStateGroups>
+								<Border x:Name="border" Grid.ColumnSpan="1" Margin="-17.749,0,0,0" Grid.Column="1" Visibility="Hidden" >
+									<Border.Background>
+										<LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
+											<GradientStop Color="#00E6E1E0"/>
+											<GradientStop Color="#00E6E1E0" Offset="1"/>
+											<GradientStop Color="#66E6E1E0" Offset="0.094"/>
+											<GradientStop Color="#66E6E1E0" Offset="0.902"/>
+											<GradientStop Color="#7FE6E1E0" Offset="0.487"/>
+										</LinearGradientBrush>
+									</Border.Background>
+								</Border>
+        						<Path x:Name="path" Data="M8.2243807,11.669223 L30.145423,11.635389 35.375,16.625 30.494061,21.260389 8.0937967,21.125 C6.7303249,20.5625 5.2176916,18.586026 5.2183882,17 5.1638663,15.062602 6.2194506,12.738005 8.2243807,11.669223 z" Height="16" Margin="0,-0.084,0,0" Stretch="Fill" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Stretch">
+        							<Path.Fill>
+        								<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+        									<GradientStop Color="#FFFFF9B7" Offset="0"/>
+        									<GradientStop Color="#FFDFFF9E" Offset="1"/>
+        								</LinearGradientBrush>
+        							</Path.Fill>
+        						</Path>
+        						<TextBlock x:Name="textBlock1" FontFamily="SimHei" Margin="5,0" Text="{Binding Mode=OneWay, Converter={StaticResource skillToolTipConverter}, ConverterParameter=Description}" Grid.Column="1" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5">
+        							<TextBlock.RenderTransform>
+        								<TransformGroup>
+        									<ScaleTransform/>
+        									<SkewTransform/>
+        									<RotateTransform/>
+        									<TranslateTransform/>
+        								</TransformGroup>
+        							</TextBlock.RenderTransform>
+        						</TextBlock>
+        						<local:OutlinedTextBlock x:Name="textBlock" Fill="Black" Text="{Binding Mode=OneWay, Converter={StaticResource skillToolTipConverter}, ConverterParameter=Name}" FontFamily="LiSu" Margin="3,-1,-5,0" HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" FontSize="16" RenderTransformOrigin="0.5,0.5" Stroke="White">
+        							<local:OutlinedTextBlock.RenderTransform>
+        								<TransformGroup>
+        									<ScaleTransform/>
+        									<SkewTransform/>
+        									<RotateTransform/>
+        									<TranslateTransform/>
+        								</TransformGroup>
+        							</local:OutlinedTextBlock.RenderTransform>
+        						</local:OutlinedTextBlock>                                
+        					</Grid>
+        				</ControlTemplate>
+        			</Setter.Value>
+        		</Setter>
+        	</Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+	
+	<Grid x:Name="LayoutRoot">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition />
+			<ColumnDefinition Width="280" />
+		</Grid.ColumnDefinitions>		
+		<DataGrid x:Name="gridHeroSet" Block.TextAlignment="Center" ItemsSource="{Binding Mode=OneWay}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Style="{DynamicResource DataGridStyle1}" Background="#CC4A3C2D" Foreground="#FFE4D5A0" HeadersVisibility="Column" FontFamily="SimSun" SelectionUnit="FullRow" SelectionChanged="gridHeroSet_SelectionChanged">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="编号" Binding="{Binding Id, Mode=OneWay}" />
+				<DataGridTextColumn Header="武将" Width="80"  Binding="{Binding Name, ConverterParameter=Name, Converter={StaticResource heroToolTipConverter}, Mode=OneWay}" />
+				<DataGridTextColumn Header="势力" Binding="{Binding Allegiance, ConverterParameter=Allegiance, Converter={StaticResource heroToolTipConverter}, Mode=OneWay}" />
+				<DataGridTextColumn Header="性别" Binding="{Binding IsMale, ConverterParameter=IsMale, Converter={StaticResource heroToolTipConverter}, Mode=OneWay}"/>
+				<DataGridTextColumn Header="体力" Binding="{Binding MaxHealth, Mode=OneWay}"/>
+				<DataGridTextColumn Header="扩展包" Width="60" Binding="{Binding ExpansionName, ConverterParameter=ExpansionName, Converter={StaticResource heroToolTipConverter}, Mode=OneWay}"/>
+			</DataGrid.Columns>
+		</DataGrid>
+		<local:CardView x:Name="heroCardView" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Width="93" Height="130" Margin="0,29,0,0" />
+		
+		<Grid x:Name="gridHeroInfo" Grid.Column="1" Margin="10,196,10,10" VerticalAlignment="Top" Visibility="Hidden">
+		<Border Margin="25, 0, 0, 0" BorderThickness="2" Background="#B2FEFF9A" >
+			<Border.BorderBrush>
+				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+					<GradientStop Color="#FFFAFB78" Offset="0"/>
+					<GradientStop Color="#FFF6F791" Offset="1"/>
+					<GradientStop Color="#FFFFFFFD" Offset="0.338"/>
+					<GradientStop Color="#FEFBFC9D" Offset="0.192"/>
+					<GradientStop Color="#FFF7F8A6" Offset="0.568"/>
+				</LinearGradientBrush>
+			</Border.BorderBrush>
+		</Border>
+		<ItemsControl ItemsSource="{Binding SelectedItem.SkillNames, ElementName=gridHeroSet, Mode=OneWay}">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Button Margin="0, 5" Style="{DynamicResource SkillChoiceButtonStyle}"/>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+		</Grid>
+     </Grid>
+</UserControl>

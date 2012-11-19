@@ -3,6 +3,8 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
+	<sys:String x:Key="Expansion.BasicExpansion.Name">基本</sys:String>
+	
     <sys:String x:Key="CardUsage.Prompt.WanJianQiFa">{0}使用了万箭齐发，请打出一张闪</sys:String>
     <sys:String x:Key="CardUsage.Prompt.JueDou">{0}对你使用了决斗，请打出一张杀</sys:String>
     <sys:String x:Key="CardUsage.Prompt.JueDou2">{0}为决斗打出一张杀，请打出一张杀</sys:String>

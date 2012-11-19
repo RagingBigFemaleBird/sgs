@@ -1,6 +1,7 @@
 ﻿#define NETWORKING
 #define CLIENTLOG
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -154,6 +155,34 @@ namespace Sanguosha.UI.Main
             }
             ctrlGetCard.DataContext = model;
             
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            windowGetSkill.Show();
+            ObservableCollection<HeroViewModel> model = new ObservableCollection<HeroViewModel>();
+
+            foreach (var card in _game.OriginalCardSet)
+            {
+                if (card.Id > 0 && (card.Type is HeroCardHandler))
+                {
+                    string exp = string.Empty;
+                    var exps = from expansion in GameEngine.Expansions.Keys
+                               where GameEngine.Expansions[expansion].CardSet.Contains(card)
+                               select expansion;                    
+                    if (exps.Count() > 0)
+                    {
+                        exp = exps.First();
+                    }
+                    model.Add(new HeroViewModel() 
+                    {
+                        Id = card.Id,
+                        Hero = (card.Type as HeroCardHandler).Hero,                        
+                        ExpansionName = exp
+                    });
+                }
+            }
+            ctrlGetSkill.DataContext = model;
         }
 
     }

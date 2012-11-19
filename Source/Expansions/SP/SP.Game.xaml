@@ -20,4 +20,5 @@
     <sys:String x:Key="MultiChoice.Choice.JinNang">锦囊牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.ZhuangBei">装备牌</sys:String>    
     -->
+	<sys:String x:Key="Expansion.SpExpansion.Name">SP</sys:String>
 </ResourceDictionary>

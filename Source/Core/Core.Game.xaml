@@ -21,8 +21,11 @@
     <system:String x:Key="Allegiance.Wu.Name">吴</system:String>
     <system:String x:Key="Allegiance.Qun.Name">群</system:String>
     <system:String x:Key="Allegiance.Shen.Name">神</system:String>
-
-    <system:String x:Key="Role.Rebel.Name">反贼</system:String>
+	
+	<system:String x:Key="Gender.Male.Text">男</system:String>
+	<system:String x:Key="Gender.Female.Text">女</system:String>
+    
+	<system:String x:Key="Role.Rebel.Name">反贼</system:String>
     <system:String x:Key="Role.Loyalist.Name">忠臣</system:String>
     <system:String x:Key="Role.Defector.Name">内奸</system:String>
     <system:String x:Key="Role.Ruler.Name">主公</system:String>

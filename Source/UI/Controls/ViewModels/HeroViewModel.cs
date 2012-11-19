@@ -40,6 +40,12 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public int Id
+        {
+            get;
+            set;
+        }
+
         public string Name
         {
             get
@@ -47,6 +53,14 @@ namespace Sanguosha.UI.Controls
                 return Hero.Name;
             }
         }
+		
+		public bool IsMale
+		{
+			get
+			{
+				return Hero.IsMale;
+			}
+		}
 
         public Allegiance Allegiance
         {
@@ -63,6 +77,12 @@ namespace Sanguosha.UI.Controls
                 return Hero.MaxHealth;
             }
         }
+		
+		public string ExpansionName
+		{
+			get;
+			set;
+		}
 
         /// <summary>
         /// Returns the skill names of the primary hero.
