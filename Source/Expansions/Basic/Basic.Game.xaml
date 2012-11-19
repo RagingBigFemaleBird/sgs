@@ -13,7 +13,7 @@
     <sys:String x:Key="CardUsage.Prompt.Sha.Shan">{0}对你使用了杀，请使用一张闪</sys:String>
     <sys:String x:Key="CardUsage.Prompt.JiJiang">{0}发动了激将，是否为其打出一张杀？</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.GangLie">{0}对你造成一点伤害，是否发动刚烈</sys:String>
-    <sys:String x:Key="MultiChoice.Prompt.QiLinGong">请选择发动麒麟弓拆除的马</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.QiLinGong">请选择发动麒麟弓拆除的坐骑</sys:String>
     <sys:String x:Key="CardUsage.Prompt.GangLie">{0}发动了刚烈，请弃两张牌或点“取消”受到一点伤害</sys:String>
     <sys:String x:Key="CardChoice.Prompt.FanKui">您对{0}发动了反馈，请选择一张卡牌</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.FanKui">是否对{0}发动反馈？</sys:String>
@@ -23,7 +23,7 @@
     <sys:String x:Key="CardChoice.Prompt.ShunShou">顺手牵羊</sys:String>
     <sys:String x:Key="CardChoice.Prompt.GuoHe">过河拆桥</sys:String>
     <sys:String x:Key="MultiChoice.Choice.Heart">红桃</sys:String>
-    <sys:String x:Key="MultiChoice.Choice..Diamond">方片</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.Diamond">方片</sys:String>
     <sys:String x:Key="MultiChoice.Choice.Spade">黑桃</sys:String>
     <sys:String x:Key="MultiChoice.Choice.Club">草花</sys:String>
     <sys:String x:Key="MultiChoice.Choice.JiaYiMa">加一坐骑</sys:String>

@@ -13,7 +13,7 @@ using Sanguosha.Core.Cards;
 using System.Diagnostics;
 using Sanguosha.Expansions.Basic.Cards;
 
-namespace Sanguosha.Expansions.Battle.Cards
+namespace Sanguosha.Expansions.Basic.Cards
 {
     
     public class RenWangDun : Armor

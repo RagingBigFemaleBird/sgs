@@ -138,6 +138,11 @@ namespace Sanguosha.Expansions.Basic
             CardSet.Add(new Card(SuitType.Diamond, 13, new RegularSha()));
             CardSet.Add(new Card(SuitType.Diamond, 13, new OffensiveHorse("ZiXing")));
 
+            // the following are EX cards
+            CardSet.Add(new Card(SuitType.Spade, 2, new HanBingJian()));
+            CardSet.Add(new Card(SuitType.Club, 2, new RenWangDun()));
+            CardSet.Add(new Card(SuitType.Heart, 12, new ShanDian()));
+            CardSet.Add(new Card(SuitType.Diamond, 12, new WuXieKeJi()));
 
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("CaoCao", true, Allegiance.Wei, 4, new JianXiong(), new HuJia()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SimaYi", true, Allegiance.Wei, 3, new FanKui(), new GuiCai()))));

@@ -3,17 +3,56 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <!-- Examples
-    <sys:String x:Key="Hero.LiuBei.Name">刘备</sys:String>
-    <sys:String x:Key="Skill.RenDe.Name">仁德</sys:String>
-    <sys:String x:Key="Skill.RenDe.Description">出牌阶段，你可以将任意数量的手牌交给其他角色，若此阶段你给出的牌张数达到两张或更多时，你回复1点体力。</sys:String>
-    <sys:String x:Key="Skill.RenDe.Usage">点"仁德"→选中数张手牌→选择目标→“确定”</sys:String>
-    -->
-    <sys:String x:Key="Skill.GuHuo.Name">蛊惑</sys:String>
-    <sys:String x:Key="Skill.GuiDao.Name">鬼道</sys:String>
-    <sys:String x:Key="Skill.JuShou.Name">据守</sys:String>
-    <sys:String x:Key="Skill.KuangGu.Name">狂骨</sys:String>
-    <sys:String x:Key="Skill.LieGong.Name">烈弓</sys:String>
+    <sys:String x:Key="Hero.XiahouYuan.Name">夏侯渊</sys:String>
+    <sys:String x:Key="Hero.CaoRen.Name">曹仁</sys:String>
+    <sys:String x:Key="Hero.HuangZhong.Name">黄忠</sys:String>
+    <sys:String x:Key="Hero.WeiYan.Name">魏延</sys:String>
+    <sys:String x:Key="Hero.XiaoQiao.Name">小乔</sys:String>
+    <sys:String x:Key="Hero.ZhouTai.Name">周泰</sys:String>
+    <sys:String x:Key="Hero.ZhangJiao.Name">张角</sys:String>
+    <sys:String x:Key="Hero.YuJi.Name">张角</sys:String>
+
+
     <sys:String x:Key="Skill.ShenSu.Name">神速</sys:String>
+    <sys:String x:Key="Skill.ShenSu.Description" xml:space="preserve">你可以选择一至两项：&#10;1.跳过你的判定阶段和摸牌阶段。&#10;2.跳过你的出牌阶段并弃置一张装备牌。&#10;你每选择一项，视为对一名其他角色使用一张【杀】（无距离限制）。</sys:String>
+    <sys:String x:Key="Skill.ShenSu.Usage" xml:space="preserve">系统提示（判定阶段）→选择目标→点“确定”&#10;系统提示（出牌阶段）→选中装备牌→选择目标→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.JuShou.Name">据守</sys:String>
+    <sys:String x:Key="Skill.JuShou.Description">回合结束阶段开始时，你可以摸三张牌，然后将你的武将牌翻面。</sys:String>
+    <sys:String x:Key="Skill.JuShou.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.LieGong.Name">烈弓</sys:String>
+    <sys:String x:Key="Skill.LieGong.Description" xml:space="preserve">当你于出牌阶段内使用【杀】指定一名角色为目标后，以下两种情况，你可以令其不可以使用【闪】对此【杀】进行响应：&#10;1.其手牌数大于或等于你当前的体力值。&#10;2.其手牌数小于或等于你的攻击范围。</sys:String>
+    <sys:String x:Key="Skill.LieGong.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.KuangGu.Name">狂骨</sys:String>
+    <sys:String x:Key="Skill.KuangGu.Description">锁定技，每当你对距离1以内的一名角色造成1点伤害后，若你已受伤，你回复1点体力。</sys:String>
+
     <sys:String x:Key="Skill.TianXiang.Name">天香</sys:String>
+    <sys:String x:Key="Skill.TianXiang.Description">每当你受到伤害时，你可以弃置一张红桃手牌，将此伤害转移给一名其他角色，然后该角色摸X张牌（X为该角色当前已损失的体力值）。</sys:String>
+    <sys:String x:Key="Skill.TianXiang.Usage">系统提示→选中1张红桃手牌→选择目标→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.HongYan.Name">红颜</sys:String>
+    <sys:String x:Key="Skill.HongYan.Description">锁定技，你的黑桃牌均视为红桃牌。</sys:String>
+
+    <sys:String x:Key="Skill.BuQu.Name">不屈</sys:String>
+    <sys:String x:Key="Skill.BuQu.Description">每当你扣减1点体力后，若你当前的体力值为0，你可以从牌堆顶亮出一张牌置于你的武将牌上，若此牌的点数与你武将牌上已有的任何一张牌都不同，你不会死亡；若出现相同点数的牌，你进入濒死状态。</sys:String>
+    <sys:String x:Key="Skill.BuQu.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.LeiJi.Name">雷击</sys:String>
+    <sys:String x:Key="Skill.LeiJi.Description">当你使用或打出一张【闪】（若为使用则在选择目标后），你可以令一名角色进行一次判定，若判定结果为黑桃，你对该角色造成2点雷电伤害。</sys:String>
+    <sys:String x:Key="Skill.LeiJi.Usage">系统提示→点“确定”→选择目标→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.GuiDao.Name">鬼道</sys:String>
+    <sys:String x:Key="Skill.GuiDao.Description">在一名角色的判定牌生效前，你可以打出一张黑色牌替换之。</sys:String>
+    <sys:String x:Key="Skill.GuiDao.Usage">系统提示→选中1张黑色牌→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.HuangTian.Name">黄天</sys:String>
+    <sys:String x:Key="Skill.HuangTian.Description">主公技，其他群雄角色可以在他们各自的出牌阶段交给你一张【闪】或【闪电】。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.HuangTian.Usage">点“黄天”→选中1张【闪】或【闪电】→选中目标→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.GuHuo.Name">蛊惑</sys:String>
+    <sys:String x:Key="Skill.GuHuo.Description">你可以说出一张基本牌或非延时类锦囊牌的名称，并背面朝上使用或打出一张手牌。若无其他角色质疑，则亮出此牌并按你所述之牌结算。若有其他角色质疑则亮出验明：若为真，质疑者各失去1点体力；若为假，质疑者各摸一张牌。除非被质疑的牌为红桃且为真，此牌仍然进行结算，否则无论真假，将此牌置入弃牌堆。</sys:String>
+    <sys:String x:Key="Skill.GuHuo.Usage">点“蛊惑”→选中1张手牌→选择想要“蛊惑”成的牌→选择目标（可略过）→点“确定”</sys:String>
+    
 </ResourceDictionary>
