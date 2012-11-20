@@ -337,33 +337,32 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        private void EmitTriggers(GameEvent e, List<Trigger> triggers, List<GameEventArgs> param)
+        private void EmitTriggers(GameEvent e, List<TriggerWithParam> triggers)
         {
-            int i = 0;
             triggers.Sort((a, b) =>
             {
-                int result2 = a.Type.CompareTo(b.Type);
+                int result2 = a.trigger.Type.CompareTo(b.trigger.Type);
                 if (result2 != 0)
                 {
                     return -result2;
                 }
-                int result = a.Priority.CompareTo(b.Priority);
+                int result = a.trigger.Priority.CompareTo(b.trigger.Priority);
                 if (result != 0)
                 {
                     return -result;
                 }
                 Player p = currentPlayer;
                 int result3 = 0;
-                if (a.Owner != b.Owner)
+                if (a.trigger.Owner != b.trigger.Owner)
                 {
                     do
                     {
-                        if (p == a.Owner)
+                        if (p == a.trigger.Owner)
                         {
                             result3 = -1;
                             break;
                         }
-                        if (p == b.Owner)
+                        if (p == b.trigger.Owner)
                         {
                             result3 = 1;
                             break;
@@ -376,9 +375,9 @@ namespace Sanguosha.Core.Games
             });
             foreach (var t in triggers)
             {
-                if (t.Owner == null || !t.Owner.IsDead)
+                if (t.trigger.Owner == null || !t.trigger.Owner.IsDead)
                 {
-                    t.Run(e, param[i]);
+                    t.trigger.Run(e, t.args);
                 }
             }
         }
@@ -394,19 +393,17 @@ namespace Sanguosha.Core.Games
             if (!this.triggers.ContainsKey(gameEvent)) return;
             List<Trigger> triggers = new List<Trigger>(this.triggers[gameEvent]);
             if (triggers == null) return;
-            List<Trigger> triggersToRun = new List<Trigger>();
-            List<GameEventArgs> args = new List<GameEventArgs>();
+            List<TriggerWithParam> triggersToRun = new List<TriggerWithParam>();
             foreach (var t in triggers)
             {
                 if (t.Enabled)
                 {
-                    triggersToRun.Add(t);
-                    args.Add(eventParam);
+                    triggersToRun.Add(new TriggerWithParam() { trigger = t, args = eventParam });
                 }
             }
             if (!atomic)
             {
-                EmitTriggers(gameEvent, triggersToRun, args);
+                EmitTriggers(gameEvent, triggersToRun);
             }
             else
             {
@@ -417,13 +414,9 @@ namespace Sanguosha.Core.Games
                 }
                 if (!triggerPlace.ContainsKey(gameEvent))
                 {
-                    TriggersWithParams c = new TriggersWithParams();
-                    c.args = new List<GameEventArgs>();
-                    c.triggers = new List<Trigger>();
-                    triggerPlace.Add(gameEvent, c);
+                    triggerPlace.Add(gameEvent, new List<TriggerWithParam>());
                 }
-                triggerPlace[gameEvent].triggers.AddRange(triggersToRun);
-                triggerPlace[gameEvent].args.AddRange(args);
+                triggerPlace[gameEvent].AddRange(triggersToRun);
 
             }
         }
@@ -486,15 +479,15 @@ namespace Sanguosha.Core.Games
         private bool atomic = false;
         private int atomicLevel = 0;
 
-        private struct TriggersWithParams
+        private struct TriggerWithParam
         {
-            public List<Trigger> triggers;
-            public List<GameEventArgs> args;
+            public Trigger trigger;
+            public GameEventArgs args;
         }
 
         List<CardsMovement> atomicMoves;
-        Dictionary<GameEvent, TriggersWithParams> atomicTriggers;
-        Dictionary<GameEvent, TriggersWithParams> atomicTriggersBeforeMove;
+        Dictionary<GameEvent, List<TriggerWithParam>> atomicTriggers;
+        Dictionary<GameEvent, List<TriggerWithParam>> atomicTriggersBeforeMove;
         List<UI.IGameLog> atomicLogs;
         
         public void EnterAtomicContext()
@@ -503,9 +496,9 @@ namespace Sanguosha.Core.Games
             if (atomicLevel == 0)
             {
                 atomicMoves = new List<CardsMovement>();
-                atomicTriggers = new Dictionary<GameEvent, TriggersWithParams>();
+                atomicTriggers = new Dictionary<GameEvent, List<TriggerWithParam>>();
                 atomicLogs = new List<IGameLog>();
-                atomicTriggersBeforeMove = new Dictionary<GameEvent, TriggersWithParams>();
+                atomicTriggersBeforeMove = new Dictionary<GameEvent, List<TriggerWithParam>>();
             }
             atomicLevel++;
         }
@@ -522,12 +515,12 @@ namespace Sanguosha.Core.Games
             atomic = false;
             foreach (var v in atomicTriggersBeforeMove)
             {
-                EmitTriggers(v.Key, v.Value.triggers, v.Value.args);
+                EmitTriggers(v.Key, v.Value);
             }
             MoveCards(atomicMoves, atomicLogs);
             foreach (var v in atomicTriggers)
             {
-                EmitTriggers(v.Key, v.Value.triggers, v.Value.args);
+                EmitTriggers(v.Key, v.Value);
             }
         }
 
@@ -580,6 +573,7 @@ namespace Sanguosha.Core.Games
             }
 
             NotificationProxy.NotifyCardMovement(moves, logs);
+            Thread.Sleep(100);
             int i = 0;
             
             foreach (CardsMovement move in moves)

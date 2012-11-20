@@ -307,11 +307,21 @@ namespace Sanguosha.Core.Network
 
         private void Listener()
         {
+            IPHostEntry host;
+            IPAddress localIP = null;
+            host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (IPAddress ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    localIP = ip;
+                }
+            }
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12345);
             TcpListener listener = new TcpListener(ep);
             listener.Start();
             int i = 0;
-            Trace.TraceInformation("Listener Started");
+            Trace.TraceInformation("Listener Started on {0}", localIP.ToString());
             while (i < maxClients)
             {
                 handlers[i].game = game;

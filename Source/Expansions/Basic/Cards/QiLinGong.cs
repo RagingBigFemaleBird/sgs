@@ -32,7 +32,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 if (equipDeck.Count(s => (s.Type is DefensiveHorse) || (s.Type is OffensiveHorse)) > 1)
                 {
                     int answer = 0;
-                    Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("QiLinGong"), new List<String> { Prompt.MultipleChoiceOptionPrefix + "JiaYiMa", Prompt.MultipleChoiceOptionPrefix + "JianYiMa" },
+                    Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt(Prompt.SkillUseYewNoPrompt, this), new List<String> { Prompt.MultipleChoiceOptionPrefix + "JiaYiMa", Prompt.MultipleChoiceOptionPrefix + "JianYiMa" },
                         out answer);
                     if (answer == 1)
                     {

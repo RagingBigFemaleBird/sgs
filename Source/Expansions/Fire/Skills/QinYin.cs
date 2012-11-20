@@ -65,7 +65,7 @@ namespace Sanguosha.Expansions.Fire.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return p[QinYinUsed] == 0;},
+                (p, e, a) => { return Game.CurrentGame.CurrentPhase == TurnPhase.Discard && Game.CurrentGame.CurrentPlayer == p && p[QinYinUsed] == 0;},
                 Run,
                 TriggerCondition.OwnerIsSource
             ) { AskForConfirmation = false, IsAutoNotify = false };

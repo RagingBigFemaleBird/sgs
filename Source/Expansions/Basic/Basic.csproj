@@ -88,6 +88,7 @@
     <Compile Include="Skills\JiJiang.cs" />
     <Compile Include="Skills\JiJiu.cs" />
     <Compile Include="Skills\JiZhi.cs" />
+    <Compile Include="Skills\KeJi.cs" />
     <Compile Include="Skills\KongCheng.cs" />
     <Compile Include="Skills\KuRou.cs" />
     <Compile Include="Skills\LianYing.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Skills\LiuLi.cs" />
     <Compile Include="Skills\LongDan.cs" />
     <Compile Include="Skills\LuoShen.cs" />
+    <Compile Include="Skills\LuoYi.cs" />
     <Compile Include="Skills\MaShu.cs" />
     <Compile Include="Skills\PaoXiao.cs" />
     <Compile Include="Skills\QianXun.cs" />
@@ -109,6 +111,7 @@
     <Compile Include="Skills\TuXi.cs" />
     <Compile Include="Skills\WuSheng.cs" />
     <Compile Include="Skills\WuShuang.cs" />
+    <Compile Include="Skills\XiaoJi.cs" />
     <Compile Include="Skills\YingZi.cs" />
     <Compile Include="Skills\ZhiHeng.cs" />
   </ItemGroup>

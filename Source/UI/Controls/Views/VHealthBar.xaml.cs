@@ -58,6 +58,7 @@ namespace Sanguosha.UI.Controls
             else
             {
                 oldHealth = Math.Min(oldHealth, 5);
+                newHealth = Math.Max(newHealth, 0);
                 for (int i = newHealth; i < oldHealth; i++)
                 {
                     Trace.Assert(i < 5);

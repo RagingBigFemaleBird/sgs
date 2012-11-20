@@ -72,7 +72,6 @@ namespace Sanguosha.Core.Cards
                     List<Card> cardsLost = new List<Card>();
                     List<Card> cardsToDiscard = new List<Card>();
                     cardsToDiscard.Add(c);
-                    cardsLost.Add(c);
                     cardsLost.Add(card);
                     Game.CurrentGame.EnterAtomicContext();
                     Game.CurrentGame.PlayerLostCard(p, cardsLost);

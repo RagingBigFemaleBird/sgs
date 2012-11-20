@@ -52,14 +52,14 @@ namespace Sanguosha.Expansions.Basic.Skills
         void OnPhaseBegin(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             int answer = 0;
-            if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("LuoShen"), Prompt.YesNoChoices, out answer) && answer == 0)
+            if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt(Prompt.SkillUseYewNoPrompt, this), Prompt.YesNoChoices, out answer) && answer == 0)
             {
                 Game.CurrentGame.RegisterTrigger(GameEvent.PlayerJudgeDone, new LuoShenJudgeTrigger(Owner));
                 ReadOnlyCard c;
                 do
                 {
                     c = Game.CurrentGame.Judge(Owner);
-                } while (c.SuitColor == SuitColorType.Black && Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("LuoShen"), Prompt.YesNoChoices, out answer) && answer == 0);
+                } while (c.SuitColor == SuitColorType.Black && Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt(Prompt.SkillUseYewNoPrompt, this), Prompt.YesNoChoices, out answer) && answer == 0);
             }
         }
 
