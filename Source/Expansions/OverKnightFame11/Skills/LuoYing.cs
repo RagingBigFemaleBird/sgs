@@ -71,6 +71,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 TriggerCondition.Global
             ) { IsAutoNotify = false, AskForConfirmation = false };
             Triggers.Add(GameEvent.CardsEnteringDiscardDeck, trigger);
+            IsAutoInvoked = true;
         }
     }
 }

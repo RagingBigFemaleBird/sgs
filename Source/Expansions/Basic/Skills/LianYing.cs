@@ -28,6 +28,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 TriggerCondition.OwnerIsSource | TriggerCondition.SourceHasNoHandCards
             );
             Triggers.Add(GameEvent.CardsLost, trigger);
+            IsAutoInvoked = true;
         }
     }
 }

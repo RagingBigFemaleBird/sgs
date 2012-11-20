@@ -26,8 +26,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             {
                 if (c.HistoryPlace1.DeckType == DeckType.Equipment && c.HistoryPlace1.Player == Owner)
                 {
-                    int answer = 0;
-                    if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt(Prompt.SkillUseYewNoPrompt, this), Prompt.YesNoChoices, out answer) && answer == 0)
+                    if (AskForSkillUse())
                     {
                         NotifySkillUse(new List<Player>());
                         Game.CurrentGame.DrawCards(Owner, 2);
@@ -43,6 +42,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.CardsLost, trigger);
+            IsAutoInvoked = true;
         }
     }
 }

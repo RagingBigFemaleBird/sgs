@@ -30,6 +30,14 @@ namespace Sanguosha.Core.Skills
             Games.Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
         }
 
+        protected bool AskForSkillUse()
+        {
+            int answer;
+            return (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(
+                    new MultipleChoicePrompt(Prompt.SkillUseYewNoPrompt, this), Prompt.YesNoChoices, out answer)
+                    && answer == 0);
+        }
+
         
         protected class AutoNotifyPassiveSkillTrigger : Trigger
         {
@@ -69,14 +77,6 @@ namespace Sanguosha.Core.Skills
                 }
             }
 
-            protected bool AskForSkillUse()
-            {
-                int answer;
-                return (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(
-                        new MultipleChoicePrompt(Prompt.SkillUseYewNoPrompt, Skill), Prompt.YesNoChoices, out answer)
-                        && answer == 0);
-            }
-
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 if (!InnerTrigger.CheckConditions(gameEvent, eventArgs))
@@ -85,7 +85,7 @@ namespace Sanguosha.Core.Skills
                 }
                 if (InnerTrigger.CanExecute(Owner, gameEvent, eventArgs))
                 {
-                    if (((AskForConfirmation == null && !Skill.IsEnforced) || (AskForConfirmation == true)) && !AskForSkillUse())
+                    if (((AskForConfirmation == null && !Skill.IsEnforced) || (AskForConfirmation == true)) && !Skill.AskForSkillUse())
                     {
                         return;
                     }

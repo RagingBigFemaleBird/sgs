@@ -51,15 +51,14 @@ namespace Sanguosha.Expansions.Basic.Skills
 
         void OnPhaseBegin(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            int answer = 0;
-            if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt(Prompt.SkillUseYewNoPrompt, this), Prompt.YesNoChoices, out answer) && answer == 0)
+            if (AskForSkillUse())
             {
                 Game.CurrentGame.RegisterTrigger(GameEvent.PlayerJudgeDone, new LuoShenJudgeTrigger(Owner));
                 ReadOnlyCard c;
                 do
                 {
                     c = Game.CurrentGame.Judge(Owner);
-                } while (c.SuitColor == SuitColorType.Black && Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt(Prompt.SkillUseYewNoPrompt, this), Prompt.YesNoChoices, out answer) && answer == 0);
+                } while (c.SuitColor == SuitColorType.Black && AskForSkillUse());
             }
         }
 
@@ -73,5 +72,6 @@ namespace Sanguosha.Expansions.Basic.Skills
             ) { AskForConfirmation = false };
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Start], trigger);
         }
+
     }
 }

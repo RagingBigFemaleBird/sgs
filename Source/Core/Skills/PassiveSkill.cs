@@ -14,6 +14,11 @@ namespace Sanguosha.Core.Skills
 {
     public abstract class PassiveSkill : ISkill
     {
+        public PassiveSkill()
+        {
+            isAutoInvoked = false;
+        }
+
         private Players.Player owner;
         
         /// <summary>
@@ -62,10 +67,26 @@ namespace Sanguosha.Core.Skills
         /// </summary>
         public virtual bool IsEnforced { get { return false; } }
 
+        bool? isAutoInvoked;
+        public virtual bool? IsAutoInvoked 
+        {
+            get
+            {
+                if (IsEnforced) return null;
+                else return isAutoInvoked;
+            }
+            set
+            {
+                if (isAutoInvoked == value) return;
+                isAutoInvoked = value;
+            }
+        }
+
         public object Clone()
         {
             var skill = Activator.CreateInstance(this.GetType()) as PassiveSkill;
             skill.Owner = this.Owner;
+            skill.IsAutoInvoked = this.IsAutoInvoked;
             return skill;
         }
 

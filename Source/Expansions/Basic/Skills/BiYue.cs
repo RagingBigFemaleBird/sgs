@@ -30,6 +30,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             );
 
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger);
+            IsAutoInvoked = true;
         }
     }
 }

@@ -35,6 +35,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.PlayerJudgeDone, trigger);
+            IsAutoInvoked = true;
         }
     }
 }
