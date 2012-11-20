@@ -36,7 +36,7 @@ namespace Sanguosha.Expansions.Basic.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return (a.Targets.Contains(p) || a.Source == p) && ((a.ReadonlyCard.Type is Sha) || (a.ReadonlyCard.Type is JueDou)); },
+                (p, e, a) => { return ((a.Targets.Contains(p) || a.Source == p) && (a.ReadonlyCard.Type is JueDou)) || (a.Source == p && (a.ReadonlyCard.Type is Sha)); },
                 Run,
                 TriggerCondition.Global
             );

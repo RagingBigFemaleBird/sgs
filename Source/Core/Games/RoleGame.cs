@@ -603,18 +603,19 @@ namespace Sanguosha.Core.Games
                     toRemove.Add(c);
                     h = (HeroCardHandler)c.Type;
                     Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, p.Id);
-                    foreach (var skill in new List<ISkill>(h.Hero.Skills))
+                    var hero = h.Hero.Clone() as Hero;
+                    foreach (var skill in new List<ISkill>(hero.Skills))
                     {
                         if (skill.IsRulerOnly)
                         {
-                            h.Hero.Skills.Remove(skill);
+                            hero.Skills.Remove(skill);
                         }
                     }
-                    p.Hero = h.Hero;
-                    p.Allegiance = h.Hero.Allegiance;
-                    p.MaxHealth = p.Health = h.Hero.MaxHealth;
-                    p.IsMale = h.Hero.IsMale ? true : false;
-                    p.IsFemale = h.Hero.IsMale ? false : true;
+                    p.Hero = hero;
+                    p.Allegiance = hero.Allegiance;
+                    p.MaxHealth = p.Health = hero.MaxHealth;
+                    p.IsMale = hero.IsMale ? true : false;
+                    p.IsFemale = hero.IsMale ? false : true;
                     
                 }
 

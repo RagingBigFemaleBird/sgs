@@ -18,7 +18,7 @@ namespace Sanguosha.Core.Heroes
         God
     }
 
-    public class Hero
+    public class Hero : ICloneable
     {
         public Allegiance Allegiance { get; set; }
 
@@ -48,5 +48,16 @@ namespace Sanguosha.Core.Heroes
         }
 
         public string Name { get; set; }
+
+        public object Clone()
+        {
+            var hero = new Hero(Name, IsMale, Allegiance, MaxHealth, new List<ISkill>());
+            hero.Skills = new List<ISkill>();
+            foreach (var s in Skills)
+            {
+                hero.Skills.Add(s.Clone() as ISkill);
+            }
+            return hero;
+        }
     }
 }
