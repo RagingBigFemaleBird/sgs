@@ -63,5 +63,13 @@ namespace Sanguosha.UI.Controls
         }
 
         public event CardSelectedHandler OnCardSelected;
+
+        private void gridCardSet_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {            
+            if (btnGetCard.IsEnabled && gridCardSet.SelectedItem != null)
+            {
+                btnGetCard_Click(sender, e);
+            }
+        }
 	}
 }

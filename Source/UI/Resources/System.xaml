@@ -1030,6 +1030,7 @@
     </Style>
 
     <ControlTemplate x:Key="ChildWindowControlTemplate1" TargetType="{x:Type xctk:ChildWindow}">
+    	<Border CornerRadius="2">
         <Grid x:Name="PART_Root">
             <Grid.Resources>
                 <Style x:Key="FocusVisualStyle" TargetType="{x:Type Control}">
@@ -1105,13 +1106,45 @@
                                         </LinearGradientBrush>
                                     </ContentControl.Foreground>
                                 </ContentControl>
-								<Border x:Name="PART_DragWidget" Grid.ColumnSpan="2" CornerRadius="5,5,0,0" Margin="1,1,1,0" Background="#01000000" />
-                            	<Button Margin="5,0" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" x:Name="PART_CloseButton" IsTabStop="False" Style="{DynamicResource SimpleCloseButtonStyle}" Visibility="{TemplateBinding CloseButtonVisibility}" />									
+								<Border x:Name="PART_DragWidget" Grid.ColumnSpan="2" CornerRadius="5,5,0,0" Margin="1,1,1,0" Background="#01000000" />			
+								<Button Margin="5,0" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" x:Name="PART_CloseButton" IsTabStop="False" Style="{DynamicResource SimpleCloseButtonStyle}" Visibility="{TemplateBinding CloseButtonVisibility}" />									
                         </Grid>
                     </Border>
                 </Grid>
             </Grid>
+			<Image HorizontalAlignment="Left" Height="12" Source="Images/System/cornerAdorner.png" Stretch="Fill" VerticalAlignment="Top" Width="9"/>
+			<Image HorizontalAlignment="Right" Height="12" Source="Images/System/cornerAdorner.png" Stretch="Fill" VerticalAlignment="Top" Width="9" RenderTransformOrigin="0.5,0.5">
+				<Image.RenderTransform>
+					<TransformGroup>
+						<ScaleTransform ScaleX="-1"/>
+						<SkewTransform/>
+						<RotateTransform/>
+						<TranslateTransform/>
+					</TransformGroup>
+				</Image.RenderTransform>
+			</Image>
+			<Image HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="12" Source="Images/System/cornerAdorner.png" Stretch="Fill" Width="9" RenderTransformOrigin="0.5,0.5">
+				<Image.RenderTransform>
+					<TransformGroup>
+						<ScaleTransform ScaleY="-1"/>
+						<SkewTransform/>
+						<RotateTransform/>
+						<TranslateTransform/>
+					</TransformGroup>
+				</Image.RenderTransform>
+			</Image>
+			<Image HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="12" Source="Images/System/cornerAdorner.png" Stretch="Fill" Width="9" RenderTransformOrigin="0.5,0.5">
+				<Image.RenderTransform>
+					<TransformGroup>
+						<ScaleTransform ScaleY="-1" ScaleX="-1"/>
+						<SkewTransform/>
+						<RotateTransform/>
+						<TranslateTransform/>
+					</TransformGroup>
+				</Image.RenderTransform>
+			</Image>
         </Grid>
+		</Border>
         <ControlTemplate.Triggers>
             <Trigger Property="WindowState" Value="Closed">
                 <Setter Property="Visibility" Value="Collapsed"/>

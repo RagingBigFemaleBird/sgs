@@ -31,7 +31,7 @@
                         <TextBlock Text="获得卡牌" Style="{DynamicResource MenuTextStyle}" />
                     </MenuItem.Header>
                 </MenuItem>
-                <MenuItem Padding="3, 0" Style="{DynamicResource MenuItemStyle1}" Height="20" Click="MenuItem_Click">
+                <MenuItem Padding="3, 0" Style="{DynamicResource MenuItemStyle1}" Height="20" Click="btnGetSkill_Click">
                     <MenuItem.Header>
                         <TextBlock Text="获得技能" Style="{DynamicResource MenuTextStyle}" />
                     </MenuItem.Header>

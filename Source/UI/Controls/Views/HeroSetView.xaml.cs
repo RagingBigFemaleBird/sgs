@@ -15,6 +15,9 @@ using Sanguosha.Core.Heroes;
 
 namespace Sanguosha.UI.Controls
 {
+
+    public delegate void SkillNameSelectedHandler(string skillName);
+
 	/// <summary>
 	/// Interaction logic for HeroSetView.xaml
 	/// </summary>
@@ -24,7 +27,7 @@ namespace Sanguosha.UI.Controls
 		{
 			this.InitializeComponent();
 		}
-
+        
 		private void gridHeroSet_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
 		{
 			// TODO: Add event handler implementation here.
@@ -47,5 +50,20 @@ namespace Sanguosha.UI.Controls
 				gridHeroInfo.Visibility = Visibility.Collapsed;
 			}
 		}
+
+        public event SkillNameSelectedHandler OnSkillNameSelected;
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            SkillNameSelectedHandler handle = OnSkillNameSelected;
+            if (handle != null)
+            {
+                string skillName = (sender as Button).DataContext as string;
+                if (skillName != null && skillName != string.Empty)
+                {
+                    handle(skillName);
+                }
+            }
+        }
 	}
 }

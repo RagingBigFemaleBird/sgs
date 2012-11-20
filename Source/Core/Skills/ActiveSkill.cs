@@ -11,19 +11,15 @@ namespace Sanguosha.Core.Skills
 {
     public abstract class ActiveSkill : ISkill
     {
-        private UiHelper helper;
-
-        public UiHelper UiHelper 
+        public UiHelper UiHelper
         {
-            get
-            {
-                return helper;
-            }
+            get;
+            protected set;
         }
 
         public ActiveSkill()
         {
-            helper = new UiHelper();
+            UiHelper = new UiHelper();
         }
 
         /// <summary>
@@ -79,5 +75,13 @@ namespace Sanguosha.Core.Skills
         public virtual bool IsSingleUse { get { return false; } }
         public virtual bool IsAwakening { get { return false; } }
         public bool IsEnforced { get { return false; } }
+
+        public object Clone()
+        {
+            var skill = Activator.CreateInstance(this.GetType()) as ActiveSkill;
+            skill.Owner = this.Owner;
+            skill.UiHelper = this.UiHelper;
+            return skill;
+        }
     }
 }

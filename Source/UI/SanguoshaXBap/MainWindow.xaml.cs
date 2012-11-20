@@ -21,7 +21,6 @@ using Sanguosha.Expansions.OverKnightFame11;
 using Hills;
 using Sanguosha.Expansions.Woods;
 using Sanguosha.Expansions.SP;
-using Sanguosha.Expansions.Test;
 using System.IO;
 
 namespace SanguoshaXBap
@@ -39,7 +38,6 @@ namespace SanguoshaXBap
             "OverKnightFame11.Game.xaml", "OverKnightFame12.Game.xaml",
             "OverKnightFame11.Skills.xaml", "OverKnightFame12.Skills.xaml",
             "SP.Cards.xaml", "SP.Skills.xaml", "SP.Game.xaml",
-            "Test.Cards.xaml", "Test.Skills.xaml", "Test.Game.xaml",
             "Wind.Skills.xaml", "Wind.Game.xaml",
             "Woods.Skills.xaml", "Woods.Game.xaml", "Core.Game.xaml"
         };
@@ -48,7 +46,7 @@ namespace SanguoshaXBap
         {
             new BasicExpansion(), new BattleExpansion(), new WindExpansion(), new FireExpansion(),
             new WoodsExpansion(), new HillsExpansion(), new OverKnightFame11Expansion(), new OverKnightFame12Expansion(),
-            new SpExpansion(), new TestExpansion()
+            new SpExpansion()
         };
 
         private void _LoadResources()

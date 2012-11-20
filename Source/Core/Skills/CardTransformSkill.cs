@@ -15,9 +15,18 @@ namespace Sanguosha.Core.Skills
     
     public abstract class CardTransformSkill : ISkill
     {
-        public virtual UiHelper Helper { get { return new UiHelper(); } }
+        public UiHelper UiHelper
+        {
+            get;
+            protected set;
+        }
         public class CardTransformFailureException : SgsException
         {
+        }
+
+        public CardTransformSkill()
+        {
+            UiHelper = new UiHelper();
         }
 
         /// <summary>
@@ -89,6 +98,12 @@ namespace Sanguosha.Core.Skills
                 }
             }
         }
-
+        public object Clone()
+        {
+            var skill = Activator.CreateInstance(this.GetType()) as CardTransformSkill;
+            skill.Owner = this.Owner;
+            skill.UiHelper = this.UiHelper;
+            return skill;
+        }
     }
 }

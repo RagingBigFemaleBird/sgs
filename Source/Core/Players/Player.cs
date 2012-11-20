@@ -25,6 +25,7 @@ namespace Sanguosha.Core.Players
             hero = hero2 = null;
             attributes = new Dictionary<PlayerAttribute, int>();
             equipmentSkills = new List<ISkill>();
+            additionalSkills = new List<ISkill>();
         }
 
         int id;
@@ -242,6 +243,29 @@ namespace Sanguosha.Core.Players
             }
         }
 
+        private List<ISkill> additionalSkills;
+
+        public IList<ISkill> AdditionalSkills
+        {
+            get { return new ReadOnlyCollection<ISkill>(additionalSkills); }
+        }
+
+        public void AcquireAdditionalSkill(ISkill skill)
+        {
+            skill.Owner = this;
+            additionalSkills.Add(skill);
+            OnPropertyChanged("Skills");
+        }
+
+        public void LoseAdditionalSkill(ISkill skill)
+        {
+            skill.Owner = null;
+            Trace.Assert(additionalSkills.Contains(skill));
+            additionalSkills.Remove(skill);
+            OnPropertyChanged("Skills");
+        }
+
+        
         private List<ISkill> equipmentSkills;
 
         public IList<ISkill> EquipmentSkills
@@ -281,6 +305,7 @@ namespace Sanguosha.Core.Players
                 {
                     s.AddRange(Hero2.Skills);
                 }
+                s.AddRange(additionalSkills);
                 return new ReadOnlyCollection<ISkill>(s);
             }
         }
@@ -299,6 +324,7 @@ namespace Sanguosha.Core.Players
                     s.AddRange(Hero2.Skills);
                 }
                 s.AddRange(equipmentSkills);
+                s.AddRange(additionalSkills);
                 return new ReadOnlyCollection<ISkill>(s);
             }
         }

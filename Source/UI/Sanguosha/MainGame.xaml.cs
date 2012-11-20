@@ -36,13 +36,20 @@ namespace Sanguosha.UI.Main
         {
             this.InitializeComponent();
             ctrlGetCard.OnCardSelected += new CardSelectedHandler(ctrlGetCard_OnCardSelected);
+            ctrlGetSkill.OnSkillNameSelected += new SkillNameSelectedHandler(ctrlGetSkill_OnSkillNameSelected);
             // Insert code required on object creation below this point.
+        }
+
+        void ctrlGetSkill_OnSkillNameSelected(string skillName)
+        {
+            var gameModel = (gameView.DataContext as GameViewModel);
+            gameModel.MainPlayerModel.CheatGetSkill(skillName);
         }
 
         void ctrlGetCard_OnCardSelected(Card card)
         {
             var gameModel = (gameView.DataContext as GameViewModel);
-            gameModel.MainPlayerModel.CheatGetCard(card);            
+            gameModel.MainPlayerModel.CheatGetCard(card);
         }
 
         private Client _networkClient;
@@ -168,7 +175,7 @@ namespace Sanguosha.UI.Main
             
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void btnGetSkill_Click(object sender, RoutedEventArgs e)
         {
             windowGetSkill.Show();
             ObservableCollection<HeroViewModel> model = new ObservableCollection<HeroViewModel>();

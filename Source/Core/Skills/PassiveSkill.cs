@@ -61,5 +61,13 @@ namespace Sanguosha.Core.Skills
         /// 返回该技能是否是锁定技。
         /// </summary>
         public virtual bool IsEnforced { get { return false; } }
+
+        public object Clone()
+        {
+            var skill = Activator.CreateInstance(this.GetType()) as PassiveSkill;
+            skill.Owner = this.Owner;
+            return skill;
+        }
+
     }
 }

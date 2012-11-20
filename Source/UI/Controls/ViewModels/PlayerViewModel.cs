@@ -1338,5 +1338,23 @@ namespace Sanguosha.UI.Controls
             return true;
         }
         #endregion
+
+        public bool CheatGetSkill(string skillName)
+        {
+            lock (verifierLock)
+            {
+                if (currentUsageVerifier == null)
+                {
+                    return false;
+                }
+                _ResetAll();
+                if (currentUsageVerifier != null)
+                {
+                    currentUsageVerifier = null;
+                    CardUsageAnsweredEvent(new CheatSkill() { CheatType = CheatType.Skill, SkillName = skillName }, new List<Card>(), new List<Player>());
+                }
+            }
+            return true;
+        }
     }
 }

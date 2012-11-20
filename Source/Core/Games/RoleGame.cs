@@ -41,10 +41,6 @@ namespace Sanguosha.Core.Games
                     }
                     else if (skill is ActiveSkill)
                     {
-                        if (Game.CurrentGame.CurrentPlayer.Hero.Skills.IndexOf(skill) < 0)
-                        {
-                            return VerifierResult.Fail;
-                        }
                         GameEventArgs arg = new GameEventArgs();
                         arg.Source = Game.CurrentGame.CurrentPlayer;
                         arg.Targets = players;
@@ -138,23 +134,20 @@ namespace Sanguosha.Core.Games
                             {
                                 foreach (var hero in Game.CurrentGame.OriginalCardSet)
                                 {
+                                    bool found = false;
                                     if (hero.Type is HeroCardHandler)
                                     {
                                         foreach (var sk in (hero.Type as HeroCardHandler).Hero.Skills)
                                         {
                                             if (sk.GetType().Name == cs.SkillName)
                                             {
-                                                if (currentPlayer.Hero == null)
-                                                {
-                                                    currentPlayer.Hero = new Hero("Dummy", false, Allegiance.Shu, 3, sk);
-                                                }
-                                                else
-                                                {
-                                                    currentPlayer.Hero.Skills.Add(sk);
-                                                }
+                                                currentPlayer.AcquireAdditionalSkill(sk.Clone() as ISkill);
+                                                found = true;
+                                                break;
                                             }
                                         }
                                     }
+                                    if (found) break;
                                 }
                             }
                             continue;

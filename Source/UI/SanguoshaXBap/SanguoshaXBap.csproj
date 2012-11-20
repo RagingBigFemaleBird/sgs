@@ -145,10 +145,6 @@
       <Project>{C207EC66-730A-4FEC-B83D-E8F40B7CC620}</Project>
       <Name>SP</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Expansions\Test\Test.csproj">
-      <Project>{942E3559-4E91-4C17-ABB8-BF70BCA4A205}</Project>
-      <Name>Test</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Expansions\Wind\Wind.csproj">
       <Project>{7EF64814-44F4-40EA-91C4-FEB67F279F3F}</Project>
       <Name>Wind</Name>

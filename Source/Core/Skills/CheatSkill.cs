@@ -46,5 +46,14 @@ namespace Sanguosha.Core.Skills
         {
             get { return false; }
         }
+        public object Clone()
+        {
+            var skill = Activator.CreateInstance(this.GetType()) as CheatSkill;
+            skill.Owner = this.Owner;
+            skill.CheatType = this.CheatType;
+            skill.CardId = this.CardId;
+            skill.SkillName = this.SkillName;
+            return skill;
+        }
     }
 }

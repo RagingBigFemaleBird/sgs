@@ -6,7 +6,7 @@ using Sanguosha.Core.Players;
 
 namespace Sanguosha.Core.Skills
 {
-    public interface ISkill
+    public interface ISkill : ICloneable
     {
         Player Owner { get; set; }
         bool IsRulerOnly { get; }
