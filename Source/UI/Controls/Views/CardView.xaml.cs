@@ -58,6 +58,7 @@ namespace Sanguosha.UI.Controls
             InitializeComponent();
             this.MouseLeftButtonDown += CardView_MouseLeftButtonDown;
             this.IsEnabledChanged += CardView_IsEnabledChanged;
+            this.DataContextChanged += CardView_DataContextChanged;
             this.MouseEnter += CardView_MouseEnter;
             this.MouseLeave += CardView_MouseLeave;
             _daMoveX = new DoubleAnimation();
@@ -99,6 +100,7 @@ namespace Sanguosha.UI.Controls
 
         void CardView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            toolTip.Content = DataContext;
         }        
 
         void CardView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
