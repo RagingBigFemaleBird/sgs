@@ -40,6 +40,12 @@ namespace Sanguosha.Core.Network
             stream.Flush();
         }
 
+        private void QueueCheatSkill(CheatSkill skill)
+        {
+            formatter.Serialize(stream, skill);
+            stream.Flush();
+        }
+
         private void QueueSkill(SkillItem skill)
         {
             formatter.Serialize(stream, skill);
@@ -91,6 +97,10 @@ namespace Sanguosha.Core.Network
             else if (o is SkillItem)
             {
                 QueueSkill((SkillItem)o);
+            }
+            else if (o is CheatSkill)
+            {
+                QueueCheatSkill((CheatSkill)o);
             }
             else if (o is InterruptedObject)
             {

@@ -98,7 +98,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     ISkill skill;
                     List<Card> cards;
                     List<Player> players;
-                    if (Game.CurrentGame.UiProxies[p].AskForCardUsage(new CardUsagePrompt("SaveALife", target), v, out skill, out cards, out players))
+                    if (Game.CurrentGame.UiProxies[p].AskForCardUsage(new CardUsagePrompt("SaveALife", target, 1 - target.Health), v, out skill, out cards, out players))
                     {
                         try
                         {

@@ -85,6 +85,7 @@
     <Compile Include="Games\RoleCard.cs" />
     <Compile Include="Network\SerializableItems.cs" />
     <Compile Include="Skills\AutoVerifiedActiveSkill.cs" />
+    <Compile Include="Skills\CheatSkill.cs" />
     <Compile Include="Skills\IAdditionalTypedSkill.cs" />
     <Compile Include="Skills\TriggerSkill.cs" />
     <Compile Include="Triggers\RelayTrigger.cs" />

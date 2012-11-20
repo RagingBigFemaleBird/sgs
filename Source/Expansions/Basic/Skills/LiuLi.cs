@@ -82,11 +82,16 @@ namespace Sanguosha.Expansions.Basic.Skills
 
         public void OnPlayerIsCardTarget(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
+            if (!(eventArgs.Card.Type is Sha))
+            {
+                return;
+            }
             ISkill skill;
             List<Card> cards;
             List<Player> players;
             if (Game.CurrentGame.UiProxies[owner].AskForCardUsage(new CardUsagePrompt("LiuLi"), new LiuLiVerifier(eventArgs.Source), out skill, out cards, out players))
             {
+                NotifySkillUse(players);
                 Game.CurrentGame.HandleCardDiscard(players[0], cards);
                 eventArgs.Targets.Remove(owner);
                 eventArgs.Targets.Add(players[0]);
@@ -95,12 +100,10 @@ namespace Sanguosha.Expansions.Basic.Skills
 
         public LiuLi()
         {
-            var trigger = new AutoNotifyPassiveSkillTrigger(
-                this,
-                (p, e, a) => { return a.Card.Type is Sha; },
+            var trigger = new RelayTrigger(
                 OnPlayerIsCardTarget,
                 TriggerCondition.OwnerIsTarget
-            ) { Priority = SkillPriority.LiuLi, AskForConfirmation = false };
+            ) { Priority = SkillPriority.LiuLi};
             Triggers.Add(GameEvent.CardUsageTargetConfirming, trigger);
         }
     }

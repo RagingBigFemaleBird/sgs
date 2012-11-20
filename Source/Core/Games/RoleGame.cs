@@ -35,7 +35,11 @@ namespace Sanguosha.Core.Games
                     {
                         return VerifierResult.Fail;
                     }
-                    if (skill is ActiveSkill)
+                    if (skill is CheatSkill)
+                    {
+                        return VerifierResult.Success;
+                    }
+                    else if (skill is ActiveSkill)
                     {
                         if (Game.CurrentGame.CurrentPlayer.Hero.Skills.IndexOf(skill) < 0)
                         {
@@ -98,7 +102,40 @@ namespace Sanguosha.Core.Games
                     }
                     if (skill != null)
                     {
-                        if (skill is ActiveSkill)
+                        if (skill is CheatSkill)
+                        {
+                            CheatSkill cs = skill as CheatSkill;
+                            if (cs.CheatType == CheatType.Card)
+                            {
+                                if (Game.CurrentGame.IsClient)
+                                {
+                                    Game.CurrentGame.SyncCardAll(Game.CurrentGame.Decks[null, DeckType.Dealing][0]);
+                                }
+                                else
+                                {
+                                    foreach (var searchCard in Game.CurrentGame.CardSet)
+                                    {
+                                        if (searchCard.Id == cs.CardId)
+                                        {
+                                            Game.CurrentGame.SyncCardAll(searchCard);
+                                            break;
+                                        }
+                                    }
+                                }
+                                foreach (var searchCard in Game.CurrentGame.CardSet)
+                                {
+                                    if (searchCard.Id == cs.CardId)
+                                    {
+                                        CardsMovement move = new CardsMovement();
+                                        move.cards = new List<Card>() { searchCard };
+                                        move.to = new DeckPlace(Game.CurrentGame.CurrentPlayer, DeckType.Hand);
+                                        Game.CurrentGame.MoveCards(move, null);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        else if (skill is ActiveSkill)
                         {
                             GameEventArgs arg = new GameEventArgs();
                             arg.Source = Game.CurrentGame.CurrentPlayer;

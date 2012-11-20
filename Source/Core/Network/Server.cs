@@ -231,6 +231,10 @@ namespace Sanguosha.Core.Network
             {
                 return Translator.Translate((SkillItem)o);
             }
+            if (o is CheatSkill)
+            {
+                return o as CheatSkill;
+            }
             Trace.TraceWarning("Expected Skill but type is {0}", o.GetType());
             return null;
         }
@@ -259,7 +263,10 @@ namespace Sanguosha.Core.Network
                 }
                 o = item;
             }
-            if (o is ISkill)
+            if (o is CheatSkill)
+            {
+            }
+            else if (o is ISkill)
             {
                 o = Translator.Translate(o as ISkill);
             }

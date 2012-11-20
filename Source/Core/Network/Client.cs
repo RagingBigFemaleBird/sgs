@@ -178,7 +178,14 @@ namespace Sanguosha.Core.Network
 
         public void AnswerItem(ISkill skill)
         {
-            sender.Send(Translator.Translate(skill));
+            if (skill is CheatSkill)
+            {
+                sender.Send(skill);
+            }
+            else
+            {
+                sender.Send(Translator.Translate(skill));
+            }
         }
 
         public void AnswerItem(int i)
