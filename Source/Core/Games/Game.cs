@@ -103,7 +103,7 @@ namespace Sanguosha.Core.Games
         public Network.Client GameClient { get; set; }
 
 
-        public void SyncCard(Player player, Card card)
+        public void SyncUnknownLocationCard(Player player, Card card)
         {
             if (GameClient != null)
             {
@@ -131,6 +131,34 @@ namespace Sanguosha.Core.Games
                     card.RevealOnce = true;
                     GameServer.SendObject(player.Id, card);
                 }
+            }
+        }
+        public void SyncUnknownLocationCardAll(Card card)
+        {
+            foreach (Player p in players)
+            {
+                SyncUnknownLocationCard(p, card);
+            }
+        }
+
+        public void SyncCard(Player player, Card card)
+        {
+            if (card.Place.DeckType == DeckType.Equipment || card.Place.DeckType == DeckType.DelayedTools)
+            {
+                return;
+            }
+            if (GameClient != null)
+            {
+                if (player.Id != GameClient.SelfId)
+                {
+                    return;
+                }
+                GameClient.Receive();
+            }
+            else if (GameServer != null)
+            {
+                card.RevealOnce = true;
+                GameServer.SendObject(player.Id, card);
             }
         }
 

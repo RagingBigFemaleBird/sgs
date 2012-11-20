@@ -109,7 +109,7 @@ namespace Sanguosha.Core.Games
                             {
                                 if (Game.CurrentGame.IsClient)
                                 {
-                                    Game.CurrentGame.SyncCardAll(null);
+                                    Game.CurrentGame.SyncUnknownLocationCardAll(null);
                                 }
                                 else
                                 {
@@ -117,7 +117,7 @@ namespace Sanguosha.Core.Games
                                     {
                                         if (searchCard.Id == cs.CardId)
                                         {
-                                            Game.CurrentGame.SyncCardAll(searchCard);
+                                            Game.CurrentGame.SyncUnknownLocationCardAll(searchCard);
                                             break;
                                         }
                                     }
@@ -131,6 +131,29 @@ namespace Sanguosha.Core.Games
                                         move.to = new DeckPlace(Game.CurrentGame.CurrentPlayer, DeckType.Hand);
                                         Game.CurrentGame.MoveCards(move, null);
                                         break;
+                                    }
+                                }
+                            }
+                            else if (cs.CheatType == CheatType.Skill)
+                            {
+                                foreach (var hero in Game.CurrentGame.OriginalCardSet)
+                                {
+                                    if (hero.Type is HeroCardHandler)
+                                    {
+                                        foreach (var sk in (hero.Type as HeroCardHandler).Hero.Skills)
+                                        {
+                                            if (sk.GetType().Name == cs.SkillName)
+                                            {
+                                                if (currentPlayer.Hero == null)
+                                                {
+                                                    currentPlayer.Hero = new Hero("Dummy", false, Allegiance.Shu, 3, sk);
+                                                }
+                                                else
+                                                {
+                                                    currentPlayer.Hero.Skills.Add(sk);
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
