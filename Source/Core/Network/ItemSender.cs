@@ -58,10 +58,6 @@ namespace Sanguosha.Core.Network
             stream.Flush();
         }
 
-        private void QueueSkill(ISkill skill)
-        {
-        }
-
         private void QueueCommand(CommandItem c)
         {
             formatter.Serialize(stream, c);
@@ -85,10 +81,6 @@ namespace Sanguosha.Core.Network
             else if (o is CardItem)
             {
                 QueueCard((CardItem)o);
-            }
-            else if (o is ISkill)
-            {
-                QueueSkill(o as ISkill);
             }
             else if (o is CommandItem)
             {

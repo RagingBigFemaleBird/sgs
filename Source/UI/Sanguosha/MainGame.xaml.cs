@@ -23,6 +23,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Navigation;
 using System.Collections.ObjectModel;
+using Sanguosha.Core.Cards;
 
 namespace Sanguosha.UI.Main
 {
@@ -34,7 +35,14 @@ namespace Sanguosha.UI.Main
         public MainGame()
         {
             this.InitializeComponent();
+            ctrlGetCard.OnCardSelected += new CardSelectedHandler(ctrlGetCard_OnCardSelected);
             // Insert code required on object creation below this point.
+        }
+
+        void ctrlGetCard_OnCardSelected(Card card)
+        {
+            var gameModel = (gameView.DataContext as GameViewModel);
+            gameModel.MainPlayerModel.CheatGetCard(card);            
         }
 
         private Client _networkClient;
@@ -54,6 +62,7 @@ namespace Sanguosha.UI.Main
         }
 
         const int numberOfHeros = 3;
+
         private void InitGame()
         {
 #if CLIENTLOG
@@ -133,7 +142,9 @@ namespace Sanguosha.UI.Main
         }
 
         private Game _game;
+        
         Thread gameThread;
+
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             InitGame();

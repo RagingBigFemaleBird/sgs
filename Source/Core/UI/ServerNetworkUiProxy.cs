@@ -73,7 +73,7 @@ namespace Sanguosha.Core.UI
                 {
                     return false;
                 }
-                if (!HostPlayer.ActionableSkills.Contains(skill))
+                if (!(skill is CheatSkill) && !HostPlayer.ActionableSkills.Contains(skill))
                 {
                     Trace.TraceWarning("Client DDOS!");
                     return false;

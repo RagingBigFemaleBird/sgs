@@ -109,7 +109,7 @@ namespace Sanguosha.Core.Games
                             {
                                 if (Game.CurrentGame.IsClient)
                                 {
-                                    Game.CurrentGame.SyncCardAll(Game.CurrentGame.Decks[null, DeckType.Dealing][0]);
+                                    Game.CurrentGame.SyncCardAll(null);
                                 }
                                 else
                                 {
@@ -134,6 +134,7 @@ namespace Sanguosha.Core.Games
                                     }
                                 }
                             }
+                            continue;
                         }
                         else if (skill is ActiveSkill)
                         {

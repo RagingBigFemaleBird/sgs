@@ -1318,5 +1318,25 @@ namespace Sanguosha.UI.Controls
         #region Private Members
         private object verifierLock;
         #endregion
+
+        #region Cheats
+        public bool CheatGetCard(Card card)
+        {
+            lock (verifierLock)
+            {
+                if (currentUsageVerifier == null)
+                {
+                    return false;
+                }
+                _ResetAll();
+                if (currentUsageVerifier != null)
+                {
+                    currentUsageVerifier = null;
+                    CardUsageAnsweredEvent(new CheatSkill() { CheatType = CheatType.Card, CardId = card.Id }, new List<Card>(), new List<Player>());
+                }
+            }
+            return true;
+        }
+        #endregion
     }
 }

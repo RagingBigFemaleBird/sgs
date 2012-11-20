@@ -45,7 +45,7 @@
         <Border BorderBrush="#FF605D4E" Grid.Column="1" VerticalAlignment="Top" Margin="10,190,10,0"  BorderThickness="1" CornerRadius="2" Background="#CC232019">
             <ContentControl Content="{Binding SelectedItem, ElementName=gridCardSet, Mode=OneWay}" ContentTemplateSelector="{StaticResource cardToolTipTemplateSelector}" />
         </Border>
-        <Button x:Name="btnGetCard" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="Auto" IsEnabled="False" Style="{DynamicResource DefaultButtonStyleRed}" Height="20" Padding="8,0,8,0" Margin="0,0,0,10">
+        <Button x:Name="btnGetCard" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="Auto" IsEnabled="False" Style="{DynamicResource DefaultButtonStyleRed}" Height="20" Padding="8,0,8,0" Margin="0,0,0,10" Click="btnGetCard_Click">
             <TextBlock x:Name="textBlock" Text="获得卡片" Style="{DynamicResource MenuTextStyle}" />
         </Button>		
     </Grid>

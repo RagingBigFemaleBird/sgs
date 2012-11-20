@@ -10,9 +10,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Sanguosha.Core.Cards;
 
 namespace Sanguosha.UI.Controls
 {
+
+    public delegate void CardSelectedHandler(Card card);    
+
 	/// <summary>
 	/// Interaction logic for CardSetView.xaml
 	/// </summary>
@@ -48,5 +52,16 @@ namespace Sanguosha.UI.Controls
             if (item == null) btnGetCard.IsEnabled = false;
             else btnGetCard.IsEnabled = true;
         }
+
+        private void btnGetCard_Click(object sender, RoutedEventArgs e)
+        {
+            CardSelectedHandler handle = OnCardSelected;
+            if (handle != null)
+            {
+                handle((gridCardSet.SelectedItem as CardViewModel).Card);
+            }
+        }
+
+        public event CardSelectedHandler OnCardSelected;
 	}
 }

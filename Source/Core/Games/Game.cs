@@ -105,22 +105,32 @@ namespace Sanguosha.Core.Games
 
         public void SyncCard(Player player, Card card)
         {
-            if (card.Place.DeckType == DeckType.Equipment || card.Place.DeckType == DeckType.DelayedTools)
-            {
-                return;
-            }
             if (GameClient != null)
             {
-                if (player.Id != GameClient.SelfId)
+                bool confirmed = true;
+                Game.CurrentGame.SyncConfirmationStatus(ref confirmed);
+                if (confirmed)
                 {
-                    return;
+                    if (player.Id != GameClient.SelfId)
+                    {
+                        return;
+                    }
+                    GameClient.Receive();
                 }
-                GameClient.Receive();
             }
             else if (GameServer != null)
             {
-                card.RevealOnce = true;
-                GameServer.SendObject(player.Id, card);
+                bool status = true;
+                if (card.Place.DeckType == DeckType.Equipment || card.Place.DeckType == DeckType.DelayedTools)
+                {
+                    status = false;
+                }
+                Game.CurrentGame.SyncConfirmationStatus(ref status);
+                if (status)
+                {
+                    card.RevealOnce = true;
+                    GameServer.SendObject(player.Id, card);
+                }
             }
         }
 
