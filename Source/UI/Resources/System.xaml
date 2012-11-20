@@ -1030,7 +1030,7 @@
     </Style>
 
     <ControlTemplate x:Key="ChildWindowControlTemplate1" TargetType="{x:Type xctk:ChildWindow}">
-    	<Border CornerRadius="2">
+    	
         <Grid x:Name="PART_Root">
             <Grid.Resources>
                 <Style x:Key="FocusVisualStyle" TargetType="{x:Type Control}">
@@ -1051,7 +1051,7 @@
                 </Style>
                 <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             </Grid.Resources>
-
+			<Border CornerRadius="2">
             <Grid x:Name="PART_WindowRoot" HorizontalAlignment="Left" Height="{TemplateBinding Height}" MinWidth="{TemplateBinding MinWidth}" MinHeight="{TemplateBinding MinHeight}" VerticalAlignment="Top" Width="{TemplateBinding Width}">
                 <Grid.RenderTransform>
                     <TransformGroup>
@@ -1111,40 +1111,40 @@
                         </Grid>
                     </Border>
                 </Grid>
+                <Image HorizontalAlignment="Left" Height="12" Source="Images/System/cornerAdorner.png" Stretch="Fill" VerticalAlignment="Top" Width="9"/>
+                <Image HorizontalAlignment="Right" Height="12" Source="Images/System/cornerAdorner.png" Stretch="Fill" VerticalAlignment="Top" Width="9" RenderTransformOrigin="0.5,0.5">
+                	<Image.RenderTransform>
+                		<TransformGroup>
+                			<ScaleTransform ScaleX="-1"/>
+                			<SkewTransform/>
+                			<RotateTransform/>
+                			<TranslateTransform/>
+                		</TransformGroup>
+                	</Image.RenderTransform>
+                </Image>
+                <Image HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="12" Source="Images/System/cornerAdorner.png" Stretch="Fill" Width="9" RenderTransformOrigin="0.5,0.5">
+                	<Image.RenderTransform>
+                		<TransformGroup>
+                			<ScaleTransform ScaleY="-1"/>
+                			<SkewTransform/>
+                			<RotateTransform/>
+                			<TranslateTransform/>
+                		</TransformGroup>
+                	</Image.RenderTransform>
+                </Image>
+                <Image HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="12" Source="Images/System/cornerAdorner.png" Stretch="Fill" Width="9" RenderTransformOrigin="0.5,0.5">
+                	<Image.RenderTransform>
+                		<TransformGroup>
+                			<ScaleTransform ScaleY="-1" ScaleX="-1"/>
+                			<SkewTransform/>
+                			<RotateTransform/>
+                			<TranslateTransform/>
+                		</TransformGroup>
+                	</Image.RenderTransform>
+                </Image>
             </Grid>
-			<Image HorizontalAlignment="Left" Height="12" Source="Images/System/cornerAdorner.png" Stretch="Fill" VerticalAlignment="Top" Width="9"/>
-			<Image HorizontalAlignment="Right" Height="12" Source="Images/System/cornerAdorner.png" Stretch="Fill" VerticalAlignment="Top" Width="9" RenderTransformOrigin="0.5,0.5">
-				<Image.RenderTransform>
-					<TransformGroup>
-						<ScaleTransform ScaleX="-1"/>
-						<SkewTransform/>
-						<RotateTransform/>
-						<TranslateTransform/>
-					</TransformGroup>
-				</Image.RenderTransform>
-			</Image>
-			<Image HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="12" Source="Images/System/cornerAdorner.png" Stretch="Fill" Width="9" RenderTransformOrigin="0.5,0.5">
-				<Image.RenderTransform>
-					<TransformGroup>
-						<ScaleTransform ScaleY="-1"/>
-						<SkewTransform/>
-						<RotateTransform/>
-						<TranslateTransform/>
-					</TransformGroup>
-				</Image.RenderTransform>
-			</Image>
-			<Image HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="12" Source="Images/System/cornerAdorner.png" Stretch="Fill" Width="9" RenderTransformOrigin="0.5,0.5">
-				<Image.RenderTransform>
-					<TransformGroup>
-						<ScaleTransform ScaleY="-1" ScaleX="-1"/>
-						<SkewTransform/>
-						<RotateTransform/>
-						<TranslateTransform/>
-					</TransformGroup>
-				</Image.RenderTransform>
-			</Image>
-        </Grid>
-		</Border>
+        	</Border>
+		</Grid>		
         <ControlTemplate.Triggers>
             <Trigger Property="WindowState" Value="Closed">
                 <Setter Property="Visibility" Value="Collapsed"/>
