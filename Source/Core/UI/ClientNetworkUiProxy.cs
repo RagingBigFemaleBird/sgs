@@ -157,10 +157,10 @@ namespace Sanguosha.Core.UI
             return false;
         }
 
-        public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, List<bool> rearrangeable, CardChoiceRearrangeCallback callback)
+        public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, List<bool> rearrangeable, ref int windowId, CardChoiceRearrangeCallback callback)
         {
             Trace.TraceInformation("Asking Card Choice to {0}.", HostPlayer.Id);
-            TryAskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, rearrangeable, callback);
+            TryAskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, rearrangeable, ref windowId, callback);
             if (active)
             {
                 NextQuestion();
@@ -235,15 +235,15 @@ namespace Sanguosha.Core.UI
             }
         }
 
-        public void TryAskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, List<bool> rearrangeable, CardChoiceRearrangeCallback callback)
+        public void TryAskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, List<bool> rearrangeable, ref int windowId, CardChoiceRearrangeCallback callback)
         {
             List<List<Card>> answer;
             if (!active)
             {
-                proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, out answer, rearrangeable, callback);
+                proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, out answer, rearrangeable, ref windowId, callback);
                 return;
             }
-            if (!proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, out answer, rearrangeable, callback) ||
+            if (!proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, out answer, rearrangeable, ref windowId, callback) ||
                 answer == null)
             {
                 Trace.TraceInformation("Invalid answer");

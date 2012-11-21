@@ -360,6 +360,12 @@ namespace Sanguosha.Core.Games
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 Game game = eventArgs.Game;
+
+                foreach (Player pp in game.Players)
+                {
+                    game.HandCardVisibility.Add(pp, new List<Player>() { pp });
+                }
+
                 int numberOfDefectors = 1;
 
                 // Put the whole deck in the dealing deck
@@ -531,7 +537,8 @@ namespace Sanguosha.Core.Games
                 List<int> resultDeckMaximums = new List<int>();
                 resultDeckMaximums.Add(1);
                 List<List<Card>> answer;
-                if (!game.UiProxies[game.Players[rulerId]].AskForCardChoice(new CardChoicePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new AlwaysTrueChoiceVerifier(), out answer, new List<bool>() { false }))
+                int windowId = 0;
+                if (!game.UiProxies[game.Players[rulerId]].AskForCardChoice(new CardChoicePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new AlwaysTrueChoiceVerifier(), out answer, new List<bool>() { false }, ref windowId))
                 {
                     answer = new List<List<Card>>();
                     answer.Add(new List<Card>());

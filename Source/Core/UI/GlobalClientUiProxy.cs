@@ -170,7 +170,8 @@ namespace Sanguosha.Core.UI
             sourceDecks.Add(new DeckPlace(proxy.HostPlayer, temp));
             List<string> resultDeckNames = new List<string>() { "HeroChoice" };
             List<int> resultDeckMaximums = new List<int>() { 1 };
-            proxy.TryAskForCardChoice(new CardChoicePrompt("HeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new AlwaysTrueChoiceVerifier(), new List<bool>() {false}, null);
+            int windowId = 0;
+            proxy.TryAskForCardChoice(new CardChoicePrompt("HeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new AlwaysTrueChoiceVerifier(), new List<bool>() {false}, ref windowId, null);
         }
     }
 }

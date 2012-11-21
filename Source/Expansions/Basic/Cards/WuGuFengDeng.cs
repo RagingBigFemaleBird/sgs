@@ -17,6 +17,7 @@ namespace Sanguosha.Expansions.Basic.Cards
     
     public class WuGuFengDeng : CardHandler
     {
+        int currentWindowId;
         protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
         {
             DeckType wuguDeck = new DeckType("WuGu");
@@ -27,7 +28,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     new List<int>() { 1 },
                     new RequireOneCardChoiceVerifier(),
                     out answer,
-                    new List<bool>() { false }))
+                    new List<bool>() { false }, ref currentWindowId))
             {
                 Trace.TraceInformation("Invalid answer for WuGu, choosing for you");
                 answer = new List<List<Card>>();
@@ -40,6 +41,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         public override void Process(Player source, List<Player> dests, ICard card, ReadOnlyCard readonlyCard)
         {
+            currentWindowId = -1;
             DeckType wuguDeck = new DeckType("WuGu");
             CardsMovement move = new CardsMovement();
             move.cards = new List<Card>();
