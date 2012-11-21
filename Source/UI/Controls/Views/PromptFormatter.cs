@@ -5,13 +5,16 @@ using System.Text;
 using System.Diagnostics;
 using Sanguosha.Core.UI;
 using System.Windows;
+using Sanguosha.Core.Players;
+using Sanguosha.Core.Cards;
+using Sanguosha.Core.Skills;
 
 namespace Sanguosha.UI.Controls
 {
     public class PromptFormatter
     {
         public static string Format(Prompt prompt)
-        {            
+        {         
             List<string> values = new List<string>();
             string format = Application.Current.TryFindResource(prompt.ResourceKey) as string;
             if (format == null)
@@ -23,22 +26,52 @@ namespace Sanguosha.UI.Controls
             {
                 format = format.Substring(Prompt.DirectOutputPrefix.Length);
             }
-            foreach (string arg in prompt.Values)
+
+            foreach (object arg in prompt.Values)
             {
-                string value = null;
-                if (arg.StartsWith(Prompt.DirectOutputPrefix))
+                string resKey = null;
+
+                if (arg is Player)
                 {
-                    value = arg.Substring(Prompt.DirectOutputPrefix.Length);
+                    Player player = arg as Player;
+                    if (player == null || player.Hero == null)
+                    {
+                        resKey = string.Empty;
+                    }
+                    else
+                    {
+                        resKey = string.Format("Hero.{0}.Name", (arg as Player).Hero.Name);
+                    }
+                }
+                else if (arg is ICard)
+                {
+                    resKey = string.Format("Card.{0}.Name", (arg as ICard).Type.CardType);
+                }
+                else if (arg is SuitType)
+                {
+                    resKey = string.Format("Suit.{0}.Text", ((SuitType)arg).ToString());
+                }
+                else if (arg is ISkill)
+                {
+                    resKey = string.Format("Skill.{0}.Name", arg.GetType().Name);
+                }
+
+                string value;
+                if (resKey != null)
+                {
+                    value = Application.Current.TryFindResource(resKey) as string;
                 }
                 else
                 {
-                    value = Application.Current.TryFindResource(arg) as string;
-                }
+                    value = arg.ToString();
+                }               
+                
                 if (value == null)
                 {
                     value = string.Empty;
                     Trace.TraceInformation("Key not found: {0}", arg);                    
                 }
+
                 values.Add(value);
             }
             return string.Format(format, values.ToArray());

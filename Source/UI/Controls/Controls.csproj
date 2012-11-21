@@ -123,6 +123,9 @@
     <Compile Include="Views\SmallEquipView.xaml.cs">
       <DependentUpon>SmallEquipView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TestControl.xaml.cs">
+      <DependentUpon>TestControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\VHealthBar.xaml.cs">
       <DependentUpon>VHealthBar.xaml</DependentUpon>
     </Compile>
@@ -220,6 +223,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\TestControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\VHealthBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -316,6 +323,8 @@
     <Resource Include="Views\Resources\CardSelectionBox\bottomRight.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Views\Resources\SkillButton\lock\locked.png" />
+    <Resource Include="Views\Resources\SkillButton\lock\unlocked.png" />
     <Content Include="WPFToolkit.Extended.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath32)\Microsoft.CSharp.targets" />

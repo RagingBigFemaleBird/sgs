@@ -27,10 +27,76 @@ namespace Sanguosha.UI.Controls
 
         #region Fields
 
+        private ISkill _skill;
         public ISkill Skill
         {
-            get;
-            set;
+            get
+            {
+                return _skill;
+            }
+            set
+            {
+                if (_skill == value) return;
+                _skill = value;
+                // @todo: add more skill types
+                if (value.IsEnforced)
+                {
+                    _skillType = SkillType.Enforced;
+                }
+                else if (value.IsSingleUse)
+                {
+                    _skillType = SkillType.SingleUse;
+                }
+                else if (value.IsAwakening)
+                {
+                    _skillType = SkillType.Awakening;
+                }
+                else if (value is CardTransformSkill || value is ActiveSkill)
+                {
+                    _skillType = SkillType.Active;
+                }
+                else if (value is TriggerSkill)
+                {
+                    var ts = value as TriggerSkill;
+                    if (ts.IsAutoInvoked != null)
+                    {
+                        IsAutoInvokeSkill = true;
+                        IsEnabled = true;
+                        IsSelected = (ts.IsAutoInvoked == true);
+                    }                   
+                    _skillType = SkillType.Trigger;
+                }
+                else
+                {
+                    _skillType = SkillType.Enforced;
+                }
+            }
+        }
+
+        private bool _isAutoInvokeSkill;
+
+        public bool IsAutoInvokeSkill
+        {
+            get { return _isAutoInvokeSkill; }
+            set 
+            {
+                if (_isAutoInvokeSkill == value) return;
+                _isAutoInvokeSkill = value;
+                OnPropertyChanged("IsAutoInvokeSkill");
+            }
+        }
+
+        private bool _isHighlighted;
+
+        public bool IsHighlighted
+        {
+            get { return _isHighlighted; }
+            set
+            {
+                if (_isHighlighted == value) return;
+                _isHighlighted = value;
+                OnPropertyChanged("IsHighlighted");
+            }
         }
 
         public string SkillName
@@ -41,35 +107,13 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        private SkillType _skillType;
+
         public SkillType SkillType
         {
             get
             {
-                // @todo: add more skill types
-                if (Skill.IsEnforced)
-                {
-                    return SkillType.Enforced;
-                }
-                else if (Skill.IsSingleUse)
-                {
-                    return SkillType.SingleUse;
-                }
-                else if (Skill.IsAwakening)
-                {
-                    return SkillType.Awakening;
-                }
-                else if (Skill is CardTransformSkill || Skill is ActiveSkill)
-                {
-                    return SkillType.Active;
-                }
-                else if (Skill is TriggerSkill)
-                {
-                    return SkillType.Trigger;
-                }
-                else
-                {
-                    return SkillType.Enforced;
-                }
+                return _skillType;
             }
         }
 
@@ -83,6 +127,15 @@ namespace Sanguosha.UI.Controls
                 _isSelected = value;
                 SelectedChanged();
                 OnPropertyChanged("IsSelected");
+                if (!_isAutoInvokeSkill)
+                {
+                    IsHighlighted = true;
+                }
+                else
+                {
+                    var ts = Skill as TriggerSkill;
+                    ts.IsAutoInvoked = value;
+                }
             }
         }
 

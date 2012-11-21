@@ -41,6 +41,7 @@ namespace Sanguosha.UI.Controls
         {
             IsSelectionMode = false;
             SkillCommands = new ObservableCollection<SkillCommand>();
+            ActiveSkillCommands = new ObservableCollection<SkillCommand>();
             HeroSkillNames = new ObservableCollection<string>();
             heroNameChars = new ObservableCollection<string>();
             MultiChoiceCommands = new ObservableCollection<ICommand>();
@@ -54,8 +55,8 @@ namespace Sanguosha.UI.Controls
             AbortAnswerCommand = DisabledCommand;
 
             _possibleRoles = new ObservableCollection<Role>();
-            _UpdateCardUsageStatusHandler = (o, e) => { _UpdateCardUsageStatus(); };
-            IsCardChoiceQuestionShown = false;
+            _updateCardUsageStatusHandler = (o, e) => { _UpdateCardUsageStatus(); };
+            IsCardChoiceQuestionShown = false;            
 
             CardChoiceModel = new CardChoiceViewModel();
             HandCards = new ObservableCollection<CardViewModel>();
@@ -140,9 +141,11 @@ namespace Sanguosha.UI.Controls
         private void _UpdateSkills()
         {
             SkillCommands.Clear();
+            ActiveSkillCommands.Clear();
             foreach (ISkill skill in _player.Skills)
             {
                 SkillCommand command;
+                
                 if (skill is IAdditionalTypedSkill)
                 {
                     command = new GuHuoSkillCommand() { Skill = skill, IsEnabled = false };
@@ -151,6 +154,17 @@ namespace Sanguosha.UI.Controls
                 {
                     command = new SkillCommand() { Skill = skill, IsEnabled = false };
                 }
+
+                if (command.IsAutoInvokeSkill)
+                {
+                    command.IsEnabled = true;
+                    command.OnSelectedChanged += triggerSkill_OnSelectedChanged;
+                }
+                else if (command.Skill is ActiveSkill || command.Skill is CardTransformSkill)
+                {
+                    ActiveSkillCommands.Add(command);
+                }
+
                 SkillCommands.Add(command);
             }            
         }
@@ -440,6 +454,12 @@ namespace Sanguosha.UI.Controls
             private set;
         }
 
+        public ObservableCollection<SkillCommand> ActiveSkillCommands
+        {
+            get;
+            private set;
+        }
+
         /// <summary>
         /// Returns the skill names of the primary hero.
         /// </summary>
@@ -702,7 +722,7 @@ namespace Sanguosha.UI.Controls
         }
 
         private string _prompt;
-        public string CurrentPrompt
+        public string CurrentPromptString
         {
             get
             {
@@ -712,7 +732,7 @@ namespace Sanguosha.UI.Controls
             {
                 if (_prompt == value) return;
                 _prompt = value;
-                OnPropertyChanged("CurrentPrompt");
+                OnPropertyChanged("CurrentPromptString");
             }
         }
 
@@ -722,7 +742,7 @@ namespace Sanguosha.UI.Controls
         ICardUsageVerifier currentUsageVerifier;
         SkillCommand _GetSelectedSkillCommand(out bool isEquipSkill)
         {
-            foreach (var skillCommand in SkillCommands)
+            foreach (var skillCommand in ActiveSkillCommands)
             {
                 if (skillCommand.IsSelected)
                 {
@@ -781,25 +801,28 @@ namespace Sanguosha.UI.Controls
         {
             foreach (var equipCommand in EquipCommands)
             {
-                equipCommand.OnSelectedChanged -= _UpdateCardUsageStatusHandler;
+                equipCommand.OnSelectedChanged -= _updateCardUsageStatusHandler;
                 equipCommand.IsSelectionMode = false;
             }
 
             foreach (var skillCommand in SkillCommands)
             {
-                skillCommand.IsSelected = false;
-                skillCommand.IsEnabled = false;
+                if (!skillCommand.IsAutoInvokeSkill)
+                {
+                    skillCommand.IsSelected = false;
+                    skillCommand.IsEnabled = false;
+                }
             }
 
             foreach (CardViewModel card in HandCards)
             {
-                card.OnSelectedChanged -= _UpdateCardUsageStatusHandler;
+                card.OnSelectedChanged -= _updateCardUsageStatusHandler;
                 card.IsSelectionMode = false;
             }
 
             foreach (var playerModel in _game.PlayerModels)
             {
-                playerModel.OnSelectedChanged -= _UpdateCardUsageStatusHandler;
+                playerModel.OnSelectedChanged -= _updateCardUsageStatusHandler;
                 playerModel.IsSelectionMode = false;
             }
             _lastSelectedPlayers.Clear();
@@ -812,7 +835,7 @@ namespace Sanguosha.UI.Controls
         {
             MultiChoiceCommands.Clear();
             _ResetSkillsAndCards();     
-            CurrentPrompt = string.Empty;
+            CurrentPromptString = string.Empty;
             TimeOutSeconds = 0;
         }
 
@@ -840,7 +863,7 @@ namespace Sanguosha.UI.Controls
                     skill = command.Skill;
                 }
 
-                var sc = new List<SkillCommand>(SkillCommands);
+                var sc = new List<SkillCommand>(ActiveSkillCommands);
                 
                 // Handle skill down            
                 foreach (var skillCommand in sc)
@@ -1024,6 +1047,8 @@ namespace Sanguosha.UI.Controls
             {
                 CardChoiceModel.TimeOutSeconds = 0;
                 IsCardChoiceQuestionShown = false;
+                CurrentPrompt = null;
+                CurrentPromptString = string.Empty;
             }            
         }
 
@@ -1035,11 +1060,13 @@ namespace Sanguosha.UI.Controls
                 CancelAnswerCommand = DisabledCommand;
                 AbortAnswerCommand = DisabledCommand;
                 MultiChoiceCommands.Clear();
-                CurrentPrompt = string.Empty;
+                CurrentPromptString = string.Empty;
+                CurrentPrompt = null;
+                _currentMultiChoices = null;
             }
         }
 
-        private EventHandler _UpdateCardUsageStatusHandler;
+        private EventHandler _updateCardUsageStatusHandler;
         #endregion
 
         #region IAsyncUiProxy
@@ -1073,33 +1100,35 @@ namespace Sanguosha.UI.Controls
                     currentUsageVerifier = verifier;                    
                     Trace.Assert(currentUsageVerifier != null);
                     Game.CurrentGame.CurrentActingPlayer = HostPlayer;
-                    CurrentPrompt = PromptFormatter.Format(prompt);
+                    CurrentPrompt = prompt;
+                    CurrentPromptString = PromptFormatter.Format(prompt);
                 }
+
                 foreach (var equipCommand in EquipCommands)
                 {
-                    equipCommand.OnSelectedChanged += _UpdateCardUsageStatusHandler;
+                    equipCommand.OnSelectedChanged += _updateCardUsageStatusHandler;
                     equipCommand.IsSelectionMode = true;
                 }
 
                 foreach (var card in HandCards)
                 {
                     card.IsSelectionMode = true;
-                    card.OnSelectedChanged += _UpdateCardUsageStatusHandler;
+                    card.OnSelectedChanged += _updateCardUsageStatusHandler;
                 }
 
                 foreach (var playerModel in _game.PlayerModels)
                 {
                     playerModel.IsSelectionMode = true;
-                    playerModel.OnSelectedChanged += _UpdateCardUsageStatusHandler;
+                    playerModel.OnSelectedChanged += _updateCardUsageStatusHandler;
                 }
 
-                foreach (var skillCommand in SkillCommands)
+                foreach (var skillCommand in ActiveSkillCommands)
                 {
                     if (skillCommand is GuHuoSkillCommand)
                     {
                         (skillCommand as GuHuoSkillCommand).GuHuoChoice = null;
                     }
-                    skillCommand.OnSelectedChanged += _UpdateCardUsageStatusHandler;
+                    skillCommand.OnSelectedChanged += _updateCardUsageStatusHandler;
                 }
 
                 // @todo: update this.
@@ -1234,6 +1263,14 @@ namespace Sanguosha.UI.Controls
             });
         }
 
+        public Prompt CurrentPrompt
+        {
+            get;
+            set;
+        }
+
+        private List<string> _currentMultiChoices;
+        
         public void AskForMultipleChoice(Prompt prompt, List<string> choices, int timeOutSeconds)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
@@ -1246,7 +1283,35 @@ namespace Sanguosha.UI.Controls
                     return;
                 }
 
-                CurrentPrompt = PromptFormatter.Format(prompt);
+                CurrentPrompt = prompt;
+                CurrentPromptString = PromptFormatter.Format(prompt);
+                _currentMultiChoices = choices;
+
+                if (prompt.ResourceKey == Prompt.MultipleChoicePromptPrefix + Prompt.SkillUseYewNoPrompt)
+                {
+                    Trace.Assert(prompt.Values.Count != 0);
+                    var targetSkill = prompt.Values[0] as TriggerSkill;
+                    Trace.Assert(targetSkill != null);
+                    foreach (var skill in SkillCommands)
+                    {
+                        if (skill.Skill == targetSkill)
+                        {
+                            skill.IsHighlighted = true;
+                            if (skill.IsSelected)
+                            {
+                                int answer = choices.IndexOf(Prompt.YesChoice);
+                                Trace.Assert(answer != -1);
+                                MultipleChoiceAnsweredEvent(answer);
+                                return;
+                            }
+                            else
+                            {                                
+                                break;
+                            }                            
+                        }
+                    }
+                }
+                                
                 for (int i = 0; i < choices.Count; i++)
                 {
                     MultiChoiceCommand command = new MultiChoiceCommand(ExecuteMultiChoiceCommand)
@@ -1275,6 +1340,24 @@ namespace Sanguosha.UI.Controls
                 }
             });
         }
+        
+        void triggerSkill_OnSelectedChanged(object sender, EventArgs e)
+        {
+            lock (verifierLock)
+            {
+                var command = (sender as SkillCommand);
+                if (command.IsAutoInvokeSkill &&
+                    command.IsSelected &&
+                    IsMultiChoiceQuestionShown &&
+                    CurrentPrompt.ResourceKey == Prompt.MultipleChoicePromptPrefix + Prompt.SkillUseYewNoPrompt &&
+                    CurrentPrompt.Values[0] == command.Skill)
+                {
+                    int answer = _currentMultiChoices.IndexOf(Prompt.YesChoice);
+                    Trace.Assert(answer != -1);
+                    MultipleChoiceAnsweredEvent(answer);
+                }
+            }
+        }
 
         public event CardUsageAnsweredEventHandler CardUsageAnsweredEvent;
 
@@ -1296,6 +1379,7 @@ namespace Sanguosha.UI.Controls
                         {
                             (skillCommand as GuHuoSkillCommand).GuHuoTypes.Clear();
                         }
+                        skillCommand.IsHighlighted = false;                        
                     }
 
                     if (currentUsageVerifier != null)

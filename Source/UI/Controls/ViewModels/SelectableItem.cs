@@ -7,6 +7,13 @@ namespace Sanguosha.UI.Controls
 {
     public class SelectableItem : ViewModelBase
     {
+
+        #region Constructors
+        public SelectableItem()
+        {            
+        }
+        #endregion
+
         #region UI Related Properties
 
         private bool isSelected;
@@ -32,7 +39,7 @@ namespace Sanguosha.UI.Controls
                 handle(this, new EventArgs());
             }
         }
-
+        
         private void _EnsureSelectionInvariant()
         {
             if (!IsSelectionMode)

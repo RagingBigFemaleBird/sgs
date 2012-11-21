@@ -1,25 +1,41 @@
-﻿<ResourceDictionary
+﻿<UserControl
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
-	mc:Ignorable="d"
+	xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
+	xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
+	xmlns:local="clr-namespace:Sanguosha.UI.Controls"
 	xmlns:Sanguosha_UI_Effects="clr-namespace:Sanguosha.UI.Effects;assembly=Effects"
-	xmlns:local="clr-namespace:Sanguosha.UI.Controls">
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="CardButton.xaml"/>
-		<ResourceDictionary Source="SkillToolTip.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>        
-    </ResourceDictionary.MergedDictionaries>
-    <Style x:Key="SkillButtonStyle" TargetType="{x:Type ToggleButton}">        
-        <Setter Property="Template">
+	mc:Ignorable="d"
+	x:Class="Sanguosha.UI.Controls.TestControl"
+	x:Name="UserControl"
+	d:DesignWidth="640" d:DesignHeight="480">
+
+	<UserControl.Resources>
+		<Style x:Key="ButtonStyle1" TargetType="{x:Type ToggleButton}">
+			 <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Grid>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal" />                                
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="gridNormalAppearance">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="gridHoverAppearance">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="gridDownAppearance">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="gridDisabledAppearance">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="gridHoverAppearance">
@@ -50,8 +66,7 @@
                             			</ObjectAnimationUsingKeyFrames>
                             		</Storyboard>
                             	</VisualState>
-                                <VisualState x:Name="Unchecked">
-                                </VisualState>
+                                <VisualState x:Name="Unchecked"/>
                                 <VisualState x:Name="Indeterminate" />
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
@@ -67,7 +82,17 @@
                             		<Image Grid.Column="1" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Up.Middle}"/>
                             		<Image Grid.Column="2" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Up.Right}"/>
                             	</Grid>
-                            	
+
+                            	<Grid x:Name="gridDownAppearance" Visibility="Hidden">
+                            		<Grid.ColumnDefinitions>
+                            			<ColumnDefinition Width="24"/>
+                            			<ColumnDefinition Width="1*"/>
+                            			<ColumnDefinition Width="21"/>
+                            		</Grid.ColumnDefinitions>
+                            		<Image HorizontalAlignment="Right" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Down.Left}"/>
+                            		<Image Grid.Column="1" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Down.Middle}"/>
+                            		<Image Grid.Column="2" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Down.Right}"/>
+                            	</Grid>
                             	<Grid x:Name="gridHoverAppearance" Visibility="Hidden">
                             		<Grid.ColumnDefinitions>
                             			<ColumnDefinition Width="24"/>
@@ -78,19 +103,8 @@
                             		<Image Grid.Column="1" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Hover.Middle}"/>
                             		<Image Grid.Column="2" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Hover.Right}"/>
                             	</Grid>
-								
-								<Grid x:Name="gridDownAppearance" Visibility="Hidden">
-                            		<Grid.ColumnDefinitions>
-                            			<ColumnDefinition Width="24"/>
-                            			<ColumnDefinition Width="1*"/>
-                            			<ColumnDefinition Width="21"/>
-                            		</Grid.ColumnDefinitions>
-                            		<Image HorizontalAlignment="Right" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Down.Left}"/>
-                            		<Image Grid.Column="1" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Down.Middle}"/>
-                            		<Image Grid.Column="2" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Down.Right}"/>
-                            	</Grid>
-                            	
-								<Grid x:Name="gridDisabledAppearance" Visibility="Hidden">
+
+                            	<Grid x:Name="gridDisabledAppearance" Visibility="Hidden">
                             		<Grid.ColumnDefinitions>
                             			<ColumnDefinition Width="24"/>
                             			<ColumnDefinition Width="1*"/>
@@ -185,88 +199,8 @@
                         <Border Margin="15,0,0,0">
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
-						<Viewbox x:Name="viewboxLock" Opacity="0" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
-							<Viewbox.RenderTransform>
-								<TransformGroup>
-									<ScaleTransform/>
-									<SkewTransform/>
-									<RotateTransform/>
-									<TranslateTransform/>
-								</TransformGroup>
-							</Viewbox.RenderTransform>
-							<StackPanel Orientation="Horizontal" Height="64">			
-								<Image Height="48" Source="Resources/SkillButton/lock/locked.png" Stretch="Fill" />
-								<local:OutlinedTextBlock Height="64" FontSize="55" Text="锁定发动" VerticalAlignment="Center" FontFamily="LiSu" Stroke="Transparent" Fill="#FFFD9700" />
-							</StackPanel>		
-						</Viewbox>
-						<Viewbox x:Name="viewboxUnlock" Opacity="0" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
-							<Viewbox.RenderTransform>
-								<TransformGroup>
-									<ScaleTransform/>
-									<SkewTransform/>
-									<RotateTransform/>
-									<TranslateTransform/>
-								</TransformGroup>
-							</Viewbox.RenderTransform>
-							<StackPanel Orientation="Horizontal" Height="64">			
-								<Image Height="48" Source="Resources/SkillButton/lock/unlocked.png" Stretch="Fill" />
-								<local:OutlinedTextBlock Height="64" FontSize="55" Text="解除锁定" VerticalAlignment="Center" FontFamily="LiSu" Stroke="Transparent" Fill="#FFFD9700" />
-							</StackPanel>		
-						</Viewbox>
                     </Grid>
                     <ControlTemplate.Triggers>
-                    	<MultiDataTrigger>
-                    		<MultiDataTrigger.Conditions>
-                    			<Condition Binding="{Binding IsAutoInvokeSkill}" Value="true" />
-								<Condition Binding="{Binding IsSelected}" Value="True" />								             		
-							</MultiDataTrigger.Conditions>
-							<MultiDataTrigger.EnterActions>								
-                                <BeginStoryboard>
-                                	<Storyboard>                                		
-										<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="viewboxLock">
-											<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-											<EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1"/>
-											<EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1"/>
-											<EasingDoubleKeyFrame KeyTime="0:0:1" Value="0" />												
-										</DoubleAnimationUsingKeyFrames>
-										<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="viewboxLock">
-											<EasingDoubleKeyFrame KeyTime="0" Value="4"/>
-											<EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1"/>
-										</DoubleAnimationUsingKeyFrames>
-										<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="viewboxLock">
-											<EasingDoubleKeyFrame KeyTime="0" Value="4"/>
-											<EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1"/>
-										</DoubleAnimationUsingKeyFrames>
-									</Storyboard>
-                               	</BeginStoryboard>
-							</MultiDataTrigger.EnterActions>          	
-						</MultiDataTrigger>						
-                    	<MultiDataTrigger>
-                    		<MultiDataTrigger.Conditions>
-                    			<Condition Binding="{Binding IsAutoInvokeSkill}" Value="true" />
-								<Condition Binding="{Binding IsSelected}" Value="False" />								             		
-							</MultiDataTrigger.Conditions>
-							<MultiDataTrigger.EnterActions>
-                                <BeginStoryboard>
-                                	<Storyboard>
-										<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="viewboxUnlock">
-											<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-											<EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
-											<EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1"/>
-											<EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
-										</DoubleAnimationUsingKeyFrames>									
-										<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="viewboxUnlock">
-											<EasingDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
-											<EasingDoubleKeyFrame KeyTime="0:0:1" Value="4"/>
-										</DoubleAnimationUsingKeyFrames>
-										<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="viewboxUnlock">
-											<EasingDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
-											<EasingDoubleKeyFrame KeyTime="0:0:1" Value="4"/>
-										</DoubleAnimationUsingKeyFrames>
-									</Storyboard>
-                               	</BeginStoryboard>
-							</MultiDataTrigger.EnterActions>          	
-						</MultiDataTrigger>
                         <DataTrigger Binding="{Binding IsHighlighted}" Value="True">
                         	<DataTrigger.ExitActions>
                                 <StopStoryboard BeginStoryboardName="SpinBorder_BeginStoryboard"/>
@@ -314,20 +248,102 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-    <DataTemplate x:Key="SkillButtonTemplate" DataType="{x:Type local:SkillCommand}">
-        <ToggleButton Style="{StaticResource SkillButtonStyle}" IsEnabled="{Binding IsEnabled}" IsChecked="{Binding IsSelected}" ToolTipService.ShowOnDisabled="True">
-            <ToggleButton.ToolTip>
-                <ToolTip ContentTemplate="{StaticResource SkillToolTipTemplate}" Content="{Binding Mode=OneWay}" />
-            </ToggleButton.ToolTip>
-            <Grid>
-                <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="Black" Stroke="Black" StrokeThickness="3" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify">
-                    <local:OutlinedTextBlock.Effect>
-                        <BlurEffect />
-                    </local:OutlinedTextBlock.Effect>
-                </local:OutlinedTextBlock>
-                <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="White" Stroke="White" StrokeThickness="1" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify"/>
-            </Grid>
-        </ToggleButton>
-    </DataTemplate>
-</ResourceDictionary>
+		</Style>
+		<Storyboard x:Key="autoInvokeEnabledAnimation">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:ZoomBlurEffect.BlurAmount)" Storyboard.TargetName="viewbox">
+				<EasingDoubleKeyFrame KeyTime="0" Value="3"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="viewbox">
+				<EasingDoubleKeyFrame KeyTime="0" Value="1">
+					<EasingDoubleKeyFrame.EasingFunction>
+						<CubicEase EasingMode="EaseIn"/>
+					</EasingDoubleKeyFrame.EasingFunction>
+				</EasingDoubleKeyFrame>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1">
+					<EasingDoubleKeyFrame.EasingFunction>
+						<CubicEase EasingMode="EaseIn"/>
+					</EasingDoubleKeyFrame.EasingFunction>
+				</EasingDoubleKeyFrame>
+				<EasingDoubleKeyFrame KeyTime="0:0:2" Value="0">
+					<EasingDoubleKeyFrame.EasingFunction>
+						<CubicEase EasingMode="EaseIn"/>
+					</EasingDoubleKeyFrame.EasingFunction>
+				</EasingDoubleKeyFrame>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="viewbox">
+				<EasingDoubleKeyFrame KeyTime="0" Value="4"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="viewbox">
+				<EasingDoubleKeyFrame KeyTime="0" Value="4"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+		<Storyboard x:Key="unlockAnimation">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="viewboxUnlock">
+				<EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.7" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:ZoomBlurEffect.BlurAmount)" Storyboard.TargetName="viewboxUnlock">
+				<EasingDoubleKeyFrame KeyTime="0" Value="3"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="viewboxUnlock">
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.7" Value="4"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="viewboxUnlock">
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.7" Value="4"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+	</UserControl.Resources>
+	<UserControl.Triggers>
+		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
+			<BeginStoryboard Storyboard="{StaticResource autoInvokeEnabledAnimation}"/>
+			<BeginStoryboard Storyboard="{StaticResource unlockAnimation}"/>
+		</EventTrigger>
+	</UserControl.Triggers>
+
+	<Grid x:Name="LayoutRoot">
+		<ToggleButton Style="{DynamicResource ButtonStyle1}" />
+		<Viewbox x:Name="viewbox" Opacity="0" RenderTransformOrigin="0.5,0.5">
+			<Viewbox.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</Viewbox.RenderTransform>
+			<Viewbox.Effect>
+				<Sanguosha_UI_Effects:ZoomBlurEffect/>
+			</Viewbox.Effect>
+			<StackPanel Orientation="Horizontal" Height="64">			
+				<Image x:Name="image" Height="48" Source="Resources/SkillButton/lock/locked.png" Stretch="Fill" />
+				<local:OutlinedTextBlock Height="64" FontSize="55" x:Name="outlinedTextBlock" Text="锁定发动" VerticalAlignment="Center" FontFamily="LiSu" Stroke="Transparent" Fill="#FFFD9700" />
+			</StackPanel>		
+		</Viewbox>
+		<Viewbox Opacity="0" x:Name="viewboxUnlock" RenderTransformOrigin="0.5,0.5">
+			<Viewbox.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</Viewbox.RenderTransform>
+			<Viewbox.Effect>
+				<Sanguosha_UI_Effects:ZoomBlurEffect/>
+			</Viewbox.Effect>
+			<StackPanel Orientation="Horizontal" Height="64">			
+				<Image x:Name="image2" Height="48" Source="Resources/SkillButton/lock/unlocked.png" Stretch="Fill" />
+				<local:OutlinedTextBlock Height="64" FontSize="55" x:Name="outlinedTextBlock2" Text="解除锁定" VerticalAlignment="Center" FontFamily="LiSu" Fill="#FFFD9700" />			
+			</StackPanel>		
+		</Viewbox>
+	</Grid>
+</UserControl>

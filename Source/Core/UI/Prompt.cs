@@ -37,46 +37,15 @@ namespace Sanguosha.Core.UI
     {
         public Prompt()
         {
-            _values = new List<string>();
+            _values = new List<object>();
         }
 
-        List<string> _values;
+        List<object> _values;
 
-        public Prompt(string resourceKey, params object[] args)
+        public Prompt(string resourceKey, params object[] args) : this()
         {
             ResourceKey = resourceKey;
-            _values = new List<string>();
-            foreach (object arg in args)
-            {
-                if (arg is Player)
-                {
-                    Player player = arg as Player;
-                    if (player == null || player.Hero == null)
-                    {
-                        _values.Add(string.Empty);
-                    }
-                    else
-                    {
-                        _values.Add(string.Format("Hero.{0}.Name", (arg as Player).Hero.Name));
-                    }
-                }
-                else if (arg is ICard)
-                {
-                    _values.Add(string.Format("Card.{0}.Name", (arg as ICard).Type.CardType));
-                }
-                else if (arg is SuitType)
-                {
-                    _values.Add(string.Format("Suit.{0}.Text", ((SuitType)arg).ToString()));
-                }
-                else if (arg is ISkill)
-                {
-                    _values.Add(string.Format("Skill.{0}.Name", arg.GetType().Name));
-                }
-                else
-                {
-                    _values.Add(string.Format(DirectOutputPrefix + arg.ToString()));
-                }
-            }
+            _values.AddRange(args);
         }
 
         public string ResourceKey
@@ -85,7 +54,7 @@ namespace Sanguosha.Core.UI
             set;
         }
 
-        public IList<string> Values
+        public IList<object> Values
         {
             get
             {
