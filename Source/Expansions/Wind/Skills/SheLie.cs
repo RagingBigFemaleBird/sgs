@@ -73,13 +73,14 @@ namespace Sanguosha.Expansions.Wind.Skills
             move.to = new DeckPlace(null, shelieDeck);
             Game.CurrentGame.MoveCards(move, null);
             List<List<Card>> answer;
+            int windowId = 0;
             if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("SheLie"),
                     new List<DeckPlace>() { new DeckPlace(null, shelieDeck) },
                     new List<string>() { "SheLie" },
                     new List<int>() { 4 },
                     new SheLieVerifier(Game.CurrentGame.Decks[null, shelieDeck]),
                     out answer,
-                    new List<bool>() { false }))
+                    new List<bool>() { false }, ref windowId))
             {
                 Trace.TraceInformation("Invalid answer for SheLie, choosing for you");
                 answer = new List<List<Card>>();

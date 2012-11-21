@@ -94,10 +94,6 @@ namespace Sanguosha.Core.Network
             {
                 QueueCheatSkill((CheatSkill)o);
             }
-            else if (o is InterruptedObject)
-            {
-                QueueInterruptedObject((InterruptedObject)o);
-            }
             else
             {
                 Trace.Assert(false);
@@ -106,10 +102,5 @@ namespace Sanguosha.Core.Network
             return true;
         }
 
-        private void QueueInterruptedObject(InterruptedObject o)
-        {
-            formatter.Serialize(stream, o);
-            stream.Flush();
-        }
     }
 }

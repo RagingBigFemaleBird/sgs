@@ -75,6 +75,14 @@ namespace Sanguosha.Core.Games
 
         List<DelayedTriggerRegistration> triggersToRegister;
 
+        private Dictionary<Player, List<Player>> handCardVisibility;
+
+        public Dictionary<Player, List<Player>> HandCardVisibility
+        {
+            get { return handCardVisibility; }
+            set { handCardVisibility = value; }
+        }
+
         public Game()
         {
             cardSet = new List<Card>();
@@ -87,6 +95,7 @@ namespace Sanguosha.Core.Games
             currentActingPlayer = null;
             triggersToRegister = new List<DelayedTriggerRegistration>();
             isDying = new Stack<Player>();
+            handCardVisibility = new Dictionary<Player, List<Player>>();
         }
 
         public void LoadExpansion(Expansion expansion)

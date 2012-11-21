@@ -1210,6 +1210,7 @@ namespace Sanguosha.UI.Controls
                                      ICardChoiceVerifier verifier,
                                      int timeOutSeconds,
                                      List<bool> rearrangeable,
+                                     ref int windowId,
                                      CardChoiceRearrangeCallback callback)
         {
             Trace.Assert(resultDeckMaximums.Count == resultDeckNames.Count);

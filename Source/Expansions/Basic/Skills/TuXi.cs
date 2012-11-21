@@ -68,8 +68,9 @@ namespace Sanguosha.Expansions.Basic.Skills
                 foreach (Player p in players)
                 {
                     List<List<Card>> answer;
+                    int windowId = 0;
                     if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("TuXi"), new List<DeckPlace>() { new DeckPlace(p, DeckType.Hand) },
-                        new List<string>() { "TuXi" }, new List<int>() { 1 }, new RequireOneCardChoiceVerifier(), out answer, new List<bool>() { false }))
+                        new List<string>() { "TuXi" }, new List<int>() { 1 }, new RequireOneCardChoiceVerifier(), out answer, new List<bool>() { false }, ref windowId))
                     {
                         answer = new List<List<Card>>();
                         answer.Add(new List<Card>());

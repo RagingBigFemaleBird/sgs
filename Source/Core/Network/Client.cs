@@ -67,11 +67,16 @@ namespace Sanguosha.Core.Network
             commId = 0;
         }
 
-        private void _DeserializeCardItem(Card gameCard, int cardId)
+        public void MoveHandCard(int from, int to)
         {
-            var place = gameCard.Place;
-            gameCard.CopyFrom(GameEngine.CardSet[cardId]);
-            gameCard.Place = place;
+            HandCardMovement move = new HandCardMovement();
+            move.playerId = SelfId;
+            move.from = from;
+            move.to = to;
+            CommandItem item = new CommandItem();
+            item.command = Command.Interrupt;
+            item.obj = move;
+            sender.Send(item);
         }
 
         public object Receive()
@@ -83,29 +88,9 @@ namespace Sanguosha.Core.Network
                 CommandItem item = (CommandItem)o;
                 if (item.command == Command.Interrupt)
                 {
-                    object o2 = receiver.Receive();
-                    Trace.Assert(o2 is InterruptedObject);
-                    InterruptedObject obj = (InterruptedObject)o2;
-                    Trace.Assert(obj.obj is CardItem);
-                    CardItem i = (CardItem)obj.obj;
-                    if (i.Id >= 0)
-                    {
-                        Trace.TraceInformation("Identify {0}{1}{2} is {3}{4}{5}", i.playerId, i.deck, i.place, i.suit, i.rank, i.type);
-                        Card gameCard;
-                        if (i.playerId < 0)
-                        {
-                            gameCard = Game.CurrentGame.Decks[null, i.deck][i.place];
-                        }
-                        else
-                        {
-                            gameCard = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place];
-                        }
-                        _DeserializeCardItem(gameCard, i.Id);
-                        gameCard.Rank = i.rank;
-                        gameCard.Suit = (SuitType)i.suit;
-                        if (i.type != null) gameCard.Type = Translator.TranslateCardType(i.type, i.typeHorseName);
-                    }
-                    return Receive();
+                    object o2 = item.obj;
+                    Trace.Assert(o2 is CardItem);
+                    return Translator.DecodeForClient((CardItem)o2, SelfId);
                 }
             }
             else if (o is PlayerItem)
@@ -120,33 +105,7 @@ namespace Sanguosha.Core.Network
             else if (o is CardItem)
             {
                 CardItem i = (CardItem)o;
-                if (i.Id >= 0)
-                {
-                    Trace.TraceInformation("Identify {0}{1}{2} is {3}{4}{5}", i.playerId, i.deck, i.place, i.suit, i.rank, i.type);
-                    Card gameCard;
-                    if (i.playerId < 0)
-                    {                        
-                        gameCard = Game.CurrentGame.Decks[null, i.deck][i.place];
-                    }
-                    else
-                    {
-                        gameCard = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place];
-                    }
-                    _DeserializeCardItem(gameCard, i.Id);
-                    gameCard.Rank = i.rank;
-                    gameCard.Suit = (SuitType)i.suit;
-                    if (i.type != null) gameCard.Type = Translator.TranslateCardType(i.type, i.typeHorseName);                    
-                }
-                if (i.playerId < 0)
-                {
-                    o = Game.CurrentGame.Decks[null, i.deck][i.place];
-                }
-                else
-                {
-                    o = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place];
-                }
-                Trace.Assert(o != null);
-                return o as Card;
+                return Translator.DecodeForClient(i, SelfId);
             }
             else if (o is SkillItem)
             {
@@ -167,13 +126,7 @@ namespace Sanguosha.Core.Network
 
         public void AnswerItem(Card card)
         {            
-            CardItem item = new CardItem();
-            item.playerId = Game.CurrentGame.Players.IndexOf(card.Place.Player);
-            item.deck = card.Place.DeckType;
-            item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
-            Translator.TranslateCardType(ref item.type, ref item.typeHorseName, card.Type);
-            Trace.Assert(item.place >= 0);           
-            sender.Send(item);
+            sender.Send(Translator.TranslateForClient(card));
         }
 
         public void AnswerItem(ISkill skill)

@@ -108,6 +108,50 @@ namespace Sanguosha.Core.Network
             else horse = null;
         }
 
+        bool PlayerIdSanityCheck(int id)
+        {
+            if (id < 0 || id >= Game.CurrentGame.Players.Count)
+            {
+                return false;
+            }
+            if (Game.CurrentGame.Players[id].IsDead)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        bool HandleInterrupt(object o)
+        {
+            if (o is CommandItem)
+            {
+                CommandItem i = (CommandItem)o;
+                if (i.command == Command.Interrupt)
+                {
+                    if (i.obj is HandCardMovement)
+                    {
+                        HandCardMovement move = (HandCardMovement)i.obj;
+                        if (PlayerIdSanityCheck(move.playerId))
+                        {
+                            var deck = Game.CurrentGame.Decks[Game.CurrentGame.Players[move.playerId], DeckType.Hand];
+                            try
+                            {
+                                var card1 = deck[move.from];
+                                var card2 = deck[move.to];
+                                deck[move.from] = card2;
+                                deck[move.to] = card1;
+                            }
+                            catch (Exception)
+                            {
+                            }
+                        }
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public bool ExpectNext(int clientId, int timeOutSeconds)
         {
             Trace.TraceInformation("Expecting commId for {0} is {1}", clientId, handlers[clientId].commId);
@@ -119,9 +163,13 @@ namespace Sanguosha.Core.Network
                 {
                     return false;
                 }
-                handlers[clientId].semAccess.WaitOne();
-                object o = handlers[clientId].queueIn.Dequeue();
-                handlers[clientId].semAccess.Release(1);
+                object o;
+                do
+                {
+                    handlers[clientId].semAccess.WaitOne();
+                    o = handlers[clientId].queueIn.Dequeue();
+                    handlers[clientId].semAccess.Release(1);
+                } while (HandleInterrupt(o));
                 if (o == null)
                 {
                     return false;
@@ -150,10 +198,14 @@ namespace Sanguosha.Core.Network
         //todo: timeout for others, when 0, wait on a minimal timeout (1s)?
         public Card GetCard(int clientId, int timeOutSeconds)
         {
-            handlers[clientId].semIn.WaitOne();
-            handlers[clientId].semAccess.WaitOne();
-            object o = handlers[clientId].queueIn.Dequeue();
-            handlers[clientId].semAccess.Release(1);
+            object o;
+            do
+            {
+                handlers[clientId].semIn.WaitOne();
+                handlers[clientId].semAccess.WaitOne();
+                o = handlers[clientId].queueIn.Dequeue();
+                handlers[clientId].semAccess.Release(1);
+            } while (HandleInterrupt(o));
             if (o == null)
             {
                 Trace.TraceWarning("Expected Card but null");
@@ -161,17 +213,7 @@ namespace Sanguosha.Core.Network
             }
             if (o is CardItem)
             {
-                CardItem i = (CardItem)o;
-                if (i.playerId < 0)
-                {
-                    o = Game.CurrentGame.Decks[null, i.deck][i.place];
-                }
-                else
-                {
-                    o = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place];
-                }
-
-                return o as Card;
+                return Translator.DecodeForServer((CardItem)o, clientId);
             }
             Trace.TraceWarning("Expected Card but type is {0}", o.GetType());
             return null;
@@ -179,10 +221,14 @@ namespace Sanguosha.Core.Network
 
         public Player GetPlayer(int clientId, int timeOutSeconds)
         {
-            handlers[clientId].semIn.WaitOne();
-            handlers[clientId].semAccess.WaitOne();
-            object o = handlers[clientId].queueIn.Dequeue();
-            handlers[clientId].semAccess.Release(1);
+            object o;
+            do
+            {
+                handlers[clientId].semIn.WaitOne();
+                handlers[clientId].semAccess.WaitOne();
+                o = handlers[clientId].queueIn.Dequeue();
+                handlers[clientId].semAccess.Release(1);
+            } while (HandleInterrupt(o));
             if (o == null)
             {
                 Trace.TraceWarning("Expected Player but null");
@@ -199,10 +245,14 @@ namespace Sanguosha.Core.Network
 
         public int? GetInt(int clientId, int timeOutSeconds)
         {
-            handlers[clientId].semIn.WaitOne();
-            handlers[clientId].semAccess.WaitOne();
-            object o = handlers[clientId].queueIn.Dequeue();
-            handlers[clientId].semAccess.Release(1);
+            object o;
+            do
+            {
+                handlers[clientId].semIn.WaitOne();
+                handlers[clientId].semAccess.WaitOne();
+                o = handlers[clientId].queueIn.Dequeue();
+                handlers[clientId].semAccess.Release(1);
+            } while (HandleInterrupt(o));
             if (o == null)
             {
                 Trace.TraceWarning("Expected int but null");
@@ -218,10 +268,14 @@ namespace Sanguosha.Core.Network
 
         public ISkill GetSkill(int clientId, int timeOutSeconds)
         {
-            handlers[clientId].semIn.WaitOne();
-            handlers[clientId].semAccess.WaitOne();
-            object o = handlers[clientId].queueIn.Dequeue();
-            handlers[clientId].semAccess.Release(1);
+            object o;
+            do
+            {
+                handlers[clientId].semIn.WaitOne();
+                handlers[clientId].semAccess.WaitOne();
+                o = handlers[clientId].queueIn.Dequeue();
+                handlers[clientId].semAccess.Release(1);
+            } while (HandleInterrupt(o));
             if (o == null)
             {
                 Trace.TraceWarning("Expected skill but null");
@@ -243,24 +297,7 @@ namespace Sanguosha.Core.Network
         {
             if (o is Card)
             {
-                Card card = o as Card;
-                CardItem item = new CardItem();
-                item.playerId = Game.CurrentGame.Players.IndexOf(card.Place.Player);
-                item.deck = card.Place.DeckType;
-                item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);                
-                Trace.Assert(item.place >= 0);
-                if (card.RevealOnce)
-                {
-                    item.Id = card.Id;
-                    item.suit = (int)card.Suit;
-                    item.rank = (int)card.Rank;
-                    _SerializeType(ref item.type, ref item.typeHorseName, card.Type);
-                    card.RevealOnce = false;
-                }
-                else
-                {
-                    item.Id = -1;
-                }
+                var item = Translator.TranslateForServer(o as Card, clientId);
                 o = item;
             }
             if (o is CheatSkill)
@@ -277,6 +314,7 @@ namespace Sanguosha.Core.Network
             handlers[clientId].semOut.Release(1);
         }
 
+        // todo: this function not working
         public void SendInterruptedObject(int clientId, Object o)
         {
             if (o is Card)
@@ -293,16 +331,10 @@ namespace Sanguosha.Core.Network
                 CommandItem citem = new CommandItem();
                 citem.command = Command.Interrupt;
                 citem.data = 1;
+                citem.obj = item;
                 Trace.TraceInformation("Interrupted, sending a {0} to {1}", citem, clientId);
                 handlers[clientId].semAccess.WaitOne();
                 handlers[clientId].queueOut.Enqueue(citem);
-                handlers[clientId].semAccess.Release(1);
-                handlers[clientId].semOut.Release(1);
-                InterruptedObject iobj = new InterruptedObject();
-                iobj.obj = item;
-                Trace.TraceInformation("Interrupted, sending a {0} to {1}", iobj, clientId);
-                handlers[clientId].semAccess.WaitOne();
-                handlers[clientId].queueOut.Enqueue(iobj);
                 handlers[clientId].semAccess.Release(1);
                 handlers[clientId].semOut.Release(1);
             }
