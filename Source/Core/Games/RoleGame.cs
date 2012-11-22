@@ -12,6 +12,7 @@ using Sanguosha.Core.Skills;
 using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.Heroes;
 using System.Threading;
+using Sanguosha.Core.Games;
 
 namespace Sanguosha.Core.Games
 {
@@ -37,6 +38,7 @@ namespace Sanguosha.Core.Games
                     }
                     if (skill is CheatSkill)
                     {
+                        if (!Game.CurrentGame.Options.CheatingEnabled) return VerifierResult.Fail;
                         return VerifierResult.Success;
                     }
                     else if (skill is ActiveSkill)
@@ -100,6 +102,7 @@ namespace Sanguosha.Core.Games
                     {
                         if (skill is CheatSkill)
                         {
+                            if (!Game.CurrentGame.Options.CheatingEnabled) break;
                             CheatSkill cs = skill as CheatSkill;
                             if (cs.CheatType == CheatType.Card)
                             {
@@ -777,8 +780,18 @@ namespace Sanguosha.Core.Games
             }
         }
 
+        private class ShuffleTrigger : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                RoleGame.Shuffle(Game.CurrentGame.Decks[null, DeckType.Discard]);
+                Game.CurrentGame.Decks[null, DeckType.Dealing].AddRange(Game.CurrentGame.Decks[null, DeckType.Discard]);
+            }
+        }
+
         protected override void InitTriggers()
         {
+            RegisterTrigger(GameEvent.Shuffle, new ShuffleTrigger());
             RegisterTrigger(GameEvent.GameStart, new RoleGameRuleTrigger());
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Judge], new PlayerJudgeStageTrigger());
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Play], new PlayerActionTrigger());

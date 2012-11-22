@@ -21,7 +21,7 @@ namespace Sanguosha.Core.Network
         static IFormatter formatter = new BinaryFormatter();
         public ItemSender(Stream s)
         {
-            stream = s;
+            stream = new BufferedStream(s);
         }
 
         public void Flush()

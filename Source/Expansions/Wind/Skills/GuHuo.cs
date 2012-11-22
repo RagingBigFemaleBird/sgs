@@ -30,6 +30,10 @@ namespace Sanguosha.Expansions.Wind.Skills
             {
                 return VerifierResult.Fail;
             }
+            if (cards[0].Place.DeckType != DeckType.Hand)
+            {
+                return VerifierResult.Fail;
+            }
 
             card = new CompositeCard();
             card.Subcards = new List<Card>();

@@ -46,6 +46,10 @@ namespace Sanguosha.Core.Network
 
     public class Server
     {
+        class FlushObject
+        {
+        }
+
         private int maxClients;
 
         public int MaxClients
@@ -317,7 +321,7 @@ namespace Sanguosha.Core.Network
 
         public void Flush(int clientId)
         {
-            handlers[clientId].stream.Flush();
+            SendObject(clientId, new FlushObject());
         }
 
         // todo: this function not working
@@ -372,7 +376,7 @@ namespace Sanguosha.Core.Network
                 handlers[i].game = game;
                 handlers[i].client = listener.AcceptTcpClient();
                 Trace.TraceInformation("Client connected");
-                handlers[i].stream = new BufferedStream(handlers[i].client.GetStream());
+                handlers[i].stream = handlers[i].client.GetStream();
                 handlers[i].threadServer = new Thread((ParameterizedThreadStart)((o) => { ServerThread(handlers[(int)o].stream, handlers[(int)o].semIn, handlers[(int)o].semAccess, handlers[(int)o].queueIn); }));
                 handlers[i].threadServer.Start(i);
                 handlers[i].threadClient = new Thread((ParameterizedThreadStart)((o) => { ClientThread(handlers[(int)o].stream, handlers[(int)o].semOut, handlers[(int)o].semAccess, handlers[(int)o].queueOut); }));
@@ -414,7 +418,11 @@ namespace Sanguosha.Core.Network
                 semAccess.WaitOne();
                 o = queueOut.Dequeue();
                 semAccess.Release(1);
-                if (!r.Send(o))
+                if (o is FlushObject)
+                {
+                    r.Flush();
+                }
+                else if (!r.Send(o))
                 {
                     Trace.TraceError("Network failure @ send");
                 }

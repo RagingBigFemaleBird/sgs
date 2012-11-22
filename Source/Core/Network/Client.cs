@@ -60,8 +60,7 @@ namespace Sanguosha.Core.Network
                 IPEndPoint ep = new IPEndPoint(IPAddress.Parse(IpString), PortNumber);
                 TcpClient client = new TcpClient();
                 client.Connect(ep);
-                NetworkStream nstream = client.GetStream();
-                BufferedStream stream = new BufferedStream(nstream);
+                NetworkStream stream = client.GetStream();
                 receiver = new ItemReceiver(stream, replayFile);
                 sender = new ItemSender(stream);
             }

@@ -60,6 +60,8 @@ namespace Sanguosha.Core.Games
         
         class GameAlreadyStartedException : SgsException { }
 
+        public GameOptions Options { get; protected set; }
+
         static Game()
         {
             games = new Dictionary<Thread,Game>();
@@ -96,6 +98,7 @@ namespace Sanguosha.Core.Games
             triggersToRegister = new List<DelayedTriggerRegistration>();
             isDying = new Stack<Player>();
             handCardVisibility = new Dictionary<Player, List<Player>>();
+            Options = new GameOptions() { CheatingEnabled = true };
         }
 
         public void LoadExpansion(Expansion expansion)
@@ -1223,8 +1226,6 @@ namespace Sanguosha.Core.Games
             Trace.Assert(cards != null);
             CardsMovement m;
             ICard result;
-            m.cards = new List<Card>(cards);
-            m.to = new DeckPlace(null, DeckType.Discard);
             bool status = CommitCardTransform(p, skill, cards, out result, targets);
             if (!status)
             {
@@ -1237,6 +1238,8 @@ namespace Sanguosha.Core.Games
                 cards.Clear();
                 cards.AddRange(r.Subcards);
             }
+            m.cards = new List<Card>(cards);
+            m.to = new DeckPlace(null, DeckType.Discard);
             result.Type.TagAndNotify(p, targets, result, GameAction.Play);
             List<Card> backup = new List<Card>(m.cards);
             PlayerAboutToDiscardCard(p, m.cards, DiscardReason.Play);
