@@ -140,33 +140,46 @@ namespace Sanguosha.UI.Controls
 
         private void _UpdateSkills()
         {
-            SkillCommands.Clear();
+            // SkillCommands.Clear();
             ActiveSkillCommands.Clear();
+            var backup = new List<SkillCommand>(SkillCommands);
+            
             foreach (ISkill skill in _player.Skills)
             {
-                SkillCommand command;
-                
-                if (skill is IAdditionalTypedSkill)
+                if (!backup.Any(s => s.Skill == skill))
                 {
-                    command = new GuHuoSkillCommand() { Skill = skill, IsEnabled = false };
-                }
-                else
-                {
-                    command = new SkillCommand() { Skill = skill, IsEnabled = false };
-                }
+                    SkillCommand command;
 
-                if (command.IsAutoInvokeSkill)
-                {
-                    command.IsEnabled = true;
-                    command.OnSelectedChanged += triggerSkill_OnSelectedChanged;
-                }
-                else if (command.Skill is ActiveSkill || command.Skill is CardTransformSkill)
-                {
-                    ActiveSkillCommands.Add(command);
-                }
+                    if (skill is IAdditionalTypedSkill)
+                    {
+                        command = new GuHuoSkillCommand() { Skill = skill, IsEnabled = false };
+                    }
+                    else
+                    {
+                        command = new SkillCommand() { Skill = skill, IsEnabled = false };
+                    }
 
-                SkillCommands.Add(command);
-            }            
+                    if (command.IsAutoInvokeSkill)
+                    {
+                        command.IsEnabled = true;
+                        command.OnSelectedChanged += triggerSkill_OnSelectedChanged;
+                    }
+                    else if (command.Skill is ActiveSkill || command.Skill is CardTransformSkill)
+                    {
+                        ActiveSkillCommands.Add(command);
+                    }
+
+                    SkillCommands.Add(command);
+                }
+            }
+
+            foreach (var skillCommand in backup)
+            {
+                if (!_player.Skills.Any(s => skillCommand.Skill == s))
+                {
+                    SkillCommands.Remove(skillCommand);
+                }
+            }
         }
 
         private void _UpdateHeroInfo()

@@ -277,7 +277,6 @@ namespace Sanguosha.Core.Players
         {
             skill.Owner = this;
             equipmentSkills.Add(skill);
-            OnPropertyChanged("Skills");
         }
 
         public void LoseEquipmentSkill(ISkill skill)
@@ -285,7 +284,6 @@ namespace Sanguosha.Core.Players
             skill.Owner = null;
             Trace.Assert(equipmentSkills.Contains(skill));
             equipmentSkills.Remove(skill);
-            OnPropertyChanged("Skills");
         }
 
         /// <summary>
