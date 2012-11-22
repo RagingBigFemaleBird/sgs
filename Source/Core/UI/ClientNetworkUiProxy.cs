@@ -90,6 +90,7 @@ namespace Sanguosha.Core.UI
                     }
                 }
             }
+            client.Flush();
         }
         public bool TryAnswerForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
@@ -233,6 +234,7 @@ namespace Sanguosha.Core.UI
                 client.AnswerNext();
                 client.AnswerItem(answer);
             }
+            client.Flush();
         }
 
         public void TryAskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, List<bool> rearrangeable, ref int windowId, CardChoiceRearrangeCallback callback)
@@ -264,6 +266,7 @@ namespace Sanguosha.Core.UI
                     }
                 }
             }
+            client.Flush();
         }
 
         public bool TryAnswerForCardChoice(Prompt prompt, ICardChoiceVerifier verifier, out List<List<Card>> answer, CardChoiceRearrangeCallback callback)

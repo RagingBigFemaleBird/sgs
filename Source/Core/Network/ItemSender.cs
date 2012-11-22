@@ -24,10 +24,14 @@ namespace Sanguosha.Core.Network
             stream = s;
         }
 
+        public void Flush()
+        {
+            stream.Flush();
+        }
+
         private void QueueCard(CardItem card)
         {
             formatter.Serialize(stream, card);
-            stream.Flush();
         }
 
         private void QueuePlayer(Player player)
@@ -37,31 +41,26 @@ namespace Sanguosha.Core.Network
             PlayerItem item = new PlayerItem();
             item.id = playerId;
             formatter.Serialize(stream, item);
-            stream.Flush();
         }
 
         private void QueueCheatSkill(CheatSkill skill)
         {
             formatter.Serialize(stream, skill);
-            stream.Flush();
         }
 
         private void QueueSkill(SkillItem skill)
         {
             formatter.Serialize(stream, skill);
-            stream.Flush();
         }
 
         private void QueueInt(int i)
         {
             formatter.Serialize(stream, i);
-            stream.Flush();
         }
 
         private void QueueCommand(CommandItem c)
         {
             formatter.Serialize(stream, c);
-            stream.Flush();
         }
 
         public bool Send(object o)

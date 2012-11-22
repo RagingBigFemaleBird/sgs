@@ -11,6 +11,7 @@ using Sanguosha.Core.Players;
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
 using System.Diagnostics;
+using System.IO;
 
 namespace Sanguosha.Core.Network
 {
@@ -21,7 +22,7 @@ namespace Sanguosha.Core.Network
         public Semaphore semAccess;
         public Queue<object> queueIn;
         public Queue<object> queueOut;
-        public NetworkStream stream;
+        public Stream stream;
         public TcpClient client;
         public Thread threadServer;
         public Thread threadClient;
@@ -314,6 +315,11 @@ namespace Sanguosha.Core.Network
             handlers[clientId].semOut.Release(1);
         }
 
+        public void Flush(int clientId)
+        {
+            handlers[clientId].stream.Flush();
+        }
+
         // todo: this function not working
         public void SendInterruptedObject(int clientId, Object o)
         {
@@ -366,7 +372,7 @@ namespace Sanguosha.Core.Network
                 handlers[i].game = game;
                 handlers[i].client = listener.AcceptTcpClient();
                 Trace.TraceInformation("Client connected");
-                handlers[i].stream = handlers[i].client.GetStream();
+                handlers[i].stream = new BufferedStream(handlers[i].client.GetStream());
                 handlers[i].threadServer = new Thread((ParameterizedThreadStart)((o) => { ServerThread(handlers[(int)o].stream, handlers[(int)o].semIn, handlers[(int)o].semAccess, handlers[(int)o].queueIn); }));
                 handlers[i].threadServer.Start(i);
                 handlers[i].threadClient = new Thread((ParameterizedThreadStart)((o) => { ClientThread(handlers[(int)o].stream, handlers[(int)o].semOut, handlers[(int)o].semAccess, handlers[(int)o].queueOut); }));
@@ -377,7 +383,7 @@ namespace Sanguosha.Core.Network
             Trace.TraceInformation("Server ready");
         }
 
-        private void ServerThread(NetworkStream stream, Semaphore semWake, Semaphore semAccess, Queue<object> queueIn)
+        private void ServerThread(Stream stream, Semaphore semWake, Semaphore semAccess, Queue<object> queueIn)
         {
             ItemReceiver r = new ItemReceiver(stream);
             game.RegisterCurrentThread();
@@ -397,7 +403,7 @@ namespace Sanguosha.Core.Network
                 semWake.Release(1);
             }
         }
-        private void ClientThread(NetworkStream stream, Semaphore semWake, Semaphore semAccess, Queue<object> queueOut)
+        private void ClientThread(Stream stream, Semaphore semWake, Semaphore semAccess, Queue<object> queueOut)
         {
             ItemSender r = new ItemSender(stream);
             game.RegisterCurrentThread();

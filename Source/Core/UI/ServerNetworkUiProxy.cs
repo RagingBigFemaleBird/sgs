@@ -185,6 +185,7 @@ namespace Sanguosha.Core.UI
                 {
                     server.SendObject(i, 0);
                 }
+                server.Flush(i);
             }
 
         }
@@ -295,6 +296,7 @@ namespace Sanguosha.Core.UI
                         server.SendObject(i, c);
                     }
                 }
+                server.Flush(i);
             }
 
         }
@@ -345,6 +347,7 @@ namespace Sanguosha.Core.UI
             for (int i = 0; i < server.MaxClients; i++)
             {
                 server.SendObject(i, answer);
+                server.Flush(i);
             }
         }
 
