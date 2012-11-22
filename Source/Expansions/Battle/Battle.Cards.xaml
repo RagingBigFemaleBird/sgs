@@ -28,5 +28,6 @@
     <system:String x:Key="Card.BaiYinShiZi.Name">白银狮子</system:String>
 
     <system:String x:Key="Card.TengJia.Name">藤甲</system:String>
-    
+    <system:String x:Key="Card.ZhuQueYuShan.Name">朱雀羽扇</system:String>
+
 </ResourceDictionary>

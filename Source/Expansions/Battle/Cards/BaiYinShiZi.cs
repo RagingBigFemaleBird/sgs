@@ -33,7 +33,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                     (p, e, a) => { return a.IntArg3 < 0 && a.ReadonlyCard[Armor.IgnoreAllArmor] == 0 && a.ReadonlyCard[Armor.IgnorePlayerArmor] != Owner.Id + 1; },
                     Run,
                     TriggerCondition.OwnerIsTarget
-                );
+                ) { Priority = int.MinValue };
                 Triggers.Add(GameEvent.DamageInflicted, trigger);
             }
 

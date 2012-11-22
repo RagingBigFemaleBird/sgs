@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.Battle
             CardSet.Add(new Card(SuitType.Spade, 1, new GuDingDao()));
             CardSet.Add(new Card(SuitType.Heart, 1, new WuXieKeJi()));
             CardSet.Add(new Card(SuitType.Club, 1, new BaiYinShiZi()));
-            //        CardSet.Add(new Card(SuitType.Diamond, 1, ZHUQUEYUSHAN()));
+            CardSet.Add(new Card(SuitType.Diamond, 1, new ZhuQueYuShan()));
 
             CardSet.Add(new Card(SuitType.Spade, 2, new TengJia()));
             CardSet.Add(new Card(SuitType.Heart, 2, new HuoGong()));

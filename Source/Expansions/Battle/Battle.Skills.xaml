@@ -1,0 +1,11 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <sys:String x:Key="Skill.BaiYinShiZiSkill.Name">白银狮子</sys:String>
+    <sys:String x:Key="Skill.TenJiaSkill.Name">藤甲</sys:String>
+    <sys:String x:Key="Skill.GuDingDaoSkill.Name">古锭刀</sys:String>
+    <sys:String x:Key="Skill.ZhuQueYuShanSkill.Name">朱雀羽扇</sys:String>
+
+</ResourceDictionary>

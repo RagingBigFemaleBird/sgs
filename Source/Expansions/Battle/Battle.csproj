@@ -58,6 +58,7 @@
     <Compile Include="Cards\LeiSha.cs" />
     <Compile Include="Cards\TengJia.cs" />
     <Compile Include="Cards\TieSuoLianHuan.cs" />
+    <Compile Include="Cards\ZhuQueYuShan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +78,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Battle.Game.xaml">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Battle.Skills.xaml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
