@@ -42,6 +42,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             Triggers.Add(GameEvent.PlayerPlayedCard, trigger);
 
             Triggers.Add(GameEvent.PhaseOutEvents[TurnPhase.Play], trigger2);
+            IsAutoInvoked = true;
         }
     }
 }

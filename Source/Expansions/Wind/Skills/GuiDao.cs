@@ -12,7 +12,7 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Exceptions;
 
-namespace Sanguosha.Expansions.Basic.Skills
+namespace Sanguosha.Expansions.Wind.Skills
 {
     /// <summary>
     /// 鬼道-在一名角色的判定牌生效前，你可以用一张黑色牌替换之。
@@ -88,6 +88,7 @@ namespace Sanguosha.Expansions.Basic.Skills
         public GuiDao()
         {
             Triggers.Add(GameEvent.PlayerJudgeBegin, new RelayTrigger(OnJudgeBegin, TriggerCondition.Global));
+            IsAutoInvoked = null;
         }
     }
 }

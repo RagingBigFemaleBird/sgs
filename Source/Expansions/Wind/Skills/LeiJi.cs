@@ -28,6 +28,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("LeiJi"), new OneTargetNoSelfVerifier(),
                 out skill, out cards, out players))
             {
+                NotifySkillUse(players);
                 var result = Game.CurrentGame.Judge(players[0]);
                 if (result.Suit == SuitType.Spade)
                 {
@@ -43,16 +44,17 @@ namespace Sanguosha.Expansions.Wind.Skills
                 (p, e, a) => { return a.Card.Type is Shan; },
                 Run,
                 TriggerCondition.OwnerIsSource
-            );
+            ) { AskForConfirmation = false, IsAutoNotify = false };
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => { return a.Card.Type is Shan;},
                 Run,
                 TriggerCondition.OwnerIsSource
-            );
+            ) { AskForConfirmation = false, IsAutoNotify = false };
 
             Triggers.Add(GameEvent.PlayerPlayedCard, trigger);
             Triggers.Add(GameEvent.PlayerUsedCard, trigger2);
+            IsAutoInvoked = null;
         }
 
     }

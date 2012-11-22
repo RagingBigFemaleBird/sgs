@@ -39,6 +39,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             );
 
             Triggers.Add(GameEvent.CardUsageTargetConfirmed, trigger);
+            IsAutoInvoked = null;
         }
 
     }

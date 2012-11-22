@@ -27,6 +27,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 (p, e, a) => { Game.CurrentGame.DrawCards(p, 1); },
                 TriggerCondition.OwnerIsSource
             ));
+            IsAutoInvoked = true;
         }
     }
 }

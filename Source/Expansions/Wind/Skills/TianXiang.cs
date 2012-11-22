@@ -67,6 +67,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             );
 
             Triggers.Add(GameEvent.DamageInflicted, trigger);
+            IsAutoInvoked = null;
         }
 
     }

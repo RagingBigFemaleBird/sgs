@@ -53,16 +53,17 @@ namespace Sanguosha.Expansions.Wind.Skills
             if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("ShenSu1"), new OneTargetNoSelfVerifier(),
                 out skill, out cards, out players))
             {
+                NotifySkillUse(players);
                 GameEventArgs args = new GameEventArgs();
                 args.Source = Owner;
                 args.Targets = players;
                 args.Skill = new CardWrapper(Owner, new RegularSha());
                 args.Cards = new List<Card>();
                 Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
+                Game.CurrentGame.CurrentPhase++;
+                Game.CurrentGame.CurrentPhase++;
+                Game.CurrentGame.CurrentPhaseEventIndex = 2;
             }
-            Game.CurrentGame.CurrentPhase++;
-            Game.CurrentGame.CurrentPhase++;
-            Game.CurrentGame.CurrentPhaseEventIndex = 2;
         }
 
         void Run2(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
@@ -73,6 +74,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("ShenSu2"), new ShenSuStage2Verifier(),
                 out skill, out cards, out players))
             {
+                NotifySkillUse(players);
                 Game.CurrentGame.HandleCardDiscard(Owner, cards);
                 GameEventArgs args = new GameEventArgs();
                 args.Source = Owner;
@@ -80,9 +82,9 @@ namespace Sanguosha.Expansions.Wind.Skills
                 args.Skill = new CardWrapper(Owner, new RegularSha());
                 args.Cards = new List<Card>();
                 Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
+                Game.CurrentGame.CurrentPhase++;
+                Game.CurrentGame.CurrentPhaseEventIndex = 2;
             }
-            Game.CurrentGame.CurrentPhase++;
-            Game.CurrentGame.CurrentPhaseEventIndex = 2;
         }
 
         public ShenSu()
@@ -91,15 +93,16 @@ namespace Sanguosha.Expansions.Wind.Skills
                 this,
                 Run1,
                 TriggerCondition.OwnerIsSource
-            );
+            ) { AskForConfirmation = false, IsAutoNotify = false };
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
                 Run2,
                 TriggerCondition.OwnerIsSource
-            );
+            ) { AskForConfirmation = false, IsAutoNotify = false };
 
             Triggers.Add(GameEvent.PhaseOutEvents[TurnPhase.Start], trigger);
             Triggers.Add(GameEvent.PhaseOutEvents[TurnPhase.Draw], trigger2);
+            IsAutoInvoked = null;
         }
 
     }

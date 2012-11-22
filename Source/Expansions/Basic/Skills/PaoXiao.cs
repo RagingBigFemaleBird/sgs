@@ -55,6 +55,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 (p, e, a) => { },
                 TriggerCondition.OwnerIsSource) { AskForConfirmation = false };
             Triggers.Add(GameEvent.PlayerUsedCard, aooo);
+            IsAutoInvoked = null;
         }
     }
 }

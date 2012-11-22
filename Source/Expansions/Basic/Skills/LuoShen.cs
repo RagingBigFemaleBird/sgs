@@ -71,6 +71,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 TriggerCondition.OwnerIsSource
             ) { AskForConfirmation = false };
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Start], trigger);
+            IsAutoInvoked = true;
         }
 
     }

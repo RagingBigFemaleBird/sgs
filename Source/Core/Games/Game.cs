@@ -1348,7 +1348,7 @@ namespace Sanguosha.Core.Games
             PlayerAcquiredCard(to, cards);
         }
 
-        public bool CommitCardTransform(Player p, ISkill skill, List<Card> cards, out ICard result, List<Player> targets)
+        private bool CommitCardTransform(Player p, ISkill skill, List<Card> cards, out ICard result, List<Player> targets)
         {
             if (skill != null)
             {

@@ -33,6 +33,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             );
 
             Triggers.Add(GameEvent.CardUsageTargetConfirmed, trigger);
+            IsAutoInvoked = null;
         }
 
     }

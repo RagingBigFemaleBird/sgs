@@ -105,6 +105,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 TriggerCondition.OwnerIsTarget
             ) { Priority = SkillPriority.LiuLi};
             Triggers.Add(GameEvent.CardUsageTargetConfirming, trigger);
+            IsAutoInvoked = null;
         }
     }
 }

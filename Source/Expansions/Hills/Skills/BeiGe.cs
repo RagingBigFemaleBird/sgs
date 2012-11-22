@@ -106,6 +106,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 TriggerCondition.Global
             ) { IsAutoNotify = false, AskForConfirmation = false };
             Triggers.Add(GameEvent.AfterDamageInflicted, trigger);
+            IsAutoInvoked = null;
         }
     }
 }

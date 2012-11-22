@@ -23,7 +23,7 @@ namespace Sanguosha.Core.Cards
 
         public List<Card> Subcards {get; set;}
 
-        public Player Owner
+        public virtual Player Owner
         {
             get
             {
@@ -42,7 +42,7 @@ namespace Sanguosha.Core.Cards
             }
         }
 
-        public DeckPlace Place
+        public virtual DeckPlace Place
         {
             get
             {
@@ -71,7 +71,7 @@ namespace Sanguosha.Core.Cards
         /// <summary>
         /// Rank of a composite card is always 0.
         /// </summary>
-        public int Rank
+        public virtual int Rank
         {
             get
             {
@@ -86,7 +86,7 @@ namespace Sanguosha.Core.Cards
         /// <summary>
         /// Suit of a composite card is always None.
         /// </summary>
-        public SuitType Suit
+        public virtual SuitType Suit
         {
             get
             {
@@ -105,7 +105,7 @@ namespace Sanguosha.Core.Cards
         /// <remarks>
         /// 将多张牌当一张牌使用或打出时，除非这些牌的颜色均相同（视为相应颜色但无花色），否则视为无色且无花色。
         /// </remarks>
-        public SuitColorType SuitColor
+        public virtual SuitColorType SuitColor
         {
             get
             {
@@ -124,9 +124,9 @@ namespace Sanguosha.Core.Cards
             }
         }
 
-        public CardHandler Type {get; set;}
+        public virtual CardHandler Type {get; set;}
 
-        Dictionary<CardAttribute, int> attributes;
+        protected Dictionary<CardAttribute, int> attributes;
 
         public Dictionary<CardAttribute, int> Attributes
         {

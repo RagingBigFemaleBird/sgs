@@ -71,6 +71,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             ) { AskForConfirmation = false, IsAutoNotify = false };
 
             Triggers.Add(GameEvent.CardsEnteredDiscardDeck, trigger);
+            IsAutoInvoked = null;
         }
     }
 }

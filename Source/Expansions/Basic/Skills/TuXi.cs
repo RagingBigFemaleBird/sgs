@@ -93,6 +93,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 TriggerCondition.OwnerIsSource
             ) { AskForConfirmation = false, Priority = SkillPriority.TuXi, IsAutoNotify = false };
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Draw], trigger);
+            IsAutoInvoked = null;
         }
     }
 }

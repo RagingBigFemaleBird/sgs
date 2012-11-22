@@ -28,6 +28,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.PhaseProceedEvents[TurnPhase.Draw], trigger);
+            IsAutoInvoked = true;
         }
 
     }

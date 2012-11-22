@@ -37,6 +37,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             ) { AskForConfirmation = false };
             Triggers.Add(GameEvent.PhaseProceedEvents[TurnPhase.Draw], trigger);
             Triggers.Add(GameEvent.DamageElementConfirmed, trigger2);
+            IsAutoInvoked = null;
         }
 
     }

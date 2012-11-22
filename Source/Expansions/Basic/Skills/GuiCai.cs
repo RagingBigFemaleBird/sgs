@@ -88,6 +88,7 @@ namespace Sanguosha.Expansions.Basic.Skills
         public GuiCai()
         {
             Triggers.Add(GameEvent.PlayerJudgeBegin, new RelayTrigger(OnJudgeBegin, TriggerCondition.Global));
+            IsAutoInvoked = null;
         }
     }
 }

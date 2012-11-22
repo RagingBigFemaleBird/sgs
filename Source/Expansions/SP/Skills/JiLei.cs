@@ -122,6 +122,7 @@ namespace Sanguosha.Expansions.SP.Skills
                 TriggerCondition.OwnerIsTarget
             ) { IsAutoNotify = false, AskForConfirmation = false };
             Triggers.Add(GameEvent.DamageInflicted, trigger);
+            IsAutoInvoked = null;
         }
     }
 }

@@ -35,6 +35,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             );
 
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger);
+            IsAutoInvoked = null;
         }
 
     }

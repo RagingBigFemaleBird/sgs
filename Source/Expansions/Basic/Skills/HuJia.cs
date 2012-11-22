@@ -23,7 +23,6 @@ namespace Sanguosha.Expansions.Basic.Skills
     {
         void CallOfShan(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            ICard result = null;
             List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
             toProcess.Remove(Owner);
             Game.CurrentGame.SortByOrderOfComputation(Owner, toProcess);
@@ -62,7 +61,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                             failToRespond = true;
                             break;
                         }
-                        if (!Game.CurrentGame.CommitCardTransform(player, skill, cards, out result, eventArgs.Targets))
+                        if (!Game.CurrentGame.HandleCardPlay(player, skill, cards, eventArgs.Targets))
                         {
                             continue;
                         }
@@ -83,17 +82,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 return;
             }
 
-            Trace.Assert(result != null);
             eventArgs.Cards = new List<Card>();
-            if (result is CompositeCard)
-            {
-                eventArgs.Cards.AddRange(((CompositeCard)result).Subcards);
-            }
-            else
-            {
-                Trace.Assert(result is Card);
-                eventArgs.Cards.Add((Card)result);
-            }
             throw new TriggerResultException(TriggerResult.Success);
         }
 
@@ -115,6 +104,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 TriggerCondition.OwnerIsSource
             ) { Type = TriggerType.Skill };
             Triggers.Add(GameEvent.PlayerRequireCard, trigger);
+            IsAutoInvoked = null;
         }
 
         public override bool IsRulerOnly

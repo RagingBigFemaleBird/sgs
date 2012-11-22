@@ -17,6 +17,47 @@ namespace Sanguosha.Expansions.Basic.Cards
     
     public class ShanDian : DelayedTool
     {
+        bool RecursiveShanDianDriver(Player start, Player current, Card c)
+        {
+            //todo: drive chain ShanDian cards
+            List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
+            toProcess.Remove(current);
+            Game.CurrentGame.SortByOrderOfComputation(current, toProcess);
+            foreach (var next in toProcess)
+            {
+                List<Player> targets = new List<Player>();
+                targets.Add(next);
+                if (Game.CurrentGame.PlayerCanBeTargeted(null, targets, c))
+                {
+                    if (DelayedToolConflicting(next))
+                    {
+                        Card nextCard = null;
+                        foreach (var card in Game.CurrentGame.Decks[next, DeckType.DelayedTools])
+                        {
+                            if (card.Type is ShanDian)
+                            {
+                                nextCard = card;
+                                break;
+                            }
+                        }
+                        Trace.Assert(nextCard != null);
+                        if (!RecursiveShanDianDriver(start, next, nextCard))
+                        {
+                            return false;
+                        }
+                    }
+                    CardsMovement move = new CardsMovement();
+                    move.cards = new List<Card>();
+                    move.cards.Add(c);
+                    move.to = new DeckPlace(next, DeckType.DelayedTools);
+                    Game.CurrentGame.MoveCards(move, null);
+                    return true;
+                }
+                if (next == start) return false;
+            }
+            return false;
+        }
+
         public override void Activate(Player p, Card c)
         {
             while (true)
@@ -47,25 +88,8 @@ namespace Sanguosha.Expansions.Basic.Cards
                     Game.CurrentGame.DoDamage(null, p, 3, DamageElement.Lightning, c, roc);
                     return;
                 }
+                RecursiveShanDianDriver(p, p, c);
                 break;
-            }
-            //todo: drive chain ShanDian cards
-            List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
-            toProcess.Remove(p);
-            Game.CurrentGame.SortByOrderOfComputation(p, toProcess);
-            foreach (var next in toProcess)
-            {
-                List<Player> targets = new List<Player>();
-                targets.Add(next);
-                if (Game.CurrentGame.PlayerCanBeTargeted(null, targets, c))
-                {
-                    CardsMovement move = new CardsMovement();
-                    move.cards = new List<Card>();
-                    move.cards.Add(c);
-                    move.to = new DeckPlace(next, DeckType.DelayedTools);
-                    Game.CurrentGame.MoveCards(move, null);
-                    break;
-                }
             }
         }
 

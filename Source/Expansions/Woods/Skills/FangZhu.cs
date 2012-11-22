@@ -77,6 +77,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                 TriggerCondition.OwnerIsTarget
             ) { IsAutoNotify = false, AskForConfirmation = false };
             Triggers.Add(GameEvent.AfterDamageInflicted, trigger);
+            IsAutoInvoked = null;
         }
     }
 }
