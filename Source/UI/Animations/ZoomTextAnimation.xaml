@@ -11,15 +11,15 @@
 	<UserControl.Resources>
 		<Storyboard x:Key="mainAnimation">
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="grid">
-				<EasingDoubleKeyFrame KeyTime="0" Value="5"/>
+				<EasingDoubleKeyFrame KeyTime="0" Value="3"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0.5"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="grid">
-				<EasingDoubleKeyFrame KeyTime="0" Value="5"/>
+				<EasingDoubleKeyFrame KeyTime="0" Value="3"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0.5"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:ZoomBlurEffect.BlurAmount)" Storyboard.TargetName="grid">
-				<EasingDoubleKeyFrame KeyTime="0" Value="5"/>
+				<EasingDoubleKeyFrame KeyTime="0" Value="3"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="0">
 					<EasingDoubleKeyFrame.EasingFunction>
 						<BackEase EasingMode="EaseOut" Amplitude="0.2"/>

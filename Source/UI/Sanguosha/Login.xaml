@@ -164,32 +164,32 @@
             <TabControl x:Name="loginTab" TabStripPlacement="Left" Style="{DynamicResource LoginTabControlStyle}" Background="#FF4A3B2D" BorderThickness="1">
                 <TabItem Style="{DynamicResource LoginTabItemStyle}">
                     <TabItem.Header>
-                        <TextBlock Foreground="#FFDFCF93" Margin="5,10" Text="启动客户端" Width="20" TextWrapping="Wrap" FontSize="18" LineStackingStrategy="BlockLineHeight" LineHeight="14" FontFamily="LiSu"/> 
+                        <TextBlock Foreground="#FFDFCF93" Margin="5,10" Text="启动客户端" Width="20" TextWrapping="Wrap" FontSize="18" LineStackingStrategy="BlockLineHeight" LineHeight="14" FontFamily="/Sanguosha;component/Fonts/#LiSu"/> 
                     </TabItem.Header>
                     <Grid>
-                        <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" Text="服务器地址：" FontFamily="SimHei" FontSize="17.333" />
+                        <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" Text="服务器地址：" FontFamily="/Sanguosha;component/Fonts/#SimHei" FontSize="17.333" />
                         <TextBox x:Name="tab0HostName" Margin="151,39.846,73,0" Text="127.0.0.1" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
-                        <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" Text="用户名：" FontFamily="SimHei" FontSize="17.333" />
+                        <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" Text="用户名：" FontFamily="/Sanguosha;component/Fonts/#SimHei" FontSize="17.333" />
                         <TextBox Margin="151,83.846,73,0" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
-                        <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Margin="42,135,0,133" TextWrapping="Wrap" Width="111" Text="密码：" FontFamily="SimHei" FontSize="17.333"/>
+                        <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Margin="42,135,0,133" TextWrapping="Wrap" Width="111" Text="密码：" FontFamily="/Sanguosha;component/Fonts/#SimHei" FontSize="17.333"/>
                         <TextBox Margin="151,129.846,73,0" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
                         <xctk:BusyIndicator x:Name="busyIndicator" BusyContent="正在连接服务器，请稍后。。。" Height="82" VerticalAlignment="Bottom" Margin="42,0,73,25" />
                     </Grid>
                 </TabItem>
                 <TabItem Style="{DynamicResource LoginTabItemStyle}">
                     <TabItem.Header>
-                        <TextBlock Foreground="#FFDFCF93" Margin="5,10" Text="启动服务器" Width="20" TextWrapping="Wrap" FontSize="18" LineStackingStrategy="BlockLineHeight" LineHeight="14" FontFamily="LiSu"/> 
+                        <TextBlock Foreground="#FFDFCF93" Margin="5,10" Text="启动服务器" Width="20" TextWrapping="Wrap" FontSize="18" LineStackingStrategy="BlockLineHeight" LineHeight="14" FontFamily="/Sanguosha;component/Fonts/#LiSu"/> 
                     </TabItem.Header>
                     <Grid>
-                        <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="暂时没有选项，请直接点开始" FontFamily="SimHei" FontSize="17.333" />
+                        <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="暂时没有选项，请直接点开始" FontFamily="/Sanguosha;component/Fonts/#SimHei" FontSize="17.333" />
                     </Grid>
                 </TabItem>
                 <TabItem Style="{DynamicResource LoginTabItemStyle}">
                     <TabItem.Header>
-                        <TextBlock Foreground="#FFDFCF93" Margin="5,10" Text="单机游戏" Width="20" TextWrapping="Wrap" FontSize="18" LineStackingStrategy="BlockLineHeight" LineHeight="14" FontFamily="LiSu"/> 
+                        <TextBlock Foreground="#FFDFCF93" Margin="5,10" Text="单机游戏" Width="20" TextWrapping="Wrap" FontSize="18" LineStackingStrategy="BlockLineHeight" LineHeight="14" FontFamily="/Sanguosha;component/Fonts/#LiSu"/> 
                     </TabItem.Header>
                     <Grid>
-                        <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="暂时没有选项，请直接点开始" FontFamily="SimHei" FontSize="17.333" />
+                        <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="暂时没有选项，请直接点开始" FontFamily="/Sanguosha;component/Fonts/#SimHei" FontSize="17.333" />
                     </Grid>
                 </TabItem>
             </TabControl>

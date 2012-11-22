@@ -70,7 +70,6 @@ namespace Sanguosha.UI.Controls
             _moveAnimation = new Storyboard();
             _moveAnimation.Children.Add(_daMoveX);
             _moveAnimation.Children.Add(_daMoveY);            
-            _moveAnimation.AccelerationRatio = 0.2;
         }
 
         void CardView_MouseLeave(object sender, MouseEventArgs e)
