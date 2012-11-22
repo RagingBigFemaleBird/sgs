@@ -129,7 +129,7 @@ namespace Sanguosha.UI.Controls
                 OnPropertyChanged("IsSelected");
                 if (!_isAutoInvokeSkill)
                 {
-                    IsHighlighted = true;
+                    IsHighlighted = value;
                 }
                 else
                 {
