@@ -85,6 +85,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
         {
             Player target = eventArgs.Targets[0];
+            if (Game.CurrentGame.IsDying.Contains(target)) return;
             if (target.Health > 0) return;
             Game.CurrentGame.IsDying.Push(target);
             List<Player> toAsk = new List<Player>(Game.CurrentGame.AlivePlayers);
