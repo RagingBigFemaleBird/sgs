@@ -34,9 +34,9 @@
     <sys:String x:Key="Skill.JianXiong.Description">每当你受到一次伤害后，你可以获得对你造成伤害的牌。</sys:String>
     <sys:String x:Key="Skill.JianXiong.Usage">系统提示→点“确定”</sys:String>
 
-    <sys:String x:Key="Skill.Hujia.Name">护驾</sys:String>
-    <sys:String x:Key="Skill.Hujia.Description">主公技，当你需要使用或打出一张【闪】时，你可以令其他魏势力角色打出一张【闪】（视为由你使用或打出）。</sys:String>
-    <sys:String x:Key="Skill.Hujia.Usage">系统提示→点“确定”</sys:String>
+    <sys:String x:Key="Skill.HuJia.Name">护驾</sys:String>
+    <sys:String x:Key="Skill.HuJia.Description">主公技，当你需要使用或打出一张【闪】时，你可以令其他魏势力角色打出一张【闪】（视为由你使用或打出）。</sys:String>
+    <sys:String x:Key="Skill.HuJia.Usage">系统提示→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.FanKui.Name">反馈</sys:String>
     <sys:String x:Key="Skill.FanKui.Description">每当你受到一次伤害后，你可以获得伤害来源的一张牌。</sys:String>
@@ -182,12 +182,10 @@
     <sys:String x:Key="Skill.BiYue.Name">闭月</sys:String>
     <sys:String x:Key="Skill.BiYue.Description">回合结束阶段开始时，你可以摸一张牌。</sys:String>
     <sys:String x:Key="Skill.BiYue.Usage">系统提示→点“确定”</sys:String>
-    
-    <sys:String x:Key="Skill.HuJia.Name">护驾</sys:String>
 
     <sys:String x:Key="Skill.BaGuaZhenSkill.Name">八卦阵</sys:String>
     <sys:String x:Key="Skill.CiXiongShuangGuJianSkill.Name">雌雄双股剑</sys:String>
-    <sys:String x:Key="Skill.HanBingJianSkill.Name">寒冰箭</sys:String>
+    <sys:String x:Key="Skill.HanBingJianSkill.Name">寒冰剑</sys:String>
     <sys:String x:Key="Skill.QiLinGongSkill.Name">麒麟弓</sys:String>
     <sys:String x:Key="Skill.GuanShiFuSkill.Name">贯石斧</sys:String>
     <sys:String x:Key="Skill.QingLongYanYueDaoSkill.Name">青龙偃月刀</sys:String>
