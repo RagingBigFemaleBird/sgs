@@ -52,6 +52,41 @@ namespace Sanguosha.Expansions.Basic.Cards
             ICard promptCard = eventArgs.ReadonlyCard;
             if (card != null && CardCategoryManager.IsCardCategory(card.Type.Category, CardCategory.Tool) && card[WuXieKeJi.CannotBeCountered] == 0)
             {
+                bool askWuXie = false;
+                foreach (var p in Game.CurrentGame.AlivePlayers)
+                {
+                    foreach (var c in Game.CurrentGame.Decks[p, DeckType.Hand])
+                    {
+                        if (c.Type is WuXieKeJi)
+                        {
+                            askWuXie = true;
+                            break;
+                        }
+                    }
+                    foreach (var sk in p.ActionableSkills)
+                    {
+                        CardTransformSkill cts = sk as CardTransformSkill;
+                        if (cts != null)
+                        {
+                            if (cts.PossibleResults == null)
+                            {
+                                askWuXie = true;
+                                break;
+                            }
+                            foreach (var pr in cts.PossibleResults)
+                            {
+                                if (pr is WuXieKeJi)
+                                {
+                                    askWuXie = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (askWuXie) break;
+                }
+                Game.CurrentGame.SyncConfirmationStatus(ref askWuXie);
+                if (!askWuXie) return;
                 while (true)
                 {
                     Prompt prompt = new CardUsagePrompt("WuXieKeJi", promptPlayer, promptCard);
