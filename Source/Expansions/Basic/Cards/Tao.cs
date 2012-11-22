@@ -19,7 +19,14 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
         {
-            Game.CurrentGame.RecoverHealth(source, dest, 1);
+            if (readonlyCard[EatOneGetAnotherFreeCoupon] == 1)
+            {
+                Game.CurrentGame.RecoverHealth(source, dest, 2);
+            }
+            else
+            {
+                Game.CurrentGame.RecoverHealth(source, dest, 1);
+            }
         }
 
         public override List<Player> ActualTargets(Player source, List<Player> targets)
@@ -64,5 +71,6 @@ namespace Sanguosha.Expansions.Basic.Cards
         {
             get { return CardCategory.Basic; }
         }
+        public static readonly CardAttribute EatOneGetAnotherFreeCoupon = CardAttribute.Register("EatOneGetAnotherFreeCoupon");
     }
 }

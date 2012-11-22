@@ -158,7 +158,7 @@ namespace Sanguosha.Expansions.Basic
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhaoYun", true, Allegiance.Shu, 4, new LongDan()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("MaChao", true, Allegiance.Shu, 4, new MaShu(), new TieJi()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HuangYueying", false, Allegiance.Shu, 3, new JiZhi(), new QiCai()))));
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SunQuan", true, Allegiance.Wu, 4, new ZhiHeng()/*, new JiuYuan()*/))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SunQuan", true, Allegiance.Wu, 4, new ZhiHeng(), new JiuYuan()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("GanNing", true, Allegiance.Wu, 4, new QiXi()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("LvMeng", true, Allegiance.Wu, 4, new KeJi()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HuangGai", true, Allegiance.Wu, 4, new KuRou()))));

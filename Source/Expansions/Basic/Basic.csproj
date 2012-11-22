@@ -87,6 +87,7 @@
     <Compile Include="Skills\JieYin.cs" />
     <Compile Include="Skills\JiJiang.cs" />
     <Compile Include="Skills\JiJiu.cs" />
+    <Compile Include="Skills\JiuYuan.cs" />
     <Compile Include="Skills\JiZhi.cs" />
     <Compile Include="Skills\KeJi.cs" />
     <Compile Include="Skills\KongCheng.cs" />
