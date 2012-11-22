@@ -10,10 +10,12 @@
       x:Class="Sanguosha.UI.Main.Login" 
       xmlns:Sanguosha_UI_Animations="clr-namespace:Sanguosha.UI.Animations;assembly=Animations"
       mc:Ignorable="d" 
+	  xmlns:sys="clr-namespace:System;assembly=mscorlib"
       d:DesignHeight="768" d:DesignWidth="1024"
       Title="Login">
     <Page.Resources>
     <ResourceDictionary>
+    	
         <ResourceDictionary.MergedDictionaries>
             <ResourceDictionary Source="pack://application:,,,/Controls;component/Common.xaml"/>
             <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
@@ -23,6 +25,7 @@
             <GradientStop Color="#FFF9BB51" Offset="1"/>
             <GradientStop Color="#FFF88749"/>
         </LinearGradientBrush>
+        <sys:String x:Key="Busy.ConnectServer">正在连接服务器，请稍后。。。</sys:String>
         <Storyboard x:Key="OnLoaded1">
             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image">
                 <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Visible}"/>
@@ -173,7 +176,6 @@
                         <TextBox Margin="151,83.846,73,0" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
                         <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Margin="42,135,0,133" TextWrapping="Wrap" Width="111" Text="密码：" FontFamily="/Sanguosha;component/Fonts/#SimHei" FontSize="17.333"/>
                         <TextBox Margin="151,129.846,73,0" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
-                        <xctk:BusyIndicator x:Name="busyIndicator" BusyContent="正在连接服务器，请稍后。。。" Height="82" VerticalAlignment="Bottom" Margin="42,0,73,25" />
                     </Grid>
                 </TabItem>
                 <TabItem Style="{DynamicResource LoginTabItemStyle}">
@@ -181,7 +183,13 @@
                         <TextBlock Foreground="#FFDFCF93" Margin="5,10" Text="启动服务器" Width="20" TextWrapping="Wrap" FontSize="18" LineStackingStrategy="BlockLineHeight" LineHeight="14" FontFamily="/Sanguosha;component/Fonts/#LiSu"/> 
                     </TabItem.Header>
                     <Grid>
-                        <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="暂时没有选项，请直接点开始" FontFamily="/Sanguosha;component/Fonts/#SimHei" FontSize="17.333" />
+                    	<Grid>
+                    		<TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="16,44.999,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" FontFamily="/Sanguosha;component/Fonts/#SimHei" FontSize="17.333" ><Run Language="zh-cn" Text="网卡"/><Run Text="："/></TextBlock>
+                    		<TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="16,96.28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" FontFamily="/Sanguosha;component/Fonts/#SimHei" FontSize="17.333" ><Run Language="zh-cn" Text="I"/><Run Language="zh-cn" Text="P地址"/><Run Text="："/></TextBlock>
+                    		<CheckBox Content="显示全部" Height="21" Margin="0,45.999,31,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65" Foreground="#FFFFCF4B"/>
+                    	</Grid>
+                    	<ComboBox Height="29" Margin="80,41.4,124,0" VerticalAlignment="Top"/>
+                    	<ComboBox Height="31" Margin="85,91.4,88,0" VerticalAlignment="Top"/>
                     </Grid>
                 </TabItem>
                 <TabItem Style="{DynamicResource LoginTabItemStyle}">
@@ -213,6 +221,7 @@
 			<Button x:Name="btnReplay" Style="{DynamicResource DefaultButtonStyle1}" Height="20" Padding="8,0,8,0" Click="btnReplay_Click">
 	        	<TextBlock Text="录像" Style="{DynamicResource MenuTextStyle}" />
 			</Button>
-		</StackPanel>	        
+		</StackPanel>
+		<xctk:BusyIndicator Grid.RowSpan="2" x:Name="busyIndicator" Style="{DynamicResource BusyIndicatorStyle1}" Margin="0" Grid.Row="1" />	        
     </Grid>
 </Page>

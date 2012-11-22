@@ -138,7 +138,7 @@ namespace Sanguosha.UI.Main
                 {
                     client.PortNumber = 12345;
                 }
-
+                busyIndicator.BusyContent = Resources["Busy.ConnectServer"];
                 busyIndicator.IsBusy = true;
 
                 //client.Start(isReplay, FileStream = file.open(...))
@@ -161,19 +161,19 @@ namespace Sanguosha.UI.Main
 
                 worker.RunWorkerCompleted += (o, ea) =>
                 {
+                    busyIndicator.IsBusy = false;
                     if ((bool)ea.Result)
                     {
                         MainGame game = new MainGame();
                         game.MainSeat = mainSeat;
                         game.NetworkClient = client;
                         this.NavigationService.Navigate(game);
-                        busyIndicator.IsBusy = false;
                         return;
                     }
                     else
                     {
                         MessageBox.Show("Failed to create connection");
-                    }
+                    }                    
                 };
 
                 worker.RunWorkerAsync();
