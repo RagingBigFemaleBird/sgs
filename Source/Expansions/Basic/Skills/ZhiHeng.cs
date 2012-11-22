@@ -46,7 +46,7 @@ namespace Sanguosha.Expansions.Basic.Skills
 
         protected override bool VerifyCard(Player source, Card card)
         {
-            return card.Place.DeckType == DeckType.Hand;
+            return true;
         }
 
         protected override bool VerifyPlayer(Player source, Player player)

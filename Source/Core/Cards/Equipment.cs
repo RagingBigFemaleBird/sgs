@@ -69,13 +69,9 @@ namespace Sanguosha.Core.Cards
                 {
                     Equipment e = (Equipment)c.Type;
                     Trace.Assert(e != null);
-                    List<Card> cardsLost = new List<Card>();
-                    List<Card> cardsToDiscard = new List<Card>();
-                    cardsToDiscard.Add(c);
-                    cardsLost.Add(card);
                     Game.CurrentGame.EnterAtomicContext();
-                    Game.CurrentGame.PlayerLostCard(p, cardsLost);
-                    Game.CurrentGame.HandleCardDiscard(p, cardsToDiscard);
+                    Game.CurrentGame.PlayerLostCard(p, new List<Card>() { card });
+                    Game.CurrentGame.HandleCardDiscard(p, new List<Card> () {c});
                     Game.CurrentGame.MoveCards(attachMove, null);
                     Game.CurrentGame.ExitAtomicContext();
                     return;
@@ -83,6 +79,7 @@ namespace Sanguosha.Core.Cards
             }
            
             Game.CurrentGame.MoveCards(attachMove, null);
+            Game.CurrentGame.PlayerLostCard(p, new List<Card>() {card});
             return;
         }
 

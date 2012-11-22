@@ -40,7 +40,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             var trigger = new RelayTrigger(
                 Run,
                 TriggerCondition.OwnerIsSource
-            );
+            ) { Priority = SkillPriority.XiaoJi };
             Triggers.Add(GameEvent.CardsLost, trigger);
             IsAutoInvoked = true;
         }

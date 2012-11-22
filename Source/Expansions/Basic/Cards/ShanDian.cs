@@ -38,11 +38,18 @@ namespace Sanguosha.Expansions.Basic.Cards
                 ReadOnlyCard result = Game.CurrentGame.Judge(p, null, c);
                 if (result.Suit == SuitType.Spade && result.Rank >= 2 && result.Rank <= 9)
                 {
-                    Game.CurrentGame.DoDamage(null, p, 3, DamageElement.Lightning, c, new ReadOnlyCard(c));
+                    var roc = new ReadOnlyCard(c);
+                    CardsMovement move = new CardsMovement();
+                    move.cards = new List<Card>();
+                    move.cards.Add(c);
+                    move.to = new DeckPlace(null, DeckType.Discard);
+                    Game.CurrentGame.MoveCards(move, null);
+                    Game.CurrentGame.DoDamage(null, p, 3, DamageElement.Lightning, c, roc);
                     return;
                 }
                 break;
             }
+            //todo: drive chain ShanDian cards
             List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
             toProcess.Remove(p);
             Game.CurrentGame.SortByOrderOfComputation(p, toProcess);

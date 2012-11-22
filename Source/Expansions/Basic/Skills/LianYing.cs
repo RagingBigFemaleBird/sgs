@@ -26,7 +26,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 this,
                 (p, e, a) => { Game.CurrentGame.DrawCards(Owner, 1); },
                 TriggerCondition.OwnerIsSource | TriggerCondition.SourceHasNoHandCards
-            );
+            ) { Priority = SkillPriority.LianYing };
             Triggers.Add(GameEvent.CardsLost, trigger);
             IsAutoInvoked = true;
         }

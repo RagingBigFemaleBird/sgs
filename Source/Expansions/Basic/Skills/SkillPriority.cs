@@ -9,5 +9,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     {
         public static int TuXi = 10;
         public static int LiuLi = 10;
+        public static int LianYing = 10;
+        public static int XiaoJi = 9;
     }
 }

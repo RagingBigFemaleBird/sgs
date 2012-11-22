@@ -325,7 +325,7 @@ namespace Sanguosha.Core.Games
                     Game.CurrentGame.PlayerDiscardedCard(savedSource, m.cards, DiscardReason.Use);
                 }
                 Trace.Assert(Game.CurrentGame.Decks[DeckType.Compute].Count == 0);
-                Game.CurrentGame.Decks[DeckType.Compute] = new List<Card>(computeBackup);
+                Game.CurrentGame.Decks[DeckType.Compute].AddRange(computeBackup);
             }
         }
 
@@ -697,7 +697,14 @@ namespace Sanguosha.Core.Games
                     }
                 }
                 Player source = eventArgs.Source;
-                Trace.TraceInformation("Player {0} killed by Player {1}", p.Id, source.Id);
+                if (source == null)
+                {
+                    Trace.TraceInformation("Player {0} killed", p.Id);
+                }
+                else
+                {
+                    Trace.TraceInformation("Player {0} killed by Player {1}", p.Id, source.Id);
+                }
                 DeckType role = new DeckType("Role");
                 Trace.Assert(Game.CurrentGame.Decks[p, role].Count == 1);
                 Game.CurrentGame.SyncCardAll(Game.CurrentGame.Decks[p, role][0]);

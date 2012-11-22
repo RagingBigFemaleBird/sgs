@@ -164,10 +164,6 @@ namespace Sanguosha.UI.Controls
                         command.IsEnabled = true;
                         command.OnSelectedChanged += triggerSkill_OnSelectedChanged;
                     }
-                    else if (command.Skill is ActiveSkill || command.Skill is CardTransformSkill)
-                    {
-                        ActiveSkillCommands.Add(command);
-                    }
 
                     SkillCommands.Add(command);
                 }
@@ -178,6 +174,14 @@ namespace Sanguosha.UI.Controls
                 if (!_player.Skills.Any(s => skillCommand.Skill == s))
                 {
                     SkillCommands.Remove(skillCommand);
+                }
+            }
+
+            foreach (var command in SkillCommands)
+            {
+                if (!command.IsAutoInvokeSkill && (command.Skill is ActiveSkill || command.Skill is CardTransformSkill))
+                {
+                    ActiveSkillCommands.Add(command);
                 }
             }
         }
@@ -624,7 +628,24 @@ namespace Sanguosha.UI.Controls
             ISkill skill = null;
             bool isEquipSkill;
             SkillCommand skillCommand = _GetSelectedSkillCommand(out isEquipSkill);
-            
+
+            if (skillCommand != null)
+            {
+                skill = skillCommand.Skill;
+            }
+
+            // are we really able to use this equip as command?
+            if (isEquipSkill)
+            {
+                Trace.Assert(skill != null);
+                if (currentUsageVerifier.Verify(HostPlayer, skill, new List<Card>(), new List<Player>()) == VerifierResult.Fail)
+                {
+                    //nope, not really
+                    isEquipSkill = false;
+                    skill = null;
+                }
+            }
+
             foreach (var equipCommand in EquipCommands)
             {
                 if (!isEquipSkill && equipCommand.IsSelected)
@@ -632,12 +653,6 @@ namespace Sanguosha.UI.Controls
                     cards.Add(equipCommand.Card);
                 }
             }
-
-            if (skillCommand != null)
-            {
-                skill = skillCommand.Skill;
-            }
-
 
             // Card usage question
             lock (verifierLock)
@@ -932,20 +947,6 @@ namespace Sanguosha.UI.Controls
                     }
                 }
 
-                if (skill == null)
-                {
-                    foreach (var equipCommand in EquipCommands)
-                    {
-                        if (equipCommand.SkillCommand.Skill != null && equipCommand.SkillCommand.Skill is CardTransformSkill)
-                        {
-                            equipCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, equipCommand.SkillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
-                        }
-                        else
-                        {
-                            equipCommand.IsEnabled = false;
-                        }
-                    }
-                }
                 if (!isEquipCommand)
                 {
                     foreach (var equipCommand in EquipCommands)
@@ -994,17 +995,16 @@ namespace Sanguosha.UI.Controls
 
                     foreach (var equipCommand in EquipCommands)
                     {
-                        if (equipCommand.IsSelected) continue;
-
-                        attempt.Add(equipCommand.Card);
-                        bool disabled = (currentUsageVerifier.Verify(HostPlayer, skill, attempt, players) == VerifierResult.Fail);
-                        //we do not have a skill and yet the equip is enabled!
-                        //therefore it must be due to it being a valid command.
-                        // kindly override in this case (this test does not count)
-                        // otherwise we take this result as the result
-                        if (!(skill == null && equipCommand.IsEnabled && equipCommand.SkillCommand.Skill != null))
+                        bool enabledAsSkill = false;
+                        if (skill == null && equipCommand.SkillCommand.Skill != null && equipCommand.SkillCommand.Skill is CardTransformSkill)
                         {
-                            equipCommand.IsEnabled = !disabled;
+                            enabledAsSkill = (currentUsageVerifier.Verify(HostPlayer, equipCommand.SkillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
+                        }
+                        if (!equipCommand.IsSelected)
+                        {
+                            attempt.Add(equipCommand.Card);
+                            bool disabled = (currentUsageVerifier.Verify(HostPlayer, skill, attempt, players) == VerifierResult.Fail);
+                            equipCommand.IsEnabled = (!disabled) | enabledAsSkill;
                         }
                         attempt.Remove(equipCommand.Card);
                     }

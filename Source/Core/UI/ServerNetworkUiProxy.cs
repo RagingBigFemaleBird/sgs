@@ -164,7 +164,10 @@ namespace Sanguosha.Core.UI
                     {
                         if (!(skill is ActiveSkill) && !(skill != null && skill.GetType().Name.Contains("GuHuo")))
                         {
-                            c.RevealOnce = true;
+                            if (c.Place.DeckType != DeckType.Equipment && c.Place.DeckType != DeckType.DelayedTools)
+                            {
+                                c.RevealOnce = true;
+                            }
                         }
                         server.SendObject(i, c);
                     }
