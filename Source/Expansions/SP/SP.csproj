@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Skills\HuXiao.cs" />
     <Compile Include="Skills\JiLei.cs" />
     <Compile Include="SpExpansion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -54,7 +54,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                         args.TargetApproval[0] = true;
                     },
                     TriggerCondition.OwnerIsSource
-                ) { IsAutoNotify = false };
+                ) { IsAutoNotify = false, Priority = int.MaxValue, Type = TriggerType.Skill };
                 Triggers.Add(GameEvent.PlayerUsedCard, trigger);
                 Triggers.Add(Sha.PlayerNumberOfShaCheck, trigger2);
                 Triggers.Add(Sha.PlayerShaTargetValidation, trigger3);

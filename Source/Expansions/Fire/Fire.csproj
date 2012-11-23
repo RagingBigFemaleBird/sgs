@@ -50,6 +50,7 @@
     <Compile Include="Skills\KanPo.cs" />
     <Compile Include="Skills\QinYin.cs" />
     <Compile Include="Skills\QuHu.cs" />
+    <Compile Include="Skills\TianYi.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.csproj">

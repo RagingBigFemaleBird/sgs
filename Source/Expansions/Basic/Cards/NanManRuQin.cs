@@ -19,7 +19,7 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         public NanManRuQin()
         {
-            ResponseCardVerifier = new SingleCardUsageVerifier((c) => { return c.Type is Sha; });
+            ResponseCardVerifier = new SingleCardUsageVerifier((c) => { return c.Type is Sha; }, false);
         }
 
         protected override string UsagePromptString

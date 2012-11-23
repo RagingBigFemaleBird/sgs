@@ -1474,6 +1474,30 @@ namespace Sanguosha.Core.Games
             return true;
         }
 
+        public bool PlayerCanPlayCard(Player p, ICard c)
+        {
+            GameEventArgs arg = new GameEventArgs();
+            arg.Source = p;
+            arg.Card = c;
+            try
+            {
+                Game.CurrentGame.Emit(GameEvent.PlayerCanPlayCard, arg);
+            }
+            catch (TriggerResultException e)
+            {
+                if (e.Status == TriggerResult.Fail)
+                {
+                    Trace.TraceInformation("Player {0} cannot play {1}", p.Id, c.Type.CardType);
+                    return false;
+                }
+                else
+                {
+                    Trace.Assert(false);
+                }
+            }
+            return true;
+        }
+
         public bool PlayerCanDiscardCards(Player p, List<Card> cards)
         {
             foreach (Card c in cards)

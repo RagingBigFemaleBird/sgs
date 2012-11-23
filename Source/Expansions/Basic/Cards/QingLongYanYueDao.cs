@@ -31,7 +31,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 List<Card> cards;
                 List<Player> players;
                 if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("QingLongYanYueDao"),
-                    new SingleCardUsageVerifier((c) => {return c.Type is Sha;}),
+                    new SingleCardUsageVerifier((c) => {return c.Type is Sha;}, true),
                     out skill, out cards, out players))
                 {
                     while (true)
