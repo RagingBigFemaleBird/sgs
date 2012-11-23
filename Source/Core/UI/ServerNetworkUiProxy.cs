@@ -139,7 +139,7 @@ namespace Sanguosha.Core.UI
             return true;
         }
 
-        public void SendCardUsage(ISkill skill, List<Card> cards, List<Player> players)
+        public void SendCardUsage(ISkill skill, List<Card> cards, List<Player> players, ICardUsageVerifier verifier)
         {
             for (int i = 0; i < server.MaxClients; i++)
             {
@@ -162,7 +162,7 @@ namespace Sanguosha.Core.UI
                     }
                     foreach (Card c in cards)
                     {
-                        if (!(skill is ActiveSkill) && !(skill != null && skill.GetType().Name.Contains("GuHuo")))
+                        if (!(skill is ActiveSkill) && !(skill != null && skill.GetType().Name.Contains("GuHuo")) && !(verifier.Helper.NoCardReveal))
                         {
                             if (c.Place.DeckType != DeckType.Equipment && c.Place.DeckType != DeckType.DelayedTools)
                             {
@@ -208,7 +208,7 @@ namespace Sanguosha.Core.UI
             }
             else
             {
-                SendCardUsage(skill, cards, players);
+                SendCardUsage(skill, cards, players, verifier);
             }
             NextQuestion();
             if (cards == null)

@@ -85,6 +85,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
         {
             Player target = eventArgs.Targets[0];
+            if (Game.CurrentGame.IsDying.Contains(target)) return;
             if (target.Health > 0) return;
             Game.CurrentGame.IsDying.Push(target);
             List<Player> toAsk = new List<Player>(Game.CurrentGame.AlivePlayers);
@@ -126,8 +127,9 @@ namespace Sanguosha.Expansions.Basic.Cards
                 }
             }
             Trace.TraceInformation("Player {0} dead", target.Id);
+            Trace.Assert(target == Game.CurrentGame.IsDying.Pop());
+            Game.CurrentGame.Emit(GameEvent.GameProcessPlayerIsDead, eventArgs);
             target.IsDead = true;
-            Game.CurrentGame.Emit(GameEvent.PlayerIsDead, eventArgs);
             Game.CurrentGame.SyncCardsAll(Game.CurrentGame.Decks[target, DeckType.Hand]);
             CardsMovement move = new CardsMovement();
             move.cards = new List<Card>();
@@ -136,7 +138,6 @@ namespace Sanguosha.Expansions.Basic.Cards
             move.cards.AddRange(Game.CurrentGame.Decks[target, DeckType.DelayedTools]);
             move.to = new DeckPlace(null, DeckType.Discard);
             Game.CurrentGame.MoveCards(move, null);
-            Trace.Assert(target == Game.CurrentGame.IsDying.Pop());
 
         }
     }

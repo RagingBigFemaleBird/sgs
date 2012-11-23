@@ -111,7 +111,7 @@ namespace Sanguosha.Core.UI
                 {
                     foreach (var p in players)
                     {
-                        proxy[player].SendCardUsage(manswerSkill[p], manswerCards[p], manswerPlayers[p]);
+                        proxy[player].SendCardUsage(manswerSkill[p], manswerCards[p], manswerPlayers[p], verifier);
                     }
                     break;
                 }
@@ -211,7 +211,7 @@ namespace Sanguosha.Core.UI
                 }
                 else
                 {
-                    proxy[player].SendCardUsage(skill, cards, players);
+                    proxy[player].SendCardUsage(skill, cards, players, verifier);
                     break;
                 }
             }

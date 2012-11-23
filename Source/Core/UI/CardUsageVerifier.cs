@@ -44,6 +44,17 @@ namespace Sanguosha.Core.UI
             get { return hasNoConfirmation; }
             set { hasNoConfirmation = value; }
         }
+
+        private bool noCardReveal;
+        /// <summary>
+        /// 不展示卡牌使用 (e.g. 遗计）
+        /// </summary>
+        public bool NoCardReveal
+        {
+            get { return noCardReveal; }
+            set { noCardReveal = value; }
+        }
+
     }
 
     public interface ICardUsageVerifier
