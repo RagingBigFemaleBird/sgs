@@ -200,6 +200,7 @@ namespace Sanguosha.UI.Controls
         }
 
         private DragState  _dragState;
+        private Point _startCardPosition;
         private void CardView_MouseMove(object sender, MouseEventArgs e)
         {
             if (DragDirection != DragDirection.None && e.LeftButton == MouseButtonState.Pressed)
@@ -214,7 +215,8 @@ namespace Sanguosha.UI.Controls
                         Opacity = 0.8d;
                         _dragStartPoint = pos;
                         _dragState = DragState.Dragging;
-                       
+                        _startCardPosition = Position;
+
                         var handle = OnDragBegin;
                         if (handle != null)
                         {
@@ -225,8 +227,8 @@ namespace Sanguosha.UI.Controls
                 else if (_dragState == DragState.Dragging)
                 {
                     Point offset = _ComputeDragOffset(pos);
-                    this.RenderTransform = new TranslateTransform(offset.X, offset.Y);
-
+                    Position = new Point(_startCardPosition.X + offset.X, _startCardPosition.Y + offset.Y);
+                    Rebase(0);
                     var handle = OnDragging;
                     if (handle != null)
                     {
@@ -256,9 +258,10 @@ namespace Sanguosha.UI.Controls
 
         private void CardView_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            this.ReleaseMouseCapture();
+
             if (DragDirection != DragDirection.None && _dragState == DragState.Dragging)
             {
-                this.RenderTransform = null;
                 Opacity = 1.0d;
                 var handle = OnDragEnd;
                 if (handle != null)
@@ -272,7 +275,7 @@ namespace Sanguosha.UI.Controls
                 if (model == null || !model.IsEnabled) return;
                 model.IsSelected = !model.IsSelected;
             }
-            this.ReleaseMouseCapture();
+            
             _dragState = DragState.None;
             e.Handled = true;
         }

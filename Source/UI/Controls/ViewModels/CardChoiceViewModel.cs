@@ -60,6 +60,20 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+
+        private bool canClose;
+
+        public bool CanClose
+        {
+            get { return canClose; }
+            set
+            {
+                if (canClose == value) return;
+                canClose = value;
+                OnPropertyChanged("CanClose");
+            }
+        }
+
         private ObservableCollection<CardChoiceLineViewModel> cardStacks;
         public ObservableCollection<CardChoiceLineViewModel> CardStacks
         {

@@ -1272,6 +1272,7 @@ namespace Sanguosha.UI.Controls
                 {
                     CardChoiceModel.Prompt = PromptFormatter.Format(prompt);
                     _ConstructCardChoiceModel(sourceDecks, resultDeckNames, resultDeckMaximums, rearrangeable, timeOutSeconds, callback);
+                    
                     IsCardChoiceQuestionShown = true;
                 }
             });
