@@ -97,9 +97,19 @@ namespace Sanguosha.Core.Cards
             {
                 return VerifierResult.Fail;
             }
-            if (!Game.CurrentGame.PlayerCanUseCard(source, cards[0]))
+            if (isUseCard)
             {
-                return VerifierResult.Fail;
+                if (!Game.CurrentGame.PlayerCanUseCard(source, cards[0]))
+                {
+                    return VerifierResult.Fail;
+                }
+            }
+            else
+            {
+                if (!Game.CurrentGame.PlayerCanPlayCard(source, cards[0]))
+                {
+                    return VerifierResult.Fail;
+                }
             }
             return VerifierResult.Success;
         }
