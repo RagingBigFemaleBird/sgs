@@ -11,10 +11,13 @@
     xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:Sanguosha_UI_Effects="clr-namespace:Sanguosha.UI.Effects;assembly=Effects"
     x:Class="Sanguosha.UI.Controls.PlayerView"
     mc:Ignorable="d"
-    MaxWidth="168" MaxHeight="210" MinWidth="138" MinHeight="174" d:DesignHeight="210" d:DesignWidth="168">
+    MaxWidth="180" MaxHeight="210"
+    MinWidth="138" MinHeight="174"
+    d:DesignHeight="210" d:DesignWidth="180">
     <local:PlayerViewBase.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="MarkView.xaml"/>
                 <ResourceDictionary Source="../Buttons/CardButton.xaml"/>
                 <ResourceDictionary Source="../Skills/SkillButton.xaml"/>
                 <ResourceDictionary Source="../Skills/SkillToolTip.xaml"/>
@@ -153,13 +156,27 @@
     </local:PlayerViewBase.Resources>
     <local:PlayerViewBase.Triggers>
     </local:PlayerViewBase.Triggers>
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="LayoutRoot">        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <ItemsControl ItemsSource="{Binding Marks}"                      
+                      ItemTemplate="{StaticResource SmallMarkTemplate}" Margin="0,0,0,5"
+                      Width="20" Grid.Column="1">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel FlowDirection="LeftToRight"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+        <Grid x:Name="LeftGrid" FlowDirection="LeftToRight">
         <Grid.ToolTip>
             <ToolTip x:Name="toolTip" Content="{Binding}" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
         </Grid.ToolTip>
         <ToolTipService.ShowOnDisabled>
             <System:Boolean>True</System:Boolean>
-</ToolTipService.ShowOnDisabled>
+        </ToolTipService.ShowOnDisabled>
         <VisualStateManager.CustomVisualStateManager>
             <ei:ExtendedVisualStateManager/>
         </VisualStateManager.CustomVisualStateManager>
@@ -188,10 +205,6 @@
             <RowDefinition/>
             <RowDefinition Height="12"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="auto"/>
-        </Grid.ColumnDefinitions>
         <ProgressBar x:Name="progressBar" Style="{StaticResource TimedProgressBarStyle}" Grid.Column="0" Grid.Row="2" Margin="5,0" />
         <Grid x:Name="grid" Grid.Column="0">            
             <Grid.Effect>
@@ -365,5 +378,6 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
+    </Grid>
     </Grid>
 </local:PlayerViewBase>

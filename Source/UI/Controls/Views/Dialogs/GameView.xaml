@@ -15,6 +15,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>            	
             	<ResourceDictionary Source="../../Common.xaml"/>
+                <ResourceDictionary Source="../Players/MarkView.xaml"/>
             	<ResourceDictionary Source="../Buttons/MultiChoiceButton.xaml"/>
                 <ResourceDictionary Source="../Dialogs/PromptBox.xaml"/>
             	<ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
@@ -103,7 +104,7 @@
 		    <StackPanel x:Name="stackPanel4" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top"/>
 		    <StackPanel x:Name="stackPanel5" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" />
         </local:NonClipGrid>
-        <StackPanel x:Name="spPrompt" Grid.Column="0" Grid.Row="0"
+        <StackPanel x:Name="spPrompt"
                         HorizontalAlignment="Center"  VerticalAlignment="Bottom"
                         Margin="100, 0, 100, 0">
             <Viewbox Height="58" StretchDirection="DownOnly">
@@ -138,6 +139,15 @@
 					 Margin="0,0,0,7"
 					 VerticalAlignment="Bottom"/>
         </StackPanel>
+        <ItemsControl ItemsSource="{Binding MainPlayerModel.Marks}"
+                      VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                      ItemTemplate="{StaticResource LargeMarkTemplate}" Margin="0,0,0,5">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
         <local:MainPlayerView x:Name="mainPlayerPanel" VerticalAlignment="Bottom" Grid.Row="1" Grid.ColumnSpan="2"/>
         <Grid x:Name="infoPanel" Grid.Column="1">
         <Grid x:Name="infoPanelBg" Background="#FFA79865">

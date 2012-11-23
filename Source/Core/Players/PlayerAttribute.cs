@@ -11,7 +11,7 @@ namespace Sanguosha.Core.Players
         {
             Name = attrName;
             AutoReset = autoReset;
-            IsAMark = isAMark;
+            IsMark = isAMark;
         }
 
         private string name;
@@ -30,12 +30,12 @@ namespace Sanguosha.Core.Players
             set { autoReset = value; }
         }
 
-        private bool isAMark;
+        private bool isMark;
 
-        public bool IsAMark
+        public bool IsMark
         {
-            get { return isAMark; }
-            set { isAMark = value; }
+            get { return isMark; }
+            set { isMark = value; }
         }
 
         public static PlayerAttribute Register(string attributeName, bool autoReset = false, bool isAMark = false)

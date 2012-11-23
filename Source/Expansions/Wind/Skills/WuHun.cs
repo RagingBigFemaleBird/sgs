@@ -47,13 +47,13 @@ namespace Sanguosha.Expansions.Wind.Skills
             List<Player> maxMarkPlayers = new List<Player>();
             foreach (var p in toProcess)
             {
-                if (p[WuHunMark] > 0 && p[WuHunMark] > maxMark)
+                if (p[MengYanMark] > 0 && p[MengYanMark] > maxMark)
                 {
-                    maxMark = p[WuHunMark];
+                    maxMark = p[MengYanMark];
                     maxMarkPlayers.Clear();
                     maxMarkPlayers.Add(p);
                 }
-                else if (p[WuHunMark] > 0 && p[WuHunMark] == maxMark)
+                else if (p[MengYanMark] > 0 && p[MengYanMark] == maxMark)
                 {
                     maxMarkPlayers.Add(p);
                 }
@@ -85,7 +85,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             }
             foreach (var p in Game.CurrentGame.Players)
             {
-                p[WuHunMark] = 0;
+                p[MengYanMark] = 0;
             }
         }
 
@@ -94,7 +94,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => { return a.Source != null; },
-                (p, e, a) => { a.Source[WuHunMark] = a.Source[WuHunMark] + 1;},
+                (p, e, a) => { a.Source[MengYanMark] = a.Source[MengYanMark] + 1;},
                 TriggerCondition.OwnerIsTarget
             );
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
@@ -113,6 +113,6 @@ namespace Sanguosha.Expansions.Wind.Skills
                 return true;
             }
         }
-        public static PlayerAttribute WuHunMark = PlayerAttribute.Register("WuHun", false, true);
+        public static PlayerAttribute MengYanMark = PlayerAttribute.Register("MengYan", false, true);
     }
 }

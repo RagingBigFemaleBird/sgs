@@ -952,6 +952,7 @@ namespace Sanguosha.Core.Games
             }
             else if (i >= numPlayers)
             {
+                Trace.Assert(false);
                 return null;
             }
             else

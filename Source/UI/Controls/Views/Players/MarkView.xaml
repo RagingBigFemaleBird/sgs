@@ -1,0 +1,42 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Sanguosha.UI.Controls"
+                    xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../../Common.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    <DataTemplate x:Key="LargeMarkTemplate" DataType="{x:Type local:MarkViewModel}">
+        <Grid Width="28" Height="28" Visibility="{Binding IsExisted, Converter={StaticResource boolToVisibilityConverter}}">
+            <Image Stretch="Fill" Source="{res:ResourceKeyBinding Path=MarkName, StringFormat=Mark.\{0\}.Image.Large}" />
+            <ItemsControl ItemsSource="{Binding Digits}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="10">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Image Stretch="None" Source="{res:ResourceKeyBinding StringFormat=Mark.Digit.\{0\}.Image}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+    </DataTemplate>
+    <DataTemplate x:Key="SmallMarkTemplate" DataType="{x:Type local:MarkViewModel}">
+        <Grid Width="20" Height="20" Visibility="{Binding IsExisted, Converter={StaticResource boolToVisibilityConverter}}">
+            <Image Stretch="Fill" Source="{res:ResourceKeyBinding Path=MarkName, StringFormat=Mark.\{0\}.Image.Small}" />
+            <ItemsControl ItemsSource="{Binding Digits}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="10">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Image Stretch="None" Source="{res:ResourceKeyBinding StringFormat=Mark.Digit.\{0\}.Image}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

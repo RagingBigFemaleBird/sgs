@@ -59,6 +59,7 @@ namespace Sanguosha.UI.Controls
             IsCardChoiceQuestionShown = false;            
 
             CardChoiceModel = new CardChoiceViewModel();
+            Marks = new ObservableCollection<MarkViewModel>();
             HandCards = new ObservableCollection<CardViewModel>();
             verifierLock = new object();
             _lastSelectedPlayers = new List<Player>();
@@ -241,6 +242,17 @@ namespace Sanguosha.UI.Controls
                     Application.Current.Dispatcher.Invoke((ThreadStart)delegate(){ _UpdateSkills(); });
                 }                
             }
+            else if (name == "Attributes")
+            {
+                if (Application.Current.Dispatcher.CheckAccess())
+                {
+                    _UpdateAttributes();
+                }
+                else
+                {
+                    Application.Current.Dispatcher.Invoke((ThreadStart)delegate() { _UpdateAttributes(); });
+                }
+            }
             else
             {
                 var propNames = from prop in this.GetType().GetProperties() select prop.Name;
@@ -249,6 +261,32 @@ namespace Sanguosha.UI.Controls
                     OnPropertyChanged(name);
                 }
             }    
+        }
+
+        private void _UpdateAttributes()
+        {
+            foreach (var attribute in _player.Attributes.Keys)
+            {
+                if (!attribute.IsMark) continue;
+                int count = _player[attribute];
+                MarkViewModel model = null;
+                foreach (var mark in Marks)
+                {
+                    if (mark.PlayerAttribute == attribute) 
+                    {
+                        model = mark;
+                        break;
+                    }
+                }
+
+                if (model == null)
+                {
+                    model = new MarkViewModel() { PlayerAttribute = attribute };
+                    Marks.Add(model);
+                }
+
+                model.Number = _player[attribute];
+            }            
         }
 
         #endregion
@@ -458,10 +496,16 @@ namespace Sanguosha.UI.Controls
         
         #region Derived Player Properties
 
+        public ObservableCollection<MarkViewModel> Marks
+        {
+            get;
+            private set;
+        }
+
         public ObservableCollection<CardViewModel> HandCards
         {
             get;
-            set;
+            private set;
         }
 
 

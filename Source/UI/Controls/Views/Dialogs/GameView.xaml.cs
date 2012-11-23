@@ -174,8 +174,8 @@ namespace Sanguosha.UI.Controls
                                      profileBoxes[0].MaxHeight);
             double ratio = (double)Resources["PlayerInfoView.WidthHeightRatio"];
 
-            width = Math.Min(width, height * ratio);
-            height = width / ratio;
+            width = Math.Min(width, height * ratio + 20);
+            height = (width - 20) / ratio;
 
             double hSpacing = (tableBounds.Width - width * columns) / columns;
             double vSpacing = (tableBounds.Height - height * rows) / (rows + 4);
@@ -459,6 +459,14 @@ namespace Sanguosha.UI.Controls
                 else
                 {
                     stackPanels[seat].Children.Insert(0, profileBoxes[i]);
+                }
+                if (seat % 3 == 0)
+                {
+                    profileBoxes[i].FlowDirection = FlowDirection.RightToLeft;
+                }
+                else
+                {
+                    profileBoxes[i].FlowDirection = FlowDirection.LeftToRight;                    
                 }
             }
         }        

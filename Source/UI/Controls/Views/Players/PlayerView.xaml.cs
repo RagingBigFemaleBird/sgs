@@ -32,6 +32,15 @@ namespace Sanguosha.UI.Controls
             _OnPropertyChanged = new PropertyChangedEventHandler(model_PropertyChanged);            
         }
 
+        public static void PlayerView_FlowDirectionChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            PlayerView view = sender as PlayerView;
+            if (view != null)
+            {
+                view.LayoutRoot.FlowDirection = view.FlowDirection;
+            }
+        }
+
         private PropertyChangedEventHandler _OnPropertyChanged;
 
         void PlayerInfoView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)

@@ -239,4 +239,18 @@
     <CroppedBitmap x:Key="GuHuo.JieDaoShaRen.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,390,94,25" />
     <CroppedBitmap x:Key="GuHuo.HuoGong.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,416,94,25" />
     <CroppedBitmap x:Key="GuHuo.TieSuoLianHuan.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,442,94,25" />    
+
+    <CroppedBitmap x:Key="Mark.MengYan.Image.Large" Source="Marks/marks.png" SourceRect="86,21,28,28" />
+    <CroppedBitmap x:Key="Mark.MengYan.Image.Small" Source="Marks/marks.png" SourceRect="63,0,20,20" />
+    
+    <CroppedBitmap x:Key="Mark.Digit.0.Image" Source="Marks/marks.png" SourceRect="86,84,9,10" />
+    <CroppedBitmap x:Key="Mark.Digit.1.Image" Source="Marks/marks.png" SourceRect="95,84,7,10" />
+    <CroppedBitmap x:Key="Mark.Digit.2.Image" Source="Marks/marks.png" SourceRect="103,84,7,10" />
+    <CroppedBitmap x:Key="Mark.Digit.3.Image" Source="Marks/marks.png" SourceRect="111,84,7,10" />
+    <CroppedBitmap x:Key="Mark.Digit.4.Image" Source="Marks/marks.png" SourceRect="119,84,7,10" />
+    <CroppedBitmap x:Key="Mark.Digit.5.Image" Source="Marks/marks.png" SourceRect="127,84,7,10" />
+    <CroppedBitmap x:Key="Mark.Digit.6.Image" Source="Marks/marks.png" SourceRect="135,84,7,10" />
+    <CroppedBitmap x:Key="Mark.Digit.7.Image" Source="Marks/marks.png" SourceRect="143,84,7,10" />
+    <CroppedBitmap x:Key="Mark.Digit.8.Image" Source="Marks/marks.png" SourceRect="151,84,7,10" />
+    <CroppedBitmap x:Key="Mark.Digit.9.Image" Source="Marks/marks.png" SourceRect="159,84,8,10" />
 </ResourceDictionary>

@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ViewModels\GuHuoSkillCommand.cs" />
+    <Compile Include="ViewModels\MarkViewModel.cs" />
     <Compile Include="Views\Cards\DragDirection.cs" />
     <Compile Include="Views\Cards\SuitColorToColorConverter.cs" />
     <Compile Include="Views\Dialogs\CardSetView.xaml.cs">
@@ -177,6 +178,10 @@
     <Page Include="Views\Dialogs\ChatWidget.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Players\MarkView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Skills\GuHuoSkillButton.xaml">
       <SubType>Designer</SubType>
