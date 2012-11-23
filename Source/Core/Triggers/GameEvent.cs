@@ -371,9 +371,14 @@ namespace Sanguosha.Core.Triggers
         public static readonly GameEvent PlayerIsAboutToDie = new GameEvent("PlayerIsAboutToDie");
 
         /// <summary>
-        /// 玩家死亡
+        /// 玩家死亡 此trigger只供游戏本身使用
         /// </summary>
-        public static readonly GameEvent PlayerIsDead = new GameEvent("PlayerIsDead");
+        public static readonly GameEvent GameProcessPlayerIsDead = new GameEvent("PlayerIsDead");
+
+        /// <summary>
+        /// 玩家死亡时, 死亡时：能发动的技能：【行殇】、【挥泪】、【追忆】、【断肠】、【随势②】、【武魂②】。此外【连破】的发动条件是否满足是根据此时是否为一名角色的回合内来判断的。
+        /// </summary>
+        public static readonly GameEvent PlayerIsDead = new GameEvent("PlayerIsDying");
 
         /// <summary>
         /// 牌的使用距离加成
@@ -384,6 +389,16 @@ namespace Sanguosha.Core.Triggers
         /// 锁定计：你的X视为Y
         /// </summary>
         public static readonly GameEvent EnforcedCardTransform = new GameEvent("EnforcedCardTransform");
+
+        /// <summary>
+        /// 玩家失去技能
+        /// </summary>
+        public static readonly GameEvent PlayerLoseSkill = new GameEvent("PlayerLoseSkill");
+
+        /// <summary>
+        /// 玩家改变国籍
+        /// </summary>
+        public static readonly GameEvent PlayerChangedAllegience = new GameEvent("PlayerChangedAllegience");
 
         public override bool Equals(object obj)
         {

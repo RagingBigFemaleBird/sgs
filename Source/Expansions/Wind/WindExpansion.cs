@@ -28,7 +28,7 @@ namespace Sanguosha.Expansions.Wind
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhangJiao", true, Allegiance.Qun, 3, new LeiJi(), new GuiDao()/*, new HuangTian()*/))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("YuJi", true, Allegiance.Qun, 3, new GuHuo()))));
 
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ShenGuanYu", true, Allegiance.God, 5, new WuShen()/*, new WuHun()*/))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ShenGuanYu", true, Allegiance.God, 5, new WuShen(), new WuHun()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ShenLvMeng", true, Allegiance.God, 3, new SheLie(), new GongXin()))));
         }
     }

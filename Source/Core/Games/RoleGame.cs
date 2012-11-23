@@ -676,26 +676,6 @@ namespace Sanguosha.Core.Games
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 Player p = eventArgs.Targets[0];
-                if (p.Hero != null)
-                {
-                    foreach (ISkill s in p.Hero.Skills)
-                    {
-                        if (s is TriggerSkill)
-                        {
-                            (s as TriggerSkill).Owner = null;
-                        }
-                    }
-                }
-                if (p.Hero2 != null)
-                {
-                    foreach (ISkill s in p.Hero2.Skills)
-                    {
-                        if (s is TriggerSkill)
-                        {
-                            (s as TriggerSkill).Owner = null;
-                        }
-                    }
-                }
                 Player source = eventArgs.Source;
                 if (source == null)
                 {
@@ -725,6 +705,30 @@ namespace Sanguosha.Core.Games
                     }
                     throw new GameOverException();
                 }
+
+                Game.CurrentGame.Emit(GameEvent.PlayerIsDead, eventArgs);
+                p.IsDead = true;
+                if (p.Hero != null)
+                {
+                    foreach (ISkill s in p.Hero.Skills)
+                    {
+                        if (s is TriggerSkill)
+                        {
+                            (s as TriggerSkill).Owner = null;
+                        }
+                    }
+                }
+                if (p.Hero2 != null)
+                {
+                    foreach (ISkill s in p.Hero2.Skills)
+                    {
+                        if (s is TriggerSkill)
+                        {
+                            (s as TriggerSkill).Owner = null;
+                        }
+                    }
+                }
+                
                 if (p.Role == Role.Rebel || p.Role == Role.Defector)
                 {
                     int deadRebel = 0;
@@ -747,7 +751,7 @@ namespace Sanguosha.Core.Games
                         Game.CurrentGame.NotificationProxy.NotifyGameOver(GameResult.Ruler);
                         throw new GameOverException();
                     }
-                    if (!source.IsDead)
+                    if (source != null && !source.IsDead && p.Role == Role.Rebel)
                     {
                         Trace.TraceInformation("Killed rebel. GIVING YOU THREE CARDS OMG WIN GAME RIGHT THERE!!!");
                         Game.CurrentGame.DrawCards(source, 3);
@@ -806,7 +810,7 @@ namespace Sanguosha.Core.Games
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Discard], new PlayerDiscardStageTrigger());
             RegisterTrigger(GameEvent.CommitActionToTargets, new CommitActionToTargetsTrigger());
             RegisterTrigger(GameEvent.AfterHealthChanged, new PlayerHpChanged());
-            RegisterTrigger(GameEvent.PlayerIsDead, new PlayerIsDead());
+            RegisterTrigger(GameEvent.GameProcessPlayerIsDead, new PlayerIsDead() { Priority = int.MinValue });
             RegisterTrigger(GameEvent.CardUsageBeforeEffected, new DeadManStopper() { Priority = int.MaxValue });
             RegisterTrigger(GameEvent.CardUsageBeforeEffected, new DeadManStopper() { Priority = int.MinValue });
         }

@@ -7,10 +7,11 @@ namespace Sanguosha.Core.Players
 {
     public class PlayerAttribute
     {
-        private PlayerAttribute(string attrName, bool autoReset)
+        private PlayerAttribute(string attrName, bool autoReset, bool isAMark)
         {
             Name = attrName;
             AutoReset = autoReset;
+            IsAMark = isAMark;
         }
 
         private string name;
@@ -29,10 +30,19 @@ namespace Sanguosha.Core.Players
             set { autoReset = value; }
         }
 
-        public static PlayerAttribute Register(string attributeName, bool autoReset = false)
+        private bool isAMark;
+
+        public bool IsAMark
         {
-            return new PlayerAttribute(attributeName, autoReset);
+            get { return isAMark; }
+            set { isAMark = value; }
         }
+
+        public static PlayerAttribute Register(string attributeName, bool autoReset = false, bool isAMark = false)
+        {
+            return new PlayerAttribute(attributeName, autoReset, isAMark);
+        }
+
         public override bool Equals(object obj)
         {
             if (System.Object.ReferenceEquals(obj, this))
