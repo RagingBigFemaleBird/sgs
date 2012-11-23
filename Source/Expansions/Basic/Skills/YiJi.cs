@@ -63,9 +63,9 @@ namespace Sanguosha.Expansions.Basic.Skills
                 if (AskForSkillUse())
                 {
                     // hack the cards to owner's hand. do not trigger anything
-                    Game.CurrentGame.SyncCard(Owner, Game.CurrentGame.PeekCard(0));
+                    Game.CurrentGame.SyncImmutableCard(Owner, Game.CurrentGame.PeekCard(0));
                     Card c1 = Game.CurrentGame.DrawCard();
-                    Game.CurrentGame.SyncCard(Owner, Game.CurrentGame.PeekCard(0));
+                    Game.CurrentGame.SyncImmutableCard(Owner, Game.CurrentGame.PeekCard(0));
                     Card c2 = Game.CurrentGame.DrawCard();
                     CardsMovement move = new CardsMovement();
                     move.cards = new List<Card>() { c1, c2 };

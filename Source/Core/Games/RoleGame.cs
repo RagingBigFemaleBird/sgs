@@ -340,7 +340,7 @@ namespace Sanguosha.Core.Games
                 move.to = new DeckPlace(player, DeckType.Hand);
                 for (int i = 0; i < 4; i++)
                 {
-                    game.SyncCard(player, game.PeekCard(0));
+                    game.SyncImmutableCard(player, game.PeekCard(0));
                     Card c = game.DrawCard();
                     move.cards.Add(c);
                 }
@@ -453,7 +453,7 @@ namespace Sanguosha.Core.Games
                         c.Place = new DeckPlace(null, RoleDeckType);
                         game.Decks[null, RoleDeckType].Add(c);
                     }
-                    game.SyncCardAll(game.Decks[null, RoleDeckType][0]);
+                    game.SyncImmutableCardAll(game.Decks[null, RoleDeckType][0]);
                 }
                 else
                 {
@@ -461,7 +461,7 @@ namespace Sanguosha.Core.Games
                     {
                         if ((c.Type as RoleCardHandler).Role == Role.Ruler)
                         {
-                            game.SyncCardAll(c);
+                            game.SyncImmutableCardAll(c);
                         }
                     }
                 }
@@ -469,7 +469,7 @@ namespace Sanguosha.Core.Games
                 int i = 0;
                 for (i = 0; i < game.Players.Count; i++)
                 {
-                    game.SyncCard(game.Players[i], game.Decks[null, RoleDeckType][i]);
+                    game.SyncImmutableCard(game.Players[i], game.Decks[null, RoleDeckType][i]);
                 }
 
                 List<CardsMovement> moves = new List<CardsMovement>();
@@ -546,7 +546,7 @@ namespace Sanguosha.Core.Games
                     answer.Add(new List<Card>());
                     answer[0].Add(game.Decks[DeckType.Heroes][0]);
                 }
-                game.SyncCardAll(answer[0][0]);
+                game.SyncImmutableCardAll(answer[0][0]);
                 game.Decks[DeckType.Heroes].Remove(answer[0][0]);
 
                 HeroCardHandler h = (HeroCardHandler)answer[0][0].Type;
@@ -568,7 +568,7 @@ namespace Sanguosha.Core.Games
                     restDraw.Add(p, new List<Card>());
                     for (int n = 0; n < 3; n++)
                     {
-                        game.SyncCard(p, game.Decks[DeckType.Heroes][idx]);
+                        game.SyncImmutableCard(p, game.Decks[DeckType.Heroes][idx]);
                         restDraw[p].Add(game.Decks[DeckType.Heroes][idx]);
                         idx++;
                     }
@@ -608,7 +608,7 @@ namespace Sanguosha.Core.Games
                         idx = (int)game.GameClient.Receive();
                         c = restDraw[p][idx];
                     }
-                    game.SyncCardAll(c);
+                    game.SyncImmutableCardAll(c);
                     toRemove.Add(c);
                     h = (HeroCardHandler)c.Type;
                     Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, p.Id);
@@ -686,7 +686,7 @@ namespace Sanguosha.Core.Games
                 }
                 DeckType role = new DeckType("Role");
                 Trace.Assert(Game.CurrentGame.Decks[p, role].Count == 1);
-                Game.CurrentGame.SyncCardAll(Game.CurrentGame.Decks[p, role][0]);
+                Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.Decks[p, role][0]);
                 Trace.TraceInformation("Player {0} is {1}", p.Id, (Game.CurrentGame.Decks[p, role][0].Type as RoleCardHandler).Role);
                 p.Role = (Game.CurrentGame.Decks[p, role][0].Type as RoleCardHandler).Role;
                 Game.CurrentGame.NotificationProxy.NotifyDeath(p, source);

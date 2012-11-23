@@ -153,7 +153,56 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public void SyncCard(Player player, Card card)
+        public void SyncCard(Player player, ref Card card)
+        {
+            if (card.Place.DeckType == DeckType.Equipment || card.Place.DeckType == DeckType.DelayedTools)
+            {
+                return;
+            }
+            if (GameClient != null)
+            {
+                if (player.Id != GameClient.SelfId)
+                {
+                    return;
+                }
+                card = GameClient.Receive() as Card;
+                Trace.Assert(card != null);
+            }
+            else if (GameServer != null)
+            {
+                card.RevealOnce = true;
+                GameServer.SendObject(player.Id, card);
+            }
+        }
+
+        public void SyncCards(Player player, List<Card> cards)
+        {
+            int i;
+            for (i = 0; i < cards.Count; i++)
+            {
+                var temp = cards[i];
+                SyncCard(player, ref temp);
+                cards[i] = temp;
+            }
+        }
+
+        public void SyncCardAll(ref Card card)
+        {
+            foreach (Player p in players)
+            {
+                SyncCard(p, ref card);
+            }
+        }
+
+        public void SyncCardsAll(List<Card> cards)
+        {
+            foreach (Player p in players)
+            {
+                SyncCards(p, cards);
+            }
+        }
+
+        public void SyncImmutableCard(Player player, Card card)
         {
             if (card.Place.DeckType == DeckType.Equipment || card.Place.DeckType == DeckType.DelayedTools)
             {
@@ -174,27 +223,27 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public void SyncCards(Player player, List<Card> cards)
+        public void SyncImmutableCards(Player player, List<Card> cards)
         {
-            foreach (Card c in cards)
+            foreach (var card in cards)
             {
-                SyncCard(player, c);
+                SyncImmutableCard(player, card);
             }
         }
 
-        public void SyncCardAll(Card card)
+        public void SyncImmutableCardAll(Card card)
         {
             foreach (Player p in players)
             {
-                SyncCard(p, card);
+                SyncImmutableCard(p, card);
             }
         }
 
-        public void SyncCardsAll(List<Card> cards)
+        public void SyncImmutableCardsAll(List<Card> cards)
         {
             foreach (Player p in players)
             {
-                SyncCards(p, cards);
+                SyncImmutableCards(p, cards);
             }
         }
 
@@ -613,11 +662,11 @@ namespace Sanguosha.Core.Games
                 {
                     if (move.to.Player == null && move.to.DeckType == DeckType.Discard)
                     {
-                        SyncCardAll(card);
+                        SyncImmutableCardAll(card);
                     }
                     if (card.Place.Player != null && move.to.Player != null && move.to.DeckType == DeckType.Hand)
                     {
-                        SyncCard(move.to.Player, card);
+                        SyncImmutableCard(move.to.Player, card);
                     }
                 }
             }
@@ -748,7 +797,7 @@ namespace Sanguosha.Core.Games
             {
                 for (int i = 0; i < num; i++)
                 {
-                    SyncCard(player, PeekCard(0));
+                    SyncImmutableCard(player, PeekCard(0));
                     cardsDrawn.Add(DrawCard());
                 }
             }
@@ -1120,7 +1169,7 @@ namespace Sanguosha.Core.Games
                 MoveCards(move, null);
                 PlayerDiscardedCard(player, backup, DiscardReason.Judge);
             }
-            SyncCardAll(PeekCard(0));
+            SyncImmutableCardAll(PeekCard(0));
             c = Game.CurrentGame.DrawCard();
             move = new CardsMovement();
             move.cards = new List<Card>();
@@ -1594,7 +1643,7 @@ namespace Sanguosha.Core.Games
                 Game.CurrentGame.SyncConfirmationStatus(ref status);
                 if (!status)
                 {
-                    Game.CurrentGame.SyncCardsAll(Game.CurrentGame.Decks[currentPlayer, DeckType.Hand]);
+                    Game.CurrentGame.SyncImmutableCardsAll(Game.CurrentGame.Decks[currentPlayer, DeckType.Hand]);
                 }
 
                 if (!proxy.AskForCardUsage(new Prompt(Prompt.DiscardPhasePrompt, toDiscard),
@@ -1606,7 +1655,7 @@ namespace Sanguosha.Core.Games
                     Game.CurrentGame.SyncConfirmationStatus(ref status);
                     if (!status)
                     {
-                        Game.CurrentGame.SyncCardsAll(Game.CurrentGame.Decks[currentPlayer, DeckType.Hand]);
+                        Game.CurrentGame.SyncImmutableCardsAll(Game.CurrentGame.Decks[currentPlayer, DeckType.Hand]);
                     }
                     cannotBeDiscarded = 0;
                     foreach (Card c in Game.CurrentGame.Decks[currentPlayer, DeckType.Hand])
@@ -1634,6 +1683,7 @@ namespace Sanguosha.Core.Games
                         }
                         if (cardsDiscarded == toDiscard)
                         {
+                            SyncCardsAll(cards);
                             break;
                         }
                     }
@@ -1679,7 +1729,7 @@ namespace Sanguosha.Core.Games
             if (!aCards.ContainsKey(from) || aCards[from].Count == 0)
             {
                 card1 = Game.CurrentGame.Decks[from, DeckType.Hand][0];
-                SyncCardAll(card1);
+                SyncImmutableCardAll(card1);
             }
             else
             {
@@ -1688,7 +1738,7 @@ namespace Sanguosha.Core.Games
             if (!aCards.ContainsKey(to) || aCards[to].Count == 0)
             {
                 card2 = Game.CurrentGame.Decks[to, DeckType.Hand][0];
-                SyncCardAll(card2);
+                SyncImmutableCardAll(card2);
             }
             else
             {

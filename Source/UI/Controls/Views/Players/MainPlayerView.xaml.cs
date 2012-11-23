@@ -30,7 +30,13 @@ namespace Sanguosha.UI.Controls
         {
             InitializeComponent();
             this.DataContextChanged += new DependencyPropertyChangedEventHandler(PlayerInfoView_DataContextChanged);
-            _OnPropertyChanged = new PropertyChangedEventHandler(model_PropertyChanged);            
+            _OnPropertyChanged = new PropertyChangedEventHandler(model_PropertyChanged);
+            handCardArea.OnHandCardMoved += handCardArea_OnHandCardMoved;
+        }
+
+        void handCardArea_OnHandCardMoved(int oldPlace, int newPlace)
+        {
+            Game.CurrentGame.MoveHandCard(PlayerModel.Player, oldPlace, newPlace);
         }
 
         public override GameView ParentGameView

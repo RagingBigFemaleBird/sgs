@@ -76,7 +76,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 theCard = answer[0][0];
             }           
 
-            Game.CurrentGame.SyncCardAll(theCard);
+            Game.CurrentGame.SyncCardAll(ref theCard);
             List<Card> clist = new List<Card>();
             clist.Add(theCard);
             SuitType theCardSuit = theCard.Suit;

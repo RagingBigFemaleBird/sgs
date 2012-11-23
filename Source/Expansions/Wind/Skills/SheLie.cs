@@ -66,7 +66,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             move.cards = new List<Card>();
             for (int i = 0; i < 5; i++)
             {
-                Game.CurrentGame.SyncCardAll(Game.CurrentGame.PeekCard(0));
+                Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.PeekCard(0));
                 Card c = Game.CurrentGame.DrawCard();
                 move.cards.Add(c);
             }

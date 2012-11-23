@@ -75,7 +75,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                 }
                 believe.Add(player, answer);
             }
-            Game.CurrentGame.SyncCardAll(Game.CurrentGame.Decks[null, DeckType.GuHuo][0]);
+            Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.Decks[null, DeckType.GuHuo][0]);
             bool guhuoSucceed = true;
             foreach (var v in believe)
             {

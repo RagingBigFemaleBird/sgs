@@ -160,17 +160,14 @@ namespace Sanguosha.Core.Network
             sw.Start();
             while (true)
             {
+                object o;
                 if (!handlers[clientId].semIn.WaitOne(timeOutSeconds * 1000))
                 {
                     return false;
                 }
-                object o;
-                do
-                {
-                    handlers[clientId].semAccess.WaitOne();
-                    o = handlers[clientId].queueIn.Dequeue();
-                    handlers[clientId].semAccess.Release(1);
-                } while (HandleInterrupt(o));
+                handlers[clientId].semAccess.WaitOne();
+                o = handlers[clientId].queueIn.Dequeue();
+                handlers[clientId].semAccess.Release(1);
                 if (o == null)
                 {
                     return false;
@@ -200,13 +197,10 @@ namespace Sanguosha.Core.Network
         public Card GetCard(int clientId, int timeOutSeconds)
         {
             object o;
-            do
-            {
-                handlers[clientId].semIn.WaitOne();
-                handlers[clientId].semAccess.WaitOne();
-                o = handlers[clientId].queueIn.Dequeue();
-                handlers[clientId].semAccess.Release(1);
-            } while (HandleInterrupt(o));
+            handlers[clientId].semIn.WaitOne();
+            handlers[clientId].semAccess.WaitOne();
+            o = handlers[clientId].queueIn.Dequeue();
+            handlers[clientId].semAccess.Release(1);
             if (o == null)
             {
                 Trace.TraceWarning("Expected Card but null");
@@ -223,13 +217,10 @@ namespace Sanguosha.Core.Network
         public Player GetPlayer(int clientId, int timeOutSeconds)
         {
             object o;
-            do
-            {
-                handlers[clientId].semIn.WaitOne();
-                handlers[clientId].semAccess.WaitOne();
-                o = handlers[clientId].queueIn.Dequeue();
-                handlers[clientId].semAccess.Release(1);
-            } while (HandleInterrupt(o));
+            handlers[clientId].semIn.WaitOne();
+            handlers[clientId].semAccess.WaitOne();
+            o = handlers[clientId].queueIn.Dequeue();
+            handlers[clientId].semAccess.Release(1);
             if (o == null)
             {
                 Trace.TraceWarning("Expected Player but null");
@@ -247,13 +238,10 @@ namespace Sanguosha.Core.Network
         public int? GetInt(int clientId, int timeOutSeconds)
         {
             object o;
-            do
-            {
-                handlers[clientId].semIn.WaitOne();
-                handlers[clientId].semAccess.WaitOne();
-                o = handlers[clientId].queueIn.Dequeue();
-                handlers[clientId].semAccess.Release(1);
-            } while (HandleInterrupt(o));
+            handlers[clientId].semIn.WaitOne();
+            handlers[clientId].semAccess.WaitOne();
+            o = handlers[clientId].queueIn.Dequeue();
+            handlers[clientId].semAccess.Release(1);
             if (o == null)
             {
                 Trace.TraceWarning("Expected int but null");
@@ -270,13 +258,10 @@ namespace Sanguosha.Core.Network
         public ISkill GetSkill(int clientId, int timeOutSeconds)
         {
             object o;
-            do
-            {
-                handlers[clientId].semIn.WaitOne();
-                handlers[clientId].semAccess.WaitOne();
-                o = handlers[clientId].queueIn.Dequeue();
-                handlers[clientId].semAccess.Release(1);
-            } while (HandleInterrupt(o));
+            handlers[clientId].semIn.WaitOne();
+            handlers[clientId].semAccess.WaitOne();
+            o = handlers[clientId].queueIn.Dequeue();
+            handlers[clientId].semAccess.Release(1);
             if (o == null)
             {
                 Trace.TraceWarning("Expected skill but null");
@@ -389,14 +374,18 @@ namespace Sanguosha.Core.Network
             game.RegisterCurrentThread();
             while (true)
             {
-                object o = r.Receive();
-                if (o is int)
+                object o;
+                do
                 {
-                    Trace.TraceInformation("{0} Received a {1}", Thread.CurrentThread.Name, (int)o);
-                }
-                {
-                    Trace.TraceInformation("{0} Received a {1}", Thread.CurrentThread.Name, o.GetType().Name);
-                }
+                    o = r.Receive();
+                    if (o is int)
+                    {
+                        Trace.TraceInformation("{0} Received a {1}", Thread.CurrentThread.Name, (int)o);
+                    }
+                    {
+                        Trace.TraceInformation("{0} Received a {1}", Thread.CurrentThread.Name, o.GetType().Name);
+                    }
+                } while (HandleInterrupt(o));
                 semAccess.WaitOne();
                 queueIn.Enqueue(o);
                 semAccess.Release(1);

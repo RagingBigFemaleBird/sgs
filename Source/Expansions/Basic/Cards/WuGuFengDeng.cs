@@ -47,7 +47,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             move.cards = new List<Card>();
             for (int i = 0; i < dests.Count; i++)
             {
-                Game.CurrentGame.SyncCardAll(Game.CurrentGame.PeekCard(0));
+                Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.PeekCard(0));
                 Card c = Game.CurrentGame.DrawCard();
                 move.cards.Add(c);
             }
