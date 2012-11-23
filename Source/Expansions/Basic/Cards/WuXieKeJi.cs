@@ -41,7 +41,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
         {
             ReadOnlyCard card = eventArgs.ReadonlyCard;
-            SingleCardUsageVerifier v1 = new SingleCardUsageVerifier((c) => { return c.Type is WuXieKeJi; }, new WuXieKeJi());
+            SingleCardUsageVerifier v1 = new SingleCardUsageVerifier((c) => { return c.Type is WuXieKeJi; }, true, new WuXieKeJi());
             List<Card> cards;
             List<Player> players;
             ISkill skill;

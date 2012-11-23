@@ -10,7 +10,9 @@
     <sys:String x:Key="Skill.RenDe.Usage">点"仁德"→选中数张手牌→选择目标→“确定”</sys:String>
     -->
     <sys:String x:Key="Hero.YangXiu.Name">杨修</sys:String>
+    <sys:String x:Key="Hero.GuanYinPing.Name">关银屏</sys:String>
 
+    <sys:String x:Key="Skill.HuXiao.Name">虎啸</sys:String>
     <sys:String x:Key="Skill.JiLei.Name">鸡肋</sys:String>
     <sys:String x:Key="Skill.JiLei.Description">每当你受到伤害时，你可以说出一种牌的类别，令伤害来源不能使用、打出或弃置其此类别的手牌，直到回合结束。</sys:String>
     <sys:String x:Key="Skill.JiLei.Usage">系统提示→选择牌的类别或点取消不发动</sys:String>

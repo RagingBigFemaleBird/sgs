@@ -331,6 +331,11 @@ namespace Sanguosha.Core.Triggers
         public static readonly GameEvent PlayerCanUseCard;
 
         /// <summary>
+        /// 玩家可以打出卡牌
+        /// </summary>
+        public static readonly GameEvent PlayerCanPlayCard = new GameEvent("PlayerCanPlayCard");
+
+        /// <summary>
         /// 玩家可以弃掉卡牌
         /// </summary>
         public static readonly GameEvent PlayerCanDiscardCard;

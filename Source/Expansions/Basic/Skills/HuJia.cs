@@ -52,7 +52,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                     while (true)
                     {
                         IUiProxy ui = Game.CurrentGame.UiProxies[player];
-                        SingleCardUsageVerifier v1 = new SingleCardUsageVerifier((c) => { return c.Type is Shan; });
+                        SingleCardUsageVerifier v1 = new SingleCardUsageVerifier((c) => { return c.Type is Shan; }, false);
                         ISkill skill;
                         List<Player> p;
                         List<Card> cards;

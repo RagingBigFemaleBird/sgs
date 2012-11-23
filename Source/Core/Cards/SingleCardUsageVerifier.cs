@@ -25,8 +25,9 @@ namespace Sanguosha.Core.Cards
         }
 
         IList<CardHandler> possibleMatch;
+        bool isUseCard;
 
-        public SingleCardUsageVerifier(CardMatcher m, CardHandler handler = null)
+        public SingleCardUsageVerifier(CardMatcher m, bool isUseCard, CardHandler handler = null)
         {
             Match = m;
             if (handler != null)
@@ -38,6 +39,7 @@ namespace Sanguosha.Core.Cards
             {
                 possibleMatch = null;
             }
+            this.isUseCard = isUseCard;
         }
 
         public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
@@ -63,9 +65,19 @@ namespace Sanguosha.Core.Cards
                 {
                     return VerifierResult.Fail;
                 }
-                if (!Game.CurrentGame.PlayerCanUseCard(source, card))
+                if (isUseCard)
                 {
-                    return VerifierResult.Fail;
+                    if (!Game.CurrentGame.PlayerCanUseCard(source, card))
+                    {
+                        return VerifierResult.Fail;
+                    }
+                }
+                else
+                {
+                    if (!Game.CurrentGame.PlayerCanPlayCard(source, card))
+                    {
+                        return VerifierResult.Fail;
+                    }
                 }
                 return VerifierResult.Success;
             }

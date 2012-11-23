@@ -63,7 +63,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     }
                     args.TargetApproval.Add(false);
                 }
-                if (source[NumberOfShaUsed] == 0)
+                if (source[NumberOfShaUsed] <= source[AdditionalShaUsable])
                 {
                     args.TargetApproval[0] = true;
                 }
@@ -87,7 +87,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
             if (targets == null || targets.Count == 0)
             {
-                if (source[NumberOfShaUsed] == 0)
+                if (source[NumberOfShaUsed] <= source[AdditionalShaUsable])
                 {
                     return VerifierResult.Partial;
                 }
@@ -114,6 +114,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             get { return CardCategory.Basic; }
         }
         public static PlayerAttribute NumberOfShaUsed = PlayerAttribute.Register("NumberOfShaUsed", true);
+        public static PlayerAttribute AdditionalShaUsable = PlayerAttribute.Register("AdditionalShaUsable", true);
         /// <summary>
         /// 玩家使用杀的目标检测
         /// </summary>

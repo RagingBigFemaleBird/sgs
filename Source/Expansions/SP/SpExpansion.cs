@@ -19,6 +19,7 @@ namespace Sanguosha.Expansions.SP
             CardSet = new List<Card>();
 
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("YangXiu", true, Allegiance.Wei, 3, new JiLei()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("GuanYinPing", false, Allegiance.Shu, 3, new HuXiao()))));
         }
     }
 }
