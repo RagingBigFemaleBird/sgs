@@ -14,7 +14,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="PromptBox.xaml"/>
-                <ResourceDictionary Source="../Common.xaml"/>
+                <ResourceDictionary Source="../../Common.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
             </ResourceDictionary.MergedDictionaries>
@@ -49,7 +49,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <ContentControl Template="{DynamicResource PromptBox}">
+    <ContentControl>
     <Grid Name="LayoutRoot" Margin="20, 5" HorizontalAlignment="Center" VerticalAlignment="Top">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>

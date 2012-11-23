@@ -15,17 +15,6 @@ namespace Sanguosha.UI.Controls
 {
     public class PlayerViewBase : UserControl, IDeckContainer
     {
-        #region Constructors
-
-        public PlayerViewBase()
-        {
-            handCardArea = new CardStack();
-        }
-
-        #endregion
-
-        CardStack handCardArea;
-
         #region Fields
         public PlayerViewModel PlayerModel
         {
@@ -35,15 +24,9 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        public CardStack HandCardArea
-        {
-            get { return handCardArea; }
-            set { handCardArea = value; }
-        }
-
         private GameView parentGameView;
         
-        public GameView ParentGameView 
+        public virtual GameView ParentGameView 
         {
             get
             {
@@ -51,8 +34,7 @@ namespace Sanguosha.UI.Controls
             }
             set
             {
-                parentGameView = value;
-                handCardArea.ParentGameView = value;
+                parentGameView = value;                
             }
         }
         #endregion
@@ -132,7 +114,7 @@ namespace Sanguosha.UI.Controls
             }
             if (deck == DeckType.Hand)
             {
-                handCardArea.AddCards(cards, 0.5d);
+                AddHandCards(cards);                
                 foreach (var card in cards)
                 {
                     PlayerModel.HandCards.Add(card.CardModel);
@@ -183,33 +165,16 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        protected virtual void AddHandCards(IList<CardView> cards)
+        {            
+        }
+
         public IList<CardView> RemoveCards(DeckType deck, IList<Card> cards)
         {
             List<CardView> cardsToRemove = new List<CardView>();
             if (deck == DeckType.Hand)
             {
-                foreach (var card in cards)
-                {
-                    bool found = false;
-                    foreach (var cardView in handCardArea.Cards)
-                    {
-                        CardViewModel viewModel = cardView.DataContext as CardViewModel;
-                        Trace.Assert(viewModel != null);
-                        if (viewModel.Card == card)
-                        {
-                            cardsToRemove.Add(cardView);
-                            PlayerModel.HandCards.Remove(viewModel);
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found)
-                    {
-                        cardsToRemove.Add(CardView.CreateCard(card));
-                    }
-                }
-                Trace.Assert(cardsToRemove.Count == cards.Count);
-                handCardArea.RemoveCards(cardsToRemove);                
+                cardsToRemove.AddRange(RemoveHandCards(cards));                
                 PlayerModel.HandCardCount -= cardsToRemove.Count;
             }
             else if (deck == DeckType.Equipment)
@@ -265,11 +230,14 @@ namespace Sanguosha.UI.Controls
             return cardsToRemove;
         }
 
-        public void UpdateCardAreas()
+        protected virtual IList<CardView> RemoveHandCards(IList<Card> cards)
         {
-            handCardArea.RearrangeCards(0d);
+            return null;
         }
 
+        public virtual void UpdateCardAreas()
+        {        
+        }
 
         protected override Geometry GetLayoutClip(Size layoutSlotSize)
         {

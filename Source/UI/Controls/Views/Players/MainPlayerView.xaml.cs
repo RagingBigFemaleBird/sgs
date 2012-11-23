@@ -30,8 +30,20 @@ namespace Sanguosha.UI.Controls
         {
             InitializeComponent();
             this.DataContextChanged += new DependencyPropertyChangedEventHandler(PlayerInfoView_DataContextChanged);
-            _OnPropertyChanged = new PropertyChangedEventHandler(model_PropertyChanged);
-            HandCardArea = handCardPlaceHolder;
+            _OnPropertyChanged = new PropertyChangedEventHandler(model_PropertyChanged);            
+        }
+
+        public override GameView ParentGameView
+        {
+            get
+            {
+                return base.ParentGameView;
+            }
+            set
+            {
+                base.ParentGameView = value;
+                handCardArea.ParentGameView = value;
+            }
         }
 
         private PropertyChangedEventHandler _OnPropertyChanged;
@@ -99,6 +111,49 @@ namespace Sanguosha.UI.Controls
         {
             PlayerViewModel model = DataContext as PlayerViewModel;
             model.IsSelected = !model.IsSelected;
+        }
+
+        protected override void AddHandCards(IList<CardView> cards)
+        {
+            foreach (var card in cards)
+            {
+                card.DragDirection = DragDirection.Horizontal;
+            }
+            handCardArea.AddCards(cards, 0.5d);
+        }
+
+        protected override IList<CardView> RemoveHandCards(IList<Card> cards)
+        {
+            var cardsToRemove = new List<CardView>();
+            foreach (var card in cards)
+            {
+                bool found = false;
+                foreach (var cardView in handCardArea.Cards)
+                {
+                    CardViewModel viewModel = cardView.DataContext as CardViewModel;
+                    Trace.Assert(viewModel != null);
+                    if (viewModel.Card == card)
+                    {
+                        cardsToRemove.Add(cardView);
+                        cardView.DragDirection = DragDirection.None;
+                        PlayerModel.HandCards.Remove(viewModel);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    cardsToRemove.Add(CardView.CreateCard(card));
+                }
+            }
+            Trace.Assert(cardsToRemove.Count == cards.Count);
+            handCardArea.RemoveCards(cardsToRemove);
+            return cardsToRemove;
+        }
+
+        public override void UpdateCardAreas()
+        {
+            handCardArea.RearrangeCards(0d);
         }
 
         protected override void AddEquipment(CardView card)

@@ -10,9 +10,9 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="SkillButton.xaml"/>
-                <ResourceDictionary Source="CardButton.xaml"/>
-                <ResourceDictionary Source="SkillToolTip.xaml"/>
+                <ResourceDictionary Source="../Skills/CardButton.xaml"/>
+                <ResourceDictionary Source="../Buttons/CardButton.xaml"/>
+                <ResourceDictionary Source="../Skills/SkillToolTip.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

@@ -12,7 +12,7 @@
 	mc:Ignorable="d">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
-        <ResourceDictionary Source="CardToolTip.xaml"/>
+        <ResourceDictionary Source="../Cards/CardToolTip.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     <local:SuitColorToColorConverter x:Key="suitColorToColorConverter" />
     <Style x:Key="BigEquipToggleButton" TargetType="{x:Type ToggleButton}">

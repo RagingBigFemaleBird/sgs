@@ -14,9 +14,9 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Common.xaml"/>
+                <ResourceDictionary Source="../../Common.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
-                <ResourceDictionary Source="CardToolTip.xaml"/>
+                <ResourceDictionary Source="../Cards/CardToolTip.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <local:SuitColorToColorConverter x:Key="suitColorToColorConverter" />
         </ResourceDictionary>

@@ -9,7 +9,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>                
                 <ResourceDictionary Source="/Resources;component/System.xaml"/>
-                <ResourceDictionary Source="/Controls;component/Views/SkillButtonStyles.xaml"/>
+                <ResourceDictionary Source="/Controls;component/Views/Skills/SkillButtonStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Style x:Key="{x:Type ToolTip}" TargetType="{x:Type ToolTip}">

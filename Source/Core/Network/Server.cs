@@ -139,15 +139,11 @@ namespace Sanguosha.Core.Network
                         if (PlayerIdSanityCheck(move.playerId))
                         {
                             var deck = Game.CurrentGame.Decks[Game.CurrentGame.Players[move.playerId], DeckType.Hand];
-                            try
+                            if (!(move.to < 0 || move.from < 0 || move.from >= deck.Count || move.to >= deck.Count))
                             {
                                 var card1 = deck[move.from];
-                                var card2 = deck[move.to];
-                                deck[move.from] = card2;
-                                deck[move.to] = card1;
-                            }
-                            catch (Exception)
-                            {
+                                deck.Remove(card1);
+                                deck.Insert(move.to, card1);
                             }
                         }
                     }

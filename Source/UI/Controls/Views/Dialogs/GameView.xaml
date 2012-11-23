@@ -6,6 +6,7 @@
 			 xmlns:local="clr-namespace:Sanguosha.UI.Controls"
 			 xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
 			 xmlns:diagnostics="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
 			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
 			 xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
 	         x:Class="Sanguosha.UI.Controls.GameView"
@@ -13,8 +14,9 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>            	
-            	<ResourceDictionary Source="../Common.xaml"/>
-            	<ResourceDictionary Source="MultiChoiceButton.xaml"/>
+            	<ResourceDictionary Source="../../Common.xaml"/>
+            	<ResourceDictionary Source="../Buttons/MultiChoiceButton.xaml"/>
+                <ResourceDictionary Source="../Dialogs/PromptBox.xaml"/>
             	<ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
             	<ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
             </ResourceDictionary.MergedDictionaries>
@@ -209,14 +211,14 @@
         </Grid>
         </Grid>
         <Canvas x:Name="gameGlobalCanvas" Grid.RowSpan="2" Grid.ColumnSpan="2" />
-        <local:NonClipGrid x:Name="gridCardChoiceBox"                  
-                  HorizontalAlignment="Center" VerticalAlignment="Center"
+        <xctk:ChildWindow x:Name="cardChoiceWindow" 
+                  Template="{DynamicResource DarkGreenWindowStyle}"        
                   MaxWidth="600"
-        		  Visibility="{Binding MainPlayerModel.IsCardChoiceQuestionShown, Converter={StaticResource boolToVisibilityConverter}}">
-            <local:NonClipGrid.Effect>
-                <DropShadowEffect ShadowDepth="0"/>
-            </local:NonClipGrid.Effect>
+        		  Caption="{Binding MainPlayerModel.CardChoiceModel.Prompt}" WindowStartupLocation="Center">
+            <xctk:ChildWindow.Effect>
+                <DropShadowEffect BlurRadius="10"/>
+            </xctk:ChildWindow.Effect>
             <local:CardChoiceBox DataContext="{Binding MainPlayerModel.CardChoiceModel}"/>
-        </local:NonClipGrid>		
+         </xctk:ChildWindow>
     </Grid>
 </UserControl>

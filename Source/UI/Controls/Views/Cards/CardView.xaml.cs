@@ -19,35 +19,6 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.UI.Controls
 {
-    public class SuitColorToColorConverter : IValueConverter
-    {
-
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            SuitColorType color = (SuitColorType)value;
-            if (color == SuitColorType.Black)
-            {
-                return new SolidColorBrush(Colors.Black);
-            }
-            else if (color == SuitColorType.Red)
-            {
-                Color red = new Color();
-                red.R = 212;
-                red.A = 255;
-                return new SolidColorBrush(red);
-            }
-            else
-            {
-                return new SolidColorBrush(Colors.Transparent);
-            }
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     /// <summary>
     /// Interaction logic for CardView.xaml
     /// </summary>
@@ -55,12 +26,16 @@ namespace Sanguosha.UI.Controls
     {
         public CardView()
         {
-            InitializeComponent();
-            this.MouseLeftButtonDown += CardView_MouseLeftButtonDown;
+            InitializeComponent();            
+            
             this.IsEnabledChanged += CardView_IsEnabledChanged;
             this.DataContextChanged += CardView_DataContextChanged;
+            this.MouseMove += CardView_MouseMove;
+            this.MouseLeftButtonDown += CardView_MouseLeftButtonDown;
+            this.MouseLeftButtonUp += CardView_MouseLeftButtonUp;
             this.MouseEnter += CardView_MouseEnter;
             this.MouseLeave += CardView_MouseLeave;
+
             _daMoveX = new DoubleAnimation();
             _daMoveY = new DoubleAnimation();            
             Storyboard.SetTarget(_daMoveX, this);
@@ -102,13 +77,6 @@ namespace Sanguosha.UI.Controls
             toolTip.Content = DataContext;
         }        
 
-        void CardView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            CardViewModel model = DataContext as CardViewModel;
-            if (model == null) return;
-            model.IsSelected = !model.IsSelected;
-        }       
-
         public Card Card
         {
             get
@@ -145,7 +113,6 @@ namespace Sanguosha.UI.Controls
             {
                 double x = (double)GetValue(Canvas.LeftProperty);
                 double y = (double)GetValue(Canvas.TopProperty);
-                double opacity = (double)GetValue(Canvas.OpacityProperty);
 
                 if (double.IsNaN(x) || double.IsNaN(y))
                 {
@@ -171,9 +138,12 @@ namespace Sanguosha.UI.Controls
         public void Appear(double duration)
         {
             if (duration == 0) Opacity = 1.0;
-            Storyboard appear = Resources["sbAppear"] as Storyboard;
-            appear.SpeedRatio = 1 / duration;            
-            appear.Begin();
+            else
+            {
+                Storyboard appear = Resources["sbAppear"] as Storyboard;
+                appear.SpeedRatio = 1 / duration;
+                appear.Begin();
+            }
         }
 
         public void Disappear(double duration)
@@ -181,13 +151,16 @@ namespace Sanguosha.UI.Controls
             Panel panel = this.Parent as Panel;
             if (panel == null) return;
             else if (duration == 0) Opacity = 0.0;
-            Storyboard disappear = Resources["sbDisappear"] as Storyboard;
-            disappear.Completed += new EventHandler((o, e2) =>
+            else
             {
-                panel.Children.Remove(this);
-            });
-            disappear.SpeedRatio = 1 / duration;
-            disappear.Begin();            
+                Storyboard disappear = Resources["sbDisappear"] as Storyboard;
+                disappear.Completed += new EventHandler((o, e2) =>
+                {
+                    panel.Children.Remove(this);
+                });
+                disappear.SpeedRatio = 1 / duration;
+                disappear.Begin();
+            }
         }
 
         private static void OnOffsetPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -196,6 +169,114 @@ namespace Sanguosha.UI.Controls
             if (card == null) return;
             card.Rebase(0.2d);
         }
+
+        #region Drag and Drop
+
+        public event EventHandler OnDragBegin;
+
+        public event EventHandler OnDragging;
+
+        public event EventHandler OnDragEnd;
+
+        private Point _dragStartPoint;
+        private enum DragState
+        {
+            None,
+            MouseDown,
+            Dragging
+        };
+
+        private Point _ComputeDragOffset(Point currentPos)
+        {
+            double deltaX = (DragDirection & DragDirection.Horizontal) != 0 ? currentPos.X - _dragStartPoint.X : 0;
+            double deltaY = (DragDirection & DragDirection.Vertical) != 0 ? currentPos.Y - _dragStartPoint.Y : 0;
+            return new Point(deltaX, deltaY);
+        }
+
+        private bool _DragDetected(Point currentPos)
+        {
+            Point delta = _ComputeDragOffset(currentPos);
+            return (Math.Abs(delta.X) >= 15 || Math.Abs(delta.Y) >= 15);
+        }
+
+        private DragState  _dragState;
+        private void CardView_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (DragDirection != DragDirection.None && e.LeftButton == MouseButtonState.Pressed)
+            {
+                Window wnd = Window.GetWindow(this);
+                Point pos = e.MouseDevice.GetPosition(wnd);
+                if (_dragState == DragState.MouseDown)
+                {
+                    if (_DragDetected(pos))
+                    {
+                        this.BeginAnimation(CardView.OpacityProperty, null);
+                        Opacity = 0.8d;
+                        _dragStartPoint = pos;
+                        _dragState = DragState.Dragging;
+                       
+                        var handle = OnDragBegin;
+                        if (handle != null)
+                        {
+                            handle(this, new EventArgs());
+                        }
+                    }
+                }
+                else if (_dragState == DragState.Dragging)
+                {
+                    Point offset = _ComputeDragOffset(pos);
+                    this.RenderTransform = new TranslateTransform(offset.X, offset.Y);
+
+                    var handle = OnDragging;
+                    if (handle != null)
+                    {
+                        handle(this, new EventArgs());
+                    }
+
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private void CardView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (DragDirection != DragDirection.None)
+            {               
+                if (_dragState == DragState.None)
+                {
+                    Window wnd = Window.GetWindow(this);
+                    Point pos = e.MouseDevice.GetPosition(wnd);
+                    _dragState = DragState.MouseDown;
+                    _dragStartPoint = pos;
+                    this.CaptureMouse();
+                }
+                e.Handled = true;
+            }
+        }
+
+        private void CardView_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (DragDirection != DragDirection.None && _dragState == DragState.Dragging)
+            {
+                this.RenderTransform = null;
+                Opacity = 1.0d;
+                var handle = OnDragEnd;
+                if (handle != null)
+                {
+                    handle(this, new EventArgs());
+                }
+            }
+            else
+            {
+                CardViewModel model = DataContext as CardViewModel;
+                if (model == null || !model.IsEnabled) return;
+                model.IsSelected = !model.IsSelected;
+            }
+            this.ReleaseMouseCapture();
+            _dragState = DragState.None;
+            e.Handled = true;
+        }
+        #endregion
 
         #region Dependency Properties
 
@@ -219,6 +300,17 @@ namespace Sanguosha.UI.Controls
         // Using a DependencyProperty as the backing store for Position.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PositionProperty =
             DependencyProperty.Register("Position", typeof(Point), typeof(CardView), new UIPropertyMetadata(new Point(0,0)));
+        
+        public DragDirection DragDirection
+        {
+            get { return (DragDirection)GetValue(DragDirectionProperty); }
+            set { SetValue(DragDirectionProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for DragDirection.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DragDirectionProperty =
+            DependencyProperty.Register("DragDirection", typeof(DragDirection), typeof(CardView), new UIPropertyMetadata(DragDirection.None));
+
         
         #endregion
 

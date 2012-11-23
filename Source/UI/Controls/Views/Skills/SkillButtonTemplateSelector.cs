@@ -12,7 +12,7 @@ namespace Sanguosha.UI.Controls
         private static ResourceDictionary dict;
         static SkillButtonTemplateSelector()
         {
-            dict = new ResourceDictionary() { Source = new Uri("pack://application:,,,/Controls;component/Views/SkillButtonStyles.xaml") };
+            dict = new ResourceDictionary() { Source = new Uri("pack://application:,,,/Controls;component/Views/Skills/SkillButtonStyles.xaml") };
         }
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {

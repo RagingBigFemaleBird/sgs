@@ -13,7 +13,7 @@ namespace Sanguosha.UI.Controls
         static MultiChoiceButtonStyleConverter()
         {
             dict = new ResourceDictionary();
-            dict.Source = new Uri("pack://application:,,,/Controls;component/Views/MultiChoiceButton.xaml");
+            dict.Source = new Uri("pack://application:,,,/Controls;component/Views/Buttons/MultiChoiceButton.xaml");
         }
 
         static ResourceDictionary dict;

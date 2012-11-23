@@ -1733,6 +1733,14 @@ namespace Sanguosha.Core.Games
                 get { return new UiHelper(); }
             }
         }
+
+        public void MoveHandCard(Player player, int from, int to)
+        {
+            if (IsClient && player.Id == GameClient.SelfId)
+            {
+                GameClient.MoveHandCard(from, to);
+            }
+        }
     }
 }
 

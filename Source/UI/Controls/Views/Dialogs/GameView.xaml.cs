@@ -245,20 +245,13 @@ namespace Sanguosha.UI.Controls
             Trace.Assert(model != null, "Property change is expected to be associate with a PlayerViewModel");
             if (e.PropertyName == "IsCardChoiceQuestionShown")
             {
-                BehaviorCollection behaviors = Interaction.GetBehaviors(gridCardChoiceBox);
                 if (model.IsCardChoiceQuestionShown)
                 {
-                    if (behaviors.Any(b => b is MouseDragElementBehavior))
-                    {
-                        Trace.Assert(false, "Attempt to attach mouse drag behavior twice");
-                        return;
-                    }
-                    MouseDragElementBehavior behavior = new MouseDragElementBehavior() { ConstrainToParentBounds = true };                    
-                    behaviors.Add(behavior);
+                    cardChoiceWindow.Show();
                 }
                 else
-                {                    
-                    behaviors.Clear();
+                {
+                    cardChoiceWindow.Close();
                 }
             }
             else if (e.PropertyName == "TimeOutSeconds")

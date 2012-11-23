@@ -16,9 +16,9 @@
 	<UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Common.xaml"/>
+                <ResourceDictionary Source="../../Common.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
-                <ResourceDictionary Source="SkillToolTip.xaml"/>
+                <ResourceDictionary Source="../Skills/SkillToolTip.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <local:SuitColorToColorConverter x:Key="suitColorToColorConverter" />
         	<Style x:Key="SkillChoiceButtonStyle" TargetType="{x:Type Button}">

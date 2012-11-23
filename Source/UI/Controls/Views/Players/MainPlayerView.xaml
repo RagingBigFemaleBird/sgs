@@ -15,9 +15,9 @@
              d:DesignWidth="900">
     <local:PlayerViewBase.Resources>        
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>             
-            	<ResourceDictionary Source="../Common.xaml"/>
-                <ResourceDictionary Source="CardButton.xaml"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Common.xaml"/>
+                <ResourceDictionary Source="../Buttons/CardButton.xaml"/>
             	<ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
             	<ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>                
             </ResourceDictionary.MergedDictionaries>
@@ -318,7 +318,7 @@
                 	<ColumnDefinition Width="1*"/>
                 	<ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-                <local:CardStack x:Name="handCardPlaceHolder" VerticalAlignment="Bottom" Margin="5,0,10,0" Height="130" MaxCardSpacing="97" CardAlignment="Left" />
+                <local:CardStack x:Name="handCardArea" VerticalAlignment="Bottom" Margin="5,0,10,0" Height="130" MaxCardSpacing="97" CardAlignment="Left" />
                 <Image Grid.Column="1" Source="{DynamicResource MainPlayerInfoView.Background.Platter}"/>               
                 <Button x:Name="btnOk" Command="{Binding SubmitAnswerCommand}" Grid.Column="1" Height="82" Margin="3,-1,39,0" Style="{DynamicResource OkButtonStyle}" VerticalAlignment="Top" />
             </Grid>

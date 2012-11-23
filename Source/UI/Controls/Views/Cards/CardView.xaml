@@ -15,7 +15,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Common.xaml"/>
+                <ResourceDictionary Source="../../Common.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
                 <ResourceDictionary Source="CardToolTip.xaml"/>
             </ResourceDictionary.MergedDictionaries>
@@ -164,9 +164,6 @@
             </i:Interaction.Behaviors>
         </Border>
     </Grid>
-    <UserControl.IsEnabled>
-        <Binding Path="IsEnabled" />
-    </UserControl.IsEnabled>
     <UserControl.ToolTip>
         <ToolTip x:Name="toolTip" Placement="Top" ContentTemplateSelector="{StaticResource cardToolTipTemplateSelector}"/>        
     </UserControl.ToolTip>

@@ -29,8 +29,7 @@ namespace Sanguosha.UI.Controls
         {
             InitializeComponent();
             this.DataContextChanged += new DependencyPropertyChangedEventHandler(PlayerInfoView_DataContextChanged);
-            _OnPropertyChanged = new PropertyChangedEventHandler(model_PropertyChanged);
-            HandCardArea = handCardPlaceHolder;
+            _OnPropertyChanged = new PropertyChangedEventHandler(model_PropertyChanged);            
         }
 
         private PropertyChangedEventHandler _OnPropertyChanged;
@@ -94,6 +93,19 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public override GameView ParentGameView
+        {
+            get
+            {
+                return base.ParentGameView;
+            }
+            set
+            {
+                base.ParentGameView = value;
+                handCardArea.ParentGameView = value;
+            }
+        }
+
         public override void PlayIronShackleAnimation()
         {
             tieSuoAnimation.Start();
@@ -119,6 +131,28 @@ namespace Sanguosha.UI.Controls
 		public event EventHandler OnRequestSpectate;
 
         #region PlayerInfoViewBase Members
+
+        protected override void AddHandCards(IList<CardView> cards)
+        {
+            handCardArea.AddCards(cards, 0.5d);
+        }
+
+        protected override IList<CardView> RemoveHandCards(IList<Card> cards)
+        {
+            var cardsToRemove = new List<CardView>();
+            foreach (var card in cards)
+            {
+                cardsToRemove.Add(CardView.CreateCard(card));
+            }
+            Trace.Assert(cardsToRemove.Count == cards.Count);
+            handCardArea.RemoveCards(cardsToRemove);
+            return cardsToRemove;
+        }
+
+        public override void UpdateCardAreas()
+        {
+            handCardArea.RearrangeCards(0d);
+        }
 
         protected override void AddDelayedTool(CardView card)
         {
