@@ -51,6 +51,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("TianXiang"), new TianXiangVerifier(),
                 out skill, out cards, out players))
             {
+                NotifySkillUse(players);
                 Game.CurrentGame.HandleCardDiscard(Owner, cards);
                 Game.CurrentGame.DoDamage(eventArgs.Source, players[0], -eventArgs.IntArg - eventArgs.IntArg3, (DamageElement)eventArgs.IntArg2, eventArgs.Card, eventArgs.ReadonlyCard);
                 Game.CurrentGame.DrawCards(players[0], players[0].MaxHealth - players[0].Health);
@@ -64,7 +65,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                 this,
                 Run,
                 TriggerCondition.OwnerIsTarget
-            );
+            ) { AskForConfirmation = false, IsAutoNotify = false };
 
             Triggers.Add(GameEvent.DamageInflicted, trigger);
             IsAutoInvoked = null;

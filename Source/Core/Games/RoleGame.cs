@@ -333,13 +333,12 @@ namespace Sanguosha.Core.Games
         {
             List<CardsMovement> moves = new List<CardsMovement>();
             // Deal everyone 4 cards
-            // todo: for testing
             foreach (Player player in game.Players)
             {
                 CardsMovement move = new CardsMovement();
                 move.cards = new List<Card>();
                 move.to = new DeckPlace(player, DeckType.Hand);
-                for (int i = 0; i < 8; i++)
+                for (int i = 0; i < 4; i++)
                 {
                     game.SyncCard(player, game.PeekCard(0));
                     Card c = game.DrawCard();

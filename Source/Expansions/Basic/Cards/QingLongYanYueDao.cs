@@ -38,6 +38,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     {
                         try
                         {
+                            Owner[Sha.NumberOfShaUsed]--;
                             NotifySkillUse(new List<Player>());
                             GameEventArgs args = new GameEventArgs();
                             args.Source = eventArgs.Source;
