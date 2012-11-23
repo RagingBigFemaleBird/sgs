@@ -12,6 +12,8 @@ using System.Windows.Input;
 
 namespace Sanguosha.UI.Controls
 {
+
+    public delegate void HandCardMovedHandler(int from, int to);
     public class CardStack : Canvas
     {
         #region Constructors
@@ -271,6 +273,7 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public event HandCardMovedHandler OnHandCardMoved;
         void card_OnDragEnd(object sender, EventArgs e)
         {
             if (_cardInteraction == CardInteraction.Drag)
@@ -280,8 +283,17 @@ namespace Sanguosha.UI.Controls
                     Trace.Assert(_interactingCard == sender);
                     _cardInteraction = CardInteraction.None;
                     int newPos = _ComputeDragCardNewIndex();
-                    _cards.Remove(_interactingCard);
-                    _cards.Insert(newPos, _interactingCard);
+                    int oldPos = _cards.IndexOf(_interactingCard);
+                    if (newPos != oldPos)
+                    {
+                        _cards.Remove(_interactingCard);
+                        _cards.Insert(newPos, _interactingCard);
+                        var handler = OnHandCardMoved;
+                        if (handler != null)
+                        {
+                            handler(oldPos, newPos);
+                        }
+                    }
                     RearrangeCards(0.2d);
                 }
                 _cardInteraction = CardInteraction.MouseMove;
