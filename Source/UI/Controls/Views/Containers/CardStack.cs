@@ -38,7 +38,7 @@ namespace Sanguosha.UI.Controls
 
         #endregion
 
-        #region Public Functions
+        #region Card Rearrangement
 
         public void RearrangeCards(double transitionInSeconds)
         {
@@ -53,7 +53,7 @@ namespace Sanguosha.UI.Controls
             RearrangeCards(tmpCards, transitionInSeconds);
         }
 
-        private double extraSpaceForHighlightedCard = 30d;
+        private static double _extraSpaceForHighlightedCard = 30d;
 
         static object _rearrangeLock;
         /// <summary>
@@ -67,6 +67,10 @@ namespace Sanguosha.UI.Controls
             lock (_rearrangeLock)
             {                
                 int numCards = cards.Count();
+                if (_cardInteraction == CardInteraction.Drag && cards.Contains(_interactingCard))
+                {
+                    numCards--;
+                }
                 if (numCards == 0) return;
                 Trace.Assert(ParentGameView != null && ParentGameView.GlobalCanvas != null);
                 double cardHeight = (from c in cards select c.Height).Max();
@@ -78,10 +82,13 @@ namespace Sanguosha.UI.Controls
 
                 int zindex = 0;
                 double totalWidth = this.ActualWidth;
+                
+                double extraSpace = Math.Min(MaxCardSpacing - (totalWidth) / (numCards - 1), _extraSpaceForHighlightedCard);
                 int highlightIndex = (_interactingCard == null) ? -1 : cards.IndexOf(_interactingCard);
-                bool doHighlight = (_cardInteraction != CardInteraction.None && highlightIndex >= 0);
-                double maxWidth = doHighlight ? Math.Max(0, this.ActualWidth - extraSpaceForHighlightedCard) : totalWidth;
-                double step = Math.Min(MaxCardSpacing, (maxWidth - cardWidth) / (numCards - 1));
+                bool doHighlight = (_cardInteraction != CardInteraction.None && highlightIndex >= 0 && highlightIndex != _cards.Count - 1);
+
+                double maxWidth = doHighlight ? Math.Max(0, totalWidth - extraSpace) : totalWidth;
+                double step = Math.Min(MaxCardSpacing, (maxWidth - cardWidth) / (numCards - 1));                
 
                 if (step == MaxCardSpacing) doHighlight = false;
 
@@ -90,7 +97,7 @@ namespace Sanguosha.UI.Controls
                 if (CardAlignment == HorizontalAlignment.Center)
                 {
                     startX += totalWidth / 2 - step * ((numCards - 1) / 2.0) - cardWidth / 2;
-                    if (doHighlight) startX -= extraSpaceForHighlightedCard / 2;
+                    if (doHighlight) startX -= _extraSpaceForHighlightedCard / 2;
                 }
                 else if (CardAlignment == HorizontalAlignment.Right)
                 {
@@ -123,7 +130,7 @@ namespace Sanguosha.UI.Controls
                     double newX = lastX + step;
                     if (doHighlight && i == highlightIndex + 1)
                     {
-                        newX = Math.Min(newX + extraSpaceForHighlightedCard, lastX + MaxCardSpacing);
+                        newX = Math.Min(newX + _extraSpaceForHighlightedCard, lastX + MaxCardSpacing);
                     }
                     lastX = newX;
                     if (!ParentGameView.GlobalCanvas.Children.Contains(card))
@@ -245,16 +252,21 @@ namespace Sanguosha.UI.Controls
             {
                 double right = _interactingCard.Position.X + _interactingCard.Width;
                 int i = 0;
+                bool skipOne = false;
                 for (; i < _cards.Count; i++)
                 {
                     var card = _cards[i];
-                    if (card == _interactingCard) continue;
+                    if (card == _interactingCard)
+                    {
+                        skipOne = true;
+                        continue;
+                    }
                     if (right <= card.Position.X + card.Width)
                     {
                         break;
                     }
                 }
-                if (i >= _cards.Count) i = _cards.Count - 1;
+                if (skipOne) i--;
                 return i;
             }
         }
@@ -296,7 +308,6 @@ namespace Sanguosha.UI.Controls
             }
         }
         #endregion
-        
 
         #region Fields
 
