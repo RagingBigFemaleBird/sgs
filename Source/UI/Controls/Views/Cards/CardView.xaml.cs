@@ -121,17 +121,26 @@ namespace Sanguosha.UI.Controls
                     return;
                 }
 
+                if (transitionInSeconds == 0)
+                {
+                    BeginAnimation(Canvas.LeftProperty, null);
+                    BeginAnimation(Canvas.TopProperty, null);
+                    SetValue(Canvas.LeftProperty, destX);
+                    SetValue(Canvas.TopProperty, destY);
+                }
+                else
+                {
+                    Point point = new Point(x, y);
+                    _daMoveX.From = x;
+                    _daMoveY.From = y;
+                    _daMoveX.To = destX;
+                    _daMoveY.To = destY;
+                    _daMoveX.Duration = TimeSpan.FromSeconds(transitionInSeconds);
+                    _daMoveY.Duration = TimeSpan.FromSeconds(transitionInSeconds);
 
-                Point point = new Point(x, y);
-                _daMoveX.From = x;
-                _daMoveY.From = y;                
-                _daMoveX.To = destX;
-                _daMoveY.To = destY;
-                _daMoveX.Duration = TimeSpan.FromSeconds(transitionInSeconds);
-                _daMoveY.Duration = TimeSpan.FromSeconds(transitionInSeconds);
-
-                _moveAnimation.Duration = TimeSpan.FromSeconds(transitionInSeconds);
-                _moveAnimation.Begin(this, true);
+                    _moveAnimation.Duration = TimeSpan.FromSeconds(transitionInSeconds);
+                    _moveAnimation.Begin(this, true);
+                }
             }
         }
 
