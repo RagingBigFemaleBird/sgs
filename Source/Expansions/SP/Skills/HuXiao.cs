@@ -31,6 +31,5 @@ namespace Sanguosha.Expansions.SP.Skills
             Triggers.Add(ShaCancelling.PlayerShaTargetDodged, trigger);
             IsAutoInvoked = null;
         }
-
     }
 }
