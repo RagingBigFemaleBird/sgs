@@ -288,10 +288,27 @@ namespace Sanguosha.Core.Games
                     m.cards = new List<Card>(eventArgs.Cards);
                 }
                 m.to = new DeckPlace(null, DeckType.Compute);
+                Player isDoingAFavor = eventArgs.Source;
+                foreach (var checkFavor in m.cards)
+                {
+                    if (checkFavor.Owner != eventArgs.Source)
+                    {
+                        Trace.TraceInformation("Acting on behalf of others");
+                        isDoingAFavor = checkFavor.Owner;
+                    }
+                }
                 bool runTrigger = !c.Type.IsReforging(eventArgs.Source, eventArgs.Skill, m.cards, eventArgs.Targets);
                 c.Type.TagAndNotify(eventArgs.Source, eventArgs.Targets, c);
                 Game.CurrentGame.MoveCards(m, new CardUseLog() { Source = eventArgs.Source, Targets = eventArgs.Targets, Skill = eventArgs.Skill, Cards = eventArgs.Cards });
-                Game.CurrentGame.PlayerLostCard(eventArgs.Source, eventArgs.Cards);
+                if (isDoingAFavor != eventArgs.Source)
+                {
+                    Game.CurrentGame.PlayerLostCard(isDoingAFavor, eventArgs.Cards);
+                    Game.CurrentGame.PlayerPlayedCard(isDoingAFavor, eventArgs.Card);
+                }
+                else
+                {
+                    Game.CurrentGame.PlayerLostCard(eventArgs.Source, eventArgs.Cards);
+                }
                 Player savedSource = eventArgs.Source;
 
                 GameEventArgs arg = new GameEventArgs();

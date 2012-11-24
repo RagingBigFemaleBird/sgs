@@ -24,16 +24,13 @@ namespace Sanguosha.Expansions.SP.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return Game.CurrentGame.CurrentPhase == TurnPhase.Play && Game.CurrentGame.CurrentPlayer == p && p[HuXiaoTriggered] == 0; },
-                (p, e, a) => { p[HuXiaoTriggered] = 1; p[Sha.AdditionalShaUsable]++; },
+                (p, e, a) => { return Game.CurrentGame.CurrentPhase == TurnPhase.Play && Game.CurrentGame.CurrentPlayer == p; },
+                (p, e, a) => { p[Sha.AdditionalShaUsable]++; },
                 TriggerCondition.OwnerIsSource
             ) { AskForConfirmation = false };
             Triggers.Add(ShaCancelling.PlayerShaTargetDodged, trigger);
             IsAutoInvoked = null;
         }
-
-
-        public static PlayerAttribute HuXiaoTriggered = PlayerAttribute.Register("HuXiaoTriggered", true);
 
     }
 }

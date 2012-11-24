@@ -30,6 +30,10 @@ namespace Sanguosha.Expansions.Basic.Cards
                 ISkill skill;
                 List<Card> cards;
                 List<Player> players;
+                if (!Game.CurrentGame.PlayerCanBeTargeted(Owner, new List<Player>() {eventArgs.Targets[0]}, new CompositeCard() {Type = new Sha()}))
+                {
+                    return;
+                }
                 if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("QingLongYanYueDao"),
                     new SingleCardUsageVerifier((c) => {return c.Type is Sha;}, true),
                     out skill, out cards, out players))

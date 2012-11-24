@@ -1298,12 +1298,33 @@ namespace Sanguosha.Core.Games
             }
             m.cards = new List<Card>(cards);
             m.to = new DeckPlace(null, DeckType.Discard);
+            Player isDoingAFavor = p;
+            foreach (var checkFavor in m.cards)
+            {
+                if (checkFavor.Owner != p)
+                {
+                    Trace.TraceInformation("Acting on behalf of others");
+                    isDoingAFavor = checkFavor.Owner;
+                    break;
+                }
+            }
             result.Type.TagAndNotify(p, targets, result, GameAction.Play);
             List<Card> backup = new List<Card>(m.cards);
-            PlayerAboutToDiscardCard(p, m.cards, DiscardReason.Play);
-            MoveCards(m, new CardUseLog() { Source = p, Targets = null, Cards = null, Skill = skill });
-            PlayerPlayedCard(p, result);
-            PlayerDiscardedCard(p, backup, DiscardReason.Play);
+            if (isDoingAFavor != p)
+            {
+                PlayerAboutToDiscardCard(isDoingAFavor, m.cards, DiscardReason.Play);
+                MoveCards(m, new CardUseLog() { Source = p, Targets = null, Cards = null, Skill = skill });
+                PlayerPlayedCard(isDoingAFavor, result);
+                PlayerPlayedCard(p, result);
+                PlayerDiscardedCard(isDoingAFavor, backup, DiscardReason.Play);
+            }
+            else
+            {
+                PlayerAboutToDiscardCard(p, m.cards, DiscardReason.Play);
+                MoveCards(m, new CardUseLog() { Source = p, Targets = null, Cards = null, Skill = skill });
+                PlayerPlayedCard(p, result);
+                PlayerDiscardedCard(p, backup, DiscardReason.Play);
+            }
             return true;
         }
 
@@ -1406,7 +1427,7 @@ namespace Sanguosha.Core.Games
             PlayerAcquiredCard(to, cards);
         }
 
-        private bool CommitCardTransform(Player p, ISkill skill, List<Card> cards, out ICard result, List<Player> targets)
+        public bool CommitCardTransform(Player p, ISkill skill, List<Card> cards, out ICard result, List<Player> targets)
         {
             if (skill != null)
             {

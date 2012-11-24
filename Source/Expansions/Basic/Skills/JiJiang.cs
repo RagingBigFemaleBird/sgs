@@ -62,6 +62,7 @@ namespace Sanguosha.Expansions.Basic.Skills
 
         protected override bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets)
         {
+            ICard result = null;
             List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
             toProcess.Remove(Owner);
             Game.CurrentGame.SortByOrderOfComputation(Owner, toProcess);
@@ -83,7 +84,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                             failToRespond = true;
                             break;
                         }
-                        if (!Game.CurrentGame.HandleCardPlay(player, skill, cards, targets))
+                        if (!Game.CurrentGame.CommitCardTransform(player, skill, cards, out result, targets))
                         {
                             continue;
                         }
@@ -104,9 +105,19 @@ namespace Sanguosha.Expansions.Basic.Skills
                 return false;
             }
 
+            Trace.Assert(result != null);
             card.Subcards = new List<Card>();
-            card.Type = new RegularSha();
-
+            if (result is CompositeCard)
+            {
+                card.Subcards.AddRange(((CompositeCard)result).Subcards);
+                card.Type = ((CompositeCard)result).Type;
+            }
+            else
+            {
+                Trace.Assert(result is Card);
+                card.Subcards.Add((Card)result);
+                card.Type = ((Card)result).Type;
+            }
             return true;
         }
 
