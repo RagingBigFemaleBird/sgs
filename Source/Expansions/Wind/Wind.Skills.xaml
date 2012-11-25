@@ -53,6 +53,10 @@
     <sys:String x:Key="Skill.HuangTian.Description">主公技，其他群雄角色可以在他们各自的出牌阶段交给你一张【闪】或【闪电】。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.HuangTian.Usage">点“黄天”→选中1张【闪】或【闪电】→选中目标→点“确定”</sys:String>
 
+    <sys:String x:Key="Skill.HuangTianGivenSkill.Name">黄天</sys:String>
+    <sys:String x:Key="Skill.HuangTianGivenSkill.Description">主公技，其他群雄角色可以在他们各自的出牌阶段交给你一张【闪】或【闪电】。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.HuangTianGivenSkill.Usage">点“黄天”→选中1张【闪】或【闪电】→选中目标→点“确定”</sys:String>
+
     <sys:String x:Key="Skill.GuHuo.Name">蛊惑</sys:String>
     <sys:String x:Key="Skill.GuHuo.Description">你可以说出一张基本牌或非延时类锦囊牌的名称，并背面朝上使用或打出一张手牌。若无其他角色质疑，则亮出此牌并按你所述之牌结算。若有其他角色质疑则亮出验明：若为真，质疑者各失去1点体力；若为假，质疑者各摸一张牌。除非被质疑的牌为红桃且为真，此牌仍然进行结算，否则无论真假，将此牌置入弃牌堆。</sys:String>
     <sys:String x:Key="Skill.GuHuo.Usage">点“蛊惑”→选中1张手牌→选择想要“蛊惑”成的牌→选择目标（可略过）→点“确定”</sys:String>

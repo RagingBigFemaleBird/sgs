@@ -653,6 +653,11 @@ namespace Sanguosha.Core.Games
                 Shuffle(game.Decks[null, DeckType.Dealing]);
 
                 StartGameDeal(game);
+
+                foreach (var act in game.Players)
+                {
+                    game.Emit(GameEvent.PlayerGameStartAction, new GameEventArgs() { Source = act });
+                }
                 game.CurrentPlayer = game.Players[rulerId];
                 game.CurrentPhaseEventIndex = 0;
                 game.CurrentPhase = TurnPhase.BeforeStart;

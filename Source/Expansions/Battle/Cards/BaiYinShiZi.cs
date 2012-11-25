@@ -24,13 +24,14 @@ namespace Sanguosha.Expansions.Battle.Cards
             void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 eventArgs.IntArg3 = 0;
+                eventArgs.IntArg = -1;
             }
 
             public BaiYinShiZiSkill()
             {
                 var trigger = new AutoNotifyPassiveSkillTrigger(
                     this,
-                    (p, e, a) => { return a.IntArg3 < 0 && a.ReadonlyCard[Armor.IgnoreAllArmor] == 0 && a.ReadonlyCard[Armor.IgnorePlayerArmor] != Owner.Id + 1; },
+                    (p, e, a) => { return (a.IntArg < -1 || a.IntArg3 < 0) && (a.ReadonlyCard == null || (a.ReadonlyCard[Armor.IgnoreAllArmor] == 0 && a.ReadonlyCard[Armor.IgnorePlayerArmor] != Owner.Id + 1)); },
                     Run,
                     TriggerCondition.OwnerIsTarget
                 ) { Priority = int.MinValue };

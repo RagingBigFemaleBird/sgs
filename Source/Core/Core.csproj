@@ -68,6 +68,7 @@
     <Compile Include="Cards\Card.cs" />
     <Compile Include="Cards\OffensiveHorse.cs" />
     <Compile Include="Cards\OneTargetNoSelfVerifier.cs" />
+    <Compile Include="Cards\PrivateDeckType.cs" />
     <Compile Include="Cards\SingleCardPlayVerifier.cs" />
     <Compile Include="Cards\SingleCardUsageVerifier.cs" />
     <Compile Include="Cards\ReadOnlyCard.cs" />
@@ -88,6 +89,8 @@
     <Compile Include="Skills\AutoVerifiedActiveSkill.cs" />
     <Compile Include="Skills\CheatSkill.cs" />
     <Compile Include="Skills\IAdditionalTypedSkill.cs" />
+    <Compile Include="Skills\RulerGivenSkill.cs" />
+    <Compile Include="Skills\RulerGivenSkillContainerSkill.cs" />
     <Compile Include="Skills\TriggerSkill.cs" />
     <Compile Include="Triggers\RelayTrigger.cs" />
     <Compile Include="UI\INotificationProxy.cs" />

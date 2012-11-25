@@ -110,6 +110,8 @@ namespace Sanguosha.Core.Triggers
         public static readonly GameEvent DoPlayer;
         public static readonly GameEvent Shuffle;
 
+        public static readonly GameEvent PlayerGameStartAction = new GameEvent("PlayerGameStartAction");
+
         // Events defined on dadao.net/sgs
         /// <summary>
         /// 游戏开始
@@ -403,7 +405,8 @@ namespace Sanguosha.Core.Triggers
         /// <summary>
         /// 玩家改变国籍
         /// </summary>
-        public static readonly GameEvent PlayerChangedAllegience = new GameEvent("PlayerChangedAllegience");
+        public static readonly GameEvent PlayerChangedAllegiance = new GameEvent("PlayerChangedAllegiance");
+
 
         public override bool Equals(object obj)
         {

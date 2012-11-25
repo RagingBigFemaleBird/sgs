@@ -44,6 +44,7 @@
     <Compile Include="Skills\GuHuo.cs" />
     <Compile Include="Skills\GuiDao.cs" />
     <Compile Include="Skills\HongYan.cs" />
+    <Compile Include="Skills\HuangTian.cs" />
     <Compile Include="Skills\JuShou.cs" />
     <Compile Include="Skills\KuangGu.cs" />
     <Compile Include="Skills\LeiJi.cs" />
