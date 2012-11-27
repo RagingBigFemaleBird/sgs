@@ -829,6 +829,7 @@ namespace Sanguosha.Core.Games
             }
         }
 
+        Player lastPhasePlayer;
         Player currentPlayer;
 
         public Player CurrentPlayer
@@ -883,6 +884,11 @@ namespace Sanguosha.Core.Games
         {
             GameEventArgs args = new GameEventArgs() { Game = this, Source = currentPlayer };
             Trace.TraceInformation("Main game loop running {0}:{1}", currentPlayer.Id, currentPhase);
+            if (lastPhasePlayer != currentPlayer)
+            {
+                Game.CurrentGame.Emit(GameEvent.PhaseBeforeStart, args);
+            }
+            lastPhasePlayer = currentPlayer;
             try
             {
                 var phaseEvent = phaseEvents[CurrentPhaseEventIndex];
@@ -905,7 +911,8 @@ namespace Sanguosha.Core.Games
                 CurrentPhase++;
                 if ((int)CurrentPhase >= Enum.GetValues(typeof(TurnPhase)).Length)
                 {
-                    CurrentPhase = TurnPhase.BeforeStart;
+                    Game.CurrentGame.Emit(GameEvent.PhasePostEnd, args);
+                    CurrentPhase = TurnPhase.Start;
                     for (CurrentPlayer = NextAlivePlayer(currentPlayer);
                         CurrentPlayer.IsImprisoned;
                         CurrentPlayer.IsImprisoned = false, CurrentPlayer = NextAlivePlayer(currentPlayer));

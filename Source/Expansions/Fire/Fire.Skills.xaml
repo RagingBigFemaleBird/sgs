@@ -8,6 +8,8 @@
     <sys:String x:Key="Hero.TaiShiCi.Name">太史慈</sys:String>
     <sys:String x:Key="Hero.DianWei.Name">典韦</sys:String>
     <sys:String x:Key="Hero.PangDe.Name">庞德</sys:String>
+    <sys:String x:Key="Hero.YuanShao.Name">袁绍</sys:String>
+    <sys:String x:Key="Hero.YanLiangWenChou.Name">颜良文丑</sys:String>
 
     <sys:String x:Key="Skill.HuoJi.Name">火计</sys:String>
     <sys:String x:Key="Skill.HuoJi.Description">你可以将一张红色手牌当【火攻】使用。</sys:String>
@@ -25,5 +27,9 @@
     <sys:String x:Key="Skill.JieMing.Name">节命</sys:String>
     <sys:String x:Key="Skill.BaZhen.Name">八阵</sys:String>
     <sys:String x:Key="Skill.MengJin.Name">猛进</sys:String>
+    <sys:String x:Key="Skill.LuanJi.Name">乱击</sys:String>
+    <sys:String x:Key="Skill.XueYi.Name">血裔</sys:String>
+    <sys:String x:Key="Skill.ShuangXiong.Name">双雄</sys:String>
+    <sys:String x:Key="Skill.ShuangXiongCardTransformSkill.Name">双雄</sys:String>
 
 </ResourceDictionary>

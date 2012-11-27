@@ -202,10 +202,14 @@ namespace Sanguosha.Core.Games
             {
                 Player currentPlayer = eventArgs.Game.CurrentPlayer;
                 Trace.TraceInformation("Player {0} discard stage.", currentPlayer.Id);
+                GameEventArgs args = new GameEventArgs();
+                args.Source = eventArgs.Source;
+                args.IntArg = 0;
+                Game.CurrentGame.Emit(GameEvent.PlayerHandCardCapacityAdjustment, args);
                 Game.CurrentGame.ForcePlayerDiscard(currentPlayer, 
                     (p, d) => 
                     { 
-                        int i = Game.CurrentGame.Decks[p, DeckType.Hand].Count - p.Health;
+                        int i = Game.CurrentGame.Decks[p, DeckType.Hand].Count - p.Health - args.IntArg;
                         if (i < 0) i = 0;
                         return i;
                     }, 
@@ -660,7 +664,7 @@ namespace Sanguosha.Core.Games
                 }
                 game.CurrentPlayer = game.Players[rulerId];
                 game.CurrentPhaseEventIndex = 0;
-                game.CurrentPhase = TurnPhase.BeforeStart;
+                game.CurrentPhase = TurnPhase.Start;
 
                 while (true)
                 {

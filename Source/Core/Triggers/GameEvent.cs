@@ -28,8 +28,8 @@ namespace Sanguosha.Core.Triggers
             foreach (TurnPhase phase in
                 Enum.GetValues(typeof(TurnPhase)).Cast<TurnPhase>())
             {
-                if (phase >= TurnPhase.BeforeStart &&
-                    phase <= TurnPhase.PostEnd)
+                if (phase >= TurnPhase.Start &&
+                    phase <= TurnPhase.End)
                 {
                     PhaseBeginEvents.Add(phase, new GameEvent("PhaseBeginEvents" + (int)phase));
                 }
@@ -40,8 +40,8 @@ namespace Sanguosha.Core.Triggers
                     PhaseProceedEvents.Add(phase, new GameEvent("PhaseProceedEvents" + (int)phase));
                 }
 
-                if (phase >= TurnPhase.BeforeStart &&
-                    phase <= TurnPhase.PostEnd)
+                if (phase >= TurnPhase.Start &&
+                    phase <= TurnPhase.End)
                 {
                     PhaseEndEvents.Add(phase, new GameEvent("PhaseEndEvents" + (int)phase));
                 }
@@ -122,6 +122,12 @@ namespace Sanguosha.Core.Triggers
         /// 在游戏开始时发动的武将技能：【狂暴①】。
         /// </remarks>
         public static readonly GameEvent GameStart;
+
+        /// <summary>
+        /// Cleanup triggers only 例如双雄
+        /// </summary>
+        public static readonly GameEvent PhaseBeforeStart = new GameEvent("PhaseBeforeStart");
+        public static readonly GameEvent PhasePostEnd = new GameEvent("PhasePostEnd");
 
         /// <summary>
         /// 回合开始前，XX阶段开始时。 
@@ -406,6 +412,11 @@ namespace Sanguosha.Core.Triggers
         /// 玩家改变国籍
         /// </summary>
         public static readonly GameEvent PlayerChangedAllegiance = new GameEvent("PlayerChangedAllegiance");
+
+        /// <summary>
+        /// 玩家手牌上限调整
+        /// </summary>
+        public static readonly GameEvent PlayerHandCardCapacityAdjustment = new GameEvent("PlayerHandCardCapacityAdjustment");
 
 
         public override bool Equals(object obj)

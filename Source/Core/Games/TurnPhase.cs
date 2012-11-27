@@ -8,13 +8,11 @@ namespace Sanguosha.Core.Games
     public enum TurnPhase
     {
         Inactive = -1,
-        BeforeStart = 0,
-        Start = 1,
-        Judge = 2,
-        Draw = 3,
-        Play = 4,
-        Discard = 5,
-        End = 6,
-        PostEnd = 7
+        Start = 0,
+        Judge = 1,
+        Draw = 2,
+        Play = 3,
+        Discard = 4,
+        End = 5,
     }
 }

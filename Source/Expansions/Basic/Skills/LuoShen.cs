@@ -20,7 +20,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     public class LuoShen : TriggerSkill
     {
-        class LuoShenJudgeTrigger : Trigger
+        public class GetJudgeCardTrigger : Trigger
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
@@ -43,7 +43,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 }
                 return;
             }
-            public LuoShenJudgeTrigger(Player p)
+            public GetJudgeCardTrigger(Player p)
             {
                 Owner = p;
             }
@@ -53,7 +53,7 @@ namespace Sanguosha.Expansions.Basic.Skills
         {
             if (AskForSkillUse())
             {
-                Game.CurrentGame.RegisterTrigger(GameEvent.PlayerJudgeDone, new LuoShenJudgeTrigger(Owner));
+                Game.CurrentGame.RegisterTrigger(GameEvent.PlayerJudgeDone, new GetJudgeCardTrigger(Owner) { Priority = int.MinValue });
                 ReadOnlyCard c;
                 do
                 {
