@@ -113,7 +113,7 @@ namespace Sanguosha.Core.Cards
                 return VerifierResult.Partial;
             }
             count = cards == null ? 0 : cards.Count;
-            if (cards == null || cards.Count < minCards)
+            if (count < minCards)
             {
                 return VerifierResult.Partial;
             }

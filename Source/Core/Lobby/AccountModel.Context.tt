@@ -2,7 +2,7 @@
 <#@ include file="EF.Utility.CS.ttinclude"#><#@
  output extension=".cs"#><#
 
-const string inputFile = @"Model1.edmx";
+const string inputFile = @"AccountModel.edmx";
 var textTransform = DynamicTextTransformation.Create(this);
 var code = new CodeGenerationTools(this);
 var ef = new MetadataTools(this);
@@ -43,6 +43,7 @@ namespace <#=code.EscapeNamespace(codeNamespace)#>
 using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.ModelConfiguration.Conventions;
 <#
 if (container.FunctionImports.Any())
 {
@@ -71,7 +72,7 @@ if (!loader.IsLazyLoadingEnabled(container))
 
     protected override void OnModelCreating(DbModelBuilder modelBuilder)
     {
-        throw new UnintentionalCodeFirstException();
+        modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
     }
 
 <#

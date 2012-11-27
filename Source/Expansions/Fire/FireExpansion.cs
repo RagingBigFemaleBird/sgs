@@ -19,12 +19,14 @@ namespace Sanguosha.Expansions.Fire
         public FireExpansion()
         {
             CardSet = new List<Card>();
-            
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("WoLong", true, Allegiance.Shu, 3, /*new BaZhen(),*/ new HuoJi(), new KanPo()))));
+
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("DianWei", true, Allegiance.Shu, 3, new QiangXi()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("WoLong", true, Allegiance.Shu, 3, new BaZhen(), new HuoJi(), new KanPo()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("TaiShiCi", true, Allegiance.Wu, 4, new TianYi()))));
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("XunYu", true, Allegiance.Wei, 3, new QuHu()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("XunYu", true, Allegiance.Wei, 3, new QuHu(), new JieMing()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("PangTong", true, Allegiance.Shu, 3, new LianHuan()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ShenZhouYu", true, Allegiance.God, 4, new QinYin()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("PangDe", true, Allegiance.Qun, 4, new MaShu(), new MengJin()))));
 
         }
     }

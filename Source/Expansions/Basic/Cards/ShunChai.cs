@@ -47,15 +47,17 @@ namespace Sanguosha.Expansions.Basic.Cards
                                  (Game.CurrentGame.Decks[dest, DeckType.Equipment]));
                 answer[0].Add(collection.First());
             }
+            Card theCard = answer[0][0];
+            Game.CurrentGame.SyncCardAll(ref theCard);
             Trace.Assert(answer.Count == 1 && answer[0].Count == 1);
 
             if (ShunChaiDest(source, dest).DeckType == DeckType.Discard)
             {
-                Game.CurrentGame.HandleCardDiscard(dest, answer[0]);
+                Game.CurrentGame.HandleCardDiscard(dest, new List<Card>() { theCard });
             }
             else
             {
-                Game.CurrentGame.HandleCardTransferToHand(dest, source, answer[0]);
+                Game.CurrentGame.HandleCardTransferToHand(dest, source, new List<Card>() { theCard });
             }
         }
 

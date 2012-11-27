@@ -6,7 +6,9 @@
     <sys:String x:Key="Hero.PangTong.Name">庞统</sys:String>
     <sys:String x:Key="Hero.XunYu.Name">荀彧</sys:String>
     <sys:String x:Key="Hero.TaiShiCi.Name">太史慈</sys:String>
-    
+    <sys:String x:Key="Hero.DianWei.Name">典韦</sys:String>
+    <sys:String x:Key="Hero.PangDe.Name">庞德</sys:String>
+
     <sys:String x:Key="Skill.HuoJi.Name">火计</sys:String>
     <sys:String x:Key="Skill.HuoJi.Description">你可以将一张红色手牌当【火攻】使用。</sys:String>
     <sys:String x:Key="Skill.HuoJi.Usage">点“火计”→选中1张手牌（红桃或方块）→选择目标（至少有一张手牌）→点“确定”</sys:String>
@@ -19,5 +21,9 @@
     <sys:String x:Key="Skill.LianHuan.Name">连环</sys:String>
     <sys:String x:Key="Skill.QuHu.Name">驱虎</sys:String>
     <sys:String x:Key="Skill.TianYi.Name">天义</sys:String>
+    <sys:String x:Key="Skill.QiangXi.Name">强袭</sys:String>
+    <sys:String x:Key="Skill.JieMing.Name">节命</sys:String>
+    <sys:String x:Key="Skill.BaZhen.Name">八阵</sys:String>
+    <sys:String x:Key="Skill.MengJin.Name">猛进</sys:String>
 
 </ResourceDictionary>

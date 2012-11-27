@@ -169,6 +169,10 @@ namespace Sanguosha.Core.UI
                                 c.RevealOnce = true;
                             }
                         }
+                        if (c.Place.DeckType == DeckType.Equipment || c.Place.DeckType == DeckType.DelayedTools)
+                        {
+                            c.RevealOnce = false;
+                        }
                         server.SendObject(i, c);
                     }
                 }
