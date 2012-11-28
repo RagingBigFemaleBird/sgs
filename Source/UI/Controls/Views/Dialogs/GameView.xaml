@@ -21,6 +21,7 @@
             	<ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
             	<ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <local:SkillButtonTemplateSelector x:Key="skillButtonTemplateSelector" />
             <LinearGradientBrush x:Key="indicatorLineBrush" EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="#00F1EC8A" Offset="0"/>
                 <GradientStop Color="#00F1EC8A" Offset="1"/>
@@ -139,15 +140,26 @@
 					 Margin="0,0,0,7"
 					 VerticalAlignment="Bottom"/>
         </StackPanel>
-        <ItemsControl ItemsSource="{Binding MainPlayerModel.Marks}"
+        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <ItemsControl ItemsSource="{Binding MainPlayerModel.Marks}"
                       VerticalAlignment="Bottom" HorizontalAlignment="Right"
                       ItemTemplate="{StaticResource LargeMarkTemplate}" Margin="0,0,0,5">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+            <ItemsControl HorizontalAlignment="Right"
+                          VerticalAlignment="Bottom" Width="67" ItemsSource="{Binding MainPlayerModel.RulerGivenSkillCommands}"
+                          ItemTemplateSelector="{StaticResource skillButtonTemplateSelector}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <local:SkillButtonDock />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </StackPanel>
         <local:MainPlayerView x:Name="mainPlayerPanel" VerticalAlignment="Bottom" Grid.Row="1" Grid.ColumnSpan="2"/>
         <Grid x:Name="infoPanel" Grid.Column="1">
         <Grid x:Name="infoPanelBg" Background="#FFA79865">

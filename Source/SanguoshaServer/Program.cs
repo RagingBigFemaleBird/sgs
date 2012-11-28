@@ -14,7 +14,7 @@ namespace Sanguosha
 {
     class Program
     {
-        static int totalNumberOfPlayers = 4;
+        static int totalNumberOfPlayers = 3;
         static int timeOutSeconds = 25;
         static void Main(string[] args)
         {

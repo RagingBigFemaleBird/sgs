@@ -70,6 +70,12 @@ namespace Sanguosha.UI.Controls
                 {
                     _skillType = SkillType.Enforced;
                 }
+
+                if (value is IRulerGivenSkill)
+                {
+                    var skill = value as IRulerGivenSkill;
+                    HeroName = skill.Master.Hero.Name;
+                }
             }
         }
 
@@ -105,6 +111,12 @@ namespace Sanguosha.UI.Controls
             {
                 return Skill.GetType().Name;
             }
+        }
+
+        public string HeroName
+        {
+            get;
+            private set;
         }
 
         private SkillType _skillType;

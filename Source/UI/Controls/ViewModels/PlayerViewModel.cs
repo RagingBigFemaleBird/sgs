@@ -40,8 +40,10 @@ namespace Sanguosha.UI.Controls
         public PlayerViewModel()
         {
             IsSelectionMode = false;
-            SkillCommands = new ObservableCollection<SkillCommand>();
+            AutoInvokeSkillCommands = new ObservableCollection<SkillCommand>();
             ActiveSkillCommands = new ObservableCollection<SkillCommand>();
+            DockedSkillCommands = new ObservableCollection<SkillCommand>();
+            RulerGivenSkillCommands = new ObservableCollection<SkillCommand>();
             HeroSkillNames = new ObservableCollection<string>();
             heroNameChars = new ObservableCollection<string>();
             MultiChoiceCommands = new ObservableCollection<ICommand>();
@@ -131,7 +133,7 @@ namespace Sanguosha.UI.Controls
             {   
                 OnPropertyChanged("IsCurrentPlayer");
             }
-            else if (name == "CurrentPhase" && IsCurrentPlayer)
+            else if (name == "CurrentPhase")
             {                
                 OnPropertyChanged("CurrentPhase");
             }
@@ -143,8 +145,11 @@ namespace Sanguosha.UI.Controls
         {
             // SkillCommands.Clear();
             ActiveSkillCommands.Clear();
-            var backup = new List<SkillCommand>(SkillCommands);
-            
+            AutoInvokeSkillCommands.Clear();
+
+            var backup = new List<SkillCommand>(DockedSkillCommands);
+            backup.AddRange(RulerGivenSkillCommands);
+                        
             foreach (ISkill skill in _player.Skills)
             {
                 if (!backup.Any(s => s.Skill == skill))
@@ -166,7 +171,15 @@ namespace Sanguosha.UI.Controls
                         command.OnSelectedChanged += triggerSkill_OnSelectedChanged;
                     }
 
-                    SkillCommands.Add(command);
+                    if (command.HeroName != null)
+                    {
+                        RulerGivenSkillCommands.Add(command);
+                    }
+                    else
+                    {
+                        DockedSkillCommands.Add(command);
+                    }
+
                 }
             }
 
@@ -174,13 +187,18 @@ namespace Sanguosha.UI.Controls
             {
                 if (!_player.Skills.Any(s => skillCommand.Skill == s))
                 {
-                    SkillCommands.Remove(skillCommand);
+                    AutoInvokeSkillCommands.Remove(skillCommand);
+                    DockedSkillCommands.Remove(skillCommand);
                 }
             }
 
             foreach (var command in SkillCommands)
             {
-                if (!command.IsAutoInvokeSkill && (command.Skill is ActiveSkill || command.Skill is CardTransformSkill))
+                if (command.IsAutoInvokeSkill)
+                {
+                    AutoInvokeSkillCommands.Add(command);
+                }
+                else if ((command.Skill is ActiveSkill || command.Skill is CardTransformSkill))
                 {
                     ActiveSkillCommands.Add(command);
                 }
@@ -508,8 +526,13 @@ namespace Sanguosha.UI.Controls
             private set;
         }
 
+        public ObservableCollection<SkillCommand> RulerGivenSkillCommands
+        {
+            get;
+            private set;
+        }
 
-        public ObservableCollection<SkillCommand> SkillCommands
+        public ObservableCollection<SkillCommand> DockedSkillCommands
         {
             get;
             private set;
@@ -519,6 +542,20 @@ namespace Sanguosha.UI.Controls
         {
             get;
             private set;
+        }
+
+        public ObservableCollection<SkillCommand> AutoInvokeSkillCommands
+        {
+            get;
+            private set;
+        }
+
+        public IEnumerable<SkillCommand> SkillCommands
+        {
+            get
+            {
+                return DockedSkillCommands.Concat(RulerGivenSkillCommands);
+            }
         }
 
         /// <summary>
@@ -877,13 +914,10 @@ namespace Sanguosha.UI.Controls
                 equipCommand.IsSelectionMode = false;
             }
 
-            foreach (var skillCommand in SkillCommands)
+            foreach (var skillCommand in ActiveSkillCommands)
             {
-                if (!skillCommand.IsAutoInvokeSkill)
-                {
-                    skillCommand.IsSelected = false;
-                    skillCommand.IsEnabled = false;
-                }
+                skillCommand.IsSelected = false;
+                skillCommand.IsEnabled = false;
             }
 
             foreach (CardViewModel card in HandCards)
@@ -1438,9 +1472,9 @@ namespace Sanguosha.UI.Controls
                         {
                             (skillCommand as GuHuoSkillCommand).GuHuoTypes.Clear();
                         }
-                        skillCommand.IsHighlighted = false;                        
+                        skillCommand.IsHighlighted = false;
                     }
-
+                    
                     if (currentUsageVerifier != null)
                     {                        
                         currentUsageVerifier = null;

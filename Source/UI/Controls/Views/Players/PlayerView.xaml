@@ -61,17 +61,17 @@
             <Storyboard x:Key="sbTremble">
                 <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="grid">
                     <EasingThicknessKeyFrame KeyTime="0" Value="0"/>
-                    <EasingThicknessKeyFrame KeyTime="0:0:0.133" Value="-10,0,10,0">
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.05" Value="-3,0,3,0">
                         <EasingThicknessKeyFrame.EasingFunction>
                             <BackEase EasingMode="EaseOut"/>
                         </EasingThicknessKeyFrame.EasingFunction>
                     </EasingThicknessKeyFrame>
-                    <EasingThicknessKeyFrame KeyTime="0:0:0.4" Value="20,0,-20,0">
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.2" Value="10,0,-10,0">
                         <EasingThicknessKeyFrame.EasingFunction>
                             <BackEase EasingMode="EaseOut"/>
                         </EasingThicknessKeyFrame.EasingFunction>
                     </EasingThicknessKeyFrame>
-                    <EasingThicknessKeyFrame KeyTime="0:0:0.6" Value="0">
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.3" Value="0">
                         <EasingThicknessKeyFrame.EasingFunction>
                             <BackEase EasingMode="EaseOut"/>
                         </EasingThicknessKeyFrame.EasingFunction>
@@ -269,7 +269,7 @@
                 </Path>
                 <Border Margin="2,0,2,4" Grid.Row="1" BorderBrush="#FF79786B" CornerRadius="1" BorderThickness="1" ClipToBounds="True">
                     <Grid>                       
-                        <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=28\,46\,220\,132, Path=HeroName, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/\{0\}.png}"/>
+                        <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=28\,46\,220\,132, Path=HeroName, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/Full/\{0\}.png}"/>
                         <Image Margin="0" Source="/Resources;component/Images/PlayerInfoView/imprisoned.png" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}"/>                         
                         <Border x:Name="IsTargetedGlow" Visibility="{Binding IsTargeted, Converter={StaticResource boolToVisibilityConverter}}" BorderBrush="Red" BorderThickness="5" >
                             <Border.Effect>
