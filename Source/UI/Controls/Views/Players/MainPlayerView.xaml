@@ -350,11 +350,11 @@
             </Border>
             <local:VHealthBar x:Name="healthBar" HorizontalAlignment="Right" VerticalAlignment="Center"
                               Height="130" Width="25" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}" IsHitTestVisible="False" />
-            <Image x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="29" Margin="8,10,0,0" IsHitTestVisible="False" />
+            <Image x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="29" Margin="7,7,0,0" IsHitTestVisible="False" />
 
             <ItemsControl ItemsSource="{Binding HeroNameChars}"
                           HorizontalAlignment="Left"
-                          Margin="9,25,0,73"
+                          Margin="11,36,0,62"
                           Width="20" IsHitTestVisible="False" d:LayoutOverrides="VerticalAlignment, GridBox">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -426,7 +426,7 @@
 				</ei:FluidMoveBehavior>
 			</i:Interaction.Behaviors>
 		</StackPanel>
-        <local:RoleBox x:Name="cbRoleBox" Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Right" Width="25" Margin="0,5,6.5,0" Height="26" VerticalAlignment="Top" />
+        <local:RoleBox x:Name="cbRoleBox" Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Right" Width="25" Margin="0,5,5.5,0" Height="26" VerticalAlignment="Top" />
         <Canvas x:Name="animationCenter2" HorizontalAlignment="Center" Margin="0" Grid.ColumnSpan="2" VerticalAlignment="Top"/>
 		<anim:TieSuoAnimation x:Name="tieSuoAnimation" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="0,-40,0,0" IsHitTestVisible="False" FramesPerSecond="15" Height="180" Width="202"/>
 	</Grid>
