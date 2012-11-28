@@ -83,7 +83,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions> 
         	<RowDefinition />
-        	<RowDefinition Height="170" />
+        	<RowDefinition Height="148" />
         </Grid.RowDefinitions>
 		  
         <Image x:Name="tableBg" Source="{DynamicResource Game.Table.Background}" Stretch="Fill" />

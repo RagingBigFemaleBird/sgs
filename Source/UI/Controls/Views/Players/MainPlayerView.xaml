@@ -11,7 +11,7 @@
              xmlns:Sanguosha_UI_Effects="clr-namespace:Sanguosha.UI.Effects;assembly=Effects" xmlns:System="clr-namespace:System;assembly=mscorlib" 
              x:Class="Sanguosha.UI.Controls.MainPlayerView"
 	         mc:Ignorable="d"
-             Height="200"
+             Height="170"
              d:DesignWidth="900">
     <local:PlayerViewBase.Resources>        
         <ResourceDictionary>
@@ -274,8 +274,8 @@
     		</VisualStateGroup>
     	</VisualStateManager.VisualStateGroups>
     	<Grid.RowDefinitions>
-    		<RowDefinition Height="30"/>  	
-    		<RowDefinition Height="170" />
+    		<RowDefinition Height="22"/>  	
+    		<RowDefinition Height="148" />
 		</Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
         	<ColumnDefinition Width="auto" />
@@ -291,58 +291,50 @@
 			   HorizontalAlignment="Left" VerticalAlignment="Bottom"
 			   Margin="50,0,0,0"
 			   Width="149" Height="15"/>
-        <Grid Grid.Row="1" Width="164">
+        <Grid Grid.Row="1" Width="305">
             <Grid.Background>
                 <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Background.Left}"/>
             </Grid.Background>
-            <StackPanel Height="29" Orientation="Horizontal" HorizontalAlignment="Left" Margin="8,0,0,0" x:Name="delayedToolsDock" VerticalAlignment="Top" >
-            	<i:Interaction.Behaviors>
-            		<ei:FluidMoveBehavior AppliesTo="Children" Duration="0:0:5">
-            			<ei:FluidMoveBehavior.EaseX>
-            				<BackEase EasingMode="EaseOut"/>
-            			</ei:FluidMoveBehavior.EaseX>
-            		</ei:FluidMoveBehavior>
-            	</i:Interaction.Behaviors>
-            </StackPanel>
-            <Grid x:Name="weaponArea" Margin="0,39,0,0" Height="37" Width="161"  VerticalAlignment="Top" />
-            <Grid x:Name="armorArea" Margin="0,70,0,0" Height="37" Width="161"  VerticalAlignment="Top" />
-            <Grid x:Name="horse1Area" Margin="0,101,0,0" Height="37" Width="161"  VerticalAlignment="Top" />           
-            <Grid x:Name="horse2Area" Margin="0,132,0,0" Height="37" Width="161"  VerticalAlignment="Top" />
+            <Grid x:Name="weaponArea" Margin="2,8,142,0" Height="37" Width="161"  VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" />
+            <Grid x:Name="armorArea" Margin="2,39,142,0" Height="37" Width="161"  VerticalAlignment="Top" />
+            <Grid x:Name="horse1Area" Margin="2,72,142,0" Height="37" Width="161"  VerticalAlignment="Top" />           
+            <Grid x:Name="horse2Area" Margin="2,104,142,0" Height="37" Width="161"  VerticalAlignment="Top" />
         </Grid>
         <Grid Grid.Row="1" Grid.Column="1">
-            <Grid.Background>
-                <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Background.Middle}" Viewport="0,0,0.1,1" TileMode="FlipX" Stretch="None" />
-            </Grid.Background>
-            <Grid Grid.Row="1" Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                	<ColumnDefinition Width="1*"/>
-                	<ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <local:CardStack x:Name="handCardArea" VerticalAlignment="Bottom" Margin="5,0,10,0" Height="130" MaxCardSpacing="97" CardAlignment="Left" />
-                <Image Grid.Column="1" Source="{DynamicResource MainPlayerInfoView.Background.Platter}"/>               
-                <Button x:Name="btnOk" Command="{Binding SubmitAnswerCommand}" Grid.Column="1" Height="82" Margin="3,-1,39,0" Style="{DynamicResource OkButtonStyle}" VerticalAlignment="Top" />
-            </Grid>
-            <Border HorizontalAlignment="Right" Height="17" Width="16" VerticalAlignment="Top" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22" Margin="0,148,92,0" d:LayoutOverrides="GridBox">
-                <TextBlock Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding HandCardCount}" TextAlignment="Center" FontFamily="Arial" Foreground="Black"/>
-            </Border>
-            <Button Content="" Height="82" Margin="0,0,39,0" Command="{Binding CancelAnswerCommand}" Style="{DynamicResource CancelButtonStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="67"/>
-            <Button Content="" Margin="0,44,5,44" Command="{Binding AbortAnswerCommand}" Style="{DynamicResource DiscardButtonStyle}" HorizontalAlignment="Right" Width="33"/>
-            <Image x:Name="image" Source="{res:ImageBinding Path=Role, ResourceKeyFormat=Death.Role.\{0\}.Image, StringFormat=Resources/Images/Death/\{0\}.png}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False" Opacity="0">
-            	<Image.RenderTransform>
-            		<TransformGroup>
-            			<ScaleTransform/>
-            			<SkewTransform/>
-            			<RotateTransform/>
-            			<TranslateTransform/>
-            		</TransformGroup>
-            	</Image.RenderTransform>
-            </Image>
+        	<Grid.Background>
+        		<ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Background.Middle}" Viewport="0,0,322,148" ViewportUnits="Absolute" TileMode="FlipX" Stretch="None" />
+        	</Grid.Background>
+        	<Grid Grid.Row="1" Grid.Column="1">
+        		<Grid.ColumnDefinitions>
+        			<ColumnDefinition Width="1*"/>
+        			<ColumnDefinition Width="auto"/>
+        		</Grid.ColumnDefinitions>
+        		<Image Grid.Column="1" Source="{DynamicResource MainPlayerInfoView.Background.Platter}"/>
+        	</Grid>
+        	<Border HorizontalAlignment="Right" Height="17" Width="16" VerticalAlignment="Top" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22" Margin="0,148,92,0" d:LayoutOverrides="GridBox">
+        		<TextBlock Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding HandCardCount}" TextAlignment="Center" FontFamily="Arial" Foreground="Black"/>
+        	</Border>
+        	<Button x:Name="btnOk" Command="{Binding SubmitAnswerCommand}" Height="64" Style="{DynamicResource OkButtonStyle}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="53" Margin="0,4.002,38.686,0" />
+        	<Button Height="64" Margin="0,0,39,3.5" Command="{Binding CancelAnswerCommand}" Style="{DynamicResource CancelButtonStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="53"/>
+        	<Button Command="{Binding AbortAnswerCommand}" Style="{DynamicResource DiscardButtonStyle}" HorizontalAlignment="Right" Width="28" Height="69" Margin="0,39.5,6.67,39.5"/>
+        	<Image x:Name="image" Source="{res:ImageBinding Path=Role, ResourceKeyFormat=Death.Role.\{0\}.Image, StringFormat=Resources/Images/Death/\{0\}.png}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False" Opacity="0">
+        		<Image.RenderTransform>
+        			<TransformGroup>
+        				<ScaleTransform/>
+        				<SkewTransform/>
+        				<RotateTransform/>
+        				<TranslateTransform/>
+        			</TransformGroup>
+        		</Image.RenderTransform>
+        	</Image>
+        	<local:CardStack x:Name="handCardArea" VerticalAlignment="Bottom" Margin="-133,0,98,8" Height="132" MaxCardSpacing="97" CardAlignment="Left" />
         </Grid>		
-		<Grid x:Name="grid" Grid.Row="1" Grid.Column="2" Background="Black">
+		<Grid x:Name="grid" Width="165" Grid.Row="1" Grid.Column="2" Background="Black">
 			<Grid.Effect>
 				<Sanguosha_UI_Effects:MonochromeEffect Strength="0"/>
 			</Grid.Effect>
-			<Grid Margin="9,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="134" Height="134" IsEnabled="{Binding IsEnabled}" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+			<Border BorderBrush="#FF706F6D" BorderThickness="0,1,1,1" />
+			<Grid Margin="0.5,2,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="134" Height="134" IsEnabled="{Binding IsEnabled}" MouseLeftButtonDown="Border_MouseLeftButtonDown">
                 <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=71\,28\,145\,145, Path=HeroName, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/Full/\{0\}.png}">
                     <Image.ToolTip>
                         <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
@@ -356,16 +348,14 @@
             		<ei:DataStateBehavior TrueState="Faded" FalseState="UnFaded" Value="true" Binding="{Binding IsFaded}"/>
             	</i:Interaction.Behaviors>
             </Border>
-        	<Image Source="{DynamicResource MainPlayerInfoView.Background.Right}" IsHitTestVisible="False" />
-            <local:VHealthBar x:Name="healthBar" HorizontalAlignment="Right" VerticalAlignment="Top"
-                              Height="140" Width="25" Margin="0,11,0,0" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}" IsHitTestVisible="False" />            
-            <TextBlock Height="17" Margin="8,12,31.5,0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="SimSun" Foreground="White" FontSize="13.333" TextAlignment="Center" LineStackingStrategy="BlockLineHeight" LineHeight="16" Background="#7F585858" IsHitTestVisible="False"><Run Language="zh-cn" Text="UserName"/></TextBlock>
+            <local:VHealthBar x:Name="healthBar" HorizontalAlignment="Right" VerticalAlignment="Center"
+                              Height="130" Width="25" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}" IsHitTestVisible="False" />
             <Image x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="29" Margin="8,10,0,0" IsHitTestVisible="False" />
 
-            <ItemsControl ItemsSource="{Binding HeroNameChars}" Grid.Row="1"
+            <ItemsControl ItemsSource="{Binding HeroNameChars}"
                           HorizontalAlignment="Left"
-                          Margin="11,34,0,85"
-                          Width="20" IsHitTestVisible="False">
+                          Margin="9,25,0,73"
+                          Width="20" IsHitTestVisible="False" d:LayoutOverrides="VerticalAlignment, GridBox">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Columns="1"/>
@@ -390,33 +380,35 @@
                     <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0"/>
                 </ItemsControl.Effect>
             </ItemsControl>
-            <Grid Margin="8,12,0,1" Width="134" HorizontalAlignment="Left">
+            <Grid Margin="0.5,2,0,0" HorizontalAlignment="Left" Width="134">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height="auto" MinHeight="26" />
                 </Grid.RowDefinitions>
-            <Border x:Name="IsTargetedGlow" Visibility="{Binding IsTargeted, Converter={StaticResource boolToVisibilityConverter}}" ClipToBounds="True" BorderBrush="Red" BorderThickness="5" >
-                <Border.Effect>
-                    <BlurEffect Radius="10" />
-                </Border.Effect>
-            </Border>
-                <Border x:Name="IsSelectedGlow" Visibility="{Binding IsSelected, Converter={StaticResource boolToVisibilityConverter}}" ClipToBounds="True" BorderBrush="#FFFF6B00" BorderThickness="5" >
-                <Border.Effect>
-                    <BlurEffect Radius="10" />
-                </Border.Effect>
-            </Border>
-                <ItemsControl Grid.Row="1" x:Name="skillButtonDock" HorizontalAlignment="Left"
-                              VerticalAlignment="Bottom" Width="134" ItemsSource="{Binding DockedSkillCommands}"
-                              ItemTemplateSelector="{StaticResource skillButtonTemplateSelector}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <local:SkillButtonDock />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
+            <TextBlock Height="17" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="SimSun" Foreground="White" FontSize="13.333" TextAlignment="Center" LineStackingStrategy="BlockLineHeight" LineHeight="16" Background="#7F585858" IsHitTestVisible="False" Margin="0,3,0,0"><Run Language="zh-cn" Text="UserName"/></TextBlock>
+            	<Border x:Name="IsTargetedGlow" Visibility="{Binding IsTargeted, Converter={StaticResource boolToVisibilityConverter}}" ClipToBounds="True" BorderBrush="Red" BorderThickness="5" >
+            		<Border.Effect>
+            			<BlurEffect Radius="10" />
+            		</Border.Effect>
+            	</Border>
+            	<Border x:Name="IsSelectedGlow" Visibility="{Binding IsSelected, Converter={StaticResource boolToVisibilityConverter}}" ClipToBounds="True" BorderBrush="#FFFF6B00" BorderThickness="5" >
+            		<Border.Effect>
+            			<BlurEffect Radius="10" />
+            		</Border.Effect>
+            	</Border>
+            	<Image Source="{DynamicResource MainPlayerInfoView.Background.Right}" VerticalAlignment="Top" IsHitTestVisible="False" Width="134" Height="134" Stretch="None" Grid.RowSpan="2"/>
+            	<ItemsControl Grid.Row="1" x:Name="skillButtonDock" HorizontalAlignment="Left"
+            		VerticalAlignment="Bottom" Width="134" ItemsSource="{Binding DockedSkillCommands}"
+            		ItemTemplateSelector="{StaticResource skillButtonTemplateSelector}">
+            		<ItemsControl.ItemsPanel>
+            			<ItemsPanelTemplate>
+            				<local:SkillButtonDock />
+            			</ItemsPanelTemplate>
+            		</ItemsControl.ItemsPanel>
+            	</ItemsControl>
                 
             </Grid>
-            <Grid Margin="-6,15,0,0" Height="22" VerticalAlignment="Top" Width="169" HorizontalAlignment="Left">
+            <Grid Margin="-15.673,10.331,0,0" Height="22" VerticalAlignment="Top" Width="169" HorizontalAlignment="Left">
                 <Grid.ToolTip>
                     <ToolTip Content="{DynamicResource State.TieSuoLianHuan.Description}" ContentTemplate="{DynamicResource ToolTipTextTemplate}" />                        
                 </Grid.ToolTip> 
@@ -425,11 +417,16 @@
 			</Grid>
             <Canvas x:Name="animationCenter1" HorizontalAlignment="Left" Height="16" Margin="63,69,0,0" VerticalAlignment="Top" Width="18" IsHitTestVisible="False"/>            
         </Grid>
-        <local:RoleBox x:Name="cbRoleBox" Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Right" Width="25" Margin="0,5,6,0" Height="26" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
-            <local:RoleBox.RenderTransform>
-                <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
-            </local:RoleBox.RenderTransform>
-        </local:RoleBox>
+		<StackPanel Height="29" Orientation="Horizontal" HorizontalAlignment="Left" Margin="150,0,0,0" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="50" x:Name="delayedToolsDock" VerticalAlignment="Top" >
+			<i:Interaction.Behaviors>
+				<ei:FluidMoveBehavior AppliesTo="Children" Duration="0:0:5">
+					<ei:FluidMoveBehavior.EaseX>
+						<BackEase EasingMode="EaseOut"/>
+					</ei:FluidMoveBehavior.EaseX>
+				</ei:FluidMoveBehavior>
+			</i:Interaction.Behaviors>
+		</StackPanel>
+        <local:RoleBox x:Name="cbRoleBox" Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Right" Width="25" Margin="0,5,6.5,0" Height="26" VerticalAlignment="Top" />
         <Canvas x:Name="animationCenter2" HorizontalAlignment="Center" Margin="0" Grid.ColumnSpan="2" VerticalAlignment="Top"/>
 		<anim:TieSuoAnimation x:Name="tieSuoAnimation" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="0,-40,0,0" IsHitTestVisible="False" FramesPerSecond="15" Height="180" Width="202"/>
 	</Grid>

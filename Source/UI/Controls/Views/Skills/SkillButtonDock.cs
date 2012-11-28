@@ -15,7 +15,7 @@ namespace Sanguosha.UI.Controls
 
             if (numButtons == 0)
             {
-                return new Size(134, 0);
+                return new Size(dockWidth, 0);
             }
 
             int rows = (numButtons - 1) / 3 + 1;
@@ -55,7 +55,7 @@ namespace Sanguosha.UI.Controls
 
             if (numButtons == 0)
             {
-                return finalSize;
+                return new Size(0, 0);
             }
 
             int rows = (numButtons - 1) / 3 + 1;
