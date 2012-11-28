@@ -49,11 +49,13 @@ namespace Sanguosha.Expansions.Woods.Skills
             Owner[LuanWuUsed] = 1;
             var toProcess = Game.CurrentGame.AlivePlayers;
             toProcess.Remove(Owner);
+            Game.CurrentGame.SortByOrderOfComputation(Owner, toProcess);
             foreach (Player target in toProcess)
             {
                 ISkill skill;
                 List<Card> cards;
                 List<Player> players;
+                if (target.IsDead) continue;
                 if (Game.CurrentGame.UiProxies[target].AskForCardUsage(new CardUsagePrompt("LuanWu"), new LuanWuVerifier(),
                     out skill, out cards, out players))
                 {

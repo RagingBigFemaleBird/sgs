@@ -94,6 +94,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             v.DyingPlayer = target;
             foreach (Player p in toAsk)
             {
+                if (p.IsDead) continue;
                 while (true)
                 {
                     ISkill skill;

@@ -85,7 +85,7 @@ namespace Sanguosha.Core.Skills
                 }
                 if (InnerTrigger.CanExecute(Owner, gameEvent, eventArgs))
                 {
-                    if (((AskForConfirmation == null && !Skill.IsEnforced) || (AskForConfirmation == true)) && !Skill.AskForSkillUse())
+                    if (((AskForConfirmation == null && !Skill.IsEnforced && !Skill.IsAwakening) || (AskForConfirmation == true)) && !Skill.AskForSkillUse())
                     {
                         return;
                     }

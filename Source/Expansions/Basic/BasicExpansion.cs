@@ -173,7 +173,7 @@ namespace Sanguosha.Expansions.Basic
             TriggerRegistration = new List<DelayedTriggerRegistration>();
             TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.CardUsageBeforeEffected, trigger = new WuXieKeJiTrigger() });
             TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.CardUsageBeforeEffected, trigger = new ShaCancelling() });
-            TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.PlayerDying, trigger = new PlayerDying() });
+            TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.PlayerDying, trigger = new PlayerDying() { Priority = int.MinValue } });
         }
     }
 }

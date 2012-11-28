@@ -123,6 +123,7 @@ namespace Sanguosha.Core.Cards
             Game.CurrentGame.SortByOrderOfComputation(source, dests);
             foreach (var player in dests)
             {
+                if (player.IsDead) continue;
                 GameEventArgs args = new GameEventArgs();
                 args.Source = source;
                 args.Targets = new List<Player>() {player};
@@ -146,6 +147,7 @@ namespace Sanguosha.Core.Cards
                     Trace.Assert(e.Status == TriggerResult.End);
                     continue;
                 }
+                if (player.IsDead) continue;
                 Process(source, player, card, readonlyCard);
             }
         }

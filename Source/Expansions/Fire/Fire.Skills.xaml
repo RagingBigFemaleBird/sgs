@@ -31,5 +31,6 @@
     <sys:String x:Key="Skill.XueYi.Name">血裔</sys:String>
     <sys:String x:Key="Skill.ShuangXiong.Name">双雄</sys:String>
     <sys:String x:Key="Skill.ShuangXiongCardTransformSkill.Name">双雄</sys:String>
+    <sys:String x:Key="Skill.NiePan.Name">涅槃</sys:String>
 
 </ResourceDictionary>

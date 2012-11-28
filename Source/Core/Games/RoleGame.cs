@@ -662,16 +662,70 @@ namespace Sanguosha.Core.Games
                 {
                     game.Emit(GameEvent.PlayerGameStartAction, new GameEventArgs() { Source = act });
                 }
+                Player current =
                 game.CurrentPlayer = game.Players[rulerId];
-                game.CurrentPhaseEventIndex = 0;
-                game.CurrentPhase = TurnPhase.Start;
 
                 while (true)
                 {
-                    game.Advance();
+                    GameEventArgs args = new GameEventArgs();
+                    args.Source = current;
+                    args.Game = game;
+                    game.CurrentPhaseEventIndex = 0;
+                    game.CurrentPhase = TurnPhase.Start;
+                    game.Emit(GameEvent.DoPlayer, args);
+                    current = game.NextAlivePlayer(current);
                 }
             }
         }
+
+        public class DoPlayerTrigger : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                Game game = eventArgs.Game;
+                Player currentPlayer = eventArgs.Source;
+                if (currentPlayer.IsImprisoned)
+                {
+                    currentPlayer.IsImprisoned = false;
+                    return;
+                }
+                game.CurrentPlayer = currentPlayer;
+                Game.CurrentGame.Emit(GameEvent.PhaseBeforeStart, new GameEventArgs() { Source = currentPlayer });
+                while (true)
+                {
+                    GameEventArgs args = new GameEventArgs() { Game = game, Source = currentPlayer };
+                    Trace.TraceInformation("Main game loop running {0}:{1}", currentPlayer.Id, game.CurrentPhase);
+                    game.CurrentPlayer = currentPlayer;
+                    try
+                    {
+                        var phaseEvent = Game.PhaseEvents[game.CurrentPhaseEventIndex];
+                        if (phaseEvent.ContainsKey(game.CurrentPhase))
+                        {
+                            game.Emit(Game.PhaseEvents[game.CurrentPhaseEventIndex][game.CurrentPhase], args);
+                        }
+                    }
+                    catch (TriggerResultException e)
+                    {
+                        if (e.Status == TriggerResult.End)
+                        {
+                        }
+                    }
+
+                    game.CurrentPhaseEventIndex++;
+                    if (game.CurrentPhaseEventIndex >= Game.PhaseEvents.Length)
+                    {
+                        game.CurrentPhaseEventIndex = 0;
+                        game.CurrentPhase++;
+                        if ((int)game.CurrentPhase >= Enum.GetValues(typeof(TurnPhase)).Length || (int)game.CurrentPhase < 0)
+                        {
+                            break;
+                        }
+                    }
+                }
+                Game.CurrentGame.Emit(GameEvent.PhasePostEnd, new GameEventArgs() { Source = currentPlayer });
+            }
+        }
+
 
         public RoleGame(int numberOfDefectors)
         {
@@ -827,6 +881,7 @@ namespace Sanguosha.Core.Games
 
         protected override void InitTriggers()
         {
+            RegisterTrigger(GameEvent.DoPlayer, new DoPlayerTrigger());
             RegisterTrigger(GameEvent.Shuffle, new ShuffleTrigger());
             RegisterTrigger(GameEvent.GameStart, new RoleGameRuleTrigger());
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Judge], new PlayerJudgeStageTrigger());

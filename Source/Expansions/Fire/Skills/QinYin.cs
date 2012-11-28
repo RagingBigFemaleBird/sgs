@@ -36,6 +36,8 @@ namespace Sanguosha.Expansions.Fire.Skills
                 QinYinQuestion.Add(Prompt.MultipleChoiceOptionPrefix + "QinYinShiQu");
                 QinYinQuestion.Add(Prompt.NoChoice);
                 int answer;
+                var toProcess = Game.CurrentGame.AlivePlayers;
+                Game.CurrentGame.SortByOrderOfComputation(Owner, toProcess);
                 if (Game.CurrentGame.UiProxies[owner].AskForMultipleChoice(new MultipleChoicePrompt("QinYin"), QinYinQuestion, out answer))
                 {
                     if (answer == 2)
@@ -44,14 +46,14 @@ namespace Sanguosha.Expansions.Fire.Skills
                     NotifySkillUse(new List<Player>());
                     if (answer == 0)
                     {
-                        foreach (var p in Game.CurrentGame.AlivePlayers)
+                        foreach (var p in toProcess)
                         {
                             Game.CurrentGame.RecoverHealth(owner, p, 1);
                         }
                     }
                     else if (answer == 1)
                     {
-                        foreach (var p in Game.CurrentGame.AlivePlayers)
+                        foreach (var p in toProcess)
                         {
                             Game.CurrentGame.LoseHealth(p, 1);
                         }

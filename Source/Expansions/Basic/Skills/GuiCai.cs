@@ -19,7 +19,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     public class GuiCai : TriggerSkill
     {
-        public void OnJudgeBegin(Player player, GameEvent gameEvent, GameEventArgs eventArgs)
+        protected void OnJudgeBegin(Player player, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             if (Game.CurrentGame.Decks[player, DeckType.Hand].Count == 0)
             {

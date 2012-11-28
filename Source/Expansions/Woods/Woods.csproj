@@ -43,8 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Skills\BaiYin.cs" />
     <Compile Include="Skills\FangZhu.cs" />
+    <Compile Include="Skills\LianPo.cs" />
     <Compile Include="Skills\LuanWu.cs" />
+    <Compile Include="Skills\RenJie.cs" />
+    <Compile Include="Skills\WanSha.cs" />
     <Compile Include="WoodsExpansion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -829,7 +829,6 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        Player lastPhasePlayer;
         Player currentPlayer;
 
         public Player CurrentPlayer
@@ -876,49 +875,9 @@ namespace Sanguosha.Core.Games
             set { currentPhaseEventIndex = value; }
         }
 
-        private static Dictionary<TurnPhase, GameEvent>[] phaseEvents = new Dictionary<TurnPhase, GameEvent>[]
+        public static Dictionary<TurnPhase, GameEvent>[] PhaseEvents = new Dictionary<TurnPhase, GameEvent>[]
                          { GameEvent.PhaseBeginEvents, GameEvent.PhaseProceedEvents,
                            GameEvent.PhaseEndEvents, GameEvent.PhaseOutEvents };
-
-        public virtual void Advance()
-        {
-            GameEventArgs args = new GameEventArgs() { Game = this, Source = currentPlayer };
-            Trace.TraceInformation("Main game loop running {0}:{1}", currentPlayer.Id, currentPhase);
-            if (lastPhasePlayer != currentPlayer)
-            {
-                Game.CurrentGame.Emit(GameEvent.PhaseBeforeStart, args);
-            }
-            lastPhasePlayer = currentPlayer;
-            try
-            {
-                var phaseEvent = phaseEvents[CurrentPhaseEventIndex];
-                if (phaseEvent.ContainsKey(currentPhase))
-                {
-                    Emit(phaseEvents[currentPhaseEventIndex][currentPhase], args);
-                }
-            }
-            catch (TriggerResultException e)
-            {
-                if (e.Status == TriggerResult.End)
-                {
-                }
-            }
-
-            currentPhaseEventIndex++;
-            if (currentPhaseEventIndex >= phaseEvents.Length)
-            {
-                currentPhaseEventIndex = 0;
-                CurrentPhase++;
-                if ((int)CurrentPhase >= Enum.GetValues(typeof(TurnPhase)).Length)
-                {
-                    Game.CurrentGame.Emit(GameEvent.PhasePostEnd, args);
-                    CurrentPhase = TurnPhase.Start;
-                    for (CurrentPlayer = NextAlivePlayer(currentPlayer);
-                        CurrentPlayer.IsImprisoned;
-                        CurrentPlayer.IsImprisoned = false, CurrentPlayer = NextAlivePlayer(currentPlayer));
-                }
-            }
-        }
 
         /// <summary>
         /// Get player next to the a player in counter-clock seat map. (must be alive)
@@ -1022,6 +981,21 @@ namespace Sanguosha.Core.Games
         }
 
         /// <summary>
+        /// Get player previous to the a player in counter-clock seat map. (must be alive)
+        /// </summary>
+        /// <param name="p">Player</param>
+        /// <returns></returns>
+        public virtual Player PreviousAlivePlayer(Player p)
+        {
+            p = PreviousPlayer(p);
+            while (p.IsDead)
+            {
+                p = PreviousPlayer(p);
+            }
+            return p;
+        }
+
+        /// <summary>
         /// Get player previous to a player in counter-clock seat map
         /// </summary>
         /// <param name="p">Player</param>
@@ -1066,7 +1040,7 @@ namespace Sanguosha.Core.Games
             p = from;
             while (p != to)
             {
-                p = PreviousPlayer(p);
+                p = PreviousAlivePlayer(p);
                 distLeft++;
             }
             distLeft += to[Player.RangePlus];
@@ -1851,6 +1825,19 @@ namespace Sanguosha.Core.Games
             {
                 GameClient.MoveHandCard(from, to);
             }
+        }
+
+        public void DoPlayer(Player p)
+        {
+            var phase = CurrentPhase;
+            var index = CurrentPhaseEventIndex;
+            var player = CurrentPlayer;
+            CurrentPhaseEventIndex = 0;
+            CurrentPhase = TurnPhase.Start;
+            Emit(GameEvent.DoPlayer, new GameEventArgs() { Source = p, Game = this });
+            CurrentPhase = phase;
+            CurrentPhaseEventIndex = index;
+            CurrentPlayer = player;
         }
     }
 }

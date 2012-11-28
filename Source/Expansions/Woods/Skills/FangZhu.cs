@@ -56,7 +56,7 @@ namespace Sanguosha.Expansions.Woods.Skills
             }
         }
 
-        public void OnAfterDamageInflicted(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
+        protected void OnAfterDamageInflicted(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             ISkill skill;
             List<Card> cards;

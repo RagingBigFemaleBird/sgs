@@ -68,7 +68,7 @@ namespace Sanguosha.UI.Main
             set { _mainSeat = value; }
         }
 
-        const int numberOfHeros = 3;
+        const int numberOfHeros = 4;
 
         private void InitGame()
         {
