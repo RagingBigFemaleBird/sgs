@@ -5,17 +5,23 @@
 
 	<sys:String x:Key="Expansion.BasicExpansion.Name">基本</sys:String>
 
-    <sys:String x:Key="CardUsage.Prompt.SaveALife">{0}处于濒死状态需要{1}颗桃</sys:String>
-    <sys:String x:Key="CardUsage.Prompt.WanJianQiFa">{0}使用了万箭齐发，请打出一张闪</sys:String>
-    <sys:String x:Key="CardUsage.Prompt.JueDou">{0}对你使用了决斗，请打出一张杀</sys:String>
-    <sys:String x:Key="CardUsage.Prompt.JueDou2">{0}为决斗打出一张杀，请打出一张杀</sys:String>
-    <sys:String x:Key="CardUsage.Prompt.WuXieKeJi">{0}为{1}询问无懈可击，是否使用无懈可击？</sys:String>
-    <sys:String x:Key="CardUsage.Prompt.CiXiong2">{0}发动了雌雄双股剑效果，请弃一张牌或点“取消”让对方摸一张牌</sys:String>
-    <sys:String x:Key="CardUsage.Prompt.Sha.Shan">{0}对你使用了杀，请使用一张闪</sys:String>
-    <sys:String x:Key="CardUsage.Prompt.JiJiang">{0}发动了激将，是否为其打出一张杀？</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.SaveALife">{0}处于濒死状态，共需要{1}颗桃</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.NanManRuQin">{0}使用了【南蛮入侵】，请打出一张【杀】</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.WanJianQiFa">{0}使用了【万箭齐发】，请打出一张【闪】</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.JueDou">{0}对你使用了【决斗】，请打出一张【杀】</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.JueDou2">{0}响应决斗打出一张【杀】，请打出一张【杀】</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.WuXieKeJi">{1}将对{0}生效，你可以使用一张【无懈可击】抵消之</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.WuXieKeJi2">{0}将生效，你可以使用一张【无懈可击】抵消之</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.CiXiong2">{0}发动了【雌雄双股剑】的效果，请弃一张牌或点“取消”让{0}摸一张牌</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.Sha.Shan">{0}对你使用了【杀】，请使用一张【闪】</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.JiJiang">{0}发动了“激将”，请打出一张【杀】或点“取消”</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.JieDaoShaRen">受到【借刀杀人】影响，你需要对{0}使用一张【杀】</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.QingLongYanYueDao">你可以发动【青龙偃月刀】的效果，再对目标角色使用一张【杀】</sys:String>
+    
     <sys:String x:Key="MultiChoice.Prompt.GangLie">{0}对你造成一点伤害，是否发动刚烈</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.QiLinGong">请选择发动麒麟弓拆除的坐骑</sys:String>
     <sys:String x:Key="CardUsage.Prompt.GangLie">{0}发动了刚烈，请弃两张牌或点“取消”受到一点伤害</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.TuXi">你可以选择1-2名角色对其使用“突袭”</sys:String>
     <sys:String x:Key="CardChoice.Prompt.FanKui">您对{0}发动了反馈，请选择一张卡牌</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.FanKui">是否对{0}发动反馈？</sys:String>
     <sys:String x:Key="CardChoice.Prompt.FanJian">{0}对您发动了反间，请选择一张卡牌</sys:String>
