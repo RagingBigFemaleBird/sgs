@@ -12,7 +12,8 @@ using Sanguosha.Core.Players;
 
 namespace Sanguosha.Core.Skills
 {
-    
+    public delegate void TriggerActionWithCardsAndPlayers(Player owner, GameEvent gameEvent, GameEventArgs args, List<Card> cards, List<Player> players);
+   
     public abstract class TriggerSkill : PassiveSkill
     {
         public TriggerSkill()
@@ -38,6 +39,108 @@ namespace Sanguosha.Core.Skills
                     && answer == 0);
         }
 
+        protected bool AskForSkillUse(ICardUsageVerifier verifier, out List<Card> cards, out List<Player> players, Prompt prompt = null)
+        {
+            ISkill skill;
+            if (prompt == null) prompt = new CardUsagePrompt(this.GetType().Name, this);
+            var ret = Game.CurrentGame.UiProxies[Owner].AskForCardUsage(
+                    prompt, verifier, out skill, out cards, out players);
+            Trace.Assert(skill == null);
+            return ret;
+        }
+
+        protected class AutoNotifyUsagePassiveSkillTrigger : Trigger
+        {
+            private TriggerActionWithCardsAndPlayers execute;
+
+            public TriggerActionWithCardsAndPlayers Execute
+            {
+                get { return execute; }
+                set { execute = value; }
+            }
+
+            public Prompt Prompt { get; set; }
+
+            public AutoNotifyUsagePassiveSkillTrigger(TriggerSkill skill, TriggerPredicate canExecute, TriggerActionWithCardsAndPlayers execute, TriggerCondition condition, ICardUsageVerifier verifier) :
+                this(skill, new RelayTrigger(canExecute, null, condition), execute, verifier)
+            { }
+
+            public AutoNotifyUsagePassiveSkillTrigger(TriggerSkill skill, TriggerActionWithCardsAndPlayers execute, TriggerCondition condition, ICardUsageVerifier verifier) :
+                this(skill, new RelayTrigger(null, condition), execute, verifier)
+            { }
+
+            protected AutoNotifyUsagePassiveSkillTrigger(TriggerSkill skill, RelayTrigger innerTrigger, TriggerActionWithCardsAndPlayers execute, ICardUsageVerifier verifier)
+            {
+                AskForConfirmation = false;
+                IsAutoNotify = true;
+                Skill = skill;
+                InnerTrigger = innerTrigger;
+                Execute = execute;
+                Verifier = verifier;
+                base.Owner = InnerTrigger.Owner;
+            }
+
+            public bool IsAutoNotify { get; set; }
+            public bool? AskForConfirmation { get; set; }
+            private ICardUsageVerifier verifier;
+
+            protected ICardUsageVerifier Verifier
+            {
+                get { return verifier; }
+                set { verifier = value; }
+            }
+
+            public override Player Owner
+            {
+                get
+                {
+                    return base.Owner;
+                }
+                set
+                {
+                    base.Owner = value;
+                    if (InnerTrigger.Owner != value)
+                    {
+                        InnerTrigger.Owner = value;
+                    }
+                }
+            }
+
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                if (!InnerTrigger.CheckConditions(gameEvent, eventArgs))
+                {
+                    return;
+                }
+                if (InnerTrigger.CanExecute(Owner, gameEvent, eventArgs))
+                {
+                    List<Card> cards = null;
+                    List<Player> players = null;
+                    if (((AskForConfirmation == null && !Skill.IsEnforced && !Skill.IsAwakening) || (AskForConfirmation == true)) && !Skill.AskForSkillUse())
+                    {
+                        return;
+                    }
+                    if (!Skill.AskForSkillUse(verifier, out cards, out players, Prompt)) return;
+                    if (IsAutoNotify)
+                    {
+                        Skill.NotifySkillUse(players);
+                    }
+                    Execute(Owner, gameEvent, eventArgs, cards, players);
+                }
+            }
+
+            public TriggerSkill Skill
+            {
+                get;
+                set;
+            }
+
+            public RelayTrigger InnerTrigger
+            {
+                get;
+                set;
+            }
+        }
         
         protected class AutoNotifyPassiveSkillTrigger : Trigger
         {

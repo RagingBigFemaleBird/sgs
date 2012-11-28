@@ -242,7 +242,10 @@
 
     <CroppedBitmap x:Key="Mark.MengYan.Image.Large" Source="Marks/marks.png" SourceRect="86,21,28,28" />
     <CroppedBitmap x:Key="Mark.MengYan.Image.Small" Source="Marks/marks.png" SourceRect="63,0,20,20" />
-    
+
+    <CroppedBitmap x:Key="Mark.Ren.Image.Large" Source="Marks/marks.png" SourceRect="28,21,28,28" />
+    <CroppedBitmap x:Key="Mark.Ren.Image.Small" Source="Marks/marks.png" SourceRect="21,0,20,20" />
+
     <CroppedBitmap x:Key="Mark.Digit.0.Image" Source="Marks/marks.png" SourceRect="86,84,9,10" />
     <CroppedBitmap x:Key="Mark.Digit.1.Image" Source="Marks/marks.png" SourceRect="95,84,7,10" />
     <CroppedBitmap x:Key="Mark.Digit.2.Image" Source="Marks/marks.png" SourceRect="103,84,7,10" />

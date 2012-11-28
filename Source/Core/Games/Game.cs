@@ -1230,6 +1230,14 @@ namespace Sanguosha.Core.Games
             Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, args);
         }
 
+        public void LoseMaxHealth(Player source, int magnitude)
+        {
+            int result = source.MaxHealth - magnitude;
+            if (source.Health > result) source.Health = result;
+            source.MaxHealth = result;
+            if (source.MaxHealth <= 0) Game.CurrentGame.Emit(GameEvent.PlayerIsDead, new GameEventArgs() { Source = null, Targets = new List<Player>() { source } });
+        }
+
         /// <summary>
         /// 处理玩家打出卡牌事件。
         /// </summary>

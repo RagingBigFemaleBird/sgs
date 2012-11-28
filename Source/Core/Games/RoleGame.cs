@@ -672,6 +672,7 @@ namespace Sanguosha.Core.Games
                     args.Game = game;
                     game.CurrentPhaseEventIndex = 0;
                     game.CurrentPhase = TurnPhase.Start;
+                    game.CurrentPlayer = current;
                     game.Emit(GameEvent.DoPlayer, args);
                     current = game.NextAlivePlayer(current);
                 }

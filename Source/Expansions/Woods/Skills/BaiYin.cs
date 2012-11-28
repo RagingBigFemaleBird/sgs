@@ -29,8 +29,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                 (p, e, a) => 
                 {
                     p[BaiYinAwaken] = 1;
-                    p.MaxHealth--; 
-                    if (p.Health > p.MaxHealth) Game.CurrentGame.LoseHealth(p, p.MaxHealth - p.Health);
+                    Game.CurrentGame.LoseMaxHealth(p, 1);
                     p.AcquireAdditionalSkill(new BaiYinFangZhu());
                     p.AcquireAdditionalSkill(new BaiYinGuiCai());
                     p.AcquireAdditionalSkill(new BaiYinJiZhi());
@@ -75,26 +74,22 @@ namespace Sanguosha.Expansions.Woods.Skills
 
         class BaiYinFangZhu : FangZhu
         {
-            protected void Wrapper(Player player, GameEvent gameEvent, GameEventArgs eventArgs)
+            protected void Wrapper(Player player, GameEvent gameEvent, GameEventArgs eventArgs, List<Card> cards, List<Player> players)
             {
-                if (player[RenJie.RenMark] > 0)
-                {
-                    if (AskForSkillUse())
-                    {
-                        player[RenJie.RenMark]--;
-                        OnAfterDamageInflicted(player, gameEvent, eventArgs);
-                    }
-                }
+                player[RenJie.RenMark]--;
+                OnAfterDamageInflicted(player, gameEvent, eventArgs, cards, players);
             }
 
             public BaiYinFangZhu()
             {
                 Triggers.Clear();
-                var trigger = new AutoNotifyPassiveSkillTrigger(
+                var trigger = new AutoNotifyUsagePassiveSkillTrigger(
                     this,
+                    (p, e, a) => {return p[RenJie.RenMark] > 0;},
                     Wrapper,
-                    TriggerCondition.OwnerIsTarget
-                ) { IsAutoNotify = false, AskForConfirmation = false };
+                    TriggerCondition.OwnerIsTarget,
+                    new FangZhuVerifier()
+                );
                 Triggers.Add(GameEvent.AfterDamageInflicted, trigger);
                 IsAutoInvoked = null;
             }
@@ -120,7 +115,9 @@ namespace Sanguosha.Expansions.Woods.Skills
                 MaxCards = 0;
                 MinPlayers = 0;
                 MaxPlayers = 0;
+                UiHelper.HasNoConfirmation = true;
             }
+
             protected override bool VerifyCard(Player source, Card card)
             {
                 return true;

@@ -56,26 +56,20 @@ namespace Sanguosha.Expansions.Woods.Skills
             }
         }
 
-        protected void OnAfterDamageInflicted(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
+        protected void OnAfterDamageInflicted(Player owner, GameEvent gameEvent, GameEventArgs eventArgs, List<Card> cards, List<Player> players)
         {
-            ISkill skill;
-            List<Card> cards;
-            List<Player> players;
-            if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("FangZhu"), new FangZhuVerifier(), out skill, out cards, out players))
-            {
-                NotifySkillUse(players);
-                players[0].IsImprisoned = !players[0].IsImprisoned;
-                Game.CurrentGame.DrawCards(players[0], Owner.MaxHealth - Owner.Health);
-            }
+            players[0].IsImprisoned = !players[0].IsImprisoned;
+            Game.CurrentGame.DrawCards(players[0], Owner.MaxHealth - Owner.Health);
         }
 
         public FangZhu()
         {
-            var trigger = new AutoNotifyPassiveSkillTrigger(
+            var trigger = new AutoNotifyUsagePassiveSkillTrigger(
                 this,
                 OnAfterDamageInflicted,
-                TriggerCondition.OwnerIsTarget
-            ) { IsAutoNotify = false, AskForConfirmation = false };
+                TriggerCondition.OwnerIsTarget,
+                new FangZhuVerifier()
+            );
             Triggers.Add(GameEvent.AfterDamageInflicted, trigger);
             IsAutoInvoked = null;
         }

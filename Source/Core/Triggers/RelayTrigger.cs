@@ -109,7 +109,10 @@ namespace Sanguosha.Core.Triggers
             if (!CheckConditions(gameEvent, eventArgs)) return;
             if (CanExecute(Owner, gameEvent, eventArgs))
             {
-                Execute(Owner, gameEvent, eventArgs);
+                if (Execute != null)
+                {
+                    Execute(Owner, gameEvent, eventArgs);
+                }
             }
         }
     }
