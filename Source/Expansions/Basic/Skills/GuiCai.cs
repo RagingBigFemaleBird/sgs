@@ -19,7 +19,21 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     public class GuiCai : TriggerSkill
     {
-        protected void OnJudgeBegin(Player player, GameEvent gameEvent, GameEventArgs eventArgs)
+
+        public void ReplaceJudgementCard(Player player, Player judgePlayer, Card card)
+        {
+            Game.CurrentGame.EnterAtomicContext();
+            List<Card> toDiscard = new List<Card>(Game.CurrentGame.Decks[judgePlayer, DeckType.JudgeResult]);
+            CardsMovement move = new CardsMovement();
+            move.cards = new List<Card>() {card};
+            move.to = new DeckPlace(judgePlayer, DeckType.JudgeResult);
+            Game.CurrentGame.MoveCards(move, null);
+            Game.CurrentGame.PlayerLostCard(player, new List<Card>() {card});
+            Game.CurrentGame.HandleCardDiscard(judgePlayer, toDiscard, DiscardReason.Judge);
+            Game.CurrentGame.ExitAtomicContext();
+        }
+
+        protected virtual void OnJudgeBegin(Player player, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             if (Game.CurrentGame.Decks[player, DeckType.Hand].Count == 0)
             {
@@ -31,16 +45,8 @@ namespace Sanguosha.Expansions.Basic.Skills
             Card c = Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult][0];
             if (Game.CurrentGame.UiProxies[player].AskForCardUsage(new CardUsagePrompt("GuiCai", eventArgs.Source, c.Suit, c.Rank), new GuiCaiVerifier(), out skill, out cards, out players))
             {
-                Game.CurrentGame.EnterAtomicContext();
-                List<Card> toDiscard = new List<Card>(Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult]);
-                CardsMovement move = new CardsMovement();
-                move.cards = new List<Card>();
-                move.cards.AddRange(cards);
-                move.to = new DeckPlace(eventArgs.Source, DeckType.JudgeResult);
-                Game.CurrentGame.MoveCards(move, null);
-                Game.CurrentGame.PlayerLostCard(player, cards);
-                Game.CurrentGame.HandleCardDiscard(eventArgs.Source, toDiscard, DiscardReason.Judge);
-                Game.CurrentGame.ExitAtomicContext();
+                NotifySkillUse(new List<Player>());
+                ReplaceJudgementCard(player, eventArgs.Source, cards[0]);
             }
         }
  

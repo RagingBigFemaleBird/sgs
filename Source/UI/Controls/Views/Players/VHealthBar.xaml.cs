@@ -55,7 +55,7 @@ namespace Sanguosha.UI.Controls
                 AlignLoseHealthAnimation(animation, imgBloodDrop);
                 animations.Add(animation);
             }
-            else
+            else if (oldHealth <= MaxHealth && newHealth <= MaxHealth)
             {
                 oldHealth = Math.Min(oldHealth, 5);
                 newHealth = Math.Max(newHealth, 0);

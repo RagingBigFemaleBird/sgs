@@ -53,22 +53,31 @@ namespace Sanguosha.Expansions.Woods.Skills
         class BaiYinGuiCai : GuiCai
         {
 
-            protected void Wrapper(Player player, GameEvent gameEvent, GameEventArgs eventArgs)
+            protected override void OnJudgeBegin(Player player, GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                if (player[RenJie.RenMark] > 0)
+                if (player[RenJie.RenMark] == 0)
                 {
-                    if (AskForSkillUse())
-                    {
-                        player[RenJie.RenMark]--;
-                        OnJudgeBegin(player, gameEvent, eventArgs);
-                    }
+                    return;
+                }
+                if (Game.CurrentGame.Decks[player, DeckType.Hand].Count == 0)
+                {
+                    return;
+                }
+                ISkill skill;
+                List<Card> cards;
+                List<Player> players;
+                Card c = Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult][0];
+                if (Game.CurrentGame.UiProxies[player].AskForCardUsage(new CardUsagePrompt("GuiCai", eventArgs.Source, c.Suit, c.Rank), new GuiCaiVerifier(), out skill, out cards, out players))
+                {
+                    player[RenJie.RenMark]--;
+                    ReplaceJudgementCard(player, eventArgs.Source, cards[0]);
                 }
             }
 
             public BaiYinGuiCai()
             {
                 Triggers.Clear();
-                Triggers.Add(GameEvent.PlayerJudgeBegin, new RelayTrigger(Wrapper, TriggerCondition.Global));
+                Triggers.Add(GameEvent.PlayerJudgeBegin, new RelayTrigger(OnJudgeBegin, TriggerCondition.Global));
             }
         }
 
