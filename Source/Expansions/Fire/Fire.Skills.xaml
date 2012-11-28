@@ -1,15 +1,41 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="Hero.WoLong.Name">诸葛亮</sys:String>
-    <sys:String x:Key="Hero.ShenZhouYu.Name">神周瑜</sys:String>
-    <sys:String x:Key="Hero.PangTong.Name">庞统</sys:String>
-    <sys:String x:Key="Hero.XunYu.Name">荀彧</sys:String>
-    <sys:String x:Key="Hero.TaiShiCi.Name">太史慈</sys:String>
     <sys:String x:Key="Hero.DianWei.Name">典韦</sys:String>
-    <sys:String x:Key="Hero.PangDe.Name">庞德</sys:String>
+    <sys:String x:Key="Hero.XunYu.Name">荀彧</sys:String>
+    <sys:String x:Key="Hero.PangTong.Name">庞统</sys:String>
+    <sys:String x:Key="Hero.WoLong.Name">诸葛亮</sys:String>
+    <sys:String x:Key="Hero.TaishiCi.Name">太史慈</sys:String>
     <sys:String x:Key="Hero.YuanShao.Name">袁绍</sys:String>
     <sys:String x:Key="Hero.YanLiangWenChou.Name">颜良文丑</sys:String>
+    <sys:String x:Key="Hero.PangDe.Name">庞德</sys:String>
+    <sys:String x:Key="Hero.ShenZhouYu.Name">神周瑜</sys:String>
+    <sys:String x:Key="Hero.ShenZhugeLiang.Name">神诸葛亮</sys:String>
+
+
+    <sys:String x:Key="Skill.QiangXi.Name">强袭</sys:String>
+    <sys:String x:Key="Skill.QiangXi.Description">出牌阶段，你可以失去1点体力或弃置一张武器牌，对你攻击范围内的一名角色造成1点伤害。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.QiangXi.Usage">点“强袭”→选中一张武器牌（可略过）→选择目标（攻击范围内）→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.QuHu.Name">驱虎</sys:String>
+    <sys:String x:Key="Skill.QuHu.Description">出牌阶段，你可以与一名当前的体力值大于你的角色拼点。若你赢，则该角色对其攻击范围内你选择的另一名角色造成1点伤害。若你没赢，则其对你造成1点伤害。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.QuHu.Usage">点“驱虎”→选择拼点牌→选择拼点对象→点“确定”→若赢，选择另一名角色（可以是自己）→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.JieMing.Name">节命</sys:String>
+    <sys:String x:Key="Skill.JieMing.Description">每当你受到1点伤害后，你可以令一名角色将手牌补至X张（X为该角色的体力上限且至多为5）。</sys:String>
+    <sys:String x:Key="Skill.JieMing.Usage">系统提示→选择目标→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.LianHuan.Name">连环</sys:String>
+    <sys:String x:Key="Skill.LianHuan.Description">你可以将一张梅花手牌当【铁索连环】使用或重铸。</sys:String>
+    <sys:String x:Key="Skill.LianHuan.Usage">点“连环”→选中1张梅花花色的手牌→选择1至2两名目标（可略过）→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.NiePan.Name">涅槃</sys:String>
+    <sys:String x:Key="Skill.NiePan.Description">限定技，当你处于濒死状态时，你可以：弃置你区域里所有的牌，然后将你的武将牌翻至正面朝上并重置之，再摸三张牌且当前的体力值回复至3点。</sys:String>
+    <sys:String x:Key="Skill.NiePan.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.BaZhen.Name">八阵</sys:String>
+    <sys:String x:Key="Skill.BaZhen.Description">锁定技，若你的装备区没有防具牌，视为你装备着【八卦阵】。</sys:String>
+    <sys:String x:Key="Skill.BaZhen.Usage">系统提示→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.HuoJi.Name">火计</sys:String>
     <sys:String x:Key="Skill.HuoJi.Description">你可以将一张红色手牌当【火攻】使用。</sys:String>
@@ -19,18 +45,44 @@
     <sys:String x:Key="Skill.KanPo.Description">你可以将一张黑色手牌当【无懈可击】使用。</sys:String>
     <sys:String x:Key="Skill.KanPo.Usage">点“看破”→选中1张手牌（黑桃或草花）→点“确定”</sys:String>
 
-    <sys:String x:Key="Skill.QinYin.Name">琴音</sys:String>
-    <sys:String x:Key="Skill.LianHuan.Name">连环</sys:String>
-    <sys:String x:Key="Skill.QuHu.Name">驱虎</sys:String>
     <sys:String x:Key="Skill.TianYi.Name">天义</sys:String>
-    <sys:String x:Key="Skill.QiangXi.Name">强袭</sys:String>
-    <sys:String x:Key="Skill.JieMing.Name">节命</sys:String>
-    <sys:String x:Key="Skill.BaZhen.Name">八阵</sys:String>
-    <sys:String x:Key="Skill.MengJin.Name">猛进</sys:String>
+    <sys:String x:Key="Skill.TianYi.Description">出牌阶段，你可以与一名其他角色拼点。若你赢，你获得以下技能直到回合结束：你使用【杀】时无距离限制；可以额外使用一张【杀】；使用【杀】时可以额外选择一个目标。若你没赢，你不能使用【杀】，直到回合结束。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.TianYi.Usage">点“天义”→选中拼点牌→选择目标→点“确定”</sys:String>
+
     <sys:String x:Key="Skill.LuanJi.Name">乱击</sys:String>
+    <sys:String x:Key="Skill.LuanJi.Description">你可以将两张花色相同的手牌当【万箭齐发】使用。</sys:String>
+    <sys:String x:Key="Skill.LuanJi.Usage">点“乱击”→选中两张花色相同的牌→点“确定”</sys:String>
+
     <sys:String x:Key="Skill.XueYi.Name">血裔</sys:String>
+    <sys:String x:Key="Skill.XueYi.Description">主公技，锁定技，每有一名其他群雄角色存活，你的手牌上限+2。</sys:String>
+
     <sys:String x:Key="Skill.ShuangXiong.Name">双雄</sys:String>
+    <sys:String x:Key="Skill.ShuangXiong.Description">摸牌阶段开始时，你可以放弃摸牌，改为进行一次判定，你获得生效后的判定牌，然后你可以将一张与此判定牌颜色不同的手牌当【决斗】使用，直到回合结束。</sys:String>
+    <sys:String x:Key="Skill.ShuangXiong.Usage" xml:space="preserve">系统提示→点“确定”&#10;点“双雄”→选中1张手牌（与判定牌颜色不同）→选中目标→点“确定”</sys:String>
     <sys:String x:Key="Skill.ShuangXiongCardTransformSkill.Name">双雄</sys:String>
-    <sys:String x:Key="Skill.NiePan.Name">涅槃</sys:String>
+
+    <sys:String x:Key="Skill.MengJin.Name">猛进</sys:String>
+    <sys:String x:Key="Skill.MengJin.Description">当你使用的【杀】被目标角色的【闪】抵消时，你可以弃置其一张牌。</sys:String>
+    <sys:String x:Key="Skill.MengJin.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.QinYin.Name">琴音</sys:String>
+    <sys:String x:Key="Skill.QinYin.Description">当你于弃牌阶段内弃置了两张或更多的手牌后，你可以令所有角色各回复1点体力或各失去1点体力。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.QinYin.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.YeYan.Name">业炎</sys:String>
+    <sys:String x:Key="Skill.YeYan.Description">限定技，出牌阶段，你可以选择一至三名角色，你分别对他们造成最多共3点火焰伤害（你可以任意分配），若你将对一名角色分配2点或更多的火焰伤害，你须先弃置四张不同花色的手牌并失去3点体力。</sys:String>
+    <sys:String x:Key="Skill.YeYan.Usage">点“业炎”→选中四张不同花色的牌（可略过）→分配伤害→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.QiXing.Name">七星</sys:String>
+    <sys:String x:Key="Skill.QiXing.Description">分发起始手牌时，共发你十一张牌，你选四张作为手牌，其余的面朝下置于一旁，称为“星”；摸牌阶段结束时，你可以用任意数量的手牌等量替换这些“星”。</sys:String>
+    <sys:String x:Key="Skill.QiXing.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.KuangFeng.Name">狂风</sys:String>
+    <sys:String x:Key="Skill.KuangFeng.Description">回合结束阶段开始时，你可以将一张“星”置入弃牌堆并选择一名角色，若如此做，每当该角色受到的火焰伤害结算开始时，此伤害+1，直到你的下回合开始。</sys:String>
+    <sys:String x:Key="Skill.KuangFeng.Usage">系统提示→点“确定”→选中1张“星”→选中目标→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.DaWu.Name">大雾</sys:String>
+    <sys:String x:Key="Skill.DaWu.Description">回合结束阶段开始时，你可以将X张“星”置入弃牌堆并选择X名角色，若如此做，每当这些角色受到的非雷电伤害结算开始时，防止此伤害，直到你的下回合开始。</sys:String>
+    <sys:String x:Key="Skill.DaWu.Usage">系统提示→点“确定”→选中若干张“星”→选中等量目标→点“确定”</sys:String>
 
 </ResourceDictionary>
