@@ -54,6 +54,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             move.to = new DeckPlace(null, wuguDeck);
             Game.CurrentGame.MoveCards(move, null);
             base.Process(source, dests, card, readonlyCard);
+            Game.CurrentGame.NotificationProxy.NotifyCloseWindow(currentWindowId);
             if (Game.CurrentGame.Decks[null, wuguDeck].Count > 0)
             {
                 move = new CardsMovement();

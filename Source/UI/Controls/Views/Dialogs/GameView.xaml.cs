@@ -756,5 +756,11 @@ namespace Sanguosha.UI.Controls
         #endregion
 
 
+
+
+        public void NotifyCloseWindow(int windowId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
