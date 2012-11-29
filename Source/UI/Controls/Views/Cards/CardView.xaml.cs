@@ -257,18 +257,19 @@ namespace Sanguosha.UI.Controls
                 {
                     Window wnd = Window.GetWindow(this);
                     Point pos = e.MouseDevice.GetPosition(wnd);
-                    _dragState = DragState.MouseDown;
                     _dragStartPoint = pos;
                     this.CaptureMouse();
                 }
                 e.Handled = true;
             }
+            Trace.Assert(_dragState == DragState.None);
+            _dragState = DragState.MouseDown;
         }
 
-        private void CardView_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void _ReleaseMouseCapture()
         {
             this.ReleaseMouseCapture();
-
+            
             if (DragDirection != DragDirection.None && _dragState == DragState.Dragging)
             {
                 Opacity = 1.0d;
@@ -278,15 +279,27 @@ namespace Sanguosha.UI.Controls
                     handle(this, new EventArgs());
                 }
             }
-            else
+            _dragState = DragState.None;
+        }
+
+        private void CardView_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {           
+            CardViewModel model = DataContext as CardViewModel;
+            if (model != null && _dragState == DragState.MouseDown && model.IsEnabled)
             {
-                CardViewModel model = DataContext as CardViewModel;
-                if (model == null || !model.IsEnabled) return;
                 model.IsSelected = !model.IsSelected;
             }
-            
-            _dragState = DragState.None;
+            _ReleaseMouseCapture();
             e.Handled = true;
+        }
+
+        private static void _OnDragDirectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var card = d as CardView;
+            if (card != null)
+            {
+                card._ReleaseMouseCapture();   
+            }
         }
         #endregion
 
@@ -321,7 +334,7 @@ namespace Sanguosha.UI.Controls
 
         // Using a DependencyProperty as the backing store for DragDirection.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DragDirectionProperty =
-            DependencyProperty.Register("DragDirection", typeof(DragDirection), typeof(CardView), new UIPropertyMetadata(DragDirection.None));
+            DependencyProperty.Register("DragDirection", typeof(DragDirection), typeof(CardView), new UIPropertyMetadata(DragDirection.None, new PropertyChangedCallback(_OnDragDirectionChanged)));
 
         
         #endregion

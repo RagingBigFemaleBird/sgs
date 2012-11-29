@@ -1,9 +1,9 @@
 ﻿<ResourceDictionary
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-	<sys:String x:Key="Expansion.BasicExpansion.Name">标准</sys:String>
+    <sys:String x:Key="Expansion.BasicExpansion.Name">标准</sys:String>
 
     <sys:String x:Key="CardUsage.Prompt.SaveALife">{0}处于濒死状态，共需要{1}颗桃</sys:String>
     <sys:String x:Key="CardUsage.Prompt.NanManRuQin">{0}使用了【南蛮入侵】，请打出一张【杀】</sys:String>
@@ -21,11 +21,11 @@
     <sys:String x:Key="MultiChoice.Prompt.GangLie">{0}对你造成一点伤害，是否发动刚烈？</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.QiLinGong">请选择发动麒麟弓拆除的坐骑</sys:String>
     <sys:String x:Key="CardUsage.Prompt.GangLie">{0}发动了刚烈，请弃两张牌或点“取消”受到一点伤害</sys:String>
-    <sys:String x:Key="CardUsage.Prompt.TuXi">你可以选择1-2名角色对其使用“突袭”</sys:String>
-    <sys:String x:Key="CardChoice.Prompt.FanKui">您对{0}发动了反馈，请选择一张卡牌</sys:String>
-    <sys:String x:Key="MultiChoice.Prompt.FanKui">是否对{0}发动反馈？</sys:String>
-    <sys:String x:Key="CardChoice.Prompt.FanJian">{0}对您发动了反间，请选择一张卡牌</sys:String>
-    <sys:String x:Key="MultiChoice.Prompt.FanJian">{0}对你发动了反间，请选择一种花色</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.TuXi">请选择1-2名角色发动“突袭”，或点“取消”</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.FanKui">您对{0}发动了“反馈”，请选择一张卡牌</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.FanKui">是否对{0}发动“反馈”？</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.FanJian">{0}对您发动了“反馈”，请选择一张卡牌</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.FanJian">{0}对你发动了“反馈”，请选择一种花色</sys:String>
     <sys:String x:Key="CardUsage.Prompt.GuiCai">{0}判定结果是{1}{2}，请打出一张手牌代替之，或点“取消”不发动鬼才</sys:String>
     <sys:String x:Key="CardChoice.Prompt.ShunShou">顺手牵羊</sys:String>
     <sys:String x:Key="CardChoice.Prompt.GuoHe">过河拆桥</sys:String>
