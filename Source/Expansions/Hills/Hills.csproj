@@ -44,7 +44,10 @@
   <ItemGroup>
     <Compile Include="HillsExpansion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Skills\BaiYin.cs" />
     <Compile Include="Skills\BeiGe.cs" />
+    <Compile Include="Skills\LianPo.cs" />
+    <Compile Include="Skills\RenJie.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Hills.Game.xaml">

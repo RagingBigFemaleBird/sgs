@@ -11,7 +11,7 @@ using Sanguosha.Expansions.Battle.Cards;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Games;
 
-namespace Sanguosha.Expansions.Woods.Skills
+namespace Sanguosha.Expansions.Hills.Skills
 {
     /// <summary>
     /// 连破-若你于一回合内杀死了至少一名角色，可于此回合结束后，进行一个额外的回合。

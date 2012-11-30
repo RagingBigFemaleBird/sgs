@@ -188,20 +188,31 @@ namespace Sanguosha.UI.Controls
         {
             lock (_cards)
             {
-                var nonexisted = from c in cards
-                                 where !_cards.Contains(c)
-                                 select c;
-                RearrangeCards(new List<CardView>(nonexisted), 0d);
-                _cards = new List<CardView>(_cards.Except(cards));
-                RearrangeCards(_cards, 0.5d);
                 foreach (var card in cards)
                 {
+                    if (card == _interactingCard)
+                    {
+                        if (_cardInteraction == CardInteraction.Drag)
+                        {
+                            card_OnDragEndUnlock();
+                        }
+                        if (_cardInteraction == CardInteraction.MouseMove)
+                        {
+                            card_MouseLeaveUnlock();
+                        }
+                    }
                     card.OnDragBegin -= cardBeginDragHandler;
                     card.OnDragging -= cardDraggingHandler;
                     card.OnDragEnd -= cardEndDragHandler;
                     card.MouseEnter -= cardMouseEnterHandler;
                     card.MouseLeave -= cardMouseLeaveHandler;
                 }
+                var nonexisted = from c in cards
+                                 where !_cards.Contains(c)
+                                 select c;
+                RearrangeCards(new List<CardView>(nonexisted), 0d);
+                _cards = new List<CardView>(_cards.Except(cards));
+                RearrangeCards(_cards, 0.5d);
             }
         }
 
@@ -228,21 +239,34 @@ namespace Sanguosha.UI.Controls
         {
             if (_cardInteraction == CardInteraction.MouseMove)
             {
-                _cardInteraction = CardInteraction.None;
-                _interactingCard = null;
-                RearrangeCards(0.2d);
+                lock (_cards)
+                {
+                    Trace.TraceInformation("MouseLeave");
+                    card_MouseLeaveUnlock();
+                }
             }
+        }
+
+        private void card_MouseLeaveUnlock()
+        {
+            _cardInteraction = CardInteraction.None;
+            _interactingCard = null;
+            RearrangeCards(0.2d);
         }
 
         void card_MouseEnter(object sender, MouseEventArgs e)
         {
             if (_cardInteraction == CardInteraction.None)
             {
-                _interactingCard = sender as CardView;
-                if (_interactingCard != null)
+                lock (_cards)
                 {
-                    _cardInteraction = CardInteraction.MouseMove;
-                    RearrangeCards(0.2d);
+                    Trace.TraceInformation("MouseEnter");
+                    _interactingCard = sender as CardView;
+                    if (_interactingCard != null)
+                    {
+                        _cardInteraction = CardInteraction.MouseMove;
+                        RearrangeCards(0.2d);
+                    }
                 }
             }
         }
@@ -273,6 +297,25 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        void card_OnDragEndUnlock()
+        {
+            Trace.TraceInformation("DragEnd");
+            _cardInteraction = CardInteraction.None;
+            int newPos = _ComputeDragCardNewIndex();
+            int oldPos = _cards.IndexOf(_interactingCard);
+            if (newPos != oldPos)
+            {
+                _cards.Remove(_interactingCard);
+                _cards.Insert(newPos, _interactingCard);
+                var handler = OnHandCardMoved;
+                if (handler != null)
+                {
+                    handler(oldPos, newPos);
+                }
+            }
+            RearrangeCards(0.2d);
+        }
+
         public event HandCardMovedHandler OnHandCardMoved;
         void card_OnDragEnd(object sender, EventArgs e)
         {
@@ -280,21 +323,7 @@ namespace Sanguosha.UI.Controls
             {
                 lock (_cards)
                 {
-                    Trace.Assert(_interactingCard == sender);
-                    _cardInteraction = CardInteraction.None;
-                    int newPos = _ComputeDragCardNewIndex();
-                    int oldPos = _cards.IndexOf(_interactingCard);
-                    if (newPos != oldPos)
-                    {
-                        _cards.Remove(_interactingCard);
-                        _cards.Insert(newPos, _interactingCard);
-                        var handler = OnHandCardMoved;
-                        if (handler != null)
-                        {
-                            handler(oldPos, newPos);
-                        }
-                    }
-                    RearrangeCards(0.2d);
+                    card_OnDragEndUnlock();
                 }
                 _cardInteraction = CardInteraction.MouseMove;
             }
@@ -304,7 +333,10 @@ namespace Sanguosha.UI.Controls
         {
             if (_cardInteraction == CardInteraction.Drag)
             {
-                RearrangeCards(0.2d);
+                lock (_cards)
+                {
+                    RearrangeCards(0.2d);
+                }
             }
         }
 
@@ -312,11 +344,15 @@ namespace Sanguosha.UI.Controls
         {
             if (_cardInteraction == CardInteraction.MouseMove)
             {
-                _interactingCard = sender as CardView;
-                _interactingCard.SetValue(Canvas.ZIndexProperty, 1000);
-                Trace.Assert(_interactingCard != null);
-                _cardInteraction = CardInteraction.Drag;
-                RearrangeCards(0.2d);
+                lock (_cards)
+                {
+                    Trace.TraceInformation("DragBegin");
+                    _interactingCard = sender as CardView;
+                    _interactingCard.SetValue(Canvas.ZIndexProperty, 1000);
+                    Trace.Assert(_interactingCard != null);
+                    _cardInteraction = CardInteraction.Drag;
+                    RearrangeCards(0.2d);
+                }
             }
         }
         #endregion

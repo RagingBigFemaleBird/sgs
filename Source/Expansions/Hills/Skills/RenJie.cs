@@ -13,7 +13,7 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Exceptions;
 
-namespace Sanguosha.Expansions.Woods.Skills
+namespace Sanguosha.Expansions.Hills.Skills
 {
     /// <summary>
     /// 忍戒-锁定技，当你受到伤害或于弃牌阶段弃牌时，获得等同于受到伤害(或弃牌)数量的“忍”。
