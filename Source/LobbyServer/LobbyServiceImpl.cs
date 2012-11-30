@@ -28,12 +28,18 @@ namespace Sanguosha.LobbyServer
             throw new NotImplementedException();
         }
 
-        public Seat EnterRoom(LoginToken token, int roomId, bool spectate, string password = null)
+        public bool ExitRoom(LoginToken token, int roomId)
         {
             throw new NotImplementedException();
         }
 
-        public bool ExitRoom(LoginToken token, int roomId)
+
+        public int OpenRoom(LoginToken token, string password = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int EnterRoom(LoginToken token, int roomId, bool spectate, string password = null)
         {
             throw new NotImplementedException();
         }

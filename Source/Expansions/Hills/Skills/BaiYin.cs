@@ -13,6 +13,7 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Exceptions;
 using Sanguosha.Expansions.Basic.Skills;
+using Sanguosha.Expansions.Woods.Skills;
 
 namespace Sanguosha.Expansions.Hills.Skills
 {
@@ -29,8 +30,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 (p, e, a) => 
                 {
                     p[BaiYinAwaken] = 1;
-                    p.MaxHealth--; 
-                    if (p.Health > p.MaxHealth) Game.CurrentGame.LoseHealth(p, p.MaxHealth - p.Health);
+                    Game.CurrentGame.LoseMaxHealth(p, 1);
                     p.AcquireAdditionalSkill(new BaiYinFangZhu());
                     p.AcquireAdditionalSkill(new BaiYinGuiCai());
                     p.AcquireAdditionalSkill(new BaiYinJiZhi());
@@ -54,37 +54,40 @@ namespace Sanguosha.Expansions.Hills.Skills
         class BaiYinGuiCai : GuiCai
         {
 
-            protected void Wrapper(Player player, GameEvent gameEvent, GameEventArgs eventArgs)
+            protected override void OnJudgeBegin(Player player, GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                if (player[RenJie.RenMark] > 0)
+                if (player[RenJie.RenMark] == 0)
                 {
-                    if (AskForSkillUse())
-                    {
-                        player[RenJie.RenMark]--;
-                        OnJudgeBegin(player, gameEvent, eventArgs);
-                    }
+                    return;
+                }
+                if (Game.CurrentGame.Decks[player, DeckType.Hand].Count == 0)
+                {
+                    return;
+                }
+                ISkill skill;
+                List<Card> cards;
+                List<Player> players;
+                Card c = Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult][0];
+                if (Game.CurrentGame.UiProxies[player].AskForCardUsage(new CardUsagePrompt("GuiCai", eventArgs.Source, c.Suit, c.Rank), new GuiCaiVerifier(), out skill, out cards, out players))
+                {
+                    player[RenJie.RenMark]--;
+                    ReplaceJudgementCard(player, eventArgs.Source, cards[0]);
                 }
             }
 
             public BaiYinGuiCai()
             {
                 Triggers.Clear();
-                Triggers.Add(GameEvent.PlayerJudgeBegin, new RelayTrigger(Wrapper, TriggerCondition.Global));
+                Triggers.Add(GameEvent.PlayerJudgeBegin, new RelayTrigger(OnJudgeBegin, TriggerCondition.Global));
             }
         }
 
-        class BaiYinFangZhu : Sanguosha.Expansions.Woods.Skills.FangZhu
+        class BaiYinFangZhu : FangZhu
         {
             protected void Wrapper(Player player, GameEvent gameEvent, GameEventArgs eventArgs, List<Card> cards, List<Player> players)
             {
-                if (player[RenJie.RenMark] > 0)
-                {
-                    if (AskForSkillUse())
-                    {
-                        player[RenJie.RenMark]--;
-                        OnAfterDamageInflicted(player, gameEvent, eventArgs, cards, players);
-                    }
-                }
+                player[RenJie.RenMark]--;
+                OnAfterDamageInflicted(player, gameEvent, eventArgs, cards, players);
             }
 
             public BaiYinFangZhu()
@@ -92,12 +95,13 @@ namespace Sanguosha.Expansions.Hills.Skills
                 Triggers.Clear();
                 var trigger = new AutoNotifyUsagePassiveSkillTrigger(
                     this,
+                    (p, e, a) => {return p[RenJie.RenMark] > 0;},
                     Wrapper,
                     TriggerCondition.OwnerIsTarget,
                     new FangZhuVerifier()
-                ) { IsAutoNotify = false, AskForConfirmation = false };
+                );
                 Triggers.Add(GameEvent.AfterDamageInflicted, trigger);
-                IsAutoInvoked = null;                
+                IsAutoInvoked = null;
             }
         }
 
@@ -121,7 +125,9 @@ namespace Sanguosha.Expansions.Hills.Skills
                 MaxCards = 0;
                 MinPlayers = 0;
                 MaxPlayers = 0;
+                UiHelper.HasNoConfirmation = true;
             }
+
             protected override bool VerifyCard(Player source, Card card)
             {
                 return true;
@@ -160,7 +166,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             {
                 arg.Source[RenJie.RenMark]--;
                 arg.Source[BaiYinWanShaUsed] = 1;
-                ISkill skill = new Sanguosha.Expansions.Woods.Skills.WanSha();
+                ISkill skill = new WanSha();
                 arg.Source.AcquireAdditionalSkill(skill);
                 Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, new WanShaRemoval(arg.Source, skill));
                 return true;
