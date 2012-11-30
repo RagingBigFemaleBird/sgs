@@ -494,7 +494,7 @@ namespace Sanguosha.UI.Controls
             }
         }
         
-        private static int _minHSpacing = 10;
+        private static int _minHSpacing = 0;
         private static int _minVSpacing = 2;
         #endregion
 
