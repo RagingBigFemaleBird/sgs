@@ -24,6 +24,7 @@
                                      FontSize="15"/>
                     <LineBreak />
                     <Run Text="{Binding Path=TypeString, Mode=OneWay, Converter={StaticResource cardToolTipConverter}, ConverterParameter=Description}"/>
+                    <LineBreak />
                     <TextBlock x:Name="usageBlock" TextWrapping="Wrap">
                         <Run Text="操作步骤" Foreground="Orange"/>
                         <LineBreak />

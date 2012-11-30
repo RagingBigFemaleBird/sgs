@@ -19,5 +19,6 @@ namespace Hills
             CardSet = new List<Card>();
 
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ShenSiMaYi", true, Allegiance.God, 4, new RenJie(), new BaiYin(), new LianPo()))));
+        }
     }
 }
