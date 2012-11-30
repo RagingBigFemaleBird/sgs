@@ -17,9 +17,18 @@ namespace Sanguosha.Lobby
         FifteenSeconds = 15,
         TwentySeconds = 20,
     }
+
     public class Room
     {
         object roomLock;
+
+        private int id;
+
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
 
         private string name;
 
@@ -27,14 +36,6 @@ namespace Sanguosha.Lobby
         {
             get { return name; }
             set { name = value; }
-        }
-
-        private string password;
-
-        public string Password
-        {
-            get { return password; }
-            set { password = value; }
         }
 
         private RoomType type;
