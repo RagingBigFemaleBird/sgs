@@ -73,16 +73,16 @@ namespace Sanguosha.Expansions.Hills.Skills
             }
         }
 
-        class BaiYinFangZhu : FangZhu
+        class BaiYinFangZhu : Sanguosha.Expansions.Woods.Skills.FangZhu
         {
-            protected void Wrapper(Player player, GameEvent gameEvent, GameEventArgs eventArgs)
+            protected void Wrapper(Player player, GameEvent gameEvent, GameEventArgs eventArgs, List<Card> cards, List<Player> players)
             {
                 if (player[RenJie.RenMark] > 0)
                 {
                     if (AskForSkillUse())
                     {
                         player[RenJie.RenMark]--;
-                        OnAfterDamageInflicted(player, gameEvent, eventArgs);
+                        OnAfterDamageInflicted(player, gameEvent, eventArgs, cards, players);
                     }
                 }
             }
@@ -90,13 +90,14 @@ namespace Sanguosha.Expansions.Hills.Skills
             public BaiYinFangZhu()
             {
                 Triggers.Clear();
-                var trigger = new AutoNotifyPassiveSkillTrigger(
+                var trigger = new AutoNotifyUsagePassiveSkillTrigger(
                     this,
                     Wrapper,
-                    TriggerCondition.OwnerIsTarget
+                    TriggerCondition.OwnerIsTarget,
+                    new FangZhuVerifier()
                 ) { IsAutoNotify = false, AskForConfirmation = false };
                 Triggers.Add(GameEvent.AfterDamageInflicted, trigger);
-                IsAutoInvoked = null;
+                IsAutoInvoked = null;                
             }
         }
 
@@ -159,7 +160,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             {
                 arg.Source[RenJie.RenMark]--;
                 arg.Source[BaiYinWanShaUsed] = 1;
-                ISkill skill = new WanSha();
+                ISkill skill = new Sanguosha.Expansions.Woods.Skills.WanSha();
                 arg.Source.AcquireAdditionalSkill(skill);
                 Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, new WanShaRemoval(arg.Source, skill));
                 return true;
