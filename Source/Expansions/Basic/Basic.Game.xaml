@@ -15,6 +15,7 @@
     <sys:String x:Key="CardUsage.Prompt.CiXiong2">{0}发动了【雌雄双股剑】，请弃一张牌或点“取消”让其摸一张牌</sys:String>
     <sys:String x:Key="CardUsage.Prompt.Sha.Shan">{0}对你使用了【杀】，请使用一张【闪】</sys:String>
     <sys:String x:Key="CardUsage.Prompt.JiJiang">{0}发动了“激将”，请打出一张【杀】或点“取消”</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.HuJia">{0}发动了“护驾”，请打出一张【闪】或点“取消”</sys:String>
     <sys:String x:Key="CardUsage.Prompt.JieDaoShaRen">请对{0}使用【杀】或点“取消”交出武器</sys:String>
     <sys:String x:Key="CardUsage.Prompt.QingLongYanYueDao">是否发动【青龙偃月刀】追加一张【杀】？</sys:String>
     
@@ -24,8 +25,8 @@
     <sys:String x:Key="CardUsage.Prompt.TuXi">请选择1-2名角色发动“突袭”，或点“取消”</sys:String>
     <sys:String x:Key="CardChoice.Prompt.FanKui">您对{0}发动了“反馈”，请选择一张卡牌</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.FanKui">是否对{0}发动“反馈”？</sys:String>
-    <sys:String x:Key="CardChoice.Prompt.FanJian">{0}对您发动了“反馈”，请选择一张卡牌</sys:String>
-    <sys:String x:Key="MultiChoice.Prompt.FanJian">{0}对你发动了“反馈”，请选择一种花色</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.FanJian">{0}对您发动了“反间”，请选择一张卡牌</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.FanJian">{0}对你发动了“反间”，请选择一种花色</sys:String>
     <sys:String x:Key="CardUsage.Prompt.GuiCai">{0}判定结果是{1}{2}，请打出一张手牌代替之，或点“取消”不发动鬼才</sys:String>
     <sys:String x:Key="CardChoice.Prompt.ShunShou">顺手牵羊</sys:String>
     <sys:String x:Key="CardChoice.Prompt.GuoHe">过河拆桥</sys:String>
@@ -36,5 +37,4 @@
     <sys:String x:Key="MultiChoice.Choice.Club">草花</sys:String>
     <sys:String x:Key="MultiChoice.Choice.JiaYiMa">+1马</sys:String>
     <sys:String x:Key="MultiChoice.Choice.JianYiMa">-1马</sys:String>
-    <sys:String x:Key="CardUsage.Prompt.HuJia">{0}发动了护驾，请打出一张闪或点取消</sys:String>
 </ResourceDictionary>
