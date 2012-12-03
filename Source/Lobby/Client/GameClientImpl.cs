@@ -13,5 +13,16 @@ namespace Sanguosha.LobbyClient
         {
             Console.WriteLine("Room {0} update", id);
         }
+
+
+        public void NotifyKicked()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void NotifyGameStart()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

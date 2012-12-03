@@ -54,12 +54,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lobby\Lobby.csproj">
-      <Project>{7de81be7-26d1-4954-9037-b7184c1df9bd}</Project>
-      <Name>Lobby</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

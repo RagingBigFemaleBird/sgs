@@ -19,7 +19,7 @@ namespace LobbyClient
             server.Login(1, "DaMuBie", out token);
 
             // Do some stuff such as reading messages from the user and sending them to the server
-
+            var room = server.CreateRoom(token);
             server.Logout(token);
             channelFactory.Close();
         }

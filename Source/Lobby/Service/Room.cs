@@ -20,7 +20,12 @@ namespace Sanguosha.Lobby
 
     public class Room
     {
-        object roomLock;
+        public object RoomLock;
+
+        public Room()
+        {
+            seats = new List<Seat>();
+        }
 
         private int id;
 
@@ -38,7 +43,7 @@ namespace Sanguosha.Lobby
             set { name = value; }
         }
 
-        private RoomType type;
+/*        private RoomType type;
 
         public RoomType Type
         {
@@ -52,7 +57,7 @@ namespace Sanguosha.Lobby
             get { return timeout; }
             set { timeout = value; }
         }
-        private bool inProgress;
+*/        private bool inProgress;
 
         public bool InProgress
         {
@@ -74,20 +79,20 @@ namespace Sanguosha.Lobby
             set { chatDisabled = value; }
         }
 
-        List<Seat> seats;
-
-        public List<Seat> Seats
-        {
-            get { return seats; }
-            private set { seats = value; }
-        }
-
         private int ownerId;
 
         public int OwnerId
         {
             get { return ownerId; }
             set { ownerId = value; }
+        }
+
+        List<Seat> seats;
+
+        public List<Seat> Seats
+        {
+            get { return seats; }
+            set { seats = value; }
         }
     }
 }
