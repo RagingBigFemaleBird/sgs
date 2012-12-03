@@ -303,7 +303,7 @@ namespace Sanguosha.Core.Games
                 }
                 bool runTrigger = !c.Type.IsReforging(eventArgs.Source, eventArgs.Skill, m.cards, eventArgs.Targets);
                 c.Type.TagAndNotify(eventArgs.Source, eventArgs.Targets, c);
-                Game.CurrentGame.MoveCards(m, new CardUseLog() { Source = eventArgs.Source, Targets = eventArgs.Targets, Skill = eventArgs.Skill, Cards = eventArgs.Cards });
+                Game.CurrentGame.MoveCards(m, null);
                 if (isDoingAFavor != eventArgs.Source)
                 {
                     Game.CurrentGame.PlayerLostCard(isDoingAFavor, eventArgs.Cards);

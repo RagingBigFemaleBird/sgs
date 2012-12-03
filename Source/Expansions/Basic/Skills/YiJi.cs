@@ -70,7 +70,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                     CardsMovement move = new CardsMovement();
                     move.cards = new List<Card>() { c1, c2 };
                     move.to = new DeckPlace(Owner, DeckType.Hand);
-                    Game.CurrentGame.MoveCards(move, null);
+                    Game.CurrentGame.MoveCards(move, new MovementHelper() { FakedMove = true });
                     List<Card> remainingCards = new List<Card>() { c1, c2 };
                     Player giveSecondOneTo = null;
                     while (remainingCards.Count > 0)
@@ -93,7 +93,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                             giveSecondOneTo = players[0];
                         }
                         remainingCards.Remove(cards[0]);
-                        Game.CurrentGame.InsertBeforeDeal(null, cards);
+                        Game.CurrentGame.InsertBeforeDeal(null, cards, new MovementHelper() { FakedMove = true });
                         Game.CurrentGame.DrawCards(players[0], 1);
                     }
                 }

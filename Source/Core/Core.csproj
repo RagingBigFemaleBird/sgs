@@ -94,6 +94,7 @@
     <Compile Include="Skills\TriggerSkill.cs" />
     <Compile Include="Triggers\RelayTrigger.cs" />
     <Compile Include="UI\INotificationProxy.cs" />
+    <Compile Include="UI\MovementHelper.cs" />
     <Compile Include="UI\Prompt.cs" />
     <Compile Include="Heroes\HeroCardHandler.cs" />
     <Compile Include="Network\Client.cs" />

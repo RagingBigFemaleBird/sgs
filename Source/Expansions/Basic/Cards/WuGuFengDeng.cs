@@ -36,7 +36,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 answer[0].Add(Game.CurrentGame.Decks[null, wuguDeck][0]);
             }
 
-            Game.CurrentGame.HandleCardTransferToHand(null, dest, answer[0]);
+            Game.CurrentGame.HandleCardTransferToHand(null, dest, answer[0], new MovementHelper() { WindowId = currentWindowId });
         }
 
         public override void Process(Player source, List<Player> dests, ICard card, ReadOnlyCard readonlyCard)

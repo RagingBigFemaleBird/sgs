@@ -577,7 +577,7 @@ namespace Sanguosha.UI.Controls
 
         #region INotificationProxy
 
-        public void NotifyCardMovement(List<CardsMovement> moves, List<IGameLog> notes)
+        public void NotifyCardMovement(List<CardsMovement> moves, List<MovementHelper> notes)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {               
