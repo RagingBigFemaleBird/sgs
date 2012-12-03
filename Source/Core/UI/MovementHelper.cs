@@ -7,12 +7,15 @@ namespace Sanguosha.Core.UI
 {
     public class MovementHelper
     {
-        private bool fakedMove;
+        private bool isFakedMove;
 
-        public bool FakedMove
+        /// <summary>
+        /// the movement is not really a game move but a logical move designed to facilitate user choices, e.g. 遗计
+        /// </summary>
+        public bool IsFakedMove
         {
-            get { return fakedMove; }
-            set { fakedMove = value; }
+            get { return isFakedMove; }
+            set { isFakedMove = value; }
         }
 
         private int windowId;
