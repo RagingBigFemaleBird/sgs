@@ -54,7 +54,9 @@ namespace Sanguosha.Expansions.Wind.Skills
             {
                 NotifySkillUse(players);
                 Game.CurrentGame.HandleCardDiscard(Owner, cards);
-                Game.CurrentGame.DoDamage(args.Source, players[0], args.Magnitude, args.Element, args.Card, args.ReadonlyCard);
+                ReadOnlyCard ncard = new ReadOnlyCard(args.ReadonlyCard);
+                ncard[Armor.IgnoreAllArmor] = 0;
+                Game.CurrentGame.DoDamage(args.Source, players[0], args.Magnitude, args.Element, args.Card, ncard);
                 Game.CurrentGame.DrawCards(players[0], players[0].MaxHealth - players[0].Health);
                 throw new TriggerResultException(TriggerResult.End);
             }

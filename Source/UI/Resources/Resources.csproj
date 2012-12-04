@@ -125,7 +125,6 @@
     <Resource Include="Images\Cards\SmallEquip\HuaLiu.png" />
     <Resource Include="Images\Cards\SmallEquip\JueYing.png" />
     <Resource Include="Images\Cards\SmallEquip\QiLinGong.png" />
-    <Resource Include="Images\Cards\SmallEquip\QinGangJian.png" />
     <Resource Include="Images\Cards\SmallEquip\QingLongYanYueDao.png" />
     <Resource Include="Images\Cards\SmallEquip\RenWangDun.png" />
     <Resource Include="Images\Cards\SmallEquip\TengJia.png" />
@@ -396,6 +395,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Marks\marks.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cards\SmallEquip\QingGangJian.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
