@@ -18,7 +18,7 @@
     <BitmapImage x:Key="MainPlayerInfoView.Button.Ok.Up">Buttons/confirm/normal.png</BitmapImage>
     <BitmapImage x:Key="MainPlayerInfoView.Button.Ok.Hover">Buttons/confirm/hover.png</BitmapImage>
     <BitmapImage x:Key="MainPlayerInfoView.Button.Ok.Down">Buttons/confirm/down.png</BitmapImage>
-    <BitmapImage x:Key="MainPlayerInfoView.Button.Ok.Disable">Buttons/confirm/disabled.png</BitmapImage>
+    <BitmapImage x:Key="MainPlayerInfoView.Button.Ok.Disabled">Buttons/confirm/disabled.png</BitmapImage>
     <BitmapImage x:Key="MainPlayerInfoView.Button.Cancel.Up">Buttons/cancel/normal.png</BitmapImage>
     <BitmapImage x:Key="MainPlayerInfoView.Button.Cancel.Hover">Buttons/cancel/hover.png</BitmapImage>
     <BitmapImage x:Key="MainPlayerInfoView.Button.Cancel.Down">Buttons/cancel/down.png</BitmapImage>
