@@ -22,7 +22,8 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
     {
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            if (eventArgs.Source == null || eventArgs.Source == Owner || ((DiscardReason)eventArgs.IntArg != DiscardReason.Discard && (DiscardReason)eventArgs.IntArg != DiscardReason.Judge))
+            var args = eventArgs as DiscardCardEventArgs;
+            if (args.Source == null || args.Source == Owner || (args.Reason != DiscardReason.Discard && args.Reason != DiscardReason.Judge))
             {
                 return;
             }

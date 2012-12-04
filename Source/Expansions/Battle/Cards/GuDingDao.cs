@@ -26,10 +26,6 @@ namespace Sanguosha.Expansions.Battle.Cards
         
         public class GuDianDaoSkill : TriggerSkill
         {
-            protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                eventArgs.IntArg3--;
-            }
             public GuDianDaoSkill()
             {
                 var trigger = new AutoNotifyPassiveSkillTrigger(
@@ -38,7 +34,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                     {
                         return a.Card.Type is Sha;
                     },
-                    Run,
+                    (p, e, a) => { (a as DamageEventArgs).Magnitude++; },
                     TriggerCondition.OwnerIsSource
                 );
                 Triggers.Add(GameEvent.DamageCaused, trigger);

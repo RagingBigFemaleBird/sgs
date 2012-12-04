@@ -24,7 +24,7 @@ namespace Sanguosha.Expansions.Hills.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { Trace.Assert(a.IntArg < 0); p[RenMark] += (-a.IntArg); },
+                (p, e, a) => { var args = a as DamageEventArgs; p[RenMark] += args.Magnitude; },
                 TriggerCondition.OwnerIsTarget
             );
             var trigger2 = new AutoNotifyPassiveSkillTrigger(

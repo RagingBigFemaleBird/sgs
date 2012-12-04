@@ -22,11 +22,12 @@ namespace Sanguosha.Expansions.Fire.Skills
     {
         protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
+            var args = eventArgs as AdjustmentEventArgs;
             foreach (var p in Game.CurrentGame.AlivePlayers)
             {
                 if (p != Owner && p.Allegiance == Core.Heroes.Allegiance.Qun)
                 {
-                    eventArgs.IntArg += 2;
+                    args.AdjustmentAmount += 2;
                 }
             }
         }

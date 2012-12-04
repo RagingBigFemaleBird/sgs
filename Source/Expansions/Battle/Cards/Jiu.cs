@@ -76,9 +76,10 @@ namespace Sanguosha.Expansions.Battle.Cards
     {
         public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            if (eventArgs.Source != null && eventArgs.ReadonlyCard != null && eventArgs.ReadonlyCard[Jiu.JiuSha] == 1)
+            var args = eventArgs as DamageEventArgs;
+            if (args.Source != null && args.ReadonlyCard != null && args.ReadonlyCard[Jiu.JiuSha] == 1)
             {
-                eventArgs.IntArg3--;
+                args.Magnitude++;
             }
         }
     }

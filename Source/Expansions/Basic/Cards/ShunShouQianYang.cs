@@ -34,11 +34,11 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected override bool ShunChaiAdditionalCheck(Player source, Player dest, ICard card)
         {
-            GameEventArgs args = new GameEventArgs();
+            var args = new AdjustmentEventArgs();
             args.Source = source;
             args.Targets = new List<Player>() { dest };
             args.Card = card;
-            args.IntArg = 0;
+            args.AdjustmentAmount = 0;
             Game.CurrentGame.Emit(GameEvent.CardRangeModifier, args);
             if (Game.CurrentGame.DistanceTo(source, dest) > 1)
             {

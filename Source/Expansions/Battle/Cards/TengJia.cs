@@ -20,12 +20,7 @@ namespace Sanguosha.Expansions.Battle.Cards
     {
         
         public class TengJiaSkill : ArmorTriggerSkill
-        {
-            void RunBurnToDeath(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                eventArgs.IntArg3--;
-            }
-
+        {            
             public TengJiaSkill()
             {
                 var trigger = new AutoNotifyPassiveSkillTrigger(
@@ -36,8 +31,16 @@ namespace Sanguosha.Expansions.Battle.Cards
                 );
                 var trigger2 = new AutoNotifyPassiveSkillTrigger(
                     this,
-                    (p, e, a) => { return (DamageElement)a.IntArg2 == DamageElement.Fire && a.Card[Armor.IgnoreAllArmor] == 0 && a.Card[Armor.IgnorePlayerArmor] != Owner.Id + 1; },
-                    RunBurnToDeath,
+                    (p, e, a) =>
+                    {
+                        var args = a as DamageEventArgs;
+                        return (DamageElement)args.Element == DamageElement.Fire && a.Card[Armor.IgnoreAllArmor] == 0 && a.Card[Armor.IgnorePlayerArmor] != Owner.Id + 1;
+                    },
+                    (p, e, a) =>
+                    {
+                        var args = a as DamageEventArgs;
+                        args.Magnitude++;
+                    },
                     TriggerCondition.OwnerIsTarget
                 );
                 Triggers.Add(GameEvent.CardUsageTargetValidating, trigger);

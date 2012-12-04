@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
 
         public void BeforeDamage(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            Game.CurrentGame.LoseHealth(eventArgs.Targets[0], -eventArgs.IntArg);
+            Game.CurrentGame.LoseHealth(eventArgs.Targets[0], (eventArgs as DamageEventArgs).Magnitude);
             throw new TriggerResultException(TriggerResult.End);
         }
 

@@ -347,7 +347,7 @@ namespace Sanguosha.Core.Games
             InitTriggers();
             try
             {
-                Emit(GameEvent.GameStart, new GameEventArgs() { Game = this });
+                Emit(GameEvent.GameStart, new GameEventArgs());
             }
             catch (GameOverException)
             {
@@ -765,7 +765,7 @@ namespace Sanguosha.Core.Games
             var drawDeck = decks[DeckType.Dealing];
             if (i >= drawDeck.Count)
             {
-                Emit(GameEvent.Shuffle, new GameEventArgs() { Game = this });
+                Emit(GameEvent.Shuffle, new GameEventArgs());
             }
             if (drawDeck.Count == 0)
             {
@@ -779,7 +779,7 @@ namespace Sanguosha.Core.Games
             var drawDeck = decks[DeckType.Dealing];
             if (drawDeck.Count == 0)
             {
-                Emit(GameEvent.Shuffle, new GameEventArgs() { Game = this });
+                Emit(GameEvent.Shuffle, new GameEventArgs());
             }
             if (drawDeck.Count == 0)
             {
@@ -1057,51 +1057,52 @@ namespace Sanguosha.Core.Games
         /// <param name="cards">造成伤害的牌</param>
         public void DoDamage(Player source, Player dest, int magnitude, DamageElement elemental, ICard card, ReadOnlyCard readonlyCard)
         {
-            GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), IntArg = -magnitude, IntArg2 = (int)(elemental), IntArg3 = 0 };
+            var damageArgs = new DamageEventArgs() { Source = source, Targets = new List<Player>(), Magnitude = magnitude, Element = elemental };
+            HealthChangedEventArgs healthChangedArgs;
             int ironShackledDamage = 0;
             DamageElement ironShackledDamageElement = DamageElement.None;
-            args.ReadonlyCard = readonlyCard;
+            damageArgs.ReadonlyCard = readonlyCard;
             if (card is CompositeCard)
             {
                 if ((card as CompositeCard).Subcards != null)
                 {
-                    args.Cards = new List<Card>((card as CompositeCard).Subcards);
+                    damageArgs.Cards = new List<Card>((card as CompositeCard).Subcards);
                 }
             }
             else if (card is Card)
             {
-                args.Cards = new List<Card>() { card as Card };
+                damageArgs.Cards = new List<Card>() { card as Card };
             }
             else
             {
-                args.Cards = new List<Card>();
+                damageArgs.Cards = new List<Card>();
             }
-            args.Targets.Add(dest);
-            args.Card = card;
+            damageArgs.Targets.Add(dest);
+            damageArgs.Card = card;
 
             try
             {
-                Game.CurrentGame.Emit(GameEvent.DamageSourceConfirmed, args);
-                Game.CurrentGame.Emit(GameEvent.DamageElementConfirmed, args);
-                Game.CurrentGame.Emit(GameEvent.BeforeDamageComputing, args);
-                Game.CurrentGame.Emit(GameEvent.DamageComputingStarted, args);
-                Game.CurrentGame.Emit(GameEvent.DamageCaused, args);
-                Game.CurrentGame.Emit(GameEvent.DamageInflicted, args);
-                if (args.IntArg + args.IntArg3 == 0)
+                Game.CurrentGame.Emit(GameEvent.DamageSourceConfirmed, damageArgs);
+                Game.CurrentGame.Emit(GameEvent.DamageElementConfirmed, damageArgs);
+                Game.CurrentGame.Emit(GameEvent.BeforeDamageComputing, damageArgs);
+                Game.CurrentGame.Emit(GameEvent.DamageComputingStarted, damageArgs);
+                Game.CurrentGame.Emit(GameEvent.DamageCaused, damageArgs);
+                Game.CurrentGame.Emit(GameEvent.DamageInflicted, damageArgs);
+                if (damageArgs.Magnitude == 0)
                 {
                     Trace.TraceInformation("Damage is 0, aborting");
                     return;
                 }
-                if (args.Targets[0].IsIronShackled && (DamageElement)args.IntArg2 != DamageElement.None)
+                if (damageArgs.Targets[0].IsIronShackled && damageArgs.Element != DamageElement.None)
                 {
-                    ironShackledDamage = -args.IntArg3 - args.IntArg;
+                    ironShackledDamage = damageArgs.Magnitude;
                     Trace.TraceInformation("IronShackled damage {0}", ironShackledDamage);
-                    ironShackledDamageElement = (DamageElement)args.IntArg2;
-                    args.Targets[0].IsIronShackled = false;
-                }
-                args.IntArg = args.IntArg + args.IntArg3;
-                args.IntArg3 = 0;
-                Game.CurrentGame.Emit(GameEvent.BeforeHealthChanged, args);
+                    ironShackledDamageElement = damageArgs.Element;
+                    damageArgs.Targets[0].IsIronShackled = false;
+                }  
+                healthChangedArgs = new HealthChangedEventArgs(damageArgs);
+                Game.CurrentGame.Emit(GameEvent.BeforeHealthChanged, healthChangedArgs);
+                damageArgs.Magnitude = -healthChangedArgs.Delta;
             }
             catch (TriggerResultException e)
             {
@@ -1111,25 +1112,27 @@ namespace Sanguosha.Core.Games
                     return;
                 }
                 Trace.Assert(false);
+                return;
             }
-            Trace.Assert(args.Targets.Count == 1);
-            args.Targets[0].Health += args.IntArg;
-            Trace.TraceInformation("Player {0} Lose {1} hp, @ {2} hp", args.Targets[0].Id, -args.IntArg, args.Targets[0].Health);
-            NotificationProxy.NotifyDamage(source, args.Targets[0], -args.IntArg, (DamageElement)args.IntArg2);
 
-            Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, args);
-            Game.CurrentGame.Emit(GameEvent.AfterDamageCaused, args);
-            Game.CurrentGame.Emit(GameEvent.AfterDamageInflicted, args);
-            Game.CurrentGame.Emit(GameEvent.DamageComputingFinished, args);
+            Trace.Assert(damageArgs.Targets.Count == 1);
+            damageArgs.Targets[0].Health -= damageArgs.Magnitude;
+            Trace.TraceInformation("Player {0} Lose {1} hp, @ {2} hp", damageArgs.Targets[0].Id, damageArgs.Magnitude, damageArgs.Targets[0].Health);
+            NotificationProxy.NotifyDamage(source, damageArgs.Targets[0], damageArgs.Magnitude, damageArgs.Element);
+
+            Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, healthChangedArgs);
+            Game.CurrentGame.Emit(GameEvent.AfterDamageCaused, damageArgs);
+            Game.CurrentGame.Emit(GameEvent.AfterDamageInflicted, damageArgs);
+            Game.CurrentGame.Emit(GameEvent.DamageComputingFinished, damageArgs);
             if (ironShackledDamage != 0)
             {
                 List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
-                Game.CurrentGame.SortByOrderOfComputation(args.Targets[0], toProcess);
+                Game.CurrentGame.SortByOrderOfComputation(damageArgs.Targets[0], toProcess);
                 foreach (Player p in toProcess)
                 {
                     if (p.IsIronShackled)
                     {
-                        DoDamage(args.Source, p, ironShackledDamage, (DamageElement)ironShackledDamageElement, card, readonlyCard);
+                        DoDamage(damageArgs.Source, p, ironShackledDamage, ironShackledDamageElement, card, readonlyCard);
                     }
                 }
             }
@@ -1195,37 +1198,37 @@ namespace Sanguosha.Core.Games
             {
                 return;
             }
-            GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), IntArg = magnitude, IntArg2 = 0 };
+            var args = new HealthChangedEventArgs() { Source = source, Delta = magnitude};
             args.Targets.Add(target);
 
             Game.CurrentGame.Emit(GameEvent.BeforeHealthChanged, args);
 
             Trace.Assert(args.Targets.Count == 1);
-            if (args.Targets[0].Health + args.IntArg > args.Targets[0].MaxHealth)
+            if (args.Targets[0].Health + args.Delta > args.Targets[0].MaxHealth)
             {
                 args.Targets[0].Health = args.Targets[0].MaxHealth;
             }
             else
             {
-                args.Targets[0].Health += args.IntArg;
+                args.Targets[0].Health += args.Delta;
             }
             
-            Trace.TraceInformation("Player {0} gain {1} hp, @ {2} hp", args.Targets[0].Id, args.IntArg, args.Targets[0].Health);
+            Trace.TraceInformation("Player {0} gain {1} hp, @ {2} hp", args.Targets[0].Id, args.Delta, args.Targets[0].Health);
 
             Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, args);
         }
 
         public void LoseHealth(Player source, int magnitude)
         {
-            GameEventArgs args = new GameEventArgs() { Source = source, Targets = new List<Player>(), IntArg = -magnitude, IntArg2 = 0 };
+            var args = new HealthChangedEventArgs() { Source = source, Delta = -magnitude};
             args.Targets.Add(source);
 
             Game.CurrentGame.Emit(GameEvent.BeforeHealthChanged, args);
 
             Trace.Assert(args.Targets.Count == 1);
-            args.Targets[0].Health += args.IntArg;
-            Trace.TraceInformation("Player {0} lose {1} hp, @ {2} hp", args.Targets[0].Id, args.IntArg, args.Targets[0].Health);
-            Game.CurrentGame.NotificationProxy.NotifyLoseHealth(args.Targets[0], -args.IntArg);
+            args.Targets[0].Health += args.Delta;
+            Trace.TraceInformation("Player {0} lose {1} hp, @ {2} hp", args.Targets[0].Id, -args.Delta, args.Targets[0].Health);
+            Game.CurrentGame.NotificationProxy.NotifyLoseHealth(args.Targets[0], -args.Delta);
 
             Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, args);
         }
@@ -1321,11 +1324,11 @@ namespace Sanguosha.Core.Games
         {
             try
             {
-                GameEventArgs arg = new GameEventArgs();
+                var arg = new DiscardCardEventArgs();
                 arg.Source = p;
                 arg.Targets = null;
                 arg.Cards = cards;
-                arg.IntArg = (int)reason;
+                arg.Reason = reason;
                 Emit(GameEvent.CardsEnteredDiscardDeck, arg);
             }
             catch (TriggerResultException)
@@ -1339,11 +1342,11 @@ namespace Sanguosha.Core.Games
             SyncCardsAll(cards);
             try
             {
-                GameEventArgs arg = new GameEventArgs();
+                var arg = new DiscardCardEventArgs();
                 arg.Source = p;
                 arg.Targets = null;
                 arg.Cards = cards;
-                arg.IntArg = (int)reason;
+                arg.Reason = reason;
                 Emit(GameEvent.CardsEnteringDiscardDeck, arg, true);
             }
             catch (TriggerResultException)
@@ -1842,7 +1845,7 @@ namespace Sanguosha.Core.Games
             var player = CurrentPlayer;
             CurrentPhaseEventIndex = 0;
             CurrentPhase = TurnPhase.Start;
-            Emit(GameEvent.DoPlayer, new GameEventArgs() { Source = p, Game = this });
+            Emit(GameEvent.DoPlayer, new GameEventArgs() { Source = p });
             CurrentPhase = phase;
             CurrentPhaseEventIndex = index;
             CurrentPlayer = player;

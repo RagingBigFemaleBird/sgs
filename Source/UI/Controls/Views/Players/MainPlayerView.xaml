@@ -1,16 +1,16 @@
 ﻿<local:PlayerViewBase
- 	         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	         xmlns:ee="http://schemas.microsoft.com/expression/2010/effects"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ee="http://schemas.microsoft.com/expression/2010/effects"
              xmlns:local="clr-namespace:Sanguosha.UI.Controls"
              xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
-			 xmlns:anim="clr-namespace:Sanguosha.UI.Animations;assembly=Animations"
-	         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+             xmlns:anim="clr-namespace:Sanguosha.UI.Animations;assembly=Animations"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
              xmlns:Sanguosha_UI_Effects="clr-namespace:Sanguosha.UI.Effects;assembly=Effects" xmlns:System="clr-namespace:System;assembly=mscorlib" 
              x:Class="Sanguosha.UI.Controls.MainPlayerView"
-	         mc:Ignorable="d"
+             mc:Ignorable="d"
              Height="170"
              d:DesignWidth="900">
     <local:PlayerViewBase.Resources>        
@@ -18,278 +18,278 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Common.xaml"/>
                 <ResourceDictionary Source="../Buttons/CardButton.xaml"/>
-            	<ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
-            	<ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>                
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>                
             </ResourceDictionary.MergedDictionaries>
             <Storyboard x:Key="sbPhaseChange">
-        		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="imgPhase">
-        			<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-        			<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1">
-        				<EasingDoubleKeyFrame.EasingFunction>
-        					<CubicEase EasingMode="EaseOut"/>
-        				</EasingDoubleKeyFrame.EasingFunction>
-        			</EasingDoubleKeyFrame>
-        		</DoubleAnimationUsingKeyFrames>
-        		<ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="imgPhase">
-        			<EasingThicknessKeyFrame KeyTime="0" Value="-50,0,0,0"/>
-        			<EasingThicknessKeyFrame KeyTime="0:0:0.5" Value="0,0,0,0">
-        				<EasingThicknessKeyFrame.EasingFunction>
-        					<CubicEase EasingMode="EaseOut"/>
-        				</EasingThicknessKeyFrame.EasingFunction>
-        			</EasingThicknessKeyFrame>
-        		</ThicknessAnimationUsingKeyFrames>
-        	</Storyboard>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="imgPhase">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1">
+                        <EasingDoubleKeyFrame.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </EasingDoubleKeyFrame.EasingFunction>
+                    </EasingDoubleKeyFrame>
+                </DoubleAnimationUsingKeyFrames>
+                <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="imgPhase">
+                    <EasingThicknessKeyFrame KeyTime="0" Value="-50,0,0,0"/>
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.5" Value="0,0,0,0">
+                        <EasingThicknessKeyFrame.EasingFunction>
+                            <CubicEase EasingMode="EaseOut"/>
+                        </EasingThicknessKeyFrame.EasingFunction>
+                    </EasingThicknessKeyFrame>
+                </ThicknessAnimationUsingKeyFrames>
+            </Storyboard>
             <local:SkillButtonTemplateSelector x:Key="skillButtonTemplateSelector" />
-        	<Style x:Key="OkButtonStyle" TargetType="{x:Type Button}">
-        		<Setter Property="Template">
-        			<Setter.Value>
-        				<ControlTemplate TargetType="{x:Type Button}">
-        					<Grid>
-        						<VisualStateManager.VisualStateGroups>
-        							<VisualStateGroup x:Name="CommonStates">
-        								<VisualState x:Name="Normal">
-        									<Storyboard/>
-        								</VisualState>
-        								<VisualState x:Name="MouseOver">
-        									<Storyboard>
-        										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="up">
-        											<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
-        										</ObjectAnimationUsingKeyFrames>
-        										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="hover">
-        											<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-        										</ObjectAnimationUsingKeyFrames>
-        									</Storyboard>
-        								</VisualState>
-        								<VisualState x:Name="Pressed">
-        									<Storyboard>
-        										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="down">
-        											<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-        										</ObjectAnimationUsingKeyFrames>
-        									</Storyboard>
-        								</VisualState>
-        								<VisualState x:Name="Disabled">
-        									<Storyboard>
-        										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="disabled">
-        											<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-        										</ObjectAnimationUsingKeyFrames>
-        									</Storyboard>
-        								</VisualState>
-        							</VisualStateGroup>
-        						</VisualStateManager.VisualStateGroups>
-        						<Rectangle x:Name="up" RenderTransformOrigin="0.5,0.5">
-        							<Rectangle.Fill>
-        								<ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Ok.Up}"/>
-        							</Rectangle.Fill>
-        						</Rectangle>
-        						<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-        						<Rectangle x:Name="down" RenderTransformOrigin="0.5,0.5" Visibility="Hidden">
-        							<Rectangle.Fill>
-        								<ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Ok.Down}"/>
-        							</Rectangle.Fill>
-        						</Rectangle>
-        						<Rectangle x:Name="hover" RenderTransformOrigin="0.5,0.5" Visibility="Hidden">
-        							<Rectangle.Fill>
-        								<ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Ok.Hover}"/>
-        							</Rectangle.Fill>
-        						</Rectangle>
-        						<Rectangle x:Name="disabled" RenderTransformOrigin="0.5,0.5" Visibility="Hidden">
-        							<Rectangle.Fill>
-        								<ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Ok.Disabled}"/>
-        							</Rectangle.Fill>
-        						</Rectangle>
-        					</Grid>
-        					<ControlTemplate.Triggers>
-        						<Trigger Property="IsFocused" Value="True"/>
-        						<Trigger Property="IsDefaulted" Value="True"/>
-        						<Trigger Property="IsMouseOver" Value="True"/>
-        						<Trigger Property="IsPressed" Value="True"/>
-        						<Trigger Property="IsEnabled" Value="False"/>
-        					</ControlTemplate.Triggers>
-        				</ControlTemplate>
-        			</Setter.Value>
-        		</Setter>
-        	</Style>
-        	<Style x:Key="CancelButtonStyle" TargetType="{x:Type Button}">
-        		<Setter Property="Template">
-        			<Setter.Value>
-        				<ControlTemplate TargetType="{x:Type Button}">
-        					<Grid>
-        						<VisualStateManager.VisualStateGroups>
-        							<VisualStateGroup x:Name="CommonStates">
-        								<VisualState x:Name="Normal">
-        									<Storyboard/>
-        								</VisualState>
-        								<VisualState x:Name="MouseOver">
-        									<Storyboard>
-        										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="up">
-        											<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
-        										</ObjectAnimationUsingKeyFrames>
-        										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="hover">
-        											<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-        										</ObjectAnimationUsingKeyFrames>
-        									</Storyboard>
-        								</VisualState>
-        								<VisualState x:Name="Pressed">
-        									<Storyboard>
-        										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="down">
-        											<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-        										</ObjectAnimationUsingKeyFrames>
-        									</Storyboard>
-        								</VisualState>
-        								<VisualState x:Name="Disabled">
-        									<Storyboard>
-        										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="disabled">
-        											<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-        										</ObjectAnimationUsingKeyFrames>
-        									</Storyboard>
-        								</VisualState>
-        							</VisualStateGroup>
-        						</VisualStateManager.VisualStateGroups>
-        						<Rectangle x:Name="up" RenderTransformOrigin="0.5,0.5">
-        							<Rectangle.Fill>
-        								<ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Cancel.Up}"/>
-        							</Rectangle.Fill>
-        						</Rectangle>
-        						<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-        						<Rectangle x:Name="down" RenderTransformOrigin="0.5,0.5" Visibility="Hidden">
-        							<Rectangle.Fill>
-        								<ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Cancel.Down}"/>
-        							</Rectangle.Fill>
-        						</Rectangle>
-        						<Rectangle x:Name="hover" RenderTransformOrigin="0.5,0.5" Visibility="Hidden">
-        							<Rectangle.Fill>
-        								<ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Cancel.Hover}"/>
-        							</Rectangle.Fill>
-        						</Rectangle>
-        						<Rectangle x:Name="disabled" RenderTransformOrigin="0.5,0.5" Visibility="Hidden">
-        							<Rectangle.Fill>
-        								<ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Cancel.Disabled}"/>
-        							</Rectangle.Fill>
-        						</Rectangle>
-        					</Grid>
-        					<ControlTemplate.Triggers>
-        						<Trigger Property="IsFocused" Value="True"/>
-        						<Trigger Property="IsDefaulted" Value="True"/>
-        						<Trigger Property="IsMouseOver" Value="True"/>
-        						<Trigger Property="IsPressed" Value="True"/>
-        						<Trigger Property="IsEnabled" Value="False"/>
-        					</ControlTemplate.Triggers>
-        				</ControlTemplate>
-        			</Setter.Value>
-        		</Setter>
-        	</Style>
-        	<Style x:Key="DiscardButtonStyle" TargetType="{x:Type Button}">
-        		<Setter Property="Template">
-        			<Setter.Value>
-        				<ControlTemplate TargetType="{x:Type Button}">
-        					<Grid>
-        						<VisualStateManager.VisualStateGroups>
-        							<VisualStateGroup x:Name="CommonStates">
-        								<VisualState x:Name="Normal" />
-        								<VisualState x:Name="MouseOver" />
-        								<VisualState x:Name="Pressed" />
-        								<VisualState x:Name="Disabled" />
-        							</VisualStateGroup>
-        						</VisualStateManager.VisualStateGroups>
-        						<Rectangle x:Name="up" RenderTransformOrigin="0.5,0.5">
-        							<Rectangle.Fill>
-        								<ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Discard.Up}"/>
-        							</Rectangle.Fill>
-        						</Rectangle>
-        						<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-        						<Rectangle x:Name="down" RenderTransformOrigin="0.5,0.5" Visibility="Hidden">
-        							<Rectangle.Fill>
-        								<ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Discard.Down}"/>
-        							</Rectangle.Fill>
-        						</Rectangle>
-        						<Rectangle x:Name="hover" RenderTransformOrigin="0.5,0.5" Visibility="Hidden">
-        							<Rectangle.Fill>
-        								<ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Discard.Hover}"/>
-        							</Rectangle.Fill>
-        						</Rectangle>
-        						<Rectangle x:Name="disabled" RenderTransformOrigin="0.5,0.5" Visibility="Hidden">
-        							<Rectangle.Fill>
-        								<ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Discard.Disabled}"/>
-        							</Rectangle.Fill>
-        						</Rectangle>
-        					</Grid>
-        					<ControlTemplate.Triggers>
-        						<Trigger Property="IsFocused" Value="True"/>
-        						<Trigger Property="IsDefaulted" Value="True"/>
-        						<Trigger Property="IsMouseOver" Value="True">
-        							<Setter TargetName="hover" Property="Visibility" Value="Visible" />
-        							<Setter TargetName="up" Property="Visibility" Value="Hidden" />
-        						</Trigger>
-        						<Trigger Property="IsPressed" Value="True">
-        							<Setter TargetName="down" Property="Visibility" Value="Visible" />
-        							<Setter TargetName="up" Property="Visibility" Value="Hidden" />
-								</Trigger>
-        						<Trigger Property="IsEnabled" Value="False">
-        							<Setter TargetName="disabled" Property="Visibility" Value="Visible" />
-        							<Setter TargetName="up" Property="Visibility" Value="Hidden" />
-								</Trigger>
-        					</ControlTemplate.Triggers>
-        				</ControlTemplate>
-        			</Setter.Value>
-        		</Setter>
-        	</Style>
-        	<Storyboard x:Key="Countdown"/>
-        	<Storyboard x:Key="sbDeathTransition">
-        		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:MonochromeEffect.Strength)" Storyboard.TargetName="grid">
-        			<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-        			<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
-        		</DoubleAnimationUsingKeyFrames>
-        		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="image">
-        			<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="3"/>
-        			<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
-        		</DoubleAnimationUsingKeyFrames>
-        		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="image">
-        			<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="3"/>
-        			<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
-        		</DoubleAnimationUsingKeyFrames>
-        		<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image">
-        			<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
-        			<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
-        		</DoubleAnimationUsingKeyFrames>
-        	</Storyboard>
+            <Style x:Key="OkButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <Storyboard/>
+                                        </VisualState>
+                                        <VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="up">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="hover">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="down">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="disabled">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Rectangle x:Name="up" RenderTransformOrigin="0.5,0.5">
+                                    <Rectangle.Fill>
+                                        <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Ok.Up}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                <Rectangle x:Name="down" RenderTransformOrigin="0.5,0.5" Visibility="Hidden">
+                                    <Rectangle.Fill>
+                                        <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Ok.Down}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <Rectangle x:Name="hover" RenderTransformOrigin="0.5,0.5" Visibility="Hidden">
+                                    <Rectangle.Fill>
+                                        <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Ok.Hover}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <Rectangle x:Name="disabled" RenderTransformOrigin="0.5,0.5" Visibility="Hidden">
+                                    <Rectangle.Fill>
+                                        <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Ok.Disabled}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsFocused" Value="True"/>
+                                <Trigger Property="IsDefaulted" Value="True"/>
+                                <Trigger Property="IsMouseOver" Value="True"/>
+                                <Trigger Property="IsPressed" Value="True"/>
+                                <Trigger Property="IsEnabled" Value="False"/>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="CancelButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <Storyboard/>
+                                        </VisualState>
+                                        <VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="up">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="hover">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="down">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="disabled">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Rectangle x:Name="up" RenderTransformOrigin="0.5,0.5">
+                                    <Rectangle.Fill>
+                                        <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Cancel.Up}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                <Rectangle x:Name="down" RenderTransformOrigin="0.5,0.5" Visibility="Hidden">
+                                    <Rectangle.Fill>
+                                        <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Cancel.Down}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <Rectangle x:Name="hover" RenderTransformOrigin="0.5,0.5" Visibility="Hidden">
+                                    <Rectangle.Fill>
+                                        <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Cancel.Hover}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <Rectangle x:Name="disabled" RenderTransformOrigin="0.5,0.5" Visibility="Hidden">
+                                    <Rectangle.Fill>
+                                        <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Cancel.Disabled}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsFocused" Value="True"/>
+                                <Trigger Property="IsDefaulted" Value="True"/>
+                                <Trigger Property="IsMouseOver" Value="True"/>
+                                <Trigger Property="IsPressed" Value="True"/>
+                                <Trigger Property="IsEnabled" Value="False"/>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="DiscardButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="MouseOver" />
+                                        <VisualState x:Name="Pressed" />
+                                        <VisualState x:Name="Disabled" />
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Rectangle x:Name="up" RenderTransformOrigin="0.5,0.5">
+                                    <Rectangle.Fill>
+                                        <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Discard.Up}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                <Rectangle x:Name="down" RenderTransformOrigin="0.5,0.5" Visibility="Hidden">
+                                    <Rectangle.Fill>
+                                        <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Discard.Down}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <Rectangle x:Name="hover" RenderTransformOrigin="0.5,0.5" Visibility="Hidden">
+                                    <Rectangle.Fill>
+                                        <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Discard.Hover}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <Rectangle x:Name="disabled" RenderTransformOrigin="0.5,0.5" Visibility="Hidden">
+                                    <Rectangle.Fill>
+                                        <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Button.Discard.Disabled}"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsFocused" Value="True"/>
+                                <Trigger Property="IsDefaulted" Value="True"/>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="hover" Property="Visibility" Value="Visible" />
+                                    <Setter TargetName="up" Property="Visibility" Value="Hidden" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="down" Property="Visibility" Value="Visible" />
+                                    <Setter TargetName="up" Property="Visibility" Value="Hidden" />
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="disabled" Property="Visibility" Value="Visible" />
+                                    <Setter TargetName="up" Property="Visibility" Value="Hidden" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Storyboard x:Key="Countdown"/>
+            <Storyboard x:Key="sbDeathTransition">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:MonochromeEffect.Strength)" Storyboard.TargetName="grid">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="image">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="3"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="image">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="3"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
         </ResourceDictionary>
     </local:PlayerViewBase.Resources>	
     <Grid>
-    	<VisualStateManager.VisualStateGroups>
-    		<VisualStateGroup x:Name="FadeStates">
-    			<VisualState x:Name="Faded">
-    				<Storyboard>
-    					<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
-    						<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
-    					</DoubleAnimationUsingKeyFrames>
-    				</Storyboard>
-    			</VisualState>
-    			<VisualState x:Name="UnFaded">
-    				<Storyboard>
-    					<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
-    						<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
-    					</DoubleAnimationUsingKeyFrames>
-    				</Storyboard>
-    			</VisualState>
-    		</VisualStateGroup>
-    	</VisualStateManager.VisualStateGroups>
-    	<Grid.RowDefinitions>
-    		<RowDefinition Height="22"/>  	
-    		<RowDefinition Height="148" />
-		</Grid.RowDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="FadeStates">
+                <VisualState x:Name="Faded">
+                    <Storyboard>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="UnFaded">
+                    <Storyboard>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="22"/>  	
+            <RowDefinition Height="148" />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-        	<ColumnDefinition Width="auto" />
-        	<ColumnDefinition Width="1*" />
-        	<ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
-    	<VisualStateManager.CustomVisualStateManager>
-    		<ei:ExtendedVisualStateManager/>
-    	</VisualStateManager.CustomVisualStateManager>
-		<Image x:Name="imgPhase" 
-		       Visibility="{Binding IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}"
-			   Source="{res:ResourceKeyBinding Path=CurrentPhase, StringFormat=Phases.\{0\}.Large}"
-			   HorizontalAlignment="Left" VerticalAlignment="Bottom"
-			   Width="149" Height="15" d:LayoutOverrides="HorizontalAlignment, GridBox"/>
+        <VisualStateManager.CustomVisualStateManager>
+            <ei:ExtendedVisualStateManager/>
+        </VisualStateManager.CustomVisualStateManager>
+        <Image x:Name="imgPhase" 
+               Visibility="{Binding IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}"
+               Source="{res:ResourceKeyBinding Path=CurrentPhase, StringFormat=Phases.\{0\}.Large}"
+               HorizontalAlignment="Left" VerticalAlignment="Bottom"
+               Width="149" Height="15" d:LayoutOverrides="HorizontalAlignment, GridBox"/>
         <Grid Grid.Row="1" Width="305">
             <Grid.Background>
                 <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Background.Left}"/>
@@ -300,40 +300,40 @@
             <Grid x:Name="horse2Area" Margin="2,104,142,0" Height="37" Width="161"  VerticalAlignment="Top" />
         </Grid>
         <Grid Grid.Row="1" Grid.Column="1">
-        	<Grid.Background>
-        		<ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Background.Middle}" Viewport="0,0,322,148" ViewportUnits="Absolute" TileMode="FlipX" Stretch="None" />
-        	</Grid.Background>
-        	<Grid Grid.Row="1" Grid.Column="1">
-        		<Grid.ColumnDefinitions>
-        			<ColumnDefinition Width="1*"/>
-        			<ColumnDefinition Width="auto"/>
-        		</Grid.ColumnDefinitions>
-        		<Image Grid.Column="1" Source="{DynamicResource MainPlayerInfoView.Background.Platter}"/>
-        	</Grid>
-        	<Border HorizontalAlignment="Right" Height="17" Width="16" VerticalAlignment="Top" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22" Margin="0,148,92,0" d:LayoutOverrides="GridBox">
-        		<TextBlock Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding HandCardCount}" TextAlignment="Center" FontFamily="Arial" Foreground="Black"/>
-        	</Border>
-        	<Button x:Name="btnOk" Command="{Binding SubmitAnswerCommand}" Height="64" Style="{DynamicResource OkButtonStyle}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="53" Margin="0,4.002,38.686,0" />
-        	<Button Height="64" Margin="0,0,39,3.5" Command="{Binding CancelAnswerCommand}" Style="{DynamicResource CancelButtonStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="53"/>
-        	<Button Command="{Binding AbortAnswerCommand}" Style="{DynamicResource DiscardButtonStyle}" HorizontalAlignment="Right" Width="28" Height="69" Margin="0,39.5,6.67,39.5"/>
-        	<Image x:Name="image" Source="{res:ImageBinding Path=Role, ResourceKeyFormat=Death.Role.\{0\}.Image, StringFormat=Resources/Images/Death/\{0\}.png}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False" Opacity="0">
-        		<Image.RenderTransform>
-        			<TransformGroup>
-        				<ScaleTransform/>
-        				<SkewTransform/>
-        				<RotateTransform/>
-        				<TranslateTransform/>
-        			</TransformGroup>
-        		</Image.RenderTransform>
-        	</Image>
-        	<local:CardStack x:Name="handCardArea" VerticalAlignment="Bottom" Margin="-133,0,98,8" Height="132" MaxCardSpacing="97" CardAlignment="Left" />
+            <Grid.Background>
+                <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Background.Middle}" Viewport="0,0,322,148" ViewportUnits="Absolute" TileMode="FlipX" Stretch="None" />
+            </Grid.Background>
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="1" Source="{DynamicResource MainPlayerInfoView.Background.Platter}"/>
+            </Grid>
+            <Border HorizontalAlignment="Right" Height="17" Width="16" VerticalAlignment="Top" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22" Margin="0,148,92,0" d:LayoutOverrides="GridBox">
+                <TextBlock Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding HandCardCount}" TextAlignment="Center" FontFamily="Arial" Foreground="Black"/>
+            </Border>
+            <Button x:Name="btnOk" Command="{Binding SubmitAnswerCommand}" Height="64" Style="{DynamicResource OkButtonStyle}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="53" Margin="0,4.002,38.686,0" />
+            <Button Height="64" Margin="0,0,39,3.5" Command="{Binding CancelAnswerCommand}" Style="{DynamicResource CancelButtonStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="53"/>
+            <Button Command="{Binding AbortAnswerCommand}" Style="{DynamicResource DiscardButtonStyle}" HorizontalAlignment="Right" Width="28" Height="69" Margin="0,39.5,6.67,39.5"/>
+            <Image x:Name="image" Source="{res:ImageBinding Path=Role, ResourceKeyFormat=Death.Role.\{0\}.Image, StringFormat=Resources/Images/Death/\{0\}.png}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False" Opacity="0">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+            <local:CardStack x:Name="handCardArea" VerticalAlignment="Bottom" Margin="-133,0,98,8" Height="132" MaxCardSpacing="97" CardAlignment="Left" />
         </Grid>		
-		<Grid x:Name="grid" Width="165" Grid.Row="1" Grid.Column="2" Background="Black">
-			<Grid.Effect>
-				<Sanguosha_UI_Effects:MonochromeEffect Strength="0"/>
-			</Grid.Effect>
-			<Border BorderBrush="#FF706F6D" BorderThickness="0,1,1,1" />
-			<Grid Margin="0.5,2,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="134" Height="134" IsEnabled="{Binding IsEnabled}" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+        <Grid x:Name="grid" Width="165" Grid.Row="1" Grid.Column="2" Background="Black">
+            <Grid.Effect>
+                <Sanguosha_UI_Effects:MonochromeEffect Strength="0"/>
+            </Grid.Effect>
+            <Border BorderBrush="#FF706F6D" BorderThickness="0,1,1,1" />
+            <Grid Margin="0.5,2,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="134" Height="134" IsEnabled="{Binding IsEnabled}" MouseLeftButtonDown="Border_MouseLeftButtonDown">
                 <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=71\,28\,145\,145, Path=HeroName, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/Full/\{0\}.png}">
                     <Image.ToolTip>
                         <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
@@ -341,11 +341,11 @@
                     <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
                 </Image>
                 <Image Source="/Resources;component/Images/MainPlayerInfoView/imprisoned.png" Stretch="Fill" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}"/>
-			</Grid>
+            </Grid>
             <Border x:Name="fadeMask" Background="#64000000" Opacity="0" IsHitTestVisible="False">
-            	<i:Interaction.Behaviors>
-            		<ei:DataStateBehavior TrueState="Faded" FalseState="UnFaded" Value="true" Binding="{Binding IsFaded}"/>
-            	</i:Interaction.Behaviors>
+                <i:Interaction.Behaviors>
+                    <ei:DataStateBehavior TrueState="Faded" FalseState="UnFaded" Value="true" Binding="{Binding IsFaded}"/>
+                </i:Interaction.Behaviors>
             </Border>
             <local:VHealthBar x:Name="healthBar" HorizontalAlignment="Right" VerticalAlignment="Center"
                               Height="130" Width="25" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}" IsHitTestVisible="False" />
@@ -385,48 +385,48 @@
                     <RowDefinition Height="auto" MinHeight="26" />
                 </Grid.RowDefinitions>
             <TextBlock Height="17" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="SimSun" Foreground="White" FontSize="13.333" TextAlignment="Center" LineStackingStrategy="BlockLineHeight" LineHeight="16" Background="#7F585858" IsHitTestVisible="False" Margin="0,3,0,0"><Run Language="zh-cn" Text="UserName"/></TextBlock>
-            	<Border x:Name="IsTargetedGlow" Visibility="{Binding IsTargeted, Converter={StaticResource boolToVisibilityConverter}}" ClipToBounds="True" BorderBrush="Red" BorderThickness="5" >
-            		<Border.Effect>
-            			<BlurEffect Radius="10" />
-            		</Border.Effect>
-            	</Border>
-            	<Border x:Name="IsSelectedGlow" Visibility="{Binding IsSelected, Converter={StaticResource boolToVisibilityConverter}}" ClipToBounds="True" BorderBrush="#FFFF6B00" BorderThickness="5" >
-            		<Border.Effect>
-            			<BlurEffect Radius="10" />
-            		</Border.Effect>
-            	</Border>
-            	<Image Source="{DynamicResource MainPlayerInfoView.Background.Right}" VerticalAlignment="Top" IsHitTestVisible="False" Width="134" Height="134" Stretch="None" Grid.RowSpan="2"/>
-            	<ItemsControl Grid.Row="1" x:Name="skillButtonDock" HorizontalAlignment="Left"
-            		VerticalAlignment="Bottom" Width="134" ItemsSource="{Binding DockedSkillCommands}"
-            		ItemTemplateSelector="{StaticResource skillButtonTemplateSelector}">
-            		<ItemsControl.ItemsPanel>
-            			<ItemsPanelTemplate>
-            				<local:SkillButtonDock />
-            			</ItemsPanelTemplate>
-            		</ItemsControl.ItemsPanel>
-            	</ItemsControl>
+                <Border x:Name="IsTargetedGlow" Visibility="{Binding IsTargeted, Converter={StaticResource boolToVisibilityConverter}}" ClipToBounds="True" BorderBrush="Red" BorderThickness="5" >
+                    <Border.Effect>
+                        <BlurEffect Radius="10" />
+                    </Border.Effect>
+                </Border>
+                <Border x:Name="IsSelectedGlow" Visibility="{Binding IsSelected, Converter={StaticResource boolToVisibilityConverter}}" ClipToBounds="True" BorderBrush="#FFFF6B00" BorderThickness="5" >
+                    <Border.Effect>
+                        <BlurEffect Radius="10" />
+                    </Border.Effect>
+                </Border>
+                <Image Source="{DynamicResource MainPlayerInfoView.Background.Right}" VerticalAlignment="Top" IsHitTestVisible="False" Width="134" Height="134" Stretch="None" Grid.RowSpan="2"/>
+                <ItemsControl Grid.Row="1" x:Name="skillButtonDock" HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom" Width="134" ItemsSource="{Binding DockedSkillCommands}"
+                    ItemTemplateSelector="{StaticResource skillButtonTemplateSelector}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <local:SkillButtonDock />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
                 
             </Grid>
             <Grid Margin="-15.673,10.331,0,0" Height="22" VerticalAlignment="Top" Width="169" HorizontalAlignment="Left">
                 <Grid.ToolTip>
                     <ToolTip Content="{DynamicResource State.TieSuoLianHuan.Description}" ContentTemplate="{DynamicResource ToolTipTextTemplate}" />                        
                 </Grid.ToolTip> 
-				<Image Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}" />
-            	<anim:TieSuoAnimation2 x:Name="tieSuoAnimation2" FramesPerSecond="15" Stretch="Fill"/>				
-			</Grid>
+                <Image Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}" />
+                <anim:TieSuoAnimation2 x:Name="tieSuoAnimation2" FramesPerSecond="15" Stretch="Fill"/>				
+            </Grid>
             <Canvas x:Name="animationCenter1" HorizontalAlignment="Left" Height="16" Margin="63,69,0,0" VerticalAlignment="Top" Width="18" IsHitTestVisible="False"/>            
         </Grid>
-		<StackPanel Height="29" Orientation="Horizontal" HorizontalAlignment="Left" Margin="150,0,0,0" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="50" x:Name="delayedToolsDock" VerticalAlignment="Top" >
-			<i:Interaction.Behaviors>
-				<ei:FluidMoveBehavior AppliesTo="Children" Duration="0:0:5">
-					<ei:FluidMoveBehavior.EaseX>
-						<BackEase EasingMode="EaseOut"/>
-					</ei:FluidMoveBehavior.EaseX>
-				</ei:FluidMoveBehavior>
-			</i:Interaction.Behaviors>
-		</StackPanel>
+        <StackPanel Height="29" Orientation="Horizontal" HorizontalAlignment="Left" Margin="150,0,0,0" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="50" x:Name="delayedToolsDock" VerticalAlignment="Top" >
+            <i:Interaction.Behaviors>
+                <ei:FluidMoveBehavior AppliesTo="Children" Duration="0:0:5">
+                    <ei:FluidMoveBehavior.EaseX>
+                        <BackEase EasingMode="EaseOut"/>
+                    </ei:FluidMoveBehavior.EaseX>
+                </ei:FluidMoveBehavior>
+            </i:Interaction.Behaviors>
+        </StackPanel>
         <local:RoleBox x:Name="cbRoleBox" Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Right" Width="25" Margin="0,5,5.5,0" Height="26" VerticalAlignment="Top" />
         <Canvas x:Name="animationCenter2" HorizontalAlignment="Center" Margin="0" Grid.ColumnSpan="2" VerticalAlignment="Top"/>
-		<anim:TieSuoAnimation x:Name="tieSuoAnimation" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="0,-40,0,0" IsHitTestVisible="False" FramesPerSecond="15" Height="180" Width="202"/>
-	</Grid>
+        <anim:TieSuoAnimation x:Name="tieSuoAnimation" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="0,-40,0,0" IsHitTestVisible="False" FramesPerSecond="15" Height="180" Width="202"/>
+    </Grid>
 </local:PlayerViewBase>

@@ -32,7 +32,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => { return p[Naked] == 1 && (a.ReadonlyCard.Type is Sha || a.ReadonlyCard.Type is JueDou); },
-                (p, e, a) => { a.IntArg3--; },
+                (p, e, a) => { (a as DamageEventArgs).Magnitude++; },
                 TriggerCondition.OwnerIsSource
             ) { AskForConfirmation = false };
             Triggers.Add(GameEvent.PhaseProceedEvents[TurnPhase.Draw], trigger);

@@ -20,6 +20,15 @@ namespace Sanguosha.Core.Triggers
             Cards = new List<Card>();
         }
 
+        public void CopyFrom(GameEventArgs another)
+        {
+            source = another.source;
+            targets = new List<Player>(another.targets);
+            cards = new List<Card>(another.cards);
+            card = another.card;
+            readonlyCard = another.readonlyCard;
+        }
+
         private Player source;
 
         public Player Source
@@ -35,18 +44,6 @@ namespace Sanguosha.Core.Triggers
             get { return targets; }
             set { targets = value; }
         }
-
-        private Game game;
-
-        public Game Game
-        {
-            get { return game; }
-            set { game = value; }
-        }
-
-        public int IntArg { get; set; }
-        public int IntArg2 { get; set; }
-        public int IntArg3 { get; set; }
 
         private List<Card> cards;
 
@@ -64,14 +61,6 @@ namespace Sanguosha.Core.Triggers
             set { skill = value; }
         }
 
-        private string stringArg;
-
-        public string StringArg
-        {
-            get { return stringArg; }
-            set { stringArg = value; }
-        }
-
         private ICard card;
 
         public ICard Card
@@ -87,6 +76,54 @@ namespace Sanguosha.Core.Triggers
             get { return readonlyCard; }
             set { readonlyCard = value; }
         }
+    }
 
+    public class HealthChangedEventArgs : GameEventArgs
+    {
+        public HealthChangedEventArgs() { }
+
+        public HealthChangedEventArgs(DamageEventArgs args)
+        {
+            CopyFrom(args);
+            Delta = -args.Magnitude;
+        }
+
+        /// <summary>
+        /// Gets/sets the health change value.
+        /// </summary>
+        public int Delta
+        {
+            get;
+            set;
+        }
+    }
+
+    public class DamageEventArgs : GameEventArgs
+    {
+        /// <summary>
+        /// Gets/sets the magnitude of damage
+        /// </summary>
+        public int Magnitude
+        {
+            get;
+            set;
+        }
+       
+        public DamageElement Element
+        {
+            get;
+            set;
+        }
+
+    }
+
+    public class DiscardCardEventArgs : GameEventArgs
+    {
+        public DiscardReason Reason { get; set; }
+    }
+
+    public class AdjustmentEventArgs : GameEventArgs
+    {
+        public int AdjustmentAmount { get; set; }
     }
 }

@@ -57,7 +57,8 @@ namespace Sanguosha.Expansions.Basic.Skills
             ISkill skill;
             List<Card> cards;
             List<Player> players;
-            int damage = -eventArgs.IntArg;
+            var args = eventArgs as DamageEventArgs;
+            int damage = args.Magnitude;
             while (damage-- > 0)
             {
                 if (AskForSkillUse())

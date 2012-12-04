@@ -45,7 +45,8 @@ namespace Sanguosha.Expansions.Fire.Skills
             ISkill skill;
             List<Card> cards;
             List<Player> players;
-            int damage = -eventArgs.IntArg;
+            var args = eventArgs as DamageEventArgs;
+            int damage = args.Magnitude;
             while (damage-- > 0)
             {
                 if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("JieMing"), new JieMingVerifier(), out skill, out cards, out players))

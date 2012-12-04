@@ -84,7 +84,7 @@ namespace Sanguosha.Core.Games
 
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                Player currentPlayer = eventArgs.Game.CurrentPlayer;
+                Player currentPlayer = Game.CurrentGame.CurrentPlayer;
                 Trace.TraceInformation("Player {0} action.", currentPlayer.Id);
                 while (true)
                 {
@@ -190,7 +190,7 @@ namespace Sanguosha.Core.Games
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                Player currentPlayer = eventArgs.Game.CurrentPlayer;
+                Player currentPlayer = Game.CurrentGame.CurrentPlayer;
                 Trace.TraceInformation("Player {0} deal.", currentPlayer.Id);
                 Game.CurrentGame.DrawCards(currentPlayer, 2 + currentPlayer[Player.DealAdjustment]);
             }
@@ -200,16 +200,16 @@ namespace Sanguosha.Core.Games
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                Player currentPlayer = eventArgs.Game.CurrentPlayer;
+                Player currentPlayer = Game.CurrentGame.CurrentPlayer;
                 Trace.TraceInformation("Player {0} discard stage.", currentPlayer.Id);
-                GameEventArgs args = new GameEventArgs();
+                var args = new AdjustmentEventArgs();
                 args.Source = eventArgs.Source;
-                args.IntArg = 0;
+                args.AdjustmentAmount = 0;
                 Game.CurrentGame.Emit(GameEvent.PlayerHandCardCapacityAdjustment, args);
                 Game.CurrentGame.ForcePlayerDiscard(currentPlayer, 
                     (p, d) => 
                     { 
-                        int i = Game.CurrentGame.Decks[p, DeckType.Hand].Count - p.Health - args.IntArg;
+                        int i = Game.CurrentGame.Decks[p, DeckType.Hand].Count - p.Health - args.AdjustmentAmount;
                         if (i < 0) i = 0;
                         return i;
                     }, 
@@ -222,7 +222,7 @@ namespace Sanguosha.Core.Games
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                Player currentPlayer = eventArgs.Game.CurrentPlayer;
+                Player currentPlayer = Game.CurrentGame.CurrentPlayer;
                 Trace.TraceInformation("Player {0} judge.", currentPlayer.Id);
                 while (Game.CurrentGame.Decks[currentPlayer, DeckType.DelayedTools].Count > 0)
                 {
@@ -382,7 +382,7 @@ namespace Sanguosha.Core.Games
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                Game game = eventArgs.Game;
+                Game game = Game.CurrentGame;
 
                 foreach (Player pp in game.Players)
                 {
@@ -669,7 +669,6 @@ namespace Sanguosha.Core.Games
                 {
                     GameEventArgs args = new GameEventArgs();
                     args.Source = current;
-                    args.Game = game;
                     game.CurrentPhaseEventIndex = 0;
                     game.CurrentPhase = TurnPhase.Start;
                     game.CurrentPlayer = current;
@@ -683,7 +682,7 @@ namespace Sanguosha.Core.Games
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                Game game = eventArgs.Game;
+                Game game = Game.CurrentGame;
                 Player currentPlayer = eventArgs.Source;
                 if (currentPlayer.IsImprisoned)
                 {
@@ -694,7 +693,7 @@ namespace Sanguosha.Core.Games
                 Game.CurrentGame.Emit(GameEvent.PhaseBeforeStart, new GameEventArgs() { Source = currentPlayer });
                 while (true)
                 {
-                    GameEventArgs args = new GameEventArgs() { Game = game, Source = currentPlayer };
+                    GameEventArgs args = new GameEventArgs() { Source = currentPlayer };
                     Trace.TraceInformation("Main game loop running {0}:{1}", currentPlayer.Id, game.CurrentPhase);
                     game.CurrentPlayer = currentPlayer;
                     try
