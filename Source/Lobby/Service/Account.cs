@@ -11,8 +11,7 @@ namespace Sanguosha.Lobby
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
-
+    
     public partial class Account
     {
         public int Id { get; set; }

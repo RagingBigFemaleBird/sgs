@@ -13,15 +13,35 @@ namespace Sanguosha.LobbyServer
     {
         Dictionary<int, Room> rooms;
         int roomId;
-        Dictionary<Account, Guid> loggedInTokens;
-        Dictionary<Guid, Account> loggedInAccounts;
-        Dictionary<Guid, IGameClient> loggedInChannels;
+        Dictionary<Account, Guid> loggedInAccountToGuid;
+        Dictionary<Guid, Account> loggedInGuidToAccount;
+        Dictionary<IGameClient, Guid> loggedInChannelsToGuid;
+        Dictionary<Guid, IGameClient> loggedInGuidToChannel;
+        Dictionary<Guid, Room> loggedInGuidToRoom;
+
+        private bool VerifyClient(LoginToken token)
+        {
+            if (loggedInGuidToAccount.ContainsKey(token.token))
+            {
+                if (loggedInGuidToChannel.ContainsKey(token.token))
+                {
+                    if (loggedInGuidToChannel[token.token] == OperationContext.Current.GetCallbackChannel<IGameClient>())
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         public LobbyServiceImpl()
         {
             rooms = new Dictionary<int, Room>();
-            loggedInAccounts = new Dictionary<Guid, Account>();
-            loggedInChannels = new Dictionary<Guid, IGameClient>();
-            loggedInTokens = new Dictionary<Account, Guid>();
+            loggedInGuidToAccount = new Dictionary<Guid, Account>();
+            loggedInGuidToChannel = new Dictionary<Guid, IGameClient>();
+            loggedInAccountToGuid = new Dictionary<Account, Guid>();
+            loggedInChannelsToGuid = new Dictionary<IGameClient, Guid>();
+            loggedInGuidToRoom = new Dictionary<Guid, Room>();
             roomId = 1;
         }
 
@@ -32,24 +52,25 @@ namespace Sanguosha.LobbyServer
             token = new LoginToken();
             token.token = System.Guid.NewGuid();
             Account account = new Account() { Username = username };
-            loggedInAccounts.Add(token.token, account);
-            loggedInChannels.Add(token.token, connection);
-            loggedInTokens.Add(account, token.token);
+            loggedInGuidToAccount.Add(token.token, account);
+            loggedInGuidToChannel.Add(token.token, connection);
+            loggedInAccountToGuid.Add(account, token.token);
+            loggedInChannelsToGuid.Add(connection, token.token);
             return LoginStatus.Success;
         }
 
         public void Logout(LoginToken token)
         {
-            if (loggedInAccounts.ContainsKey(token.token))
+            if (VerifyClient(token))
             {
-                Console.WriteLine("{0} logged out", loggedInAccounts[token.token].Username);
-                loggedInAccounts.Remove(token.token);
+                Console.WriteLine("{0} logged out", loggedInGuidToAccount[token.token].Username);
+                loggedInGuidToAccount.Remove(token.token);
             }
         }
 
         public IEnumerable<Room> GetRooms(LoginToken token, bool notReadyRoomsOnly)
         {
-            if (loggedInAccounts.ContainsKey(token.token))
+            if (VerifyClient(token))
             {
                 List<Room> ret = new List<Room>();
                 foreach (var pair in rooms)
@@ -66,7 +87,7 @@ namespace Sanguosha.LobbyServer
 
         public Room CreateRoom(LoginToken token, string password = null)
         {
-            if (loggedInAccounts.ContainsKey(token.token))
+            if (VerifyClient(token))
             {
                 while (rooms.ContainsKey(roomId))
                 {
@@ -77,9 +98,14 @@ namespace Sanguosha.LobbyServer
                 {
                     room.Seats.Add(new Seat() { Ready = false, Disabled = false });
                 }
-                room.Seats[0].Account = loggedInAccounts[token.token];
+                room.Seats[0].Account = loggedInGuidToAccount[token.token];
                 room.Id = roomId;
                 rooms.Add(roomId, room);
+                if (loggedInGuidToRoom.ContainsKey(token.token))
+                {
+                    loggedInGuidToRoom.Remove(token.token);
+                }
+                loggedInGuidToRoom.Add(token.token, room);
                 Console.WriteLine("created room {0}", roomId);
                 return room;
             }
@@ -89,7 +115,7 @@ namespace Sanguosha.LobbyServer
 
         public int EnterRoom(LoginToken token, int roomId, bool spectate, string password = null)
         {
-            if (loggedInAccounts.ContainsKey(token.token))
+            if (VerifyClient(token))
             {
                 if (rooms.ContainsKey(roomId))
                 {
@@ -99,10 +125,15 @@ namespace Sanguosha.LobbyServer
                         {
                             if (seat.Account == null)
                             {
-                                seat.Account = loggedInAccounts[token.token];
+                                if (loggedInGuidToRoom.ContainsKey(token.token))
+                                {
+                                    loggedInGuidToRoom.Remove(token.token);
+                                }
+                                loggedInGuidToRoom.Add(token.token, rooms[roomId]);
+                                seat.Account = loggedInGuidToAccount[token.token];
                                 foreach (var notify in rooms[roomId].Seats)
                                 {
-                                    loggedInChannels[loggedInTokens[notify.Account]].NotifyRoomUpdate(rooms[roomId].Id, rooms[roomId]);
+                                    loggedInGuidToChannel[loggedInAccountToGuid[notify.Account]].NotifyRoomUpdate(rooms[roomId].Id, rooms[roomId]);
                                 }
                                 return seatNo;
                             }
@@ -116,7 +147,26 @@ namespace Sanguosha.LobbyServer
 
         public bool ExitRoom(LoginToken token, int roomId)
         {
-            throw new NotImplementedException();
+            if (VerifyClient(token))
+            {
+                if (loggedInGuidToRoom.ContainsKey(token.token))
+                {
+                    foreach (var seat in loggedInGuidToRoom[token.token].Seats)
+                    {
+                        if (seat.Account == loggedInGuidToAccount[token.token])
+                        {
+                            seat.Account = null;
+                            foreach (var notify in rooms[roomId].Seats)
+                            {
+                                loggedInGuidToChannel[loggedInAccountToGuid[notify.Account]].NotifyRoomUpdate(rooms[roomId].Id, rooms[roomId]);
+                            }
+                            loggedInGuidToRoom.Remove(token.token);
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
         }
 
         public bool RoomOperations(RoomOperation op, int arg1, int arg2, out int result)

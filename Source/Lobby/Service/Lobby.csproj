@@ -72,7 +72,6 @@
       <DependentUpon>AccountModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Achievement.cs" />
-    <Compile Include="ActiveGame.cs" />
     <Compile Include="HeroUnlock\HeroMapNode.cs" />
     <Compile Include="ILobbyService.cs" />
     <Compile Include="Program.cs" />

@@ -35,7 +35,6 @@ namespace Sanguosha.Lobby
         public Room()
         {
             seats = new List<Seat>();
-            timeout = Lobby.Timeout.FifteenSeconds;
         }
 
         private int id;
@@ -104,22 +103,6 @@ namespace Sanguosha.Lobby
         {
             get { return seats; }
             set { seats = value; }
-        }
-
-        private string ipAddress;
-
-        public string IpAddress
-        {
-            get { return ipAddress; }
-            set { ipAddress = value; }
-        }
-
-        private string ipPort;
-
-        public string IpPort
-        {
-            get { return ipPort; }
-            set { ipPort = value; }
         }
     }
 }
