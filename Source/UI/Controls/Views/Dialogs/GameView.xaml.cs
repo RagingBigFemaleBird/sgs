@@ -762,5 +762,11 @@ namespace Sanguosha.UI.Controls
         {
             throw new NotImplementedException();
         }
+
+
+        public void NotifyShowCard(Player p, Card card)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

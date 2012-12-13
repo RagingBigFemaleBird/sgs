@@ -13,10 +13,14 @@
     <sys:String x:Key="Hero.JiaXu.Name">贾诩</sys:String>
     <sys:String x:Key="Hero.CaoPi.Name">曹丕</sys:String>
     <sys:String x:Key="Hero.SunCe.Name">孙策</sys:String>
+    <sys:String x:Key="Hero.ZhuRong.Name">祝融</sys:String>
 
     <sys:String x:Key="Skill.WanSha.Name">完杀</sys:String>
     <sys:String x:Key="Skill.FangZhu.Name">放逐</sys:String>
     <sys:String x:Key="Skill.LuanWu.Name">乱舞</sys:String>
     <sys:String x:Key="Skill.YingHun.Name">英魂</sys:String>
+    <sys:String x:Key="Skill.JuXiang.Name">巨象</sys:String>
+    <sys:String x:Key="Skill.LieRen.Name">烈刃</sys:String>
+    <sys:String x:Key="Skill.SongWei.Name">颂威</sys:String>
 
 </ResourceDictionary>
