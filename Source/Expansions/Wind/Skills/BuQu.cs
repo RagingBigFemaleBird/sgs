@@ -21,7 +21,7 @@ namespace Sanguosha.Expansions.Wind.Skills
     {
         protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            DeckType bq = new DeckType("BuQu");
+            DeckType bq = new PrivateDeckType("BuQu", true);
             if (-Owner.Health > Game.CurrentGame.Decks[Owner, bq].Count)
             {
                 int toDraw = -Owner.Health - Game.CurrentGame.Decks[Owner, bq].Count;
@@ -69,7 +69,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                 this,
                 (p, e, a) => 
                 {
-                    DeckType bq = new DeckType("BuQu");
+                    DeckType bq = new PrivateDeckType("BuQu", true);
                     if (p.Health > 0 && Game.CurrentGame.Decks[Owner, bq].Count > 0)
                     {
                         int toDraw = Game.CurrentGame.Decks[Owner, bq].Count - Math.Max(0, -Owner.Health);

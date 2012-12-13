@@ -7,9 +7,18 @@ namespace Sanguosha.Core.Cards
 {
     public class PrivateDeckType : DeckType
     {
-        public PrivateDeckType(string name)
+        private bool publiclyVisible;
+
+        public bool PubliclyVisible
+        {
+            get { return publiclyVisible; }
+            set { publiclyVisible = value; }
+        }
+
+        public PrivateDeckType(string name, bool pv = false)
             : base(name)
         {
+            publiclyVisible = pv;
         }
     }
 }
