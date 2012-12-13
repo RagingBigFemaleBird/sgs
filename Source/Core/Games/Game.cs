@@ -1120,7 +1120,13 @@ namespace Sanguosha.Core.Games
             Trace.TraceInformation("Player {0} Lose {1} hp, @ {2} hp", damageArgs.Targets[0].Id, damageArgs.Magnitude, damageArgs.Targets[0].Health);
             NotificationProxy.NotifyDamage(source, damageArgs.Targets[0], damageArgs.Magnitude, damageArgs.Element);
 
-            Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, healthChangedArgs);
+            try
+            {
+                Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, healthChangedArgs);
+            }
+            catch (TriggerResultException)
+            {
+            }
             Game.CurrentGame.Emit(GameEvent.AfterDamageCaused, damageArgs);
             Game.CurrentGame.Emit(GameEvent.AfterDamageInflicted, damageArgs);
             Game.CurrentGame.Emit(GameEvent.DamageComputingFinished, damageArgs);
@@ -1215,7 +1221,13 @@ namespace Sanguosha.Core.Games
             
             Trace.TraceInformation("Player {0} gain {1} hp, @ {2} hp", args.Targets[0].Id, args.Delta, args.Targets[0].Health);
 
-            Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, args);
+            try
+            {
+                Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, args);
+            }
+            catch (TriggerResultException)
+            {
+            }
         }
 
         public void LoseHealth(Player source, int magnitude)
@@ -1230,7 +1242,14 @@ namespace Sanguosha.Core.Games
             Trace.TraceInformation("Player {0} lose {1} hp, @ {2} hp", args.Targets[0].Id, -args.Delta, args.Targets[0].Health);
             Game.CurrentGame.NotificationProxy.NotifyLoseHealth(args.Targets[0], -args.Delta);
 
-            Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, args);
+            try
+            {
+                Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, args);
+            }
+            catch (TriggerResultException)
+            {
+            }
+
         }
 
         public void LoseMaxHealth(Player source, int magnitude)
@@ -1576,12 +1595,15 @@ namespace Sanguosha.Core.Games
                     catch (TriggerResultException)
                     {
                     }
-                    try
+                    if (target.Health <= 0)
                     {
-                        Game.CurrentGame.Emit(GameEvent.PlayerDying, args);
-                    }
-                    catch (TriggerResultException)
-                    {
+                        try
+                        {
+                            Game.CurrentGame.Emit(GameEvent.PlayerDying, args);
+                        }
+                        catch (TriggerResultException)
+                        {
+                        }
                     }
                 }
             }
