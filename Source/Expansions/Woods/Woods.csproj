@@ -46,6 +46,7 @@
     <Compile Include="Skills\FangZhu.cs" />
     <Compile Include="Skills\LuanWu.cs" />
     <Compile Include="Skills\WanSha.cs" />
+    <Compile Include="Skills\YingHun.cs" />
     <Compile Include="WoodsExpansion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

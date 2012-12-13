@@ -24,7 +24,8 @@ namespace Sanguosha.Expansions.Wind.Skills
             DeckType bq = new DeckType("BuQu");
             if (-Owner.Health > Game.CurrentGame.Decks[Owner, bq].Count)
             {
-                while (-Owner.Health > Game.CurrentGame.Decks[Owner, bq].Count)
+                int toDraw = -Owner.Health - Game.CurrentGame.Decks[Owner, bq].Count;
+                while (toDraw-- > 0)
                 {
                     Game.CurrentGame.SyncImmutableCard(Owner, Game.CurrentGame.PeekCard(0));
                     Card c1 = Game.CurrentGame.DrawCard();
@@ -36,7 +37,8 @@ namespace Sanguosha.Expansions.Wind.Skills
             }
             else if (Math.Max(0, -Owner.Health) < Game.CurrentGame.Decks[Owner, bq].Count)
             {
-                while (-Owner.Health < Game.CurrentGame.Decks[Owner, bq].Count)
+                int toDraw = Game.CurrentGame.Decks[Owner, bq].Count - Math.Max(0, -Owner.Health);
+                while (toDraw-- > 0)
                 {
                     Card c1 = Game.CurrentGame.Decks[Owner, bq][Game.CurrentGame.Decks[Owner, bq].Count - 1];
                     CardsMovement move = new CardsMovement();
@@ -65,7 +67,23 @@ namespace Sanguosha.Expansions.Wind.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return p.Health <= 0; },
+                (p, e, a) => 
+                {
+                    DeckType bq = new DeckType("BuQu");
+                    if (p.Health > 0 && Game.CurrentGame.Decks[Owner, bq].Count > 0)
+                    {
+                        int toDraw = Game.CurrentGame.Decks[Owner, bq].Count - Math.Max(0, -Owner.Health);
+                        while (toDraw-- > 0)
+                        {
+                            Card c1 = Game.CurrentGame.Decks[Owner, bq][Game.CurrentGame.Decks[Owner, bq].Count - 1];
+                            CardsMovement move = new CardsMovement();
+                            move.cards = new List<Card>() { c1 };
+                            move.to = new DeckPlace(Owner, bq);
+                            Game.CurrentGame.MoveCards(move, null);
+                        }
+                    }
+                    return p.Health <= 0; 
+                },
                 Run,
                 TriggerCondition.OwnerIsTarget
             ) { Type = TriggerType.Skill };

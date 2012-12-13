@@ -21,6 +21,7 @@ namespace Sanguosha.Expansions.Woods
 
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("JiaXu", true, Allegiance.Qun, 3, new WanSha(), new LuanWu()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("CaoPi", true, Allegiance.Wei, 3, new FangZhu()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SunCe", true, Allegiance.Wu, 4, new YingHun()))));
         }
     }
 }
