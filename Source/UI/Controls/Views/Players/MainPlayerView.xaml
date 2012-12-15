@@ -31,8 +31,8 @@
                     </EasingDoubleKeyFrame>
                 </DoubleAnimationUsingKeyFrames>
                 <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="imgPhase">
-                    <EasingThicknessKeyFrame KeyTime="0" Value="-50,0,0,0"/>
-                    <EasingThicknessKeyFrame KeyTime="0:0:0.5" Value="0,0,0,0">
+                    <EasingThicknessKeyFrame KeyTime="0" Value="0,0,0,0"/>
+                    <EasingThicknessKeyFrame KeyTime="0:0:0.5" Value="50,0,0,0">
                         <EasingThicknessKeyFrame.EasingFunction>
                             <CubicEase EasingMode="EaseOut"/>
                         </EasingThicknessKeyFrame.EasingFunction>
@@ -289,7 +289,7 @@
                Visibility="{Binding IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}"
                Source="{res:ResourceKeyBinding Path=CurrentPhase, StringFormat=Phases.\{0\}.Large}"
                HorizontalAlignment="Left" VerticalAlignment="Bottom"
-               Width="149" Height="15" d:LayoutOverrides="HorizontalAlignment, GridBox"/>
+               Width="149" Height="15" Margin="50,0,0,0" />
         <Grid Grid.Row="1" Width="305">
             <Grid.Background>
                 <ImageBrush ImageSource="{DynamicResource MainPlayerInfoView.Background.Left}"/>
@@ -349,6 +349,11 @@
             </Border>
             <local:VHealthBar x:Name="healthBar" HorizontalAlignment="Right" VerticalAlignment="Center"
                               Height="130" Width="25" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}" IsHitTestVisible="False" />
+            
+            <TextBlock Height="17" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="SimSun" Foreground="White" FontSize="13.333" TextAlignment="Center" LineStackingStrategy="BlockLineHeight" LineHeight="16" Background="#7F585858" IsHitTestVisible="False" Margin="0.5,5,0,0" HorizontalAlignment="Left" Width="134">
+                <Run Language="zh-cn" Text="UserName"/>
+            </TextBlock>
+            
             <Image x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="29" Margin="7,7,0,0" IsHitTestVisible="False" />
 
             <ItemsControl ItemsSource="{Binding HeroNameChars}"
@@ -384,7 +389,7 @@
                     <RowDefinition />
                     <RowDefinition Height="auto" MinHeight="26" />
                 </Grid.RowDefinitions>
-            <TextBlock Height="17" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="SimSun" Foreground="White" FontSize="13.333" TextAlignment="Center" LineStackingStrategy="BlockLineHeight" LineHeight="16" Background="#7F585858" IsHitTestVisible="False" Margin="0,3,0,0"><Run Language="zh-cn" Text="UserName"/></TextBlock>
+            
                 <Border x:Name="IsTargetedGlow" Visibility="{Binding IsTargeted, Converter={StaticResource boolToVisibilityConverter}}" ClipToBounds="True" BorderBrush="Red" BorderThickness="5" >
                     <Border.Effect>
                         <BlurEffect Radius="10" />
@@ -416,7 +421,7 @@
             </Grid>
             <Canvas x:Name="animationCenter1" HorizontalAlignment="Left" Height="16" Margin="63,69,0,0" VerticalAlignment="Top" Width="18" IsHitTestVisible="False"/>            
         </Grid>
-        <StackPanel Height="29" Orientation="Horizontal" HorizontalAlignment="Left" Margin="150,0,0,0" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="50" x:Name="delayedToolsDock" VerticalAlignment="Top" >
+        <StackPanel Height="29" Orientation="Horizontal" HorizontalAlignment="Left" Margin="200,0,0,0" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="50" x:Name="delayedToolsDock" VerticalAlignment="Top" >
             <i:Interaction.Behaviors>
                 <ei:FluidMoveBehavior AppliesTo="Children" Duration="0:0:5">
                     <ei:FluidMoveBehavior.EaseX>

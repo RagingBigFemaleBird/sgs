@@ -74,7 +74,7 @@ namespace Sanguosha.UI.Controls
                     numCards--;
                 }
                 if (numCards == 0) return;
-                Trace.Assert(ParentGameView != null && ParentGameView.GlobalCanvas != null);
+                Trace.Assert(ParentCanvas != null);
                 double cardHeight = (from c in cards select c.Height).Max();
                 double cardWidth = (from c in cards select c.Width).Max();
                 if (KeepHorizontalOrder)
@@ -94,7 +94,7 @@ namespace Sanguosha.UI.Controls
 
                 if (step == MaxCardSpacing) doHighlight = false;
 
-                Point topLeft = this.TranslatePoint(new Point(0,0), ParentGameView.GlobalCanvas);
+                Point topLeft = this.TranslatePoint(new Point(0,0), ParentCanvas);
                 double startX = topLeft.X;
                 if (CardAlignment == HorizontalAlignment.Center)
                 {
@@ -135,9 +135,9 @@ namespace Sanguosha.UI.Controls
                         newX = Math.Min(newX + _extraSpaceForHighlightedCard, lastX + MaxCardSpacing);
                     }
                     lastX = newX;
-                    if (!ParentGameView.GlobalCanvas.Children.Contains(card))
+                    if (!ParentCanvas.Children.Contains(card))
                     {
-                        ParentGameView.GlobalCanvas.Children.Add(card);
+                        ParentCanvas.Children.Add(card);
                     }
                     card.Position = new Point(newX, topLeft.Y + ActualHeight / 2 - cardHeight / 2);
                     card.SetValue(Canvas.ZIndexProperty, zindex++);
@@ -359,7 +359,7 @@ namespace Sanguosha.UI.Controls
 
         #region Fields
 
-        public GameView ParentGameView { get; set; }
+        public Canvas ParentCanvas { get; set; }
 
         public int MaxCardSpacing { get; set; }
 

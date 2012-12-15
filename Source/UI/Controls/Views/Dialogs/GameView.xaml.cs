@@ -98,7 +98,7 @@ namespace Sanguosha.UI.Controls
             profileBoxes = new ObservableCollection<PlayerView>();
             playersMap = new Dictionary<Player, PlayerViewBase>();
             mainPlayerPanel.ParentGameView = this;
-            discardDeck.ParentGameView = this;
+            discardDeck.ParentCanvas = this.GlobalCanvas;
             this.DataContextChanged +=  GameView_DataContextChanged;
             this.SizeChanged += GameView_SizeChanged;
             _mainPlayerPropertyChangedHandler = mainPlayer_PropertyChanged;

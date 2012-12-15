@@ -48,7 +48,7 @@ namespace Sanguosha.UI.Controls
             set
             {
                 base.ParentGameView = value;
-                handCardArea.ParentGameView = value;
+                handCardArea.ParentCanvas = value.GlobalCanvas;
             }
         }
 
