@@ -22,5 +22,7 @@
     <sys:String x:Key="Skill.JuXiang.Name">巨象</sys:String>
     <sys:String x:Key="Skill.LieRen.Name">烈刃</sys:String>
     <sys:String x:Key="Skill.SongWei.Name">颂威</sys:String>
+    <sys:String x:Key="Skill.WeiMu.Name">帷幕</sys:String>
+    <sys:String x:Key="Skill.XingShang.Name">行殇</sys:String>
 
 </ResourceDictionary>
