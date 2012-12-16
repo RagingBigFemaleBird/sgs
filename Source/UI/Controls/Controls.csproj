@@ -64,6 +64,7 @@
     <Compile Include="ViewModels\MarkViewModel.cs" />
     <Compile Include="Views\Cards\DragDirection.cs" />
     <Compile Include="Views\Cards\SuitColorToColorConverter.cs" />
+    <Compile Include="Views\Containers\SingleRowCardStack.cs" />
     <Compile Include="Views\Dialogs\CardSetView.xaml.cs">
       <DependentUpon>CardSetView.xaml</DependentUpon>
     </Compile>

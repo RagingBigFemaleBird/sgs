@@ -52,18 +52,6 @@
       <Project>{31b92003-b490-4eaf-8f8e-f9b020f9b03b}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Expansions\Basic\Basic.csproj">
-      <Project>{5e948fab-938b-4e4c-bda1-1740339273ea}</Project>
-      <Name>Basic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Expansions\Battle\Battle.csproj">
-      <Project>{850ab9cb-90a0-4625-87fa-1f7ce04a5404}</Project>
-      <Name>Battle</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Expansions\Fire\Fire.csproj">
-      <Project>{e1d27fb1-40b8-4768-a045-dd9772564ddd}</Project>
-      <Name>Fire</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

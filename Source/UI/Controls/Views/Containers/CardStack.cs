@@ -24,13 +24,7 @@ namespace Sanguosha.UI.Controls
             CardCapacity = int.MaxValue;
             _cards = new List<CardView>();
             this.SizeChanged += new SizeChangedEventHandler(CardStack_SizeChanged);
-            _rearrangeLock = new object();
-
-            cardBeginDragHandler = new EventHandler(card_OnDragBegin);
-            cardDraggingHandler = new EventHandler(card_OnDragging);
-            cardEndDragHandler = new EventHandler(card_OnDragEnd);
-            cardMouseEnterHandler = new MouseEventHandler(card_MouseEnter);
-            cardMouseLeaveHandler = new MouseEventHandler(card_MouseLeave);
+            _rearrangeLock = new object();           
         }
 
         void CardStack_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -40,6 +34,57 @@ namespace Sanguosha.UI.Controls
 
         #endregion
 
+        #region Drag and Drop, Highlighting
+        private CardView _interactingCard;
+
+        public CardView InteractingCard
+        {
+            get { return _interactingCard; }
+            set { _interactingCard = value; }
+        }
+
+        public enum CardInteraction
+        {
+            None,
+            MouseMove,
+            Drag
+        }
+
+        private CardInteraction _cardInteraction;
+
+        public CardInteraction CardStatus
+        {
+            get { return _cardInteraction; }
+            set { _cardInteraction = value; }
+        }
+
+        protected int ComputeDragCardNewIndex()
+        {
+            Trace.Assert(InteractingCard != null);
+            lock (_rearrangeLock)
+            {
+                double right = InteractingCard.Position.X + InteractingCard.Width;
+                int i = 0;
+                bool skipOne = false;
+                for (; i < Cards.Count; i++)
+                {
+                    var card = Cards[i];
+                    if (card == InteractingCard)
+                    {
+                        skipOne = true;
+                        continue;
+                    }
+                    if (right <= card.Position.X + card.Width)
+                    {
+                        break;
+                    }
+                }
+                if (skipOne) i--;
+                return i;
+            }
+        }
+        #endregion
+
         #region Card Rearrangement
 
         public void RearrangeCards(double transitionInSeconds)
@@ -47,8 +92,8 @@ namespace Sanguosha.UI.Controls
             var tmpCards = new List<CardView>(_cards);
             if (_interactingCard != null && _cardInteraction == CardInteraction.Drag)
             {
-                int gapPos = _ComputeDragCardNewIndex();
-                Trace.Assert(gapPos >= 0 && gapPos < _cards.Count);
+                int gapPos = ComputeDragCardNewIndex();
+                Trace.Assert(gapPos >= 0 && gapPos < _cards.Count);                
                 tmpCards.Remove(_interactingCard);
                 tmpCards.Insert(gapPos, _interactingCard);
             }
@@ -57,7 +102,7 @@ namespace Sanguosha.UI.Controls
 
         private static double _extraSpaceForHighlightedCard = 30d;
 
-        static object _rearrangeLock;
+        protected static object _rearrangeLock;
         /// <summary>
         /// Arrange children cards in this stack.
         /// </summary>
@@ -124,7 +169,7 @@ namespace Sanguosha.UI.Controls
                         }
                         else
                         {
-                            lastX = card.Position.X;
+                            lastX = Math.Max(startX - step, card.Position.X);
                         }
                         continue;
                     }
@@ -151,6 +196,14 @@ namespace Sanguosha.UI.Controls
 
         #region Public Functions
 
+        protected virtual void RegisterCardEvents(CardView card)
+        {
+        }
+
+        protected virtual void UnRegisterCardEvents(CardView card)
+        {
+        }
+
         public void AddCards(IList<CardView> cards, double transitionInSeconds)
         {
             lock (_cards)
@@ -166,11 +219,7 @@ namespace Sanguosha.UI.Controls
                     {
                         card.Appear(transitionInSeconds);
                         _cards.Add(card);
-                        card.OnDragBegin += cardBeginDragHandler;
-                        card.OnDragging += cardDraggingHandler;
-                        card.OnDragEnd += cardEndDragHandler;
-                        card.MouseEnter += cardMouseEnterHandler;
-                        card.MouseLeave += cardMouseLeaveHandler;
+                        RegisterCardEvents(card);
                     }
                 }
                 if (IsCardConsumer)
@@ -190,22 +239,7 @@ namespace Sanguosha.UI.Controls
             {
                 foreach (var card in cards)
                 {
-                    if (card == _interactingCard)
-                    {
-                        if (_cardInteraction == CardInteraction.Drag)
-                        {
-                            card_OnDragEndUnlock();
-                        }
-                        if (_cardInteraction == CardInteraction.MouseMove)
-                        {
-                            card_MouseLeaveUnlock();
-                        }
-                    }
-                    card.OnDragBegin -= cardBeginDragHandler;
-                    card.OnDragging -= cardDraggingHandler;
-                    card.OnDragEnd -= cardEndDragHandler;
-                    card.MouseEnter -= cardMouseEnterHandler;
-                    card.MouseLeave -= cardMouseLeaveHandler;
+                    UnRegisterCardEvents(card);
                 }
                 var nonexisted = from c in cards
                                  where !_cards.Contains(c)
@@ -217,146 +251,7 @@ namespace Sanguosha.UI.Controls
         }
 
         #endregion
-
-        #region Drag and Drop, Highlighting
-        private CardView _interactingCard;
-        private enum CardInteraction
-        {
-            None,
-            MouseMove,
-            Drag
-        }
-
-        private CardInteraction _cardInteraction;
-
-        private MouseEventHandler cardMouseLeaveHandler;
-        private MouseEventHandler cardMouseEnterHandler;
-        private EventHandler cardBeginDragHandler;
-        private EventHandler cardDraggingHandler;
-        private EventHandler cardEndDragHandler;
-
-        void card_MouseLeave(object sender, MouseEventArgs e)
-        {
-            if (_cardInteraction == CardInteraction.MouseMove)
-            {
-                lock (_cards)
-                {
-                    Trace.TraceInformation("MouseLeave");
-                    card_MouseLeaveUnlock();
-                }
-            }
-        }
-
-        private void card_MouseLeaveUnlock()
-        {
-            _cardInteraction = CardInteraction.None;
-            _interactingCard = null;
-            RearrangeCards(0.2d);
-        }
-
-        void card_MouseEnter(object sender, MouseEventArgs e)
-        {
-            if (_cardInteraction == CardInteraction.None)
-            {
-                lock (_cards)
-                {
-                    Trace.TraceInformation("MouseEnter");
-                    _interactingCard = sender as CardView;
-                    if (_interactingCard != null)
-                    {
-                        _cardInteraction = CardInteraction.MouseMove;
-                        RearrangeCards(0.2d);
-                    }
-                }
-            }
-        }
-
-        int _ComputeDragCardNewIndex()
-        {
-            Trace.Assert(_interactingCard != null);
-            lock (_rearrangeLock)
-            {
-                double right = _interactingCard.Position.X + _interactingCard.Width;
-                int i = 0;
-                bool skipOne = false;
-                for (; i < _cards.Count; i++)
-                {
-                    var card = _cards[i];
-                    if (card == _interactingCard)
-                    {
-                        skipOne = true;
-                        continue;
-                    }
-                    if (right <= card.Position.X + card.Width)
-                    {
-                        break;
-                    }
-                }
-                if (skipOne) i--;
-                return i;
-            }
-        }
-
-        void card_OnDragEndUnlock()
-        {
-            Trace.TraceInformation("DragEnd");
-            _cardInteraction = CardInteraction.None;
-            int newPos = _ComputeDragCardNewIndex();
-            int oldPos = _cards.IndexOf(_interactingCard);
-            if (newPos != oldPos)
-            {
-                _cards.Remove(_interactingCard);
-                _cards.Insert(newPos, _interactingCard);
-                var handler = OnHandCardMoved;
-                if (handler != null)
-                {
-                    handler(oldPos, newPos);
-                }
-            }
-            RearrangeCards(0.2d);
-        }
-
-        public event HandCardMovedHandler OnHandCardMoved;
-        void card_OnDragEnd(object sender, EventArgs e)
-        {
-            if (_cardInteraction == CardInteraction.Drag)
-            {
-                lock (_cards)
-                {
-                    card_OnDragEndUnlock();
-                }
-                _cardInteraction = CardInteraction.MouseMove;
-            }
-        }
-
-        void card_OnDragging(object sender, EventArgs e)
-        {
-            if (_cardInteraction == CardInteraction.Drag)
-            {
-                lock (_cards)
-                {
-                    RearrangeCards(0.2d);
-                }
-            }
-        }
-
-        void card_OnDragBegin(object sender, EventArgs e)
-        {
-            if (_cardInteraction == CardInteraction.MouseMove)
-            {
-                lock (_cards)
-                {
-                    Trace.TraceInformation("DragBegin");
-                    _interactingCard = sender as CardView;
-                    _interactingCard.SetValue(Canvas.ZIndexProperty, 1000);
-                    Trace.Assert(_interactingCard != null);
-                    _cardInteraction = CardInteraction.Drag;
-                    RearrangeCards(0.2d);
-                }
-            }
-        }
-        #endregion
-
+        
         #region Fields
 
         public Canvas ParentCanvas { get; set; }

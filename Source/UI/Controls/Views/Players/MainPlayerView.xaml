@@ -326,7 +326,7 @@
                     </TransformGroup>
                 </Image.RenderTransform>
             </Image>
-            <local:CardStack x:Name="handCardArea" VerticalAlignment="Bottom" Margin="-133,0,98,8" Height="132" MaxCardSpacing="97" CardAlignment="Left" />
+            <local:SingleRowCardStack x:Name="handCardArea" VerticalAlignment="Bottom" Margin="-133,0,98,8" Height="132" MaxCardSpacing="97" CardAlignment="Left" />
         </Grid>		
         <Grid x:Name="grid" Width="165" Grid.Row="1" Grid.Column="2" Background="Black">
             <Grid.Effect>
@@ -351,7 +351,7 @@
                               Height="130" Width="25" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}" IsHitTestVisible="False" />
             
             <TextBlock Height="17" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="SimSun" Foreground="White" FontSize="13.333" TextAlignment="Center" LineStackingStrategy="BlockLineHeight" LineHeight="16" Background="#7F585858" IsHitTestVisible="False" Margin="0.5,5,0,0" HorizontalAlignment="Left" Width="134">
-                <Run Language="zh-cn" Text="UserName"/>
+                <Run Language="zh-cn" Text="UserName"/>                                                                
             </TextBlock>
             
             <Image x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="29" Margin="7,7,0,0" IsHitTestVisible="False" />
