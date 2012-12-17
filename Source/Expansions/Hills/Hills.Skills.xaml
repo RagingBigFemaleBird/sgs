@@ -10,8 +10,9 @@
     <sys:String x:Key="Skill.RenDe.Usage">点"仁德"→选中数张手牌→选择目标→“确定”</sys:String>
     -->
     <sys:String x:Key="Hero.ShenSiMaYi.Name">神司马懿</sys:String>
+    <sys:String x:Key="Hero.ZhangHe.Name">张核</sys:String>
 
-    
+
     <sys:String x:Key="Skill.BeiGe.Name">悲歌</sys:String>
     <sys:String x:Key="Skill.BaiYin.Name">拜印</sys:String>
     <sys:String x:Key="Skill.RenJie.Name">忍戒</sys:String>
@@ -21,6 +22,7 @@
     <sys:String x:Key="Skill.BaiYinFangZhu.Name">放逐</sys:String>
     <sys:String x:Key="Skill.BaiYinZhiHeng.Name">制衡</sys:String>
     <sys:String x:Key="Skill.LianPo.Name">连破</sys:String>
+    <sys:String x:Key="Skill.QiaoBian.Name">巧变</sys:String>
 
 
 </ResourceDictionary>

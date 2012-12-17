@@ -1438,6 +1438,16 @@ namespace Sanguosha.Core.Games
             PlayerAcquiredCard(to, cards);
         }
 
+        public void HandleCardTransfer(Player from, Player to, DeckType target, List<Card> cards)
+        {
+            CardsMovement move;
+            move.cards = new List<Card>(cards);
+            move.to = new DeckPlace(to, target);
+            MoveCards(move, null);
+            PlayerLostCard(from, cards);
+            PlayerAcquiredCard(to, cards);
+        }
+
         public bool CommitCardTransform(Player p, ISkill skill, List<Card> cards, out ICard result, List<Player> targets)
         {
             if (skill != null)

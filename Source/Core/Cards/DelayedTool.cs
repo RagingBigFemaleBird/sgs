@@ -40,7 +40,7 @@ namespace Sanguosha.Core.Cards
             Game.CurrentGame.MoveCards(m, null);
         }
 
-        protected bool DelayedToolConflicting(Player p)
+        public bool DelayedToolConflicting(Player p)
         {
             foreach (Card c in Game.CurrentGame.Decks[p, DeckType.DelayedTools])
             {

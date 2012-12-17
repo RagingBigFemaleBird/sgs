@@ -47,6 +47,7 @@
     <Compile Include="Skills\BaiYin.cs" />
     <Compile Include="Skills\BeiGe.cs" />
     <Compile Include="Skills\LianPo.cs" />
+    <Compile Include="Skills\QiaoBian.cs" />
     <Compile Include="Skills\RenJie.cs" />
   </ItemGroup>
   <ItemGroup>

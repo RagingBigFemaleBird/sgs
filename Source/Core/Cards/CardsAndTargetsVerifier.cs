@@ -69,6 +69,11 @@ namespace Sanguosha.Core.Cards
             return true;
         }
 
+        protected virtual bool AdditionalVerify(Player source, List<Card> cards, List<Player> players)
+        {
+            return true;
+        }
+
         public VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
         {
             if (skill != null)
@@ -106,6 +111,10 @@ namespace Sanguosha.Core.Cards
                         return VerifierResult.Fail;
                     }
                 }
+            }
+            if (!AdditionalVerify(source, cards, players))
+            {
+                return VerifierResult.Fail;
             }
             int count = players == null ? 0 : players.Count;
             if (count < minPlayers)
