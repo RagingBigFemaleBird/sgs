@@ -11,6 +11,7 @@
     -->
     <sys:String x:Key="Hero.ShenSiMaYi.Name">神司马懿</sys:String>
     <sys:String x:Key="Hero.ZhangHe.Name">张核</sys:String>
+    <sys:String x:Key="Hero.SunCe.Name">孙策</sys:String>
 
 
     <sys:String x:Key="Skill.BeiGe.Name">悲歌</sys:String>
@@ -23,6 +24,8 @@
     <sys:String x:Key="Skill.BaiYinZhiHeng.Name">制衡</sys:String>
     <sys:String x:Key="Skill.LianPo.Name">连破</sys:String>
     <sys:String x:Key="Skill.QiaoBian.Name">巧变</sys:String>
-
+    <sys:String x:Key="Skill.JiAng.Name">激昂</sys:String>
+    <sys:String x:Key="Skill.HunZi.Name">魂姿</sys:String>
+    <sys:String x:Key="Skill.ZhiBa.Name">制霸</sys:String>
 
 </ResourceDictionary>
