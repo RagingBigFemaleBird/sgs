@@ -1788,7 +1788,7 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public bool PinDian(Player from, Player to)
+        public void PinDianReturnCards(Player from, Player to, out Card c1, out Card c2)
         {
             Dictionary<Player, ISkill> aSkill;
             Dictionary<Player, List<Card>> aCards;
@@ -1814,11 +1814,19 @@ namespace Sanguosha.Core.Games
             {
                 card2 = aCards[to][0];
             }
+            c1 = card1;
+            c2 = card2;
+        }
+
+        public bool PinDian(Player from, Player to)
+        {
+            Card card1, card2;
+            PinDianReturnCards(from, to, out card1, out card2);
             EnterAtomicContext();
             PlaceIntoDiscard(from, new List<Card>() { card1 });
-            PlaceIntoDiscard(from, new List<Card>() { card2 });
+            PlaceIntoDiscard(to, new List<Card>() { card2 });
             PlayerLostCard(from, new List<Card>() { card1 });
-            PlayerLostCard(from, new List<Card>() { card2 });
+            PlayerLostCard(to, new List<Card>() { card2 });
             ExitAtomicContext();
             return card1.Rank > card2.Rank;
         }
