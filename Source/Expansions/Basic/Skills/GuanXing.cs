@@ -65,7 +65,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("GuanXing"),
                     new List<DeckPlace>() { },
                     new List<string>() { "PaiDuiDing", "PaiDuiDi" },
-                    new List<int>() { 5, 5 },
+                    new List<int>() { toDraw, toDraw },
                     new GuanXingVerifier(Game.CurrentGame.Decks[null, GuanXingDeck]),
                     out answer, 
                     options))
