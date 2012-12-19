@@ -125,7 +125,7 @@
                     </Border.Effect>
                 </Border>
                 <!--Hint is used to display a CardView as a card slot-->
-                <TextBlock Text="{res:ResourceKeyBinding Path=Hint, StringFormat=CardSlot.Hint.{0}}" Foreground="#FFA79D75" FontFamily="SimSun"/>
+                <TextBlock Text="{res:ResourceKeyBinding Path=Hint, StringFormat=CardSlot.Hint.{0}}" Foreground="#FFA79D75" FontFamily="SimSun" FontSize="14" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 <TextBlock Text="{Binding TypeString}" Foreground="Yellow" FontFamily="SimSun"/>
                 <Image Source="{res:ImageBinding Path=TypeString, StringFormat=Resources/Images/Cards/Normal/\{0\}.jpg, ResourceKeyFormat=Card.\{0\}.Image.Normal}"/>
                 <TextBlock x:Name="tbRank" Text="{Binding RankString}"

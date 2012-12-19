@@ -1281,7 +1281,7 @@ namespace Sanguosha.UI.Controls
                 bool firstRow = true;
                 foreach (var card in Game.CurrentGame.Decks[deck])
                 {
-                    if (numLines == 1 && i >= maxColumns && firstRow)
+                    if (numLines == 1 && isSingleResult && i >= maxColumns && firstRow)
                     {
                         Trace.Assert(choiceModel.CardStacks.Count == 0);                        
                         choiceModel.CardStacks.Add(line);
@@ -1337,7 +1337,7 @@ namespace Sanguosha.UI.Controls
                 MultiChoiceCommand command = new MultiChoiceCommand(ExecuteCardChoiceCommand)
                 {
                     CanExecuteStatus = true,
-                    ChoiceKey = "Confirm"
+                    ChoiceKey = Prompt.MultipleChoiceOptionPrefix + "Confirm"
                 };
                 choiceModel.MultiChoiceCommands.Add(command);
             }

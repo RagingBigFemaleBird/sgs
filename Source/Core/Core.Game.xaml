@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <system:String x:Key="Suit.Heart.Text">红桃</system:String>
@@ -21,11 +21,11 @@
     <system:String x:Key="Allegiance.Wu.Name">吴</system:String>
     <system:String x:Key="Allegiance.Qun.Name">群</system:String>
     <system:String x:Key="Allegiance.Shen.Name">神</system:String>
-	
-	<system:String x:Key="Gender.Male.Text">男</system:String>
-	<system:String x:Key="Gender.Female.Text">女</system:String>
     
-	<system:String x:Key="Role.Rebel.Name">反贼</system:String>
+    <system:String x:Key="Gender.Male.Text">男</system:String>
+    <system:String x:Key="Gender.Female.Text">女</system:String>
+    
+    <system:String x:Key="Role.Rebel.Name">反贼</system:String>
     <system:String x:Key="Role.Loyalist.Name">忠臣</system:String>
     <system:String x:Key="Role.Defector.Name">内奸</system:String>
     <system:String x:Key="Role.Ruler.Name">主公</system:String>
@@ -37,4 +37,7 @@
     <system:String x:Key="MultiChoice.Prompt.SkillYesNo">是否发动{0}?</system:String>
     <system:String x:Key="Translation.Usage">操作步骤</system:String>
     
+    <system:String x:Key="CardSlot.Hint.PaiDuiDing">置于牌堆顶</system:String>
+    <system:String x:Key="CardSlot.Hint.QiPaiDui">置于弃牌堆</system:String>
+    <system:String x:Key="MultiChoice.Choice.Confirm">确定</system:String>
 </ResourceDictionary>

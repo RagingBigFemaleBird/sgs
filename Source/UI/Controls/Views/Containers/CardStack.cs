@@ -283,7 +283,7 @@ namespace Sanguosha.UI.Controls
 
         public Canvas ParentCanvas { get; set; }
 
-        public int MaxCardSpacing { get; set; }
+        public double MaxCardSpacing { get; set; }
 
         public HorizontalAlignment CardAlignment { get; set; }
 

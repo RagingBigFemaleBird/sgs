@@ -21,10 +21,19 @@
     <Grid>
         <StackPanel>
             <Grid>
-                <StackPanel x:Name="_cardSlots" IsHitTestVisible="False" />
-                <StackPanel x:Name="_cardStacks" />
-                <Canvas x:Name="_slotCanvas" />
-                <Canvas x:Name="_canvas" />
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <StackPanel x:Name="deckIcons"/>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <StackPanel x:Name="_cardSlots" IsHitTestVisible="False" />
+                    <StackPanel x:Name="_cardStacks" />
+                    <Canvas x:Name="_slotCanvas" />
+                    <Canvas x:Name="_canvas" />
+                </Grid>
             </Grid>
             <ItemsControl x:Name="gridChoices" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="0,0,0,2" MaxWidth="1000" ItemsSource="{Binding MultiChoiceCommands}">
                 <ItemsControl.ItemsPanel>
