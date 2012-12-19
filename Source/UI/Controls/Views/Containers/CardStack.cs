@@ -146,7 +146,7 @@ namespace Sanguosha.UI.Controls
                 bool doHighlight = (_cardInteraction != CardInteraction.None && highlightIndex >= 0 && highlightIndex != _cards.Count - 1);
 
                 double maxWidth = doHighlight ? Math.Max(0, totalWidth - extraSpace) : totalWidth;
-                double step = Math.Min(MaxCardSpacing, (maxWidth - cardWidth) / (numCards - 1));                
+                double step = Math.Max(0, Math.Min(MaxCardSpacing, (maxWidth - cardWidth) / (numCards - 1))); 
 
                 if (step == MaxCardSpacing) doHighlight = false;
 
