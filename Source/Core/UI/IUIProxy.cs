@@ -35,6 +35,7 @@ namespace Sanguosha.Core.UI
         public List<bool> Rearrangeable { get; set; }
         public List<string> Options { get; set; }
         public List<List<Card>> DefaultResult { get; set; }
+        public int OptionResult { get; set; }
     }
     
     public interface ICardChoiceVerifier
