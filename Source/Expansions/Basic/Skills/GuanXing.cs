@@ -63,11 +63,12 @@ namespace Sanguosha.Expansions.Basic.Skills
             options.Rearrangeable = new List<bool>() { true, true };
             options.DefaultResult = new List<List<Card>>() { new List<Card>(Game.CurrentGame.Decks[null, GuanXingDeck]), new List<Card>() };
             if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("GuanXing"),
-                    new List<DeckPlace>() { new DeckPlace(null, GuanXingDeck) },
+                    new List<DeckPlace>() { },
                     new List<string>() { "PaiDuiDing", "PaiDuiDi" },
                     new List<int>() { 5, 5 },
                     new GuanXingVerifier(Game.CurrentGame.Decks[null, GuanXingDeck]),
-                    out answer))
+                    out answer, 
+                    options))
             {
                 Game.CurrentGame.InsertBeforeDeal(null, Game.CurrentGame.Decks[null, GuanXingDeck]);
             }
