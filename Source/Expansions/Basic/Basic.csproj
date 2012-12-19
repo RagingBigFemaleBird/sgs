@@ -80,6 +80,7 @@
     <Compile Include="Skills\FanJian.cs" />
     <Compile Include="Skills\FanKui.cs" />
     <Compile Include="Skills\GangLie.cs" />
+    <Compile Include="Skills\GuanXing.cs" />
     <Compile Include="Skills\GuiCai.cs" />
     <Compile Include="Skills\GuoSe.cs" />
     <Compile Include="Skills\HuJia.cs" />
