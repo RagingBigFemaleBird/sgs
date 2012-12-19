@@ -21,13 +21,6 @@
             	<ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
             	<ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <DataTemplate x:Key="singleCardChoiceBoxTemplate">
-                <local:CardChoiceBox />
-            </DataTemplate>
-            <DataTemplate x:Key="multiCardChoiceBoxTemplate">
-                <local:CardArrangeBox />
-            </DataTemplate>
-            <local:CardChoiceBoxTemplateSelector x:Key="cardChoiceBoxTemplateSelector" MultiCardChoiceBoxTemplate="{StaticResource multiCardChoiceBoxTemplate}" SingleCardChoiceBoxTemplate="{StaticResource singleCardChoiceBoxTemplate}" />
             <local:SkillButtonTemplateSelector x:Key="skillButtonTemplateSelector" />
             <LinearGradientBrush x:Key="indicatorLineBrush" EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="#00F1EC8A" Offset="0"/>
@@ -249,7 +242,7 @@
             <xctk:ChildWindow.Effect>
                 <DropShadowEffect BlurRadius="10"/>
             </xctk:ChildWindow.Effect>
-            <ContentControl ContentTemplateSelector="{StaticResource cardChoiceBoxTemplateSelector}" Content="{Binding MainPlayerModel.CardChoiceModel}" />
-         </xctk:ChildWindow>
+            <Grid x:Name="cardChoiceBoxBody"/>    
+        </xctk:ChildWindow>
     </Grid>
 </UserControl>

@@ -247,10 +247,12 @@ namespace Sanguosha.UI.Controls
             {
                 if (model.IsCardChoiceQuestionShown)
                 {
+                    cardChoiceBoxBody.Children.Add(CardChoiceBoxSelector.CreateBox(GameModel.MainPlayerModel.CardChoiceModel));
                     cardChoiceWindow.Show();
                 }
                 else
                 {
+                    cardChoiceBoxBody.Children.Clear();
                     cardChoiceWindow.Close();
                 }
             }
@@ -754,9 +756,6 @@ namespace Sanguosha.UI.Controls
             });
         }
         #endregion
-
-
-
 
         public void NotifyCloseWindow(int windowId)
         {

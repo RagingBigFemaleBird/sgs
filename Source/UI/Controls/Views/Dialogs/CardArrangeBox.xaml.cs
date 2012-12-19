@@ -104,7 +104,7 @@ namespace Sanguosha.UI.Controls
             foreach (var line in model.CardStacks)
             {
                 CardStack slot = new CardStack() { ParentCanvas = _slotCanvas };
-                slot.MaxCardSpacing = 95;
+                slot.MaxCardSpacing = 100;
                 slot.CardAlignment = HorizontalAlignment.Left;
                 slot.Height = 130d;
                 slot.Margin = new Thickness(1, 10, 1, 10);
@@ -112,7 +112,7 @@ namespace Sanguosha.UI.Controls
                 if (isResultHorizontal && line.IsResultDeck)
                 {
                     slot.HorizontalAlignment = HorizontalAlignment.Left;
-                    slot.Width = line.Capacity * 95;
+                    slot.Width = line.Capacity * 100;
                     _resultSlotPanel.Children.Add(slot);
                 }
                 else
@@ -136,7 +136,7 @@ namespace Sanguosha.UI.Controls
                 }
 
                 CardStack stack = new CardStack() { ParentCanvas = _canvas };
-                stack.MaxCardSpacing = 95;
+                stack.MaxCardSpacing = 100;
                 stack.CardAlignment = HorizontalAlignment.Left;
                 stack.Height = 130d;
                 stack.Margin = new Thickness(1, 10, 1, 10);
@@ -156,7 +156,7 @@ namespace Sanguosha.UI.Controls
                 if (isResultHorizontal && line.IsResultDeck)
                 {
                     stack.HorizontalAlignment = HorizontalAlignment.Left;
-                    stack.Width = line.Capacity * 95;
+                    stack.Width = line.Capacity * 100;
                     _resultPanel.Children.Add(stack);
                 }
                 else

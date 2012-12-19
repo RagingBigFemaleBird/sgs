@@ -7,11 +7,10 @@ using System.Windows;
 
 namespace Sanguosha.UI.Controls
 {
-    public class CardChoiceBoxTemplateSelector : DataTemplateSelector
-    {        
-        public override DataTemplate SelectTemplate(object item, DependencyObject container)
+    public class CardChoiceBoxSelector
+    {
+        public static FrameworkElement CreateBox(CardChoiceViewModel choiceModel)
         {
-            CardChoiceViewModel choiceModel = item as CardChoiceViewModel;
             if (choiceModel == null) return null;
             
             var results = from line in choiceModel.CardStacks
@@ -19,16 +18,13 @@ namespace Sanguosha.UI.Controls
                           select line;
             if (results.Count() > 0)
             {
-                return MultiCardChoiceBoxTemplate;
+                return new CardArrangeBox() { DataContext = choiceModel };
             }
             else
             {
-                return SingleCardChoiceBoxTemplate;
+                return new CardChoiceBox() { DataContext = choiceModel };
             }            
         }
 
-        public DataTemplate MultiCardChoiceBoxTemplate { get; set; }
-
-        public DataTemplate SingleCardChoiceBoxTemplate { get; set; }
     }
 }

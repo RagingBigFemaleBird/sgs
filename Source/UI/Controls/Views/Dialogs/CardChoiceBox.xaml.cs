@@ -18,14 +18,14 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.UI.Controls
 {
-	/// <summary>
-	/// Interaction logic for CardChoiceBox.xaml
-	/// </summary>
-	public partial class CardChoiceBox : UserControl
-	{
-		public CardChoiceBox()
-		{
-			this.InitializeComponent();
+    /// <summary>
+    /// Interaction logic for CardChoiceBox.xaml
+    /// </summary>
+    public partial class CardChoiceBox : UserControl
+    {
+        public CardChoiceBox()
+        {
+            this.InitializeComponent();
             this.DataContextChanged += CardChoiceBox_DataContextChanged;
         }
 
@@ -45,10 +45,11 @@ namespace Sanguosha.UI.Controls
                 {
                     card.OnSelectedChanged += (o, e) => 
                     {
+                        var c = o as CardViewModel;
                         model.Answer.Clear();
-                        if (card.IsSelected)
+                        if (c.IsSelected)
                         {                            
-                            model.Answer.Add(new List<Card>() { card.Card });
+                            model.Answer.Add(new List<Card>() { c.Card });
                             if (model.MultiChoiceCommands.Count == 1)
                             {
                                 model.MultiChoiceCommands.First().Execute(null);
