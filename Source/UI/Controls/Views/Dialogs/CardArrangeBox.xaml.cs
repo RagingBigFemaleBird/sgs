@@ -227,7 +227,7 @@ namespace Sanguosha.UI.Controls
                 _sourceDeck.Cards.Remove(InteractingCard);
                 _highlightedStack.Cards.Insert(newPos, InteractingCard);
                 _sourceDeck.InteractingCard = null;
-                _highlightedStack.CardStatus = CardInteraction.None;                
+                _sourceDeck.CardStatus = CardInteraction.None;
                 _sourceDeck.RearrangeCards(0.2d);
                 if (_sourceDeck != _highlightedStack)
                 {
@@ -237,6 +237,12 @@ namespace Sanguosha.UI.Controls
                 }
                 _sourceDeck = null;
                 _highlightedStack = null;
+            }
+            else if (_sourceDeck != null)
+            {
+                _sourceDeck.InteractingCard = null;
+                _sourceDeck.CardStatus = CardInteraction.None;
+                _sourceDeck.RearrangeCards(0.2d);
             }
             _UpdateAnswer();
         }
