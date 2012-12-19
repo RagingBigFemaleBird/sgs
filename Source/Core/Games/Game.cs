@@ -489,48 +489,41 @@ namespace Sanguosha.Core.Games
         /// <param name="eventParam">Additional helper for triggers listening on this game event.</param>
         public void Emit(GameEvent gameEvent, GameEventArgs eventParam, bool beforeMove = false)
         {
-            if (!this.triggers.ContainsKey(gameEvent)) return;
-            List<Trigger> triggers = new List<Trigger>(this.triggers[gameEvent]);
-            List<Trigger> again = new List<Trigger>(this.triggers[gameEvent]);
-            reTrigger:
-            if (triggers == null || triggers.Count == 0) return;
-            List<TriggerWithParam> triggersToRun = new List<TriggerWithParam>();
-            foreach (var t in triggers)
+            if (!triggers.ContainsKey(gameEvent)) return;
+            List<Trigger> additionalTriggers = new List<Trigger>(triggers[gameEvent]);
+            List<Trigger> oldTriggers = new List<Trigger>(triggers[gameEvent]);
+            while (true)
             {
-                if (t.Enabled)
+                if (additionalTriggers == null || additionalTriggers.Count == 0) return;
+                List<TriggerWithParam> triggersToRun = new List<TriggerWithParam>();
+                foreach (var t in additionalTriggers)
                 {
-                    triggersToRun.Add(new TriggerWithParam() { trigger = t, args = eventParam });
-                }
-            }
-            if (!atomic)
-            {
-                EmitTriggers(gameEvent, triggersToRun);
-                var newTriggers = new List<Trigger>(this.triggers[gameEvent]);
-                var diff = new List<Trigger>();
-                foreach (var tt in newTriggers)
-                {
-                    if (!again.Contains(tt))
+                    if (t.Enabled)
                     {
-                        diff.Add(tt);
+                        triggersToRun.Add(new TriggerWithParam() { trigger = t, args = eventParam });
                     }
                 }
-                again = newTriggers;
-                triggers = diff;
-                goto reTrigger;
-            }
-            else
-            {
-                var triggerPlace = atomicTriggers;
-                if (beforeMove)
+                if (!atomic)
                 {
-                    triggerPlace = atomicTriggersBeforeMove;
+                    EmitTriggers(gameEvent, triggersToRun);
+                    additionalTriggers = new List<Trigger>(triggers[gameEvent].Except(oldTriggers));
+                    oldTriggers = new List<Trigger>(triggers[gameEvent]);
+                    continue;
                 }
-                if (!triggerPlace.ContainsKey(gameEvent))
+                else
                 {
-                    triggerPlace.Add(gameEvent, new List<TriggerWithParam>());
+                    var triggerPlace = atomicTriggers;
+                    if (beforeMove)
+                    {
+                        triggerPlace = atomicTriggersBeforeMove;
+                    }
+                    if (!triggerPlace.ContainsKey(gameEvent))
+                    {
+                        triggerPlace.Add(gameEvent, new List<TriggerWithParam>());
+                    }
+                    triggerPlace[gameEvent].AddRange(triggersToRun);
                 }
-                triggerPlace[gameEvent].AddRange(triggersToRun);
-
+                break;
             }
         }
 

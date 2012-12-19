@@ -801,7 +801,7 @@ namespace Sanguosha.UI.Controls
         #endregion
 
         #region CardChoiceCommand
-
+        private AdditionalCardChoiceOptions _currentChoiceOptions;
         public void ExecuteCardChoiceCommand(object parameter)
         {
             lock (verifierLock)
@@ -812,8 +812,11 @@ namespace Sanguosha.UI.Controls
                 CardChoiceAnsweredEvent(model.Answer);
                 CardChoiceModel.TimeOutSeconds = 0;
                 IsCardChoiceQuestionShown = false;
-            }
-            // @todo : MultipleChoiceAnsweredEvent((int)parameter);
+                if (_currentChoiceOptions != null)
+                {
+                    _currentChoiceOptions.OptionResult = (int)parameter;
+                }
+            }            
         }
         #endregion
 
@@ -1410,7 +1413,8 @@ namespace Sanguosha.UI.Controls
                 }
 
                 lock (verifierLock)
-                {                    
+                {
+                    _currentChoiceOptions = options;
                     _ConstructCardChoiceModel(sourceDecks, resultDeckNames, resultDeckMaximums, options, timeOutSeconds, callback);
                     CardChoiceModel.Prompt = PromptFormatter.Format(prompt);   
                     IsCardChoiceQuestionShown = true;
