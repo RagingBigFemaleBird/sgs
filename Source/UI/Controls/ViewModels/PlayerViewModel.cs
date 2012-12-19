@@ -1310,15 +1310,26 @@ namespace Sanguosha.UI.Controls
                 {
                     CardChoiceLineViewModel line = new CardChoiceLineViewModel();
                     line.DeckName = deckName;
-                    if (options != null && options.Rearrangeable != null)
+                    if (options != null)
                     {
-                        line.Rearrangable = options.Rearrangeable[k];
+                        if (options.Rearrangeable != null)
+                        {
+                            line.Rearrangable = options.Rearrangeable[k];
+                        }
+                        if (options.DefaultResult != null)
+                        {
+                            foreach (var card in options.DefaultResult[k])
+                            {
+                                line.Cards.Add(new CardViewModel() { Card = card });
+                            }
+                        }
                     }
                     line.Capacity = resultDeckMaximums[k++];
                     line.IsResultDeck = true;
                     choiceModel.CardStacks.Add(line);
                 }
             }
+
             if (options != null && options.Options != null)
             {
                 for (int i = 0; i < options.Options.Count; i++)
