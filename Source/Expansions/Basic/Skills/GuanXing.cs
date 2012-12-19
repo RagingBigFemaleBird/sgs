@@ -109,6 +109,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Start], trigger);
+            IsAutoInvoked = true;
         }
 
     }

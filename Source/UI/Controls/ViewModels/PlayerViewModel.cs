@@ -809,13 +809,13 @@ namespace Sanguosha.UI.Controls
                 Trace.Assert(currentUsageVerifier == null);
                 var model = CardChoiceModel;
                 Trace.Assert(model != null);
-                CardChoiceAnsweredEvent(model.Answer);
-                CardChoiceModel.TimeOutSeconds = 0;
-                IsCardChoiceQuestionShown = false;
                 if (_currentChoiceOptions != null)
                 {
                     _currentChoiceOptions.OptionResult = (int)parameter;
                 }
+                CardChoiceAnsweredEvent(model.Answer);
+                CardChoiceModel.TimeOutSeconds = 0;
+                IsCardChoiceQuestionShown = false;
             }            
         }
         #endregion

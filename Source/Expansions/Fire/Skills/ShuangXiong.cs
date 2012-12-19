@@ -50,6 +50,8 @@ namespace Sanguosha.Expansions.Fire.Skills
             ISkill skill = new ShuangXiongCardTransformSkill(result.SuitColor);
             Owner.AcquireAdditionalSkill(skill);
             Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, new TriggerRemoval(Owner, skill));
+            Game.CurrentGame.CurrentPhaseEventIndex++;
+            throw new TriggerResultException(TriggerResult.End);
         }
 
 

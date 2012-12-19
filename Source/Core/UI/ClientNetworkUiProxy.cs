@@ -160,10 +160,10 @@ namespace Sanguosha.Core.UI
             return false;
         }
 
-        public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, AdditionalCardChoiceOptions helper = null, CardChoiceRearrangeCallback callback = null)
+        public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, AdditionalCardChoiceOptions options = null, CardChoiceRearrangeCallback callback = null)
         {
             Trace.TraceInformation("Asking Card Choice to {0}.", HostPlayer.Id);
-            TryAskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, helper, callback);
+            TryAskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, options, callback);
             if (active)
             {
                 NextQuestion();
@@ -172,7 +172,7 @@ namespace Sanguosha.Core.UI
             {
                 Trace.TraceInformation("Not active player, defaulting.");
             }
-            if (TryAnswerForCardChoice(prompt, verifier, out answer, callback))
+            if (TryAnswerForCardChoice(prompt, verifier, out answer, options, callback))
             {
                 proxy.Freeze();
 #if DEBUG
@@ -269,11 +269,15 @@ namespace Sanguosha.Core.UI
                         client.AnswerItem(c);
                     }
                 }
+                if (options != null && options.Options != null)
+                {
+                    client.AnswerItem(options.OptionResult);
+                }
             }
             client.Flush();
         }
 
-        public bool TryAnswerForCardChoice(Prompt prompt, ICardChoiceVerifier verifier, out List<List<Card>> answer, CardChoiceRearrangeCallback callback)
+        public bool TryAnswerForCardChoice(Prompt prompt, ICardChoiceVerifier verifier, out List<List<Card>> answer, AdditionalCardChoiceOptions options, CardChoiceRearrangeCallback callback)
         {
             answer = null;
             object o = client.Receive();
@@ -307,6 +311,10 @@ namespace Sanguosha.Core.UI
                     }
                     theList.Add((Card)o);
                 }
+            }
+            if (options != null && options.Options != null)
+            {
+                options.OptionResult = (int)client.Receive();
             }
             return true;
         }

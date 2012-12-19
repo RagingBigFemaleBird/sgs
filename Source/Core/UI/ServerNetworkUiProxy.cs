@@ -289,7 +289,13 @@ namespace Sanguosha.Core.UI
                     theList.Add(item);
                 }
             }
-
+            if (options != null && options.Options != null)
+            {
+                int? opr = server.GetInt(clientId, 0);
+                if (opr == null) return false;
+                if (opr < 0 || opr >= options.Options.Count) return false;
+                options.OptionResult = (int)opr;
+            }
 
             if (verifier.Verify(answer) != VerifierResult.Success)
             {
@@ -300,7 +306,7 @@ namespace Sanguosha.Core.UI
             return true;
         }
 
-        public void SendCardChoice(List<List<Card>> answer)
+        public void SendCardChoice(List<List<Card>> answer, AdditionalCardChoiceOptions options)
         {
             for (int i = 0; i < server.MaxClients; i++)
             {
@@ -314,6 +320,7 @@ namespace Sanguosha.Core.UI
                         server.SendObject(i, c);
                     }
                 }
+                if (options != null && options.Options != null) server.SendObject(i, options.OptionResult);
                 server.Flush(i);
             }
 
@@ -329,7 +336,7 @@ namespace Sanguosha.Core.UI
             }
             else
             {
-                SendCardChoice(answer);
+                SendCardChoice(answer, options);
             }
             NextQuestion();
             if (answer == null)

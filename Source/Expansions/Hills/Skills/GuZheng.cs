@@ -37,6 +37,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             move.to = new DeckPlace(null, GuZhengDeck);
             Game.CurrentGame.MoveCards(move, null);
             List<List<Card>> answer;
+            var options = new AdditionalCardChoiceOptions() { Options = new List<string>() { Prompt.MultipleChoiceOptionPrefix + "GuZhengHuoDe", Prompt.MultipleChoiceOptionPrefix + "GuZhengBuHuoDe" } };
             if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(
                 new CardChoicePrompt("GuZheng"),
                 new List<DeckPlace>() { new DeckPlace(null, GuZhengDeck) },
@@ -44,7 +45,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 new List<int>() { 1 },
                 new RequireOneCardChoiceVerifier(),
                 out answer,
-                new AdditionalCardChoiceOptions() { Options = new List<string>() { Prompt.MultipleChoiceOptionPrefix + "GuZhengHuoDe", Prompt.MultipleChoiceOptionPrefix + "GuZhengBuHuoDe" } }))
+                options))
             {
                 Trace.TraceInformation("Invalid answer, choosing for you");
                 answer = new List<List<Card>>();
@@ -57,13 +58,19 @@ namespace Sanguosha.Expansions.Hills.Skills
             Game.CurrentGame.MoveCards(move, null);
             Game.CurrentGame.PlayerAcquiredCard(Game.CurrentGame.CurrentPlayer, answer[0]);
 
-            var cardsToAcquire = new List<Card>(Game.CurrentGame.Decks[null, GuZhengDeck]);
-            move = new CardsMovement();
-            move.cards = new List<Card>(cardsToAcquire);
-            move.to = new DeckPlace(Owner, DeckType.Hand);
-            Game.CurrentGame.MoveCards(move, null);
-            Game.CurrentGame.PlayerAcquiredCard(Owner, cardsToAcquire);
-
+            if (options.OptionResult == 1)
+            {
+                Game.CurrentGame.PlaceIntoDiscard(null, new List<Card>(Game.CurrentGame.Decks[null, GuZhengDeck]));
+            }
+            else
+            {
+                var cardsToAcquire = new List<Card>(Game.CurrentGame.Decks[null, GuZhengDeck]);
+                move = new CardsMovement();
+                move.cards = new List<Card>(cardsToAcquire);
+                move.to = new DeckPlace(Owner, DeckType.Hand);
+                Game.CurrentGame.MoveCards(move, null);
+                Game.CurrentGame.PlayerAcquiredCard(Owner, cardsToAcquire);
+            }
             GuZhengCards = new List<Card>();
         }
 
@@ -90,7 +97,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             Triggers.Add(GameEvent.CardsEnteredDiscardDeck, trigger);
             Triggers.Add(GameEvent.PhaseEndEvents[TurnPhase.Discard], trigger2);
             Triggers.Add(GameEvent.PhasePostEnd, trigger3);
-            IsAutoInvoked = true;
+            IsAutoInvoked = null;
         }
     }
 }
