@@ -491,7 +491,9 @@ namespace Sanguosha.Core.Games
         {
             if (!this.triggers.ContainsKey(gameEvent)) return;
             List<Trigger> triggers = new List<Trigger>(this.triggers[gameEvent]);
-            if (triggers == null) return;
+            List<Trigger> again = new List<Trigger>(this.triggers[gameEvent]);
+            reTrigger:
+            if (triggers == null || triggers.Count == 0) return;
             List<TriggerWithParam> triggersToRun = new List<TriggerWithParam>();
             foreach (var t in triggers)
             {
@@ -503,6 +505,18 @@ namespace Sanguosha.Core.Games
             if (!atomic)
             {
                 EmitTriggers(gameEvent, triggersToRun);
+                var newTriggers = new List<Trigger>(this.triggers[gameEvent]);
+                var diff = new List<Trigger>();
+                foreach (var tt in newTriggers)
+                {
+                    if (!again.Contains(tt))
+                    {
+                        diff.Add(tt);
+                    }
+                }
+                again = newTriggers;
+                triggers = diff;
+                goto reTrigger;
             }
             else
             {
@@ -1768,6 +1782,7 @@ namespace Sanguosha.Core.Games
         {
             CardsMovement move = new CardsMovement();
             move.cards = new List<Card>(list);
+            move.cards.Reverse();
             move.to = new DeckPlace(null, DeckType.Dealing);
             MoveCards(move, helper, true);
             if (target != null)

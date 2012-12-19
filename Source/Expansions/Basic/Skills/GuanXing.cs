@@ -24,14 +24,34 @@ namespace Sanguosha.Expansions.Basic.Skills
         {
             public VerifierResult Verify(List<List<Card>> answer)
             {
-                HashSet<SuitType> choice = new HashSet<SuitType>();
-                if (answer == null || answer.Count == 0)
+                Dictionary<Card, bool> bucket = new Dictionary<Card, bool>();
+                if (answer != null)
                 {
-                    return VerifierResult.Partial;
+                    if (answer.Count > 0)
+                    {
+                        foreach (Card c in answer[0])
+                        {
+                            if (bucket.ContainsKey(c))
+                                return VerifierResult.Fail;
+                            bucket.Add(c, true);
+                        }
+                    }
+                    if (answer.Count > 1)
+                    {
+                        foreach (Card c in answer[1])
+                        {
+                            if (bucket.ContainsKey(c))
+                                return VerifierResult.Fail;
+                            bucket.Add(c, true);
+                        }
+                    }
                 }
-                if (answer[0] == null || answer[0].Count == 0)
+                foreach (Card c in cards)
                 {
-                    return VerifierResult.Partial;
+                    if (!bucket.ContainsKey(c))
+                    {
+                        return VerifierResult.Fail;
+                    }
                 }
                 return VerifierResult.Success;
             }
@@ -52,7 +72,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             int toDraw = Math.Min(5, Game.CurrentGame.AlivePlayers.Count);
             for (int i = 0; i < toDraw; i++)
             {
-                Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.PeekCard(0));
+                Game.CurrentGame.SyncImmutableCard(Owner, Game.CurrentGame.PeekCard(0));
                 Card c = Game.CurrentGame.DrawCard();
                 move.cards.Add(c);
             }

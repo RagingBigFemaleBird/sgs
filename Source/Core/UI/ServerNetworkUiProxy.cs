@@ -270,6 +270,17 @@ namespace Sanguosha.Core.UI
                             break;
                         }
                     }
+                    if (options != null && options.DefaultResult != null)
+                    {
+                        foreach (var dk in options.DefaultResult)
+                        {
+                            if (dk.Contains(item))
+                            {
+                                exist = true;
+                                break;
+                            }
+                        }
+                    }
                     if (!exist)
                     {
                         Trace.TraceWarning("Client DDOS!");
