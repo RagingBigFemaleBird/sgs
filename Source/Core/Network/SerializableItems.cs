@@ -63,6 +63,12 @@ namespace Sanguosha.Core.Network
         public int to;
     }
 
+    [Serializable]
+    public struct CardChoiceCallback
+    {
+        public object o;
+    }
+
     public class Translator
     {
         public static SkillItem Translate(ISkill skill)

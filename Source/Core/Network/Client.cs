@@ -88,9 +88,12 @@ namespace Sanguosha.Core.Network
                 CommandItem item = (CommandItem)o;
                 if (item.command == Command.Interrupt)
                 {
-                    object o2 = item.obj;
-                    Trace.Assert(o2 is CardItem);
-                    return Translator.DecodeForClient((CardItem)o2, SelfId);
+                    if (item.obj is CardChoiceCallback)
+                    {
+                        CardChoiceCallback cbi = (CardChoiceCallback)item.obj;
+                        Game.CurrentGame.NotificationProxy.NotifyCardChoiceCallback(cbi.o);
+                    }
+                    return Receive();
                 }
             }
             else if (o is PlayerItem)
@@ -154,6 +157,14 @@ namespace Sanguosha.Core.Network
         public void Flush()
         {
             sender.Flush();
+        }
+
+        public void CardChoiceCallBack(object obj)
+        {
+            CommandItem item = new CommandItem();
+            item.command = Command.Interrupt;
+            item.obj = new CardChoiceCallback() { o = obj };
+            sender.Send(item);
         }
     }
 }

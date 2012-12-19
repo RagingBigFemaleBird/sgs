@@ -757,13 +757,13 @@ namespace Sanguosha.UI.Controls
         }
         #endregion
 
-        public void NotifyCloseWindow(int windowId)
+        public void NotifyShowCard(Player p, Card card)
         {
             throw new NotImplementedException();
         }
 
 
-        public void NotifyShowCard(Player p, Card card)
+        public void NotifyCardChoiceCallback(object o)
         {
             throw new NotImplementedException();
         }

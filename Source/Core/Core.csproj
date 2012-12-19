@@ -93,6 +93,7 @@
     <Compile Include="Skills\RulerGivenSkillContainerSkill.cs" />
     <Compile Include="Skills\TriggerSkill.cs" />
     <Compile Include="Triggers\RelayTrigger.cs" />
+    <Compile Include="UI\CardChoiceCallback.cs" />
     <Compile Include="UI\INotificationProxy.cs" />
     <Compile Include="UI\MovementHelper.cs" />
     <Compile Include="UI\Prompt.cs" />

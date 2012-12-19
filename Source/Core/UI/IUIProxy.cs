@@ -43,7 +43,7 @@ namespace Sanguosha.Core.UI
         VerifierResult Verify(List<List<Card>> answer);
     }
 
-    public delegate void CardChoiceRearrangeCallback(int fromDeck, int fromPlace, int toDeck, int toPlace);
+    public delegate void CardChoiceRearrangeCallback(object RearrangeHint);
 
     public interface IUiProxy
     {

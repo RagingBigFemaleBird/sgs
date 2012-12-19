@@ -88,7 +88,8 @@ namespace Sanguosha.Expansions.Basic.Skills
                     new List<int>() { toDraw, toDraw },
                     new GuanXingVerifier(Game.CurrentGame.Decks[null, GuanXingDeck]),
                     out answer, 
-                    options))
+                    options,
+                    CardChoiceCallback.GenericCardChoiceCallback))
             {
                 Game.CurrentGame.InsertBeforeDeal(null, Game.CurrentGame.Decks[null, GuanXingDeck]);
             }
