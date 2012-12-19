@@ -7,14 +7,15 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+    xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
     mc:Ignorable="d"	
 	x:Name="UserControl"
     d:DesignHeight="145" d:DesignWidth="168">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="PromptBox.xaml"/>
                 <ResourceDictionary Source="../../Common.xaml"/>
+                <ResourceDictionary Source="../Buttons/MultiChoiceButton.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
             </ResourceDictionary.MergedDictionaries>
@@ -39,7 +40,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Canvas Width="96" Height="138">
-                                    <local:CardView Canvas.Top="3" Width="93" Height="130" Opacity="1" Cursor="Hand"/>
+                                    <local:CardView Canvas.Top="3" Width="93" Height="130" Opacity="1" Cursor="Hand" />
                                 </Canvas>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -49,7 +50,6 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <ContentControl>
     <Grid Name="LayoutRoot" Margin="20, 5" HorizontalAlignment="Center" VerticalAlignment="Top">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -62,8 +62,22 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
-
+        <ItemsControl x:Name="gridChoices" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="0,0,0,2" MaxWidth="1000" ItemsSource="{Binding MultiChoiceCommands}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="1"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Viewbox Height="20" Width="auto">
+                        <Button Width="auto" Height="15" Style="{Binding ChoiceKey, Converter={StaticResource multiChoiceButtonStyleConverter}, Mode=OneWay}" DataContext="{Binding}" Command="{Binding}" Margin="20, 0, 20, 0">
+                            <local:OutlinedTextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" Width="Auto" Text="{res:ResourceKeyBinding Path=ChoiceKey}" FontFamily="SimSun" Fill="White" FontWeight="Bold" Stroke="Black" TextWrapping="NoWrap"/>
+                        </Button>
+                    </Viewbox>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
         <ProgressBar x:Name="progressBar" Style="{StaticResource TimedProgressBarStyle}" MaxWidth="263" Height="15"  Grid.Column="0" Grid.Row="1" Margin="30,0,30,0" VerticalAlignment="Bottom" />
     </Grid>
-    </ContentControl>
 </UserControl>

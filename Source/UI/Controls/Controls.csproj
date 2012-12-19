@@ -60,14 +60,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ViewModels\CardSlotViewModel.cs" />
     <Compile Include="ViewModels\GuHuoSkillCommand.cs" />
     <Compile Include="ViewModels\MarkViewModel.cs" />
+    <Compile Include="Views\Cards\CardInteraction.cs" />
     <Compile Include="Views\Cards\DragDirection.cs" />
     <Compile Include="Views\Cards\SuitColorToColorConverter.cs" />
     <Compile Include="Views\Containers\SingleRowCardStack.cs" />
+    <Compile Include="Views\Dialogs\CardArrangeBox.xaml.cs">
+      <DependentUpon>CardArrangeBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\CardChoiceBoxTemplateSelector.cs" />
     <Compile Include="Views\Dialogs\CardSetView.xaml.cs">
       <DependentUpon>CardSetView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Dialogs\DeckNameToCardChoiceIconConverter.cs" />
     <Compile Include="Views\Translations\GameLogs.cs" />
     <Compile Include="Views\Skills\GuHuoSkillButton.xaml.cs">
       <DependentUpon>GuHuoSkillButton.xaml</DependentUpon>
@@ -157,6 +164,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\CardArrangeBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

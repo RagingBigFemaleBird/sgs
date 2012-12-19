@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using Sanguosha.Core.Cards;
 
 namespace Sanguosha.UI.Controls
 {
@@ -11,6 +13,20 @@ namespace Sanguosha.UI.Controls
         public CardChoiceLineViewModel()
         {
             cards = new ObservableCollection<CardViewModel>();
+            Capacity = -1;
+        }
+
+        private bool isResultDeck;
+
+        public bool IsResultDeck
+        {
+            get { return isResultDeck; }
+            set 
+            {
+                if (isResultDeck == value) return;
+                isResultDeck = value;
+                OnPropertyChanged("IsResultDeck");
+            }
         }
 
         private string deckName;
@@ -22,6 +38,32 @@ namespace Sanguosha.UI.Controls
                 if (deckName == value) return;
                 deckName = value;
                 OnPropertyChanged("DeckName");
+            }
+        }
+
+        private int capacity;
+
+        public int Capacity
+        {
+            get { return capacity; }
+            set 
+            {
+                if (capacity == value) return;
+                capacity = value;
+                OnPropertyChanged("Capacity");
+            }
+        }
+
+        private bool rearrangable;
+
+        public bool Rearrangable
+        {
+            get { return rearrangable; }
+            set 
+            {
+                if (rearrangable == value) return;
+                rearrangable = value;
+                OnPropertyChanged("Rearrangable");
             }
         }
 
@@ -46,6 +88,8 @@ namespace Sanguosha.UI.Controls
         public CardChoiceViewModel()
         {
             cardStacks = new ObservableCollection<CardChoiceLineViewModel>();
+            MultiChoiceCommands = new ObservableCollection<ICommand>();
+            Answer = new List<List<Card>>();
         }
 
         private string prompt;
@@ -99,6 +143,18 @@ namespace Sanguosha.UI.Controls
                 _timeOutSeconds = value;
                 OnPropertyChanged("TimeOutSeconds");
             }
+        }
+
+        public ObservableCollection<ICommand> MultiChoiceCommands
+        {
+            get;
+            private set;
+        }
+
+        public List<List<Card>> Answer
+        {
+            get;
+            private set;
         }
     }
 }

@@ -21,6 +21,13 @@
             	<ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
             	<ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Key="singleCardChoiceBoxTemplate">
+                <local:CardChoiceBox />
+            </DataTemplate>
+            <DataTemplate x:Key="multiCardChoiceBoxTemplate">
+                <local:CardArrangeBox />
+            </DataTemplate>
+            <local:CardChoiceBoxTemplateSelector x:Key="cardChoiceBoxTemplateSelector" MultiCardChoiceBoxTemplate="{StaticResource multiCardChoiceBoxTemplate}" SingleCardChoiceBoxTemplate="{StaticResource singleCardChoiceBoxTemplate}" />
             <local:SkillButtonTemplateSelector x:Key="skillButtonTemplateSelector" />
             <LinearGradientBrush x:Key="indicatorLineBrush" EndPoint="0.5,1" StartPoint="0.5,0">
                 <GradientStop Color="#00F1EC8A" Offset="0"/>
@@ -126,9 +133,9 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Viewbox Height="30" Width="auto">
-                            <Button Width="auto" Height="26" Style="{Binding ChoiceKey, Converter={StaticResource multiChoiceButtonStyleConverter}, Mode=OneWay}" DataContext="{Binding}" Command="{Binding}" Margin="20, 0, 20, 0">
-                                <local:OutlinedTextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Width="Auto" Text="{res:ResourceKeyBinding Path=ChoiceKey}" FontFamily="SimHei" Fill="White" FontWeight="Bold" Stroke="Black" TextWrapping="NoWrap"/>
+                        <Viewbox Height="26" Width="auto">
+                            <Button Width="auto" Height="24" Style="{Binding ChoiceKey, Converter={StaticResource multiChoiceButtonStyleConverter}, Mode=OneWay}" DataContext="{Binding}" Command="{Binding}" Margin="20, 0, 20, 0">
+                                <local:OutlinedTextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Width="Auto" Text="{res:ResourceKeyBinding Path=ChoiceKey}" FontFamily="SimHei" Fill="White" FontWeight="Bold" Stroke="Black" TextWrapping="NoWrap"/>
                             </Button>
                         </Viewbox>
                     </DataTemplate>
@@ -237,12 +244,12 @@
                   Template="{DynamicResource DarkGreenWindowStyle}"        
                   MaxWidth="600"
         		  CloseButtonVisibility="{Binding MainPlayerModel.CardChoiceModel.CanClose, Converter={StaticResource boolToVisibilityConverter}}"
-                  Caption="{Binding MainPlayerModel.CardChoiceModel.Prompt}"
+                  Caption="{Binding MainPlayerModel.CardChoiceModel.Prompt}"                  
                   WindowStartupLocation="Center">
             <xctk:ChildWindow.Effect>
                 <DropShadowEffect BlurRadius="10"/>
             </xctk:ChildWindow.Effect>
-            <local:CardChoiceBox DataContext="{Binding MainPlayerModel.CardChoiceModel}"/>
+            <ContentControl ContentTemplateSelector="{StaticResource cardChoiceBoxTemplateSelector}" Content="{Binding MainPlayerModel.CardChoiceModel}" />
          </xctk:ChildWindow>
     </Grid>
 </UserControl>

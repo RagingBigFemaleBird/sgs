@@ -43,19 +43,30 @@ namespace Sanguosha.UI.Controls
             set { _interactingCard = value; }
         }
 
-        public enum CardInteraction
-        {
-            None,
-            MouseMove,
-            Drag
-        }
-
         private CardInteraction _cardInteraction;
 
         public CardInteraction CardStatus
         {
             get { return _cardInteraction; }
             set { _cardInteraction = value; }
+        }
+
+        private int _interactingCardIndex;
+
+        public int InteractingCardIndex
+        {
+            get
+            {
+                if (_interactingCard == null || CardStatus != CardInteraction.Drag)
+                {
+                    return -1;
+                }
+                return _interactingCardIndex;
+            }
+            private set
+            {
+                _interactingCardIndex = value;
+            }
         }
 
         protected int ComputeDragCardNewIndex()
@@ -92,10 +103,10 @@ namespace Sanguosha.UI.Controls
             var tmpCards = new List<CardView>(_cards);
             if (_interactingCard != null && _cardInteraction == CardInteraction.Drag)
             {
-                int gapPos = ComputeDragCardNewIndex();
-                Trace.Assert(gapPos >= 0 && gapPos < _cards.Count);                
+                InteractingCardIndex = ComputeDragCardNewIndex();
+                Trace.Assert(InteractingCardIndex >= 0 && InteractingCardIndex <= _cards.Count);                
                 tmpCards.Remove(_interactingCard);
-                tmpCards.Insert(gapPos, _interactingCard);
+                tmpCards.Insert(InteractingCardIndex, _interactingCard);
             }
             RearrangeCards(tmpCards, transitionInSeconds);
         }
@@ -158,14 +169,18 @@ namespace Sanguosha.UI.Controls
                     if (card == _interactingCard && _cardInteraction == CardInteraction.Drag)
                     {
                         i++;
-                        double overlap = lastX + step - card.Position.X;
-                        if (overlap < 0)
+                        Rect lastCardRect = new Rect(lastX, topLeft.Y + ActualHeight / 2 - cardHeight / 2, step, cardHeight);
+                        Rect cardRect = new Rect(card.Position, new Size(cardWidth, cardHeight));
+                        lastCardRect.Intersect(cardRect);
+                        double overlapX = lastCardRect.Size.Width;
+                        double overlapY = lastCardRect.Size.Height;
+                        if (overlapX < 0)
                         {
                             continue;
                         }
-                        else if (overlap < cardWidth / 2)
+                        else if (overlapX < cardWidth / 2)
                         {
-                            lastX += overlap;
+                            lastX += overlapX * overlapY / cardHeight;
                         }
                         else
                         {
@@ -202,6 +217,18 @@ namespace Sanguosha.UI.Controls
 
         protected virtual void UnRegisterCardEvents(CardView card)
         {
+        }
+
+        public void AddCards(IList<CardViewModel> cards, double transitionInSeconds = 0d)
+        {
+            var cardViews = new List<CardView>();
+            foreach (var card in cards)
+            {
+                var cardView = new CardView(card);
+                cardViews.Add(cardView);
+                ParentCanvas.Children.Add(cardView);
+            }
+            AddCards(cardViews, transitionInSeconds);
         }
 
         public void AddCards(IList<CardView> cards, double transitionInSeconds)
@@ -271,6 +298,15 @@ namespace Sanguosha.UI.Controls
         {
             get { return _cards; }
         }
-        #endregion
+
+        public Rect BoundingBox
+        {
+            get
+            {
+                Point topLeft = this.TranslatePoint(new Point(0, 0), ParentCanvas);
+                return new Rect(topLeft, new Size(ActualWidth, ActualHeight));
+            }
+        }
+        #endregion        
     }
 }

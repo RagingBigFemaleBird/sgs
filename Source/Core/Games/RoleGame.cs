@@ -560,8 +560,7 @@ namespace Sanguosha.Core.Games
                 List<int> resultDeckMaximums = new List<int>();
                 resultDeckMaximums.Add(1);
                 List<List<Card>> answer;
-                int windowId = 0;
-                if (!game.UiProxies[game.Players[rulerId]].AskForCardChoice(new CardChoicePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new AlwaysTrueChoiceVerifier(), out answer, new List<bool>() { false }, ref windowId))
+                if (!game.UiProxies[game.Players[rulerId]].AskForCardChoice(new CardChoicePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new AlwaysTrueChoiceVerifier(), out answer))
                 {
                     answer = new List<List<Card>>();
                     answer.Add(new List<Card>());

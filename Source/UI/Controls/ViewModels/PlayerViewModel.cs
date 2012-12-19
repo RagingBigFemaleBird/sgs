@@ -59,8 +59,7 @@ namespace Sanguosha.UI.Controls
             _possibleRoles = new ObservableCollection<Role>();
             _updateCardUsageStatusHandler = (o, e) => { _UpdateCardUsageStatus(); };
             IsCardChoiceQuestionShown = false;            
-
-            CardChoiceModel = new CardChoiceViewModel();
+                        
             Marks = new ObservableCollection<MarkViewModel>();
             HandCards = new ObservableCollection<CardViewModel>();
             verifierLock = new object();
@@ -800,7 +799,24 @@ namespace Sanguosha.UI.Controls
             MultipleChoiceAnsweredEvent((int)parameter);
         }
         #endregion
-        
+
+        #region CardChoiceCommand
+
+        public void ExecuteCardChoiceCommand(object parameter)
+        {
+            lock (verifierLock)
+            {
+                Trace.Assert(currentUsageVerifier == null);
+                var model = CardChoiceModel;
+                Trace.Assert(model != null);
+                CardChoiceAnsweredEvent(model.Answer);
+                CardChoiceModel.TimeOutSeconds = 0;
+                IsCardChoiceQuestionShown = false;
+            }
+            // @todo : MultipleChoiceAnsweredEvent((int)parameter);
+        }
+        #endregion
+
         #endregion
 
         #region Card Choice Questions
@@ -809,7 +825,12 @@ namespace Sanguosha.UI.Controls
         public CardChoiceViewModel CardChoiceModel
         {
             get { return _cardChoiceModel; }
-            set { _cardChoiceModel = value; }
+            set 
+            {
+                if (_cardChoiceModel == value) return;
+                _cardChoiceModel = value;
+                OnPropertyChanged("CardChoiceModel");
+            }
         }
 
 
@@ -1233,25 +1254,27 @@ namespace Sanguosha.UI.Controls
             });
         }
         
-        private void _ConstructCardChoiceModel(List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, List<bool> rearrangeable, int timeOutSeconds, CardChoiceRearrangeCallback callback)
+        private void _ConstructCardChoiceModel(List<DeckPlace> sourceDecks, List<string> resultDeckNames,
+                                               List<int> resultDeckMaximums,
+                                               AdditionalCardChoiceOptions options,
+                                               int timeOutSeconds,
+                                               CardChoiceRearrangeCallback callback)
         {
-            if (resultDeckMaximums.Sum() != 1)
-            {
-                throw new NotImplementedException();
-            }
-
-            CardChoiceModel.CardStacks.Clear();
+            bool isSingleResult = (resultDeckMaximums.Sum() == 1);
+            
+            var choiceModel = new CardChoiceViewModel();
             
             int numLines = sourceDecks.Count;
 
             foreach (var deck in sourceDecks)
-            {
+            {                
                 if (Game.CurrentGame.Decks[deck].Count == 0)
                 {
                     continue;
                 }
                 CardChoiceLineViewModel line = new CardChoiceLineViewModel();
                 line.DeckName = deck.DeckType.Name;
+                line.IsResultDeck = false;
                 int i = 0;
                 int numCards = Game.CurrentGame.Decks[deck].Count;
                 int maxColumns = Math.Max(numCards / 2 + 1, 5);
@@ -1260,36 +1283,67 @@ namespace Sanguosha.UI.Controls
                 {
                     if (numLines == 1 && i >= maxColumns && firstRow)
                     {
-                        Trace.Assert(CardChoiceModel.CardStacks.Count == 0);                        
-                        CardChoiceModel.CardStacks.Add(line);                        
+                        Trace.Assert(choiceModel.CardStacks.Count == 0);                        
+                        choiceModel.CardStacks.Add(line);
                         line = new CardChoiceLineViewModel();
                         line.DeckName = deck.DeckType.Name;
+                        line.IsResultDeck = false;
                         firstRow = false;
                     }
                     CardViewModel model = new CardViewModel() 
                     {
                         Card = card,
-                        IsSelectionMode = true,
+                        IsSelectionMode = isSingleResult,
                         IsEnabled = true 
                     };
-                    model.OnSelectedChanged += cardChoice_OnSelectedChanged;
+
                     line.Cards.Add(model);
                     i++;
                 }
-                CardChoiceModel.CardStacks.Add(line);
+                choiceModel.CardStacks.Add(line);
             }
 
-            CardChoiceModel.TimeOutSeconds = timeOutSeconds;
-        }
+            if (!isSingleResult)
+            {
+                int k = 0;
+                foreach (var deckName in resultDeckNames)
+                {
+                    CardChoiceLineViewModel line = new CardChoiceLineViewModel();
+                    line.DeckName = deckName;
+                    if (options != null && options.Rearrangeable != null)
+                    {
+                        line.Rearrangable = options.Rearrangeable[k];
+                    }
+                    line.Capacity = resultDeckMaximums[k++];
+                    line.IsResultDeck = true;
+                    choiceModel.CardStacks.Add(line);
+                }
+            }
+            if (options != null && options.Options != null)
+            {
+                for (int i = 0; i < options.Options.Count; i++)
+                {                    
+                    MultiChoiceCommand command = new MultiChoiceCommand(ExecuteCardChoiceCommand)
+                    {
+                        CanExecuteStatus = true,
+                        ChoiceKey = options.Options[i],
+                        ChoiceIndex = i
+                    };
+                    choiceModel.MultiChoiceCommands.Add(command);
+                }
+            }
+            else
+            {
+                MultiChoiceCommand command = new MultiChoiceCommand(ExecuteCardChoiceCommand)
+                {
+                    CanExecuteStatus = true,
+                    ChoiceKey = "Confirm"
+                };
+                choiceModel.MultiChoiceCommands.Add(command);
+            }
 
-        private void cardChoice_OnSelectedChanged(object sender, EventArgs e)
-        {
-            CardViewModel model = sender as CardViewModel;
-            Trace.Assert(model != null);
-            if (!model.IsSelected) return;
-            CardChoiceAnsweredEvent(new List<List<Card>>() { new List<Card>() { model.Card } });
-            CardChoiceModel.TimeOutSeconds = 0;
-            IsCardChoiceQuestionShown = false;
+            choiceModel.TimeOutSeconds = timeOutSeconds;
+            CardChoiceModel = choiceModel;
         }
 
         private bool cardChoiceQuestionShown;
@@ -1329,12 +1383,10 @@ namespace Sanguosha.UI.Controls
                                      List<int> resultDeckMaximums, 
                                      ICardChoiceVerifier verifier,
                                      int timeOutSeconds,
-                                     List<bool> rearrangeable,
-                                     ref int windowId,
+                                     AdditionalCardChoiceOptions options,
                                      CardChoiceRearrangeCallback callback)
         {
             Trace.Assert(resultDeckMaximums.Count == resultDeckNames.Count);
-            Trace.Assert(rearrangeable.Count == resultDeckMaximums.Count);           
 
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
@@ -1347,10 +1399,9 @@ namespace Sanguosha.UI.Controls
                 }
 
                 lock (verifierLock)
-                {
-                    CardChoiceModel.Prompt = PromptFormatter.Format(prompt);
-                    _ConstructCardChoiceModel(sourceDecks, resultDeckNames, resultDeckMaximums, rearrangeable, timeOutSeconds, callback);
-                    
+                {                    
+                    _ConstructCardChoiceModel(sourceDecks, resultDeckNames, resultDeckMaximums, options, timeOutSeconds, callback);
+                    CardChoiceModel.Prompt = PromptFormatter.Format(prompt);   
                     IsCardChoiceQuestionShown = true;
                 }
             });

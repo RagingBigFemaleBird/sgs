@@ -32,8 +32,8 @@ namespace Sanguosha.Expansions.Fire.Skills
             List<int> resultDeckMax = new List<int>();
             resultDeckMax.Add(1);
             List<List<Card>> answer;
-            int windowId = 0;
-            if (!ui.AskForCardChoice(new CardChoicePrompt("MengJin"), places, resultDeckPlace, resultDeckMax, new RequireOneCardChoiceVerifier(), out answer, new List<bool>() { false }, ref windowId))
+
+            if (!ui.AskForCardChoice(new CardChoicePrompt("MengJin"), places, resultDeckPlace, resultDeckMax, new RequireOneCardChoiceVerifier(), out answer))
             {
                 Trace.TraceInformation("Player {0} Invalid answer", Owner);
                 answer = new List<List<Card>>();

@@ -40,7 +40,7 @@ namespace Sanguosha.Core.UI
             public Player player;
             public List<DeckPlace> places;
             public List<int> resultMax;
-            public List<bool> rearrangeable;
+            public AdditionalCardChoiceOptions options;
         }
 
         Dictionary<Player, ISkill> manswerSkill;
@@ -280,7 +280,7 @@ namespace Sanguosha.Core.UI
                 para.verifier = null;
                 para.player = player;
                 para.places = new List<DeckPlace>() { new DeckPlace(player, temp) };
-                para.rearrangeable = new List<bool>() { false };
+                para.options = null;
                 para.resultMax = new List<int> { 1 };
                 Game.CurrentGame.Decks[player, temp].AddRange(restDraw[player]);
                 Thread t = new Thread(
@@ -308,7 +308,7 @@ namespace Sanguosha.Core.UI
         {
             game.RegisterCurrentThread();
             List<List<Card>> answer;
-            if (para.proxy.TryAskForCardChoice(para.places, para.resultMax, new AlwaysTrueChoiceVerifier(), out answer, para.rearrangeable, null))
+            if (para.proxy.TryAskForCardChoice(para.places, para.resultMax, new AlwaysTrueChoiceVerifier(), out answer, para.options, null))
             {
                 semAccess.WaitOne();
                 if (answer != null && answer.Count != 0 && answer[0] != null && answer[0].Count != 0)

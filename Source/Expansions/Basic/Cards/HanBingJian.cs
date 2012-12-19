@@ -41,8 +41,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     List<int> resultDeckMax = new List<int>();
                     resultDeckMax.Add(1);
                     List<List<Card>> answer;
-                    int windowId = 0;
-                    if (!ui.AskForCardChoice(new CardChoicePrompt("HanBing"), places, resultDeckPlace, resultDeckMax, new RequireOneCardChoiceVerifier(), out answer, new List<bool>() { false }, ref windowId))
+                    if (!ui.AskForCardChoice(new CardChoicePrompt("HanBing"), places, resultDeckPlace, resultDeckMax, new RequireOneCardChoiceVerifier(), out answer))
                     {
                         Trace.TraceInformation("Player {0} Invalid answer", Owner.Id);
                         answer = new List<List<Card>>();

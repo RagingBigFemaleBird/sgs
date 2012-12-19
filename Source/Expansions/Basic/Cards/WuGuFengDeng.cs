@@ -27,8 +27,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     new List<string>() { "WuGu" },
                     new List<int>() { 1 },
                     new RequireOneCardChoiceVerifier(),
-                    out answer,
-                    new List<bool>() { false }, ref currentWindowId))
+                    out answer))
             {
                 Trace.TraceInformation("Invalid answer for WuGu, choosing for you");
                 answer = new List<List<Card>>();

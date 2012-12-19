@@ -227,7 +227,7 @@ namespace Sanguosha.Core.UI
         }
 
 
-        public bool TryAskForCardChoice(List<DeckPlace> sourceDecks, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, List<bool> rearrangeable, CardChoiceRearrangeCallback callback)
+        public bool TryAskForCardChoice(List<DeckPlace> sourceDecks, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, AdditionalCardChoiceOptions options, CardChoiceRearrangeCallback callback)
         {
             answer = null;
             Trace.TraceInformation("Asking Card Choice to {0}, timeout {1}.", HostPlayer.Id, TimeOutSeconds);
@@ -307,11 +307,11 @@ namespace Sanguosha.Core.UI
             }
 
         }
-        public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, List<bool> rearrangeable, ref int windowId, CardChoiceRearrangeCallback callback)
+        public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, AdditionalCardChoiceOptions options, CardChoiceRearrangeCallback callback)
         {
             answer = null;
             bool ret = true;
-            if (!TryAskForCardChoice(sourceDecks, resultDeckMaximums, verifier, out answer, rearrangeable, callback))
+            if (!TryAskForCardChoice(sourceDecks, resultDeckMaximums, verifier, out answer, options, callback))
             {
                 SendNoAnswer();
                 ret = false;

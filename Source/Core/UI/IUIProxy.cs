@@ -30,15 +30,12 @@ namespace Sanguosha.Core.UI
         }
     }
 
-    public class CardChoiceAddtionalOptions
+    public class AdditionalCardChoiceOptions
     {
-        List<ResultDeckOptions> ResultDecks { get; set; }
-        int WindowId { get; set; }
-        CardChoiceAddtionalOptions()
-        {
-            ResultDecks = new List<ResultDeckOptions>();
-            WindowId = -1;
-        }
+        public int WindowId { get; set; }
+        public List<bool> Rearrangeable { get; set; }
+        public List<string> Options { get; set; }
+        public List<List<Card>> defaultResult { get; set; }
     }
     
     public interface ICardChoiceVerifier
@@ -73,9 +70,14 @@ namespace Sanguosha.Core.UI
         /// <param name="verifier"></param>
         /// <param name="answer">用户选择结果。对应resultDeckNames，每个选出的牌堆占用一个list。</param>
         /// <returns>False if user cannot provide an answer.</returns>
-        bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames,
+        bool AskForCardChoice(Prompt prompt, 
+                              List<DeckPlace> sourceDecks,
+                              List<string> resultDeckNames,
                               List<int> resultDeckMaximums,
-                              ICardChoiceVerifier verifier, out List<List<Card>> answer, List<bool> rearrangeable, ref int windowId, CardChoiceRearrangeCallback callback = null);
+                              ICardChoiceVerifier verifier,
+                              out List<List<Card>> answer,
+                              AdditionalCardChoiceOptions helper = null,                  
+                              CardChoiceRearrangeCallback callback = null);
 
         /// <summary>
         /// 询问多选题目，例如是否发动洛神
@@ -84,7 +86,7 @@ namespace Sanguosha.Core.UI
         /// <param name="questions">问题列表</param>
         /// <param name="answer">回答</param>
         /// <returns></returns>
-        bool AskForMultipleChoice(Prompt prompt, List<string> questions, out int answer);
+        bool AskForMultipleChoice(Prompt prompt, List<string> options, out int answer);
 
         void Freeze();
     }

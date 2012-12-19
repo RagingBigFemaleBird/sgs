@@ -94,8 +94,8 @@ namespace Sanguosha.UI.Controls
         void card_OnDragEndUnlock()
         {
             Trace.TraceInformation("DragEnd");
-            CardStatus = CardInteraction.None;
-            int newPos = ComputeDragCardNewIndex();
+            int newPos = InteractingCardIndex;
+            CardStatus = CardInteraction.None;            
             int oldPos = Cards.IndexOf(InteractingCard);
             if (newPos != oldPos)
             {

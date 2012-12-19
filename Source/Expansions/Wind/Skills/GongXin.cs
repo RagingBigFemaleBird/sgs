@@ -48,14 +48,13 @@ namespace Sanguosha.Expansions.Wind.Skills
             Owner[GongXinUsed] = 1;
             Player target = arg.Targets[0];
             List<List<Card>> answer;
-            int windowId = 0;
+            Game.CurrentGame.SyncCards(Owner, Game.CurrentGame.Decks[target, DeckType.Hand]);
             if (Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("GongXin"),
                     new List<DeckPlace>() { new DeckPlace(target, DeckType.Hand) },
                     new List<string>() { "PaiDuiDing", "QiPaiDui" },
                     new List<int>() { 1, 1 },
                     new GongXinVerifier(),
-                    out answer,
-                    new List<bool>() { false, false }, ref windowId))
+                    out answer))
             {
                 if (answer[0] != null && answer[0].Count > 0)
                 {

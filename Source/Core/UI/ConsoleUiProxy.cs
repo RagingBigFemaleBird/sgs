@@ -151,7 +151,7 @@ namespace Sanguosha.Core.UI
             }
         }
 
-        bool IUiProxy.AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, List<bool> rearrangeable, ref int windowId, CardChoiceRearrangeCallback callback)
+        bool IUiProxy.AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, AdditionalCardChoiceOptions options, CardChoiceRearrangeCallback callback)
         {
             answer = null;
             return false;

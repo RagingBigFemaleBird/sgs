@@ -47,6 +47,11 @@ namespace Sanguosha.UI.Controls
             _moveAnimation.Children.Add(_daMoveY);            
         }
 
+        public CardView(CardViewModel card) : this()
+        {            
+            this.DataContext = card;            
+        }
+
         void CardView_MouseLeave(object sender, MouseEventArgs e)
         {
             (Resources["sbUnHighlight"] as Storyboard).Begin();
@@ -335,16 +340,16 @@ namespace Sanguosha.UI.Controls
         // Using a DependencyProperty as the backing store for DragDirection.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DragDirectionProperty =
             DependencyProperty.Register("DragDirection", typeof(DragDirection), typeof(CardView), new UIPropertyMetadata(DragDirection.None, new PropertyChangedCallback(_OnDragDirectionChanged)));
-
+        
         
         #endregion
 
         #region Card Creation/Destruction Helpers
+
         public static CardView CreateCard(Card card, int width = 93, int height = 130)
         {
-            return new CardView()
-            {
-                DataContext = new CardViewModel() { Card = card },
+            return new CardView(new CardViewModel() { Card = card })
+            {                
                 Width = width,
                 Height = height,
                 Opacity = 0d

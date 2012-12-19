@@ -28,15 +28,17 @@ namespace Sanguosha.UI.Controls
                     return;
                 }
                 bool oldValue = isSelected;
-                EventHandler handle = OnSelectedChanged;
-                if (handle == null) return;
                 isSelected = value;
                 _EnsureSelectionInvariant();
                 if (oldValue != isSelected)
                 {
                     OnPropertyChanged("IsSelected");
                 }
-                handle(this, new EventArgs());
+                EventHandler handle = OnSelectedChanged;
+                if (handle != null)
+                {
+                    handle(this, new EventArgs());
+                }
             }
         }
         

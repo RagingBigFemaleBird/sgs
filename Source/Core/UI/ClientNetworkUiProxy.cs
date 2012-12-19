@@ -160,10 +160,10 @@ namespace Sanguosha.Core.UI
             return false;
         }
 
-        public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, List<bool> rearrangeable, ref int windowId, CardChoiceRearrangeCallback callback)
+        public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, AdditionalCardChoiceOptions helper = null, CardChoiceRearrangeCallback callback = null)
         {
             Trace.TraceInformation("Asking Card Choice to {0}.", HostPlayer.Id);
-            TryAskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, rearrangeable, ref windowId, callback);
+            TryAskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, helper, callback);
             if (active)
             {
                 NextQuestion();
@@ -241,15 +241,15 @@ namespace Sanguosha.Core.UI
             client.Flush();
         }
 
-        public void TryAskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, List<bool> rearrangeable, ref int windowId, CardChoiceRearrangeCallback callback)
+        public void TryAskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, AdditionalCardChoiceOptions options, CardChoiceRearrangeCallback callback)
         {
             List<List<Card>> answer;
             if (!active)
             {
-                proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, out answer, rearrangeable, ref windowId, callback);
+                proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, out answer, options, callback);
                 return;
             }
-            if (!proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, out answer, rearrangeable, ref windowId, callback) ||
+            if (!proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, out answer, options, callback) ||
                 answer == null)
             {
                 Trace.TraceInformation("Invalid answer");
@@ -324,5 +324,6 @@ namespace Sanguosha.Core.UI
                 timeOutSeconds = value;
             }
         }
+
     }
 }

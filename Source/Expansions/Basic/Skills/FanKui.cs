@@ -31,8 +31,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             List<string> deckname = new List<string>() {"FanKui choice"};
             Card theCard;
 
-            int windowId = 0;
-            if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("FanKui", eventArgs.Source), deck, deckname, max, new RequireOneCardChoiceVerifier(), out result, new List<bool>() { false }, ref windowId))
+            if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("FanKui", eventArgs.Source), deck, deckname, max, new RequireOneCardChoiceVerifier(), out result))
             {
 
                 Trace.TraceInformation("Invalid choice for FanKui");
