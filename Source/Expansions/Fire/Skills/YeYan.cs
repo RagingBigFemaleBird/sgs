@@ -37,6 +37,10 @@ namespace Sanguosha.Expansions.Fire.Skills
                 }
                 toDamage[p]++;
             }
+            if (toDamage.Count > 0 && toDamage.Values.Max() > 1)
+            {
+                Game.CurrentGame.LoseHealth(arg.Source, 3);
+            }
             foreach (var dmg in toDamage)
             {
                 Game.CurrentGame.DoDamage(arg.Source, dmg.Key, dmg.Value, DamageElement.Fire, null, null);
@@ -70,7 +74,7 @@ namespace Sanguosha.Expansions.Fire.Skills
                 toDamage[p]++;
             }
 
-            if (cards.Count > 0) // Great YeYan
+            if (cards != null && cards.Count > 0) // Great YeYan
             {
                 if (toDamage.Count >= 3) return false;
                 HashSet<SuitType> suits = new HashSet<SuitType>();
@@ -82,12 +86,12 @@ namespace Sanguosha.Expansions.Fire.Skills
                     }
                     suits.Add(card.Suit);
                 }
-                if (suits.Count > 4) return false;
-                else if (suits.Count == 4 && toDamage.Count > 0 && toDamage.Values.Max() > 1) return true;
+                if (suits.Count == 4 && toDamage.Count > 0 && toDamage.Values.Max() > 1) return true;
                 else return null;
             }
             else
             {
+                if (toDamage.Count > 0 && toDamage.Values.Max() > 1) return null;
                 if (toDamage.Count > 3) return false;
                 else if (toDamage.Count == 0) return null;
                 else return true;
