@@ -23,6 +23,7 @@ namespace Sanguosha.Expansions.Woods.Skills
         public LuanWu()
         {
             UiHelper.HasNoConfirmation = true;
+            IsSingleUse = true;
         }
 
         private static PlayerAttribute LuanWuUsed = PlayerAttribute.Register("LuanWuUsed", false);
@@ -125,14 +126,6 @@ namespace Sanguosha.Expansions.Woods.Skills
             public override IList<CardHandler> AcceptableCardTypes
             {
                 get { return new List<CardHandler>() {new Sha()}; }
-            }
-        }
-
-        public override bool IsSingleUse
-        {
-            get
-            {
-                return true;
             }
         }
     }

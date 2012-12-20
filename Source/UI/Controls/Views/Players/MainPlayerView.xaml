@@ -333,7 +333,7 @@
                 <Sanguosha_UI_Effects:MonochromeEffect Strength="0"/>
             </Grid.Effect>
             <Border BorderBrush="#FF706F6D" BorderThickness="0,1,1,1" />
-            <Grid Margin="0.5,2,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="134" Height="134" IsEnabled="{Binding IsEnabled}" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+            <Grid Margin="0.5,2,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="134" Height="134" IsEnabled="{Binding IsEnabled}" MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseRightButtonDown="Border_MouseRightButtonDown">
                 <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=71\,28\,145\,145, Path=HeroName, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/Full/\{0\}.png}">
                     <Image.ToolTip>
                         <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
@@ -410,8 +410,11 @@
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
-                
-            </Grid>
+				<Image Source="{res:ResourceKeyBinding Path=SelectedTimes, StringFormat=Selection.Digit.{0}}" 
+						       VerticalAlignment="Center" HorizontalAlignment="Center"
+							   Visibility="{Binding IsSelectionRepeatable, Converter={StaticResource boolToVisibilityConverter}}"
+							   IsHitTestVisible="False" />
+				</Grid>
             <Grid Margin="-15.673,10.331,0,0" Height="22" VerticalAlignment="Top" Width="169" HorizontalAlignment="Left">
                 <Grid.ToolTip>
                     <ToolTip Content="{DynamicResource State.TieSuoLianHuan.Description}" ContentTemplate="{DynamicResource ToolTipTextTemplate}" />                        

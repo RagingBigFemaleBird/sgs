@@ -97,60 +97,60 @@
                 </DoubleAnimationUsingKeyFrames>
             </Storyboard>
             <Style x:Key="SpectateButton" TargetType="{x:Type Button}">
-            	<Setter Property="Template">
-            		<Setter.Value>
-            			<ControlTemplate TargetType="{x:Type Button}">
-            				<Grid>
-            					<VisualStateManager.VisualStateGroups>
-            						<VisualStateGroup x:Name="CommonStates">
-            							<VisualState x:Name="Normal"/>
-            							<VisualState x:Name="MouseOver">
-            								<Storyboard>
-            									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image">
-            										<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-            									</ObjectAnimationUsingKeyFrames>
-            									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image1">
-            										<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
-            									</ObjectAnimationUsingKeyFrames>
-            								</Storyboard>
-            							</VisualState>
-            							<VisualState x:Name="Pressed">
-            								<Storyboard>
-            									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image2">
-            										<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-            									</ObjectAnimationUsingKeyFrames>
-            									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image1">
-            										<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
-            									</ObjectAnimationUsingKeyFrames>
-            								</Storyboard>
-            							</VisualState>
-            							<VisualState x:Name="Disabled">
-            								<Storyboard>
-            									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image3">
-            										<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-            									</ObjectAnimationUsingKeyFrames>
-            									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image1">
-            										<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
-            									</ObjectAnimationUsingKeyFrames>
-            								</Storyboard>
-            							</VisualState>
-            						</VisualStateGroup>
-            					</VisualStateManager.VisualStateGroups>
-            					<Image x:Name="image1" Source="/Resources;component/Images/Buttons/spectate/normal.png" Stretch="Fill"/>
-            					<Image x:Name="image" Source="/Resources;component/Images/Buttons/spectate/hover.png" Stretch="Fill" Visibility="Hidden"/>
-            					<Image x:Name="image2" Source="/Resources;component/Images/Buttons/spectate/down.png" Stretch="Fill" Visibility="Hidden"/>
-            					<Image x:Name="image3" Source="/Resources;component/Images/Buttons/spectate/disabled.png" Stretch="Fill" Visibility="Hidden"/>
-            				</Grid>
-            				<ControlTemplate.Triggers>
-            					<Trigger Property="IsFocused" Value="True"/>
-            					<Trigger Property="IsDefaulted" Value="True"/>
-            					<Trigger Property="IsMouseOver" Value="True"/>
-            					<Trigger Property="IsPressed" Value="True"/>
-            					<Trigger Property="IsEnabled" Value="False"/>
-            				</ControlTemplate.Triggers>
-            			</ControlTemplate>
-            		</Setter.Value>
-            	</Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal"/>
+                                        <VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image1">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image2">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image1">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image3">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image1">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Image x:Name="image1" Source="/Resources;component/Images/Buttons/spectate/normal.png" Stretch="Fill"/>
+                                <Image x:Name="image" Source="/Resources;component/Images/Buttons/spectate/hover.png" Stretch="Fill" Visibility="Hidden"/>
+                                <Image x:Name="image2" Source="/Resources;component/Images/Buttons/spectate/down.png" Stretch="Fill" Visibility="Hidden"/>
+                                <Image x:Name="image3" Source="/Resources;component/Images/Buttons/spectate/disabled.png" Stretch="Fill" Visibility="Hidden"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsFocused" Value="True"/>
+                                <Trigger Property="IsDefaulted" Value="True"/>
+                                <Trigger Property="IsMouseOver" Value="True"/>
+                                <Trigger Property="IsPressed" Value="True"/>
+                                <Trigger Property="IsEnabled" Value="False"/>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
         </ResourceDictionary>
     </local:PlayerViewBase.Resources>
@@ -238,7 +238,7 @@
                     </LinearGradientBrush>
                 </Border.BorderBrush>
             </Border>
-            <Grid Margin="7" MouseLeftButtonDown="mainArea_MouseLeftButtonDown">
+            <Grid Margin="7" MouseLeftButtonDown="mainArea_MouseLeftButtonDown" MouseRightButtonDown="mainArea_MouseRightButtonDown">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="27"/>
                     <RowDefinition/>
@@ -276,6 +276,10 @@
                                 <BlurEffect Radius="10" />
                             </Border.Effect>
                         </Border>
+                        <Image Source="{res:ResourceKeyBinding Path=SelectedTimes, StringFormat=Selection.Digit.{0}}" 
+                               VerticalAlignment="Center" HorizontalAlignment="Center"
+                               Visibility="{Binding IsSelectionRepeatable, Converter={StaticResource boolToVisibilityConverter}}"
+                               IsHitTestVisible="False" />
                         <local:HealthBar x:Name="healthBar" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                                          Height="14" Margin="0,0,3,0" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}"/>
                     </Grid>
@@ -325,31 +329,31 @@
                 <Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="3" Stretch="Fill" Margin="1,30,0,0" Width="13" Height="13" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="3" Stretch="Fill" Margin="1,44,0,0" Width="13" Height="13" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <Border Grid.Row="2" Margin="15,1,2,0" BorderThickness="1" BorderBrush="Black" Background="#59FFFFFF">
-                	<Grid>
-                		<Image Source="{DynamicResource PlayerInfoView.Dragon}" HorizontalAlignment="Center" Stretch="Fill" VerticalAlignment="Center" Width="49" Height="45" />
-                		<Canvas x:Name="weaponArea" Margin="-15,0,0,0" Height="13" Width="140"  VerticalAlignment="Top" HorizontalAlignment="Left" />
-                		<Canvas x:Name="armorArea" Margin="-15,14,0,0" Height="13" Width="140"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                		<Canvas x:Name="horse1Area" Margin="-15,28,0,0" Height="13" Width="140"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                		<Canvas x:Name="horse2Area" Margin="-15,42,0,0" Height="13" Width="140"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                	</Grid>
+                    <Grid>
+                        <Image Source="{DynamicResource PlayerInfoView.Dragon}" HorizontalAlignment="Center" Stretch="Fill" VerticalAlignment="Center" Width="49" Height="45" />
+                        <Canvas x:Name="weaponArea" Margin="-15,0,0,0" Height="13" Width="140"  VerticalAlignment="Top" HorizontalAlignment="Left" />
+                        <Canvas x:Name="armorArea" Margin="-15,14,0,0" Height="13" Width="140"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Canvas x:Name="horse1Area" Margin="-15,28,0,0" Height="13" Width="140"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Canvas x:Name="horse2Area" Margin="-15,42,0,0" Height="13" Width="140"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                    </Grid>
                 </Border>
                 <Grid Grid.Row="2" Height="22" VerticalAlignment="Top" Margin="-15,-15,-15,0">
-                	<Grid.ToolTip>
-                		<ToolTip Content="{DynamicResource State.TieSuoLianHuan.Description}" ContentTemplate="{DynamicResource ToolTipTextTemplate}" />
-                	</Grid.ToolTip>
-                	<Image Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}"/>
-                	<anim:TieSuoAnimation2 x:Name="tieSuoAnimation2" FramesPerSecond="15" Stretch="Fill" IsHitTestVisible="False"/>
+                    <Grid.ToolTip>
+                        <ToolTip Content="{DynamicResource State.TieSuoLianHuan.Description}" ContentTemplate="{DynamicResource ToolTipTextTemplate}" />
+                    </Grid.ToolTip>
+                    <Image Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}"/>
+                    <anim:TieSuoAnimation2 x:Name="tieSuoAnimation2" FramesPerSecond="15" Stretch="Fill" IsHitTestVisible="False"/>
                 </Grid>
                 <Grid x:Name="gridSpectate" HorizontalAlignment="Left" Height="24" Margin="16.664,0,0,-0.666" Grid.Row="1" Width="24" VerticalAlignment="Bottom">
-					<Button x:Name="btnSpectate" Content="Button" Style="{DynamicResource SpectateButton}" Visibility="Hidden" Click="btnSpectate_Click">
-                		<Button.Clip>
-                			<RectangleGeometry Rect="0, 5, 25, 15"/>
-                		</Button.Clip>
-                	</Button>
-				</Grid>
+                    <Button x:Name="btnSpectate" Content="Button" Style="{DynamicResource SpectateButton}" Visibility="Hidden" Click="btnSpectate_Click">
+                        <Button.Clip>
+                            <RectangleGeometry Rect="0, 5, 25, 15"/>
+                        </Button.Clip>
+                    </Button>
+                </Grid>
             </Grid>
             <Image Source="{DynamicResource PlayerInfoView.Decoration.BottomRight}" Width="64" HorizontalAlignment="Right" Margin="-10,-50,0,0" Grid.RowSpan="2" VerticalAlignment="Bottom" IsHitTestVisible="False" />			
-			<Image x:Name="imgPhase" Visibility="{Binding IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}" Source="{res:ResourceKeyBinding Path=CurrentPhase, StringFormat=Phases.\{0\}.Small}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120" IsHitTestVisible="False" />
+            <Image x:Name="imgPhase" Visibility="{Binding IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}" Source="{res:ResourceKeyBinding Path=CurrentPhase, StringFormat=Phases.\{0\}.Small}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120" IsHitTestVisible="False" />
             <StackPanel x:Name="delayedToolsDock"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="-12,0,15,0" >
                 <i:Interaction.Behaviors>
                     <ei:FluidMoveBehavior AppliesTo="Children" Duration="0:0:5">

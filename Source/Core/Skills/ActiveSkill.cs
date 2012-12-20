@@ -71,10 +71,10 @@ namespace Sanguosha.Core.Skills
             secondaryTargets = null;
         }
 
-        public virtual bool IsRulerOnly { get { return false; } }
-        public virtual bool IsSingleUse { get { return false; } }
-        public virtual bool IsAwakening { get { return false; } }
-        public bool IsEnforced { get { return false; } }
+        public bool IsRulerOnly { get; protected set; }
+        public bool IsSingleUse { get; protected set; }
+        public bool IsAwakening { get; protected set; }
+        public bool IsEnforced { get; protected set; }
 
         public object Clone()
         {

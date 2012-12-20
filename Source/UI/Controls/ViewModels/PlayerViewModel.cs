@@ -58,15 +58,16 @@ namespace Sanguosha.UI.Controls
 
             _possibleRoles = new ObservableCollection<Role>();
             _updateCardUsageStatusHandler = (o, e) => { _UpdateCardUsageStatus(); };
-            IsCardChoiceQuestionShown = false;            
-                        
+            IsCardChoiceQuestionShown = false;
+
             Marks = new ObservableCollection<MarkViewModel>();
             HandCards = new ObservableCollection<CardViewModel>();
             verifierLock = new object();
             _lastSelectedPlayers = new List<Player>();
         }
 
-        public PlayerViewModel(Player player, GameViewModel game, bool isPlayable) : this()
+        public PlayerViewModel(Player player, GameViewModel game, bool isPlayable)
+            : this()
         {
             Player = player;
             GameModel = game;
@@ -87,7 +88,7 @@ namespace Sanguosha.UI.Controls
         public Player Player
         {
             get { return _player; }
-            set 
+            set
             {
                 if (_player == value) return;
                 if (_player != null)
@@ -96,7 +97,7 @@ namespace Sanguosha.UI.Controls
                     _player.PropertyChanged -= handler;
                 }
                 _player = value;
-                _PropertyChanged = _OnPlayerPropertyChanged;                
+                _PropertyChanged = _OnPlayerPropertyChanged;
                 _player.PropertyChanged += _PropertyChanged;
                 var properties = typeof(Player).GetProperties();
                 foreach (var property in properties)
@@ -105,7 +106,7 @@ namespace Sanguosha.UI.Controls
                 }
             }
         }
-        
+
         private GameViewModel _game;
 
         public GameViewModel GameModel
@@ -114,7 +115,7 @@ namespace Sanguosha.UI.Controls
             set
             {
                 if (_game == value) return;
-                bool changed = (_game == null || _game.GetType() != value.GetType());                
+                bool changed = (_game == null || _game.GetType() != value.GetType());
                 _game = value;
                 _game.Game.PropertyChanged += new PropertyChangedEventHandler(_game_PropertyChanged);
                 if (changed)
@@ -129,11 +130,11 @@ namespace Sanguosha.UI.Controls
         {
             string name = e.PropertyName;
             if (name == "CurrentPlayer")
-            {   
+            {
                 OnPropertyChanged("IsCurrentPlayer");
             }
             else if (name == "CurrentPhase")
-            {                
+            {
                 OnPropertyChanged("CurrentPhase");
             }
         }
@@ -148,7 +149,7 @@ namespace Sanguosha.UI.Controls
 
             var backup = new List<SkillCommand>(DockedSkillCommands);
             backup.AddRange(RulerGivenSkillCommands);
-                        
+
             foreach (ISkill skill in _player.Skills)
             {
                 if (!backup.Any(s => s.Skill == skill))
@@ -223,7 +224,7 @@ namespace Sanguosha.UI.Controls
                 {
                     HeroSkillNames.Add(skill.GetType().Name);
                 }
-            } 
+            }
         }
 
         private void _OnPlayerPropertyChanged(object o, PropertyChangedEventArgs e)
@@ -236,7 +237,7 @@ namespace Sanguosha.UI.Controls
                 OnPropertyChanged("PossibleRoles");
             }
             else if (name == "Hero")
-            {       
+            {
                 if (Application.Current.Dispatcher.CheckAccess())
                 {
                     _UpdateHeroInfo();
@@ -245,7 +246,7 @@ namespace Sanguosha.UI.Controls
                 {
                     Application.Current.Dispatcher.Invoke((ThreadStart)_UpdateHeroInfo);
                     OnPropertyChanged("Hero");
-                    OnPropertyChanged("HeroName");                    
+                    OnPropertyChanged("HeroName");
                 }
             }
             else if (name == "Skills")
@@ -256,8 +257,8 @@ namespace Sanguosha.UI.Controls
                 }
                 else
                 {
-                    Application.Current.Dispatcher.Invoke((ThreadStart)delegate(){ _UpdateSkills(); });
-                }                
+                    Application.Current.Dispatcher.Invoke((ThreadStart)delegate() { _UpdateSkills(); });
+                }
             }
             else if (name == "Attributes")
             {
@@ -277,7 +278,7 @@ namespace Sanguosha.UI.Controls
                 {
                     OnPropertyChanged(name);
                 }
-            }    
+            }
         }
 
         private void _UpdateAttributes()
@@ -289,7 +290,7 @@ namespace Sanguosha.UI.Controls
                 MarkViewModel model = null;
                 foreach (var mark in Marks)
                 {
-                    if (mark.PlayerAttribute == attribute) 
+                    if (mark.PlayerAttribute == attribute)
                     {
                         model = mark;
                         break;
@@ -303,7 +304,7 @@ namespace Sanguosha.UI.Controls
                 }
 
                 model.Number = _player[attribute];
-            }            
+            }
         }
 
         #endregion
@@ -477,16 +478,16 @@ namespace Sanguosha.UI.Controls
 
         public bool IsTargeted { get { return _player.IsTargeted; } }
 
-        public bool IsCurrentPlayer 
+        public bool IsCurrentPlayer
         {
-            get 
+            get
             {
                 if (_game == null) return false;
                 else
                 {
                     return _player == _game.Game.CurrentPlayer;
                 }
-            } 
+            }
         }
 
         public TurnPhase CurrentPhase
@@ -510,7 +511,7 @@ namespace Sanguosha.UI.Controls
         }
 
         #endregion
-        
+
         #region Derived Player Properties
 
         public ObservableCollection<MarkViewModel> Marks
@@ -601,7 +602,7 @@ namespace Sanguosha.UI.Controls
             _possibleRoles.Clear();
             _possibleRoles.Add(Role.Unknown);
             if (GameModel != null)
-            {                
+            {
                 if (GameModel.Game is RoleGame)
                 {
                     if (_player.Role == Role.Unknown)
@@ -637,13 +638,13 @@ namespace Sanguosha.UI.Controls
             else
             {
                 Application.Current.Dispatcher.Invoke((ThreadStart)_UpdatePossibleRolesInternal);
-            }         
+            }
         }
 
         public ObservableCollection<Role> PossibleRoles
         {
             get
-            {               
+            {
                 return _possibleRoles;
             }
         }
@@ -741,7 +742,7 @@ namespace Sanguosha.UI.Controls
                 if (currentUsageVerifier != null)
                 {
                     currentUsageVerifier = null;
-                    CardUsageAnsweredEvent(skill, cards, players);                    
+                    CardUsageAnsweredEvent(skill, cards, players);
                 }
             }
         }
@@ -761,11 +762,11 @@ namespace Sanguosha.UI.Controls
             }
         }
         #endregion
-        
+
         #region AbortCardUsageCommand
         private SimpleRelayCommand abortCardUsageCommand;
         public void AbortCardUsageCommand(object parameter)
-        {     
+        {
             lock (verifierLock)
             {
                 if (currentUsageVerifier == null)
@@ -775,11 +776,11 @@ namespace Sanguosha.UI.Controls
                 Trace.Assert(currentUsageVerifier != null);
                 CardUsageAnsweredEvent(null, null, null);
                 currentUsageVerifier = null;
-                _ResetAll();        
+                _ResetAll();
             }
         }
         #endregion
-                
+
         #region MultiChoiceCommand
 
         public ObservableCollection<ICommand> MultiChoiceCommands
@@ -816,7 +817,7 @@ namespace Sanguosha.UI.Controls
                 CardChoiceAnsweredEvent(model.Answer);
                 CardChoiceModel.TimeOutSeconds = 0;
                 IsCardChoiceQuestionShown = false;
-            }            
+            }
         }
         #endregion
 
@@ -828,7 +829,7 @@ namespace Sanguosha.UI.Controls
         public CardChoiceViewModel CardChoiceModel
         {
             get { return _cardChoiceModel; }
-            set 
+            set
             {
                 if (_cardChoiceModel == value) return;
                 _cardChoiceModel = value;
@@ -842,7 +843,7 @@ namespace Sanguosha.UI.Controls
         #region View Related Fields
 
         private int _handCardCount;
-        
+
         public int HandCardCount
         {
             get { return _handCardCount; }
@@ -916,17 +917,43 @@ namespace Sanguosha.UI.Controls
 
         private List<Player> _GetSelectedPlayers()
         {
+            var currentSelection = new List<Player>();
             foreach (var playerModel in _game.PlayerModels)
             {
-                if (playerModel.IsSelected && !_lastSelectedPlayers.Contains(playerModel.Player))
+                if (playerModel.IsSelected)
                 {
-                    _lastSelectedPlayers.Add(playerModel.Player);
-                }
-                else if (!playerModel.IsSelected && _lastSelectedPlayers.Contains(playerModel.Player))
-                {
-                    _lastSelectedPlayers.Remove(playerModel.Player);
+                    if (!playerModel.IsSelectionRepeatable)
+                    {
+                        currentSelection.Add(playerModel.Player);
+                    }
+                    else
+                    {
+                        for (int i = 0; i < playerModel.SelectedTimes; i++)
+                        {
+                            currentSelection.Add(playerModel.Player);
+                        }
+                    }
                 }
             }
+
+            var diff1 = new List<Player>(currentSelection);
+            var diff2 = new List<Player>(_lastSelectedPlayers);
+
+            foreach (var player in _lastSelectedPlayers)
+            {
+                diff1.Remove(player);
+            }
+            foreach (var player in currentSelection)
+            {
+                diff2.Remove(player);
+            }
+
+            _lastSelectedPlayers.AddRange(diff1);
+            foreach (var player in diff2)
+            {
+                _lastSelectedPlayers.Remove(player);
+            }
+            Trace.Assert(_lastSelectedPlayers.Count == currentSelection.Count);
             return new List<Player>(_lastSelectedPlayers);
         }
 
@@ -958,13 +985,13 @@ namespace Sanguosha.UI.Controls
             _lastSelectedPlayers.Clear();
             SubmitAnswerCommand = DisabledCommand;
             CancelAnswerCommand = DisabledCommand;
-            AbortAnswerCommand = DisabledCommand; 
+            AbortAnswerCommand = DisabledCommand;
         }
 
         private void _ResetAll()
         {
             MultiChoiceCommands.Clear();
-            _ResetSkillsAndCards();     
+            _ResetSkillsAndCards();
             CurrentPromptString = string.Empty;
             TimeOutSeconds = 0;
         }
@@ -994,22 +1021,29 @@ namespace Sanguosha.UI.Controls
                 }
 
                 var sc = new List<SkillCommand>(ActiveSkillCommands);
-                
+
                 // Handle skill down            
                 foreach (var skillCommand in sc)
                 {
-                    // Handle kurou and luanwu
+                    // Handle kurou, luanwu and yeyan
                     if (skillCommand.Skill != null && skillCommand.IsSelected)
                     {
                         var activeSkill = skillCommand.Skill as ActiveSkill;
-                        if (activeSkill != null && activeSkill.UiHelper.HasNoConfirmation)
+                        if (activeSkill != null)
                         {
-                            SubmitAnswerCommand.Execute(null);
-                            return;
+                            if (activeSkill.UiHelper.HasNoConfirmation)
+                            {
+                                SubmitAnswerCommand.Execute(null);
+                                return;
+                            }
+                            foreach (var player in _game.PlayerModels)
+                                player.IsSelectionRepeatable = activeSkill.UiHelper.IsPlayerRepeatable;
                         }
                     }
-                
-                    skillCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
+                    else
+                    {
+                        skillCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
+                    }
 
                     GuHuoSkillCommand cmdGuhuo = skillCommand as GuHuoSkillCommand;
                     if (cmdGuhuo != null)
@@ -1048,6 +1082,17 @@ namespace Sanguosha.UI.Controls
                         skill = null;
                     }
                 }
+
+                string prompt = null;
+                if (skill != null)
+                {
+                    prompt = Application.Current.TryFindResource(string.Format("Skill.{0}.Prompt", skill.GetType().Name)) as string;
+                }
+                if (prompt == null)
+                {
+                    prompt = PromptFormatter.Format(CurrentPrompt);
+                }
+                CurrentPromptString = prompt;
 
                 if (!isEquipCommand)
                 {
@@ -1120,7 +1165,7 @@ namespace Sanguosha.UI.Controls
                 foreach (var playerModel in _game.PlayerModels)
                 {
                     enabledMap[i] = false;
-                    if (playerModel.IsSelected)
+                    if (playerModel.IsSelected && !playerModel.IsSelectionRepeatable)
                     {
                         i++;
                         continue;
@@ -1132,7 +1177,7 @@ namespace Sanguosha.UI.Controls
                         validCount++;
                         enabledMap[i] = true;
                     }
-                    attempt2.Remove(playerModel.Player);
+                    attempt2.RemoveAt(attempt2.Count - 1);
                     i++;
 
                 }
@@ -1141,15 +1186,23 @@ namespace Sanguosha.UI.Controls
                 bool allowSelection = (cards.Count != 0 || validCount != 0 || skill != null);
                 foreach (var playerModel in _game.PlayerModels)
                 {
-                    if (playerModel.IsSelected)
+                    if (playerModel.IsSelected && !playerModel.IsSelectionRepeatable)
                     {
                         i++;
                         continue;
                     }
+
                     playerModel.IsSelectionMode = allowSelection;
                     if (allowSelection)
                     {
-                        playerModel.IsEnabled = enabledMap[i];
+                        if (playerModel.IsSelected)
+                        {
+                            playerModel.CanBeSelectedMore = enabledMap[i];
+                        }
+                        else
+                        {
+                            playerModel.IsEnabled = enabledMap[i];
+                        }
                     }
                     i++;
                 }
@@ -1158,13 +1211,13 @@ namespace Sanguosha.UI.Controls
 
         private void _AbortCardChoice()
         {
-            lock(verifierLock)
+            lock (verifierLock)
             {
                 CardChoiceModel.TimeOutSeconds = 0;
                 IsCardChoiceQuestionShown = false;
                 CurrentPrompt = null;
                 CurrentPromptString = string.Empty;
-            }            
+            }
         }
 
         private void _AbortMultipleChoice()
@@ -1212,11 +1265,10 @@ namespace Sanguosha.UI.Controls
                 lock (verifierLock)
                 {
                     TimeOutSeconds = timeOutSeconds;
-                    currentUsageVerifier = verifier;                    
+                    currentUsageVerifier = verifier;
                     Trace.Assert(currentUsageVerifier != null);
                     Game.CurrentGame.CurrentActingPlayer = HostPlayer;
                     CurrentPrompt = prompt;
-                    CurrentPromptString = PromptFormatter.Format(prompt);
                 }
 
                 foreach (var equipCommand in EquipCommands)
@@ -1234,6 +1286,7 @@ namespace Sanguosha.UI.Controls
                 foreach (var playerModel in _game.PlayerModels)
                 {
                     playerModel.IsSelectionMode = true;
+                    playerModel.IsSelectionRepeatable = verifier.Helper.IsPlayerRepeatable;
                     playerModel.OnSelectedChanged += _updateCardUsageStatusHandler;
                 }
 
@@ -1253,10 +1306,10 @@ namespace Sanguosha.UI.Controls
                 abortCardUsageCommand.CanExecuteStatus = currentUsageVerifier.Helper.IsActionStage;
                 cancelCardUsageCommand.CanExecuteStatus = !currentUsageVerifier.Helper.IsActionStage;
 
-                _UpdateCardUsageStatus();         
+                _UpdateCardUsageStatus();
             });
         }
-        
+
         private void _ConstructCardChoiceModel(List<DeckPlace> sourceDecks, List<string> resultDeckNames,
                                                List<int> resultDeckMaximums,
                                                AdditionalCardChoiceOptions options,
@@ -1265,13 +1318,13 @@ namespace Sanguosha.UI.Controls
                                                CardChoiceRearrangeCallback callback)
         {
             bool isSingleResult = (resultDeckMaximums.Sum() == 1);
-            
+
             var choiceModel = new CardChoiceViewModel();
-            
+
             int numLines = sourceDecks.Count;
 
             foreach (var deck in sourceDecks)
-            {                
+            {
                 if (Game.CurrentGame.Decks[deck].Count == 0)
                 {
                     continue;
@@ -1287,18 +1340,18 @@ namespace Sanguosha.UI.Controls
                 {
                     if (numLines == 1 && isSingleResult && i >= maxColumns && firstRow)
                     {
-                        Trace.Assert(choiceModel.CardStacks.Count == 0);                        
+                        Trace.Assert(choiceModel.CardStacks.Count == 0);
                         choiceModel.CardStacks.Add(line);
                         line = new CardChoiceLineViewModel();
                         line.DeckName = deck.DeckType.Name;
                         line.IsResultDeck = false;
                         firstRow = false;
                     }
-                    CardViewModel model = new CardViewModel() 
+                    CardViewModel model = new CardViewModel()
                     {
                         Card = card,
                         IsSelectionMode = isSingleResult,
-                        IsEnabled = true 
+                        IsEnabled = true
                     };
 
                     line.Cards.Add(model);
@@ -1337,7 +1390,7 @@ namespace Sanguosha.UI.Controls
             if (options != null && options.Options != null)
             {
                 for (int i = 0; i < options.Options.Count; i++)
-                {                    
+                {
                     MultiChoiceCommand command = new MultiChoiceCommand(ExecuteCardChoiceCommand)
                     {
                         CanExecuteStatus = true,
@@ -1395,7 +1448,7 @@ namespace Sanguosha.UI.Controls
 
         public void AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks,
                                      List<string> resultDeckNames,
-                                     List<int> resultDeckMaximums, 
+                                     List<int> resultDeckMaximums,
                                      ICardChoiceVerifier verifier,
                                      int timeOutSeconds,
                                      AdditionalCardChoiceOptions options,
@@ -1417,7 +1470,7 @@ namespace Sanguosha.UI.Controls
                 {
                     _currentChoiceOptions = options;
                     _ConstructCardChoiceModel(sourceDecks, resultDeckNames, resultDeckMaximums, options, verifier, timeOutSeconds, callback);
-                    CardChoiceModel.Prompt = PromptFormatter.Format(prompt);   
+                    CardChoiceModel.Prompt = PromptFormatter.Format(prompt);
                     IsCardChoiceQuestionShown = true;
                 }
             });
@@ -1430,7 +1483,7 @@ namespace Sanguosha.UI.Controls
         }
 
         private List<string> _currentMultiChoices;
-        
+
         public void AskForMultipleChoice(Prompt prompt, List<string> choices, int timeOutSeconds)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
@@ -1465,13 +1518,13 @@ namespace Sanguosha.UI.Controls
                                 return;
                             }
                             else
-                            {                                
+                            {
                                 break;
-                            }                            
+                            }
                         }
                     }
                 }
-                                
+
                 for (int i = 0; i < choices.Count; i++)
                 {
                     MultiChoiceCommand command = new MultiChoiceCommand(ExecuteMultiChoiceCommand)
@@ -1500,7 +1553,7 @@ namespace Sanguosha.UI.Controls
                 }
             });
         }
-        
+
         void triggerSkill_OnSelectedChanged(object sender, EventArgs e)
         {
             lock (verifierLock)
@@ -1530,7 +1583,7 @@ namespace Sanguosha.UI.Controls
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 lock (verifierLock)
-                {                    
+                {
                     _ResetAll();
 
                     foreach (var skillCommand in SkillCommands)
@@ -1541,9 +1594,9 @@ namespace Sanguosha.UI.Controls
                         }
                         skillCommand.IsHighlighted = false;
                     }
-                    
+
                     if (currentUsageVerifier != null)
-                    {                        
+                    {
                         currentUsageVerifier = null;
                     }
                     else if (IsCardChoiceQuestionShown)
@@ -1556,7 +1609,7 @@ namespace Sanguosha.UI.Controls
                     }
                 }
             });
-        }        
+        }
         #endregion
 
         #region Private Members

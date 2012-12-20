@@ -123,9 +123,14 @@ namespace Sanguosha.UI.Controls
         private void mainArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             PlayerViewModel model = DataContext as PlayerViewModel;
-            model.IsSelected = !model.IsSelected;
+            model.SelectOnce();
         }
-		
+
+        private void mainArea_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            PlayerViewModel model = DataContext as PlayerViewModel;
+            model.IsSelected = false;
+        }
 		
         private void btnSpectate_Click(object sender, System.Windows.RoutedEventArgs e)
         {

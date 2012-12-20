@@ -54,6 +54,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             MaxPlayers = 3;
             MinPlayers = 1;
             Discarding = true;
+            IsSingleUse = true;
         }
 
         protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
@@ -68,28 +69,29 @@ namespace Sanguosha.Expansions.Fire.Skills
                 }
                 toDamage[p]++;
             }
-            bool mustDiscard = false;
-            foreach (var dmg in toDamage)
+
+            if (cards.Count > 0) // Great YeYan
             {
-                if (dmg.Value > 1)
-                {
-                    mustDiscard = true;
-                }
-            }
-            if (cards != null && cards.Count > 0)
-            {
-                if (!mustDiscard) return false;
-                Dictionary<SuitType, bool> suits = new Dictionary<SuitType, bool>();
+                if (toDamage.Count >= 3) return false;
+                HashSet<SuitType> suits = new HashSet<SuitType>();
                 foreach (var card in cards)
                 {
-                    if (suits.ContainsKey(card.Suit))
+                    if (suits.Contains(card.Suit))
                     {
                         return false;
                     }
-                    suits.Add(card.Suit, true);
+                    suits.Add(card.Suit);
                 }
+                if (suits.Count > 4) return false;
+                else if (suits.Count == 4 && toDamage.Values.Max() > 1) return true;
+                else return null;
             }
-            return true;
+            else
+            {
+                if (toDamage.Count > 3) return false;
+                else if (toDamage.Count == 0) return null;
+                else return true;
+            }
         }
 
         protected override bool VerifyCard(Player source, Card card)

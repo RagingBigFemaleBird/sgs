@@ -124,6 +124,7 @@
     <sys:String x:Key="Skill.QiXi.Name">奇袭</sys:String>
     <sys:String x:Key="Skill.QiXi.Description">你可以将一张黑色牌当【过河拆桥】使用。</sys:String>
     <sys:String x:Key="Skill.QiXi.Usage">点“奇袭”→选中1张牌（黑色手牌或装备）→选择目标→点“确定”→点选牌</sys:String>
+    <sys:String x:Key="Skill.QiXi.Prompt">请选择一张黑色手牌</sys:String>
 
     <sys:String x:Key="Skill.KeJi.Name">克己</sys:String>
     <sys:String x:Key="Skill.KeJi.Description">若你于出牌阶段内未使用或打出过【杀】，你可以跳过此回合的弃牌阶段。</sys:String>
@@ -140,11 +141,13 @@
     <sys:String x:Key="Skill.FanJian.Name">反间</sys:String>
     <sys:String x:Key="Skill.FanJian.Description">出牌阶段，你可以令一名其他角色选择一种花色后获得你的一张手牌并展示之，若此牌的花色与其所选的不同，你对该角色造成1点伤害。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.FanJian.Usage">点“反间”→选择目标→点“确定”</sys:String>
-
+    <sys:String x:Key="Skill.FanJian.Prompt">请选择一名目标</sys:String>
+    
     <sys:String x:Key="Skill.GuoSe.Name">国色</sys:String>
     <sys:String x:Key="Skill.GuoSe.Description">你可以将一张方块牌当【乐不思蜀】使用。</sys:String>
     <sys:String x:Key="Skill.GuoSe.Usage">点“国色”→选中1张牌（方块花色手牌或装备）→选择目标→点“确定”</sys:String>
-
+    <sys:String x:Key="Skill.GuoSe.Prompt">请选择一张方片手牌</sys:String>
+    
     <sys:String x:Key="Skill.LiuLi.Name">流离</sys:String>
     <sys:String x:Key="Skill.LiuLi.Description">当你成为【杀】的目标时，你可以弃置一张牌，将此【杀】转移给你攻击范围内的一名其他角色（此【杀】的使用者除外）。</sys:String>
     <sys:String x:Key="Skill.LiuLi.Usage">系统提示→选中1张牌（手牌或装备）→选择目标（攻击范围内）→点“确定”</sys:String>
@@ -159,7 +162,8 @@
     <sys:String x:Key="Skill.JieYin.Name">结姻</sys:String>
     <sys:String x:Key="Skill.JieYin.Description">出牌阶段，你可以弃置两张手牌并选择一名已受伤的男性角色，你与其各回复1点体力。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.JieYin.Usage">点“结姻”→选中2张手牌→选择目标→点“确定”</sys:String>
-
+    <sys:String x:Key="Skill.JieYin.Prompt">请选择2张手牌和1名男性角色</sys:String>
+    
     <sys:String x:Key="Skill.XiaoJi.Name">枭姬</sys:String>
     <sys:String x:Key="Skill.XiaoJi.Description">当你失去装备区里的一张装备牌时，你可以摸两张牌。</sys:String>
     <sys:String x:Key="Skill.XiaoJi.Usage">系统提示→点“确定”</sys:String>
@@ -167,17 +171,20 @@
     <sys:String x:Key="Skill.JiJiu.Name">急救</sys:String>
     <sys:String x:Key="Skill.JiJiu.Description">你的回合外，你可以将一张红色牌当【桃】使用。</sys:String>
     <sys:String x:Key="Skill.JiJiu.Usage">非自己回合需使用【桃】时→点“急救”→选中1张牌（红色手牌或装备）→点“确定”</sys:String>
-
+    <sys:String x:Key="Skill.JiJiu.Prompt">请选择一张红色手牌</sys:String>
+    
     <sys:String x:Key="Skill.QingNang.Name">青囊</sys:String>
     <sys:String x:Key="Skill.QingNang.Description">出牌阶段，你可以弃置一张手牌，令一名已受伤的角色回复1点体力。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.QingNang.Usage">点“青囊”→选中1张手牌→选择目标→点“确定”</sys:String>
-
+    <sys:String x:Key="Skill.QingNang.Prompt">请选择一张手牌</sys:String>
+    
     <sys:String x:Key="Skill.WuShuang.Name">无双</sys:String>
     <sys:String x:Key="Skill.WuShuang.Description">锁定技，当你使用【杀】指定一名角色为目标后，该角色需连续使用两张【闪】才能抵消；与你进行【决斗】的角色每次需连续打出两张【杀】。</sys:String>
 
     <sys:String x:Key="Skill.LiJian.Name">离间</sys:String>
     <sys:String x:Key="Skill.LiJian.Description">出牌阶段，你可以弃置一张牌并选择两名男性角色，视为其中一名男性角色对另一名男性角色使用一张【决斗】（不可以使用【无懈可击】对此【决斗】进行响应）。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.LiJian.Usage">点“离间”→选中1张牌（手牌或装备）→选择先出【杀】的目标→选择后出【杀】的目标→点“确定”</sys:String>
+    <sys:String x:Key="Skill.LiJian.Prompt">请选1张手牌和2名男性目标，先点的目标先出杀</sys:String>
 
     <sys:String x:Key="Skill.BiYue.Name">闭月</sys:String>
     <sys:String x:Key="Skill.BiYue.Description">回合结束阶段开始时，你可以摸一张牌。</sys:String>

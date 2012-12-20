@@ -399,6 +399,17 @@
   <ItemGroup>
     <Resource Include="Images\Cards\SmallEquip\QingGangJian.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Digits\1.png" />
+    <Resource Include="Images\Digits\2.png" />
+    <Resource Include="Images\Digits\3.png" />
+    <Resource Include="Images\Digits\4.png" />
+    <Resource Include="Images\Digits\5.png" />
+    <Resource Include="Images\Digits\6.png" />
+    <Resource Include="Images\Digits\7.png" />
+    <Resource Include="Images\Digits\8.png" />
+    <Resource Include="Images\Digits\9.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /S /Y $(ProjectDir)*.* $(TargetDir)Resources\

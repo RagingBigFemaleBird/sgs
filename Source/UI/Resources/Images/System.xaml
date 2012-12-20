@@ -256,4 +256,14 @@
     <CroppedBitmap x:Key="Mark.Digit.7.Image" Source="Marks/marks.png" SourceRect="143,84,7,10" />
     <CroppedBitmap x:Key="Mark.Digit.8.Image" Source="Marks/marks.png" SourceRect="151,84,7,10" />
     <CroppedBitmap x:Key="Mark.Digit.9.Image" Source="Marks/marks.png" SourceRect="159,84,8,10" />
+
+    <BitmapImage x:Key="Selection.Digit.1">Digits/1.png</BitmapImage>
+    <BitmapImage x:Key="Selection.Digit.2">Digits/2.png</BitmapImage>
+    <BitmapImage x:Key="Selection.Digit.3">Digits/3.png</BitmapImage>
+    <BitmapImage x:Key="Selection.Digit.4">Digits/4.png</BitmapImage>
+    <BitmapImage x:Key="Selection.Digit.5">Digits/5.png</BitmapImage>
+    <BitmapImage x:Key="Selection.Digit.6">Digits/6.png</BitmapImage>
+    <BitmapImage x:Key="Selection.Digit.7">Digits/7.png</BitmapImage>
+    <BitmapImage x:Key="Selection.Digit.8">Digits/8.png</BitmapImage>
+    <BitmapImage x:Key="Selection.Digit.9">Digits/9.png</BitmapImage>
 </ResourceDictionary>

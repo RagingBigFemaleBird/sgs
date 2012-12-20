@@ -33,11 +33,19 @@ namespace Sanguosha.UI.Controls
                 if (oldValue != isSelected)
                 {
                     OnPropertyChanged("IsSelected");
-                }
-                EventHandler handle = OnSelectedChanged;
-                if (handle != null)
-                {
-                    handle(this, new EventArgs());
+                    if (isSelected && SelectedTimes == 0)
+                    {
+                        SelectedTimes = 1;
+                    }
+                    else if (!isSelected && SelectedTimes == 1)
+                    {
+                        SelectedTimes = 0;
+                    }
+                    EventHandler handle = OnSelectedChanged;
+                    if (handle != null)
+                    {
+                        handle(this, new EventArgs());
+                    }
                 }
             }
         }
@@ -54,6 +62,7 @@ namespace Sanguosha.UI.Controls
                 if (isSelected)
                 {
                     isSelected = false;
+                    SelectedTimes = 0;
                     OnPropertyChanged("IsSelected");
                 }
                 if (isFaded)
@@ -67,6 +76,7 @@ namespace Sanguosha.UI.Controls
                 if (isSelected)
                 {
                     isSelected = false;
+                    SelectedTimes = 0;
                     OnPropertyChanged("IsSelected");
                 }
                 if (!isFaded)
@@ -137,8 +147,65 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        private bool _isSelectionRepeatable;
+        public bool IsSelectionRepeatable 
+        {
+            get
+            {
+                return _isSelectionRepeatable;
+            }
+            set
+            {
+                if (_isSelectionRepeatable == value) return;
+                _isSelectionRepeatable = value;
+                OnPropertyChanged("IsSelectionRepeatable");
+            }
+        }
+
+        private int _selectedTimes;
+        public int SelectedTimes 
+        {
+            get
+            {
+                return _selectedTimes;
+            }
+            set
+            {
+                if (_selectedTimes == value) return;
+                _selectedTimes = value;
+                OnPropertyChanged("SelectedTimes");
+            }
+        }
+
+        public bool CanBeSelectedMore { get; set; }
+
         public event EventHandler OnSelectedChanged;
 
         #endregion
+
+        public void SelectOnce()
+        {
+            if (IsSelectionRepeatable && IsSelected)
+            {
+                if (!CanBeSelectedMore)
+                {
+                    SelectedTimes = 0;
+                    IsSelected = false;
+                }
+                else
+                {
+                    SelectedTimes++;
+                    EventHandler handle = OnSelectedChanged;
+                    if (handle != null)
+                    {
+                        handle(this, new EventArgs());
+                    }
+                }
+            }
+            else
+            {
+                IsSelected = !IsSelected;
+            }
+        }
     }
 }

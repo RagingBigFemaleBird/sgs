@@ -72,6 +72,7 @@
     <sys:String x:Key="Skill.YeYan.Name">业炎</sys:String>
     <sys:String x:Key="Skill.YeYan.Description">限定技，出牌阶段，你可以选择一至三名角色，你分别对他们造成最多共3点火焰伤害（你可以任意分配），若你将对一名角色分配2点或更多的火焰伤害，你须先弃置四张不同花色的手牌并失去3点体力。</sys:String>
     <sys:String x:Key="Skill.YeYan.Usage">点“业炎”→选中四张不同花色的牌（可略过）→分配伤害→点“确定”</sys:String>
+    <sys:String x:Key="Skill.YeYan.Prompt">请多次点击同一目标以分配多点伤害</sys:String>
 
     <sys:String x:Key="Skill.QiXing.Name">七星</sys:String>
     <sys:String x:Key="Skill.QiXing.Description">分发起始手牌时，共发你十一张牌，你选四张作为手牌，其余的面朝下置于一旁，称为“星”；摸牌阶段结束时，你可以用任意数量的手牌等量替换这些“星”。</sys:String>

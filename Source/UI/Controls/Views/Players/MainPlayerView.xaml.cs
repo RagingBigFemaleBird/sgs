@@ -116,7 +116,13 @@ namespace Sanguosha.UI.Controls
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             PlayerViewModel model = DataContext as PlayerViewModel;
-            model.IsSelected = !model.IsSelected;
+            model.SelectOnce();
+        }
+
+        private void Border_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            PlayerViewModel model = DataContext as PlayerViewModel;
+            model.IsSelected = false;
         }
 
         protected override void AddHandCards(IList<CardView> cards)
