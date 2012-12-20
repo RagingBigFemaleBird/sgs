@@ -149,7 +149,13 @@ namespace Sanguosha.UI.Controls
                 bool doHighlight = (_cardInteraction != CardInteraction.None && highlightIndex >= 0 && highlightIndex != _cards.Count - 1);
 
                 double maxWidth = doHighlight ? Math.Max(0, totalWidth - extraSpace) : totalWidth;
-                double step = Math.Max(0, Math.Min(MaxCardSpacing, (maxWidth - cardWidth) / (numCards - 1))); 
+                double step = Math.Max(0, Math.Min(MaxCardSpacing, (maxWidth - cardWidth) / (numCards - 1)));
+
+                if (this.Parent is StackPanel)
+                {
+                    Trace.TraceInformation("Stack width: {0}", ActualWidth);
+                    Trace.TraceInformation("Card distance: {0}", step);
+                }
 
                 if (step == MaxCardSpacing) doHighlight = false;
 

@@ -180,11 +180,6 @@ namespace Sanguosha.UI.Controls
                 _cardSlots.Children.Add(_resultSlotPanel);
             }
 
-            foreach (var stack in _allCardStacks.Concat(_allCardSlots))
-            {
-                stack.RearrangeCards(0d);
-            }
-
             // Progress bar
             if (model.TimeOutSeconds > 0)
             {

@@ -56,9 +56,9 @@
                             	</VisualStateManager.VisualStateGroups>
                                 <Grid x:Name="gridNormalAppearance">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="24"/>
+                                        <ColumnDefinition Width="11"/>
                                         <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="21"/>
+                                        <ColumnDefinition Width="11"/>
                                     </Grid.ColumnDefinitions>
                                     <Image HorizontalAlignment="Right" Stretch="Fill" Source="{DynamicResource Button.MultiChoice.Up.Left}"/>
                                     <Image Grid.Column="1" Stretch="Fill" Source="{DynamicResource Button.MultiChoice.Up.Middle}"/>
@@ -67,9 +67,9 @@
 
                                 <Grid x:Name="gridHoverAppearance" Visibility="Hidden">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="24"/>
+                                        <ColumnDefinition Width="11"/>
                                         <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="21"/>
+                                        <ColumnDefinition Width="11"/>
                                     </Grid.ColumnDefinitions>
                                     <Image HorizontalAlignment="Right" Stretch="Fill" Source="{DynamicResource Button.MultiChoice.Hover.Left}"/>
                                     <Image Grid.Column="1" Stretch="Fill" Source="{DynamicResource Button.MultiChoice.Hover.Middle}"/>
@@ -78,9 +78,9 @@
 
                                 <Grid x:Name="gridDownAppearance" Visibility="Hidden">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="24"/>
+                                        <ColumnDefinition Width="11"/>
                                         <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="21"/>
+                                        <ColumnDefinition Width="11"/>
                                     </Grid.ColumnDefinitions>
                                     <Image HorizontalAlignment="Right" Stretch="Fill" Source="{DynamicResource Button.MultiChoice.Down.Left}"/>
                                     <Image Grid.Column="1" Stretch="Fill" Source="{DynamicResource Button.MultiChoice.Down.Middle}"/>
@@ -89,9 +89,9 @@
 
                                 <Grid x:Name="gridDisabledAppearance" Visibility="Hidden">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="24"/>
+                                        <ColumnDefinition Width="11"/>
                                         <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="21"/>
+                                        <ColumnDefinition Width="11"/>
                                     </Grid.ColumnDefinitions>
                                     <Image HorizontalAlignment="Right" Stretch="Fill" Source="{DynamicResource Button.MultiChoice.Disabled.Left}"/>
                                     <Image Grid.Column="1" Stretch="Fill" Source="{DynamicResource Button.MultiChoice.Disabled.Middle}"/>
