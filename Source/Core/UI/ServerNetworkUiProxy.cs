@@ -128,7 +128,13 @@ namespace Sanguosha.Core.UI
                 }
                 players.Add(item);
             }
-            if (verifier.FastVerify(HostPlayer, skill, cards, players) != VerifierResult.Success)
+            bool requireUnique = true;
+            if (skill is ActiveSkill)
+            {
+                if ((skill as ActiveSkill).UiHelper != null && (skill as ActiveSkill).UiHelper.IsPlayerRepeatable) requireUnique = false;
+            }
+            if ((players != null && players.Distinct().Count() != players.Count && requireUnique) ||
+                verifier.FastVerify(HostPlayer, skill, cards, players) != VerifierResult.Success)
             {
                 Trace.TraceWarning("Client seems to be sending invalid answers at us. DDOS?");
                 cards = null;

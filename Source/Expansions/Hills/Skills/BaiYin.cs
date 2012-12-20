@@ -138,7 +138,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 return true;
             }
 
-            protected override bool AdditionalVerify(Player source, List<Card> cards, List<Player> players)
+            protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
             {
                 return source[RenJie.RenMark] > 0 && source[BaiYinWanShaUsed] == 0;
             }

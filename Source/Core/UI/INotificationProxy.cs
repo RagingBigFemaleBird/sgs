@@ -26,8 +26,8 @@ namespace Sanguosha.Core.UI
         void NotifyGameOver(GameResult result);
         void NotifyActionComplete();
         void NotifyLoseHealth(Player player, int p);
-        void NotifyCloseWindow(int windowId);
         void NotifyShowCard(Player p, Card card);
+        void NotifyCardChoiceCallback(object o);
     }
 
     public class DummyNotificationProxy : INotificationProxy
@@ -71,11 +71,11 @@ namespace Sanguosha.Core.UI
         {
         }
 
-        public void NotifyCloseWindow(int windowId)
+        public void NotifyShowCard(Player p, Card card)
         {
         }
 
-        public void NotifyShowCard(Player p, Card card)
+        public void NotifyCardChoiceCallback(object o)
         {
         }
     }

@@ -109,8 +109,8 @@ namespace Sanguosha.Core.Triggers
 
         public static readonly GameEvent DoPlayer;
         public static readonly GameEvent Shuffle;
+        public static readonly GameEvent GameStart;
 
-        public static readonly GameEvent PlayerGameStartAction = new GameEvent("PlayerGameStartAction");
 
         // Events defined on dadao.net/sgs
         /// <summary>
@@ -121,7 +121,7 @@ namespace Sanguosha.Core.Triggers
         /// 在游戏开始前分发起始手牌时发动的武将技能：【七星①】。
         /// 在游戏开始时发动的武将技能：【狂暴①】。
         /// </remarks>
-        public static readonly GameEvent GameStart;
+        public static readonly GameEvent PlayerGameStartAction = new GameEvent("PlayerGameStartAction");
 
         /// <summary>
         /// Cleanup triggers only 例如双雄

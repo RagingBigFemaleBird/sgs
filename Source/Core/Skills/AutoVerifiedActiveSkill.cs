@@ -69,7 +69,7 @@ namespace Sanguosha.Core.Skills
 
         protected abstract bool VerifyPlayer(Player source, Player player);
 
-        protected virtual bool AdditionalVerify(Player source, List<Card> cards, List<Player> players)
+        protected virtual bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
         {
             return true;
         }
@@ -108,9 +108,14 @@ namespace Sanguosha.Core.Skills
                     }
                 }
             }
-            if (!AdditionalVerify(source, cards, players))
+            bool? result = AdditionalVerify(source, cards, players);
+            if (result == false)
             {
                 return VerifierResult.Fail;
+            }
+            if (result == null)
+            {
+                return VerifierResult.Partial;
             }
             int count = players == null ? 0 : players.Count;
             if (count < minPlayers)

@@ -54,7 +54,9 @@ namespace Sanguosha.Expansions.Wind.Skills
                     new List<string>() { "PaiDuiDing", "QiPaiDui" },
                     new List<int>() { 1, 1 },
                     new GongXinVerifier(),
-                    out answer))
+                    out answer,
+                    null,
+                    CardChoiceCallback.GenericCardChoiceCallback))
             {
                 if (answer[0] != null && answer[0].Count > 0)
                 {

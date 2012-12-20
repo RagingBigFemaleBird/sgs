@@ -147,6 +147,13 @@ namespace Sanguosha.Core.Network
                             }
                         }
                     }
+                    if (i.obj is CardChoiceCallback)
+                    {
+                        for (int ec = 0; ec < maxClients; ec++)
+                        {
+                            SendInterruptedObject(ec, o);
+                        }
+                    }
                     return true;
                 }
             }
@@ -305,34 +312,12 @@ namespace Sanguosha.Core.Network
             SendObject(clientId, new FlushObject());
         }
 
-        // todo: this function not working
         public void SendInterruptedObject(int clientId, Object o)
         {
-            if (o is Card)
-            {
-                Card card = o as Card;
-                CardItem item = new CardItem();
-                item.playerId = Game.CurrentGame.Players.IndexOf(card.Place.Player);
-                item.deck = card.Place.DeckType;
-                item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
-                Trace.Assert(item.place >= 0);
-                item.Id = card.Id;
-                item.rank = card.Rank;
-                item.suit = (int)card.Suit;
-                CommandItem citem = new CommandItem();
-                citem.command = Command.Interrupt;
-                citem.data = 1;
-                citem.obj = item;
-                Trace.TraceInformation("Interrupted, sending a {0} to {1}", citem, clientId);
-                handlers[clientId].semAccess.WaitOne();
-                handlers[clientId].queueOut.Enqueue(citem);
-                handlers[clientId].semAccess.Release(1);
-                handlers[clientId].semOut.Release(1);
-            }
-            else
-            {
-                Trace.Assert(false);
-            }
+            Trace.TraceInformation("Interrupted, sending a {0} to {1}", o.GetType(), clientId);
+            handlers[clientId].semAccess.WaitOne();
+            handlers[clientId].queueOut.Enqueue(o);
+            handlers[clientId].semAccess.Release(1);
         }
 
         private void Listener()

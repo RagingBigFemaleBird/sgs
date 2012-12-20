@@ -17,7 +17,6 @@ namespace Sanguosha.Expansions.Basic.Cards
     
     public class WuGuFengDeng : CardHandler
     {
-        int currentWindowId;
         protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
         {
             DeckType wuguDeck = new DeckType("WuGu");
@@ -35,12 +34,11 @@ namespace Sanguosha.Expansions.Basic.Cards
                 answer[0].Add(Game.CurrentGame.Decks[null, wuguDeck][0]);
             }
 
-            Game.CurrentGame.HandleCardTransferToHand(null, dest, answer[0], new MovementHelper() { WindowId = currentWindowId });
+            Game.CurrentGame.HandleCardTransferToHand(null, dest, answer[0]);
         }
 
         public override void Process(Player source, List<Player> dests, ICard card, ReadOnlyCard readonlyCard)
         {
-            currentWindowId = -1;
             DeckType wuguDeck = new DeckType("WuGu");
             CardsMovement move = new CardsMovement();
             move.cards = new List<Card>();
@@ -53,7 +51,6 @@ namespace Sanguosha.Expansions.Basic.Cards
             move.to = new DeckPlace(null, wuguDeck);
             Game.CurrentGame.MoveCards(move, null);
             base.Process(source, dests, card, readonlyCard);
-            Game.CurrentGame.NotificationProxy.NotifyCloseWindow(currentWindowId);
             if (Game.CurrentGame.Decks[null, wuguDeck].Count > 0)
             {
                 move = new CardsMovement();

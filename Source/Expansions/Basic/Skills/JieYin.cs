@@ -52,7 +52,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             Discarding = true;
         }
 
-        protected override bool AdditionalVerify(Player source, List<Card> cards, List<Player> players)
+        protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
         {
             return source[JieYinUsed] == 0;
         }
