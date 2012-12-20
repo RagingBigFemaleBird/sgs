@@ -83,7 +83,7 @@ namespace Sanguosha.Expansions.Fire.Skills
                     suits.Add(card.Suit);
                 }
                 if (suits.Count > 4) return false;
-                else if (suits.Count == 4 && toDamage.Values.Max() > 1) return true;
+                else if (suits.Count == 4 && toDamage.Count > 0 && toDamage.Values.Max() > 1) return true;
                 else return null;
             }
             else
