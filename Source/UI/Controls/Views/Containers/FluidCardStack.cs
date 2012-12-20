@@ -160,6 +160,7 @@ namespace Sanguosha.UI.Controls
             lock (syncFocusedCard)
             {
                 UIElement element = sender as UIElement;
+                if (!element.IsEnabled) return;
                 if (element != null && element != focusedCard)
                 {
                     var container = element as FrameworkElement;
@@ -169,7 +170,10 @@ namespace Sanguosha.UI.Controls
                         CardViewModel card = container.DataContext as CardViewModel;
                         if (card != null)
                         {
-                            card.IsFaded = false;
+                            if (card.IsEnabled)
+                            {
+                                card.IsFaded = false;
+                            }
                             foreach (var otherElement in Children)
                             {
                                 container = otherElement as FrameworkElement;
@@ -193,6 +197,7 @@ namespace Sanguosha.UI.Controls
             lock (syncFocusedCard)
             {
                 UIElement element = sender as UIElement;
+                if (!element.IsEnabled) return;
                 if (element != null && element == focusedCard)
                 {
                     var container = element as FrameworkElement;
@@ -201,7 +206,10 @@ namespace Sanguosha.UI.Controls
                         CardViewModel card = container.DataContext as CardViewModel;
                         if (card != null)
                         {
-                            if (card.IsEnabled) card.IsFaded = false;
+                            if (card.IsEnabled)
+                            {
+                                card.IsFaded = false;
+                            }
                             foreach (var anyElement in Children)
                             {
                                 container = anyElement as FrameworkElement;
@@ -209,7 +217,10 @@ namespace Sanguosha.UI.Controls
                                 CardViewModel anyCard = container.DataContext as CardViewModel;
                                 if (anyCard != null)
                                 {
-                                    if (anyCard.IsEnabled) anyCard.IsFaded = false;
+                                    if (anyCard.IsEnabled)
+                                    {
+                                        anyCard.IsFaded = false;
+                                    }
                                 }
                             }
                         }
