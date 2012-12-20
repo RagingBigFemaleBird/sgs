@@ -128,7 +128,7 @@ namespace Sanguosha.UI.Controls
                 
                 Thickness margin = (Thickness)card.GetValue(Panel.MarginProperty);
 
-                card.Arrange(new Rect(HighlightItemExtraSpacing + i * space + totalMargin + spacing, 0, 
+                card.Arrange(new Rect(HighlightItemExtraSpacing + i * space + totalMargin + spacing, margin.Top, 
                              card.DesiredSize.Width + margin.Left + margin.Right, height));
                 totalMargin += margin.Left + margin.Right;
             }
@@ -169,7 +169,6 @@ namespace Sanguosha.UI.Controls
                         CardViewModel card = container.DataContext as CardViewModel;
                         if (card != null)
                         {
-                            card.IsEnabled = true;
                             card.IsFaded = false;
                             foreach (var otherElement in Children)
                             {
@@ -178,7 +177,6 @@ namespace Sanguosha.UI.Controls
                                 CardViewModel otherCard = container.DataContext as CardViewModel;
                                 if (otherCard != null && otherCard != card)
                                 {
-                                    otherCard.IsEnabled = false;
                                     otherCard.IsFaded = true;
                                 }
                             }
@@ -203,8 +201,7 @@ namespace Sanguosha.UI.Controls
                         CardViewModel card = container.DataContext as CardViewModel;
                         if (card != null)
                         {
-                            card.IsEnabled = true;
-                            card.IsFaded = false;
+                            if (card.IsEnabled) card.IsFaded = false;
                             foreach (var anyElement in Children)
                             {
                                 container = anyElement as FrameworkElement;
@@ -212,8 +209,7 @@ namespace Sanguosha.UI.Controls
                                 CardViewModel anyCard = container.DataContext as CardViewModel;
                                 if (anyCard != null)
                                 {
-                                    anyCard.IsEnabled = true;
-                                    anyCard.IsFaded = false;
+                                    if (anyCard.IsEnabled) anyCard.IsFaded = false;
                                 }
                             }
                         }

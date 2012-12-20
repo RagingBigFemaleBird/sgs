@@ -37,7 +37,5 @@
     <system:String x:Key="MultiChoice.Prompt.SkillYesNo">是否发动{0}?</system:String>
     <system:String x:Key="Translation.Usage">操作步骤</system:String>
     
-    <system:String x:Key="CardSlot.Hint.PaiDuiDing">置于牌堆顶</system:String>
-    <system:String x:Key="CardSlot.Hint.QiPaiDui">置于弃牌堆</system:String>
     <system:String x:Key="MultiChoice.Choice.Confirm">确定</system:String>
 </ResourceDictionary>

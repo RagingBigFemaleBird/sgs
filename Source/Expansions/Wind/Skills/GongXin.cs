@@ -73,26 +73,14 @@ namespace Sanguosha.Expansions.Wind.Skills
         {
             public VerifierResult Verify(List<List<Card>> answer)
             {
-                if (answer != null)
-                {
-                    bool c1 = false, c2 = false;
-                    if (answer.Count > 0 && answer[0] != null && answer[0].Count > 0)
-                    {
-                        c1 = true;
-                    }
-                    if (answer.Count > 1 && answer[1] != null && answer[1].Count > 0)
-                    {
-                        c2 = true;
-                    }
-                    if (c1 && c2)
-                    {
-                        return VerifierResult.Fail;
-                    }
-                }
-                return VerifierResult.Success;
+                if (answer == null) return VerifierResult.Success;
+                Trace.Assert(answer.Count == 2);
+                var result = answer[0].Concat(answer[1]);
+                if (result.Count() == 0 || (result.Count() == 1 && result.First().Suit == SuitType.Heart))
+                    return VerifierResult.Success;
+                else
+                    return VerifierResult.Fail;
             }
-
         }
-
     }
 }
