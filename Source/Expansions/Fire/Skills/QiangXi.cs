@@ -46,7 +46,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             Discarding = true;
         }
 
-        protected override bool AdditionalVerify(Player source, List<Card> cards, List<Player> players)
+        protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
         {
             if (source[QiangXiUsed] != 0) return false;
             if (cards != null && cards.Count > 0)
