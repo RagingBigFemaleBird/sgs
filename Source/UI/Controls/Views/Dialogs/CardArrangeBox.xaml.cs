@@ -216,6 +216,44 @@ namespace Sanguosha.UI.Controls
             set { _interactingCard = value; }
         }
 
+        private void _UpdateVerifiedStatus()
+        {
+            CardChoiceViewModel model = DataContext as CardChoiceViewModel;
+            if (model == null) return;
+
+            int i = 0;
+            while (!model.CardStacks[i].IsResultDeck) i++;
+
+            foreach (var stack in _allCardStacks)
+            {
+                if (_stackInfo[stack].IsResultDeck) break;
+
+                foreach (var card in stack.Cards)
+                {
+                    bool possible = false;
+                    int j = 0;
+                    foreach (var list in model.Answer)
+                    {
+                        // @todo : For now, we do not verify the order of cards.
+                        int capacity = model.CardStacks[i + j].Capacity;
+                        Trace.Assert(capacity >= list.Count && !list.Contains(card.Card));
+                        if (model.CardStacks[i + j].Capacity == list.Count) continue;
+                        list.Add(card.Card);
+                        if (model.Verifier.Verify(model.Answer) != Core.UI.VerifierResult.Fail)
+                        {
+                            possible = true;
+                            list.Remove(card.Card);
+                            break;
+                        }
+                        list.Remove(card.Card);
+                        j++;
+                    }
+                    card.CardModel.IsEnabled = possible;
+                    card.CardModel.IsFaded = !possible;                    
+                }
+            }
+        }
+
         private CardStack _sourceDeck;
         
         private void cardView_OnDragEnd(object sender, EventArgs e)
@@ -245,6 +283,7 @@ namespace Sanguosha.UI.Controls
                 _sourceDeck.RearrangeCards(0.2d);
             }
             _UpdateAnswer();
+            _UpdateVerifiedStatus();
         }
 
         private void _UpdateAnswer()

@@ -43,6 +43,11 @@ namespace Sanguosha.UI.Controls
             {
                 foreach (var card in s.Cards)
                 {
+                    if (model.Verifier.Verify(new List<List<Card>>() { new List<Card>() { card.Card } })
+                        != Core.UI.VerifierResult.Success)
+                    {
+                        card.IsEnabled = false;
+                    }
                     card.OnSelectedChanged += (o, e) => 
                     {
                         var c = o as CardViewModel;

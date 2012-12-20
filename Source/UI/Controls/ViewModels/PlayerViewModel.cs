@@ -1260,6 +1260,7 @@ namespace Sanguosha.UI.Controls
         private void _ConstructCardChoiceModel(List<DeckPlace> sourceDecks, List<string> resultDeckNames,
                                                List<int> resultDeckMaximums,
                                                AdditionalCardChoiceOptions options,
+                                               ICardChoiceVerifier verifier,
                                                int timeOutSeconds,
                                                CardChoiceRearrangeCallback callback)
         {
@@ -1355,7 +1356,7 @@ namespace Sanguosha.UI.Controls
                 };
                 choiceModel.MultiChoiceCommands.Add(command);
             }
-
+            choiceModel.Verifier = verifier;
             choiceModel.TimeOutSeconds = timeOutSeconds;
             CardChoiceModel = choiceModel;
         }
@@ -1415,7 +1416,7 @@ namespace Sanguosha.UI.Controls
                 lock (verifierLock)
                 {
                     _currentChoiceOptions = options;
-                    _ConstructCardChoiceModel(sourceDecks, resultDeckNames, resultDeckMaximums, options, timeOutSeconds, callback);
+                    _ConstructCardChoiceModel(sourceDecks, resultDeckNames, resultDeckMaximums, options, verifier, timeOutSeconds, callback);
                     CardChoiceModel.Prompt = PromptFormatter.Format(prompt);   
                     IsCardChoiceQuestionShown = true;
                 }

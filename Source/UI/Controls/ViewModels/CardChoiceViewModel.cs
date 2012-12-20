@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Sanguosha.Core.Cards;
+using Sanguosha.Core.UI;
 
 namespace Sanguosha.UI.Controls
 {
@@ -156,5 +157,7 @@ namespace Sanguosha.UI.Controls
             get;
             private set;
         }
+
+        public ICardChoiceVerifier Verifier { get; set; }
     }
 }

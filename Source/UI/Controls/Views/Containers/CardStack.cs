@@ -141,6 +141,9 @@ namespace Sanguosha.UI.Controls
                 int zindex = 0;
                 double totalWidth = this.ActualWidth;
                 
+                // Do not continue if the layout has not been updated yet.
+                if (totalWidth == 0) return;
+
                 double extraSpace = Math.Min(MaxCardSpacing - (totalWidth - cardWidth) / (numCards - 1), _extraSpaceForHighlightedCard);
                 int highlightIndex = (_interactingCard == null) ? -1 : cards.IndexOf(_interactingCard);
                 bool doHighlight = (_cardInteraction != CardInteraction.None && highlightIndex >= 0 && highlightIndex != _cards.Count - 1);
