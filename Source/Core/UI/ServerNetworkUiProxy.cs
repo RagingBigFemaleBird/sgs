@@ -84,14 +84,7 @@ namespace Sanguosha.Core.UI
             {
                 return false;
             }
-            if (count == 0)
-            {
-                cards = null;
-            }
-            else
-            {
-                cards = new List<Card>();
-            }
+            cards = new List<Card>();
             while (count-- > 0)
             {
                 Card item = server.GetCard(clientId, 0);
@@ -111,14 +104,7 @@ namespace Sanguosha.Core.UI
             {
                 return false;
             }
-            if (count == 0)
-            {
-                players = null;
-            }
-            else
-            {
-                players = new List<Player>();
-            }
+            players = new List<Player>();
             while (count-- > 0)
             {
                 Player item = server.GetPlayer(clientId, 0);
@@ -137,9 +123,9 @@ namespace Sanguosha.Core.UI
                 verifier.FastVerify(HostPlayer, skill, cards, players) != VerifierResult.Success)
             {
                 Trace.TraceWarning("Client seems to be sending invalid answers at us. DDOS?");
-                cards = null;
+                cards = new List<Card>();
                 skill = null;
-                players = null;
+                players = new List<Player>();
                 return false;
             }
             return true;

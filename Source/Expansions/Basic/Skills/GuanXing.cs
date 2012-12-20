@@ -100,7 +100,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             else
             {
                 Game.CurrentGame.InsertBeforeDeal(null, answer[0]);
-                Game.CurrentGame.PlaceIntoDiscard(null, answer[1]);
+                Game.CurrentGame.InsertAfterDeal(null, answer[1]);
             }
 
         }

@@ -1784,6 +1784,18 @@ namespace Sanguosha.Core.Games
             }
         }
 
+        public void InsertAfterDeal(Player target, List<Card> list, MovementHelper helper = null)
+        {
+            CardsMovement move = new CardsMovement();
+            move.cards = new List<Card>(list);
+            move.to = new DeckPlace(null, DeckType.Dealing);
+            MoveCards(move, helper);
+            if (target != null)
+            {
+                PlayerLostCard(target, list);
+            }
+        }
+
         public void PlaceIntoDiscard(Player target, List<Card> list)
         {
             CardsMovement move = new CardsMovement();

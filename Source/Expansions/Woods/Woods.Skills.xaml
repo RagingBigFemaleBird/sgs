@@ -12,7 +12,7 @@
 
     <sys:String x:Key="Hero.JiaXu.Name">贾诩</sys:String>
     <sys:String x:Key="Hero.CaoPi.Name">曹丕</sys:String>
-    <sys:String x:Key="Hero.SunCe.Name">孙策</sys:String>
+    <sys:String x:Key="Hero.SunJian.Name">孙坚</sys:String>
     <sys:String x:Key="Hero.ZhuRong.Name">祝融</sys:String>
 
     <sys:String x:Key="Skill.WanSha.Name">完杀</sys:String>

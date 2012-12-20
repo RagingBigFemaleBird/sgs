@@ -267,7 +267,7 @@ namespace Sanguosha.UI.Controls
                 }
                 e.Handled = true;
             }
-            Trace.Assert(_dragState == DragState.None);
+            //Trace.Assert(_dragState == DragState.None);
             _dragState = DragState.MouseDown;
         }
 
