@@ -37,7 +37,7 @@ namespace Sanguosha.UI.Controls
                     {
                         SelectedTimes = 1;
                     }
-                    else if (!isSelected && SelectedTimes == 1)
+                    else if (!isSelected)
                     {
                         SelectedTimes = 0;
                     }
