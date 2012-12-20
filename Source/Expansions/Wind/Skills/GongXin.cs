@@ -79,10 +79,12 @@ namespace Sanguosha.Expansions.Wind.Skills
                     if (answer.Count > 0 && answer[0] != null && answer[0].Count > 0)
                     {
                         c1 = true;
+                        if (answer[0][0].Suit != SuitType.Heart) return VerifierResult.Fail;
                     }
                     if (answer.Count > 1 && answer[1] != null && answer[1].Count > 0)
                     {
                         c2 = true;
+                        if (answer[1][0].Suit != SuitType.Heart) return VerifierResult.Fail;
                     }
                     if (c1 && c2)
                     {
@@ -92,6 +94,10 @@ namespace Sanguosha.Expansions.Wind.Skills
                 return VerifierResult.Success;
             }
 
+            public UiHelper Helper
+            {
+                get { return new UiHelper() { RevealCards = true }; }
+            }
         }
 
     }

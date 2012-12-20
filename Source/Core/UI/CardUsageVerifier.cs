@@ -55,6 +55,16 @@ namespace Sanguosha.Core.UI
             set { noCardReveal = value; }
         }
 
+        /// <summary>
+        /// 展示卡牌 (card choice only)
+        /// </summary>
+        private bool revealCards;
+
+        public bool RevealCards
+        {
+            get { return revealCards; }
+            set { revealCards = value; }
+        }
     }
 
     public interface ICardUsageVerifier

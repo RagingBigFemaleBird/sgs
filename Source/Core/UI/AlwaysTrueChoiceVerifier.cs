@@ -13,5 +13,10 @@ namespace Sanguosha.Core.UI
         {
             return VerifierResult.Success;
         }
+
+        public UiHelper Helper
+        {
+            get { return null; }
+        }
     }
 }

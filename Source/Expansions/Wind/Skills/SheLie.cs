@@ -56,6 +56,10 @@ namespace Sanguosha.Expansions.Wind.Skills
             {
                 cards = new List<Card>(c);
             }
+            public UiHelper Helper
+            {
+                get { return null; }
+            }
         }
 
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)

@@ -172,6 +172,10 @@ namespace Sanguosha.Expansions.Hills.Skills
                 source = src;
                 dest = dst;
             }
+            public UiHelper Helper
+            {
+                get { return null; }
+            }
         }
 
 

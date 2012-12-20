@@ -41,6 +41,7 @@ namespace Sanguosha.Core.UI
     public interface ICardChoiceVerifier
     {
         VerifierResult Verify(List<List<Card>> answer);
+        UiHelper Helper { get; }
     }
 
     public delegate void CardChoiceRearrangeCallback(object RearrangeHint);
