@@ -151,12 +151,6 @@ namespace Sanguosha.UI.Controls
                 double maxWidth = doHighlight ? Math.Max(0, totalWidth - extraSpace) : totalWidth;
                 double step = Math.Max(0, Math.Min(MaxCardSpacing, (maxWidth - cardWidth) / (numCards - 1)));
 
-                if (this.Parent is StackPanel)
-                {
-                    Trace.TraceInformation("Stack width: {0}", ActualWidth);
-                    Trace.TraceInformation("Card distance: {0}", step);
-                }
-
                 if (step == MaxCardSpacing) doHighlight = false;
 
                 Point topLeft = this.TranslatePoint(new Point(0,0), ParentCanvas);
