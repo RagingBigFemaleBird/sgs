@@ -74,7 +74,14 @@ namespace Sanguosha.Expansions.Fire.Skills
                 toDamage[p]++;
             }
 
-            if (cards != null && cards.Count > 0) // Great YeYan
+            bool isGreatYeYan = toDamage.Count > 0 && toDamage.Values.Max() > 1;
+
+            // First, verify if great yeyan is possible            
+            var allSuits = (from card in Game.CurrentGame.Decks[source, DeckType.Hand]
+                            select card.Suit).Distinct();
+            if (allSuits.Count() < 4 && (cards.Count > 0 || isGreatYeYan)) return false;
+
+            if (cards.Count > 0) // Great YeYan
             {
                 if (toDamage.Count >= 3) return false;
                 HashSet<SuitType> suits = new HashSet<SuitType>();
@@ -86,12 +93,12 @@ namespace Sanguosha.Expansions.Fire.Skills
                     }
                     suits.Add(card.Suit);
                 }
-                if (suits.Count == 4 && toDamage.Count > 0 && toDamage.Values.Max() > 1) return true;
+                if (suits.Count == 4 && isGreatYeYan) return true;
                 else return null;
             }
             else
             {
-                if (toDamage.Count > 0 && toDamage.Values.Max() > 1) return null;
+                if (isGreatYeYan) return null;
                 if (toDamage.Count > 3) return false;
                 else if (toDamage.Count == 0) return null;
                 else return true;
