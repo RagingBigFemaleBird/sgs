@@ -20,6 +20,10 @@ namespace Sanguosha.Expansions.Wind.Skills
     /// </summary>
     public class GongXin : ActiveSkill
     {
+        public GongXin()
+        {
+            UiHelper.RevealCards = true;
+        }
         private static PlayerAttribute GongXinUsed = PlayerAttribute.Register("GongXinUsed", true);
         public override VerifierResult Validate(GameEventArgs arg)
         {
@@ -80,6 +84,10 @@ namespace Sanguosha.Expansions.Wind.Skills
                     return VerifierResult.Success;
                 else
                     return VerifierResult.Fail;
+            }
+            public UiHelper Helper
+            {
+                get { return new UiHelper() { RevealCards = true }; }
             }
         }
     }

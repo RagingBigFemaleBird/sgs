@@ -61,6 +61,10 @@ namespace Sanguosha.Expansions.Basic.Skills
             {
                 cards = new List<Card>(c);
             }
+            public UiHelper Helper
+            {
+                get { return null; }
+            }
         }
 
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)

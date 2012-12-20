@@ -312,7 +312,7 @@ namespace Sanguosha.Core.UI
             return true;
         }
 
-        public void SendCardChoice(List<List<Card>> answer, AdditionalCardChoiceOptions options)
+        public void SendCardChoice(ICardChoiceVerifier verifier, List<List<Card>> answer, AdditionalCardChoiceOptions options)
         {
             for (int i = 0; i < server.MaxClients; i++)
             {
@@ -323,6 +323,10 @@ namespace Sanguosha.Core.UI
                     server.SendObject(i, cards.Count);
                     foreach (Card c in cards)
                     {
+                        if (verifier.Helper != null && verifier.Helper.RevealCards)
+                        {
+                            c.RevealOnce = true;
+                        }
                         server.SendObject(i, c);
                     }
                 }
@@ -342,7 +346,7 @@ namespace Sanguosha.Core.UI
             }
             else
             {
-                SendCardChoice(answer, options);
+                SendCardChoice(verifier, answer, options);
             }
             NextQuestion();
             if (answer == null)

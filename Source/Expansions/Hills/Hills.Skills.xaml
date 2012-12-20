@@ -10,7 +10,7 @@
     <sys:String x:Key="Skill.RenDe.Usage">点"仁德"→选中数张手牌→选择目标→“确定”</sys:String>
     -->
     <sys:String x:Key="Hero.ShenSiMaYi.Name">神司马懿</sys:String>
-    <sys:String x:Key="Hero.ZhangHe.Name">张核</sys:String>
+    <sys:String x:Key="Hero.ZhangHe.Name">张颌</sys:String>
     <sys:String x:Key="Hero.SunCe.Name">孙策</sys:String>
     <sys:String x:Key="Hero.ZhangZhaoZhangHong.Name">张昭＆张弘</sys:String>
 

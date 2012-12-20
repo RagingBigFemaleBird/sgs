@@ -713,7 +713,7 @@ namespace Sanguosha.Core.Games
                     card.HistoryPlace1 = card.Place;
                     card.Place = move.to;
                     //reset card type if entering hand or discard
-                    if (!IsClient && (move.to.DeckType == DeckType.Discard || move.to.DeckType == DeckType.Hand))
+                    if (!IsClient && (move.to.DeckType == DeckType.Dealing || move.to.DeckType == DeckType.Discard || move.to.DeckType == DeckType.Hand))
                     {
                         card.Log = new ActionLog();
                         card.Type = GameEngine.CardSet[card.Id].Type;
@@ -728,7 +728,7 @@ namespace Sanguosha.Core.Games
                     }
 
                     //reset card type if entering hand or discard
-                    if (IsClient && (move.to.DeckType == DeckType.Discard || move.to.DeckType == DeckType.Hand))
+                    if (IsClient && (move.to.DeckType == DeckType.Dealing || move.to.DeckType == DeckType.Discard || move.to.DeckType == DeckType.Hand))
                     {
                         card.Log = new ActionLog();
                         if (card.Attributes != null) card.Attributes.Clear();
