@@ -92,7 +92,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             Game.CurrentGame.MoveCards(move, null);
         }
 
-        static DeckType QiXingDeck = new DeckType("QiXing");
+        static PrivateDeckType QiXingDeck = new PrivateDeckType("QiXing");
 
         public QiXing()
         {
@@ -111,12 +111,5 @@ namespace Sanguosha.Expansions.Fire.Skills
             IsAutoInvoked = true;
         }
 
-        public override bool IsRulerOnly
-        {
-            get
-            {
-                return true;
-            }
-        }
     }
 }

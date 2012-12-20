@@ -144,7 +144,7 @@ namespace Sanguosha.Core.Games
                                         {
                                             if (sk.GetType().Name == cs.SkillName)
                                             {
-                                                currentPlayer.AcquireAdditionalSkill(sk.Clone() as ISkill);
+                                                Game.CurrentGame.PlayerAcquireSkill(currentPlayer, sk.Clone() as ISkill);
                                                 found = true;
                                                 break;
                                             }
@@ -657,19 +657,19 @@ namespace Sanguosha.Core.Games
 
                 StartGameDeal(game);
 
+                Player current =
+                game.CurrentPlayer = game.Players[rulerId];
                 foreach (var act in game.Players)
                 {
                     game.Emit(GameEvent.PlayerGameStartAction, new GameEventArgs() { Source = act });
                 }
-                Player current =
-                game.CurrentPlayer = game.Players[rulerId];
 
                 while (true)
                 {
                     GameEventArgs args = new GameEventArgs();
                     args.Source = current;
                     game.CurrentPhaseEventIndex = 0;
-                    game.CurrentPhase = TurnPhase.Start;
+                    game.CurrentPhase = TurnPhase.BeforeStart;
                     game.CurrentPlayer = current;
                     game.Emit(GameEvent.DoPlayer, args);
                     current = game.NextAlivePlayer(current);

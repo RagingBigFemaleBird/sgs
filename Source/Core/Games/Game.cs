@@ -40,7 +40,7 @@ namespace Sanguosha.Core.Games
         Judge,
     }
 
-    public abstract class Game : INotifyPropertyChanged
+    public abstract partial class Game : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -716,8 +716,7 @@ namespace Sanguosha.Core.Games
                     if (!IsClient && (move.to.DeckType == DeckType.Dealing || move.to.DeckType == DeckType.Discard || move.to.DeckType == DeckType.Hand))
                     {
                         card.Log = new ActionLog();
-                        card.Type = GameEngine.CardSet[card.Id].Type;
-                        card.Suit = GameEngine.CardSet[card.Id].Suit;
+                        _ResetCard(card);
                         if (card.Attributes != null) card.Attributes.Clear();
                     }
 
@@ -740,10 +739,7 @@ namespace Sanguosha.Core.Games
                     }
                     if (move.to.Player != null)
                     {
-                        GameEventArgs args = new GameEventArgs();
-                        args.Source = move.to.Player;
-                        args.Card = card;
-                        Emit(GameEvent.EnforcedCardTransform, args);
+                        _FilterCard(move.to.Player, card);
                     }
                 }
                 i++;
@@ -1904,12 +1900,13 @@ namespace Sanguosha.Core.Games
             var index = CurrentPhaseEventIndex;
             var player = CurrentPlayer;
             CurrentPhaseEventIndex = 0;
-            CurrentPhase = TurnPhase.Start;
+            CurrentPhase = TurnPhase.BeforeStart;
             Emit(GameEvent.DoPlayer, new GameEventArgs() { Source = p });
             CurrentPhase = phase;
             CurrentPhaseEventIndex = index;
             CurrentPlayer = player;
         }
+
     }
 }
 

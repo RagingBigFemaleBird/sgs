@@ -47,11 +47,13 @@
     <Compile Include="Skills\BaiYin.cs" />
     <Compile Include="Skills\BeiGe.cs" />
     <Compile Include="Skills\GuZheng.cs" />
+    <Compile Include="Skills\HuaShen.cs" />
     <Compile Include="Skills\HunZi.cs" />
     <Compile Include="Skills\JiAng.cs" />
     <Compile Include="Skills\LianPo.cs" />
     <Compile Include="Skills\QiaoBian.cs" />
     <Compile Include="Skills\RenJie.cs" />
+    <Compile Include="Skills\XinSheng.cs" />
     <Compile Include="Skills\ZhiBa.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Sanguosha.Core.Cards
 {
+    [Serializable]
     public class PrivateDeckType : DeckType
     {
         private bool publiclyVisible;

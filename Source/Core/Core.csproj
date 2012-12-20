@@ -79,6 +79,7 @@
     <Compile Include="Games\Expansion.cs" />
     <Compile Include="Games\GameEngine.cs" />
     <Compile Include="Games\GameOptions.cs" />
+    <Compile Include="Games\Game.Procedures.cs" />
     <Compile Include="Games\Role.cs" />
     <Compile Include="Games\TurnPhase.cs" />
     <Compile Include="Exceptions\SgsException.cs" />

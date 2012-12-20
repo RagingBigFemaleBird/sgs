@@ -22,6 +22,7 @@ namespace Hills
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhangHe", true, Allegiance.Wei, 4, new QiaoBian()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SunCe", true, Allegiance.Wu, 4, new ZhiBa(), new JiAng(), new HunZi()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhangZhaoZhangHong", true, Allegiance.Wu, 3, new GuZheng()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZuoCi", true, Allegiance.Qun, 3, new HuaShen(), new XinSheng()))));
         }
     }
 }
