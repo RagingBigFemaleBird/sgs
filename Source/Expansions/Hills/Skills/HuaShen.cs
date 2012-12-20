@@ -92,13 +92,5 @@ namespace Sanguosha.Expansions.Hills.Skills
             Triggers.Add(GameEvent.PhaseEndEvents[TurnPhase.PostEnd], trigger2);
             IsAutoInvoked = false;
         }
-
-        public override bool IsRulerOnly
-        {
-            get
-            {
-                return true;
-            }
-        }
     }
 }

@@ -100,12 +100,12 @@ namespace Sanguosha.Expansions.Fire.Skills
                 this,
                 GameStart,
                 TriggerCondition.OwnerIsSource
-            ) { AskForConfirmation = false };
+            );
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
-                GameStart,
+                AfterDraw,
                 TriggerCondition.OwnerIsSource
-            ) { AskForConfirmation = false };
+            );
             Triggers.Add(GameEvent.PlayerGameStartAction, trigger);
             Triggers.Add(GameEvent.PhaseEndEvents[TurnPhase.Draw], trigger2);
             IsAutoInvoked = true;
