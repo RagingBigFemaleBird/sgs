@@ -1,15 +1,15 @@
 ﻿<ResourceDictionary 	
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:local="clr-namespace:Sanguosha.UI.Controls"
-	xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:Sanguosha.UI.Controls"
+    xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
     xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
-	xmlns:Sanguosha_UI_Animations="clr-namespace:Sanguosha.UI.Animations;assembly=Animations"
-	mc:Ignorable="d">
+    xmlns:Sanguosha_UI_Animations="clr-namespace:Sanguosha.UI.Animations;assembly=Animations"
+    mc:Ignorable="d">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
         <ResourceDictionary Source="../Cards/CardToolTip.xaml"/>
@@ -143,9 +143,9 @@
                                 <StackPanel HorizontalAlignment="Right" Margin="0,2,5,2" Orientation="Horizontal">
                                     <TextBlock Text="{Binding RankString}" FontSize="12" FontWeight="Bold" Margin="0,-2,1,0"  VerticalAlignment="Center"
                                                Foreground="{Binding SuitColor, Converter={StaticResource suitColorToColorConverter}}">
-    			                        <TextBlock.Effect>
-    				                        <DropShadowEffect Color="#FFFFFFAA" ShadowDepth="0"/>
-    			                        </TextBlock.Effect>
+                                        <TextBlock.Effect>
+                                            <DropShadowEffect Color="#FFFFFFAA" ShadowDepth="0"/>
+                                        </TextBlock.Effect>
                                     </TextBlock>
                                     <Image Source="{res:ResourceKeyBinding Path=Suit, StringFormat=Card.Suit.\{0\}.Image.Normal}" Width="12" Height="14"/>
                                 </StackPanel>
@@ -164,60 +164,60 @@
         </Setter>
         <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />      
     </Style>
-	<Style x:Key="GuHuoButtonStyle" TargetType="{x:Type Button}">
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="{x:Type Button}">
-						<Grid>
-							<VisualStateManager.VisualStateGroups>
-								<VisualStateGroup x:Name="CommonStates">
-									<VisualState x:Name="Normal"/>
-									<VisualState x:Name="MouseOver">
-										<Storyboard>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image">
-												<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-											</ObjectAnimationUsingKeyFrames>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image1">
-												<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
-											</ObjectAnimationUsingKeyFrames>
-										</Storyboard>
-									</VisualState>
-									<VisualState x:Name="Pressed">
-										<Storyboard>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image2">
-												<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-											</ObjectAnimationUsingKeyFrames>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image1">
-												<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
-											</ObjectAnimationUsingKeyFrames>
-										</Storyboard>
-									</VisualState>
-									<VisualState x:Name="Disabled">
-										<Storyboard>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image3">
-												<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-											</ObjectAnimationUsingKeyFrames>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image1">
-												<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
-											</ObjectAnimationUsingKeyFrames>
-										</Storyboard>
-									</VisualState>
-								</VisualStateGroup>
-							</VisualStateManager.VisualStateGroups>
-							<Image x:Name="image1" Source="{res:ImageBinding Path=CardType, ResourceKeyFormat=GuHuo.\{0\}.Normal, StringFormat=Resources/Images/Cards/GuHuo/\{0\}-normal.png}" />
-							<Image x:Name="image" Source="{res:ImageBinding Path=CardType, ResourceKeyFormat=GuHuo.\{0\}.Hover, StringFormat=Resources/Images/Cards/GuHuo/\{0\}-hover.png}" Visibility="Hidden" />
-							<Image x:Name="image2" Source="{res:ImageBinding Path=CardType, ResourceKeyFormat=GuHuo.\{0\}.Down, StringFormat=Resources/Images/Cards/GuHuo/\{0\}-down.png}" Visibility="Hidden" />
-							<Image x:Name="image3" Source="{res:ImageBinding Path=CardType, ResourceKeyFormat=GuHuo.\{0\}.Disabled, StringFormat=Resources/Images/Cards/GuHuo/\{0\}-disabled.png}" Visibility="Hidden"/>
-						</Grid>
-						<ControlTemplate.Triggers>
-							<Trigger Property="IsFocused" Value="True"/>
-							<Trigger Property="IsDefaulted" Value="True"/>
-							<Trigger Property="IsMouseOver" Value="True"/>
-							<Trigger Property="IsPressed" Value="True"/>
-							<Trigger Property="IsEnabled" Value="False"/>
-						</ControlTemplate.Triggers>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
+    <Style x:Key="GuHuoButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image1">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image2">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image1">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image3">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image1">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Image x:Name="image1" Source="{res:ImageBinding Path=CardType, ResourceKeyFormat=GuHuo.\{0\}.Normal, StringFormat=Resources/Images/Cards/GuHuo/\{0\}-normal.png}" />
+                            <Image x:Name="image" Source="{res:ImageBinding Path=CardType, ResourceKeyFormat=GuHuo.\{0\}.Hover, StringFormat=Resources/Images/Cards/GuHuo/\{0\}-hover.png}" Visibility="Hidden" />
+                            <Image x:Name="image2" Source="{res:ImageBinding Path=CardType, ResourceKeyFormat=GuHuo.\{0\}.Down, StringFormat=Resources/Images/Cards/GuHuo/\{0\}-down.png}" Visibility="Hidden" />
+                            <Image x:Name="image3" Source="{res:ImageBinding Path=CardType, ResourceKeyFormat=GuHuo.\{0\}.Disabled, StringFormat=Resources/Images/Cards/GuHuo/\{0\}-disabled.png}" Visibility="Hidden"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True"/>
+                            <Trigger Property="IsDefaulted" Value="True"/>
+                            <Trigger Property="IsMouseOver" Value="True"/>
+                            <Trigger Property="IsPressed" Value="True"/>
+                            <Trigger Property="IsEnabled" Value="False"/>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 </ResourceDictionary>

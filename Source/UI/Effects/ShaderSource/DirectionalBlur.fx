@@ -1,6 +1,6 @@
-﻿//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------
 // 
-// WPF ShaderEffect HLSL -- ZoomBlurEffect
+// WPF ShaderEffect HLSL -- DirectionalBlurEffect
 //
 //--------------------------------------------------------------------------------------
 
@@ -8,7 +8,7 @@
 // Shader constant register mappings (scalars - float, double, Point, Color, Point3D, etc.)
 //-----------------------------------------------------------------------------------------
 
-float2 Center : register(C0);
+float Angle : register(C0);
 float BlurAmount : register(C1);
 
 //--------------------------------------------------------------------------------------
@@ -23,15 +23,18 @@ sampler2D  implicitInputSampler : register(S0);
 
 float4 main(float2 uv : TEXCOORD) : COLOR
 {
-    float4 c = 0;    
-    uv -= Center;
+    float4 c = 0;
+    float rad = Angle * 0.0174533f;
+    float xOffset = cos(rad);
+    float yOffset = sin(rad);
 
-	for (int i = 0; i < 15; i++)
+    for(int i=0; i<16; i++)
     {
-        float scale = 1.0 + BlurAmount * (i / 14.0);
-        c += tex2D(implicitInputSampler, uv * scale + Center );
+        uv.x = uv.x - BlurAmount * xOffset;
+        uv.y = uv.y - BlurAmount * yOffset;
+        c += tex2D(implicitInputSampler, uv);
     }
-   
-    c /= 15;
+    c /= 16;
+    
     return c;
 }

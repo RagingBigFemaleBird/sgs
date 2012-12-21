@@ -694,14 +694,26 @@ namespace Sanguosha.UI.Controls
                             }
                         }
                     }
+                    if (log.SkillAction.IsSingleUse || log.SkillAction.IsAwakening)
+                    {
+                        ExcitingSkillAnimation anim = new ExcitingSkillAnimation();
+                        anim.SkillName = log.SkillAction.GetType().Name;
+                        anim.HeroName = log.Source.Hero.Name;
+                        gridRoot.Children.Add(anim);
+                        anim.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
+                        anim.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
+                        anim.Start();
+                        animPlayed = true;
+                    }
                     if (!animPlayed && player != mainPlayerPanel)
                     {
                         string s = LogFormatter.Translate(log.SkillAction);
                         if (s != string.Empty)
                         {
+                            
                             ZoomTextAnimation anim = new ZoomTextAnimation() { Text = s };
                             player.PlayAnimation(anim, 1, new Point(0, 0));
-                            animPlayed = true;
+                            animPlayed = true;                            
                         }
                     }
                 }
@@ -787,6 +799,23 @@ namespace Sanguosha.UI.Controls
                 rtbLog.ScrollToEnd();
             });
         }
+
+        public void NotifyShowCard(Player p, Card card)
+        {
+        }
+
+        public void NotifyCardChoiceCallback(object o)
+        {
+        }
+
+        public void NotifyImpersonation(Player p, Core.Heroes.Hero h, ISkill s)
+        {
+        }
+
+        public void NotifyJudge(Player p, ICard card, ActionLog log, bool? isSuccess)
+        {
+        }
+
         #endregion
 
         #region Private Decks
@@ -805,20 +834,5 @@ namespace Sanguosha.UI.Controls
         }
         #endregion
 
-        public void NotifyShowCard(Player p, Card card)
-        {
-        }
-
-        public void NotifyCardChoiceCallback(object o)
-        {
-        }
-
-        public void NotifyImpersonation(Player p, Core.Heroes.Hero h, ISkill s)
-        {
-        }
-
-        public void NotifyJudge(Player p, ICard card, ActionLog log, bool? isSuccess)
-        {
-        }
     }
 }

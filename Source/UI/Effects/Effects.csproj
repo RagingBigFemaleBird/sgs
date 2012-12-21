@@ -51,6 +51,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DirectionalBlurEffect.cs" />
     <Compile Include="EffectLibrary.cs" />
     <Compile Include="MonochromeEffect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -76,12 +77,15 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="ShaderSource\ZoomBlur.ps" />
+    <Resource Include="ShaderSource\DirectionalBlur.ps" />
     <None Include="ShaderSource\Monochrome.fx" />
     <Resource Include="ShaderSource\Monochrome.ps" />
     <None Include="ShaderSource\ZoomBlur.fx" />
-    <Resource Include="ShaderSource\ZoomBlur.ps" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="ShaderSource\DirectionalBlur.fx" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
