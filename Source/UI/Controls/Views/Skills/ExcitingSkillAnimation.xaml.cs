@@ -56,7 +56,7 @@ namespace Sanguosha.UI.Animations
         {
             this.InitializeComponent();
             mainAnimation = Resources["mainAnimation"] as Storyboard;
-            _model = new ExcitingSkillAnimationViewModel();
+            _model = new ExcitingSkillAnimationViewModel();	        
             DataContext = _model;
         }
 
@@ -68,7 +68,7 @@ namespace Sanguosha.UI.Animations
             }
             set
             {
-                _model.HeroName = value;
+                _model.HeroName = value;               
             }
         }
 
