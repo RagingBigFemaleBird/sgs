@@ -55,6 +55,7 @@
     <Compile Include="Skills\RenJie.cs" />
     <Compile Include="Skills\XinSheng.cs" />
     <Compile Include="Skills\ZhiBa.cs" />
+    <Compile Include="Skills\ZhiJian.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Hills.Game.xaml">

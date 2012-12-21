@@ -32,5 +32,6 @@
     <sys:String x:Key="Skill.HuaShen.Name">化身</sys:String>
     <sys:String x:Key="Skill.XinSheng.Name">新生</sys:String>
     <sys:String x:Key="Skill.GuZheng.Name">固政</sys:String>
+    <sys:String x:Key="Skill.ZhiJian.Name">直谏</sys:String>
 
 </ResourceDictionary>
