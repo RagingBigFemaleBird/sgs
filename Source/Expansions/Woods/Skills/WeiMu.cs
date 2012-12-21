@@ -33,14 +33,8 @@ namespace Sanguosha.Expansions.Woods.Skills
                 },
                 TriggerCondition.OwnerIsTarget
                 ));
+            IsEnforced = true;
         }
 
-        public override bool IsEnforced
-        {
-            get
-            {
-                return true;
-            }
-        }
     }
 }

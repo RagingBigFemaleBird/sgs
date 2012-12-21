@@ -104,15 +104,9 @@ namespace Sanguosha.Expansions.Wind.Skills
             );
             Triggers.Add(GameEvent.AfterDamageInflicted, trigger);
             Triggers.Add(GameEvent.PlayerIsDead, trigger2);
+            IsEnforced = true;
         }
 
-        public override bool IsEnforced
-        {
-            get
-            {
-                return true;
-            }
-        }
         public static PlayerAttribute MengYanMark = PlayerAttribute.Register("MengYan", false, true);
     }
 }

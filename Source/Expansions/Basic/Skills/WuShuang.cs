@@ -45,14 +45,8 @@ namespace Sanguosha.Expansions.Basic.Skills
             );
 
             Triggers.Add(GameEvent.CardUsageTargetConfirmed, trigger);
+            IsEnforced = true;
         }
 
-        public override bool IsEnforced
-        {
-            get
-            {
-                return true;
-            }
-        }
     }
 }

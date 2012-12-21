@@ -58,13 +58,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 Triggers.Add(GameEvent.PlayerUsedCard, trigger);
                 Triggers.Add(Sha.PlayerNumberOfShaCheck, trigger2);
                 Triggers.Add(Sha.PlayerShaTargetValidation, trigger3);
-            }
-            public override bool IsEnforced
-            {
-                get
-                {
-                    return true;
-                }
+                IsEnforced = true;
             }
         }
 

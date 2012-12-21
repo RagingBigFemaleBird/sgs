@@ -35,14 +35,8 @@ namespace Sanguosha.Expansions.Wind.Skills
             );
 
             Triggers.Add(GameEvent.AfterDamageCaused, trigger);
+            IsEnforced = true;
         }
 
-        public override bool IsEnforced
-        {
-            get
-            {
-                return true;
-            }
-        }
     }
 }

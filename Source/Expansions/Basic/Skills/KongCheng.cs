@@ -40,14 +40,8 @@ namespace Sanguosha.Expansions.Basic.Skills
                 TriggerCondition.OwnerIsTarget | TriggerCondition.OwnerHasNoHandCards
                 ));
             Triggers.Add(GameEvent.CardsLost, notifier);
+            IsEnforced = true;
         }
 
-        public override bool IsEnforced
-        {
-            get
-            {
-                return true;
-            }
-        }
     }
 }

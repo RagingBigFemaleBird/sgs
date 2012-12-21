@@ -29,14 +29,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.CardRangeModifier, trigger);
-        }
-
-        public override bool IsEnforced
-        {
-            get
-            {
-                return true;
-            }
+            IsEnforced = true;
         }
     }
 }

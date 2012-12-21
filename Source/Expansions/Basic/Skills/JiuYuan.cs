@@ -35,22 +35,9 @@ namespace Sanguosha.Expansions.Basic.Skills
             );
 
             Triggers.Add(GameEvent.CardUsageTargetConfirmed, trigger);
+            IsEnforced = true;
+            IsRulerOnly = true;
         }
 
-        public override bool IsEnforced
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        public override bool IsRulerOnly
-        {
-            get
-            {
-                return true;
-            }
-        }
     }
 }

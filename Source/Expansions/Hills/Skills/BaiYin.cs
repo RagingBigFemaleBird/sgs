@@ -40,15 +40,9 @@ namespace Sanguosha.Expansions.Hills.Skills
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Start], trigger);
+            IsAwakening = true;
         }
 
-        public override bool IsAwakening
-        {
-            get
-            {
-                return true;
-            }
-        }
         public static PlayerAttribute BaiYinAwaken = PlayerAttribute.Register("BaiYinAwaken", false);
 
         class BaiYinGuiCai : GuiCai

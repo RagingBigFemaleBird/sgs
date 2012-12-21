@@ -43,15 +43,9 @@ namespace Sanguosha.Expansions.Fire.Skills
             );
             Triggers.Add(GameEvent.PlayerDying, trigger);
             IsAutoInvoked = null;
+            IsSingleUse = true;
         }
         public static PlayerAttribute NiePanUsed = PlayerAttribute.Register("NiePanUsed", false);
 
-        public override bool IsSingleUse
-        {
-            get
-            {
-                return true;
-            }
-        }
     }
 }

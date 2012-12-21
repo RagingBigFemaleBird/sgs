@@ -41,14 +41,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                     TriggerCondition.OwnerIsTarget
                 ) { Priority = int.MinValue };
                 Triggers.Add(GameEvent.DamageInflicted, trigger);
-            }
-
-            public override bool IsEnforced
-            {
-                get
-                {
-                    return true;
-                }
+                IsEnforced = true;
             }
         }
 

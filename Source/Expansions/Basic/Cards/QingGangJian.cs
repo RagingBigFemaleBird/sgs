@@ -42,14 +42,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     TriggerCondition.OwnerIsSource
                 );
                 Triggers.Add(GameEvent.CardUsageTargetConfirmed, trigger);
-            }
-
-            public override bool IsEnforced
-            {
-                get
-                {
-                    return true;
-                }
+                IsEnforced = true;
             }
         }
 

@@ -34,14 +34,8 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.BeforeDamageComputing, trigger);
+            IsEnforced = true;
         }
 
-        public override bool IsEnforced
-        {
-            get
-            {
-                return true;
-            }
-        }
     }
 }

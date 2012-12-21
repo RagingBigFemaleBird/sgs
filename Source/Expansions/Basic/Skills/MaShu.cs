@@ -29,13 +29,9 @@ namespace Sanguosha.Expansions.Basic.Skills
         {
             owner[Player.RangeMinus]++;
         }
-
-        public override bool IsEnforced
+        public MaShu()
         {
-            get
-            {
-                return true;
-            }
+            IsEnforced = true;
         }
     }
 }

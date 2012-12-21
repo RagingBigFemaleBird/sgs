@@ -54,14 +54,7 @@ namespace Sanguosha.Expansions.Fire.Skills
                 TriggerCondition.OwnerIsSource
             ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.PlayerRequireCard, trigger);
-        }
-
-        public override bool IsEnforced
-        {
-            get
-            {
-                return true;
-            }
+            IsEnforced = true;
         }
 
     }

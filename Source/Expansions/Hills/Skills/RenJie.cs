@@ -35,14 +35,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             );
             Triggers.Add(GameEvent.AfterDamageInflicted, trigger);
             Triggers.Add(GameEvent.CardsLost, trigger2);
-        }
-
-        public override bool IsEnforced
-        {
-            get
-            {
-                return true;
-            }
+            IsEnforced = true;
         }
         public static PlayerAttribute RenMark = PlayerAttribute.Register("Ren", false, true);
     }

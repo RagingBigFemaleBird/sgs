@@ -61,14 +61,8 @@ namespace Sanguosha.Expansions.Woods.Skills
             ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.CardUsageTargetValidating, trigger);
             Triggers.Add(GameEvent.CardsEnteringDiscardDeck, trigger2);
+            IsEnforced = true;
         }
 
-        public override bool IsEnforced
-        {
-            get
-            {
-                return true;
-            }
-        }
     }
 }

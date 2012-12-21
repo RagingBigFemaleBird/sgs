@@ -38,14 +38,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                     TriggerCondition.OwnerIsSource
                 );
                 Triggers.Add(GameEvent.DamageCaused, trigger);
-            }
-
-            public override bool IsEnforced
-            {
-                get
-                {
-                    return true;
-                }
+                IsEnforced = true;
             }
         }
 

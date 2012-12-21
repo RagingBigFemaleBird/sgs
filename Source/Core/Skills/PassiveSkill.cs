@@ -47,25 +47,10 @@ namespace Sanguosha.Core.Skills
 
         protected abstract void UninstallTriggers(Players.Player owner);
 
-        /// <summary>
-        /// 返回该技能是否是主公技。
-        /// </summary>
-        public virtual bool IsRulerOnly { get { return false; } }
-
-        /// <summary>
-        /// 返回该技能是否是限定技。
-        /// </summary>
-        public virtual bool IsSingleUse { get { return false; } }
-
-        /// <summary>
-        /// 返回该技能是否是觉醒技。
-        /// </summary>
-        public virtual bool IsAwakening { get { return false; } }
-
-        /// <summary>
-        /// 返回该技能是否是锁定技。
-        /// </summary>
-        public virtual bool IsEnforced { get { return false; } }
+        public bool IsRulerOnly { get; protected set; }
+        public bool IsSingleUse { get; protected set; }
+        public bool IsAwakening { get; protected set; }
+        public bool IsEnforced { get; protected set; }
 
         bool? isAutoInvoked;
         public virtual bool? IsAutoInvoked 

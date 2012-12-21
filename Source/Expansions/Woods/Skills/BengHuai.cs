@@ -47,13 +47,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger);
-        }
-        public override bool IsEnforced
-        {
-            get
-            {
-                return true;
-            }
+            IsEnforced = true;
         }
     }
 }

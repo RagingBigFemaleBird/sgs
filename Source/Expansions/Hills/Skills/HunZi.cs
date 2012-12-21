@@ -31,14 +31,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Start], trigger);
-        }
-
-        public override bool IsAwakening
-        {
-            get
-            {
-                return true;
-            }
+            IsAwakening = true;
         }
         public static PlayerAttribute HunZiAwakened = PlayerAttribute.Register("HunZiAwakened");
     }

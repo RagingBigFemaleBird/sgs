@@ -84,11 +84,6 @@ namespace Sanguosha.Core.Skills
             secondaryTargets = null;
         }
 
-        public bool IsRulerOnly { get; protected set; }
-        public bool IsSingleUse { get; protected set; }
-        public bool IsAwakening { get; protected set; }
-        public bool IsEnforced { get; protected set; }
-
         public object Clone()
         {
             var skill = Activator.CreateInstance(this.GetType()) as ActiveSkill;
@@ -96,5 +91,10 @@ namespace Sanguosha.Core.Skills
             skill.UiHelper = this.UiHelper;
             return skill;
         }
+
+        public bool IsRulerOnly { get; protected set; }
+        public bool IsSingleUse { get; protected set; }
+        public bool IsAwakening { get; protected set; }
+        public bool IsEnforced { get; protected set; }
     }
 }

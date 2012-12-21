@@ -28,14 +28,8 @@ namespace Sanguosha.Expansions.Woods.Skills
                 TriggerCondition.Global
             );
             Triggers.Add(GameEvent.PlayerCanUseCard, trigger);
+            IsEnforced = true;
         }
 
-        public override bool IsEnforced
-        {
-            get
-            {
-                return true;
-            }
-        }
     }
 }

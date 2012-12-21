@@ -34,15 +34,8 @@ namespace Sanguosha.Expansions.Basic.Skills
                 TriggerCondition.OwnerIsTarget
             );
             Triggers.Add(GameEvent.PlayerCanBeTargeted, trigger);
+            IsEnforced = true;
         }
 
-
-        public override bool IsEnforced
-        {
-            get
-            {
-                return true;
-            }
-        }
     }
 }

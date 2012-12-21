@@ -30,14 +30,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     TriggerCondition.OwnerIsTarget
                 );
                 Triggers.Add(GameEvent.CardUsageTargetValidating, trigger);
-            }
-
-            public override bool IsEnforced
-            {
-                get
-                {
-                    return true;
-                }
+                IsEnforced = true;
             }
         }
 

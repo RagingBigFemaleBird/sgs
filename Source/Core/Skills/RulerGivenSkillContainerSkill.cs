@@ -73,6 +73,7 @@ namespace Sanguosha.Core.Skills
             Triggers.Add(GameEvent.PlayerGameStartAction, trigger);
             Triggers.Add(GameEvent.PlayerChangedAllegiance, trigger2);
             IsAutoInvoked = null;
+            IsRulerOnly = true;
         }
 
         public override Player Owner
@@ -100,12 +101,5 @@ namespace Sanguosha.Core.Skills
             }
         }
 
-        public override bool IsRulerOnly
-        {
-            get
-            {
-                return true;
-            }
-        }
     }
 }

@@ -54,14 +54,7 @@ namespace Sanguosha.Expansions.Woods.Skills
             );
 
             Triggers.Add(GameEvent.CardUsageTargetConfirmed, trigger);
-        }
-
-        public override bool IsEnforced
-        {
-            get
-            {
-                return true;
-            }
+            IsEnforced = true;
         }
     }
 }

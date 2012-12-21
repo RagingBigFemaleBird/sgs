@@ -59,5 +59,15 @@ namespace Sanguosha.Core.Games
             p.LoseAdditionalSkill(skill);
             _ResetCards(p);
         }
+
+        public int NumberOfAliveAllegiances
+        {
+            get
+            {
+                var ret =
+                (from p in Game.CurrentGame.AlivePlayers select p.Allegiance).Distinct().Count();
+                return ret;
+            }
+        }
     }
 }

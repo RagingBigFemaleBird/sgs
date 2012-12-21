@@ -72,9 +72,9 @@ namespace Sanguosha.Core.Skills
 
         public virtual List<CardHandler> PossibleResults { get { return null; } }
 
-        public virtual bool IsRulerOnly { get { return false; } }
-        public virtual bool IsSingleUse { get { return false; } }
-        public virtual bool IsAwakening { get { return false; } }
+        public bool IsRulerOnly { get; protected set; }
+        public bool IsSingleUse { get; protected set; }
+        public bool IsAwakening { get; protected set; }
         public bool IsEnforced { get { return false; } }
 
         protected virtual void NotifyAction(Players.Player source, List<Players.Player> targets, CompositeCard card)

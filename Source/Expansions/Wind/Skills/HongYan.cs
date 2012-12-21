@@ -29,14 +29,8 @@ namespace Sanguosha.Expansions.Wind.Skills
                 TriggerCondition.OwnerIsSource
             ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.EnforcedCardTransform, trigger);
+            IsEnforced = true;
         }
 
-        public override bool IsEnforced
-        {
-            get
-            {
-                return true;
-            }
-        }
     }
 }

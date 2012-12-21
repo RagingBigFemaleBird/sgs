@@ -40,21 +40,8 @@ namespace Sanguosha.Expansions.Fire.Skills
                 TriggerCondition.OwnerIsSource
             ) {};
             Triggers.Add(GameEvent.PlayerHandCardCapacityAdjustment, trigger);
-        }
-
-        public override bool IsRulerOnly
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public override bool IsEnforced
-        {
-            get
-            {
-                return true;
-            }
+            IsEnforced = true;
+            IsRulerOnly = true;
         }
 
     }

@@ -116,14 +116,8 @@ namespace Sanguosha.Expansions.Basic.Skills
             ) { Type = TriggerType.Skill };
             Triggers.Add(GameEvent.PlayerRequireCard, trigger);
             IsAutoInvoked = null;
+            IsRulerOnly = true;
         }
 
-        public override bool IsRulerOnly
-        {
-            get
-            {
-                return true;
-            }
-        }
     }
 }

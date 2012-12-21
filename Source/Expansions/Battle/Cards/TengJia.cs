@@ -45,14 +45,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                 );
                 Triggers.Add(GameEvent.CardUsageTargetValidating, trigger);
                 Triggers.Add(GameEvent.DamageInflicted, trigger2);
-            }
-
-            public override bool IsEnforced
-            {
-                get
-                {
-                    return true;
-                }
+                IsEnforced = true;
             }
         }
 

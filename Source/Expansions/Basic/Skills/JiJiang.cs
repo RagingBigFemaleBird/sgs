@@ -22,6 +22,7 @@ namespace Sanguosha.Expansions.Basic.Skills
         public JiJiang()
         {
             UiHelper.HasNoConfirmation = true;
+            IsRulerOnly = true;
         }
         public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
         {
@@ -126,12 +127,5 @@ namespace Sanguosha.Expansions.Basic.Skills
             get { return new List<CardHandler>() { new Sha() }; }
         }
 
-        public override bool IsRulerOnly
-        {
-            get
-            {
-                return true;
-            }
-        }
     }
 }

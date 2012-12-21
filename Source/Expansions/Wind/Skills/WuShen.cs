@@ -52,14 +52,8 @@ namespace Sanguosha.Expansions.Wind.Skills
             ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.EnforcedCardTransform, trigger);
             Triggers.Add(Sha.PlayerShaTargetValidation, new WuShenShaTrigger());
+            IsEnforced = true;
         }
 
-        public override bool IsEnforced
-        {
-            get
-            {
-                return true;
-            }
-        }
     }
 }
