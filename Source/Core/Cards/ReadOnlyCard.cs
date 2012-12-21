@@ -18,6 +18,8 @@ namespace Sanguosha.Core.Cards
             suit = card.Suit;
             owner = card.Owner;
             suitColor = card.SuitColor;
+            if (card is Card) Id = (card as Card).Id;
+            else Id = -1;
             if (card.Attributes == null)
             {
                 attributes = new Dictionary<CardAttribute, int>();
@@ -27,6 +29,7 @@ namespace Sanguosha.Core.Cards
                 attributes = new Dictionary<CardAttribute, int>(card.Attributes);
             }
         }
+        public int Id { get; protected set; }
         Player owner;
         public Player Owner { get { return owner; } }
         DeckPlace place;

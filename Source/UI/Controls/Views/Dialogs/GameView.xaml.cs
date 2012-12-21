@@ -812,8 +812,22 @@ namespace Sanguosha.UI.Controls
         {
         }
 
-        public void NotifyJudge(Player p, ICard card, ActionLog log, bool? isSuccess)
+        public void NotifyJudge(Player p, Card card, ActionLog log, bool? isSuccess)
         {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                CardView cardView = discardDeck.Cards.FirstOrDefault(c => c.Card.Id == card.Id);
+
+                if (cardView == null) return;
+                if (isSuccess == true)
+                {
+                    cardView.PlayAnimation(new TickAnimation(), new Point(0, 0));
+                }
+                else
+                {
+                    cardView.PlayAnimation(new CrossAnimation(), new Point(0, 0));
+                }
+            });
         }
 
         #endregion

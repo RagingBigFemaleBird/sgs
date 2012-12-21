@@ -16,6 +16,7 @@ using System.Windows.Media.Animation;
 using System.Diagnostics;
 
 using Sanguosha.Core.Cards;
+using Sanguosha.UI.Animations;
 
 namespace Sanguosha.UI.Controls
 {
@@ -374,5 +375,15 @@ namespace Sanguosha.UI.Controls
             set;
         }
         #endregion
+		
+		#region Animations
+		public void PlayAnimation(AnimationBase animation, Point offset)
+        {
+            animationCenter.Children.Add(animation);
+            animation.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+            animation.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+            animation.Start();
+        }
+		#endregion
     }
 }

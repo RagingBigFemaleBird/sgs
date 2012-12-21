@@ -165,6 +165,7 @@
                 <ei:DataStateBehavior Value="true" TrueState="Faded" FalseState="Unfaded" Binding="{Binding IsFaded}"/>
             </i:Interaction.Behaviors>
         </Border>
+		<local:NonClipGrid VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="animationCenter" IsHitTestVisible="False" />
     </Grid>
     <UserControl.ToolTip>
         <ToolTip x:Name="toolTip" Placement="Top" ContentTemplateSelector="{StaticResource cardToolTipTemplateSelector}"/>        

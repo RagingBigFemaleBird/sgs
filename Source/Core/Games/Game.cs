@@ -1189,7 +1189,10 @@ namespace Sanguosha.Core.Games
             {
                 succeed = del(args.Card);
             }
-            Game.CurrentGame.NotificationProxy.NotifyJudge(player, args.Card, log, succeed);
+
+            Card uiCard = new Card(args.Card);
+            uiCard.Id = (args.Card as ReadOnlyCard).Id;
+            Game.CurrentGame.NotificationProxy.NotifyJudge(player, uiCard, log, succeed);
 
             if (decks[player, DeckType.JudgeResult].Count != 0)
             {

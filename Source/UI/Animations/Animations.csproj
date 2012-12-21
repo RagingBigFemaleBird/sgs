@@ -64,6 +64,12 @@
     <Compile Include="BaiYinAnimation.xaml.cs">
       <DependentUpon>BaiYinAnimation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CrossAnimation.xaml.cs">
+      <DependentUpon>CrossAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TickAnimation.xaml.cs">
+      <DependentUpon>TickAnimation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="QiLinAnimation.xaml.cs">
       <DependentUpon>QiLinAnimation.xaml</DependentUpon>
     </Compile>
@@ -197,6 +203,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BaiYinAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CrossAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TickAnimation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -441,6 +455,13 @@
       <Project>{2CFB7F48-6D2E-4F60-9B9C-6C41F9518817}</Project>
       <Name>Effects</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="CrossAnimation\0.png" />
+    <Resource Include="CrossAnimation\1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="TickAnimation\0.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Expression\Blend\.NETFramework\v4.0\Microsoft.Expression.Blend.WPF.targets" />

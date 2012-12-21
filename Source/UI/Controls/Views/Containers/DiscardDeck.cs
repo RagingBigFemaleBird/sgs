@@ -34,6 +34,15 @@ namespace Sanguosha.UI.Controls
             Cards.Remove(card);
         }
 
+        public void Clear()
+        {
+            foreach (CardView card in Cards)
+            {
+                card.Disappear(0.5d);
+            }
+            Cards.Clear();
+        }
+
         private void MarkClearance(CardView card)
         {
             if (card.DiscardDeckClearTimeStamp > _currentTime)
@@ -82,6 +91,34 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public void AppendCards(IList<CardView> cards)
+        {
+            Canvas canvas = cards[0].Parent as Canvas;
+            // Compute the position that the cards should appear
+            Point rightMost;
+            
+            if (Cards.Count > 0)
+            {
+                CardView lastCard = Cards.Last();
+                rightMost = lastCard.TranslatePoint(new Point(lastCard.ActualWidth, 0), canvas);
+            }
+            else
+            {
+                rightMost = TranslatePoint(new Point(this.ActualWidth / 2, 0), canvas);
+            }
+
+            foreach (var card in cards)
+            {               
+                card.CardModel.IsFaded = false;
+                card.Position = rightMost;
+                card.Rebase(0d);
+                rightMost.X += card.ActualWidth;
+                card.Appear(0.3d);
+                Cards.Add(card);
+            }
+            RearrangeCards(0.3d);
+        }
+
         public void AddCards(DeckType deck, IList<CardView> cards)
         {
             if (cards.Count == 0) return;
@@ -101,39 +138,14 @@ namespace Sanguosha.UI.Controls
 
             // Do not show cards that move from compute area to discard area
             // or from judge result area to discard aresa
-            if (from != DeckType.Compute && from != DeckType.JudgeResult)
+            if (from != DeckType.Compute && from != DeckType.JudgeResult && from != DeckType.Dealing)
             {
-                // If the card is from dealing area to discard/judge result area,
-                // do "append" animation rather than "move" animation
-                if (from == DeckType.Dealing)
-                {
-                    // Compute the position that the cards should appear
-                    Point rightMost;
-                    rightMost = TranslatePoint(
-                        new Point(this.ActualWidth / 2 - cards[0].ActualWidth / 2,
-                        this.ActualHeight / 2 - cards[0].ActualHeight / 2), canvas);
-                    if (Cards.Count > 0)
-                    {
-                        CardView lastCard = Cards.Last();
-                        rightMost = lastCard.TranslatePoint(new Point(lastCard.ActualWidth * 3, 0), canvas);
-                    }
-
-                    foreach (var card in cards)
-                    {
-                        card.Opacity = 0d;
-                        card.Appear(0.3d);
-                        card.CardModel.IsFaded = false;
-                        card.SetValue(Canvas.LeftProperty, rightMost.X);
-                        card.SetValue(Canvas.TopProperty, rightMost.Y);
-                        rightMost.X += card.ActualWidth;
-                        Cards.Add(card);
-                    }
-                    RearrangeCards(0.3d);
-                }
-                else // from hand/equip to discard area.
-                {
-                    AddCards(cards, 0.5d);
-                }
+                AddCards(cards, 0.3d);
+            }
+            else if (from == DeckType.Dealing && deck == DeckType.JudgeResult)
+            {
+                foreach (var card in Cards) MarkClearance(card);
+                AppendCards(cards);
             }
             else
             {
@@ -160,10 +172,27 @@ namespace Sanguosha.UI.Controls
 
         public IList<CardView> RemoveCards(DeckType deck, IList<Card> cards)
         {
-            IList<CardView> result = CardView.CreateCards(cards);
+            IList<CardView> result = new List<CardView>();
+            IList<CardView> remaining = new List<CardView>();
 
-            RemoveCards(result);
-
+            foreach (var card in cards)
+            {
+                var oldCardView = Cards.FirstOrDefault(
+                    c => ((card.Id > 0 && c.Card.Id == card.Id) || (card.Id <= 0 && c.Card == card)));
+                var cardView = CardView.CreateCard(card);
+                if (oldCardView != null)
+                {
+                    ParentCanvas.Children.Add(cardView);
+                    cardView.Position = oldCardView.Position;
+                    cardView.Rebase(0);                    
+                }
+                else
+                {
+                    remaining.Add(cardView);
+                }
+                result.Add(cardView);
+            }
+            RemoveCards(remaining);
             return result;
         }
     }
