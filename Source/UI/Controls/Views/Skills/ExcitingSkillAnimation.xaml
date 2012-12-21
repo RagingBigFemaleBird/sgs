@@ -5,6 +5,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:Sanguosha_UI_Effects="clr-namespace:Sanguosha.UI.Effects;assembly=Effects"
 	xmlns:local="clr-namespace:Sanguosha.UI.Animations;assembly=Animations"
+	xmlns:ctrl="clr-namespace:Sanguosha.UI.Controls"
 	xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
 	xmlns:ee="http://schemas.microsoft.com/expression/2010/effects"
 	mc:Ignorable="d"
@@ -14,7 +15,8 @@
 	<UserControl.Resources>
 		<Storyboard x:Key="mainAnimation">
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:DirectionalBlurEffect.BlurAmount)" Storyboard.TargetName="heroForeground">
-				<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0.2"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0.07"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0.05"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0">
 					<EasingDoubleKeyFrame.EasingFunction>
 						<BackEase EasingMode="EaseInOut" Amplitude="0.2"/>
@@ -111,6 +113,16 @@
 				<EasingDoubleKeyFrame KeyTime="0" Value="0.1"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:LightStreakEffect.BrightThreshold)" Storyboard.TargetName="skillNameText">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:2.6" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:LightStreakEffect.Attenuation)" Storyboard.TargetName="skillNameText">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:LightStreakEffect.Scale)" Storyboard.TargetName="skillNameText">
+				<EasingDoubleKeyFrame KeyTime="0:0:2.6" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
 		</Storyboard>
 	</UserControl.Resources>
 	<UserControl.Triggers>
@@ -165,7 +177,7 @@
 						</TransformGroup>
 					</Image.RenderTransform>
 					<Image.Effect>
-                        <Sanguosha_UI_Effects:ColorToneEffect DarkColor="#FF44EBE0" LightColor="White" Toned="1.0" />
+                        <Sanguosha_UI_Effects:ColorToneEffect DarkColor="#FF44EBE0" LightColor="White" Toned="0.5" />
 					</Image.Effect>
 				</Image>
 			</Grid>
@@ -198,6 +210,9 @@
 				</Grid>
 			</Grid>
 			<Viewbox x:Name="skillNameText" Width="100" Height="200" Opacity="0" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Bottom" Margin="0,0,0,100">
+				<Viewbox.Effect>
+					<Sanguosha_UI_Effects:LightStreakEffect Attenuation="1" BrightThreshold="1" Scale="1"/>
+				</Viewbox.Effect>
 				<Viewbox.RenderTransform>
 					<TransformGroup>
 						<ScaleTransform/>
@@ -206,17 +221,17 @@
 						<TranslateTransform/>
 					</TransformGroup>
 				</Viewbox.RenderTransform>
-				<Viewbox.Effect>
-					<DropShadowEffect Color="Red" ShadowDepth="0" BlurRadius="25"/>
-				</Viewbox.Effect>
-                <TextBlock TextWrapping="Wrap" FontFamily="pack://application:,,,/Resources;component/Fonts/#STLiti" FontSize="96" Text="{res:ResourceKeyBinding Path=SkillName,StringFormat=Skill.{0}.Name}" Height="217" Width="99">
-					<TextBlock.Foreground>
+                <ctrl:OutlinedTextBlock x:Name="outlinedTextBlock" TextWrapping="Wrap" Text="乱武" TextTrimming="None" FontFamily="STLiTi" Height="217" Width="99" FontSize="100" Stroke="Red" StrokeThickness="3">
+                	<ctrl:OutlinedTextBlock.Effect>
+                		<DropShadowEffect Color="Red" ShadowDepth="0" BlurRadius="25"/>
+                	</ctrl:OutlinedTextBlock.Effect>
+					<ctrl:OutlinedTextBlock.Fill>
 						<LinearGradientBrush EndPoint="0.5,1">
 							<GradientStop Color="DarkOrange" Offset="0"/>
 							<GradientStop Color="#FFFFD300" Offset="1"/>
 						</LinearGradientBrush>
-					</TextBlock.Foreground>
-				</TextBlock>
+					</ctrl:OutlinedTextBlock.Fill>
+				</ctrl:OutlinedTextBlock>
 			</Viewbox>
 		</Grid>
 		<Grid x:Name="grid2" Background="Black" Margin="0,0,0,120" VerticalAlignment="Bottom" Height="30">
