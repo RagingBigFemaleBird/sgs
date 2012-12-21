@@ -63,6 +63,7 @@
     <Compile Include="ViewModels\CardSlotViewModel.cs" />
     <Compile Include="ViewModels\GuHuoSkillCommand.cs" />
     <Compile Include="ViewModels\MarkViewModel.cs" />
+    <Compile Include="ViewModels\PrivateDeckViewModel.cs" />
     <Compile Include="Views\Cards\CardInteraction.cs" />
     <Compile Include="Views\Cards\DragDirection.cs" />
     <Compile Include="Views\Cards\SuitColorToColorConverter.cs" />
@@ -75,6 +76,7 @@
       <DependentUpon>CardSetView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\DeckNameToCardChoiceIconConverter.cs" />
+    <Compile Include="Views\Players\NumRolesToComboBoxEnabledConverter.cs" />
     <Compile Include="Views\Translations\GameLogs.cs" />
     <Compile Include="Views\Skills\GuHuoSkillButton.xaml.cs">
       <DependentUpon>GuHuoSkillButton.xaml</DependentUpon>

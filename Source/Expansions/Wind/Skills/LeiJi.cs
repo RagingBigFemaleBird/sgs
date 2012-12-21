@@ -20,37 +20,42 @@ namespace Sanguosha.Expansions.Wind.Skills
     /// </summary>
     public class LeiJi : TriggerSkill
     {
-        void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
+        void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs, List<Card> cards, List<Player> players)
         {
-            ISkill skill;
-            List<Card> cards;
-            List<Player> players;
-            if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("LeiJi"), new OneTargetNoSelfVerifier(),
-                out skill, out cards, out players))
+            var result = Game.CurrentGame.Judge(players[0]);
+            if (result.Suit == SuitType.Spade)
             {
-                NotifySkillUse(players);
-                var result = Game.CurrentGame.Judge(players[0]);
-                if (result.Suit == SuitType.Spade)
-                {
-                    Game.CurrentGame.DoDamage(Owner, players[0], 2, DamageElement.Lightning, null, null);
-                }
+                Game.CurrentGame.DoDamage(Owner, players[0], 2, DamageElement.Lightning, null, null);
+            }
+        }
+
+        public class LeiJiVerifier : CardsAndTargetsVerifier
+        {
+            public LeiJiVerifier()
+            {
+                MinCards = 0;
+                MaxCards = 0;
+                MinPlayers = 1;
+                MaxPlayers = 1;
             }
         }
 
         public LeiJi()
         {
-            var trigger = new AutoNotifyPassiveSkillTrigger(
+            var trigger = new AutoNotifyUsagePassiveSkillTrigger(
                 this,
                 (p, e, a) => { return a.Card.Type is Shan; },
                 Run,
-                TriggerCondition.OwnerIsSource
-            ) { AskForConfirmation = false, IsAutoNotify = false };
-            var trigger2 = new AutoNotifyPassiveSkillTrigger(
+                TriggerCondition.OwnerIsSource,
+                new LeiJiVerifier()
+            );
+            var trigger2 = new AutoNotifyUsagePassiveSkillTrigger(
                 this,
                 (p, e, a) => { return a.Card.Type is Shan;},
                 Run,
-                TriggerCondition.OwnerIsSource
-            ) { AskForConfirmation = false, IsAutoNotify = false };
+                TriggerCondition.OwnerIsSource,
+                new LeiJiVerifier()
+            );
 
             Triggers.Add(GameEvent.PlayerPlayedCard, trigger);
             Triggers.Add(GameEvent.PlayerUsedCard, trigger2);

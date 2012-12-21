@@ -602,9 +602,45 @@ namespace Sanguosha.UI.Controls
                         IDeckContainer deck = _GetMovementDeck(stackCards.Key);
                         IList<CardView> cards;
                         gameLogs.AppendCardMoveLog(stackCards.Value, stackCards.Key, move.to);
+                        
+                        if (stackCards.Key.Player != null && stackCards.Key.DeckType is PrivateDeckType)
+                        {
+                            var playerModel = GameModel.PlayerModels.First(m => m.Player == stackCards.Key.Player);
+                            var deckModel = playerModel.PrivateDecks.FirstOrDefault(d => d.Name == stackCards.Key.DeckType.Name);
+                            Trace.Assert(deckModel != null);
+                            
+                            foreach (var card in stackCards.Value)
+                            {
+                                var cardModel = deckModel.Cards.First(c => c.Card == card);
+                                Trace.Assert(cardModel != null, "Card cannot be found in the private deck");
+                                deckModel.Cards.Remove(cardModel);
+                            }
+                            if (deckModel.Cards.Count == 0)
+                            {
+                                playerModel.PrivateDecks.Remove(deckModel);
+                            }
+                        }
+
                         cards = deck.RemoveCards(stackCards.Key.DeckType, stackCards.Value);
                         cardsToAdd.AddRange(cards);
                     }
+
+                    if (move.to.Player != null && move.to.DeckType is PrivateDeckType)
+                    {
+                        var playerModel = GameModel.PlayerModels.First(m => m.Player == move.to.Player);
+                        var deckModel = playerModel.PrivateDecks.FirstOrDefault(d => d.Name == move.to.DeckType.Name);
+                        if (deckModel == null)
+                        {
+                            deckModel = new PrivateDeckViewModel();
+                            deckModel.Name = move.to.DeckType.Name;
+                            playerModel.PrivateDecks.Add(deckModel);
+                        }
+                        foreach (var card in cardsToAdd)
+                        {
+                            deckModel.Cards.Add(card.CardModel);
+                        }                        
+                    }
+
                     _GetMovementDeck(move.to).AddCards(move.to.DeckType, cardsToAdd);
                 }
                 rtbLog.ScrollToEnd();

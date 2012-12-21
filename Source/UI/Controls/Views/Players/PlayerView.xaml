@@ -280,6 +280,20 @@
                                VerticalAlignment="Center" HorizontalAlignment="Center"
                                Visibility="{Binding IsSelectionRepeatable, Converter={StaticResource boolToVisibilityConverter}}"
                                IsHitTestVisible="False" />
+						<ItemsControl ItemsSource="{Binding Path=PrivateDecks, Mode=OneWay}" Margin="25, 0, 0, 0">
+							<ItemsControl.ItemsPanel>
+								<ItemsPanelTemplate>
+									<WrapPanel HorizontalAlignment="Left" />
+								</ItemsPanelTemplate>
+							</ItemsControl.ItemsPanel>
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<Button Style="{DynamicResource DefaultButtonStyleBrown}" >
+										<TextBlock Foreground="#FFEEE4C1" FontFamily="SimSun" Margin="5, 1" Text="{Binding Path=DisplayText, Mode=OneWay}" />											
+									</Button>
+								</DataTemplate>	
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
                         <local:HealthBar x:Name="healthBar" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                                          Height="14" Margin="0,0,3,0" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}"/>
                     </Grid>

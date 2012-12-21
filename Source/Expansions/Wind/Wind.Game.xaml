@@ -20,5 +20,6 @@
     <sys:String x:Key="MultiChoice.Choice.JinNang">锦囊牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.ZhuangBei">装备牌</sys:String>    
     -->
+    <sys:String x:Key="Deck.BuQu.Name">不屈</sys:String>
 	<sys:String x:Key="Expansion.WindExpansion.Name">风</sys:String>
 </ResourceDictionary>

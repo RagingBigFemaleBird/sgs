@@ -22,12 +22,12 @@ namespace Sanguosha.Expansions.Wind.Skills
         protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             DeckType bq = new PrivateDeckType("BuQu", true);
-            if (-Owner.Health > Game.CurrentGame.Decks[Owner, bq].Count)
+            if (1 - Owner.Health > Game.CurrentGame.Decks[Owner, bq].Count)
             {
-                int toDraw = -Owner.Health - Game.CurrentGame.Decks[Owner, bq].Count;
+                int toDraw = 1 - Owner.Health - Game.CurrentGame.Decks[Owner, bq].Count;
                 while (toDraw-- > 0)
                 {
-                    Game.CurrentGame.SyncImmutableCard(Owner, Game.CurrentGame.PeekCard(0));
+                    Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.PeekCard(0));
                     Card c1 = Game.CurrentGame.DrawCard();
                     CardsMovement move = new CardsMovement();
                     move.cards = new List<Card>() { c1 };
@@ -35,9 +35,9 @@ namespace Sanguosha.Expansions.Wind.Skills
                     Game.CurrentGame.MoveCards(move, null);
                 }
             }
-            else if (Math.Max(0, -Owner.Health) < Game.CurrentGame.Decks[Owner, bq].Count)
+            else if (1 + Math.Max(0, -Owner.Health) < Game.CurrentGame.Decks[Owner, bq].Count)
             {
-                int toDraw = Game.CurrentGame.Decks[Owner, bq].Count - Math.Max(0, -Owner.Health);
+                int toDraw = Game.CurrentGame.Decks[Owner, bq].Count - Math.Max(0, -Owner.Health) - 1;
                 while (toDraw-- > 0)
                 {
                     Card c1 = Game.CurrentGame.Decks[Owner, bq][Game.CurrentGame.Decks[Owner, bq].Count - 1];

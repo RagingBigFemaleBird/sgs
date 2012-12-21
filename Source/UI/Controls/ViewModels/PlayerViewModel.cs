@@ -21,19 +21,6 @@ using System.Diagnostics;
 
 namespace Sanguosha.UI.Controls
 {
-    public class NumRolesToComboBoxEnabledConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            List<Role> roles = value as List<Role>;
-            return (roles != null) && (roles.Count > 1);
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
     public class PlayerViewModel : SelectableItem, IAsyncUiProxy
     {
         #region Constructors
@@ -46,6 +33,8 @@ namespace Sanguosha.UI.Controls
             RulerGivenSkillCommands = new ObservableCollection<SkillCommand>();
             HeroSkillNames = new ObservableCollection<string>();
             heroNameChars = new ObservableCollection<string>();
+            PrivateDecks = new ObservableCollection<PrivateDeckViewModel>();
+            
             MultiChoiceCommands = new ObservableCollection<ICommand>();
 
             submitCardUsageCommand = new SimpleRelayCommand(SubmitCardUsageCommand);
@@ -307,6 +296,14 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        #endregion
+
+        #region Decks
+        public ObservableCollection<PrivateDeckViewModel> PrivateDecks
+        {
+            get;
+            private set;
+        }
         #endregion
 
         #region Commands
@@ -1634,7 +1631,6 @@ namespace Sanguosha.UI.Controls
             }
             return true;
         }
-        #endregion
 
         public bool CheatGetSkill(string skillName)
         {
@@ -1653,5 +1649,6 @@ namespace Sanguosha.UI.Controls
             }
             return true;
         }
+        #endregion       
     }
 }

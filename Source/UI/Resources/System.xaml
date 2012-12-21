@@ -263,7 +263,95 @@
         </Setter>
     </Style>
     <SolidColorBrush x:Key="ButtonNormalBorder" Color="#FF707070"/>
-    <Style x:Key="DefaultButtonStyle1" TargetType="{x:Type Button}">
+    <Style x:Key="DefaultButtonStyleBrown" TargetType="{x:Type Button}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}"/>
+        <Setter Property="Background" Value="{StaticResource ButtonNormalBackground}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border CornerRadius="3" BorderThickness="1">
+                        <Border.BorderBrush>
+                            <LinearGradientBrush EndPoint="0.1,1" StartPoint="0,0">
+                                <GradientStop Color="#FF8B8572" Offset="0.513"/>
+                                <GradientStop Color="#FFF6F5F2"/>
+                                <GradientStop Color="#FFCAC6B6" Offset="0.448"/>
+                                <GradientStop Color="#FF777056" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.BorderBrush>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" Storyboard.TargetName="border">
+                                            <EasingColorKeyFrame KeyTime="0" Value="#FFB58A67"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="border">
+                                            <EasingColorKeyFrame KeyTime="0" Value="#FF96633F"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[2].(GradientStop.Color)" Storyboard.TargetName="border">
+                                            <EasingColorKeyFrame KeyTime="0" Value="#FF94603E"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[3].(GradientStop.Color)" Storyboard.TargetName="border">
+                                            <EasingColorKeyFrame KeyTime="0" Value="#FF854C36"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="border">
+                                            <EasingColorKeyFrame KeyTime="0" Value="#FF613D23"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[4].(GradientStop.Color)" Storyboard.TargetName="border">
+                                        	<EasingColorKeyFrame KeyTime="0" Value="#FF824B30"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                	<Storyboard>
+                                		<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" Storyboard.TargetName="border">
+                                			<EasingColorKeyFrame KeyTime="0" Value="#FF110F0B"/>
+                                		</ColorAnimationUsingKeyFrames>
+                                		<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="border">
+                                			<EasingColorKeyFrame KeyTime="0" Value="#FF4D3020"/>
+                                		</ColorAnimationUsingKeyFrames>
+                                		<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[2].(GradientStop.Color)" Storyboard.TargetName="border">
+                                			<EasingColorKeyFrame KeyTime="0" Value="#FF5C392A"/>
+                                		</ColorAnimationUsingKeyFrames>
+                                		<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[3].(GradientStop.Color)" Storyboard.TargetName="border">
+                                			<EasingColorKeyFrame KeyTime="0" Value="#FF411E1E"/>
+                                		</ColorAnimationUsingKeyFrames>
+                                		<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[4].(GradientStop.Color)" Storyboard.TargetName="border">
+                                			<EasingColorKeyFrame KeyTime="0" Value="#FF1E1919"/>
+                                		</ColorAnimationUsingKeyFrames>
+                                	</Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">                                    
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="3">
+                            <Border x:Name="border" CornerRadius="3" BorderThickness="1,1,0,0" BorderBrush="#FF806353">
+                                <Border.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF684531" Offset="0"/>
+                                        <GradientStop Color="#FF1D1610" Offset="1"/>
+                                        <GradientStop Color="#FF5E3A2A" Offset="0.427"/>
+                                        <GradientStop Color="#FF421F1E" Offset="0.547"/>
+                                        <GradientStop Color="#FF2D1A12" Offset="0.855"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>								
+                            </Border>
+                        </Border>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+	<Style x:Key="DefaultButtonStyle1" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}"/>
         <Setter Property="Background" Value="{StaticResource ButtonNormalBackground}"/>
         <Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}"/>
