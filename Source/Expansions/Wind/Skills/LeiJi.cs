@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.Wind.Skills
     {
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs, List<Card> cards, List<Player> players)
         {
-            var result = Game.CurrentGame.Judge(players[0]);
+            var result = Game.CurrentGame.Judge(players[0], this, null, (judgeResultCard) => { return judgeResultCard.Suit == SuitType.Spade; });
             if (result.Suit == SuitType.Spade)
             {
                 Game.CurrentGame.DoDamage(Owner, players[0], 2, DamageElement.Lightning, null, null);

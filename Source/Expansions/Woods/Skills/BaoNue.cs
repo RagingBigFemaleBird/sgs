@@ -26,7 +26,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                 this,
                 (p, e, a) => 
                 {
-                    var result = Game.CurrentGame.Judge(p);
+                    var result = Game.CurrentGame.Judge(p, this, null, (judgeResultCard) => { return judgeResultCard.Suit == SuitType.Spade; });
                     if (result.Suit == SuitType.Spade)
                     {
                         Game.CurrentGame.RecoverHealth(p, Master, 1);

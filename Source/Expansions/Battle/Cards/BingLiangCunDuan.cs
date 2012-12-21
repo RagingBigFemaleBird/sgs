@@ -34,7 +34,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                     Trace.Assert(e.Status == TriggerResult.End);
                     break;
                 }
-                ReadOnlyCard result = Game.CurrentGame.Judge(p, null, c);
+                ReadOnlyCard result = Game.CurrentGame.Judge(p, null, c, (judgeResultCard) => { return judgeResultCard.Suit != SuitType.Club; });
                 if (result.Suit != SuitType.Club)
                 {
                     var theTrigger = new BingLiangCunDuanTrigger() { Priority = int.MaxValue };

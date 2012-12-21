@@ -35,7 +35,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     Trace.Assert(e.Status == TriggerResult.End);
                     break;
                 }
-                ReadOnlyCard result = Game.CurrentGame.Judge(p, null, c);
+                ReadOnlyCard result = Game.CurrentGame.Judge(p, null, c, (judgeResultCard) => { return judgeResultCard.Suit != SuitType.Heart; });
                 if (result.Suit != SuitType.Heart)
                 {
                     var theTrigger = new LeBuSiShuTrigger() { Priority = int.MaxValue };

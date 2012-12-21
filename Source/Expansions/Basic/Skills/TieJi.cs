@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     {
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            var card = Game.CurrentGame.Judge(Owner);
+            var card = Game.CurrentGame.Judge(Owner, this, null, (judgeResultCard) => { return judgeResultCard.SuitColor == SuitColorType.Red; });
             if (card.SuitColor == SuitColorType.Red)
             {
                 eventArgs.ReadonlyCard[ShaCancelling.CannotProvideShan] = 1;

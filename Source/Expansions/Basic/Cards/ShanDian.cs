@@ -76,7 +76,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     Trace.Assert(e.Status == TriggerResult.End);
                     break;
                 }
-                ReadOnlyCard result = Game.CurrentGame.Judge(p, null, c);
+                ReadOnlyCard result = Game.CurrentGame.Judge(p, null, c, (judgeResultCard) => { return judgeResultCard.Suit == SuitType.Spade && judgeResultCard.Rank >= 2 && judgeResultCard.Rank <= 9; });
                 if (result.Suit == SuitType.Spade && result.Rank >= 2 && result.Rank <= 9)
                 {
                     var roc = new ReadOnlyCard(c);

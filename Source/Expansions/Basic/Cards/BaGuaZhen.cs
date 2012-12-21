@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         {
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                ReadOnlyCard c = Game.CurrentGame.Judge(Owner, null, new Card() { Type = new BaGuaZhen() });
+                ReadOnlyCard c = Game.CurrentGame.Judge(Owner, null, new Card() { Type = new BaGuaZhen() }, (judgeResultCard) => { return judgeResultCard.SuitColor == SuitColorType.Red; });
                 if (c.SuitColor == SuitColorType.Red)
                 {
                     eventArgs.Cards = new List<Card>();

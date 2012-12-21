@@ -73,7 +73,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                     maxMarkPlayers = new List<Player>() { players[0] };
                 }
                 Player target = maxMarkPlayers[0];
-                var result = Game.CurrentGame.Judge(target, this);
+                var result = Game.CurrentGame.Judge(target, this, null, (judgeResultCard) => { return !(judgeResultCard.Type is Tao || judgeResultCard.Type is TaoYuanJieYi); });
                 if (!(result.Type is Tao || result.Type is TaoYuanJieYi))
                 {
                     target.IsDead = true;

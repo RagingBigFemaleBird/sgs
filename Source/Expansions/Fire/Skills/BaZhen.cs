@@ -26,7 +26,7 @@ namespace Sanguosha.Expansions.Fire.Skills
                     new MultipleChoicePrompt(Prompt.SkillUseYewNoPrompt, new BaGuaZhen.BaGuaZhenSkill()), Prompt.YesNoChoices, out answer)
                     && answer == 0)
             {
-                ReadOnlyCard c = Game.CurrentGame.Judge(Owner, null, new Card() { Type = new BaGuaZhen() });
+                ReadOnlyCard c = Game.CurrentGame.Judge(Owner, null, new Card() { Type = new BaGuaZhen() }, (judgeResultCard) => { return judgeResultCard.SuitColor == SuitColorType.Red; });
                 if (c.SuitColor == SuitColorType.Red)
                 {
                     eventArgs.Cards = new List<Card>();

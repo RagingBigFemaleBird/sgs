@@ -57,7 +57,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 ReadOnlyCard c;
                 do
                 {
-                    c = Game.CurrentGame.Judge(Owner);
+                    c = Game.CurrentGame.Judge(Owner, this, null, (judgeResultCard) => { return judgeResultCard.SuitColor == SuitColorType.Black; });
                 } while (c.SuitColor == SuitColorType.Black && AskForSkillUse());
             }
         }
