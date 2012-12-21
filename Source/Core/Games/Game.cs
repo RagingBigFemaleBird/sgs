@@ -1184,7 +1184,12 @@ namespace Sanguosha.Core.Games
             log.SkillAction = skill;
             log.CardAction = handler;
             log.Source = player;
-            Game.CurrentGame.NotificationProxy.NotifyJudge(player, args.Cards[0], log, del);
+            bool? succeed = null;
+            if (del != null)
+            {
+                succeed = del(args.Card);
+            }
+            Game.CurrentGame.NotificationProxy.NotifyJudge(player, args.Card, log, succeed);
 
             if (decks[player, DeckType.JudgeResult].Count != 0)
             {

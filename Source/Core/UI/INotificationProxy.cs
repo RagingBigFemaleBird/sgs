@@ -17,7 +17,7 @@ namespace Sanguosha.Core.UI
         Rebel,
     }
 
-    public delegate bool JudgementResultSucceed(Card card);
+    public delegate bool JudgementResultSucceed(ICard card);
 
     public interface INotificationProxy
     {
@@ -25,7 +25,7 @@ namespace Sanguosha.Core.UI
         void NotifyDamage(Player source, Player target, int magnitude, DamageElement element);
         void NotifySkillUse(ActionLog log);
         void NotifyMultipleChoiceResult(Player p, string answer);
-        void NotifyJudge(Player p, Card card, ActionLog log, JudgementResultSucceed del);
+        void NotifyJudge(Player p, ICard card, ActionLog log, bool? isSuccess);
         void NotifyDeath(Player p, Player by);
         void NotifyGameOver(GameResult result);
         void NotifyActionComplete();
@@ -54,10 +54,6 @@ namespace Sanguosha.Core.UI
         {
         }
 
-        public void NotifyJudge(Player p, Card card, ActionLog log, JudgementResultSucceed del)
-        {
-        }
-
         public void NotifyDeath(Player p, Player by)
         {
         }
@@ -82,11 +78,11 @@ namespace Sanguosha.Core.UI
         {
         }
 
-        public void NotifyImpersonation(Player p, Hero h, params ISkill[] s)
+        public void NotifyImpersonation(Player p, Hero h, ISkill s)
         {
         }
 
-        public void NotifyImpersonation(Player p, Hero h, ISkill s)
+        public void NotifyJudge(Player p, ICard card, ActionLog log, bool? isSuccess)
         {
         }
     }

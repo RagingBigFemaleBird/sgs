@@ -765,7 +765,7 @@ namespace Sanguosha.UI.Controls
         {
         }
 
-        public void NotifyJudge(Player p, Card card, ActionLog log, JudgementResultSucceed del)
+        public void NotifyJudge(Player p, ICard card, ActionLog log, bool? isSuccess)
         {
         }
     }
