@@ -46,7 +46,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             {
                 MinCards = 1;
                 MaxCards = 1;
-                MinPlayers = 0;
+                MinPlayers = 2;
                 MaxPlayers = 2;
                 Discarding = true;
             }

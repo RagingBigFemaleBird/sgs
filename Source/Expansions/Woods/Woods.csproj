@@ -43,7 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Skills\DiMeng.cs" />
     <Compile Include="Skills\FangZhu.cs" />
+    <Compile Include="Skills\HaoShi.cs" />
     <Compile Include="Skills\JuXiang.cs" />
     <Compile Include="Skills\LieRen.cs" />
     <Compile Include="Skills\LuanWu.cs" />

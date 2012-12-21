@@ -694,7 +694,6 @@ namespace Sanguosha.Core.Games
                 {
                     GameEventArgs args = new GameEventArgs() { Source = currentPlayer };
                     Trace.TraceInformation("Main game loop running {0}:{1}", currentPlayer.Id, game.CurrentPhase);
-                    game.CurrentPlayer = currentPlayer;
                     try
                     {
                         var phaseEvent = Game.PhaseEvents[game.CurrentPhaseEventIndex];
@@ -885,7 +884,7 @@ namespace Sanguosha.Core.Games
             RegisterTrigger(GameEvent.GameStart, new RoleGameRuleTrigger());
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Judge], new PlayerJudgeStageTrigger());
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Play], new PlayerActionTrigger());
-            RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Draw], new PlayerDealStageTrigger() { Priority = int.MinValue });
+            RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Draw], new PlayerDealStageTrigger() { Priority = -1 });
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Discard], new PlayerDiscardStageTrigger());
             RegisterTrigger(GameEvent.CommitActionToTargets, new CommitActionToTargetsTrigger());
             RegisterTrigger(GameEvent.AfterHealthChanged, new PlayerHpChanged());

@@ -14,6 +14,7 @@
     <sys:String x:Key="Hero.CaoPi.Name">曹丕</sys:String>
     <sys:String x:Key="Hero.SunJian.Name">孙坚</sys:String>
     <sys:String x:Key="Hero.ZhuRong.Name">祝融</sys:String>
+    <sys:String x:Key="Hero.LuSu.Name">鲁肃</sys:String>
 
     <sys:String x:Key="Skill.WanSha.Name">完杀</sys:String>
     <sys:String x:Key="Skill.FangZhu.Name">放逐</sys:String>
@@ -24,5 +25,7 @@
     <sys:String x:Key="Skill.SongWei.Name">颂威</sys:String>
     <sys:String x:Key="Skill.WeiMu.Name">帷幕</sys:String>
     <sys:String x:Key="Skill.XingShang.Name">行殇</sys:String>
+    <sys:String x:Key="Skill.HaoShi.Name">好施</sys:String>
+    <sys:String x:Key="Skill.DiMeng.Name">缔盟</sys:String>
 
 </ResourceDictionary>
