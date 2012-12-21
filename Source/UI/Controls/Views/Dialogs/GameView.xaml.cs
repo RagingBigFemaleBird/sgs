@@ -719,10 +719,6 @@ namespace Sanguosha.UI.Controls
             });
         }
 
-        public void NotifyJudge(Player p, Card card, ActionLog log)
-        {
-        }
-
         public void NotifyDeath(Player p, Player by)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
@@ -757,21 +753,20 @@ namespace Sanguosha.UI.Controls
         }
         #endregion
 
-        public void NotifyCloseWindow(int windowId)
-        {
-            throw new NotImplementedException();
-        }
-
-
         public void NotifyShowCard(Player p, Card card)
         {
-            throw new NotImplementedException();
         }
-
 
         public void NotifyCardChoiceCallback(object o)
         {
-            throw new NotImplementedException();
+        }
+
+        public void NotifyImpersonation(Player p, Core.Heroes.Hero h, ISkill s)
+        {
+        }
+
+        public void NotifyJudge(Player p, Card card, ActionLog log, JudgementResultSucceed del)
+        {
         }
     }
 }

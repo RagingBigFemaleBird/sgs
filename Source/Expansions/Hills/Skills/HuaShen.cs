@@ -71,6 +71,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             Owner.Allegiance = handler.Hero.Allegiance;
             Owner.IsMale = handler.Hero.IsMale;
             Owner.IsFemale = !handler.Hero.IsMale;
+            Game.CurrentGame.NotificationProxy.NotifyImpersonation(Owner, handler.Hero, acquiredSkill);
             return;
         }
 

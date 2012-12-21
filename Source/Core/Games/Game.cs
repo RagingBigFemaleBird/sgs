@@ -1147,7 +1147,7 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public ReadOnlyCard Judge(Player player, ISkill skill = null, ICard handler = null)
+        public ReadOnlyCard Judge(Player player, ISkill skill = null, ICard handler = null, JudgementResultSucceed del = null)
         {
             CardsMovement move = new CardsMovement();
             Card c;
@@ -1184,7 +1184,7 @@ namespace Sanguosha.Core.Games
             log.SkillAction = skill;
             log.CardAction = handler;
             log.Source = player;
-            Game.CurrentGame.NotificationProxy.NotifyJudge(player, args.Cards[0], log);
+            Game.CurrentGame.NotificationProxy.NotifyJudge(player, args.Cards[0], log, del);
 
             if (decks[player, DeckType.JudgeResult].Count != 0)
             {

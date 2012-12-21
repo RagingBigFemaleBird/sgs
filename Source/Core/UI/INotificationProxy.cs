@@ -6,6 +6,7 @@ using Sanguosha.Core.Cards;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
+using Sanguosha.Core.Heroes;
 
 namespace Sanguosha.Core.UI
 {
@@ -15,19 +16,23 @@ namespace Sanguosha.Core.UI
         Defector,
         Rebel,
     }
+
+    public delegate bool JudgementResultSucceed(Card card);
+
     public interface INotificationProxy
     {
         void NotifyCardMovement(List<CardsMovement> m, List<MovementHelper> notes);
         void NotifyDamage(Player source, Player target, int magnitude, DamageElement element);
         void NotifySkillUse(ActionLog log);
         void NotifyMultipleChoiceResult(Player p, string answer);
-        void NotifyJudge(Player p, Card card, ActionLog log);
+        void NotifyJudge(Player p, Card card, ActionLog log, JudgementResultSucceed del);
         void NotifyDeath(Player p, Player by);
         void NotifyGameOver(GameResult result);
         void NotifyActionComplete();
         void NotifyLoseHealth(Player player, int p);
         void NotifyShowCard(Player p, Card card);
         void NotifyCardChoiceCallback(object o);
+        void NotifyImpersonation(Player p, Hero h, ISkill s);
     }
 
     public class DummyNotificationProxy : INotificationProxy
@@ -49,8 +54,7 @@ namespace Sanguosha.Core.UI
         {
         }
 
-
-        public void NotifyJudge(Player p, Card card, ActionLog log)
+        public void NotifyJudge(Player p, Card card, ActionLog log, JudgementResultSucceed del)
         {
         }
 
@@ -66,7 +70,6 @@ namespace Sanguosha.Core.UI
         {
         }
 
-
         public void NotifyLoseHealth(Player player, int p)
         {
         }
@@ -76,6 +79,14 @@ namespace Sanguosha.Core.UI
         }
 
         public void NotifyCardChoiceCallback(object o)
+        {
+        }
+
+        public void NotifyImpersonation(Player p, Hero h, params ISkill[] s)
+        {
+        }
+
+        public void NotifyImpersonation(Player p, Hero h, ISkill s)
         {
         }
     }
