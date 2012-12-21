@@ -221,7 +221,7 @@
 						<TranslateTransform/>
 					</TransformGroup>
 				</Viewbox.RenderTransform>
-                <ctrl:OutlinedTextBlock x:Name="outlinedTextBlock" TextWrapping="Wrap" Text="乱武" TextTrimming="None" FontFamily="STLiTi" Height="217" Width="99" FontSize="100" Stroke="Red" StrokeThickness="3">
+                <ctrl:OutlinedTextBlock x:Name="outlinedTextBlock" TextWrapping="Wrap" Text="{res:ResourceKeyBinding Path=SkillName,StringFormat=Skill.{0}.Name}" TextTrimming="None" FontFamily="pack://application:,,,/Resources;component/Fonts/#STLiti" Height="217" Width="99" FontSize="100" Stroke="Red" StrokeThickness="3">
                 	<ctrl:OutlinedTextBlock.Effect>
                 		<DropShadowEffect Color="Red" ShadowDepth="0" BlurRadius="25"/>
                 	</ctrl:OutlinedTextBlock.Effect>
