@@ -65,6 +65,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                         try
                         {
                             GameEventArgs args = new GameEventArgs();
+                            target[Sha.NumberOfShaUsed]--;
                             args.Source = target;
                             args.Targets = players;
                             args.Skill = skill;

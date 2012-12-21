@@ -54,6 +54,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                 out skill, out cards, out players))
             {
                 NotifySkillUse(players);
+                Owner[Sha.NumberOfShaUsed]--;
                 GameEventArgs args = new GameEventArgs();
                 args.Source = Owner;
                 args.Targets = players;
@@ -77,6 +78,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                 NotifySkillUse(players);
                 Game.CurrentGame.HandleCardDiscard(Owner, cards);
                 GameEventArgs args = new GameEventArgs();
+                Owner[Sha.NumberOfShaUsed]--;
                 args.Source = Owner;
                 args.Targets = players;
                 args.Skill = new CardWrapper(Owner, new RegularSha());

@@ -96,6 +96,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     try
                     {
+                        initiator[Sha.NumberOfShaUsed]--;
                         args = new GameEventArgs();
                         args.Source = initiator;
                         args.Targets = players;
