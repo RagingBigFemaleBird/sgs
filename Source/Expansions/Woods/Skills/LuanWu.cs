@@ -56,11 +56,11 @@ namespace Sanguosha.Expansions.Woods.Skills
                 ISkill skill;
                 List<Card> cards;
                 List<Player> players;
-                if (target.IsDead) continue;
-                if (Game.CurrentGame.UiProxies[target].AskForCardUsage(new CardUsagePrompt("LuanWu"), new LuanWuVerifier(),
-                    out skill, out cards, out players))
+                while (true)
                 {
-                    while (true)
+                    if (target.IsDead) break;
+                    if (Game.CurrentGame.UiProxies[target].AskForCardUsage(new CardUsagePrompt("LuanWu"), new LuanWuVerifier(),
+                        out skill, out cards, out players))
                     {
                         try
                         {
@@ -77,12 +77,12 @@ namespace Sanguosha.Expansions.Woods.Skills
                             Trace.Assert(e.Status == TriggerResult.Retry);
                             continue;
                         }
-                        break;
                     }
-                }
-                else
-                {
-                    Game.CurrentGame.LoseHealth(target, 1);
+                    else
+                    {
+                        Game.CurrentGame.LoseHealth(target, 1);
+                    }
+                    break;
                 }
             }
             return true;

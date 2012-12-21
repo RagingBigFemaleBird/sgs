@@ -23,7 +23,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         }
 
         
-        private class JieDaoShaRenVerifier : CardUsageVerifier
+        public class JieDaoShaRenVerifier : CardUsageVerifier
         {
             public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
             {
@@ -90,9 +90,9 @@ namespace Sanguosha.Expansions.Basic.Cards
             ISkill skill;
             List<Card> cards;
             List<Player> players;
-            if (!dests[1].IsDead && Game.CurrentGame.UiProxies[initiator].AskForCardUsage(new CardUsagePrompt("JieDaoShaRen", dests[1]), new JieDaoShaRenVerifier(dests[1]), out skill, out cards, out players))
+            while (true)
             {
-                while (true)
+                if (!dests[1].IsDead && Game.CurrentGame.UiProxies[initiator].AskForCardUsage(new CardUsagePrompt("JieDaoShaRen", dests[1]), new JieDaoShaRenVerifier(dests[1]), out skill, out cards, out players))
                 {
                     try
                     {
@@ -110,24 +110,24 @@ namespace Sanguosha.Expansions.Basic.Cards
                         Trace.Assert(e.Status == TriggerResult.Retry);
                         continue;
                     }
-                    break;
                 }
-            }
-            else
-            {
-                if (source.IsDead) return;
-                Card theWeapon = null;
-                foreach (Card c in Game.CurrentGame.Decks[initiator, DeckType.Equipment])
+                else
                 {
-                    if (c.Type is Weapon)
+                    if (source.IsDead) return;
+                    Card theWeapon = null;
+                    foreach (Card c in Game.CurrentGame.Decks[initiator, DeckType.Equipment])
                     {
-                        theWeapon = c;
-                        break;
+                        if (c.Type is Weapon)
+                        {
+                            theWeapon = c;
+                            break;
+                        }
                     }
-                }
-                if (theWeapon != null)
-                {
-                    Game.CurrentGame.HandleCardTransferToHand(initiator, source, new List<Card>() { theWeapon });
+                    if (theWeapon != null)
+                    {
+                        Game.CurrentGame.HandleCardTransferToHand(initiator, source, new List<Card>() { theWeapon });
+                    }
+                    break;
                 }
             }
         }

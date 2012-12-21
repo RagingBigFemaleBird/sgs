@@ -54,6 +54,7 @@ namespace Sanguosha.Expansions.Wind.Skills
 
         protected override bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets)
         {
+            int GuHuoOrder = Game.CurrentGame.Decks[null, DeckType.GuHuo].Count;
             CardsMovement move = new CardsMovement();
             Trace.Assert(card.Subcards.Count == 1);
             move.cards = new List<Card>();
@@ -75,7 +76,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                 }
                 believe.Add(player, answer);
             }
-            Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.Decks[null, DeckType.GuHuo][0]);
+            Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.Decks[null, DeckType.GuHuo][GuHuoOrder]);
             bool guhuoSucceed = true;
             foreach (var v in believe)
             {
@@ -88,7 +89,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             bool ret = true;
             if (!guhuoSucceed)
             {
-                if (Game.CurrentGame.Decks[null, DeckType.GuHuo][0].Type.GetType().IsAssignableFrom(AdditionalType.GetType()))
+                if (Game.CurrentGame.Decks[null, DeckType.GuHuo][GuHuoOrder].Type.GetType().IsAssignableFrom(AdditionalType.GetType()))
                 {
                     foreach (var player in toProcess)
                     {
@@ -97,7 +98,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                             Game.CurrentGame.LoseHealth(player, 1);
                         }
                     }
-                    if (Game.CurrentGame.Decks[null, DeckType.GuHuo][0].Suit != SuitType.Heart)
+                    if (Game.CurrentGame.Decks[null, DeckType.GuHuo][GuHuoOrder].Suit != SuitType.Heart)
                     {
                         ret = false;
                     }
@@ -117,7 +118,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                 {
                     move = new CardsMovement();
                     move.cards = new List<Card>();
-                    move.cards.AddRange(Game.CurrentGame.Decks[null, DeckType.GuHuo]);
+                    move.cards.Add(Game.CurrentGame.Decks[null, DeckType.GuHuo][GuHuoOrder]);
                     move.to = new DeckPlace(null, DeckType.Discard);
                     Game.CurrentGame.MoveCards(move, null);
                 }
@@ -125,7 +126,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             if (ret)
             {
                 card.Subcards = new List<Card>();
-                card.Subcards.Add(Game.CurrentGame.Decks[null, DeckType.GuHuo][0]);
+                card.Subcards.Add(Game.CurrentGame.Decks[null, DeckType.GuHuo][GuHuoOrder]);
             }
             return ret;
         }

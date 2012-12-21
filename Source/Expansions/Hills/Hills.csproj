@@ -53,6 +53,7 @@
     <Compile Include="Skills\LianPo.cs" />
     <Compile Include="Skills\QiaoBian.cs" />
     <Compile Include="Skills\RenJie.cs" />
+    <Compile Include="Skills\TiaoXin.cs" />
     <Compile Include="Skills\XinSheng.cs" />
     <Compile Include="Skills\ZhiBa.cs" />
     <Compile Include="Skills\ZhiJian.cs" />
