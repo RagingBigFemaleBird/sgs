@@ -157,7 +157,7 @@
 					<Sanguosha_UI_Effects:ZoomBlurEffect Center="0.5,1"/>
 				</Grid.Effect>
 				<Grid.OpacityMask>
-					<ImageBrush ImageSource="JiaXu.png"/>
+                    <ImageBrush ImageSource="{res:ImageBinding Path=HeroName, ResourceKeyFormat=Hero.\{0\}.Image.Foreground, StringFormat=Resources/Images/Heroes/Foreground/\{0\}.png}"/>
 				</Grid.OpacityMask>
 				<Image x:Name="monochromeHero" Source="{res:ImageBinding Path=HeroName, ResourceKeyFormat=Hero.\{0\}.Image.Foreground, StringFormat=Resources/Images/Heroes/Foreground/\{0\}.png}" Stretch="None" RenderTransformOrigin="0.5,0.5">
 					<Image.RenderTransform>

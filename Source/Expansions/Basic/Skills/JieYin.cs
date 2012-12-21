@@ -24,7 +24,6 @@ namespace Sanguosha.Expansions.Basic.Skills
             Owner[JieYinUsed] = 1;
             List<Card> cards = arg.Cards;
             Trace.Assert(cards.Count == 2 && arg.Targets.Count == 1);
-            NotifyAction(arg.Source, arg.Targets, cards);
             Game.CurrentGame.HandleCardDiscard(Owner, cards);
             Game.CurrentGame.RecoverHealth(Owner, Owner, 1);
             Game.CurrentGame.RecoverHealth(Owner, arg.Targets[0], 1);

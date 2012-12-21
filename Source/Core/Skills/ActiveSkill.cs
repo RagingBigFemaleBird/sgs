@@ -37,6 +37,12 @@ namespace Sanguosha.Core.Skills
         /// <returns>true if 可以打出, false if 不可打出</returns>
         public abstract bool Commit(GameEventArgs arg);
 
+        public virtual bool NotifyAndCommit(GameEventArgs arg)
+        {
+            NotifyAction(Owner, arg.Targets, arg.Cards);
+            return Commit(arg);
+        }
+
         public virtual Players.Player Owner { get; set; }
 
         public virtual void CardRevealPolicy(Players.Player p, List<Card> cards, List<Players.Player> players)
@@ -67,7 +73,14 @@ namespace Sanguosha.Core.Skills
 
         protected void TargetsSplit(List<Players.Player> targets, out List<Players.Player> firstTargets, out List<Players.Player> secondaryTargets)
         {
-            firstTargets = new List<Players.Player>(targets);
+            if (targets == null)
+            {
+                firstTargets = new List<Players.Player>();
+            }
+            else
+            {
+                firstTargets = new List<Players.Player>(targets);
+            }
             secondaryTargets = null;
         }
 

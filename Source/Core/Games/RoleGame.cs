@@ -161,7 +161,7 @@ namespace Sanguosha.Core.Games
                             arg.Source = Game.CurrentGame.CurrentPlayer;
                             arg.Targets = players;
                             arg.Cards = cards;
-                            ((ActiveSkill)skill).Commit(arg);
+                            ((ActiveSkill)skill).NotifyAndCommit(arg);
                             continue;
                         }
                         CompositeCard c;
