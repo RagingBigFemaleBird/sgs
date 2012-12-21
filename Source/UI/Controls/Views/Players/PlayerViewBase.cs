@@ -106,6 +106,7 @@ namespace Sanguosha.UI.Controls
         }
         #endregion
 
+        #region CardMovement
         public void AddCards(DeckType deck, IList<CardView> cards)
         {
             foreach (CardView card in cards)
@@ -238,6 +239,16 @@ namespace Sanguosha.UI.Controls
         public virtual void UpdateCardAreas()
         {        
         }
+        #endregion
+
+        #region UI Event Handlers
+        protected void btnPrivateDeck_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            var model = btn.DataContext as PrivateDeckViewModel;
+            this.parentGameView.DisplayPrivateDeck(PlayerModel.Player, model);
+        }
+        #endregion
 
         protected override Geometry GetLayoutClip(Size layoutSlotSize)
         {

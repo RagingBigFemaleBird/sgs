@@ -75,7 +75,7 @@ namespace Sanguosha.UI.Controls
             {
                 return cards;
             }
-            private set
+            set
             {
                 if (cards == value) return;
                 cards = value;
@@ -130,6 +130,11 @@ namespace Sanguosha.UI.Controls
                 OnPropertyChanged("CardStacks");
             }
         }
+
+        /// <summary>
+        /// Gets/sets whether this box is used to display cards only.
+        /// </summary>
+        public bool DisplayOnly { get; set; }
 
         private double _timeOutSeconds;
         public double TimeOutSeconds

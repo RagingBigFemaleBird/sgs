@@ -37,6 +37,7 @@ namespace Sanguosha.UI.Controls
         private void UpdateModel()
         {
             var model = DataContext as CardChoiceViewModel;
+            if (model == null || model.DisplayOnly) return;
             Trace.Assert(model != null);
 
             foreach (var s in model.CardStacks)
@@ -48,19 +49,20 @@ namespace Sanguosha.UI.Controls
                     {
                         card.IsEnabled = false;
                     }
-                    card.OnSelectedChanged += (o, e) => 
+                    
+                    card.OnSelectedChanged += (o, e) =>
                     {
                         var c = o as CardViewModel;
                         model.Answer.Clear();
                         if (c.IsSelected)
-                        {                            
+                        {
                             model.Answer.Add(new List<Card>() { c.Card });
                             if (model.MultiChoiceCommands.Count == 1)
                             {
                                 model.MultiChoiceCommands.First().Execute(null);
                             }
                         }
-                    };
+                    };                    
                 }
             }
 

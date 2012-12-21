@@ -789,6 +789,22 @@ namespace Sanguosha.UI.Controls
         }
         #endregion
 
+        #region Private Decks
+        public void DisplayPrivateDeck(Player player, PrivateDeckViewModel model)
+        {          
+            var choiceModel = new CardChoiceViewModel();
+            choiceModel.CanClose = true;
+            choiceModel.Prompt = PromptFormatter.Format(new CardChoicePrompt("PrivateDeck", player, model.TraslatedName));
+            var lineViewModel = new CardChoiceLineViewModel();
+            lineViewModel.DeckName = model.Name;
+            lineViewModel.Cards = model.Cards;
+            choiceModel.CardStacks.Add(lineViewModel);
+            choiceModel.DisplayOnly = true;
+            deckDisplayWindow.DataContext = choiceModel;
+            deckDisplayWindow.Show();
+        }
+        #endregion
+
         public void NotifyShowCard(Player p, Card card)
         {
         }

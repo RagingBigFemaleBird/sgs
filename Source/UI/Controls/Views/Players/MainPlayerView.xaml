@@ -410,7 +410,7 @@
 					</ItemsControl.ItemsPanel>
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
-							<Button Style="{DynamicResource DefaultButtonStyleBrown}" >
+							<Button Style="{DynamicResource DefaultButtonStyleBrown}" Click="btnPrivateDeck_Click" >
 								<TextBlock Foreground="#FFEEE4C1" FontFamily="SimSun" Margin="5, 1" Text="{Binding Path=DisplayText, Mode=OneWay}" />											
 							</Button>
 						</DataTemplate>	

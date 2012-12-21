@@ -244,5 +244,16 @@
             </xctk:ChildWindow.Effect>
             <Grid x:Name="cardChoiceBoxBody"/>    
         </xctk:ChildWindow>
+		<xctk:ChildWindow x:Name="deckDisplayWindow" 
+                  Template="{DynamicResource DarkGreenWindowStyle}"        
+                  MaxWidth="600"
+        		  CloseButtonVisibility="{Binding CanClose, Converter={StaticResource boolToVisibilityConverter}}"
+                  Caption="{Binding Prompt}"                  
+                  WindowStartupLocation="Center">
+            <xctk:ChildWindow.Effect>
+                <DropShadowEffect BlurRadius="10"/>
+            </xctk:ChildWindow.Effect>
+            <local:CardChoiceBox />    
+        </xctk:ChildWindow>
     </Grid>
 </UserControl>

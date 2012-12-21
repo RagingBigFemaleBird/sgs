@@ -280,7 +280,7 @@
                                VerticalAlignment="Center" HorizontalAlignment="Center"
                                Visibility="{Binding IsSelectionRepeatable, Converter={StaticResource boolToVisibilityConverter}}"
                                IsHitTestVisible="False" />
-						<ItemsControl ItemsSource="{Binding Path=PrivateDecks, Mode=OneWay}" Margin="25, 0, 0, 0">
+						<ItemsControl ItemsSource="{Binding Path=PrivateDecks, Mode=OneWay}" Margin="22, 0, 0, 0">
 							<ItemsControl.ItemsPanel>
 								<ItemsPanelTemplate>
 									<WrapPanel HorizontalAlignment="Left" />
@@ -288,7 +288,7 @@
 							</ItemsControl.ItemsPanel>
 							<ItemsControl.ItemTemplate>
 								<DataTemplate>
-									<Button Style="{DynamicResource DefaultButtonStyleBrown}" >
+									<Button Style="{DynamicResource DefaultButtonStyleBrown}" Click="btnPrivateDeck_Click" >
 										<TextBlock Foreground="#FFEEE4C1" FontFamily="SimSun" Margin="5, 1" Text="{Binding Path=DisplayText, Mode=OneWay}" />											
 									</Button>
 								</DataTemplate>	

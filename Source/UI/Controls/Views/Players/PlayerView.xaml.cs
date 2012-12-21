@@ -140,7 +140,7 @@ namespace Sanguosha.UI.Controls
 			{
 				handler(this, new EventArgs());
 			}
-        }
+        }        
 		
 		public event EventHandler OnRequestSpectate;
 

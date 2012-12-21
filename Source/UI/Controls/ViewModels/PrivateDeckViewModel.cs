@@ -23,11 +23,17 @@ namespace Sanguosha.UI.Controls
         public string DisplayText
         {
             get
+            {                
+                return string.Format("{0}[{1}]", TraslatedName, Cards.Count);             
+            }
+        }
+
+        public string TraslatedName
+        {
+            get
             {
                 string s = Application.Current.TryFindResource(string.Format("Deck.{0}.Name", Name)) as string;
-                if (s == null) s = string.Empty;
-                s = string.Format("{0}[{1}]", s, Cards.Count);
-                return s;
+                return s??string.Empty;                
             }
         }
 

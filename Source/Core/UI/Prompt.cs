@@ -13,22 +13,22 @@ namespace Sanguosha.Core.UI
 
     public class CardUsagePrompt : Prompt
     {
-        public CardUsagePrompt(string cardName, params object[] args) : base(CardUsagePromptsPrefix + cardName, args)
+        public CardUsagePrompt(string key, params object[] args) : base(CardUsagePromptsPrefix + key, args)
         {
         }
     }
 
     public class CardChoicePrompt : Prompt
     {
-        public CardChoicePrompt(string cardName, params object[] args) : base(CardChoicePromptsPrefix + cardName, args)
+        public CardChoicePrompt(string key, params object[] args) : base(CardChoicePromptsPrefix + key, args)
         {
         }
     }
 
     public class MultipleChoicePrompt : Prompt
     {
-        public MultipleChoicePrompt(string name, params object[] args)
-            : base(MultipleChoicePromptPrefix + name, args)
+        public MultipleChoicePrompt(string key, params object[] args)
+            : base(MultipleChoicePromptPrefix + key, args)
         {
         }
     }
