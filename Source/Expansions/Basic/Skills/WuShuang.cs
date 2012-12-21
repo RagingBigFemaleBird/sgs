@@ -28,7 +28,10 @@ namespace Sanguosha.Expansions.Basic.Skills
             }
             if (eventArgs.Source == Owner)
             {
-                eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses] = 1;
+                foreach (Player p in eventArgs.Targets)
+                {
+                    eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + p.Id)] = 1;
+                }
             }
         }
 

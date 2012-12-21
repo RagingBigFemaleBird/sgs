@@ -51,7 +51,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             List<Player> sourceList = new List<Player>() { source };
             GameEventArgs args = new GameEventArgs();
             Game.CurrentGame.Emit(PlayerShaTargetShanModifier, args);
-            int numberOfShanRequired = eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses] + 1;
+            int numberOfShanRequired = eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + dest.Id)] + 1;
             bool cannotUseShan = eventArgs.ReadonlyCard[CannotProvideShan] == 1 ? true : false;
             bool cannotProvideShan = false;
             while (numberOfShanRequired > 0 && !cannotUseShan)

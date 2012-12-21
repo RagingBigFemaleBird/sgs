@@ -7,7 +7,7 @@ namespace Sanguosha.Core.Cards
 {
     public class CardAttribute
     {
-        public static readonly CardAttribute TargetRequireTwoResponses = CardAttribute.Register("TargetRequireTwoResponses");
+        public static string TargetRequireTwoResponses = "TargetRequireTwoResponses";
         public static readonly CardAttribute SourceRequireTwoResponses = CardAttribute.Register("SourceRequireTwoResponses");
         private CardAttribute(string attrName)
         {
