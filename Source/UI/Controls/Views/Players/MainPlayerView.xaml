@@ -341,7 +341,16 @@
                     </Image.ToolTip>
                     <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
                 </Image>
-                <Image Source="/Resources;component/Images/MainPlayerInfoView/imprisoned.png" Stretch="Fill" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}"/>
+				<Rectangle Visibility="{Binding IsDrank, Converter={StaticResource boolToVisibilityConverter}}" >
+					<Rectangle.Fill>
+						<RadialGradientBrush>
+							<GradientStop Color="#00FF0000" Offset="1"/>							
+							<GradientStop Color="#4C640000" Offset="0.558"/>
+							<GradientStop Color="#4CFF0000"/>
+						</RadialGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+                <!--Image Source="/Resources;component/Images/MainPlayerInfoView/imprisoned.png" Stretch="Fill" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}"/-->
             </Grid>
             <Border x:Name="fadeMask" Background="#64000000" Opacity="0" IsHitTestVisible="False">
                 <i:Interaction.Behaviors>

@@ -274,25 +274,31 @@ namespace Sanguosha.UI.Controls
         {
             foreach (var attribute in _player.Attributes.Keys)
             {
-                if (!attribute.IsMark) continue;
-                int count = _player[attribute];
-                MarkViewModel model = null;
-                foreach (var mark in Marks)
+                if (attribute == Sanguosha.Expansions.Battle.Cards.Jiu.Drank)
                 {
-                    if (mark.PlayerAttribute == attribute)
+                    IsDrank = (_player[attribute] == 1);                
+                }
+                else if (attribute.IsMark)
+                {
+                    int count = _player[attribute];
+                    MarkViewModel model = null;
+                    foreach (var mark in Marks)
                     {
-                        model = mark;
-                        break;
+                        if (mark.PlayerAttribute == attribute)
+                        {
+                            model = mark;
+                            break;
+                        }
                     }
-                }
 
-                if (model == null)
-                {
-                    model = new MarkViewModel() { PlayerAttribute = attribute };
-                    Marks.Add(model);
-                }
+                    if (model == null)
+                    {
+                        model = new MarkViewModel() { PlayerAttribute = attribute };
+                        Marks.Add(model);
+                    }
 
-                model.Number = _player[attribute];
+                    model.Number = _player[attribute];
+                }
             }
         }
 
@@ -472,6 +478,19 @@ namespace Sanguosha.UI.Controls
         public bool IsIronShackled { get { return _player.IsIronShackled; } }
 
         public bool IsImprisoned { get { return _player.IsImprisoned; } }
+
+        private bool _isDrank;
+
+        public bool IsDrank 
+        {
+            get { return _isDrank; }
+            set
+            {
+                if (_isDrank == value) return;
+                _isDrank = value;
+                OnPropertyChanged("IsDrank");
+            }
+        }
 
         public bool IsTargeted { get { return _player.IsTargeted; } }
 

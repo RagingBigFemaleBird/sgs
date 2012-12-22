@@ -27,7 +27,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             else
             {
                 source[JiuUsed] = 1;
-                source[JiuStatus] = 1;
+                source[Drank] = 1;
             }
         }
 
@@ -68,7 +68,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             return new List<Player>() {source};
         }
         public static PlayerAttribute JiuUsed = PlayerAttribute.Register("JiuUsed", true);
-        public static PlayerAttribute JiuStatus = PlayerAttribute.Register("JiuStatus", true);
+        public static PlayerAttribute Drank = PlayerAttribute.Register("Drank", true);
         public static CardAttribute JiuSha = CardAttribute.Register("JiuSha");
     }
 
@@ -88,10 +88,10 @@ namespace Sanguosha.Expansions.Battle.Cards
     {
         public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            if (eventArgs.ReadonlyCard != null && eventArgs.ReadonlyCard.Type is Sha && eventArgs.Source[Jiu.JiuStatus] == 1)
+            if (eventArgs.ReadonlyCard != null && eventArgs.ReadonlyCard.Type is Sha && eventArgs.Source[Jiu.Drank] == 1)
             {
                 eventArgs.ReadonlyCard[Jiu.JiuSha] = 1;
-                eventArgs.Source[Jiu.JiuStatus] = 0;
+                eventArgs.Source[Jiu.Drank] = 0;
             }
         }
     }
