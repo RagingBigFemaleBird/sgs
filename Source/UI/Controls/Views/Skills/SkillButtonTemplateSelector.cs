@@ -23,10 +23,14 @@ namespace Sanguosha.UI.Controls
             {
                 template = dict["GuHuoButtonTemplate"] as DataTemplate;
             }
+            else if (command.HeroName != null)
+            {
+                template = dict["RulerGivenSkillButtonTemplate"] as DataTemplate;
+            }
             else
             {
-                template  = dict["SkillButtonTemplate"] as DataTemplate;
-            }
+                template = dict["SkillButtonTemplate"] as DataTemplate;
+            }           
             return template;
         }
     }

@@ -151,11 +151,12 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
             <ItemsControl HorizontalAlignment="Right"
-                          VerticalAlignment="Bottom" Width="67" ItemsSource="{Binding MainPlayerModel.RulerGivenSkillCommands}"
+                          VerticalAlignment="Bottom" 						  
+						  ItemsSource="{Binding MainPlayerModel.RulerGivenSkillCommands}"
                           ItemTemplateSelector="{StaticResource skillButtonTemplateSelector}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <local:SkillButtonDock />
+                        <StackPanel Orientation="Horizontal" Height="26" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>

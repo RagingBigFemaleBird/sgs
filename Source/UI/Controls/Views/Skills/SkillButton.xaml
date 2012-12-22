@@ -342,8 +342,8 @@
             </Grid>
         </ToggleButton>
     </DataTemplate>
-    <DataTemplate x:Key="RulerGivenSkillButtonTemplate" DataType="{x:Type local:SkillCommand}">
-            <ToggleButton VerticalAlignment="Bottom" Style="{StaticResource SkillButtonStyle}" IsEnabled="{Binding IsEnabled}" IsChecked="{Binding IsSelected}" ToolTipService.ShowOnDisabled="True">
+    <DataTemplate x:Key="RulerGivenSkillButtonTemplate" DataType="{x:Type local:SkillCommand}">    	
+     	<ToggleButton Width="67" Height="26" VerticalAlignment="Bottom" Style="{StaticResource SkillButtonStyle}" IsEnabled="{Binding IsEnabled}" IsChecked="{Binding IsSelected}" ToolTipService.ShowOnDisabled="True">
                 <ToggleButton.ToolTip>
                     <ToolTip ContentTemplate="{StaticResource SkillToolTipTemplate}" Content="{Binding Mode=OneWay}" />
                 </ToggleButton.ToolTip>
@@ -355,6 +355,6 @@
                     </local:OutlinedTextBlock>
                     <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="White" Stroke="White" StrokeThickness="1" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify"/>
                 </Grid>
-            </ToggleButton>
+        </ToggleButton>
     </DataTemplate>
 </ResourceDictionary>
