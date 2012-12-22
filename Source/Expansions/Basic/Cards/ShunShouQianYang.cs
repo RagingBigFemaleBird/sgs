@@ -40,7 +40,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             args.Card = card;
             args.AdjustmentAmount = 0;
             Game.CurrentGame.Emit(GameEvent.CardRangeModifier, args);
-            if (Game.CurrentGame.DistanceTo(source, dest) > 1)
+            if (Game.CurrentGame.DistanceTo(source, dest) > 1 + args.AdjustmentAmount)
             {
                 return false;
             }
