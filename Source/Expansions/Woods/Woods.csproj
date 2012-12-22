@@ -49,6 +49,7 @@
     <Compile Include="Skills\DuanLiang.cs" />
     <Compile Include="Skills\FangZhu.cs" />
     <Compile Include="Skills\HaoShi.cs" />
+    <Compile Include="Skills\HuoShou.cs" />
     <Compile Include="Skills\JiuChi.cs" />
     <Compile Include="Skills\JuXiang.cs" />
     <Compile Include="Skills\LieRen.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Skills\WeiMu.cs" />
     <Compile Include="Skills\XingShang.cs" />
     <Compile Include="Skills\YingHun.cs" />
+    <Compile Include="Skills\ZaiQi.cs" />
     <Compile Include="WoodsExpansion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

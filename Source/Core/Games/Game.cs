@@ -1444,8 +1444,11 @@ namespace Sanguosha.Core.Games
             move.To = new DeckPlace(null, DeckType.Discard);
             PlayerAboutToDiscardCard(p, move.Cards, reason);
             MoveCards(move);
-            PlayerLostCard(p, backup);
-            PlayerDiscardedCard(p, backup, reason);
+            if (p != null)
+            {
+                PlayerLostCard(p, backup);
+                PlayerDiscardedCard(p, backup, reason);
+            }
         }
 
         public void HandleCardTransferToHand(Player from, Player to, List<Card> cards, MovementHelper helper = null)
