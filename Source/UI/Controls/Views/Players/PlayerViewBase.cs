@@ -54,7 +54,7 @@ namespace Sanguosha.UI.Controls
             
         }
         
-        private IEnumerable<CardView> RemovePrivateCards(IList<Card> cards)
+        protected virtual IEnumerable<CardView> RemovePrivateCards(IList<Card> cards)
         {
             return null;
         }

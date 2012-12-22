@@ -58,18 +58,17 @@ namespace Sanguosha.Expansions.Fire.Skills
                 additionalCards.Add(c);
             }
             CardsMovement move = new CardsMovement();
-            move.Cards = new List<Card>(additionalCards);
-            move.To = new DeckPlace(Owner, DeckType.Hand);
-            move.Helper.IsFakedMove = true;
-            Game.CurrentGame.MoveCards(move);
+            move.cards = new List<Card>(additionalCards);
+            move.to = new DeckPlace(Owner, DeckType.Hand);
+            Game.CurrentGame.MoveCards(move, new MovementHelper() { IsFakedMove = true });
             if (!Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("QiXing"), new QiXingVerifier(7), out skill, out cards, out players))
             {
                 cards = new List<Card>();
                 cards.AddRange(Game.CurrentGame.Decks[Owner, DeckType.Hand].GetRange(0, 7));
             }
-            move.Cards = new List<Card>(cards);
-            move.To = new DeckPlace(Owner, QiXingDeck);
-            Game.CurrentGame.MoveCards(move);
+            move.cards = new List<Card>(cards);
+            move.to = new DeckPlace(Owner, QiXingDeck);
+            Game.CurrentGame.MoveCards(move, null);
         }
 
         void AfterDraw(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
@@ -80,18 +79,17 @@ namespace Sanguosha.Expansions.Fire.Skills
             int qxCount = Game.CurrentGame.Decks[Owner, QiXingDeck].Count;
             // hack the cards to owner's hand. do not trigger anything
             CardsMovement move = new CardsMovement();
-            move.Cards = new List<Card>(Game.CurrentGame.Decks[Owner, QiXingDeck]);
-            move.To = new DeckPlace(Owner, DeckType.Hand);
-            move.Helper.IsFakedMove = true;
-            Game.CurrentGame.MoveCards(move);
+            move.cards = new List<Card>(Game.CurrentGame.Decks[Owner, QiXingDeck]);
+            move.to = new DeckPlace(Owner, DeckType.Hand);
+            Game.CurrentGame.MoveCards(move, new MovementHelper() { IsFakedMove = true });
             if (!Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("QiXing"), new QiXingVerifier(qxCount), out skill, out cards, out players))
             {
                 cards = new List<Card>();
                 cards.AddRange(Game.CurrentGame.Decks[Owner, DeckType.Hand].GetRange(0, qxCount));
             }
-            move.Cards = new List<Card>(cards);
-            move.To = new DeckPlace(Owner, QiXingDeck);
-            Game.CurrentGame.MoveCards(move);
+            move.cards = new List<Card>(cards);
+            move.to = new DeckPlace(Owner, QiXingDeck);
+            Game.CurrentGame.MoveCards(move, null);
         }
 
         static PrivateDeckType QiXingDeck = new PrivateDeckType("QiXing");

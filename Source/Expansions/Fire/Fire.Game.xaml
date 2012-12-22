@@ -7,4 +7,5 @@
     <sys:String x:Key="MultiChoice.Choice.QinYinHuiFu">所有人回复一点体力</sys:String>
     <sys:String x:Key="MultiChoice.Choice.QinYinShiQu">所有人失去一点体力</sys:String>
     <sys:String x:Key="CardUsage.Prompt.JieMing">请选择一名角色对其使用“节命”</sys:String>
+    <sys:String x:Key="Deck.QiXing.Name">七星</sys:String>
 </ResourceDictionary>

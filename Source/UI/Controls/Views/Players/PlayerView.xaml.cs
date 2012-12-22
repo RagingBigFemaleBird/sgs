@@ -112,6 +112,7 @@ namespace Sanguosha.UI.Controls
             {
                 base.ParentGameView = value;
                 handCardArea.ParentCanvas = value.GlobalCanvas;
+                privateCardArea.ParentCanvas = value.GlobalCanvas;
             }
         }
 
@@ -176,7 +177,7 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        private IEnumerable<CardView> RemovePrivateCards(IList<Card> cards)
+        protected override IEnumerable<CardView> RemovePrivateCards(IList<Card> cards)
         {
             var cardsToRemove = new List<CardView>();
             foreach (var card in cards)
