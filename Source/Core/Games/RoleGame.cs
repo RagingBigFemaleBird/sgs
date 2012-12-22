@@ -656,6 +656,11 @@ namespace Sanguosha.Core.Games
                     game.Decks[DeckType.Heroes].Remove(card);
                 }
 
+                foreach (var pxy in game.UiProxies)
+                {
+                    pxy.Value.Freeze();
+                }
+
                 Shuffle(game.Decks[null, DeckType.Dealing]);
 
                 StartGameDeal(game);
