@@ -603,7 +603,7 @@ namespace Sanguosha.UI.Controls
                         IDeckContainer deck = _GetMovementDeck(stackCards.Key);
                         IList<CardView> cards;
 
-                        if (!move.Helper.IsFakedMove)
+                        if (move.Helper != null && !move.Helper.IsFakedMove)
                         {
                             gameLogs.AppendCardMoveLog(stackCards.Value, stackCards.Key, move.To);
                         }
@@ -612,7 +612,7 @@ namespace Sanguosha.UI.Controls
                         cardsToAdd.AddRange(cards);
                     }
 
-                    _GetMovementDeck(move.To).AddCards(move.To.DeckType, cardsToAdd, move.Helper.IsFakedMove);
+                    _GetMovementDeck(move.To).AddCards(move.To.DeckType, cardsToAdd, move.Helper != null && move.Helper.IsFakedMove);
                 }
                 rtbLog.ScrollToEnd();
             });
