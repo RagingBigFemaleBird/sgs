@@ -178,6 +178,7 @@ namespace Sanguosha.UI.Controls
                 {
                     AutoInvokeSkillCommands.Remove(skillCommand);
                     DockedSkillCommands.Remove(skillCommand);
+                    RulerGivenSkillCommands.Remove(skillCommand);
                 }
             }
 
