@@ -18,9 +18,9 @@ namespace Sanguosha.Expansions.Woods.Skills
     /// <summary>
     /// 暴虐―主公技，每当其他群雄角色每造成一次伤害后，可进行一次判定，若为黑桃，你回复1点体力。
     /// </summary>
-    public class BaoNueGivenSkill : TriggerSkill, IRulerGivenSkill
+    public class BaoNveGivenSkill : TriggerSkill, IRulerGivenSkill
     {
-        public BaoNueGivenSkill()
+        public BaoNveGivenSkill()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
@@ -41,10 +41,10 @@ namespace Sanguosha.Expansions.Woods.Skills
         public Player Master { get; set; }
     }
 
-    public class BaoNue : RulerGivenSkillContainerSkill
+    public class BaoNve : RulerGivenSkillContainerSkill
     {
-        public BaoNue()
-            : base(new BaoNueGivenSkill(), Allegiance.Qun)
+        public BaoNve()
+            : base(new BaoNveGivenSkill(), Allegiance.Qun)
         {
         }
     }

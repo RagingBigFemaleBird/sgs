@@ -15,7 +15,7 @@ namespace Sanguosha
     class Program
     {
         static int totalNumberOfPlayers = 3;
-        static int timeOutSeconds = 25;
+        static int timeOutSeconds = 3600;
         static void Main(string[] args)
         {
             Trace.Listeners.Clear();

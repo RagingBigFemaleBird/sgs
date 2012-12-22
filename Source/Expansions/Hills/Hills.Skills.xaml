@@ -10,12 +10,27 @@
     <sys:String x:Key="Skill.RenDe.Usage">点"仁德"→选中数张手牌→选择目标→“确定”</sys:String>
     -->
     <sys:String x:Key="Hero.ShenSiMaYi.Name">神司马懿</sys:String>
-    <sys:String x:Key="Hero.ZhangHe.Name">张颌</sys:String>
+    <sys:String x:Key="Hero.ZhangHe.Name">张郃</sys:String>
     <sys:String x:Key="Hero.SunCe.Name">孙策</sys:String>
     <sys:String x:Key="Hero.ZhangZhaoZhangHong.Name">张昭＆张纮</sys:String>
     <sys:String x:Key="Hero.ZuoCi.Name">左慈</sys:String>
     <sys:String x:Key="Hero.JiangWei.Name">姜维</sys:String>
 
+
+    <sys:String x:Key="Skill.JiAng.Name">激昂</sys:String>
+    <sys:String x:Key="Skill.JiAng.Description">每当你使用（指定目标后）或被使用（成为目标后）一张【决斗】或红色的【杀】时，你可以摸一张牌。</sys:String>
+    <sys:String x:Key="Skill.JiAng.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.HunZi.Name">魂姿</sys:String>
+    <sys:String x:Key="Skill.HunZi.Description">觉醒技，回合开始阶段开始时，若你当前的体力值为1，你须减1点体力上限，并获得技能“英姿”和“英魂”。</sys:String>
+    <sys:String x:Key="Skill.HunZi.Transcript">父亲在上，魂佑江东，公瑾在旁，志定天下</sys:String>
+
+    <sys:String x:Key="Skill.ZhiBa.Name">制霸</sys:String>
+    <sys:String x:Key="Skill.ZhiBa.Description">主公技，其他吴势力角色可以在他们各自的出牌阶段与你拼点（“魂姿”发动后，你可以拒绝此拼点），若该角色没赢，你可以获得双方拼点的牌。每阶段限一次。</sys:String>
+
+    <sys:String x:Key="Skill.ZhiBaGivenSkill.Name">制霸</sys:String>
+    <sys:String x:Key="Skill.ZhiBaGivenSkill.Description">主公技，其他吴势力角色可以在他们各自的出牌阶段与你拼点（“魂姿”发动后，你可以拒绝此拼点），若该角色没赢，你可以获得双方拼点的牌。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.ZhiBaGivenSkill.Usage">点“制霸”→选中拼点牌→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.BeiGe.Name">悲歌</sys:String>
     <sys:String x:Key="Skill.BaiYin.Name">拜印</sys:String>
@@ -27,9 +42,6 @@
     <sys:String x:Key="Skill.BaiYinZhiHeng.Name">制衡</sys:String>
     <sys:String x:Key="Skill.LianPo.Name">连破</sys:String>
     <sys:String x:Key="Skill.QiaoBian.Name">巧变</sys:String>
-    <sys:String x:Key="Skill.JiAng.Name">激昂</sys:String>
-    <sys:String x:Key="Skill.HunZi.Name">魂姿</sys:String>
-    <sys:String x:Key="Skill.ZhiBa.Name">制霸</sys:String>
     <sys:String x:Key="Skill.HuaShen.Name">化身</sys:String>
     <sys:String x:Key="Skill.XinSheng.Name">新生</sys:String>
     <sys:String x:Key="Skill.GuZheng.Name">固政</sys:String>

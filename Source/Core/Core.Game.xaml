@@ -20,7 +20,7 @@
     <system:String x:Key="Allegiance.Wei.Name">魏</system:String>
     <system:String x:Key="Allegiance.Wu.Name">吴</system:String>
     <system:String x:Key="Allegiance.Qun.Name">群</system:String>
-    <system:String x:Key="Allegiance.Shen.Name">神</system:String>
+    <system:String x:Key="Allegiance.God.Name">神</system:String>
     
     <system:String x:Key="Gender.Male.Text">男</system:String>
     <system:String x:Key="Gender.Female.Text">女</system:String>

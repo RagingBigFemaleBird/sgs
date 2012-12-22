@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Skills\BaoNue.cs" />
+    <Compile Include="Skills\BaoNve.cs" />
     <Compile Include="Skills\BengHuai.cs" />
     <Compile Include="Skills\DiMeng.cs" />
     <Compile Include="Skills\FangZhu.cs" />

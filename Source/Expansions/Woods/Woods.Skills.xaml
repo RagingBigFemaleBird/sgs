@@ -3,37 +3,110 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <!-- Examples
-    <sys:String x:Key="Hero.LiuBei.Name">刘备</sys:String>
-    <sys:String x:Key="Skill.RenDe.Name">仁德</sys:String>
-    <sys:String x:Key="Skill.RenDe.Description">出牌阶段，你可以将任意数量的手牌交给其他角色，若此阶段你给出的牌张数达到两张或更多时，你回复1点体力。</sys:String>
-    <sys:String x:Key="Skill.RenDe.Usage">点"仁德"→选中数张手牌→选择目标→“确定”</sys:String>
-    -->
-
-    <sys:String x:Key="Hero.JiaXu.Name">贾诩</sys:String>
+    <sys:String x:Key="Hero.XuHuang.Name">徐晃</sys:String>
     <sys:String x:Key="Hero.CaoPi.Name">曹丕</sys:String>
-    <sys:String x:Key="Hero.SunJian.Name">孙坚</sys:String>
+    <sys:String x:Key="Hero.MengHuo.Name">孟获</sys:String>
     <sys:String x:Key="Hero.ZhuRong.Name">祝融</sys:String>
+    <sys:String x:Key="Hero.SunJian.Name">孙坚</sys:String>
     <sys:String x:Key="Hero.LuSu.Name">鲁肃</sys:String>
     <sys:String x:Key="Hero.DongZhuo.Name">董卓</sys:String>
+    <sys:String x:Key="Hero.JiaXu.Name">贾诩</sys:String>
+    <sys:String x:Key="Hero.ShenCaoCao.Name">神曹操</sys:String>
+    <sys:String x:Key="Hero.ShenLvBu.Name">神吕布</sys:String>
+
+    
+    <sys:String x:Key="Skill.DuanLiang.Name">断粮</sys:String>
+    <sys:String x:Key="Skill.DuanLiang.Description">你可以将一张黑色牌当【兵粮寸断】使用，此牌必须为基本牌或装备牌；你可以对距离2以内的一名其他角色使用【兵粮寸断】。</sys:String>
+    <sys:String x:Key="Skill.DuanLiang.Usage">点“断粮”→选中1张黑色非锦囊牌→选中目标→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.XingShang.Name">行殇</sys:String>
+    <sys:String x:Key="Skill.XingShang.Description">其他角色死亡时，你可以获得其所有牌。</sys:String>
+    <sys:String x:Key="Skill.XingShang.Usage">系统提示→点“确定”。</sys:String>
+
+    <sys:String x:Key="Skill.FangZhu.Name">放逐</sys:String>
+    <sys:String x:Key="Skill.FangZhu.Description">每当你受到一次伤害后，你可以令一名其他角色摸X张牌（X为你已损失的体力值），然后该角色将其武将牌翻面。</sys:String>
+    <sys:String x:Key="Skill.FangZhu.Usage">系统提示→选中目标→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.SongWei.Name">颂威</sys:String>
+    <sys:String x:Key="Skill.SongWei.Description">主公技，其他魏势力角色的判定牌为黑色且生效后，该角色可以令你摸一张牌。</sys:String>
+
+    <sys:String x:Key="Skill.SongWeiGivenSkill.Name">颂威</sys:String>
+    <sys:String x:Key="Skill.SongWeiGivenSkill.Description">主公技，其他魏势力角色的判定牌为黑色且生效后，该角色可以令你摸一张牌。</sys:String>
+    <sys:String x:Key="Skill.SongWeiGivenSkill.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.HuoShou.Name">祸首</sys:String>
+    <sys:String x:Key="Skill.HuoShou.Description">锁定技，【南蛮入侵】对你无效；当其他角色使用【南蛮入侵】指定目标后，你是该【南蛮入侵】造成伤害的来源。</sys:String>
+
+    <sys:String x:Key="Skill.ZaiQi.Name">再起</sys:String>
+    <sys:String x:Key="Skill.ZaiQi.Description">摸牌阶段开始时，若你已受伤，你可以放弃摸牌，改为从牌堆顶亮出X张牌（X为你已损失的体力值），你回复等同于其中红桃牌数量的体力，然后将这些红桃牌置入弃牌堆，并获得其余的牌。</sys:String>
+    <sys:String x:Key="Skill.ZaiQi.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.JuXiang.Name">巨象</sys:String>
+    <sys:String x:Key="Skill.JuXiang.Description">锁定技，【南蛮入侵】对你无效；当其他角色使用的【南蛮入侵】在结算后置入弃牌堆时，你获得之。</sys:String>
+
+    <sys:String x:Key="Skill.LieRen.Name">烈刃</sys:String>
+    <sys:String x:Key="Skill.LieRen.Description">每当你使用【杀】对目标角色造成一次伤害后，你可以与其拼点，若你赢，你获得该角色的一张牌。</sys:String>
+    <sys:String x:Key="Skill.LieRen.Usage">系统提示→点“确定”→选择拼点牌→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.YingHun.Name">英魂</sys:String>
+    <sys:String x:Key="Skill.YingHun.Description">回合开始阶段开始时，若你已受伤，你可以选择一项：令一名其他角色摸X张牌，然后弃置一张牌；或令一名其他角色摸一张牌，然后弃置X张牌（X为你已损失的体力值）。</sys:String>
+    <sys:String x:Key="Skill.YingHun.Usage">系统提示→点“确定”→选择目标→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.HaoShi.Name">好施</sys:String>
+    <sys:String x:Key="Skill.HaoShi.Description">摸牌阶段，你可以额外摸两张牌，若此时你的手牌多于五张，则将一半（向下取整）的手牌交给全场手牌数最少的一名其他角色。</sys:String>
+    <sys:String x:Key="Skill.HaoShi.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.DiMeng.Name">缔盟</sys:String>
+    <sys:String x:Key="Skill.DiMeng.Description">出牌阶段，你可以选择两名其他角色并弃置等同于他们手牌数差的牌，然后交换他们的手牌。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.DiMeng.Usage">点“缔盟”→选中两名目标→点“确定”→弃置规定数量的牌</sys:String>
+
+    <sys:String x:Key="Skill.JiuChi.Name">酒池</sys:String>
+    <sys:String x:Key="Skill.JiuChi.Description">你可以将一张黑桃手牌当【酒】使用。</sys:String>
+    <sys:String x:Key="Skill.JiuChi.Usage">点“酒池”→选中1张黑色手牌→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.RouLin.Name">肉林</sys:String>
+    <sys:String x:Key="Skill.RouLin.Description">锁定技，当你使用【杀】指定一名女性角色为目标后，该角色需连续使用两张【闪】才能抵消；当你成为女性角色使用【杀】的目标后，你需连续使用两张【闪】才能抵消。</sys:String>
+
+    <sys:String x:Key="Skill.BengHuai.Name">崩坏</sys:String>
+    <sys:String x:Key="Skill.BengHuai.Description">锁定技，回合结束阶段开始时，若你当前的体力值不是全场最少的（或之一），你须失去1点体力或减1点体力上限。</sys:String>
+
+    <sys:String x:Key="Skill.BaoNve.Name">暴虐</sys:String>
+    <sys:String x:Key="Skill.BaoNve.Description">主公技，每当其他群雄角色造成一次伤害后，该角色可以进行一次判定，若判定结果为黑桃，你回复1点体力。</sys:String>
+
+    <sys:String x:Key="Skill.BaoNveGivenSkill.Name">暴虐</sys:String>
+    <sys:String x:Key="Skill.BaoNveGivenSkill.Description">主公技，每当其他群雄角色造成一次伤害后，该角色可以进行一次判定，若判定结果为黑桃，你回复1点体力。</sys:String>
+    <sys:String x:Key="Skill.BaoNveGivenSkill.Usage">系统提示→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.WanSha.Name">完杀</sys:String>
-    <sys:String x:Key="Skill.FangZhu.Name">放逐</sys:String>
-    
+    <sys:String x:Key="Skill.WanSha.Description">锁定技，在你的回合，除你以外，只有处于濒死状态的角色才能使用【桃】。</sys:String>
+
     <sys:String x:Key="Skill.LuanWu.Name">乱舞</sys:String>
-    <sys:String x:Key="Skill.LuanWu.Transcript">痛苦吧，挣扎吧，然后死吧</sys:String>
-    
-    <sys:String x:Key="Skill.YingHun.Name">英魂</sys:String>
-    <sys:String x:Key="Skill.JuXiang.Name">巨象</sys:String>
-    <sys:String x:Key="Skill.LieRen.Name">烈刃</sys:String>
-    <sys:String x:Key="Skill.SongWei.Name">颂威</sys:String>
+    <sys:String x:Key="Skill.LuanWu.Description">限定技，出牌阶段，你可以令所有其他角色各选择一项：对距离最近的另一名角色使用一张【杀】，或失去1点体力。</sys:String>
+    <sys:String x:Key="Skill.LuanWu.Usage">点“乱舞”</sys:String>
+    <sys:String x:Key="Skill.LuanWu.Transcript">痛苦吧，挣扎吧，哀求吧，然后死吧</sys:String>
+
     <sys:String x:Key="Skill.WeiMu.Name">帷幕</sys:String>
-    <sys:String x:Key="Skill.XingShang.Name">行殇</sys:String>
-    <sys:String x:Key="Skill.HaoShi.Name">好施</sys:String>
-    <sys:String x:Key="Skill.DiMeng.Name">缔盟</sys:String>
-    <sys:String x:Key="Skill.JiuChi.Name">酒池</sys:String>
-    <sys:String x:Key="Skill.RouLin.Name">肉林</sys:String>
-    <sys:String x:Key="Skill.BengHuai.Name">崩坏</sys:String>
-    <sys:String x:Key="Skill.BaoNue.Name">暴虐</sys:String>
+    <sys:String x:Key="Skill.WeiMu.Description">锁定技，你不能被选择为黑色锦囊牌的目标。</sys:String>
+
+    <sys:String x:Key="Skill.GuiXin.Name">归心</sys:String>
+    <sys:String x:Key="Skill.GuiXin.Description">每当你受到1点伤害后，你可以分别从每名其他角色的区域获得一张牌，然后将你的武将牌翻面。</sys:String>
+    <sys:String x:Key="Skill.GuiXin.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.FeiYing.Name">飞影</sys:String>
+    <sys:String x:Key="Skill.FeiYing.Description">锁定技，其他角色计算的与你的距离+1。</sys:String>
+
+    <sys:String x:Key="Skill.KuangBao.Name">狂暴</sys:String>
+    <sys:String x:Key="Skill.KuangBao.Description">锁定技，游戏开始时，你获得2枚“暴怒”标记；每当你造成或受到1点伤害后，你获得1枚“暴怒”标记。</sys:String>
+
+    <sys:String x:Key="Skill.WuMou.Name">无谋</sys:String>
+    <sys:String x:Key="Skill.WuMou.Description">锁定技，当你使用一张非延时类锦囊牌选择目标后，你须弃1枚“暴怒”标记或失去1点体力。</sys:String>
+
+    <sys:String x:Key="Skill.WuQian.Name">无前</sys:String>
+    <sys:String x:Key="Skill.WuQian.Description">出牌阶段，你可以弃2枚“暴怒”标记并选择一名其他角色，该角色的防具无效且你获得技能“无双”，直到回合结束。</sys:String>
+    <sys:String x:Key="Skill.WuQian.Usage">点“无前”→选中目标→点“确定”</sys:String>
+    
+    <sys:String x:Key="Skill.ShenFen.Name">神愤</sys:String>
+    <sys:String x:Key="Skill.ShenFen.Description">出牌阶段，你可以弃6枚“暴怒”标记，对所有其他角色各造成1点伤害，所有其他角色先弃置各自装备区里的牌，再弃置四张手牌，然后将你的武将牌翻面。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.ShenFen.Usage">点“神愤”</sys:String>
 
 </ResourceDictionary>
