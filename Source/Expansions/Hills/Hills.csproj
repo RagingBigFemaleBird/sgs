@@ -50,12 +50,15 @@
     <Compile Include="Skills\HuaShen.cs" />
     <Compile Include="Skills\HunZi.cs" />
     <Compile Include="Skills\JiAng.cs" />
+    <Compile Include="Skills\JueJing.cs" />
     <Compile Include="Skills\LianPo.cs" />
+    <Compile Include="Skills\LongHun.cs" />
     <Compile Include="Skills\QiaoBian.cs" />
     <Compile Include="Skills\RenJie.cs" />
     <Compile Include="Skills\TiaoXin.cs" />
     <Compile Include="Skills\XinSheng.cs" />
     <Compile Include="Skills\ZhiBa.cs" />
+    <Compile Include="Skills\ZhiJi.cs" />
     <Compile Include="Skills\ZhiJian.cs" />
   </ItemGroup>
   <ItemGroup>
