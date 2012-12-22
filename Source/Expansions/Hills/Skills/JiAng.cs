@@ -24,18 +24,11 @@ namespace Sanguosha.Expansions.Hills.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return (a.ReadonlyCard.Type is JueDou) || ((a.ReadonlyCard.Type is Sha) && a.ReadonlyCard.SuitColor == SuitColorType.Red);},
+                (p, e, a) => { return (a.Source == p || a.Targets.Contains(p)) && ((a.ReadonlyCard.Type is JueDou) || ((a.ReadonlyCard.Type is Sha) && a.ReadonlyCard.SuitColor == SuitColorType.Red));},
                 (p, e, a) => { Game.CurrentGame.DrawCards(p, 1); },
-                TriggerCondition.OwnerIsTarget
-            );
-            var trigger2 = new AutoNotifyPassiveSkillTrigger(
-                this,
-                (p, e, a) => { return (a.ReadonlyCard.Type is JueDou) || ((a.ReadonlyCard.Type is Sha) && a.ReadonlyCard.SuitColor == SuitColorType.Red); },
-                (p, e, a) => { Game.CurrentGame.DrawCards(p, 1); },
-                TriggerCondition.OwnerIsSource
+                TriggerCondition.Global
             );
             Triggers.Add(GameEvent.CardUsageTargetConfirmed, trigger);
-            Triggers.Add(GameEvent.PlayerUsedCard, trigger2);
         }
     }
 }

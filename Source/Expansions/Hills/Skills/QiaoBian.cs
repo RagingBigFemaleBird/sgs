@@ -54,7 +54,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             {
                 return card.Place.DeckType == DeckType.Hand;
             }
-            protected override bool AdditionalVerify(Player source, List<Card> cards, List<Player> players)
+            protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
             {
                 if (players != null && players.Count == 2)
                 {

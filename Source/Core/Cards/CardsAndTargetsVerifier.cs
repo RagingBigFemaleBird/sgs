@@ -69,7 +69,7 @@ namespace Sanguosha.Core.Cards
             return true;
         }
 
-        protected virtual bool AdditionalVerify(Player source, List<Card> cards, List<Player> players)
+        protected virtual bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
         {
             return true;
         }
@@ -112,9 +112,14 @@ namespace Sanguosha.Core.Cards
                     }
                 }
             }
-            if (!AdditionalVerify(source, cards, players))
+            var ret = AdditionalVerify(source, cards, players);
+            if (ret == false)
             {
                 return VerifierResult.Fail;
+            }
+            if (ret == null)
+            {
+                return VerifierResult.Partial;
             }
             int count = players == null ? 0 : players.Count;
             if (count < minPlayers)

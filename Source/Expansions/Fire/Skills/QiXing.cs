@@ -94,7 +94,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             Game.CurrentGame.MoveCards(move);
         }
 
-        static PrivateDeckType QiXingDeck = new PrivateDeckType("QiXing");
+        public static PrivateDeckType QiXingDeck = new PrivateDeckType("QiXing");
 
         public QiXing()
         {
@@ -102,15 +102,17 @@ namespace Sanguosha.Expansions.Fire.Skills
                 this,
                 GameStart,
                 TriggerCondition.OwnerIsSource
-            );
+            ) { AskForConfirmation = false };
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
+                (p, e, a) => { return Game.CurrentGame.Decks[Owner, QiXing.QiXingDeck].Count > 0; },
                 AfterDraw,
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.PlayerGameStartAction, trigger);
             Triggers.Add(GameEvent.PhaseEndEvents[TurnPhase.Draw], trigger2);
-            IsAutoInvoked = true;
+            IsAutoInvoked = false;
+            IsRulerOnly = true;
         }
 
     }

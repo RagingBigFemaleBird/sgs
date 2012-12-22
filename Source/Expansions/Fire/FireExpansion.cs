@@ -29,7 +29,7 @@ namespace Sanguosha.Expansions.Fire
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("YanLiangWenChou", true, Allegiance.Qun, 4, new ShuangXiong()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("PangDe", true, Allegiance.Qun, 4, new MaShu(), new MengJin()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ShenZhouYu", true, Allegiance.God, 4, new QinYin(), new YeYan()))));
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ShenZhugeLiang", true, Allegiance.God, 3, new QiXing()/*, new KuangFeng(), new DaWu()*/))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ShenZhugeLiang", true, Allegiance.God, 3, new QiXing(), new KuangFeng(), new DaWu()))));
         }
     }
 }

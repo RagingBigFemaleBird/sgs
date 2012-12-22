@@ -50,7 +50,9 @@
   <ItemGroup>
     <Compile Include="FireExpansion.cs" />
     <Compile Include="Skills\BaZhen.cs" />
+    <Compile Include="Skills\DaWu.cs" />
     <Compile Include="Skills\JieMing.cs" />
+    <Compile Include="Skills\KuangFeng.cs" />
     <Compile Include="Skills\LianHuan.cs" />
     <Compile Include="Skills\HuoJi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
