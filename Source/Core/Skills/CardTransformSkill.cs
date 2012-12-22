@@ -26,6 +26,7 @@ namespace Sanguosha.Core.Skills
 
         public CardTransformSkill()
         {
+            linkedPassiveSkill = null;
             UiHelper = new UiHelper();
         }
 
@@ -68,7 +69,21 @@ namespace Sanguosha.Core.Skills
             return true;
         }
 
-        public Players.Player Owner { get; set; }
+        protected PassiveSkill linkedPassiveSkill;
+        Players.Player owner;
+        public virtual Players.Player Owner
+        {
+            get { return owner; }
+            set
+            {
+                if (owner == value) return;
+                owner = value;
+                if (linkedPassiveSkill != null)
+                {
+                    linkedPassiveSkill.Owner = value;
+                }
+            }
+        }
 
         public virtual List<CardHandler> PossibleResults { get { return null; } }
 

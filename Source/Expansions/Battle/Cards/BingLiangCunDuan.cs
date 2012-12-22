@@ -25,6 +25,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                 args.Source = null;
                 args.Targets = new List<Player>() { p };
                 args.Card = c;
+                args.ReadonlyCard = new ReadOnlyCard(c);
                 try
                 {
                     Game.CurrentGame.Emit(GameEvent.CardUsageBeforeEffected, args);
@@ -79,7 +80,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             args.Card = card;
             args.AdjustmentAmount = 0;
             Game.CurrentGame.Emit(GameEvent.CardRangeModifier, args);
-            if (Game.CurrentGame.DistanceTo(source, dest) > 1)
+            if (Game.CurrentGame.DistanceTo(source, dest) > 1 + args.AdjustmentAmount)
             {
                 return VerifierResult.Fail;
             }

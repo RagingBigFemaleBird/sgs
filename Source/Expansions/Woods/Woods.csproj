@@ -46,6 +46,7 @@
     <Compile Include="Skills\BaoNve.cs" />
     <Compile Include="Skills\BengHuai.cs" />
     <Compile Include="Skills\DiMeng.cs" />
+    <Compile Include="Skills\DuanLiang.cs" />
     <Compile Include="Skills\FangZhu.cs" />
     <Compile Include="Skills\HaoShi.cs" />
     <Compile Include="Skills\JiuChi.cs" />
