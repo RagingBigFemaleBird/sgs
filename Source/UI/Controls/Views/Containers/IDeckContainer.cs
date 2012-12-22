@@ -8,7 +8,20 @@ namespace Sanguosha.UI.Controls
 {
     public interface IDeckContainer
     {
-        void AddCards(DeckType deck, IList<CardView> cards);
+        /// <summary>
+        /// Add cards to a deck.
+        /// </summary>
+        /// <param name="deck">Destination deck.</param>
+        /// <param name="cards">Cards to be added.</param>
+        /// <param name="isFaked">If true, append rather than move cards to the end of the deck.</param>
+        void AddCards(DeckType deck, IList<CardView> cards, bool isFaked = false);
+        
+        /// <summary>
+        /// Remove cards from a deck.
+        /// </summary>
+        /// <param name="deck">Source deck.</param>
+        /// <param name="cards">Cards to be removed.</param>
+        /// <returns>CardView representing <paramref name="cards"/>.</returns>
         IList<CardView> RemoveCards(DeckType deck, IList<Card> cards);
     }
 }

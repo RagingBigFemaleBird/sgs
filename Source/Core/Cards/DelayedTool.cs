@@ -24,20 +24,20 @@ namespace Sanguosha.Core.Cards
 
         protected void AttachTo(Player source, Player target, ICard c)
         {
-            CardsMovement m;
+            CardsMovement m = new CardsMovement();
             if (c is CompositeCard)
             {
-                m.cards = new List<Card>(((CompositeCard)c).Subcards);
+                m.Cards = new List<Card>(((CompositeCard)c).Subcards);
             }
             else
             {
-                m.cards = new List<Card>();
+                m.Cards = new List<Card>();
                 Card card = (Card)c;
                 Trace.Assert(card != null);
-                m.cards.Add(card);
+                m.Cards.Add(card);
             }
-            m.to = new DeckPlace(target, DeckType.DelayedTools);
-            Game.CurrentGame.MoveCards(m, null);
+            m.To = new DeckPlace(target, DeckType.DelayedTools);
+            Game.CurrentGame.MoveCards(m);
         }
 
         public bool DelayedToolConflicting(Player p)

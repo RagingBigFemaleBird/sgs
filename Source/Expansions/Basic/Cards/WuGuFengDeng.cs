@@ -41,22 +41,22 @@ namespace Sanguosha.Expansions.Basic.Cards
         {
             DeckType wuguDeck = new DeckType("WuGu");
             CardsMovement move = new CardsMovement();
-            move.cards = new List<Card>();
+            move.Cards = new List<Card>();
             for (int i = 0; i < dests.Count; i++)
             {
                 Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.PeekCard(0));
                 Card c = Game.CurrentGame.DrawCard();
-                move.cards.Add(c);
+                move.Cards.Add(c);
             }
-            move.to = new DeckPlace(null, wuguDeck);
-            Game.CurrentGame.MoveCards(move, null);
+            move.To = new DeckPlace(null, wuguDeck);
+            Game.CurrentGame.MoveCards(move);
             base.Process(source, dests, card, readonlyCard);
             if (Game.CurrentGame.Decks[null, wuguDeck].Count > 0)
             {
                 move = new CardsMovement();
-                move.cards = new List<Card>(Game.CurrentGame.Decks[null, wuguDeck]);
-                move.to = new DeckPlace(null, DeckType.Discard);
-                Game.CurrentGame.MoveCards(move, null);
+                move.Cards = new List<Card>(Game.CurrentGame.Decks[null, wuguDeck]);
+                move.To = new DeckPlace(null, DeckType.Discard);
+                Game.CurrentGame.MoveCards(move);
             }
         }
 

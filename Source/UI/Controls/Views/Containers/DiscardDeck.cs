@@ -91,36 +91,19 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        public void AppendCards(IList<CardView> cards)
+        
+
+        public void AddCards(DeckType deck, IList<CardView> cards, bool isFaked)
         {
-            Canvas canvas = cards[0].Parent as Canvas;
-            // Compute the position that the cards should appear
-            Point rightMost;
-            
-            if (Cards.Count > 0)
+            if (isFaked)
             {
-                CardView lastCard = Cards.Last();
-                rightMost = lastCard.TranslatePoint(new Point(lastCard.ActualWidth, 0), canvas);
-            }
-            else
-            {
-                rightMost = TranslatePoint(new Point(this.ActualWidth / 2, 0), canvas);
+                foreach (var card in cards)
+                {
+                    card.Disappear(0d);
+                }
+                return;
             }
 
-            foreach (var card in cards)
-            {               
-                card.CardModel.IsFaded = false;
-                card.Position = rightMost;
-                card.Rebase(0d);
-                rightMost.X += card.ActualWidth;
-                card.Appear(0.3d);
-                Cards.Add(card);
-            }
-            RearrangeCards(0.3d);
-        }
-
-        public void AddCards(DeckType deck, IList<CardView> cards)
-        {
             if (cards.Count == 0) return;
 
             int numAdded = cards.Count;

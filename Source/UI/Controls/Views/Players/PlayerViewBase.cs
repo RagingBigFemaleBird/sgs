@@ -45,7 +45,21 @@ namespace Sanguosha.UI.Controls
         // abstract only to make designer happy to render their subclasses. (VS and blend will
         // not be able to create designer view for abstract class bases.
 
-        protected virtual void AddEquipment(CardView card)
+        protected virtual void AddHandCards(IList<CardView> cards, bool isFaked)
+        {
+        }
+
+        protected virtual void AddPrivateCards(IList<CardView> cards, bool isFaked)
+        {
+            
+        }
+        
+        private IEnumerable<CardView> RemovePrivateCards(IList<Card> cards)
+        {
+            return null;
+        }
+
+        protected virtual void AddEquipment(CardView card, bool isFaked)
         {
         }
 
@@ -54,7 +68,7 @@ namespace Sanguosha.UI.Controls
             return null;
         }
 
-        protected virtual void AddDelayedTool(CardView card)
+        protected virtual void AddDelayedTool(CardView card, bool isFaked)
         {
         }
 
@@ -63,7 +77,7 @@ namespace Sanguosha.UI.Controls
             return null;
         }
 
-        protected virtual void AddRoleCard(CardView card)
+        protected virtual void AddRoleCard(CardView card, bool isFaked)
         {
         }
 
@@ -79,11 +93,10 @@ namespace Sanguosha.UI.Controls
         public virtual void PlayIronShackleAnimation()
         {
         }
-
+        
         public virtual void Tremble()
         {
         }
-
         #endregion
 
         #region Helpers
@@ -107,7 +120,7 @@ namespace Sanguosha.UI.Controls
         #endregion
 
         #region CardMovement
-        public void AddCards(DeckType deck, IList<CardView> cards)
+        public void AddCards(DeckType deck, IList<CardView> cards, bool isFaked)
         {
             foreach (CardView card in cards)
             {
@@ -115,7 +128,7 @@ namespace Sanguosha.UI.Controls
             }
             if (deck == DeckType.Hand)
             {
-                AddHandCards(cards);                
+                AddHandCards(cards, isFaked);                
                 foreach (var card in cards)
                 {
                     PlayerModel.HandCards.Add(card.CardModel);
@@ -147,27 +160,38 @@ namespace Sanguosha.UI.Controls
                                 break;
                         }
                     }
-                    AddEquipment(card);
+                    AddEquipment(card, isFaked);
                 }
             }
             else if (deck == DeckType.DelayedTools)
             {
                 foreach (var card in cards)
                 {
-                    AddDelayedTool(card);
+                    AddDelayedTool(card, isFaked);
                 }
             }
             else if (deck == RoleGame.RoleDeckType)
             {
                 foreach (var card in cards)
                 {
-                    AddRoleCard(card);
+                    AddRoleCard(card, isFaked);
                 }
             }
-        }
-
-        protected virtual void AddHandCards(IList<CardView> cards)
-        {            
+            else if (deck is PrivateDeckType)
+            {
+                var deckModel = PlayerModel.PrivateDecks.FirstOrDefault(d => d.Name == deck.Name);
+                if (deckModel == null)
+                {
+                    deckModel = new PrivateDeckViewModel();
+                    deckModel.Name = deck.Name;
+                    PlayerModel.PrivateDecks.Add(deckModel);
+                }
+                foreach (var card in cards)
+                {
+                    deckModel.Cards.Add(card.CardModel);
+                }
+                AddPrivateCards(cards, isFaked);
+            }
         }
 
         public IList<CardView> RemoveCards(DeckType deck, IList<Card> cards)
@@ -221,6 +245,23 @@ namespace Sanguosha.UI.Controls
                     CardView cardView = RemoveRoleCard(card);
                     cardsToRemove.Add(cardView);
                 }
+            }
+            else if (deck is PrivateDeckType)
+            {
+                var deckModel = PlayerModel.PrivateDecks.FirstOrDefault(d => d.Name == deck.Name);
+                Trace.Assert(deckModel != null);
+
+                foreach (var card in cards)
+                {
+                    var cardModel = deckModel.Cards.First(c => c.Card == card);
+                    Trace.Assert(cardModel != null, "Card cannot be found in the private deck");
+                    deckModel.Cards.Remove(cardModel);
+                }
+                if (deckModel.Cards.Count == 0)
+                {
+                    PlayerModel.PrivateDecks.Remove(deckModel);
+                }
+                cardsToRemove.AddRange(RemovePrivateCards(cards));
             }
 
             foreach (var card in cardsToRemove)

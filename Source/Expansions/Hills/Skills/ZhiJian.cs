@@ -22,9 +22,9 @@ namespace Sanguosha.Expansions.Hills.Skills
         public override bool Commit(GameEventArgs arg)
         {
             CardsMovement move = new CardsMovement();
-            move.cards = new List<Card>(arg.Cards);
-            move.to = new DeckPlace(arg.Targets[0], DeckType.Equipment);
-            Game.CurrentGame.MoveCards(move, null);
+            move.Cards = new List<Card>(arg.Cards);
+            move.To = new DeckPlace(arg.Targets[0], DeckType.Equipment);
+            Game.CurrentGame.MoveCards(move);
             Game.CurrentGame.PlayerLostCard(Owner, arg.Cards);
             Game.CurrentGame.PlayerAcquiredCard(arg.Targets[0], arg.Cards);
             Game.CurrentGame.DrawCards(Owner, 1);

@@ -57,11 +57,11 @@ namespace Sanguosha.Expansions.Wind.Skills
             int GuHuoOrder = Game.CurrentGame.Decks[null, DeckType.GuHuo].Count;
             CardsMovement move = new CardsMovement();
             Trace.Assert(card.Subcards.Count == 1);
-            move.cards = new List<Card>();
-            move.cards.AddRange(card.Subcards);
-            move.to = new DeckPlace(null, DeckType.GuHuo);
-            Game.CurrentGame.MoveCards(move, null);
-            Game.CurrentGame.PlayerLostCard(Owner, move.cards);
+            move.Cards = new List<Card>();
+            move.Cards.AddRange(card.Subcards);
+            move.To = new DeckPlace(null, DeckType.GuHuo);
+            Game.CurrentGame.MoveCards(move);
+            Game.CurrentGame.PlayerLostCard(Owner, move.Cards);
             List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
             toProcess.Remove(Owner);
             Game.CurrentGame.SortByOrderOfComputation(Owner, toProcess);
@@ -117,10 +117,10 @@ namespace Sanguosha.Expansions.Wind.Skills
                 if (!ret)
                 {
                     move = new CardsMovement();
-                    move.cards = new List<Card>();
-                    move.cards.Add(Game.CurrentGame.Decks[null, DeckType.GuHuo][GuHuoOrder]);
-                    move.to = new DeckPlace(null, DeckType.Discard);
-                    Game.CurrentGame.MoveCards(move, null);
+                    move.Cards = new List<Card>();
+                    move.Cards.Add(Game.CurrentGame.Decks[null, DeckType.GuHuo][GuHuoOrder]);
+                    move.To = new DeckPlace(null, DeckType.Discard);
+                    Game.CurrentGame.MoveCards(move);
                 }
             }
             if (ret)

@@ -114,13 +114,14 @@ namespace Sanguosha.UI.Controls
         private static double _extraSpaceForHighlightedCard = 30d;
 
         protected static object _rearrangeLock;
+
         /// <summary>
         /// Arrange children cards in this stack.
         /// </summary>
         /// <remarks>
         /// Assumes that all cards have the same width.
         /// </remarks>
-        protected void RearrangeCards(IList<CardView> cards, double transitionInSeconds)
+        public void RearrangeCards(IList<CardView> cards, double transitionInSeconds)
         {
             lock (_rearrangeLock)
             {                
@@ -232,6 +233,34 @@ namespace Sanguosha.UI.Controls
                 ParentCanvas.Children.Add(cardView);
             }
             AddCards(cardViews, transitionInSeconds);
+        }
+
+        public void AppendCards(IList<CardView> cards, double transitionInSeconds = 0.3d)
+        {
+            Canvas canvas = cards[0].Parent as Canvas;
+            // Compute the position that the cards should appear
+            Point rightMost;
+
+            if (Cards.Count > 0)
+            {
+                CardView lastCard = Cards.Last();
+                rightMost = lastCard.TranslatePoint(new Point(lastCard.ActualWidth * 2, 0), canvas);
+            }
+            else
+            {
+                rightMost = TranslatePoint(new Point(this.ActualWidth / 2, 0), canvas);
+            }
+
+            foreach (var card in cards)
+            {
+                card.CardModel.IsFaded = false;
+                card.Position = rightMost;
+                card.Rebase(0d);
+                rightMost.X += card.ActualWidth;
+                card.Appear(0.3d);
+                Cards.Add(card);
+            }
+            RearrangeCards(0.3d);
         }
 
         public void AddCards(IList<CardView> cards, double transitionInSeconds)

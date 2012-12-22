@@ -131,24 +131,61 @@ namespace Sanguosha.UI.Controls
             PlayerViewModel model = DataContext as PlayerViewModel;
             model.IsSelected = false;
         }
-		
+        
         private void btnSpectate_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-        	// TODO: Add event handler implementation here.
-			EventHandler handler = OnRequestSpectate;
-			if (handler != null)
-			{
-				handler(this, new EventArgs());
-			}
+            // TODO: Add event handler implementation here.
+            EventHandler handler = OnRequestSpectate;
+            if (handler != null)
+            {
+                handler(this, new EventArgs());
+            }
         }        
-		
-		public event EventHandler OnRequestSpectate;
+        
+        public event EventHandler OnRequestSpectate;
 
         #region PlayerInfoViewBase Members
 
-        protected override void AddHandCards(IList<CardView> cards)
+        protected override void AddHandCards(IList<CardView> cards, bool isFaked)
         {
-            handCardArea.AddCards(cards, 0.5d);
+            if (isFaked)
+            {
+                foreach (var card in cards)
+                {
+                    card.Disappear(0d);
+                }
+            }
+            else
+            {
+                handCardArea.AddCards(cards, 0.5d);
+            }
+        }
+
+        protected override void AddPrivateCards(IList<CardView> cards, bool isFaked)
+        {
+            if (isFaked)
+            {
+                foreach (var card in cards)
+                {
+                    card.Disappear(0d);
+                }
+            }
+            else
+            {
+                privateCardArea.AddCards(cards, 0.5d);
+            }
+        }
+
+        private IEnumerable<CardView> RemovePrivateCards(IList<Card> cards)
+        {
+            var cardsToRemove = new List<CardView>();
+            foreach (var card in cards)
+            {
+                cardsToRemove.Add(CardView.CreateCard(card));
+            }
+            Trace.Assert(cardsToRemove.Count == cards.Count);
+            privateCardArea.RemoveCards(cardsToRemove);
+            return cardsToRemove;
         }
 
         protected override IList<CardView> RemoveHandCards(IList<Card> cards)
@@ -168,7 +205,7 @@ namespace Sanguosha.UI.Controls
             handCardArea.RearrangeCards(0d);
         }
 
-        protected override void AddDelayedTool(CardView card)
+        protected override void AddDelayedTool(CardView card, bool isFaked)
         {
             SmallDelayedToolView dtv = new SmallDelayedToolView() { Width = 23, Height = 24 };
             dtv.DataContext = card.CardModel;
@@ -176,12 +213,19 @@ namespace Sanguosha.UI.Controls
             dtv.Margin = new Thickness(0, 0, 50d, 0);
             delayedToolsDock.Children.Add(dtv);
 
-            Point dest = delayedToolsDock.TranslatePoint(new Point(-11.5, delayedToolsDock.ActualHeight / 2),
-                                                                   ParentGameView.GlobalCanvas);
-            dest.Offset(-card.Width / 2, -card.Height / 2);
-            card.Position = dest;
-            card.Disappear(0.5d);
-            card.Rebase(0.5d);
+            if (isFaked)
+            {
+                card.Disappear(0d);
+            }
+            else
+            {
+                Point dest = delayedToolsDock.TranslatePoint(new Point(-11.5, delayedToolsDock.ActualHeight / 2),
+                                                                       ParentGameView.GlobalCanvas);
+                dest.Offset(-card.Width / 2, -card.Height / 2);
+                card.Position = dest;
+                card.Disappear(0.5d);
+                card.Rebase(0.5d);
+            }
 
             Storyboard storyBoard = new Storyboard();
             ThicknessAnimation animation1 = new ThicknessAnimation();
@@ -227,7 +271,7 @@ namespace Sanguosha.UI.Controls
             return result;
         }
 
-        protected override void AddEquipment(CardView card)
+        protected override void AddEquipment(CardView card, bool isFaked)
         {
             Equipment equip = card.Card.Type as Equipment;
 
@@ -266,9 +310,16 @@ namespace Sanguosha.UI.Controls
             targetArea.Children.Clear();
             targetArea.Children.Add(equipLabel);
 
-            card.Position = ComputeCardCenterPos(card, targetArea);
-            card.Disappear(0.3d);            
-            card.Rebase(0.3d);
+            if (isFaked)
+            {
+                card.Disappear(0d);
+            }
+            else
+            {
+                card.Position = ComputeCardCenterPos(card, targetArea);
+                card.Disappear(0.3d);
+                card.Rebase(0.3d);
+            }
 
             Storyboard storyBoard = new Storyboard();
             DoubleAnimation animation1 = new DoubleAnimation();
@@ -347,8 +398,14 @@ namespace Sanguosha.UI.Controls
             return result;
         }
 
-        protected override void AddRoleCard(CardView card)
+        protected override void AddRoleCard(CardView card, bool isFaked)
         {
+            if (isFaked)
+            {
+                card.Disappear(0d);
+                return;
+            }
+
             card.Position = ComputeCardCenterPos(card, cbRoleBox);
             
             ScaleTransform scale = new ScaleTransform();

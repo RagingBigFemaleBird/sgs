@@ -19,10 +19,38 @@ namespace Sanguosha.Core.Games
     
     public class GameOverException : SgsException { }
 
-    public struct CardsMovement
+    public class CardsMovement
     {
-        public List<Card> cards;
-        public DeckPlace to;
+        public CardsMovement()
+        {
+            cards = new List<Card>();
+            helper = new MovementHelper();
+        }
+
+        private List<Card> cards;
+
+        public List<Card> Cards
+        {
+            get { return cards; }
+            set { cards = value; }
+        }
+
+        private DeckPlace to;
+
+        public DeckPlace To
+        {
+            get { return to; }
+            set { to = value; }
+        }
+
+        private MovementHelper helper;
+
+        public MovementHelper Helper
+        {
+            get { return helper; }
+            set { helper = value; }
+        }
+
     }
 
     public enum DamageElement
@@ -594,7 +622,6 @@ namespace Sanguosha.Core.Games
         List<CardsMovement> atomicMoves;
         Dictionary<GameEvent, List<TriggerWithParam>> atomicTriggers;
         Dictionary<GameEvent, List<TriggerWithParam>> atomicTriggersBeforeMove;
-        List<MovementHelper> atomicLogs;
         
         public void EnterAtomicContext()
         {
@@ -603,7 +630,6 @@ namespace Sanguosha.Core.Games
             {
                 atomicMoves = new List<CardsMovement>();
                 atomicTriggers = new Dictionary<GameEvent, List<TriggerWithParam>>();
-                atomicLogs = new List<MovementHelper>();
                 atomicTriggersBeforeMove = new Dictionary<GameEvent, List<TriggerWithParam>>();
             }
             atomicLevel++;
@@ -623,30 +649,22 @@ namespace Sanguosha.Core.Games
             {
                 EmitTriggers(v.Key, v.Value);
             }
-            MoveCards(atomicMoves, atomicLogs);
+            MoveCards(atomicMoves);
             foreach (var v in atomicTriggers)
             {
                 EmitTriggers(v.Key, v.Value);
             }
         }
 
-        private void AddAtomicMoves(List<CardsMovement> moves, List<MovementHelper> logs)
+        private void AddAtomicMoves(List<CardsMovement> moves)
         {
             int i = 0;
             foreach (var m in moves)
             {
                 CardsMovement newM = new CardsMovement();
-                newM.cards = m.cards;
-                newM.to = new DeckPlace(m.to.Player, m.to.DeckType);
+                newM.Cards = m.Cards;
+                newM.To = new DeckPlace(m.To.Player, m.To.DeckType);
                 atomicMoves.Add(newM);
-                if (logs != null)
-                {
-                    atomicLogs.Add(logs[i]);
-                }
-                else
-                {
-                    atomicLogs.Add(null);
-                }
                 i++;
             }
         }
@@ -655,65 +673,65 @@ namespace Sanguosha.Core.Games
         ///YOU ARE NOT ALLOWED TO TRIGGER ANY EVENT ANYWHERE INSIDE THIS FUNCTION!!!!!
         ///你不可以在这个函数中触发任何事件!!!!!
         ///</remarks>
-        public void MoveCards(List<CardsMovement> moves, List<MovementHelper> logs, List<bool> insertBefore = null)
+        public void MoveCards(List<CardsMovement> moves, List<bool> insertBefore = null)
         {
             if (atomic)
             {
-                AddAtomicMoves(moves, logs);
+                AddAtomicMoves(moves);
                 return;
             }
             foreach (CardsMovement move in moves)
             {
-                List<Card> cards = new List<Card>(move.cards);
+                List<Card> cards = new List<Card>(move.Cards);
                 foreach (Card card in cards)
                 {
-                    if (move.to.Player == null && move.to.DeckType == DeckType.Discard)
+                    if (move.To.Player == null && move.To.DeckType == DeckType.Discard)
                     {
                         SyncImmutableCardAll(card);
                     }
-                    if (card.Place.Player != null && move.to.Player != null && move.to.DeckType == DeckType.Hand)
+                    if (card.Place.Player != null && move.To.Player != null && move.To.DeckType == DeckType.Hand)
                     {
-                        SyncImmutableCard(move.to.Player, card);
+                        SyncImmutableCard(move.To.Player, card);
                     }
                 }
             }
 
-            NotificationProxy.NotifyCardMovement(moves, logs);
+            NotificationProxy.NotifyCardMovement(moves);
             Thread.Sleep(100);
 
             int i = 0;
             foreach (CardsMovement move in moves)
             {
-                List<Card> cards = new List<Card>(move.cards);
+                List<Card> cards = new List<Card>(move.Cards);
                 // Update card's deck mapping
                 foreach (Card card in cards)
                 {
                     Trace.TraceInformation("Card {0}{1}{2} from {3}{4} to {5}{6}.", card.Suit, card.Rank, card.Type.CardType.ToString(),
-                        card.Place.Player == null ? "G" : card.Place.Player.Id.ToString(), card.Place.DeckType.Name, move.to.Player == null ? "G" : move.to.Player.Id.ToString(), move.to.DeckType.Name);
+                        card.Place.Player == null ? "G" : card.Place.Player.Id.ToString(), card.Place.DeckType.Name, move.To.Player == null ? "G" : move.To.Player.Id.ToString(), move.To.DeckType.Name);
                     // unregister triggers for equipment 例如武圣将红色的雌雄双绝（假设有这么一个雌雄双绝）打出杀女性角色，不能发动雌雄
                     if (card.Place.Player != null && card.Place.DeckType == DeckType.Equipment && CardCategoryManager.IsCardCategory(card.Type.Category, CardCategory.Equipment))
                     {
                         Equipment e = card.Type as Equipment;
                         e.UnregisterTriggers(card.Place.Player);
                     }
-                    if (move.to.Player != null && move.to.DeckType == DeckType.Equipment && CardCategoryManager.IsCardCategory(card.Type.Category, CardCategory.Equipment))
+                    if (move.To.Player != null && move.To.DeckType == DeckType.Equipment && CardCategoryManager.IsCardCategory(card.Type.Category, CardCategory.Equipment))
                     {
                         Equipment e = card.Type as Equipment;
-                        e.RegisterTriggers(move.to.Player);
+                        e.RegisterTriggers(move.To.Player);
                     }
                     decks[card.Place].Remove(card);
                     if (insertBefore != null && insertBefore[i])
                     {
-                        decks[move.to].Insert(0, card);
+                        decks[move.To].Insert(0, card);
                     }
                     else
                     {
-                        decks[move.to].Add(card);
+                        decks[move.To].Add(card);
                     }
                     card.HistoryPlace1 = card.Place;
-                    card.Place = move.to;
+                    card.Place = move.To;
                     //reset card type if entering hand or discard
-                    if (!IsClient && (move.to.DeckType == DeckType.Dealing || move.to.DeckType == DeckType.Discard || move.to.DeckType == DeckType.Hand))
+                    if (!IsClient && (move.To.DeckType == DeckType.Dealing || move.To.DeckType == DeckType.Discard || move.To.DeckType == DeckType.Hand))
                     {
                         card.Log = new ActionLog();
                         _ResetCard(card);
@@ -721,46 +739,36 @@ namespace Sanguosha.Core.Games
                     }
 
                     //reset color if entering delayedtools
-                    if (move.to.DeckType == DeckType.DelayedTools)
+                    if (move.To.DeckType == DeckType.DelayedTools)
                     {
                         card.Suit = GameEngine.CardSet[card.Id].Suit;
                     }
 
                     //reset card type if entering hand or discard
-                    if (IsClient && (move.to.DeckType == DeckType.Dealing || move.to.DeckType == DeckType.Discard || move.to.DeckType == DeckType.Hand))
+                    if (IsClient && (move.To.DeckType == DeckType.Dealing || move.To.DeckType == DeckType.Discard || move.To.DeckType == DeckType.Hand))
                     {
                         card.Log = new ActionLog();
                         if (card.Attributes != null) card.Attributes.Clear();
                     }
 
-                    if (IsClient && (move.to.DeckType == DeckType.Hand && GameClient.SelfId != move.to.Player.Id))
+                    if (IsClient && (move.To.DeckType == DeckType.Hand && GameClient.SelfId != move.To.Player.Id))
                     {
                         card.Id = -1;
                     }
-                    if (move.to.Player != null)
+                    if (move.To.Player != null)
                     {
-                        _FilterCard(move.to.Player, card);
+                        _FilterCard(move.To.Player, card);
                     }
                 }
                 i++;
             }
         }
 
-        public void MoveCards(CardsMovement move, MovementHelper log, bool insertBefore = false)
+        public void MoveCards(CardsMovement move, bool insertBefore = false)
         {
             List<CardsMovement> moves = new List<CardsMovement>();
             moves.Add(move);
-            List<MovementHelper> logs;
-            if (log != null)
-            {
-                logs = new List<MovementHelper>();
-                logs.Add(log);
-            }
-            else
-            {
-                logs = null;
-            }
-            MoveCards(moves, logs, new List<bool>() {insertBefore});
+            MoveCards(moves, new List<bool>() {insertBefore});
         }
 
         public Card PeekCard(int i)
@@ -808,10 +816,10 @@ namespace Sanguosha.Core.Games
             {
                 throw new EndOfDealingDeckException();
             }
-            CardsMovement move;
-            move.cards = cardsDrawn;
-            move.to = new DeckPlace(player, DeckType.Hand);
-            MoveCards(move, null);
+            CardsMovement move = new CardsMovement();
+            move.Cards = cardsDrawn;
+            move.To = new DeckPlace(player, DeckType.Hand);
+            MoveCards(move);
             PlayerAcquiredCard(player, cardsDrawn);
         }
 
@@ -1155,21 +1163,21 @@ namespace Sanguosha.Core.Games
             {
                 c = decks[player, DeckType.JudgeResult][0];
                 move = new CardsMovement();
-                move.cards = new List<Card>();
-                List<Card> backup = new List<Card>(move.cards);
-                move.cards.Add(c);
-                move.to = new DeckPlace(null, DeckType.Discard);
-                PlayerAboutToDiscardCard(player, move.cards, DiscardReason.Judge);
-                MoveCards(move, null);
+                move.Cards = new List<Card>();
+                List<Card> backup = new List<Card>(move.Cards);
+                move.Cards.Add(c);
+                move.To = new DeckPlace(null, DeckType.Discard);
+                PlayerAboutToDiscardCard(player, move.Cards, DiscardReason.Judge);
+                MoveCards(move);
                 PlayerDiscardedCard(player, backup, DiscardReason.Judge);
             }
             SyncImmutableCardAll(PeekCard(0));
             c = Game.CurrentGame.DrawCard();
             move = new CardsMovement();
-            move.cards = new List<Card>();
-            move.cards.Add(c);
-            move.to = new DeckPlace(player, DeckType.JudgeResult);
-            MoveCards(move, null);
+            move.Cards = new List<Card>();
+            move.Cards.Add(c);
+            move.To = new DeckPlace(player, DeckType.JudgeResult);
+            MoveCards(move);
             GameEventArgs args = new GameEventArgs();
             args.Source = player;
             Game.CurrentGame.Emit(GameEvent.PlayerJudgeBegin, args);
@@ -1198,12 +1206,13 @@ namespace Sanguosha.Core.Games
             {
                 c = decks[player, DeckType.JudgeResult][0];
                 move = new CardsMovement();
-                move.cards = new List<Card>();
-                List<Card> backup = new List<Card>(move.cards);
-                move.cards.Add(c);
-                move.to = new DeckPlace(null, DeckType.Discard);
-                PlayerAboutToDiscardCard(player, move.cards, DiscardReason.Judge);
-                MoveCards(move, null);
+                move.Cards = new List<Card>();
+                List<Card> backup = new List<Card>(move.Cards);
+                move.Cards.Add(c);
+                move.To = new DeckPlace(null, DeckType.Discard);
+                move.Helper = new MovementHelper();
+                PlayerAboutToDiscardCard(player, move.Cards, DiscardReason.Judge);
+                MoveCards(move);
                 PlayerDiscardedCard(player, backup, DiscardReason.Judge);
             }
             return args.Card as ReadOnlyCard;
@@ -1304,7 +1313,7 @@ namespace Sanguosha.Core.Games
         public bool HandleCardPlay(Player p, ISkill skill, List<Card> cards, List<Player> targets)
         {
             Trace.Assert(cards != null);
-            CardsMovement m;
+            CardsMovement m = new CardsMovement();
             ICard result;
             bool status = CommitCardTransform(p, skill, cards, out result, targets);
             if (!status)
@@ -1318,10 +1327,10 @@ namespace Sanguosha.Core.Games
                 cards.Clear();
                 cards.AddRange(r.Subcards);
             }
-            m.cards = new List<Card>(cards);
-            m.to = new DeckPlace(null, DeckType.Discard);
+            m.Cards = new List<Card>(cards);
+            m.To = new DeckPlace(null, DeckType.Discard);
             Player isDoingAFavor = p;
-            foreach (var checkFavor in m.cards)
+            foreach (var checkFavor in m.Cards)
             {
                 if (checkFavor.Owner != p)
                 {
@@ -1331,19 +1340,19 @@ namespace Sanguosha.Core.Games
                 }
             }
             result.Type.TagAndNotify(p, targets, result, GameAction.Play);
-            List<Card> backup = new List<Card>(m.cards);
+            List<Card> backup = new List<Card>(m.Cards);
             if (isDoingAFavor != p)
             {
-                PlayerAboutToDiscardCard(isDoingAFavor, m.cards, DiscardReason.Play);
-                MoveCards(m, null);
+                PlayerAboutToDiscardCard(isDoingAFavor, m.Cards, DiscardReason.Play);
+                MoveCards(m);
                 PlayerPlayedCard(isDoingAFavor, result);
                 PlayerPlayedCard(p, result);
                 PlayerDiscardedCard(isDoingAFavor, backup, DiscardReason.Play);
             }
             else
             {
-                PlayerAboutToDiscardCard(p, m.cards, DiscardReason.Play);
-                MoveCards(m, null);
+                PlayerAboutToDiscardCard(p, m.Cards, DiscardReason.Play);
+                MoveCards(m);
                 PlayerPlayedCard(p, result);
                 PlayerDiscardedCard(p, backup, DiscardReason.Play);
             }
@@ -1419,8 +1428,8 @@ namespace Sanguosha.Core.Games
 
         public void HandleCardDiscard(Player p, List<Card> cards, DiscardReason reason = DiscardReason.Discard)
         {
-            CardsMovement move;
-            move.cards = new List<Card>(cards);
+            CardsMovement move = new CardsMovement();
+            move.Cards = new List<Card>(cards);
             foreach (Card c in cards)
             {
                 c.Log.Source = p;
@@ -1431,30 +1440,32 @@ namespace Sanguosha.Core.Games
                 else if (reason == DiscardReason.Use)
                     c.Log.GameAction = GameAction.Use;
             }
-            List<Card> backup = new List<Card>(move.cards);
-            move.to = new DeckPlace(null, DeckType.Discard);
-            PlayerAboutToDiscardCard(p, move.cards, reason);
-            MoveCards(move, null);
+            List<Card> backup = new List<Card>(move.Cards);
+            move.To = new DeckPlace(null, DeckType.Discard);
+            PlayerAboutToDiscardCard(p, move.Cards, reason);
+            MoveCards(move);
             PlayerLostCard(p, backup);
             PlayerDiscardedCard(p, backup, reason);
         }
 
         public void HandleCardTransferToHand(Player from, Player to, List<Card> cards, MovementHelper helper = null)
         {
-            CardsMovement move;
-            move.cards = new List<Card>(cards);
-            move.to = new DeckPlace(to, DeckType.Hand);
-            MoveCards(move, helper);
+            CardsMovement move = new CardsMovement();
+            move.Cards = new List<Card>(cards);
+            move.To = new DeckPlace(to, DeckType.Hand);
+            move.Helper = helper;
+            MoveCards(move);
             PlayerLostCard(from, cards);
             PlayerAcquiredCard(to, cards);
         }
 
         public void HandleCardTransfer(Player from, Player to, DeckType target, List<Card> cards)
         {
-            CardsMovement move;
-            move.cards = new List<Card>(cards);
-            move.to = new DeckPlace(to, target);
-            MoveCards(move, null);
+            CardsMovement move = new CardsMovement();
+            move.Cards = new List<Card>(cards);
+            move.To = new DeckPlace(to, target);
+            move.Helper = new MovementHelper();
+            MoveCards(move);
             PlayerLostCard(from, cards);
             PlayerAcquiredCard(to, cards);
         }
@@ -1778,10 +1789,11 @@ namespace Sanguosha.Core.Games
         public void InsertBeforeDeal(Player target, List<Card> list, MovementHelper helper = null)
         {
             CardsMovement move = new CardsMovement();
-            move.cards = new List<Card>(list);
-            move.cards.Reverse();
-            move.to = new DeckPlace(null, DeckType.Dealing);
-            MoveCards(move, helper, true);
+            move.Cards = new List<Card>(list);
+            move.Cards.Reverse();
+            move.To = new DeckPlace(null, DeckType.Dealing);
+            move.Helper = helper;
+            MoveCards(move, true);
             if (target != null)
             {
                 PlayerLostCard(target, list);
@@ -1791,9 +1803,10 @@ namespace Sanguosha.Core.Games
         public void InsertAfterDeal(Player target, List<Card> list, MovementHelper helper = null)
         {
             CardsMovement move = new CardsMovement();
-            move.cards = new List<Card>(list);
-            move.to = new DeckPlace(null, DeckType.Dealing);
-            MoveCards(move, helper);
+            move.Cards = new List<Card>(list);
+            move.To = new DeckPlace(null, DeckType.Dealing);
+            move.Helper = helper;
+            MoveCards(move);
             if (target != null)
             {
                 PlayerLostCard(target, list);
@@ -1803,9 +1816,10 @@ namespace Sanguosha.Core.Games
         public void PlaceIntoDiscard(Player target, List<Card> list)
         {
             CardsMovement move = new CardsMovement();
-            move.cards = new List<Card>(list);
-            move.to = new DeckPlace(null, DeckType.Discard);
-            MoveCards(move, null);
+            move.Cards = new List<Card>(list);
+            move.To = new DeckPlace(null, DeckType.Discard);
+            move.Helper = new MovementHelper();
+            MoveCards(move);
             if (target != null)
             {
                 PlayerLostCard(target, list);

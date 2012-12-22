@@ -69,9 +69,10 @@ namespace Sanguosha.Expansions.Basic.Skills
                     Game.CurrentGame.SyncImmutableCard(Owner, Game.CurrentGame.PeekCard(0));
                     Card c2 = Game.CurrentGame.DrawCard();
                     CardsMovement move = new CardsMovement();
-                    move.cards = new List<Card>() { c1, c2 };
-                    move.to = new DeckPlace(Owner, DeckType.Hand);
-                    Game.CurrentGame.MoveCards(move, new MovementHelper() { IsFakedMove = true });
+                    move.Cards = new List<Card>() { c1, c2 };
+                    move.To = new DeckPlace(Owner, DeckType.Hand);
+                    move.Helper.IsFakedMove = true;
+                    Game.CurrentGame.MoveCards(move);
                     List<Card> remainingCards = new List<Card>() { c1, c2 };
                     Player giveSecondOneTo = null;
                     while (remainingCards.Count > 0)

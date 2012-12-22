@@ -72,16 +72,16 @@ namespace Sanguosha.Expansions.Basic.Skills
             DeckType GuanXingDeck = new DeckType("GuanXing");
 
             CardsMovement move = new CardsMovement();
-            move.cards = new List<Card>();
+            move.Cards = new List<Card>();
             int toDraw = Math.Min(5, Game.CurrentGame.AlivePlayers.Count);
             for (int i = 0; i < toDraw; i++)
             {
                 Game.CurrentGame.SyncImmutableCard(Owner, Game.CurrentGame.PeekCard(0));
                 Card c = Game.CurrentGame.DrawCard();
-                move.cards.Add(c);
+                move.Cards.Add(c);
             }
-            move.to = new DeckPlace(null, GuanXingDeck);
-            Game.CurrentGame.MoveCards(move, null);
+            move.To = new DeckPlace(null, GuanXingDeck);
+            Game.CurrentGame.MoveCards(move);
             List<List<Card>> answer;
             AdditionalCardChoiceOptions options = new AdditionalCardChoiceOptions();
             options.Rearrangeable = new List<bool>() { true, true };

@@ -60,9 +60,9 @@ namespace Sanguosha.Core.Cards
         public void Install(Player p, Card card)
         {
             CardsMovement attachMove = new CardsMovement();
-            attachMove.cards = new List<Card>();
-            attachMove.cards.Add(card);
-            attachMove.to = new DeckPlace(p, DeckType.Equipment);
+            attachMove.Cards = new List<Card>();
+            attachMove.Cards.Add(card);
+            attachMove.To = new DeckPlace(p, DeckType.Equipment);
             foreach (Card c in Game.CurrentGame.Decks[p, DeckType.Equipment])
             {
                 if (CardCategoryManager.IsCardCategory(c.Type.Category, this.Category))
@@ -72,13 +72,13 @@ namespace Sanguosha.Core.Cards
                     Game.CurrentGame.EnterAtomicContext();
                     Game.CurrentGame.PlayerLostCard(p, new List<Card>() { card });
                     Game.CurrentGame.HandleCardDiscard(p, new List<Card> () {c});
-                    Game.CurrentGame.MoveCards(attachMove, null);
+                    Game.CurrentGame.MoveCards(attachMove);
                     Game.CurrentGame.ExitAtomicContext();
                     return;
                 }
             }
            
-            Game.CurrentGame.MoveCards(attachMove, null);
+            Game.CurrentGame.MoveCards(attachMove);
             Game.CurrentGame.PlayerLostCard(p, new List<Card>() {card});
             return;
         }

@@ -25,9 +25,9 @@ namespace Sanguosha.Expansions.Basic.Skills
             Game.CurrentGame.EnterAtomicContext();
             List<Card> toDiscard = new List<Card>(Game.CurrentGame.Decks[judgePlayer, DeckType.JudgeResult]);
             CardsMovement move = new CardsMovement();
-            move.cards = new List<Card>() {card};
-            move.to = new DeckPlace(judgePlayer, DeckType.JudgeResult);
-            Game.CurrentGame.MoveCards(move, null);
+            move.Cards = new List<Card>() {card};
+            move.To = new DeckPlace(judgePlayer, DeckType.JudgeResult);
+            Game.CurrentGame.MoveCards(move);
             Game.CurrentGame.PlayerLostCard(player, new List<Card>() {card});
             Game.CurrentGame.HandleCardDiscard(judgePlayer, toDiscard, DiscardReason.Judge);
             Game.CurrentGame.ExitAtomicContext();

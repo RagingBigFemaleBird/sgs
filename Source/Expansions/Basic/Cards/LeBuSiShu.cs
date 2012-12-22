@@ -45,10 +45,10 @@ namespace Sanguosha.Expansions.Basic.Cards
                 break;
             }
             CardsMovement move = new CardsMovement();
-            move.cards = new List<Card>();
-            move.cards.Add(c);
-            move.to = new DeckPlace(null, DeckType.Discard);
-            Game.CurrentGame.MoveCards(move, null);
+            move.Cards = new List<Card>();
+            move.Cards.Add(c);
+            move.To = new DeckPlace(null, DeckType.Discard);
+            Game.CurrentGame.MoveCards(move);
         }
 
         protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)

@@ -30,9 +30,9 @@ namespace Sanguosha.Expansions.Wind.Skills
                     Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.PeekCard(0));
                     Card c1 = Game.CurrentGame.DrawCard();
                     CardsMovement move = new CardsMovement();
-                    move.cards = new List<Card>() { c1 };
-                    move.to = new DeckPlace(Owner, bq);
-                    Game.CurrentGame.MoveCards(move, null);
+                    move.Cards = new List<Card>() { c1 };
+                    move.To = new DeckPlace(Owner, bq);
+                    Game.CurrentGame.MoveCards(move);
                 }
             }
             else if (1 + Math.Max(0, -Owner.Health) < Game.CurrentGame.Decks[Owner, bq].Count)
@@ -42,9 +42,9 @@ namespace Sanguosha.Expansions.Wind.Skills
                 {
                     Card c1 = Game.CurrentGame.Decks[Owner, bq][Game.CurrentGame.Decks[Owner, bq].Count - 1];
                     CardsMovement move = new CardsMovement();
-                    move.cards = new List<Card>() { c1 };
-                    move.to = new DeckPlace(Owner, bq);
-                    Game.CurrentGame.MoveCards(move, null);
+                    move.Cards = new List<Card>() { c1 };
+                    move.To = new DeckPlace(Owner, bq);
+                    Game.CurrentGame.MoveCards(move);
                 }
             }
             if (Owner.Health > 0) return;
@@ -77,9 +77,9 @@ namespace Sanguosha.Expansions.Wind.Skills
                         {
                             Card c1 = Game.CurrentGame.Decks[Owner, bq][Game.CurrentGame.Decks[Owner, bq].Count - 1];
                             CardsMovement move = new CardsMovement();
-                            move.cards = new List<Card>() { c1 };
-                            move.to = new DeckPlace(Owner, bq);
-                            Game.CurrentGame.MoveCards(move, null);
+                            move.Cards = new List<Card>() { c1 };
+                            move.To = new DeckPlace(Owner, bq);
+                            Game.CurrentGame.MoveCards(move);
                         }
                     }
                     return p.Health <= 0; 

@@ -67,15 +67,15 @@ namespace Sanguosha.Expansions.Wind.Skills
             DeckType shelieDeck = new DeckType("SheLie");
 
             CardsMovement move = new CardsMovement();
-            move.cards = new List<Card>();
+            move.Cards = new List<Card>();
             for (int i = 0; i < 5; i++)
             {
                 Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.PeekCard(0));
                 Card c = Game.CurrentGame.DrawCard();
-                move.cards.Add(c);
+                move.Cards.Add(c);
             }
-            move.to = new DeckPlace(null, shelieDeck);
-            Game.CurrentGame.MoveCards(move, null);
+            move.To = new DeckPlace(null, shelieDeck);
+            Game.CurrentGame.MoveCards(move);
             List<List<Card>> answer;
             if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("SheLie"),
                     new List<DeckPlace>() { new DeckPlace(null, shelieDeck) },

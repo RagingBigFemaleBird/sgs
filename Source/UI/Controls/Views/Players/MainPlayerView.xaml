@@ -326,6 +326,7 @@
                     </TransformGroup>
                 </Image.RenderTransform>
             </Image>
+            <local:SingleRowCardStack x:Name="privateCardArea" IsCardConsumer="True" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="-133,-80,98,8" Height="132" Width="200"  MaxCardSpacing="97" CardAlignment="Left" />
             <local:SingleRowCardStack x:Name="handCardArea" VerticalAlignment="Bottom" Margin="-133,0,98,8" Height="132" MaxCardSpacing="97" CardAlignment="Left" />
         </Grid>		
         <Grid x:Name="grid" Width="165" Grid.Row="1" Grid.Column="2" Background="Black">
@@ -402,22 +403,22 @@
                 </Border>
                 <Image Source="{DynamicResource MainPlayerInfoView.Background.Right}" VerticalAlignment="Top" IsHitTestVisible="False" Width="134" Height="134" Stretch="None" Grid.RowSpan="2"/>
                 
-				<ItemsControl ItemsSource="{Binding Path=PrivateDecks, Mode=OneWay}" Margin="25, 25, 0, 0">
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<WrapPanel HorizontalAlignment="Left" />
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
-					<ItemsControl.ItemTemplate>
-						<DataTemplate>
-							<Button Style="{DynamicResource DefaultButtonStyleBrown}" Click="btnPrivateDeck_Click" >
-								<TextBlock Foreground="#FFEEE4C1" FontFamily="SimSun" Margin="5, 1" Text="{Binding Path=DisplayText, Mode=OneWay}" />											
-							</Button>
-						</DataTemplate>	
-					</ItemsControl.ItemTemplate>
-				</ItemsControl>
-						
-				<ItemsControl Grid.Row="1" x:Name="skillButtonDock" HorizontalAlignment="Left"
+                <ItemsControl ItemsSource="{Binding Path=PrivateDecks, Mode=OneWay}" Margin="25, 25, 0, 0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel HorizontalAlignment="Left" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Style="{DynamicResource DefaultButtonStyleBrown}" Click="btnPrivateDeck_Click" >
+                                <TextBlock Foreground="#FFEEE4C1" FontFamily="SimSun" Margin="5, 1" Text="{Binding Path=DisplayText, Mode=OneWay}" />											
+                            </Button>
+                        </DataTemplate>	
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                        
+                <ItemsControl Grid.Row="1" x:Name="skillButtonDock" HorizontalAlignment="Left"
                     VerticalAlignment="Bottom" Width="134" ItemsSource="{Binding DockedSkillCommands}"
                     ItemTemplateSelector="{StaticResource skillButtonTemplateSelector}">
                     <ItemsControl.ItemsPanel>
@@ -426,11 +427,11 @@
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
-				<Image Source="{res:ResourceKeyBinding Path=SelectedTimes, StringFormat=Selection.Digit.{0}}" 
-						       VerticalAlignment="Center" HorizontalAlignment="Center"
-							   Visibility="{Binding IsSelectionRepeatable, Converter={StaticResource boolToVisibilityConverter}}"
-							   IsHitTestVisible="False" />
-				</Grid>
+                <Image Source="{res:ResourceKeyBinding Path=SelectedTimes, StringFormat=Selection.Digit.{0}}" 
+                               VerticalAlignment="Center" HorizontalAlignment="Center"
+                               Visibility="{Binding IsSelectionRepeatable, Converter={StaticResource boolToVisibilityConverter}}"
+                               IsHitTestVisible="False" />
+                </Grid>
             <Grid Margin="-15.673,10.331,0,0" Height="22" VerticalAlignment="Top" Width="169" HorizontalAlignment="Left">
                 <Grid.ToolTip>
                     <ToolTip Content="{DynamicResource State.TieSuoLianHuan.Description}" ContentTemplate="{DynamicResource ToolTipTextTemplate}" />                        

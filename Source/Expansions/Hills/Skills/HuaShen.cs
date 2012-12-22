@@ -28,9 +28,9 @@ namespace Sanguosha.Expansions.Hills.Skills
             Card card = Game.CurrentGame.Decks[DeckType.Heroes][0];
             Game.CurrentGame.SyncImmutableCard(player, card);
             CardsMovement move = new CardsMovement();
-            move.cards = new List<Card>() {card};
-            move.to = new DeckPlace(player, HuaShenDeck);
-            Game.CurrentGame.MoveCards(move, null);
+            move.Cards = new List<Card>() {card};
+            move.To = new DeckPlace(player, HuaShenDeck);
+            Game.CurrentGame.MoveCards(move);
         }
 
         ISkill acquiredSkill;

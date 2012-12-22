@@ -21,7 +21,7 @@ namespace Sanguosha.Core.UI
 
     public interface INotificationProxy
     {
-        void NotifyCardMovement(List<CardsMovement> m, List<MovementHelper> notes);
+        void NotifyCardMovement(List<CardsMovement> m);
         void NotifyDamage(Player source, Player target, int magnitude, DamageElement element);
         void NotifySkillUse(ActionLog log);
         void NotifyMultipleChoiceResult(Player p, string answer);
@@ -37,7 +37,7 @@ namespace Sanguosha.Core.UI
 
     public class DummyNotificationProxy : INotificationProxy
     {
-        public void NotifyCardMovement(List<CardsMovement> m, List<MovementHelper> notes)
+        public void NotifyCardMovement(List<CardsMovement> m)
         {
         }
 

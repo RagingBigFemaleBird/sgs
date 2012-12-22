@@ -34,10 +34,10 @@ namespace Sanguosha.Expansions.Wind.Skills
                 Game.CurrentGame.EnterAtomicContext();
                 List<Card> toDiscard = new List<Card>(Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult]);
                 CardsMovement move = new CardsMovement();
-                move.cards = new List<Card>();
-                move.cards.AddRange(cards);
-                move.to = new DeckPlace(eventArgs.Source, DeckType.JudgeResult);
-                Game.CurrentGame.MoveCards(move, null);
+                move.Cards = new List<Card>();
+                move.Cards.AddRange(cards);
+                move.To = new DeckPlace(eventArgs.Source, DeckType.JudgeResult);
+                Game.CurrentGame.MoveCards(move);
                 Game.CurrentGame.PlayerLostCard(player, cards);
                 Game.CurrentGame.HandleCardTransferToHand(null, player, toDiscard);
                 Game.CurrentGame.ExitAtomicContext();

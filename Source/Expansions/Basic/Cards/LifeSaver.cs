@@ -133,12 +133,12 @@ namespace Sanguosha.Expansions.Basic.Cards
             target.IsDead = true;
             Game.CurrentGame.SyncCardsAll(Game.CurrentGame.Decks[target, DeckType.Hand]);
             CardsMovement move = new CardsMovement();
-            move.cards = new List<Card>();
-            move.cards.AddRange(Game.CurrentGame.Decks[target, DeckType.Hand]);
-            move.cards.AddRange(Game.CurrentGame.Decks[target, DeckType.Equipment]);
-            move.cards.AddRange(Game.CurrentGame.Decks[target, DeckType.DelayedTools]);
-            move.to = new DeckPlace(null, DeckType.Discard);
-            Game.CurrentGame.MoveCards(move, null);
+            move.Cards = new List<Card>();
+            move.Cards.AddRange(Game.CurrentGame.Decks[target, DeckType.Hand]);
+            move.Cards.AddRange(Game.CurrentGame.Decks[target, DeckType.Equipment]);
+            move.Cards.AddRange(Game.CurrentGame.Decks[target, DeckType.DelayedTools]);
+            move.To = new DeckPlace(null, DeckType.Discard);
+            Game.CurrentGame.MoveCards(move);
 
         }
     }

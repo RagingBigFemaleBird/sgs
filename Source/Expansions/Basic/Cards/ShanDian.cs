@@ -47,10 +47,10 @@ namespace Sanguosha.Expansions.Basic.Cards
                         }
                     }
                     CardsMovement move = new CardsMovement();
-                    move.cards = new List<Card>();
-                    move.cards.Add(c);
-                    move.to = new DeckPlace(next, DeckType.DelayedTools);
-                    Game.CurrentGame.MoveCards(move, null);
+                    move.Cards = new List<Card>();
+                    move.Cards.Add(c);
+                    move.To = new DeckPlace(next, DeckType.DelayedTools);
+                    Game.CurrentGame.MoveCards(move);
                     return true;
                 }
                 if (next == start) return false;
@@ -81,10 +81,10 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     var roc = new ReadOnlyCard(c);
                     CardsMovement move = new CardsMovement();
-                    move.cards = new List<Card>();
-                    move.cards.Add(c);
-                    move.to = new DeckPlace(null, DeckType.Discard);
-                    Game.CurrentGame.MoveCards(move, null);
+                    move.Cards = new List<Card>();
+                    move.Cards.Add(c);
+                    move.To = new DeckPlace(null, DeckType.Discard);
+                    Game.CurrentGame.MoveCards(move);
                     Game.CurrentGame.DoDamage(null, p, 3, DamageElement.Lightning, c, roc);
                     return;
                 }

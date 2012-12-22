@@ -126,9 +126,10 @@ namespace Sanguosha.Core.Games
                                     if (searchCard.Id == cs.CardId)
                                     {
                                         CardsMovement move = new CardsMovement();
-                                        move.cards = new List<Card>() { searchCard };
-                                        move.to = new DeckPlace(Game.CurrentGame.CurrentPlayer, DeckType.Hand);
-                                        Game.CurrentGame.MoveCards(move, null);
+                                        move.Cards = new List<Card>() { searchCard };
+                                        move.To = new DeckPlace(Game.CurrentGame.CurrentPlayer, DeckType.Hand);
+                                        move.Helper = new MovementHelper();
+                                        Game.CurrentGame.MoveCards(move);
                                         break;
                                     }
                                 }
@@ -282,18 +283,19 @@ namespace Sanguosha.Core.Games
 
                 computeBackup = new List<Card>(Game.CurrentGame.Decks[DeckType.Compute]);
                 Game.CurrentGame.Decks[DeckType.Compute].Clear();
-                CardsMovement m;
+                CardsMovement m = new CardsMovement();
                 if (c is CompositeCard)
                 {
-                    m.cards = new List<Card>(((CompositeCard)c).Subcards);
+                    m.Cards = new List<Card>(((CompositeCard)c).Subcards);
                 }
                 else
                 {
-                    m.cards = new List<Card>(eventArgs.Cards);
+                    m.Cards = new List<Card>(eventArgs.Cards);
                 }
-                m.to = new DeckPlace(null, DeckType.Compute);
+                m.To = new DeckPlace(null, DeckType.Compute);
+                m.Helper = new MovementHelper();
                 Player isDoingAFavor = eventArgs.Source;
-                foreach (var checkFavor in m.cards)
+                foreach (var checkFavor in m.Cards)
                 {
                     if (checkFavor.Owner != eventArgs.Source)
                     {
@@ -301,9 +303,9 @@ namespace Sanguosha.Core.Games
                         isDoingAFavor = checkFavor.Owner;
                     }
                 }
-                bool runTrigger = !c.Type.IsReforging(eventArgs.Source, eventArgs.Skill, m.cards, eventArgs.Targets);
+                bool runTrigger = !c.Type.IsReforging(eventArgs.Source, eventArgs.Skill, m.Cards, eventArgs.Targets);
                 c.Type.TagAndNotify(eventArgs.Source, eventArgs.Targets, c);
-                Game.CurrentGame.MoveCards(m, null);
+                Game.CurrentGame.MoveCards(m);
                 if (isDoingAFavor != eventArgs.Source)
                 {
                     Game.CurrentGame.PlayerLostCard(isDoingAFavor, eventArgs.Cards);
@@ -339,11 +341,12 @@ namespace Sanguosha.Core.Games
 
                 if (Game.CurrentGame.Decks[DeckType.Compute].Count > 0)
                 {
-                    m.cards = Game.CurrentGame.Decks[DeckType.Compute];
-                    m.to = new DeckPlace(null, DeckType.Discard);
-                    Game.CurrentGame.PlayerAboutToDiscardCard(savedSource, m.cards, DiscardReason.Use);
-                    Game.CurrentGame.MoveCards(m, null);
-                    Game.CurrentGame.PlayerDiscardedCard(savedSource, m.cards, DiscardReason.Use);
+                    m.Cards = Game.CurrentGame.Decks[DeckType.Compute];
+                    m.To = new DeckPlace(null, DeckType.Discard);
+                    m.Helper = new MovementHelper();
+                    Game.CurrentGame.PlayerAboutToDiscardCard(savedSource, m.Cards, DiscardReason.Use);
+                    Game.CurrentGame.MoveCards(m);
+                    Game.CurrentGame.PlayerDiscardedCard(savedSource, m.Cards, DiscardReason.Use);
                 }
                 Trace.Assert(Game.CurrentGame.Decks[DeckType.Compute].Count == 0);
                 Game.CurrentGame.Decks[DeckType.Compute].AddRange(computeBackup);
@@ -357,13 +360,13 @@ namespace Sanguosha.Core.Games
             foreach (Player player in game.Players)
             {
                 CardsMovement move = new CardsMovement();
-                move.cards = new List<Card>();
-                move.to = new DeckPlace(player, DeckType.Hand);
+                move.Cards = new List<Card>();
+                move.To = new DeckPlace(player, DeckType.Hand);
                 for (int i = 0; i < 4; i++)
                 {
                     game.SyncImmutableCard(player, game.PeekCard(0));
                     Card c = game.DrawCard();
-                    move.cards.Add(c);
+                    move.Cards.Add(c);
                 }
                 moves.Add(move);
             }
@@ -371,7 +374,7 @@ namespace Sanguosha.Core.Games
             int p = 0;
             foreach (Player player in game.Players)
             {
-                game.PlayerAcquiredCard(player, moves[p].cards);
+                game.PlayerAcquiredCard(player, moves[p].Cards);
                 p++;
             }
         }
@@ -498,8 +501,8 @@ namespace Sanguosha.Core.Games
                 foreach (Player p in game.Players)
                 {
                     CardsMovement move = new CardsMovement();
-                    move.cards = new List<Card>() { game.Decks[null, RoleDeckType][i] };
-                    move.to = new DeckPlace(p, RoleDeckType);
+                    move.Cards = new List<Card>() { game.Decks[null, RoleDeckType][i] };
+                    move.To = new DeckPlace(p, RoleDeckType);
                     moves.Add(move);
                     i++;
                 }
@@ -839,18 +842,19 @@ namespace Sanguosha.Core.Games
                     Trace.TraceInformation("Loyalist killl by ruler. GG");
                     Game.CurrentGame.SyncCardsAll(Game.CurrentGame.Decks[source, DeckType.Hand]);
                     CardsMovement move = new CardsMovement();
-                    move.cards = new List<Card>();
+                    move.Cards = new List<Card>();
                     foreach (Card c in Game.CurrentGame.Decks[source, DeckType.Hand])
                     {
                         if (Game.CurrentGame.PlayerCanDiscardCard(source, c))
                         {
-                            move.cards.Add(c);
+                            move.Cards.Add(c);
                         }
                     }
-                    move.cards.AddRange(Game.CurrentGame.Decks[source, DeckType.Equipment]);
-                    move.cards.AddRange(Game.CurrentGame.Decks[source, DeckType.DelayedTools]);
-                    move.to = new DeckPlace(null, DeckType.Discard);
-                    Game.CurrentGame.MoveCards(move, null);
+                    move.Cards.AddRange(Game.CurrentGame.Decks[source, DeckType.Equipment]);
+                    move.Cards.AddRange(Game.CurrentGame.Decks[source, DeckType.DelayedTools]);
+                    move.To = new DeckPlace(null, DeckType.Discard);
+                    move.Helper = new MovementHelper();
+                    Game.CurrentGame.MoveCards(move);
                 }
             }
         }

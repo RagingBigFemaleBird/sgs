@@ -33,9 +33,9 @@ namespace Sanguosha.Expansions.Hills.Skills
                 }
             }
             CardsMovement move = new CardsMovement();
-            move.cards = GuZhengCards;
-            move.to = new DeckPlace(null, GuZhengDeck);
-            Game.CurrentGame.MoveCards(move, null);
+            move.Cards = GuZhengCards;
+            move.To = new DeckPlace(null, GuZhengDeck);
+            Game.CurrentGame.MoveCards(move);
             List<List<Card>> answer;
             var options = new AdditionalCardChoiceOptions() { Options = new List<string>() { Prompt.MultipleChoiceOptionPrefix + "GuZhengHuoDe", Prompt.MultipleChoiceOptionPrefix + "GuZhengBuHuoDe" } };
             if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(
@@ -53,9 +53,9 @@ namespace Sanguosha.Expansions.Hills.Skills
                 answer[0].Add(Game.CurrentGame.Decks[null, GuZhengDeck][0]);
             }
             move = new CardsMovement();
-            move.cards = new List<Card>(answer[0]);
-            move.to = new DeckPlace(Game.CurrentGame.CurrentPlayer, DeckType.Hand);
-            Game.CurrentGame.MoveCards(move, null);
+            move.Cards = new List<Card>(answer[0]);
+            move.To = new DeckPlace(Game.CurrentGame.CurrentPlayer, DeckType.Hand);
+            Game.CurrentGame.MoveCards(move);
             Game.CurrentGame.PlayerAcquiredCard(Game.CurrentGame.CurrentPlayer, answer[0]);
 
             if (options.OptionResult == 1)
@@ -66,9 +66,9 @@ namespace Sanguosha.Expansions.Hills.Skills
             {
                 var cardsToAcquire = new List<Card>(Game.CurrentGame.Decks[null, GuZhengDeck]);
                 move = new CardsMovement();
-                move.cards = new List<Card>(cardsToAcquire);
-                move.to = new DeckPlace(Owner, DeckType.Hand);
-                Game.CurrentGame.MoveCards(move, null);
+                move.Cards = new List<Card>(cardsToAcquire);
+                move.To = new DeckPlace(Owner, DeckType.Hand);
+                Game.CurrentGame.MoveCards(move);
                 Game.CurrentGame.PlayerAcquiredCard(Owner, cardsToAcquire);
             }
             GuZhengCards = new List<Card>();

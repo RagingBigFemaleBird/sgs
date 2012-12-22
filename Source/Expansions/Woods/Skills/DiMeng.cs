@@ -32,31 +32,31 @@ namespace Sanguosha.Expansions.Woods.Skills
             DeckType DiMengDeck1 = new DeckType("DiMeng1");
             DeckType DiMengDeck2 = new DeckType("DiMeng2");
             Game.CurrentGame.EnterAtomicContext();
-            CardsMovement move;
+            CardsMovement move = new CardsMovement();
             cards = new List<Card>(Game.CurrentGame.Decks[src1, DeckType.Hand]);
-            move.cards = new List<Card>(cards);
-            move.to = new DeckPlace(null, DiMengDeck1);
-            Game.CurrentGame.MoveCards(move, null);
+            move.Cards = new List<Card>(cards);
+            move.To = new DeckPlace(null, DiMengDeck1);
+            Game.CurrentGame.MoveCards(move);
             Game.CurrentGame.PlayerLostCard(src1, cards);
 
             cards = new List<Card>(Game.CurrentGame.Decks[src2, DeckType.Hand]);
-            move.cards = new List<Card>(cards);
-            move.to = new DeckPlace(null, DiMengDeck2);
-            Game.CurrentGame.MoveCards(move, null);
+            move.Cards = new List<Card>(cards);
+            move.To = new DeckPlace(null, DiMengDeck2);
+            Game.CurrentGame.MoveCards(move);
             Game.CurrentGame.PlayerLostCard(src2, cards);
             Game.CurrentGame.ExitAtomicContext();
 
             Game.CurrentGame.EnterAtomicContext();
             cards = new List<Card>(Game.CurrentGame.Decks[null, DiMengDeck1]);
-            move.cards = new List<Card>(cards);
-            move.to = new DeckPlace(src1, DeckType.Hand);
-            Game.CurrentGame.MoveCards(move, null);
+            move.Cards = new List<Card>(cards);
+            move.To = new DeckPlace(src1, DeckType.Hand);
+            Game.CurrentGame.MoveCards(move);
             Game.CurrentGame.PlayerAcquiredCard(src1, cards);
 
             cards = new List<Card>(Game.CurrentGame.Decks[null, DiMengDeck2]);
-            move.cards = new List<Card>(cards);
-            move.to = new DeckPlace(src2, DeckType.Hand);
-            Game.CurrentGame.MoveCards(move, null);
+            move.Cards = new List<Card>(cards);
+            move.To = new DeckPlace(src2, DeckType.Hand);
+            Game.CurrentGame.MoveCards(move);
             Game.CurrentGame.PlayerAcquiredCard(src2, cards);
             Game.CurrentGame.ExitAtomicContext();
             return true;

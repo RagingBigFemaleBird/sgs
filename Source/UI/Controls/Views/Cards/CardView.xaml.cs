@@ -165,7 +165,7 @@ namespace Sanguosha.UI.Controls
         {
             Panel panel = this.Parent as Panel;
             if (panel == null) return;
-            else if (duration == 0) Opacity = 0.0;
+            else if (duration == 0) { panel.Children.Remove(this); }
             else
             {
                 Storyboard disappear = Resources["sbDisappear"] as Storyboard;
@@ -375,15 +375,15 @@ namespace Sanguosha.UI.Controls
             set;
         }
         #endregion
-		
-		#region Animations
-		public void PlayAnimation(AnimationBase animation, Point offset)
+        
+        #region Animations
+        public void PlayAnimation(AnimationBase animation, Point offset)
         {
             animationCenter.Children.Add(animation);
             animation.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
             animation.VerticalAlignment = System.Windows.VerticalAlignment.Center;
             animation.Start();
         }
-		#endregion
+        #endregion
     }
 }

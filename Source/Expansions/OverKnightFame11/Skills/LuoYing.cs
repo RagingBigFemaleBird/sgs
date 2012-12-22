@@ -34,9 +34,9 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 if (c.Suit == SuitType.Club)
                 {
                     CardsMovement temp = new CardsMovement();
-                    temp.cards = new List<Card>(cardsToProcess);
-                    temp.to = new DeckPlace(null, DeckType.Discard);
-                    Game.CurrentGame.NotificationProxy.NotifyCardMovement(new List<CardsMovement>() { temp }, null);
+                    temp.Cards = new List<Card>(cardsToProcess);
+                    temp.To = new DeckPlace(null, DeckType.Discard);
+                    Game.CurrentGame.NotificationProxy.NotifyCardMovement(new List<CardsMovement>() { temp });
                     foreach (Card cc in cardsToProcess)
                     {
                         cc.PlaceOverride = new DeckPlace(null, DeckType.Discard);
