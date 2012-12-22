@@ -1453,7 +1453,10 @@ namespace Sanguosha.Core.Games
             CardsMovement move = new CardsMovement();
             move.Cards = new List<Card>(cards);
             move.To = new DeckPlace(to, DeckType.Hand);
-            move.Helper = helper;
+            if (helper != null)
+            {
+                move.Helper = helper;
+            }
             MoveCards(move);
             PlayerLostCard(from, cards);
             PlayerAcquiredCard(to, cards);
@@ -1792,7 +1795,10 @@ namespace Sanguosha.Core.Games
             move.Cards = new List<Card>(list);
             move.Cards.Reverse();
             move.To = new DeckPlace(null, DeckType.Dealing);
-            move.Helper = helper;
+            if (helper != null)
+            {
+                move.Helper = helper;
+            }
             MoveCards(move, true);
             if (target != null)
             {
@@ -1805,7 +1811,10 @@ namespace Sanguosha.Core.Games
             CardsMovement move = new CardsMovement();
             move.Cards = new List<Card>(list);
             move.To = new DeckPlace(null, DeckType.Dealing);
-            move.Helper = helper;
+            if (helper != null)
+            {
+                move.Helper = helper;
+            }
             MoveCards(move);
             if (target != null)
             {
