@@ -58,10 +58,13 @@ namespace Sanguosha.Core.Skills
             ) { IsAutoNotify = false, AskForConfirmation = false };
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => {return masterList.ContainsKey(a.Source);},
                 (p, e, a) =>
                 {
-                    if (a.Source.Allegiance != Allegiance)
+                    if (a.Source.Allegiance == Allegiance && !masterList.ContainsKey(a.Source))
+                    {
+                        DistributeSkills(Owner, null, null);
+                    }
+                    if (a.Source.Allegiance != Allegiance && masterList.ContainsKey(a.Source))
                     {
                         ISkill skill = masterList[a.Source];
                         masterList.Remove(a.Source);

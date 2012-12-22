@@ -72,6 +72,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             Owner.IsMale = handler.Hero.IsMale;
             Owner.IsFemale = !handler.Hero.IsMale;
             Game.CurrentGame.NotificationProxy.NotifyImpersonation(Owner, handler.Hero, acquiredSkill);
+            Game.CurrentGame.Emit(GameEvent.PlayerChangedAllegiance, new GameEventArgs() { Source = Owner });
             return;
         }
 
@@ -85,6 +86,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             ) { AskForConfirmation = false };
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
+                (p, e, a) => { return Game.CurrentGame.Decks[Owner, HuaShenDeck].Count > 0; },
                 Run,
                 TriggerCondition.OwnerIsSource
             );

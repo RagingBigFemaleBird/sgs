@@ -23,6 +23,7 @@ namespace Sanguosha.Expansions.Hills.Skills
     {
         public override VerifierResult Validate(GameEventArgs arg)
         {
+            PlayerAttribute ZhiBaUsed = PlayerAttribute.Register("ZhiBaUsedUsed" + Master.Id, true);
             if (Owner[ZhiBaUsed] != 0)
             {
                 return VerifierResult.Fail;
@@ -45,6 +46,7 @@ namespace Sanguosha.Expansions.Hills.Skills
 
         public override bool Commit(GameEventArgs arg)
         {
+            PlayerAttribute ZhiBaUsed = PlayerAttribute.Register("ZhiBaUsedUsed" + Master.Id, true);
             Owner[ZhiBaUsed] = 1;
             if (Master[HunZi.HunZiAwakened] == 1)
             {
@@ -75,8 +77,6 @@ namespace Sanguosha.Expansions.Hills.Skills
             }
             return true;
         }
-
-        public static PlayerAttribute ZhiBaUsed = PlayerAttribute.Register("ZhiBaUsed", true);
 
         public Player Master { get; set; }
     }
