@@ -50,6 +50,7 @@ namespace Sanguosha.Core.Network
     public struct SkillItem
     {
         public int playerId;
+        public int skillId;
         public string name;
         public Type additionalType;
         public string additionalTypeHorseName;
@@ -76,6 +77,8 @@ namespace Sanguosha.Core.Network
             SkillItem item = new SkillItem();
             item.playerId = skill.Owner.Id;
             item.name = skill.GetType().Name;
+            item.skillId = Game.CurrentGame.Players[skill.Owner.Id].ActionableSkills.IndexOf(skill);
+            Trace.Assert(item.skillId >= 0);
             if (skill is IAdditionalTypedSkill)
             {
                 item.additionalType = (skill as IAdditionalTypedSkill).AdditionalType.GetType();
@@ -226,17 +229,21 @@ namespace Sanguosha.Core.Network
         {
             if (item.playerId >= 0 && item.playerId < Game.CurrentGame.Players.Count)
             {
-                foreach (var skill in Game.CurrentGame.Players[item.playerId].ActionableSkills)
+                if (Game.CurrentGame.Players[item.playerId].ActionableSkills.Count <= item.skillId)
                 {
-                    if (skill.GetType().Name.Equals(item.name))
-                    {
-                        if (skill is IAdditionalTypedSkill)
-                        {
-                            (skill as IAdditionalTypedSkill).AdditionalType = TranslateCardType(item.additionalType, item.additionalTypeHorseName);
-                        }
-                        return skill;
-                    }
+                    Trace.TraceWarning("Client sending invalid skills");
+                    return null;
                 }
+
+                ISkill skill = Game.CurrentGame.Players[item.playerId].ActionableSkills[item.skillId];
+#if DEBUG
+                Trace.Assert(item.name == skill.GetType().Name);
+#endif
+                if (skill is IAdditionalTypedSkill)
+                {
+                    (skill as IAdditionalTypedSkill).AdditionalType = TranslateCardType(item.additionalType, item.additionalTypeHorseName);
+                }
+                return skill;
             }
             return null;
         }
