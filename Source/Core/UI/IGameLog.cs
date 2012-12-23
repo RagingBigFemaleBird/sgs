@@ -70,6 +70,13 @@ namespace Sanguosha.Core.UI
         }
         public GameAction GameAction { get; set; }
         public ISkill SkillAction { get; set; }
+        
+        /// <summary>
+        /// Gets/sets skill tag that is used for indexing different types of animation/audio
+        /// associated with the same skill.
+        /// </summary>
+        public int SkillTag { get; set; }
+
         public ICard CardAction { get; set; }
         public Player Source { get; set; }
         public List<Player> Targets { get; set; }

@@ -92,7 +92,7 @@ namespace Sanguosha.UI.Controls
 
         public GameView()
         {
-            InitializeComponent();
+            InitializeComponent();            
             stackPanels = new List<StackPanel>() { stackPanel0, stackPanel1, stackPanel2, stackPanel3, stackPanel4, stackPanel5 };
             radioLogs = new List<RadioButton>() { rbLog0, rbLog1, rbLog2, rbLog3, rbLog4, rbLog5, rbLog6, rbLog7, rbLog8, rbLog9, rbLog10 };            
             profileBoxes = new ObservableCollection<PlayerView>();
@@ -699,6 +699,8 @@ namespace Sanguosha.UI.Controls
                             animPlayed = true;                            
                         }
                     }
+                    Uri uri = GameSoundLocator.GetSkillSound(log.SkillAction.GetType().Name, log.SkillTag);
+                    GameSoundPlayer.PlaySoundEffect(uri);
                 }
                 if (log.CardAction != null)
                 {
@@ -739,6 +741,11 @@ namespace Sanguosha.UI.Controls
 
                 gameLogs.AppendLog(log);
                 rtbLog.ScrollToEnd();
+
+                bool? isMale = null;
+                if (log.Source != null) isMale = !log.Source.IsFemale;                
+                Uri cardSoundUri = GameSoundLocator.GetCardSound(log.CardAction.Type.CardType, isMale);                
+                GameSoundPlayer.PlaySoundEffect(cardSoundUri);
             });
         }
 
@@ -827,6 +834,11 @@ namespace Sanguosha.UI.Controls
                     model.ImpersonatedSkill = s.GetType().Name;
                 }
             });
+        }
+
+        public void NotifyGameStart()
+        {
+            GameSoundPlayer.PlayBackgroundMusic(GameSoundLocator.GetBgm());
         }
 
         public void NotifyJudge(Player p, Card card, ActionLog log, bool? isSuccess)
