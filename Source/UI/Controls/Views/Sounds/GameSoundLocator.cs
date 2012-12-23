@@ -77,13 +77,7 @@ namespace Sanguosha.UI.Controls
         private static Uri GetUriFromKey(string key)
         {
             if (!_soundsCount.ContainsKey(key)) return null;
-            int usable = _soundsCount[key];
-            _soundsRotation[key]++;
-            if (_soundsRotation[key] >= usable)
-            {
-                _soundsRotation[key] = 0;
-            }
-            
+            int usable = _soundsCount[key];           
             int i = _soundsRotation[key];
             
             string filePath;
@@ -92,6 +86,13 @@ namespace Sanguosha.UI.Controls
             else
                 filePath = string.Format("{0}.{1}.mp3", _soundsPath[key], _soundsRotation[key]);
             if (!File.Exists(filePath)) return null;
+            
+            _soundsRotation[key]++;
+            if (_soundsRotation[key] >= usable)
+            {
+                _soundsRotation[key] = 0;
+            }
+
             return GetUriFromPath(filePath);
         }
 

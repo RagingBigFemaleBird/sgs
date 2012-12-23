@@ -728,6 +728,11 @@ namespace Sanguosha.UI.Controls
                             playersMap[p].PlayIronShackleAnimation();
                         }                        
                     }
+
+                    bool? isMale = null;
+                    if (log.Source != null) isMale = !log.Source.IsFemale;
+                    Uri cardSoundUri = GameSoundLocator.GetCardSound(log.CardAction.Type.CardType, isMale);
+                    GameSoundPlayer.PlaySoundEffect(cardSoundUri);
                 }
 
                 if (log.Targets.Count > 0)
@@ -740,12 +745,7 @@ namespace Sanguosha.UI.Controls
                 }
 
                 gameLogs.AppendLog(log);
-                rtbLog.ScrollToEnd();
-
-                bool? isMale = null;
-                if (log.Source != null) isMale = !log.Source.IsFemale;                
-                Uri cardSoundUri = GameSoundLocator.GetCardSound(log.CardAction.Type.CardType, isMale);                
-                GameSoundPlayer.PlaySoundEffect(cardSoundUri);
+                rtbLog.ScrollToEnd();                
             });
         }
 
