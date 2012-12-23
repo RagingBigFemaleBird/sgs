@@ -60,7 +60,7 @@ namespace Sanguosha.UI.Controls
                 PoolSize = 3;
             }
             _effectPlayers[_lastGrabbedPlayer].Open(uri);
-            _bgmPlayer.Play();
+            _effectPlayers[_lastGrabbedPlayer].Play();
             _lastGrabbedPlayer = (_lastGrabbedPlayer + 1) % PoolSize;
         }
     }
