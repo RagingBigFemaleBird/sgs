@@ -403,6 +403,10 @@ namespace Sanguosha.Core.Triggers
         /// </summary>
         public static readonly GameEvent PlayerHandCardCapacityAdjustment = new GameEvent("PlayerHandCardCapacityAdjustment");
 
+        /// <summary>
+        /// 玩家距离调整
+        /// </summary>
+        public static readonly GameEvent PlayerDistanceAdjustment = new GameEvent("PlayerDistanceAdjustment ");
 
         public override bool Equals(object obj)
         {

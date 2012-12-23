@@ -61,7 +61,9 @@
     <Compile Include="Skills\QiaoBian.cs" />
     <Compile Include="Skills\RenJie.cs" />
     <Compile Include="Skills\TiaoXin.cs" />
+    <Compile Include="Skills\TunTian.cs" />
     <Compile Include="Skills\XinSheng.cs" />
+    <Compile Include="Skills\ZaoXian.cs" />
     <Compile Include="Skills\ZhiBa.cs" />
     <Compile Include="Skills\ZhiJi.cs" />
     <Compile Include="Skills\ZhiJian.cs" />

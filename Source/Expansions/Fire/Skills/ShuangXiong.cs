@@ -28,13 +28,13 @@ namespace Sanguosha.Expansions.Fire.Skills
                 {
                     return;
                 }
+                Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerJudgeDone, this);
                 //someone already took it...
                 if (Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult].Count == 0)
                 {
                     return;
                 }
                 Game.CurrentGame.HandleCardTransferToHand(Owner, Owner, new List<Card>(Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult]));
-                Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerJudgeDone, this);
                 return;
             }
             public GetJudgeCardTrigger(Player p)

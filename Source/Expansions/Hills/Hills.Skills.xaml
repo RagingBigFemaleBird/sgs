@@ -17,6 +17,7 @@
     <sys:String x:Key="Hero.JiangWei.Name">姜维</sys:String>
     <sys:String x:Key="Hero.CaiWenJi.Name">蔡文姬</sys:String>
     <sys:String x:Key="Hero.ShenZhaoYun.Name">神赵云</sys:String>
+    <sys:String x:Key="Hero.DengAi.Name">邓艾</sys:String>
 
     <sys:String x:Key="Skill.JiAng.Name">激昂</sys:String>
     <sys:String x:Key="Skill.JiAng.Description">每当你使用（指定目标后）或被使用（成为目标后）一张【决斗】或红色的【杀】时，你可以摸一张牌。</sys:String>
@@ -51,5 +52,8 @@
     <sys:String x:Key="Skill.LongHun.Name">龙魂</sys:String>
     <sys:String x:Key="Skill.JueJing.Name">绝境</sys:String>
     <sys:String x:Key="Skill.ZhiJi.Name">志继</sys:String>
+    <sys:String x:Key="Skill.TunTian.Name">屯田</sys:String>
+    <sys:String x:Key="Skill.ZaoXian.Name">凿险</sys:String>
+    <sys:String x:Key="Skill.JiXi.Name">急袭</sys:String>
 
 </ResourceDictionary>

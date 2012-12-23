@@ -1055,6 +1055,15 @@ namespace Sanguosha.Core.Games
                 distLeft++;
             }
             distLeft += to[Player.RangePlus];
+
+            var args = new AdjustmentEventArgs();
+            args.Source = from;
+            args.Targets = new List<Player>() { to };
+            args.AdjustmentAmount = 0;
+            Game.CurrentGame.Emit(GameEvent.PlayerDistanceAdjustment, args);
+            distLeft += args.AdjustmentAmount;
+            distRight += args.AdjustmentAmount;
+
             return distRight > distLeft ? distLeft : distRight;
         }
 
@@ -1345,6 +1354,7 @@ namespace Sanguosha.Core.Games
             {
                 PlayerAboutToDiscardCard(isDoingAFavor, m.Cards, DiscardReason.Play);
                 MoveCards(m);
+                PlayerLostCard(p, backup);
                 PlayerPlayedCard(isDoingAFavor, result);
                 PlayerPlayedCard(p, result);
                 PlayerDiscardedCard(isDoingAFavor, backup, DiscardReason.Play);
@@ -1353,6 +1363,7 @@ namespace Sanguosha.Core.Games
             {
                 PlayerAboutToDiscardCard(p, m.Cards, DiscardReason.Play);
                 MoveCards(m);
+                PlayerLostCard(p, backup);
                 PlayerPlayedCard(p, result);
                 PlayerDiscardedCard(p, backup, DiscardReason.Play);
             }

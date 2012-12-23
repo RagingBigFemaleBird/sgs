@@ -94,8 +94,18 @@ namespace Sanguosha.Core.UI
                 }
                 if (item.Owner != HostPlayer)
                 {
-                    Trace.TraceWarning("Client DDOS!");
-                    return false;
+                    while (true)
+                    {
+                        if (skill is CardTransformSkill)
+                        {
+                            if ((skill as CardTransformSkill).UiHelper.OtherDecksUsed != null)
+                            {
+                                if ((skill as CardTransformSkill).UiHelper.OtherDecksUsed.Contains(item.Place.DeckType)) break;
+                            }
+                        }
+                        Trace.TraceWarning("Client DDOS!");
+                        return false;
+                    }
                 }
                 cards.Add(item);
             }

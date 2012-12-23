@@ -66,6 +66,14 @@ namespace Sanguosha.Core.UI
             get { return revealCards; }
             set { revealCards = value; }
         }
+
+        private List<DeckType> otherDecksUsed;
+
+        public List<DeckType> OtherDecksUsed
+        {
+            get { return otherDecksUsed; }
+            set { otherDecksUsed = value; }
+        }
     }
 
     public interface ICardUsageVerifier
@@ -141,6 +149,16 @@ namespace Sanguosha.Core.UI
                     tryList.AddRange(cards);
                 }
                 var cardsToTry = new List<Card>(Game.CurrentGame.Decks[source, DeckType.Hand].Concat(Game.CurrentGame.Decks[source, DeckType.Equipment]));
+                if (skill is CardTransformSkill)
+                {
+                    if ((skill as CardTransformSkill).UiHelper.OtherDecksUsed != null)
+                    {
+                        foreach (var dk in (skill as CardTransformSkill).UiHelper.OtherDecksUsed)
+                        {
+                            cardsToTry.AddRange(Game.CurrentGame.Decks[source, dk]);
+                        }
+                    }
+                }
                 foreach (Card c in cardsToTry)
                 {
                     tryList.Add(c);
