@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <!-- 
     Card Usage Examples:
@@ -27,4 +27,5 @@
     <sys:String x:Key="MultiChoice.Choice.GuZhengBuHuoDe">弃置其余卡牌</sys:String>
     
     <sys:String x:Key="MultiChocie.Choice.HuaShen">{0}</sys:String>
+    <sys:String x:Key="Deck.Tian.Name">田</sys:String>
 </ResourceDictionary>

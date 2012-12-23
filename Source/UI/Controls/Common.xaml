@@ -24,7 +24,7 @@
                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="grid">
                                         <DiscreteObjectKeyFrame KeyTime="0">
                                             <DiscreteObjectKeyFrame.Value>
-                                                <Visibility>Hidden</Visibility>
+                                                <Visibility>Collapsed</Visibility>
                                             </DiscreteObjectKeyFrame.Value>
                                         </DiscreteObjectKeyFrame>
                                     </ObjectAnimationUsingKeyFrames>

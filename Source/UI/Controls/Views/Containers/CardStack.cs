@@ -237,6 +237,7 @@ namespace Sanguosha.UI.Controls
 
         public void AppendCards(IList<CardView> cards, double transitionInSeconds = 0.3d)
         {
+            if (cards.Count == 0) return;
             Canvas canvas = cards[0].Parent as Canvas;
             // Compute the position that the cards should appear
             Point rightMost;
@@ -250,7 +251,7 @@ namespace Sanguosha.UI.Controls
             {
                 rightMost = TranslatePoint(new Point(this.ActualWidth / 2, 0), canvas);
             }
-
+            rightMost.Y = this.TranslatePoint(new Point(0, this.ActualHeight / 2 - cards[0].Height / 2), canvas).Y;
             foreach (var card in cards)
             {
                 card.CardModel.IsFaded = false;

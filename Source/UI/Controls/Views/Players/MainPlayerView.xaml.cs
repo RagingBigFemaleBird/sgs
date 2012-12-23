@@ -156,7 +156,7 @@ namespace Sanguosha.UI.Controls
                 privateCardArea.RearrangeCards(cards, 0d);
                 foreach (var card in cards)
                 {
-                    card.Position.Offset(0, -100);
+                    card.Position = new Point(card.Position.X, card.Position.Y - 100);
                     card.Rebase(0d);
                 }
                 privateCardArea.AddCards(cards, 2d);
