@@ -49,6 +49,11 @@ namespace Sanguosha.UI.Controls
         {
         }
 
+        protected virtual IList<CardView> RemoveHandCards(IList<Card> cards, bool isCopy)
+        {
+            return null;
+        }
+
         protected virtual void AddPrivateCards(IList<CardView> cards, bool isFaked)
         {
             
@@ -63,7 +68,7 @@ namespace Sanguosha.UI.Controls
         {
         }
 
-        protected virtual CardView RemoveEquipment(Card card)
+        protected virtual CardView RemoveEquipment(Card card, bool isCopy)
         {
             return null;
         }
@@ -72,7 +77,7 @@ namespace Sanguosha.UI.Controls
         {
         }
 
-        protected virtual CardView RemoveDelayedTool(Card card)
+        protected virtual CardView RemoveDelayedTool(Card card, bool isCopy)
         {
             return null;
         }
@@ -194,12 +199,12 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        public IList<CardView> RemoveCards(DeckType deck, IList<Card> cards)
+        public IList<CardView> RemoveCards(DeckType deck, IList<Card> cards, bool isCopy)
         {
             List<CardView> cardsToRemove = new List<CardView>();
             if (deck == DeckType.Hand)
             {
-                cardsToRemove.AddRange(RemoveHandCards(cards));                
+                cardsToRemove.AddRange(RemoveHandCards(cards, isCopy));                
                 PlayerModel.HandCardCount -= cardsToRemove.Count;
             }
             else if (deck == DeckType.Equipment)
@@ -226,7 +231,7 @@ namespace Sanguosha.UI.Controls
                                 break;
                         }
                     }
-                    CardView cardView = RemoveEquipment(card);
+                    CardView cardView = RemoveEquipment(card, isCopy);
                     cardsToRemove.Add(cardView);
                 }
             }
@@ -234,7 +239,7 @@ namespace Sanguosha.UI.Controls
             {
                 foreach (var card in cards)
                 {
-                    CardView cardView = RemoveDelayedTool(card);
+                    CardView cardView = RemoveDelayedTool(card, isCopy);
                     cardsToRemove.Add(cardView);
                 }
             }
@@ -251,15 +256,18 @@ namespace Sanguosha.UI.Controls
                 var deckModel = PlayerModel.PrivateDecks.FirstOrDefault(d => d.Name == deck.Name);
                 Trace.Assert(deckModel != null);
 
-                foreach (var card in cards)
+                if (!isCopy)
                 {
-                    var cardModel = deckModel.Cards.First(c => c.Card == card);
-                    Trace.Assert(cardModel != null, "Card cannot be found in the private deck");
-                    deckModel.Cards.Remove(cardModel);
-                }
-                if (deckModel.Cards.Count == 0)
-                {
-                    PlayerModel.PrivateDecks.Remove(deckModel);
+                    foreach (var card in cards)
+                    {
+                        var cardModel = deckModel.Cards.First(c => c.Card == card);
+                        Trace.Assert(cardModel != null, "Card cannot be found in the private deck");
+                        deckModel.Cards.Remove(cardModel);
+                    }
+                    if (deckModel.Cards.Count == 0)
+                    {
+                        PlayerModel.PrivateDecks.Remove(deckModel);
+                    }
                 }
                 cardsToRemove.AddRange(RemovePrivateCards(cards));
             }
@@ -270,11 +278,6 @@ namespace Sanguosha.UI.Controls
             }
 
             return cardsToRemove;
-        }
-
-        protected virtual IList<CardView> RemoveHandCards(IList<Card> cards)
-        {
-            return null;
         }
 
         public virtual void UpdateCardAreas()

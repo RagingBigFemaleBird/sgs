@@ -785,6 +785,18 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyShowCard(Player p, Card card)
         {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                Trace.Assert(card.Place.Player == p);
+                var cards = playersMap[p].RemoveCards(card.Place.DeckType, new List<Card>() { card }, true);
+                foreach (var c in cards)
+                {
+                    c.CardModel.Footnote = LogFormatter.TranslateCardFootnote(new ActionLog() { Source = p, GameAction = GameAction.Show });
+                }
+                discardDeck.AddCards(DeckType.Discard, cards, false, false);
+                gameLogs.AppendShowCardsLog(p, new List<Card>() { card });
+                rtbLog.ScrollToEnd();
+            });
         }
 
         public void NotifyCardChoiceCallback(object o)

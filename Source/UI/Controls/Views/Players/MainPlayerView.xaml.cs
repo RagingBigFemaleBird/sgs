@@ -195,7 +195,7 @@ namespace Sanguosha.UI.Controls
             return cardsToRemove;
         }
 
-        protected override IList<CardView> RemoveHandCards(IList<Card> cards)
+        protected override IList<CardView> RemoveHandCards(IList<Card> cards, bool isCopy)
         {
             var cardsToRemove = new List<CardView>();
             foreach (var card in cards)
@@ -207,9 +207,22 @@ namespace Sanguosha.UI.Controls
                     Trace.Assert(viewModel != null);
                     if (viewModel.Card == card)
                     {
-                        cardsToRemove.Add(cardView);
-                        cardView.DragDirection = DragDirection.None;
-                        PlayerModel.HandCards.Remove(viewModel);
+                        if (isCopy)
+                        {
+                            var copy = CardView.CreateCard(cardView.Card);
+                            ParentGameView.GlobalCanvas.Children.Add(copy);
+                            copy.Position = cardView.Position;
+                            copy.Offset = cardView.Offset;
+                            copy.Rebase(0d);
+                            copy.Opacity = 100;
+                            cardsToRemove.Add(copy);
+                        }
+                        else
+                        {
+                            cardsToRemove.Add(cardView);
+                            cardView.DragDirection = DragDirection.None;
+                            PlayerModel.HandCards.Remove(viewModel);                            
+                        }
                         found = true;
                         break;
                     }
@@ -220,7 +233,10 @@ namespace Sanguosha.UI.Controls
                 }
             }
             Trace.Assert(cardsToRemove.Count == cards.Count);
-            handCardArea.RemoveCards(cardsToRemove);
+            if (!isCopy)
+            {
+                handCardArea.RemoveCards(cardsToRemove);
+            }
             return cardsToRemove;
         }
 
@@ -308,7 +324,7 @@ namespace Sanguosha.UI.Controls
             storyBoard.Begin();
         }
 
-        protected override CardView RemoveEquipment(Card card)
+        protected override CardView RemoveEquipment(Card card, bool isCopy)
         {
             Trace.Assert(card.Id >= 0, "Cannot remove unknown card from equip area.");
             Equipment equip = GameEngine.CardSet[card.Id].Type as Equipment;
@@ -342,8 +358,11 @@ namespace Sanguosha.UI.Controls
                 throw new ArgumentException("No equip is found.");
             }
             ToggleButton button = targetArea.Children[0] as ToggleButton;
-            targetArea.Children.Clear();
-            
+            if (!isCopy)
+            {
+                targetArea.Children.Clear();
+            }
+
             CardView result = CardView.CreateCard(card);
             ParentGameView.GlobalCanvas.Children.Add(result);
             result.Opacity = 0;
@@ -352,21 +371,6 @@ namespace Sanguosha.UI.Controls
             dest.Offset(-result.Width / 2, -result.Height / 2);
             result.Position = dest;
             result.Rebase(0);
-
-            Storyboard storyBoard = new Storyboard();
-            ThicknessAnimation animation1 = new ThicknessAnimation();
-            DoubleAnimation animation2 = new DoubleAnimation();
-            animation1.To = new Thickness(100d, 30d, 0d, 0d);
-            animation2.To = 0.0d;
-            animation1.Duration = TimeSpan.FromMilliseconds(500);
-            animation2.Duration = TimeSpan.FromMilliseconds(500);
-            Storyboard.SetTarget(animation1, button);
-            Storyboard.SetTarget(animation2, button);
-            Storyboard.SetTargetProperty(animation1, new PropertyPath(ToggleButton.MarginProperty));
-            Storyboard.SetTargetProperty(animation2, new PropertyPath(ToggleButton.OpacityProperty));
-            storyBoard.Children.Add(animation1);
-            storyBoard.Children.Add(animation2);
-            storyBoard.Begin();
             return result;
         }
 
@@ -410,7 +414,7 @@ namespace Sanguosha.UI.Controls
             storyBoard.Begin();        
         }
 
-        protected override CardView RemoveDelayedTool(Card card)
+        protected override CardView RemoveDelayedTool(Card card, bool isCopy)
         {
             LargeDelayedToolView dtv = null;
             foreach (var tmpDtv in delayedToolsDock.Children)
@@ -427,7 +431,10 @@ namespace Sanguosha.UI.Controls
 
             Point dest = dtv.TranslatePoint(new Point(0, 0),
                                              ParentGameView.GlobalCanvas);
-            delayedToolsDock.Children.Remove(dtv);
+            if (!isCopy)
+            {
+                delayedToolsDock.Children.Remove(dtv);
+            }
             CardView result = CardView.CreateCard(card);
             ParentGameView.GlobalCanvas.Children.Add(result);
             result.Opacity = 0;

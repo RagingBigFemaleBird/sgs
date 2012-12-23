@@ -209,7 +209,7 @@ namespace Sanguosha.UI.Controls
             return cardsToRemove;
         }
 
-        protected override IList<CardView> RemoveHandCards(IList<Card> cards)
+        protected override IList<CardView> RemoveHandCards(IList<Card> cards, bool isCopy)
         {
             var cardsToRemove = new List<CardView>();
             foreach (var card in cards)
@@ -264,7 +264,7 @@ namespace Sanguosha.UI.Controls
             storyBoard.Begin();
         }
 
-        protected override CardView RemoveDelayedTool(Card card)
+        protected override CardView RemoveDelayedTool(Card card, bool isCopy)
         {
             SmallDelayedToolView dtv = null;
             foreach (var tmpDtv in delayedToolsDock.Children)
@@ -281,7 +281,7 @@ namespace Sanguosha.UI.Controls
 
             Point dest = dtv.TranslatePoint(new Point(0, 0),
                                             ParentGameView.GlobalCanvas);
-            delayedToolsDock.Children.Remove(dtv);
+            if (!isCopy) delayedToolsDock.Children.Remove(dtv);
 
             CardView result = CardView.CreateCard(card);
             ParentGameView.GlobalCanvas.Children.Add(result);
@@ -359,7 +359,7 @@ namespace Sanguosha.UI.Controls
             storyBoard.Begin();
         }
 
-        protected override CardView RemoveEquipment(Card card)
+        protected override CardView RemoveEquipment(Card card, bool isCopy)
         {
             Trace.Assert(card.Id >= 0, "Cannot remove unknown card from equip area.");
             Equipment equip = GameEngine.CardSet[card.Id].Type as Equipment;
@@ -394,28 +394,13 @@ namespace Sanguosha.UI.Controls
             }
 
             SmallEquipView equipLabel = targetArea.Children[0] as SmallEquipView;
-            targetArea.Children.Clear();
+            if (!isCopy) targetArea.Children.Clear();
 
             CardView result = CardView.CreateCard(card);
             ParentGameView.GlobalCanvas.Children.Add(result);
             result.Opacity = 0;
             result.Position = ComputeCardCenterPos(result, targetArea);
             result.Rebase(0);
-
-            Storyboard storyBoard = new Storyboard();
-            DoubleAnimation animation1 = new DoubleAnimation();
-            DoubleAnimation animation2 = new DoubleAnimation();
-            animation1.To = 50d;
-            animation2.To = 0.0d;
-            animation1.Duration = TimeSpan.FromMilliseconds(500);
-            animation2.Duration = TimeSpan.FromMilliseconds(500);
-            Storyboard.SetTarget(animation1, equipLabel);
-            Storyboard.SetTarget(animation2, equipLabel);
-            Storyboard.SetTargetProperty(animation1, new PropertyPath(Canvas.TopProperty));
-            Storyboard.SetTargetProperty(animation2, new PropertyPath(SmallEquipView.OpacityProperty));
-            storyBoard.Children.Add(animation1);
-            storyBoard.Children.Add(animation2);
-            storyBoard.Begin();
             return result;
         }
 

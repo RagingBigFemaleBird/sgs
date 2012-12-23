@@ -63,6 +63,8 @@ namespace Sanguosha.UI.Controls
                     return string.Format("{0}{1}置入弃牌堆", source, skill);
                 case GameAction.Discard:
                     return string.Format("{0}{1}弃置", source, skill);
+                case GameAction.Show:
+                    return string.Format("{0}展示", source);
             }
             return string.Empty;
         }
@@ -408,6 +410,15 @@ namespace Sanguosha.UI.Controls
             string damageStr = string.Format("失去了{0}点体力，体力值为{1}", delta, player.Health);
 
             para.Inlines.Add(new Run(damageStr) { Foreground = RedBrush });
+            return para;
+        }
+
+        internal static Paragraph RichTranslateShowCards(Player player, IList<Card> cards)
+        {
+            Paragraph para = new Paragraph();
+            para.Inlines.Add(new Run(Translate(player)));
+            para.Inlines.Add(cards.Count == 1 ? "展示了一张手牌" : "展示了一张手牌");
+            para.Inlines.AddRange(RichTranslate(cards));
             return para;
         }
     }

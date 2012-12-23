@@ -90,10 +90,13 @@ namespace Sanguosha.UI.Controls
                 MarkClearance(card);
             }
         }
-
         
-
         public void AddCards(DeckType deck, IList<CardView> cards, bool isFaked)
+        {
+            AddCards(deck, cards, isFaked, true);
+        }
+
+        public void AddCards(DeckType deck, IList<CardView> cards, bool isFaked, bool updateFootnote)
         {
             if (isFaked)
             {
@@ -115,7 +118,10 @@ namespace Sanguosha.UI.Controls
 
             foreach (var card in cards)
             {
-                card.CardModel.UpdateFootnote();
+                if (updateFootnote)
+                {
+                    card.CardModel.UpdateFootnote();
+                }
                 card.CardModel.IsFootnoteVisible = true;
             }
 
@@ -153,7 +159,7 @@ namespace Sanguosha.UI.Controls
             }                      
         }
 
-        public IList<CardView> RemoveCards(DeckType deck, IList<Card> cards)
+        public IList<CardView> RemoveCards(DeckType deck, IList<Card> cards, bool isCopy)
         {
             IList<CardView> result = new List<CardView>();
             IList<CardView> remaining = new List<CardView>();

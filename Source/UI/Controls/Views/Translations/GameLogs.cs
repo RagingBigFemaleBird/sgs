@@ -185,5 +185,18 @@ namespace Sanguosha.UI.Controls
                 }
             }
         }
+
+        internal void AppendShowCardsLog(Player p, IList<Card> cards)
+        {
+            List<FlowDocument> docs = new List<FlowDocument>() { Logs[p], GlobalLog };
+            foreach (var doc in docs)
+            {
+                Paragraph para = LogFormatter.RichTranslateShowCards(p, cards);
+                if (para != null)
+                {
+                    doc.Blocks.Add(para);
+                }
+            }
+        }
     }
 }

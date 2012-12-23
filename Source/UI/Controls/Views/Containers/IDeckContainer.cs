@@ -21,7 +21,8 @@ namespace Sanguosha.UI.Controls
         /// </summary>
         /// <param name="deck">Source deck.</param>
         /// <param name="cards">Cards to be removed.</param>
+        /// <param name="isCopy">If true, the returned cards will be a copy of cards appearning at the same position as they are in the deck.</param>
         /// <returns>CardView representing <paramref name="cards"/>.</returns>
-        IList<CardView> RemoveCards(DeckType deck, IList<Card> cards);
+        IList<CardView> RemoveCards(DeckType deck, IList<Card> cards, bool isCopy = false);
     }
 }

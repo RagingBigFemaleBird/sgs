@@ -110,6 +110,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                 cards.Add(Game.CurrentGame.Decks[dest, DeckType.Hand][0]);
             }
             Trace.TraceInformation("Player {0} HuoGong showed {1}, ", dest.Id, cards[0].Suit);
+            Game.CurrentGame.NotificationProxy.NotifyShowCard(dest, cards[0]);
             if (source.IsDead) return;
             ui = Game.CurrentGame.UiProxies[source];
             HuoGongCardMatchVerifier v2 = new HuoGongCardMatchVerifier(cards[0].Suit);

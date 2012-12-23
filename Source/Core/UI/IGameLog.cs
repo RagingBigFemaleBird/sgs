@@ -58,6 +58,7 @@ namespace Sanguosha.Core.UI
         Use,
         Discard,
         PlaceIntoDiscard,
+        Show
     }
 
     public class ActionLog : IGameLog
