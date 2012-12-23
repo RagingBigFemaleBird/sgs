@@ -21,7 +21,9 @@ namespace Sanguosha.Expansions.Wind.Skills
     {
         public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
         {
-            card = null;
+            card = new CompositeCard();
+            card.Subcards = new List<Card>();
+            card.Type = AdditionalType;
             if (cards == null || cards.Count == 0)
             {
                 return VerifierResult.Partial;
@@ -35,9 +37,6 @@ namespace Sanguosha.Expansions.Wind.Skills
                 return VerifierResult.Fail;
             }
 
-            card = new CompositeCard();
-            card.Subcards = new List<Card>();
-            card.Type = AdditionalType;
             if (AdditionalType == null)
             {
                 return VerifierResult.Partial;
