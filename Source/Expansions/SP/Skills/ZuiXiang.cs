@@ -37,7 +37,7 @@ namespace Sanguosha.Expansions.SP.Skills
                 CardsMovement move = new CardsMovement();
                 for (int i = 0; i < 3; i++)
                 {
-                    Game.CurrentGame.SyncImmutableCard(Owner, Game.CurrentGame.PeekCard(0));
+                    Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.PeekCard(0));
                     Card c = Game.CurrentGame.DrawCard();
                     move.Cards.Add(c);
                 }
