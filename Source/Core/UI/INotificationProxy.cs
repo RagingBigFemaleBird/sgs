@@ -21,6 +21,7 @@ namespace Sanguosha.Core.UI
 
     public interface INotificationProxy
     {
+        void NotifyGameStart();
         void NotifyCardMovement(List<CardsMovement> m);
         void NotifyDamage(Player source, Player target, int magnitude, DamageElement element);
         void NotifySkillUse(ActionLog log);
@@ -84,6 +85,10 @@ namespace Sanguosha.Core.UI
 
         public void NotifyJudge(Player p, Card card, ActionLog log, bool? isSuccess)
         {
+        }
+
+        public void NotifyGameStart()
+        {            
         }
     }
 }

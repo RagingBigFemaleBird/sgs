@@ -80,6 +80,8 @@
     <Compile Include="Views\Skills\ExcitingSkillAnimation.xaml.cs">
       <DependentUpon>ExcitingSkillAnimation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Sounds\GameSoundLocator.cs" />
+    <Compile Include="Views\Sounds\GameSoundPlayer.cs" />
     <Compile Include="Views\Translations\GameLogs.cs" />
     <Compile Include="Views\Skills\GuHuoSkillButton.xaml.cs">
       <DependentUpon>GuHuoSkillButton.xaml</DependentUpon>
@@ -349,6 +351,7 @@
     <Resource Include="Views\Resources\Miscellaneous\FireMap.png" />
     <Content Include="WPFToolkit.Extended.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath32)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	     Other similar extension points exist, see Microsoft.Common.targets.

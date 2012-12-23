@@ -375,6 +375,7 @@ namespace Sanguosha.Core.Games
             InitTriggers();
             try
             {
+                NotificationProxy.NotifyGameStart();
                 Emit(GameEvent.GameStart, new GameEventArgs());
             }
             catch (GameOverException)

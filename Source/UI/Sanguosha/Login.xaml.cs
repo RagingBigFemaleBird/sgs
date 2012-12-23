@@ -17,6 +17,7 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Network;
 using Microsoft.Win32;
 using System.ComponentModel;
+using Sanguosha.UI.Controls;
 
 namespace Sanguosha.UI.Main
 {
@@ -45,6 +46,7 @@ namespace Sanguosha.UI.Main
                         continue;
                     }
                 }
+                GameSoundLocator.Initialize();
             }
             catch (DirectoryNotFoundException)
             {
