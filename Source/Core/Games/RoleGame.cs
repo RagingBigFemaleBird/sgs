@@ -543,14 +543,10 @@ namespace Sanguosha.Core.Games
                     }
                 }
                 List<Card> rulerDraw = new List<Card>();
-                rulerDraw.Add(game.Decks[DeckType.Heroes][0]);
-                rulerDraw.Add(game.Decks[DeckType.Heroes][1]);
-                rulerDraw.Add(game.Decks[DeckType.Heroes][2]);
-                rulerDraw.Add(game.Decks[DeckType.Heroes][3]);
-                rulerDraw.Add(game.Decks[DeckType.Heroes][4]);
-                rulerDraw.Add(game.Decks[DeckType.Heroes][5]);
-                rulerDraw.Add(game.Decks[DeckType.Heroes][6]);
-                rulerDraw.Add(game.Decks[DeckType.Heroes][7]);
+                for (int rc = 0; rc < 12; rc++)
+                {
+                    rulerDraw.Add(game.Decks[DeckType.Heroes][rc]);
+                }
                 game.SyncCards(game.Players[rulerId], rulerDraw);
                 DeckType tempHero = new DeckType("TempHero");
                 game.Decks[null, tempHero].AddRange(rulerDraw);
