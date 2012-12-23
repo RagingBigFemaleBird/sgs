@@ -27,6 +27,7 @@ namespace Sanguosha.Expansions.SP.Skills
             CardsMovement move = new CardsMovement();
             move.Cards = eventArgs.Cards;
             move.To = new DeckPlace(null, DeckType.Discard);
+            move.Helper.IsFakedMove = true;
             Game.CurrentGame.MoveCards(move);
             if (Game.CurrentGame.CurrentPlayer == Owner)
             {
@@ -43,6 +44,7 @@ namespace Sanguosha.Expansions.SP.Skills
                     move = new CardsMovement();
                     move.Cards = garbageList;
                     move.To = new DeckPlace(null, mjDeck);
+                    move.Helper.IsFakedMove = true;
                     Game.CurrentGame.MoveCards(move);
 
                     IUiProxy ui = Game.CurrentGame.UiProxies[Owner];
@@ -64,6 +66,7 @@ namespace Sanguosha.Expansions.SP.Skills
                     move = new CardsMovement();
                     move.Cards = new List<Card>(Game.CurrentGame.Decks[null, mjDeck]);
                     move.To = new DeckPlace(null, DeckType.Discard);
+                    move.Helper.IsFakedMove = true;
                     Game.CurrentGame.MoveCards(move);
                 }
             }
