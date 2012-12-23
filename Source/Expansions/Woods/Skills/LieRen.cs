@@ -33,7 +33,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                 List<int> resultDeckMax = new List<int>();
                 resultDeckMax.Add(1);
                 List<List<Card>> answer;
-                if (!Game.CurrentGame.UiProxies[owner].AskForCardChoice(new CardChoicePrompt("LieRen"), places, resultDeckPlace, resultDeckMax, new RequireOneCardChoiceVerifier(), out answer))
+                if (!Game.CurrentGame.UiProxies[owner].AskForCardChoice(new CardChoicePrompt("LieRen"), places, resultDeckPlace, resultDeckMax, new RequireOneCardChoiceVerifier(true), out answer))
                 {
                     Trace.TraceInformation("Player {0} Invalid answer", owner.Id);
                     answer = new List<List<Card>>();
