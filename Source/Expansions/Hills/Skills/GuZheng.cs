@@ -97,7 +97,6 @@ namespace Sanguosha.Expansions.Hills.Skills
             Triggers.Add(GameEvent.CardsEnteredDiscardDeck, trigger);
             Triggers.Add(GameEvent.PhaseEndEvents[TurnPhase.Discard], trigger2);
             Triggers.Add(GameEvent.PhasePostEnd, trigger3);
-            IsAutoInvoked = null;
         }
     }
 }

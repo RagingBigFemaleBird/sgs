@@ -72,7 +72,7 @@
                 <DataTemplate>
                     <Viewbox Height="20" Width="auto">
                         <Button Width="auto" Height="15" Style="{Binding ChoiceKey, Converter={StaticResource multiChoiceButtonStyleConverter}, Mode=OneWay}" DataContext="{Binding}" Command="{Binding}" Margin="20, 0, 20, 0">
-                            <local:OutlinedTextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" Width="Auto" Text="{res:ResourceKeyBinding Path=ChoiceKey}" FontFamily="SimSun" Fill="White" FontWeight="Bold" Stroke="Black" TextWrapping="NoWrap"/>
+                            <local:OutlinedTextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" Width="Auto" Text="{Binding Path=ChoiceKey, Mode=OneWay, Converter={StaticResource multiChoiceKeyConverter}}" FontFamily="SimSun" Fill="White" FontWeight="Bold" Stroke="Black" TextWrapping="NoWrap"/>
                         </Button>
                     </Viewbox>
                 </DataTemplate>

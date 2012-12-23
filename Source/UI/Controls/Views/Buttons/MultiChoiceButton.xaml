@@ -10,6 +10,7 @@
 			<ResourceDictionary.MergedDictionaries>
         		<ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <local:MultiChoiceKeyConverter x:Key="multiChoiceKeyConverter" />
             <local:MultiChoiceButtonStyleConverter x:Key="multiChoiceButtonStyleConverter" />
             <Style x:Key="MultiChoiceButtonStyle" TargetType="{x:Type Button}">
     			<Setter Property="Template">
@@ -157,19 +158,19 @@
                                     </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
                                 <Grid x:Name="gridNormalAppearance">
-                                    <Image Source="{res:ImageBinding Path=ChoiceKey, StringFormat=Resources/Images/Buttons/multichoice/\{0\}-normal.png}"/>
+                                    <Image Source="{res:ImageBinding Path=ChoiceKey.ResourceKey, StringFormat=Resources/Images/Buttons/multichoice/\{0\}-normal.png}"/>
                                 </Grid>
 
                                 <Grid x:Name="gridHoverAppearance" Visibility="Hidden">
-                                    <Image Source="{res:ImageBinding Path=ChoiceKey, StringFormat=Resources/Images/Buttons/multichoice/\{0\}-hover.png}"/>
+                                    <Image Source="{res:ImageBinding Path=ChoiceKey.ResourceKey, StringFormat=Resources/Images/Buttons/multichoice/\{0\}-hover.png}"/>
                                 </Grid>
 
                                 <Grid x:Name="gridDownAppearance" Visibility="Hidden">
-                                    <Image Source="{res:ImageBinding Path=ChoiceKey, StringFormat=Resources/Images/Buttons/multichoice/\{0\}-down.png}"/>
+                                    <Image Source="{res:ImageBinding Path=ChoiceKey.ResourceKey, StringFormat=Resources/Images/Buttons/multichoice/\{0\}-down.png}"/>
                                 </Grid>
 
                                 <Grid x:Name="gridDisabledAppearance" Visibility="Hidden">
-                                    <Image Source="{res:ImageBinding Path=ChoiceKey, StringFormat=Resources/Images/Buttons/multichoice/\{0\}-disabled.png}"/>
+                                    <Image Source="{res:ImageBinding Path=ChoiceKey.ResourceKey, StringFormat=Resources/Images/Buttons/multichoice/\{0\}-disabled.png}"/>
                                 </Grid>
                             </Grid>
 

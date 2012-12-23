@@ -102,7 +102,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.PhaseProceedEvents[TurnPhase.Draw], trigger2);
-            IsAutoInvoked = null;
+            IsAutoInvoked = false;
         }
     }
 }

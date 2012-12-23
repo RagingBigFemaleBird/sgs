@@ -36,4 +36,26 @@ namespace Sanguosha.UI.Controls
             throw new NotImplementedException();
         }
     }
+
+    public class MultiChoiceKeyConverter : IValueConverter
+    {
+        static MultiChoiceKeyConverter()
+        {
+            dict = new ResourceDictionary();
+            dict.Source = new Uri("pack://application:,,,/Controls;component/Views/Buttons/MultiChoiceButton.xaml");
+        }
+
+        static ResourceDictionary dict;
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            OptionPrompt choiceKey = value as OptionPrompt;
+            if (choiceKey == null) return null;
+            return PromptFormatter.Format(choiceKey);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

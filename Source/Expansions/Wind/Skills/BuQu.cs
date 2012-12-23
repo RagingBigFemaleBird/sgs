@@ -88,7 +88,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                 TriggerCondition.OwnerIsTarget
             ) { Type = TriggerType.Skill };
             Triggers.Add(GameEvent.AfterHealthChanged, trigger);
-            IsAutoInvoked = null;
+            IsAutoInvoked = true;
         }
 
     }
