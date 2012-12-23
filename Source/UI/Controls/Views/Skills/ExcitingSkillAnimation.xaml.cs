@@ -72,6 +72,33 @@ namespace Sanguosha.UI.Animations
             }
         }
 
+        public Color ColorTone
+        {
+            get
+            {
+                return colorToneEffect.DarkColor;
+            }
+            set
+            {
+                colorToneEffect.DarkColor = value;
+                ((tbTranscript.Foreground) as GradientBrush).GradientStops[0].Color = value;
+            }
+        }
+
+        private bool _isFireVisible;
+        public bool IsFireVisible
+        {
+            get
+            {
+                return _isFireVisible;
+            }
+            set
+            {
+                _isFireVisible = value;
+                gridFlame.Visibility = _isFireVisible ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
         public string SkillName
         {
             get
@@ -80,7 +107,13 @@ namespace Sanguosha.UI.Animations
             }
             set
             {
-                _model.SkillName = value;    
+                if (_model.SkillName == value) return;
+                _model.SkillName = value;
+                bool? doFire = Application.Current.TryFindResource(string.Format("Skill.{0}.DoFire", value)) as bool?;
+                if (doFire == true) IsFireVisible = true;
+                else IsFireVisible = false;
+                Color? color = Application.Current.TryFindResource(string.Format("Skill.{0}.ColorTone", value)) as Color?;
+                if (color != null) ColorTone = (Color)color;
             }
         }
     }

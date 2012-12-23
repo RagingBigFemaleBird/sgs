@@ -346,6 +346,7 @@
   <ItemGroup>
     <Resource Include="Views\Resources\SkillButton\lock\locked.png" />
     <Resource Include="Views\Resources\SkillButton\lock\unlocked.png" />
+    <Resource Include="Views\Resources\Miscellaneous\FireMap.png" />
     <Content Include="WPFToolkit.Extended.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath32)\Microsoft.CSharp.targets" />

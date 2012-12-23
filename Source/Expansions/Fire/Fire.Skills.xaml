@@ -75,6 +75,8 @@
     <sys:String x:Key="Skill.YeYan.Usage">点“业炎”→选中四张不同花色的牌（可略过）→分配伤害→点“确定”</sys:String>
     <sys:String x:Key="Skill.YeYan.Prompt">请多次点击同一目标以分配多点伤害</sys:String>
     <sys:String x:Key="Skill.YeYan.Transcript">红莲业火，燃尽世间万物</sys:String>
+    <sys:Boolean x:Key="Skill.YeYan.DoFire">True</sys:Boolean>
+    <Color x:Key="Skill.YeYan.ColorTone">#FFFF5560</Color>
 
     <sys:String x:Key="Skill.QiXing.Name">七星</sys:String>
     <sys:String x:Key="Skill.QiXing.Description">分发起始手牌时，共发你十一张牌，你选四张作为手牌，其余的面朝下置于一旁，称为“星”；摸牌阶段结束时，你可以用任意数量的手牌等量替换这些“星”。</sys:String>

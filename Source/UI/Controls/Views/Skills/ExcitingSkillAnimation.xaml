@@ -123,6 +123,19 @@
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:LightStreakEffect.Scale)" Storyboard.TargetName="skillNameText">
 				<EasingDoubleKeyFrame KeyTime="0:0:2.6" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
+			<Int32AnimationUsingKeyFrames Storyboard.TargetProperty="(local:FiredImage.FadeFactor)" Storyboard.TargetName="firedImage">
+				<EasingInt32KeyFrame KeyTime="0:0:0.5" Value="10"/>
+				<EasingInt32KeyFrame KeyTime="0:0:1" Value="3"/>
+				<EasingInt32KeyFrame KeyTime="0:0:1.5" Value="2"/>
+				<EasingInt32KeyFrame KeyTime="0:0:2.2" Value="3"/>
+				<EasingInt32KeyFrame KeyTime="0:0:2.6" Value="10"/>
+			</Int32AnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="firedImage">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:2.6" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
 		</Storyboard>
 	</UserControl.Resources>
 	<UserControl.Triggers>
@@ -177,7 +190,7 @@
 						</TransformGroup>
 					</Image.RenderTransform>
 					<Image.Effect>
-                        <Sanguosha_UI_Effects:ColorToneEffect DarkColor="#FF44EBE0" LightColor="White" Toned="0.5" />
+                        <Sanguosha_UI_Effects:ColorToneEffect x:Name="colorToneEffect" DarkColor="#FF44EBE0" LightColor="White" Toned="0.5" />
 					</Image.Effect>
 				</Image>
 			</Grid>
@@ -234,15 +247,33 @@
 				</ctrl:OutlinedTextBlock>
 			</Viewbox>
 		</Grid>
+		<Grid x:Name="gridFlame">
+			<Grid.OpacityMask>
+				<LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+					<GradientStop Color="#00000000" Offset="0.129"/>
+					<GradientStop Color="#00000000" Offset="0.851"/>
+					<GradientStop Color="#FF7D7D7D" Offset="0.301"/>
+					<GradientStop Color="#E8727272" Offset="0.675"/>
+				</LinearGradientBrush>
+			</Grid.OpacityMask>
+			<local:FiredImage x:Name="firedImage" FadeFactor = "10" Source="../Resources/Miscellaneous/FireMap.png" Margin="0,0,0,145" VerticalAlignment="Bottom" Height="200" >
+				<local:FiredImage.OpacityMask>
+					<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+						<GradientStop Color="#00000000"/>
+						<GradientStop Color="White" Offset="1"/>
+					</LinearGradientBrush>
+				</local:FiredImage.OpacityMask>
+			</local:FiredImage>
+		</Grid>
 		<Grid x:Name="grid2" Background="Black" Margin="0,0,0,120" VerticalAlignment="Bottom" Height="30">
 			<Grid.Effect>
 				<Sanguosha_UI_Effects:DirectionalBlurEffect Angle="180"/>
 			</Grid.Effect>
-            <TextBlock Text="{res:ResourceKeyBinding Path=SkillName,StringFormat=Skill.{0}.Transcript}" HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="26.667" FontFamily="pack://application:,,,/Resources;component/Fonts/#STXingkai" Margin="0,2,0,0">
+            <TextBlock x:Name="tbTranscript"  Text="{res:ResourceKeyBinding Path=SkillName,StringFormat=Skill.{0}.Transcript}" HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="26.667" FontFamily="pack://application:,,,/Resources;component/Fonts/#STXingkai" Margin="0,2,0,0">
 				<TextBlock.Foreground>
 					<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-						<GradientStop Color="#FFADF6FF" Offset="0.004"/>
-						<GradientStop Color="White" Offset="0.992"/>
+						<GradientStop Color="#FFADF6FF" Offset="0"/>
+						<GradientStop Color="White" Offset="1"/>
 					</LinearGradientBrush>
 				</TextBlock.Foreground>
 			</TextBlock>
