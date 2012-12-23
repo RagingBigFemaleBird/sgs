@@ -347,10 +347,10 @@ namespace Sanguosha.Core.UI
         }
 
 
-        public bool AskForMultipleChoice(Prompt prompt, List<string> questions, out int answer)
+        public bool AskForMultipleChoice(Prompt prompt, List<OptionPrompt> questions, out int answer)
         {
             bool ret = true;
-            if (!TryAskForMultipleChoice(prompt, questions, out answer))
+            if (!TryAskForMultipleChoice(out answer))
             {
                 SendNoAnswer();
                 ret = false;
@@ -372,7 +372,7 @@ namespace Sanguosha.Core.UI
             }
         }
 
-        private bool TryAskForMultipleChoice(Prompt prompt, List<string> questions, out int answer)
+        private bool TryAskForMultipleChoice(out int answer)
         {
             answer = 0;
             Trace.TraceInformation("Asking Multiple choice to {0}, timeout {1}.", HostPlayer.Id, TimeOutSeconds);

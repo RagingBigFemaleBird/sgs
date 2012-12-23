@@ -26,7 +26,7 @@
     <sys:String x:Key="CardUsage.Prompt.LuanWu">请对与你距离最近的一名其他角色使用【杀】或点“取消”失去1点体力</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.Zhiba">你可以点“取消”拒绝此次拼点</sys:String>
 
-    <sys:String x:Key="MultiChoice.Prompt.YingHun">令该角色执行下列一项</sys:String>
-    <sys:String x:Key="MultiChoice.Choice.YingHun1">摸X弃1</sys:String>
-    <sys:String x:Key="MultiChoice.Choice.YingHun2">摸1弃X</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.YingHun">请选择你要令{0}执行的动作</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.YingHun1">摸{0}张牌，弃1张牌</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.YingHun2">摸1张牌，弃{0}张牌</sys:String>
 </ResourceDictionary>

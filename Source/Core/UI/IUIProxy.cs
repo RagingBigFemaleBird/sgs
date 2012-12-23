@@ -33,7 +33,7 @@ namespace Sanguosha.Core.UI
     public class AdditionalCardChoiceOptions
     {
         public List<bool> Rearrangeable { get; set; }
-        public List<string> Options { get; set; }
+        public List<OptionPrompt> Options { get; set; }
         public List<List<Card>> DefaultResult { get; set; }
         public int OptionResult { get; set; }
     }
@@ -87,7 +87,7 @@ namespace Sanguosha.Core.UI
         /// <param name="questions">问题列表</param>
         /// <param name="answer">回答</param>
         /// <returns></returns>
-        bool AskForMultipleChoice(Prompt prompt, List<string> options, out int answer);
+        bool AskForMultipleChoice(Prompt prompt, List<OptionPrompt> options, out int answer);
 
         void Freeze();
     }

@@ -33,6 +33,15 @@ namespace Sanguosha.Core.UI
         }
     }
 
+    public class OptionPrompt : Prompt
+    {
+        public OptionPrompt(string key, params object[] args)
+            :base(MultipleChoiceOptionPrefix + key, args)
+        {
+
+        }
+    }
+
     public class Prompt
     {
         public Prompt()
@@ -80,14 +89,14 @@ namespace Sanguosha.Core.UI
         public static readonly string MultipleChoicePromptPrefix = "MultiChoice.Prompt.";
         public static readonly string MultipleChoiceOptionPrefix = "MultiChoice.Choice.";
         public static readonly string SkillUseYewNoPrompt = "SkillYesNo";
-        public static readonly string YesChoice = MultipleChoiceOptionPrefix + "Yes";
-        public static readonly string NoChoice = MultipleChoiceOptionPrefix + "No";
-        public static readonly string HeartChoice = MultipleChoiceOptionPrefix + "Heart";
-        public static readonly string SpadeChoice = MultipleChoiceOptionPrefix + "Spade";
-        public static readonly string ClubChoice = MultipleChoiceOptionPrefix + "Club";
-        public static readonly string DiamondChoice = MultipleChoiceOptionPrefix + "Diamond";
-        public static readonly List<string> YesNoChoices = new List<string>() { YesChoice, NoChoice };
-        public static readonly List<string> SuitChoices = new List<string>() { ClubChoice, SpadeChoice, HeartChoice, DiamondChoice };
+        public static readonly OptionPrompt YesChoice = new OptionPrompt("Yes");
+        public static readonly OptionPrompt NoChoice = new OptionPrompt("No");
+        public static readonly OptionPrompt HeartChoice = new OptionPrompt("Heart");
+        public static readonly OptionPrompt SpadeChoice = new OptionPrompt("Spade");
+        public static readonly OptionPrompt ClubChoice = new OptionPrompt("Club");
+        public static readonly OptionPrompt DiamondChoice = new OptionPrompt("Diamond");
+        public static readonly List<OptionPrompt> YesNoChoices = new List<OptionPrompt>() { YesChoice, NoChoice };
+        public static readonly List<OptionPrompt> SuitChoices = new List<OptionPrompt>() { ClubChoice, SpadeChoice, HeartChoice, DiamondChoice };
         #endregion
     }
 }

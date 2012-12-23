@@ -19,7 +19,8 @@ namespace Sanguosha.UI.Controls
         static ResourceDictionary dict;
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string choiceKey = value.ToString();
+            OptionPrompt choiceKey = value as OptionPrompt;
+            if (choiceKey == null) return null;
             if (Prompt.SuitChoices.Contains(choiceKey))
             {
                 return dict["MultiChoiceSuitButtonStyle"] as Style;

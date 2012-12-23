@@ -25,4 +25,6 @@
     <sys:String x:Key="CardChoice.Prompt.GuZheng">正在固政</sys:String>
     <sys:String x:Key="MultiChoice.Choice.GuZhengHuoDe">获得其余卡牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.GuZhengBuHuoDe">弃置其余卡牌</sys:String>
+    
+    <sys:String x:Key="MultiChocie.Choice.HuaShen">{0}</sys:String>
 </ResourceDictionary>

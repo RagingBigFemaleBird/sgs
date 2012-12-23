@@ -94,7 +94,7 @@ namespace Sanguosha.Core.UI
             }
         }
 
-        public bool AskForMultipleChoice(Prompt prompt, List<string> questions, out int answer)
+        public bool AskForMultipleChoice(Prompt prompt, List<OptionPrompt> questions, out int answer)
         {
             throw new NotImplementedException();
         }

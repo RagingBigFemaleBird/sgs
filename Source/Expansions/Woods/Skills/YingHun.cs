@@ -49,7 +49,10 @@ namespace Sanguosha.Expansions.Woods.Skills
                 return;
             };
             int answer = 0;
-            Game.CurrentGame.UiProxies[owner].AskForMultipleChoice(new MultipleChoicePrompt("YingHun"), new List<string>() { Prompt.MultipleChoiceOptionPrefix + "YingHun1", Prompt.MultipleChoiceOptionPrefix + "YingHun2" }, out answer);
+            Game.CurrentGame.UiProxies[owner].AskForMultipleChoice(
+                new MultipleChoicePrompt("YingHun", players[0]),
+                new List<OptionPrompt>() { new OptionPrompt("YingHun1", x), new OptionPrompt("YingHun2", x) },
+                out answer);
             if (answer == 0)
             {
                 Game.CurrentGame.DrawCards(players[0], x);

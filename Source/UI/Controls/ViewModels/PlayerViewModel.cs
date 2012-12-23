@@ -1422,7 +1422,7 @@ namespace Sanguosha.UI.Controls
                 MultiChoiceCommand command = new MultiChoiceCommand(ExecuteCardChoiceCommand)
                 {
                     CanExecuteStatus = true,
-                    ChoiceKey = Prompt.MultipleChoiceOptionPrefix + "Confirm"
+                    ChoiceKey = new OptionPrompt("Confirm")
                 };
                 choiceModel.MultiChoiceCommands.Add(command);
             }
@@ -1499,9 +1499,9 @@ namespace Sanguosha.UI.Controls
             set;
         }
 
-        private List<string> _currentMultiChoices;
+        private List<OptionPrompt> _currentMultiChoices;
 
-        public void AskForMultipleChoice(Prompt prompt, List<string> choices, int timeOutSeconds)
+        public void AskForMultipleChoice(Prompt prompt, List<OptionPrompt> choices, int timeOutSeconds)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {

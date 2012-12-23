@@ -730,11 +730,11 @@ namespace Sanguosha.UI.Controls
             });
         }
 
-        public void NotifyMultipleChoiceResult(Player p, string answer)
+        public void NotifyMultipleChoiceResult(Player p, OptionPrompt answer)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                gameLogs.AppendMultipleChoiceLog(p, answer);
+                gameLogs.AppendMultipleChoiceLog(p, PromptFormatter.Format(answer));
             });
         }
 

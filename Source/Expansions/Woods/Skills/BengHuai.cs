@@ -34,7 +34,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                 (p, e, a) =>
                 {
                     int answer = 0;
-                    Game.CurrentGame.UiProxies[p].AskForMultipleChoice(new MultipleChoicePrompt("BengHuai"), new List<string>() { "TiLiZhi", "TiLiShangXian" }, out answer);
+                    Game.CurrentGame.UiProxies[p].AskForMultipleChoice(new MultipleChoicePrompt("BengHuai"), new List<OptionPrompt>() { new OptionPrompt("TiLiZhi"), new OptionPrompt("TiLiShangXian") }, out answer);
                     if (answer == 0)
                     {
                         Game.CurrentGame.LoseHealth(p, 1);

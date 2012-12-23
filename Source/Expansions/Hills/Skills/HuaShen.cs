@@ -57,12 +57,12 @@ namespace Sanguosha.Expansions.Hills.Skills
             Trace.Assert(answer[0][0].Type is HeroCardHandler);
             var handler = answer[0][0].Type as HeroCardHandler;
             List<ISkill> skills = new List<ISkill>();
-            List<string> hsOptions = new List<string>();
+            List<OptionPrompt> hsOptions = new List<OptionPrompt>();
             foreach (var sk in handler.Hero.Skills)
             {
                 if (sk.IsAwakening || sk.IsRulerOnly || sk.IsSingleUse) continue;
                 skills.Add(sk);
-                hsOptions.Add(string.Format("Skill.{0}.Name", sk.GetType().Name));
+                hsOptions.Add(new OptionPrompt("HuaShen", sk));
             }
             int skanswer;
             Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("HuaShen"), hsOptions, out skanswer);

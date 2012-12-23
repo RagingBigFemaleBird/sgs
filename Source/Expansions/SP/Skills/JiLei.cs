@@ -23,10 +23,10 @@ namespace Sanguosha.Expansions.SP.Skills
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             int answer = 0;
-            List<string> JiLeiQuestion = new List<string>();
-            JiLeiQuestion.Add(Prompt.MultipleChoiceOptionPrefix + "JiBen");
-            JiLeiQuestion.Add(Prompt.MultipleChoiceOptionPrefix + "JinNang");
-            JiLeiQuestion.Add(Prompt.MultipleChoiceOptionPrefix + "ZhuangBei");
+            List<OptionPrompt> JiLeiQuestion = new List<OptionPrompt>();
+            JiLeiQuestion.Add(new OptionPrompt("JiBen"));
+            JiLeiQuestion.Add(new OptionPrompt("JinNang"));
+            JiLeiQuestion.Add(new OptionPrompt("ZhuangBei"));
             JiLeiQuestion.Add(Prompt.NoChoice);
             if (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(
                 new MultipleChoicePrompt("JiLei", eventArgs.Source), JiLeiQuestion, out answer))

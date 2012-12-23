@@ -31,7 +31,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 {
                     p[ZhiJiAwaken] = 1;
                     int answer = 0;
-                    Game.CurrentGame.UiProxies[p].AskForMultipleChoice(new MultipleChoicePrompt("ZhiJi"), new List<string>() { "MoPai", "HuiFuTiLi" }, out answer);
+                    Game.CurrentGame.UiProxies[p].AskForMultipleChoice(new MultipleChoicePrompt("ZhiJi"), new List<OptionPrompt>() { new OptionPrompt("MoPai"), new OptionPrompt("HuiFuTiLi") }, out answer);
                     if (answer == 1)
                     {
                         Game.CurrentGame.RecoverHealth(p, p, 1);

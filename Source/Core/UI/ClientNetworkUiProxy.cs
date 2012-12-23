@@ -184,7 +184,7 @@ namespace Sanguosha.Core.UI
             return false;
         }
 
-        public bool AskForMultipleChoice(Prompt prompt, List<string> questions, out int answer)
+        public bool AskForMultipleChoice(Prompt prompt, List<OptionPrompt> questions, out int answer)
         {
             Trace.TraceInformation("Asking Multiple choice to {0}.", HostPlayer.Id);
             TryAskForMultipleChoice(prompt, questions);
@@ -196,7 +196,7 @@ namespace Sanguosha.Core.UI
             {
                 Trace.TraceInformation("Not active player, defaulting.");
             }
-            if (TryAnswerForMultipleChoice(questions, out answer))
+            if (TryAnswerForMultipleChoice(out answer))
             {
                 Game.CurrentGame.NotificationProxy.NotifyMultipleChoiceResult(HostPlayer, questions[answer]);
                 proxy.Freeze();
@@ -207,7 +207,7 @@ namespace Sanguosha.Core.UI
             return false;
         }
 
-        private bool TryAnswerForMultipleChoice(List<string> questions, out int answer)
+        private bool TryAnswerForMultipleChoice(out int answer)
         {
             answer = 0;
             object o = client.Receive();
@@ -219,7 +219,7 @@ namespace Sanguosha.Core.UI
             return true;
         }
 
-        private void TryAskForMultipleChoice(Prompt prompt, List<string> questions)
+        private void TryAskForMultipleChoice(Prompt prompt, List<OptionPrompt> questions)
         {
             int answer;
             if (!active)

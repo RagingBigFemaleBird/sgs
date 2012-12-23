@@ -18,7 +18,7 @@ namespace Sanguosha.Core.UI
         Player HostPlayer { get; set; }
         void AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, int timeOutSeconds);
         void AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, int timeOutSeconds, AdditionalCardChoiceOptions options, CardChoiceRearrangeCallback callback);
-        void AskForMultipleChoice(Prompt prompt, List<string> questions, int timeOutSeconds);
+        void AskForMultipleChoice(Prompt prompt, List<OptionPrompt> questions, int timeOutSeconds);
         event CardUsageAnsweredEventHandler CardUsageAnsweredEvent;
         event CardChoiceAnsweredEventHandler CardChoiceAnsweredEvent;
         event MultipleChoiceAnsweredEventHandler MultipleChoiceAnsweredEvent;

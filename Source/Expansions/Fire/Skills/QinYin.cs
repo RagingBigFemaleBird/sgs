@@ -31,9 +31,9 @@ namespace Sanguosha.Expansions.Fire.Skills
             }
             if (owner[QinYinUsable] >= 2)
             {
-                List<string> QinYinQuestion = new List<string>();
-                QinYinQuestion.Add(Prompt.MultipleChoiceOptionPrefix + "QinYinHuiFu");
-                QinYinQuestion.Add(Prompt.MultipleChoiceOptionPrefix + "QinYinShiQu");
+                List<OptionPrompt> QinYinQuestion = new List<OptionPrompt>();
+                QinYinQuestion.Add(new OptionPrompt("QinYinHuiFu"));
+                QinYinQuestion.Add(new OptionPrompt("QinYinShiQu"));
                 QinYinQuestion.Add(Prompt.NoChoice);
                 int answer;
                 var toProcess = Game.CurrentGame.AlivePlayers;

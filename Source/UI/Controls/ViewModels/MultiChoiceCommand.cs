@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Sanguosha.Core.UI;
 
 namespace Sanguosha.UI.Controls
 {
@@ -17,8 +18,8 @@ namespace Sanguosha.UI.Controls
             base.Execute(choiceIndex);
         }
 
-        private string choiceKey;
-        public string ChoiceKey
+        private OptionPrompt choiceKey;
+        public OptionPrompt ChoiceKey
         {
             get
             {
