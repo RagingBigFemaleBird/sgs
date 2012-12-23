@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows;
+using System.Threading;
 
 namespace Sanguosha.UI.Controls
 {
@@ -33,27 +35,66 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        private static Uri currentBgm;
+        private static bool _isMute;
+        public static bool IsMute
+        {
+            get
+            {
+                return _isMute;
+            }
+            set
+            {
+                if (_isMute == value) return;
+                Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+                {
+                    if (value)
+                    {
+                        if (_bgmPlayer != null)
+                        {
+                            _bgmPlayer.Stop();
+                        }
+                        if (_effectPlayers != null)
+                        {
+                            foreach (var player in _effectPlayers)
+                            {
+                                player.Stop();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (_bgmPlayer != null)
+                        {
+                            _bgmPlayer.Play();
+                        }
+                    }
+                });
+                _isMute = value;
+            }
+        }
 
+        private static Uri currentBgm;
+        
         public static void PlayBackgroundMusic(Uri uri)
         {
             if (uri == null) return;
             if (_bgmPlayer == null) _bgmPlayer = new MediaPlayer();
             currentBgm = uri;
             _bgmPlayer.Open(uri);
-            _bgmPlayer.Play();
+            if (!_isMute) _bgmPlayer.Play();
             _bgmPlayer.MediaEnded += new EventHandler(_bgmPlayer_MediaEnded);
+            
         }
 
         static void _bgmPlayer_MediaEnded(object sender, EventArgs e)
         {
             _bgmPlayer.Position = new TimeSpan(0);
-            _bgmPlayer.Play();
+            if (!_isMute) _bgmPlayer.Play();
         }
 
         public static void PlaySoundEffect(Uri uri)
         {
-            if (uri == null) return;
+            if (uri == null || _isMute) return;
             if (_effectPlayers == null)
             {
                 _effectPlayers = new List<MediaPlayer>();

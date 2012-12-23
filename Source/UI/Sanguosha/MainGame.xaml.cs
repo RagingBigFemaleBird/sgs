@@ -203,5 +203,19 @@ namespace Sanguosha.UI.Main
             ctrlGetSkill.DataContext = model;
         }
 
+        private void muteButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {        	
+            muteButton.Visibility = Visibility.Collapsed;
+            soundButton.Visibility = Visibility.Visible;
+            GameSoundPlayer.IsMute = true;
+        }
+		
+		private void soundButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            soundButton.Visibility = Visibility.Collapsed;
+            muteButton.Visibility = Visibility.Visible;
+            GameSoundPlayer.IsMute = false;
+        }
+
     }
 }

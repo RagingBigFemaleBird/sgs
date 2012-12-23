@@ -17,6 +17,14 @@
         <Menu x:Name="mainMenu" Style="{DynamicResource MainMenuStyle}">
             <MenuItem Padding="0" Style="{DynamicResource MenuItemStyle1}" Height="20">
                 <MenuItem.Header>
+                	<Grid>
+                		<Button x:Name="muteButton" Style="{DynamicResource MuteButtonStyle}" Click="muteButton_Click" />
+						<Button x:Name="soundButton" Style="{DynamicResource SoundButtonStyle}" Visibility="Collapsed" Click="soundButton_Click"/>	
+					</Grid>                    
+                </MenuItem.Header>     	
+            </MenuItem>
+			<MenuItem Padding="0" Style="{DynamicResource MenuItemStyle1}" Height="20">
+                <MenuItem.Header>
                     <Button Style="{DynamicResource DefaultButtonStyleDark}" Height="20" Padding="1,0,2,0" Margin="0,0,0,0">
                         <Image Height="14" Source="/Resources;component/Images/System/btnSettings.png" Stretch="Fill" Width="16"/>	        	
                     </Button>    		
