@@ -234,6 +234,14 @@
                 </Setter>
             </Style>
             <Storyboard x:Key="Countdown"/>
+			<Storyboard x:Key="sbStartImpersonate" RepeatBehavior="Forever" AutoReverse="True">
+            	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:RippleTransitionEffect.Progress)" Storyboard.TargetName="heroPhoto">
+            		<EasingDoubleKeyFrame KeyTime="0" Value="100"/>
+            		<EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+            		<EasingDoubleKeyFrame KeyTime="0:0:5" Value="0"/>
+            		<EasingDoubleKeyFrame KeyTime="0:0:6" Value="100"/>
+            	</DoubleAnimationUsingKeyFrames>
+            </Storyboard>
             <Storyboard x:Key="sbDeathTransition">
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:MonochromeEffect.Strength)" Storyboard.TargetName="grid">
                     <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
@@ -339,6 +347,9 @@
                     <Image.ToolTip>
                         <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
                     </Image.ToolTip>
+					<Image.Effect>
+                    	<Sanguosha_UI_Effects:RippleTransitionEffect x:Name="impersonateEffect" Progress="100"/>
+                    </Image.Effect>
                     <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
                 </Image>
 				<Rectangle Visibility="{Binding IsDrank, Converter={StaticResource boolToVisibilityConverter}}" >

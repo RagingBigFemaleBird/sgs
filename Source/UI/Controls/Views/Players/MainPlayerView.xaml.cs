@@ -107,6 +107,26 @@ namespace Sanguosha.UI.Controls
                     tieSuoAnimation2.Start();
                 }
             }
+            else if (e.PropertyName == "ImpersonatedHeroName")
+            {
+                Sanguosha.UI.Resources.FileNameToImageSourceConverter converter = new UI.Resources.FileNameToImageSourceConverter();
+                
+                converter.StringFormat = "Resources/Images/Heroes/Full/{0}.png";
+                converter.ResourceKeyFormat = "Hero.{0}.Image";
+                converter.CropRect = new Int32Rect(71,28,145,145);
+                ImageSource source = converter.Convert(new object[]{ this, model.ImpersonatedHeroName }, typeof(ImageSource), null, null) as ImageSource;
+                impersonateEffect.Texture2 = new ImageBrush(source);
+
+                Storyboard sb = (Resources["sbStartImpersonate"] as Storyboard);
+                if (!string.IsNullOrEmpty(model.ImpersonatedHeroName))
+                {
+                    sb.Begin();
+                }
+                else
+                {
+                    sb.Stop();
+                }
+            }
         }
 
         public override void PlayIronShackleAnimation()
