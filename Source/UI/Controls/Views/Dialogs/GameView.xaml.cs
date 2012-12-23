@@ -838,7 +838,10 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyGameStart()
         {
-            GameSoundPlayer.PlayBackgroundMusic(GameSoundLocator.GetBgm());
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                GameSoundPlayer.PlayBackgroundMusic(GameSoundLocator.GetBgm());
+            });
         }
 
         public void NotifyJudge(Player p, Card card, ActionLog log, bool? isSuccess)
