@@ -17,7 +17,7 @@ namespace Sanguosha.Core.Cards
         {
             Name = attrName;
         }
-
+        
         private string name;
 
         public string Name
@@ -26,10 +26,14 @@ namespace Sanguosha.Core.Cards
             set { name = value; }
         }
 
-        static Dictionary<string, CardAttribute> _attributeNames = new Dictionary<string, CardAttribute>();
+        static Dictionary<string, CardAttribute> _attributeNames;
 
         public static CardAttribute Register(string attributeName)
         {
+            if (_attributeNames == null)
+            {
+                _attributeNames = new Dictionary<string, CardAttribute>();
+            }
             if (_attributeNames.ContainsKey(attributeName))
             {
                 throw new DuplicateAttributeKeyException(attributeName);

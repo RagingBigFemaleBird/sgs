@@ -40,10 +40,14 @@ namespace Sanguosha.Core.Players
             set { isMark = value; }
         }
 
-        static Dictionary<string, PlayerAttribute> _attributeNames = new Dictionary<string, PlayerAttribute>();
+        static Dictionary<string, PlayerAttribute> _attributeNames;
 
         public static PlayerAttribute Register(string attributeName, bool autoReset = false, bool isAMark = false)
         {
+            if (_attributeNames == null)
+            {
+                _attributeNames = new Dictionary<string, PlayerAttribute>();
+            }
             if (_attributeNames.ContainsKey(attributeName))
             {
                 throw new DuplicateAttributeKeyException(attributeName);
