@@ -36,7 +36,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             List<int> resultDeckMax = new List<int>();
             resultDeckMax.Add(1);
             List<List<Card>> answer;
-            if (!ui.AskForCardChoice(new CardChoicePrompt(ChoicePrompt), places, resultDeckPlace, resultDeckMax, new RequireOneCardChoiceVerifier(), out answer))
+            if (!ui.AskForCardChoice(new CardChoicePrompt(ChoicePrompt), places, resultDeckPlace, resultDeckMax, new RequireOneCardChoiceVerifier(true), out answer))
             {
                 Trace.TraceInformation("Player {0} Invalid answer", source.Id);
                 answer = new List<List<Card>>();
@@ -47,7 +47,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 answer[0].Add(collection.First());
             }
             Card theCard = answer[0][0];
-            Game.CurrentGame.SyncCardAll(ref theCard);
+            Game.CurrentGame.SyncCard(dest, ref theCard);
             Trace.Assert(answer.Count == 1 && answer[0].Count == 1);
 
             if (ShunChaiDest(source, dest).DeckType == DeckType.Discard)

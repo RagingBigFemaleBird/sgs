@@ -69,8 +69,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                         answer = new List<List<Card>>();
                         answer.Add(new List<Card>());
                         var collection = Game.CurrentGame.Decks[dest, DeckType.Hand].Concat
-                                         (Game.CurrentGame.Decks[dest, DeckType.DelayedTools].Concat
-                                         (Game.CurrentGame.Decks[dest, DeckType.Equipment]));
+                                         (Game.CurrentGame.Decks[dest, DeckType.Equipment]);
                         answer[0].Add(collection.First());
                     }
                     Card theCard = answer[0][0];
