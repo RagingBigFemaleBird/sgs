@@ -193,8 +193,9 @@ namespace Sanguosha.Core.Games
                 {
                     return;
                 }
-                card = GameClient.Receive() as Card;
-                Trace.Assert(card != null);
+                var recv = GameClient.Receive();
+                Trace.Assert(recv is Card);
+                card = recv as Card;
             }
             else if (GameServer != null)
             {

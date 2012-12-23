@@ -48,7 +48,7 @@ namespace Sanguosha.Expansions.SP.Skills
                     IUiProxy ui = Game.CurrentGame.UiProxies[Owner];
                     List<List<Card>> answer;
 
-                    if (!ui.AskForCardChoice(new CardChoicePrompt("ZuiXiang"), new List<DeckPlace>() {new DeckPlace(null, mjDeck)}, new List<string>() {"ZuiXiang"}, new List<int>() {1}, new RequireOneCardChoiceVerifier(), out answer))
+                    if (!ui.AskForCardChoice(new CardChoicePrompt("ManJuan"), new List<DeckPlace>() {new DeckPlace(null, mjDeck)}, new List<string>() {"ZuiXiang"}, new List<int>() {1}, new RequireOneCardChoiceVerifier(), out answer))
                     {
                         Trace.TraceInformation("Player {0} Invalid answer", Owner);
                         answer = new List<List<Card>>();

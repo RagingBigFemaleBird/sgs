@@ -20,7 +20,7 @@ namespace Sanguosha.Expansions.SP.Skills
     /// </summary>
     public class ZuiXiang : TriggerSkill
     {
-        DeckType zxDeck = new DeckType("ZuiXiang");
+        PrivateDeckType zxDeck = new PrivateDeckType("ZuiXiang", true);
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             if (Owner[ZuiXiangDone] == 1) return;

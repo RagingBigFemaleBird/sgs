@@ -12,6 +12,7 @@
     <sys:String x:Key="Hero.YangXiu.Name">杨修</sys:String>
     <sys:String x:Key="Hero.YuanShu.Name">袁术</sys:String>
     <sys:String x:Key="Hero.GuanYinPing.Name">关银屏</sys:String>
+    <sys:String x:Key="Hero.SPPangTong.Name">SP庞统</sys:String>
 
     <sys:String x:Key="Skill.WeiDi.Name">伪帝</sys:String>
     <sys:String x:Key="Skill.YongSi.Name">庸肆</sys:String>
