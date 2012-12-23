@@ -46,6 +46,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                                     return 1 - i;
                                 },
                                 true);
+                return;
             };
             int answer = 0;
             Game.CurrentGame.UiProxies[owner].AskForMultipleChoice(new MultipleChoicePrompt("YingHun"), new List<string>() { Prompt.MultipleChoiceOptionPrefix + "YingHun1", Prompt.MultipleChoiceOptionPrefix + "YingHun2" }, out answer);
