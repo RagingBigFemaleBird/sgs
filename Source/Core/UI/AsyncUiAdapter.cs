@@ -70,42 +70,34 @@ namespace Sanguosha.Core.UI
         {
             answerPending = new Semaphore(0, 1);
             proxy.AskForCardUsage(prompt, verifier, TimeOutSeconds);
+            skill = null;
+            cards = null;
+            players = null;
             if (answerPending.WaitOne(TimeOutSeconds * 1000))
             {
                 skill = answerSkill;
                 cards = answerCards;
                 players = answerPlayers;
             }
-            else
-            {
-                skill = null;
-                cards = null;
-                players = null;
-            }
-            if (verifier.FastVerify(HostPlayer, answerSkill, answerCards, answerPlayers) == VerifierResult.Success)
-            {
-                return true;
-            }
-            return false;
+            cards = cards ?? new List<Card>();
+            players = players ?? new List<Player>();
+            return (verifier.FastVerify(HostPlayer, answerSkill, answerCards, answerPlayers) == VerifierResult.Success)
         }
 
         public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, AdditionalCardChoiceOptions options, CardChoiceRearrangeCallback callback)
         {
             answerPending = new Semaphore(0, 1);
             proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, TimeOutSeconds, options, callback);
+            answer = null;
             if (answerPending.WaitOne(TimeOutSeconds * 1000))
             {
                 answer = answerCardsOfCards;
             }
-            else
+            if (answer == null)
             {
-                answer = null;
+                answer = new List<List<Card>>();
             }
-            if (verifier.Verify(answer) == VerifierResult.Success)
-            {
-                return true;
-            }
-            return false;
+            return (verifier.Verify(answer) == VerifierResult.Success);
         }
 
         public bool AskForMultipleChoice(Prompt prompt, List<string> questions, out int answer)

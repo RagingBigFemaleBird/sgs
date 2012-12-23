@@ -54,9 +54,20 @@ namespace Sanguosha.UI.Controls
                     {
                         var c = o as CardViewModel;
                         model.Answer.Clear();
+                        model.Answer.Add(new List<Card>());
                         if (c.IsSelected)
                         {
-                            model.Answer.Add(new List<Card>() { c.Card });
+                            model.Answer[0].Add(c.Card);
+                            foreach (var otherCardStack in model.CardStacks)
+                            {
+                                foreach (var otherCard in otherCardStack.Cards)
+                                {
+                                    if (otherCard != o)
+                                    {
+                                        otherCard.IsSelected = false;
+                                    }
+                                }
+                            }
                             if (model.MultiChoiceCommands.Count == 1)
                             {
                                 model.MultiChoiceCommands.First().Execute(null);
