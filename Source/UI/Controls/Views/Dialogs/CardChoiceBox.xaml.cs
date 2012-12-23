@@ -72,6 +72,22 @@ namespace Sanguosha.UI.Controls
                             {
                                 model.MultiChoiceCommands.First().Execute(null);
                             }
+                            else
+                            {
+                                foreach (var command in model.MultiChoiceCommands)
+                                {
+                                    MultiChoiceCommand mc = command as MultiChoiceCommand;
+                                    mc.CanExecuteStatus = true;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (var command in model.MultiChoiceCommands)
+                            {
+                                MultiChoiceCommand mc = command as MultiChoiceCommand;
+                                mc.CanExecuteStatus = false;
+                            }
                         }
                     };                    
                 }

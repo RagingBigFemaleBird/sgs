@@ -243,20 +243,7 @@ namespace Sanguosha.UI.Controls
         {
             PlayerViewModel model = sender as PlayerViewModel;
             Trace.Assert(model != null, "Property change is expected to be associate with a PlayerViewModel");
-            if (e.PropertyName == "IsCardChoiceQuestionShown")
-            {
-                if (model.IsCardChoiceQuestionShown)
-                {
-                    cardChoiceBoxBody.Children.Add(CardChoiceBoxSelector.CreateBox(GameModel.MainPlayerModel.CardChoiceModel));
-                    cardChoiceWindow.Show();
-                }
-                else
-                {
-                    cardChoiceBoxBody.Children.Clear();
-                    cardChoiceWindow.Close();
-                }
-            }
-            else if (e.PropertyName == "TimeOutSeconds")
+            if (e.PropertyName == "TimeOutSeconds")
             {
                 Duration duration = new Duration(TimeSpan.FromSeconds(model.TimeOutSeconds));
                 DoubleAnimation doubleanimation = new DoubleAnimation(100d, 0d, duration);
@@ -318,8 +305,33 @@ namespace Sanguosha.UI.Controls
             {
                 PlayerViewModel model = sender as PlayerViewModel;
                 int count = GameModel.PlayerModels.Count;
-
-                if (e.PropertyName == "Role")
+                if (e.PropertyName == "IsCardChoiceQuestionShown")
+                {
+                    if (model.IsCardChoiceQuestionShown)
+                    {
+                        cardChoiceWindow.Caption = model.CardChoiceModel.Prompt;
+                        var box = CardChoiceBoxSelector.CreateBox(model.CardChoiceModel);
+                        if (box is CardArrangeBox)
+                        {
+                            (box as CardArrangeBox).OnCardMoved += (s1, s2, d1, d2) =>
+                            {
+                                var callback = model.CurrentCardChoiceRearrangeCallback;
+                                if (callback != null)
+                                {
+                                    callback(new UiCardRearrangement(s1, s2, d1, d2));
+                                }
+                            };
+                        }
+                        cardChoiceBoxBody.Children.Add(box);
+                        cardChoiceWindow.Show();
+                    }
+                    else
+                    {
+                        cardChoiceBoxBody.Children.Clear();
+                        cardChoiceWindow.Close();
+                    }
+                }
+                else if (e.PropertyName == "Role")
                 {
                     int index;
                     for (index = 0; index < count; index++)
@@ -777,6 +789,14 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyCardChoiceCallback(object o)
         {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                if (cardChoiceBoxBody.Children.Count == 0) return;
+                var box = cardChoiceBoxBody.Children[0] as CardArrangeBox;
+                if (box == null) return;
+                UiCardRearrangement arrange = (UiCardRearrangement)o;
+                box.MoveCard(arrange);
+            });
         }
 
         public void NotifyImpersonation(Player p, Core.Heroes.Hero h, ISkill s)

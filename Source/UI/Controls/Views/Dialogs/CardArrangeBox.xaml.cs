@@ -18,6 +18,31 @@ using Sanguosha.Core.Cards;
 namespace Sanguosha.UI.Controls
 {
     /// <summary>
+    /// Notifies movement of a card from a deck to another.
+    /// </summary>
+    /// <param name="sourceDeckIndex">Index of source deck in all decks.</param>
+    /// <param name="sourceCardIndex">Index of the moved card in the source deck.</param>
+    /// <param name="destDeckIndex">Index of destination deck in all decks.</param>
+    /// <param name="destCardIndex">New position of the moved card in destination deck.</param>
+    public delegate void OnCardArrange(int sourceDeckIndex, int sourceCardIndex, int destDeckIndex, int destCardIndex);
+
+    [Serializable]
+    public struct UiCardRearrangement
+    {
+        public int SourceDeckIndex;
+        public int SourceCardIndex;
+        public int DestDeckIndex;
+        public int DestCardIndex;
+        public UiCardRearrangement(int sourceDeckIndex, int sourceCardIndex, int destDeckIndex, int destCardIndex) : this()
+        {
+            SourceDeckIndex = sourceDeckIndex;
+            SourceCardIndex = sourceCardIndex;
+            DestDeckIndex = destDeckIndex;
+            DestCardIndex = destCardIndex;
+        }
+    }
+
+    /// <summary>
     /// Interaction logic for CardArrangeBox.xaml
     /// </summary>
     public partial class CardArrangeBox : UserControl
@@ -40,6 +65,8 @@ namespace Sanguosha.UI.Controls
 
         private StackPanel _resultSlotPanel;
         private StackPanel _resultPanel;
+
+        public event OnCardArrange OnCardMoved;
 
         void CardArrangeBox_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {            
@@ -214,12 +241,19 @@ namespace Sanguosha.UI.Controls
         }
 
         private void _UpdateVerifiedStatus()
-        {
+        {            
             CardChoiceViewModel model = DataContext as CardChoiceViewModel;
-            if (model == null) return;
+            if (model == null || model.DisplayOnly) return;
 
             int i = 0;
             while (!model.CardStacks[i].IsResultDeck) i++;
+
+            bool enabled = (model.Verifier.Verify(model.Answer) == Core.UI.VerifierResult.Success);
+            foreach (var option in model.MultiChoiceCommands)
+            {
+                var mc = option as MultiChoiceCommand;
+                mc.CanExecuteStatus = enabled;
+            }
 
             foreach (var stack in _allCardStacks)
             {
@@ -259,6 +293,25 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public void MoveCard(UiCardRearrangement move)
+        {
+            if (_allCardStacks.Count <= Math.Max(move.SourceDeckIndex, move.DestDeckIndex)) return;
+            var sourceDeck = _allCardStacks[move.SourceDeckIndex];
+            var destDeck = _allCardStacks[move.DestDeckIndex];
+            
+            if (sourceDeck.Cards.Count <= move.SourceCardIndex) return;
+            var card = sourceDeck.Cards[move.SourceCardIndex];
+            sourceDeck.Cards.RemoveAt(move.SourceCardIndex);
+
+            if (destDeck.Cards.Count < move.DestCardIndex) return;
+            destDeck.Cards.Insert(move.DestCardIndex, card);
+            sourceDeck.RearrangeCards(0.2d);
+            if (destDeck != sourceDeck)
+            {
+                destDeck.RearrangeCards(0.2d);
+            }
+        }
+
         private CardStack _sourceDeck;
         
         private void cardView_OnDragEnd(object sender, EventArgs e)
@@ -274,6 +327,8 @@ namespace Sanguosha.UI.Controls
                     int newPos = _highlightedStack.InteractingCardIndex;
                     List<CardView> backup1 = new List<CardView>(_sourceDeck.Cards);
                     List<CardView> backup2 = null;
+                    int from = _sourceDeck.Cards.IndexOf(InteractingCard);
+                    int to = newPos;
                     _sourceDeck.Cards.Remove(InteractingCard);
                     _highlightedStack.Cards.Insert(newPos, InteractingCard);
                     _sourceDeck.InteractingCard = null;
@@ -286,8 +341,6 @@ namespace Sanguosha.UI.Controls
                         _highlightedStack.CardStatus = CardInteraction.None;
                         _highlightedStack.RearrangeCards(0.2d);
                     }
-                    _sourceDeck = null;
-                    _highlightedStack = null;
                     _UpdateAnswer();
                     if (model.Verifier.Verify(model.Answer) == Core.UI.VerifierResult.Fail)
                     {
@@ -304,6 +357,19 @@ namespace Sanguosha.UI.Controls
                             _highlightedStack.RearrangeCards(0.2d);
                         }
                     }
+                    else
+                    {
+                        var handle = OnCardMoved;
+                        if (handle != null)
+                        {
+                            int s = _allCardStacks.IndexOf(_sourceDeck);
+                            int d = _allCardStacks.IndexOf(_highlightedStack);
+                            Trace.Assert(s >= 0 && d >= 0 && from >= 0 && to >= 0);
+                            handle(s, from, d, to);
+                        }
+                    }
+                    _sourceDeck = null;
+                    _highlightedStack = null;
                 }
                 else if (_sourceDeck != null)
                 {

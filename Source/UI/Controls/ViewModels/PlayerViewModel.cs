@@ -1410,7 +1410,7 @@ namespace Sanguosha.UI.Controls
                 {
                     MultiChoiceCommand command = new MultiChoiceCommand(ExecuteCardChoiceCommand)
                     {
-                        CanExecuteStatus = true,
+                        CanExecuteStatus = false,
                         ChoiceKey = options.Options[i],
                         ChoiceIndex = i
                     };
@@ -1421,7 +1421,7 @@ namespace Sanguosha.UI.Controls
             {
                 MultiChoiceCommand command = new MultiChoiceCommand(ExecuteCardChoiceCommand)
                 {
-                    CanExecuteStatus = true,
+                    CanExecuteStatus = false,
                     ChoiceKey = new OptionPrompt("Confirm")
                 };
                 choiceModel.MultiChoiceCommands.Add(command);
@@ -1463,6 +1463,12 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public CardChoiceRearrangeCallback CurrentCardChoiceRearrangeCallback
+        {
+            get;
+            private set;
+        }
+
         public void AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks,
                                      List<string> resultDeckNames,
                                      List<int> resultDeckMaximums,
@@ -1475,18 +1481,27 @@ namespace Sanguosha.UI.Controls
 
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                if (!IsPlayable)
-                {
-                    Trace.Assert(currentUsageVerifier == null);
-                    TimeOutSeconds = timeOutSeconds;
-                    CardChoiceAnsweredEvent(null);
-                    return;
-                }
-
                 lock (verifierLock)
                 {
+                    if (!IsPlayable)
+                    {
+                        Trace.Assert(currentUsageVerifier == null);
+                        TimeOutSeconds = timeOutSeconds;
+                        CardChoiceAnsweredEvent(null);
+                    }
                     _currentChoiceOptions = options;
                     _ConstructCardChoiceModel(sourceDecks, resultDeckNames, resultDeckMaximums, options, verifier, timeOutSeconds, callback);
+                    if (!IsPlayable)
+                    {
+                        CardChoiceModel.DisplayOnly = true;
+                        prompt.ResourceKey = prompt.ResourceKey + Prompt.NonPlaybleAppendix;
+                        prompt.Values.Insert(0, Player);
+                        CurrentCardChoiceRearrangeCallback = null;
+                    }
+                    else
+                    {
+                        CurrentCardChoiceRearrangeCallback = callback;
+                    }
                     CardChoiceModel.Prompt = PromptFormatter.Format(prompt);
                     IsCardChoiceQuestionShown = true;
                 }

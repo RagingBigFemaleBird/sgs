@@ -88,6 +88,7 @@ namespace Sanguosha.Core.UI
         #region Multiple Choice Constants
         public static readonly string MultipleChoicePromptPrefix = "MultiChoice.Prompt.";
         public static readonly string MultipleChoiceOptionPrefix = "MultiChoice.Choice.";
+        public static readonly string NonPlaybleAppendix = ".Others";
         public static readonly string SkillUseYewNoPrompt = "SkillYesNo";
         public static readonly OptionPrompt YesChoice = new OptionPrompt("Yes");
         public static readonly OptionPrompt NoChoice = new OptionPrompt("No");

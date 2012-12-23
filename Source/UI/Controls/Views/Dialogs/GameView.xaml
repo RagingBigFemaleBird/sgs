@@ -237,8 +237,7 @@
         <xctk:ChildWindow x:Name="cardChoiceWindow" 
                   Template="{DynamicResource DarkGreenWindowStyle}"        
                   MaxWidth="600"
-        		  CloseButtonVisibility="{Binding MainPlayerModel.CardChoiceModel.CanClose, Converter={StaticResource boolToVisibilityConverter}}"
-                  Caption="{Binding MainPlayerModel.CardChoiceModel.Prompt}"                  
+        		  CloseButtonVisibility="{Binding MainPlayerModel.CardChoiceModel.CanClose, Converter={StaticResource boolToVisibilityConverter}}"                                  
                   WindowStartupLocation="Center">
             <xctk:ChildWindow.Effect>
                 <DropShadowEffect BlurRadius="10"/>

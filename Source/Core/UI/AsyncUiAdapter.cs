@@ -91,13 +91,17 @@ namespace Sanguosha.Core.UI
             answer = null;
             if (answerPending.WaitOne(TimeOutSeconds * 1000))
             {
-                answer = answerCardsOfCards;
+                answer = answerCardsOfCards;                
             }
             if (answer == null)
             {
-                answer = new List<List<Card>>();
+                return false;
             }
-            return (verifier.Verify(answer) == VerifierResult.Success);
+            else
+            {
+                return (verifier.Verify(answer) == VerifierResult.Success);
+            }
+            
         }
 
         public bool AskForMultipleChoice(Prompt prompt, List<OptionPrompt> questions, out int answer)
