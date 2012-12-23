@@ -50,7 +50,8 @@ namespace Sanguosha.Core.Players
             }
             if (_attributeNames.ContainsKey(attributeName))
             {
-                throw new DuplicateAttributeKeyException(attributeName);
+                return _attributeNames[attributeName];
+                //throw new DuplicateAttributeKeyException(attributeName);
             }
             var attr = new PlayerAttribute(attributeName, autoReset, isAMark);
             _attributeNames.Add(attributeName, attr);

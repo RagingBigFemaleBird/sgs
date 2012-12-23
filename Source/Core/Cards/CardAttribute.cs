@@ -36,7 +36,7 @@ namespace Sanguosha.Core.Cards
             }
             if (_attributeNames.ContainsKey(attributeName))
             {
-                throw new DuplicateAttributeKeyException(attributeName);
+                return _attributeNames[attributeName];
             }
             var attr = new CardAttribute(attributeName);
             _attributeNames.Add(attributeName, attr);
