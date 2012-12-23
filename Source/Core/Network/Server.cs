@@ -318,6 +318,8 @@ namespace Sanguosha.Core.Network
             handlers[clientId].semAccess.WaitOne();
             handlers[clientId].queueOut.Enqueue(o);
             handlers[clientId].semAccess.Release(1);
+            handlers[clientId].semOut.Release(1);
+            Flush(clientId);
         }
 
         private void Listener()
