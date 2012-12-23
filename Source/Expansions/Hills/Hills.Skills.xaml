@@ -14,6 +14,7 @@
     <sys:String x:Key="Hero.SunCe.Name">孙策</sys:String>
     <sys:String x:Key="Hero.ZhangZhaoZhangHong.Name">张昭＆张纮</sys:String>
     <sys:String x:Key="Hero.ZuoCi.Name">左慈</sys:String>
+    <sys:String x:Key="Hero.LiuChan.Name">刘禅</sys:String>
     <sys:String x:Key="Hero.JiangWei.Name">姜维</sys:String>
     <sys:String x:Key="Hero.CaiWenJi.Name">蔡文姬</sys:String>
     <sys:String x:Key="Hero.ShenZhaoYun.Name">神赵云</sys:String>
@@ -55,5 +56,8 @@
     <sys:String x:Key="Skill.TunTian.Name">屯田</sys:String>
     <sys:String x:Key="Skill.ZaoXian.Name">凿险</sys:String>
     <sys:String x:Key="Skill.JiXi.Name">急袭</sys:String>
+    <sys:String x:Key="Skill.XiangLe.Name">享乐</sys:String>
+    <sys:String x:Key="Skill.FangQuan.Name">放权</sys:String>
+    <sys:String x:Key="Skill.RuoYu.Name">若愚</sys:String>
 
 </ResourceDictionary>

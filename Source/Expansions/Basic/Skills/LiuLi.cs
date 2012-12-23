@@ -82,7 +82,7 @@ namespace Sanguosha.Expansions.Basic.Skills
 
         public void OnPlayerIsCardTarget(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            if (!(eventArgs.Card.Type is Sha))
+            if (!(eventArgs.ReadonlyCard.Type is Sha))
             {
                 return;
             }

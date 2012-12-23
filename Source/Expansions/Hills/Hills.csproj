@@ -51,6 +51,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Skills\BaiYin.cs" />
     <Compile Include="Skills\BeiGe.cs" />
+    <Compile Include="Skills\FangQuan.cs" />
     <Compile Include="Skills\GuZheng.cs" />
     <Compile Include="Skills\HuaShen.cs" />
     <Compile Include="Skills\HunZi.cs" />
@@ -60,8 +61,10 @@
     <Compile Include="Skills\LongHun.cs" />
     <Compile Include="Skills\QiaoBian.cs" />
     <Compile Include="Skills\RenJie.cs" />
+    <Compile Include="Skills\SkillPriority.cs" />
     <Compile Include="Skills\TiaoXin.cs" />
     <Compile Include="Skills\TunTian.cs" />
+    <Compile Include="Skills\XiangLe.cs" />
     <Compile Include="Skills\XinSheng.cs" />
     <Compile Include="Skills\ZaoXian.cs" />
     <Compile Include="Skills\ZhiBa.cs" />
