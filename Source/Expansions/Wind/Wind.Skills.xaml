@@ -18,6 +18,8 @@
     <sys:String x:Key="Skill.ShenSu.Name">神速</sys:String>
     <sys:String x:Key="Skill.ShenSu.Description" xml:space="preserve">你可以选择一至两项：&#10;1.跳过你的判定阶段和摸牌阶段。&#10;2.跳过你的出牌阶段并弃置一张装备牌。&#10;你每选择一项，视为对一名其他角色使用一张【杀】（无距离限制）。</sys:String>
     <sys:String x:Key="Skill.ShenSu.Usage" xml:space="preserve">系统提示（判定阶段）→选择目标→点“确定”&#10;系统提示（出牌阶段）→选中装备牌→选择目标→点“确定”</sys:String>
+    <sys:String x:Key="Skill.ShenSu.Prompt.1">请选择一名目标</sys:String>
+    <sys:String x:Key="Skill.ShenSu.Prompt.2">请选择一张装备牌和一名目标</sys:String>
 
     <sys:String x:Key="Skill.JuShou.Name">据守</sys:String>
     <sys:String x:Key="Skill.JuShou.Description">回合结束阶段开始时，你可以摸三张牌，然后将你的武将牌翻面。</sys:String>
@@ -55,10 +57,12 @@
     <sys:String x:Key="Skill.HuangTianGivenSkill.Name">黄天</sys:String>
     <sys:String x:Key="Skill.HuangTianGivenSkill.Description">主公技，其他群雄角色可以在他们各自的出牌阶段交给你一张【闪】或【闪电】。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.HuangTianGivenSkill.Usage">点“黄天”→选中1张【闪】或【闪电】→点“确定”</sys:String>
+    <sys:String x:Key="Skill.HuangTianGivenSkill.Prompt">请选择一张【闪】或【闪电】</sys:String>
 
     <sys:String x:Key="Skill.GuHuo.Name">蛊惑</sys:String>
     <sys:String x:Key="Skill.GuHuo.Description">你可以说出一张基本牌或非延时类锦囊牌的名称，并背面朝上使用或打出一张手牌。若无其他角色质疑，则亮出此牌并按你所述之牌结算。若有其他角色质疑则亮出验明：若为真，质疑者各失去1点体力；若为假，质疑者各摸一张牌。除非被质疑的牌为红桃且为真，此牌仍然进行结算，否则无论真假，将此牌置入弃牌堆。</sys:String>
-    <sys:String x:Key="Skill.GuHuo.Usage">点“蛊惑”→选中1张手牌→选择想要“蛊惑”成的牌→选择目标（可略过）→点“确定”</sys:String>
+    <sys:String x:Key="Skill.GuHuo.Usage">点“蛊惑”→选择想要“蛊惑”成的牌→选中1张手牌→选择目标（可略过）→点“确定”</sys:String>
+    <sys:String x:Key="Skill.GuHuo.Prompt">请选择一张手牌</sys:String>
 
     <sys:String x:Key="Skill.WuShen.Name">武神</sys:String>
     <sys:String x:Key="Skill.WuShen.Description">锁定技，你的红桃手牌均视为【杀】；你使用红桃【杀】时无距离限制。</sys:String>
@@ -73,5 +77,6 @@
     <sys:String x:Key="Skill.GongXin.Name">攻心</sys:String>
     <sys:String x:Key="Skill.GongXin.Description">出牌阶段，你可以观看一名其他角色的手牌，并可以展示其中一张红桃牌，然后将之弃置或置于牌堆顶。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.GongXin.Usage">点“攻心”→选择目标→点“确定”</sys:String>
+    <sys:String x:Key="Skill.GongXin.Prompt">请选择一张目标</sys:String>
 
 </ResourceDictionary>

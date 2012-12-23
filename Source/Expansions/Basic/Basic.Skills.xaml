@@ -78,7 +78,7 @@
     <sys:String x:Key="Skill.RenDe.Name">仁德</sys:String>
     <sys:String x:Key="Skill.RenDe.Description">出牌阶段，你可以将任意数量的手牌交给其他角色，若你于此阶段内给出的牌张数达到两张或更多时，你回复1点体力。</sys:String>
     <sys:String x:Key="Skill.RenDe.Usage">点“仁德”→选中数张手牌→选择目标→“确定”</sys:String>
-    <sys:String x:Key="Skill.RenDe.Prompt">请选任意张手牌</sys:String>
+    <sys:String x:Key="Skill.RenDe.Prompt">请选任意张手牌然后选择目标</sys:String>
     
     <sys:String x:Key="Skill.JiJiang.Name">激将</sys:String>
     <sys:String x:Key="Skill.JiJiang.Description">主公技，当你需要使用或打出一张【杀】时，你可以令其他蜀势力角色打出一张【杀】（视为由你使用或打出）。</sys:String>
@@ -103,6 +103,8 @@
     <sys:String x:Key="Skill.LongDan.Name">龙胆</sys:String>
     <sys:String x:Key="Skill.LongDan.Description">你可以将一张【杀】当【闪】，一张【闪】当【杀】使用或打出。</sys:String>
     <sys:String x:Key="Skill.LongDan.Usage" xml:space="preserve">需要出【杀】时→点“龙胆”→选择【闪】→点“确定”&#10;需要出【闪】时→点“龙胆”→选择【杀】→点“确定”</sys:String>
+    <sys:String x:Key="Skill.LongDan.Prompt.1">请选1张闪</sys:String>
+    <sys:String x:Key="Skill.LongDan.Prompt.2">请选1张杀</sys:String>
 
     <sys:String x:Key="Skill.MaShu.Name">马术</sys:String>
     <sys:String x:Key="Skill.MaShu.Description">锁定技，你计算的与其他角色的距离-1。</sys:String>
@@ -121,6 +123,7 @@
     <sys:String x:Key="Skill.ZhiHeng.Name">制衡</sys:String>
     <sys:String x:Key="Skill.ZhiHeng.Description">出牌阶段，你可以弃置任意数量的牌，然后摸等量的牌。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.ZhiHeng.Usage">点“制衡”→选中数张牌（手牌或装备）→点“确定”</sys:String>
+    <sys:String x:Key="Skill.ZhiHeng.Prompt">请选任意张牌</sys:String>
 
     <sys:String x:Key="Skill.JiuYuan.Name">救援</sys:String>
     <sys:String x:Key="Skill.JiuYuan.Description">主公技，锁定技，其他吴势力角色使用的【桃】指定你为目标后，回复的体力+1。</sys:String>
@@ -175,7 +178,7 @@
     <sys:String x:Key="Skill.JiJiu.Name">急救</sys:String>
     <sys:String x:Key="Skill.JiJiu.Description">你的回合外，你可以将一张红色牌当【桃】使用。</sys:String>
     <sys:String x:Key="Skill.JiJiu.Usage">非自己回合需使用【桃】时→点“急救”→选中1张牌（红色手牌或装备）→点“确定”</sys:String>
-    <sys:String x:Key="Skill.JiJiu.Prompt">请选择一张红色手牌</sys:String>
+    <sys:String x:Key="Skill.JiJiu.Prompt">请选择一张红色牌</sys:String>
     
     <sys:String x:Key="Skill.QingNang.Name">青囊</sys:String>
     <sys:String x:Key="Skill.QingNang.Description">出牌阶段，你可以弃置一张手牌，令一名已受伤的角色回复1点体力。每阶段限一次。</sys:String>

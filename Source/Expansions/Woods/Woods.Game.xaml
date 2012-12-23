@@ -21,4 +21,12 @@
     <sys:String x:Key="MultiChoice.Choice.ZhuangBei">装备牌</sys:String>    
     -->
     <sys:String x:Key="Expansion.WoodsExpansion.Name">林</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.YingHun">请选择一名角色对其使用“英魂”</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.LuanWu">请对与你距离最近的一名其他角色使用【杀】或点“取消”失去1点体力</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.Zhiba">你可以点“取消”拒绝此次拼点</sys:String>
+
+    <sys:String x:Key="MultiChoice.Prompt.YingHun">令该角色执行下列一项</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.YingHun1">摸X弃1</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.YingHun2">摸1弃X</sys:String>
 </ResourceDictionary>

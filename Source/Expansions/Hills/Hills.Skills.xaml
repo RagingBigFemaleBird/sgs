@@ -31,7 +31,7 @@
 
     <sys:String x:Key="Skill.ZhiBaGivenSkill.Name">制霸</sys:String>
     <sys:String x:Key="Skill.ZhiBaGivenSkill.Description">主公技，其他吴势力角色可以在他们各自的出牌阶段与你拼点（“魂姿”发动后，你可以拒绝此拼点），若该角色没赢，你可以获得双方拼点的牌。每阶段限一次。</sys:String>
-    <sys:String x:Key="Skill.ZhiBaGivenSkill.Usage">点“制霸”→选中拼点牌→点“确定”</sys:String>
+    <sys:String x:Key="Skill.ZhiBaGivenSkill.Usage">点“制霸”→点“确定”→选中拼点牌→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.BeiGe.Name">悲歌</sys:String>
     <sys:String x:Key="Skill.BaiYin.Name">拜印</sys:String>

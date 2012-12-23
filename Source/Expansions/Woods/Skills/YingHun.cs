@@ -37,8 +37,18 @@ namespace Sanguosha.Expansions.Woods.Skills
         protected void Run(Player owner, GameEvent gameEvent, GameEventArgs eventArgs, List<Card> cards, List<Player> players)
         {
             int x = owner.MaxHealth - owner.Health;
+            if (x == 1)
+            {
+                Game.CurrentGame.DrawCards(players[0], 1);
+                Game.CurrentGame.ForcePlayerDiscard(players[0],
+                                (p, i) =>
+                                {
+                                    return 1 - i;
+                                },
+                                true);
+            };
             int answer = 0;
-            Game.CurrentGame.UiProxies[owner].AskForMultipleChoice(new MultipleChoicePrompt("YingHun"), new List<string>() { "YingHun1", "YingHun2" }, out answer);
+            Game.CurrentGame.UiProxies[owner].AskForMultipleChoice(new MultipleChoicePrompt("YingHun"), new List<string>() { Prompt.MultipleChoiceOptionPrefix + "YingHun1", Prompt.MultipleChoiceOptionPrefix + "YingHun2" }, out answer);
             if (answer == 0)
             {
                 Game.CurrentGame.DrawCards(players[0], x);

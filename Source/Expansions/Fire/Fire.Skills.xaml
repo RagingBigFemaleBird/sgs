@@ -16,10 +16,12 @@
     <sys:String x:Key="Skill.QiangXi.Name">强袭</sys:String>
     <sys:String x:Key="Skill.QiangXi.Description">出牌阶段，你可以失去1点体力或弃置一张武器牌，对你攻击范围内的一名角色造成1点伤害。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.QiangXi.Usage">点“强袭”→选中一张武器牌（可略过）→选择目标（攻击范围内）→点“确定”</sys:String>
+    <sys:String x:Key="Skill.QiangXi.Prompt">请选择一张武器牌和一个目标，或直接选择一个目标</sys:String>
 
     <sys:String x:Key="Skill.QuHu.Name">驱虎</sys:String>
     <sys:String x:Key="Skill.QuHu.Description">出牌阶段，你可以与一名当前的体力值大于你的角色拼点。若你赢，则该角色对其攻击范围内你选择的另一名角色造成1点伤害。若你没赢，则其对你造成1点伤害。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.QuHu.Usage">点“驱虎”→选择拼点牌→选择拼点对象→点“确定”→若赢，选择另一名角色（可以是自己）→点“确定”</sys:String>
+    <sys:String x:Key="Skill.QuHu.Prompt">请选择一张手牌和一个目标</sys:String>
 
     <sys:String x:Key="Skill.JieMing.Name">节命</sys:String>
     <sys:String x:Key="Skill.JieMing.Description">每当你受到1点伤害后，你可以令一名角色将手牌补至X张（X为该角色的体力上限且至多为5）。</sys:String>
@@ -28,6 +30,7 @@
     <sys:String x:Key="Skill.LianHuan.Name">连环</sys:String>
     <sys:String x:Key="Skill.LianHuan.Description">你可以将一张梅花手牌当【铁索连环】使用或重铸。</sys:String>
     <sys:String x:Key="Skill.LianHuan.Usage">点“连环”→选中1张梅花花色的手牌→选择1至2两名目标（可略过）→点“确定”</sys:String>
+    <sys:String x:Key="Skill.LianHuan.Prompt">请选择一张梅花花色的手牌</sys:String>
 
     <sys:String x:Key="Skill.NiePan.Name">涅槃</sys:String>
     <sys:String x:Key="Skill.NiePan.Description">限定技，当你处于濒死状态时，你可以：弃置你区域里所有的牌，然后将你的武将牌翻至正面朝上并重置之，再摸三张牌且当前的体力值回复至3点。</sys:String>
@@ -41,26 +44,34 @@
     <sys:String x:Key="Skill.HuoJi.Name">火计</sys:String>
     <sys:String x:Key="Skill.HuoJi.Description">你可以将一张红色手牌当【火攻】使用。</sys:String>
     <sys:String x:Key="Skill.HuoJi.Usage">点“火计”→选中1张手牌（红桃或方块）→选择目标（至少有一张手牌）→点“确定”</sys:String>
+    <sys:String x:Key="Skill.HuoJi.Prompt">请选择一张红色手牌</sys:String>
 
     <sys:String x:Key="Skill.KanPo.Name">看破</sys:String>
     <sys:String x:Key="Skill.KanPo.Description">你可以将一张黑色手牌当【无懈可击】使用。</sys:String>
     <sys:String x:Key="Skill.KanPo.Usage">点“看破”→选中1张手牌（黑桃或草花）→点“确定”</sys:String>
+    <sys:String x:Key="Skill.KanPo.Prompt">请选择一张黑色手牌</sys:String>
 
     <sys:String x:Key="Skill.TianYi.Name">天义</sys:String>
     <sys:String x:Key="Skill.TianYi.Description">出牌阶段，你可以与一名其他角色拼点。若你赢，你获得以下技能直到回合结束：你使用【杀】时无距离限制；可以额外使用一张【杀】；使用【杀】时可以额外选择一个目标。若你没赢，你不能使用【杀】，直到回合结束。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.TianYi.Usage">点“天义”→选中拼点牌→选择目标→点“确定”</sys:String>
+    <sys:String x:Key="Skill.TianYi.Prompt">请选择一张手牌和一个目标</sys:String>
 
     <sys:String x:Key="Skill.LuanJi.Name">乱击</sys:String>
     <sys:String x:Key="Skill.LuanJi.Description">你可以将两张花色相同的手牌当【万箭齐发】使用。</sys:String>
     <sys:String x:Key="Skill.LuanJi.Usage">点“乱击”→选中两张花色相同的牌→点“确定”</sys:String>
+    <sys:String x:Key="Skill.LuanJi.Prompt">请选择两张同花色的手牌</sys:String>
 
     <sys:String x:Key="Skill.XueYi.Name">血裔</sys:String>
     <sys:String x:Key="Skill.XueYi.Description">主公技，锁定技，每有一名其他群雄角色存活，你的手牌上限+2。</sys:String>
 
     <sys:String x:Key="Skill.ShuangXiong.Name">双雄</sys:String>
     <sys:String x:Key="Skill.ShuangXiong.Description">摸牌阶段开始时，你可以放弃摸牌，改为进行一次判定，你获得生效后的判定牌，然后你可以将一张与此判定牌颜色不同的手牌当【决斗】使用，直到回合结束。</sys:String>
-    <sys:String x:Key="Skill.ShuangXiong.Usage" xml:space="preserve">系统提示→点“确定”&#10;点“双雄”→选中1张手牌（与判定牌颜色不同）→选中目标→点“确定”</sys:String>
+    <sys:String x:Key="Skill.ShuangXiong.Usage">系统提示→点“确定”</sys:String>
+
     <sys:String x:Key="Skill.ShuangXiongCardTransformSkill.Name">双雄</sys:String>
+    <sys:String x:Key="Skill.ShuangXiongCardTransformSkill.Description">摸牌阶段开始时，你可以放弃摸牌，改为进行一次判定，你获得生效后的判定牌，然后你可以将一张与此判定牌颜色不同的手牌当【决斗】使用，直到回合结束。</sys:String>
+    <sys:String x:Key="Skill.ShuangXiongCardTransformSkill.Usage">点“双雄”→选中1张手牌（与判定牌颜色不同）→选中目标→点“确定”</sys:String>
+    <sys:String x:Key="Skill.ShuangXiongCardTransformSkill.Prompt">请选择一张与判定牌颜色不同的手牌</sys:String>
 
     <sys:String x:Key="Skill.MengJin.Name">猛进</sys:String>
     <sys:String x:Key="Skill.MengJin.Description">当你使用的【杀】被目标角色的【闪】抵消时，你可以弃置其一张牌。</sys:String>

@@ -29,6 +29,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 TriggerCondition.Global
             );
             Triggers.Add(GameEvent.CardUsageTargetConfirmed, trigger);
+            IsAutoInvoked = true;
         }
     }
 }
