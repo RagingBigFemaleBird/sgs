@@ -20,19 +20,19 @@ namespace Sanguosha.Expansions.Battle.Cards
     {
         public GuDingDao()
         {
-            EquipmentSkill = new GuDianDaoSkill();
+            EquipmentSkill = new GuDingDaoSkill();
         }
 
         
-        public class GuDianDaoSkill : TriggerSkill
+        public class GuDingDaoSkill : TriggerSkill
         {
-            public GuDianDaoSkill()
+            public GuDingDaoSkill()
             {
                 var trigger = new AutoNotifyPassiveSkillTrigger(
                     this,
                     (p, e, a) =>
                     {
-                        return a.Card.Type is Sha;
+                        return a.Card.Type is Sha && Game.CurrentGame.Decks[a.Targets[0], DeckType.Hand].Count == 0;
                     },
                     (p, e, a) => { (a as DamageEventArgs).Magnitude++; },
                     TriggerCondition.OwnerIsSource

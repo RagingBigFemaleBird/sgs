@@ -38,7 +38,7 @@ namespace Sanguosha.Core.Games
 
         void _ResetCards(Player p)
         {
-            foreach (var card in decks[p, DeckType.Hand].Concat(decks[p, DeckType.Equipment]).Concat(decks[p, DeckType.DelayedTools]))
+            foreach (var card in decks[p, DeckType.Hand])
             {
                 if (card.Id > 0)
                 {

@@ -103,7 +103,7 @@ namespace Sanguosha.Core.UI
                 {
                     var commonResult = from type1 in AcceptableCardTypes
                                        join type2 in transformSkill.PossibleResults
-                                           on type1 equals type2
+                                       on type1 equals type2
                                        select type1;
                     if (commonResult.Count() == 0)
                     {

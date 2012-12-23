@@ -187,13 +187,13 @@ namespace Sanguosha.Core.Cards
                 {
                     CardTransformSkill s = skill as CardTransformSkill;
                     VerifierResult r = s.TryTransform(cards, null, out c);
+                    if (c != null && c.Type != null && !(this.GetType().IsAssignableFrom(c.Type.GetType())))
+                    {
+                        return VerifierResult.Fail;
+                    }
                     if (r != VerifierResult.Success)
                     {
                         return r;
-                    }
-                    if (!(this.GetType().IsAssignableFrom(c.Type.GetType())))
-                    {
-                        return VerifierResult.Fail;
                     }
                     if (!isReforging)
                     {

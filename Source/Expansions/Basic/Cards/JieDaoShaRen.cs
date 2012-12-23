@@ -127,8 +127,8 @@ namespace Sanguosha.Expansions.Basic.Cards
                     {
                         Game.CurrentGame.HandleCardTransferToHand(initiator, source, new List<Card>() { theWeapon });
                     }
-                    break;
                 }
+                break;
             }
         }
 

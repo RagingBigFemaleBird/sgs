@@ -37,6 +37,7 @@ namespace Sanguosha.Expansions.Wind.Skills
 
             card = new CompositeCard();
             card.Subcards = new List<Card>();
+            card.Type = AdditionalType;
             if (AdditionalType == null)
             {
                 return VerifierResult.Partial;
@@ -47,7 +48,6 @@ namespace Sanguosha.Expansions.Wind.Skills
                 return VerifierResult.Fail;
             }
             
-            card.Type = AdditionalType;
             card.Subcards.Add(cards[0]);
             return VerifierResult.Success;
         }

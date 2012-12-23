@@ -5,6 +5,7 @@ using System.Text;
 
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Heroes;
+using System.Diagnostics;
 
 namespace Sanguosha.Core.Cards
 {

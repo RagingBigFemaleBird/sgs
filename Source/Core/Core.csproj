@@ -69,7 +69,7 @@
     <Compile Include="Cards\OffensiveHorse.cs" />
     <Compile Include="Cards\OneTargetNoSelfVerifier.cs" />
     <Compile Include="Cards\PrivateDeckType.cs" />
-    <Compile Include="Cards\SingleCardPlayVerifier.cs" />
+    <Compile Include="Cards\SingleCardDiscardVerifier.cs" />
     <Compile Include="Cards\SingleCardUsageVerifier.cs" />
     <Compile Include="Cards\ReadOnlyCard.cs" />
     <Compile Include="Cards\UnknownCardHandler.cs" />
