@@ -575,6 +575,37 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        private string _impersonatedHeroName;
+        public string ImpersonatedHeroName
+        {
+            get
+            {
+                return _impersonatedHeroName;
+            }
+            set
+            {
+                if (_impersonatedHeroName == value) return;
+                _impersonatedHeroName = value;
+                OnPropertyChanged("ImpersonatedHeroName");
+            }
+        }
+
+        private string _impersonatedSkill;
+
+        public string ImpersonatedSkill
+        {
+            get
+            {
+                return _impersonatedSkill;
+            }
+            set
+            {
+                if (_impersonatedSkill == value) return;
+                _impersonatedSkill = value;
+                OnPropertyChanged("ImpersonatedSkill");
+            }
+        }
+
         /// <summary>
         /// Returns the skill names of the primary hero.
         /// </summary>

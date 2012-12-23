@@ -412,6 +412,9 @@
     <Resource Include="Images\Digits\8.png" />
     <Resource Include="Images\Digits\9.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PlayerInfoView\huashenSkillBg.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /S /Y $(ProjectDir)*.* $(TargetDir)Resources\

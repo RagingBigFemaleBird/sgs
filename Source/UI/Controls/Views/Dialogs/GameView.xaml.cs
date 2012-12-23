@@ -801,6 +801,20 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyImpersonation(Player p, Core.Heroes.Hero h, ISkill s)
         {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                var model = playersMap[p].PlayerModel;
+                if (h == null)
+                {
+                    model.ImpersonatedHeroName = string.Empty;
+                    model.ImpersonatedSkill = string.Empty;
+                }
+                else
+                {
+                    model.ImpersonatedHeroName = h.Name;
+                    model.ImpersonatedSkill = s.GetType().Name;
+                }
+            });
         }
 
         public void NotifyJudge(Player p, Card card, ActionLog log, bool? isSuccess)

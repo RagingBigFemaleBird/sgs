@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorToneEffect.cs" />
+    <Compile Include="RippleTransitionEffect.cs" />
     <Compile Include="LightStreakEffect.cs" />
     <Compile Include="DirectionalBlurEffect.cs" />
     <Compile Include="EffectLibrary.cs" />
@@ -85,6 +86,7 @@
     <Resource Include="ShaderSource\LightStreak.ps" />
     <None Include="ShaderSource\Monochrome.fx" />
     <Resource Include="ShaderSource\Monochrome.ps" />
+    <Resource Include="ShaderSource\RippleTransition.ps" />
     <None Include="ShaderSource\ZoomBlur.fx" />
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +95,7 @@
   <ItemGroup>
     <Content Include="ShaderSource\ColorTone.fx" />
     <Content Include="ShaderSource\LightStreak.fx" />
+    <Content Include="ShaderSource\RippleTransition.fx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

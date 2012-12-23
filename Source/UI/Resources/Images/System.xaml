@@ -11,6 +11,8 @@
     <BitmapImage x:Key="PlayerInfoView.Decoration.BottomRight">PlayerInfoView/decoration2.png</BitmapImage>
     <sys:Double x:Key="PlayerInfoView.WidthHeightRatio">0.8</sys:Double>
     <BitmapImage x:Key="PlayerInfoView.HealthBar.Background">PlayerInfoView/healthBarBg.png</BitmapImage>
+    <BitmapImage x:Key="PlayerInfoView.AcquiredSkill.Background">PlayerInfoView/huashenSkillBg.png</BitmapImage>
+    
     <BitmapImage x:Key="MainPlayerInfoView.Background.Left">MainPlayerInfoView/leftBg.jpg</BitmapImage>
     <BitmapImage x:Key="MainPlayerInfoView.Background.Middle">MainPlayerInfoView/middleBg.jpg</BitmapImage>
     <BitmapImage x:Key="MainPlayerInfoView.Background.Right">MainPlayerInfoView/rightBg.png</BitmapImage>

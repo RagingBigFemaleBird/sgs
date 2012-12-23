@@ -152,10 +152,16 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <Storyboard x:Key="sbStartImpersonate" RepeatBehavior="Forever" AutoReverse="True">
+            	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:RippleTransitionEffect.Progress)" Storyboard.TargetName="heroPhoto">
+            		<EasingDoubleKeyFrame KeyTime="0" Value="100"/>
+            		<EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+            		<EasingDoubleKeyFrame KeyTime="0:0:5" Value="0"/>
+            		<EasingDoubleKeyFrame KeyTime="0:0:6" Value="100"/>
+            	</DoubleAnimationUsingKeyFrames>
+            </Storyboard>
         </ResourceDictionary>
     </local:PlayerViewBase.Resources>
-    <local:PlayerViewBase.Triggers>
-    </local:PlayerViewBase.Triggers>
     <Grid x:Name="LayoutRoot">        
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -270,7 +276,11 @@
                 </Path>
                 <Border Margin="2,0,2,4" Grid.Row="1" BorderBrush="#FF79786B" CornerRadius="1" BorderThickness="1" ClipToBounds="True">
                     <Grid>                       
-                        <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=28\,46\,220\,132, Path=HeroName, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/Full/\{0\}.png}"/>
+                        <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=28\,46\,220\,132, Path=HeroName, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/Full/\{0\}.png}">
+                        	<Image.Effect>
+                        		<Sanguosha_UI_Effects:RippleTransitionEffect Progress="100" Texture2="{res:ImageBinding CropRect=28\,46\,220\,132, Path=ImpersonatedHeroName, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/Full/\{0\}.png}"/>
+                        	</Image.Effect>
+                        </Image>
                     	<Rectangle Visibility="{Binding IsDrank, Converter={StaticResource boolToVisibilityConverter}}" >
 							<Rectangle.Fill>
 								<RadialGradientBrush>
@@ -306,7 +316,13 @@
 						</ItemsControl>
                         <local:HealthBar x:Name="healthBar" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                                          Height="14" Margin="0,0,3,0" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}"/>
-                    </Grid>
+                    	<Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,5">
+                    		<Grid.Background>
+                    			<ImageBrush ImageSource="{DynamicResource PlayerInfoView.AcquiredSkill.Background}"/>
+                    		</Grid.Background>
+							<local:OutlinedTextBlock Text="{res:ResourceKeyBinding Path=ImpersonatedSkill, StringFormat=Skill.{0}.Name}" FontSize="21" Fill="White" FontFamily="LiSu" Margin="5,1" Stroke="Blue" StrokeThickness="3"/>
+						</Grid>
+					</Grid>
                 </Border>
                 <Image x:Name="allegianceMask" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Mask}" HorizontalAlignment="Left" Grid.RowSpan="2" Width="38" Stretch="Fill" Margin="-3.335,4.333,0,0.667" ClipToBounds="True" Height="119" VerticalAlignment="Top"/>
                 <Image x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" />
@@ -368,7 +384,7 @@
                     <Image Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}"/>
                     <anim:TieSuoAnimation2 x:Name="tieSuoAnimation2" FramesPerSecond="15" Stretch="Fill" IsHitTestVisible="False"/>
                 </Grid>
-                <Grid x:Name="gridSpectate" HorizontalAlignment="Left" Height="24" Margin="16.664,0,0,-0.666" Grid.Row="1" Width="24" VerticalAlignment="Bottom">
+                <Grid x:Name="gridSpectate" HorizontalAlignment="Left" Height="24" Margin="16.664,0,0,-0.666" Grid.Row="1" Width="24" VerticalAlignment="Bottom" Visibility="Collapsed">
                     <Button x:Name="btnSpectate" Content="Button" Style="{DynamicResource SpectateButton}" Visibility="Hidden" Click="btnSpectate_Click">
                         <Button.Clip>
                             <RectangleGeometry Rect="0, 5, 25, 15"/>

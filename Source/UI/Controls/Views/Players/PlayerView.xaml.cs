@@ -100,6 +100,18 @@ namespace Sanguosha.UI.Controls
                     tieSuoAnimation2.Start();
                 }
             }
+            else if (e.PropertyName == "ImpersonatedHeroName")
+            {
+                Storyboard sb = (Resources["sbStartImpersonate"] as Storyboard);
+                if (!string.IsNullOrEmpty(model.ImpersonatedHeroName))
+                {
+                    sb.Begin();
+                }
+                else
+                {
+                    sb.Stop();
+                }
+            }
         }
 
         public override GameView ParentGameView
