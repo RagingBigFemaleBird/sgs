@@ -74,6 +74,7 @@
     <Compile Include="Cards\ReadOnlyCard.cs" />
     <Compile Include="Cards\UnknownCardHandler.cs" />
     <Compile Include="Cards\Weapon.cs" />
+    <Compile Include="Exceptions\DuplicateAttributeKeyException.cs" />
     <Compile Include="Exceptions\DuplicateCardHandlerException.cs" />
     <Compile Include="Exceptions\PlayerIsDeadException.cs" />
     <Compile Include="Games\Expansion.cs" />

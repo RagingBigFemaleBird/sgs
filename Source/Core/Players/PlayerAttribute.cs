@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
+using Sanguosha.Core.Exceptions;
 
 namespace Sanguosha.Core.Players
 {
@@ -38,9 +40,17 @@ namespace Sanguosha.Core.Players
             set { isMark = value; }
         }
 
+        static Dictionary<string, PlayerAttribute> _attributeNames = new Dictionary<string, PlayerAttribute>();
+
         public static PlayerAttribute Register(string attributeName, bool autoReset = false, bool isAMark = false)
         {
-            return new PlayerAttribute(attributeName, autoReset, isAMark);
+            if (_attributeNames.ContainsKey(attributeName))
+            {
+                throw new DuplicateAttributeKeyException(attributeName);
+            }
+            var attr = new PlayerAttribute(attributeName, autoReset, isAMark);
+            _attributeNames.Add(attributeName, attr);
+            return attr;
         }
 
         public override bool Equals(object obj)

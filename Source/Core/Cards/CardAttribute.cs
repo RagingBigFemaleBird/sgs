@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
+using Sanguosha.Core.Exceptions;
 
 namespace Sanguosha.Core.Cards
 {
     public class CardAttribute
     {
         public static string TargetRequireTwoResponses = "TargetRequireTwoResponses";
+
         public static readonly CardAttribute SourceRequireTwoResponses = CardAttribute.Register("SourceRequireTwoResponses");
+
         private CardAttribute(string attrName)
         {
             Name = attrName;
@@ -22,9 +26,17 @@ namespace Sanguosha.Core.Cards
             set { name = value; }
         }
 
+        static Dictionary<string, CardAttribute> _attributeNames = new Dictionary<string, CardAttribute>();
+
         public static CardAttribute Register(string attributeName)
         {
-            return new CardAttribute(attributeName);
+            if (_attributeNames.ContainsKey(attributeName))
+            {
+                throw new DuplicateAttributeKeyException(attributeName);
+            }
+            var attr = new CardAttribute(attributeName);
+            _attributeNames.Add(attributeName, attr);
+            return attr;
         }
 
         public override bool Equals(object obj)
