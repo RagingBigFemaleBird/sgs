@@ -880,5 +880,12 @@ namespace Sanguosha.UI.Controls
         }
         #endregion
 
+        public void NotifyWuGuStart(DeckPlace place)
+        {
+        }
+
+        public void NotifyWuGuEnd()
+        {
+        }
     }
 }

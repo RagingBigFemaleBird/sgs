@@ -32,6 +32,7 @@ namespace Sanguosha.Core.UI
 
     public class AdditionalCardChoiceOptions
     {
+        public bool IsWuGu { get; set; }
         public List<bool> Rearrangeable { get; set; }
         public List<OptionPrompt> Options { get; set; }
         public List<List<Card>> DefaultResult { get; set; }

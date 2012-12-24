@@ -34,6 +34,8 @@ namespace Sanguosha.Core.UI
         void NotifyShowCard(Player p, Card card);
         void NotifyCardChoiceCallback(object o);
         void NotifyImpersonation(Player p, Hero h, ISkill s);
+        void NotifyWuGuStart(DeckPlace place);
+        void NotifyWuGuEnd();
     }
 
     public class DummyNotificationProxy : INotificationProxy
@@ -89,6 +91,14 @@ namespace Sanguosha.Core.UI
 
         public void NotifyGameStart()
         {            
+        }
+
+        public void NotifyWuGuStart(DeckPlace place)
+        {
+        }
+
+        public void NotifyWuGuEnd()
+        {
         }
     }
 }
