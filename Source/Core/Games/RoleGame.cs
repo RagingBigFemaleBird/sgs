@@ -319,7 +319,7 @@ namespace Sanguosha.Core.Games
 
                 GameEventArgs arg = new GameEventArgs();
                 arg.Source = eventArgs.Source;
-                arg.Targets = c.Type.ActualTargets(arg.Source, eventArgs.Targets);
+                arg.Targets = c.Type.ActualTargets(arg.Source, eventArgs.Targets, c);
                 arg.Card = c;
                 arg.ReadonlyCard = new ReadOnlyCard(c);
                 if (runTrigger)

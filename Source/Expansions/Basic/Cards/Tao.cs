@@ -29,7 +29,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
         }
 
-        public override List<Player> ActualTargets(Player source, List<Player> targets)
+        public override List<Player> ActualTargets(Player source, List<Player> targets, ICard card)
         {
             if (Game.CurrentGame.IsDying.Count > 0)
             {

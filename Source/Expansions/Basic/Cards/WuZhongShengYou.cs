@@ -31,7 +31,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             return VerifierResult.Success;
         }
 
-        public override List<Player> ActualTargets(Player source, List<Player> targets)
+        public override List<Player> ActualTargets(Player source, List<Player> targets, ICard card)
         {
             return new List<Player>() { source };
         }

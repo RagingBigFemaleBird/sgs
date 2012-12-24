@@ -74,7 +74,7 @@ namespace Sanguosha.Core.Cards
 
         public void NotifyCardUse(Player source, List<Player> dests, List<Player> secondary, ICard card, GameAction action)
         {
-            List<Player> logTargets = ActualTargets(source, dests);
+            List<Player> logTargets = ActualTargets(source, dests, card);
             ActionLog log = new ActionLog();
             log.Source = source;
             log.Targets = logTargets;
@@ -159,7 +159,7 @@ namespace Sanguosha.Core.Cards
             return VerifyHelper(source, skill, cards, targets, IsReforging(source, skill, cards, targets));
         }
 
-        public virtual List<Player> ActualTargets(Player source, List<Player> targets)
+        public virtual List<Player> ActualTargets(Player source, List<Player> targets, ICard card)
         {
             return targets;
         }

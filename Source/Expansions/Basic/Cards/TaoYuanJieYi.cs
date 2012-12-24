@@ -40,17 +40,23 @@ namespace Sanguosha.Expansions.Basic.Cards
             get { return CardCategory.ImmediateTool; }
         }
 
-        public override List<Player> ActualTargets(Player source, List<Player> dests)
+        public override List<Player> ActualTargets(Player source, List<Player> dests, ICard card)
         {
-            var z = new List<Player>(Game.CurrentGame.AlivePlayers);
-            foreach (var p in new List<Player>(z))
+            var targets = new List<Player>(Game.CurrentGame.AlivePlayers);
+            targets.Remove(source);
+            var backup = new List<Player>(targets);
+            foreach (var t in backup)
             {
-                if (p.Health >= p.MaxHealth)
+                if (!Game.CurrentGame.PlayerCanBeTargeted(source, new List<Player>() { t }, card))
                 {
-                    z.Remove(p);
+                    targets.Remove(t);
+                }
+                if (t.Health >= t.MaxHealth)
+                {
+                    targets.Remove(t);
                 }
             }
-            return z;
+            return targets;
         }
     }
 }

@@ -74,7 +74,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             get { return CardCategory.ImmediateTool; }
         }
 
-        public override List<Player> ActualTargets(Player source, List<Player> dests)
+        public override List<Player> ActualTargets(Player source, List<Player> dests, ICard card)
         {
             var z = new List<Player>(Game.CurrentGame.AlivePlayers);
             return z;

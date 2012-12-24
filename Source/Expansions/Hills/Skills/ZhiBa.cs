@@ -58,23 +58,25 @@ namespace Sanguosha.Expansions.Hills.Skills
             }
             Card card1, card2;
             Game.CurrentGame.PinDianReturnCards(Owner, Master, out card1, out card2);
-            if (card1.Rank > card2.Rank)
+            if (card1.Rank <= card2.Rank)
             {
-                Game.CurrentGame.EnterAtomicContext();
-                Game.CurrentGame.PlaceIntoDiscard(Owner, new List<Card>() { card1 });
-                Game.CurrentGame.PlaceIntoDiscard(Master, new List<Card>() { card2 });
-                Game.CurrentGame.PlayerLostCard(Owner, new List<Card>() { card1 });
-                Game.CurrentGame.PlayerLostCard(Master, new List<Card>() { card2 });
-                Game.CurrentGame.ExitAtomicContext();
+                int answer;
+                if (Game.CurrentGame.UiProxies[Master].AskForMultipleChoice(new MultipleChoicePrompt("ZhiBaHuoDe"), Prompt.YesNoChoices, out answer) && answer == 1)
+                {
+                    Game.CurrentGame.EnterAtomicContext();
+                    Game.CurrentGame.PlayerLostCard(Owner, new List<Card>() { card1 });
+                    Game.CurrentGame.PlayerLostCard(Master, new List<Card>() { card2 });
+                    Game.CurrentGame.HandleCardTransferToHand(null, Master, new List<Card>() { card1, card2 });
+                    Game.CurrentGame.ExitAtomicContext();
+                    return true;
+                }
             }
-            else
-            {
-                Game.CurrentGame.EnterAtomicContext();
-                Game.CurrentGame.PlayerLostCard(Owner, new List<Card>() { card1 });
-                Game.CurrentGame.PlayerLostCard(Master, new List<Card>() { card2 });
-                Game.CurrentGame.HandleCardTransferToHand(null, Master, new List<Card>() { card1, card2 });
-                Game.CurrentGame.ExitAtomicContext();
-            }
+            Game.CurrentGame.EnterAtomicContext();
+            Game.CurrentGame.PlaceIntoDiscard(Owner, new List<Card>() { card1 });
+            Game.CurrentGame.PlaceIntoDiscard(Master, new List<Card>() { card2 });
+            Game.CurrentGame.PlayerLostCard(Owner, new List<Card>() { card1 });
+            Game.CurrentGame.PlayerLostCard(Master, new List<Card>() { card2 });
+            Game.CurrentGame.ExitAtomicContext();
             return true;
         }
 
