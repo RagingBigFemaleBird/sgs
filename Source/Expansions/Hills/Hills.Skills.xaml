@@ -9,12 +9,12 @@
     <sys:String x:Key="Skill.RenDe.Description">出牌阶段，你可以将任意数量的手牌交给其他角色，若此阶段你给出的牌张数达到两张或更多时，你回复1点体力。</sys:String>
     <sys:String x:Key="Skill.RenDe.Usage">点"仁德"→选中数张手牌→选择目标→“确定”</sys:String>
     -->
-    <sys:String x:Key="Hero.ShenSiMaYi.Name">神司马懿</sys:String>
+    <sys:String x:Key="Hero.ShenSimaYi.Name">神司马懿</sys:String>
     <sys:String x:Key="Hero.ZhangHe.Name">张郃</sys:String>
     <sys:String x:Key="Hero.SunCe.Name">孙策</sys:String>
     <sys:String x:Key="Hero.ZhangZhaoZhangHong.Name">张昭＆张纮</sys:String>
     <sys:String x:Key="Hero.ZuoCi.Name">左慈</sys:String>
-    <sys:String x:Key="Hero.LiuChan.Name">刘禅</sys:String>
+    <sys:String x:Key="Hero.LiuShan.Name">刘禅</sys:String>
     <sys:String x:Key="Hero.JiangWei.Name">姜维</sys:String>
     <sys:String x:Key="Hero.CaiWenJi.Name">蔡文姬</sys:String>
     <sys:String x:Key="Hero.ShenZhaoYun.Name">神赵云</sys:String>
@@ -26,7 +26,7 @@
 
     <sys:String x:Key="Skill.HunZi.Name">魂姿</sys:String>
     <sys:String x:Key="Skill.HunZi.Description">觉醒技，回合开始阶段开始时，若你当前的体力值为1，你须减1点体力上限，并获得技能“英姿”和“英魂”。</sys:String>
-    <sys:String x:Key="Skill.HunZi.Transcript">父亲在上，魂佑江东，公瑾在旁，志定天下</sys:String>
+    <sys:String x:Key="Skill.HunZi.Transcript">父亲在上，魂佑江东，公瑾在旁，智定天下</sys:String>
 
     <sys:String x:Key="Skill.ZhiBa.Name">制霸</sys:String>
     <sys:String x:Key="Skill.ZhiBa.Description">主公技，其他吴势力角色可以在他们各自的出牌阶段与你拼点（“魂姿”发动后，你可以拒绝此拼点），若该角色没赢，你可以获得双方拼点的牌。每阶段限一次。</sys:String>

@@ -86,7 +86,7 @@
     <sys:String x:Key="Skill.LuanWu.Name">乱武</sys:String>
     <sys:String x:Key="Skill.LuanWu.Description">限定技，出牌阶段，你可以令所有其他角色各选择一项：对距离最近的另一名角色使用一张【杀】，或失去1点体力。</sys:String>
     <sys:String x:Key="Skill.LuanWu.Usage">点“乱武”</sys:String>
-    <sys:String x:Key="Skill.LuanWu.Transcript">痛苦吧，挣扎吧，哀求吧，然后死吧</sys:String>
+    <sys:String x:Key="Skill.LuanWu.Transcript">哭喊吧，哀求吧，挣扎吧，然后死吧</sys:String>
 
     <sys:String x:Key="Skill.WeiMu.Name">帷幕</sys:String>
     <sys:String x:Key="Skill.WeiMu.Description">锁定技，你不能被选择为黑色锦囊牌的目标。</sys:String>
