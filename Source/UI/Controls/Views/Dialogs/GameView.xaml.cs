@@ -907,7 +907,10 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyPinDianStart(Player from, Player to)
         {
-            throw new NotImplementedException();
+        }
+
+        public void NotifyMultipleCardUsageResponded(Player player)
+        {
         }
     }
 }

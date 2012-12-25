@@ -36,6 +36,11 @@ namespace Sanguosha.Core.UI
             clientId = id;
         }
 
+        public void SendMultipleCardUsageResponded()
+        {
+            server.SendMultipleCardUsageResponded(clientId);
+        }
+
         public void SendNoAnswer()
         {
             int i;

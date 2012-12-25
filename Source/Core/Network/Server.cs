@@ -160,6 +160,17 @@ namespace Sanguosha.Core.Network
             return false;
         }
 
+        public void SendMultipleCardUsageResponded(int id)
+        {
+            var o = new CommandItem() { command = Command.Interrupt };
+            o.obj = new CardUsageResponded() { playerId = id };
+            for (int ec = 0; ec < maxClients; ec++)
+            {
+                SendInterruptedObject(ec, o);
+            }
+            
+        }
+
         public bool ExpectNext(int clientId, int timeOutSeconds)
         {
             Trace.TraceInformation("Expecting commId for {0} is {1}", clientId, handlers[clientId].commId);

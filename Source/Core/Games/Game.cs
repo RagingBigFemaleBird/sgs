@@ -1853,6 +1853,7 @@ namespace Sanguosha.Core.Games
 
         public void PinDianReturnCards(Player from, Player to, out Card c1, out Card c2)
         {
+            Game.CurrentGame.NotificationProxy.NotifyPinDianStart(from, to);
             Dictionary<Player, ISkill> aSkill;
             Dictionary<Player, List<Card>> aCards;
             Dictionary<Player, List<Player>> aPlayers;

@@ -70,6 +70,12 @@ namespace Sanguosha.Core.Network
         public object o;
     }
 
+    [Serializable]
+    public struct CardUsageResponded
+    {
+        public int playerId;
+    }
+
     public class Translator
     {
         public static SkillItem Translate(ISkill skill)

@@ -37,6 +37,7 @@ namespace Sanguosha.Core.UI
         void NotifyWuGuStart(DeckPlace place);
         void NotifyWuGuEnd();
         void NotifyPinDianStart(Player from, Player to);
+        void NotifyMultipleCardUsageResponded(Player player);
     }
 
     public class DummyNotificationProxy : INotificationProxy
@@ -105,7 +106,10 @@ namespace Sanguosha.Core.UI
 
         public void NotifyPinDianStart(Player from, Player to)
         {
-            throw new NotImplementedException();
+        }
+
+        public void NotifyMultipleCardUsageResponded(Player player)
+        {
         }
     }
 }

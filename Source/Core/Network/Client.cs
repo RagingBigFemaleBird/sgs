@@ -93,6 +93,11 @@ namespace Sanguosha.Core.Network
                         CardChoiceCallback cbi = (CardChoiceCallback)item.obj;
                         Game.CurrentGame.NotificationProxy.NotifyCardChoiceCallback(cbi.o);
                     }
+                    if (item.obj is CardUsageResponded)
+                    {
+                        var cbi = (CardUsageResponded)item.obj;
+                        Game.CurrentGame.NotificationProxy.NotifyMultipleCardUsageResponded(Game.CurrentGame.Players[cbi.playerId]);
+                    }
                     return Receive();
                 }
             }

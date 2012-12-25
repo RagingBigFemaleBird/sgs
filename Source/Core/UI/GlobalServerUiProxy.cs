@@ -137,6 +137,7 @@ namespace Sanguosha.Core.UI
                 manswerCards.Add(para.player, cards);
                 manswerPlayers.Add(para.player, players);
                 semAccess.Release(1);
+                para.proxy.SendMultipleCardUsageResponded();
             }
             if (!semDone.WaitOne(0))
             {
