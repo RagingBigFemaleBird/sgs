@@ -13,7 +13,7 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Exceptions;
 
-namespace Sanguosha.Expansions.SP.Skills
+namespace Sanguosha.Expansions.StarSP.Skills
 {
     /// <summary>
     /// 漫卷-每当你将获得任何一张牌，将之置于弃牌堆。若此情况处于你的回合中，你可依次将与该牌点数相同的一张牌从弃牌堆置于你手上。

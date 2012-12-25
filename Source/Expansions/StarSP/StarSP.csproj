@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C207EC66-730A-4FEC-B83D-E8F40B7CC620}</ProjectGuid>
+    <ProjectGuid>{919FE320-55C2-40BA-9E36-EC44059D7645}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sanguosha.Expansions.SP</RootNamespace>
-    <AssemblyName>SP</AssemblyName>
+    <RootNamespace>Sanguosha.Expansions.StarSP</RootNamespace>
+    <AssemblyName>StarSP</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -42,12 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Skills\DanLao.cs" />
-    <Compile Include="Skills\HuXiao.cs" />
-    <Compile Include="Skills\JiLei.cs" />
-    <Compile Include="Skills\WeiDi.cs" />
-    <Compile Include="Skills\YongSi.cs" />
-    <Compile Include="SpExpansion.cs" />
+    <Compile Include="Skills\ManJuan.cs" />
+    <Compile Include="Skills\ZuiXiang.cs" />
+    <Compile Include="StarSpExpansion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -65,17 +62,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SP.Game.xaml">
+    <None Include="StarSP.Game.xaml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SP.Skills.xaml">
+    <None Include="StarSP.Skills.xaml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SP.Cards.xaml">
+    <None Include="StarSP.Cards.xaml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>

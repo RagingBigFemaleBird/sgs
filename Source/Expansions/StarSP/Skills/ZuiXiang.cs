@@ -13,7 +13,7 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Exceptions;
 
-namespace Sanguosha.Expansions.SP.Skills
+namespace Sanguosha.Expansions.StarSP.Skills
 {
     /// <summary>
     /// 醉乡-限定技，回合开始阶段开始时，你可以展示牌库顶的3张牌置于你的武将牌上，你不可以使用或打出与该些牌同类的牌，所有同类牌对你无效。之后每个你的回合开始阶段，你须重复展示一次，直至该些牌中任意两张点数相同时，将你武将牌上的全部牌置于你的手上。
