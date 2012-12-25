@@ -101,5 +101,11 @@ namespace Sanguosha.Core.UI
         public void NotifyWuGuEnd()
         {
         }
+
+
+        public void NotifyPinDianStart(Player from, Player to)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
