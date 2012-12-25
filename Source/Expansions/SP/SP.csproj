@@ -42,10 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Skills\DanLao.cs" />
     <Compile Include="Skills\HuXiao.cs" />
     <Compile Include="Skills\JiLei.cs" />
     <Compile Include="Skills\ManJuan.cs" />
-    <Compile Include="Skills\TanLao.cs" />
     <Compile Include="Skills\WeiDi.cs" />
     <Compile Include="Skills\YongSi.cs" />
     <Compile Include="Skills\ZuiXiang.cs" />

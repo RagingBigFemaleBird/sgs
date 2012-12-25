@@ -22,6 +22,6 @@
     <sys:String x:Key="Skill.JiLei.Usage">系统提示→选择牌的类别或点取消不发动</sys:String>
     <sys:String x:Key="Skill.ManJuan.Name">漫卷</sys:String>
     <sys:String x:Key="Skill.ZuiXiang.Name">醉乡</sys:String>
-    <sys:String x:Key="Skill.TanLao.Name">啖酪</sys:String>
+    <sys:String x:Key="Skill.DanLao.Name">啖酪</sys:String>
 
 </ResourceDictionary>

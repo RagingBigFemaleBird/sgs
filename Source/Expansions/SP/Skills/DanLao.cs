@@ -20,9 +20,9 @@ namespace Sanguosha.Expansions.SP.Skills
     /// </summary>
     public class DanLao : TriggerSkill
     {
-        class TanLaoVerifier : CardsAndTargetsVerifier
+        class DanLaoVerifier : CardsAndTargetsVerifier
         {
-            public TanLaoVerifier()
+            public DanLaoVerifier()
             {
                 MinCards = 1;
                 MaxCards = 1;
@@ -39,7 +39,7 @@ namespace Sanguosha.Expansions.SP.Skills
         public void OnPlayerIsCardTarget(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             Game.CurrentGame.DrawCards(owner, 1);
-            eventArgs.ReadonlyCard[CardAttribute.Register("TanLao" + owner.Id)] = 1;
+            eventArgs.ReadonlyCard[CardAttribute.Register("DanLao" + owner.Id)] = 1;
         }
 
         public DanLao()
@@ -52,7 +52,7 @@ namespace Sanguosha.Expansions.SP.Skills
             );
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard[CardAttribute.Register("TanLao" + p.Id)] == 1; },
+                (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard[CardAttribute.Register("DanLao" + p.Id)] == 1; },
                 (p, e, a) => { throw new TriggerResultException(TriggerResult.End); },
                 TriggerCondition.OwnerIsTarget
             ) { AskForConfirmation = false };
