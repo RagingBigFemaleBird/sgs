@@ -18,7 +18,7 @@ namespace Sanguosha.Expansions.SP.Skills
     /// <summary>
     /// 啖酪-当一个锦囊指定了包括你在内的多个目标，你可以立即摸一张牌，若如此做，该锦囊对你无效。
     /// </summary>
-    public class TanLao : TriggerSkill
+    public class DanLao : TriggerSkill
     {
         class TanLaoVerifier : CardsAndTargetsVerifier
         {
@@ -42,7 +42,7 @@ namespace Sanguosha.Expansions.SP.Skills
             eventArgs.ReadonlyCard[CardAttribute.Register("TanLao" + owner.Id)] = 1;
         }
 
-        public TanLao()
+        public DanLao()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
