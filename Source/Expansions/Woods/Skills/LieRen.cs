@@ -21,7 +21,7 @@ namespace Sanguosha.Expansions.Woods.Skills
     {
         protected void Run(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            var result = Game.CurrentGame.PinDian(owner, eventArgs.Targets[0]);
+            var result = Game.CurrentGame.PinDian(owner, eventArgs.Targets[0], this);
             if (result && Game.CurrentGame.Decks[eventArgs.Targets[0], DeckType.Hand].Count + Game.CurrentGame.Decks[eventArgs.Targets[0], DeckType.Equipment].Count > 0)
             {
                 var dest = eventArgs.Targets[0];

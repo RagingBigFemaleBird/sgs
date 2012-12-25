@@ -38,6 +38,7 @@
     <system:String x:Key="MultiChoice.Prompt.SkillYesNo">是否发动{0}?</system:String>
     <system:String x:Key="Translation.Usage">操作步骤</system:String>
     <system:String x:Key="CardUsage.Prompt.PinDian">请选择一张拼点牌</system:String>
+    <system:String x:Key="Window.PinDian.Prompt">{0}拼点</system:String>
     
     <system:String x:Key="MultiChoice.Choice.Confirm">确定</system:String>
     <system:String x:Key="CardChoice.Prompt.PrivateDeck">{0}的{1}</system:String>

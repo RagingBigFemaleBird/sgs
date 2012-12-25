@@ -1851,9 +1851,9 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public void PinDianReturnCards(Player from, Player to, out Card c1, out Card c2)
+        public void PinDianReturnCards(Player from, Player to, out Card c1, out Card c2, ISkill skill)
         {
-            Game.CurrentGame.NotificationProxy.NotifyPinDianStart(from, to);
+            Game.CurrentGame.NotificationProxy.NotifyPinDianStart(from, to, skill);
             Dictionary<Player, ISkill> aSkill;
             Dictionary<Player, List<Card>> aCards;
             Dictionary<Player, List<Player>> aPlayers;
@@ -1883,10 +1883,10 @@ namespace Sanguosha.Core.Games
             Game.CurrentGame.NotificationProxy.NotifyPinDianEnd(c1, c2);
         }
 
-        public bool PinDian(Player from, Player to)
+        public bool PinDian(Player from, Player to, ISkill skill)
         {
             Card card1, card2;
-            PinDianReturnCards(from, to, out card1, out card2);
+            PinDianReturnCards(from, to, out card1, out card2, skill);
             EnterAtomicContext();
             PlaceIntoDiscard(from, new List<Card>() { card1 });
             PlaceIntoDiscard(to, new List<Card>() { card2 });

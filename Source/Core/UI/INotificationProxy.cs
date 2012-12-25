@@ -36,7 +36,7 @@ namespace Sanguosha.Core.UI
         void NotifyImpersonation(Player p, Hero h, ISkill s);
         void NotifyWuGuStart(DeckPlace place);
         void NotifyWuGuEnd();
-        void NotifyPinDianStart(Player from, Player to);
+        void NotifyPinDianStart(Player from, Player to, ISkill skill);
         void NotifyMultipleCardUsageResponded(Player player);
         void NotifyPinDianEnd(Card c1, Card c2);
     }
@@ -105,7 +105,7 @@ namespace Sanguosha.Core.UI
         }
 
 
-        public void NotifyPinDianStart(Player from, Player to)
+        public void NotifyPinDianStart(Player from, Player to, ISkill skill)
         {
         }
 

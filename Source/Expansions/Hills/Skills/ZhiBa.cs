@@ -57,7 +57,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 }
             }
             Card card1, card2;
-            Game.CurrentGame.PinDianReturnCards(Owner, Master, out card1, out card2);
+            Game.CurrentGame.PinDianReturnCards(Owner, Master, out card1, out card2, this);
             if (card1.Rank <= card2.Rank)
             {
                 int answer;

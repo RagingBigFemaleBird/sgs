@@ -878,6 +878,42 @@ namespace Sanguosha.UI.Controls
             });
         }
 
+
+        public void NotifyWuGuStart(DeckPlace place)
+        {
+        }
+
+        public void NotifyWuGuEnd()
+        {
+        }
+
+
+        public void NotifyPinDianStart(Player from, Player to, ISkill reason)
+        {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                pinDianWindow.Caption = PromptFormatter.Format(new Prompt("Window.PinDian.Prompt", reason));
+                pinDianBox.StartPinDian(from, to);
+                pinDianWindow.Show();
+            });
+        }
+
+        public void NotifyMultipleCardUsageResponded(Player player)
+        {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                pinDianBox.OnPinDianCardPlayed(player);
+            });
+        }
+
+        public void NotifyPinDianEnd(Card c1, Card c2)
+        {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                pinDianBox.RevealResult(c1, c2, c1.Rank > c2.Rank);
+            });
+        }
+
         #endregion
 
         #region Private Decks
@@ -896,21 +932,6 @@ namespace Sanguosha.UI.Controls
         }
         #endregion
 
-        public void NotifyWuGuStart(DeckPlace place)
-        {
-        }
-
-        public void NotifyWuGuEnd()
-        {
-        }
-
-
-        public void NotifyPinDianStart(Player from, Player to)
-        {
-        }
-
-        public void NotifyMultipleCardUsageResponded(Player player)
-        {
-        }
+        
     }
 }

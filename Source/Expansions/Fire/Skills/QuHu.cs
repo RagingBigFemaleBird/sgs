@@ -66,7 +66,7 @@ namespace Sanguosha.Expansions.Fire.Skills
         public override bool Commit(GameEventArgs arg)
         {
             Owner[QuHuUsed] = 1;
-            bool result = Game.CurrentGame.PinDian(Owner, arg.Targets[0]);
+            bool result = Game.CurrentGame.PinDian(Owner, arg.Targets[0], this);
             if (result)
             {
                 ISkill skill;

@@ -246,5 +246,17 @@
             </xctk:ChildWindow.Effect>
             <local:CardChoiceBox />    
         </xctk:ChildWindow>
+        <xctk:ChildWindow x:Name="pinDianWindow" 
+                  Template="{DynamicResource DarkGreenWindowStyle}"        
+                  MaxWidth="600"
+                  HorizontalContentAlignment="Center"
+                  CloseButtonVisibility="{Binding CanClose, Converter={StaticResource boolToVisibilityConverter}}"
+                  Caption="{Binding Prompt}"
+                  WindowStartupLocation="Center">
+            <xctk:ChildWindow.Effect>
+                <DropShadowEffect BlurRadius="10"/>
+            </xctk:ChildWindow.Effect>
+            <local:PinDianBox x:Name="pinDianBox" />
+        </xctk:ChildWindow>
     </Grid>
 </UserControl>
