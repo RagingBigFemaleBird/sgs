@@ -1,25 +1,25 @@
 ﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 xmlns:ee="http://schemas.microsoft.com/expression/2010/effects"
-			 xmlns:local="clr-namespace:Sanguosha.UI.Controls"
-			 xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
-			 xmlns:diagnostics="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ee="http://schemas.microsoft.com/expression/2010/effects"
+             xmlns:local="clr-namespace:Sanguosha.UI.Controls"
+             xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
+             xmlns:diagnostics="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-			 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
-			 xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-	         x:Class="Sanguosha.UI.Controls.GameView"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             x:Class="Sanguosha.UI.Controls.GameView"
              d:DesignHeight="747" d:DesignWidth="1076" Width="Auto" Height="Auto" mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>            	
-            	<ResourceDictionary Source="../../Common.xaml"/>
+                <ResourceDictionary Source="../../Common.xaml"/>
                 <ResourceDictionary Source="../Players/MarkView.xaml"/>
-            	<ResourceDictionary Source="../Buttons/MultiChoiceButton.xaml"/>
+                <ResourceDictionary Source="../Buttons/MultiChoiceButton.xaml"/>
                 <ResourceDictionary Source="../Dialogs/PromptBox.xaml"/>
-            	<ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
-            	<ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <local:SkillButtonTemplateSelector x:Key="skillButtonTemplateSelector" />
             <LinearGradientBrush x:Key="indicatorLineBrush" EndPoint="0.5,1" StartPoint="0.5,0">
@@ -36,87 +36,87 @@
                 <GradientStop Color="#7FF1EC8A" Offset="0.082"/>
                 <GradientStop Color="#7FF1EC8A" Offset="0.94"/>
             </LinearGradientBrush>
-        	<SolidColorBrush x:Key="CheckBoxStroke" Color="#8E8F8F"/>
-        	<Style x:Key="CheckRadioFocusVisual">
-        		<Setter Property="Control.Template">
-        			<Setter.Value>
-        				<ControlTemplate>
-        					<Rectangle Margin="14,0,0,0" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
-        				</ControlTemplate>
-        			</Setter.Value>
-        		</Setter>
-        	</Style>
-        	<Style x:Key="LogFilterRadioButtonStyle" TargetType="{x:Type RadioButton}">
-        		<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        		<Setter Property="Background" Value="#F4F4F4"/>
-        		<Setter Property="BorderBrush" Value="{StaticResource CheckBoxStroke}"/>
-        		<Setter Property="BorderThickness" Value="1"/>
-				<Setter Property="Margin" Value="1,0,1,0"/>
-        		<Setter Property="Template">
-        			<Setter.Value>
-        				<ControlTemplate TargetType="{x:Type RadioButton}">
-        					<Border x:Name="mainBorder" BorderThickness="1" BorderBrush="#FF827054" Background="#FF504534">
-        						<TextBlock x:Name="mainText" Text="{TemplateBinding Content}" Width="16" Height="16" FontFamily="SimSun" LineStackingStrategy="BlockLineHeight" Foreground="#FFE4D5A0" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"/>
-							</Border>
-        					<ControlTemplate.Triggers>
-        						<Trigger Property="HasContent" Value="true">
-        							<Setter Property="FocusVisualStyle" Value="{StaticResource CheckRadioFocusVisual}"/>
-        							<Setter Property="Padding" Value="4,0,0,0"/>
-        						</Trigger>
-        						<Trigger Property="IsEnabled" Value="false">
-        							<Setter TargetName="mainBorder" Property="Background" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-        						</Trigger>
-        						<Trigger Property="IsChecked" Value="True">
-        							<Setter TargetName="mainText" Property="Foreground" Value="Red" />
-        						</Trigger>
-        					</ControlTemplate.Triggers>
-        				</ControlTemplate>
-        			</Setter.Value>
-        		</Setter>
-        	</Style>
+            <SolidColorBrush x:Key="CheckBoxStroke" Color="#8E8F8F"/>
+            <Style x:Key="CheckRadioFocusVisual">
+                <Setter Property="Control.Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Rectangle Margin="14,0,0,0" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="LogFilterRadioButtonStyle" TargetType="{x:Type RadioButton}">
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="Background" Value="#F4F4F4"/>
+                <Setter Property="BorderBrush" Value="{StaticResource CheckBoxStroke}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Margin" Value="1,0,1,0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type RadioButton}">
+                            <Border x:Name="mainBorder" BorderThickness="1" BorderBrush="#FF827054" Background="#FF504534">
+                                <TextBlock x:Name="mainText" Text="{TemplateBinding Content}" Width="16" Height="16" FontFamily="SimSun" LineStackingStrategy="BlockLineHeight" Foreground="#FFE4D5A0" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="HasContent" Value="true">
+                                    <Setter Property="FocusVisualStyle" Value="{StaticResource CheckRadioFocusVisual}"/>
+                                    <Setter Property="Padding" Value="4,0,0,0"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter TargetName="mainBorder" Property="Background" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter TargetName="mainText" Property="Foreground" Value="Red" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid x:Name="gridRoot">
         <Grid.ColumnDefinitions>        
-        	<ColumnDefinition />
-        	<ColumnDefinition Width="213"/>
+            <ColumnDefinition />
+            <ColumnDefinition Width="213"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions> 
-        	<RowDefinition />
-        	<RowDefinition Height="148" />
+            <RowDefinition />
+            <RowDefinition Height="148" />
         </Grid.RowDefinitions>
-		  
+          
         <Image x:Name="tableBg" Source="{DynamicResource Game.Table.Background}" Stretch="Fill" />
         <local:NonClipGrid x:Name="gridTable" Margin="0,0,0,30">
-    	    <local:NonClipGrid.ColumnDefinitions>
-    	    	<ColumnDefinition Width="190"/>
-    	    	<ColumnDefinition />
-    	    	<ColumnDefinition Width="190"/>
-    	    </local:NonClipGrid.ColumnDefinitions>
-    	    <local:NonClipGrid.RowDefinitions>
-    	    	<RowDefinition Height="220"/>
-    	    	<RowDefinition/>
-    	    </local:NonClipGrid.RowDefinitions>
+            <local:NonClipGrid.ColumnDefinitions>
+                <ColumnDefinition Width="190"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="190"/>
+            </local:NonClipGrid.ColumnDefinitions>
+            <local:NonClipGrid.RowDefinitions>
+                <RowDefinition Height="220"/>
+                <RowDefinition/>
+            </local:NonClipGrid.RowDefinitions>
             <local:DiscardDeck x:Name="discardDeck" CardAlignment="Center" MaxCardSpacing="93" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Height="130" Margin="20,0,20,30"/>
-    	    <StackPanel x:Name="stackPanel0" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <StackPanel x:Name="stackPanel0" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
             <StackPanel x:Name="stackPanel1" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Top"/>		
-		    <StackPanel x:Name="stackPanel2" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-		    <StackPanel x:Name="stackPanel3" Grid.RowSpan="2" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-		    <StackPanel x:Name="stackPanel4" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-		    <StackPanel x:Name="stackPanel5" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" />
+            <StackPanel x:Name="stackPanel2" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <StackPanel x:Name="stackPanel3" Grid.RowSpan="2" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <StackPanel x:Name="stackPanel4" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <StackPanel x:Name="stackPanel5" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" />
         </local:NonClipGrid>
         <StackPanel x:Name="spPrompt"
                         HorizontalAlignment="Center"  VerticalAlignment="Bottom"
                         Margin="100, 0, 100, 0">
             <Viewbox Height="58" StretchDirection="DownOnly">
                 <local:OutlinedTextBlock x:Name="tbPrompt" Text="{Binding MainPlayerModel.CurrentPromptString}" 
-			   				 Fill="White" Stroke="Black" StrokeThickness="1"									 
-							 HorizontalAlignment="Center"
+                             Fill="White" Stroke="Black" StrokeThickness="1"									 
+                             HorizontalAlignment="Center"
                              VerticalAlignment="Bottom"
                              TextWrapping="Wrap"
                              TextAlignment="Center"
                              Width="500"
-				    		 FontSize="20" FontFamily="SimHei" FontWeight="Bold"/>
+                             FontSize="20" FontFamily="SimHei" FontWeight="Bold"/>
             </Viewbox>
             <ItemsControl x:Name="gridChoices" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="0,0,0,2" MaxWidth="1000" ItemsSource="{Binding MainPlayerModel.MultiChoiceCommands}">
                 <ItemsControl.ItemsPanel>
@@ -135,10 +135,10 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
             <ProgressBar x:Name="progressBar" Style="{StaticResource TimedProgressBarStyle}"
-		             Grid.ColumnSpan="2" HorizontalAlignment="Center"
-					 Width="264" Height="16"
-					 Margin="0,0,0,7"
-					 VerticalAlignment="Bottom"/>
+                     Grid.ColumnSpan="2" HorizontalAlignment="Center"
+                     Width="264" Height="16"
+                     Margin="0,0,0,7"
+                     VerticalAlignment="Bottom"/>
         </StackPanel>
         <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Right">
             <ItemsControl ItemsSource="{Binding MainPlayerModel.Marks}"
@@ -152,7 +152,7 @@
             </ItemsControl>
             <ItemsControl HorizontalAlignment="Right"
                           VerticalAlignment="Bottom" 						  
-						  ItemsSource="{Binding MainPlayerModel.RulerGivenSkillCommands}"
+                          ItemsSource="{Binding MainPlayerModel.RulerGivenSkillCommands}"
                           ItemTemplateSelector="{StaticResource skillButtonTemplateSelector}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -166,9 +166,9 @@
         <Grid x:Name="infoPanelBg" Background="#FFA79865">
             <Grid>
                 <Grid.RowDefinitions>
-                	<RowDefinition Height="103"/>
-                	<RowDefinition />
-                	<RowDefinition Height="10"/>
+                    <RowDefinition Height="103"/>
+                    <RowDefinition />
+                    <RowDefinition Height="10"/>
                 </Grid.RowDefinitions>
                 <Image Source="{DynamicResource Game.InfoPanel.Header}" />
                 <Border Grid.Row="1">
@@ -181,73 +181,64 @@
             </Grid>
         </Grid>
         <Grid x:Name="infoPanelForeground">
-        	<Grid.RowDefinitions>
-        		<RowDefinition Height="313" /> 
-				<RowDefinition />
-				<RowDefinition Height="25" />
-			</Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="313" /> 
+                <RowDefinition />
+                <RowDefinition Height="25" />
+            </Grid.RowDefinitions>
             <Canvas Width="213" Height="311">
                 <TabControl x:Name="infoPlanTab" Width="211" Canvas.Top="57.334" Height="255" Background="{x:Null}" BorderBrush="{x:Null}" Margin="3,0">
                     <TabItem Header="牌局" x:Name="tabLogBox" Style="{DynamicResource TabItemStyle}">                    	
-                    	<Grid Margin="-7,-3,0,0" >
-                    		<StackPanel Height="20" Margin="5,0,0,0" VerticalAlignment="Top" Orientation="Horizontal">
-                    			<RadioButton x:Name="rbLog0" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="全" IsChecked="True"/>
-                    			<RadioButton x:Name="rbLog1" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="一" Visibility="Hidden"/>
-                    			<RadioButton x:Name="rbLog2" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="二" Visibility="Hidden"/>
-								<RadioButton x:Name="rbLog3" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="三" Visibility="Hidden"/>
-								<RadioButton x:Name="rbLog4" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="四" Visibility="Hidden"/>
-								<RadioButton x:Name="rbLog5" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="五" Visibility="Hidden"/>
-								<RadioButton x:Name="rbLog6" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="六" Visibility="Hidden"/>
-								<RadioButton x:Name="rbLog7" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="七" Visibility="Hidden"/>
-								<RadioButton x:Name="rbLog8" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="八" Visibility="Hidden"/>
-								<RadioButton x:Name="rbLog9" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="九" Visibility="Hidden"/>		
-                    		</StackPanel>
-							<RadioButton x:Name="rbLog10" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="十" Width="16" Height="16" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,22,5,0" Visibility="Hidden"/>
-                    		<RichTextBox x:Name="rtbLog" Background="Transparent" Margin="0,22,-2,0" Style="{DynamicResource RichTextBoxStyle}" Foreground="#FFF6DE9C" FontFamily="SimSun" FontSize="13.333" BorderBrush="Transparent" VerticalScrollBarVisibility="Auto" IsReadOnly="True" IsReadOnlyCaretVisible="True">
-                    			<RichTextBox.Resources>
-                    				<Style TargetType="{x:Type Paragraph}">
-                    					<Setter Property="Margin" Value="0,5"/>
-                    				</Style>
-                    			</RichTextBox.Resources>                    			
-                    		</RichTextBox>
-                    	</Grid>
+                        <Grid Margin="-7,-3,0,0" >
+                            <StackPanel Height="20" Margin="5,0,0,0" VerticalAlignment="Top" Orientation="Horizontal">
+                                <RadioButton x:Name="rbLog0" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="全" IsChecked="True"/>
+                                <RadioButton x:Name="rbLog1" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="一" Visibility="Hidden"/>
+                                <RadioButton x:Name="rbLog2" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="二" Visibility="Hidden"/>
+                                <RadioButton x:Name="rbLog3" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="三" Visibility="Hidden"/>
+                                <RadioButton x:Name="rbLog4" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="四" Visibility="Hidden"/>
+                                <RadioButton x:Name="rbLog5" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="五" Visibility="Hidden"/>
+                                <RadioButton x:Name="rbLog6" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="六" Visibility="Hidden"/>
+                                <RadioButton x:Name="rbLog7" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="七" Visibility="Hidden"/>
+                                <RadioButton x:Name="rbLog8" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="八" Visibility="Hidden"/>
+                                <RadioButton x:Name="rbLog9" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="九" Visibility="Hidden"/>		
+                            </StackPanel>
+                            <RadioButton x:Name="rbLog10" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="十" Width="16" Height="16" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,22,5,0" Visibility="Hidden"/>
+                            <RichTextBox x:Name="rtbLog" Background="Transparent" Margin="0,22,-2,0" Style="{DynamicResource RichTextBoxStyle}" Foreground="#FFF6DE9C" FontFamily="SimSun" FontSize="13.333" BorderBrush="Transparent" VerticalScrollBarVisibility="Auto" IsReadOnly="True" IsReadOnlyCaretVisible="True">
+                                <RichTextBox.Resources>
+                                    <Style TargetType="{x:Type Paragraph}">
+                                        <Setter Property="Margin" Value="0,5"/>
+                                    </Style>
+                                </RichTextBox.Resources>                    			
+                            </RichTextBox>
+                        </Grid>
                     </TabItem>
-					<TabItem Header="房间" x:Name="tabRoomInfo" Style="{DynamicResource TabItemStyle}">
+                    <TabItem Header="房间" x:Name="tabRoomInfo" Style="{DynamicResource TabItemStyle}">
                         <Grid />
                     </TabItem>
-					<TabItem Header="好友" x:Name="tabFriends" Style="{DynamicResource TabItemStyle}">
+                    <TabItem Header="好友" x:Name="tabFriends" Style="{DynamicResource TabItemStyle}">
                         <Grid />
                     </TabItem>
                 </TabControl>
             </Canvas>
             <RichTextBox Grid.Row="1" Background="Transparent" Margin="0,0,2,0" Style="{DynamicResource RichTextBoxStyle}" Foreground="#FFDCDBBD" FontFamily="SimSun" FontSize="13.333" BorderBrush="Transparent" IsReadOnly="True" IsReadOnlyCaretVisible="True" VerticalScrollBarVisibility="Auto">
-                        		<FlowDocument>                        			
-                        			<Paragraph><Run Language="zh-cn" Text="刘备：黄月英，你要那么多牌干什么？"/></Paragraph>
-                        			<Paragraph><Run Language="zh-cn" Text="黄月英：你给我的好不？"/></Paragraph>
-                        			<Paragraph><Run Language="zh-cn" Text="刘备：自己去看游戏记录，那些牌都是从牌堆里摸的"/></Paragraph>
-                        			<Paragraph><Run Language="zh-cn" Text="黄月英：是么，我怎么不记得了？"/></Paragraph>
-                        			<Paragraph><Run Language="zh-cn" Text="张飞：要不，英姐你拿张手牌给军师，他那现在一张牌都没有呢。"/></Paragraph>
-                        			<Paragraph><Run Language="zh-cn" Text="关羽：别吵了，那张黑色的闪电给军师，剩下的都是红牌，都给我。"/></Paragraph>                      			
-                        		</FlowDocument>
-        	</RichTextBox>
-			<local:ChatWidget Grid.Row="2" Height="18" VerticalAlignment="Top" Margin="5,0"/>
+                                <FlowDocument>                        			
+                                    <Paragraph><Run Language="zh-cn" Text="刘备：黄月英，你要那么多牌干什么？"/></Paragraph>
+                                    <Paragraph><Run Language="zh-cn" Text="黄月英：你给我的好不？"/></Paragraph>
+                                    <Paragraph><Run Language="zh-cn" Text="刘备：自己去看游戏记录，那些牌都是从牌堆里摸的"/></Paragraph>
+                                    <Paragraph><Run Language="zh-cn" Text="黄月英：是么，我怎么不记得了？"/></Paragraph>
+                                    <Paragraph><Run Language="zh-cn" Text="张飞：要不，英姐你拿张手牌给军师，他那现在一张牌都没有呢。"/></Paragraph>
+                                    <Paragraph><Run Language="zh-cn" Text="关羽：别吵了，那张黑色的闪电给军师，剩下的都是红牌，都给我。"/></Paragraph>                      			
+                                </FlowDocument>
+            </RichTextBox>
+            <local:ChatWidget Grid.Row="2" Height="18" VerticalAlignment="Top" Margin="5,0"/>
         </Grid>
         </Grid>
         <Canvas x:Name="gameGlobalCanvas" Grid.RowSpan="2" Grid.ColumnSpan="2" />
-        <xctk:ChildWindow x:Name="cardChoiceWindow" 
+        <xctk:ChildWindow x:Name="deckDisplayWindow" 
                   Template="{DynamicResource DarkGreenWindowStyle}"        
                   MaxWidth="600"
-        		  CloseButtonVisibility="{Binding MainPlayerModel.CardChoiceModel.CanClose, Converter={StaticResource boolToVisibilityConverter}}"                                  
-                  WindowStartupLocation="Center">
-            <xctk:ChildWindow.Effect>
-                <DropShadowEffect BlurRadius="10"/>
-            </xctk:ChildWindow.Effect>
-            <Grid x:Name="cardChoiceBoxBody"/>    
-        </xctk:ChildWindow>
-		<xctk:ChildWindow x:Name="deckDisplayWindow" 
-                  Template="{DynamicResource DarkGreenWindowStyle}"        
-                  MaxWidth="600"
-        		  CloseButtonVisibility="{Binding CanClose, Converter={StaticResource boolToVisibilityConverter}}"
+                  HorizontalContentAlignment="Center"
+                  CloseButtonVisibility="{Binding CanClose, Converter={StaticResource boolToVisibilityConverter}}"
                   Caption="{Binding Prompt}"                  
                   WindowStartupLocation="Center">
             <xctk:ChildWindow.Effect>

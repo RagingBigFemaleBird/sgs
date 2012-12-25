@@ -177,10 +177,13 @@ namespace Sanguosha.UI.Controls
                 foreach (var cardView in stack.Cards)
                 {
                     _originalPlace.Add(cardView, stack);
-                    cardView.DragDirection = DragDirection.Both;
-                    cardView.OnDragBegin += cardView_OnDragBegin;
-                    cardView.OnDragging += cardView_OnDragging;
-                    cardView.OnDragEnd += cardView_OnDragEnd;
+                    if (!model.DisplayOnly)
+                    {
+                        cardView.DragDirection = DragDirection.Both;
+                        cardView.OnDragBegin += cardView_OnDragBegin;
+                        cardView.OnDragging += cardView_OnDragging;
+                        cardView.OnDragEnd += cardView_OnDragEnd;
+                    }
                 }
 
                 if (isResultHorizontal && line.IsResultDeck)

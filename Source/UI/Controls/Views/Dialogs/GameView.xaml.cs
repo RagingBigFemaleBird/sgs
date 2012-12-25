@@ -28,6 +28,8 @@ using System.Windows.Interactivity;
 using Microsoft.Expression.Interactivity.Layout;
 using Sanguosha.Expansions.Basic.Cards;
 using Sanguosha.Expansions.Battle.Cards;
+using Xceed.Wpf.Toolkit;
+using System.Windows.Media.Effects;
 
 namespace Sanguosha.UI.Controls
 {
@@ -299,6 +301,7 @@ namespace Sanguosha.UI.Controls
             }       
         }
 
+        ChildWindow cardChoiceWindow;
         void _player_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
@@ -306,9 +309,19 @@ namespace Sanguosha.UI.Controls
                 PlayerViewModel model = sender as PlayerViewModel;
                 int count = GameModel.PlayerModels.Count;
                 if (e.PropertyName == "IsCardChoiceQuestionShown")
-                {
+                {                    
                     if (model.IsCardChoiceQuestionShown)
                     {
+                        if (cardChoiceWindow != null)
+                        {
+                            gridRoot.Children.Remove(cardChoiceWindow);
+                        }
+                        cardChoiceWindow = new ChildWindow();
+                        cardChoiceWindow.Template = Resources["DarkGreenWindowStyle"] as ControlTemplate;
+                        cardChoiceWindow.MaxWidth = 600;
+                        cardChoiceWindow.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
+                        cardChoiceWindow.CloseButtonVisibility = model.CardChoiceModel.CanClose ? Visibility.Visible : Visibility.Collapsed;
+                        cardChoiceWindow.Effect = new DropShadowEffect(){ BlurRadius = 10d };
                         cardChoiceWindow.Caption = model.CardChoiceModel.Prompt;
                         var box = CardChoiceBoxSelector.CreateBox(model.CardChoiceModel);
                         if (box is CardArrangeBox)
@@ -321,16 +334,19 @@ namespace Sanguosha.UI.Controls
                                     callback(new UiCardRearrangement(s1, s2, d1, d2));
                                 }
                             };
-                        }
-                        cardChoiceBoxBody.Children.Add(box);
+                        }                        
+                        gridRoot.Children.Add(cardChoiceWindow);
+                        cardChoiceWindow.WindowStartupLocation = Xceed.Wpf.Toolkit.WindowStartupLocation.Center;
+                        cardChoiceWindow.Content = box;
                         cardChoiceWindow.Show();
                     }
-                    else
+                    else if (cardChoiceWindow != null)
                     {
-                        cardChoiceBoxBody.Children.Clear();
                         cardChoiceWindow.Close();
-                    }
-                }
+                        gridRoot.Children.Remove(cardChoiceWindow);
+                        cardChoiceWindow = null;
+                    }    
+                }           
                 else if (e.PropertyName == "Role")
                 {
                     int index;
@@ -810,8 +826,8 @@ namespace Sanguosha.UI.Controls
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                if (cardChoiceBoxBody.Children.Count == 0) return;
-                var box = cardChoiceBoxBody.Children[0] as CardArrangeBox;
+                if (cardChoiceWindow == null) return;
+                var box = cardChoiceWindow.Content as CardArrangeBox;
                 if (box == null) return;
                 UiCardRearrangement arrange = (UiCardRearrangement)o;
                 box.MoveCard(arrange);
