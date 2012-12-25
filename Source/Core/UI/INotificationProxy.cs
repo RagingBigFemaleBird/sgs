@@ -36,6 +36,7 @@ namespace Sanguosha.Core.UI
         void NotifyImpersonation(Player p, Hero h, ISkill s);
         void NotifyWuGuStart(DeckPlace place);
         void NotifyWuGuEnd();
+        void NotifyPinDianStart(Player from, Player to);
     }
 
     public class DummyNotificationProxy : INotificationProxy
