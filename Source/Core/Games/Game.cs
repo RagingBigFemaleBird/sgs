@@ -1880,6 +1880,7 @@ namespace Sanguosha.Core.Games
             }
             c1 = card1;
             c2 = card2;
+            Game.CurrentGame.NotificationProxy.NotifyPinDianEnd(c1, c2);
         }
 
         public bool PinDian(Player from, Player to)
