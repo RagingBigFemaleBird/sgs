@@ -18,7 +18,7 @@ namespace Sanguosha.Expansions.StarSP
         {
             CardSet = new List<Card>();
 
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("StarSPPangTong", true, Allegiance.Qun, 3, new ManJuan(), new ZuiXiang()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SPPangTong", true, Allegiance.Qun, 3, new ManJuan(), new ZuiXiang()))));
         }
     }
 }
