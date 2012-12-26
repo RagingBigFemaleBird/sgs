@@ -656,8 +656,9 @@ namespace Sanguosha.Core.Games
                 {
                     pxy.Value.Freeze();
                 }
-
-                foreach (var p in game.AlivePlayers)
+                var toCheck = game.AlivePlayers;
+                game.SortByOrderOfComputation(game.Players[rulerId], toCheck);
+                foreach (var p in toCheck)
                 {
                     Game.CurrentGame.HandleGodHero(p);
                 }
