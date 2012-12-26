@@ -36,7 +36,7 @@ namespace Sanguosha.Core.Skills
             int answer;
             return (Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(
                     new MultipleChoicePrompt(Prompt.SkillUseYewNoPrompt, this), Prompt.YesNoChoices, out answer)
-                    && answer == 0);
+                    && answer == 1);
         }
 
         protected bool AskForSkillUse(ICardUsageVerifier verifier, out List<Card> cards, out List<Player> players, Prompt prompt = null)

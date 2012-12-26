@@ -32,26 +32,26 @@ namespace Sanguosha.Expansions.Fire.Skills
             if (owner[QinYinUsable] >= 2)
             {
                 List<OptionPrompt> QinYinQuestion = new List<OptionPrompt>();
+                QinYinQuestion.Add(Prompt.NoChoice);
                 QinYinQuestion.Add(new OptionPrompt("QinYinHuiFu"));
                 QinYinQuestion.Add(new OptionPrompt("QinYinShiQu"));
-                QinYinQuestion.Add(Prompt.NoChoice);
                 int answer;
                 var toProcess = Game.CurrentGame.AlivePlayers;
                 Game.CurrentGame.SortByOrderOfComputation(Owner, toProcess);
                 if (Game.CurrentGame.UiProxies[owner].AskForMultipleChoice(new MultipleChoicePrompt("QinYin"), QinYinQuestion, out answer))
                 {
-                    if (answer == 2)
+                    if (answer == 0)
                         return;
                     owner[QinYinUsed] = 1;
                     NotifySkillUse(new List<Player>());
-                    if (answer == 0)
+                    if (answer == 1)
                     {
                         foreach (var p in toProcess)
                         {
                             Game.CurrentGame.RecoverHealth(owner, p, 1);
                         }
                     }
-                    else if (answer == 1)
+                    else if (answer == 2)
                     {
                         foreach (var p in toProcess)
                         {

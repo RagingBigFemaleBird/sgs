@@ -96,7 +96,7 @@ namespace Sanguosha.Core.UI
         public static readonly OptionPrompt SpadeChoice = new OptionPrompt("Spade");
         public static readonly OptionPrompt ClubChoice = new OptionPrompt("Club");
         public static readonly OptionPrompt DiamondChoice = new OptionPrompt("Diamond");
-        public static readonly List<OptionPrompt> YesNoChoices = new List<OptionPrompt>() { YesChoice, NoChoice };
+        public static readonly List<OptionPrompt> YesNoChoices = new List<OptionPrompt>() { NoChoice, YesChoice };
         public static readonly List<OptionPrompt> SuitChoices = new List<OptionPrompt>() { ClubChoice, SpadeChoice, HeartChoice, DiamondChoice };
         public static readonly List<OptionPrompt> AllegianceChoices = new List<OptionPrompt>() { new OptionPrompt("Qun"), new OptionPrompt("Shu"), new OptionPrompt("Wei"), new OptionPrompt("Wu") };
         #endregion

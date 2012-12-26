@@ -51,7 +51,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             if (Master[HunZi.HunZiAwakened] == 1)
             {
                 int answer;
-                if (Game.CurrentGame.UiProxies[Master].AskForMultipleChoice(new MultipleChoicePrompt("ZhiBa"), Prompt.YesNoChoices, out answer) && answer == 1)
+                if (Game.CurrentGame.UiProxies[Master].AskForMultipleChoice(new MultipleChoicePrompt("ZhiBa"), Prompt.YesNoChoices, out answer) && answer == 0)
                 {
                     return true;
                 }

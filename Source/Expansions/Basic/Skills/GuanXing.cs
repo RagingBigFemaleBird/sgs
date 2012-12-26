@@ -81,6 +81,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 move.Cards.Add(c);
             }
             move.To = new DeckPlace(null, GuanXingDeck);
+            move.Helper.IsFakedMove = true;
             Game.CurrentGame.MoveCards(move);
             List<List<Card>> answer;
             AdditionalCardChoiceOptions options = new AdditionalCardChoiceOptions();
@@ -95,10 +96,12 @@ namespace Sanguosha.Expansions.Basic.Skills
                     options,
                     CardChoiceCallback.GenericCardChoiceCallback))
             {
+                Game.CurrentGame.NotificationProxy.NotifyDealAndDiscardDeckOperations(Owner, new List<Card>(Game.CurrentGame.Decks[null, GuanXingDeck]), new List<Card>(), null);
                 Game.CurrentGame.InsertBeforeDeal(null, Game.CurrentGame.Decks[null, GuanXingDeck]);
             }
             else
             {
+                Game.CurrentGame.NotificationProxy.NotifyDealAndDiscardDeckOperations(Owner, new List<Card>(answer[0]), new List<Card>(answer[1]), null);
                 Game.CurrentGame.InsertBeforeDeal(null, answer[0]);
                 Game.CurrentGame.InsertAfterDeal(null, answer[1]);
             }

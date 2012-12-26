@@ -1811,6 +1811,7 @@ namespace Sanguosha.Core.Games
             move.Cards = new List<Card>(list);
             move.Cards.Reverse();
             move.To = new DeckPlace(null, DeckType.Dealing);
+            move.Helper.IsFakedMove = true;
             if (helper != null)
             {
                 move.Helper = helper;
@@ -1827,6 +1828,7 @@ namespace Sanguosha.Core.Games
             CardsMovement move = new CardsMovement();
             move.Cards = new List<Card>(list);
             move.To = new DeckPlace(null, DeckType.Dealing);
+            move.Helper.IsFakedMove = true;
             if (helper != null)
             {
                 move.Helper = helper;

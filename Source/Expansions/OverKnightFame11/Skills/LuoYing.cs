@@ -48,7 +48,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             {
                 var prompt = new MultipleChoicePrompt("LuoYing", c);
                 if (c.Suit == SuitType.Club &&
-                    Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(prompt, Prompt.YesNoChoices, out answer) && answer == 0)
+                    Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(prompt, Prompt.YesNoChoices, out answer) && answer == 1)
                 {
                     ActionLog log = new ActionLog();
                     log.GameAction = GameAction.None;

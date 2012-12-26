@@ -67,12 +67,8 @@ namespace Sanguosha.Expansions.Wind.Skills
             Dictionary<Player, int> believe = new Dictionary<Player,int>();
             foreach (var player in toProcess)
             {
-                int answer = 1;
-                if (!Game.CurrentGame.UiProxies[player].AskForMultipleChoice(new MultipleChoicePrompt("GuHuo", Owner, AdditionalType.CardType), Prompt.YesNoChoices, out answer))
-                {
-                    //override default answer to no
-                    answer = 1;
-                }
+                int answer = 0;
+                Game.CurrentGame.UiProxies[player].AskForMultipleChoice(new MultipleChoicePrompt("GuHuo", Owner, AdditionalType.CardType), Prompt.YesNoChoices, out answer);
                 believe.Add(player, answer);
             }
             Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.Decks[null, DeckType.GuHuo][GuHuoOrder]);

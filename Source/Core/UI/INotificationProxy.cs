@@ -39,6 +39,7 @@ namespace Sanguosha.Core.UI
         void NotifyPinDianStart(Player from, Player to, ISkill skill);
         void NotifyMultipleCardUsageResponded(Player player);
         void NotifyPinDianEnd(Card c1, Card c2);
+        void NotifyDealAndDiscardDeckOperations(Player p, List<Card> beforeDeal, List<Card> afterDeal, List<Card> discard);
     }
 
     public class DummyNotificationProxy : INotificationProxy
@@ -114,6 +115,11 @@ namespace Sanguosha.Core.UI
         }
 
         public void NotifyPinDianEnd(Card c1, Card c2)
+        {
+        }
+
+
+        public void NotifyDealAndDiscardDeckOperations(Player p, List<Card> beforeDeal, List<Card> afterDeal, List<Card> discard)
         {
         }
     }
