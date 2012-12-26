@@ -657,17 +657,18 @@ namespace Sanguosha.Core.Games
                     pxy.Value.Freeze();
                 }
 
-                foreach (var allegianceCheck in players)
+                foreach (var p in game.AlivePlayers)
                 {
-                    Game.CurrentGame.HandleGodHero(allegianceCheck);
+                    Game.CurrentGame.HandleGodHero(p);
                 }
+
                 Shuffle(game.Decks[null, DeckType.Dealing]);
 
-                StartGameDeal(game);
+                Player current = game.CurrentPlayer = game.Players[rulerId];
 
-                Player current =
-                game.CurrentPlayer = game.Players[rulerId];
-                foreach (var act in game.Players)
+                StartGameDeal(game);
+                
+                foreach (var act in game.AlivePlayers)
                 {
                     game.Emit(GameEvent.PlayerGameStartAction, new GameEventArgs() { Source = act });
                 }

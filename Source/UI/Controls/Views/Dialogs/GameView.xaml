@@ -13,7 +13,7 @@
              d:DesignHeight="747" d:DesignWidth="1076" Width="Auto" Height="Auto" mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>            	
+            <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Common.xaml"/>
                 <ResourceDictionary Source="../Players/MarkView.xaml"/>
                 <ResourceDictionary Source="../Buttons/MultiChoiceButton.xaml"/>
@@ -77,15 +77,15 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid x:Name="gridRoot">
-        <Grid.ColumnDefinitions>        
+        <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="213"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions> 
+        <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="148" />
         </Grid.RowDefinitions>
-          
+
         <Image x:Name="tableBg" Source="{DynamicResource Game.Table.Background}" Stretch="Fill" />
         <local:NonClipGrid x:Name="gridTable" Margin="0,0,0,30">
             <local:NonClipGrid.ColumnDefinitions>
@@ -99,7 +99,7 @@
             </local:NonClipGrid.RowDefinitions>
             <local:DiscardDeck x:Name="discardDeck" CardAlignment="Center" MaxCardSpacing="93" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Height="130" Margin="20,0,20,30"/>
             <StackPanel x:Name="stackPanel0" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            <StackPanel x:Name="stackPanel1" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Top"/>		
+            <StackPanel x:Name="stackPanel1" Orientation="Horizontal" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <StackPanel x:Name="stackPanel2" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             <StackPanel x:Name="stackPanel3" Grid.RowSpan="2" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center"/>
             <StackPanel x:Name="stackPanel4" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top"/>
@@ -126,11 +126,11 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Viewbox Height="26" Width="auto">
-                            <Button Width="auto" Height="24" Style="{Binding ChoiceKey, Converter={StaticResource multiChoiceButtonStyleConverter}, Mode=OneWay}" DataContext="{Binding}" Command="{Binding}" Margin="20, 0, 20, 0">
+                        
+                        <Button Margin="20, 0, 20, 0" Style="{Binding ChoiceKey, Converter={StaticResource multiChoiceButtonStyleConverter}, Mode=OneWay}" DataContext="{Binding}" Command="{Binding}" HorizontalAlignment="Center" Width="auto">
                                 <local:OutlinedTextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Width="Auto" Text="{Binding Path=ChoiceKey, Mode=OneWay, Converter={StaticResource multiChoiceKeyConverter}}" FontFamily="SimHei" Fill="White" FontWeight="Bold" Stroke="Black" TextWrapping="NoWrap"/>
-                            </Button>
-                        </Viewbox>
+                        </Button>
+                        
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
@@ -163,75 +163,87 @@
         </StackPanel>
         <local:MainPlayerView x:Name="mainPlayerPanel" VerticalAlignment="Bottom" Grid.Row="1" Grid.ColumnSpan="2"/>
         <Grid x:Name="infoPanel" Grid.Column="1">
-        <Grid x:Name="infoPanelBg" Background="#FFA79865">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="103"/>
-                    <RowDefinition />
-                    <RowDefinition Height="10"/>
-                </Grid.RowDefinitions>
-                <Image Source="{DynamicResource Game.InfoPanel.Header}" />
-                <Border Grid.Row="1">
-                    <Border.Background>
-                        <ImageBrush ImageSource="{DynamicResource Game.InfoPanel.Body}" Viewport="0,0,308,149" ViewportUnits="Absolute" TileMode="FlipY" Stretch="UniformToFill"/>
-                    </Border.Background>
-                    <Image Source="{DynamicResource Game.InfoPanel.Splitter}" VerticalAlignment="Top" Margin="2,205,2,0"/>
-                </Border>                
-                <Image Source="{DynamicResource Game.InfoPanel.Footer}" Grid.Row="2"/>
+            <Grid x:Name="infoPanelBg" Background="#FFA79865">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="103"/>
+                        <RowDefinition />
+                        <RowDefinition Height="10"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="{DynamicResource Game.InfoPanel.Header}" />
+                    <Border Grid.Row="1">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{DynamicResource Game.InfoPanel.Body}" Viewport="0,0,308,149" ViewportUnits="Absolute" TileMode="FlipY" Stretch="UniformToFill"/>
+                        </Border.Background>
+                        <Image Source="{DynamicResource Game.InfoPanel.Splitter}" VerticalAlignment="Top" Margin="2,205,2,0"/>
+                    </Border>
+                    <Image Source="{DynamicResource Game.InfoPanel.Footer}" Grid.Row="2"/>
+                </Grid>
             </Grid>
-        </Grid>
-        <Grid x:Name="infoPanelForeground">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="313" /> 
-                <RowDefinition />
-                <RowDefinition Height="25" />
-            </Grid.RowDefinitions>
-            <Canvas Width="213" Height="311">
-                <TabControl x:Name="infoPlanTab" Width="211" Canvas.Top="57.334" Height="255" Background="{x:Null}" BorderBrush="{x:Null}" Margin="3,0">
-                    <TabItem Header="牌局" x:Name="tabLogBox" Style="{DynamicResource TabItemStyle}">                    	
-                        <Grid Margin="-7,-3,0,0" >
-                            <StackPanel Height="20" Margin="5,0,0,0" VerticalAlignment="Top" Orientation="Horizontal">
-                                <RadioButton x:Name="rbLog0" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="全" IsChecked="True"/>
-                                <RadioButton x:Name="rbLog1" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="一" Visibility="Hidden"/>
-                                <RadioButton x:Name="rbLog2" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="二" Visibility="Hidden"/>
-                                <RadioButton x:Name="rbLog3" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="三" Visibility="Hidden"/>
-                                <RadioButton x:Name="rbLog4" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="四" Visibility="Hidden"/>
-                                <RadioButton x:Name="rbLog5" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="五" Visibility="Hidden"/>
-                                <RadioButton x:Name="rbLog6" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="六" Visibility="Hidden"/>
-                                <RadioButton x:Name="rbLog7" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="七" Visibility="Hidden"/>
-                                <RadioButton x:Name="rbLog8" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="八" Visibility="Hidden"/>
-                                <RadioButton x:Name="rbLog9" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="九" Visibility="Hidden"/>		
-                            </StackPanel>
-                            <RadioButton x:Name="rbLog10" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="十" Width="16" Height="16" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,22,5,0" Visibility="Hidden"/>
-                            <RichTextBox x:Name="rtbLog" Background="Transparent" Margin="0,22,-2,0" Style="{DynamicResource RichTextBoxStyle}" Foreground="#FFF6DE9C" FontFamily="SimSun" FontSize="13.333" BorderBrush="Transparent" VerticalScrollBarVisibility="Auto" IsReadOnly="True" IsReadOnlyCaretVisible="True">
-                                <RichTextBox.Resources>
-                                    <Style TargetType="{x:Type Paragraph}">
-                                        <Setter Property="Margin" Value="0,5"/>
-                                    </Style>
-                                </RichTextBox.Resources>                    			
-                            </RichTextBox>
-                        </Grid>
-                    </TabItem>
-                    <TabItem Header="房间" x:Name="tabRoomInfo" Style="{DynamicResource TabItemStyle}">
-                        <Grid />
-                    </TabItem>
-                    <TabItem Header="好友" x:Name="tabFriends" Style="{DynamicResource TabItemStyle}">
-                        <Grid />
-                    </TabItem>
-                </TabControl>
-            </Canvas>
-            <RichTextBox Grid.Row="1" Background="Transparent" Margin="0,0,2,0" Style="{DynamicResource RichTextBoxStyle}" Foreground="#FFDCDBBD" FontFamily="SimSun" FontSize="13.333" BorderBrush="Transparent" IsReadOnly="True" IsReadOnlyCaretVisible="True" VerticalScrollBarVisibility="Auto">
-                                <FlowDocument>                        			
-                                    <Paragraph><Run Language="zh-cn" Text="刘备：黄月英，你要那么多牌干什么？"/></Paragraph>
-                                    <Paragraph><Run Language="zh-cn" Text="黄月英：你给我的好不？"/></Paragraph>
-                                    <Paragraph><Run Language="zh-cn" Text="刘备：自己去看游戏记录，那些牌都是从牌堆里摸的"/></Paragraph>
-                                    <Paragraph><Run Language="zh-cn" Text="黄月英：是么，我怎么不记得了？"/></Paragraph>
-                                    <Paragraph><Run Language="zh-cn" Text="张飞：要不，英姐你拿张手牌给军师，他那现在一张牌都没有呢。"/></Paragraph>
-                                    <Paragraph><Run Language="zh-cn" Text="关羽：别吵了，那张黑色的闪电给军师，剩下的都是红牌，都给我。"/></Paragraph>                      			
-                                </FlowDocument>
-            </RichTextBox>
-            <local:ChatWidget Grid.Row="2" Height="18" VerticalAlignment="Top" Margin="5,0"/>
-        </Grid>
+            <Grid x:Name="infoPanelForeground">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="313" />
+                    <RowDefinition />
+                    <RowDefinition Height="25" />
+                </Grid.RowDefinitions>
+                <Canvas Width="213" Height="311">
+                    <TabControl x:Name="infoPlanTab" Width="211" Canvas.Top="57.334" Height="255" Background="{x:Null}" BorderBrush="{x:Null}" Margin="3,0">
+                        <TabItem Header="牌局" x:Name="tabLogBox" Style="{DynamicResource TabItemStyle}">
+                            <Grid Margin="-7,-3,0,0" >
+                                <StackPanel Height="20" Margin="5,0,0,0" VerticalAlignment="Top" Orientation="Horizontal">
+                                    <RadioButton x:Name="rbLog0" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="全" IsChecked="True"/>
+                                    <RadioButton x:Name="rbLog1" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="一" Visibility="Hidden"/>
+                                    <RadioButton x:Name="rbLog2" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="二" Visibility="Hidden"/>
+                                    <RadioButton x:Name="rbLog3" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="三" Visibility="Hidden"/>
+                                    <RadioButton x:Name="rbLog4" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="四" Visibility="Hidden"/>
+                                    <RadioButton x:Name="rbLog5" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="五" Visibility="Hidden"/>
+                                    <RadioButton x:Name="rbLog6" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="六" Visibility="Hidden"/>
+                                    <RadioButton x:Name="rbLog7" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="七" Visibility="Hidden"/>
+                                    <RadioButton x:Name="rbLog8" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="八" Visibility="Hidden"/>
+                                    <RadioButton x:Name="rbLog9" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="九" Visibility="Hidden"/>
+                                </StackPanel>
+                                <RadioButton x:Name="rbLog10" GroupName="LogGroup" Style="{DynamicResource LogFilterRadioButtonStyle}" Content="十" Width="16" Height="16" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,22,5,0" Visibility="Hidden"/>
+                                <RichTextBox x:Name="rtbLog" Background="Transparent" Margin="0,22,-2,0" Style="{DynamicResource RichTextBoxStyle}" Foreground="#FFF6DE9C" FontFamily="SimSun" FontSize="13.333" BorderBrush="Transparent" VerticalScrollBarVisibility="Auto" IsReadOnly="True" IsReadOnlyCaretVisible="True">
+                                    <RichTextBox.Resources>
+                                        <Style TargetType="{x:Type Paragraph}">
+                                            <Setter Property="Margin" Value="0,5"/>
+                                        </Style>
+                                    </RichTextBox.Resources>
+                                </RichTextBox>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="房间" x:Name="tabRoomInfo" Style="{DynamicResource TabItemStyle}">
+                            <Grid />
+                        </TabItem>
+                        <TabItem Header="好友" x:Name="tabFriends" Style="{DynamicResource TabItemStyle}">
+                            <Grid />
+                        </TabItem>
+                    </TabControl>
+                </Canvas>
+                <RichTextBox Grid.Row="1" Background="Transparent" Margin="0,0,2,0" Style="{DynamicResource RichTextBoxStyle}" Foreground="#FFDCDBBD" FontFamily="SimSun" FontSize="13.333" BorderBrush="Transparent" IsReadOnly="True" IsReadOnlyCaretVisible="True" VerticalScrollBarVisibility="Auto">
+                    <FlowDocument>
+                        <Paragraph>
+                            <Run Language="zh-cn" Text="刘备：黄月英，你要那么多牌干什么？"/>
+                        </Paragraph>
+                        <Paragraph>
+                            <Run Language="zh-cn" Text="黄月英：你给我的好不？"/>
+                        </Paragraph>
+                        <Paragraph>
+                            <Run Language="zh-cn" Text="刘备：自己去看游戏记录，那些牌都是从牌堆里摸的"/>
+                        </Paragraph>
+                        <Paragraph>
+                            <Run Language="zh-cn" Text="黄月英：是么，我怎么不记得了？"/>
+                        </Paragraph>
+                        <Paragraph>
+                            <Run Language="zh-cn" Text="张飞：要不，英姐你拿张手牌给军师，他那现在一张牌都没有呢。"/>
+                        </Paragraph>
+                        <Paragraph>
+                            <Run Language="zh-cn" Text="关羽：别吵了，那张黑色的闪电给军师，剩下的都是红牌，都给我。"/>
+                        </Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
+                <local:ChatWidget Grid.Row="2" Height="18" VerticalAlignment="Top" Margin="5,0"/>
+            </Grid>
         </Grid>
         <Canvas x:Name="gameGlobalCanvas" Grid.RowSpan="2" Grid.ColumnSpan="2" />
         <xctk:ChildWindow x:Name="deckDisplayWindow" 
@@ -244,7 +256,7 @@
             <xctk:ChildWindow.Effect>
                 <DropShadowEffect BlurRadius="10"/>
             </xctk:ChildWindow.Effect>
-            <local:CardChoiceBox />    
+            <local:CardChoiceBox />
         </xctk:ChildWindow>
         <xctk:ChildWindow x:Name="pinDianWindow" 
                   Template="{DynamicResource DarkGreenWindowStyle}"        

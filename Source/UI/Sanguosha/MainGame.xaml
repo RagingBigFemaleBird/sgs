@@ -18,8 +18,8 @@
             <MenuItem Padding="0" Style="{DynamicResource MenuItemStyle1}" Height="20">
                 <MenuItem.Header>
                 	<Grid>
-                		<Button x:Name="muteButton" Style="{DynamicResource MuteButtonStyle}" Click="muteButton_Click" />
-						<Button x:Name="soundButton" Style="{DynamicResource SoundButtonStyle}" Visibility="Collapsed" Click="soundButton_Click"/>	
+                        <Button x:Name="muteButton" Style="{DynamicResource MuteButtonStyle}" Visibility="Collapsed" Click="muteButton_Click" />
+						<Button x:Name="soundButton" Style="{DynamicResource SoundButtonStyle}" Click="soundButton_Click"/>	
 					</Grid>                    
                 </MenuItem.Header>     	
             </MenuItem>

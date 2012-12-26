@@ -207,14 +207,14 @@ namespace Sanguosha.UI.Main
         {        	
             muteButton.Visibility = Visibility.Collapsed;
             soundButton.Visibility = Visibility.Visible;
-            GameSoundPlayer.IsMute = true;
+            GameSoundPlayer.IsMute = false;
         }
 		
 		private void soundButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             soundButton.Visibility = Visibility.Collapsed;
             muteButton.Visibility = Visibility.Visible;
-            GameSoundPlayer.IsMute = false;
+            GameSoundPlayer.IsMute = true;
         }
 
     }

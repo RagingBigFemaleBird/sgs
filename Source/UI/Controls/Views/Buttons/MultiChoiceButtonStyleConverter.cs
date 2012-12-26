@@ -21,9 +21,9 @@ namespace Sanguosha.UI.Controls
         {
             OptionPrompt choiceKey = value as OptionPrompt;
             if (choiceKey == null) return null;
-            if (Prompt.SuitChoices.Contains(choiceKey))
+            if (Prompt.SuitChoices.Contains(choiceKey) || Prompt.AllegianceChoices.Contains(choiceKey))
             {
-                return dict["MultiChoiceSuitButtonStyle"] as Style;
+                return dict["MultiChoiceCustomButtonStyle"] as Style;
             }
             else
             {

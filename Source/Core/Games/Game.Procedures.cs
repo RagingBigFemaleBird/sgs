@@ -81,7 +81,7 @@ namespace Sanguosha.Core.Games
             if (p.Allegiance == Heroes.Allegiance.God)
             {
                 int answer = 0;
-                Game.CurrentGame.UiProxies[p].AskForMultipleChoice(new Prompt("ChooseAllegiance"), new List<OptionPrompt>() { new OptionPrompt("Qun"), new OptionPrompt("Shu"), new OptionPrompt("Wei"), new OptionPrompt("Wu") }, out answer);
+                Game.CurrentGame.UiProxies[p].AskForMultipleChoice(new MultipleChoicePrompt("ChooseAllegiance"), Prompt.AllegianceChoices, out answer);
                 if (answer == 0) p.Allegiance = Heroes.Allegiance.Qun;
                 if (answer == 1) p.Allegiance = Heroes.Allegiance.Shu;
                 if (answer == 2) p.Allegiance = Heroes.Allegiance.Wei;
