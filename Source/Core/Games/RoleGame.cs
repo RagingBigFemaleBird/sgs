@@ -657,6 +657,10 @@ namespace Sanguosha.Core.Games
                     pxy.Value.Freeze();
                 }
 
+                foreach (var allegianceCheck in players)
+                {
+                    Game.CurrentGame.HandleGodHero(allegianceCheck);
+                }
                 Shuffle(game.Decks[null, DeckType.Dealing]);
 
                 StartGameDeal(game);
