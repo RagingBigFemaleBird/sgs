@@ -13,6 +13,7 @@ using System.Windows.Shapes;
 using Sanguosha.Core.Players;
 using System.Diagnostics;
 using Sanguosha.Core.Cards;
+using Sanguosha.UI.Animations;
 
 namespace Sanguosha.UI.Controls
 {
@@ -32,12 +33,14 @@ namespace Sanguosha.UI.Controls
         {
             cardLeft.DataContext = new CardSlotViewModel()
             {
-                Hint = LogFormatter.Translate(player1) 
+                Hint = LogFormatter.Translate(player1),
+                Card = null
             };
 
             cardRight.DataContext = new CardSlotViewModel()
             {
-                Hint = LogFormatter.Translate(player2)
+                Hint = LogFormatter.Translate(player2),
+                Card = null
             };
             _player1 = player1;
             _player2 = player2;
@@ -61,6 +64,27 @@ namespace Sanguosha.UI.Controls
         {
             cardLeft.DataContext = new CardViewModel() { Card = card1 };
             cardRight.DataContext = new CardViewModel() { Card = card2 };
+            AnimationBase anim;
+            if (win) anim = new PinDianWinAnimation();
+            else anim = new PinDianLoseAnimation();
+                        
+            anim.SetValue(Canvas.LeftProperty, animationCenter.ActualWidth / 2 -anim.Width / 2);
+            anim.SetValue(Canvas.TopProperty, animationCenter.ActualHeight / 2 - anim.Height / 2);
+                        
+            animationCenter.Children.Add(anim);
+            anim.Completed += new EventHandler(anim_Completed);
+            anim.Start();
+        }
+
+        public event EventHandler ResultShown;
+
+        void anim_Completed(object sender, EventArgs e)
+        {
+            var handler = ResultShown;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
         }
 	}
 }

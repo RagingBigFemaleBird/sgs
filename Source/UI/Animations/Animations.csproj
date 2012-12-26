@@ -64,6 +64,15 @@
     <Compile Include="BaiYinAnimation.xaml.cs">
       <DependentUpon>BaiYinAnimation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RevealRoleAnimation.xaml.cs">
+      <DependentUpon>RevealRoleAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PinDianLoseAnimation.xaml.cs">
+      <DependentUpon>PinDianLoseAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PinDianWinAnimation.xaml.cs">
+      <DependentUpon>PinDianWinAnimation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CrossAnimation.xaml.cs">
       <DependentUpon>CrossAnimation.xaml</DependentUpon>
     </Compile>
@@ -118,8 +127,8 @@
     <Compile Include="ZhangBaAnimation.xaml.cs">
       <DependentUpon>ZhangBaAnimation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RevealRoleAnimation.xaml.cs">
-      <DependentUpon>RevealRoleAnimation.xaml</DependentUpon>
+    <Compile Include="MarkChangedAnimation.xaml.cs">
+      <DependentUpon>MarkChangedAnimation.xaml</DependentUpon>
     </Compile>
     <Compile Include="DamageAnimation.xaml.cs">
       <DependentUpon>DamageAnimation.xaml</DependentUpon>
@@ -206,6 +215,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="RevealRoleAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PinDianLoseAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PinDianWinAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="CrossAnimation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -282,7 +303,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="RevealRoleAnimation.xaml">
+    <Page Include="MarkChangedAnimation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -462,6 +483,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="TickAnimation\0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="PinDianLoseAnimation\lose.png" />
+    <Resource Include="PinDianWinAnimation\large.png" />
+    <Resource Include="PinDianWinAnimation\small.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Expression\Blend\.NETFramework\v4.0\Microsoft.Expression.Blend.WPF.targets" />

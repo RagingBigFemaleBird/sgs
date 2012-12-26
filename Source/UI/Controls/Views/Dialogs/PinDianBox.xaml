@@ -7,10 +7,12 @@
 	mc:Ignorable="d"
 	x:Class="Sanguosha.UI.Controls.PinDianBox"
 	x:Name="UserControl">
-
-	<StackPanel Orientation="Horizontal">
-		<local:CardView x:Name="cardLeft"/>
-		<Rectangle Width="10" />
-		<local:CardView x:Name="cardRight"/>
-	</StackPanel>
+    <local:NonClipGrid >        
+	    <StackPanel Orientation="Horizontal">
+		    <local:CardView x:Name="cardLeft"/>
+		    <Rectangle Width="10" />
+		    <local:CardView x:Name="cardRight"/>
+	    </StackPanel>
+        <Canvas x:Name="animationCenter" />
+    </local:NonClipGrid>
 </UserControl>

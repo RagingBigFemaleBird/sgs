@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using Sanguosha.Core.Games;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using Sanguosha.UI.Animations;
 
 namespace Sanguosha.UI.Controls
 {
@@ -49,6 +50,7 @@ namespace Sanguosha.UI.Controls
         private void _UpdateRoles()
         {
             ObservableCollection<Role> roles = DataContext as ObservableCollection<Role>;
+            bool doReveal = false;
             if (roles.Count == 2)
             {
                 foreach (Role role in roles)
@@ -58,7 +60,8 @@ namespace Sanguosha.UI.Controls
                         cbRoles.SelectedItem = role;
                     }
                 }
-                revealRoleAnimation.Start();
+                doReveal = true;
+                
             }
             else if (roles.Contains(Role.Unknown))
             {
@@ -67,7 +70,16 @@ namespace Sanguosha.UI.Controls
             else if (roles.Count == 1)
             {
                 cbRoles.SelectedIndex = 0;
-                revealRoleAnimation.Start();
+                doReveal = true;
+            }
+
+            if (doReveal)
+            {
+                RevealRoleAnimation anim = new RevealRoleAnimation();
+                anim.SetValue(Canvas.LeftProperty, animationCenter.ActualWidth / 2 - anim.Width / 2);
+                anim.SetValue(Canvas.TopProperty, animationCenter.ActualHeight / 2 - anim.Height / 2);
+                animationCenter.Children.Add(anim);
+                anim.Start();
             }
         }
 

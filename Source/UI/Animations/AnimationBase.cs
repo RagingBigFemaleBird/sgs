@@ -15,6 +15,8 @@ namespace Sanguosha.UI.Animations
         public AnimationBase()
         {
             IsHitTestVisible = false;
+            HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+            VerticalAlignment = System.Windows.VerticalAlignment.Center;
         }
 
         public void Start()
@@ -33,6 +35,8 @@ namespace Sanguosha.UI.Animations
             StartMainAnimation();
         }
 
+        public event EventHandler Completed;
+
         void mainAnimation_Completed(object sender, EventArgs e)
         {
             Panel panel = this.VisualParent as Panel;
@@ -43,6 +47,11 @@ namespace Sanguosha.UI.Animations
             else
             {
                 Trace.TraceError("Cannot find animation's parent canvas. Failed to remove animation");
+            }
+            var handler = Completed;
+            if (handler != null)
+            {
+                handler(this, new EventArgs());
             }
         }
 

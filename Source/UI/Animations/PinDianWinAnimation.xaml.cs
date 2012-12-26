@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Sanguosha.UI.Animations
 {
     /// <summary>
-    /// Interaction logic for PinDianLoseAnimation.xaml
+    /// Interaction logic for PinDianWinAnimation.xaml
     /// </summary>
-    public partial class RevealRoleAnimation : AnimationBase
-    {
-        public RevealRoleAnimation()
+    public partial class PinDianWinAnimation : AnimationBase
+    {        
+        public PinDianWinAnimation()
         {
             this.InitializeComponent();
         }     

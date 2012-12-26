@@ -120,6 +120,10 @@ namespace Sanguosha.UI.Controls
                     rtbLog.ScrollToEnd();
                 };
             }
+            pinDianBox.ResultShown += (o, e) =>
+            {
+                pinDianWindow.Close();
+            };
         }
 
         void GameView_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -909,7 +913,7 @@ namespace Sanguosha.UI.Controls
         public void NotifyPinDianEnd(Card c1, Card c2)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
-            {
+            {                
                 pinDianBox.RevealResult(c1, c2, c1.Rank > c2.Rank);
             });
         }

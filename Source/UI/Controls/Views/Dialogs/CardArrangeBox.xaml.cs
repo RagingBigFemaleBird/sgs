@@ -153,10 +153,13 @@ namespace Sanguosha.UI.Controls
 
                 if (line.IsResultDeck)
                 {
+                    string key = string.Format("CardSlot.Hint.{0}", line.DeckName);
+                    string hint = Resources.Contains(key) ? Resources[key] as string : string.Empty;
                     var slots = new List<CardViewModel>();
                     for (int i = 0; i < line.Capacity; i++)
                     {
-                        slots.Add(new CardSlotViewModel() { Hint = line.DeckName, Card = null });
+                        
+                        slots.Add(new CardSlotViewModel() { Hint = hint, Card = null });
                     }
                     slot.AddCards(slots);
                     foreach (var cardSlot in slot.Cards)
