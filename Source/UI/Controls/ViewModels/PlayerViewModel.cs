@@ -50,6 +50,7 @@ namespace Sanguosha.UI.Controls
             IsCardChoiceQuestionShown = false;
 
             Marks = new ObservableCollection<MarkViewModel>();
+            StatusMarks = new ObservableCollection<MarkViewModel>();
             HandCards = new ObservableCollection<CardViewModel>();
             verifierLock = new object();
             _lastSelectedPlayers = new List<Player>();
@@ -300,6 +301,27 @@ namespace Sanguosha.UI.Controls
 
                     model.Number = _player[attribute];
                 }
+                else if (attribute.IsStatus)
+                {
+                    int count = _player[attribute];
+                    MarkViewModel model = null;
+                    foreach (var mark in StatusMarks)
+                    {
+                        if (mark.PlayerAttribute == attribute)
+                        {
+                            model = mark;
+                            break;
+                        }
+                    }
+
+                    if (model == null)
+                    {
+                        model = new MarkViewModel() { PlayerAttribute = attribute };
+                        StatusMarks.Add(model);
+                    }
+
+                    model.Number = _player[attribute];
+                }
             }
         }
 
@@ -532,6 +554,12 @@ namespace Sanguosha.UI.Controls
         #region Derived Player Properties
 
         public ObservableCollection<MarkViewModel> Marks
+        {
+            get;
+            private set;
+        }
+
+        public ObservableCollection<MarkViewModel> StatusMarks
         {
             get;
             private set;

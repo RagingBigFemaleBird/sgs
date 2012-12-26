@@ -300,6 +300,21 @@
                                VerticalAlignment="Center" HorizontalAlignment="Center"
                                Visibility="{Binding IsSelectionRepeatable, Converter={StaticResource boolToVisibilityConverter}}"
                                IsHitTestVisible="False" />
+						<StackPanel>
+						<ItemsControl ItemsSource="{Binding Path=StatusMarks, Mode=OneWay}" Margin="22, 0, 0, 0">
+							<ItemsControl.ItemsPanel>
+								<ItemsPanelTemplate>
+									<WrapPanel HorizontalAlignment="Left" />
+								</ItemsPanelTemplate>
+							</ItemsControl.ItemsPanel>
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<Border BorderThickness="2" BorderBrush="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.{0}.Brush}" >
+										<TextBlock FontFamily="SimHei" FontSize="14" Foreground="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.{0}.Brush}" Text="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.{0}.Name}" />
+									</Border>
+								</DataTemplate>	
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
 						<ItemsControl ItemsSource="{Binding Path=PrivateDecks, Mode=OneWay}" Margin="22, 0, 0, 0">
 							<ItemsControl.ItemsPanel>
 								<ItemsPanelTemplate>
@@ -314,6 +329,7 @@
 								</DataTemplate>	
 							</ItemsControl.ItemTemplate>
 						</ItemsControl>
+						</StackPanel>
                         <local:HealthBar x:Name="healthBar" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                                          Height="14" Margin="0,0,3,0" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}"/>
                     	<Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,0">
