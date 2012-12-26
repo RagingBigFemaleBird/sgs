@@ -46,6 +46,7 @@ namespace Sanguosha.Expansions.Woods.Skills
             Game.CurrentGame.PlayerLostCard(src2, cards);
             Game.CurrentGame.ExitAtomicContext();
 
+            Game.CurrentGame.SyncImmutableCards(src1, Game.CurrentGame.Decks[null, DiMengDeck2]);
             Game.CurrentGame.EnterAtomicContext();
             cards = new List<Card>(Game.CurrentGame.Decks[null, DiMengDeck2]);
             move.Cards = new List<Card>(cards);
@@ -53,6 +54,7 @@ namespace Sanguosha.Expansions.Woods.Skills
             Game.CurrentGame.MoveCards(move);
             Game.CurrentGame.PlayerAcquiredCard(src1, cards);
 
+            Game.CurrentGame.SyncImmutableCards(src2, Game.CurrentGame.Decks[null, DiMengDeck1]);
             cards = new List<Card>(Game.CurrentGame.Decks[null, DiMengDeck1]);
             move.Cards = new List<Card>(cards);
             move.To = new DeckPlace(src2, DeckType.Hand);
