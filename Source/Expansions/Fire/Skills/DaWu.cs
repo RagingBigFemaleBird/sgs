@@ -48,6 +48,7 @@ namespace Sanguosha.Expansions.Fire.Skills
         }
 
         List<Player> dawuTargets;
+        public static readonly PlayerAttribute DaWuMark = PlayerAttribute.Register("DaWu", false, true);
 
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
@@ -65,6 +66,10 @@ namespace Sanguosha.Expansions.Fire.Skills
             if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("DaWu"), new DaWuVerifier(originalCards), out skill, out cards, out players))
             {
                 NotifySkillUse(players);
+                foreach (var mark in players)
+                {
+                    mark[DaWuMark] = 1;
+                }
                 dawuTargets = players;
                 foreach (Card cc in cards) originalCards.Remove(cc);
                 Game.CurrentGame.HandleCardDiscard(null, cards);
@@ -79,7 +84,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             dawuTargets = new List<Player>();
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { dawuTargets.Clear(); },
+                (p, e, a) => { foreach (var mark in dawuTargets) { mark[DaWuMark] = 0; } dawuTargets.Clear(); },
                 TriggerCondition.OwnerIsSource
             ) { AskForConfirmation = false, IsAutoNotify = false };
             var trigger2 = new AutoNotifyPassiveSkillTrigger(

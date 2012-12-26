@@ -40,6 +40,7 @@ namespace Sanguosha.Expansions.Fire.Skills
         }
 
         Player kuangfengTarget;
+        public static readonly PlayerAttribute KuangFengMark = PlayerAttribute.Register("KuangFeng", false, true);
 
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
@@ -58,6 +59,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             {
                 NotifySkillUse(players);
                 kuangfengTarget = players[0];
+                kuangfengTarget[KuangFengMark] = 1;
                 originalCards.Remove(cards[0]);
                 Game.CurrentGame.HandleCardDiscard(null, cards);
             }
@@ -71,7 +73,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             kuangfengTarget = null;
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { kuangfengTarget = null; },
+                (p, e, a) => { if (kuangfengTarget != null) kuangfengTarget[KuangFengMark] = 0; kuangfengTarget = null; },
                 TriggerCondition.OwnerIsSource
             ) { AskForConfirmation = false, IsAutoNotify = false };
             var trigger2 = new AutoNotifyPassiveSkillTrigger(

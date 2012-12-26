@@ -51,6 +51,8 @@ namespace Sanguosha.Expansions.Wind.Skills
             return VerifierResult.Success;
         }
 
+        public static readonly PlayerAttribute ZhiYiZhong = PlayerAttribute.Register("ZhiYi", false, false, true);
+
         protected override bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets)
         {
             int GuHuoOrder = Game.CurrentGame.Decks[null, DeckType.GuHuo].Count;
@@ -70,6 +72,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                 int answer = 0;
                 Game.CurrentGame.UiProxies[player].AskForMultipleChoice(new MultipleChoicePrompt("GuHuo", Owner, AdditionalType.CardType), Prompt.YesNoChoices, out answer);
                 believe.Add(player, answer);
+                player[ZhiYiZhong] = 1 - answer;
             }
             Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.Decks[null, DeckType.GuHuo][GuHuoOrder]);
             bool guhuoSucceed = true;
@@ -88,6 +91,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                 {
                     foreach (var player in toProcess)
                     {
+                        player[ZhiYiZhong] = 0;
                         if (believe[player] == 0)
                         {
                             Game.CurrentGame.LoseHealth(player, 1);
