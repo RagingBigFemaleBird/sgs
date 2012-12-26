@@ -309,7 +309,7 @@
 							</ItemsControl.ItemsPanel>
 							<ItemsControl.ItemTemplate>
 								<DataTemplate>
-									<Border BorderThickness="2" BorderBrush="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.{0}.Brush}" >
+									<Border Visibility="{Binding IsExisted, Converter={StaticResource boolToVisibilityConverter}}" BorderThickness="2" BorderBrush="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.{0}.Brush}" >
 										<TextBlock FontFamily="SimHei" FontSize="14" Foreground="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.{0}.Brush}" Text="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.{0}.Name}" />
 									</Border>
 								</DataTemplate>	

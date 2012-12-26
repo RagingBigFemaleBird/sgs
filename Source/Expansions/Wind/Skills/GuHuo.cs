@@ -52,6 +52,7 @@ namespace Sanguosha.Expansions.Wind.Skills
         }
 
         public static readonly PlayerAttribute ZhiYiZhong = PlayerAttribute.Register("ZhiYi", false, false, true);
+        public static readonly PlayerAttribute BuZhiYiZhong = PlayerAttribute.Register("BuZhiYi", false, false, true);
 
         protected override bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets)
         {
@@ -63,7 +64,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             move.To = new DeckPlace(null, DeckType.GuHuo);
             Game.CurrentGame.MoveCards(move);
             Game.CurrentGame.PlayerLostCard(Owner, move.Cards);
-            List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
+            var toProcess = new List<Player>(from p in Game.CurrentGame.AlivePlayers where p.Health > 0 select p);
             toProcess.Remove(Owner);
             Game.CurrentGame.SortByOrderOfComputation(Owner, toProcess);
             Dictionary<Player, int> believe = new Dictionary<Player,int>();
@@ -71,8 +72,9 @@ namespace Sanguosha.Expansions.Wind.Skills
             {
                 int answer = 0;
                 Game.CurrentGame.UiProxies[player].AskForMultipleChoice(new MultipleChoicePrompt("GuHuo", Owner, AdditionalType.CardType), Prompt.YesNoChoices, out answer);
-                believe.Add(player, answer);
-                player[ZhiYiZhong] = 1 - answer;
+                believe.Add(player, 1 - answer);
+                player[ZhiYiZhong] = answer;
+                player[BuZhiYiZhong] = 1 - answer;
             }
             Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.Decks[null, DeckType.GuHuo][GuHuoOrder]);
             bool guhuoSucceed = true;
@@ -91,7 +93,6 @@ namespace Sanguosha.Expansions.Wind.Skills
                 {
                     foreach (var player in toProcess)
                     {
-                        player[ZhiYiZhong] = 0;
                         if (believe[player] == 0)
                         {
                             Game.CurrentGame.LoseHealth(player, 1);
@@ -126,6 +127,11 @@ namespace Sanguosha.Expansions.Wind.Skills
             {
                 card.Subcards = new List<Card>();
                 card.Subcards.Add(Game.CurrentGame.Decks[null, DeckType.GuHuo][GuHuoOrder]);
+            }
+            foreach (var player in toProcess)
+            {
+                player[ZhiYiZhong] = 0;
+                player[BuZhiYiZhong] = 0;
             }
             return ret;
         }
