@@ -67,7 +67,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             int skanswer;
             Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("HuaShen"), hsOptions, out skanswer);
             acquiredSkill = skills[skanswer];
-            Owner.AcquireAdditionalSkill(acquiredSkill);
+            Game.CurrentGame.PlayerAcquireSkill(Owner, acquiredSkill);
             Owner.Allegiance = handler.Hero.Allegiance;
             Owner.IsMale = handler.Hero.IsMale;
             Owner.IsFemale = !handler.Hero.IsMale;

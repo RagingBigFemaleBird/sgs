@@ -27,7 +27,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => { return p[HunZiAwakened] == 0 && p.Health == 1; },
-                (p, e, a) => { p[HunZiAwakened] = 1; Game.CurrentGame.LoseMaxHealth(p, 1); p.AcquireAdditionalSkill(new YingZi()); p.AcquireAdditionalSkill(new YingHun()); },
+                (p, e, a) => { p[HunZiAwakened] = 1; Game.CurrentGame.LoseMaxHealth(p, 1); Game.CurrentGame.PlayerAcquireSkill(p, new YingZi()); Game.CurrentGame.PlayerAcquireSkill(p, new YingHun()); },
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Start], trigger);

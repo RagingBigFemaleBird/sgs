@@ -31,11 +31,11 @@ namespace Sanguosha.Expansions.Hills.Skills
                 {
                     p[BaiYinAwaken] = 1;
                     Game.CurrentGame.LoseMaxHealth(p, 1);
-                    p.AcquireAdditionalSkill(new BaiYinFangZhu());
-                    p.AcquireAdditionalSkill(new BaiYinGuiCai());
-                    p.AcquireAdditionalSkill(new BaiYinJiZhi());
-                    p.AcquireAdditionalSkill(new BaiYinWanSha());
-                    p.AcquireAdditionalSkill(new BaiYinZhiHeng());
+                    Game.CurrentGame.PlayerAcquireSkill(p, new BaiYinFangZhu());
+                    Game.CurrentGame.PlayerAcquireSkill(p, new BaiYinGuiCai());
+                    Game.CurrentGame.PlayerAcquireSkill(p, new BaiYinJiZhi());
+                    Game.CurrentGame.PlayerAcquireSkill(p, new BaiYinWanSha());
+                    Game.CurrentGame.PlayerAcquireSkill(p, new BaiYinZhiHeng());
                 },
                 TriggerCondition.OwnerIsSource
             );
@@ -161,7 +161,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 arg.Source[RenJie.RenMark]--;
                 arg.Source[BaiYinWanShaUsed] = 1;
                 ISkill skill = new WanSha();
-                arg.Source.AcquireAdditionalSkill(skill);
+                Game.CurrentGame.PlayerAcquireSkill(arg.Source, skill);
                 Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, new WanShaRemoval(arg.Source, skill));
                 return true;
             }

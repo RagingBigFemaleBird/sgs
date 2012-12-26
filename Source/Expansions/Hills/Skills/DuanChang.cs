@@ -29,7 +29,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                     var h = a.Source.Hero;
                     foreach (ISkill sk in new List<ISkill>(a.Source.AdditionalSkills))
                     {
-                        a.Source.LoseAdditionalSkill(sk);
+                        Game.CurrentGame.PlayerLostSkill(a.Source, sk);
                     }
                     foreach (var sk in a.Source.Hero.Skills)
                     {

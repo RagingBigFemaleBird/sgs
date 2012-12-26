@@ -389,9 +389,9 @@ namespace Sanguosha.Core.Triggers
         public static readonly GameEvent EnforcedCardTransform = new GameEvent("EnforcedCardTransform");
 
         /// <summary>
-        /// 玩家失去技能
+        /// 玩家获得/失去技能
         /// </summary>
-        public static readonly GameEvent PlayerLoseSkill = new GameEvent("PlayerLoseSkill");
+        public static readonly GameEvent PlayerSkillSetChanged = new GameEvent("PlayerSkillSetChanged");
 
         /// <summary>
         /// 玩家改变国籍

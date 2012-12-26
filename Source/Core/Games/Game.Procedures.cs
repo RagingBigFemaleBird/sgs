@@ -51,12 +51,18 @@ namespace Sanguosha.Core.Games
         public void PlayerAcquireSkill(Player p, ISkill skill)
         {
             p.AcquireAdditionalSkill(skill);
+            GameEventArgs args = new GameEventArgs();
+            args.Source = p;
+            Game.CurrentGame.Emit(GameEvent.PlayerSkillSetChanged, args);
             _ResetCards(p);
         }
 
         public void PlayerLostSkill(Player p, ISkill skill)
         {
             p.LoseAdditionalSkill(skill);
+            GameEventArgs args = new GameEventArgs();
+            args.Source = p;
+            Game.CurrentGame.Emit(GameEvent.PlayerSkillSetChanged, args);
             _ResetCards(p);
         }
 
