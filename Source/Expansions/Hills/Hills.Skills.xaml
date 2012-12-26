@@ -36,6 +36,7 @@
     <sys:String x:Key="Skill.ZhiBaGivenSkill.Usage">点“制霸”→点“确定”→选中拼点牌→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.BeiGe.Name">悲歌</sys:String>
+    <sys:String x:Key="Skill.DuanChang.Name">断肠</sys:String>
     <sys:String x:Key="Skill.BaiYin.Name">拜印</sys:String>
     <sys:String x:Key="Skill.RenJie.Name">忍戒</sys:String>
     <sys:String x:Key="Skill.BaiYinGuiCai.Name">鬼才</sys:String>
