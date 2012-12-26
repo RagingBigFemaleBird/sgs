@@ -86,6 +86,7 @@ namespace Sanguosha.Core.UI
         #endregion
 
         #region Multiple Choice Constants
+        public static readonly string LogEventPrefix = "LogEvent.";
         public static readonly string MultipleChoicePromptPrefix = "MultiChoice.Prompt.";
         public static readonly string MultipleChoiceOptionPrefix = "MultiChoice.Choice.";
         public static readonly string NonPlaybleAppendix = ".Others";

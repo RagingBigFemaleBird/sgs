@@ -936,10 +936,7 @@ namespace Sanguosha.UI.Controls
         }
         #endregion
 
-
-
-
-        public void NotifyDealAndDiscardDeckOperations(Player p, List<Card> beforeDeal, List<Card> afterDeal, List<Card> discard)
+        public void NotifyLogEvent(Prompt prompt)
         {
         }
     }

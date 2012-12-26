@@ -28,8 +28,10 @@ namespace Sanguosha.Core.Network
         public Thread threadClient;
         public int commId;
         public Game game;
+        public bool disconnected;
         public ServerHandler()
         {
+            disconnected = false;
             semIn = new Semaphore(0, int.MaxValue);
             semOut = new Semaphore(0, int.MaxValue);
             semAccess = new Semaphore(1, 1);

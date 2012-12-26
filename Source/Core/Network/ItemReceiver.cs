@@ -28,7 +28,15 @@ namespace Sanguosha.Core.Network
 
         public object Receive()
         {
-            object o = formatter.Deserialize(stream);
+            object o;
+            try
+            {
+                o = formatter.Deserialize(stream);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
             if (replayStream != null)
             {
                 formatter.Serialize(replayStream, o);

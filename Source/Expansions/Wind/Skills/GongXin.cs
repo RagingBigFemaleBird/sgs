@@ -64,12 +64,12 @@ namespace Sanguosha.Expansions.Wind.Skills
             {
                 if (answer[0] != null && answer[0].Count > 0)
                 {
-                    Game.CurrentGame.NotificationProxy.NotifyDealAndDiscardDeckOperations(Owner, new List<Card>(answer[0]), null, null);
+                    Game.CurrentGame.NotificationProxy.NotifyLogEvent(new Prompt(Prompt.LogEventPrefix + "GongXin1", Owner, answer[0][0]));
                     Game.CurrentGame.InsertBeforeDeal(target, answer[0]);
                 }
                 else if (answer[1] != null && answer[1].Count > 0)
                 {
-                    Game.CurrentGame.NotificationProxy.NotifyDealAndDiscardDeckOperations(Owner, null, null, new List<Card>(answer[1]));
+                    Game.CurrentGame.NotificationProxy.NotifyLogEvent(new Prompt(Prompt.LogEventPrefix + "GongXin2", Owner, answer[1][0]));
                     Game.CurrentGame.PlaceIntoDiscard(target, answer[1]);
                 }
             }

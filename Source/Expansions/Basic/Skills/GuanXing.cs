@@ -96,12 +96,12 @@ namespace Sanguosha.Expansions.Basic.Skills
                     options,
                     CardChoiceCallback.GenericCardChoiceCallback))
             {
-                Game.CurrentGame.NotificationProxy.NotifyDealAndDiscardDeckOperations(Owner, new List<Card>(Game.CurrentGame.Decks[null, GuanXingDeck]), new List<Card>(), null);
+                Game.CurrentGame.NotificationProxy.NotifyLogEvent(new Prompt(Prompt.LogEventPrefix + "GuanXing", Owner, Game.CurrentGame.Decks[null, GuanXingDeck].Count, 0));
                 Game.CurrentGame.InsertBeforeDeal(null, Game.CurrentGame.Decks[null, GuanXingDeck]);
             }
             else
             {
-                Game.CurrentGame.NotificationProxy.NotifyDealAndDiscardDeckOperations(Owner, new List<Card>(answer[0]), new List<Card>(answer[1]), null);
+                Game.CurrentGame.NotificationProxy.NotifyLogEvent(new Prompt(Prompt.LogEventPrefix + "GuanXing", Owner, answer[0].Count, answer[1].Count));
                 Game.CurrentGame.InsertBeforeDeal(null, answer[0]);
                 Game.CurrentGame.InsertAfterDeal(null, answer[1]);
             }
