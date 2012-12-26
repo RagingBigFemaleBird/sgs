@@ -341,13 +341,13 @@
     <Resource Include="ShaAnimation\faded.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="RevealRoleAnimation\0.png" />
-    <Resource Include="RevealRoleAnimation\1.png" />
-    <Resource Include="RevealRoleAnimation\2.png" />
-    <Resource Include="RevealRoleAnimation\3.png" />
-    <Resource Include="RevealRoleAnimation\4.png" />
-    <Resource Include="RevealRoleAnimation\5.png" />
-    <Resource Include="RevealRoleAnimation\6.png" />
+    <Resource Include="MarkChangedAnimationAnimation\0.png" />
+    <Resource Include="MarkChangedAnimationAnimation\1.png" />
+    <Resource Include="MarkChangedAnimationAnimation\2.png" />
+    <Resource Include="MarkChangedAnimationAnimation\3.png" />
+    <Resource Include="MarkChangedAnimationAnimation\4.png" />
+    <Resource Include="MarkChangedAnimationAnimation\5.png" />
+    <Resource Include="MarkChangedAnimationAnimation\6.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ShaAnimation\faded2.png" />
