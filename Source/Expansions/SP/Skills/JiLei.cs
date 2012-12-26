@@ -35,6 +35,7 @@ namespace Sanguosha.Expansions.SP.Skills
                 if (answer != 3)
                 {
                     NotifySkillUse(new List<Player>());
+                    eventArgs.Source[JiLeiInEffect] = 1;
                     JiLeiImplementation trigger = new JiLeiImplementation(eventArgs.Source, answer);
                     Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanDiscardCard, trigger);
                     Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanUseCard, trigger);
@@ -45,6 +46,7 @@ namespace Sanguosha.Expansions.SP.Skills
             }
         }
 
+        public static readonly PlayerAttribute JiLeiInEffect = PlayerAttribute.Register("JiLei", false, false, true);
         class JiLeiImplementation : Trigger
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
@@ -104,6 +106,7 @@ namespace Sanguosha.Expansions.SP.Skills
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerCanUseCard, theTrigger);
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerCanDiscardCard, theTrigger);
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], this);
+                eventArgs.Source[JiLeiInEffect] = 0;
             }
 
             JiLeiImplementation theTrigger;

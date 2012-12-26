@@ -36,6 +36,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                         sk.Owner = null;
                     }
                     a.Source.Hero = new Hero(h.Name, h.IsMale, h.Allegiance, h.MaxHealth, new List<ISkill>());
+                    a.Source[PlayerAttribute.Register("DuanChang", false, false, true)] = 1;
                 },
                 TriggerCondition.OwnerIsTarget
             );

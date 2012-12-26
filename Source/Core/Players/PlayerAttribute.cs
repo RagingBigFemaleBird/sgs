@@ -9,11 +9,12 @@ namespace Sanguosha.Core.Players
 {
     public class PlayerAttribute
     {
-        private PlayerAttribute(string attrName, bool autoReset, bool isAMark)
+        private PlayerAttribute(string attrName, bool autoReset, bool isAMark, bool isStatus)
         {
             Name = attrName;
             AutoReset = autoReset;
             IsMark = isAMark;
+            IsStatus = isStatus;
         }
 
         private string name;
@@ -32,6 +33,14 @@ namespace Sanguosha.Core.Players
             set { autoReset = value; }
         }
 
+        private bool isStatus;
+
+        public bool IsStatus
+        {
+            get { return isStatus; }
+            set { isStatus = value; }
+        }
+
         private bool isMark;
 
         public bool IsMark
@@ -42,7 +51,7 @@ namespace Sanguosha.Core.Players
 
         static Dictionary<string, PlayerAttribute> _attributeNames;
 
-        public static PlayerAttribute Register(string attributeName, bool autoReset = false, bool isAMark = false)
+        public static PlayerAttribute Register(string attributeName, bool autoReset = false, bool isAMark = false, bool isStatus = false)
         {
             if (_attributeNames == null)
             {
@@ -53,7 +62,7 @@ namespace Sanguosha.Core.Players
                 return _attributeNames[attributeName];
                 //throw new DuplicateAttributeKeyException(attributeName);
             }
-            var attr = new PlayerAttribute(attributeName, autoReset, isAMark);
+            var attr = new PlayerAttribute(attributeName, autoReset, isAMark, isStatus);
             _attributeNames.Add(attributeName, attr);
             return attr;
         }
