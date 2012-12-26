@@ -26,7 +26,13 @@ namespace Sanguosha.Core.Network
 
         public void Flush()
         {
-            stream.Flush();
+            try
+            {
+                stream.Flush();
+            }
+            catch (Exception)
+            {
+            }
         }
 
         private void QueueCard(CardItem card)
@@ -69,35 +75,41 @@ namespace Sanguosha.Core.Network
             {
                 return false;
             }
-            if (o is int)
+            try
             {
-                QueueInt((int)o);
+                if (o is int)
+                {
+                    QueueInt((int)o);
+                }
+                else if (o is Player)
+                {
+                    QueuePlayer(o as Player);
+                }
+                else if (o is CardItem)
+                {
+                    QueueCard((CardItem)o);
+                }
+                else if (o is CommandItem)
+                {
+                    QueueCommand((CommandItem)o);
+                }
+                else if (o is SkillItem)
+                {
+                    QueueSkill((SkillItem)o);
+                }
+                else if (o is CheatSkill)
+                {
+                    QueueCheatSkill((CheatSkill)o);
+                }
+                else
+                {
+                    Trace.Assert(false);
+                }
             }
-            else if (o is Player)
+            catch (Exception)
             {
-                QueuePlayer(o as Player);
+                return false;
             }
-            else if (o is CardItem)
-            {
-                QueueCard((CardItem)o);
-            }
-            else if (o is CommandItem)
-            {
-                QueueCommand((CommandItem)o);
-            }
-            else if (o is SkillItem)
-            {
-                QueueSkill((SkillItem)o);
-            }
-            else if (o is CheatSkill)
-            {
-                QueueCheatSkill((CheatSkill)o);
-            }
-            else
-            {
-                Trace.Assert(false);
-            }
-
             return true;
         }
 

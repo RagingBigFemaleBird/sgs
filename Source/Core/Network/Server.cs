@@ -181,6 +181,7 @@ namespace Sanguosha.Core.Network
             while (true)
             {
                 object o;
+                if (handlers[clientId].disconnected) return false;
                 if (!handlers[clientId].semIn.WaitOne(timeOutSeconds * 1000))
                 {
                     return false;
@@ -217,6 +218,7 @@ namespace Sanguosha.Core.Network
         public Card GetCard(int clientId, int timeOutSeconds)
         {
             object o;
+            if (handlers[clientId].disconnected) return null;
             handlers[clientId].semIn.WaitOne();
             handlers[clientId].semAccess.WaitOne();
             o = handlers[clientId].queueIn.Dequeue();
@@ -237,6 +239,7 @@ namespace Sanguosha.Core.Network
         public Player GetPlayer(int clientId, int timeOutSeconds)
         {
             object o;
+            if (handlers[clientId].disconnected) return null;
             handlers[clientId].semIn.WaitOne();
             handlers[clientId].semAccess.WaitOne();
             o = handlers[clientId].queueIn.Dequeue();
@@ -258,6 +261,7 @@ namespace Sanguosha.Core.Network
         public int? GetInt(int clientId, int timeOutSeconds)
         {
             object o;
+            if (handlers[clientId].disconnected) return null;
             handlers[clientId].semIn.WaitOne();
             handlers[clientId].semAccess.WaitOne();
             o = handlers[clientId].queueIn.Dequeue();
@@ -278,6 +282,7 @@ namespace Sanguosha.Core.Network
         public ISkill GetSkill(int clientId, int timeOutSeconds)
         {
             object o;
+            if (handlers[clientId].disconnected) return null;
             handlers[clientId].semIn.WaitOne();
             handlers[clientId].semAccess.WaitOne();
             o = handlers[clientId].queueIn.Dequeue();
@@ -358,7 +363,7 @@ namespace Sanguosha.Core.Network
                 handlers[i].client = listener.AcceptTcpClient();
                 Trace.TraceInformation("Client connected");
                 handlers[i].stream = handlers[i].client.GetStream();
-                handlers[i].threadServer = new Thread((ParameterizedThreadStart)((o) => { ServerThread(handlers[(int)o].stream, handlers[(int)o].semIn, handlers[(int)o].semAccess, handlers[(int)o].queueIn); }));
+                handlers[i].threadServer = new Thread((ParameterizedThreadStart)((o) => { ServerThread(handlers[(int)o].stream, handlers[(int)o].semIn, handlers[(int)o].semAccess, handlers[(int)o].queueIn); handlers[(int)o].disconnected = true; }));
                 handlers[i].threadServer.Start(i);
                 handlers[i].threadClient = new Thread((ParameterizedThreadStart)((o) => { ClientThread(handlers[(int)o].stream, handlers[(int)o].semOut, handlers[(int)o].semAccess, handlers[(int)o].queueOut); }));
                 handlers[i].threadClient.Start(i);
@@ -378,6 +383,7 @@ namespace Sanguosha.Core.Network
                 do
                 {
                     o = r.Receive();
+                    if (o == null) return;
                     if (o is int)
                     {
                         Trace.TraceInformation("{0} Received a {1}", Thread.CurrentThread.Name, (int)o);

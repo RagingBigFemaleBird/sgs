@@ -47,13 +47,13 @@ namespace Sanguosha.Expansions.Woods.Skills
             Game.CurrentGame.ExitAtomicContext();
 
             Game.CurrentGame.EnterAtomicContext();
-            cards = new List<Card>(Game.CurrentGame.Decks[null, DiMengDeck1]);
+            cards = new List<Card>(Game.CurrentGame.Decks[null, DiMengDeck2]);
             move.Cards = new List<Card>(cards);
             move.To = new DeckPlace(src1, DeckType.Hand);
             Game.CurrentGame.MoveCards(move);
             Game.CurrentGame.PlayerAcquiredCard(src1, cards);
 
-            cards = new List<Card>(Game.CurrentGame.Decks[null, DiMengDeck2]);
+            cards = new List<Card>(Game.CurrentGame.Decks[null, DiMengDeck1]);
             move.Cards = new List<Card>(cards);
             move.To = new DeckPlace(src2, DeckType.Hand);
             Game.CurrentGame.MoveCards(move);
