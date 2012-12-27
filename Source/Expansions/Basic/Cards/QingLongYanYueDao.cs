@@ -19,12 +19,13 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         public QingLongYanYueDao()
         {
-            EquipmentSkill = new QingLongYanYueSkill();
+            EquipmentSkill = new QingLongYanYueSkill() { ParentEquipment = this };
         }
 
         
         public class QingLongYanYueSkill : TriggerSkill, IEquipmentSkill
         {
+            public Equipment ParentEquipment { get; set; }
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 ISkill skill;

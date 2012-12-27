@@ -20,12 +20,13 @@ namespace Sanguosha.Expansions.Battle.Cards
     {
         public GuDingDao()
         {
-            EquipmentSkill = new GuDingDaoSkill();
+            EquipmentSkill = new GuDingDaoSkill() { ParentEquipment = this };
         }
 
         
         public class GuDingDaoSkill : TriggerSkill, IEquipmentSkill
         {
+            public Equipment ParentEquipment { get; set; }
             public GuDingDaoSkill()
             {
                 var trigger = new AutoNotifyPassiveSkillTrigger(

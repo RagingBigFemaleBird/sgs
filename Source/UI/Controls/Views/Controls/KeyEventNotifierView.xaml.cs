@@ -83,7 +83,8 @@ namespace Sanguosha.UI.Controls
         }
 
         private UIElement _BuildLogBlock(FlowDocument log)
-        {            
+        {
+            double width = log.GetFormattedText().WidthIncludingTrailingWhitespace;
             RichTextBox rtb = new RichTextBox()
             {
                 Document = log,
@@ -91,12 +92,23 @@ namespace Sanguosha.UI.Controls
                 Background = new SolidColorBrush(Colors.Transparent),
                 BorderThickness = new Thickness(0d),
                 FontFamily = new FontFamily("SimSun"),
-                FontSize = 14,
-                Effect = new DropShadowEffect() { Color = Colors.Black, BlurRadius = 3, ShadowDepth = 0 },
-                Opacity = 0d
+                FontSize = 14,                
+                Width = width,
+                Effect = new DropShadowEffect() { Color = Colors.Black, BlurRadius = 3, ShadowDepth = 0 },                
             };
             
-            return rtb;
+            Border border = new Border()
+            {
+                CornerRadius = new CornerRadius(3d),
+                Child = rtb,
+                Width = width,
+                Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x3D, 0x3A, 0x2C)),
+                BorderThickness = new Thickness(1d),
+                Opacity = 0d,
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Center
+            };
+           
+            return border;
         }
 
         List<int> _timeStamps;

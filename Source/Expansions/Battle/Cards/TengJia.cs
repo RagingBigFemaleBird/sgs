@@ -51,7 +51,7 @@ namespace Sanguosha.Expansions.Battle.Cards
 
         public TengJia()
         {
-            EquipmentSkill = new TengJiaSkill();
+            EquipmentSkill = new TengJiaSkill() { ParentEquipment = this };
         }
 
     }

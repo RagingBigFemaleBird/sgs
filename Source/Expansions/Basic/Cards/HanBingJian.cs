@@ -20,12 +20,13 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         public HanBingJian()
         {
-            EquipmentSkill = new HanBingJianSkill();
+            EquipmentSkill = new HanBingJianSkill() { ParentEquipment = this };
         }
 
         
         public class HanBingJianSkill : TriggerSkill, IEquipmentSkill
         {
+            public Equipment ParentEquipment { get; set; }
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 Player dest = eventArgs.Targets[0];

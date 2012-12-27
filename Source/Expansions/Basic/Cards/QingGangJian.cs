@@ -19,12 +19,13 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         public QingGangJian()
         {
-            EquipmentSkill = new QingGangJianSkill();
+            EquipmentSkill = new QingGangJianSkill() { ParentEquipment = this };
         }
 
         
         public class QingGangJianSkill : TriggerSkill, IEquipmentSkill
         {
+            public Equipment ParentEquipment { get; set; }
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 eventArgs.ReadonlyCard[Armor.IgnoreAllArmor] = 1;

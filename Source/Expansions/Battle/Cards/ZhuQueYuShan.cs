@@ -20,12 +20,13 @@ namespace Sanguosha.Expansions.Battle.Cards
         ZhuQueYuShanShaSkill theTrigger;
         public ZhuQueYuShan()
         {
-            theTrigger = new ZhuQueYuShanShaSkill();
-            EquipmentSkill = new ZhuQueYuShanTransform();
+            theTrigger = new ZhuQueYuShanShaSkill() { ParentEquipment = this };
+            EquipmentSkill = new ZhuQueYuShanTransform() { ParentEquipment = this };
         }
 
-        public class ZhuQueYuShanShaSkill : TriggerSkill
+        public class ZhuQueYuShanShaSkill : TriggerSkill, IEquipmentSkill
         {
+            public Equipment ParentEquipment { get; set; }
             public ZhuQueYuShanShaSkill()
             {
                 var trigger = new AutoNotifyPassiveSkillTrigger(
@@ -46,6 +47,7 @@ namespace Sanguosha.Expansions.Battle.Cards
 
         public class ZhuQueYuShanTransform : OneToOneCardTransformSkill, IEquipmentSkill
         {
+            public Equipment ParentEquipment { get; set; }
             public override bool VerifyInput(Card card, object arg)
             {
                 return card.Type is RegularSha;

@@ -19,7 +19,7 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         public CiXiongShuangGuJian()
         {
-            EquipmentSkill = new CiXiongShuangGuJianSkill();
+            EquipmentSkill = new CiXiongShuangGuJianSkill() { ParentEquipment = this };
         }
 
         
@@ -54,6 +54,8 @@ namespace Sanguosha.Expansions.Basic.Cards
                 );
                 Triggers.Add(GameEvent.CardUsageTargetConfirmed, trigger);
             }
+
+            public Equipment ParentEquipment { get; set; }
         }
 
         public override int AttackRange

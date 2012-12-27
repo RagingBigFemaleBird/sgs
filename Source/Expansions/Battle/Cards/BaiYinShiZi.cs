@@ -20,7 +20,7 @@ namespace Sanguosha.Expansions.Battle.Cards
     {
         
         public class BaiYinShiZiSkill : ArmorTriggerSkill
-        {
+        {            
             void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 DamageEventArgs args = eventArgs as DamageEventArgs;
@@ -47,7 +47,7 @@ namespace Sanguosha.Expansions.Battle.Cards
 
         public BaiYinShiZi()
         {
-            EquipmentSkill = new BaiYinShiZiSkill();
+            EquipmentSkill = new BaiYinShiZiSkill() { ParentEquipment = this };
         }
 
     }

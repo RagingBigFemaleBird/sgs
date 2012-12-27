@@ -190,18 +190,46 @@ namespace Sanguosha.UI.Controls
                         ISkill skill = log.SkillAction;
                         if (skill is ActiveSkill)
                         {
-                            paragraph.Inlines.Add(string.Format("{0}发动了技能", source));
-                            paragraph.Inlines.AddRange(RichTranslate(log.SkillAction));
-                            if (dests != string.Empty)
+                            IEquipmentSkill equipSkill = log.SkillAction as IEquipmentSkill;
+                            if (equipSkill != null && equipSkill.ParentEquipment is Weapon)
                             {
-                                paragraph.Inlines.Add("，目标是" + dests);
+                                paragraph.Inlines.Add(string.Format("{0}{1}发动了", source, dests));
+                                paragraph.Inlines.AddRange(RichTranslate(equipSkill.ParentEquipment));
+                                paragraph.Inlines.Add("的武器特效");
+                            }
+                            else
+                            {
+                                paragraph.Inlines.Add(string.Format("{0}发动了技能", source));
+                                paragraph.Inlines.AddRange(RichTranslate(log.SkillAction));
+                                if (dests != string.Empty)
+                                {
+                                    paragraph.Inlines.Add("，目标是" + dests);
+                                }
                             }
                         }
                         else if (skill is TriggerSkill)
                         {
-                            paragraph.Inlines.Add(string.Format("{0}的技能", source));
-                            paragraph.Inlines.AddRange(RichTranslate(log.SkillAction));
-                            paragraph.Inlines.Add(string.Format("被触发"));
+                            if (skill is IEquipmentSkill)
+                            {
+                                IEquipmentSkill equipSkill = log.SkillAction as IEquipmentSkill;
+                                if (equipSkill.ParentEquipment is Weapon)
+                                {
+                                    paragraph.Inlines.Add(string.Format("{0}发动了武器特效", source));
+                                    paragraph.Inlines.AddRange(RichTranslate(equipSkill.ParentEquipment));
+                                }
+                                else if (equipSkill.ParentEquipment is Armor)
+                                {
+                                    paragraph.Inlines.Add(string.Format("{0}的", source));
+                                    paragraph.Inlines.AddRange(RichTranslate(equipSkill.ParentEquipment));
+                                    paragraph.Inlines.Add(string.Format("效果被触发", source));
+                                }
+                            }
+                            else
+                            {
+                                paragraph.Inlines.Add(string.Format("{0}的武将技能", source));
+                                paragraph.Inlines.AddRange(RichTranslate(log.SkillAction));
+                                paragraph.Inlines.Add(string.Format("被触发"));
+                            }    
                             if (dests != string.Empty)
                             {
                                 paragraph.Inlines.Add("，目标是" + dests);
@@ -265,24 +293,36 @@ namespace Sanguosha.UI.Controls
                             }
                             if (log.SkillAction is IEquipmentSkill)
                             {
-                                paragraph.Inlines.Add(string.Format("{0}{1}发动了", source, dests));
-                                paragraph.Inlines.AddRange(RichTranslate(log.SkillAction));
-                                paragraph.Inlines.Add("的武器特效");
+                                IEquipmentSkill equipSkill = log.SkillAction as IEquipmentSkill;
+                                if (equipSkill.ParentEquipment is Weapon)
+                                {
+                                    paragraph.Inlines.Add(string.Format("{0}{1}发动了", source, dests));
+                                    paragraph.Inlines.AddRange(RichTranslate(equipSkill.ParentEquipment));
+                                    paragraph.Inlines.Add("的武器特效");
+                                }
                             }
                             else
                             {
                                 paragraph.Inlines.Add(string.Format("{0}{1}发动了武将技能", source, dests));
                                 paragraph.Inlines.AddRange(RichTranslate(log.SkillAction));
                             }
-                            
-                            
                         }
                         else if (skill is TriggerSkill)
                         {
                             if (skill is IEquipmentSkill)
                             {
-                                paragraph.Inlines.Add(string.Format("{0}发动了武器特效", source));
-                                paragraph.Inlines.AddRange(RichTranslate(log.SkillAction));
+                                IEquipmentSkill equipSkill = log.SkillAction as IEquipmentSkill;
+                                if (equipSkill.ParentEquipment is Weapon)
+                                {
+                                    paragraph.Inlines.Add(string.Format("{0}发动了武器特效", source));
+                                    paragraph.Inlines.AddRange(RichTranslate(equipSkill.ParentEquipment));
+                                }
+                                else if (equipSkill.ParentEquipment is Armor)
+                                {
+                                    paragraph.Inlines.Add(string.Format("{0}的", source));
+                                    paragraph.Inlines.AddRange(RichTranslate(equipSkill.ParentEquipment));
+                                    paragraph.Inlines.Add(string.Format("效果被触发", source));
+                                }
                             }
                             else
                             {
@@ -306,18 +346,7 @@ namespace Sanguosha.UI.Controls
                 case GameAction.Discard:
                     //return string.Format("{0}{1}弃置", source, skill);
                     break;
-            }
-            if (paragraph.Inlines.Count > 0)
-            {
-                paragraph.Inlines.InsertBefore(paragraph.Inlines.FirstInline, new Run("   "));
-                paragraph.Inlines.Add(new Run("   "));
-            }
-            foreach (var inline in paragraph.Inlines)
-            {
-                inline.Background = new SolidColorBrush(Color.FromArgb(0x7F, 0x28, 0x26, 0x1D));
-            }
-            paragraph.LineHeight = 30d;
-            paragraph.TextAlignment = TextAlignment.Center;
+            }            
             return paragraph;
         }
 

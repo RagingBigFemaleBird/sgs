@@ -14,10 +14,8 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    
     public abstract class Aoe : CardHandler
     {
-
         [NonSerialized]
         private SingleCardUsageVerifier responseCardVerifier;
 

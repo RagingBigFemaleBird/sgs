@@ -19,12 +19,13 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         public FangTianHuaJi()
         {
-            EquipmentSkill = new FangTianHuaJiSkill();
+            EquipmentSkill = new FangTianHuaJiSkill() { ParentEquipment = this };
         }
 
         
         class FangTianHuaJiSkill : TriggerSkill, IEquipmentSkill
         {
+            public Equipment ParentEquipment { get; set; }
             void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 ShaEventArgs args = (ShaEventArgs)eventArgs;

@@ -19,12 +19,13 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         public QiLinGong()
         {
-            EquipmentSkill = new QiLinGongSkill();
+            EquipmentSkill = new QiLinGongSkill() { ParentEquipment = this };
         }
 
         
         public class QiLinGongSkill : TriggerSkill, IEquipmentSkill
         {
+            public Equipment ParentEquipment { get; set; }
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 var equipDeck = Game.CurrentGame.Decks[eventArgs.Targets[0], DeckType.Equipment];

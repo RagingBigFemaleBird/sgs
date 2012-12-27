@@ -19,7 +19,7 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         public GuanShiFu()
         {
-            EquipmentSkill = new GuanShiFuSkill();
+            EquipmentSkill = new GuanShiFuSkill() { ParentEquipment = this };
         }
 
         public class GuanShiFuVerifier : ICardUsageVerifier
@@ -80,6 +80,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         
         public class GuanShiFuSkill : TriggerSkill, IEquipmentSkill
         {
+            public Equipment ParentEquipment { get; set; }
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 ISkill skill;

@@ -24,12 +24,13 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         public ZhuGeLianNu()
         {
-            EquipmentSkill = new ZhuGeLianNuSkill();
+            EquipmentSkill = new ZhuGeLianNuSkill() { ParentEquipment = this };
         }
 
         
         class ZhuGeLianNuSkill : TriggerSkill, IEquipmentSkill
         {
+            public Equipment ParentEquipment { get; set; }
             public ZhuGeLianNuSkill()
             {
                 var trigger = new AutoNotifyPassiveSkillTrigger(

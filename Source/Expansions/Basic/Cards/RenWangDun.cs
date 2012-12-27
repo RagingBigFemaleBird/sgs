@@ -36,7 +36,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         public RenWangDun()
         {
-            EquipmentSkill = new RenWangDunSkill();
+            EquipmentSkill = new RenWangDunSkill() { ParentEquipment = this };
         }
 
     }

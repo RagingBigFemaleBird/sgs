@@ -16,7 +16,7 @@ namespace Sanguosha.Core.Cards
 {
     public interface IEquipmentSkill : ISkill
     {
-
+        Equipment ParentEquipment { get; }
     }
 
     public abstract class Equipment : CardHandler

@@ -18,12 +18,13 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         public ZhangBaSheMao()
         {
-            EquipmentSkill = new ZhangBaSheMaoTransform();
+            EquipmentSkill = new ZhangBaSheMaoTransform() { ParentEquipment = this };
         }
 
         
         public class ZhangBaSheMaoTransform : CardTransformSkill, IEquipmentSkill
         {
+            public Equipment ParentEquipment { get; set; }
             public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
             {
                 card = null;

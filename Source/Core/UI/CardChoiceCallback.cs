@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Sanguosha.Core.UI
 {
-    public static class CardChoiceCallback
+    public class CardChoiceCallback
     {
         public static void GenericCardChoiceCallback(object obj)
         {

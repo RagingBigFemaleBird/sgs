@@ -24,7 +24,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 ReadOnlyCard c = Game.CurrentGame.Judge(Owner, null, new Card() { Type = new BaGuaZhen() }, (judgeResultCard) => { return judgeResultCard.SuitColor == SuitColorType.Red; });
                 if (c.SuitColor == SuitColorType.Red)
-                {
+                {                    
                     eventArgs.Cards = new List<Card>();
                     ActionLog log = new ActionLog();
                     log.Source = Owner;
@@ -48,7 +48,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         public BaGuaZhen()
         {
-            EquipmentSkill = new BaGuaZhenSkill();
+            EquipmentSkill = new BaGuaZhenSkill() { ParentEquipment = this };
         }
 
     }

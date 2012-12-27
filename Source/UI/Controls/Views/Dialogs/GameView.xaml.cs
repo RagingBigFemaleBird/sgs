@@ -772,6 +772,20 @@ namespace Sanguosha.UI.Controls
             });
         }
 
+        public void NotifyLogEvent(Prompt prompt)
+        {
+        }
+
+        public void _AppenKeyEventLog(ActionLog log)
+        {
+            var doc = new FlowDocument();
+            var para = LogFormatter.RichTranslateKeyLog(log);
+            if (para.Inlines.Count == 0) return;
+            doc.Blocks.Add(para);
+            keyEventLog.AddLog(doc);
+        }
+
+
         public void NotifyMultipleChoiceResult(Player p, OptionPrompt answer)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
@@ -939,18 +953,5 @@ namespace Sanguosha.UI.Controls
         }
         #endregion
 
-        public void NotifyLogEvent(Prompt prompt)
-        {
-        }
-
-
-        public void _AppenKeyEventLog(ActionLog log)
-        {
-            var doc = new FlowDocument();
-            var para = LogFormatter.RichTranslateKeyLog(log);
-            if (para.Inlines.Count == 0) return;
-            doc.Blocks.Add(para);
-            keyEventLog.AddLog(doc);
-        }
     }
 }
