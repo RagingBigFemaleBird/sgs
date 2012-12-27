@@ -23,7 +23,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         }
 
         
-        class FangTianHuaJiSkill : TriggerSkill
+        class FangTianHuaJiSkill : TriggerSkill, IEquipmentSkill
         {
             void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {

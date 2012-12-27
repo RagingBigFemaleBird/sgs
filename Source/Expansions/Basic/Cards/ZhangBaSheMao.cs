@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         }
 
         
-        public class ZhangBaSheMaoTransform : CardTransformSkill
+        public class ZhangBaSheMaoTransform : CardTransformSkill, IEquipmentSkill
         {
             public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
             {

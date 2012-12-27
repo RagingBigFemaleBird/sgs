@@ -23,7 +23,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         }
 
         
-        public class QingLongYanYueSkill : TriggerSkill
+        public class QingLongYanYueSkill : TriggerSkill, IEquipmentSkill
         {
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {

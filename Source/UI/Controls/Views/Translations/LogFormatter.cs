@@ -188,10 +188,20 @@ namespace Sanguosha.UI.Controls
                     if (log.SkillAction != null)
                     {
                         ISkill skill = log.SkillAction;
-                        if (skill is TriggerSkill || skill is ActiveSkill)
+                        if (skill is ActiveSkill)
                         {
                             paragraph.Inlines.Add(string.Format("{0}发动了技能", source));
                             paragraph.Inlines.AddRange(RichTranslate(log.SkillAction));
+                            if (dests != string.Empty)
+                            {
+                                paragraph.Inlines.Add("，目标是" + dests);
+                            }
+                        }
+                        else if (skill is TriggerSkill)
+                        {
+                            paragraph.Inlines.Add(string.Format("{0}的技能", source));
+                            paragraph.Inlines.AddRange(RichTranslate(log.SkillAction));
+                            paragraph.Inlines.Add(string.Format("被触发"));
                             if (dests != string.Empty)
                             {
                                 paragraph.Inlines.Add("，目标是" + dests);
@@ -230,6 +240,84 @@ namespace Sanguosha.UI.Controls
                     //return string.Format("{0}{1}弃置", source, skill);
                     break;
             }
+            return paragraph;
+        }
+
+        public static Paragraph RichTranslateKeyLog(ActionLog log)
+        {
+            Paragraph paragraph = new Paragraph();
+            string source = Translate(log.Source);
+            string dests = Translate(log.Targets);
+
+            IList<Inline> skillInline = RichTranslate(log.SkillAction);
+            string formatter = source;
+            switch (log.GameAction)
+            {
+                case GameAction.None:
+                    if (log.SkillAction != null)
+                    {                        
+                        ISkill skill = log.SkillAction;
+                        if (skill is ActiveSkill)
+                        {
+                            if (!string.IsNullOrEmpty(dests))
+                            {
+                                dests = "对" + dests;
+                            }
+                            if (log.SkillAction is IEquipmentSkill)
+                            {
+                                paragraph.Inlines.Add(string.Format("{0}{1}发动了", source, dests));
+                                paragraph.Inlines.AddRange(RichTranslate(log.SkillAction));
+                                paragraph.Inlines.Add("的武器特效");
+                            }
+                            else
+                            {
+                                paragraph.Inlines.Add(string.Format("{0}{1}发动了武将技能", source, dests));
+                                paragraph.Inlines.AddRange(RichTranslate(log.SkillAction));
+                            }
+                            
+                            
+                        }
+                        else if (skill is TriggerSkill)
+                        {
+                            if (skill is IEquipmentSkill)
+                            {
+                                paragraph.Inlines.Add(string.Format("{0}发动了武器特效", source));
+                                paragraph.Inlines.AddRange(RichTranslate(log.SkillAction));
+                            }
+                            else
+                            {
+                                paragraph.Inlines.Add(string.Format("{0}的武将技能", source));
+                                paragraph.Inlines.AddRange(RichTranslate(log.SkillAction));
+                                paragraph.Inlines.Add(string.Format("被触发"));
+                            }                            
+                        }
+                    }
+                    break;
+                case GameAction.Use:
+                    if (log.CardAction.GetType().Name == "WuXieKeJi" && log.SkillAction == null)
+                    {
+                        paragraph.Inlines.Add(string.Format("{0}使用了卡牌", source));
+                        paragraph.Inlines.AddRange(RichTranslate(log.CardAction));
+                    }
+                    break;
+                case GameAction.PlaceIntoDiscard:
+                    // return string.Format("{0}{1}置入弃牌堆", source, skill);
+                    break;
+                case GameAction.Discard:
+                    //return string.Format("{0}{1}弃置", source, skill);
+                    break;
+            }
+            if (paragraph.Inlines.Count > 0)
+            {
+                paragraph.Inlines.InsertBefore(paragraph.Inlines.FirstInline, new Run("   "));
+                paragraph.Inlines.Add(new Run("   "));
+            }
+            foreach (var inline in paragraph.Inlines)
+            {
+                inline.Background = new SolidColorBrush(Color.FromArgb(0x7F, 0x28, 0x26, 0x1D));
+            }
+            paragraph.LineHeight = 30d;
+            paragraph.TextAlignment = TextAlignment.Center;
             return paragraph;
         }
 

@@ -24,7 +24,7 @@ namespace Sanguosha.Expansions.Battle.Cards
         }
 
         
-        public class GuDingDaoSkill : TriggerSkill
+        public class GuDingDaoSkill : TriggerSkill, IEquipmentSkill
         {
             public GuDingDaoSkill()
             {

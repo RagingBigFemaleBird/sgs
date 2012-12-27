@@ -368,8 +368,7 @@
                     <ei:DataStateBehavior TrueState="Faded" FalseState="UnFaded" Value="true" Binding="{Binding IsFaded}"/>
                 </i:Interaction.Behaviors>
             </Border>
-            <local:VHealthBar x:Name="healthBar" HorizontalAlignment="Right" VerticalAlignment="Center"
-                              Height="130" Width="25" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}" IsHitTestVisible="False" />
+            <local:VHealthBar x:Name="healthBar" HorizontalAlignment="Right" Width="25" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}" IsHitTestVisible="False" Margin="0,4,0,10" />
             
             <TextBlock Height="17" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="SimSun" Foreground="White" FontSize="13.333" TextAlignment="Center" LineStackingStrategy="BlockLineHeight" LineHeight="16" Background="#7F585858" IsHitTestVisible="False" Margin="0.5,5,0,0" HorizontalAlignment="Left" Width="134">
                 <Run Language="zh-cn" Text="UserName"/>                                                                

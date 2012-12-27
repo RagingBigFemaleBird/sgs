@@ -28,7 +28,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         }
 
         
-        class ZhuGeLianNuSkill : TriggerSkill
+        class ZhuGeLianNuSkill : TriggerSkill, IEquipmentSkill
         {
             public ZhuGeLianNuSkill()
             {

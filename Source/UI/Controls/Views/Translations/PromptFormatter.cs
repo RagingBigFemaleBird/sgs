@@ -8,6 +8,7 @@ using System.Windows;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Cards;
 using Sanguosha.Core.Skills;
+using System.Windows.Documents;
 
 namespace Sanguosha.UI.Controls
 {

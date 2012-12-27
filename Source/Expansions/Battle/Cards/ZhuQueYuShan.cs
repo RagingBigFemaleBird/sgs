@@ -44,7 +44,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             }
         }
 
-        public class ZhuQueYuShanTransform : OneToOneCardTransformSkill
+        public class ZhuQueYuShanTransform : OneToOneCardTransformSkill, IEquipmentSkill
         {
             public override bool VerifyInput(Card card, object arg)
             {

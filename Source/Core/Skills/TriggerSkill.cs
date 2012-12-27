@@ -249,7 +249,7 @@ namespace Sanguosha.Core.Skills
 
 
     
-    public abstract class ArmorTriggerSkill : TriggerSkill
+    public abstract class ArmorTriggerSkill : TriggerSkill, IEquipmentSkill
     {
     }
 }

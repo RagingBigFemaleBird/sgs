@@ -78,7 +78,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         }
 
         
-        public class GuanShiFuSkill : TriggerSkill
+        public class GuanShiFuSkill : TriggerSkill, IEquipmentSkill
         {
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {

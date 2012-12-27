@@ -24,7 +24,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         }
 
         
-        public class HanBingJianSkill : TriggerSkill
+        public class HanBingJianSkill : TriggerSkill, IEquipmentSkill
         {
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {

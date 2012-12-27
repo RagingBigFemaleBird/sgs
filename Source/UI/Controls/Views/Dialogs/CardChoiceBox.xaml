@@ -51,10 +51,7 @@
     </UserControl.Resources>
 
     <Grid Name="LayoutRoot" Margin="20, 5" HorizontalAlignment="Center" VerticalAlignment="Top">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
+        <StackPanel>
         <ItemsControl ItemsSource="{Binding CardStacks}" ItemTemplate="{StaticResource CardStackTemplate}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -62,7 +59,7 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
-        <ItemsControl x:Name="gridChoices" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,2" MaxWidth="1000" ItemsSource="{Binding MultiChoiceCommands}">
+        <ItemsControl x:Name="gridChoices" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,2" MaxWidth="1000" ItemsSource="{Binding MultiChoiceCommands}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Rows="1"/>
@@ -76,6 +73,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <ProgressBar x:Name="progressBar" Style="{StaticResource TimedProgressBarStyle}" MinWidth="163" MaxWidth="263" Height="15"  Grid.Column="0" Grid.Row="1" Margin="30,0,30,0" VerticalAlignment="Bottom" />
+        <ProgressBar x:Name="progressBar" Style="{StaticResource TimedProgressBarStyle}" MinWidth="163" MaxWidth="263" Height="15" Margin="30,0,30,0" VerticalAlignment="Bottom" />
+        </StackPanel>
     </Grid>
 </UserControl>

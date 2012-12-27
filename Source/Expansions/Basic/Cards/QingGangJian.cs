@@ -23,7 +23,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         }
 
         
-        public class QingGangJianSkill : TriggerSkill
+        public class QingGangJianSkill : TriggerSkill, IEquipmentSkill
         {
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {

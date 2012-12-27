@@ -766,7 +766,9 @@ namespace Sanguosha.UI.Controls
                 }
 
                 gameLogs.AppendLog(log);
-                rtbLog.ScrollToEnd();                
+                rtbLog.ScrollToEnd();
+
+                _AppenKeyEventLog(log);
             });
         }
 
@@ -939,6 +941,16 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyLogEvent(Prompt prompt)
         {
+        }
+
+
+        public void _AppenKeyEventLog(ActionLog log)
+        {
+            var doc = new FlowDocument();
+            var para = LogFormatter.RichTranslateKeyLog(log);
+            if (para.Inlines.Count == 0) return;
+            doc.Blocks.Add(para);
+            keyEventLog.AddLog(doc);
         }
     }
 }

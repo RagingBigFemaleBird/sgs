@@ -14,7 +14,11 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Core.Cards
 {
-    
+    public interface IEquipmentSkill : ISkill
+    {
+
+    }
+
     public abstract class Equipment : CardHandler
     {
         /// <summary>
@@ -100,7 +104,7 @@ namespace Sanguosha.Core.Cards
             return VerifierResult.Fail;
         }
 
-        public ISkill EquipmentSkill
+        public IEquipmentSkill EquipmentSkill
         {
             get; protected set;
         }
