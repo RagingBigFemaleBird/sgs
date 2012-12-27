@@ -1,0 +1,34 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:local="clr-namespace:Sanguosha.UI.Controls"
+	mc:Ignorable="d"
+	x:Class="Sanguosha.UI.Controls.KeyEventNotifierView"
+	x:Name="UserControl"
+	d:DesignWidth="640" d:DesignHeight="480">
+
+	<Grid x:Name="LayoutRoot">
+		<ItemsControl ItemsSource="{Binding}">
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<StackPanel />
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Border CornerRadius="2" Background="#FF3D3A2C" HorizontalAlignment="Center">
+						<Viewbox Height="25">
+							<RichTextBox Document="{Binding}" Foreground="#FFFFEE99" FontFamily="SimSun" FontSize="14">
+								<RichTextBox.Effect>
+									<DropShadowEffect Color="Black" BlurRadius="3" ShadowDepth="0" />
+ 								</RichTextBox.Effect>
+							</RichTextBox>
+						</Viewbox>
+					</Border>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+	</Grid>
+</UserControl>

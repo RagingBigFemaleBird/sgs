@@ -68,6 +68,9 @@
     <Compile Include="Views\Cards\DragDirection.cs" />
     <Compile Include="Views\Cards\SuitColorToColorConverter.cs" />
     <Compile Include="Views\Containers\SingleRowCardStack.cs" />
+    <Compile Include="Views\Controls\KeyEventNotifierView.xaml.cs">
+      <DependentUpon>KeyEventNotifierView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Dialogs\CardArrangeBox.xaml.cs">
       <DependentUpon>CardArrangeBox.xaml</DependentUpon>
     </Compile>
@@ -176,6 +179,10 @@
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\KeyEventNotifierView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Dialogs\CardArrangeBox.xaml">
       <SubType>Designer</SubType>
@@ -358,7 +365,6 @@
     <Resource Include="Views\Resources\Miscellaneous\FireMap.png" />
     <Content Include="WPFToolkit.Extended.dll" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath32)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	     Other similar extension points exist, see Microsoft.Common.targets.
