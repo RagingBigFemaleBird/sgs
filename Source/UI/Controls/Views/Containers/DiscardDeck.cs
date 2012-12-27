@@ -129,7 +129,7 @@ namespace Sanguosha.UI.Controls
             // or from judge result area to discard aresa
             if (from != DeckType.Compute && from != DeckType.JudgeResult && from != DeckType.Dealing)
             {
-                AddCards(cards, 0.3d);
+                AddCards(cards, 0.35d);
             }
             else if (from == DeckType.Dealing && deck == DeckType.JudgeResult)
             {

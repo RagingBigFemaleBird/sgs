@@ -525,7 +525,9 @@ namespace Sanguosha.Core.Games
                     }
                     i++;
                 }
-                
+
+                Thread.Sleep(400);
+
                 //hero allocation
                 Shuffle(game.Decks[DeckType.Heroes]);
                 if (!game.IsClient)

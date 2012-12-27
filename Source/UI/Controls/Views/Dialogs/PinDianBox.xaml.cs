@@ -57,13 +57,28 @@ namespace Sanguosha.UI.Controls
                 cardView = cardRight;
             }
             Trace.Assert(cardView != null);
-            cardView.DataContext = new CardViewModel() { Card = new Card() { Id = Card.UnknownCardId } };
+            cardView.DataContext = new CardViewModel() 
+            {
+                Card = new Card() { Id = Card.UnknownCardId },
+                Footnote = LogFormatter.Translate(player),
+                IsFootnoteVisible = true
+            };
         }
 
         public void RevealResult(Card card1, Card card2, bool win)
         {
-            cardLeft.DataContext = new CardViewModel() { Card = card1 };
-            cardRight.DataContext = new CardViewModel() { Card = card2 };
+            cardLeft.DataContext = new CardViewModel() 
+            {
+                Card = card1,
+                Footnote = LogFormatter.Translate(_player1),
+                IsFootnoteVisible = true
+            };
+            cardRight.DataContext = new CardViewModel() 
+            {
+                Card = card2,
+                Footnote = LogFormatter.Translate(_player2),
+                IsFootnoteVisible = true
+            };
             AnimationBase anim;
             if (win) anim = new PinDianWinAnimation();
             else anim = new PinDianLoseAnimation();
