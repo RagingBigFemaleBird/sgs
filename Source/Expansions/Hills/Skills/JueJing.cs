@@ -35,7 +35,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             );
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { p[Player.DealAdjustment] += (2 + p.MaxHealth - p.Health); },
+                (p, e, a) => { p[Player.DealAdjustment] += (p.MaxHealth - p.Health); },
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.PhaseProceedEvents[TurnPhase.Draw], trigger2);

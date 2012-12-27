@@ -9,16 +9,48 @@
     <sys:String x:Key="Skill.RenDe.Description">出牌阶段，你可以将任意数量的手牌交给其他角色，若此阶段你给出的牌张数达到两张或更多时，你回复1点体力。</sys:String>
     <sys:String x:Key="Skill.RenDe.Usage">点"仁德"→选中数张手牌→选择目标→“确定”</sys:String>
     -->
-    <sys:String x:Key="Hero.ShenSimaYi.Name">神司马懿</sys:String>
     <sys:String x:Key="Hero.ZhangHe.Name">张郃</sys:String>
+    <sys:String x:Key="Hero.DengAi.Name">邓艾</sys:String>
+    <sys:String x:Key="Hero.JiangWei.Name">姜维</sys:String>
+    <sys:String x:Key="Hero.LiuShan.Name">刘禅</sys:String>
     <sys:String x:Key="Hero.SunCe.Name">孙策</sys:String>
     <sys:String x:Key="Hero.ZhangZhaoZhangHong.Name">张昭＆张纮</sys:String>
     <sys:String x:Key="Hero.ZuoCi.Name">左慈</sys:String>
-    <sys:String x:Key="Hero.LiuShan.Name">刘禅</sys:String>
-    <sys:String x:Key="Hero.JiangWei.Name">姜维</sys:String>
     <sys:String x:Key="Hero.CaiWenJi.Name">蔡文姬</sys:String>
     <sys:String x:Key="Hero.ShenZhaoYun.Name">神赵云</sys:String>
-    <sys:String x:Key="Hero.DengAi.Name">邓艾</sys:String>
+    <sys:String x:Key="Hero.ShenSimaYi.Name">神司马懿</sys:String>
+
+
+    <sys:String x:Key="Skill.QiaoBian.Name">巧变</sys:String>
+    <sys:String x:Key="Skill.QiaoBian.Description">你可以弃置一张手牌，跳过你的一个阶段（回合开始和回合结束阶段除外），若以此法跳过摸牌阶段，你获得其他至多两名角色各一张手牌；若以此法跳过出牌阶段，你可以将场上的一张牌移动到另一名角色区域里的相应位置。</sys:String>
+    <sys:String x:Key="Skill.QiaoBian.Usage">系统提示→点“确定”→选中一张手牌→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.TunTian.Name">屯田</sys:String>
+    <sys:String x:Key="Skill.TunTian.Description">你的回合外，当你失去牌时，你可以进行一次判定，将非红桃结果的判定牌置于你的武将牌上，称为“田”；每有一张“田”，你计算的与其他角色的距离-1。</sys:String>
+
+    <sys:String x:Key="Skill.ZaoXian.Name">凿险</sys:String>
+    <sys:String x:Key="Skill.ZaoXian.Description">觉醒技，回合开始阶段开始时，若“田”的数量达到3或更多，你须减1点体力上限，并获得技能“急袭”（你可以将一张“田”当【顺手牵羊】使用）。</sys:String>
+
+    <sys:String x:Key="Skill.JiXi.Name">急袭</sys:String>
+    <sys:String x:Key="Skill.JiXi.Description">你可以将一张“田”当【顺手牵羊】使用</sys:String>
+    <sys:String x:Key="Skill.JiXi.Usage">点“急袭”→选择1张田→选择一名顺手牵羊的目标→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.TiaoXin.Name">挑衅</sys:String>
+    <sys:String x:Key="Skill.TiaoXin.Description">出牌阶段，你可以令一名你在其攻击范围内的其他角色选择一项：对你使用一张【杀】，或令你弃置其一张牌。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.TiaoXin.Usage">点“挑衅”→选择一名目标→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.ZhiJi.Name">志继</sys:String>
+    <sys:String x:Key="Skill.ZhiJi.Description">觉醒技，回合开始阶段开始时，若你没有手牌，你须选择一项：回复1点体力，或摸两张牌。然后你减1点体力上限，获得技能“观星”。</sys:String>
+
+    <sys:String x:Key="Skill.XiangLe.Name">享乐</sys:String>
+    <sys:String x:Key="Skill.XiangLe.Description">锁定技，当其他角色使用【杀】指定你为目标时，需弃置一张基本牌，否则此【杀】对你无效。</sys:String>
+
+    <sys:String x:Key="Skill.FangQuan.Name">放权</sys:String>
+    <sys:String x:Key="Skill.FangQuan.Description">你可以跳过你的出牌阶段，然后在回合结束时，你可以弃置一张手牌令一名其他角色进行一个额外的回合。</sys:String>
+    <sys:String x:Key="Skill.FangQuan.Usage"  xml:space="preserve">系统提示（出牌阶段）→点“确定”&#10;系统提示（回合结束时）→选中一张手牌→选中一名其他角色→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.RuoYu.Name">若愚</sys:String>
+    <sys:String x:Key="Skill.RuoYu.Description">主公技，觉醒技，回合开始阶段开始时，若你当前的体力值是全场最少的（或之一），你须加1点体力上限，回复1点体力，并获得技能“激将”。</sys:String>
 
     <sys:String x:Key="Skill.JiAng.Name">激昂</sys:String>
     <sys:String x:Key="Skill.JiAng.Description">每当你使用（指定目标后）或被使用（成为目标后）一张【决斗】或红色的【杀】时，你可以摸一张牌。</sys:String>
@@ -35,30 +67,49 @@
     <sys:String x:Key="Skill.ZhiBaGivenSkill.Description">主公技，其他吴势力角色可以在他们各自的出牌阶段与你拼点（“魂姿”发动后，你可以拒绝此拼点），若该角色没赢，你可以获得双方拼点的牌。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.ZhiBaGivenSkill.Usage">点“制霸”→点“确定”→选中拼点牌→点“确定”</sys:String>
 
+    <sys:String x:Key="Skill.ZhiJian.Name">直谏</sys:String>
+    <sys:String x:Key="Skill.ZhiJian.Description">出牌阶段，你可以将手牌中的一张装备牌置于一名其他角色的装备区里，然后摸一张牌。</sys:String>
+    <sys:String x:Key="Skill.ZhiJian.Usage">点“直谏”→选中1张装备牌→选择一名其他角色→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.GuZheng.Name">固政</sys:String>
+    <sys:String x:Key="Skill.GuZheng.Description">出牌阶段，你可以将手牌中的一张装备牌置于一名其他角色的装备区里，然后摸一张牌。</sys:String>
+    <sys:String x:Key="Skill.GuZheng.Usage">系统提示→选中1张牌→点窗口下方按钮</sys:String>
+
+    <sys:String x:Key="Skill.HuaShen.Name">化身</sys:String>
+    <sys:String x:Key="Skill.HuaShen.Description">所有人都展示武将牌后，你随机获得两张未加入游戏的武将牌，称为“化身牌”，选一张置于你面前并声明该武将的一项技能，你获得该技能且同时将性别和势力属性变成与该武将相同直到“化身牌”被替换。在你的每个回合开始时和结束后，你可以替换“化身牌”，然后（无论是否替换）你为当前的“化身牌”声明一项技能（你不可以声明限定技、觉醒技或主公技）。</sys:String>
+    <sys:String x:Key="Skill.HuaShen.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.XinSheng.Name">新生</sys:String>
+    <sys:String x:Key="Skill.XinSheng.Description">每当你受到1点伤害后，你可以获得一张“化身牌”。</sys:String>
+    <sys:String x:Key="Skill.XinSheng.Usage">系统提示→点“确定”</sys:String>
+
     <sys:String x:Key="Skill.BeiGe.Name">悲歌</sys:String>
+    <sys:String x:Key="Skill.BeiGe.Description">每当一名角色受到【杀】造成的一次伤害后，你可以弃置一张牌，令其进行一次判定，判定结果为：红桃 该角色回复1点体力；方块 该角色摸两张牌；梅花 伤害来源弃置两张牌；黑桃 伤害来源将其武将牌翻面。</sys:String>
+    <sys:String x:Key="Skill.BeiGe.Usage">系统提示→点“确定”→选中1张手牌→点“确定”</sys:String>
+
     <sys:String x:Key="Skill.DuanChang.Name">断肠</sys:String>
-    <sys:String x:Key="Skill.BaiYin.Name">拜印</sys:String>
+    <sys:String x:Key="Skill.DuanChang.Description">锁定技，你死亡时，杀死你的角色失去其所有武将技能。</sys:String>
+
+    <sys:String x:Key="Skill.JueJing.Name">绝境</sys:String>
+    <sys:String x:Key="Skill.JueJing.Description">锁定技，摸牌阶段，你可以额外摸等同于你已损失体力数的牌；你的手牌上限+2。</sys:String>
+    
+    <sys:String x:Key="Skill.LongHun.Name">龙魂</sys:String>
+    <sys:String x:Key="Skill.LongHun.Description">你可以将同花色的X张牌按下列规则使用或打出：红桃当【桃】，方块当具火焰伤害的【杀】，梅花当【闪】，黑桃当【无懈可击】（X为你当前的体力值且至少为1）。</sys:String>
+
     <sys:String x:Key="Skill.RenJie.Name">忍戒</sys:String>
+    <sys:String x:Key="Skill.RenJie.Description">锁定技，每当你受到一次伤害后或于弃牌阶段弃置手牌后，你获得等同于受到伤害或弃置手牌数量的“忍”标记。</sys:String>
+    <sys:String x:Key="Skill.RenJie.Usage">系统提示→点“确定”</sys:String>
+    
+    <sys:String x:Key="Skill.BaiYin.Name">拜印</sys:String>
+    <sys:String x:Key="Skill.BaiYin.Description">觉醒技，回合开始阶段开始时，若你拥有4枚或更多的“忍”标记，你须减1点体力上限，并获得技能“极略”（你可以弃一枚“忍”标记发动下列一项技能——“鬼才”、“放逐”、“完杀”、“制衡”、“集智”）。</sys:String>
+    
     <sys:String x:Key="Skill.BaiYinGuiCai.Name">鬼才</sys:String>
     <sys:String x:Key="Skill.BaiYinWanSha.Name">完杀</sys:String>
     <sys:String x:Key="Skill.BaiYinJiZhi.Name">集智</sys:String>
     <sys:String x:Key="Skill.BaiYinFangZhu.Name">放逐</sys:String>
     <sys:String x:Key="Skill.BaiYinZhiHeng.Name">制衡</sys:String>
-    <sys:String x:Key="Skill.LianPo.Name">连破</sys:String>
-    <sys:String x:Key="Skill.QiaoBian.Name">巧变</sys:String>
-    <sys:String x:Key="Skill.HuaShen.Name">化身</sys:String>
-    <sys:String x:Key="Skill.XinSheng.Name">新生</sys:String>
-    <sys:String x:Key="Skill.GuZheng.Name">固政</sys:String>
-    <sys:String x:Key="Skill.ZhiJian.Name">直谏</sys:String>
-    <sys:String x:Key="Skill.TiaoXin.Name">挑衅</sys:String>
-    <sys:String x:Key="Skill.LongHun.Name">龙魂</sys:String>
-    <sys:String x:Key="Skill.JueJing.Name">绝境</sys:String>
-    <sys:String x:Key="Skill.ZhiJi.Name">志继</sys:String>
-    <sys:String x:Key="Skill.TunTian.Name">屯田</sys:String>
-    <sys:String x:Key="Skill.ZaoXian.Name">凿险</sys:String>
-    <sys:String x:Key="Skill.JiXi.Name">急袭</sys:String>
-    <sys:String x:Key="Skill.XiangLe.Name">享乐</sys:String>
-    <sys:String x:Key="Skill.FangQuan.Name">放权</sys:String>
-    <sys:String x:Key="Skill.RuoYu.Name">若愚</sys:String>
 
+    <sys:String x:Key="Skill.LianPo.Name">连破</sys:String>
+    <sys:String x:Key="Skill.LianPo.Description">若你在一回合内杀死了至少一名角色，此回合结束后，你可以进行一个额外的回合。</sys:String>
+    <sys:String x:Key="Skill.LianPo.Usage">系统提示→点“确定”</sys:String>
 </ResourceDictionary>
