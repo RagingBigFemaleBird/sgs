@@ -20,6 +20,10 @@ namespace LobbyClient
 
             // Do some stuff such as reading messages from the user and sending them to the server
             var room = server.CreateRoom(token);
+            server.EnterRoom(token, 1, false);
+            var myRooms = server.GetRooms(token, false);
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
             server.Logout(token);
             channelFactory.Close();
         }

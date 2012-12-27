@@ -11,11 +11,11 @@ namespace Lobby
     {
         static void Main(string[] args)
         {
-            using (var db = new AccountModelContainer1())
+/*            using (var db = new AccountModelContainer1())
             {
                 db.Accounts.Add(new Account() { Username = "DaMuBie", PasswordHash = "12345", Credits = 0, DisplayedName = "DaMuBie", Losses = 0, Wins = 0, Quits = 0 });
                 db.SaveChanges();
             }
-        }
+*/        }
     }
 }

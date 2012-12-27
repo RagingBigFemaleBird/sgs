@@ -117,12 +117,14 @@ namespace Sanguosha.LobbyServer
         {
             if (VerifyClient(token))
             {
+                Console.WriteLine("{1} Enter room {0}", roomId, token.token);
                 if (rooms.ContainsKey(roomId))
                 {
                         if (rooms[roomId].InProgress) return -1;
                         int seatNo = 1;
                         foreach (var seat in rooms[roomId].Seats)
                         {
+                            Console.WriteLine("Testing seat {0}", seatNo);
                             if (seat.Account == null)
                             {
                                 if (loggedInGuidToRoom.ContainsKey(token.token))
@@ -133,15 +135,21 @@ namespace Sanguosha.LobbyServer
                                 seat.Account = loggedInGuidToAccount[token.token];
                                 foreach (var notify in rooms[roomId].Seats)
                                 {
-                                    loggedInGuidToChannel[loggedInAccountToGuid[notify.Account]].NotifyRoomUpdate(rooms[roomId].Id, rooms[roomId]);
+                                    if (notify.Account != null)
+                                    {
+                                        loggedInGuidToChannel[loggedInAccountToGuid[notify.Account]].NotifyRoomUpdate(rooms[roomId].Id, rooms[roomId]);
+                                    }
                                 }
+                                Console.WriteLine("Seat {0}", seatNo);
                                 return seatNo;
                             }
                             seatNo++;
                         }
+                        Console.WriteLine("Full");
                         return (int)RoomOperationResult.Full;
                 }
             }
+            Console.WriteLine("Rogue enter room calls");
             return (int)RoomOperationResult.Auth;
         }
 

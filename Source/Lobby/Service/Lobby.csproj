@@ -50,24 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Account.cs">
-      <DependentUpon>AccountModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AccountModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AccountModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AccountModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AccountModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AccountModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AccountModel.edmx</DependentUpon>
-    </Compile>
+    <Compile Include="Account.cs" />
     <Compile Include="Achievement.cs" />
     <Compile Include="HeroUnlock\HeroMapNode.cs" />
     <Compile Include="ILobbyService.cs" />
@@ -77,31 +60,11 @@
     <Compile Include="Seat.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="AccountModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>AccountModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="AccountModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AccountModel.edmx</DependentUpon>
-      <LastGenOutput>AccountModel.Context.cs</LastGenOutput>
-    </None>
-    <None Include="AccountModel.edmx.diagram">
-      <DependentUpon>AccountModel.edmx</DependentUpon>
-    </None>
-    <None Include="AccountModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AccountModel.edmx</DependentUpon>
-      <LastGenOutput>AccountModel.cs</LastGenOutput>
-    </None>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="AccountModel.edmx.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
