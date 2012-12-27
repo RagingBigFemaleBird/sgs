@@ -323,7 +323,7 @@ namespace Sanguosha.UI.Controls
                         }
                         cardChoiceWindow = new ChildWindow();
                         cardChoiceWindow.Template = Resources["DarkGreenWindowStyle"] as ControlTemplate;
-                        cardChoiceWindow.MaxWidth = 600;
+                        cardChoiceWindow.MaxWidth = 800;
                         cardChoiceWindow.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
                         cardChoiceWindow.CloseButtonVisibility = model.CardChoiceModel.CanClose ? Visibility.Visible : Visibility.Collapsed;
                         cardChoiceWindow.Effect = new DropShadowEffect(){ BlurRadius = 10d };
