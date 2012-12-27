@@ -84,15 +84,15 @@ namespace Sanguosha.UI.Controls
 
         private UIElement _BuildLogBlock(FlowDocument log)
         {
-            double width = log.GetFormattedText().WidthIncludingTrailingWhitespace;
+            log.FontFamily = new FontFamily("SimSun");
+            log.FontSize = 15;            
+            double width = log.GetFormattedText().WidthIncludingTrailingWhitespace + 20;
             RichTextBox rtb = new RichTextBox()
             {
                 Document = log,
                 Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xEE, 0x99)),
                 Background = new SolidColorBrush(Colors.Transparent),
-                BorderThickness = new Thickness(0d),
-                FontFamily = new FontFamily("SimSun"),
-                FontSize = 14,                
+                BorderThickness = new Thickness(0d),                
                 Width = width,
                 Effect = new DropShadowEffect() { Color = Colors.Black, BlurRadius = 3, ShadowDepth = 0 },                
             };
@@ -116,15 +116,6 @@ namespace Sanguosha.UI.Controls
 
         public void AddLog(FlowDocument log)
         {
-            /*
-                   <Border CornerRadius="2" Background="#FF3D3A2C" HorizontalAlignment="Center">
-                            <RichTextBox Document="{Binding}" Foreground="#FFFFEE99" FontFamily="SimSun" FontSize="14">
-                                <RichTextBox.Effect>
-                                    <DropShadowEffect Color="Black" BlurRadius="3" ShadowDepth="0" />
-                                </RichTextBox.Effect>
-                            </RichTextBox>
-                    </Border>
-             */
             var logEntry = _BuildLogBlock(log);
             
             _timeStamps.Add(_currentTime);

@@ -346,7 +346,8 @@ namespace Sanguosha.UI.Controls
                 case GameAction.Discard:
                     //return string.Format("{0}{1}弃置", source, skill);
                     break;
-            }            
+            }
+            paragraph.TextAlignment = TextAlignment.Center;
             return paragraph;
         }
 
