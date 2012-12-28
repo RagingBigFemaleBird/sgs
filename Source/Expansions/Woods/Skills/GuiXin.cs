@@ -61,7 +61,9 @@ namespace Sanguosha.Expansions.Woods.Skills
                             answer.Add(new List<Card>());
                             answer[0].Add(Game.CurrentGame.Decks[p, DeckType.Hand][0]);
                         }
-                        Game.CurrentGame.HandleCardTransferToHand(p, Owner, answer[0]);
+                        Card theCard = answer[0][0];
+                        Game.CurrentGame.SyncCard(p, ref theCard);
+                        Game.CurrentGame.HandleCardTransferToHand(p, Owner, new List<Card>() {theCard});
                     }
                     Owner.IsImprisoned = !Owner.IsImprisoned;
                 }

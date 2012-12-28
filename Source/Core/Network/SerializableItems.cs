@@ -118,10 +118,13 @@ namespace Sanguosha.Core.Network
             item.suit = (int)card.Suit;
             item.Id = card.Id;
 
-            // this is a card that the client knows. keep the id anyway
-            if (card.Place.Player != null && item.deck == DeckType.Hand && Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrt]].Contains(card.Place.Player))
+            if (item.deck == DeckType.Equipment || item.deck == DeckType.DelayedTools)
             {
-                card.RevealOnce = false;
+                item.Id = -1;
+            }
+            // this is a card that the client knows. keep the id anyway
+            else if (card.Place.Player != null && item.deck == DeckType.Hand && Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrt]].Contains(card.Place.Player))
+            {
             }
             else
             {
@@ -129,8 +132,8 @@ namespace Sanguosha.Core.Network
                 {
                     item.Id = -1;
                 }
-                card.RevealOnce = false;
-            }                
+            }
+            card.RevealOnce = false;
             return item;
         }
 

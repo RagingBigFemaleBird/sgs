@@ -750,6 +750,7 @@ namespace Sanguosha.Core.Games
                     if (IsClient && (move.To.DeckType == DeckType.Dealing || move.To.DeckType == DeckType.Discard || move.To.DeckType == DeckType.Hand))
                     {
                         card.Log = new ActionLog();
+                        _ResetCard(card);
                         if (card.Attributes != null) card.Attributes.Clear();
                     }
 
@@ -1166,10 +1167,8 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        ActionLog intermJudgeLog;
-        JudgementResultSucceed intermDel;
 
-        public void NotifyIntermediateJudgeResults(Player player)
+        public void NotifyIntermediateJudgeResults(Player player, ActionLog log, JudgementResultSucceed intermDel)
         {
             Trace.Assert(Game.CurrentGame.Decks[player, DeckType.JudgeResult].Count > 0);
             Card c = Game.CurrentGame.Decks[player, DeckType.JudgeResult][0];
@@ -1178,7 +1177,7 @@ namespace Sanguosha.Core.Games
             {
                 succeed = intermDel(c);
             }
-            Game.CurrentGame.NotificationProxy.NotifyJudge(player, c, intermJudgeLog, succeed, false);
+            Game.CurrentGame.NotificationProxy.NotifyJudge(player, c, log, succeed, false);
         }
 
         public ReadOnlyCard Judge(Player player, ISkill skill = null, ICard handler = null, JudgementResultSucceed del = null)
@@ -1187,8 +1186,6 @@ namespace Sanguosha.Core.Games
             log.SkillAction = skill;
             log.CardAction = handler;
             log.Source = player;
-            intermJudgeLog = log;
-            intermDel = del;
             CardsMovement move = new CardsMovement();
             Card c;
             if (decks[player, DeckType.JudgeResult].Count != 0)
@@ -1212,6 +1209,10 @@ namespace Sanguosha.Core.Games
             MoveCards(move);
             GameEventArgs args = new GameEventArgs();
             args.Source = player;
+            if (Game.CurrentGame.triggers.ContainsKey(GameEvent.PlayerJudgeBegin) && Game.CurrentGame.triggers[GameEvent.PlayerJudgeBegin].Count > 0)
+            {
+                NotifyIntermediateJudgeResults(player, log, del);
+            }
             Game.CurrentGame.Emit(GameEvent.PlayerJudgeBegin, args);
             c = Game.CurrentGame.Decks[player, DeckType.JudgeResult][0];
             args.Card = new ReadOnlyCard(c);

@@ -41,7 +41,6 @@ namespace Sanguosha.Expansions.Wind.Skills
                 Game.CurrentGame.PlayerLostCard(player, cards);
                 Game.CurrentGame.HandleCardTransferToHand(null, player, toDiscard);
                 Game.CurrentGame.ExitAtomicContext();
-                Game.CurrentGame.NotifyIntermediateJudgeResults(eventArgs.Source);
             }
         }
 

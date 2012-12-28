@@ -326,7 +326,11 @@ namespace Sanguosha.Core.UI
                     {
                         if (verifier.Helper != null && verifier.Helper.RevealCards)
                         {
-                            c.RevealOnce = true;
+                            if (c.Place.DeckType != DeckType.Equipment && c.Place.DeckType != DeckType.DelayedTools)
+                            {
+
+                                c.RevealOnce = true;
+                            }
                         }
                         server.SendObject(i, c);
                     }
