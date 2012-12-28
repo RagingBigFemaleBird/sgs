@@ -1115,6 +1115,15 @@ namespace Sanguosha.UI.Controls
                             foreach (var player in _game.PlayerModels)
                                 player.IsSelectionRepeatable = activeSkill.UiHelper.IsPlayerRepeatable;
                         }
+                        var ctSkill = skillCommand.Skill as CardTransformSkill;
+                        if (ctSkill != null)
+                        {
+                            if (ctSkill.UiHelper.HasNoConfirmation)
+                            {
+                                SubmitAnswerCommand.Execute(null);
+                                return;
+                            }
+                        }
                     }
                     else
                     {

@@ -80,6 +80,11 @@ namespace Sanguosha.Expansions.Hills.Skills
             return true;
         }
 
+        public ZhiBaGivenSkill()
+        {
+            UiHelper.HasNoConfirmation = true;
+        }
+
         public Player Master { get; set; }
     }
 
