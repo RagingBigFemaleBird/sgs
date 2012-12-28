@@ -48,18 +48,18 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public void PlayerAcquireSkill(Player p, ISkill skill)
+        public void PlayerAcquireSkill(Player p, ISkill skill, bool undeletable = false)
         {
-            p.AcquireAdditionalSkill(skill);
+            p.AcquireAdditionalSkill(skill, undeletable);
             GameEventArgs args = new GameEventArgs();
             args.Source = p;
             Game.CurrentGame.Emit(GameEvent.PlayerSkillSetChanged, args);
             _ResetCards(p);
         }
 
-        public void PlayerLostSkill(Player p, ISkill skill)
+        public void PlayerLoseSkill(Player p, ISkill skill, bool undeletable = false)
         {
-            p.LoseAdditionalSkill(skill);
+            p.LoseAdditionalSkill(skill, undeletable);
             GameEventArgs args = new GameEventArgs();
             args.Source = p;
             Game.CurrentGame.Emit(GameEvent.PlayerSkillSetChanged, args);

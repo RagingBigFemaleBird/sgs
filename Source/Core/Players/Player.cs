@@ -26,6 +26,7 @@ namespace Sanguosha.Core.Players
             attributes = new Dictionary<PlayerAttribute, int>();
             equipmentSkills = new List<ISkill>();
             additionalSkills = new List<ISkill>();
+            additionalUndeletableSkills = new List<ISkill>();
         }
 
         int id;
@@ -250,18 +251,44 @@ namespace Sanguosha.Core.Players
             get { return new ReadOnlyCollection<ISkill>(additionalSkills); }
         }
 
-        public void AcquireAdditionalSkill(ISkill skill)
+        /// <summary>
+        /// These skills are NOT affected by ANY game event, such as 断肠
+        /// </summary>
+        private List<ISkill> additionalUndeletableSkills;
+
+        public IList<ISkill> AdditionalUndeletableSkills
+        {
+            get { return new ReadOnlyCollection<ISkill>(additionalUndeletableSkills); }
+        }
+
+
+        public void AcquireAdditionalSkill(ISkill skill, bool undeletable = false)
         {
             skill.Owner = this;
-            additionalSkills.Add(skill);
+            if (undeletable)
+            {
+                additionalUndeletableSkills.Add(skill);
+            }
+            else
+            {
+                additionalSkills.Add(skill);
+            }
             OnPropertyChanged("Skills");
         }
 
-        public void LoseAdditionalSkill(ISkill skill)
+        public void LoseAdditionalSkill(ISkill skill, bool undeletable = false)
         {
             skill.Owner = null;
-            Trace.Assert(additionalSkills.Contains(skill));
-            additionalSkills.Remove(skill);
+            if (undeletable)
+            {
+                Trace.Assert(additionalUndeletableSkills.Contains(skill));
+                additionalUndeletableSkills.Remove(skill);
+            }
+            else
+            {
+                Trace.Assert(additionalSkills.Contains(skill));
+                additionalSkills.Remove(skill);
+            }
             OnPropertyChanged("Skills");
         }
 
@@ -304,6 +331,7 @@ namespace Sanguosha.Core.Players
                     s.AddRange(Hero2.Skills);
                 }
                 s.AddRange(additionalSkills);
+                s.AddRange(additionalUndeletableSkills);
                 return new ReadOnlyCollection<ISkill>(s);
             }
         }
@@ -323,6 +351,7 @@ namespace Sanguosha.Core.Players
                 }
                 s.AddRange(equipmentSkills);
                 s.AddRange(additionalSkills);
+                s.AddRange(additionalUndeletableSkills);
                 return new ReadOnlyCollection<ISkill>(s);
             }
         }

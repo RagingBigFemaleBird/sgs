@@ -48,7 +48,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             Game.CurrentGame.RegisterTrigger(GameEvent.PlayerJudgeDone, new GetJudgeCardTrigger(Owner) { Priority = int.MinValue });
             var result = Game.CurrentGame.Judge(Owner, this);
             ISkill skill = new ShuangXiongCardTransformSkill(result.SuitColor);
-            Game.CurrentGame.PlayerAcquireSkill(Owner, skill);
+            Game.CurrentGame.PlayerAcquireSkill(Owner, skill, true);
             Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, new TriggerRemoval(Owner, skill));
             Game.CurrentGame.CurrentPhaseEventIndex++;
             throw new TriggerResultException(TriggerResult.End);
@@ -69,7 +69,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             {
                 if (eventArgs.Source == Owner)
                 {
-                    Owner.LoseAdditionalSkill(skill);
+                    Game.CurrentGame.PlayerLoseSkill(Owner, skill, true);
                     Game.CurrentGame.UnregisterTrigger(GameEvent.PhasePostEnd, this);
                 }
             }

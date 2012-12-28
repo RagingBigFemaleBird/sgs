@@ -30,7 +30,7 @@ namespace Sanguosha.Core.Skills
                     Trace.Assert(skill != null);
                     skill.Master = owner;
                     masterList.Add(player, skill);
-                    Game.CurrentGame.PlayerAcquireSkill(player, skill);
+                    Game.CurrentGame.PlayerAcquireSkill(player, skill, true);
                 }
             }
         }
@@ -39,7 +39,7 @@ namespace Sanguosha.Core.Skills
         {
             foreach (var pair in masterList)
             {
-                pair.Key.LoseAdditionalSkill(pair.Value);
+                Game.CurrentGame.PlayerLoseSkill(pair.Key, pair.Value, true);
             }
             masterList.Clear();
         }
@@ -68,7 +68,7 @@ namespace Sanguosha.Core.Skills
                     {
                         ISkill skill = masterList[a.Source];
                         masterList.Remove(a.Source);
-                        a.Source.LoseAdditionalSkill(skill);
+                        Game.CurrentGame.PlayerLoseSkill(a.Source, skill, true);
                     }
                 },
                 TriggerCondition.Global

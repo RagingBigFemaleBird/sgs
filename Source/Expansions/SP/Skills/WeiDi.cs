@@ -38,6 +38,11 @@ namespace Sanguosha.Expansions.SP.Skills
                                 nothingChanged = false;
                         }
                     }
+                    foreach (var sk in theSkills)
+                    {
+                        if (!a.Source.ActionableSkills.Contains(sk.Key))
+                            nothingChanged = false;
+                    }
                     if (!nothingChanged)
                     {
                         UninstallSkills();
@@ -71,7 +76,7 @@ namespace Sanguosha.Expansions.SP.Skills
                         if (sk.IsRulerOnly)
                         {
                             var toAdd = Activator.CreateInstance(sk.GetType()) as ISkill;
-                            Game.CurrentGame.PlayerAcquireSkill(owner, toAdd);
+                            Game.CurrentGame.PlayerAcquireSkill(owner, toAdd, true);
                             theSkills.Add(sk, toAdd);
                         }
                     }
@@ -83,7 +88,7 @@ namespace Sanguosha.Expansions.SP.Skills
         {
             foreach (var skill in theSkills)
             {
-                Game.CurrentGame.PlayerLostSkill(Owner, skill.Value);
+                Game.CurrentGame.PlayerLoseSkill(Owner, skill.Value, true);
             }
             theSkills.Clear();
         }
