@@ -138,7 +138,10 @@ namespace Sanguosha.UI.Controls
                 {
                     PlayerModel.HandCards.Add(card.CardModel);
                 }
-                PlayerModel.HandCardCount += cards.Count;
+                if (!isFaked)
+                {
+                    PlayerModel.HandCardCount += cards.Count;
+                }
             }
             else if (deck == DeckType.Equipment)
             {
@@ -204,8 +207,11 @@ namespace Sanguosha.UI.Controls
             List<CardView> cardsToRemove = new List<CardView>();
             if (deck == DeckType.Hand)
             {
-                cardsToRemove.AddRange(RemoveHandCards(cards, isCopy));                
-                PlayerModel.HandCardCount -= cardsToRemove.Count;
+                cardsToRemove.AddRange(RemoveHandCards(cards, isCopy));
+                if (!isCopy)
+                {
+                    PlayerModel.HandCardCount -= cardsToRemove.Count;
+                }
             }
             else if (deck == DeckType.Equipment)
             {
