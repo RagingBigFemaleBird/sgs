@@ -1,5 +1,5 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
+Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fire", "..\Expansions\Fire\Fire.csproj", "{E1D27FB1-40B8-4768-A045-DD9772564DDD}"
 EndProject
