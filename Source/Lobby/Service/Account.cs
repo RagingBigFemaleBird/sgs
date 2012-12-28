@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Sanguosha.Lobby
+namespace Sanguosha.Lobby.Core
 {
     using System;
     using System.Collections.Generic;

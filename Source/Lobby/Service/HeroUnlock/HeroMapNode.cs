@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sanguosha.Lobby.HeroUnlock
+namespace Sanguosha.Lobby.Core.HeroUnlock
 {
     public class HeroMapNode
     {

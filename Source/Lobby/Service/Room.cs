@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace Sanguosha.Lobby
+namespace Sanguosha.Lobby.Core
 {
     [DataContract(Name = "RoomType")]
     public enum RoomType
@@ -35,7 +35,7 @@ namespace Sanguosha.Lobby
         public Room()
         {
             seats = new List<Seat>();
-            timeout = Lobby.Timeout.FifteenSeconds;
+            timeout = Timeout.FifteenSeconds;
         }
 
         private int id;

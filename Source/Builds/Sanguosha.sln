@@ -45,11 +45,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarSP", "..\Expansions\Sta
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lobby", "Lobby", "{E3851951-07A2-4757-9DD0-5645CE5E97D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LobbyClient", "..\Lobby\Client\LobbyClient.csproj", "{A3392EB9-923E-4640-8AAC-7819271DF69B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "..\Lobby\Client\Client.csproj", "{A3392EB9-923E-4640-8AAC-7819271DF69B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LobbyServer", "..\Lobby\Server\LobbyServer.csproj", "{E1C2FDD7-66F5-4F69-8270-36D0726390FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "..\Lobby\Server\Server.csproj", "{E1C2FDD7-66F5-4F69-8270-36D0726390FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lobby", "..\Lobby\Service\Lobby.csproj", "{7DE81BE7-26D1-4954-9037-B7184C1DF9BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "..\Lobby\Service\Core.csproj", "{7DE81BE7-26D1-4954-9037-B7184C1DF9BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "..\Lobby\UI\UI.csproj", "{37801C41-FBC3-46D9-B10F-13BFC618FC7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -271,6 +273,16 @@ Global
 		{7DE81BE7-26D1-4954-9037-B7184C1DF9BD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{7DE81BE7-26D1-4954-9037-B7184C1DF9BD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{7DE81BE7-26D1-4954-9037-B7184C1DF9BD}.Release|x86.ActiveCfg = Release|Any CPU
+		{37801C41-FBC3-46D9-B10F-13BFC618FC7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37801C41-FBC3-46D9-B10F-13BFC618FC7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37801C41-FBC3-46D9-B10F-13BFC618FC7C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{37801C41-FBC3-46D9-B10F-13BFC618FC7C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{37801C41-FBC3-46D9-B10F-13BFC618FC7C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{37801C41-FBC3-46D9-B10F-13BFC618FC7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37801C41-FBC3-46D9-B10F-13BFC618FC7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37801C41-FBC3-46D9-B10F-13BFC618FC7C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{37801C41-FBC3-46D9-B10F-13BFC618FC7C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{37801C41-FBC3-46D9-B10F-13BFC618FC7C}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -295,5 +307,6 @@ Global
 		{A3392EB9-923E-4640-8AAC-7819271DF69B} = {E3851951-07A2-4757-9DD0-5645CE5E97D5}
 		{E1C2FDD7-66F5-4F69-8270-36D0726390FB} = {E3851951-07A2-4757-9DD0-5645CE5E97D5}
 		{7DE81BE7-26D1-4954-9037-B7184C1DF9BD} = {E3851951-07A2-4757-9DD0-5645CE5E97D5}
+		{37801C41-FBC3-46D9-B10F-13BFC618FC7C} = {E3851951-07A2-4757-9DD0-5645CE5E97D5}
 	EndGlobalSection
 EndGlobal

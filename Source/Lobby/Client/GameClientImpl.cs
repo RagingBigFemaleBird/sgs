@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Sanguosha.Lobby;
+using Sanguosha.Lobby.Core;
 
-namespace Sanguosha.LobbyClient
+namespace Sanguosha.Lobby.Client
 {
     public class GameClientImpl : IGameClient
     {

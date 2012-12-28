@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Sanguosha.Lobby
+namespace Sanguosha.Lobby.Core
 {
     public class Seat
     {

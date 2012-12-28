@@ -6,7 +6,7 @@ using System.Reflection;
 using System.ServiceModel;
 using System.Text;
 
-namespace Sanguosha.Lobby
+namespace Sanguosha.Lobby.Core
 {
     public enum LoginStatus
     {

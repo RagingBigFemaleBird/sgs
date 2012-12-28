@@ -4,10 +4,10 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
-using Sanguosha.LobbyClient;
-using Sanguosha.Lobby;
+using Sanguosha.Lobby.Client;
+using Sanguosha.Lobby.Core;
 
-namespace LobbyClient
+namespace Sanguosha.Lobby.Client
 {
     class Program
     {

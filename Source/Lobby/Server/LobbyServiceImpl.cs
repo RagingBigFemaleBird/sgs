@@ -4,9 +4,9 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
-using Sanguosha.Lobby;
+using Sanguosha.Lobby.Core;
 
-namespace Sanguosha.LobbyServer
+namespace Sanguosha.Lobby.Server
 {
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Single, InstanceContextMode = InstanceContextMode.Single)]
     class LobbyServiceImpl : ILobbyService
