@@ -21,45 +21,51 @@ namespace Sanguosha.Expansions.Woods.Skills
     {
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            List<Player> players = Game.CurrentGame.AlivePlayers;
-            players.Remove(Owner);
-            Game.CurrentGame.EnterAtomicContext();
-            bool invoke = false;
-            foreach (Player p in players)
+            var args = eventArgs as DamageEventArgs;
+            int damage = args.Magnitude;
+            while (damage-- > 0)
             {
-                List<DeckPlace> places = new List<DeckPlace>();
-                if (Game.CurrentGame.Decks[p, DeckType.Hand].Count != 0
-                     || Game.CurrentGame.Decks[p, DeckType.Equipment].Count != 0
-                     || Game.CurrentGame.Decks[p, DeckType.DelayedTools].Count != 0)
-                {
-                    invoke = true;
-                    break;
-                }
-            }
-            if (invoke
-                && AskForSkillUse())
-            {
+                var players = Game.CurrentGame.AlivePlayers;
+                players.Remove(Owner);
+                Game.CurrentGame.SortByOrderOfComputation(Owner, players);
+                bool invoke = false;
                 foreach (Player p in players)
                 {
-                    List<List<Card>> answer;
                     List<DeckPlace> places = new List<DeckPlace>();
-                    places.Add(new DeckPlace(p, DeckType.Hand));
-                    places.Add(new DeckPlace(p, DeckType.Equipment));
-                    places.Add(new DeckPlace(p, DeckType.DelayedTools));
-                    if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("GuiXin"), places,
-                         new List<string>() { "GuiXin" }, new List<int>() { 1 }, new RequireOneCardChoiceVerifier(), out answer))
+                    if (Game.CurrentGame.Decks[p, DeckType.Hand].Count != 0
+                         || Game.CurrentGame.Decks[p, DeckType.Equipment].Count != 0
+                         || Game.CurrentGame.Decks[p, DeckType.DelayedTools].Count != 0)
                     {
-                        answer = new List<List<Card>>();
-                        answer.Add(new List<Card>());
-                        answer[0].Add(Game.CurrentGame.Decks[p, DeckType.Hand][0]);
+                        invoke = true;
+                        break;
                     }
-                    Game.CurrentGame.HandleCardTransferToHand(p, Owner, answer[0]);
                 }
-                Owner.IsImprisoned = !Owner.IsImprisoned;
+                if (invoke && AskForSkillUse())
+                {
+                    foreach (Player p in players)
+                    {
+                        if (p.IsDead) continue;
+                        if (Game.CurrentGame.Decks[p, DeckType.Hand].Count == 0 &&
+                            Game.CurrentGame.Decks[p, DeckType.DelayedTools].Count == 0 &&
+                            Game.CurrentGame.Decks[p, DeckType.Equipment].Count == 0)
+                            continue;
+                        List<List<Card>> answer;
+                        List<DeckPlace> places = new List<DeckPlace>();
+                        places.Add(new DeckPlace(p, DeckType.Hand));
+                        places.Add(new DeckPlace(p, DeckType.Equipment));
+                        places.Add(new DeckPlace(p, DeckType.DelayedTools));
+                        if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("GuiXin"), places,
+                             new List<string>() { "GuiXin" }, new List<int>() { 1 }, new RequireOneCardChoiceVerifier(), out answer))
+                        {
+                            answer = new List<List<Card>>();
+                            answer.Add(new List<Card>());
+                            answer[0].Add(Game.CurrentGame.Decks[p, DeckType.Hand][0]);
+                        }
+                        Game.CurrentGame.HandleCardTransferToHand(p, Owner, answer[0]);
+                    }
+                    Owner.IsImprisoned = !Owner.IsImprisoned;
+                }
             }
-            Game.CurrentGame.ExitAtomicContext();
-            Game.CurrentGame.CurrentPhaseEventIndex++;
-            throw new TriggerResultException(TriggerResult.End);
         }
 
         public GuiXin()
