@@ -62,6 +62,7 @@
     <Compile Include="Skills\LongHun.cs" />
     <Compile Include="Skills\QiaoBian.cs" />
     <Compile Include="Skills\RenJie.cs" />
+    <Compile Include="Skills\RuoYu.cs" />
     <Compile Include="Skills\SkillPriority.cs" />
     <Compile Include="Skills\TiaoXin.cs" />
     <Compile Include="Skills\TunTian.cs" />
