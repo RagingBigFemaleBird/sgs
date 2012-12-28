@@ -262,8 +262,7 @@
                   Template="{DynamicResource DarkGreenWindowStyle}"        
                   MaxWidth="600"
                   HorizontalContentAlignment="Center"
-                  CloseButtonVisibility="{Binding CanClose, Converter={StaticResource boolToVisibilityConverter}}"
-                  Caption="{Binding Prompt}"
+                  CloseButtonVisibility="Collapsed"                  
                   WindowStartupLocation="Center">
             <xctk:ChildWindow.Effect>
                 <DropShadowEffect BlurRadius="10"/>
