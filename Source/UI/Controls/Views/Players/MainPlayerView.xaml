@@ -361,7 +361,7 @@
 						</RadialGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-                <!--Image Source="/Resources;component/Images/MainPlayerInfoView/imprisoned.png" Stretch="Fill" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}"/-->
+                <Image Source="/Resources;component/Images/MainPlayerInfoView/imprisoned.png" Stretch="Fill" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}"/>
             </Grid>
             <Border x:Name="fadeMask" Background="#64000000" Opacity="0" IsHitTestVisible="False">
                 <i:Interaction.Behaviors>
