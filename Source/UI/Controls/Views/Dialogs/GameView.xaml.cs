@@ -881,7 +881,7 @@ namespace Sanguosha.UI.Controls
             });
         }
 
-        public void NotifyJudge(Player p, Card card, ActionLog log, bool? isSuccess)
+        public void NotifyJudge(Player p, Card card, ActionLog log, bool? isSuccess, bool finalResult)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {

@@ -31,6 +31,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             Game.CurrentGame.PlayerLostCard(player, new List<Card>() {card});
             Game.CurrentGame.HandleCardDiscard(judgePlayer, toDiscard, DiscardReason.Judge);
             Game.CurrentGame.ExitAtomicContext();
+            Game.CurrentGame.NotifyIntermediateJudgeResults(judgePlayer);
         }
 
         protected virtual void OnJudgeBegin(Player player, GameEvent gameEvent, GameEventArgs eventArgs)

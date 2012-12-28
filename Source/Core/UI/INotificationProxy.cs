@@ -26,7 +26,7 @@ namespace Sanguosha.Core.UI
         void NotifyDamage(Player source, Player target, int magnitude, DamageElement element);
         void NotifySkillUse(ActionLog log);
         void NotifyMultipleChoiceResult(Player p, OptionPrompt answer);
-        void NotifyJudge(Player p, Card card, ActionLog log, bool? isSuccess);
+        void NotifyJudge(Player p, Card card, ActionLog log, bool? isSuccess, bool finalResult = true);
         void NotifyDeath(Player p, Player by);
         void NotifyGameOver(GameResult result);
         void NotifyActionComplete();
@@ -88,7 +88,7 @@ namespace Sanguosha.Core.UI
         {
         }
 
-        public void NotifyJudge(Player p, Card card, ActionLog log, bool? isSuccess)
+        public void NotifyJudge(Player p, Card card, ActionLog log, bool? isSuccess, bool f)
         {
         }
 

@@ -547,6 +547,7 @@ namespace Sanguosha.Core.Games
                 List<Card> rulerDraw = new List<Card>();
                 for (int rc = 0; rc < 12; rc++)
                 {
+                    game.SyncImmutableCardAll(game.Decks[DeckType.Heroes][rc]);
                     rulerDraw.Add(game.Decks[DeckType.Heroes][rc]);
                 }
                 game.SyncCards(game.Players[rulerId], rulerDraw);

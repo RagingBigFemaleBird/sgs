@@ -1166,8 +1166,29 @@ namespace Sanguosha.Core.Games
             }
         }
 
+        ActionLog intermJudgeLog;
+        JudgementResultSucceed intermDel;
+
+        public void NotifyIntermediateJudgeResults(Player player)
+        {
+            Trace.Assert(Game.CurrentGame.Decks[player, DeckType.JudgeResult].Count > 0);
+            Card c = Game.CurrentGame.Decks[player, DeckType.JudgeResult][0];
+            bool? succeed = null;
+            if (intermDel != null)
+            {
+                succeed = intermDel(c);
+            }
+            Game.CurrentGame.NotificationProxy.NotifyJudge(player, c, intermJudgeLog, succeed, false);
+        }
+
         public ReadOnlyCard Judge(Player player, ISkill skill = null, ICard handler = null, JudgementResultSucceed del = null)
         {
+            ActionLog log = new ActionLog();
+            log.SkillAction = skill;
+            log.CardAction = handler;
+            log.Source = player;
+            intermJudgeLog = log;
+            intermDel = del;
             CardsMovement move = new CardsMovement();
             Card c;
             if (decks[player, DeckType.JudgeResult].Count != 0)
@@ -1199,10 +1220,6 @@ namespace Sanguosha.Core.Games
             Trace.Assert(args.Source == player);
             Trace.Assert(args.Card is ReadOnlyCard);
 
-            ActionLog log = new ActionLog();
-            log.SkillAction = skill;
-            log.CardAction = handler;
-            log.Source = player;
             bool? succeed = null;
             if (del != null)
             {
