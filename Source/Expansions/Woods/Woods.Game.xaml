@@ -29,4 +29,6 @@
     <sys:String x:Key="MultiChoice.Prompt.YingHun">请选择你要令{0}执行的动作</sys:String>
     <sys:String x:Key="MultiChoice.Choice.YingHun1">摸{0}张牌，弃1张牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.YingHun2">摸1张牌，弃{0}张牌</sys:String>
+
+    <sys:String x:Key="CardChoice.Prompt.GuiXin">请选择一张牌</sys:String>
 </ResourceDictionary>
