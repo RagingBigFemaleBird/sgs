@@ -20,22 +20,38 @@ namespace Sanguosha.Expansions.SP.Skills
     /// </summary>
     public class WeiDi : TriggerSkill
     {
+        Dictionary<ISkill, ISkill> theSkills;
+        Player ruler;
         public WeiDi()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => { return a.Source == ruler; },
-                (p, e, a) => { UninstallSkills(); InstallSkills(p);},
+                (p, e, a) => 
+                {
+                    bool nothingChanged = true;
+                    foreach (var sk in a.Source.ActionableSkills)
+                    {
+                        if (sk.IsRulerOnly)
+                        {
+                            if (!theSkills.ContainsKey(sk))
+                                nothingChanged = false;
+                        }
+                    }
+                    if (!nothingChanged)
+                    {
+                        UninstallSkills();
+                        InstallSkills(p);
+                    }
+                },
                 TriggerCondition.Global
             ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PlayerSkillSetChanged, trigger);
 
             IsEnforced = true;
             ruler = null;
-            theSkill = new List<ISkill>();
+            theSkills = new Dictionary<ISkill, ISkill>();
         }
-        List<ISkill> theSkill;
-        Player ruler;
         protected override void InstallTriggers(Player owner)
         {
             InstallSkills(owner);
@@ -44,7 +60,7 @@ namespace Sanguosha.Expansions.SP.Skills
 
         void InstallSkills(Player owner)
         {
-            theSkill = new List<ISkill>();
+            theSkills = new Dictionary<ISkill, ISkill>();
             foreach (var p in Game.CurrentGame.AlivePlayers)
             {
                 if (p.Role == Role.Ruler)
@@ -56,7 +72,7 @@ namespace Sanguosha.Expansions.SP.Skills
                         {
                             var toAdd = Activator.CreateInstance(sk.GetType()) as ISkill;
                             Game.CurrentGame.PlayerAcquireSkill(owner, toAdd);
-                            theSkill.Add(toAdd);
+                            theSkills.Add(sk, toAdd);
                         }
                     }
                 }
@@ -65,19 +81,16 @@ namespace Sanguosha.Expansions.SP.Skills
 
         void UninstallSkills()
         {
-            foreach (var skill in theSkill)
+            foreach (var skill in theSkills)
             {
-                Game.CurrentGame.PlayerLostSkill(Owner, skill);
+                Game.CurrentGame.PlayerLostSkill(Owner, skill.Value);
             }
-            theSkill.Clear();
+            theSkills.Clear();
         }
 
         protected override void UninstallTriggers(Player owner)
         {
-            foreach (var sk in theSkill)
-            {
-                owner.LoseAdditionalSkill(sk);
-            }
+            UninstallSkills();
         }
     }
 }
