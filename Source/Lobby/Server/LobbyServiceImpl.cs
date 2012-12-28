@@ -118,6 +118,7 @@ namespace Sanguosha.LobbyServer
             if (VerifyClient(token))
             {
                 Console.WriteLine("{1} Enter room {0}", roomId, token.token);
+                if (loggedInGuidToRoom.ContainsKey(token.token)) return (int)RoomOperationResult.Locked;
                 if (rooms.ContainsKey(roomId))
                 {
                         if (rooms[roomId].InProgress) return -1;
@@ -164,11 +165,11 @@ namespace Sanguosha.LobbyServer
                         if (seat.Account == loggedInGuidToAccount[token.token])
                         {
                             seat.Account = null;
+                            loggedInGuidToRoom.Remove(token.token);
                             foreach (var notify in rooms[roomId].Seats)
                             {
                                 loggedInGuidToChannel[loggedInAccountToGuid[notify.Account]].NotifyRoomUpdate(rooms[roomId].Id, rooms[roomId]);
                             }
-                            loggedInGuidToRoom.Remove(token.token);
                             return true;
                         }
                     }
