@@ -280,5 +280,5 @@
     <BitmapImage x:Key="Selection.Digit.6">Digits/6.png</BitmapImage>
     <BitmapImage x:Key="Selection.Digit.7">Digits/7.png</BitmapImage>
     <BitmapImage x:Key="Selection.Digit.8">Digits/8.png</BitmapImage>
-    <BitmapImage x:Key="Selection.Digit.9">Digits/9.png</BitmapImage>	
+    <BitmapImage x:Key="Selection.Digit.9">Digits/9.png</BitmapImage>
 </ResourceDictionary>

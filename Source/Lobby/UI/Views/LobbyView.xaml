@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="Sanguosha.Lobby.UI.LobbyView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 xmlns:local="clr-namespace:Sanguosha.Lobby.UI"
+			 xmlns:ctrl="clr-namespace:Sanguosha.UI.Controls;assembly=Controls"
+             xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
+             mc:Ignorable="d" 
+             d:DesignHeight="747" d:DesignWidth="1024">
+	<UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+			</ResourceDictionary>
+		</UserControl.Resources>
+    <Grid>
+    	<Grid.Background>
+    		<ImageBrush ImageSource="{DynamicResource Game.Table.Background}"/>
+    	</Grid.Background>
+    	<Grid.RowDefinitions>
+    		<RowDefinition Height="1*"/>
+			<RowDefinition Height="250"/>
+		</Grid.RowDefinitions>
+    	<Grid.ColumnDefinitions>
+    		<ColumnDefinition Width="500"/>
+			<ColumnDefinition Width="1*"/>
+		</Grid.ColumnDefinitions>
+		<DataGrid x:Name="gridRooms" RowHeaderWidth="0" Block.TextAlignment="Center"
+                  ItemsSource="{Binding Mode=OneWay}" AutoGenerateColumns="False"
+                  IsReadOnly="True" SelectionMode="Single" Style="{DynamicResource DataGridStyle1}"
+                  Background="#CC4A3C2D" Foreground="#FFE4D5A0" HeadersVisibility="Column" FontFamily="SimSun"
+                  SelectionUnit="FullRow" SelectionChanged="gridDataSet_SelectionChanged"
+                  MouseDoubleClick="gridCardSet_MouseDoubleClick">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="房号" Binding="{Binding Id}" Width="50" />
+				<DataGridTextColumn Header="模式" Binding="{Binding Id}" Width="100" />
+                <DataGridTemplateColumn Header="出手时间" />
+                <DataGridTextColumn Header="人数" Width="60"/>
+				<DataGridTextColumn Header="状态" Width="70"/>
+                <DataGridTextColumn Header="扩展包" Width="130"/>
+            </DataGrid.Columns>
+        </DataGrid>
+		<Grid x:Name="roomNavigationPanel" Grid.Row="1" VerticalAlignment="Top" Height="50">
+			
+		</Grid>
+		<Grid Grid.RowSpan="2" Grid.Column="1">			
+			<Border Margin="3, 10, 2, 60" BorderThickness="1" CornerRadius="3" BorderBrush="Black" >
+				<Border BorderThickness="1" CornerRadius="3" BorderBrush="#FFA59579" >
+					<Border BorderThickness="1" CornerRadius="3" BorderBrush="Black" Background="#FF4A3B2D" >
+					</Border>
+				</Border>
+			</Border>				
+			<Image HorizontalAlignment="Left" Height="25" Margin="30,2,0,0" Source="/Resources;component/Images/Lobby/roomInfo.png" Stretch="Fill" VerticalAlignment="Top" Width="85" d:LayoutOverrides="GridBox"/>
+		</Grid>
+    </Grid>	        
+</UserControl>
