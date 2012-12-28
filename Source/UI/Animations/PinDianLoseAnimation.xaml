@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Sanguosha.UI.Animations"
-             xmlns:Sanguosha_UI_Effects="clr-namespace:Sanguosha.UI.Effects;assembly=Effects" x:Class="Sanguosha.UI.Animations.PinDianWinAnimation"
+             xmlns:Sanguosha_UI_Effects="clr-namespace:Sanguosha.UI.Effects;assembly=Effects"
+             x:Class="Sanguosha.UI.Animations.PinDianLoseAnimation"
              mc:Ignorable="d" 
              Height="300" Width="300">
 	<local:AnimationBase.Resources>

@@ -931,7 +931,7 @@ namespace Sanguosha.UI.Controls
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {                
-                pinDianBox.RevealResult(c1, c2, c1.Rank > c2.Rank);
+                pinDianBox.RevealResult(c1, c2);
             });
         }
 

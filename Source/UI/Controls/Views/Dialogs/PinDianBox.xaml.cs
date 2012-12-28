@@ -65,7 +65,7 @@ namespace Sanguosha.UI.Controls
             };
         }
 
-        public void RevealResult(Card card1, Card card2, bool win)
+        public void RevealResult(Card card1, Card card2)
         {
             cardLeft.DataContext = new CardViewModel() 
             {
@@ -80,10 +80,16 @@ namespace Sanguosha.UI.Controls
                 IsFootnoteVisible = true
             };
             AnimationBase anim;
-            if (win) anim = new PinDianWinAnimation();
-            else anim = new PinDianLoseAnimation();
+            if (card1.Rank > card2.Rank)
+            {
+                anim = new PinDianWinAnimation();
+            }
+            else
+            {
+                anim = new PinDianLoseAnimation();
+            }
                         
-            anim.SetValue(Canvas.LeftProperty, animationCenter.ActualWidth / 2 -anim.Width / 2);
+            anim.SetValue(Canvas.LeftProperty, animationCenter.ActualWidth / 2 - anim.Width / 2);
             anim.SetValue(Canvas.TopProperty, animationCenter.ActualHeight / 2 - anim.Height / 2);
                         
             animationCenter.Children.Add(anim);
