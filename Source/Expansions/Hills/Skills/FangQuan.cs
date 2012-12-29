@@ -59,6 +59,8 @@ namespace Sanguosha.Expansions.Hills.Skills
                 (p, e, a) => { return p[FangQuanUsed] == 1; },
                 (p, e, a, cards, players) =>
                 {
+                    Game.CurrentGame.HandleCardDiscard(a.Source, cards);
+
                     var saveP = Game.CurrentGame.CurrentPlayer;
                     var savePh = Game.CurrentGame.CurrentPhase;
                     var savePhI = Game.CurrentGame.CurrentPhaseEventIndex;
