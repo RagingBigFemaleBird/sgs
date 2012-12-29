@@ -21,6 +21,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
     {
         public override bool Commit(GameEventArgs arg)
         {
+            Owner[JuJianUsed] = 1;
             int count = arg.Cards.Count;
             Trace.Assert(count <= 3);
             int typeCount = (from c in arg.Cards 
@@ -43,6 +44,12 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             MinPlayers = 1;
             Discarding = true;
         }
+        public static PlayerAttribute JuJianUsed = PlayerAttribute.Register("JuJianUsed", true);
+        protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
+        {
+            return source[JuJianUsed] == 0;
+        }
+
         protected override bool VerifyCard(Player source, Card card)
         {
             return true;

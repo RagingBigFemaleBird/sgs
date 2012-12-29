@@ -694,5 +694,29 @@ namespace Sanguosha.Core.Games
             return card1.Rank > card2.Rank;
         }
 
+        public Card SelectACardFrom(Player from, Player ask, Prompt prompt, String resultdeckname, bool equipExcluded = false, bool delayedToolsExcluded = true)
+        {
+            var deck = from.HandCards();
+            if (!equipExcluded) deck = new List<Card>(deck.Concat(from.Equipments()));
+            if (!delayedToolsExcluded) deck = new List<Card>(deck.Concat(from.DelayedTools()));
+            if (deck.Count == 0) return null;
+            List<DeckPlace> places = new List<DeckPlace>();
+            places.Add(new DeckPlace(from, DeckType.Hand));
+            if (!equipExcluded) places.Add(new DeckPlace(from, DeckType.Equipment));
+            if (!delayedToolsExcluded) places.Add(new DeckPlace(from, DeckType.DelayedTools));
+            List<List<Card>> answer;
+
+            if (!ask.AskForCardChoice(prompt, places, new List<string>() {resultdeckname}, new List<int>() {1}, new RequireOneCardChoiceVerifier(), out answer))
+            {
+                Trace.TraceInformation("Player {0} Invalid answer", ask);
+                answer = new List<List<Card>>();
+                answer.Add(new List<Card>());
+                answer[0].Add(deck.First());
+            }
+            Card theCard = answer[0][0];
+            Game.CurrentGame.SyncCardAll(ref theCard);
+            Trace.Assert(answer.Count == 1 && answer[0].Count == 1);
+            return theCard;
+        }
     }
 }

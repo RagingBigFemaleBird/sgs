@@ -27,7 +27,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         {
             public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
             {
-                if (players.Any(p => p.IsDead))
+                if (players != null && players.Any(p => p.IsDead))
                 {
                     return VerifierResult.Fail;
                 }

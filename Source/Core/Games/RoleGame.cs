@@ -28,7 +28,7 @@ namespace Sanguosha.Core.Games
                 public override UiHelper Helper { get { return new UiHelper() { IsActionStage = true }; } }
                 public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
                 {
-                    if (players.Any(p => p.IsDead))
+                    if (players != null && players.Any(p => p.IsDead))
                     {
                         return VerifierResult.Fail;
                     }

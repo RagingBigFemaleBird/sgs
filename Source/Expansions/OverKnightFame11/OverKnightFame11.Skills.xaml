@@ -13,6 +13,9 @@
     <sys:String x:Key="Hero.ZhangChunHua.Name">张春华</sys:String>
     <sys:String x:Key="Hero.YuJin.Name">于禁</sys:String>
     <sys:String x:Key="Hero.XuShu.Name">徐庶</sys:String>
+    <sys:String x:Key="Hero.FaZheng.Name">法正</sys:String>
+    <sys:String x:Key="Hero.LingTong.Name">凌统</sys:String>
+    <sys:String x:Key="Hero.XuSheng.Name">徐盛</sys:String>
 
     <sys:String x:Key="Skill.JueQing.Name">绝情</sys:String>
 
@@ -23,5 +26,9 @@
     <sys:String x:Key="Skill.YiZhong.Name">毅重</sys:String>
     <sys:String x:Key="Skill.WuYan.Name">无言</sys:String>
     <sys:String x:Key="Skill.JuJian.Name">举荐</sys:String>
+    <sys:String x:Key="Skill.XuanHuo.Name">眩惑</sys:String>
+    <sys:String x:Key="Skill.EnYuan.Name">恩怨</sys:String>
+    <sys:String x:Key="Skill.XuanFeng.Name">旋风</sys:String>
+    <sys:String x:Key="Skill.PoJun.Name">破军</sys:String>
 
 </ResourceDictionary>

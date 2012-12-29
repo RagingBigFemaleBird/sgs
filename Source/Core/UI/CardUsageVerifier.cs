@@ -48,7 +48,7 @@ namespace Sanguosha.Core.UI
 
         private bool noCardReveal;
         /// <summary>
-        /// 不展示卡牌使用 (e.g. 遗计）
+        /// 不展示卡牌使用 (e.g. 遗计, card usage only）
         /// </summary>
         public bool NoCardReveal
         {

@@ -42,11 +42,15 @@
   <ItemGroup>
     <Compile Include="OverKnightFame11Expansion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Skills\EnYuan.cs" />
     <Compile Include="Skills\JiuShi.cs" />
     <Compile Include="Skills\JueQing.cs" />
     <Compile Include="Skills\JuJian.cs" />
     <Compile Include="Skills\LuoYing.cs" />
+    <Compile Include="Skills\PoJun.cs" />
     <Compile Include="Skills\WuYan.cs" />
+    <Compile Include="Skills\XuanFeng.cs" />
+    <Compile Include="Skills\XuanHuo.cs" />
     <Compile Include="Skills\YiZhong.cs" />
   </ItemGroup>
   <ItemGroup>

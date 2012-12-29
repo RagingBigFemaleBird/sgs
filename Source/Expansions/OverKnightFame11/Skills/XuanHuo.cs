@@ -1,0 +1,86 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Diagnostics;
+
+using Sanguosha.Core.Triggers;
+using Sanguosha.Core.Cards;
+using Sanguosha.Core.UI;
+using Sanguosha.Core.Skills;
+using Sanguosha.Expansions.Basic.Cards;
+using Sanguosha.Core.Games;
+using Sanguosha.Core.Players;
+
+namespace Sanguosha.Expansions.OverKnightFame11.Skills
+{
+    /// <summary>
+    /// 眩惑-出牌阶段，你可将一张红桃手牌交给一名其他角色，然后，你获得该角色的一张牌并立即交给除该角色外的其他角色。每回合限一次。
+    /// </summary>
+    public class XuanHuo : AutoVerifiedActiveSkill
+    {
+        public class XuanHuoVerifier : CardsAndTargetsVerifier
+        {
+            public XuanHuoVerifier()
+            {
+                MinCards = 0;
+                MaxCards = 0;
+                MinPlayers = 1;
+                MaxPlayers = 1;
+            }
+            protected override bool VerifyPlayer(Player source, Player player)
+            {
+                return source != player;
+            }
+        }
+
+        public override bool Commit(GameEventArgs arg)
+        {
+            Owner[XuanHuoUsed] = 1;
+            Game.CurrentGame.HandleCardTransferToHand(Owner, arg.Targets[0], arg.Cards);
+            var result = Game.CurrentGame.SelectACardFrom(arg.Targets[0], Owner, new CardChoicePrompt("XuanHuo"), "XuanHuo");
+            Game.CurrentGame.HandleCardTransferToHand(arg.Targets[0], Owner, new List<Card>() { result });
+            ISkill skill;
+            List<Card> cards;
+            List<Player> players;
+            if (Owner.AskForCardUsage(new CardUsagePrompt("XuanHuo"), new XuanHuoVerifier(), out skill, out cards, out players))
+            {
+                Game.CurrentGame.HandleCardTransferToHand(Owner, players[0], new List<Card>() { result });
+            }
+            return true;
+        }
+
+
+        public static PlayerAttribute XuanHuoUsed = PlayerAttribute.Register("XuanHuoUsed", true);
+        public XuanHuo()
+        {
+            MinCards = 1;
+            MaxCards = 1;
+            MaxPlayers = 1;
+            MinPlayers = 1;
+        }
+
+        protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
+        {
+            return source[XuanHuoUsed] == 0;
+        }
+
+        protected override bool VerifyCard(Player source, Card card)
+        {
+            return card.Suit == SuitType.Heart;
+        }
+
+        protected override bool VerifyPlayer(Player source, Player player)
+        {
+            return source != player;
+        }
+
+        public override void CardRevealPolicy(Player p, List<Card> cards, List<Player> players)
+        {
+            foreach (Card c in cards)
+            {
+                c.RevealOnce = true;
+            }
+        }
+    }
+}

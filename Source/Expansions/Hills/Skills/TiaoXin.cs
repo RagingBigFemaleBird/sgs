@@ -51,32 +51,9 @@ namespace Sanguosha.Expansions.Hills.Skills
                 }
                 else
                 {
-                    Player dest = arg.Targets[0];
-                    if (Game.CurrentGame.Decks[dest, DeckType.Hand].Count == 0 && Game.CurrentGame.Decks[dest, DeckType.Equipment].Count == 0) break;
-                    IUiProxy ui = Game.CurrentGame.UiProxies[Owner];
-                    List<DeckPlace> places = new List<DeckPlace>();
-                    places.Add(new DeckPlace(dest, DeckType.Hand));
-                    places.Add(new DeckPlace(dest, DeckType.Equipment));
-                    List<string> resultDeckPlace = new List<string>();
-                    resultDeckPlace.Add("TiaoXin");
-                    List<int> resultDeckMax = new List<int>();
-                    resultDeckMax.Add(1);
-                    List<List<Card>> answer;
+                    var theCard = Game.CurrentGame.SelectACardFrom(arg.Targets[0], Owner, new CardChoicePrompt("TiaoXin"), "TiaoXin");
 
-                    if (!ui.AskForCardChoice(new CardChoicePrompt("TiaoXin"), places, resultDeckPlace, resultDeckMax, new RequireOneCardChoiceVerifier(), out answer))
-                    {
-                        Trace.TraceInformation("Player {0} Invalid answer", Owner);
-                        answer = new List<List<Card>>();
-                        answer.Add(new List<Card>());
-                        var collection = Game.CurrentGame.Decks[dest, DeckType.Hand].Concat
-                                         (Game.CurrentGame.Decks[dest, DeckType.Equipment]);
-                        answer[0].Add(collection.First());
-                    }
-                    Card theCard = answer[0][0];
-                    Game.CurrentGame.SyncCardAll(ref theCard);
-                    Trace.Assert(answer.Count == 1 && answer[0].Count == 1);
-
-                    Game.CurrentGame.HandleCardDiscard(dest, new List<Card>() { theCard });
+                    Game.CurrentGame.HandleCardDiscard(arg.Targets[0], new List<Card>() { theCard });
                 }
                 break;
             }
