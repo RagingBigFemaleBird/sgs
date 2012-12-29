@@ -81,7 +81,7 @@ namespace Sanguosha.Core.UI
             }
             cards = cards ?? new List<Card>();
             players = players ?? new List<Player>();
-            return (verifier.FastVerify(HostPlayer, answerSkill, answerCards, answerPlayers) == VerifierResult.Success);
+            return (verifier.FastVerify(HostPlayer, answerSkill, cards, players) == VerifierResult.Success);
         }
 
         public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, AdditionalCardChoiceOptions options, CardChoiceRearrangeCallback callback)

@@ -31,10 +31,9 @@ namespace Sanguosha.Expansions.Woods.Skills
                 bool invoke = false;
                 foreach (Player p in players)
                 {
-                    List<DeckPlace> places = new List<DeckPlace>();
-                    if (Game.CurrentGame.Decks[p, DeckType.Hand].Count != 0
-                         || Game.CurrentGame.Decks[p, DeckType.Equipment].Count != 0
-                         || Game.CurrentGame.Decks[p, DeckType.DelayedTools].Count != 0)
+                    if (p.HandCards().Count != 0
+                         || p.Equipments().Count != 0
+                         || p.DelayedTools().Count != 0)
                     {
                         invoke = true;
                         break;
@@ -42,12 +41,13 @@ namespace Sanguosha.Expansions.Woods.Skills
                 }
                 if (invoke && AskForSkillUse())
                 {
+                    NotifySkillUse(new List<Player>());
                     foreach (Player p in players)
                     {
                         if (p.IsDead) continue;
-                        if (Game.CurrentGame.Decks[p, DeckType.Hand].Count == 0 &&
-                            Game.CurrentGame.Decks[p, DeckType.DelayedTools].Count == 0 &&
-                            Game.CurrentGame.Decks[p, DeckType.Equipment].Count == 0)
+                        if (p.HandCards().Count == 0
+                            && p.Equipments().Count == 0
+                            && p.DelayedTools().Count == 0)
                             continue;
                         List<List<Card>> answer;
                         List<DeckPlace> places = new List<DeckPlace>();

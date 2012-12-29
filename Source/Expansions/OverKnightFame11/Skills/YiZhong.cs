@@ -26,7 +26,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 this,
                 (p, e, a) => 
                 {
-                    return !Game.CurrentGame.Decks[p, DeckType.Equipment].Any(card => CardCategoryManager.IsCardCategory(card.Type.Category, CardCategory.Armor)) && a.ReadonlyCard.SuitColor == SuitColorType.Black;
+                    return p.Armor() == null && a.ReadonlyCard.SuitColor == SuitColorType.Black;
                 },
                 (p, e, a) => { throw new TriggerResultException(TriggerResult.End); },
                 TriggerCondition.OwnerIsTarget

@@ -32,7 +32,7 @@ namespace Sanguosha.Core.Cards
             return category & (CardCategory.Basic | CardCategory.Equipment | CardCategory.Tool);
         }
 
-        public static bool BaseCategory(this CardHandler cardType, CardCategory belongsTo)
+        public static bool IsCardCategory(this CardHandler cardType, CardCategory belongsTo)
         {
             return IsCardCategory(cardType.Category, belongsTo);
         }
