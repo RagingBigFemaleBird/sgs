@@ -165,7 +165,8 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     return VerifierResult.Fail;
                 }
-                if ((new Sha()).ShaVerifyForJieDaoShaRenOnly(targets[0], null, new List<Player>() { targets[1] }) != VerifierResult.Success)
+                if ((new Sha()).VerifyCore(targets[0], null,
+                     new List<Player>() { targets[1] }) != VerifierResult.Success)
                 {
                     return VerifierResult.Fail;
                 }

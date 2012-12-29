@@ -33,12 +33,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             Game.CurrentGame.DoDamage(source, dest, 1, ShaDamageElement, card, readonlyCard);
         }
 
-        public VerifierResult ShaVerifyForJieDaoShaRenOnly(Player source, ICard card, List<Player> targets)
-        {
-            return Verify(source, card, targets);
-        }
-
-        protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
+        public VerifierResult VerifyCore(Player source, ICard card, List<Player> targets)
         {
             if (targets != null && targets.Count > 0)
             {
@@ -107,6 +102,12 @@ namespace Sanguosha.Expansions.Basic.Cards
                 return VerifierResult.Fail;
             }
             return VerifierResult.Success;
+        }
+        
+
+        protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
+        {
+            return VerifyCore(source, card, targets);
         }
 
         public override CardCategory Category

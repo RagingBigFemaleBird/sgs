@@ -7,7 +7,7 @@
 			 xmlns:ctrl="clr-namespace:Sanguosha.UI.Controls;assembly=Controls"
              xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
              mc:Ignorable="d" 
-             d:DesignHeight="747" d:DesignWidth="1024">
+             d:DesignHeight="700" d:DesignWidth="1024">
 	<UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -32,8 +32,7 @@
                   ItemsSource="{Binding Mode=OneWay}" AutoGenerateColumns="False"
                   IsReadOnly="True" SelectionMode="Single" Style="{DynamicResource DataGridStyle1}"
                   Background="#CC4A3C2D" Foreground="#FFE4D5A0" HeadersVisibility="Column" FontFamily="SimSun"
-                  SelectionUnit="FullRow" SelectionChanged="gridDataSet_SelectionChanged"
-                  MouseDoubleClick="gridCardSet_MouseDoubleClick">
+                  SelectionUnit="FullRow">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="房号" Binding="{Binding Id}" Width="50" />
 				<DataGridTextColumn Header="模式" Binding="{Binding Id}" Width="100" />
