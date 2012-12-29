@@ -42,7 +42,9 @@
   <ItemGroup>
     <Compile Include="OverKnightFame11Expansion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Skills\BuYi.cs" />
     <Compile Include="Skills\EnYuan.cs" />
+    <Compile Include="Skills\GanLu.cs" />
     <Compile Include="Skills\JiuShi.cs" />
     <Compile Include="Skills\JueQing.cs" />
     <Compile Include="Skills\JuJian.cs" />

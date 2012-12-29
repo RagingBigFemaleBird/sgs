@@ -38,7 +38,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
         {
             Owner[XuanHuoUsed] = 1;
             Game.CurrentGame.HandleCardTransferToHand(Owner, arg.Targets[0], arg.Cards);
-            var result = Game.CurrentGame.SelectACardFrom(arg.Targets[0], Owner, new CardChoicePrompt("XuanHuo"), "XuanHuo");
+            var result = Game.CurrentGame.SelectACardFrom(arg.Targets[0], Owner, new CardChoicePrompt("XuanHuo"), "XuanHuo", false, true, true);
             Game.CurrentGame.HandleCardTransferToHand(arg.Targets[0], Owner, new List<Card>() { result });
             ISkill skill;
             List<Card> cards;

@@ -694,7 +694,7 @@ namespace Sanguosha.Core.Games
             return card1.Rank > card2.Rank;
         }
 
-        public Card SelectACardFrom(Player from, Player ask, Prompt prompt, String resultdeckname, bool equipExcluded = false, bool delayedToolsExcluded = true)
+        public Card SelectACardFrom(Player from, Player ask, Prompt prompt, String resultdeckname, bool equipExcluded = false, bool delayedToolsExcluded = true, bool noReveal = false)
         {
             var deck = from.HandCards();
             if (!equipExcluded) deck = new List<Card>(deck.Concat(from.Equipments()));
@@ -706,7 +706,7 @@ namespace Sanguosha.Core.Games
             if (!delayedToolsExcluded) places.Add(new DeckPlace(from, DeckType.DelayedTools));
             List<List<Card>> answer;
 
-            if (!ask.AskForCardChoice(prompt, places, new List<string>() {resultdeckname}, new List<int>() {1}, new RequireOneCardChoiceVerifier(), out answer))
+            if (!ask.AskForCardChoice(prompt, places, new List<string>() {resultdeckname}, new List<int>() {1}, new RequireOneCardChoiceVerifier(noReveal), out answer))
             {
                 Trace.TraceInformation("Player {0} Invalid answer", ask);
                 answer = new List<List<Card>>();
@@ -714,7 +714,14 @@ namespace Sanguosha.Core.Games
                 answer[0].Add(deck.First());
             }
             Card theCard = answer[0][0];
-            Game.CurrentGame.SyncCardAll(ref theCard);
+            if (noReveal)
+            {
+                Game.CurrentGame.SyncCard(from, ref theCard);
+            }
+            else
+            {
+                Game.CurrentGame.SyncCardAll(ref theCard);
+            }
             Trace.Assert(answer.Count == 1 && answer[0].Count == 1);
             return theCard;
         }
