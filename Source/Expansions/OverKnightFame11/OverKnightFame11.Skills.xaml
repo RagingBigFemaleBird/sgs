@@ -12,6 +12,7 @@
     <sys:String x:Key="Hero.CaoZhi.Name">曹植</sys:String>
     <sys:String x:Key="Hero.ZhangChunHua.Name">张春华</sys:String>
     <sys:String x:Key="Hero.YuJin.Name">于禁</sys:String>
+    <sys:String x:Key="Hero.XuShu.Name">徐庶</sys:String>
 
     <sys:String x:Key="Skill.JueQing.Name">绝情</sys:String>
 
@@ -20,5 +21,7 @@
     <sys:String x:Key="Skill.LuoYing.Usage">系统提示→点“确定”</sys:String>
     <sys:String x:Key="Skill.JiuShi.Name">酒诗</sys:String>
     <sys:String x:Key="Skill.YiZhong.Name">毅重</sys:String>
+    <sys:String x:Key="Skill.WuYan.Name">无言</sys:String>
+    <sys:String x:Key="Skill.JuJian.Name">举荐</sys:String>
 
 </ResourceDictionary>
