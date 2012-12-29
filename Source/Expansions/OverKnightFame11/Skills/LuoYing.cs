@@ -31,7 +31,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             var cardsToProcess = from c in eventArgs.Cards
                                  where c.Suit == SuitType.Club
                                  select c;
-            foreach (var c in cardsToProcess)
+            if (cardsToProcess.Count() > 0)
             {
                 CardsMovement temp = new CardsMovement();
                 temp.Cards = new List<Card>(cardsToProcess);
@@ -41,7 +41,6 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 {
                     cc.PlaceOverride = new DeckPlace(null, DeckType.Discard);
                 }
-                break;
             }
             foreach (var c in cardsToProcess)
             {
