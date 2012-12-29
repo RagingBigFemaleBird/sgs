@@ -218,9 +218,7 @@
 			<Button Style="{DynamicResource DefaultButtonStyleDark}" Height="20" Padding="1,0,2,0" Margin="0,0,0,0">
         		<Image Height="14" Source="/Resources;component/Images/System/btnSettings.png" Stretch="Fill" Width="16"/>	        	
 			</Button>			
-			<Button x:Name="btnReplay" Style="{DynamicResource DefaultButtonStyle1}" Height="20" Padding="8,0,8,0" Click="btnReplay_Click">
-	        	<TextBlock Text="录像" Style="{DynamicResource MenuTextStyle}" />
-			</Button>
+			<Button x:Name="btnReplay" Content="录像" Style="{DynamicResource DefaultButtonStyle1}" Height="20" Padding="8,0,8,0" Click="btnReplay_Click" />
 		</StackPanel>
 		<xctk:BusyIndicator Grid.RowSpan="2" x:Name="busyIndicator" Style="{DynamicResource BusyIndicatorStyle1}" Margin="0" Grid.Row="1" />	        
     </Grid>

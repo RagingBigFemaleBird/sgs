@@ -1,12 +1,12 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
-	xmlns:local="clr-namespace:Sanguosha.UI.Controls"
+    xmlns:local="clr-namespace:Sanguosha.UI.Controls"
     xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-	mc:Ignorable="d">
+    mc:Ignorable="d">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
     </ResourceDictionary.MergedDictionaries>
@@ -119,7 +119,6 @@
         </Setter>
     </Style>
     <Style x:Key="MultiChoiceCustomButtonStyle" TargetType="{x:Type Button}">
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">

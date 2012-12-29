@@ -65,6 +65,7 @@
     <Compile Include="ViewModels\MarkViewModel.cs" />
     <Compile Include="ViewModels\PrivateDeckViewModel.cs" />
     <Compile Include="Views\BaseControls\FlowDocumentExtensions.cs" />
+    <Compile Include="Views\Buttons\ImageButton.cs" />
     <Compile Include="Views\Cards\CardInteraction.cs" />
     <Compile Include="Views\Cards\DragDirection.cs" />
     <Compile Include="Views\Cards\SuitColorToColorConverter.cs" />
