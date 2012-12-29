@@ -20,11 +20,26 @@ namespace Sanguosha.Core.Cards
         Unknown = (1 << 31)
     }
 
-    public class CardCategoryManager
+    public static class CardCategoryManager
     {
-        public static bool IsCardCategory(CardCategory a, CardCategory belongsTo)
+        public static bool IsCardCategory(CardCategory category, CardCategory belongsTo)
         {
-            return (a & belongsTo) == belongsTo;
+            return (category & belongsTo) == belongsTo;
+        }
+
+        public static CardCategory BaseCategoryOf(CardCategory category)
+        {
+            return category & (CardCategory.Basic | CardCategory.Equipment | CardCategory.Tool);
+        }
+
+        public static bool BaseCategory(this CardHandler cardType, CardCategory belongsTo)
+        {
+            return IsCardCategory(cardType.Category, belongsTo);
+        }
+
+        public static CardCategory BaseCategory(this CardHandler cardType)
+        {
+            return BaseCategoryOf(cardType.Category);
         }
     }
 }

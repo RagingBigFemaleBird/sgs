@@ -22,18 +22,12 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
         public override bool Commit(GameEventArgs arg)
         {
             int count = arg.Cards.Count;
-            bool regen = false;
-            if (arg.Cards.Count >= 3)
-            {
-                CardCategory cat;
-                if (CardCategoryManager.IsCardCategory(arg.Cards[0].Type.Category, CardCategory.Basic)) cat = CardCategory.Basic;
-                else if (CardCategoryManager.IsCardCategory(arg.Cards[0].Type.Category, CardCategory.Tool)) cat = CardCategory.Tool;
-                else cat = CardCategory.Equipment;
-                if (!arg.Cards.Any(cd => !CardCategoryManager.IsCardCategory(cd.Type.Category, cat))) regen = true;
-            }
+            Trace.Assert(count <= 3);
+            int typeCount = (from c in arg.Cards 
+                             select c.Type.BaseCategory()).Distinct().Count();
             Game.CurrentGame.HandleCardDiscard(Owner, arg.Cards);
             Game.CurrentGame.DrawCards(arg.Targets[0], count);
-            if (regen)
+            if (typeCount == 1 && count == 3)
             {
                 Game.CurrentGame.RecoverHealth(Owner, Owner, 1);
             }
