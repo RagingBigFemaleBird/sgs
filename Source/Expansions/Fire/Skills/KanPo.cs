@@ -17,6 +17,11 @@ namespace Sanguosha.Expansions.Fire.Skills
     /// </summary>
     public class KanPo : OneToOneCardTransformSkill
     {
+        public KanPo()
+        {
+            HandCardOnly = true;
+        }
+
         public override CardHandler PossibleResult
         {
             get { return new WuXieKeJi(); }
@@ -25,14 +30,6 @@ namespace Sanguosha.Expansions.Fire.Skills
         public override bool VerifyInput(Card card, object arg)
         {
             return card.SuitColor == SuitColorType.Black;
-        }
-
-        public override bool HandCardOnly
-        {
-            get
-            {
-                return true;
-            }
         }
     }
 }

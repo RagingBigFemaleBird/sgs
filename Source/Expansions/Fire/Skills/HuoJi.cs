@@ -16,6 +16,11 @@ namespace Sanguosha.Expansions.Fire.Skills
     /// </summary>
     public class HuoJi : OneToOneCardTransformSkill
     {
+        public HuoJi()
+        {
+            HandCardOnly = true;
+        }
+
         public override CardHandler PossibleResult
         {
             get { return new HuoGong(); }
@@ -24,14 +29,6 @@ namespace Sanguosha.Expansions.Fire.Skills
         public override bool VerifyInput(Card card, object arg)
         {
             return card.SuitColor == SuitColorType.Red;
-        }
-
-        public override bool HandCardOnly
-        {
-            get
-            {
-                return true;
-            }
         }
     }
 }

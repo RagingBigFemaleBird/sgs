@@ -46,12 +46,10 @@ namespace Sanguosha.Core.Skills
 
         public abstract bool VerifyInput(Card card, object arg);
 
-        public virtual bool HandCardOnly
+        public bool HandCardOnly
         {
-            get
-            {
-                return false;
-            }
+            get;
+            protected set;
         }
 
         /// <summary>

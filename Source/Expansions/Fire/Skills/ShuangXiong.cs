@@ -88,6 +88,11 @@ namespace Sanguosha.Expansions.Fire.Skills
 
         class ShuangXiongCardTransformSkill : OneToOneCardTransformSkill
         {
+            public ShuangXiongCardTransformSkill()
+            {
+                HandCardOnly = true;
+            }
+
             SuitColorType color;
             public ShuangXiongCardTransformSkill(SuitColorType color)
             {
@@ -102,14 +107,6 @@ namespace Sanguosha.Expansions.Fire.Skills
             public override CardHandler PossibleResult
             {
                 get { return new JueDou(); }
-            }
-
-            public override bool HandCardOnly
-            {
-                get
-                {
-                    return true;
-                }
             }
         }
     }

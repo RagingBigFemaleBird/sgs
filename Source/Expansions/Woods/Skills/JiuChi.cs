@@ -17,6 +17,11 @@ namespace Sanguosha.Expansions.Woods.Skills
     /// </summary>
     public class JiuChi : OneToOneCardTransformSkill
     {
+        public JiuChi()
+        {
+            HandCardOnly = true;
+        }
+
         public override bool VerifyInput(Card card, object arg)
         {
             return card.Suit == SuitType.Spade;
@@ -26,14 +31,5 @@ namespace Sanguosha.Expansions.Woods.Skills
         {
             get { return new Jiu(); }
         }
-
-        public override bool HandCardOnly
-        {
-            get
-            {
-                return true;
-            }
-        }
-
     }
 }

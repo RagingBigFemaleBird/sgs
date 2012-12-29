@@ -16,6 +16,11 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     public class QingGuo : OneToOneCardTransformSkill
     {
+        public QingGuo()
+        {
+            HandCardOnly = true;
+        }
+
         public override bool VerifyInput(Card card, object arg)
         {
             return card.SuitColor == SuitColorType.Black;
@@ -25,14 +30,5 @@ namespace Sanguosha.Expansions.Basic.Skills
         {
             get { return new Shan(); }
         }
-
-        public override bool HandCardOnly
-        {
-            get
-            {
-                return true;
-            }
-        }
-
     }
 }

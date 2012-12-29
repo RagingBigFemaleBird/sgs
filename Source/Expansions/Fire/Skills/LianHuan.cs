@@ -16,6 +16,11 @@ namespace Sanguosha.Expansions.Fire.Skills
     /// </summary>
     public class LianHuan : OneToOneCardTransformSkill
     {
+        public LianHuan()
+        {
+            HandCardOnly = true;
+        }
+
         public override bool VerifyInput(Card card, object arg)
         {
             return card.Suit == SuitType.Club;
@@ -24,14 +29,6 @@ namespace Sanguosha.Expansions.Fire.Skills
         public override CardHandler PossibleResult
         {
             get { return new TieSuoLianHuan(); }
-        }
-
-        public override bool HandCardOnly
-        {
-            get
-            {
-                return true;
-            }
         }
     }
 }
