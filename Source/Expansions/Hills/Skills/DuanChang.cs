@@ -19,8 +19,10 @@ namespace Sanguosha.Expansions.Hills.Skills
     /// </summary>
     public class DuanChang : TriggerSkill
     {
+        static PlayerAttribute DuanChangStatus = PlayerAttribute.Register("DuanChang", false, false, true);
+     
         public DuanChang()
-        {
+        {            
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => { return a.Source != null; },
@@ -36,7 +38,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                         sk.Owner = null;
                     }
                     a.Source.Hero = new Hero(h.Name, h.IsMale, h.Allegiance, h.MaxHealth, new List<ISkill>());
-                    a.Source[PlayerAttribute.Register("DuanChang", false, false, true)] = 1;
+                    a.Source[DuanChangStatus] = 1;
                 },
                 TriggerCondition.OwnerIsTarget
             );
