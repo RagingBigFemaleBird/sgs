@@ -28,37 +28,28 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 return;
             }
             int answer = 0;
-            List<Card> cardsToProcess = new List<Card>(eventArgs.Cards);
-            foreach (Card c in cardsToProcess)
+            var cardsToProcess = from c in eventArgs.Cards
+                                 where c.Suit == SuitType.Club
+                                 select c;
+            foreach (var c in cardsToProcess)
             {
-                if (c.Suit == SuitType.Club)
+                CardsMovement temp = new CardsMovement();
+                temp.Cards = new List<Card>(cardsToProcess);
+                temp.To = new DeckPlace(null, DeckType.Discard);
+                Game.CurrentGame.NotificationProxy.NotifyCardMovement(new List<CardsMovement>() { temp });
+                foreach (Card cc in cardsToProcess)
                 {
-                    CardsMovement temp = new CardsMovement();
-                    temp.Cards = new List<Card>(cardsToProcess);
-                    temp.To = new DeckPlace(null, DeckType.Discard);
-                    Game.CurrentGame.NotificationProxy.NotifyCardMovement(new List<CardsMovement>() { temp });
-                    foreach (Card cc in cardsToProcess)
-                    {
-                        cc.PlaceOverride = new DeckPlace(null, DeckType.Discard);
-                    }
-                    break;
+                    cc.PlaceOverride = new DeckPlace(null, DeckType.Discard);
                 }
+                break;
             }
-            foreach (Card c in cardsToProcess)
+            foreach (var c in cardsToProcess)
             {
                 var prompt = new MultipleChoicePrompt("LuoYing", c);
-                if (c.Suit == SuitType.Club &&
-                    Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(prompt, Prompt.YesNoChoices, out answer) && answer == 1)
+                if (Owner.AskForMultipleChoice(prompt, Prompt.YesNoChoices, out answer) && answer == 1)
                 {
-                    ActionLog log = new ActionLog();
-                    log.GameAction = GameAction.None;
-                    log.SkillAction = this;
-                    log.Source = Owner;
-                    log.CardAction = c;
-                    Game.CurrentGame.NotificationProxy.NotifySkillUse(log); 
-                    List<Card> cc = new List<Card>();
-                    cc.Add(c);
-                    Game.CurrentGame.HandleCardTransferToHand(null, Owner, cc);
+                    NotifySkillUse();
+                    Game.CurrentGame.HandleCardTransferToHand(null, Owner, new List<Card>() { c });
                     eventArgs.Cards.Remove(c);
                 }
             }

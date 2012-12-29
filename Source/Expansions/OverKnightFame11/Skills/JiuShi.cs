@@ -44,7 +44,6 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
         public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
         {
             card = new CompositeCard();
-            card.Subcards = new List<Card>();
             card.Type = new Jiu();
             if (Owner.IsImprisoned)
             {

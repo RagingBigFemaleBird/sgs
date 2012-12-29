@@ -31,6 +31,11 @@ namespace Sanguosha.Core.Skills
             Games.Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
         }
 
+        public void NotifySkillUse()
+        {
+            NotifySkillUse(new List<Player>());
+        }
+        
         protected bool AskForSkillUse()
         {
             int answer;
