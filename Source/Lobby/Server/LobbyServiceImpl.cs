@@ -96,7 +96,7 @@ namespace Sanguosha.Lobby.Server
                 Room room = new Room();
                 for (int i = 0; i < 8; i++)
                 {
-                    room.Seats.Add(new Seat() { Ready = false, Disabled = false });
+                    room.Seats.Add(new Seat() { State = SeatState.Empty });
                 }
                 room.Seats[0].Account = loggedInGuidToAccount[token.token];
                 room.Id = roomId;

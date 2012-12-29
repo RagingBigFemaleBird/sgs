@@ -150,7 +150,10 @@
         <Grid Grid.RowSpan="2" Grid.Column="1">			
             <Border Margin="3, 10, 2, 50" BorderThickness="1" CornerRadius="3" BorderBrush="Black" >
                 <Border BorderThickness="1" CornerRadius="3" BorderBrush="#FFA59579" >
-                    <Border BorderThickness="1" CornerRadius="3" BorderBrush="Black" Background="#FF4A3B2D" />
+                    <Border BorderThickness="1" CornerRadius="3" BorderBrush="Black" Background="#FF4A3B2D" >
+                    	<Grid>                    		
+						</Grid>
+                    </Border>
                 </Border>
             </Border>				
             <Image HorizontalAlignment="Left" Height="25" Margin="30,2,0,0" Source="/Resources;component/Images/Lobby/roomInfo.png" Stretch="Fill" VerticalAlignment="Top" Width="85" d:LayoutOverrides="GridBox"/>

@@ -17,6 +17,19 @@ namespace Sanguosha.Lobby.Core
         RoleTwoDefectors,
     }
 
+    [DataContract(Name = "RoomState")]
+    public enum RoomState
+    {
+        [EnumMember]
+        Created,
+        [EnumMember]
+        Waiting,
+        [EnumMember]
+        Gaming,
+        [EnumMember]
+        Purged,
+    }
+
     [DataContract(Name = "Timeout")]
     public enum Timeout
     {

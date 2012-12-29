@@ -1,0 +1,200 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	xmlns:local="clr-namespace:Sanguosha.Lobby.UI"
+    xmlns:ctrl="clr-namespace:Sanguosha.UI.Controls;assembly=Controls"
+    xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
+	x:Class="Sanguosha.Lobby.UI.SeatView"
+	d:DesignWidth="207" d:DesignHeight="116">	
+	<UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Controls;component/Common.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        	<LinearGradientBrush x:Key="ProgressBarBackground" EndPoint="1,0" StartPoint="0,0">
+        		<GradientStop Color="#BABABA" Offset="0"/>
+        		<GradientStop Color="#C7C7C7" Offset="0.5"/>
+        		<GradientStop Color="#BABABA" Offset="1"/>
+        	</LinearGradientBrush>
+        	<LinearGradientBrush x:Key="ProgressBarBorderBrush" EndPoint="0,1" StartPoint="0,0">
+        		<GradientStop Color="#B2B2B2" Offset="0"/>
+        		<GradientStop Color="#8C8C8C" Offset="1"/>
+        	</LinearGradientBrush>
+        	<LinearGradientBrush x:Key="ProgressBarGlassyHighlight" EndPoint="0,1" StartPoint="0,0">
+        		<GradientStop Color="#50FFFFFF" Offset="0.5385"/>
+        		<GradientStop Color="#00FFFFFF" Offset="0.5385"/>
+        	</LinearGradientBrush>
+        	<LinearGradientBrush x:Key="ProgressBarTopHighlight" EndPoint="0,1" StartPoint="0,0">
+        		<GradientStop Color="#80FFFFFF" Offset="0.05"/>
+        		<GradientStop Color="#00FFFFFF" Offset="0.25"/>
+        	</LinearGradientBrush>
+        	<LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill" EndPoint="1,0" StartPoint="0,0">
+        		<GradientStop Color="#00FFFFFF" Offset="0"/>
+        		<GradientStop Color="#60FFFFFF" Offset="0.4"/>
+        		<GradientStop Color="#60FFFFFF" Offset="0.6"/>
+        		<GradientStop Color="#00FFFFFF" Offset="1"/>
+        	</LinearGradientBrush>
+        	<LinearGradientBrush x:Key="ProgressBarIndicatorDarkEdgeLeft" EndPoint="1,0" StartPoint="0,0">
+        		<GradientStop Color="#0C000000" Offset="0"/>
+        		<GradientStop Color="#20000000" Offset="0.3"/>
+        		<GradientStop Color="#00000000" Offset="1"/>
+        	</LinearGradientBrush>
+        	<LinearGradientBrush x:Key="ProgressBarIndicatorDarkEdgeRight" EndPoint="1,0" StartPoint="0,0">
+        		<GradientStop Color="#00000000" Offset="0"/>
+        		<GradientStop Color="#20000000" Offset="0.7"/>
+        		<GradientStop Color="#0C000000" Offset="1"/>
+        	</LinearGradientBrush>
+        	<RadialGradientBrush x:Key="ProgressBarIndicatorLightingEffectLeft" RadiusY="1" RadiusX="1" RelativeTransform="1,0,0,1,0.5,0.5">
+        		<GradientStop Color="#60FFFFC4" Offset="0"/>
+        		<GradientStop Color="#00FFFFC4" Offset="1"/>
+        	</RadialGradientBrush>
+        	<LinearGradientBrush x:Key="ProgressBarIndicatorLightingEffect" EndPoint="0,0" StartPoint="0,1">
+        		<GradientStop Color="#60FFFFC4" Offset="0"/>
+        		<GradientStop Color="#00FFFFC4" Offset="1"/>
+        	</LinearGradientBrush>
+        	<RadialGradientBrush x:Key="ProgressBarIndicatorLightingEffectRight" RadiusY="1" RadiusX="1" RelativeTransform="1,0,0,1,-0.5,0.5">
+        		<GradientStop Color="#60FFFFC4" Offset="0"/>
+        		<GradientStop Color="#00FFFFC4" Offset="1"/>
+        	</RadialGradientBrush>
+        	<LinearGradientBrush x:Key="ProgressBarIndicatorGlassyHighlight" EndPoint="0,1" StartPoint="0,0">
+        		<GradientStop Color="#90FFFFFF" Offset="0.5385"/>
+        		<GradientStop Color="#00FFFFFF" Offset="0.5385"/>
+        	</LinearGradientBrush>
+        	<Style x:Key="winProgressBarStyle" TargetType="{x:Type ProgressBar}">
+        		<Setter Property="Foreground" Value="#01D328"/>
+        		<Setter Property="Background" Value="{StaticResource ProgressBarBackground}"/>
+        		<Setter Property="BorderBrush" Value="{StaticResource ProgressBarBorderBrush}"/>
+        		<Setter Property="BorderThickness" Value="1"/>
+        		<Setter Property="Template">
+        			<Setter.Value>
+        				<ControlTemplate TargetType="{x:Type ProgressBar}">
+        					<Grid x:Name="TemplateRoot" SnapsToDevicePixels="true">        						
+        						<Rectangle x:Name="PART_Track" Margin="1"/>
+        						<Decorator x:Name="PART_Indicator" HorizontalAlignment="Left" Margin="1">
+        							<Grid x:Name="Foreground">
+        								<Border Margin="2" CornerRadius="5,8,0,0"  ClipToBounds="True">
+        									<Border.Background>
+        										<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+        											<GradientStop Color="#FF2FFE61" Offset="0"/>
+        											<GradientStop Color="#FF195415" Offset="1"/>
+        											<GradientStop Color="#FF38C14F" Offset="0.49"/>
+        											<GradientStop Color="#FF1BAE31" Offset="0.51"/>
+        										</LinearGradientBrush>
+        									</Border.Background>        								
+        							</Border>
+									</Grid>									
+        						</Decorator>
+        					</Grid>
+        				</ControlTemplate>
+        			</Setter.Value>
+        		</Setter>
+        	</Style>
+        	<Style x:Key="quitProgressBarStyle" TargetType="{x:Type ProgressBar}">
+        		<Setter Property="Foreground" Value="#01D328"/>
+        		<Setter Property="Background" Value="{StaticResource ProgressBarBackground}"/>
+        		<Setter Property="BorderBrush" Value="{StaticResource ProgressBarBorderBrush}"/>
+        		<Setter Property="BorderThickness" Value="1"/>
+        		<Setter Property="Template">
+        			<Setter.Value>
+        				<ControlTemplate TargetType="{x:Type ProgressBar}">
+        					<Grid x:Name="TemplateRoot" SnapsToDevicePixels="true">        						
+        						<Rectangle x:Name="PART_Track" Margin="1"/>
+        						<Decorator x:Name="PART_Indicator" HorizontalAlignment="Right" Margin="1">
+        							<Grid x:Name="Foreground">
+        								<Border Margin="2" CornerRadius="0,5,0,8"  ClipToBounds="True">
+        									<Border.Background>
+        										<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+        											<GradientStop Color="#FFFE3033" Offset="0"/>
+        											<GradientStop Color="#FFE1023B" Offset="1"/>
+        											<GradientStop Color="#FFF12840" Offset="0.49"/>
+        											<GradientStop Color="#FFED0729" Offset="0.51"/>
+        										</LinearGradientBrush>
+        									</Border.Background>        								
+        							</Border>
+									</Grid>									
+        						</Decorator>
+        					</Grid>
+        				</ControlTemplate>
+        			</Setter.Value>
+        		</Setter>
+        	</Style>
+		</ResourceDictionary>
+	</UserControl.Resources>	
+	<Grid x:Name="LayoutRoot">
+		<Image Source="/Resources;component/Images/Lobby/Seat/bg0.png" Stretch="Fill"/>
+		<Grid  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7,7,0,0" Width="75" Height="75" >
+			<Image Source="/Resources;component/Images/Lobby/Seat/photo0.gif" Stretch="Fill" />
+			<Image Source="/Resources;component/Images/Lobby/Seat/bd0.png" Stretch="Fill" />
+		</Grid>
+		<Image Margin="4,0,0,4" VerticalAlignment="Bottom" HorizontalAlignment="Left" Source="/Resources;component/Images/Lobby/Seat/win.png" Stretch="None" RenderTransformOrigin="0,1">
+			<Image.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform ScaleX="0.6" ScaleY="0.6"/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</Image.RenderTransform>
+		</Image>
+		<Image Margin="0,0,4,4" VerticalAlignment="Bottom" HorizontalAlignment="Right" Source="/Resources;component/Images/Lobby/Seat/quit.png" Stretch="None" RenderTransformOrigin="1,1">
+			<Image.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform ScaleX="0.6" ScaleY="0.6"/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</Image.RenderTransform>
+		</Image>
+		<Grid Height="13" VerticalAlignment="Bottom" Margin="24,0,24,13.5">
+			<Border CornerRadius="15,15,0,0" ClipToBounds="True" BorderThickness="0,0,0,1" BorderBrush="#FF9D9D9D">
+				<Border BorderThickness="1,1,0,0" Background="#FF2F363E" BorderBrush="Black" CornerRadius="15,15,0,0" ClipToBounds="True">
+					<Border.Effect>
+						<BlurEffect Radius="5" />
+					</Border.Effect>	
+				</Border>
+			</Border>
+			<ProgressBar Style="{DynamicResource winProgressBarStyle}" Value="46" />
+			<ProgressBar Value="20" Style="{DynamicResource quitProgressBarStyle}" />
+			<Border Background="#FF2F363E" CornerRadius="0,0,8,8" ClipToBounds="True" BorderThickness="1,0,1,1" Margin="12.5,0,0,-8.501" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="34.5">
+				<Border.BorderBrush>
+					<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+						<GradientStop Color="#FFA1A1A1" Offset="1"/>
+						<GradientStop Color="Black"/>
+					</LinearGradientBrush>
+				</Border.BorderBrush>
+				<TextBlock Text="46%" FontFamily="Arial" Foreground="Lime" FontSize="9" HorizontalAlignment="Center" Margin="0,0,0,0" />
+			</Border>
+			<Border Background="#FF2F363E" CornerRadius="0,0,8,8" ClipToBounds="True" BorderThickness="1,0,1,1" Margin="0,0,12,-8.501" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="34.5">
+				<Border.BorderBrush>
+					<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+						<GradientStop Color="#FFA1A1A1" Offset="1"/>
+						<GradientStop Color="Black"/>
+					</LinearGradientBrush>
+				</Border.BorderBrush>
+				<TextBlock Text="20%" FontFamily="Arial" Foreground="Red" FontSize="9" HorizontalAlignment="Center" Margin="0,0,0,0" />
+			</Border>						
+		</Grid>	
+		<RichTextBox Margin="86,7,8,34" FontSize="15" FontFamily="LiSu" Background="Transparent" Foreground="White" BorderBrush="#FFC7B564">
+			<FlowDocument TextAlignment="Center" LineHeight="10">
+				<Paragraph>
+					<Run Text="Lv. 2" FontFamily="Arial"  FontSize="11"/>
+				</Paragraph>				
+				<Paragraph>
+					<Run Text="三国杀爱好者"/>
+				</Paragraph>
+				<Paragraph>
+					<Run Text="技巧度："/>
+					<Run Text="12" FontFamily="Arial" FontSize="12" />
+				</Paragraph>
+			</FlowDocument>
+		</RichTextBox>
+		<Path Data="M86,25.5 L199,25.5" Height="1" Margin="86,28.835,7,0" Stretch="Fill" Stroke="#FFC7B564" VerticalAlignment="Top"/>
+		<Path Data="M86,25.5 L199,25.5" Height="1" Margin="86,54.181,7,0" Stretch="Fill" Stroke="#FFC7B564" VerticalAlignment="Top"/>
+	</Grid>
+</UserControl>

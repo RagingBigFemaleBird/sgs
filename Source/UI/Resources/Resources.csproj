@@ -16,7 +16,7 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <Utf8Output>true</Utf8Output>
-    <ExpressionBlendVersion>4.0.20901.0</ExpressionBlendVersion>
+    <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -148,6 +148,9 @@
     <Resource Include="Images\Game\infoPlaneHeader.png" />
     <Resource Include="Images\Game\infoPlaneSplitter.png" />
     <Resource Include="Images\Lobby\buttonDock.png" />
+    <Resource Include="Images\Lobby\Seat\bd0.png" />
+    <Resource Include="Images\Lobby\Seat\photo0.gif" />
+    <Resource Include="Images\Lobby\Seat\quit.png" />
     <Resource Include="Images\MainPlayerInfoView\imprisoned.png" />
     <Resource Include="Images\MainPlayerInfoView\leftBg.jpg" />
     <Resource Include="Images\PlayerInfoView\decoration1.png" />
@@ -430,6 +433,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Lobby\roomInfo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Lobby\Seat\bg0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Lobby\Seat\win.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
