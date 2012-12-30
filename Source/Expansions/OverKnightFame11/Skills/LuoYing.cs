@@ -28,9 +28,10 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 return;
             }
             int answer = 0;
-            var cardsToProcess = from c in eventArgs.Cards
+            var cardsToProcess = new List<Card>(
+                                 from c in eventArgs.Cards
                                  where c.Suit == SuitType.Club
-                                 select c;
+                                 select c);
             if (cardsToProcess.Count() > 0)
             {
                 CardsMovement temp = new CardsMovement();
