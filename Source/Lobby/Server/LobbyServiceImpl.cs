@@ -75,7 +75,7 @@ namespace Sanguosha.Lobby.Server
                 List<Room> ret = new List<Room>();
                 foreach (var pair in rooms)
                 {
-                    if (!notReadyRoomsOnly || !pair.Value.InProgress)
+                    if (!notReadyRoomsOnly || !pair.Value.GameInProgress)
                     {
                         ret.Add(pair.Value);
                     }
@@ -121,7 +121,7 @@ namespace Sanguosha.Lobby.Server
                 if (loggedInGuidToRoom.ContainsKey(token.token)) return (int)RoomOperationResult.Locked;
                 if (rooms.ContainsKey(roomId))
                 {
-                        if (rooms[roomId].InProgress) return -1;
+                        if (rooms[roomId].GameInProgress) return -1;
                         int seatNo = 1;
                         foreach (var seat in rooms[roomId].Seats)
                         {

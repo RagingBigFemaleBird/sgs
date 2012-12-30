@@ -17,19 +17,6 @@ namespace Sanguosha.Lobby.Core
         RoleTwoDefectors,
     }
 
-    [DataContract(Name = "RoomState")]
-    public enum RoomState
-    {
-        [EnumMember]
-        Created,
-        [EnumMember]
-        Waiting,
-        [EnumMember]
-        Gaming,
-        [EnumMember]
-        Purged,
-    }
-
     [DataContract(Name = "Timeout")]
     public enum Timeout
     {
@@ -81,12 +68,12 @@ namespace Sanguosha.Lobby.Core
             get { return timeout; }
             set { timeout = value; }
         }
-        private bool inProgress;
+        private bool gameInProgress;
 
-        public bool InProgress
+        public bool GameInProgress
         {
-            get { return inProgress; }
-            set { inProgress = value; }
+            get { return gameInProgress; }
+            set { gameInProgress = value; }
         }
         private bool spectatorDisabled;
 

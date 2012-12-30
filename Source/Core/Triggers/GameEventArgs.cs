@@ -12,7 +12,6 @@ using Sanguosha.Core.UI;
 
 namespace Sanguosha.Core.Triggers
 {
-    
     public class GameEventArgs
     {
         public GameEventArgs()
@@ -68,6 +67,17 @@ namespace Sanguosha.Core.Triggers
         {
             get { return card; }
             set { card = value; }
+        }
+
+        private GameEventArgs inResponseTo;
+
+        /// <summary>
+        /// Gets/sets the game event(arg) that this game event(arg) is responding to.
+        /// </summary>
+        public GameEventArgs InResponseTo
+        {
+            get { return inResponseTo; }
+            set { inResponseTo = value; }
         }
 
         private ReadOnlyCard readonlyCard;
