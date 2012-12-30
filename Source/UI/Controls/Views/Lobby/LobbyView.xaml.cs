@@ -21,36 +21,9 @@ namespace Sanguosha.UI.Controls
     /// </summary>
     public partial class LobbyView : Page
     {
-        // @todo: remove this...
-        private void _AddSampleData()
-        {
-            LobbyViewModel model = new LobbyViewModel();
-            for (int i = 0; i < 10; i++)
-            {
-                RoomViewModel room = new RoomViewModel();
-                for (int j = 0; j < 8; j++)
-                {
-                    room.AddSeat(new SeatViewModel());
-                }
-                room.TimeOutSeconds = 15;
-                room.Id = i;
-                if (i == 3 || i == 8)
-                {
-                    room.State = RoomState.Gaming;
-                }
-                else
-                {
-                    room.State = RoomState.Waiting;
-                }
-                model.Rooms.Add(room);
-            }
-            this.DataContext = model;
-        }
-
         public LobbyView()
         {
             InitializeComponent();
-            _AddSampleData();
         }
 
         public LobbyViewModel LobbyModel

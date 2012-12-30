@@ -18,6 +18,8 @@ using Sanguosha.Core.Network;
 using Microsoft.Win32;
 using System.ComponentModel;
 using Sanguosha.UI.Controls;
+using Sanguosha.Lobby.Core;
+using System.ServiceModel;
 
 namespace Sanguosha.UI.Main
 {
@@ -124,8 +126,24 @@ namespace Sanguosha.UI.Main
 #if DEBUG
         private void startButton_Click(object sender, RoutedEventArgs e)
         {
-            LobbyView lobby = new LobbyView();
-            this.NavigationService.Navigate(lobby);
+            try
+            {
+                var lobbyvm = new LobbyViewModel();
+                var channelFactory = new DuplexChannelFactory<ILobbyService>(lobbyvm, "GameServiceEndpoint");
+                ILobbyService server = channelFactory.CreateChannel();
+                LoginToken token;
+                server.Login(1, "DaMuBie", out token);
+                lobbyvm.Connection = server;
+                lobbyvm.LoginToken = token;
+                LobbyView lobby = new LobbyView();
+                lobbyvm.UpdateRooms();
+                lobby.DataContext = lobbyvm;
+                this.NavigationService.Navigate(lobby);
+            }
+            catch (Exception)
+            {
+            }
+           
         }
 #else
         private void startButton_Click(object sender, RoutedEventArgs e)

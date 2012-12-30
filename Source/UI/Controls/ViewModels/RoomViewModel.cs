@@ -30,6 +30,24 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        private Room _room;
+
+        public Room Room
+        {
+            get { return _room; }
+            set 
+            {
+                _room = value;
+                Id = value.Id;
+                TimeOutSeconds = value.TimeOutSeconds;
+                ClearSeats();
+                foreach (var seat in value.Seats)
+                {
+                    AddSeat(new SeatViewModel() { Seat = seat });
+                }
+            }
+        }
+
         public string ModeString
         {
             get { return "RoleGame"; }
@@ -82,6 +100,13 @@ namespace Sanguosha.UI.Controls
             LeftSeats.Clear();
             RightSeats.Clear();
             Seats.Clear();
+        }
+
+        public void ChangeSeat(int seatId)
+        {
+            RoomOperationResult result;
+            LobbyViewModel.Connection.RoomOperations(RoomOperation.ChangeSeat, seatId, 0, out result);
+            if (result == RoomOperationResult.Locked) { }//cannot change seat locked
         }
 
         public void AddSeat(SeatViewModel seat, bool? addToLeft = null)

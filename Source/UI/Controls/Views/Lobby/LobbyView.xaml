@@ -186,8 +186,8 @@
         </Grid>
         <Grid Grid.Row="2">
         <Grid x:Name="roomNavigationPanel" VerticalAlignment="Top" Height="25" Margin="0,2,0,0">
-            <Button Content="显示等待" HorizontalAlignment="Right" Margin="0,0,147,0" Width="63" Style="{DynamicResource DefaultButtonStyle1}"/>
-            <Button Content="创建房间" HorizontalAlignment="Right" Margin="0,0,77,0" Width="63" Style="{DynamicResource DefaultButtonStyle1}"/>
+            <Button Content="显示等待" Command="{Binding UpdateRoomCommand}" HorizontalAlignment="Right" Margin="0,0,147,0" Width="63" Style="{DynamicResource DefaultButtonStyle1}"/>
+            <Button Content="创建房间" Command="{Binding CreateRoomCommand}" HorizontalAlignment="Right" Margin="0,0,77,0" Width="63" Style="{DynamicResource DefaultButtonStyle1}"/>
             <Button Content="加入房间" HorizontalAlignment="Right" Margin="0,0,8,0" Width="63" Style="{DynamicResource DefaultButtonStyleBrown}"/>
         </Grid>
         <Border Grid.Row="1" Margin="0,34,0,0" BorderThickness="1" CornerRadius="3" BorderBrush="Black" >

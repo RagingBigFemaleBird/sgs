@@ -9,6 +9,23 @@ using Sanguosha.Lobby.Core;
 
 namespace Sanguosha.Lobby.Client
 {
+    public class GameClientImpl : IGameClient
+    {
+        public void NotifyRoomUpdate(int id, Room room)
+        {
+            Console.WriteLine("Room {0} update", id);
+        }
+
+        public void NotifyKicked()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void NotifyGameStart()
+        {
+            throw new NotImplementedException();
+        }
+    }
     class Program
     {
         static void Main(string[] args)

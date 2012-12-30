@@ -15,6 +15,18 @@ namespace Sanguosha.UI.Controls
 			
 		}
 
+        private Seat _seat;
+
+        public Seat Seat
+        {
+            get { return _seat; }
+            set 
+            {
+                _seat = value;
+                State = value.State;
+            }
+        }
+
         private SeatState _state;
 
         public SeatState State 
@@ -27,7 +39,7 @@ namespace Sanguosha.UI.Controls
             {
                 if (_state == value) return;
                 _state = value;
-                OnPropertyChanged("SeatState");
+                OnPropertyChanged("State");
             }
         }
     }
