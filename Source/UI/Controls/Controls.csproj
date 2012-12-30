@@ -62,8 +62,11 @@
   <ItemGroup>
     <Compile Include="ViewModels\CardSlotViewModel.cs" />
     <Compile Include="ViewModels\GuHuoSkillCommand.cs" />
+    <Compile Include="ViewModels\LobbyViewModel.cs" />
     <Compile Include="ViewModels\MarkViewModel.cs" />
     <Compile Include="ViewModels\PrivateDeckViewModel.cs" />
+    <Compile Include="ViewModels\RoomViewModel.cs" />
+    <Compile Include="ViewModels\SeatViewModel.cs" />
     <Compile Include="Views\BaseControls\FlowDocumentExtensions.cs" />
     <Compile Include="Views\Buttons\ImageButton.cs" />
     <Compile Include="Views\Cards\CardInteraction.cs" />
@@ -83,6 +86,12 @@
     <Compile Include="Views\Dialogs\DeckNameToCardChoiceIconConverter.cs" />
     <Compile Include="Views\Dialogs\PinDianBox.xaml.cs">
       <DependentUpon>PinDianBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Lobby\LobbyView.xaml.cs">
+      <DependentUpon>LobbyView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Lobby\SeatView.xaml.cs">
+      <DependentUpon>SeatView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Players\NumRolesToComboBoxEnabledConverter.cs" />
     <Compile Include="Views\Skills\ExcitingSkillAnimation.xaml.cs">
@@ -214,6 +223,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Lobby\LobbyView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Lobby\SeatView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Players\MarkView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -304,6 +321,10 @@
     <ProjectReference Include="..\..\Expansions\Battle\Battle.csproj">
       <Project>{850AB9CB-90A0-4625-87FA-1F7CE04A5404}</Project>
       <Name>Battle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Lobby\Service\Core.csproj">
+      <Project>{7DE81BE7-26D1-4954-9037-B7184C1DF9BD}</Project>
+      <Name>Core %28Lobby\Core%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\Animations\Animations.csproj">
       <Project>{7D1B2955-5722-437A-B054-68FBD5F52422}</Project>

@@ -1,5 +1,4 @@
 ﻿#define NETWORKING
-#define CLIENTLOG
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -72,7 +71,7 @@ namespace Sanguosha.UI.Main
 
         private void InitGame()
         {
-#if CLIENTLOG
+#if DEBUG
             TextWriterTraceListener twtl = new TextWriterTraceListener(System.IO.Path.Combine(Directory.GetCurrentDirectory(), AppDomain.CurrentDomain.FriendlyName + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + ".txt"));
             twtl.Name = "TextLogger";
             twtl.TraceOutputOptions = TraceOptions.ThreadId | TraceOptions.DateTime;
@@ -102,14 +101,6 @@ namespace Sanguosha.UI.Main
                 Player player = new Player();
                 player.Id = i;
                 _game.Players.Add(player);
-                if (i == 1)
-                {
-                    player.IsFemale = true;
-                }
-                else
-                {
-                    player.IsMale = true;
-                }
             }
 #if NETWORKING
             _game.GameClient = NetworkClient;
@@ -209,8 +200,8 @@ namespace Sanguosha.UI.Main
             soundButton.Visibility = Visibility.Visible;
             GameSoundPlayer.IsMute = false;
         }
-		
-		private void soundButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        
+        private void soundButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             soundButton.Visibility = Visibility.Collapsed;
             muteButton.Visibility = Visibility.Visible;

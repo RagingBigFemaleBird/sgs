@@ -17,15 +17,13 @@ namespace Sanguosha.Lobby.Core
         RoleTwoDefectors,
     }
 
-    [DataContract(Name = "Timeout")]
-    public enum Timeout
+    [DataContract(Name = "RoomType")]
+    public enum RoomState
     {
         [EnumMember]
-        TenSeconds = 10,
+        Waiting,
         [EnumMember]
-        FifteenSeconds = 15,
-        [EnumMember]
-        TwentySeconds = 20,
+        Gaming
     }
 
     public class Room
@@ -35,7 +33,7 @@ namespace Sanguosha.Lobby.Core
         public Room()
         {
             seats = new List<Seat>();
-            timeout = Timeout.FifteenSeconds;
+            TimeOutSeconds = 15;
         }
 
         private int id;
@@ -61,19 +59,19 @@ namespace Sanguosha.Lobby.Core
             get { return type; }
             set { type = value; }
         }
-        private Timeout timeout;
+        private int timeOutSeconds;
 
-        public Timeout Timeout
+        public int TimeOutSeconds
         {
-            get { return timeout; }
-            set { timeout = value; }
+            get { return timeOutSeconds; }
+            set { timeOutSeconds = value; }
         }
-        private bool gameInProgress;
+        private RoomState state;
 
-        public bool GameInProgress
+        public RoomState State
         {
-            get { return gameInProgress; }
-            set { gameInProgress = value; }
+            get { return state; }
+            set { state = value; }
         }
         private bool spectatorDisabled;
 

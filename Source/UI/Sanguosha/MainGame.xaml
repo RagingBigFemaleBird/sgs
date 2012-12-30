@@ -17,46 +17,33 @@
         <Menu x:Name="mainMenu" Style="{DynamicResource MainMenuStyle}">
             <MenuItem Padding="0" Style="{DynamicResource MenuItemStyle1}" Height="20">
                 <MenuItem.Header>
-                	<Grid>
+                    <Grid>
                         <Button x:Name="muteButton" Style="{DynamicResource MuteButtonStyle}" Visibility="Collapsed" Click="muteButton_Click" />
-						<Button x:Name="soundButton" Style="{DynamicResource SoundButtonStyle}" Click="soundButton_Click"/>	
-					</Grid>                    
+                        <Button x:Name="soundButton" Style="{DynamicResource SoundButtonStyle}" Click="soundButton_Click"/>	
+                    </Grid>                    
                 </MenuItem.Header>     	
             </MenuItem>
-			<MenuItem Padding="0" Style="{DynamicResource MenuItemStyle1}" Height="20">
+            <MenuItem Padding="0" Style="{DynamicResource MenuItemStyle1}" Height="20">
                 <MenuItem.Header>
                     <Button Style="{DynamicResource DefaultButtonStyleDark}" Height="20" Padding="1,0,2,0" Margin="0,0,0,0">
                         <Image Height="14" Source="/Resources;component/Images/System/btnSettings.png" Stretch="Fill" Width="16"/>	        	
                     </Button>    		
                 </MenuItem.Header>     	
             </MenuItem>
-            <MenuItem x:Name="menuCheat" Padding="3, 0" Style="{DynamicResource MenuItemStyle1}" Height="20">
-                <MenuItem.Header>
-                    <TextBlock Text="作弊" Style="{DynamicResource MenuTextStyle}" />
-                </MenuItem.Header>
-                <MenuItem Padding="3, 0" Style="{DynamicResource MenuItemStyle1}" Height="20" Click="btnGetCard_Click">
-                    <MenuItem.Header>
-                        <TextBlock Text="获得卡牌" Style="{DynamicResource MenuTextStyle}" />
-                    </MenuItem.Header>
-                </MenuItem>
-                <MenuItem Padding="3, 0" Style="{DynamicResource MenuItemStyle1}" Height="20" Click="btnGetSkill_Click">
-                    <MenuItem.Header>
-                        <TextBlock Text="获得技能" Style="{DynamicResource MenuTextStyle}" />
-                    </MenuItem.Header>
-                </MenuItem>
+            <MenuItem x:Name="menuCheat" Header="作弊" Padding="3, 0" Style="{DynamicResource MenuItemStyle1}" Height="20">
+                <MenuItem Padding="3, 0" Header="获得卡牌" Style="{DynamicResource MenuItemStyle1}" Height="20" Click="btnGetCard_Click" />
+                <MenuItem Padding="3, 0" Header="获得技能" Style="{DynamicResource MenuItemStyle1}" Height="20" Click="btnGetSkill_Click" />
             </MenuItem>
             <MenuItem Padding="0" Style="{DynamicResource MenuItemStyle1}" Height="20">
                 <MenuItem.Header>
-                    <Button Style="{DynamicResource DefaultButtonStyleRed}" Height="20" Padding="2,0,4,0" Margin="0,0,0,0">
-                        <TextBlock Text="返回" Style="{DynamicResource MenuTextStyle}" />        	
-                    </Button>    		
+                    <Button Content="返回" Style="{DynamicResource DefaultButtonStyleRed}" Height="20" Padding="2,0,4,0" Margin="0,0,0,0" />
                 </MenuItem.Header>     	
             </MenuItem>
         </Menu>
         <xctk:ChildWindow Grid.RowSpan="2" x:Name="windowGetCard" Caption="获取卡牌" WindowStartupLocation="Center" Template="{DynamicResource ChildWindowControlTemplate1}">
             <Controls:CardSetView x:Name="ctrlGetCard"/>
         </xctk:ChildWindow>
-		<xctk:ChildWindow Grid.RowSpan="2" x:Name="windowGetSkill" Caption="获取技能" WindowStartupLocation="Center" Template="{DynamicResource ChildWindowControlTemplate1}">
+        <xctk:ChildWindow Grid.RowSpan="2" x:Name="windowGetSkill" Caption="获取技能" WindowStartupLocation="Center" Template="{DynamicResource ChildWindowControlTemplate1}">
             <Controls:HeroSetView x:Name="ctrlGetSkill"/>
         </xctk:ChildWindow>
         

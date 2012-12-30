@@ -46,6 +46,7 @@ namespace Sanguosha.UI.Main
                         continue;
                     }
                 }
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("pack://application:,,,/Resources;component/Lobby.xaml") });
                 GameSoundLocator.Initialize();
             }
             catch (DirectoryNotFoundException)
@@ -120,7 +121,13 @@ namespace Sanguosha.UI.Main
             }
             InitializeComponent();
         }
-
+#if DEBUG
+        private void startButton_Click(object sender, RoutedEventArgs e)
+        {
+            LobbyView lobby = new LobbyView();
+            this.NavigationService.Navigate(lobby);
+        }
+#else
         private void startButton_Click(object sender, RoutedEventArgs e)
         {
             if (loginTab.SelectedIndex == 0)
@@ -181,6 +188,7 @@ namespace Sanguosha.UI.Main
                 worker.RunWorkerAsync();
             }
         }
+#endif
 
         private void btnReplay_Click(object sender, RoutedEventArgs e)
         {

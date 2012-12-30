@@ -38,7 +38,7 @@
 			                  MouseDoubleClick="gridCardSet_MouseDoubleClick">
 			            <DataGrid.Columns>
 			                <DataGridTextColumn Header="编号" Binding="{Binding Id}" />
-			                <DataGridTemplateColumn Header="花色">
+			                <DataGridTemplateColumn Header="花色" SortMemberPath="Suit">
 			                    <DataGridTemplateColumn.CellTemplate>
 			                        <DataTemplate>
 			                            <Image Source="{res:ResourceKeyBinding Path=Suit, StringFormat=Card.Suit.\{0\}.Image.Normal}" Stretch="Uniform" Margin="2"/>
