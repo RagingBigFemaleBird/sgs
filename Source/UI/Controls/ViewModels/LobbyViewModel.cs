@@ -88,9 +88,7 @@ namespace Sanguosha.UI.Controls
 
         public void StartGame()
         {
-            RoomOperationResult result;
-            _connection.RoomOperations(RoomOperation.StartGame, 0, 0, out result);
-            if (result != RoomOperationResult.Success) { }
+            if (_connection.RoomOperations(_loginToken, RoomOperation.StartGame, 0, 0) != RoomOperationResult.Success) { }
         }
 
 

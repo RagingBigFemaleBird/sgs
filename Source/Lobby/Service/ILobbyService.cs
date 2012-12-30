@@ -26,6 +26,7 @@ namespace Sanguosha.Lobby.Core
         Full = -2,
         Password = -3,
         Locked = -4,
+        Invalid = -5,
     }
 
     public enum RoomOperation
@@ -59,7 +60,7 @@ namespace Sanguosha.Lobby.Core
         bool ExitRoom(LoginToken token, int roomId);
 
         [OperationContract]
-        bool RoomOperations(RoomOperation op, int arg1, int arg2, out RoomOperationResult result);
+        RoomOperationResult RoomOperations(LoginToken token, RoomOperation op, int arg1, int arg2);
     }
 
     public interface IGameClient

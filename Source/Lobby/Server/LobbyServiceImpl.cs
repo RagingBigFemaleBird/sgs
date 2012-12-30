@@ -12,7 +12,7 @@ namespace Sanguosha.Lobby.Server
     class LobbyServiceImpl : ILobbyService
     {
         Dictionary<int, Room> rooms;
-        int roomId;
+        int newRoomId;
         Dictionary<Account, Guid> loggedInAccountToGuid;
         Dictionary<Guid, Account> loggedInGuidToAccount;
         Dictionary<IGameClient, Guid> loggedInChannelsToGuid;
@@ -42,7 +42,7 @@ namespace Sanguosha.Lobby.Server
             loggedInAccountToGuid = new Dictionary<Account, Guid>();
             loggedInChannelsToGuid = new Dictionary<IGameClient, Guid>();
             loggedInGuidToRoom = new Dictionary<Guid, Room>();
-            roomId = 1;
+            newRoomId = 1;
         }
 
         public LoginStatus Login(int version, string username, out LoginToken token)
@@ -89,9 +89,9 @@ namespace Sanguosha.Lobby.Server
         {
             if (VerifyClient(token))
             {
-                while (rooms.ContainsKey(roomId))
+                while (rooms.ContainsKey(newRoomId))
                 {
-                    roomId++;
+                    newRoomId++;
                 }
                 Room room = new Room();
                 for (int i = 0; i < 8; i++)
@@ -99,14 +99,16 @@ namespace Sanguosha.Lobby.Server
                     room.Seats.Add(new Seat() { State = SeatState.Empty });
                 }
                 room.Seats[0].Account = loggedInGuidToAccount[token.token];
-                room.Id = roomId;
-                rooms.Add(roomId, room);
+                room.Seats[0].State = SeatState.Host;
+                room.Id = newRoomId;
+                room.OwnerId = 0;
+                rooms.Add(newRoomId, room);
                 if (loggedInGuidToRoom.ContainsKey(token.token))
                 {
                     loggedInGuidToRoom.Remove(token.token);
                 }
                 loggedInGuidToRoom.Add(token.token, room);
-                Console.WriteLine("created room {0}", roomId);
+                Console.WriteLine("created room {0}", newRoomId);
                 return room;
             }
             Console.WriteLine("Invalid createroom call");
@@ -118,29 +120,23 @@ namespace Sanguosha.Lobby.Server
             if (VerifyClient(token))
             {
                 Console.WriteLine("{1} Enter room {0}", roomId, token.token);
-                if (loggedInGuidToRoom.ContainsKey(token.token)) return (int)RoomOperationResult.Locked;
                 if (rooms.ContainsKey(roomId))
                 {
                         if (rooms[roomId].State == RoomState.Gaming) return -1;
-                        int seatNo = 1;
+                        int seatNo = 0;
                         foreach (var seat in rooms[roomId].Seats)
                         {
                             Console.WriteLine("Testing seat {0}", seatNo);
-                            if (seat.Account == null)
+                            if (seat.Account == null && seat.State == SeatState.Empty)
                             {
                                 if (loggedInGuidToRoom.ContainsKey(token.token))
                                 {
-                                    loggedInGuidToRoom.Remove(token.token);
+                                    ExitRoom(token, loggedInGuidToRoom[token.token].Id);
                                 }
                                 loggedInGuidToRoom.Add(token.token, rooms[roomId]);
                                 seat.Account = loggedInGuidToAccount[token.token];
-                                foreach (var notify in rooms[roomId].Seats)
-                                {
-                                    if (notify.Account != null)
-                                    {
-                                        loggedInGuidToChannel[loggedInAccountToGuid[notify.Account]].NotifyRoomUpdate(rooms[roomId].Id, rooms[roomId]);
-                                    }
-                                }
+                                seat.State = SeatState.GuestTaken;
+                                NotifyRoomLayoutChanged(roomId);
                                 Console.WriteLine("Seat {0}", seatNo);
                                 return seatNo;
                             }
@@ -165,11 +161,14 @@ namespace Sanguosha.Lobby.Server
                         if (seat.Account == loggedInGuidToAccount[token.token])
                         {
                             seat.Account = null;
+                            seat.State = SeatState.Empty;
                             loggedInGuidToRoom.Remove(token.token);
-                            foreach (var notify in rooms[roomId].Seats)
+                            if (!loggedInGuidToRoom[token.token].Seats.Any(state => state.State != SeatState.Empty))
                             {
-                                loggedInGuidToChannel[loggedInAccountToGuid[notify.Account]].NotifyRoomUpdate(rooms[roomId].Id, rooms[roomId]);
+                                rooms.Remove(loggedInGuidToRoom[token.token].Id);
+                                return true;
                             }
+                            NotifyRoomLayoutChanged(roomId);
                             return true;
                         }
                     }
@@ -178,9 +177,52 @@ namespace Sanguosha.Lobby.Server
             return false;
         }
 
-        public bool RoomOperations(RoomOperation op, int arg1, int arg2, out int result)
+        private void NotifyRoomLayoutChanged(int roomId)
         {
-            throw new NotImplementedException();
+            foreach (var notify in rooms[roomId].Seats)
+            {
+                if (notify.Account != null)
+                {
+                    loggedInGuidToChannel[loggedInAccountToGuid[notify.Account]].NotifyRoomUpdate(rooms[roomId].Id, rooms[roomId]);
+                }
+            }
+        }
+
+        public RoomOperationResult RoomOperations(LoginToken token, RoomOperation op, int arg1, int arg2)
+        {
+            if (VerifyClient(token))
+            {
+                if (op == RoomOperation.ChangeSeat)
+                {
+                    if (!loggedInGuidToRoom.ContainsKey(token.token)) { return RoomOperationResult.Locked; }
+                    var room = loggedInGuidToRoom[token.token];
+                    if (room.State == RoomState.Gaming)
+                    {
+                        return RoomOperationResult.Locked;
+                    }
+                    if (arg1 < 0 || arg1 >= room.Seats.Count) return RoomOperationResult.Invalid;
+                    var seat = room.Seats[arg1];
+                    if (seat.Account == null && seat.State == SeatState.Empty)
+                    {
+                        foreach (var remove in room.Seats)
+                        {
+                            if (remove.Account == loggedInGuidToAccount[token.token])
+                            {
+                                seat.State = remove.State;
+                                seat.Account = remove.Account;
+                                remove.Account = null;
+                                remove.State = SeatState.Empty;
+                                NotifyRoomLayoutChanged(newRoomId);
+
+                                return RoomOperationResult.Success;
+                            }
+                        }
+                    }
+                    Console.WriteLine("Full");
+                    return RoomOperationResult.Full;
+                }
+            }
+            return RoomOperationResult.Auth;
         }
     }
 }
