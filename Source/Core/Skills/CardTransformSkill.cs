@@ -56,6 +56,7 @@ namespace Sanguosha.Core.Skills
             bool ret = DoTransformSideEffect(card, arg, targets);
             if (ret)
             {
+                card.Owner = Owner;
                 foreach (Card c in card.Subcards)
                 {
                     c.Type = card.Type;

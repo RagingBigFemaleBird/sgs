@@ -260,7 +260,7 @@ namespace Sanguosha.Core.Games
                 if (eventArgs.Skill != null)
                 {
                     CompositeCard card;
-                    CardTransformSkill s = (CardTransformSkill)eventArgs.Skill;                    
+                    CardTransformSkill s = (CardTransformSkill)eventArgs.Skill;
                     if (!s.Transform(eventArgs.Cards, null, out card, eventArgs.Targets))
                     {
                         throw new TriggerResultException(TriggerResult.Retry);
@@ -280,7 +280,7 @@ namespace Sanguosha.Core.Games
                     c.Type.Process(eventArgs.Source, eventArgs.Targets, c, null);
                     return;
                 }
-
+                var rdonlyCard = new ReadOnlyCard(c);
                 computeBackup = new List<Card>(Game.CurrentGame.Decks[DeckType.Compute]);
                 Game.CurrentGame.Decks[DeckType.Compute].Clear();
                 CardsMovement m = new CardsMovement();
@@ -308,6 +308,7 @@ namespace Sanguosha.Core.Games
                 Game.CurrentGame.MoveCards(m);
                 if (isDoingAFavor != eventArgs.Source)
                 {
+                    Game.CurrentGame.PlayerPlayedCard(isDoingAFavor, eventArgs.Card);
                     Game.CurrentGame.PlayerLostCard(isDoingAFavor, eventArgs.Cards);
                     Game.CurrentGame.PlayerPlayedCard(isDoingAFavor, eventArgs.Card);
                 }
@@ -321,7 +322,8 @@ namespace Sanguosha.Core.Games
                 arg.Source = eventArgs.Source;
                 arg.Targets = c.Type.ActualTargets(arg.Source, eventArgs.Targets, c);
                 arg.Card = c;
-                arg.ReadonlyCard = new ReadOnlyCard(c);
+                arg.ReadonlyCard = rdonlyCard;
+                arg.InResponseTo = eventArgs.InResponseTo;
                 if (runTrigger)
                 {
                     try
@@ -336,8 +338,14 @@ namespace Sanguosha.Core.Games
                     }
                 }
 
-
-                c.Type.Process(arg.Source, arg.Targets, c, arg.ReadonlyCard);
+                if (arg.InResponseTo != null)
+                {
+                    c.Type.Process(arg.Source, arg.Targets, c, arg.ReadonlyCard, arg.InResponseTo);
+                }
+                else
+                {
+                    c.Type.Process(arg.Source, arg.Targets, c, arg.ReadonlyCard);
+                }
 
                 if (Game.CurrentGame.Decks[DeckType.Compute].Count > 0)
                 {

@@ -10,8 +10,12 @@
     <sys:String x:Key="Skill.RenDe.Usage">点"仁德"→选中数张手牌→选择目标→“确定”</sys:String>
     -->
     <sys:String x:Key="Hero.SPPangTong.Name">SP庞统</sys:String>
-    
+    <sys:String x:Key="Hero.SPZhangFei.Name">SP张飞</sys:String>
+
     <sys:String x:Key="Skill.ManJuan.Name">漫卷</sys:String>
     <sys:String x:Key="Skill.ZuiXiang.Name">醉乡</sys:String>
+    <sys:String x:Key="Skill.JiE.Name">嫉恶</sys:String>
+    <sys:String x:Key="Skill.DaHe.Name">大喝</sys:String>
+    <sys:String x:Key="Skill.DaHePassive.Name">大喝</sys:String>
 
 </ResourceDictionary>

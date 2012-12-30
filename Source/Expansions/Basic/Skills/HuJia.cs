@@ -30,7 +30,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             bool noAnswer = true;
             foreach (var player in toProcess)
             {
-                if (player.Hero.Allegiance == Core.Heroes.Allegiance.Wei)
+                if (player.Allegiance == Core.Heroes.Allegiance.Wei)
                 {
                     bool failToRespond = false;
                     GameEventArgs args = new GameEventArgs();
@@ -38,6 +38,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                     args.Targets = eventArgs.Targets;
                     args.Card = new CompositeCard();
                     args.Card.Type = new Shan();
+                    args.ReadonlyCard = eventArgs.ReadonlyCard;
                     try
                     {
                         Game.CurrentGame.Emit(GameEvent.PlayerRequireCard, args);
@@ -46,6 +47,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                     {
                         if (e.Status == TriggerResult.Success)
                         {
+                            eventArgs.Skill = args.Skill;
                             eventArgs.Cards = new List<Card>(args.Cards);
                             throw new TriggerResultException(TriggerResult.Success);
                         }
@@ -65,6 +67,16 @@ namespace Sanguosha.Expansions.Basic.Skills
                         if (!Game.CurrentGame.CommitCardTransform(player, skill, cards, out result, eventArgs.Targets))
                         {
                             continue;
+                        }
+                        if (result is CompositeCard)
+                        {
+                            eventArgs.Cards = new List<Card>((result as CompositeCard).Subcards);
+                            eventArgs.Skill = new CardWrapper(Owner, new Shan());
+                        }
+                        else
+                        {
+                            eventArgs.Cards = new List<Card>() { result as Card };
+                            eventArgs.Skill = null;
                         }
                         noAnswer = false;
                         Trace.TraceInformation("Player {0} Responded HuJia with SHAN, ", player.Id);

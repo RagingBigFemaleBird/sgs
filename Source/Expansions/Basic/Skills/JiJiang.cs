@@ -70,7 +70,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             bool noAnswer = true;
             foreach (var player in toProcess)
             {
-                if (player.Hero.Allegiance == Core.Heroes.Allegiance.Shu)
+                if (player.Allegiance == Core.Heroes.Allegiance.Shu)
                 {
                     bool failToRespond = false;
                     while (true)

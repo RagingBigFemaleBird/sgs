@@ -22,6 +22,14 @@ namespace Sanguosha.Expansions.Basic.Cards
         {
         }
 
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs eventArgs)
+        {
+            if (eventArgs != null)
+            {
+                eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + source.Id)]--;
+            }
+        }
+
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
         {
             return VerifierResult.Fail;
@@ -51,7 +59,9 @@ namespace Sanguosha.Expansions.Basic.Cards
             List<Player> sourceList = new List<Player>() { source };
             GameEventArgs args = new GameEventArgs();
             Game.CurrentGame.Emit(PlayerShaTargetShanModifier, args);
-            int numberOfShanRequired = eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + dest.Id)] + 1;
+            // this number is 0 for normal Sha/Shan. Lv Bu would like this to be 1
+            eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + dest.Id)]++;
+            int numberOfShanRequired = eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + dest.Id)];
             bool cannotUseShan = eventArgs.ReadonlyCard[CannotProvideShan] == 1 ? true : false;
             bool cannotProvideShan = false;
             while (numberOfShanRequired > 0 && !cannotUseShan)
@@ -69,8 +79,14 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     if (e.Status == TriggerResult.Success)
                     {
-                        Game.CurrentGame.HandleCardPlay(dest, new CardWrapper(dest, new Shan()), args.Cards, sourceList);
-                        numberOfShanRequired--;
+                        GameEventArgs arg = new GameEventArgs();
+                        arg.Source = dest;
+                        arg.Targets = sourceList;
+                        arg.Skill = args.Skill;
+                        arg.Cards = args.Cards;
+                        arg.InResponseTo = eventArgs;
+                        Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, arg);
+                        numberOfShanRequired = eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + dest.Id)];
                         continue;
                     }
                 }
@@ -93,6 +109,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                         arg.Targets = sourceList;
                         arg.Skill = skill;
                         arg.Cards = cards;
+                        arg.InResponseTo = eventArgs;
                         Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, arg);
                     }
                     catch (TriggerResultException e)
@@ -106,7 +123,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     break;
                 }
-                numberOfShanRequired--;
+                numberOfShanRequired = eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + dest.Id)];
             }
             if (cannotUseShan || numberOfShanRequired > 0) return;
             Trace.TraceInformation("Successfully dodged");

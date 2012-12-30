@@ -23,24 +23,7 @@ namespace Sanguosha.Core.Cards
 
         public List<Card> Subcards {get; set;}
 
-        public virtual Player Owner
-        {
-            get
-            {
-                var owners =
-                    from card in Subcards
-                    select card.Owner;
-                owners = owners.Distinct();
-                if (owners.Count() == 1)
-                {
-                    return owners.First();
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
+        public virtual Player Owner { get; set; }
 
         public virtual DeckPlace Place
         {

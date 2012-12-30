@@ -74,6 +74,9 @@ namespace Sanguosha.Core.Triggers
         /// <summary>
         /// Gets/sets the game event(arg) that this game event(arg) is responding to.
         /// </summary>
+        /// <remarks>
+        /// 仅在闪用于抵消杀以及无懈可击用于抵消锦囊时被设置
+        /// </remarks>
         public GameEventArgs InResponseTo
         {
             get { return inResponseTo; }

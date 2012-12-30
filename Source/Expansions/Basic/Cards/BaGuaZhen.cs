@@ -26,6 +26,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 if (c.SuitColor == SuitColorType.Red)
                 {                    
                     eventArgs.Cards = new List<Card>();
+                    eventArgs.Skill = new CardWrapper(Owner, new Shan());
                     ActionLog log = new ActionLog();
                     log.Source = Owner;
                     log.SkillAction = this;

@@ -74,8 +74,6 @@ namespace Sanguosha.Expansions.Hills.Skills
             Game.CurrentGame.EnterAtomicContext();
             Game.CurrentGame.PlaceIntoDiscard(Owner, new List<Card>() { card1 });
             Game.CurrentGame.PlaceIntoDiscard(Master, new List<Card>() { card2 });
-            Game.CurrentGame.PlayerLostCard(Owner, new List<Card>() { card1 });
-            Game.CurrentGame.PlayerLostCard(Master, new List<Card>() { card2 });
             Game.CurrentGame.ExitAtomicContext();
             return true;
         }

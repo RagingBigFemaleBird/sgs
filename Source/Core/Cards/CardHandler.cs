@@ -152,7 +152,44 @@ namespace Sanguosha.Core.Cards
             }
         }
 
+        public virtual void Process(Player source, List<Player> dests, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)
+        {
+            Game.CurrentGame.SortByOrderOfComputation(source, dests);
+            foreach (var player in dests)
+            {
+                if (player.IsDead) continue;
+                GameEventArgs args = new GameEventArgs();
+                args.Source = source;
+                args.Targets = new List<Player>() { player };
+                args.Card = card;
+                args.ReadonlyCard = readonlyCard;
+                try
+                {
+                    Game.CurrentGame.Emit(GameEvent.CardUsageTargetValidating, args);
+                }
+                catch (TriggerResultException e)
+                {
+                    Trace.Assert(e.Status == TriggerResult.End);
+                    continue;
+                }
+                try
+                {
+                    Game.CurrentGame.Emit(GameEvent.CardUsageBeforeEffected, args);
+                }
+                catch (TriggerResultException e)
+                {
+                    Trace.Assert(e.Status == TriggerResult.End);
+                    continue;
+                }
+                if (player.IsDead) continue;
+                Process(source, player, card, readonlyCard, inResponseTo);
+            }
+        }
+
         protected abstract void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard);
+        protected virtual void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)
+        {
+        }
 
         public virtual VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> targets)
         {
