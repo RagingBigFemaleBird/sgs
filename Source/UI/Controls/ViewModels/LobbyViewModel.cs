@@ -169,6 +169,16 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyRoomUpdate(int id, Room room)
         {
+            var result = Rooms.FirstOrDefault(r => r.Id == id);
+            if (result != null)
+            {
+                result.Room = room;
+            }
+            else
+            {
+                Rooms.Add(new RoomViewModel() { Room = room });
+            }
+
         }
         #endregion
         #endregion

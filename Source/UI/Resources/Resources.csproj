@@ -150,6 +150,7 @@
     <Resource Include="Images\Lobby\buttonDock.png" />
     <Resource Include="Images\Lobby\notch.png" />
     <Resource Include="Images\Lobby\Seat\bd0.png" />
+    <Resource Include="Images\Lobby\Seat\empty.png" />
     <Resource Include="Images\Lobby\Seat\photo0.gif" />
     <Resource Include="Images\Lobby\Seat\quit.png" />
     <Resource Include="Images\MainPlayerInfoView\imprisoned.png" />
@@ -444,6 +445,8 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /S /Y $(ProjectDir)*.* $(TargetDir)Resources\
+if not exist $(TargetDir)\Resources\Texts mkdir  $(TargetDir)\Resources\Texts
+copy /Y $(ProjectDir)\Lobby.xaml $(TargetDir)\Resources\Texts
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

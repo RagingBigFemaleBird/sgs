@@ -185,11 +185,13 @@ namespace Sanguosha.Lobby.Server
 
         private void NotifyRoomLayoutChanged(int roomId)
         {
+            var current = OperationContext.Current.GetCallbackChannel<IGameClient>();
             foreach (var notify in rooms[roomId].Seats)
             {
                 if (notify.Account != null)
                 {
-                    loggedInGuidToChannel[loggedInAccountToGuid[notify.Account]].NotifyRoomUpdate(rooms[roomId].Id, rooms[roomId]);
+                    var channel = loggedInGuidToChannel[loggedInAccountToGuid[notify.Account]];
+                    if (channel != current) channel.NotifyRoomUpdate(rooms[roomId].Id, rooms[roomId]);
                 }
             }
         }

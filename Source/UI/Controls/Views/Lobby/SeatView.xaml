@@ -125,75 +125,78 @@
         </ResourceDictionary>
     </UserControl.Resources>	
     <Grid x:Name="LayoutRoot">
-        <Image Source="/Resources;component/Images/Lobby/Seat/bg0.png" Stretch="Fill"/>
-        <Grid  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7,7,0,0" Width="75" Height="75" >
-            <Image Source="/Resources;component/Images/Lobby/Seat/photo0.gif" Stretch="Fill" />
-            <Image Source="/Resources;component/Images/Lobby/Seat/bd0.png" Stretch="Fill" />
-        </Grid>
-        <Image Margin="4,0,0,4" VerticalAlignment="Bottom" HorizontalAlignment="Left" Source="/Resources;component/Images/Lobby/Seat/win.png" Stretch="None" RenderTransformOrigin="0,1">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="0.6" ScaleY="0.6"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
-        <Image Margin="0,0,4,4" VerticalAlignment="Bottom" HorizontalAlignment="Right" Source="/Resources;component/Images/Lobby/Seat/quit.png" Stretch="None" RenderTransformOrigin="1,1">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="0.6" ScaleY="0.6"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Image.RenderTransform>
-        </Image>
-        <Grid Height="13" VerticalAlignment="Bottom" Margin="24,0,24,13.5">
-            <Border CornerRadius="15,15,0,0" ClipToBounds="True" BorderThickness="0,0,0,1" BorderBrush="#FF9D9D9D">
-                <Border BorderThickness="1,1,0,0" Background="#FF2F363E" BorderBrush="Black" CornerRadius="15,15,0,0" ClipToBounds="True">
-                    <Border.Effect>
-                        <BlurEffect Radius="5" />
-                    </Border.Effect>	
-                </Border>
-            </Border>
-            <ProgressBar Style="{DynamicResource winProgressBarStyle}" Value="46" />
-            <ProgressBar Value="20" Style="{DynamicResource quitProgressBarStyle}" />
-            <Border Background="#FF2F363E" CornerRadius="0,0,8,8" ClipToBounds="True" BorderThickness="1,0,1,1" Margin="12.5,0,0,-8.501" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="34.5">
-                <Border.BorderBrush>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FFA1A1A1" Offset="1"/>
-                        <GradientStop Color="Black"/>
-                    </LinearGradientBrush>
-                </Border.BorderBrush>
-                <TextBlock Text="46%" FontFamily="Arial" Foreground="Lime" FontSize="9" HorizontalAlignment="Center" Margin="0,0,0,0" />
-            </Border>
-            <Border Background="#FF2F363E" CornerRadius="0,0,8,8" ClipToBounds="True" BorderThickness="1,0,1,1" Margin="0,0,12,-8.501" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="34.5">
-                <Border.BorderBrush>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FFA1A1A1" Offset="1"/>
-                        <GradientStop Color="Black"/>
-                    </LinearGradientBrush>
-                </Border.BorderBrush>
-                <TextBlock Text="20%" FontFamily="Arial" Foreground="Red" FontSize="9" HorizontalAlignment="Center" Margin="0,0,0,0" />
-            </Border>						
-        </Grid>	
-        <RichTextBox Margin="86,7,8,34" FontSize="15" FontFamily="SimSun" Background="Transparent" Foreground="White" BorderBrush="#FFC7B564">
-            <FlowDocument TextAlignment="Center" LineHeight="10">
-                <Paragraph>
-                    <Run Text="Lv. 2" FontFamily="Arial"  FontSize="13"/>
-                </Paragraph>				
-                <Paragraph>
-                    <Run Text="三国杀爱好者"/>
-                </Paragraph>
-                <Paragraph>
-                    <Run Text="技巧度："/>
-                    <Run Text="12" FontFamily="Arial" />
-                </Paragraph>
-            </FlowDocument>
-        </RichTextBox>
-        <Path Data="M86,25.5 L199,25.5" Height="1" Margin="86,28.835,7,0" Stretch="Fill" Stroke="#FFC7B564" VerticalAlignment="Top"/>
-        <Path Data="M86,25.5 L199,25.5" Height="1" Margin="86,54.181,7,0" Stretch="Fill" Stroke="#FFC7B564" VerticalAlignment="Top"/>
-    </Grid>
+    	<Image Source="/Resources;component/Images/Lobby/Seat/empty.png" Stretch="Fill"/>
+    	<Grid x:Name="gridTakenSeat" Visibility="{Binding IsTaken, Converter={StaticResource boolToVisibilityConverter}}">
+	        <Image Source="/Resources;component/Images/Lobby/Seat/bg0.png" Stretch="Fill"/>
+	        <Grid  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7,7,0,0" Width="75" Height="75" >
+	            <Image Source="/Resources;component/Images/Lobby/Seat/photo0.gif" Stretch="Fill" />
+	            <Image Source="/Resources;component/Images/Lobby/Seat/bd0.png" Stretch="Fill" />
+	        </Grid>
+	        <Image Margin="4,0,0,4" VerticalAlignment="Bottom" HorizontalAlignment="Left" Source="/Resources;component/Images/Lobby/Seat/win.png" Stretch="None" RenderTransformOrigin="0,1">
+	            <Image.RenderTransform>
+	                <TransformGroup>
+	                    <ScaleTransform ScaleX="0.6" ScaleY="0.6"/>
+	                    <SkewTransform/>
+	                    <RotateTransform/>
+	                    <TranslateTransform/>
+	                </TransformGroup>
+	            </Image.RenderTransform>
+	        </Image>
+	        <Image Margin="0,0,4,4" VerticalAlignment="Bottom" HorizontalAlignment="Right" Source="/Resources;component/Images/Lobby/Seat/quit.png" Stretch="None" RenderTransformOrigin="1,1">
+	            <Image.RenderTransform>
+	                <TransformGroup>
+	                    <ScaleTransform ScaleX="0.6" ScaleY="0.6"/>
+	                    <SkewTransform/>
+	                    <RotateTransform/>
+	                    <TranslateTransform/>
+	                </TransformGroup>
+	            </Image.RenderTransform>
+	        </Image>
+	        <Grid Height="13" VerticalAlignment="Bottom" Margin="24,0,24,13.5">
+	            <Border CornerRadius="15,15,0,0" ClipToBounds="True" BorderThickness="0,0,0,1" BorderBrush="#FF9D9D9D">
+	                <Border BorderThickness="1,1,0,0" Background="#FF2F363E" BorderBrush="Black" CornerRadius="15,15,0,0" ClipToBounds="True">
+	                    <Border.Effect>
+	                        <BlurEffect Radius="5" />
+	                    </Border.Effect>	
+	                </Border>
+	            </Border>
+	            <ProgressBar Style="{DynamicResource winProgressBarStyle}" Value="46" />
+	            <ProgressBar Value="20" Style="{DynamicResource quitProgressBarStyle}" />
+	            <Border Background="#FF2F363E" CornerRadius="0,0,8,8" ClipToBounds="True" BorderThickness="1,0,1,1" Margin="12.5,0,0,-8.501" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="34.5">
+	                <Border.BorderBrush>
+	                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+	                        <GradientStop Color="#FFA1A1A1" Offset="1"/>
+	                        <GradientStop Color="Black"/>
+	                    </LinearGradientBrush>
+	                </Border.BorderBrush>
+	                <TextBlock Text="46%" FontFamily="Arial" Foreground="Lime" FontSize="9" HorizontalAlignment="Center" Margin="0,0,0,0" />
+	            </Border>
+	            <Border Background="#FF2F363E" CornerRadius="0,0,8,8" ClipToBounds="True" BorderThickness="1,0,1,1" Margin="0,0,12,-8.501" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="34.5">
+	                <Border.BorderBrush>
+	                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+	                        <GradientStop Color="#FFA1A1A1" Offset="1"/>
+	                        <GradientStop Color="Black"/>
+	                    </LinearGradientBrush>
+	                </Border.BorderBrush>
+	                <TextBlock Text="20%" FontFamily="Arial" Foreground="Red" FontSize="9" HorizontalAlignment="Center" Margin="0,0,0,0" />
+	            </Border>						
+	        </Grid>	
+	        <RichTextBox Margin="86,7,8,34" FontSize="15" FontFamily="KaiTi" Background="Transparent" Foreground="White" BorderBrush="#FFC7B564" IsHitTestVisible="False">
+	            <FlowDocument TextAlignment="Center" LineHeight="10">
+	                <Paragraph>
+	                    <Run Text="Lv. 2" FontFamily="Arial"  FontSize="13"/>
+	                </Paragraph>				
+	                <Paragraph>
+	                    <Run Text="三国杀爱好者"/>
+	                </Paragraph>
+	                <Paragraph>
+	                    <Run Text="技巧度："/>
+	                    <Run Text="12" FontFamily="Arial" />
+	                </Paragraph>
+	            </FlowDocument>
+	        </RichTextBox>
+	        <Path Data="M86,25.5 L199,25.5" Height="1" Margin="86,28.835,7,0" Stretch="Fill" Stroke="#FFC7B564" VerticalAlignment="Top"/>
+	        <Path Data="M86,25.5 L199,25.5" Height="1" Margin="86,54.181,7,0" Stretch="Fill" Stroke="#FFC7B564" VerticalAlignment="Top"/>
+	    </Grid>    	
+	</Grid>
 </UserControl>

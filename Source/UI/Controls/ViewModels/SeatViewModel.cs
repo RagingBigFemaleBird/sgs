@@ -40,6 +40,15 @@ namespace Sanguosha.UI.Controls
                 if (_state == value) return;
                 _state = value;
                 OnPropertyChanged("State");
+                OnPropertyChanged("IsTaken");
+            }
+        }
+
+        public bool IsTaken
+        {
+            get
+            {
+                return (_state != SeatState.Empty && _state != SeatState.Closed);
             }
         }
     }
