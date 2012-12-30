@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Sanguosha.UI.Controls"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1024">
@@ -11,7 +12,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Controls;component/Common.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>                
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <LinearGradientBrush x:Key="TextBoxBorder" EndPoint="0,20" MappingMode="Absolute" StartPoint="0,0">
@@ -237,5 +238,6 @@
                 </MenuItem.Header>
             </MenuItem>
         </Menu>
-    </Grid>       
+        <xctk:BusyIndicator Grid.RowSpan="2" x:Name="busyIndicator" Style="{DynamicResource BusyIndicatorStyle1}" Margin="0" Grid.Row="1" Grid.ColumnSpan="2" />
+    </Grid>
 </Page>

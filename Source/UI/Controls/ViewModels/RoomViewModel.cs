@@ -105,8 +105,8 @@ namespace Sanguosha.UI.Controls
         public void ChangeSeat(int seatId)
         {
             RoomOperationResult result;
-            LobbyViewModel.Connection.RoomOperations(RoomOperation.ChangeSeat, seatId, 0, out result);
-            if (result == RoomOperationResult.Locked) { }//cannot change seat locked
+            LobbyViewModel.Instance.Connection.RoomOperations(RoomOperation.ChangeSeat, seatId, 0, out result);
+            if (result == RoomOperationResult.Locked) { } //cannot change seat locked
         }
 
         public void AddSeat(SeatViewModel seat, bool? addToLeft = null)

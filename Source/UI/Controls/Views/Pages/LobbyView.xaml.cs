@@ -26,27 +26,24 @@ namespace Sanguosha.UI.Controls
         public LobbyView()
         {
             InitializeComponent();
+            DataContext = LobbyViewModel.Instance;
         }
 
         public LobbyViewModel LobbyModel
         {
             get
             {
-                return DataContext as LobbyViewModel;
-            }
-            set
-            {
-                DataContext = value;
-            }
+                return LobbyViewModel.Instance;
+            }            
         }
 
         private void _StartGame(string ipAddress, int port)
-        {
+        {            
             Client client;
             int mainSeat = 0;
 
             client = new Client();
-            string addr = tab0HostName.Text;
+            string addr = LobbyModel.GameServerConnectionString;
             string[] args = addr.Split(':');
             client.IpString = args[0];
             if (args.Length >= 2)
@@ -57,7 +54,8 @@ namespace Sanguosha.UI.Controls
             {
                 client.PortNumber = 12345;
             }
-            busyIndicator.BusyContent = Resources["Busy.ConnectServer"];
+
+            busyIndicator.BusyContent = Resources["Busy.JoinGame"];
             busyIndicator.IsBusy = true;
 
             //client.Start(isReplay, FileStream = file.open(...))

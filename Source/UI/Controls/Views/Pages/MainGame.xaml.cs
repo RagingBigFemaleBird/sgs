@@ -24,7 +24,7 @@ using System.Windows.Navigation;
 using System.Collections.ObjectModel;
 using Sanguosha.Core.Cards;
 
-namespace Sanguosha.UI.Main
+namespace Sanguosha.UI.Controls
 {
     /// <summary>
     /// Interaction logic for MainGame.xaml

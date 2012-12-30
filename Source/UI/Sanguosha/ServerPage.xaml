@@ -6,8 +6,39 @@
       mc:Ignorable="d" 
       d:DesignHeight="768" d:DesignWidth="1024"
       Title="ServerPage">
-
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Controls;component/Common.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         <Image Grid.RowSpan="2" Source="{DynamicResource Login.Background}" Stretch="UniformToFill" HorizontalAlignment="Center"/>
-    </Grid>
+       
+            <Menu x:Name="mainMenu" Style="{DynamicResource MainMenuStyle}">
+                <MenuItem Padding="0" Style="{DynamicResource MenuItemStyle1}" Height="20">
+                    <MenuItem.Header>
+                        <Button Style="{DynamicResource DefaultButtonStyleDark}" Height="20" Padding="1,0,2,0" Margin="0,0,0,0">
+                            <Image Height="14" Source="/Resources;component/Images/System/btnSettings.png" Stretch="Fill" Width="16"/>
+                        </Button>
+                    </MenuItem.Header>
+                </MenuItem>
+                <MenuItem x:Name="menuCheat" Header="管理" Padding="3, 0" Style="{DynamicResource MenuItemStyle1}" Height="20">
+                    <MenuItem Padding="3, 0" Header="大厅广播" Style="{DynamicResource MenuItemStyle1}" Height="20" />
+                    <MenuItem Padding="3, 0" Header="重设连接" Style="{DynamicResource MenuItemStyle1}" Height="20" />
+                </MenuItem>
+                <MenuItem Padding="0" Style="{DynamicResource MenuItemStyle1}" Height="20">
+                    <MenuItem.Header>
+                        <Button x:Name="btnGoBack" Content="返回" Style="{DynamicResource DefaultButtonStyleRed}" Height="20" Padding="2,0,4,0" Margin="0,0,0,0" Click="btnGoBack_Click" />
+                    </MenuItem.Header>
+                </MenuItem>
+            </Menu>
+        </Grid>
 </Page>

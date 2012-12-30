@@ -20,6 +20,7 @@ using System.ComponentModel;
 using Sanguosha.UI.Controls;
 using Sanguosha.Lobby.Core;
 using System.ServiceModel;
+using Sanguosha.Lobby.Server;
 
 namespace Sanguosha.UI.Main
 {
@@ -116,97 +117,122 @@ namespace Sanguosha.UI.Main
             {
                 loadingThread = new Thread(_Load) { IsBackground = true };
                 loadingThread.Start();
+                InitializeComponent();
             }
             else
-            {                
+            {
+                InitializeComponent();
                 _UpdateStartButton();
             }
-            InitializeComponent();
+            
         }
-#if DEBUG
-        private void startButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var lobbyvm = new LobbyViewModel();
-                var channelFactory = new DuplexChannelFactory<ILobbyService>(lobbyvm, "GameServiceEndpoint");
-                ILobbyService server = channelFactory.CreateChannel();
-                LoginToken token;
-                server.Login(1, "DaMuBie", out token);
-                lobbyvm.Connection = server;
-                lobbyvm.LoginToken = token;
-                LobbyView lobby = new LobbyView();
-                lobbyvm.UpdateRooms();
-                lobby.DataContext = lobbyvm;
-                this.NavigationService.Navigate(lobby);
-            }
-            catch (Exception)
-            {
-            }
-           
-        }
-#else
+
         private void startButton_Click(object sender, RoutedEventArgs e)
         {
             if (loginTab.SelectedIndex == 0)
-            {                
-                Client client;
-                int mainSeat = 0;
+            {
+                _startClient();
+            }
+            else if (loginTab.SelectedIndex == 1)
+            {
+                _startServer();
+            }
+        }
 
-                client = new Client();
-                string addr = tab0HostName.Text;
-                string[] args = addr.Split(':');
-                client.IpString = args[0];
-                if (args.Length >= 2)
+        private void _startClient()
+        {
+            busyIndicator.BusyContent = Resources["Busy.ConnectServer"];
+            busyIndicator.IsBusy = true;
+            ILobbyService server = null;
+
+            BackgroundWorker worker = new BackgroundWorker();
+
+            worker.DoWork += (o, ea) =>
+            {
+                try
                 {
-                    client.PortNumber = int.Parse(args[1]);
+                    ea.Result = false;
+                    var lobbyModel = LobbyViewModel.Instance;
+                    var channelFactory = new DuplexChannelFactory<ILobbyService>(lobbyModel, "GameServiceEndpoint");
+                    server = channelFactory.CreateChannel();                    
+                    ea.Result = true;
+                }
+                catch (Exception e)
+                {
+                    string s = e.StackTrace;
+                }
+            };
+
+            worker.RunWorkerCompleted += (o, ea) =>
+            {
+                busyIndicator.IsBusy = false;
+                bool success = false;
+                if ((bool)ea.Result)
+                {
+                    LobbyView lobby = new LobbyView();
+                    LoginToken token;
+                    if (server.Login(1, tab0UserName.Text, out token) == LoginStatus.Success)
+                    {
+                        var lobbyModel = LobbyViewModel.Instance;
+                        lobbyModel.Connection = server;
+                        lobbyModel.LoginToken = token;
+                        lobbyModel.UpdateRooms();
+                        this.NavigationService.Navigate(lobby);
+                        success = true;
+                    }                    
+                }
+
+                if (!success)
+                {
+                    MessageBox.Show("Failed to launch client");
+                }
+            };
+
+            worker.RunWorkerAsync();
+        }
+
+        private void _startServer()
+        {
+            busyIndicator.BusyContent = Resources["Busy.LaunchServer"];
+            busyIndicator.IsBusy = true;
+            ServiceHost host = null;
+
+            //client.Start(isReplay, FileStream = file.open(...))
+            BackgroundWorker worker = new BackgroundWorker();
+
+            worker.DoWork += (o, ea) =>
+            {
+                try
+                {
+                    ea.Result = false;
+                    var gameService = new LobbyServiceImpl();
+                    host = new ServiceHost(gameService);
+                    host.Open();
+                    ea.Result = true;
+                }
+                catch (Exception)
+                {
+                }
+            };
+
+            worker.RunWorkerCompleted += (o, ea) =>
+            {
+                busyIndicator.IsBusy = false;
+                if ((bool)ea.Result)
+                {
+                    ServerPage serverPage = new ServerPage();
+                    serverPage.Host = host;
+                    this.NavigationService.Navigate(serverPage);
+                    return;
                 }
                 else
                 {
-                    client.PortNumber = 12345;
+                    MessageBox.Show("Failed to launch server");
                 }
-                busyIndicator.BusyContent = Resources["Busy.ConnectServer"];
-                busyIndicator.IsBusy = true;
+            };
 
-                //client.Start(isReplay, FileStream = file.open(...))
-                BackgroundWorker worker = new BackgroundWorker();
-                
-                worker.DoWork += (o, ea) =>
-                {
-                    try
-                    {
-                        ea.Result = false;
-                        client.Start();
-                        mainSeat = (int)client.Receive();
-                        client.SelfId = mainSeat;
-                        ea.Result = true;
-                    }
-                    catch (Exception)
-                    {
-                    }                        
-                };
-
-                worker.RunWorkerCompleted += (o, ea) =>
-                {
-                    busyIndicator.IsBusy = false;
-                    if ((bool)ea.Result)
-                    {
-                        MainGame game = new MainGame();
-                        game.MainSeat = mainSeat;
-                        game.NetworkClient = client;
-                        this.NavigationService.Navigate(game);
-                        return;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Failed to create connection");
-                    }                    
-                };
-
-                worker.RunWorkerAsync();
-            }
+            worker.RunWorkerAsync();
         }
-#endif
 
         private void btnReplay_Click(object sender, RoutedEventArgs e)
         {

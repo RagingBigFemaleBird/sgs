@@ -9,7 +9,7 @@ using Sanguosha.Lobby.Core;
 namespace Sanguosha.Lobby.Server
 {
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Single, InstanceContextMode = InstanceContextMode.Single)]
-    class LobbyServiceImpl : ILobbyService
+    public class LobbyServiceImpl : ILobbyService
     {
         Dictionary<int, Room> rooms;
         int roomId;
@@ -178,7 +178,7 @@ namespace Sanguosha.Lobby.Server
             return false;
         }
 
-        public bool RoomOperations(RoomOperation op, int arg1, int arg2, out int result)
+        public bool RoomOperations(RoomOperation op, int arg1, int arg2, out RoomOperationResult result)
         {
             throw new NotImplementedException();
         }
