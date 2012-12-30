@@ -69,7 +69,7 @@ namespace Sanguosha.Lobby.Core
 
         void NotifyKicked();
 
-        void NotifyGameStart();
+        void NotifyGameStart(string ipAddress, int port);
     }
 
     static class Helper

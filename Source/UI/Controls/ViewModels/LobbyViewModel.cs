@@ -93,14 +93,15 @@ namespace Sanguosha.UI.Controls
             if (result != RoomOperationResult.Success) { }
         }
 
+
         public void NotifyKicked()
         {
             throw new NotImplementedException();
         }
 
-        public void NotifyGameStart()
+        public void NotifyGameStart(string ipAddress, int port)
         {
-            throw new NotImplementedException();
+
         }
 
         public SimpleRelayCommand UpdateRoomCommand { get; set; }

@@ -13,6 +13,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Sanguosha.Lobby.Core;
 using System.Diagnostics;
+using Sanguosha.Core.Network;
+using System.ComponentModel;
 
 namespace Sanguosha.UI.Controls
 {
@@ -36,6 +38,64 @@ namespace Sanguosha.UI.Controls
             {
                 DataContext = value;
             }
+        }
+
+        private void _StartGame(string ipAddress, int port)
+        {
+            Client client;
+            int mainSeat = 0;
+
+            client = new Client();
+            string addr = tab0HostName.Text;
+            string[] args = addr.Split(':');
+            client.IpString = args[0];
+            if (args.Length >= 2)
+            {
+                client.PortNumber = int.Parse(args[1]);
+            }
+            else
+            {
+                client.PortNumber = 12345;
+            }
+            busyIndicator.BusyContent = Resources["Busy.ConnectServer"];
+            busyIndicator.IsBusy = true;
+
+            //client.Start(isReplay, FileStream = file.open(...))
+            BackgroundWorker worker = new BackgroundWorker();
+
+            worker.DoWork += (o, ea) =>
+            {
+                try
+                {
+                    ea.Result = false;
+                    client.Start();
+                    mainSeat = (int)client.Receive();
+                    client.SelfId = mainSeat;
+                    ea.Result = true;
+                }
+                catch (Exception)
+                {
+                }
+            };
+
+            worker.RunWorkerCompleted += (o, ea) =>
+            {
+                busyIndicator.IsBusy = false;
+                if ((bool)ea.Result)
+                {
+                    MainGame game = new MainGame();
+                    game.MainSeat = mainSeat;
+                    game.NetworkClient = client;
+                    this.NavigationService.Navigate(game);
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("Failed to create connection");
+                }
+            };
+
+            worker.RunWorkerAsync();
         }
 
         private void muteButton_Click(object sender, System.Windows.RoutedEventArgs e)
