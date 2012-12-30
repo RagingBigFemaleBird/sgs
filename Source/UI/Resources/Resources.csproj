@@ -148,6 +148,7 @@
     <Resource Include="Images\Game\infoPlaneHeader.png" />
     <Resource Include="Images\Game\infoPlaneSplitter.png" />
     <Resource Include="Images\Lobby\buttonDock.png" />
+    <Resource Include="Images\Lobby\notch.png" />
     <Resource Include="Images\Lobby\Seat\bd0.png" />
     <Resource Include="Images\Lobby\Seat\photo0.gif" />
     <Resource Include="Images\Lobby\Seat\quit.png" />

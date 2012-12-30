@@ -27,27 +27,33 @@
             <ColumnDefinition />
             <ColumnDefinition Width="205" />
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="gridCardSet" RowHeaderWidth="0" Block.TextAlignment="Center"
-                  ItemsSource="{Binding Mode=OneWay}" AutoGenerateColumns="False"
-                  IsReadOnly="True" SelectionMode="Single" Style="{DynamicResource DataGridStyle1}"
-                  Background="#CC4A3C2D" Foreground="#FFE4D5A0" HeadersVisibility="Column" FontFamily="SimSun"
-                  SelectionUnit="FullRow" SelectionChanged="gridDataSet_SelectionChanged"
-                  MouseDoubleClick="gridCardSet_MouseDoubleClick">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="编号" Binding="{Binding Id}" />
-                <DataGridTemplateColumn Header="花色">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Image Source="{res:ResourceKeyBinding Path=Suit, StringFormat=Card.Suit.\{0\}.Image.Normal}" Stretch="Uniform" Margin="2"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="点数" Binding="{Binding RankString}"/>
-                <DataGridTextColumn Header="牌面" Width="93" Binding="{Binding TypeString, ConverterParameter=Name, Converter={StaticResource cardToolTipConverter}, Mode=OneWay}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <local:CardView Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Width="93" Height="130" Margin="0,29,0,0" DataContext="{Binding SelectedItem, Mode=OneWay, ElementName=gridCardSet}" />
-        <Border BorderBrush="#FF605D4E" Grid.Column="1" VerticalAlignment="Top" Margin="10,190,10,0"  BorderThickness="1" CornerRadius="2" Background="#CC232019">
+		<Border BorderThickness="1" BorderBrush="Black">
+        	<Border BorderThickness="1" BorderBrush="#FFA59579" >
+                <Border BorderThickness="1" BorderBrush="Black" Background="#FF4A3B2D" >
+			        <DataGrid x:Name="gridCardSet" RowHeaderWidth="0" Block.TextAlignment="Center"
+			                  ItemsSource="{Binding Mode=OneWay}" AutoGenerateColumns="False"
+			                  IsReadOnly="True" SelectionMode="Single" Style="{DynamicResource DataGridStyle1}"
+			                  Background="Transparent" Foreground="#FFE4D5A0" HeadersVisibility="Column" FontFamily="SimSun"
+			                  SelectionUnit="FullRow" SelectionChanged="gridDataSet_SelectionChanged"
+			                  MouseDoubleClick="gridCardSet_MouseDoubleClick">
+			            <DataGrid.Columns>
+			                <DataGridTextColumn Header="编号" Binding="{Binding Id}" />
+			                <DataGridTemplateColumn Header="花色">
+			                    <DataGridTemplateColumn.CellTemplate>
+			                        <DataTemplate>
+			                            <Image Source="{res:ResourceKeyBinding Path=Suit, StringFormat=Card.Suit.\{0\}.Image.Normal}" Stretch="Uniform" Margin="2"/>
+			                        </DataTemplate>
+			                    </DataGridTemplateColumn.CellTemplate>
+			                </DataGridTemplateColumn>
+			                <DataGridTextColumn Header="点数" Binding="{Binding RankString}"/>
+			                <DataGridTextColumn Header="牌面" Width="1*" Binding="{Binding TypeString, ConverterParameter=Name, Converter={StaticResource cardToolTipConverter}, Mode=OneWay}"/>
+			            </DataGrid.Columns>
+			        </DataGrid>
+				</Border>
+			</Border>
+		</Border>
+        <local:CardView Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Width="93" Height="130" Margin="0,5,0,0" DataContext="{Binding SelectedItem, Mode=OneWay, ElementName=gridCardSet}" />
+        <Border BorderBrush="#FF605D4E" Grid.Column="1" VerticalAlignment="Top" Margin="10,140,10,0"  BorderThickness="1" CornerRadius="2" Background="#CC232019">
             <ContentControl Content="{Binding SelectedItem, ElementName=gridCardSet, Mode=OneWay}" ContentTemplateSelector="{StaticResource cardToolTipTemplateSelector}" />
         </Border>
         <Button x:Name="btnGetCard" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="Auto" IsEnabled="False" Style="{DynamicResource DefaultButtonStyleRed}" Height="20" Padding="8,0,8,0" Margin="0,0,0,10" Click="btnGetCard_Click">

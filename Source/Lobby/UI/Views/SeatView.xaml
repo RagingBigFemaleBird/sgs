@@ -180,17 +180,17 @@
 				<TextBlock Text="20%" FontFamily="Arial" Foreground="Red" FontSize="9" HorizontalAlignment="Center" Margin="0,0,0,0" />
 			</Border>						
 		</Grid>	
-		<RichTextBox Margin="86,7,8,34" FontSize="15" FontFamily="LiSu" Background="Transparent" Foreground="White" BorderBrush="#FFC7B564">
+		<RichTextBox Margin="86,7,8,34" FontSize="15" FontFamily="SimSun" Background="Transparent" Foreground="White" BorderBrush="#FFC7B564">
 			<FlowDocument TextAlignment="Center" LineHeight="10">
 				<Paragraph>
-					<Run Text="Lv. 2" FontFamily="Arial"  FontSize="11"/>
+					<Run Text="Lv. 2" FontFamily="Arial"  FontSize="13"/>
 				</Paragraph>				
 				<Paragraph>
 					<Run Text="三国杀爱好者"/>
 				</Paragraph>
 				<Paragraph>
 					<Run Text="技巧度："/>
-					<Run Text="12" FontFamily="Arial" FontSize="12" />
+					<Run Text="12" FontFamily="Arial" />
 				</Paragraph>
 			</FlowDocument>
 		</RichTextBox>

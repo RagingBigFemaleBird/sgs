@@ -106,29 +106,80 @@
             <RowDefinition Height="190"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="500"/>
             <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="541"/>
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="gridRooms" RowHeaderWidth="0" Block.TextAlignment="Center"
-                  ItemsSource="{Binding Mode=OneWay}" AutoGenerateColumns="False"
-                  IsReadOnly="True" SelectionMode="Single" Style="{DynamicResource DataGridStyle1}"
-                  Background="#CC4A3C2D" Foreground="#FFE4D5A0" HeadersVisibility="Column" FontFamily="SimSun"
-                  SelectionUnit="FullRow">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="房号" Binding="{Binding Id}" Width="50" />
-                <DataGridTextColumn Header="模式" Binding="{Binding Id}" Width="100" />
-                <DataGridTemplateColumn Header="出手时间" />
-                <DataGridTextColumn Header="人数" Width="60"/>
-                <DataGridTextColumn Header="状态" Width="70"/>
-                <DataGridTextColumn Header="操作" Width="130"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <Grid x:Name="roomNavigationPanel" Grid.Row="1" VerticalAlignment="Top" Height="25" Margin="0,2,0,0">
+		<Border BorderThickness="1" BorderBrush="Black">
+        	<Border BorderThickness="1" BorderBrush="#FFA59579" >
+                <Border BorderThickness="1" BorderBrush="Black" Background="#FF4A3B2D" >
+			        <DataGrid x:Name="gridRooms" RowHeaderWidth="0" Block.TextAlignment="Center"
+							  Margin="10"
+			                  ItemsSource="{Binding Rooms, Mode=OneWay}" AutoGenerateColumns="False"
+			                  IsReadOnly="True" SelectionMode="Single" 
+			                  Background="Transparent" Foreground="#FFE4D5A0" HeadersVisibility="Column" FontFamily="SimSun"
+							  HorizontalAlignment="Stretch"
+			                  SelectionUnit="FullRow" Style="{DynamicResource DataGridStyle1}">
+			            <DataGrid.Columns>
+			                <DataGridTextColumn Header="房号" Binding="{Binding Id}" Width="50" />
+			                <DataGridTextColumn Header="模式" Binding="{Binding Id}" Width="100" />
+			                <DataGridTemplateColumn Header="出手时间" Width="100" />
+			                <DataGridTextColumn Header="人数" Width="60" />
+			                <DataGridTextColumn Header="状态" Width="70" />
+			                <DataGridTextColumn Header="操作" Width="1*" />				
+			            </DataGrid.Columns>
+			        </DataGrid>	
+				</Border>
+			</Border>
+		</Border>
+        <Grid Grid.RowSpan="2" Grid.Column="1">	
+            <Border Margin="3, 10, 2, 50" BorderThickness="1" CornerRadius="3" BorderBrush="Black" >
+                <Border BorderThickness="1" CornerRadius="3" BorderBrush="#FFA59579" >
+                    <Border BorderThickness="1" CornerRadius="3" BorderBrush="Black" Background="#FF4A3B2D" >
+                    	<Grid Margin="0,0,0,110">
+                    		<Grid.ColumnDefinitions>
+                    			<ColumnDefinition Width="0.5*" />
+								<ColumnDefinition Width="80" />
+								<ColumnDefinition Width="0.5*" />
+							</Grid.ColumnDefinitions>
+							
+							<ItemsControl>
+                    			<ItemsControl.ItemsPanel>
+                    				<ItemsPanelTemplate>
+                    					<UniformGrid Columns="1" />
+									</ItemsPanelTemplate>  			
+								</ItemsControl.ItemsPanel>
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<local:SeatView />
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+                    		<ItemsControl Grid.Column="2">
+                    			<ItemsControl.ItemsPanel>
+                    				<ItemsPanelTemplate>
+                    					<UniformGrid Columns="1" />
+									</ItemsPanelTemplate>  			
+								</ItemsControl.ItemsPanel>
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<local:SeatView />
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+						</Grid>
+                    </Border>
+                </Border>
+            </Border>				
+            <Image HorizontalAlignment="Left" Height="25" Margin="30,2,0,0" Source="/Resources;component/Images/Lobby/roomInfo.png" Stretch="Fill" VerticalAlignment="Top" Width="85" d:LayoutOverrides="GridBox"/>            
+        </Grid>
+		
+		<Grid Grid.Row="1">
+        <Grid x:Name="roomNavigationPanel" VerticalAlignment="Top" Height="25" Margin="0,2,0,0">
             <Button Content="显示等待" HorizontalAlignment="Right" Margin="0,0,147,0" Width="63" Style="{DynamicResource DefaultButtonStyle1}"/>
             <Button Content="创建房间" HorizontalAlignment="Right" Margin="0,0,77,0" Width="63" Style="{DynamicResource DefaultButtonStyle1}"/>
             <Button Content="加入房间" HorizontalAlignment="Right" Margin="0,0,8,0" Width="63" Style="{DynamicResource DefaultButtonStyleBrown}"/>
         </Grid>
-        <Border Grid.Row="1" Margin="0,34,40,0" BorderThickness="1" CornerRadius="3" BorderBrush="Black" >
+        <Border Grid.Row="1" Margin="0,34,0,0" BorderThickness="1" CornerRadius="3" BorderBrush="Black" >
             <Border BorderThickness="1" CornerRadius="3" BorderBrush="#FFA59579" >
                 <Border BorderThickness="1" CornerRadius="3" BorderBrush="Black" Background="#FF4A3B2D" Margin="0,0,-1,0" >
                     <Grid>
@@ -147,31 +198,11 @@
                 </Border>
             </Border>
         </Border>
-        <Grid Grid.RowSpan="2" Grid.Column="1">			
-            <Border Margin="3, 10, 2, 50" BorderThickness="1" CornerRadius="3" BorderBrush="Black" >
-                <Border BorderThickness="1" CornerRadius="3" BorderBrush="#FFA59579" >
-                    <Border BorderThickness="1" CornerRadius="3" BorderBrush="Black" Background="#FF4A3B2D" >
-                    	<Grid>                    		
-						</Grid>
-                    </Border>
-                </Border>
-            </Border>				
-            <Image HorizontalAlignment="Left" Height="25" Margin="30,2,0,0" Source="/Resources;component/Images/Lobby/roomInfo.png" Stretch="Fill" VerticalAlignment="Top" Width="85" d:LayoutOverrides="GridBox"/>
-            <Image Height="46" Margin="50,0,0,0" Source="/Resources;component/Images/Lobby/buttonDock.png" Stretch="Fill" VerticalAlignment="Bottom"/>
-            <Grid HorizontalAlignment="Left" Margin="-35,0,0,0" Width="158" Height="158" VerticalAlignment="Bottom">
-            
-                <Image x:Name="image1" Source="/Resources;component/Images/System/roundNotch.png" Stretch="None" RenderTransformOrigin="0.5,0.5" d:LayoutOverrides="Width, Height" >
-                    <Image.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform x:Name="notchRotation"/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Image.RenderTransform>
-                </Image>
-                <Button x:Name="startButton" Content="Button" Margin="35,20,35,38" Style="{DynamicResource StartButtonStyle}" IsEnabled="False" />
-            </Grid>
-        </Grid>
-    </Grid>	        
+		</Grid>
+		<Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" ClipToBounds="True">
+		 	<Image HorizontalAlignment="Right" Source="/Resources;component/Images/Lobby/notch.png" Stretch="None" VerticalAlignment="Bottom" Margin="0,0,0,-12.01" />
+		 	<Button x:Name="startButton" Content="Button" Width="90" HorizontalAlignment="Left" Style="{DynamicResource StartButtonStyle}" IsEnabled="False" Margin="39.343,29.254,0,9.639" d:LayoutOverrides="Height" />
+			<Image Source="/Resources;component/Images/Lobby/buttonDock.png" Stretch="None" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,-39,0"/>
+		</Grid>
+	</Grid>       
 </UserControl>

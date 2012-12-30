@@ -11,7 +11,7 @@
 	mc:Ignorable="d"
 	x:Class="Sanguosha.UI.Controls.HeroSetView"
 	x:Name="UserControl"
-	Width="600" Height="600">
+	Width="600" Height="400">
 	
 	<UserControl.Resources>
         <ResourceDictionary>
@@ -141,22 +141,30 @@
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition />
 			<ColumnDefinition Width="275" />
-		</Grid.ColumnDefinitions>		
-		<DataGrid RowHeaderWidth="0" x:Name="gridHeroSet" Block.TextAlignment="Center"
-                  ItemsSource="{Binding Mode=OneWay}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" Style="{DynamicResource DataGridStyle1}" Background="#CC4A3C2D" Foreground="#FFE4D5A0" HeadersVisibility="Column" FontFamily="SimSun"
-                  SelectionUnit="FullRow" SelectionChanged="gridHeroSet_SelectionChanged">
-			<DataGrid.Columns>
-				<DataGridTextColumn Header="编号" Binding="{Binding Id, Mode=OneWay}" />
-				<DataGridTextColumn Header="武将" Width="80"  Binding="{Binding Name, ConverterParameter=Name, Converter={StaticResource heroToolTipConverter}, Mode=OneWay}" />
-				<DataGridTextColumn Header="势力" Binding="{Binding Allegiance, ConverterParameter=Allegiance, Converter={StaticResource heroToolTipConverter}, Mode=OneWay}" />
-				<DataGridTextColumn Header="性别" Binding="{Binding IsMale, ConverterParameter=IsMale, Converter={StaticResource heroToolTipConverter}, Mode=OneWay}"/>
-				<DataGridTextColumn Header="体力" Binding="{Binding MaxHealth, Mode=OneWay}"/>
-				<DataGridTextColumn Header="扩展包" Width="60" Binding="{Binding ExpansionName, ConverterParameter=ExpansionName, Converter={StaticResource heroToolTipConverter}, Mode=OneWay}"/>
-			</DataGrid.Columns>
-		</DataGrid>
-		<local:CardView x:Name="heroCardView" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Width="93" Height="130" Margin="0,29,0,0" />
+		</Grid.ColumnDefinitions>
+		<Border BorderThickness="1" BorderBrush="Black">
+        	<Border BorderThickness="1" BorderBrush="#FFA59579" >
+                <Border BorderThickness="1" BorderBrush="Black" Background="#FF4A3B2D" >
+					<DataGrid RowHeaderWidth="0" x:Name="gridHeroSet" Block.TextAlignment="Center"
+			                  ItemsSource="{Binding Mode=OneWay}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single"
+							  Style="{DynamicResource DataGridStyle1}" Background="Transparent"
+							  Foreground="#FFE4D5A0" HeadersVisibility="Column" FontFamily="SimSun"
+			                  SelectionUnit="FullRow" SelectionChanged="gridHeroSet_SelectionChanged">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="编号" Binding="{Binding Id, Mode=OneWay}" />
+							<DataGridTextColumn Header="武将" Width="80"  Binding="{Binding Name, ConverterParameter=Name, Converter={StaticResource heroToolTipConverter}, Mode=OneWay}" />
+							<DataGridTextColumn Header="势力" Binding="{Binding Allegiance, ConverterParameter=Allegiance, Converter={StaticResource heroToolTipConverter}, Mode=OneWay}" />
+							<DataGridTextColumn Header="性别" Binding="{Binding IsMale, ConverterParameter=IsMale, Converter={StaticResource heroToolTipConverter}, Mode=OneWay}"/>
+							<DataGridTextColumn Header="体力" Binding="{Binding MaxHealth, Mode=OneWay}"/>
+							<DataGridTextColumn Header="扩展包" Width="1*" Binding="{Binding ExpansionName, ConverterParameter=ExpansionName, Converter={StaticResource heroToolTipConverter}, Mode=OneWay}"/>
+						</DataGrid.Columns>
+					</DataGrid>
+				</Border>
+			</Border>
+		</Border>
+		<local:CardView x:Name="heroCardView" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Width="93" Height="130" Margin="0,5,0,0" />
 		
-		<Grid x:Name="gridHeroInfo" Grid.Column="1" Margin="10,196,10,10" VerticalAlignment="Top" Visibility="Hidden">
+		<Grid x:Name="gridHeroInfo" Grid.Column="1" Margin="10,140,10,10" VerticalAlignment="Top" Visibility="Hidden">
 		<Border Margin="25, 0, 0, 0" BorderThickness="2" Background="#B2FEFF9A" >
 			<Border.BorderBrush>
 				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
