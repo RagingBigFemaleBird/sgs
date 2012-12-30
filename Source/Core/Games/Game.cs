@@ -1130,6 +1130,7 @@ namespace Sanguosha.Core.Games
 
         public bool PlayerCanDiscardCard(Player p, Card c)
         {
+            if (c.Type is Equipment && (c.Type as Equipment).InUse) return false;
             GameEventArgs arg = new GameEventArgs();
             arg.Source = p;
             arg.Card = c;

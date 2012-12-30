@@ -44,10 +44,6 @@ namespace Sanguosha.Expansions.Basic.Cards
                     {
                         return VerifierResult.Fail;
                     }
-                    if (c.Place.DeckType == DeckType.Equipment && (c.Type is Weapon))
-                    {
-                        return VerifierResult.Fail;
-                    }
                 }
                 if (cards.Count < 2)
                 {
@@ -86,14 +82,20 @@ namespace Sanguosha.Expansions.Basic.Cards
                 ISkill skill;
                 List<Card> cards;
                 List<Player> players;
+                ParentEquipment.InUse = true;
                 if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("GuanShiFu"),
                     new GuanShiFuVerifier(),
                     out skill, out cards, out players))
                 {
+                    ParentEquipment.InUse = false;
                     NotifySkillUse(new List<Player>());
                     Game.CurrentGame.HandleCardDiscard(Owner, cards);
                     Trace.Assert(eventArgs.Card.Type is Sha);
                     Game.CurrentGame.DoDamage(eventArgs.Source, eventArgs.Targets[0], 1, (eventArgs.Card.Type as Sha).ShaDamageElement, eventArgs.Card, eventArgs.ReadonlyCard);
+                }
+                else
+                {
+                    ParentEquipment.InUse = false;
                 }
             }
             public GuanShiFuSkill()

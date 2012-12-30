@@ -66,7 +66,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                 {
                     return VerifierResult.Fail;
                 }
-                if (!Game.CurrentGame.PlayerCanPlayCard(source, cards[0]))
+                if (!Game.CurrentGame.PlayerCanDiscardCard(source, cards[0]))
                 {
                     return VerifierResult.Fail;
                 }

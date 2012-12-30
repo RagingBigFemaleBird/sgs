@@ -108,5 +108,7 @@ namespace Sanguosha.Core.Cards
         {
             get; protected set;
         }
+
+        public bool InUse { get; set; }
     }
 }
