@@ -212,7 +212,7 @@
         </Grid>
         <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="2" ClipToBounds="True">
             <Image Margin="4,0,4,-12.01" Source="/Resources;component/Images/Lobby/notch.png" Stretch="None" VerticalAlignment="Bottom" />
-            <Button x:Name="startButton" Content="Button" Width="90" HorizontalAlignment="Left" Style="{DynamicResource StartButtonStyle}" IsEnabled="False" Margin="45,29.254,0,9.639" d:LayoutOverrides="Height" />
+            <Button x:Name="startButton" Content="Button" Width="90" Height="100" HorizontalAlignment="Left" Style="{DynamicResource StartButtonStyle}" IsEnabled="False" Margin="45,29.254,0,9.639" d:LayoutOverrides="Height" />
             <Image Source="/Resources;component/Images/Lobby/buttonDock.png" Stretch="None" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,-39,0"/>
         </Grid>
         <Menu x:Name="mainMenu" Style="{DynamicResource MainMenuStyle}" Grid.ColumnSpan="2">
