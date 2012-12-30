@@ -70,7 +70,7 @@ namespace Sanguosha.UI.Controls
         {
             get
             {
-                return Seats.Count(p => p.State == SeatState.Empty);
+                return Seats.Count(p => p.State != SeatState.Empty);
             }
         }
 
@@ -104,9 +104,8 @@ namespace Sanguosha.UI.Controls
 
         public void ChangeSeat(int seatId)
         {
-            RoomOperationResult result;
-            LobbyViewModel.Connection.RoomOperations(RoomOperation.ChangeSeat, seatId, 0, out result);
-            if (result == RoomOperationResult.Locked) { }//cannot change seat locked
+            var result = LobbyViewModel.Instance.Connection.RoomOperations(LobbyViewModel.Instance.LoginToken, RoomOperation.ChangeSeat, seatId, 0);
+            if (result == RoomOperationResult.Locked) { } //cannot change seat locked
         }
 
         public void AddSeat(SeatViewModel seat, bool? addToLeft = null)

@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.ServiceModel;
 
 namespace Sanguosha.UI.Main
 {
@@ -23,5 +24,13 @@ namespace Sanguosha.UI.Main
         {
             InitializeComponent();
         }
+
+        private void btnGoBack_Click(object sender, RoutedEventArgs e)
+        {
+            Host.Close();
+            this.NavigationService.GoBack();
+        }
+
+        public ServiceHost Host { get; set; }
     }
 }

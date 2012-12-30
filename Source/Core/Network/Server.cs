@@ -363,9 +363,9 @@ namespace Sanguosha.Core.Network
                 handlers[i].client = listener.AcceptTcpClient();
                 Trace.TraceInformation("Client connected");
                 handlers[i].stream = handlers[i].client.GetStream();
-                handlers[i].threadServer = new Thread((ParameterizedThreadStart)((o) => { ServerThread(handlers[(int)o].stream, handlers[(int)o].semIn, handlers[(int)o].semAccess, handlers[(int)o].queueIn); handlers[(int)o].disconnected = true; }));
+                handlers[i].threadServer = new Thread((ParameterizedThreadStart)((o) => { ServerThread(handlers[(int)o].stream, handlers[(int)o].semIn, handlers[(int)o].semAccess, handlers[(int)o].queueIn); handlers[(int)o].disconnected = true; })) { IsBackground = true };
                 handlers[i].threadServer.Start(i);
-                handlers[i].threadClient = new Thread((ParameterizedThreadStart)((o) => { ClientThread(handlers[(int)o].stream, handlers[(int)o].semOut, handlers[(int)o].semAccess, handlers[(int)o].queueOut); }));
+                handlers[i].threadClient = new Thread((ParameterizedThreadStart)((o) => { ClientThread(handlers[(int)o].stream, handlers[(int)o].semOut, handlers[(int)o].semAccess, handlers[(int)o].queueOut); })) { IsBackground = true };
                 handlers[i].threadClient.Start(i);
                 SendObject(i, i);
                 i++;

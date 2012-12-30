@@ -87,11 +87,14 @@
     <Compile Include="Views\Dialogs\PinDianBox.xaml.cs">
       <DependentUpon>PinDianBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Lobby\LobbyView.xaml.cs">
+    <Compile Include="Views\Pages\LobbyView.xaml.cs">
       <DependentUpon>LobbyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Lobby\SeatView.xaml.cs">
       <DependentUpon>SeatView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\MainGame.xaml.cs">
+      <DependentUpon>MainGame.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Players\NumRolesToComboBoxEnabledConverter.cs" />
     <Compile Include="Views\Skills\ExcitingSkillAnimation.xaml.cs">
@@ -223,11 +226,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Lobby\LobbyView.xaml">
+    <Page Include="Views\Pages\LobbyView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Lobby\SeatView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Pages\MainGame.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

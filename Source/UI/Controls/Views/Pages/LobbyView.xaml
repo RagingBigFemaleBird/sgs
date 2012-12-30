@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Sanguosha.UI.Controls"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1024">
@@ -11,7 +12,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Controls;component/Common.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>                
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <LinearGradientBrush x:Key="TextBoxBorder" EndPoint="0,20" MappingMode="Absolute" StartPoint="0,0">
@@ -188,7 +189,7 @@
         <Grid x:Name="roomNavigationPanel" VerticalAlignment="Top" Height="25" Margin="0,2,0,0">
             <Button Content="显示等待" Command="{Binding UpdateRoomCommand}" HorizontalAlignment="Right" Margin="0,0,147,0" Width="63" Style="{DynamicResource DefaultButtonStyle1}"/>
             <Button Content="创建房间" Command="{Binding CreateRoomCommand}" HorizontalAlignment="Right" Margin="0,0,77,0" Width="63" Style="{DynamicResource DefaultButtonStyle1}"/>
-            <Button Content="加入房间" HorizontalAlignment="Right" Margin="0,0,8,0" Width="63" Style="{DynamicResource DefaultButtonStyleBrown}"/>
+            <Button Content="加入房间" Command="{Binding EnterRoomCommand}" HorizontalAlignment="Right" Margin="0,0,8,0" Width="63" Style="{DynamicResource DefaultButtonStyleBrown}"/>
         </Grid>
         <Border Grid.Row="1" Margin="0,34,0,0" BorderThickness="1" CornerRadius="3" BorderBrush="Black" >
             <Border BorderThickness="1" CornerRadius="3" BorderBrush="#FFA59579" >
@@ -212,7 +213,7 @@
         </Grid>
         <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="2" ClipToBounds="True">
             <Image Margin="4,0,4,-12.01" Source="/Resources;component/Images/Lobby/notch.png" Stretch="None" VerticalAlignment="Bottom" />
-            <Button x:Name="startButton" Content="Button" Width="90" Height="100" HorizontalAlignment="Left" Style="{DynamicResource StartButtonStyle}" IsEnabled="False" Margin="45,29.254,0,9.639" d:LayoutOverrides="Height" />
+            <Button x:Name="startButton" Command="{Binding StartGameCommand}" Content="Button" Width="90" Height="100" HorizontalAlignment="Left" Style="{DynamicResource StartButtonStyle}" Margin="45,29.254,0,9.639" d:LayoutOverrides="Height" />
             <Image Source="/Resources;component/Images/Lobby/buttonDock.png" Stretch="None" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,-39,0"/>
         </Grid>
         <Menu x:Name="mainMenu" Style="{DynamicResource MainMenuStyle}" Grid.ColumnSpan="2">
@@ -237,5 +238,6 @@
                 </MenuItem.Header>
             </MenuItem>
         </Menu>
-    </Grid>       
+        <xctk:BusyIndicator Grid.RowSpan="2" x:Name="busyIndicator" Style="{DynamicResource BusyIndicatorStyle1}" Margin="0" Grid.Row="1" Grid.ColumnSpan="2" />
+    </Grid>
 </Page>

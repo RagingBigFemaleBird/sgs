@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 
@@ -19,13 +20,20 @@ namespace Sanguosha.Lobby.Core
         public Guid token;
     }
 
+    [DataContract(Name = "RoomOperationResult")]
     public enum RoomOperationResult
     {
+        [EnumMember]
         Success = 0,
+        [EnumMember]
         Auth = -1,
+        [EnumMember]
         Full = -2,
+        [EnumMember]
         Password = -3,
+        [EnumMember]
         Locked = -4,
+        [EnumMember]
         Invalid = -5,
     }
 
@@ -54,10 +62,10 @@ namespace Sanguosha.Lobby.Core
         Room CreateRoom(LoginToken token, string password = null);
 
         [OperationContract]
-        int EnterRoom(LoginToken token, int roomId, bool spectate, string password = null);
+        RoomOperationResult EnterRoom(LoginToken token, int roomId, bool spectate, string password = null);
 
         [OperationContract]
-        bool ExitRoom(LoginToken token, int roomId);
+        RoomOperationResult ExitRoom(LoginToken token, int roomId);
 
         [OperationContract]
         RoomOperationResult RoomOperations(LoginToken token, RoomOperation op, int arg1, int arg2);
@@ -68,9 +76,11 @@ namespace Sanguosha.Lobby.Core
         [OperationContract(IsOneWay = true)]
         void NotifyRoomUpdate(int id, Room room);
 
+        [OperationContract(IsOneWay = true)]
         void NotifyKicked();
 
-        void NotifyGameStart(string ipAddress, int port);
+        [OperationContract(IsOneWay = true)]
+        void NotifyGameStart(string connectionString);
     }
 
     static class Helper

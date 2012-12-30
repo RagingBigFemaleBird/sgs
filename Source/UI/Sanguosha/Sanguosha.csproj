@@ -74,16 +74,9 @@
     <Compile Include="ServerPage.xaml.cs">
       <DependentUpon>ServerPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TestFluidCardStack.xaml.cs">
-      <DependentUpon>TestFluidCardStack.xaml</DependentUpon>
-    </Compile>
     <Page Include="Login.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainGame.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -92,9 +85,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="MainGame.xaml.cs">
-      <DependentUpon>MainGame.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -106,10 +96,6 @@
       <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
     </Page>
     <Page Include="ServerPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TestFluidCardStack.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -148,6 +134,10 @@
       <Project>{850AB9CB-90A0-4625-87FA-1F7CE04A5404}</Project>
       <Name>Battle</Name>
       <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Lobby\Server\Server.csproj">
+      <Project>{E1C2FDD7-66F5-4F69-8270-36D0726390FB}</Project>
+      <Name>Server</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Lobby\Service\Core.csproj">
       <Project>{7de81be7-26d1-4954-9037-b7184c1df9bd}</Project>

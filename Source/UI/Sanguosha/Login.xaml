@@ -14,18 +14,17 @@
       d:DesignHeight="768" d:DesignWidth="1024"
       Title="Login">
     <Page.Resources>
-    <ResourceDictionary>
-    	
+    <ResourceDictionary>    	
         <ResourceDictionary.MergedDictionaries>
             <ResourceDictionary Source="pack://application:,,,/Controls;component/Common.xaml"/>
+            <ResourceDictionary Source="pack://application:,,,/Resources;component/Lobby.xaml"/>
             <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
             <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
         </ResourceDictionary.MergedDictionaries>
         <LinearGradientBrush x:Key="FiredTextBrush" EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FFF9BB51" Offset="1"/>
             <GradientStop Color="#FFF88749"/>
-        </LinearGradientBrush>
-        <sys:String x:Key="Busy.ConnectServer">正在连接服务器，请稍后。。。</sys:String>
+        </LinearGradientBrush>        
         <Storyboard x:Key="OnLoaded1">
             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image">
                 <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Visible}"/>
@@ -173,7 +172,7 @@
                         <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" Text="服务器地址：" FontFamily="/Sanguosha;component/Fonts/#SimHei" FontSize="17.333" />
                         <TextBox x:Name="tab0HostName" Margin="151,39.846,73,0" Text="127.0.0.1" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
                         <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" Text="用户名：" FontFamily="/Sanguosha;component/Fonts/#SimHei" FontSize="17.333" />
-                        <TextBox Margin="151,83.846,73,0" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
+                        <TextBox x:Name="tab0UserName" Margin="151,83.846,73,0" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
                         <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Margin="42,135,0,133" TextWrapping="Wrap" Width="111" Text="密码：" FontFamily="/Sanguosha;component/Fonts/#SimHei" FontSize="17.333"/>
                         <TextBox Margin="151,129.846,73,0" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
                     </Grid>
@@ -220,6 +219,6 @@
 			</Button>			
 			<Button x:Name="btnReplay" Content="录像" Style="{DynamicResource DefaultButtonStyle1}" Height="20" Padding="8,0,8,0" Click="btnReplay_Click" />
 		</StackPanel>
-		<xctk:BusyIndicator Grid.RowSpan="2" x:Name="busyIndicator" Style="{DynamicResource BusyIndicatorStyle1}" Margin="0" Grid.Row="1" />	        
+        <xctk:BusyIndicator Grid.RowSpan="2" x:Name="busyIndicator" Style="{DynamicResource BusyIndicatorStyle1}" Margin="0" Grid.Row="1" />
     </Grid>
 </Page>

@@ -5,11 +5,12 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using Sanguosha.Lobby.Core;
+using System.Threading;
 
 namespace Sanguosha.Lobby.Server
 {
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Single, InstanceContextMode = InstanceContextMode.Single)]
-    class LobbyServiceImpl : ILobbyService
+    public class LobbyServiceImpl : ILobbyService
     {
         Dictionary<int, Room> rooms;
         int newRoomId;
@@ -89,6 +90,11 @@ namespace Sanguosha.Lobby.Server
         {
             if (VerifyClient(token))
             {
+                if (loggedInGuidToRoom.ContainsKey(token.token))
+                {
+                    return null;
+                }
+
                 while (rooms.ContainsKey(newRoomId))
                 {
                     newRoomId++;
@@ -115,42 +121,42 @@ namespace Sanguosha.Lobby.Server
             return null;
         }
 
-        public int EnterRoom(LoginToken token, int roomId, bool spectate, string password = null)
+        public RoomOperationResult EnterRoom(LoginToken token, int roomId, bool spectate, string password = null)
         {
             if (VerifyClient(token))
             {
                 Console.WriteLine("{1} Enter room {0}", roomId, token.token);
+                if (loggedInGuidToRoom.ContainsKey(token.token))
+                {
+                    return RoomOperationResult.Locked;
+                }
                 if (rooms.ContainsKey(roomId))
                 {
-                        if (rooms[roomId].State == RoomState.Gaming) return -1;
-                        int seatNo = 0;
-                        foreach (var seat in rooms[roomId].Seats)
+                    if (rooms[roomId].State == RoomState.Gaming) return RoomOperationResult.Locked;
+                    int seatNo = 0;
+                    foreach (var seat in rooms[roomId].Seats)
+                    {
+                        Console.WriteLine("Testing seat {0}", seatNo);
+                        if (seat.Account == null && seat.State == SeatState.Empty)
                         {
-                            Console.WriteLine("Testing seat {0}", seatNo);
-                            if (seat.Account == null && seat.State == SeatState.Empty)
-                            {
-                                if (loggedInGuidToRoom.ContainsKey(token.token))
-                                {
-                                    ExitRoom(token, loggedInGuidToRoom[token.token].Id);
-                                }
-                                loggedInGuidToRoom.Add(token.token, rooms[roomId]);
-                                seat.Account = loggedInGuidToAccount[token.token];
-                                seat.State = SeatState.GuestTaken;
-                                NotifyRoomLayoutChanged(roomId);
-                                Console.WriteLine("Seat {0}", seatNo);
-                                return seatNo;
-                            }
-                            seatNo++;
+                            loggedInGuidToRoom.Add(token.token, rooms[roomId]);
+                            seat.Account = loggedInGuidToAccount[token.token];
+                            seat.State = SeatState.GuestTaken;
+                            NotifyRoomLayoutChanged(roomId);
+                            Console.WriteLine("Seat {0}", seatNo);
+                            return RoomOperationResult.Success;
                         }
-                        Console.WriteLine("Full");
-                        return (int)RoomOperationResult.Full;
+                        seatNo++;
+                    }
+                    Console.WriteLine("Full");
+                    return RoomOperationResult.Full;
                 }
             }
             Console.WriteLine("Rogue enter room calls");
-            return (int)RoomOperationResult.Auth;
+            return RoomOperationResult.Auth;
         }
 
-        public bool ExitRoom(LoginToken token, int roomId)
+        public RoomOperationResult ExitRoom(LoginToken token, int roomId)
         {
             if (VerifyClient(token))
             {
@@ -166,15 +172,15 @@ namespace Sanguosha.Lobby.Server
                             if (!loggedInGuidToRoom[token.token].Seats.Any(state => state.State != SeatState.Empty))
                             {
                                 rooms.Remove(loggedInGuidToRoom[token.token].Id);
-                                return true;
+                                return RoomOperationResult.Success;
                             }
                             NotifyRoomLayoutChanged(roomId);
-                            return true;
+                            return RoomOperationResult.Success;
                         }
                     }
                 }
             }
-            return false;
+            return RoomOperationResult.Auth;
         }
 
         private void NotifyRoomLayoutChanged(int roomId)
@@ -184,6 +190,19 @@ namespace Sanguosha.Lobby.Server
                 if (notify.Account != null)
                 {
                     loggedInGuidToChannel[loggedInAccountToGuid[notify.Account]].NotifyRoomUpdate(rooms[roomId].Id, rooms[roomId]);
+                }
+            }
+        }
+
+        private void NotifyGameStart(int roomId)
+        {
+            var current = OperationContext.Current.GetCallbackChannel<IGameClient>();
+            foreach (var notify in rooms[roomId].Seats)
+            {
+                if (notify.Account != null)
+                {
+                    var channel = loggedInGuidToChannel[loggedInAccountToGuid[notify.Account]];
+                    if (channel != current) channel.NotifyGameStart("");
                 }
             }
         }
@@ -220,6 +239,14 @@ namespace Sanguosha.Lobby.Server
                     }
                     Console.WriteLine("Full");
                     return RoomOperationResult.Full;
+                }
+                if (op == RoomOperation.StartGame)
+                {
+                    if (!loggedInGuidToRoom.ContainsKey(token.token)) { return RoomOperationResult.Locked; }
+                    var thread = new Thread(GameService.StartGameService) { IsBackground = true };
+                    thread.Start();
+                    NotifyGameStart(loggedInGuidToRoom[token.token].Id);
+                    return RoomOperationResult.Success;
                 }
             }
             return RoomOperationResult.Auth;
