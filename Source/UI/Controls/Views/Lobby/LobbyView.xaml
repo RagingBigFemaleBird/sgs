@@ -147,7 +147,7 @@
             <Border Margin="3, 10, 2, 0" BorderThickness="1" CornerRadius="3" BorderBrush="Black" >
                 <Border BorderThickness="1" CornerRadius="3" BorderBrush="#FFA59579" >
                     <Border BorderThickness="1" CornerRadius="3" BorderBrush="Black" Background="#FF4A3B2D" >
-                        <Grid Margin="0,0,0,0">
+                        <Grid Margin="0,15,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.5*" />
                                 <ColumnDefinition Width="80" />
@@ -162,7 +162,7 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <local:SeatView Width="207" Height="116" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                        <local:SeatView Width="207" Height="116" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0" />
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
@@ -174,7 +174,7 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <local:SeatView Width="207" Height="116" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                                        <local:SeatView Width="207" Height="116" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,0" />
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
