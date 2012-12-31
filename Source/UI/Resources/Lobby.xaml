@@ -7,6 +7,9 @@
     <sys:String x:Key="Busy.LaunchServer">正在启动服务器，请稍后。。。</sys:String>
     <sys:String x:Key="Busy.ConnectServer">正在连接服务器，请稍后。。。</sys:String>
     <sys:String x:Key="Busy.JoinGame">正在加入游戏，请稍后。。。</sys:String>
+    <sys:String x:Key="Seat.State.Gaming.Name">游戏中</sys:String>
+    <sys:String x:Key="Seat.State.GuestReady.Name">准备</sys:String>
+    <sys:String x:Key="Seat.State.Host.Name">盟主</sys:String>
     <SolidColorBrush x:Key="RoomState.Gaming.Color" Color="#FFE4D5A0" />
     <SolidColorBrush x:Key="RoomState.Waiting.Color" Color="Red" /> 
 </ResourceDictionary>

@@ -8,12 +8,12 @@ using Sanguosha.Lobby.Core;
 
 namespace Sanguosha.UI.Controls
 {
-	public class SeatViewModel : ViewModelBase
-	{
-		public SeatViewModel()
-		{
-			
-		}
+    public class SeatViewModel : ViewModelBase
+    {
+        public SeatViewModel()
+        {
+            
+        }
 
         private Seat _seat;
 
@@ -24,6 +24,22 @@ namespace Sanguosha.UI.Controls
             {
                 _seat = value;
                 State = value.State;
+            }
+        }
+
+        private Account _account;
+
+        public Account Account
+        {
+            get
+            {
+                return _account;
+            }
+            set
+            {
+                if (_account == value) return;
+                _account = value;
+                OnPropertyChanged("Account");
             }
         }
 

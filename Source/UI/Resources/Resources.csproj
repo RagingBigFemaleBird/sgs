@@ -448,6 +448,16 @@
   <ItemGroup>
     <Resource Include="Images\Lobby\Seat\win.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Buttons\lobbyCancel\disabled.png" />
+    <Resource Include="Images\Buttons\lobbyCancel\down.png" />
+    <Resource Include="Images\Buttons\lobbyCancel\hover.png" />
+    <Resource Include="Images\Buttons\lobbyCancel\normal.png" />
+    <Resource Include="Images\Buttons\lobbyReady\disabled.png" />
+    <Resource Include="Images\Buttons\lobbyReady\down.png" />
+    <Resource Include="Images\Buttons\lobbyReady\hover.png" />
+    <Resource Include="Images\Buttons\lobbyReady\normal.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /S /Y $(ProjectDir)*.* $(TargetDir)Resources\
