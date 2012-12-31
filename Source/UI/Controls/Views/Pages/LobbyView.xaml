@@ -159,7 +159,7 @@
                                 <ColumnDefinition Width="0.5*" />
                             </Grid.ColumnDefinitions>
                             
-                            <ItemsControl ItemsSource="{Binding CurrentRoom.LeftSeats}" Margin="0,0,0,-116">
+                            <ItemsControl ItemsSource="{Binding CurrentRoom.LeftSeats}" Margin="0,0,0,0">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <UniformGrid Columns="1" />
@@ -171,7 +171,7 @@
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-                            <ItemsControl Grid.Column="2" ItemsSource="{Binding CurrentRoom.RightSeats}" Margin="0,0,0,-116">
+                            <ItemsControl Grid.Column="2" ItemsSource="{Binding CurrentRoom.RightSeats}" Margin="0,0,0,0">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <UniformGrid Columns="1" />

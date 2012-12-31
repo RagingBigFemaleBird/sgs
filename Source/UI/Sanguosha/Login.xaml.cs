@@ -21,6 +21,8 @@ using Sanguosha.UI.Controls;
 using Sanguosha.Lobby.Core;
 using System.ServiceModel;
 using Sanguosha.Lobby.Server;
+using System.Net.NetworkInformation;
+using System.Net;
 
 namespace Sanguosha.UI.Main
 {
@@ -29,6 +31,8 @@ namespace Sanguosha.UI.Main
     /// </summary>
     public partial class Login : Page
     {
+        public static int DefaultLobbyPort = 6080;
+
         private static string[] _dictionaryNames = new string[] { "Cards.xaml", "Skills.xaml", "Game.xaml" };
 
         private void _LoadResources(string folderPath)
@@ -124,7 +128,7 @@ namespace Sanguosha.UI.Main
                 InitializeComponent();
                 _UpdateStartButton();
             }
-            
+            tab1Port.Text = DefaultLobbyPort.ToString();            
         }
 
         private void startButton_Click(object sender, RoutedEventArgs e)
@@ -145,6 +149,11 @@ namespace Sanguosha.UI.Main
             busyIndicator.IsBusy = true;
             ILobbyService server = null;
             LoginToken token = new LoginToken();
+            string hostName = tab0HostName.Text;
+            if (!hostName.Contains(":"))
+            {
+                hostName = hostName + ":" + DefaultLobbyPort;
+            }
             string userName = tab0UserName.Text;
 
             BackgroundWorker worker = new BackgroundWorker();
@@ -156,7 +165,7 @@ namespace Sanguosha.UI.Main
                     ea.Result = false;
                     var lobbyModel = LobbyViewModel.Instance;
                     var binding = new NetTcpBinding();
-                    var endpoint = new EndpointAddress("net.tcp://localhost:8080/GameService");
+                    var endpoint = new EndpointAddress(string.Format("net.tcp://{0}/GameService", hostName));
                     var channelFactory = new DuplexChannelFactory<ILobbyService>(lobbyModel, binding, endpoint);
                     server = channelFactory.CreateChannel();     
                     if (server.Login(1, userName, out token) == LoginStatus.Success)
@@ -194,11 +203,29 @@ namespace Sanguosha.UI.Main
             worker.RunWorkerAsync();
         }
 
+        private void _Warn(string message)
+        {
+            MessageBox.Show(message, "Error");
+        }
+
         private void _startServer()
         {
             busyIndicator.BusyContent = Resources["Busy.LaunchServer"];
             busyIndicator.IsBusy = true;
             ServiceHost host = null;
+            IPAddress serverIp = tab1IpAddresses.SelectedItem as IPAddress;
+            if (serverIp == null)
+            {
+                _Warn("Please select an IP address");
+                return;
+            }
+            int portNumber;
+            if (!int.TryParse(tab1Port.Text, out portNumber))
+            {
+                _Warn("Please enter a legal port number");
+                return;
+            }
+
 
             //client.Start(isReplay, FileStream = file.open(...))
             BackgroundWorker worker = new BackgroundWorker();
@@ -209,7 +236,7 @@ namespace Sanguosha.UI.Main
                 {
                     ea.Result = false;
                     var gameService = new LobbyServiceImpl();
-                    host = new ServiceHost(gameService, new Uri[] {new Uri("net.tcp://localhost:8080/GameService")});
+                    host = new ServiceHost(gameService, new Uri[] {new Uri(string.Format("net.tcp://{0}:{1}/GameService", serverIp, portNumber))});
                     host.Open();
                     ea.Result = true;
                 }
@@ -271,5 +298,62 @@ namespace Sanguosha.UI.Main
             }
 
         }
+
+        #region Network Related
+
+        private void _ListAdaptors()
+        {
+            tab1Adaptors.Items.Clear();
+            foreach (var nic in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                if (!tab1ShowAllAdaptor.IsChecked == true)
+                {
+                    if (nic.NetworkInterfaceType != NetworkInterfaceType.Ethernet &&
+                        nic.NetworkInterfaceType != NetworkInterfaceType.Wireless80211)
+                    {
+                        continue;
+                    }
+                }
+                tab1Adaptors.Items.Add(nic);
+            }
+        }
+
+        private void _ListIpAddresses()
+        {
+            tab1IpAddresses.Items.Clear();
+            NetworkInterface ni = tab1Adaptors.SelectedItem as NetworkInterface;
+            if (ni == null) return;
+            foreach (var ip in ni.GetIPProperties().UnicastAddresses)
+            {
+                tab1IpAddresses.Items.Add(ip.Address);
+            }
+        }
+        
+        private void tab1ShowAllAdaptor_Checked(object sender, RoutedEventArgs e)
+        {
+            _ListAdaptors();
+        }
+
+        private void tab1ShowAllAdaptor_Unchecked(object sender, RoutedEventArgs e)
+        {
+            _ListAdaptors();
+
+        }
+
+        private bool _adaptorSearched;
+        private void loginTab_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!_adaptorSearched && loginTab.SelectedIndex == 1)
+            {
+                _ListAdaptors();
+                _adaptorSearched = true;
+            }
+        }
+
+        private void tab1Adaptors_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _ListIpAddresses();
+        }
+        #endregion
     }
 }
