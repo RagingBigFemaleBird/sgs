@@ -23,6 +23,7 @@ using System.ServiceModel;
 using Sanguosha.Lobby.Server;
 using System.Net.NetworkInformation;
 using System.Net;
+using System.Net.Security;
 
 namespace Sanguosha.UI.Main
 {
@@ -165,6 +166,7 @@ namespace Sanguosha.UI.Main
                     ea.Result = false;
                     var lobbyModel = LobbyViewModel.Instance;
                     var binding = new NetTcpBinding();
+                    binding.Security.Mode = SecurityMode.None;
                     var endpoint = new EndpointAddress(string.Format("net.tcp://{0}/GameService", hostName));
                     var channelFactory = new DuplexChannelFactory<ILobbyService>(lobbyModel, binding, endpoint);
                     server = channelFactory.CreateChannel();
@@ -240,7 +242,18 @@ namespace Sanguosha.UI.Main
                     ea.Result = false;
                     gameService = new LobbyServiceImpl();
                     gameService.HostingIp = serverIp;
-                    host = new ServiceHost(gameService, new Uri[] {new Uri(string.Format("net.tcp://{0}:{1}/GameService", serverIp, portNumber))});
+
+                    host = new ServiceHost(gameService);
+                    //, new Uri[] { new Uri(string.Format("net.tcp://{0}:{1}/GameService", serverIp, portNumber)) });
+                    var binding = new NetTcpBinding();
+
+                    binding.Security.Mode = SecurityMode.None;
+                    binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.None;
+                    binding.Security.Transport.ProtectionLevel = ProtectionLevel.None;
+                    binding.Security.Message.ClientCredentialType = MessageCredentialType.None;
+
+                    host.AddServiceEndpoint(typeof(ILobbyService), binding, string.Format("net.tcp://{0}:{1}/GameService", serverIp, portNumber));
+
                     host.Open();
                     ea.Result = true;
                 }
