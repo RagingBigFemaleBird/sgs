@@ -51,6 +51,7 @@
 
     <sys:String x:Key="Skill.RuoYu.Name">若愚</sys:String>
     <sys:String x:Key="Skill.RuoYu.Description">主公技，觉醒技，回合开始阶段开始时，若你当前的体力值是全场最少的（或之一），你须加1点体力上限，回复1点体力，并获得技能“激将”。</sys:String>
+    <sys:String x:Key="Skill.RuoYu.Transcript">大智若愚，大巧若拙</sys:String>
 
     <sys:String x:Key="Skill.JiAng.Name">激昂</sys:String>
     <sys:String x:Key="Skill.JiAng.Description">每当你使用（指定目标后）或被使用（成为目标后）一张【决斗】或红色的【杀】时，你可以摸一张牌。</sys:String>
