@@ -151,6 +151,7 @@
     <Resource Include="Images\Lobby\notch.png" />
     <Resource Include="Images\Lobby\Seat\bd0.png" />
     <Resource Include="Images\Lobby\Seat\empty.png" />
+    <Resource Include="Images\Lobby\Seat\pattern.png" />
     <Resource Include="Images\Lobby\Seat\photo0.gif" />
     <Resource Include="Images\Lobby\Seat\quit.png" />
     <Resource Include="Images\MainPlayerInfoView\imprisoned.png" />
