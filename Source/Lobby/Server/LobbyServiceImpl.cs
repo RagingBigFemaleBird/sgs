@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Sanguosha.Lobby.Core;
 using System.Threading;
+using System.Net;
 
 namespace Sanguosha.Lobby.Server
 {
@@ -14,11 +15,14 @@ namespace Sanguosha.Lobby.Server
     {
         Dictionary<int, Room> rooms;
         int newRoomId;
+        int newAccountId;
         Dictionary<Account, Guid> loggedInAccountToGuid;
         Dictionary<Guid, Account> loggedInGuidToAccount;
         Dictionary<IGameClient, Guid> loggedInChannelsToGuid;
         Dictionary<Guid, IGameClient> loggedInGuidToChannel;
         Dictionary<Guid, Room> loggedInGuidToRoom;
+
+        public IPAddress HostingIp { get; set; }
 
         private bool VerifyClient(LoginToken token)
         {
@@ -44,15 +48,18 @@ namespace Sanguosha.Lobby.Server
             loggedInChannelsToGuid = new Dictionary<IGameClient, Guid>();
             loggedInGuidToRoom = new Dictionary<Guid, Room>();
             newRoomId = 1;
+            newAccountId = 1;
+            CheatEnabled = false;
         }
 
-        public LoginStatus Login(int version, string username, out LoginToken token)
+        public LoginStatus Login(int version, string username, out LoginToken token, out Account retAccount)
         {
             Console.WriteLine("{0} logged in", username);
             var connection = OperationContext.Current.GetCallbackChannel<IGameClient>(); 
             token = new LoginToken();
             token.token = System.Guid.NewGuid();
-            Account account = new Account() { Username = username };
+            Account account = new Account() { Username = username, Id = newAccountId++ };
+            retAccount = account;
             loggedInGuidToAccount.Add(token.token, account);
             loggedInGuidToChannel.Add(token.token, connection);
             loggedInAccountToGuid.Add(account, token.token);
@@ -121,8 +128,9 @@ namespace Sanguosha.Lobby.Server
             return null;
         }
 
-        public RoomOperationResult EnterRoom(LoginToken token, int roomId, bool spectate, string password = null)
+        public RoomOperationResult EnterRoom(LoginToken token, int roomId, bool spectate, string password, out Room room)
         {
+            room = null;
             if (VerifyClient(token))
             {
                 Console.WriteLine("{1} Enter room {0}", roomId, token.token);
@@ -144,6 +152,7 @@ namespace Sanguosha.Lobby.Server
                             seat.State = SeatState.GuestTaken;
                             NotifyRoomLayoutChanged(roomId);
                             Console.WriteLine("Seat {0}", seatNo);
+                            room = rooms[roomId]; 
                             return RoomOperationResult.Success;
                         }
                         seatNo++;
@@ -195,14 +204,14 @@ namespace Sanguosha.Lobby.Server
             }
         }
 
-        private void NotifyGameStart(int roomId)
+        private void NotifyGameStart(int roomId, IPAddress ip, int port, GameSettings gs)
         {
             foreach (var notify in rooms[roomId].Seats)
             {
                 if (notify.Account != null)
                 {
                     var channel = loggedInGuidToChannel[loggedInAccountToGuid[notify.Account]];
-                    channel.NotifyGameStart("");
+                    channel.NotifyGameStart(ip.ToString() + ":" + port, gs);
                 }
             }
         }
@@ -245,12 +254,16 @@ namespace Sanguosha.Lobby.Server
             if (VerifyClient(token))
             {
                 if (!loggedInGuidToRoom.ContainsKey(token.token)) { return RoomOperationResult.Locked; }
-                var thread = new Thread(GameService.StartGameService) { IsBackground = true };
-                thread.Start();
-                NotifyGameStart(loggedInGuidToRoom[token.token].Id);
+                int portNumber;
+                var room = loggedInGuidToRoom[token.token];
+                var gs = new GameSettings() { TimeOutSeconds = room.TimeOutSeconds, TotalPlayers = room.Seats.Count(pl => pl.Account != null), CheatEnabled = CheatEnabled };
+                GameService.StartGameService(HostingIp, gs, out portNumber);
+                NotifyGameStart(loggedInGuidToRoom[token.token].Id, HostingIp, portNumber, gs);
                 return RoomOperationResult.Success;
             }
             return RoomOperationResult.Auth;
         }
+
+        public bool CheatEnabled { get; set; }
     }
 }

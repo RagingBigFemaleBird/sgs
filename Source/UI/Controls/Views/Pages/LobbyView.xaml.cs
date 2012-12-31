@@ -47,8 +47,7 @@ namespace Sanguosha.UI.Controls
                 int mainSeat = 0;
 
                 client = new Client();
-                //string addr = LobbyModel.GameServerConnectionString;
-                string addr = "127.0.0.1:12345";
+                string addr = LobbyModel.GameServerConnectionString;
                 string[] args = addr.Split(':');
                 client.IpString = args[0];
                 if (args.Length >= 2)
@@ -87,6 +86,7 @@ namespace Sanguosha.UI.Controls
                     if ((bool)ea.Result)
                     {
                         MainGame game = new MainGame();
+                        game.Settings = LobbyModel.GameServerSettings;
                         game.MainSeat = mainSeat;
                         game.NetworkClient = client;
                         this.NavigationService.Navigate(game);
@@ -94,7 +94,7 @@ namespace Sanguosha.UI.Controls
                     }
                     else
                     {
-                        MessageBox.Show("Failed to create connection");
+                        MessageBox.Show("Failed to create connection for " + LobbyModel.GameServerConnectionString);
                     }
                 };
 

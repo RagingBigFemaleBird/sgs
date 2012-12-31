@@ -167,9 +167,11 @@ namespace Sanguosha.UI.Main
                     var binding = new NetTcpBinding();
                     var endpoint = new EndpointAddress(string.Format("net.tcp://{0}/GameService", hostName));
                     var channelFactory = new DuplexChannelFactory<ILobbyService>(lobbyModel, binding, endpoint);
-                    server = channelFactory.CreateChannel();     
-                    if (server.Login(1, userName, out token) == LoginStatus.Success)
+                    server = channelFactory.CreateChannel();
+                    Account ret;
+                    if (server.Login(1, userName, out token, out ret) == LoginStatus.Success)
                     {
+                        LobbyViewModel.Instance.CurrentAccount = ret;
                         ea.Result = true;
                     }
                 }
@@ -212,6 +214,7 @@ namespace Sanguosha.UI.Main
         {
             busyIndicator.BusyContent = Resources["Busy.LaunchServer"];
             busyIndicator.IsBusy = true;
+            LobbyServiceImpl gameService = null;
             ServiceHost host = null;
             IPAddress serverIp = tab1IpAddresses.SelectedItem as IPAddress;
             if (serverIp == null)
@@ -235,7 +238,8 @@ namespace Sanguosha.UI.Main
                 try
                 {
                     ea.Result = false;
-                    var gameService = new LobbyServiceImpl();
+                    gameService = new LobbyServiceImpl();
+                    gameService.HostingIp = serverIp;
                     host = new ServiceHost(gameService, new Uri[] {new Uri(string.Format("net.tcp://{0}:{1}/GameService", serverIp, portNumber))});
                     host.Open();
                     ea.Result = true;
@@ -252,6 +256,7 @@ namespace Sanguosha.UI.Main
                 {
                     ServerPage serverPage = new ServerPage();
                     serverPage.Host = host;
+                    serverPage.GameService = gameService;
                     this.NavigationService.Navigate(serverPage);
                     return;
                 }

@@ -146,6 +146,7 @@ namespace Sanguosha.UI.Controls
             set { _gameServerConnectionString = value; }
         }
 
+        public GameSettings GameServerSettings { get; set; }
 
         #region Commands
         public ICommand UpdateRoomCommand { get; set; }
@@ -187,16 +188,18 @@ namespace Sanguosha.UI.Controls
             if (room != null)
             {
                 CurrentRoom = new RoomViewModel() { Room = room };
-                CurrentSeat = CurrentRoom.Seats.FirstOrDefault(s => s.Account.Id == CurrentAccount.Id);
+                CurrentSeat = CurrentRoom.Seats.FirstOrDefault(s => s.Account != null && s.Account.Id == CurrentAccount.Id);
                 Trace.Assert(CurrentSeat != null, "Successfully created a room, but do not find myself in the room");
             }
         }
 
         public void EnterRoom()
         {
-            if (_connection.EnterRoom(_loginToken, _currentRoom.Id, false) == RoomOperationResult.Success)
+            Room room;
+            if (_connection.EnterRoom(_loginToken, _currentRoom.Id, false, null, out room) == RoomOperationResult.Success)
             {
-                CurrentSeat = CurrentRoom.Seats.FirstOrDefault(s => s.Account.Id == CurrentAccount.Id);
+                CurrentRoom = new RoomViewModel() { Room = room };
+                CurrentSeat = CurrentRoom.Seats.FirstOrDefault(s => s.Account != null && s.Account.Id == CurrentAccount.Id);
                 Trace.Assert(CurrentSeat != null, "Successfully joined a room, but do not find myself in the room");
             }
         }
@@ -214,9 +217,10 @@ namespace Sanguosha.UI.Controls
             throw new NotImplementedException();
         }
 
-        public void NotifyGameStart(string connectionString)
+        public void NotifyGameStart(string connectionString, GameSettings settings)
         {
             GameServerConnectionString = connectionString;
+            GameServerSettings = settings;
             var handler = OnGameInitiated;
             if (handler != null) OnGameInitiated(this, new EventArgs());
         }

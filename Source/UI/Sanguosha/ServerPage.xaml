@@ -21,8 +21,11 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Image Grid.RowSpan="2" Source="{DynamicResource Login.Background}" Stretch="UniformToFill" HorizontalAlignment="Center"/>
-       
-            <Menu x:Name="mainMenu" Style="{DynamicResource MainMenuStyle}">
+        <Grid Grid.Row="1" >
+            <CheckBox x:Name="cbAllowCheating" Content="允许作弊" Height="21" VerticalAlignment="Top" HorizontalAlignment="Left" Width="65" Foreground="#FFFFCF4B" Style="{DynamicResource CheckBoxStyle1}" Click="cbAllowCheating_Click_1" />
+        </Grid>
+
+        <Menu x:Name="mainMenu" Style="{DynamicResource MainMenuStyle}">
                 <MenuItem Padding="0" Style="{DynamicResource MenuItemStyle1}" Height="20">
                     <MenuItem.Header>
                         <Button Style="{DynamicResource DefaultButtonStyleDark}" Height="20" Padding="1,0,2,0" Margin="0,0,0,0">

@@ -12,6 +12,7 @@ using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.UI;
 using Sanguosha.Core.Skills;
+using Sanguosha.Lobby.Core;
 
 
 namespace Sanguosha.Core.Games
@@ -88,7 +89,7 @@ namespace Sanguosha.Core.Games
         
         class GameAlreadyStartedException : SgsException { }
 
-        public GameOptions Options { get; protected set; }
+        public GameSettings Settings { get; set; }
 
         static Game()
         {
@@ -126,7 +127,7 @@ namespace Sanguosha.Core.Games
             triggersToRegister = new List<DelayedTriggerRegistration>();
             isDying = new Stack<Player>();
             handCardVisibility = new Dictionary<Player, List<Player>>();
-            Options = new GameOptions() { CheatingEnabled = true };
+            Settings = new GameSettings();
         }
 
         public void LoadExpansion(Expansion expansion)
@@ -353,6 +354,12 @@ namespace Sanguosha.Core.Games
                     if (card.Type is Heroes.HeroCardHandler)
                     {
                         unknownCard.Type = new Heroes.UnknownHeroCardHandler();
+                        unknownCard.Id = Card.UnknownHeroId;
+                    }
+                    else if (card.Type is RoleCardHandler)
+                    {
+                        unknownCard.Id = Card.UnknownRoleId;
+                        unknownCard.Type = card.Type;
                     }
                     else
                     {

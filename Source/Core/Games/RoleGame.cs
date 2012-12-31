@@ -38,7 +38,7 @@ namespace Sanguosha.Core.Games
                     }
                     if (skill is CheatSkill)
                     {
-                        if (!Game.CurrentGame.Options.CheatingEnabled) return VerifierResult.Fail;
+                        if (!Game.CurrentGame.Settings.CheatEnabled) return VerifierResult.Fail;
                         return VerifierResult.Success;
                     }
                     else if (skill is ActiveSkill)
@@ -102,7 +102,7 @@ namespace Sanguosha.Core.Games
                     {
                         if (skill is CheatSkill)
                         {
-                            if (!Game.CurrentGame.Options.CheatingEnabled) break;
+                            if (!Game.CurrentGame.Settings.CheatEnabled) break;
                             CheatSkill cs = skill as CheatSkill;
                             if (cs.CheatType == CheatType.Card)
                             {
@@ -389,8 +389,50 @@ namespace Sanguosha.Core.Games
 
         public static DeckType RoleDeckType = new DeckType("Role");
 
+
         public class RoleGameRuleTrigger : Trigger
         {
+            List<Card> usedRoleCards;
+            static List<Card> allRoleCards;
+
+            private Card _FindARoleCard(Role role)
+            {
+                foreach (var card in allRoleCards)
+                {
+                    if ((card.Type as RoleCardHandler).Role == role && !usedRoleCards.Contains(card))
+                    {
+                        var c = new Card();
+                        c.CopyFrom(card);
+                        c.Place = new DeckPlace(null, RoleGame.RoleDeckType);
+                        usedRoleCards.Add(card);
+                        return c;
+                    }
+                }
+                return null;
+            }
+
+            static RoleGameRuleTrigger()
+            {
+                allRoleCards = new List<Card>(from c in GameEngine.CardSet
+                                              where c.Type is RoleCardHandler
+                                              select c);
+            }
+
+            public RoleGameRuleTrigger()
+            {
+                usedRoleCards = new List<Card>();
+            }
+
+            private void _DebugDealingDeck(Game game)
+            {
+                if (game.Decks[null, DeckType.Dealing].Any(tc => tc.Type is HeroCardHandler || tc.Type is RoleCardHandler || tc.Id == Card.UnknownHeroId || tc.Id == Card.UnknownRoleId))
+                {
+                    var card = game.Decks[null, DeckType.Dealing].FirstOrDefault(tc => tc.Type is HeroCardHandler || tc.Type is RoleCardHandler || tc.Id == Card.UnknownHeroId || tc.Id == Card.UnknownRoleId);
+                    Trace.TraceError("Dealing deck poisoning by card {0} @ {1}", card.Id, game.Decks[null, DeckType.Dealing].IndexOf(card));
+                    Trace.Assert(false);
+                }
+            }
+
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 Game game = Game.CurrentGame;
@@ -404,7 +446,8 @@ namespace Sanguosha.Core.Games
 
                 // Put the whole deck in the dealing deck
                 game.Decks[DeckType.Dealing] = game.CardSet.GetRange(0, game.CardSet.Count);
-                foreach (Card card in new List<Card>(game.Decks[DeckType.Dealing]))
+                var dealdeck = new List<Card>(game.Decks[DeckType.Dealing]);
+                foreach (Card card in dealdeck)
                 {
                     // We don't want hero cards
                     if (card.Type is HeroCardHandler)
@@ -413,12 +456,16 @@ namespace Sanguosha.Core.Games
                         game.Decks[DeckType.Heroes].Add(card);
                         card.Place = new DeckPlace(null, DeckType.Heroes);
                     }
+                    else if (card.Type is RoleCardHandler)
+                    {
+                        game.Decks[DeckType.Dealing].Remove(card);
+                        card.Place = new DeckPlace(null, RoleDeckType);
+                    }
                     else
                     {
                         card.Place = new DeckPlace(null, DeckType.Dealing);
                     }
                 }
-
                 if (game.Players.Count == 0)
                 {
                     return;
@@ -429,13 +476,13 @@ namespace Sanguosha.Core.Games
                 Random random = new Random(seed);
                 int rulerId = 0;
 
-                game.Decks[null, RoleDeckType].Add(new Card(SuitType.None, 0, new RoleCardHandler(Role.Ruler)));
+                game.Decks[null, RoleDeckType].Add(_FindARoleCard(Role.Ruler));
                 Trace.Assert(game.Players.Count > 1);
                 Trace.Assert(numberOfDefectors + 1 <= game.Players.Count);
                 int t = numberOfDefectors;
                 while (t-- > 0)
                 {
-                    game.Decks[null, RoleDeckType].Add(new Card(SuitType.None, 0, new RoleCardHandler(Role.Defector)));
+                    game.Decks[null, RoleDeckType].Add(_FindARoleCard(Role.Defector));
                 }
                 int remaining = game.Players.Count - numberOfDefectors;
                 int rebel;
@@ -457,19 +504,11 @@ namespace Sanguosha.Core.Games
 
                 while (rebel-- > 0)
                 {
-                    game.Decks[null, RoleDeckType].Add(new Card(SuitType.None, 0, new RoleCardHandler(Role.Rebel)));
+                    game.Decks[null, RoleDeckType].Add(_FindARoleCard(Role.Rebel));
                 }
                 while (loyalist-- > 0)
                 {
-                    game.Decks[null, RoleDeckType].Add(new Card(SuitType.None, 0, new RoleCardHandler(Role.Loyalist)));
-                }
-
-
-                foreach (Card c in game.Decks[null, RoleDeckType])
-                {
-                    c.Place = new DeckPlace(null, RoleDeckType);
-                    c.Id = GameEngine.CardSet.Count;
-                    GameEngine.CardSet.Add(c);
+                    game.Decks[null, RoleDeckType].Add(_FindARoleCard(Role.Loyalist));
                 }
 
                 Shuffle(game.Decks[null, RoleDeckType]);
@@ -586,7 +625,6 @@ namespace Sanguosha.Core.Games
                 Game.CurrentGame.Players[rulerId].MaxHealth = Game.CurrentGame.Players[rulerId].Health = ((game.Players.Count > 4) ? h.Hero.MaxHealth + 1 : h.Hero.MaxHealth);
                 Game.CurrentGame.Players[rulerId].IsMale = h.Hero.IsMale ? true : false;
                 Game.CurrentGame.Players[rulerId].IsFemale = h.Hero.IsMale ? false : true;
-
 
                 Shuffle(game.Decks[DeckType.Heroes]);
                 Dictionary<Player, List<Card>> restDraw = new Dictionary<Player, List<Card>>();
@@ -756,14 +794,9 @@ namespace Sanguosha.Core.Games
         }
 
 
-        public RoleGame(int numberOfDefectors)
+        public RoleGame()
         {
-            Trace.Assert(numberOfDefectors <= 2 && numberOfDefectors >= 0);
-            defectorsCount = numberOfDefectors;
         }
-
-
-        int defectorsCount;
 
         public static void Shuffle(IList<Card> list)
         {

@@ -23,6 +23,7 @@ using System.IO;
 using System.Windows.Navigation;
 using System.Collections.ObjectModel;
 using Sanguosha.Core.Cards;
+using Sanguosha.Lobby.Core;
 
 namespace Sanguosha.UI.Controls
 {
@@ -67,7 +68,13 @@ namespace Sanguosha.UI.Controls
             set { _mainSeat = value; }
         }
 
-        const int numberOfHeros = 3;
+        GameSettings settings;
+
+        public GameSettings Settings
+        {
+            get { return settings; }
+            set { settings = value; }
+        }
 
         private void InitGame()
         {
@@ -86,14 +93,15 @@ namespace Sanguosha.UI.Controls
             Trace.WriteLine("Log starting");
 #endif
 
-            _game = new RoleGame(1);
+            _game = new RoleGame();
+            _game.Settings = Settings;
             foreach (var g in GameEngine.Expansions.Values)
             {
                 _game.LoadExpansion(g);
             }
 #if NETWORKING
             ClientNetworkUiProxy activeClientProxy = null;
-            for (int i = 0; i < numberOfHeros; i++)
+            for (int i = 0; i < settings.TotalPlayers; i++)
 #else
             for (int i = 0; i < 8; i++)
 #endif
@@ -120,7 +128,7 @@ namespace Sanguosha.UI.Controls
                 var proxy = new ClientNetworkUiProxy(
                             new AsyncUiAdapter(gameModel.PlayerModels[i]), NetworkClient, i == 0);
                 proxy.HostPlayer = player;
-                proxy.TimeOutSeconds = 15;
+                proxy.TimeOutSeconds = settings.TimeOutSeconds;
                 if (i == 0)
                 {
                     activeClientProxy = proxy;

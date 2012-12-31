@@ -22,8 +22,10 @@ namespace Sanguosha.UI.Controls
             get { return _seat; }
             set 
             {
+                if (_seat == value) return;
                 _seat = value;
                 State = value.State;
+                Account = value.Account;
             }
         }
 

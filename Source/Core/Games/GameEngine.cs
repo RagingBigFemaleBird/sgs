@@ -50,6 +50,7 @@ namespace Sanguosha.Core.Games
 
         public static void LoadExpansions(string folderPath)
         {
+            Trace.TraceInformation("LOADING CARDSETS FROM : " + folderPath);
             var files = Directory.GetFiles(folderPath);
             foreach (var file in files)
             {

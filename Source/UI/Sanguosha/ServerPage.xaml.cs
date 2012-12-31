@@ -32,5 +32,12 @@ namespace Sanguosha.UI.Main
         }
 
         public ServiceHost Host { get; set; }
+
+        private void cbAllowCheating_Click_1(object sender, RoutedEventArgs e)
+        {
+            GameService.CheatEnabled = cbAllowCheating.IsChecked == true;
+        }
+
+        public Lobby.Server.LobbyServiceImpl GameService { get; set; }
     }
 }

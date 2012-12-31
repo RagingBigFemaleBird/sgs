@@ -8,15 +8,18 @@ using System.Text;
 using Sanguosha.Core.Network;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.UI;
+using Sanguosha.Lobby.Core;
+using System.Net;
+using System.Threading;
 
 namespace Sanguosha.Lobby.Server
 {
     public class GameService
     {
-        public static void StartGameService()
+        public static void StartGameService(IPAddress IP, GameSettings setting, out int portNumber)
         {
-            int totalNumberOfPlayers = 3;
-            int timeOutSeconds = 25;
+            int totalNumberOfPlayers = setting.TotalPlayers;
+            int timeOutSeconds = setting.TimeOutSeconds;
             Trace.Listeners.Clear();
 
             TextWriterTraceListener twtl = new TextWriterTraceListener(Path.Combine(Directory.GetCurrentDirectory(), AppDomain.CurrentDomain.FriendlyName + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + ".txt"));
@@ -29,12 +32,13 @@ namespace Sanguosha.Lobby.Server
             Trace.Listeners.Add(twtl);
             Trace.Listeners.Add(ctl);
             Trace.AutoFlush = true;
-
             Trace.WriteLine("Log starting");
             Trace.Listeners.Add(new ConsoleTraceListener());
-            Game game = new RoleGame(1);
+            Game game = new RoleGame();
+            game.Settings = setting;
             Sanguosha.Core.Network.Server server;
-            server = new Sanguosha.Core.Network.Server(game, totalNumberOfPlayers);
+            server = new Sanguosha.Core.Network.Server(game, totalNumberOfPlayers, IP);
+            portNumber = server.IpPort;
             for (int i = 0; i < totalNumberOfPlayers; i++)
             {
                 var player = new Player();
@@ -55,7 +59,8 @@ namespace Sanguosha.Lobby.Server
                 game.LoadExpansion(g);
             }
             game.GameServer = server;
-            game.Run();
+            var thread = new Thread(game.Run) { IsBackground = true };
+            thread.Start();
         }
 
     }

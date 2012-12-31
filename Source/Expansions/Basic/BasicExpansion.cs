@@ -144,6 +144,14 @@ namespace Sanguosha.Expansions.Basic
             CardSet.Add(new Card(SuitType.Heart, 12, new ShanDian()));
             CardSet.Add(new Card(SuitType.Diamond, 12, new WuXieKeJi()));
 
+            for (int i = 0; i < 5; i++)
+            {
+                CardSet.Add(new Card(SuitType.None, 0, new RoleCardHandler(Role.Rebel)));
+                CardSet.Add(new Card(SuitType.None, 0, new RoleCardHandler(Role.Loyalist)));
+                CardSet.Add(new Card(SuitType.None, 0, new RoleCardHandler(Role.Defector)));
+                CardSet.Add(new Card(SuitType.None, 0, new RoleCardHandler(Role.Ruler)));
+            }
+
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("CaoCao", true, Allegiance.Wei, 4, new JianXiong(), new HuJia()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SimaYi", true, Allegiance.Wei, 3, new FanKui(), new GuiCai()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("XiahouDun", true, Allegiance.Wei, 4, new GangLie()))));

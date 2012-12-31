@@ -42,7 +42,7 @@ namespace Sanguosha.Lobby.Core
     public interface ILobbyService
     {
         [OperationContract(IsInitiating = true)]
-        LoginStatus Login(int version, string username, out LoginToken token);
+        LoginStatus Login(int version, string username, out LoginToken token, out Account retAccount);
 
         [OperationContract(IsInitiating = false)]
         void Logout(LoginToken token);
@@ -54,7 +54,7 @@ namespace Sanguosha.Lobby.Core
         Room CreateRoom(LoginToken token, string password = null);
 
         [OperationContract]
-        RoomOperationResult EnterRoom(LoginToken token, int roomId, bool spectate, string password = null);
+        RoomOperationResult EnterRoom(LoginToken token, int roomId, bool spectate, string password, out Room room);
 
         [OperationContract]
         RoomOperationResult ExitRoom(LoginToken token, int roomId);
@@ -75,7 +75,7 @@ namespace Sanguosha.Lobby.Core
         void NotifyKicked();
 
         [OperationContract(IsOneWay = true)]
-        void NotifyGameStart(string connectionString);
+        void NotifyGameStart(string connectionString, GameSettings settings);
     }
 
     static class Helper

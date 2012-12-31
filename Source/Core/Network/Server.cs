@@ -64,8 +64,13 @@ namespace Sanguosha.Core.Network
         /// <summary>
         /// Initialize and start the server.
         /// </summary>
-        public Server(Game game, int capacity)
+        public Server(Game game, int capacity, IPAddress address)
         {
+            ipAddress = address;
+            IPEndPoint ep = new IPEndPoint(ipAddress, 0);
+            listener = new TcpListener(ep);
+            listener.Start();
+            ipPort = ((IPEndPoint)listener.LocalEndpoint).Port;
             maxClients = capacity;
             handlers = new ServerHandler[capacity];
             for (int i = 0; i < capacity; i++)
@@ -81,7 +86,7 @@ namespace Sanguosha.Core.Network
         /// </summary>
         public void Ready()
         {
-            Listener();
+            _StartListener();
         }
 
         public void CommIdInc(int clientId)
@@ -340,23 +345,26 @@ namespace Sanguosha.Core.Network
             Flush(clientId);
         }
 
-        private void Listener()
+        IPAddress ipAddress;
+
+        public IPAddress IpAddress
         {
-            IPHostEntry host;
-            IPAddress localIP = null;
-            host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (IPAddress ip in host.AddressList)
-            {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    localIP = ip;
-                }
-            }
-            IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 12345);
-            TcpListener listener = new TcpListener(ep);
-            listener.Start();
+            get { return ipAddress; }
+        }
+
+        int ipPort;
+
+        public int IpPort
+        {
+            get { return ipPort; }
+        }
+
+        TcpListener listener;
+
+        private void _StartListener()
+        {
             int i = 0;
-            Trace.TraceInformation("Listener Started on {0}", localIP.ToString());
+            Trace.TraceInformation("Listener Started on {0} : {1}", ipAddress.ToString(), IpPort);
             while (i < maxClients)
             {
                 handlers[i].game = game;

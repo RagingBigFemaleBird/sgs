@@ -80,7 +80,6 @@
     <Compile Include="Games\PlayerExtension.cs" />
     <Compile Include="Games\Expansion.cs" />
     <Compile Include="Games\GameEngine.cs" />
-    <Compile Include="Games\GameOptions.cs" />
     <Compile Include="Games\Game.Procedures.cs" />
     <Compile Include="Games\Role.cs" />
     <Compile Include="Games\TurnPhase.cs" />
@@ -140,6 +139,12 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lobby\Service\Core.csproj">
+      <Project>{7de81be7-26d1-4954-9037-b7184c1df9bd}</Project>
+      <Name>Core %28Lobby\Core%29</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

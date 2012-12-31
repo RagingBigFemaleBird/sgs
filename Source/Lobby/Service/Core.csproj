@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="Account.cs" />
     <Compile Include="Achievement.cs" />
+    <Compile Include="GameSettings.cs" />
     <Compile Include="HeroUnlock\HeroMapNode.cs" />
     <Compile Include="ILobbyService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
