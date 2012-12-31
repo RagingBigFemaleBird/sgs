@@ -168,6 +168,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Resource>
     <Resource Include="Images\System\cornerAdorner.png" />
+    <Resource Include="Images\System\Dropdown-hover.png" />
+    <Resource Include="Images\System\Dropdown-normal.png" />
+    <Resource Include="Images\System\Tick.png" />
+    <Resource Include="Images\System\Tick2.png" />
     <Resource Include="Images\System\WindowBg.jpg" />
   </ItemGroup>
   <ItemGroup>

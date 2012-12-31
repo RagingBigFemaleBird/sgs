@@ -112,7 +112,7 @@
             <ColumnDefinition Width="541"/>
         </Grid.ColumnDefinitions>
         <Border BorderThickness="1" BorderBrush="Black" Grid.Row="1">
-            <Border BorderThickness="1" BorderBrush="#FFA59579" >
+            <Border BorderThickness="1" BorderBrush="#FF8C8782" >
                 <Border BorderThickness="1" BorderBrush="Black" Background="#FF4A3B2D" >
                     <DataGrid x:Name="gridRooms" RowHeaderWidth="0" Block.TextAlignment="Center"
                               Margin="10"
@@ -145,21 +145,21 @@
                 </Border>
             </Border>
         </Border>
-        <Grid Grid.Row="1" Grid.Column="1">	
-            <Border Margin="3, 10, 2, 0" BorderThickness="1" CornerRadius="3" BorderBrush="Black" >
+        <Grid Grid.Row="1" Grid.Column="1" Grid.RowSpan="2">	
+            <Border Margin="4, 10, 0, 0" BorderThickness="1" CornerRadius="3" BorderBrush="Black" >
                 <Border BorderThickness="1" CornerRadius="3" BorderBrush="#FFA59579" >
                     <Border BorderThickness="1" CornerRadius="3" BorderBrush="Black" >
                     	<Border.Background>
-                    		<ImageBrush ImageSource="/Resources;component/Images/Lobby/roomBg.jpg" Viewbox="0,0,525,255" ViewboxUnits="Absolute"/>
+                    		<ImageBrush ImageSource="/Resources;component/Images/Lobby/roomBg.jpg" Viewport="0,0,525,255" ViewportUnits="Absolute" TileMode="FlipXY"/>
                     	</Border.Background>
-                        <Grid Margin="0,15,0,0">
+                        <Grid Margin="0,15,0,184">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.5*" />
                                 <ColumnDefinition Width="80" />
                                 <ColumnDefinition Width="0.5*" />
                             </Grid.ColumnDefinitions>
                             
-                            <ItemsControl ItemsSource="{Binding CurrentRoom.LeftSeats}">
+                            <ItemsControl ItemsSource="{Binding CurrentRoom.LeftSeats}" Margin="0,0,0,-116">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <UniformGrid Columns="1" />
@@ -171,7 +171,7 @@
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-                            <ItemsControl Grid.Column="2" ItemsSource="{Binding CurrentRoom.RightSeats}">
+                            <ItemsControl Grid.Column="2" ItemsSource="{Binding CurrentRoom.RightSeats}" Margin="0,0,0,-116">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <UniformGrid Columns="1" />

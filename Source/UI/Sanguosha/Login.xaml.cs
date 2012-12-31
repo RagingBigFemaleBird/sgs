@@ -144,6 +144,8 @@ namespace Sanguosha.UI.Main
             busyIndicator.BusyContent = Resources["Busy.ConnectServer"];
             busyIndicator.IsBusy = true;
             ILobbyService server = null;
+            LoginToken token = new LoginToken();
+            string userName = tab0UserName.Text;
 
             BackgroundWorker worker = new BackgroundWorker();
 
@@ -154,8 +156,11 @@ namespace Sanguosha.UI.Main
                     ea.Result = false;
                     var lobbyModel = LobbyViewModel.Instance;
                     var channelFactory = new DuplexChannelFactory<ILobbyService>(lobbyModel, "GameServiceEndpoint");
-                    server = channelFactory.CreateChannel();                    
-                    ea.Result = true;
+                    server = channelFactory.CreateChannel();     
+                    if (server.Login(1, userName, out token) == LoginStatus.Success)
+                    {
+                        ea.Result = true;
+                    }
                 }
                 catch (Exception e)
                 {
@@ -170,16 +175,12 @@ namespace Sanguosha.UI.Main
                 if ((bool)ea.Result)
                 {
                     LobbyView lobby = new LobbyView();
-                    LoginToken token;
-                    if (server.Login(1, tab0UserName.Text, out token) == LoginStatus.Success)
-                    {
-                        var lobbyModel = LobbyViewModel.Instance;
-                        lobbyModel.Connection = server;
-                        lobbyModel.LoginToken = token;
-                        lobbyModel.UpdateRooms();
-                        this.NavigationService.Navigate(lobby);
-                        success = true;
-                    }                    
+                    var lobbyModel = LobbyViewModel.Instance;
+                    lobbyModel.Connection = server;
+                    lobbyModel.LoginToken = token;
+                    lobbyModel.UpdateRooms();
+                    this.NavigationService.Navigate(lobby);
+                    success = true;
                 }
 
                 if (!success)
