@@ -138,10 +138,7 @@ namespace Sanguosha.UI.Controls
                 {
                     PlayerModel.HandCards.Add(card.CardModel);
                 }
-                if (!isFaked)
-                {
-                    PlayerModel.HandCardCount += cards.Count;
-                }
+                PlayerModel.HandCardCount += cards.Count;
             }
             else if (deck == DeckType.Equipment)
             {

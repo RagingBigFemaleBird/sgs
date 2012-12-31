@@ -32,7 +32,7 @@ namespace Sanguosha.Expansions.Fire.Skills
 
             protected override bool VerifyCard(Player source, Card card)
             {
-                return true;
+                return card.Place.DeckType == DeckType.Hand;
             }
 
             public override UiHelper Helper
@@ -69,6 +69,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             }
             move.Cards = new List<Card>(cards);
             move.To = new DeckPlace(Owner, QiXingDeck);
+            move.Helper.IsFakedMove = true;
             Game.CurrentGame.MoveCards(move);
         }
 
@@ -91,6 +92,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             }
             move.Cards = new List<Card>(cards);
             move.To = new DeckPlace(Owner, QiXingDeck);
+            move.Helper.IsFakedMove = true;
             Game.CurrentGame.MoveCards(move);
         }
 

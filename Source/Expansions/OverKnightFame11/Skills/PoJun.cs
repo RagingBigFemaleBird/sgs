@@ -11,6 +11,7 @@ using Sanguosha.Expansions.Battle.Cards;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Games;
 using System.Diagnostics;
+using Sanguosha.Expansions.Basic.Cards;
 
 namespace Sanguosha.Expansions.OverKnightFame11.Skills
 {
@@ -23,7 +24,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return !a.Targets[0].IsDead; },
+                (p, e, a) => { return a.ReadonlyCard.Type is Sha && !a.Targets[0].IsDead; },
                 (p, e, a) => { Game.CurrentGame.DrawCards(a.Targets[0], Math.Min(5, a.Targets[0].Health)); a.Targets[0].IsImprisoned = !a.Targets[0].IsImprisoned; },
                 TriggerCondition.OwnerIsSource
             );

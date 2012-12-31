@@ -716,7 +716,7 @@ namespace Sanguosha.Core.Games
             }
 
             NotificationProxy.NotifyCardMovement(moves);
-            Thread.Sleep(500);
+            Thread.Sleep(150);
 
             int i = 0;
             foreach (CardsMovement move in moves)
