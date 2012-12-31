@@ -78,7 +78,6 @@ namespace Sanguosha.Expansions.Hills.Skills
             ) { AskForConfirmation = false };
             Triggers.Add(GameEvent.PhaseOutEvents[TurnPhase.Draw], trigger);
             Triggers.Add(GameEvent.PhaseProceedEvents[TurnPhase.End], trigger2);
-            IsAutoInvoked = null;
         }
     }
 }
