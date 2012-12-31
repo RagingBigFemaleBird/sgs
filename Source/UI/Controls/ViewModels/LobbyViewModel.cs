@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.ServiceModel;
 using System.Windows;
 using System.Threading;
+using System.Diagnostics;
 
 namespace Sanguosha.UI.Controls
 {
@@ -80,6 +81,44 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        private Account _currentAccount;
+
+        /// <summary>
+        /// Gets/sets the currrent room that the user is viewing, has entered or is gaming in.
+        /// </summary>
+        public Account CurrentAccount
+        {
+            get
+            {
+                return _currentAccount;
+            }
+            set
+            {
+                if (_currentAccount == value) return;
+                _currentAccount = value;
+                OnPropertyChanged("CurrentAccount");
+            }
+        }
+
+        private SeatViewModel _currentSeat;
+
+        /// <summary>
+        /// Gets/sets the currrent room that the user is viewing, has entered or is gaming in.
+        /// </summary>
+        public SeatViewModel CurrentSeat
+        {
+            get
+            {
+                return _currentSeat;
+            }
+            set
+            {
+                if (_currentSeat == value) return;
+                _currentSeat = value;
+                OnPropertyChanged("CurrentSeat");
+            }
+        }
+
         private ObservableCollection<RoomViewModel> _rooms;
 
         /// <summary>
@@ -113,7 +152,10 @@ namespace Sanguosha.UI.Controls
         public ICommand CreateRoomCommand { get; set; }
         public ICommand EnterRoomCommand { get; set; }
         public ICommand StartGameCommand { get; set; }
+        public ICommand ReadyCommand { get; set; }
+        public ICommand CancelReadyCommand { get; set; }
         #endregion
+
         #endregion
 
         #region Events
@@ -141,14 +183,21 @@ namespace Sanguosha.UI.Controls
         /// </summary>
         public void CreateRoom()
         {
-            var result = _connection.CreateRoom(_loginToken);
-            if (result != null) CurrentRoom = new RoomViewModel() { Room = result };
+            var room = _connection.CreateRoom(_loginToken);
+            if (room != null)
+            {
+                CurrentRoom = new RoomViewModel() { Room = room };
+                CurrentSeat = CurrentRoom.Seats.FirstOrDefault(s => s.Account.Id == CurrentAccount.Id);
+                Trace.Assert(CurrentSeat != null, "Successfully created a room, but do not find myself in the room");
+            }
         }
 
         public void EnterRoom()
         {
             if (_connection.EnterRoom(_loginToken, _currentRoom.Id, false) == RoomOperationResult.Success)
             {
+                CurrentSeat = CurrentRoom.Seats.FirstOrDefault(s => s.Account.Id == CurrentAccount.Id);
+                Trace.Assert(CurrentSeat != null, "Successfully joined a room, but do not find myself in the room");
             }
         }
 

@@ -122,6 +122,14 @@
     <BitmapImage x:Key="Login.Button.Start.Hover">Buttons/start/hover.png</BitmapImage>
     <BitmapImage x:Key="Login.Button.Start.Down">Buttons/start/down.png</BitmapImage>
     <BitmapImage x:Key="Login.Button.Start.Disabled">Buttons/start/disabled.png</BitmapImage>
+    <BitmapImage x:Key="Login.Button.Ready.Disabled">Buttons/lobbyReady/disabled.png</BitmapImage>
+    <BitmapImage x:Key="Login.Button.Ready.Up">Buttons/lobbyReady/normal.png</BitmapImage>
+    <BitmapImage x:Key="Login.Button.Ready.Hover">Buttons/lobbyReady/hover.png</BitmapImage>
+    <BitmapImage x:Key="Login.Button.Ready.Down">Buttons/lobbyReady/down.png</BitmapImage>    
+    <BitmapImage x:Key="Login.Button.Cancel.Up">Buttons/lobbyCancel/normal.png</BitmapImage>
+    <BitmapImage x:Key="Login.Button.Cancel.Hover">Buttons/lobbyCancel/hover.png</BitmapImage>
+    <BitmapImage x:Key="Login.Button.Cancel.Down">Buttons/lobbyCancel/down.png</BitmapImage>
+    <BitmapImage x:Key="Login.Button.Cancel.Disabled">Buttons/lobbyCancel/disabled.png</BitmapImage>
     
     <BitmapImage x:Key="Game.InfoPanel.Header">Game/infoPlaneHeader.png</BitmapImage>
     <BitmapImage x:Key="Game.InfoPanel.Body">Game/infoPlaneBody.png</BitmapImage>

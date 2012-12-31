@@ -125,5 +125,16 @@ namespace Sanguosha.UI.Controls
                 LobbyModel.CurrentRoom = model;
             }
         }
+
+        private void enterRoomButton_Click(object sender, RoutedEventArgs e)
+        {
+            Trace.Assert(sender is Button);
+            var model = (sender as Button).DataContext as RoomViewModel;
+            if (model != null)
+            {
+                LobbyModel.CurrentRoom = model;
+                LobbyModel.EnterRoom();
+            }
+        }
     }
 }

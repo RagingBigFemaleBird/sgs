@@ -185,12 +185,32 @@
     		<RichTextBox Margin="86,7,8,34" FontSize="15" FontFamily="KaiTi" Background="Transparent" Foreground="White" BorderBrush="#FFC7B564" IsHitTestVisible="False">
     			<FlowDocument TextAlignment="Center" LineHeight="10">
     				<Paragraph><Run Text="Lv. 2" FontFamily="Arial"  FontSize="13"/></Paragraph>				
-    				<Paragraph><Run Text="三国杀爱好者"/></Paragraph>
+    				<Paragraph><Run Text="{Binding Account.UserName}"/></Paragraph>
     				<Paragraph><Run Text="技巧度："/><Run Text=" "/><Run Text="12" FontFamily="Arial" /></Paragraph>
     			</FlowDocument>
     		</RichTextBox>
     		<Path Data="M86,25.5 L199,25.5" Height="1" Margin="86,28.835,7,0" Stretch="Fill" Stroke="#FFC7B564" VerticalAlignment="Top"/>
     		<Path Data="M86,25.5 L199,25.5" Height="1" Margin="86,54.181,7,0" Stretch="Fill" Stroke="#FFC7B564" VerticalAlignment="Top"/>
-    	</Grid>    	
+    		<local:OutlinedTextBlock HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-5,-8,0"
+									 Text="{res:ResourceKeyBinding Path=State, StringFormat=Seat.State.{0}.Name}" FontSize="26.25" FontFamily="STLiTi" RenderTransformOrigin="0.5,0.5" >
+    			<local:OutlinedTextBlock.RenderTransform>
+    				<TransformGroup>
+    					<ScaleTransform/>
+    					<SkewTransform/>
+    					<RotateTransform Angle="30"/>
+    					<TranslateTransform/>
+    				</TransformGroup>
+    			</local:OutlinedTextBlock.RenderTransform>
+    			<local:OutlinedTextBlock.Fill>
+    				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+    					<GradientStop Color="#FFFFDD3F" Offset="0.004"/>
+    					<GradientStop Color="White" Offset="1"/>
+    				</LinearGradientBrush>
+    			</local:OutlinedTextBlock.Fill>
+				<local:OutlinedTextBlock.Effect>
+					<DropShadowEffect ShadowDepth="0" Color="White" BlurRadius="10" />
+				</local:OutlinedTextBlock.Effect>
+    		</local:OutlinedTextBlock>
+		</Grid>    	
 	</Grid>
 </UserControl>
