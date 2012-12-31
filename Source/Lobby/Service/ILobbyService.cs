@@ -37,14 +37,6 @@ namespace Sanguosha.Lobby.Core
         Invalid = -5,
     }
 
-    public enum RoomOperation
-    {
-        ChangeSeat,
-        StartGame,
-        Kick,
-        ChangeOptions,
-    }
-
     [ServiceKnownType("GetKnownTypes", typeof(Helper))]
     [ServiceContract(Namespace = "", CallbackContract = typeof(IGameClient), SessionMode = SessionMode.Required)]
     public interface ILobbyService
@@ -68,7 +60,10 @@ namespace Sanguosha.Lobby.Core
         RoomOperationResult ExitRoom(LoginToken token, int roomId);
 
         [OperationContract]
-        RoomOperationResult RoomOperations(LoginToken token, RoomOperation op, int arg1, int arg2);
+        RoomOperationResult ChangeSeat(LoginToken token, int newSeat);
+
+        [OperationContract]
+        RoomOperationResult StartGame(LoginToken token);
     }
 
     public interface IGameClient
