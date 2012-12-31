@@ -155,7 +155,9 @@ namespace Sanguosha.UI.Main
                 {
                     ea.Result = false;
                     var lobbyModel = LobbyViewModel.Instance;
-                    var channelFactory = new DuplexChannelFactory<ILobbyService>(lobbyModel, "GameServiceEndpoint");
+                    var binding = new NetTcpBinding();
+                    var endpoint = new EndpointAddress("net.tcp://localhost:8080/GameService");
+                    var channelFactory = new DuplexChannelFactory<ILobbyService>(lobbyModel, binding, endpoint);
                     server = channelFactory.CreateChannel();     
                     if (server.Login(1, userName, out token) == LoginStatus.Success)
                     {
@@ -207,7 +209,7 @@ namespace Sanguosha.UI.Main
                 {
                     ea.Result = false;
                     var gameService = new LobbyServiceImpl();
-                    host = new ServiceHost(gameService);
+                    host = new ServiceHost(gameService, new Uri[] {new Uri("net.tcp://localhost:8080/GameService")});
                     host.Open();
                     ea.Result = true;
                 }
