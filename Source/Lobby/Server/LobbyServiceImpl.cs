@@ -256,7 +256,9 @@ namespace Sanguosha.Lobby.Server
                 if (!loggedInGuidToRoom.ContainsKey(token.token)) { return RoomOperationResult.Locked; }
                 int portNumber;
                 var room = loggedInGuidToRoom[token.token];
-                var gs = new GameSettings() { TimeOutSeconds = room.TimeOutSeconds, TotalPlayers = room.Seats.Count(pl => pl.Account != null), CheatEnabled = CheatEnabled };
+                var total = room.Seats.Count(pl => pl.Account != null);
+                if (total <= 1) return RoomOperationResult.Invalid;
+                var gs = new GameSettings() { TimeOutSeconds = room.TimeOutSeconds, TotalPlayers = total, CheatEnabled = CheatEnabled };
                 GameService.StartGameService(HostingIp, gs, out portNumber);
                 NotifyGameStart(loggedInGuidToRoom[token.token].Id, HostingIp, portNumber, gs);
                 return RoomOperationResult.Success;
