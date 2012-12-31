@@ -148,7 +148,10 @@
         <Grid Grid.Row="1" Grid.Column="1">	
             <Border Margin="3, 10, 2, 0" BorderThickness="1" CornerRadius="3" BorderBrush="Black" >
                 <Border BorderThickness="1" CornerRadius="3" BorderBrush="#FFA59579" >
-                    <Border BorderThickness="1" CornerRadius="3" BorderBrush="Black" Background="#FF4A3B2D" >
+                    <Border BorderThickness="1" CornerRadius="3" BorderBrush="Black" >
+                    	<Border.Background>
+                    		<ImageBrush ImageSource="/Resources;component/Images/Lobby/roomBg.jpg" Viewbox="0,0,525,255" ViewboxUnits="Absolute"/>
+                    	</Border.Background>
                         <Grid Margin="0,15,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.5*" />
@@ -206,7 +209,7 @@
                                 <Paragraph><Run Language="zh-cn" Text="关羽：别吵了，那张黑色的闪电给军师，剩下的都是红牌，都给我。"/></Paragraph>
                         </FlowDocument>
                     </RichTextBox>
-                    <local:ChatWidget  VerticalAlignment="Bottom" Margin="0,0,0,0"/>
+                    <local:ChatWidget Background="#FF191919" VerticalAlignment="Bottom" Height="19" Margin="0,0,0,0"/>
                     </Grid>
                 </Border>
             </Border>
