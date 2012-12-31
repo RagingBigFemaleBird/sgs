@@ -5,9 +5,13 @@ using System.Text;
 using System.Collections.ObjectModel;
 using Sanguosha.Lobby.Core;
 using System.Windows.Input;
+using System.ServiceModel;
+using System.Windows;
+using System.Threading;
 
 namespace Sanguosha.UI.Controls
-{    
+{
+    [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, UseSynchronizationContext = false)]
     public class LobbyViewModel : ViewModelBase, IGameClient
     {
         private LobbyViewModel()
@@ -143,14 +147,15 @@ namespace Sanguosha.UI.Controls
 
         public void EnterRoom()
         {
-            _connection.EnterRoom(_loginToken, _currentRoom.Id, false);
+            if (_connection.EnterRoom(_loginToken, _currentRoom.Id, false) == RoomOperationResult.Success)
+            {
+            }
         }
 
         public void StartGame()
         {
-            if (_connection.RoomOperations(_loginToken, RoomOperation.StartGame, 0, 0) == RoomOperationResult.Success)
+            if (_connection.StartGame(_loginToken) == RoomOperationResult.Success)
             {
-                NotifyGameStart("");
             }
         }
 
@@ -169,16 +174,22 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyRoomUpdate(int id, Room room)
         {
-            var result = Rooms.FirstOrDefault(r => r.Id == id);
-            if (result != null)
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                result.Room = room;
-            }
-            else
-            {
-                Rooms.Add(new RoomViewModel() { Room = room });
-            }
-
+                var result = Rooms.FirstOrDefault(r => r.Id == id);
+                if (result != null)
+                {
+                    result.Room = room;
+                }
+                else
+                {
+                    Rooms.Add(new RoomViewModel() { Room = room });
+                }
+                if (CurrentRoom.Id == id)
+                {
+                    CurrentRoom = new RoomViewModel() { Room = room };
+                }
+            });
         }
         #endregion
         #endregion
