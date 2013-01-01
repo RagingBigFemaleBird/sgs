@@ -11,6 +11,7 @@ using Sanguosha.Expansions.Battle.Cards;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Games;
 using System.Diagnostics;
+using Sanguosha.Expansions.Basic.Cards;
 
 namespace Sanguosha.Expansions.Woods.Skills
 {
@@ -55,7 +56,7 @@ namespace Sanguosha.Expansions.Woods.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return Game.CurrentGame.Decks[p, DeckType.Hand].Count > 0 && !a.Targets[0].IsDead && Game.CurrentGame.Decks[a.Targets[0], DeckType.Hand].Count > 0; },
+                (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard.Type is Sha && Game.CurrentGame.Decks[p, DeckType.Hand].Count > 0 && !a.Targets[0].IsDead && Game.CurrentGame.Decks[a.Targets[0], DeckType.Hand].Count > 0; },
                 Run,
                 TriggerCondition.OwnerIsSource
             );
