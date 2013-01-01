@@ -319,21 +319,22 @@ namespace Sanguosha.Core.UI
             {
                 server.SendObject(i, 1);
                 server.SendObject(i, answer.Count);
+                int j = 0;
                 foreach (var cards in answer)
                 {
                     server.SendObject(i, cards.Count);
                     foreach (Card c in cards)
                     {
-                        if (verifier.Helper != null && verifier.Helper.RevealCards)
+                        if (verifier.Helper != null && (verifier.Helper.RevealCards || (verifier.Helper.AdditionalFineGrainedCardChoiceRevealPolicy != null && verifier.Helper.AdditionalFineGrainedCardChoiceRevealPolicy[j])))
                         {
                             if (c.Place.DeckType != DeckType.Equipment && c.Place.DeckType != DeckType.DelayedTools)
                             {
-
                                 c.RevealOnce = true;
                             }
                         }
                         server.SendObject(i, c);
                     }
+                    j++;
                 }
                 if (options != null && options.Options != null) server.SendObject(i, options.OptionResult);
                 server.Flush(i);

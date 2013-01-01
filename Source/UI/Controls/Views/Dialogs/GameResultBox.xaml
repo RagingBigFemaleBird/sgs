@@ -12,10 +12,10 @@
 	<Grid x:Name="LayoutRoot">
 		<DataGrid x:Name="gridCardSet" RowHeaderWidth="0" Block.TextAlignment="Center"
 			ItemsSource="{Binding Mode=OneWay}" AutoGenerateColumns="False"
-			IsReadOnly="True" SelectionMode="Single" Style="{DynamicResource DataGridStyle1}"
+			IsReadOnly="True" SelectionMode="Single"
 			Background="Transparent" Foreground="#FFE4D5A0" HeadersVisibility="Column" FontFamily="SimSun"
-			SelectionUnit="FullRow" SelectionChanged="gridDataSet_SelectionChanged"
-			MouseDoubleClick="gridCardSet_MouseDoubleClick" Margin="1,1,0,0">
+			SelectionUnit="FullRow"
+			Margin="1,1,0,0">
 			<DataGrid.Columns>
 				<DataGridTemplateColumn Header="阵营" SortMemberPath="Player.Hero.Name" >
 				</DataGridTemplateColumn>

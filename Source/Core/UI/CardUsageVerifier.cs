@@ -67,6 +67,16 @@ namespace Sanguosha.Core.UI
             set { revealCards = value; }
         }
 
+        private List<bool> additionalFineGrainedCardChoiceRevealPolicy;
+
+        /// <summary></summary>
+        /// <seealso cref="Sanguosha.Expansions.OverKnightFame11.Skills.XinZhan"/>
+        public List<bool> AdditionalFineGrainedCardChoiceRevealPolicy
+        {
+            get { return additionalFineGrainedCardChoiceRevealPolicy; }
+            set { additionalFineGrainedCardChoiceRevealPolicy = value; }
+        }
+
         private List<DeckType> otherDecksUsed;
 
         public List<DeckType> OtherDecksUsed

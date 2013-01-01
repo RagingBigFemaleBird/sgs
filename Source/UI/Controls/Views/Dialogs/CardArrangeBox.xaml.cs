@@ -332,7 +332,7 @@ namespace Sanguosha.UI.Controls
                 {
                     int newPos = _highlightedStack.InteractingCardIndex;
                     List<CardView> backup1 = new List<CardView>(_sourceDeck.Cards);
-                    List<CardView> backup2 = null;
+                    var backup2 = new List<CardView>(_highlightedStack.Cards);
                     int from = _sourceDeck.Cards.IndexOf(InteractingCard);
                     int to = newPos;
                     _sourceDeck.Cards.Remove(InteractingCard);
@@ -342,7 +342,6 @@ namespace Sanguosha.UI.Controls
                     _sourceDeck.RearrangeCards();
                     if (_sourceDeck != _highlightedStack)
                     {
-                        backup2 = new List<CardView>(_highlightedStack.Cards);
                         _highlightedStack.InteractingCard = null;
                         _highlightedStack.CardStatus = CardInteraction.None;
                         _highlightedStack.RearrangeCards();
@@ -352,6 +351,7 @@ namespace Sanguosha.UI.Controls
                     {
                         _sourceDeck.Cards.Clear();
                         foreach (var card in backup1) _sourceDeck.Cards.Add(card);
+                        _sourceDeck.RearrangeCards();
                         if (_sourceDeck != _highlightedStack)
                         {
                             Trace.Assert(backup2 != null);

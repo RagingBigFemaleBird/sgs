@@ -37,8 +37,11 @@ namespace Sanguosha.UI.Controls
             get { return _room; }
             set 
             {
+                if (_room == value) return;
                 _room = value;
+                if (value == null) return;
                 Id = value.Id;
+                State = value.State;
                 TimeOutSeconds = value.TimeOutSeconds;
                 ClearSeats();
                 foreach (var seat in value.Seats)

@@ -37,6 +37,11 @@ namespace Sanguosha.Core.UI
         public List<OptionPrompt> Options { get; set; }
         public List<List<Card>> DefaultResult { get; set; }
         public int OptionResult { get; set; }
+        /// <summary>
+        /// 细微控制哪个result可以被reveal
+        /// </summary>
+        /// <seealso cref="Sanguosha.Expansions.OverKnightFame11.Skills.XinZhan"/>
+        public List<bool> AdditionalFineGrainedCardRevealPolicy { get; set; }
     }
     
     public interface ICardChoiceVerifier

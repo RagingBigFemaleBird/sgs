@@ -24,6 +24,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
         public XinZhan()
         {
             UiHelper.HasNoConfirmation = true;
+            IsSingleUse = true;
         }
         private static int choiceCount = 3;
         private static PlayerAttribute XinZhanUsed = PlayerAttribute.Register("XinZhanUsed", true);
@@ -62,23 +63,21 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             options.Rearrangeable = new List<bool>() { true, false };
             options.DefaultResult = new List<List<Card>>() { new List<Card>(Game.CurrentGame.Decks[null, XinZhanDeck]), new List<Card>() };
             if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("XinZhan"),
-                    new List<DeckPlace>() {new DeckPlace(null, XinZhanDeck)},
-                    new List<string>() {"HuoDe" },
-                    new List<int>() {choiceCount},
+                    new List<DeckPlace>() {},
+                    new List<string>() { "PaiXu", "HuoDe" },
+                    new List<int>() {choiceCount, choiceCount},
                     new XinZhanVerifier(),
                     out answer,
                     options,
                     CardChoiceCallback.GenericCardChoiceCallback))
             {
                 Game.CurrentGame.NotificationProxy.NotifyLogEvent(new Prompt(Prompt.LogEventPrefix + "XinZhan", Owner, Game.CurrentGame.Decks[null, XinZhanDeck].Count));
-                Game.CurrentGame.InsertBeforeDeal(null, Game.CurrentGame.Decks[null, XinZhanDeck]);
+                Game.CurrentGame.InsertBeforeDeal(null, Game.CurrentGame.Decks[null, XinZhanDeck], new MovementHelper() { IsFakedMove = true });
             }
             else
             {
                 Game.CurrentGame.NotificationProxy.NotifyLogEvent(new Prompt(Prompt.LogEventPrefix + "XinZhan", Owner, answer[0].Count));
-                Game.CurrentGame.InsertBeforeDeal(null, answer[0]);
-                foreach (Card c in answer[1])
-                    c.RevealOnce = true;
+                Game.CurrentGame.InsertBeforeDeal(null, answer[0], new MovementHelper() { IsFakedMove = true });
                 Game.CurrentGame.HandleCardTransferToHand(null, Owner, answer[1]);
             }
             return true;
@@ -88,14 +87,15 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
         {
             public VerifierResult Verify(List<List<Card>> answer)
             {
-                foreach (Card c in answer[0])
+                foreach (Card c in answer[1])
                     if (c.Suit != SuitType.Heart)
                         return VerifierResult.Fail;
                 return VerifierResult.Success;
             }
+            static UiHelper helper = new UiHelper() { AdditionalFineGrainedCardChoiceRevealPolicy = new List<bool>() { false, true } };
             public UiHelper Helper
             {
-                get { return null; }
+                get { return helper; }
             }
         }
     }
