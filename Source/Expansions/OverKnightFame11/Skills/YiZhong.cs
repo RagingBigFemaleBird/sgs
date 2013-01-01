@@ -26,7 +26,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 this,
                 (p, e, a) => 
                 {
-                    return p.Armor() == null && a.ReadonlyCard.SuitColor == SuitColorType.Black;
+                    return p.Armor() == null && a.ReadonlyCard.SuitColor == SuitColorType.Black && a.ReadonlyCard.Type is Sha;
                 },
                 (p, e, a) => { throw new TriggerResultException(TriggerResult.End); },
                 TriggerCondition.OwnerIsTarget
