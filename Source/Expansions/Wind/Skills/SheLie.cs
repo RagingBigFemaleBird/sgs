@@ -82,7 +82,9 @@ namespace Sanguosha.Expansions.Wind.Skills
                     new List<string>() { "SheLie" },
                     new List<int>() { 4 },
                     new SheLieVerifier(Game.CurrentGame.Decks[null, shelieDeck]),
-                    out answer))
+                    out answer,
+                    null,
+                    CardChoiceCallback.GenericCardChoiceCallback))
             {
                 Trace.TraceInformation("Invalid answer for SheLie, choosing for you");
                 answer = new List<List<Card>>();

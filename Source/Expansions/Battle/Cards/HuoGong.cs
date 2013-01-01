@@ -109,14 +109,16 @@ namespace Sanguosha.Expansions.Battle.Cards
                 }
                 cards.Add(Game.CurrentGame.Decks[dest, DeckType.Hand][0]);
             }
-            Trace.TraceInformation("Player {0} HuoGong showed {1}, ", dest.Id, cards[0].Suit);
-            Game.CurrentGame.NotificationProxy.NotifyShowCard(dest, cards[0]);
+            var theCard = cards[0];
+            Game.CurrentGame.SyncCardAll(ref theCard);
+            Trace.TraceInformation("Player {0} HuoGong showed {1}, ", dest.Id, theCard);
+            Game.CurrentGame.NotificationProxy.NotifyShowCard(dest, theCard);
             if (source.IsDead) return;
             ui = Game.CurrentGame.UiProxies[source];
-            HuoGongCardMatchVerifier v2 = new HuoGongCardMatchVerifier(cards[0].Suit);
-            Game.CurrentGame.HideHandCard(cards[0]);
+            HuoGongCardMatchVerifier v2 = new HuoGongCardMatchVerifier(theCard.Suit);
+            Game.CurrentGame.HideHandCard(theCard);
             v2.Owner = source;
-            if (ui.AskForCardUsage(new CardUsagePrompt("HuoGong2", dest, cards[0].Suit), v2, out s, out cards, out p))
+            if (ui.AskForCardUsage(new CardUsagePrompt("HuoGong2", dest, theCard.Suit), v2, out s, out cards, out p))
             {
                 Game.CurrentGame.HandleCardDiscard(source, cards);
                 Game.CurrentGame.DoDamage(source, dest, 1, DamageElement.Fire, card, readonlyCard);

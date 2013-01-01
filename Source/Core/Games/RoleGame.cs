@@ -773,11 +773,11 @@ namespace Sanguosha.Core.Games
                     }
 
                     game.CurrentPhaseEventIndex++;
-                    if (game.CurrentPhaseEventIndex >= Game.PhaseEvents.Length)
+                    if (game.CurrentPhaseEventIndex >= Game.PhaseEvents.Length || currentPlayer.IsDead)
                     {
                         game.CurrentPhaseEventIndex = 0;
                         game.CurrentPhase++;
-                        if ((int)game.CurrentPhase >= Enum.GetValues(typeof(TurnPhase)).Length || (int)game.CurrentPhase < 0)
+                        if ((int)game.CurrentPhase >= Enum.GetValues(typeof(TurnPhase)).Length || (int)game.CurrentPhase < 0 || currentPlayer.IsDead)
                         {
                             break;
                         }
