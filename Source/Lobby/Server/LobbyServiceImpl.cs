@@ -275,6 +275,12 @@ namespace Sanguosha.Lobby.Server
             }
             return RoomOperationResult.Auth;
         }
+
+        private void _OnGameEnds(int roomId)
+        {
+            rooms[roomId].State = RoomState.Waiting;
+        }
+
         public RoomOperationResult StartGame(LoginToken token)
         {
             if (VerifyClient(token))
@@ -284,11 +290,12 @@ namespace Sanguosha.Lobby.Server
                 var room = loggedInGuidToRoom[token.token];
                 var total = room.Seats.Count(pl => pl.Account != null);
                 var initiator = room.Seats.FirstOrDefault(pl => pl.Account == loggedInGuidToAccount[token.token]);
+                if (room.State == RoomState.Gaming) return RoomOperationResult.Invalid;
                 if (total <= 1) return RoomOperationResult.Invalid;
                 if (initiator == null || initiator.State != SeatState.Host) return RoomOperationResult.Invalid;
                 room.State = RoomState.Gaming;
                 var gs = new GameSettings() { TimeOutSeconds = room.TimeOutSeconds, TotalPlayers = total, CheatEnabled = CheatEnabled };
-                GameService.StartGameService(HostingIp, gs, out portNumber);
+                GameService.StartGameService(HostingIp, gs, room.Id, _OnGameEnds, out portNumber);
                 NotifyGameStart(loggedInGuidToRoom[token.token].Id, HostingIp, portNumber, gs);
                 return RoomOperationResult.Success;
             }
