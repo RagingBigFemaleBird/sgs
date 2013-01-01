@@ -48,6 +48,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             move.Cards = new List<Card>();
             move.Cards.Add(c);
             move.To = new DeckPlace(null, DeckType.Discard);
+            move.Helper.IsFakedMove = true;
             Game.CurrentGame.MoveCards(move);
         }
 
