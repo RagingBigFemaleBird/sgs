@@ -379,12 +379,6 @@ namespace Sanguosha.Core.Games
                 moves.Add(move);
             }
             game.MoveCards(moves, null);
-            int p = 0;
-            foreach (Player player in game.Players)
-            {
-                game.PlayerAcquiredCard(player, moves[p].Cards);
-                p++;
-            }
         }
 
         public static DeckType RoleDeckType = new DeckType("Role");
