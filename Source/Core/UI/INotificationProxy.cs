@@ -15,6 +15,7 @@ namespace Sanguosha.Core.UI
         Ruler,
         Defector,
         Rebel,
+        Draw,
     }
 
     public delegate bool JudgementResultSucceed(ICard card);
@@ -28,7 +29,7 @@ namespace Sanguosha.Core.UI
         void NotifyMultipleChoiceResult(Player p, OptionPrompt answer);
         void NotifyJudge(Player p, Card card, ActionLog log, bool? isSuccess, bool finalResult = true);
         void NotifyDeath(Player p, Player by);
-        void NotifyGameOver(GameResult result);
+        void NotifyGameOver(GameResult result, List<Player> winners);
         void NotifyActionComplete();
         void NotifyLoseHealth(Player player, int p);
         void NotifyShowCard(Player p, Card card);
@@ -64,7 +65,7 @@ namespace Sanguosha.Core.UI
         {
         }
 
-        public void NotifyGameOver(GameResult result)
+        public void NotifyGameOver(GameResult result, List<Player> winners)
         {
         }
 

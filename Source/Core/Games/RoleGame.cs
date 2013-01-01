@@ -832,13 +832,40 @@ namespace Sanguosha.Core.Games
                     Trace.TraceInformation("Ruler dead. Game over");
                     if (Game.CurrentGame.AlivePlayers.Count == 2)
                     {
-                        Game.CurrentGame.NotificationProxy.NotifyGameOver(GameResult.Defector);
+                        var winners = from pl in Game.CurrentGame.Players where pl.Role == Role.Defector select pl;
+                        Game.CurrentGame.NotificationProxy.NotifyGameOver(GameResult.Defector, winners.ToList());
                     }
                     else
                     {
-                        Game.CurrentGame.NotificationProxy.NotifyGameOver(GameResult.Rebel);
+                        var winners = from pl in Game.CurrentGame.Players where pl.Role == Role.Rebel select pl;
+                        Game.CurrentGame.NotificationProxy.NotifyGameOver(GameResult.Rebel, winners.ToList());
                     }
                     throw new GameOverException();
+                }
+
+                if (p.Role == Role.Rebel || p.Role == Role.Defector)
+                {
+                    int deadRebel = 0;
+                    int deadDefector = 0;
+                    foreach (Player z in Game.CurrentGame.Players)
+                    {
+                        if (z.Role == Role.Rebel && (z.IsDead || z == p))
+                        {
+                            deadRebel++;
+                        }
+                        if (z.Role == Role.Defector && (z.IsDead || z == p))
+                        {
+                            deadDefector++;
+                        }
+                    }
+                    Trace.TraceInformation("Deathtoll: Rebel {0}/{1}, Defector {2}/{3}", deadRebel, (Game.CurrentGame as RoleGame).NumberOfRebels, deadDefector, (Game.CurrentGame as RoleGame).NumberOfDefectors);
+                    if (deadRebel == (Game.CurrentGame as RoleGame).NumberOfRebels && deadDefector == (Game.CurrentGame as RoleGame).NumberOfDefectors)
+                    {
+                        Trace.TraceInformation("Ruler wins.");
+                        var winners = from pl in Game.CurrentGame.Players where pl.Role == Role.Ruler || pl.Role == Role.Loyalist select pl;
+                        Game.CurrentGame.NotificationProxy.NotifyGameOver(GameResult.Ruler, winners.ToList());
+                        throw new GameOverException();
+                    }
                 }
 
                 Game.CurrentGame.Emit(GameEvent.PlayerIsDead, eventArgs);
@@ -866,26 +893,6 @@ namespace Sanguosha.Core.Games
                 
                 if (p.Role == Role.Rebel || p.Role == Role.Defector)
                 {
-                    int deadRebel = 0;
-                    int deadDefector = 0;
-                    foreach (Player z in Game.CurrentGame.Players)
-                    {
-                        if (z.Role == Role.Rebel && z.IsDead)
-                        {
-                            deadRebel++;
-                        }
-                        if (z.Role == Role.Defector && z.IsDead)
-                        {
-                            deadDefector++;
-                        }
-                    }
-                    Trace.TraceInformation("Deathtoll: Rebel {0}/{1}, Defector {2}/{3}", deadRebel, (Game.CurrentGame as RoleGame).NumberOfRebels, deadDefector, (Game.CurrentGame as RoleGame).NumberOfDefectors);
-                    if (deadRebel == (Game.CurrentGame as RoleGame).NumberOfRebels && deadDefector == (Game.CurrentGame as RoleGame).NumberOfDefectors)
-                    {
-                        Trace.TraceInformation("Ruler wins.");
-                        Game.CurrentGame.NotificationProxy.NotifyGameOver(GameResult.Ruler);
-                        throw new GameOverException();
-                    }
                     if (source != null && !source.IsDead && p.Role == Role.Rebel)
                     {
                         Trace.TraceInformation("Killed rebel. GIVING YOU THREE CARDS OMG WIN GAME RIGHT THERE!!!");

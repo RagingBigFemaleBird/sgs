@@ -396,7 +396,7 @@ namespace Sanguosha.Core.Games
                 Trace.TraceError(e.StackTrace);
             }
 #endif
-            Trace.TraceError("Game exited normally");
+            Trace.TraceInformation("Game exited normally");
         }
 
         /// <summary>

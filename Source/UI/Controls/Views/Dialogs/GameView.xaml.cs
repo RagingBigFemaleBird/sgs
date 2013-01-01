@@ -808,10 +808,6 @@ namespace Sanguosha.UI.Controls
             });
         }
 
-        public void NotifyGameOver(GameResult result)
-        {
-        }
-
         public void NotifyActionComplete()
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
@@ -965,5 +961,8 @@ namespace Sanguosha.UI.Controls
         }
         #endregion
 
+        public void NotifyGameOver(GameResult result, List<Player> winners)
+        {
+        }
     }
 }

@@ -16,7 +16,8 @@ namespace Sanguosha.Lobby.Server
 {
     public class GameService
     {
-        public static void StartGameService(IPAddress IP, GameSettings setting, out int portNumber)
+        public delegate void GameEndCallback(int roomId);
+        public static void StartGameService(IPAddress IP, GameSettings setting, int roomId, GameEndCallback callback, out int portNumber)
         {
             int totalNumberOfPlayers = setting.TotalPlayers;
             int timeOutSeconds = setting.TimeOutSeconds;
@@ -59,7 +60,7 @@ namespace Sanguosha.Lobby.Server
                 game.LoadExpansion(g);
             }
             game.GameServer = server;
-            var thread = new Thread(game.Run) { IsBackground = true };
+            var thread = new Thread(() => { game.Run(); callback(roomId); }) { IsBackground = true };
             thread.Start();
         }
 
