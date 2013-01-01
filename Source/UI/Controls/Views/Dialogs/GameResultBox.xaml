@@ -1,0 +1,30 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:Sanguosha_UI_Resources="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
+	mc:Ignorable="d"
+	x:Class="Sanguosha.UI.Controls.GameResultBox"
+	x:Name="UserControl"
+	d:DesignWidth="640" d:DesignHeight="480">
+
+	<Grid x:Name="LayoutRoot">
+		<DataGrid x:Name="gridCardSet" RowHeaderWidth="0" Block.TextAlignment="Center"
+			ItemsSource="{Binding Mode=OneWay}" AutoGenerateColumns="False"
+			IsReadOnly="True" SelectionMode="Single" Style="{DynamicResource DataGridStyle1}"
+			Background="Transparent" Foreground="#FFE4D5A0" HeadersVisibility="Column" FontFamily="SimSun"
+			SelectionUnit="FullRow" SelectionChanged="gridDataSet_SelectionChanged"
+			MouseDoubleClick="gridCardSet_MouseDoubleClick" Margin="1,1,0,0">
+			<DataGrid.Columns>
+				<DataGridTemplateColumn Header="阵营" SortMemberPath="Player.Hero.Name" >
+				</DataGridTemplateColumn>
+				<DataGridTextColumn Header="昵称" Binding="{Binding Player.UserName}"/>
+				<DataGridTextColumn Header="经验" Binding="{Binding GainedExperiecne}"/>
+				<DataGridTextColumn Header="技巧度" Binding="{Binding GainedTechPoints}"/>
+				<DataGridTemplateColumn Header="胜负" SortMemberPath="Result" />
+				<DataGridTextColumn Header="特殊" Width="1*" Binding="{Binding Comments}"/>
+			</DataGrid.Columns>
+		</DataGrid>
+	</Grid>
+</UserControl>

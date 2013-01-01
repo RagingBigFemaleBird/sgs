@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
+    <ExpressionBlendVersion>4.0.20901.0</ExpressionBlendVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{87F9F9C1-37B0-4725-8EB7-4A07560F7AD6}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -85,6 +85,9 @@
       <DependentUpon>CardSetView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\DeckNameToCardChoiceIconConverter.cs" />
+    <Compile Include="Views\Dialogs\GameResultBox.xaml.cs">
+      <DependentUpon>GameResultBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Dialogs\PinDianBox.xaml.cs">
       <DependentUpon>PinDianBox.xaml</DependentUpon>
     </Compile>
@@ -220,6 +223,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Dialogs\ChatWidget.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Dialogs\GameResultBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
