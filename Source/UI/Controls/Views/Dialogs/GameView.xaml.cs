@@ -768,7 +768,7 @@ namespace Sanguosha.UI.Controls
                 gameLogs.AppendLog(log);
                 rtbLog.ScrollToEnd();
 
-                _AppenKeyEventLog(log);
+                _AppendKeyEventLog(log);
             });
         }
 
@@ -776,13 +776,19 @@ namespace Sanguosha.UI.Controls
         {
         }
 
-        public void _AppenKeyEventLog(ActionLog log)
+
+        private void _AppendKeyEventLog(Paragraph log)
         {
             var doc = new FlowDocument();
-            var para = LogFormatter.RichTranslateKeyLog(log);
+            var para = log;
             if (para.Inlines.Count == 0) return;
             doc.Blocks.Add(para);
             keyEventLog.AddLog(doc);
+        }
+
+        private void _AppendKeyEventLog(ActionLog log)
+        {
+            _AppendKeyEventLog(LogFormatter.RichTranslateKeyLog(log));
         }
 
 
@@ -881,13 +887,19 @@ namespace Sanguosha.UI.Controls
             });
         }
 
-        public void NotifyJudge(Player p, Card card, ActionLog log, bool? isSuccess, bool finalResult)
+        public void NotifyJudge(Player p, Card card, ActionLog log, bool? isSuccess, bool isFinalResult)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 CardView cardView = discardDeck.Cards.FirstOrDefault(c => c.Card.Id == card.Id);
-
+                
                 if (cardView == null) return;
+                gameLogs.AppendJudgeResultLog(p, card, log, isSuccess, isFinalResult);
+                rtbLog.ScrollToEnd();
+
+                if (!isFinalResult || isSuccess == null) return;
+                _AppendKeyEventLog(LogFormatter.RichTranslateJudgeResultEffectiveness(p, log, isSuccess == true));
+                
                 if (isSuccess == true)
                 {
                     cardView.PlayAnimation(new TickAnimation(), new Point(0, 0));

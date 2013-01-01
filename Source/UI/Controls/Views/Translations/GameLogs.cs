@@ -198,5 +198,28 @@ namespace Sanguosha.UI.Controls
                 }
             }
         }
+
+        internal void AppendJudgeResultLog(Player p, Card card, ActionLog log, bool? isSuccess, bool isFinalResult)
+        {
+            List<FlowDocument> docs = new List<FlowDocument>() { Logs[p], GlobalLog };
+            foreach (var doc in docs)
+            {
+                Paragraph para = LogFormatter.RichTranslateJudgeResult(p, card, log, isFinalResult);
+
+                if (para != null)
+                {
+                    doc.Blocks.Add(para);
+                }
+                if (isSuccess != null)
+                {
+                    para = LogFormatter.RichTranslateJudgeResultEffectiveness(p, log, isSuccess == true);
+
+                    if (para != null)
+                    {
+                        doc.Blocks.Add(para);
+                    }
+                }
+            }
+        }
     }
 }

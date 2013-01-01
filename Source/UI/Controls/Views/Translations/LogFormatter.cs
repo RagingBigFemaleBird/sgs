@@ -534,9 +534,42 @@ namespace Sanguosha.UI.Controls
         internal static Paragraph RichTranslateShowCards(Player player, IList<Card> cards)
         {
             Paragraph para = new Paragraph();
-            para.Inlines.Add(new Run(Translate(player)));
+            para.Inlines.Add(Translate(player));
             para.Inlines.Add(cards.Count == 1 ? "展示了一张手牌" : "展示了一张手牌");
             para.Inlines.AddRange(RichTranslate(cards));
+            return para;
+        }
+
+        internal static Paragraph RichTranslateJudgeResult(Player p, Card card, ActionLog log, bool isFinalResult)
+        {
+            Paragraph para = new Paragraph();
+            para.Inlines.Add(Translate(p) + "的");
+            if (log.CardAction != null)
+            {
+                para.Inlines.AddRange(RichTranslate(log.CardAction.Type));
+            }
+            else if (log.SkillAction != null)
+            {
+                para.Inlines.AddRange(RichTranslate(log.SkillAction));
+            }
+            para.Inlines.Add("判定结果为");
+            para.Inlines.AddRange(RichTranslate(card));
+            return para;
+        }
+
+        internal static Paragraph RichTranslateJudgeResultEffectiveness(Player p, ActionLog log, bool isSuccess)
+        {
+            Paragraph para = new Paragraph();
+            para.Inlines.Add(Translate(p) + "的");
+            if (log.CardAction != null)
+            {
+                para.Inlines.AddRange(RichTranslate(log.CardAction.Type));
+            }
+            else if (log.SkillAction != null)
+            {
+                para.Inlines.AddRange(RichTranslate(log.SkillAction));
+            }
+            para.Inlines.Add(isSuccess ? "生效":"失效");
             return para;
         }
     }
