@@ -52,6 +52,7 @@ namespace Sanguosha.UI.Controls
         
         private void _EnsureSelectionInvariant()
         {
+            var handler = OnSelectedChanged;
             if (!IsSelectionMode)
             {
                 if (isEnabled)
@@ -64,7 +65,10 @@ namespace Sanguosha.UI.Controls
                     isSelected = false;
                     SelectedTimes = 0;
                     OnPropertyChanged("IsSelected");
-                    OnSelectedChanged(this, new EventArgs());
+                    if (handler != null)
+                    {
+                        handler(this, new EventArgs());
+                    }
                 }
                 if (isFaded)
                 {
@@ -79,7 +83,10 @@ namespace Sanguosha.UI.Controls
                     isSelected = false;
                     SelectedTimes = 0;
                     OnPropertyChanged("IsSelected");
-                    OnSelectedChanged(this, new EventArgs());
+                    if (handler != null)
+                    {
+                        handler(this, new EventArgs());
+                    }
                 }
                 if (!isFaded)
                 {
