@@ -74,7 +74,7 @@ namespace Sanguosha.UI.Controls
 
             if (changed)
             {
-                RearrangeCards(0.5d);
+                RearrangeCards(0.2d);
             }            
         }
 

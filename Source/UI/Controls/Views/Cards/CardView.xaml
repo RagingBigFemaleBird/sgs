@@ -82,22 +82,6 @@
             </Storyboard>
         </ResourceDictionary>
     </UserControl.Resources>
-    <i:Interaction.Triggers>
-        <ei:DataTrigger Value="true" Binding="{Binding IsSelected}">
-            <ei:ChangePropertyAction PropertyName="Offset" TargetObject="{Binding ElementName=userControl, Mode=OneWay}">
-                <ei:ChangePropertyAction.Value>
-                    <Point>0,-20</Point>
-                </ei:ChangePropertyAction.Value>
-            </ei:ChangePropertyAction>
-        </ei:DataTrigger>
-        <ei:DataTrigger Value="false" Binding="{Binding IsSelected}">
-            <ei:ChangePropertyAction PropertyName="Offset" TargetObject="{Binding ElementName=userControl, Mode=OneWay}">
-                <ei:ChangePropertyAction.Value>
-                    <Point>0,0</Point>
-                </ei:ChangePropertyAction.Value>
-            </ei:ChangePropertyAction>
-        </ei:DataTrigger>
-    </i:Interaction.Triggers>
     <Grid>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="FadeStates">

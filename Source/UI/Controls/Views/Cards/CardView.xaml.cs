@@ -182,7 +182,7 @@ namespace Sanguosha.UI.Controls
         {
             CardView card = d as CardView;
             if (card == null) return;
-            card.Rebase(0.2d);
+            card.Rebase(0.1d);
         }
 
         #region Drag and Drop
@@ -294,6 +294,8 @@ namespace Sanguosha.UI.Controls
             if (model != null && _dragState == DragState.MouseDown && model.IsEnabled)
             {
                 model.IsSelected = !model.IsSelected;
+                if (model.IsSelected) Offset = new Point(0, -20);
+                else Offset = new Point(0, 0);
             }
             _ReleaseMouseCapture();
             e.Handled = true;
