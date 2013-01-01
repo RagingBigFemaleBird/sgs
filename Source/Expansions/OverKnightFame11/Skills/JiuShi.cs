@@ -22,15 +22,23 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
     {
         public class JiuShiPassive : TriggerSkill
         {
+            public static PlayerAttribute JiuShiUsable = PlayerAttribute.Register("JiuShiUsable");
             public JiuShiPassive()
             {
                 var trigger = new AutoNotifyPassiveSkillTrigger(
                     this,
-                    (p, e, a) => { return p.IsImprisoned; },
-                    (p, e, a) => { p.IsImprisoned = false; },
+                    (p, e, a) => { var ret = p[JiuShiUsable];  p[JiuShiUsable] = 0; return ret == 1; },
+                    (p, e, a) => { p.IsImprisoned = false;},
                     TriggerCondition.OwnerIsTarget
-                ) { IsAutoNotify = false };
+                ) { };
                 Triggers.Add(GameEvent.DamageComputingFinished, trigger);
+                var trigger2 = new AutoNotifyPassiveSkillTrigger(
+                    this,
+                    (p, e, a) => { return p.IsImprisoned && p[JiuShiUsable] == 0; },
+                    (p, e, a) => { p[JiuShiUsable] = 1; },
+                    TriggerCondition.OwnerIsTarget
+                ) { IsAutoNotify = false, AskForConfirmation = false, Priority = int.MinValue };
+                Triggers.Add(GameEvent.DamageInflicted, trigger2);
                 IsAutoInvoked = null;
             }
         }
