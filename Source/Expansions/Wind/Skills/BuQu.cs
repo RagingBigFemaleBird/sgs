@@ -43,7 +43,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                     Card c1 = Game.CurrentGame.Decks[Owner, bq][Game.CurrentGame.Decks[Owner, bq].Count - 1];
                     CardsMovement move = new CardsMovement();
                     move.Cards = new List<Card>() { c1 };
-                    move.To = new DeckPlace(Owner, bq);
+                    move.To = new DeckPlace(null, DeckType.Discard);
                     Game.CurrentGame.MoveCards(move);
                 }
             }
@@ -59,6 +59,20 @@ namespace Sanguosha.Expansions.Wind.Skills
                     }
                     death.Add(c.Rank, true);
                 }
+                if (Game.CurrentGame.IsDying.Contains(Owner))
+                {
+                    Stack<Player> backup = new Stack<Player>();
+                    while (true)
+                    {
+                        var t = Game.CurrentGame.IsDying.Pop();
+                        if (t == Owner) break;
+                        backup.Push(t);
+                    }
+                    while (backup.Count > 0)
+                    {
+                        Game.CurrentGame.IsDying.Push(backup.Pop());
+                    }
+                }
                 throw new TriggerResultException(TriggerResult.End);
             }
         }
@@ -72,13 +86,13 @@ namespace Sanguosha.Expansions.Wind.Skills
                     DeckType bq = new PrivateDeckType("BuQu", true);
                     if (p.Health > 0 && Game.CurrentGame.Decks[Owner, bq].Count > 0)
                     {
-                        int toDraw = Game.CurrentGame.Decks[Owner, bq].Count - Math.Max(0, -Owner.Health);
+                        int toDraw = Game.CurrentGame.Decks[Owner, bq].Count;
                         while (toDraw-- > 0)
                         {
                             Card c1 = Game.CurrentGame.Decks[Owner, bq][Game.CurrentGame.Decks[Owner, bq].Count - 1];
                             CardsMovement move = new CardsMovement();
                             move.Cards = new List<Card>() { c1 };
-                            move.To = new DeckPlace(Owner, bq);
+                            move.To = new DeckPlace(null, DeckType.Discard);
                             Game.CurrentGame.MoveCards(move);
                         }
                     }

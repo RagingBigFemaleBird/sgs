@@ -115,6 +115,10 @@ namespace Sanguosha.Expansions.Basic.Cards
                             Trace.Assert(e.Status == TriggerResult.Retry);
                             continue;
                         }
+                        if (!Game.CurrentGame.IsDying.Contains(target))
+                        {
+                            return;
+                        }
                         if (target.Health > 0)
                         {
                             Trace.Assert(target == Game.CurrentGame.IsDying.Pop());
