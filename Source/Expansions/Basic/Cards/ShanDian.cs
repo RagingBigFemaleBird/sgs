@@ -19,7 +19,6 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         bool RecursiveShanDianDriver(Player start, Player current, Card c)
         {
-            //todo: drive chain ShanDian cards
             List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
             toProcess.Remove(current);
             Game.CurrentGame.SortByOrderOfComputation(current, toProcess);
@@ -88,9 +87,9 @@ namespace Sanguosha.Expansions.Basic.Cards
                     Game.CurrentGame.DoDamage(null, p, 3, DamageElement.Lightning, c, roc);
                     return;
                 }
-                RecursiveShanDianDriver(p, p, c);
                 break;
             }
+            RecursiveShanDianDriver(p, p, c);
         }
 
         protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
