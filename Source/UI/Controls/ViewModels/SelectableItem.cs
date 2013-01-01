@@ -64,6 +64,7 @@ namespace Sanguosha.UI.Controls
                     isSelected = false;
                     SelectedTimes = 0;
                     OnPropertyChanged("IsSelected");
+                    OnSelectedChanged(this, new EventArgs());
                 }
                 if (isFaded)
                 {
@@ -78,6 +79,7 @@ namespace Sanguosha.UI.Controls
                     isSelected = false;
                     SelectedTimes = 0;
                     OnPropertyChanged("IsSelected");
+                    OnSelectedChanged(this, new EventArgs());
                 }
                 if (!isFaded)
                 {

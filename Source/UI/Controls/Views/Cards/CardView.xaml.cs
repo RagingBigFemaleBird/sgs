@@ -205,7 +205,7 @@ namespace Sanguosha.UI.Controls
         {
             CardView card = d as CardView;
             if (card == null) return;
-            card.Rebase(0.1d);
+            card.Rebase(0.15d);
         }
 
         #region Drag and Drop
