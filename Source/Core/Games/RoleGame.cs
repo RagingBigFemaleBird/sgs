@@ -938,7 +938,15 @@ namespace Sanguosha.Core.Games
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 RoleGame.Shuffle(Game.CurrentGame.Decks[null, DeckType.Discard]);
-                Game.CurrentGame.Decks[null, DeckType.Dealing].AddRange(Game.CurrentGame.Decks[null, DeckType.Discard]);
+                foreach (var c in Game.CurrentGame.Decks[null, DeckType.Discard])
+                {
+                    if (Game.CurrentGame.IsClient)
+                    {
+                        c.Id = -1;
+                    }
+                    c.Place = new DeckPlace(null, DeckType.Dealing);
+                    Game.CurrentGame.Decks[null, DeckType.Dealing].Add(c);
+                }
             }
         }
 

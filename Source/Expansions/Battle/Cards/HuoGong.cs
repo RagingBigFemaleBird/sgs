@@ -114,6 +114,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             if (source.IsDead) return;
             ui = Game.CurrentGame.UiProxies[source];
             HuoGongCardMatchVerifier v2 = new HuoGongCardMatchVerifier(cards[0].Suit);
+            Game.CurrentGame.HideHandCard(cards[0]);
             v2.Owner = source;
             if (ui.AskForCardUsage(new CardUsagePrompt("HuoGong2", dest, cards[0].Suit), v2, out s, out cards, out p))
             {

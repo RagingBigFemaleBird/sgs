@@ -28,7 +28,10 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 Game.CurrentGame.HandleCardDiscard(eventArgs.Targets[0], new List<Card>() { result });
                 Game.CurrentGame.RecoverHealth(Owner, eventArgs.Targets[0], 1);
             }
-
+            else
+            {
+                Game.CurrentGame.HideHandCard(result);
+            }
         }
 
         public BuYi()
