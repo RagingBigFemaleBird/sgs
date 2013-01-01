@@ -139,7 +139,9 @@ namespace Sanguosha.UI.Controls
                     cards = new List<CardView>(cards.OrderBy(c => c.Position.X));
                 }
 
-                int zindex = 0;
+
+                int zindex = Panel.GetZIndex(this);                
+
                 double totalWidth = this.ActualWidth;
                 
                 // Do not continue if the layout has not been updated yet.
@@ -204,7 +206,7 @@ namespace Sanguosha.UI.Controls
                         ParentCanvas.Children.Add(card);
                     }
                     card.Position = new Point(newX, topLeft.Y + ActualHeight / 2 - cardHeight / 2);
-                    card.SetValue(Canvas.ZIndexProperty, zindex++);
+                    card.SetValue(Canvas.ZIndexProperty, zindex + i / cards.Count);
                     card.Rebase();
                     i++;
                 }
@@ -326,7 +328,7 @@ namespace Sanguosha.UI.Controls
         public int CardCapacity { get; set; }
 
         public bool KeepHorizontalOrder { get; set; }
-
+        
         private List<CardView> _cards;
         public IList<CardView> Cards
         {

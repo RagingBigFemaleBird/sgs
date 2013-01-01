@@ -32,6 +32,7 @@ namespace Sanguosha.UI.Controls
         private void _MakeDisappear(CardView card)
         {
             card.Disappear(0.5d);
+            card.SetValue(Canvas.ZIndexProperty, (int)card.GetValue(Canvas.ZIndexProperty) - 100);
             Cards.Remove(card);
         }
 
@@ -135,10 +136,10 @@ namespace Sanguosha.UI.Controls
                 AppendCards(cards);
             }
             else
-            {
+            {                
                 foreach (var card in cards)
-                {
-                    canvas.Children.Remove(card);
+                {                    
+                    canvas.Children.Remove(card);             
                 }
             }
 
