@@ -64,6 +64,12 @@ namespace Sanguosha.Lobby.Core
 
         [OperationContract]
         RoomOperationResult StartGame(LoginToken token);
+
+        [OperationContract]
+        RoomOperationResult Ready(LoginToken token);
+
+        [OperationContract]
+        RoomOperationResult Kick(LoginToken token, int seatNo);
     }
 
     public interface IGameClient
