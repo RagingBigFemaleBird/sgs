@@ -38,6 +38,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
+                (p, e, a) => { return a.Targets[0].HandCards().Count > 0; },
                 Run,
                 TriggerCondition.Global
             );
