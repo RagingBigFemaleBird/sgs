@@ -34,7 +34,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             {
                 return VerifierResult.Fail;
             }
-            if(Owner.HandCards().Count() <= Owner.Health)
+            if(Owner.HandCards().Count() <= Owner.MaxHealth)
             {
                 return VerifierResult.Fail;
             }
