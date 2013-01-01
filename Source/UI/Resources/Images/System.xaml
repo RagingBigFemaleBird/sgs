@@ -178,11 +178,20 @@
     <BitmapImage x:Key="Role.Defector.Facial">Roles/defector.png</BitmapImage>
     <BitmapImage x:Key="Role.Ruler.Facial">Roles/ruler.png</BitmapImage>
 
+    <BitmapImage x:Key="Role.Loyalist.Icon">Roles/loyalistIcon.png</BitmapImage>
+    <BitmapImage x:Key="Role.Rebel.Icon">Roles/rebelIcon.png</BitmapImage>
+    <BitmapImage x:Key="Role.Defector.Icon">Roles/defectorIcon.png</BitmapImage>
+    <BitmapImage x:Key="Role.Ruler.Icon">Roles/rulerIcon.png</BitmapImage>
+    
     <BitmapImage x:Key="Death.Role.Loyalist.Image">Death/Loyalist.png</BitmapImage>
     <BitmapImage x:Key="Death.Role.Rebel.Image">Death/Rebel.png</BitmapImage>
     <BitmapImage x:Key="Death.Role.Defector.Image">Death/Defector.png</BitmapImage>
     <BitmapImage x:Key="Death.Role.Ruler.Image">Death/Ruler.png</BitmapImage>
     <BitmapImage x:Key="Death.Role.Unknown.Image">Death/Unknown.png</BitmapImage>
+
+    <BitmapImage x:Key="GameResult.Win.Image">GameResult/win.png</BitmapImage>
+    <BitmapImage x:Key="GameResult.Lose.Image">GameResult/lose.png</BitmapImage>
+    <BitmapImage x:Key="GameResult.Draw.Image">GameResult/draw.png</BitmapImage>
 
     <CroppedBitmap x:Key="GuHuo.Sha.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,0,94,25" />
     <CroppedBitmap x:Key="GuHuo.Shan.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,26,94,25" />
