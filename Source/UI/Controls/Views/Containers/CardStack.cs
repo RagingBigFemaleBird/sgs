@@ -29,7 +29,7 @@ namespace Sanguosha.UI.Controls
 
         void CardStack_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            RearrangeCards(0d);
+            RearrangeCards();
         }
 
         #endregion
@@ -98,7 +98,7 @@ namespace Sanguosha.UI.Controls
 
         #region Card Rearrangement
 
-        public void RearrangeCards(double transitionInSeconds)
+        public void RearrangeCards()
         {
             var tmpCards = new List<CardView>(_cards);
             if (_interactingCard != null && _cardInteraction == CardInteraction.Drag)
@@ -108,7 +108,7 @@ namespace Sanguosha.UI.Controls
                 tmpCards.Remove(_interactingCard);
                 tmpCards.Insert(InteractingCardIndex, _interactingCard);
             }
-            RearrangeCards(tmpCards, transitionInSeconds);
+            RearrangeCards(tmpCards);
         }
 
         private static double _extraSpaceForHighlightedCard = 30d;
@@ -121,7 +121,7 @@ namespace Sanguosha.UI.Controls
         /// <remarks>
         /// Assumes that all cards have the same width.
         /// </remarks>
-        public void RearrangeCards(IList<CardView> cards, double transitionInSeconds)
+        public void RearrangeCards(IList<CardView> cards)
         {
             lock (_rearrangeLock)
             {                
@@ -205,7 +205,7 @@ namespace Sanguosha.UI.Controls
                     }
                     card.Position = new Point(newX, topLeft.Y + ActualHeight / 2 - cardHeight / 2);
                     card.SetValue(Canvas.ZIndexProperty, zindex++);
-                    card.Rebase(transitionInSeconds);
+                    card.Rebase();
                     i++;
                 }
             }
@@ -223,7 +223,7 @@ namespace Sanguosha.UI.Controls
         {
         }
 
-        public void AddCards(IList<CardViewModel> cards, double transitionInSeconds = 0d)
+        public void AddCards(IList<CardViewModel> cards)
         {
             var cardViews = new List<CardView>();
             foreach (var card in cards)
@@ -232,10 +232,10 @@ namespace Sanguosha.UI.Controls
                 cardViews.Add(cardView);
                 ParentCanvas.Children.Add(cardView);
             }
-            AddCards(cardViews, transitionInSeconds);
+            AddCards(cardViews);
         }
 
-        public void AppendCards(IList<CardView> cards, double transitionInSeconds = 0.3d)
+        public void AppendCards(IList<CardView> cards)
         {
             if (cards.Count == 0) return;
             Canvas canvas = cards[0].Parent as Canvas;
@@ -255,16 +255,17 @@ namespace Sanguosha.UI.Controls
             foreach (var card in cards)
             {
                 card.CardModel.IsFaded = false;
-                card.Position = rightMost;
-                card.Rebase(0d);
+                card.SetCurrentPosition(rightMost);
                 rightMost.X += card.ActualWidth;
                 card.Appear(0.3d);
                 Cards.Add(card);
             }
-            RearrangeCards(0.3d);
+            RearrangeCards();
         }
 
-        public void AddCards(IList<CardView> cards, double transitionInSeconds)
+        private static double _cardOpacityChangeAnimationDurationSeconds = 0.5d;
+
+        public void AddCards(IList<CardView> cards)
         {
             lock (_cards)
             {
@@ -273,22 +274,22 @@ namespace Sanguosha.UI.Controls
                     card.CardModel.IsSelected = false;                    
                     if (IsCardConsumer)
                     {
-                        card.Disappear(transitionInSeconds);
+                        card.Disappear(_cardOpacityChangeAnimationDurationSeconds);
                     }
                     else
                     {
-                        card.Appear(transitionInSeconds);
+                        card.Appear(_cardOpacityChangeAnimationDurationSeconds);
                         _cards.Add(card);
                         RegisterCardEvents(card);
                     }
                 }
                 if (IsCardConsumer)
                 {
-                    RearrangeCards(cards, transitionInSeconds);
+                    RearrangeCards(cards);
                 }
                 else
                 {
-                    RearrangeCards(_cards, transitionInSeconds);
+                    RearrangeCards(_cards);
                 }
             }
         }
@@ -304,9 +305,9 @@ namespace Sanguosha.UI.Controls
                 var nonexisted = from c in cards
                                  where !_cards.Contains(c)
                                  select c;
-                RearrangeCards(new List<CardView>(nonexisted), 0d);
+                RearrangeCards(new List<CardView>(nonexisted));
                 _cards = new List<CardView>(_cards.Except(cards));
-                RearrangeCards(_cards, 0.3d);
+                RearrangeCards(_cards);
             }
         }
 

@@ -130,7 +130,27 @@ namespace Sanguosha.UI.Controls
         DoubleAnimation _daMoveY;        
         Storyboard _moveAnimation;
 
-        public void Rebase(double transitionInSeconds)
+        /// <summary>
+        /// Pixels moved per second when doing card movement animation
+        /// </summary>
+        private static double _movementSpeed = 800.0d;
+
+        /// <summary>
+        /// Set position without showing card movement animation.
+        /// </summary>
+        public void SetCurrentPosition(Point p)
+        {
+            Position = p;
+            BeginAnimation(Canvas.LeftProperty, null);
+            BeginAnimation(Canvas.TopProperty, null);
+            SetValue(Canvas.LeftProperty, p.X);
+            SetValue(Canvas.TopProperty, p.Y);
+        }
+
+        /// <summary>
+        /// Animate card to <c>Position</c>.
+        /// </summary>
+        public void Rebase()
         {
             if (Position == null) return;
             if (Parent == null || !(Parent is Canvas)) return;
@@ -138,39 +158,28 @@ namespace Sanguosha.UI.Controls
             double destX = Position.X + Offset.X;
             double destY = Position.Y + Offset.Y;
             
-            lock (_daMoveX)
+            double x = (double)GetValue(Canvas.LeftProperty);
+            double y = (double)GetValue(Canvas.TopProperty);
+
+            if (double.IsNaN(x) || double.IsNaN(y))
             {
-                double x = (double)GetValue(Canvas.LeftProperty);
-                double y = (double)GetValue(Canvas.TopProperty);
-
-                if (double.IsNaN(x) || double.IsNaN(y))
-                {
-                    SetValue(Canvas.LeftProperty, destX);
-                    SetValue(Canvas.TopProperty, destY);
-                    return;
-                }
-                
-                if (transitionInSeconds == 0)
-                {
-                    BeginAnimation(Canvas.LeftProperty, null);
-                    BeginAnimation(Canvas.TopProperty, null);
-                    SetValue(Canvas.LeftProperty, destX);
-                    SetValue(Canvas.TopProperty, destY);
-                }
-                else
-                {
-                    Point point = new Point(x, y);
-                    _daMoveX.From = x;
-                    _daMoveY.From = y;
-                    _daMoveX.To = destX;
-                    _daMoveY.To = destY;
-                    _daMoveX.Duration = TimeSpan.FromSeconds(transitionInSeconds);
-                    _daMoveY.Duration = TimeSpan.FromSeconds(transitionInSeconds);
-
-                    _moveAnimation.Duration = TimeSpan.FromSeconds(transitionInSeconds);
-                    _moveAnimation.Begin(this, true);
-                }
+                SetValue(Canvas.LeftProperty, destX);
+                SetValue(Canvas.TopProperty, destY);
+                return;
             }
+                
+            Point point = new Point(x, y);
+            _daMoveX.From = x;
+            _daMoveY.From = y;
+            _daMoveX.To = destX;
+            _daMoveY.To = destY;
+
+            double transitionInSeconds = Math.Max(0.1d, Math.Sqrt((destX - x) * (destX - x) + (destY - y) * (destY - y)) / _movementSpeed);
+            _daMoveX.Duration = TimeSpan.FromSeconds(transitionInSeconds);
+            _daMoveY.Duration = TimeSpan.FromSeconds(transitionInSeconds);
+
+            _moveAnimation.Duration = TimeSpan.FromSeconds(transitionInSeconds);
+            _moveAnimation.Begin(this, true);
         }
 
         public void Appear(double duration)
@@ -205,7 +214,7 @@ namespace Sanguosha.UI.Controls
         {
             CardView card = d as CardView;
             if (card == null) return;
-            card.Rebase(0.15d);
+            card.Rebase();
         }
 
         #region Drag and Drop
@@ -265,8 +274,7 @@ namespace Sanguosha.UI.Controls
                 else if (_dragState == DragState.Dragging)
                 {
                     Point offset = _ComputeDragOffset(pos);
-                    Position = new Point(_startCardPosition.X + offset.X, _startCardPosition.Y + offset.Y);
-                    Rebase(0);
+                    SetCurrentPosition(new Point(_startCardPosition.X + offset.X, _startCardPosition.Y + offset.Y));
                     var handle = OnDragging;
                     if (handle != null)
                     {

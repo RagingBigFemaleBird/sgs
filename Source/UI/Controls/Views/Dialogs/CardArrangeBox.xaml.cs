@@ -311,10 +311,10 @@ namespace Sanguosha.UI.Controls
 
             if (destDeck.Cards.Count < move.DestCardIndex) return;
             destDeck.Cards.Insert(move.DestCardIndex, card);
-            sourceDeck.RearrangeCards(0.2d);
+            sourceDeck.RearrangeCards();
             if (destDeck != sourceDeck)
             {
-                destDeck.RearrangeCards(0.2d);
+                destDeck.RearrangeCards();
             }
         }
 
@@ -339,13 +339,13 @@ namespace Sanguosha.UI.Controls
                     _highlightedStack.Cards.Insert(newPos, InteractingCard);
                     _sourceDeck.InteractingCard = null;
                     _sourceDeck.CardStatus = CardInteraction.None;
-                    _sourceDeck.RearrangeCards(0.2d);
+                    _sourceDeck.RearrangeCards();
                     if (_sourceDeck != _highlightedStack)
                     {
                         backup2 = new List<CardView>(_highlightedStack.Cards);
                         _highlightedStack.InteractingCard = null;
                         _highlightedStack.CardStatus = CardInteraction.None;
-                        _highlightedStack.RearrangeCards(0.2d);
+                        _highlightedStack.RearrangeCards();
                     }
                     _UpdateAnswer();
                     if (model.Verifier.Verify(model.Answer) == Core.UI.VerifierResult.Fail)
@@ -360,7 +360,7 @@ namespace Sanguosha.UI.Controls
                             _highlightedStack.InteractingCard = null;
                             _UpdateAnswer();
                             _highlightedStack.CardStatus = CardInteraction.None;
-                            _highlightedStack.RearrangeCards(0.2d);
+                            _highlightedStack.RearrangeCards();
                         }
                     }
                     else
@@ -381,7 +381,7 @@ namespace Sanguosha.UI.Controls
                 {
                     _sourceDeck.InteractingCard = null;
                     _sourceDeck.CardStatus = CardInteraction.None;
-                    _sourceDeck.RearrangeCards(0.2d);
+                    _sourceDeck.RearrangeCards();
                 }
             
 
@@ -475,7 +475,7 @@ namespace Sanguosha.UI.Controls
                     if (status != stack.CardStatus || status == CardInteraction.Drag)
                     {
                         stack.CardStatus = status;
-                        stack.RearrangeCards(0.2d);
+                        stack.RearrangeCards();
                     }
                 }
 

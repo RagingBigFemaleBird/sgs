@@ -71,7 +71,7 @@ namespace Sanguosha.UI.Controls
         {
             CardStatus = CardInteraction.None;
             InteractingCard = null;
-            RearrangeCards(0.2d);
+            RearrangeCards();
         }
 
         void card_MouseEnter(object sender, MouseEventArgs e)
@@ -85,7 +85,7 @@ namespace Sanguosha.UI.Controls
                     if (InteractingCard != null)
                     {
                         CardStatus = CardInteraction.MouseMove;
-                        RearrangeCards(0.2d);
+                        RearrangeCards();
                     }
                 }
             }
@@ -107,7 +107,7 @@ namespace Sanguosha.UI.Controls
                     handler(oldPos, newPos);
                 }
             }
-            RearrangeCards(0.2d);
+            RearrangeCards();
         }
 
         public event HandCardMovedHandler OnHandCardMoved;
@@ -129,7 +129,7 @@ namespace Sanguosha.UI.Controls
             {
                 lock (Cards)
                 {
-                    RearrangeCards(0.2d);
+                    RearrangeCards();
                 }
             }
         }
@@ -145,7 +145,7 @@ namespace Sanguosha.UI.Controls
                     InteractingCard.SetValue(Canvas.ZIndexProperty, 1000);
                     Trace.Assert(InteractingCard != null);
                     CardStatus = CardInteraction.Drag;
-                    RearrangeCards(0.2d);
+                    RearrangeCards();
                 }
             }
         }

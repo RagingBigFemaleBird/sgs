@@ -216,7 +216,7 @@ namespace Sanguosha.UI.Controls
             {
                 playerView.UpdateCardAreas();
             }
-            discardDeck.RearrangeCards(0d);
+            discardDeck.RearrangeCards();
         }
 
         private void _CreatePlayerInfoView(int indexInGameModel)

@@ -178,7 +178,7 @@ namespace Sanguosha.UI.Controls
             }
             else
             {
-                handCardArea.AddCards(cards, 0.5d);
+                handCardArea.AddCards(cards);
             }
         }
 
@@ -193,7 +193,7 @@ namespace Sanguosha.UI.Controls
             }
             else
             {
-                privateCardArea.AddCards(cards, 0.5d);
+                privateCardArea.AddCards(cards);
             }
         }
 
@@ -223,7 +223,7 @@ namespace Sanguosha.UI.Controls
 
         public override void UpdateCardAreas()
         {
-            handCardArea.RearrangeCards(0d);
+            handCardArea.RearrangeCards();
         }
 
         protected override void AddDelayedTool(CardView card, bool isFaked)
@@ -245,7 +245,7 @@ namespace Sanguosha.UI.Controls
                 dest.Offset(-card.Width / 2, -card.Height / 2);
                 card.Position = dest;
                 card.Disappear(0.5d);
-                card.Rebase(0.5d);
+                card.Rebase();
             }
 
             Storyboard storyBoard = new Storyboard();
@@ -286,8 +286,7 @@ namespace Sanguosha.UI.Controls
             CardView result = CardView.CreateCard(card);
             ParentGameView.GlobalCanvas.Children.Add(result);
             result.Opacity = 0;
-            result.Position = dest;
-            result.Rebase(0);
+            result.SetCurrentPosition(dest);
 
             return result;
         }
@@ -339,7 +338,7 @@ namespace Sanguosha.UI.Controls
             {
                 card.Position = ComputeCardCenterPos(card, targetArea);
                 card.Disappear(0.3d);
-                card.Rebase(0.3d);
+                card.Rebase();
             }
 
             Storyboard storyBoard = new Storyboard();
@@ -399,8 +398,7 @@ namespace Sanguosha.UI.Controls
             CardView result = CardView.CreateCard(card);
             ParentGameView.GlobalCanvas.Children.Add(result);
             result.Opacity = 0;
-            result.Position = ComputeCardCenterPos(result, targetArea);
-            result.Rebase(0);
+            result.SetCurrentPosition(ComputeCardCenterPos(result, targetArea));
             return result;
         }
 
@@ -433,7 +431,7 @@ namespace Sanguosha.UI.Controls
             storyboard.Begin();
 
             card.Disappear(0.5d);
-            card.Rebase(0.5d);
+            card.Rebase();
         }
 
         protected override CardView RemoveRoleCard(Card card)
@@ -441,8 +439,7 @@ namespace Sanguosha.UI.Controls
             CardView result = CardView.CreateCard(card);
             ParentGameView.GlobalCanvas.Children.Add(result);
             result.Opacity = 0;
-            result.Position = ComputeCardCenterPos(result, cbRoleBox);
-            result.Rebase(0);
+            result.SetCurrentPosition(ComputeCardCenterPos(result, cbRoleBox));
             return result;
         }
 

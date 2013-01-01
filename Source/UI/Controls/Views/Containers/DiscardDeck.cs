@@ -74,8 +74,8 @@ namespace Sanguosha.UI.Controls
 
             if (changed)
             {
-                RearrangeCards(0.2d);
-            }            
+                RearrangeCards();
+            }         
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace Sanguosha.UI.Controls
             // or from judge result area to discard aresa
             if (from != DeckType.Compute && from != DeckType.JudgeResult && from != DeckType.Dealing)
             {
-                AddCards(cards, 0.35d);
+                AddCards(cards);
             }
             else if (from == DeckType.Dealing && deck == DeckType.JudgeResult)
             {
@@ -170,8 +170,7 @@ namespace Sanguosha.UI.Controls
                 if (oldCardView != null)
                 {
                     ParentCanvas.Children.Add(cardView);
-                    cardView.Position = oldCardView.Position;
-                    cardView.Rebase(0);                    
+                    cardView.SetCurrentPosition(oldCardView.Position);                   
                 }
                 else
                 {
