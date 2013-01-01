@@ -211,8 +211,7 @@ namespace Sanguosha.UI.Controls
                         {
                             var copy = CardView.CreateCard(cardView.Card);
                             ParentGameView.GlobalCanvas.Children.Add(copy);
-                            copy.Position = cardView.Position;
-                            copy.Offset = cardView.Offset;
+                            copy.Position = cardView.Position;                            
                             copy.Rebase(0d);
                             copy.Opacity = 100;
                             cardsToRemove.Add(copy);
@@ -220,6 +219,7 @@ namespace Sanguosha.UI.Controls
                         else
                         {
                             cardsToRemove.Add(cardView);
+                            cardView.Offset = new Point(0, 0);
                             cardView.DragDirection = DragDirection.None;
                             PlayerModel.HandCards.Remove(viewModel);                            
                         }

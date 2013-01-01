@@ -306,7 +306,7 @@ namespace Sanguosha.UI.Controls
                                  select c;
                 RearrangeCards(new List<CardView>(nonexisted), 0d);
                 _cards = new List<CardView>(_cards.Except(cards));
-                RearrangeCards(_cards, 0.5d);
+                RearrangeCards(_cards, 0.3d);
             }
         }
 

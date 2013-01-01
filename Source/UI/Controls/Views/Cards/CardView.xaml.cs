@@ -37,6 +37,8 @@ namespace Sanguosha.UI.Controls
             this.MouseEnter += CardView_MouseEnter;
             this.MouseLeave += CardView_MouseLeave;
 
+            _OnCardSelectedChangedHandler = new EventHandler(_OnCardSelectedChanged);
+
             _daMoveX = new DoubleAnimation();
             _daMoveY = new DoubleAnimation();            
             Storyboard.SetTarget(_daMoveX, this);
@@ -81,16 +83,28 @@ namespace Sanguosha.UI.Controls
         void CardView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             toolTip.Content = DataContext;
+
+            var oldModel = e.OldValue as CardViewModel;
+            if (oldModel != null)
+            {
+                oldModel.OnSelectedChanged -= _OnCardSelectedChangedHandler;
+            }
+
             CardViewModel model = DataContext as CardViewModel;
             if (model != null)
             {
-                model.OnSelectedChanged += (o, ea) =>
-                {
-                    if (model.IsSelected) Offset = new Point(0, -20);
-                    else Offset = new Point(0, 0);
-                };
+                model.OnSelectedChanged += _OnCardSelectedChangedHandler;
             }
-        }        
+        }
+
+        private EventHandler _OnCardSelectedChangedHandler;
+
+        private void _OnCardSelectedChanged(object sender, EventArgs args)
+        {
+            CardViewModel model = sender as CardViewModel;
+            if (model.IsSelected) Offset = new Point(0, -20);
+            else Offset = new Point(0, 0);
+        }
 
         public Card Card
         {
