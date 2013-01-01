@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.IO;
 using Sanguosha.Core.Games;
 using System.Threading;
+using System.Diagnostics;
 
 namespace Sanguosha.UI.Main
 {
@@ -28,7 +29,8 @@ namespace Sanguosha.UI.Main
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
-        { 
+        {
+            Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.RealTime;
             // MainFrame.Navigate(new Uri("pack://application:,,,/Sanguosha;component/MainGame.xaml"));
         }
     }

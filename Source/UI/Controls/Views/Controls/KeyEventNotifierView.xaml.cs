@@ -14,6 +14,7 @@ using System.Windows.Media.Effects;
 using System.Timers;
 using System.Diagnostics;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 
 namespace Sanguosha.UI.Controls
 {
@@ -22,16 +23,16 @@ namespace Sanguosha.UI.Controls
     /// </summary>
     public partial class KeyEventNotifierView : UserControl
     {
-        Timer _cleanUpCounter;
+        DispatcherTimer _cleanUpCounter;
         int _currentTime;
 
         public KeyEventNotifierView()
         {
             this.InitializeComponent();
             _timeStamps = new List<int>();
-            _cleanUpCounter = new Timer(1000);
-            _cleanUpCounter.AutoReset = true;
-            _cleanUpCounter.Elapsed += _cleanUpCounter_Elapsed;
+            _cleanUpCounter = new DispatcherTimer(DispatcherPriority.ContextIdle);
+            _cleanUpCounter.Interval = TimeSpan.FromSeconds(1.0);
+            _cleanUpCounter.Tick += _cleanUpCounter_Elapsed;
             _cleanUpCounter.Start();
             _currentTime = 0;
             _disappearing = new List<bool>();
@@ -55,31 +56,28 @@ namespace Sanguosha.UI.Controls
             element.BeginAnimation(UIElement.OpacityProperty, anim);
         }
 
-        private void _cleanUpCounter_Elapsed(object sender, ElapsedEventArgs e)
-        {            
-            Application.Current.Dispatcher.Invoke((System.Threading.ThreadStart)delegate()
+        private void _cleanUpCounter_Elapsed(object sender, EventArgs e)
+        {                        
+            _currentTime++;
+            Trace.Assert(_timeStamps.Count == _disappearing.Count);
+            Trace.Assert(_timeStamps.Count == spLogs.Children.Count);
+            int pivot = -1;
+            for (int i = 0; i < _timeStamps.Count; i++)
             {
-                _currentTime++;
-                Trace.Assert(_timeStamps.Count == _disappearing.Count);
-                Trace.Assert(_timeStamps.Count == spLogs.Children.Count);
-                int pivot = -1;
-                for (int i = 0; i < _timeStamps.Count; i++)
+                if (_currentTime - _timeStamps[i] <= _cleanUpElapsedTimeThreshold) break;
+                else
                 {
-                    if (_currentTime - _timeStamps[i] <= _cleanUpElapsedTimeThreshold) break;
-                    else
-                    {
-                        if (_currentTime - _timeStamps[i] > _cleanUpElapsedTimeThreshold + 1) pivot = i;
-                        if (!_disappearing[i]) _MakeDisappear(spLogs.Children[i]);
-                        _disappearing[i] = true;
-                    }
+                    if (_currentTime - _timeStamps[i] > _cleanUpElapsedTimeThreshold + 1) pivot = i;
+                    if (!_disappearing[i]) _MakeDisappear(spLogs.Children[i]);
+                    _disappearing[i] = true;
                 }
-                if (pivot >= 0 && pivot < _timeStamps.Count)
-                {
-                    _timeStamps.RemoveRange(0, pivot + 1);
-                    _disappearing.RemoveRange(0, pivot + 1);
-                    spLogs.Children.RemoveRange(0, pivot + 1);
-                }
-            });
+            }
+            if (pivot >= 0 && pivot < _timeStamps.Count)
+            {
+                _timeStamps.RemoveRange(0, pivot + 1);
+                _disappearing.RemoveRange(0, pivot + 1);
+                spLogs.Children.RemoveRange(0, pivot + 1);
+            }            
         }
 
         private UIElement _BuildLogBlock(FlowDocument log)

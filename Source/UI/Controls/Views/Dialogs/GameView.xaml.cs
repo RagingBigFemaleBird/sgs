@@ -648,7 +648,7 @@ namespace Sanguosha.UI.Controls
                     _GetMovementDeck(move.To).AddCards(move.To.DeckType, cardsToAdd, move.Helper.IsFakedMove);
                 }
                 rtbLog.ScrollToEnd();
-            });
+            }, System.Windows.Threading.DispatcherPriority.Send);
         }
 
         public void NotifyDamage(Player source, Player target, int magnitude, DamageElement element)

@@ -7,19 +7,20 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using Sanguosha.Core.Cards;
+using System.Windows.Threading;
 
 namespace Sanguosha.UI.Controls
 {
     public class DiscardDeck : CardStack, IDeckContainer
     {
-        Timer _cleanUpCounter;
+        DispatcherTimer _cleanUpCounter;
         int _currentTime;
 
         public DiscardDeck()
         {
-            _cleanUpCounter = new Timer(1000);
-            _cleanUpCounter.AutoReset = true;
-            _cleanUpCounter.Elapsed += _cleanUpCounter_Elapsed;
+            _cleanUpCounter = new DispatcherTimer();
+            _cleanUpCounter.Interval = TimeSpan.FromSeconds(1.0);
+            _cleanUpCounter.Tick += _cleanUpCounter_Elapsed;
             _cleanUpCounter.Start();
             _currentTime = 0;
         }
@@ -51,33 +52,30 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        private void _cleanUpCounter_Elapsed(object sender, ElapsedEventArgs e)
+        private void _cleanUpCounter_Elapsed(object sender, EventArgs e)
         {
             bool changed = false;
             _currentTime++;
-            Application.Current.Dispatcher.Invoke((System.Threading.ThreadStart)delegate()
+            for (int i = 0; i < Cards.Count; i++)
             {
-                for (int i = 0; i < Cards.Count; i++)
+                CardView card = Cards[i];
+                if (_currentTime - card.DiscardDeckClearTimeStamp > _ClearanceTimeAllowance)
                 {
-                    CardView card = Cards[i];
-                    if (_currentTime - card.DiscardDeckClearTimeStamp > _ClearanceTimeAllowance)
-                    {
-                        changed = true;
-                        _MakeDisappear(card);
-                        i--;
-                    }
-
-                    if (_currentTime > card.DiscardDeckClearTimeStamp)
-                    {
-                        card.CardModel.IsFaded = true;
-                    }
+                    changed = true;
+                    _MakeDisappear(card);
+                    i--;
                 }
 
-                if (changed)
+                if (_currentTime > card.DiscardDeckClearTimeStamp)
                 {
-                    RearrangeCards(0.5d);
+                    card.CardModel.IsFaded = true;
                 }
-            });
+            }
+
+            if (changed)
+            {
+                RearrangeCards(0.5d);
+            }            
         }
 
         /// <summary>
