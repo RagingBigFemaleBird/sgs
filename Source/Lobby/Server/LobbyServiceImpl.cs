@@ -51,11 +51,20 @@ namespace Sanguosha.Lobby.Server
             newAccountId = 1;
             CheatEnabled = false;
         }
+  
+        void Channel_Faulted(object sender, EventArgs e)
+        {
+            var connection = sender as IGameClient;
+            var guid = loggedInChannelsToGuid[connection];
+            _Logout(new LoginToken() { token = guid });
+        }
 
         public LoginStatus Login(int version, string username, out LoginToken token, out Account retAccount)
         {
             Console.WriteLine("{0} logged in", username);
-            var connection = OperationContext.Current.GetCallbackChannel<IGameClient>(); 
+            var connection = OperationContext.Current.GetCallbackChannel<IGameClient>();
+            OperationContext.Current.Channel.Faulted += new EventHandler(Channel_Faulted);
+            OperationContext.Current.Channel.Closed += new EventHandler(Channel_Faulted);
             token = new LoginToken();
             token.token = System.Guid.NewGuid();
             Account account = new Account() { Username = username, Id = newAccountId++ };
@@ -67,12 +76,22 @@ namespace Sanguosha.Lobby.Server
             return LoginStatus.Success;
         }
 
+        private void _Logout(LoginToken token)
+        {
+            if (!loggedInGuidToAccount.ContainsKey(token.token)) return;
+            Console.WriteLine("{0} logged out", loggedInGuidToAccount[token.token].Username);
+            if (loggedInGuidToRoom.ContainsKey(token.token))
+            {
+                _ExitRoom(token, loggedInGuidToRoom[token.token].Id);
+            }
+            loggedInGuidToAccount.Remove(token.token);
+        }
+
         public void Logout(LoginToken token)
         {
             if (VerifyClient(token))
             {
-                Console.WriteLine("{0} logged out", loggedInGuidToAccount[token.token].Username);
-                loggedInGuidToAccount.Remove(token.token);
+                _Logout(token);
             }
         }
 
@@ -165,29 +184,36 @@ namespace Sanguosha.Lobby.Server
             return RoomOperationResult.Auth;
         }
 
+        private RoomOperationResult _ExitRoom(LoginToken token, int roomId)
+        {
+            if (loggedInGuidToRoom.ContainsKey(token.token))
+            {
+                var room = loggedInGuidToRoom[token.token];
+                foreach (var seat in room.Seats)
+                {
+                    if (seat.Account == loggedInGuidToAccount[token.token])
+                    {
+                        seat.Account = null;
+                        seat.State = SeatState.Empty;
+                        loggedInGuidToRoom.Remove(token.token);
+                        if (!room.Seats.Any(state => state.State != SeatState.Empty))
+                        {
+                            rooms.Remove(room.Id);
+                            return RoomOperationResult.Success;
+                        }
+                        NotifyRoomLayoutChanged(roomId);
+                        return RoomOperationResult.Success;
+                    }
+                }
+            }
+            return RoomOperationResult.Invalid;
+        }
+
         public RoomOperationResult ExitRoom(LoginToken token, int roomId)
         {
             if (VerifyClient(token))
             {
-                if (loggedInGuidToRoom.ContainsKey(token.token))
-                {
-                    foreach (var seat in loggedInGuidToRoom[token.token].Seats)
-                    {
-                        if (seat.Account == loggedInGuidToAccount[token.token])
-                        {
-                            seat.Account = null;
-                            seat.State = SeatState.Empty;
-                            loggedInGuidToRoom.Remove(token.token);
-                            if (!loggedInGuidToRoom[token.token].Seats.Any(state => state.State != SeatState.Empty))
-                            {
-                                rooms.Remove(loggedInGuidToRoom[token.token].Id);
-                                return RoomOperationResult.Success;
-                            }
-                            NotifyRoomLayoutChanged(roomId);
-                            return RoomOperationResult.Success;
-                        }
-                    }
-                }
+                return _ExitRoom(token, roomId);
             }
             return RoomOperationResult.Auth;
         }
