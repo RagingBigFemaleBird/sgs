@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <!-- Examples
@@ -17,12 +17,14 @@
     <sys:String x:Key="Hero.LingTong.Name">凌统</sys:String>
     <sys:String x:Key="Hero.XuSheng.Name">徐盛</sys:String>
     <sys:String x:Key="Hero.WuGuoTai.Name">吴国太</sys:String>
+    <sys:String x:Key="Hero.MaSu.Name">马谡</sys:String>
 
     <sys:String x:Key="Skill.JueQing.Name">绝情</sys:String>
 
     <sys:String x:Key="Skill.LuoYing.Name">落英</sys:String>
     <sys:String x:Key="Skill.LuoYing.Description">当其他角色的一张梅花牌因弃置或判定而置入弃牌堆时，你可以获得之。</sys:String>
     <sys:String x:Key="Skill.LuoYing.Usage">系统提示→点“确定”</sys:String>
+    
     <sys:String x:Key="Skill.JiuShi.Name">酒诗</sys:String>
     <sys:String x:Key="Skill.YiZhong.Name">毅重</sys:String>
     <sys:String x:Key="Skill.WuYan.Name">无言</sys:String>
@@ -34,4 +36,10 @@
     <sys:String x:Key="Skill.BuYi.Name">补益</sys:String>
     <sys:String x:Key="Skill.GanLu.Name">甘露</sys:String>
 
+    <sys:String x:Key="Skill.HuiLei.Name">挥泪</sys:String>
+    <sys:String x:Key="Skill.HuiLei.Description">锁定技，当你被其他角色杀死时，该角色弃置其所有的牌。</sys:String>
+
+    <sys:String x:Key="Skill.XinZhan.Name">心战</sys:String>
+    <sys:String x:Key="Skill.XinZhan.Description">出牌阶段，若你的手牌数大于你的体力上限，你可以：观看牌堆顶的三张牌，然后亮出其中任意数量的红桃牌并获得之，其余以任意顺序置于牌堆顶。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.XinZhan.Usage">点“心战”</sys:String>
 </ResourceDictionary>
