@@ -498,5 +498,17 @@ namespace Sanguosha.UI.Controls
             canvas.Children.Add(animation);
             animation.Start();
         }
+
+        private void trustButton_Click(object sender, RoutedEventArgs e)
+        {
+            trustButton.Visibility = Visibility.Hidden;
+            untrustButton.Visibility = Visibility.Visible;
+        }
+
+        private void untrustButton_Click(object sender, RoutedEventArgs e)
+        {
+            untrustButton.Visibility = Visibility.Hidden;
+            trustButton.Visibility = Visibility.Visible;
+        }
     }
 }

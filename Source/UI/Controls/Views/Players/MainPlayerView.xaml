@@ -318,12 +318,26 @@
                 </Grid.ColumnDefinitions>
                 <Image Grid.Column="1" Source="{DynamicResource MainPlayerInfoView.Background.Platter}"/>
             </Grid>
-            <Border HorizontalAlignment="Right" Height="17" Width="16" VerticalAlignment="Top" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22" Margin="0,148,92,0" d:LayoutOverrides="GridBox">
+            <Border HorizontalAlignment="Right" Height="17" Width="16" VerticalAlignment="Bottom" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22" Margin="0,0,79,7" d:LayoutOverrides="GridBox">
                 <TextBlock Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding HandCardCount}" TextAlignment="Center" FontFamily="Arial" Foreground="Black"/>
             </Border>
             <Button x:Name="btnOk" Command="{Binding SubmitAnswerCommand}" Height="64" Style="{DynamicResource OkButtonStyle}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="53" Margin="0,4.002,38.686,0" />
             <Button Height="64" Margin="0,0,39,3.5" Command="{Binding CancelAnswerCommand}" Style="{DynamicResource CancelButtonStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="53"/>
             <Button Command="{Binding AbortAnswerCommand}" Style="{DynamicResource DiscardButtonStyle}" HorizontalAlignment="Right" Width="28" Height="69" Margin="0,39.5,6.67,39.5"/>
+            <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="28" Height="28" Margin="0,0,5,1">
+                <local:ImageButton x:Name="trustButton"
+                               NormalImage="pack://application:,,,/Resources;component/Images/Buttons/trust/normal1.png"
+                               HoverImage="pack://application:,,,/Resources;component/Images/Buttons/trust/hover1.png"
+                               PressedImage="pack://application:,,,/Resources;component/Images/Buttons/trust/down1.png"
+                               DisabledImage="pack://application:,,,/Resources;component/Images/Buttons/trust/disabled1.png" Click="trustButton_Click" />
+
+                <local:ImageButton x:Name="untrustButton"
+                               NormalImage="pack://application:,,,/Resources;component/Images/Buttons/trust/normal2.png"
+                               HoverImage="pack://application:,,,/Resources;component/Images/Buttons/trust/hover2.png"
+                               PressedImage="pack://application:,,,/Resources;component/Images/Buttons/trust/down2.png"
+                               DisabledImage="pack://application:,,,/Resources;component/Images/Buttons/trust/disabled2.png"
+                               Visibility="Hidden" Click="untrustButton_Click" />
+            </Grid>
             <Image x:Name="image" Source="{res:ImageBinding Path=Role, ResourceKeyFormat=Death.Role.\{0\}.Image, StringFormat=Resources/Images/Death/\{0\}.png}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False" Opacity="0" Margin="-154,0,95,0">
                 <Image.RenderTransform>
                     <TransformGroup>
