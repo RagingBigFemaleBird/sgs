@@ -724,5 +724,13 @@ namespace Sanguosha.Core.Games
             Trace.Assert(answer.Count == 1 && answer[0].Count == 1);
             return theCard;
         }
+
+        public void HideHandCard(Card c)
+        {
+            if (Game.CurrentGame.IsClient && Game.CurrentGame.GameClient.SelfId != c.Place.Player.Id && c.Place.DeckType == DeckType.Hand)
+            {
+                c.Id = -1;
+            }
+        }
     }
 }
