@@ -70,7 +70,7 @@ namespace Sanguosha.UI.Controls
         {
             if (!(bool)e.NewValue)
             {
-                (Resources["sbUnHighlight"] as Storyboard).Begin();
+                (Resources["sbUnHighlight"] as Storyboard).Begin();                
             }
             else if (IsMouseOver)
             {
@@ -81,6 +81,15 @@ namespace Sanguosha.UI.Controls
         void CardView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             toolTip.Content = DataContext;
+            CardViewModel model = DataContext as CardViewModel;
+            if (model != null)
+            {
+                model.OnSelectedChanged += (o, ea) =>
+                {
+                    if (model.IsSelected) Offset = new Point(0, -20);
+                    else Offset = new Point(0, 0);
+                };
+            }
         }        
 
         public Card Card
@@ -126,7 +135,7 @@ namespace Sanguosha.UI.Controls
                     SetValue(Canvas.TopProperty, destY);
                     return;
                 }
-
+                
                 if (transitionInSeconds == 0)
                 {
                     BeginAnimation(Canvas.LeftProperty, null);
@@ -293,9 +302,7 @@ namespace Sanguosha.UI.Controls
             CardViewModel model = DataContext as CardViewModel;
             if (model != null && _dragState == DragState.MouseDown && model.IsEnabled)
             {
-                model.IsSelected = !model.IsSelected;
-                if (model.IsSelected) Offset = new Point(0, -20);
-                else Offset = new Point(0, 0);
+                model.IsSelected = !model.IsSelected;                
             }
             _ReleaseMouseCapture();
             e.Handled = true;
