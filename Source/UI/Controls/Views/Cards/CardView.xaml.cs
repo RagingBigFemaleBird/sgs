@@ -47,7 +47,9 @@ namespace Sanguosha.UI.Controls
             Storyboard.SetTargetProperty(_daMoveY, new PropertyPath(Canvas.TopProperty));                        
             _moveAnimation = new Storyboard();
             _moveAnimation.Children.Add(_daMoveX);
-            _moveAnimation.Children.Add(_daMoveY);            
+            _moveAnimation.Children.Add(_daMoveY);
+            _moveAnimation.AccelerationRatio = 0.2d;
+            _moveAnimation.DecelerationRatio = 0.2d;
         }
 
         public CardView(CardViewModel card) : this()
