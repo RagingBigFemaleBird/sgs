@@ -396,6 +396,10 @@ namespace Sanguosha.Core.Games
                 Trace.TraceError(e.StackTrace);
             }
 #endif
+            if (GameServer != null)
+            {
+                GameServer.StopServer();
+            }
             Trace.TraceInformation("Game exited normally");
         }
 

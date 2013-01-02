@@ -26,6 +26,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 List<Player> targets = new List<Player>();
                 targets.Add(next);
+                if (next == start) return false;
                 if (Game.CurrentGame.PlayerCanBeTargeted(null, targets, c))
                 {
                     if (DelayedToolConflicting(next))
@@ -52,7 +53,6 @@ namespace Sanguosha.Expansions.Basic.Cards
                     Game.CurrentGame.MoveCards(move);
                     return true;
                 }
-                if (next == start) return false;
             }
             return false;
         }

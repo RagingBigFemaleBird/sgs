@@ -361,6 +361,15 @@ namespace Sanguosha.Core.Network
 
         TcpListener listener;
 
+        public void StopServer()
+        {
+            foreach (var thread in handlers)
+            {
+                thread.threadClient.Abort();
+                thread.threadServer.Abort();
+            }
+        }
+
         private void _StartListener()
         {
             int i = 0;

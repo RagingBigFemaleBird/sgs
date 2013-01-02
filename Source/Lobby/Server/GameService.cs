@@ -21,6 +21,7 @@ namespace Sanguosha.Lobby.Server
         {
             int totalNumberOfPlayers = setting.TotalPlayers;
             int timeOutSeconds = setting.TimeOutSeconds;
+#if DEBUG
             Trace.Listeners.Clear();
 
             TextWriterTraceListener twtl = new TextWriterTraceListener(Path.Combine(Directory.GetCurrentDirectory(), AppDomain.CurrentDomain.FriendlyName + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + ".txt"));
@@ -35,6 +36,7 @@ namespace Sanguosha.Lobby.Server
             Trace.AutoFlush = true;
             Trace.WriteLine("Log starting");
             Trace.Listeners.Add(new ConsoleTraceListener());
+#endif
             Game game = new RoleGame();
             game.Settings = setting;
             Sanguosha.Core.Network.Server server;

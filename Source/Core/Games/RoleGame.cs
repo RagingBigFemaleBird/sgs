@@ -225,9 +225,15 @@ namespace Sanguosha.Core.Games
             {
                 Player currentPlayer = Game.CurrentGame.CurrentPlayer;
                 Trace.TraceInformation("Player {0} judge.", currentPlayer.Id);
-                while (Game.CurrentGame.Decks[currentPlayer, DeckType.DelayedTools].Count > 0)
+                var save = new List<Card>(currentPlayer.DelayedTools());
+                while (save.Count > 0)
                 {
-                    Card card = Game.CurrentGame.Decks[currentPlayer, DeckType.DelayedTools].Last();
+                    Card card = save.Last();
+                    save.Remove(card);
+                    if (!currentPlayer.DelayedTools().Contains(card))
+                    {
+                        continue;
+                    }
                     if (CardCategoryManager.IsCardCategory(card.Type.Category, CardCategory.DelayedTool))
                     {
                         DelayedTool tool = card.Type as DelayedTool;
