@@ -25,7 +25,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 var trigger = new AutoNotifyPassiveSkillTrigger(
                     this,
-                    (p, e, a) => { return a.ReadonlyCard != null && (a.ReadonlyCard.Type is Sha) && a.ReadonlyCard.SuitColor == SuitColorType.Black && a.ReadonlyCard[Armor.IgnoreAllArmor] == 0 && a.ReadonlyCard[Armor.IgnorePlayerArmor] != Owner.Id + 1; },
+                    (p, e, a) => { return a.ReadonlyCard != null && (a.ReadonlyCard.Type is Sha) && a.ReadonlyCard.SuitColor == SuitColorType.Black && Game.CurrentGame.PlayerArmorIsEffect(Owner, a.ReadonlyCard); },
                     (p, e, a) => { throw new TriggerResultException(TriggerResult.End);},
                     TriggerCondition.OwnerIsTarget
                 );

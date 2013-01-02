@@ -35,7 +35,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                     {
                         var args = a as DamageEventArgs;
                         return (args.Magnitude > 1)
-                               && (a.ReadonlyCard == null || (a.ReadonlyCard[Armor.IgnoreAllArmor] == 0 && a.ReadonlyCard[Armor.IgnorePlayerArmor] != Owner.Id + 1));
+                               && (a.ReadonlyCard == null || Game.CurrentGame.PlayerArmorIsEffect(Owner, a.ReadonlyCard));
                     },
                     Run,
                     TriggerCondition.OwnerIsTarget

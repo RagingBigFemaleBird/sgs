@@ -51,6 +51,7 @@
     <Compile Include="Skills\JuJian.cs" />
     <Compile Include="Skills\LuoYing.cs" />
     <Compile Include="Skills\PoJun.cs" />
+    <Compile Include="Skills\QuanJi.cs" />
     <Compile Include="Skills\WuYan.cs" />
     <Compile Include="Skills\XinZhan.cs" />
     <Compile Include="Skills\XuanFeng.cs" />

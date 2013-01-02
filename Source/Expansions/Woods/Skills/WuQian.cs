@@ -38,7 +38,32 @@ namespace Sanguosha.Expansions.Woods.Skills
             }
         }
 
-        /*关于防具无效部分尝未实现。*/
+        class ArmorFailureRemoval : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                if (eventArgs.Source != Owner)
+                {
+                    return;
+                }
+                List<Player> players = Game.CurrentGame.AlivePlayers;
+                players.Remove(Owner);
+                foreach (Player p in players)
+                {
+                    if (p[WuQianTarget] > 0)
+                    {
+                        while (p[WuQianTarget]-- > 0)
+                            p[Player.ArmorFailure]--;
+                    }
+                }
+                Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], this);
+            }
+
+            public ArmorFailureRemoval(Player p)
+            {
+                Owner = p;
+            }
+        }
 
         public override VerifierResult Validate(GameEventArgs arg)
         {
@@ -69,12 +94,15 @@ namespace Sanguosha.Expansions.Woods.Skills
                 Owner[WuQianUsed] = 1;
                 Game.CurrentGame.PlayerAcquireSkill(Owner, WqWuShuang);
                 Game.CurrentGame.RegisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], new WuShuangRemoval(Owner));
+                Game.CurrentGame.RegisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], new ArmorFailureRemoval(Owner));
             }
-                //这里写目标防具无效部分代码，待完善。
+            arg.Targets[0][Player.ArmorFailure]++;
+            arg.Targets[0][WuQianTarget]++;
             return true;
         }
-
+        
         private static ISkill WqWuShuang = new WuShuang();
         private static PlayerAttribute WuQianUsed = PlayerAttribute.Register("WuQianUsed", true);
+        private static PlayerAttribute WuQianTarget = PlayerAttribute.Register("WuQianTarget", true);
     }
 }

@@ -49,7 +49,7 @@ namespace Sanguosha.Expansions.Fire.Skills
                 {
                     foreach (var ac in Game.CurrentGame.Decks[p, DeckType.Equipment])
                         if (ac.Type is Armor) return false;
-                    return a.Card.Type is Shan && a.ReadonlyCard[Armor.IgnoreAllArmor] == 0 && a.ReadonlyCard[Armor.IgnorePlayerArmor] != Owner.Id + 1;
+                    return a.Card.Type is Shan && Game.CurrentGame.PlayerArmorIsEffect(Owner, a.ReadonlyCard);
                 },
                 Run,
                 TriggerCondition.OwnerIsSource

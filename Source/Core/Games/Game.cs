@@ -1402,6 +1402,11 @@ namespace Sanguosha.Core.Games
             CurrentPlayer = player;
         }
 
+        public bool PlayerArmorIsEffect(Player player, ReadOnlyCard card)
+        {
+            return player[Player.ArmorFailure] == 0 && (card == null || card[Armor.IgnoreAllArmor] == 0 && card[Armor.IgnorePlayerArmor] != player.Id + 1); 
+        }
+
     }
 }
 

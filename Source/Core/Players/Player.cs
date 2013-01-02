@@ -375,10 +375,11 @@ namespace Sanguosha.Core.Players
             get { return isTargeted; }
             set { isTargeted = value; OnPropertyChanged("IsTargeted"); }
         }
-
+        
         public static PlayerAttribute RangeMinus = PlayerAttribute.Register("RangeMinus", false);
         public static PlayerAttribute RangePlus = PlayerAttribute.Register("RangePlus", false);
         public static PlayerAttribute AttackRange = PlayerAttribute.Register("AttackRange", false);
         public static PlayerAttribute DealAdjustment = PlayerAttribute.Register("DealAdjustment", true);
+        public static PlayerAttribute ArmorFailure = PlayerAttribute.Register("ArmorFailure", false);
     }
 }
