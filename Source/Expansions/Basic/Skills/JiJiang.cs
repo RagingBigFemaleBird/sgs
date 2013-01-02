@@ -36,7 +36,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             bool noShuHero = true;
             foreach (var player in toProcess)
             {
-                if (player.Hero.Allegiance == Core.Heroes.Allegiance.Shu)
+                if (player.Allegiance == Core.Heroes.Allegiance.Shu)
                 {
                     noShuHero = false;
                     break;

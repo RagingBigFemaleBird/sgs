@@ -371,6 +371,10 @@ namespace Sanguosha.Core.Games
                 {
                     unknownCard = new Card();
                     unknownCard.CopyFrom(card);
+                    if (unknownCard.Type is Heroes.HeroCardHandler)
+                    {
+                        unknownCard.Type = (Heroes.HeroCardHandler)(unknownCard.Type as Heroes.HeroCardHandler).Clone();
+                    }
                 }
                 cardSet.Add(unknownCard);
             }

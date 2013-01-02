@@ -166,7 +166,7 @@ namespace Sanguosha.Core.Network
         public static Card DecodeForClient(CardItem i, int wrt)
         {
             // you know this hand card. therefore the deserialization look up this card in particular
-            if (i.playerId >= 0 && i.deck == DeckType.Hand && Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrt]].Contains(Game.CurrentGame.Players[i.playerId]))
+            if (i.Id >= 0 && i.playerId >= 0 && i.deck == DeckType.Hand && Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrt]].Contains(Game.CurrentGame.Players[i.playerId]))
             {
                 foreach (Card c in Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck])
                 {
@@ -211,14 +211,20 @@ namespace Sanguosha.Core.Network
         public static CardHandler TranslateCardType(Type type, string horseName)
         {
             if (type == null) return null;
+            CardHandler ret;
             if (horseName == null)
             {
-                return Activator.CreateInstance(type) as CardHandler;
+                ret = Activator.CreateInstance(type) as CardHandler;
             }
             else
             {
-                return Activator.CreateInstance(type, horseName) as CardHandler;
+                ret = Activator.CreateInstance(type, horseName) as CardHandler;
             }
+            if (ret is Heroes.HeroCardHandler)
+            {
+                return (CardHandler)(ret as Heroes.HeroCardHandler).Clone();
+            }
+            return ret;
         }
 
         public static void TranslateCardType(ref Type type, ref String horse, CardHandler handler)

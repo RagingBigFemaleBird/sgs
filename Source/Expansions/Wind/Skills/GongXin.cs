@@ -53,6 +53,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             Player target = arg.Targets[0];
             List<List<Card>> answer;
             Game.CurrentGame.SyncCards(Owner, Game.CurrentGame.Decks[target, DeckType.Hand]);
+            Game.CurrentGame.HandCardVisibility[Owner].Add(target);
             if (Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("GongXin"),
                     new List<DeckPlace>() { new DeckPlace(target, DeckType.Hand) },
                     new List<string>() { "PaiDuiDing", "QiPaiDui" },
@@ -62,16 +63,27 @@ namespace Sanguosha.Expansions.Wind.Skills
                     null,
                     CardChoiceCallback.GenericCardChoiceCallback))
             {
+                foreach (Card c in target.HandCards()) Game.CurrentGame.HideHandCard(c);
+                Game.CurrentGame.HandCardVisibility[Owner].Remove(target);
                 if (answer[0] != null && answer[0].Count > 0)
                 {
-                    Game.CurrentGame.NotificationProxy.NotifyLogEvent(new Prompt(Prompt.LogEventPrefix + "GongXin1", Owner, answer[0][0]));
-                    Game.CurrentGame.InsertBeforeDeal(target, answer[0]);
+                    var theCard = answer[0][0];
+                    Game.CurrentGame.SyncCardAll(ref theCard);
+                    Game.CurrentGame.NotificationProxy.NotifyLogEvent(new Prompt(Prompt.LogEventPrefix + "GongXin1", Owner, theCard));
+                    Game.CurrentGame.InsertBeforeDeal(target, new List<Card>() { theCard });
                 }
                 else if (answer[1] != null && answer[1].Count > 0)
                 {
-                    Game.CurrentGame.NotificationProxy.NotifyLogEvent(new Prompt(Prompt.LogEventPrefix + "GongXin2", Owner, answer[1][0]));
-                    Game.CurrentGame.PlaceIntoDiscard(target, answer[1]);
+                    var theCard = answer[1][0];
+                    Game.CurrentGame.SyncCardAll(ref theCard);
+                    Game.CurrentGame.NotificationProxy.NotifyLogEvent(new Prompt(Prompt.LogEventPrefix + "GongXin2", Owner, theCard));
+                    Game.CurrentGame.PlaceIntoDiscard(target, new List<Card>() { theCard });
                 }
+            }
+            else
+            {
+                foreach (Card c in target.HandCards()) Game.CurrentGame.HideHandCard(c);
+                Game.CurrentGame.HandCardVisibility[Owner].Remove(target);
             }
             return true;
         }

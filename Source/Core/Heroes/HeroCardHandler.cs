@@ -10,8 +10,16 @@ using Sanguosha.Core.Players;
 
 namespace Sanguosha.Core.Heroes
 {
-    public class HeroCardHandler : CardHandler
+    public class HeroCardHandler : CardHandler, ICloneable
     {
+        public object Clone()
+        {
+            Hero h = (Hero)hero.Clone();
+            HeroCardHandler handler = new HeroCardHandler(h);
+            return handler;
+
+        }
+
         protected override void Process(Players.Player source, Players.Player dest, ICard card, ReadOnlyCard readonlyCard)
         {
             throw new NotImplementedException();
