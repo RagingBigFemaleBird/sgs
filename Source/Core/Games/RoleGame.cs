@@ -331,6 +331,15 @@ namespace Sanguosha.Core.Games
                 arg.Card = c;
                 arg.ReadonlyCard = rdonlyCard;
                 arg.InResponseTo = eventArgs.InResponseTo;
+                //we inherit card attributes if some readonly card is passed down from the caller (解烦)
+                if (eventArgs.ReadonlyCard != null)
+                {
+                    arg.ReadonlyCard.Attributes.Clear();
+                    foreach (var pair in eventArgs.ReadonlyCard.Attributes)
+                    {
+                        arg.ReadonlyCard.Attributes.Add(pair.Key, pair.Value);
+                    }
+                }
                 if (runTrigger)
                 {
                     try
