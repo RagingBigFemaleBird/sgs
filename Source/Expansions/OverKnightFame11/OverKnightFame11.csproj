@@ -57,6 +57,7 @@
     <Compile Include="Skills\XuanFeng.cs" />
     <Compile Include="Skills\XuanHuo.cs" />
     <Compile Include="Skills\YiZhong.cs" />
+    <Compile Include="Skills\ZiLi.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.csproj">

@@ -103,6 +103,6 @@ namespace Sanguosha.Expansions.Woods.Skills
         
         private static ISkill WqWuShuang = new WuShuang();
         private static PlayerAttribute WuQianUsed = PlayerAttribute.Register("WuQianUsed", true);
-        private static PlayerAttribute WuQianTarget = PlayerAttribute.Register("WuQianTarget", true);
+        private static PlayerAttribute WuQianTarget = PlayerAttribute.Register("WuQianTarget");
     }
 }

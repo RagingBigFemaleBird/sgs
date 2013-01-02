@@ -42,7 +42,7 @@ namespace Sanguosha.Expansions.Woods.Skills
             Game.CurrentGame.SortByOrderOfComputation(Owner, players);
             foreach (Player p in players)
             {
-                Game.CurrentGame.DoDamage(Owner, p, 1, DamageElement.None, null, null);
+                Game.CurrentGame.DoDamage(Owner, p, 1, DamageElement.None, null, arg.ReadonlyCard);
             }
             foreach (Player p in players)
             {
