@@ -21,4 +21,10 @@
     <sys:String x:Key="MultiChoice.Choice.ZhuangBei">装备牌</sys:String>    
     -->
 	<sys:String x:Key="Expansion.OverKnightFame12Expansion.Name">一将12</sys:String>
+    <sys:String x:Key="Deck.Quan.Name">权</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.QuanJi">请选择一张手牌置于武将牌上</sys:String>
+
+    <sys:String x:Key="MultiChoice.Prompt.ZiLi">请选择自立回复体力或摸牌</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.ZiLiRecover">回复1点体力</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.ZiLiDraw">摸2张牌</sys:String>
 </ResourceDictionary>

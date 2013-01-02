@@ -51,13 +51,11 @@
     <Compile Include="Skills\JuJian.cs" />
     <Compile Include="Skills\LuoYing.cs" />
     <Compile Include="Skills\PoJun.cs" />
-    <Compile Include="Skills\QuanJi.cs" />
     <Compile Include="Skills\WuYan.cs" />
     <Compile Include="Skills\XinZhan.cs" />
     <Compile Include="Skills\XuanFeng.cs" />
     <Compile Include="Skills\XuanHuo.cs" />
     <Compile Include="Skills\YiZhong.cs" />
-    <Compile Include="Skills\ZiLi.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.csproj">

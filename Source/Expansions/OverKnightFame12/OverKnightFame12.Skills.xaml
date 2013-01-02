@@ -11,10 +11,18 @@
     -->
     <sys:String x:Key="Hero.XunYou.Name">荀攸</sys:String>
     <sys:String x:Key="Hero.LiaoHua.Name">廖化</sys:String>
+    <sys:String x:Key="Hero.ZhongHui.Name">钟会</sys:String>
 
     <sys:String x:Key="Skill.QiCe.Name">奇策</sys:String>
     <sys:String x:Key="Skill.ZhiYu.Name">智愚</sys:String>
     <sys:String x:Key="Skill.DangXian.Name">当先</sys:String>
     <sys:String x:Key="Skill.FuLi.Name">伏枥</sys:String>
+    <sys:String x:Key="Skill.QuanJi.Name">权计</sys:String>
+    <sys:String x:Key="Skill.QuanJi.Description">每当你受到1点伤害后，你可以摸一张牌，然后将一张手牌置于你的武将牌上，称为“权”；每有一张“权”，你的手牌上限+1。</sys:String>
+    <sys:String x:Key="Skill.QuanJi.Usage">系统提示（出牌阶段）→点“确定”&#10;选中一张手牌→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.PaiYi.Name">排异</sys:String>
+    <sys:String x:Key="Skill.PaiYi.Description">出牌阶段，你可以将一张“权”置入弃牌堆，令一名角色摸两张牌，然后若该角色的手牌数大于你的手牌数，你对其造成1点伤害。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.PaiYi.Usage">点“排异”→选择1张权→选择一名目标→点“确定”</sys:String>
 
 </ResourceDictionary>

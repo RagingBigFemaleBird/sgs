@@ -31,6 +31,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 MinPlayers = 1;
                 MaxCards = 2;
                 MinCards = 1;
+                Helper.NoCardReveal = true;
             }
 
             protected override bool VerifyPlayer(Player source, Player player)
@@ -41,14 +42,6 @@ namespace Sanguosha.Expansions.Basic.Skills
             protected override bool VerifyCard(Player source, Card card)
             {
                 return remainingCards.Contains(card);
-            }
-
-            public override UiHelper Helper
-            {
-                get
-                {
-                    return new UiHelper() { NoCardReveal = true };
-                }
             }
         }
 

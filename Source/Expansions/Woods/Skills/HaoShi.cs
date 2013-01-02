@@ -26,6 +26,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                 MaxCards = cc;
                 MinPlayers = 1;
                 MaxPlayers = 1;
+                Helper.NoCardReveal = true;
             }
 
             protected override bool VerifyPlayer(Player source, Player player)
@@ -48,14 +49,6 @@ namespace Sanguosha.Expansions.Woods.Skills
                     }
                 }
                 return minHCPlayers.Contains(player);
-            }
-
-            public override UiHelper Helper
-            {
-                get
-                {
-                    return new UiHelper() { NoCardReveal = true };
-                }
             }
         }
 
