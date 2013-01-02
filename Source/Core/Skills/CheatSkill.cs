@@ -61,11 +61,13 @@ namespace Sanguosha.Core.Skills
             return skill;
         }
 
+        [NonSerialized]
+        UiHelper helper;
 
         public UiHelper Helper
         {
-            get;
-            private set;
+            get { return helper; }
+            private set { helper = value; }
         }
     }
 }

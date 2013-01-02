@@ -260,7 +260,7 @@ namespace Sanguosha.UI.Controls
                 DoubleAnimation doubleanimation = new DoubleAnimation(100d, 0d, duration);
                 progressBar.BeginAnimation(ProgressBar.ValueProperty, doubleanimation);
             }
-            else if (e.PropertyName == "CurrentPrivateDeckType")
+            else if (e.PropertyName == "CurrentPrivateDeck")
             {
                 _constructPlayerCurrentPrivateDeck(model);
             }

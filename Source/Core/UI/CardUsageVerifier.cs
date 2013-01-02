@@ -170,7 +170,7 @@ namespace Sanguosha.Core.UI
                     {
                         foreach (var dk in (skill as CardTransformSkill).Helper.OtherDecksUsed)
                         {
-                            cardsToTry.AddRange(Game.CurrentGame.Decks[dk]);
+                            cardsToTry.AddRange(Game.CurrentGame.Decks[source, dk]);
                         }
                     }
                 }
