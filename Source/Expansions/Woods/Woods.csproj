@@ -59,12 +59,16 @@
     <Compile Include="Skills\HuoShou.cs" />
     <Compile Include="Skills\JiuChi.cs" />
     <Compile Include="Skills\JuXiang.cs" />
+    <Compile Include="Skills\KuangBao.cs" />
     <Compile Include="Skills\LieRen.cs" />
     <Compile Include="Skills\LuanWu.cs" />
     <Compile Include="Skills\RouLin.cs" />
+    <Compile Include="Skills\ShenFen.cs" />
     <Compile Include="Skills\SongWei.cs" />
     <Compile Include="Skills\WanSha.cs" />
     <Compile Include="Skills\WeiMu.cs" />
+    <Compile Include="Skills\WuMou.cs" />
+    <Compile Include="Skills\WuQian.cs" />
     <Compile Include="Skills\XingShang.cs" />
     <Compile Include="Skills\YingHun.cs" />
     <Compile Include="Skills\ZaiQi.cs" />

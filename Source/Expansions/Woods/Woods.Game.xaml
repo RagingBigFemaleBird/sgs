@@ -32,4 +32,8 @@
 
     <sys:String x:Key="CardChoice.Prompt.GuiXin">请选择{0}的一张牌</sys:String>
     <sys:String x:Key="CardChoice.Prompt.GuiXin.Others">归心 请等待{1}选择{0}的牌</sys:String>
+
+    <sys:String x:Key="MultiChoice.Prompt.WuMou">请选择无谋弃置标记或失去体力</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.WuMouMark">弃1枚“暴怒”标记</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.WuMouHealth">失去1点体力</sys:String>
 </ResourceDictionary>

@@ -27,8 +27,8 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 (p, e, a) =>
                 {
                     List<Card> toDiscard = new List<Card>();
-                    toDiscard.AddRange(Game.CurrentGame.Decks[a.Source, DeckType.Equipment]);
-                    toDiscard.AddRange(Game.CurrentGame.Decks[a.Source, DeckType.Hand]);
+                    toDiscard.AddRange(a.Source.Equipments());
+                    toDiscard.AddRange(a.Source.HandCards());
                     Game.CurrentGame.HandleCardDiscard(a.Source, toDiscard);
                 },
                 TriggerCondition.OwnerIsTarget

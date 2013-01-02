@@ -27,8 +27,8 @@ namespace Sanguosha.Expansions.Woods.Skills
                     if (a.Targets[0] != p)
                     {
                         List<Card> toGet = new List<Card>();
-                        toGet.AddRange(Game.CurrentGame.Decks[a.Targets[0], DeckType.Equipment]);
-                        toGet.AddRange(Game.CurrentGame.Decks[a.Targets[0], DeckType.Hand]);
+                        toGet.AddRange(a.Targets[0].Equipments());
+                        toGet.AddRange(a.Targets[0].HandCards());
                         Game.CurrentGame.HandleCardTransferToHand(null, p, toGet);
                     }
                 },
