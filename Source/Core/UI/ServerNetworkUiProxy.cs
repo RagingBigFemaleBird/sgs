@@ -101,12 +101,9 @@ namespace Sanguosha.Core.UI
                 {
                     while (true)
                     {
-                        if (skill is CardTransformSkill)
+                        if (skill != null)
                         {
-                            if ((skill as CardTransformSkill).Helper.OtherDecksUsed != null)
-                            {
-                                if ((skill as CardTransformSkill).Helper.OtherDecksUsed.Contains(item.Place.DeckType)) break;
-                            }
+                            if (skill.Helper.OtherDecksUsed.Contains(item.Place.DeckType)) break;
                         }
                         Trace.TraceWarning("Client hacking cards!");
                         return false;

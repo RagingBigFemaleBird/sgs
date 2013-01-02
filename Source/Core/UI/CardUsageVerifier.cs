@@ -164,16 +164,12 @@ namespace Sanguosha.Core.UI
                     tryList.AddRange(cards);
                 }
                 var cardsToTry = new List<Card>(Game.CurrentGame.Decks[source, DeckType.Hand].Concat(Game.CurrentGame.Decks[source, DeckType.Equipment]));
-                if (skill is CardTransformSkill)
+
+                foreach (var dk in skill.Helper.OtherDecksUsed)
                 {
-                    if ((skill as CardTransformSkill).Helper.OtherDecksUsed != null)
-                    {
-                        foreach (var dk in (skill as CardTransformSkill).Helper.OtherDecksUsed)
-                        {
-                            cardsToTry.AddRange(Game.CurrentGame.Decks[source, dk]);
-                        }
-                    }
+                    cardsToTry.AddRange(Game.CurrentGame.Decks[source, dk]);
                 }
+
                 foreach (Card c in cardsToTry)
                 {
                     tryList.Add(c);

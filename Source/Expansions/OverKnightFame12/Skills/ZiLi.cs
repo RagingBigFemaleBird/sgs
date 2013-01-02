@@ -54,6 +54,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
         {
             public PaiYi()
             {
+                Helper.OtherDecksUsed.Add(QuanJi.QuanDeck);
             }
 
             public override VerifierResult Validate(GameEventArgs arg)
@@ -93,7 +94,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                 Game.CurrentGame.DrawCards(target, 2);
                 if (target.HandCards().Count > Owner.HandCards().Count)
                 {
-                    Game.CurrentGame.DoDamage(Owner, target, 1, DamageElement.None, null, arg.ReadonlyCard);
+                    Game.CurrentGame.DoDamage(Owner, target, 1, DamageElement.None, null, null);
                 }
                 return true;
             }
