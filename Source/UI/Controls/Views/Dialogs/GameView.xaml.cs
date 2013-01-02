@@ -153,6 +153,10 @@ namespace Sanguosha.UI.Controls
 
         #endregion
 
+        #region Events
+        public event EventHandler OnGameCompleted;
+        #endregion
+
         #region Private Functions
 
         private void _Resize(Size size)
@@ -943,6 +947,65 @@ namespace Sanguosha.UI.Controls
             });
         }
 
+        public void NotifyGameOver(bool isDraw, List<Player> winners)
+        {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                List<Player> drawers;
+                List<Player> losers;
+                if (isDraw)
+                {
+                    Trace.Assert(winners.Count == 0);
+                    drawers = Game.CurrentGame.Players;
+                    losers = new List<Player>();
+                }
+                else
+                {
+                    drawers = new List<Player>();
+                    losers = new List<Player>(Game.CurrentGame.Players.Except(winners));
+                }
+                ObservableCollection<GameResultViewModel> model = new ObservableCollection<GameResultViewModel>();
+                foreach (Player player in winners.Concat(losers).Concat(drawers))
+                {
+                    var m = new GameResultViewModel();
+                    m.Player = player;
+                    if (winners.Contains(player))
+                    {
+                        m.Result = GameResult.Win;
+                        // @todo : fix this.
+                        m.GainedExperience = "+15";
+                        m.GainedTechPoints = "+0";
+                    }
+                    else if (losers.Contains(player))
+                    {
+                        m.Result = GameResult.Lose;
+                        // @todo : fix this.
+                        m.GainedExperience = "-3";
+                        m.GainedTechPoints = "+0";
+                    }
+                    else if (drawers.Contains(player))
+                    {
+                        m.Result = GameResult.Draw;
+                        // @todo : fix this.
+                        m.GainedExperience = "+3";
+                        m.GainedTechPoints = "+0";
+                    }
+                    model.Add(m);
+                }
+                gameResultBox.DataContext = model;
+                gameResultWindow.Content = gameResultBox;
+                gameResultWindow.Show();
+                gameResultWindow.Closed += (o, e) =>
+                {
+                    var handler = OnGameCompleted;
+                    if (handler != null)
+                    {
+                        handler(this, new EventArgs());
+                    }
+                };
+            });
+        }
+
         #endregion
 
         #region Private Decks
@@ -961,8 +1024,5 @@ namespace Sanguosha.UI.Controls
         }
         #endregion
 
-        public void NotifyGameOver(GameResult result, List<Player> winners)
-        {
-        }
     }
 }

@@ -48,8 +48,7 @@ namespace Sanguosha.UI.Controls
             _moveAnimation = new Storyboard();
             _moveAnimation.Children.Add(_daMoveX);
             _moveAnimation.Children.Add(_daMoveY);
-            _moveAnimation.AccelerationRatio = 0.2d;
-            _moveAnimation.DecelerationRatio = 0.2d;
+            _moveAnimation.AccelerationRatio = 0.3d;            
         }
 
         public CardView(CardViewModel card) : this()
@@ -176,7 +175,7 @@ namespace Sanguosha.UI.Controls
             _daMoveX.To = destX;
             _daMoveY.To = destY;
 
-            double transitionInSeconds = Math.Max(0.1d, Math.Sqrt((destX - x) * (destX - x) + (destY - y) * (destY - y)) / _movementSpeed);
+            double transitionInSeconds = Math.Max(0.2d, Math.Sqrt((destX - x) * (destX - x) + (destY - y) * (destY - y)) / _movementSpeed);
             _daMoveX.Duration = TimeSpan.FromSeconds(transitionInSeconds);
             _daMoveY.Duration = TimeSpan.FromSeconds(transitionInSeconds);
 

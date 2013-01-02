@@ -62,12 +62,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ViewModels\CardSlotViewModel.cs" />
+    <Compile Include="ViewModels\GameResultViewModel.cs" />
     <Compile Include="ViewModels\GuHuoSkillCommand.cs" />
     <Compile Include="ViewModels\LobbyViewModel.cs" />
     <Compile Include="ViewModels\MarkViewModel.cs" />
     <Compile Include="ViewModels\PrivateDeckViewModel.cs" />
     <Compile Include="ViewModels\RoomViewModel.cs" />
     <Compile Include="ViewModels\SeatViewModel.cs" />
+    <Compile Include="Views\BaseControls\BoolToDoubleConverter.cs" />
     <Compile Include="Views\BaseControls\FlowDocumentExtensions.cs" />
     <Compile Include="Views\Buttons\ImageButton.cs" />
     <Compile Include="Views\Cards\CardInteraction.cs" />

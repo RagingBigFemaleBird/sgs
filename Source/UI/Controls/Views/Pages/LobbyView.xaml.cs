@@ -27,8 +27,6 @@ namespace Sanguosha.UI.Controls
         public LobbyView()
         {
             InitializeComponent();
-            DataContext = LobbyViewModel.Instance;
-            LobbyModel.OnGameInitiated += (o, e) => _StartGame();
         }
 
         public LobbyViewModel LobbyModel
@@ -135,6 +133,13 @@ namespace Sanguosha.UI.Controls
                 LobbyModel.CurrentRoom = model;
                 LobbyModel.EnterRoom();
             }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            LobbyViewModel.Instance.UpdateRooms();
+            DataContext = LobbyViewModel.Instance;
+            LobbyModel.OnGameInitiated += (o, ea) => _StartGame();
         }
     }
 }

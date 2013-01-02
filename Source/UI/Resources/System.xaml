@@ -1094,7 +1094,7 @@
                 <Grid x:Name="WindowGrid">
                     <Border CornerRadius="3" BorderThickness="1" BorderBrush="#FFA59579">
                         <Border.Background>
-                            <ImageBrush ImageSource="Images/System/WindowBg.jpg"/>
+                            <ImageBrush ImageSource="Images/System/WindowBg.jpg" Viewport="0,0,471,313" ViewportUnits="Absolute" TileMode="FlipXY"/>
                         </Border.Background>
                     </Border>
                 </Grid>

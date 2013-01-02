@@ -458,6 +458,17 @@
     <Resource Include="Images\Buttons\lobbyReady\hover.png" />
     <Resource Include="Images\Buttons\lobbyReady\normal.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Roles\defectorIcon.png" />
+    <Resource Include="Images\Roles\loyalistIcon.png" />
+    <Resource Include="Images\Roles\rebelIcon.png" />
+    <Resource Include="Images\Roles\rulerIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GameResult\draw.png" />
+    <Resource Include="Images\GameResult\lose.png" />
+    <Resource Include="Images\GameResult\win.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /S /Y $(ProjectDir)*.* $(TargetDir)Resources\

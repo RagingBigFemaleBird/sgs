@@ -833,12 +833,12 @@ namespace Sanguosha.Core.Games
                     if (Game.CurrentGame.AlivePlayers.Count == 2)
                     {
                         var winners = from pl in Game.CurrentGame.Players where pl.Role == Role.Defector select pl;
-                        Game.CurrentGame.NotificationProxy.NotifyGameOver(GameResult.Defector, winners.ToList());
+                        Game.CurrentGame.NotificationProxy.NotifyGameOver(false, winners.ToList());
                     }
                     else
                     {
                         var winners = from pl in Game.CurrentGame.Players where pl.Role == Role.Rebel select pl;
-                        Game.CurrentGame.NotificationProxy.NotifyGameOver(GameResult.Rebel, winners.ToList());
+                        Game.CurrentGame.NotificationProxy.NotifyGameOver(false, winners.ToList());
                     }
                     throw new GameOverException();
                 }
@@ -863,7 +863,7 @@ namespace Sanguosha.Core.Games
                     {
                         Trace.TraceInformation("Ruler wins.");
                         var winners = from pl in Game.CurrentGame.Players where pl.Role == Role.Ruler || pl.Role == Role.Loyalist select pl;
-                        Game.CurrentGame.NotificationProxy.NotifyGameOver(GameResult.Ruler, winners.ToList());
+                        Game.CurrentGame.NotificationProxy.NotifyGameOver(false, winners.ToList());
                         throw new GameOverException();
                     }
                 }
