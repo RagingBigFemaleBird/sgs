@@ -16,6 +16,7 @@ using System.Diagnostics;
 using Sanguosha.Core.Network;
 using System.ComponentModel;
 using System.Threading;
+using Sanguosha.Core.Utils;
 
 namespace Sanguosha.UI.Controls
 {
@@ -47,15 +48,9 @@ namespace Sanguosha.UI.Controls
                 client = new Client();
                 string addr = LobbyModel.GameServerConnectionString;
                 string[] args = addr.Split(':');
-                client.IpString = args[0];
-                if (args.Length >= 2)
-                {
-                    client.PortNumber = int.Parse(args[1]);
-                }
-                else
-                {
-                    client.PortNumber = 12345;
-                }
+                Trace.Assert(args.Length == 2);
+                client.IpString = args[0];                
+                client.PortNumber = int.Parse(args[1]);                
 
                 busyIndicator.BusyContent = Resources["Busy.JoinGame"];
                 busyIndicator.IsBusy = true;
@@ -69,6 +64,7 @@ namespace Sanguosha.UI.Controls
                     {
                         ea.Result = false;
                         client.Start();
+                        client.RecordStream = FileRotator.CreateFile("./Replays", "SGSREPLAY", ".sgs", 10);
                         mainSeat = (int)client.Receive();
                         client.SelfId = mainSeat;
                         ea.Result = true;

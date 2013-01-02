@@ -38,33 +38,48 @@ namespace Sanguosha.Core.Network
             set { portNumber = value; }
         }
 
-        bool isReplay;
-        Stream replayFile;
+        public Client()
+        {
+
+        }
 
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="isReplay">Set true if this is client is connected to a replayFile</param>
+        /// <param name="replayStream"></param>
         /// <exception cref="System.ArgumentOutOfRangeException" />
         /// <exception cref="System.Net.Sockets.SocketException" />
-        public void Start(bool isReplay = false, Stream replayStream = null)
+        public void Start(Stream recordStream = null)
         {
-            this.isReplay = isReplay;
-            replayFile = replayStream;
-            if (isReplay)
-            {
-                receiver = new ItemReceiver(replayFile);
-                sender = new ItemSender(Stream.Null);
-            }
-            else
-            {
-                IPEndPoint ep = new IPEndPoint(IPAddress.Parse(IpString), PortNumber);
-                TcpClient client = new TcpClient();
-                client.Connect(ep);
-                NetworkStream stream = client.GetStream();
-                receiver = new ItemReceiver(stream, replayFile);
-                sender = new ItemSender(stream);
-            }
+            IPEndPoint ep = new IPEndPoint(IPAddress.Parse(IpString), PortNumber);
+            TcpClient client = new TcpClient();
+            client.Connect(ep);
+            NetworkStream stream = client.GetStream();
+            receiver = new ItemReceiver(stream, recordStream);
+            sender = new ItemSender(stream);
             commId = 0;
+        }
+
+        public void StartReplay(Stream replayStream)
+        {
+            receiver = new ItemReceiver(replayStream);
+            sender = new ItemSender(Stream.Null);
+            commId = 0;
+        }
+
+        public Stream RecordStream
+        {
+            get
+            {
+                if (receiver == null) return receiver.RecordStream;
+                else return null;
+            }
+            set
+            {
+                Trace.Assert(receiver != null);
+                receiver.RecordStream = value;
+            }
         }
 
         public void MoveHandCard(int from, int to)

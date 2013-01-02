@@ -283,7 +283,12 @@ namespace Sanguosha.UI.Main
 
         private void btnReplay_Click(object sender, RoutedEventArgs e)
         {
+            if (!Directory.Exists("./Replays"))
+            {
+                Directory.CreateDirectory("./Replays");
+            }
             OpenFileDialog dlg = new OpenFileDialog();
+            dlg.InitialDirectory = Directory.GetCurrentDirectory() + "\\Replays";
             dlg.DefaultExt = ".sgs"; // Default file extension
             dlg.Filter = "Replay File (.sgs)|*.sgs|All Files (*.*)|*.*"; // Filter files by extension
             bool? result = dlg.ShowDialog();
@@ -297,7 +302,7 @@ namespace Sanguosha.UI.Main
             try
             {
                 client = new Client();
-                client.Start(true, File.Open(fileName, FileMode.Open));
+                client.StartReplay(File.Open(fileName, FileMode.Open));
                 mainSeat = (int)client.Receive();
                 client.SelfId = mainSeat;
                 game = new MainGame();

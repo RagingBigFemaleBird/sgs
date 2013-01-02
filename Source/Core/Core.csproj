@@ -133,6 +133,7 @@
     <Compile Include="UI\ServerNetworkUiProxy.cs" />
     <Compile Include="UI\AlwaysTrueChoiceVerifier.cs" />
     <Compile Include="UI\TestUiProxy.cs" />
+    <Compile Include="Utils\FileRotater.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Core.Game.xaml">

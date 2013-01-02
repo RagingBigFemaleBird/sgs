@@ -24,6 +24,7 @@ using System.Windows.Navigation;
 using System.Collections.ObjectModel;
 using Sanguosha.Core.Cards;
 using Sanguosha.Lobby.Core;
+using Sanguosha.Core.Utils;
 
 namespace Sanguosha.UI.Controls
 {
@@ -98,7 +99,6 @@ namespace Sanguosha.UI.Controls
 
             Trace.WriteLine("Log starting");
 #endif
-
             _game = new RoleGame();
             _game.Settings = Settings;
             foreach (var g in GameEngine.Expansions.Values)

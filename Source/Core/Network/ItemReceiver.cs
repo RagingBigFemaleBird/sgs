@@ -17,13 +17,29 @@ namespace Sanguosha.Core.Network
 {
     public class ItemReceiver
     {
-        private Stream stream, replayStream;
         static IFormatter formatter = new BinaryFormatter();
 
-        public ItemReceiver(Stream s, Stream replay = null)
+        public ItemReceiver()
         {
-            stream = s;
-            replayStream = replay;
+
+        }
+
+        public ItemReceiver(Stream inputStream, Stream replayStream = null)
+        {
+            InputStream = inputStream;
+            RecordStream = replayStream;
+        }
+
+        public Stream InputStream
+        {
+            get;
+            set;
+        }
+
+        public Stream RecordStream
+        {
+            get;
+            set;
         }
 
         public object Receive()
@@ -31,16 +47,16 @@ namespace Sanguosha.Core.Network
             object o;
             try
             {
-                o = formatter.Deserialize(stream);
+                o = formatter.Deserialize(InputStream);
             }
             catch (Exception)
             {
                 return null;
             }
-            if (replayStream != null)
+            if (RecordStream != null)
             {
-                formatter.Serialize(replayStream, o);
-                replayStream.Flush();
+                formatter.Serialize(RecordStream, o);
+                RecordStream.Flush();
             }
             return o;
         }
