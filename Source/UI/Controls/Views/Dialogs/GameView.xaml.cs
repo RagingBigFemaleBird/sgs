@@ -260,6 +260,45 @@ namespace Sanguosha.UI.Controls
                 DoubleAnimation doubleanimation = new DoubleAnimation(100d, 0d, duration);
                 progressBar.BeginAnimation(ProgressBar.ValueProperty, doubleanimation);
             }
+            else if (e.PropertyName == "CurrentPrivateDeckType")
+            {
+                _constructPlayerCurrentPrivateDeck(model);
+            }
+        }
+
+        ChildWindow _privateDeckChoiceWindow;
+
+        private void _constructPlayerCurrentPrivateDeck(PlayerViewModel model)
+        {
+            if (model.CurrentPrivateDeck != null)
+            {
+                Trace.Assert(model.CurrentPrivateDeck.Cards != null);
+                if (_privateDeckChoiceWindow != null)
+                {
+                    gridRoot.Children.Remove(_privateDeckChoiceWindow);
+                }
+
+                _privateDeckChoiceWindow = new ChildWindow();
+                _privateDeckChoiceWindow.Template = Resources["DarkGreenWindowStyle"] as ControlTemplate;
+                _privateDeckChoiceWindow.MaxWidth = 800;
+                _privateDeckChoiceWindow.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
+                _privateDeckChoiceWindow.CloseButtonVisibility = Visibility.Collapsed;
+                _privateDeckChoiceWindow.Effect = new DropShadowEffect() { BlurRadius = 10d };
+                _privateDeckChoiceWindow.Caption = PromptFormatter.Format(new CardChoicePrompt("PrivateDeck", model.CurrentPrivateDeck.TraslatedName));
+                
+                var box = new PrivateDeckBox();
+                box.DataContext = model.CurrentPrivateDeck.Cards;
+                _privateDeckChoiceWindow.Content = box;
+
+                gridRoot.Children.Add(_privateDeckChoiceWindow);
+                _privateDeckChoiceWindow.Show();
+            }
+            else
+            {
+                gridRoot.Children.Remove(_privateDeckChoiceWindow);
+                _privateDeckChoiceWindow = null;
+
+            }
         }
 
         private void GameView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)

@@ -54,7 +54,6 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
         {
             public PaiYi()
             {
-                UiHelper.OtherDecksUsed = new List<DeckType>() { QuanJi.QuanDeck };
             }
 
             public override VerifierResult Validate(GameEventArgs arg)

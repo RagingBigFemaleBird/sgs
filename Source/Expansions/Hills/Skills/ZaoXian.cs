@@ -49,7 +49,7 @@ namespace Sanguosha.Expansions.Hills.Skills
 
             public JiXi()
             {
-                UiHelper.OtherDecksUsed = new List<DeckType>() { TunTian.TianDeck };
+                Helper.OtherDecksUsed.Add(TunTian.TianDeck);
             }
         }
     }

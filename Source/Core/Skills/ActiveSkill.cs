@@ -11,7 +11,7 @@ namespace Sanguosha.Core.Skills
 {
     public abstract class ActiveSkill : ISkill
     {
-        public UiHelper UiHelper
+        public UiHelper Helper
         {
             get;
             protected set;
@@ -20,7 +20,7 @@ namespace Sanguosha.Core.Skills
         public ActiveSkill()
         {
             linkedPassiveSkill = null;
-            UiHelper = new UiHelper();
+            Helper = new UiHelper();
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Sanguosha.Core.Skills
         {
             var skill = Activator.CreateInstance(this.GetType()) as ActiveSkill;
             skill.Owner = this.Owner;
-            skill.UiHelper = this.UiHelper;
+            skill.Helper = this.Helper;
             return skill;
         }
 

@@ -12,6 +12,11 @@ namespace Sanguosha.Core.UI
 {
     public class UiHelper
     {
+        public UiHelper()
+        {
+            OtherDecksUsed = new List<DeckType>();
+        }
+
         private bool isPlayerRepeatable;
         /// <summary>
         /// Whether a player can be targeted more than once (e.g. 业炎).
@@ -161,11 +166,11 @@ namespace Sanguosha.Core.UI
                 var cardsToTry = new List<Card>(Game.CurrentGame.Decks[source, DeckType.Hand].Concat(Game.CurrentGame.Decks[source, DeckType.Equipment]));
                 if (skill is CardTransformSkill)
                 {
-                    if ((skill as CardTransformSkill).UiHelper.OtherDecksUsed != null)
+                    if ((skill as CardTransformSkill).Helper.OtherDecksUsed != null)
                     {
-                        foreach (var dk in (skill as CardTransformSkill).UiHelper.OtherDecksUsed)
+                        foreach (var dk in (skill as CardTransformSkill).Helper.OtherDecksUsed)
                         {
-                            cardsToTry.AddRange(Game.CurrentGame.Decks[source, dk]);
+                            cardsToTry.AddRange(Game.CurrentGame.Decks[dk]);
                         }
                     }
                 }

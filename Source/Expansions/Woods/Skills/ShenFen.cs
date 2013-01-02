@@ -21,7 +21,7 @@ namespace Sanguosha.Expansions.Woods.Skills
     {
         public ShenFen()
         {
-            UiHelper.HasNoConfirmation = true;
+            Helper.HasNoConfirmation = true;
         }
 
         public override VerifierResult Validate(GameEventArgs arg)

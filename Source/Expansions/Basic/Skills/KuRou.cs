@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     {
         public KuRou()
         {
-            UiHelper.HasNoConfirmation = true;
+            Helper.HasNoConfirmation = true;
         }
 
         public override VerifierResult Validate(GameEventArgs arg)

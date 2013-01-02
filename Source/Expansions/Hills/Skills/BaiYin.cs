@@ -119,7 +119,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 MaxCards = 0;
                 MinPlayers = 0;
                 MaxPlayers = 0;
-                UiHelper.HasNoConfirmation = true;
+                Helper.HasNoConfirmation = true;
             }
 
             protected override bool VerifyCard(Player source, Card card)

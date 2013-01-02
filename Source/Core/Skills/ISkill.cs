@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Sanguosha.Core.Players;
+using Sanguosha.Core.UI;
 
 namespace Sanguosha.Core.Skills
 {
@@ -13,5 +14,6 @@ namespace Sanguosha.Core.Skills
         bool IsSingleUse { get; }
         bool IsAwakening { get; }
         bool IsEnforced { get; }
+        UiHelper Helper { get; }
     }
 }

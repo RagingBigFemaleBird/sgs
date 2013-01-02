@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.Wind.Skills
     {
         public GongXin()
         {
-            UiHelper.RevealCards = true;
+            Helper.RevealCards = true;
         }
         private static PlayerAttribute GongXinUsed = PlayerAttribute.Register("GongXinUsed", true);
         public override VerifierResult Validate(GameEventArgs arg)

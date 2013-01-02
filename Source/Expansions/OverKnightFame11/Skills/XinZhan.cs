@@ -23,7 +23,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
     {
         public XinZhan()
         {
-            UiHelper.HasNoConfirmation = true;
+            Helper.HasNoConfirmation = true;
             IsSingleUse = true;
         }
         private static int choiceCount = 3;

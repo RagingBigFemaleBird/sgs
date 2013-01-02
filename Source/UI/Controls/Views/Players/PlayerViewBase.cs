@@ -192,7 +192,7 @@ namespace Sanguosha.UI.Controls
                     PlayerModel.PrivateDecks.Add(deckModel);
                 }
                 foreach (var card in cards)
-                {
+                {                    
                     deckModel.Cards.Add(card.CardModel);
                 }
                 AddPrivateCards(cards, isFaked);

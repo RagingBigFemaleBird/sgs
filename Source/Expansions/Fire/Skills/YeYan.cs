@@ -52,7 +52,7 @@ namespace Sanguosha.Expansions.Fire.Skills
 
         public YeYan()
         {
-            UiHelper.IsPlayerRepeatable = true;
+            Helper.IsPlayerRepeatable = true;
             MinCards = 0;
             MaxCards = 4;
             MaxPlayers = 3;

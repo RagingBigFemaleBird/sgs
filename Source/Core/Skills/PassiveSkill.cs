@@ -17,6 +17,7 @@ namespace Sanguosha.Core.Skills
         public PassiveSkill()
         {
             isAutoInvoked = false;
+            Helper = new UiHelper();
         }
 
         private Players.Player owner;
@@ -75,5 +76,12 @@ namespace Sanguosha.Core.Skills
             return skill;
         }
 
+
+
+        public UiHelper Helper
+        {
+            get;
+            private set;
+        }
     }
 }

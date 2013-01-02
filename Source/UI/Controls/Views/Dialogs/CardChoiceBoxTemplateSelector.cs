@@ -18,11 +18,11 @@ namespace Sanguosha.UI.Controls
                           select line;
             if (results.Count() > 0)
             {
-                return new CardArrangeBox() { DataContext = choiceModel };
+                return new CardArrangeBox() { DataContext = choiceModel, IsHitTestVisible = !choiceModel.DisplayOnly };
             }
             else
             {
-                return new CardChoiceBox() { DataContext = choiceModel };
+                return new CardChoiceBox() { DataContext = choiceModel, IsHitTestVisible = !choiceModel.DisplayOnly };
             }            
         }
 
