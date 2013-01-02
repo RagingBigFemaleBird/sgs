@@ -139,5 +139,6 @@ namespace Sanguosha.Core.Triggers
     public class AdjustmentEventArgs : GameEventArgs
     {
         public int AdjustmentAmount { get; set; }
+        public int OriginalAmount { get; set; }
     }
 }

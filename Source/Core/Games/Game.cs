@@ -420,8 +420,13 @@ namespace Sanguosha.Core.Games
 
         public void RegisterCurrentThread()
         {
+            if (games.ContainsKey(Thread.CurrentThread))
+            {
+                games.Remove(Thread.CurrentThread);
+            }
             games.Add(Thread.CurrentThread, this);
         }
+
 
         List<Card> originalCardSet;
 
