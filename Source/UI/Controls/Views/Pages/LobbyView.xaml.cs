@@ -66,8 +66,10 @@ namespace Sanguosha.UI.Controls
                         client.RecordStream = FileRotator.CreateFile("./Replays", "SGSREPLAY", ".sgs", 10);
                         ea.Result = true;
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
+                        Trace.TraceError("Connection failure : " + e.StackTrace);
+                        Trace.Assert(false);
                     }
                 };
 
@@ -84,6 +86,7 @@ namespace Sanguosha.UI.Controls
                     else
                     {
                         MessageBox.Show("Failed to create connection for " + LobbyModel.GameServerConnectionString);
+                        Trace.Assert(false);
                     }
                 };
 

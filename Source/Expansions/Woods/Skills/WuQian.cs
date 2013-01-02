@@ -53,7 +53,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                     if (p[WuQianTarget] > 0)
                     {
                         while (p[WuQianTarget]-- > 0)
-                            p[Player.ArmorFailure]--;
+                            p[Armor.UnconditionalIgnoreArmor]--;
                     }
                 }
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], this);
@@ -96,7 +96,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                 Game.CurrentGame.RegisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], new WuShuangRemoval(Owner));
                 Game.CurrentGame.RegisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], new ArmorFailureRemoval(Owner));
             }
-            arg.Targets[0][Player.ArmorFailure]++;
+            arg.Targets[0][Armor.UnconditionalIgnoreArmor]++;
             arg.Targets[0][WuQianTarget]++;
             return true;
         }

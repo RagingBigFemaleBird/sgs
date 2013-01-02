@@ -41,7 +41,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 var trigger = new AutoNotifyPassiveSkillTrigger(
                     this,
-                    (p, e, a) => { return a.Card.Type is Shan && Game.CurrentGame.PlayerArmorIsEffect(Owner, a.ReadonlyCard); },
+                    (p, e, a) => { return a.Card.Type is Shan && ArmorIsValid(Owner, a.ReadonlyCard); },
                     Run,
                     TriggerCondition.OwnerIsSource
                 ) { IsAutoNotify = false };

@@ -380,6 +380,5 @@ namespace Sanguosha.Core.Players
         public static PlayerAttribute RangePlus = PlayerAttribute.Register("RangePlus", false);
         public static PlayerAttribute AttackRange = PlayerAttribute.Register("AttackRange", false);
         public static PlayerAttribute DealAdjustment = PlayerAttribute.Register("DealAdjustment", true);
-        public static PlayerAttribute ArmorFailure = PlayerAttribute.Register("ArmorFailure", false);
     }
 }

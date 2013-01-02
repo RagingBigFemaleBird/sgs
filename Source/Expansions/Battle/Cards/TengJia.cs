@@ -25,7 +25,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             {
                 var trigger = new AutoNotifyPassiveSkillTrigger(
                     this,
-                    (p, e, a) => { return a.ReadonlyCard != null && ((a.ReadonlyCard.Type is Aoe) || (a.ReadonlyCard.Type is RegularSha)) && Game.CurrentGame.PlayerArmorIsEffect(Owner, a.ReadonlyCard); },
+                    (p, e, a) => { return a.ReadonlyCard != null && ((a.ReadonlyCard.Type is Aoe) || (a.ReadonlyCard.Type is RegularSha)) && ArmorIsValid(Owner, a.ReadonlyCard); },
                     (p, e, a) => { throw new TriggerResultException(TriggerResult.End); },
                     TriggerCondition.OwnerIsTarget
                 );
@@ -34,7 +34,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                     (p, e, a) =>
                     {
                         var args = a as DamageEventArgs;
-                        return (DamageElement)args.Element == DamageElement.Fire && Game.CurrentGame.PlayerArmorIsEffect(Owner, a.ReadonlyCard);
+                        return (DamageElement)args.Element == DamageElement.Fire && ArmorIsValid(Owner, a.ReadonlyCard);
                     },
                     (p, e, a) =>
                     {
