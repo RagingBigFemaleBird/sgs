@@ -175,7 +175,12 @@ namespace Sanguosha.UI.Controls
             Rooms.Clear();
             foreach (var room in result)
             {
-                Rooms.Add(new RoomViewModel() { Room = room });
+                var model = new RoomViewModel() { Room = room };
+                Rooms.Add(model);
+                if (CurrentRoom != null && room.Id == CurrentRoom.Id)
+                {
+                    CurrentRoom = model;
+                }
             }
         }
 

@@ -131,7 +131,7 @@
 	<Grid x:Name="LayoutRoot">		
 		<DataGrid x:Name="gridCardSet" RowHeaderWidth="0" Block.TextAlignment="Center"			
 			ItemsSource="{Binding Mode=OneWay}" AutoGenerateColumns="False"
-			IsReadOnly="True" SelectionMode="Single"
+			IsReadOnly="True" SelectionMode="Single" IsHitTestVisible="False"
 			Foreground="#FFE4D5A0" HeadersVisibility="Column" FontFamily="SimSun"
 			SelectionUnit="FullRow"
 			ColumnHeaderHeight="25" VerticalContentAlignment="Center"

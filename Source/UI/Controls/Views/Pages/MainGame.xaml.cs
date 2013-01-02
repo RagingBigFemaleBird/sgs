@@ -37,7 +37,13 @@ namespace Sanguosha.UI.Controls
             this.InitializeComponent();
             ctrlGetCard.OnCardSelected += new CardSelectedHandler(ctrlGetCard_OnCardSelected);
             ctrlGetSkill.OnSkillNameSelected += new SkillNameSelectedHandler(ctrlGetSkill_OnSkillNameSelected);
+            gameView.OnGameCompleted += new EventHandler(gameView_OnGameCompleted);
             // Insert code required on object creation below this point.
+        }
+
+        void gameView_OnGameCompleted(object sender, EventArgs e)
+        {
+            this.NavigationService.GoBack();
         }
 
         void ctrlGetSkill_OnSkillNameSelected(string skillName)

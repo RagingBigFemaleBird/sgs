@@ -153,6 +153,10 @@ namespace Sanguosha.UI.Controls
 
         #endregion
 
+        #region Events
+        public event EventHandler OnGameCompleted;
+        #endregion
+
         #region Private Functions
 
         private void _Resize(Size size)
@@ -991,6 +995,14 @@ namespace Sanguosha.UI.Controls
                 gameResultBox.DataContext = model;
                 gameResultWindow.Content = gameResultBox;
                 gameResultWindow.Show();
+                gameResultWindow.Closed += (o, e) =>
+                {
+                    var handler = OnGameCompleted;
+                    if (handler != null)
+                    {
+                        handler(this, new EventArgs());
+                    }
+                };
             });
         }
 

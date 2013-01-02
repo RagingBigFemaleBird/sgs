@@ -193,7 +193,6 @@ namespace Sanguosha.UI.Main
                     var lobbyModel = LobbyViewModel.Instance;
                     lobbyModel.Connection = server;
                     lobbyModel.LoginToken = token;
-                    lobbyModel.UpdateRooms();
                     this.NavigationService.Navigate(lobby);
                     success = true;
                 }
