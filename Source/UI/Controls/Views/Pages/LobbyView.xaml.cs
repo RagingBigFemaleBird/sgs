@@ -43,7 +43,6 @@ namespace Sanguosha.UI.Controls
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 Client client;
-                int mainSeat = 0;
 
                 client = new Client();
                 string addr = LobbyModel.GameServerConnectionString;
@@ -78,7 +77,6 @@ namespace Sanguosha.UI.Controls
                     if ((bool)ea.Result)
                     {
                         MainGame game = new MainGame();
-                        game.MainSeat = mainSeat;
                         game.NetworkClient = client;
                         this.NavigationService.Navigate(game);
                         return;

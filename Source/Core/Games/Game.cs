@@ -265,7 +265,10 @@ namespace Sanguosha.Core.Games
                     GameServer.SendObject(player.Id, card);
                 }
             }
-            GameServer.Flush(player.Id);
+            if (GameServer != null)
+            {
+                GameServer.Flush(player.Id);
+            }
         }
 
         public void SyncImmutableCardAll(Card card)
@@ -331,7 +334,6 @@ namespace Sanguosha.Core.Games
             {
                 GameServer.Start();
                 Trace.Assert(Settings != null);
-                
                 for (int i = 0; i < players.Count; i++)
                 {
                     GameServer.SendObject(i, Settings);

@@ -212,9 +212,7 @@ namespace Sanguosha.UI.Main
         }
 
         private void _startServer()
-        {
-            busyIndicator.BusyContent = Resources["Busy.LaunchServer"];
-            busyIndicator.IsBusy = true;
+        {            
             LobbyServiceImpl gameService = null;
             ServiceHost host = null;
             IPAddress serverIp = tab1IpAddresses.SelectedItem as IPAddress;
@@ -229,7 +227,8 @@ namespace Sanguosha.UI.Main
                 _Warn("Please enter a legal port number");
                 return;
             }
-
+            busyIndicator.BusyContent = Resources["Busy.LaunchServer"];
+            busyIndicator.IsBusy = true;
 
             //client.Start(isReplay, FileStream = file.open(...))
             BackgroundWorker worker = new BackgroundWorker();
@@ -297,16 +296,12 @@ namespace Sanguosha.UI.Main
             string fileName = dlg.FileName;
             
             Client client;
-            int mainSeat = 0;
             MainGame game = null;
             try
             {
                 client = new Client();
                 client.StartReplay(File.Open(fileName, FileMode.Open));
-                mainSeat = (int)client.Receive();
-                client.SelfId = mainSeat;
                 game = new MainGame();
-                game.MainSeat = mainSeat;
                 game.NetworkClient = client;
             }
             catch (Exception)

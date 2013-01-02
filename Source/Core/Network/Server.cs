@@ -404,7 +404,7 @@ namespace Sanguosha.Core.Network
                 handler.semAccess.WaitOne();
                 handler.queueIn.Enqueue(o);
                 handler.semAccess.Release(1);
-                handler.semOut.Release(1);
+                handler.semIn.Release(1);
             }
         }
         private void ClientThread(ServerHandler handler)

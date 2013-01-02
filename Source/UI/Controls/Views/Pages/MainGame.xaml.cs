@@ -67,14 +67,6 @@ namespace Sanguosha.UI.Controls
             set { _networkClient = value; }
         }
 
-        int _mainSeat;
-
-        public int MainSeat
-        {
-            get { return _mainSeat; }
-            set { _mainSeat = value; }
-        }
-
         private void InitGame()
         {
 #if DEBUG
@@ -117,7 +109,7 @@ namespace Sanguosha.UI.Controls
 #endif
             GameViewModel gameModel = new GameViewModel();
             gameModel.Game = _game;
-            gameModel.MainPlayerSeatNumber = MainSeat;
+            gameModel.MainPlayerSeatNumber = NetworkClient.SelfId;
             gameView.DataContext = gameModel;
             _game.NotificationProxy = gameView;
             List<ClientNetworkUiProxy> inactive = new List<ClientNetworkUiProxy>();

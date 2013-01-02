@@ -30,7 +30,8 @@ namespace Sanguosha.Core.Utils
             var filePaths = Directory.EnumerateFiles(pathName);
 
             var suspects = from filePath in filePaths
-                           where Path.GetFileName(filePath).StartsWith(fileName) && pathName.EndsWith(extension)
+                           where Path.GetFileName(filePath).ToLower().StartsWith(fileName.ToLower()) &&
+                                 filePath.ToLower().EndsWith(extension.ToLower())
                            orderby File.GetCreationTime(filePath)
                            select filePath;
              
