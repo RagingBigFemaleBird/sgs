@@ -30,9 +30,10 @@ namespace Sanguosha.UI.Controls
         {
             var model = DataContext as IList<CardViewModel>;
             if (model == null) return;
+            this.Width = Math.Min(model.Count * 93, 500);
             foreach (var card in model)
             {
-                CardView view = new CardView(card);
+                CardView view = new CardView(card) { Opacity = 1.0 };
                 cardStack.Cards.Add(view);
             }
             cardStack.RearrangeCards();

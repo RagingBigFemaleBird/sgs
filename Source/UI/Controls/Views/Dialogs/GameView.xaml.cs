@@ -284,7 +284,9 @@ namespace Sanguosha.UI.Controls
                 _privateDeckChoiceWindow.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
                 _privateDeckChoiceWindow.CloseButtonVisibility = Visibility.Collapsed;
                 _privateDeckChoiceWindow.Effect = new DropShadowEffect() { BlurRadius = 10d };
-                _privateDeckChoiceWindow.Caption = PromptFormatter.Format(new CardChoicePrompt("PrivateDeck", model.CurrentPrivateDeck.TraslatedName));
+                _privateDeckChoiceWindow.WindowStartupLocation = Xceed.Wpf.Toolkit.WindowStartupLocation.Center;
+                string title = PromptFormatter.Format(new CardChoicePrompt("PrivateDeck", model.Player, model.CurrentPrivateDeck.TraslatedName));
+                _privateDeckChoiceWindow.Caption = title;
                 
                 var box = new PrivateDeckBox();
                 box.DataContext = model.CurrentPrivateDeck.Cards;
