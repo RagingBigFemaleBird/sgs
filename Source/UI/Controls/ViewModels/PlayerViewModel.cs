@@ -1138,7 +1138,7 @@ namespace Sanguosha.UI.Controls
                             if (cmdGuhuo.GuHuoTypes.Count == 0 && cmdGuhuo.GuHuoChoice == null)
                             {
                                 var trySkill = Activator.CreateInstance(cmdGuhuo.Skill.GetType()) as IAdditionalTypedSkill;
-
+                                trySkill.Owner = cmdGuhuo.Skill.Owner;
                                 foreach (var c in Game.CurrentGame.AvailableCards)
                                 {
                                     trySkill.AdditionalType = c;
