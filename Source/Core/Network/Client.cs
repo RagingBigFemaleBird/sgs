@@ -186,5 +186,14 @@ namespace Sanguosha.Core.Network
             item.obj = new CardChoiceCallback() { o = obj };
             sender.Send(item);
         }
+
+        public void Stop()
+        {
+            if (receiver.RecordStream != null)
+            {
+                receiver.RecordStream.Flush();
+                receiver.RecordStream.Close();
+            }
+        }
     }
 }

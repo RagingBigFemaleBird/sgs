@@ -81,7 +81,7 @@ namespace Sanguosha.Lobby.Core
         void NotifyKicked();
 
         [OperationContract(IsOneWay = true)]
-        void NotifyGameStart(string connectionString, GameSettings settings);
+        void NotifyGameStart(string connectionString);
     }
 
     static class Helper

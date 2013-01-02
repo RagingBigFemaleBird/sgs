@@ -65,8 +65,6 @@ namespace Sanguosha.UI.Controls
                         ea.Result = false;
                         client.Start();
                         client.RecordStream = FileRotator.CreateFile("./Replays", "SGSREPLAY", ".sgs", 10);
-                        mainSeat = (int)client.Receive();
-                        client.SelfId = mainSeat;
                         ea.Result = true;
                     }
                     catch (Exception)
@@ -80,7 +78,6 @@ namespace Sanguosha.UI.Controls
                     if ((bool)ea.Result)
                     {
                         MainGame game = new MainGame();
-                        game.Settings = LobbyModel.GameServerSettings;
                         game.MainSeat = mainSeat;
                         game.NetworkClient = client;
                         this.NavigationService.Navigate(game);

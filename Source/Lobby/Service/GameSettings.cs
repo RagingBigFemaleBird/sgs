@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Sanguosha.Lobby.Core
 {
+    [Serializable]
     public class GameSettings
     {
         public int TotalPlayers { get; set; }

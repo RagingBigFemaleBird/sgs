@@ -146,8 +146,6 @@ namespace Sanguosha.UI.Controls
             set { _gameServerConnectionString = value; }
         }
 
-        public GameSettings GameServerSettings { get; set; }
-
         #region Commands
         public ICommand UpdateRoomCommand { get; set; }
         public ICommand CreateRoomCommand { get; set; }
@@ -222,10 +220,9 @@ namespace Sanguosha.UI.Controls
             throw new NotImplementedException();
         }
 
-        public void NotifyGameStart(string connectionString, GameSettings settings)
+        public void NotifyGameStart(string connectionString)
         {
             GameServerConnectionString = connectionString;
-            GameServerSettings = settings;
             var handler = OnGameInitiated;
             if (handler != null) OnGameInitiated(this, new EventArgs());
         }

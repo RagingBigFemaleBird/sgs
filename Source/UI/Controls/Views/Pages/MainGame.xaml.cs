@@ -75,14 +75,6 @@ namespace Sanguosha.UI.Controls
             set { _mainSeat = value; }
         }
 
-        GameSettings settings;
-
-        public GameSettings Settings
-        {
-            get { return settings; }
-            set { settings = value; }
-        }
-
         private void InitGame()
         {
 #if DEBUG
@@ -100,14 +92,16 @@ namespace Sanguosha.UI.Controls
             Trace.WriteLine("Log starting");
 #endif
             _game = new RoleGame();
-            _game.Settings = Settings;
+            _game.Settings = NetworkClient.Receive() as GameSettings;
+            Trace.Assert(_game.Settings != null);
+            NetworkClient.SelfId = (int)NetworkClient.Receive();
             foreach (var g in GameEngine.Expansions.Values)
             {
                 _game.LoadExpansion(g);
             }
 #if NETWORKING
             ClientNetworkUiProxy activeClientProxy = null;
-            for (int i = 0; i < settings.TotalPlayers; i++)
+            for (int i = 0; i < _game.Settings.TotalPlayers; i++)
 #else
             for (int i = 0; i < 8; i++)
 #endif
@@ -134,7 +128,7 @@ namespace Sanguosha.UI.Controls
                 var proxy = new ClientNetworkUiProxy(
                             new AsyncUiAdapter(gameModel.PlayerModels[i]), NetworkClient, i == 0);
                 proxy.HostPlayer = player;
-                proxy.TimeOutSeconds = settings.TimeOutSeconds;
+                proxy.TimeOutSeconds = _game.Settings.TimeOutSeconds;
                 if (i == 0)
                 {
                     activeClientProxy = proxy;

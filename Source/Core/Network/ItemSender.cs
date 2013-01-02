@@ -49,6 +49,11 @@ namespace Sanguosha.Core.Network
             formatter.Serialize(stream, item);
         }
 
+        private void QueueObject(object o)
+        {
+            formatter.Serialize(stream, o);
+        }
+
         private void QueueCheatSkill(CheatSkill skill)
         {
             formatter.Serialize(stream, skill);
@@ -103,7 +108,7 @@ namespace Sanguosha.Core.Network
                 }
                 else
                 {
-                    Trace.Assert(false);
+                    QueueObject(o);
                 }
             }
             catch (Exception)

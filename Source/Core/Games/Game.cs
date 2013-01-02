@@ -171,6 +171,7 @@ namespace Sanguosha.Core.Games
                 {
                     card.RevealOnce = true;
                     GameServer.SendObject(player.Id, card);
+                    GameServer.Flush(player.Id);
                 }
             }
         }
@@ -184,35 +185,40 @@ namespace Sanguosha.Core.Games
 
         public void SyncCard(Player player, ref Card card)
         {
-            if (card.Place.DeckType == DeckType.Equipment || card.Place.DeckType == DeckType.DelayedTools)
-            {
-                return;
-            }
-            if (GameClient != null)
-            {
-                if (player.Id != GameClient.SelfId)
-                {
-                    return;
-                }
-                var recv = GameClient.Receive();
-                Trace.Assert(recv is Card);
-                card = recv as Card;
-            }
-            else if (GameServer != null)
-            {
-                card.RevealOnce = true;
-                GameServer.SendObject(player.Id, card);
-            }
+            var cards = new List<Card>() { card };
+            SyncCards(player, cards);
+            card = cards[0];
         }
 
         public void SyncCards(Player player, List<Card> cards)
         {
-            int i;
-            for (i = 0; i < cards.Count; i++)
+            for (int i = 0; i < cards.Count; i++)
             {
-                var temp = cards[i];
-                SyncCard(player, ref temp);
-                cards[i] = temp;
+                Card card = cards[i];
+                if (card.Place.DeckType == DeckType.Equipment || card.Place.DeckType == DeckType.DelayedTools)
+                {
+                    return;
+                }
+                if (GameClient != null)
+                {
+                    if (player.Id != GameClient.SelfId)
+                    {
+                        return;
+                    }
+                    var recv = GameClient.Receive();
+                    Trace.Assert(recv is Card);
+                    card = recv as Card;
+                }
+                else if (GameServer != null)
+                {
+                    card.RevealOnce = true;
+                    GameServer.SendObject(player.Id, card);
+                }
+                cards[i] = card;
+            }
+            if (GameServer != null)
+            {
+                GameServer.Flush(player.Id);
             }
         }
 
@@ -234,31 +240,32 @@ namespace Sanguosha.Core.Games
 
         public void SyncImmutableCard(Player player, Card card)
         {
-            if (card.Place.DeckType == DeckType.Equipment || card.Place.DeckType == DeckType.DelayedTools)
-            {
-                return;
-            }
-            if (GameClient != null)
-            {
-                if (player.Id != GameClient.SelfId)
-                {
-                    return;
-                }
-                GameClient.Receive();
-            }
-            else if (GameServer != null)
-            {
-                card.RevealOnce = true;
-                GameServer.SendObject(player.Id, card);
-            }
+            SyncImmutableCards(player, new List<Card>() { card });
         }
 
         public void SyncImmutableCards(Player player, List<Card> cards)
         {
             foreach (var card in cards)
             {
-                SyncImmutableCard(player, card);
+                if (card.Place.DeckType == DeckType.Equipment || card.Place.DeckType == DeckType.DelayedTools)
+                {
+                    return;
+                }
+                if (GameClient != null)
+                {
+                    if (player.Id != GameClient.SelfId)
+                    {
+                        return;
+                    }
+                    GameClient.Receive();
+                }
+                else if (GameServer != null)
+                {
+                    card.RevealOnce = true;
+                    GameServer.SendObject(player.Id, card);
+                }
             }
+            GameServer.Flush(player.Id);
         }
 
         public void SyncImmutableCardAll(Card card)
@@ -284,6 +291,7 @@ namespace Sanguosha.Core.Games
                 for (int i = 0; i < GameServer.MaxClients; i++)
                 {
                     GameServer.SendObject(i, confirmed ? 1 : 0);
+                    GameServer.Flush(i);
                 }
             }
             else if (GameClient != null)
@@ -321,7 +329,16 @@ namespace Sanguosha.Core.Games
             }
             if (GameServer != null)
             {
-                GameServer.Ready();
+                GameServer.Start();
+                Trace.Assert(Settings != null);
+                
+                for (int i = 0; i < players.Count; i++)
+                {
+                    GameServer.SendObject(i, Settings);
+                    GameServer.SendObject(i, i);
+                    GameServer.Flush(i);
+                }
+                
             }
 
             availableCards = new List<CardHandler>();
@@ -388,7 +405,7 @@ namespace Sanguosha.Core.Games
             }
             catch (GameOverException)
             {
-                Trace.TraceError("Game is over");
+                
             }
 #if RELEASE
             catch (Exception e)
@@ -398,7 +415,11 @@ namespace Sanguosha.Core.Games
 #endif
             if (GameServer != null)
             {
-                GameServer.StopServer();
+                GameServer.Stop();
+            }
+            else if (GameClient != null)
+            {
+                GameClient.Stop();
             }
             Trace.TraceInformation("Game exited normally");
         }
