@@ -55,8 +55,23 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+		
+		<Style x:Key="TransparentDataGridCellStyle" TargetType="{x:Type DataGridCell}">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type DataGridCell}">
+						<Grid Background="{TemplateBinding Background}">
+							<ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+
 		<Style x:Key="TransparentDataGridStyle" TargetType="{x:Type DataGrid}">
-			<Setter Property="Background" Value="Transparent"/>			
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="GridLinesVisibility" Value="None" />
+			<Setter Property="CellStyle" Value="{DynamicResource TransparentDataGridCellStyle}" />
 			<Setter Property="ColumnHeaderStyle" Value="{DynamicResource TransparentDataGridColumnHeaderStyle}" />
 			<Setter Property="RowStyle" Value="{DynamicResource TransparentDataGridRowStyle}"  />
 			<Setter Property="BorderBrush" Value="Transparent"/>
@@ -119,10 +134,10 @@
 			IsReadOnly="True" SelectionMode="Single"
 			Foreground="#FFE4D5A0" HeadersVisibility="Column" FontFamily="SimSun"
 			SelectionUnit="FullRow"
-			ColumnHeaderHeight="25"
+			ColumnHeaderHeight="25" VerticalContentAlignment="Center"
 			Margin="2,1,-1,0" Style="{DynamicResource TransparentDataGridStyle}">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="阵营" Width="80" SortMemberPath="Player.Hero.Name" >
+				<DataGridTemplateColumn Header="阵营" Width="70" SortMemberPath="Player.Hero.Name" >
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal">
@@ -131,7 +146,7 @@
 										<Sanguosha_UI_Effects:MonochromeEffect Strength="{Binding Path=Player.IsDead, Mode=OneWay, Converter={StaticResource boolToDoubleConverter}}" />
 									</Image.Effect>
 								</Image>
-								<TextBlock Text="{Binding Player.Hero.Name}" />
+								<TextBlock VerticalAlignment="Center" Text="{res:ResourceKeyBinding Path=Player.Hero.Name, StringFormat=Hero.{0}.Name}" />
 							</StackPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
@@ -142,7 +157,7 @@
 				<DataGridTemplateColumn Header="胜负" Width="80" SortMemberPath="Result">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<Image Source="{res:ResourceKeyBinding Path=Result, StringFormat=GameResult.{0}.Image}" />								
+							<Image Source="{res:ResourceKeyBinding Path=Result, StringFormat=GameResult.{0}.Image}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />								
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
