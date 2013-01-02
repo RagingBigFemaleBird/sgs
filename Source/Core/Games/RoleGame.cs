@@ -279,6 +279,8 @@ namespace Sanguosha.Core.Games
                     c = eventArgs.Cards[0];
                 }
 
+                c.Type.TagAndNotify(eventArgs.Source, eventArgs.Targets, c);
+
                 // if it's delayed tool or equipment, we can't move it to compute area. call handlers directly
                 if (CardCategoryManager.IsCardCategory(c.Type.Category, CardCategory.DelayedTool)
                     || CardCategoryManager.IsCardCategory(c.Type.Category, CardCategory.Equipment))
@@ -310,7 +312,6 @@ namespace Sanguosha.Core.Games
                     }
                 }
                 bool runTrigger = !c.Type.IsReforging(eventArgs.Source, eventArgs.Skill, m.Cards, eventArgs.Targets);
-                c.Type.TagAndNotify(eventArgs.Source, eventArgs.Targets, c);
                 Game.CurrentGame.MoveCards(m);
                 if (isDoingAFavor != eventArgs.Source)
                 {
