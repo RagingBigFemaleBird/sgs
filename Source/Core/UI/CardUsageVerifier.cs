@@ -125,8 +125,7 @@ namespace Sanguosha.Core.UI
                 else
                 {
                     var commonResult = from type1 in AcceptableCardTypes
-                                       join type2 in transformSkill.PossibleResults
-                                       on type1.GetType().Name equals type2.GetType().Name
+                                       where transformSkill.PossibleResults.Any(ci => type1.GetType().IsAssignableFrom(ci.GetType()))
                                        select type1;
                     if (commonResult.Count() != 0)
                     {

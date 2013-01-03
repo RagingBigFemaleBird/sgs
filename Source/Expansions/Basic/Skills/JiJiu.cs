@@ -19,7 +19,8 @@ namespace Sanguosha.Expansions.Basic.Skills
     {
         public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
         {
-            card = null;
+            card = new CompositeCard();
+            card.Type = new Tao();
             if (Owner == Game.CurrentGame.CurrentPlayer)
             {
                 return VerifierResult.Fail;
@@ -32,13 +33,11 @@ namespace Sanguosha.Expansions.Basic.Skills
             {
                 return VerifierResult.Fail;
             }
-            if (cards[0].SuitColor != SuitColorType.Red || cards[0].Owner != Owner || cards[0].Place.DeckType != DeckType.Hand)
+            if (cards[0].SuitColor != SuitColorType.Red || cards[0].Owner != Owner)
             {
                 return VerifierResult.Fail;
             }
-            card = new CompositeCard();
             card.Subcards = new List<Card>(cards);
-            card.Type = new Tao();
             return VerifierResult.Success;
         }
 
