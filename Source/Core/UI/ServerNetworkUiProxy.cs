@@ -47,6 +47,7 @@ namespace Sanguosha.Core.UI
             for (i = 0; i < server.MaxClients; i++)
             {
                 server.SendObject(i, 0);
+                server.Flush(i);
             }
         }
 

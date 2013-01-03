@@ -50,7 +50,7 @@ namespace Sanguosha.Core.UI
         UiHelper Helper { get; }
     }
 
-    public delegate void CardChoiceRearrangeCallback(object RearrangeHint);
+    public delegate void CardChoiceRearrangeCallback(CardRearrangement RearrangeHint);
 
     public interface IUiProxy
     {

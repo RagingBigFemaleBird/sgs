@@ -19,10 +19,10 @@ namespace Sanguosha.UI.Controls
                 var files = Directory.GetFiles(path);
                 foreach (var filePath in files)
                 {
-                    string file = Path.GetFileName(filePath);
+                    string file = Path.GetFileName(filePath).ToLower();
                     var parts = file.Split('.');
                     if (parts.Length == 0 || parts.Last() != "mp3") continue;
-                    string totalKey = string.Format("{0}.{1}", key, parts[0]);
+                    string totalKey = string.Format("{0}.{1}", key, parts[0]).ToLower();
                     if (!_soundsCount.ContainsKey(totalKey))
                     {
                         _soundsCount.Add(totalKey, 1);
@@ -81,6 +81,7 @@ namespace Sanguosha.UI.Controls
 
         private static Uri GetUriFromKey(string key)
         {
+            key = key.ToLower();
             if (!_soundsCount.ContainsKey(key)) return null;
             int usable = _soundsCount[key];           
             int i = _soundsRotation[key];

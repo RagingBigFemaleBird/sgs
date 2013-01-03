@@ -406,7 +406,12 @@ namespace Sanguosha.Core.Triggers
         /// <summary>
         /// 玩家距离调整
         /// </summary>
-        public static readonly GameEvent PlayerDistanceAdjustment = new GameEvent("PlayerDistanceAdjustment ");
+        public static readonly GameEvent PlayerDistanceAdjustment = new GameEvent("PlayerDistanceAdjustment");
+
+        /// <summary>
+        /// 玩家距离调整
+        /// </summary>
+        public static readonly GameEvent PlayerDistanceOverride = new GameEvent("PlayerDistanceOverride");
 
         public override bool Equals(object obj)
         {

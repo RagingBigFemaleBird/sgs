@@ -189,7 +189,7 @@ namespace Sanguosha.UI.Main
                 bool success = false;
                 if ((bool)ea.Result)
                 {
-                    LobbyView lobby = new LobbyView();
+                    LobbyView lobby = LobbyView.Instance;
                     var lobbyModel = LobbyViewModel.Instance;
                     lobbyModel.Connection = server;
                     lobbyModel.LoginToken = token;

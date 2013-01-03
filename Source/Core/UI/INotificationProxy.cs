@@ -25,7 +25,7 @@ namespace Sanguosha.Core.UI
         void NotifyActionComplete();
         void NotifyLoseHealth(Player player, int p);
         void NotifyShowCard(Player p, Card card);
-        void NotifyCardChoiceCallback(object o);
+        void NotifyCardChoiceCallback(CardRearrangement o);
         void NotifyImpersonation(Player p, Hero h, ISkill s);
         void NotifyWuGuStart(DeckPlace place);
         void NotifyWuGuEnd();
@@ -73,10 +73,6 @@ namespace Sanguosha.Core.UI
         {
         }
 
-        public void NotifyCardChoiceCallback(object o)
-        {
-        }
-
         public void NotifyImpersonation(Player p, Hero h, ISkill s)
         {
         }
@@ -110,6 +106,11 @@ namespace Sanguosha.Core.UI
         }
 
         public void NotifyLogEvent(Prompt prompt)
+        {
+        }
+
+
+        public void NotifyCardChoiceCallback(CardRearrangement o)
         {
         }
     }

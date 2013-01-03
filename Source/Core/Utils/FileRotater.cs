@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Threading;
+using System.Diagnostics;
 
 namespace Sanguosha.Core.Utils
 {
@@ -41,23 +42,25 @@ namespace Sanguosha.Core.Utils
             {
                 foreach (var filePath in suspects.Take(total - maxAllowance))
                 {
-                    File.Delete(filePath);
+                    try
+                    {
+                        File.Delete(filePath);
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
             }            
             DateTime dt = DateTime.Now;
-            int tryTime = 0;
             FileStream fs = null;
-            while (tryTime++ < 10)
+            try
             {
-                try
-                {
-                    string newFile = string.Format("{0}/{1}{2:yyyymmdd}{3}{4}{5}", pathName, fileName, dt,
-                                                   (int)dt.TimeOfDay.TotalMilliseconds, extension, tryTime);
-                    fs = new FileStream(newFile, FileMode.Create);
-                }
-                catch (IOException)
-                {
-                }
+                string newFile = string.Format("{0}/{1}{2:yyyymmdd}{3}{4}{5}", pathName, fileName, dt,
+                                                (int)dt.TimeOfDay.TotalMilliseconds, Process.GetCurrentProcess().Id, extension);
+                fs = new FileStream(newFile, FileMode.Create);
+            }
+            catch (IOException)
+            {                   
             }
 
             return fs;

@@ -95,7 +95,9 @@
     <Compile Include="Skills\RulerGivenSkillContainerSkill.cs" />
     <Compile Include="Skills\TriggerSkill.cs" />
     <Compile Include="Triggers\RelayTrigger.cs" />
+    <Compile Include="UI\CardRearrangement.cs" />
     <Compile Include="UI\CardChoiceCallback.cs" />
+    <Compile Include="UI\HandCardMovement.cs" />
     <Compile Include="UI\INotificationProxy.cs" />
     <Compile Include="UI\MovementHelper.cs" />
     <Compile Include="UI\Prompt.cs" />
@@ -134,6 +136,10 @@
     <Compile Include="UI\AlwaysTrueChoiceVerifier.cs" />
     <Compile Include="UI\TestUiProxy.cs" />
     <Compile Include="Utils\FileRotater.cs" />
+    <Compile Include="Utils\RawDeserializer.cs" />
+    <Compile Include="Utils\RawSerializer.cs" />
+    <Compile Include="Utils\RecordTakingInputStream.cs" />
+    <Compile Include="Utils\TypeIO.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Core.Game.xaml">

@@ -19,16 +19,30 @@ namespace Sanguosha.Core.Network
         Interrupt,
     }
 
+    public enum ItemType
+    {
+        Int,
+        CardItem,
+        CommandItem,
+        Player,
+        SkillItem,
+        HandCardMovement,
+        CardRearrangement,
+        CardUsageResponded,
+        ValueType,
+        Serializable,
+    }
+
     [Serializable]
     public struct CardItem
     {
         public int playerId;
-        public DeckType deck;
         public int place;
         public int rank;
         public int suit;
-        public int Id;
-        public Type type;
+        public int id;
+        public string deckName;
+        public string typeName;
         public string typeHorseName;
     }
 
@@ -36,14 +50,8 @@ namespace Sanguosha.Core.Network
     public struct CommandItem
     {
         public Command command;
-        public int data;
-        public object obj;
-    }
-
-    [Serializable]
-    public struct PlayerItem
-    {
-        public int id;
+        public ItemType type;
+        public object data;
     }
 
     [Serializable]
@@ -52,22 +60,8 @@ namespace Sanguosha.Core.Network
         public int playerId;
         public int skillId;
         public string name;
-        public Type additionalType;
+        public string additionalTypeName;
         public string additionalTypeHorseName;
-    }
-
-    [Serializable]
-    public struct HandCardMovement
-    {
-        public int playerId;
-        public int from;
-        public int to;
-    }
-
-    [Serializable]
-    public struct CardChoiceCallback
-    {
-        public object o;
     }
 
     [Serializable]
@@ -78,7 +72,7 @@ namespace Sanguosha.Core.Network
 
     public class Translator
     {
-        public static SkillItem Translate(ISkill skill)
+        public static SkillItem EncodeSkill(ISkill skill)
         {
             SkillItem item = new SkillItem();
             item.playerId = skill.Owner.Id;
@@ -87,64 +81,56 @@ namespace Sanguosha.Core.Network
             Trace.Assert(item.skillId >= 0);
             if (skill is IAdditionalTypedSkill)
             {
-                item.additionalType = (skill as IAdditionalTypedSkill).AdditionalType.GetType();
+                var type = (skill as IAdditionalTypedSkill).AdditionalType;
+                string horseName;
+                EncodeCardHandler(type, out item.additionalTypeName, out horseName);
             }
             return item;
         }
 
-        public static CardItem TranslateForClient(Card card)
+        public static CardItem EncodeCard(Card card)
         {
             CardItem item = new CardItem();
             item.playerId = Game.CurrentGame.Players.IndexOf(card.Place.Player);
-            item.deck = card.Place.DeckType;
+            item.deckName = card.Place.DeckType.Name;
             item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
-            Translator.TranslateCardType(ref item.type, ref item.typeHorseName, card.Type);
+            Translator.EncodeCardHandler(card.Type, out item.typeName, out item.typeHorseName);
             Trace.Assert(item.place >= 0);
             item.rank = card.Rank;
             item.suit = (int)card.Suit;
-            item.Id = card.Id;
+            item.id = card.Id;
             return item;
         }
 
-        public static CardItem TranslateForServer(Card card, int wrt)
+        public static CardItem EncodeServerCard(Card card, int wrt)
         {
-            CardItem item = new CardItem();
-            item.playerId = Game.CurrentGame.Players.IndexOf(card.Place.Player);
-            item.deck = card.Place.DeckType;
-            item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
-            Translator.TranslateCardType(ref item.type, ref item.typeHorseName, card.Type);
-            Trace.Assert(item.place >= 0);
-            item.rank = card.Rank;
-            item.suit = (int)card.Suit;
-            item.Id = card.Id;
+            CardItem item = EncodeCard(card);
 
-            if (item.deck == DeckType.Equipment || item.deck == DeckType.DelayedTools)
+            if (card.Place.DeckType == DeckType.Equipment || card.Place.DeckType == DeckType.DelayedTools)
             {
-                item.Id = -1;
+                item.id = -1;
             }
             // this is a card that the client knows. keep the id anyway
-            else if (card.Place.Player != null && item.deck == DeckType.Hand && Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrt]].Contains(card.Place.Player))
+            else if (card.Place.Player != null && card.Place.DeckType == DeckType.Hand && Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrt]].Contains(card.Place.Player))
             {
             }
-            else
+            else if (!card.RevealOnce)
             {
-                if (!card.RevealOnce)
-                {
-                    item.Id = -1;
-                }
+                item.id = -1;
             }
             card.RevealOnce = false;
             return item;
         }
 
-        public static Card DecodeForServer(CardItem i, int wrt)
+        public static Card DecodeServerCard(CardItem i, int wrt)
         {
+            DeckType deck = new DeckType(i.deckName);
             // you know this hand card. therefore the deserialization look up this card in particular
-            if (i.playerId >= 0 && i.deck == DeckType.Hand && Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrt]].Contains(Game.CurrentGame.Players[i.playerId]))
+            if (i.playerId >= 0 && deck == DeckType.Hand && Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrt]].Contains(Game.CurrentGame.Players[i.playerId]))
             {
-                foreach (Card c in Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck])
+                foreach (Card c in Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], deck])
                 {
-                    if (c.Id == i.Id)
+                    if (c.Id == i.id)
                     {
                         return c;
                     }
@@ -154,93 +140,96 @@ namespace Sanguosha.Core.Network
             Card ret;
             if (i.playerId < 0)
             {
-                ret = Game.CurrentGame.Decks[null, i.deck][i.place];
+                ret = Game.CurrentGame.Decks[null, deck][i.place];
             }
             else
             {
-                ret = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place];
+                ret = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], deck][i.place];
             }
             return ret;
         }
 
-        public static Card DecodeForClient(CardItem i, int wrt)
+        public static Card DecodeCard(CardItem i, int wrt)
         {
+            DeckType deck = new DeckType(i.deckName);
             // you know this hand card. therefore the deserialization look up this card in particular
-            if (i.Id >= 0 && i.playerId >= 0 && i.deck == DeckType.Hand && Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrt]].Contains(Game.CurrentGame.Players[i.playerId]))
+            if (i.id >= 0 && i.playerId >= 0 && deck == DeckType.Hand && Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrt]].Contains(Game.CurrentGame.Players[i.playerId]))
             {
-                foreach (Card c in Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck])
+                foreach (Card c in Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], deck])
                 {
-                    if (c.Id == i.Id)
+                    if (c.Id == i.id)
                     {
                         return c;
                     }
                 }
                 Trace.Assert(false);
             }
-            if (i.Id >= 0)
+            if (i.id >= 0)
             {
-                Trace.TraceInformation("Identify {0}{1}{2} is {3}{4}{5}", i.playerId, i.deck, i.place, i.suit, i.rank, i.type);
+                Trace.TraceInformation("Identify {0}{1}{2} is {3}{4}{5}", i.playerId, deck, i.place, i.suit, i.rank, i.typeName);
                 Card gameCard;
                 if (i.playerId < 0)
                 {
-                    gameCard = Game.CurrentGame.Decks[null, i.deck][i.place];
+                    gameCard = Game.CurrentGame.Decks[null, deck][i.place];
                 }
                 else
                 {
-                    gameCard = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place];
+                    gameCard = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], deck][i.place];
                 }
                 var place = gameCard.Place;
-                gameCard.CopyFrom(GameEngine.CardSet[i.Id]);
+                gameCard.CopyFrom(GameEngine.CardSet[i.id]);
                 gameCard.Place = place;
                 gameCard.Rank = i.rank;
                 gameCard.Suit = (SuitType)i.suit;
-                if (i.type != null) gameCard.Type = Translator.TranslateCardType(i.type, i.typeHorseName);
+                if (!string.IsNullOrEmpty(i.typeName))
+                {
+                    gameCard.Type = Translator.DecodeCardHandler(i.typeName, i.typeHorseName);
+                }
             }
             Card ret;
             if (i.playerId < 0)
             {
-                ret = Game.CurrentGame.Decks[null, i.deck][i.place];
+                ret = Game.CurrentGame.Decks[null, deck][i.place];
             }
             else
             {
-                ret = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], i.deck][i.place];
+                ret = Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], deck][i.place];
             }
             return ret;
         }
 
-        public static CardHandler TranslateCardType(Type type, string horseName)
+        public static CardHandler DecodeCardHandler(string typeName, string horseName)
         {
-            if (type == null) return null;
+            if (string.IsNullOrEmpty(typeName)) return null;
             CardHandler ret;
-            if (horseName == null)
+            if (string.IsNullOrEmpty(horseName))
             {
-                ret = Activator.CreateInstance(type) as CardHandler;
+                ret = Activator.CreateInstance(Type.GetType(typeName)) as CardHandler;
             }
             else
             {
-                ret = Activator.CreateInstance(type, horseName) as CardHandler;
+                ret = Activator.CreateInstance(Type.GetType(typeName), horseName) as CardHandler;
             }
-            if (ret is Heroes.HeroCardHandler)
-            {
-                return (CardHandler)(ret as Heroes.HeroCardHandler).Clone();
-            }
+            
             return ret;
         }
 
-        public static void TranslateCardType(ref Type type, ref String horse, CardHandler handler)
+        public static void EncodeCardHandler(CardHandler handler, out string typeName, out string horse)
         {
             if (handler is RoleCardHandler || handler is Heroes.HeroCardHandler || handler == null)
             {
-                type = null;
-                horse = null;
+                typeName = string.Empty;
+                horse = string.Empty;
                 return;
             }
-            type = handler.GetType();
+
+            typeName = handler.GetType().AssemblyQualifiedName;
+
             if (handler is OffensiveHorse || handler is DefensiveHorse) horse = handler.CardType;
-            else horse = null;
+            else horse = string.Empty;
         }
 
-        public static ISkill Translate(SkillItem item)
+        public static ISkill EncodeSkill(SkillItem item)
         {
             if (item.playerId >= 0 && item.playerId < Game.CurrentGame.Players.Count)
             {
@@ -256,7 +245,7 @@ namespace Sanguosha.Core.Network
 #endif
                 if (skill is IAdditionalTypedSkill)
                 {
-                    (skill as IAdditionalTypedSkill).AdditionalType = TranslateCardType(item.additionalType, item.additionalTypeHorseName);
+                    (skill as IAdditionalTypedSkill).AdditionalType = DecodeCardHandler(item.additionalTypeName, item.additionalTypeHorseName);
                 }
                 return skill;
             }

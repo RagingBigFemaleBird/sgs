@@ -4,30 +4,43 @@
     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <system:String x:Key="Card.HuoSha.Name">火杀</system:String>
-    <system:String x:Key="Card.HuoSha.Description">你的出牌阶段，对除你外，你攻击范围内的一名角色使用，效果是对该角色造成1点火焰属性伤害。</system:String>
-    <system:String x:Key="Card.HuoSha.Usage">选中【杀】→选择攻击距离内目标→点“确定”</system:String>
+    <system:String x:Key="Card.HuoSha.Description">出牌阶段，对你攻击范围内的一名其他角色使用，你对目标角色造成1点火焰伤害。</system:String>
+    <system:String x:Key="Card.HuoSha.Usage">选中火【杀】→选择攻击距离内目标→点“确定”</system:String>
 
     <system:String x:Key="Card.LeiSha.Name">雷杀</system:String>
-    <system:String x:Key="Card.LeiSha.Description">你的出牌阶段，对除你外，你攻击范围内的一名角色使用，效果是对该角色造成1点雷电属性伤害。</system:String>
-    <system:String x:Key="Card.LeiSha.Usage">选中【杀】→选择攻击距离内目标→点“确定”</system:String>
-
-    <system:String x:Key="Card.HuoGong.Name">火攻</system:String>
-    <system:String x:Key="Card.HuoGong.Description">出牌阶段，对一名有手牌的角色使用。该角色须展示一张手牌，然后若你弃置一张与所展示牌相同花色的手牌，则对其造成1点火焰伤害。</system:String>
-    <system:String x:Key="Card.HuoGong.Usage">选中【火攻】→选择目标（至少有1张手牌）→点“确定”</system:String>
-
-    <system:String x:Key="Card.TieSuoLianHuan.Name">铁锁连环</system:String>
-    <system:String x:Key="Card.TieSuoLianHuan.Description"  xml:space="preserve">出牌阶段，对一至两名角色使用，目标角色分别横置或重置其武将牌（被横置武将牌的角色处于“连环状态”，重置武将牌即解除“连环状态”）。&#10;重铸：出牌阶段，你可以将此牌置入弃牌堆，然后摸1张牌。</system:String>
-    <system:String x:Key="Card.TieSuoLianHuan.Usage" xml:space="preserve">连锁和重置：选中【铁索连环】→选择1至2个目标→点“确定”&#10;&#10;重铸：选中【铁索连环】→点“确定”</system:String>
+    <system:String x:Key="Card.LeiSha.Description">出牌阶段，对你攻击范围内的一名其他角色使用，你对目标角色造成1点雷电伤害。</system:String>
+    <system:String x:Key="Card.LeiSha.Usage">选中雷【杀】→选择攻击距离内目标→点“确定”</system:String>
 
     <system:String x:Key="Card.Jiu.Name">酒</system:String>
+    <system:String x:Key="Card.Jiu.Description"  xml:space="preserve">出牌阶段，对自己使用，令你本回合下一张使用的【杀】所造成的伤害+1。每阶段限一次。&#10;当你处于濒死状态时，对自己使用，你回复1点体力。</system:String>
+    <system:String x:Key="Card.Jiu.Usage" xml:space="preserve">选中【酒】→点“确定”&#10;响应出【酒】时→选中【酒】→点“确定”</system:String>
 
-    <system:String x:Key="Card.GuDingDao.Name">古锭刀</system:String>
+    <system:String x:Key="Card.TieSuoLianHuan.Name">铁索连环</system:String>
+    <system:String x:Key="Card.TieSuoLianHuan.Description"  xml:space="preserve">出牌阶段，对一至两名角色使用，目标角色分别横置或重置其武将牌（被横置武将牌的角色处于“连环状态”，重置武将牌即解除“连环状态”）。&#10;重铸：出牌阶段，你可以将此牌置入弃牌堆，然后摸1张牌。</system:String>
+    <system:String x:Key="Card.TieSuoLianHuan.Usage" xml:space="preserve">连锁和重置：选中【铁索连环】→选择1至2个目标→点“确定”&#10;重铸：选中【铁索连环】→点“确定”</system:String>
+
+    <system:String x:Key="Card.HuoGong.Name">火攻</system:String>
+    <system:String x:Key="Card.HuoGong.Description">出牌阶段，对一名有手牌的角色使用，该角色须展示一张手牌，然后若你弃置一张与所展示牌相同花色的手牌，则对其造成1点火焰伤害。</system:String>
+    <system:String x:Key="Card.HuoGong.Usage">选中【火攻】→选择目标（至少有1张手牌）→点“确定”</system:String>
 
     <system:String x:Key="Card.BingLiangCunDuan.Name">兵粮寸断</system:String>
+    <system:String x:Key="Card.BingLiangCunDuan.Description">出牌阶段，你可以将【兵粮寸断】置于距离为1的一名角色的判定区里。该角色在判定阶段须进行一次判定，若判定结果不为草花，跳过目标角色的摸牌阶段；若判定结果为红桃，则没有事发生。</system:String>
+    <system:String x:Key="Card.BingLiangCunDuan.Usage">选中【兵粮寸断】→选择一个目标→点“确定”</system:String>
+
+    <system:String x:Key="Card.GuDingDao.Name">古锭刀</system:String>
+    <system:String x:Key="Card.GuDingDao.Description">锁定技，每当你使用【杀】对目标角色造成伤害时，若其没有手牌，此伤害+1。</system:String>
+
+    <system:String x:Key="Card.ZhuQueYuShan.Name">朱雀羽扇</system:String>
+    <system:String x:Key="Card.ZhuQueYuShan.Description">你可以将一张普通【杀】当火【杀】使用。</system:String>
+    <system:String x:Key="Card.ZhuQueYuShan.Usage">选中【朱雀羽扇】→选择一张普通【杀】→选择火【杀】的目标→点“确定”</system:String>
 
     <system:String x:Key="Card.BaiYinShiZi.Name">白银狮子</system:String>
+    <system:String x:Key="Card.BaiYinShiZi.Description">锁定技，每当你受到伤害时，若此伤害多于1点，则防止多余的伤害；当你失去装备区里的【白银狮子】时，你回复1点体力。</system:String>
 
     <system:String x:Key="Card.TengJia.Name">藤甲</system:String>
-    <system:String x:Key="Card.ZhuQueYuShan.Name">朱雀羽扇</system:String>
+    <system:String x:Key="Card.TengJia.Description">锁定技，【南蛮入侵】、【万箭齐发】和普通【杀】对你无效；每当你受到火焰伤害时，此伤害+1。</system:String>
+
+    <system:String x:Key="Card.HuaLiu.Name">骅骝</system:String>
+    <system:String x:Key="Card.HuaLiu.Description">锁定技，其他角色计算的与你的距离+1。</system:String>
 
 </ResourceDictionary>

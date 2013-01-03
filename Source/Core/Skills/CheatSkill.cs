@@ -13,6 +13,7 @@ namespace Sanguosha.Core.Skills
         Card,
         Skill,
     }
+
     [Serializable]
     public class CheatSkill : ISkill
     {

@@ -12,6 +12,7 @@ using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
 using System.Diagnostics;
 using System.IO;
+using Sanguosha.Core.UI;
 
 namespace Sanguosha.Core.Network
 {
@@ -34,7 +35,6 @@ namespace Sanguosha.Core.Network
             disconnected = false;
             semIn = new Semaphore(0, int.MaxValue);
             semOut = new Semaphore(0, int.MaxValue);
-            semAccess = new Semaphore(1, 1);
             queueIn = new Queue<object>();
             queueOut = new Queue<object>();
             stream = null;
@@ -159,9 +159,9 @@ namespace Sanguosha.Core.Network
                 CommandItem i = (CommandItem)o;
                 if (i.command == Command.Interrupt)
                 {
-                    if (i.obj is HandCardMovement)
+                    if (i.type == ItemType.HandCardMovement)
                     {
-                        HandCardMovement move = (HandCardMovement)i.obj;
+                        HandCardMovement move = (HandCardMovement)i.data;
                         if (PlayerIdSanityCheck(move.playerId))
                         {
                             var deck = Game.CurrentGame.Decks[Game.CurrentGame.Players[move.playerId], DeckType.Hand];
@@ -173,7 +173,7 @@ namespace Sanguosha.Core.Network
                             }
                         }
                     }
-                    if (i.obj is CardChoiceCallback)
+                    if (i.type == ItemType.CardRearrangement)
                     {
                         for (int ec = 0; ec < maxClients; ec++)
                         {
@@ -188,8 +188,8 @@ namespace Sanguosha.Core.Network
 
         public void SendMultipleCardUsageResponded(int id)
         {
-            var o = new CommandItem() { command = Command.Interrupt };
-            o.obj = new CardUsageResponded() { playerId = id };
+            var o = new CommandItem() { command = Command.Interrupt, type = ItemType.CardUsageResponded };
+            o.data = new CardUsageResponded() { playerId = id };
             for (int ec = 0; ec < maxClients; ec++)
             {
                 SendInterruptedObject(ec, o);
@@ -210,9 +210,10 @@ namespace Sanguosha.Core.Network
                 {
                     return false;
                 }
-                handlers[clientId].semAccess.WaitOne();
-                o = handlers[clientId].queueIn.Dequeue();
-                handlers[clientId].semAccess.Release(1);
+                lock (handlers[clientId].queueIn)
+                {
+                    o = handlers[clientId].queueIn.Dequeue();
+                }
                 if (o == null)
                 {
                     return false;
@@ -222,9 +223,9 @@ namespace Sanguosha.Core.Network
                     CommandItem i = (CommandItem)o;
                     if (i.command == Command.QaId)
                     {
-                        Trace.TraceInformation("Current commId from {0} is {1}", clientId, i.data);
+                        Trace.TraceInformation("Current commId from {0} is {1}", clientId, i.type);
                     }
-                    if (i.command == Command.QaId && i.data == handlers[clientId].commId)
+                    if (i.command == Command.QaId && (int)i.data == handlers[clientId].commId)
                     {
                         break;
                     }
@@ -244,9 +245,10 @@ namespace Sanguosha.Core.Network
             object o;
             if (handlers[clientId].disconnected) return null;
             handlers[clientId].semIn.WaitOne();
-            handlers[clientId].semAccess.WaitOne();
-            o = handlers[clientId].queueIn.Dequeue();
-            handlers[clientId].semAccess.Release(1);
+            lock (handlers[clientId].queueIn)
+            {
+                o = handlers[clientId].queueIn.Dequeue();
+            }
             if (o == null)
             {
                 Trace.TraceWarning("Expected Card but null");
@@ -254,7 +256,7 @@ namespace Sanguosha.Core.Network
             }
             if (o is CardItem)
             {
-                return Translator.DecodeForServer((CardItem)o, clientId);
+                return Translator.DecodeServerCard((CardItem)o, clientId);
             }
             Trace.TraceWarning("Expected Card but type is {0}", o.GetType());
             return null;
@@ -265,21 +267,11 @@ namespace Sanguosha.Core.Network
             object o;
             if (handlers[clientId].disconnected) return null;
             handlers[clientId].semIn.WaitOne();
-            handlers[clientId].semAccess.WaitOne();
-            o = handlers[clientId].queueIn.Dequeue();
-            handlers[clientId].semAccess.Release(1);
-            if (o == null)
+            lock (handlers[clientId].queueIn)
             {
-                Trace.TraceWarning("Expected Player but null");
-                return null;
+                o = handlers[clientId].queueIn.Dequeue();
             }
-            if (o is PlayerItem)
-            {
-                PlayerItem i = (PlayerItem)o;
-                return Game.CurrentGame.Players[i.id];
-            }
-            Trace.TraceWarning("Expected Player but type is {0}", o.GetType());
-            return null;
+            return o as Player;
         }
 
         public int? GetInt(int clientId, int timeOutSeconds)
@@ -287,9 +279,10 @@ namespace Sanguosha.Core.Network
             object o;
             if (handlers[clientId].disconnected) return null;
             handlers[clientId].semIn.WaitOne();
-            handlers[clientId].semAccess.WaitOne();
-            o = handlers[clientId].queueIn.Dequeue();
-            handlers[clientId].semAccess.Release(1);
+            lock (handlers[clientId].queueIn)
+            {
+                o = handlers[clientId].queueIn.Dequeue();
+            }
             if (o == null)
             {
                 Trace.TraceWarning("Expected int but null");
@@ -308,9 +301,10 @@ namespace Sanguosha.Core.Network
             object o;
             if (handlers[clientId].disconnected) return null;
             handlers[clientId].semIn.WaitOne();
-            handlers[clientId].semAccess.WaitOne();
-            o = handlers[clientId].queueIn.Dequeue();
-            handlers[clientId].semAccess.Release(1);
+            lock (handlers[clientId].queueIn)
+            {
+                o = handlers[clientId].queueIn.Dequeue();
+            }
             if (o == null)
             {
                 Trace.TraceWarning("Expected skill but null");
@@ -318,7 +312,7 @@ namespace Sanguosha.Core.Network
             }
             if (o is SkillItem)
             {
-                return Translator.Translate((SkillItem)o);
+                return Translator.EncodeSkill((SkillItem)o);
             }
             if (o is CheatSkill)
             {
@@ -332,7 +326,7 @@ namespace Sanguosha.Core.Network
         {
             if (o is Card)
             {
-                var item = Translator.TranslateForServer(o as Card, clientId);
+                var item = Translator.EncodeServerCard(o as Card, clientId);
                 o = item;
             }
             if (o is CheatSkill)
@@ -340,12 +334,13 @@ namespace Sanguosha.Core.Network
             }
             else if (o is ISkill)
             {
-                o = Translator.Translate(o as ISkill);
+                o = Translator.EncodeSkill(o as ISkill);
             }
-            Trace.TraceInformation("Sending a {0} to {1}", o, clientId); 
-            handlers[clientId].semAccess.WaitOne();
-            handlers[clientId].queueOut.Enqueue(o);
-            handlers[clientId].semAccess.Release(1);
+            Trace.TraceInformation("Sending a {0} to {1}", o, clientId);
+            lock (handlers[clientId].queueOut)
+            {
+                handlers[clientId].queueOut.Enqueue(o);
+            }
             handlers[clientId].semOut.Release(1);
         }
 
@@ -357,9 +352,10 @@ namespace Sanguosha.Core.Network
         public void SendInterruptedObject(int clientId, Object o)
         {
             Trace.TraceInformation("Interrupted, sending a {0} to {1}", o.GetType(), clientId);
-            handlers[clientId].semAccess.WaitOne();
-            handlers[clientId].queueOut.Enqueue(o);
-            handlers[clientId].semAccess.Release(1);
+            lock (handlers[clientId].queueOut)
+            {
+                handlers[clientId].queueOut.Enqueue(o);
+            }
             handlers[clientId].semOut.Release(1);
             Flush(clientId);
         }
@@ -401,9 +397,10 @@ namespace Sanguosha.Core.Network
                     o = r.Receive();
                     if (o == null) return;
                 } while (HandleInterrupt(o));
-                handler.semAccess.WaitOne();
-                handler.queueIn.Enqueue(o);
-                handler.semAccess.Release(1);
+                lock (handler.queueIn)
+                {
+                    handler.queueIn.Enqueue(o);
+                }
                 handler.semIn.Release(1);
             }
         }
@@ -414,17 +411,19 @@ namespace Sanguosha.Core.Network
             while (true)
             {
                 handler.semOut.WaitOne();
-                object o;
-                handler.semAccess.WaitOne();
-                o = handler.queueOut.Dequeue();
-                handler.semAccess.Release(1);
-                if (o is FlushObject)
-                {
-                    r.Flush();
-                }
-                else if (!r.Send(o))
-                {
-                    Trace.TraceError("Network failure @ send");
+                lock (handler.queueOut)
+                {                    
+                    object o;
+                
+                    o = handler.queueOut.Dequeue();
+                    if (o is FlushObject)
+                    {
+                        r.Flush();
+                    }
+                    else if (!r.Send(o))
+                    {
+                        Trace.TraceError("Network failure @ send");
+                    }                
                 }
             }
         }
