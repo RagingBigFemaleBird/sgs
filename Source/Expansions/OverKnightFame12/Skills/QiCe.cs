@@ -41,7 +41,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                 return VerifierResult.Fail;
             }
 
-            card.Subcards.AddRange(cards);
+            card.Subcards.AddRange(Owner.HandCards());
             return VerifierResult.Success;
         }
 
@@ -49,7 +49,6 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
         {
             Owner[QiCeUsed] = 1;
             Game.CurrentGame.SyncImmutableCardsAll(Owner.HandCards());
-            card.Subcards.AddRange(Owner.HandCards());
             return true;
         }
 
