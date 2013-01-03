@@ -39,7 +39,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             List<List<Card>> answer;
             var options = new AdditionalCardChoiceOptions() { Options = new List<OptionPrompt>() { new OptionPrompt("GuZhengHuoDe"), new OptionPrompt("GuZhengBuHuoDe") } };
             if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(
-                new CardChoicePrompt("GuZheng"),
+                new CardChoicePrompt("GuZheng", Owner, Game.CurrentGame.CurrentPlayer),
                 new List<DeckPlace>() { new DeckPlace(null, GuZhengDeck) },
                 new List<string>() { "GuZhengFanHui" },
                 new List<int>() { 1 },

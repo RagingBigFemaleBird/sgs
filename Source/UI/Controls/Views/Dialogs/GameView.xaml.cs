@@ -826,7 +826,8 @@ namespace Sanguosha.UI.Controls
                     bool? isMale = null;
                     if (log.Source != null) isMale = !log.Source.IsFemale;
                     Uri cardSoundUri = GameSoundLocator.GetCardSound(log.CardAction.Type.CardType, isMale);
-                    if (log.SkillAction == null)
+                    var card = log.CardAction as Card;
+                    if (card != null && (card.Log == null || card.Log.SkillAction == null))
                     {
                         GameSoundPlayer.PlaySoundEffect(cardSoundUri);
                     }
@@ -1035,6 +1036,8 @@ namespace Sanguosha.UI.Controls
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
+                Uri uri = GameSoundLocator.GetSystemSound("GameOver");
+                GameSoundPlayer.PlaySoundEffect(uri);
                 List<Player> drawers;
                 List<Player> losers;
                 if (isDraw)
