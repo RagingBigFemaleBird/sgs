@@ -471,7 +471,7 @@ namespace Sanguosha.UI.Controls
         static Brush RedBrush =  new SolidColorBrush(new Color() { R = 204, G = 0, B = 0, A = 255 });
         static Brush OrangeBrush = new SolidColorBrush(new Color() { R = 255, G = 102, B = 0, A = 255 });
         static Brush YellowBrush = new SolidColorBrush(Colors.Yellow);
-        static Brush GreenBrush = new SolidColorBrush(new Color() { R = 0, G = 204, B = 0 });
+        static Brush GreenBrush = new SolidColorBrush(new Color() { R = 0, G = 204, B = 0, A = 255 });
 
         public static Paragraph RichTranslateDeath(Player p, Player by)
         {
@@ -579,7 +579,6 @@ namespace Sanguosha.UI.Controls
             Paragraph para = new Paragraph();
             para.Inlines.Add(new Run(Translate(player)));
             string recoverStr = string.Format("恢复了{0}点体力，体力值为{1}", delta, player.Health);
-
             para.Inlines.Add(new Run(recoverStr) { Foreground = GreenBrush });
             return para;
         }
