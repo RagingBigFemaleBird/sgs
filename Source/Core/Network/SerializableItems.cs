@@ -24,10 +24,10 @@ namespace Sanguosha.Core.Network
         Int,
         CardItem,
         CommandItem,
-        PlayerItem,
+        Player,
         SkillItem,
         HandCardMovement,
-        CardChoiceCallback,
+        CardRearrangement,
         CardUsageResponded,
         ValueType,
         Serializable,
@@ -37,11 +37,11 @@ namespace Sanguosha.Core.Network
     public struct CardItem
     {
         public int playerId;
-        public string deckName;
         public int place;
         public int rank;
         public int suit;
         public int id;
+        public string deckName;
         public string typeName;
         public string typeHorseName;
     }
@@ -50,14 +50,8 @@ namespace Sanguosha.Core.Network
     public struct CommandItem
     {
         public Command command;
-        public int data;
-        public object obj;
-    }
-
-    [Serializable]
-    public struct PlayerItem
-    {
-        public int id;
+        public ItemType type;
+        public object data;
     }
 
     [Serializable]
@@ -68,20 +62,6 @@ namespace Sanguosha.Core.Network
         public string name;
         public string additionalTypeName;
         public string additionalTypeHorseName;
-    }
-
-    [Serializable]
-    public struct HandCardMovement
-    {
-        public int playerId;
-        public int from;
-        public int to;
-    }
-
-    [Serializable]
-    public struct CardChoiceCallback
-    {
-        public object o;
     }
 
     [Serializable]

@@ -381,7 +381,7 @@ namespace Sanguosha.UI.Controls
                                 var callback = model.CurrentCardChoiceRearrangeCallback;
                                 if (callback != null)
                                 {
-                                    callback(new UiCardRearrangement(s1, s2, d1, d2));
+                                    callback(new CardRearrangement(s1, s2, d1, d2));
                                 }
                             };
                         }                        
@@ -890,14 +890,13 @@ namespace Sanguosha.UI.Controls
             });
         }
 
-        public void NotifyCardChoiceCallback(object o)
+        public void NotifyCardChoiceCallback(CardRearrangement arrange)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 if (cardChoiceWindow == null) return;
                 var box = cardChoiceWindow.Content as CardArrangeBox;
                 if (box == null) return;
-                UiCardRearrangement arrange = (UiCardRearrangement)o;
                 box.MoveCard(arrange);
             });
         }

@@ -345,8 +345,14 @@ namespace Sanguosha.Core.Utils
             {
                 throw new RawSerializerException("Serialize(object val) cannot be used to serialize a null value.  Use SerializeNullable instead.");
             }
-
-            InternalSerialize(val);
+            else if (val.GetType().IsEnum)
+            {
+                Serialize((int)val);
+            }
+            else
+            {
+                InternalSerialize(val);
+            }
         }
 
         protected virtual void InternalSerialize(object val)

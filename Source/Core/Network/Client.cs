@@ -12,6 +12,7 @@ using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
 using System.Diagnostics;
 using System.IO;
+using Sanguosha.Core.UI;
 
 namespace Sanguosha.Core.Network
 {
@@ -90,7 +91,8 @@ namespace Sanguosha.Core.Network
             move.to = to;
             CommandItem item = new CommandItem();
             item.command = Command.Interrupt;
-            item.obj = move;
+            item.type = ItemType.HandCardMovement;
+            item.data = move;
             sender.Send(item);
         }
 
@@ -103,23 +105,21 @@ namespace Sanguosha.Core.Network
                 CommandItem item = (CommandItem)o;
                 if (item.command == Command.Interrupt)
                 {
-                    if (item.obj is CardChoiceCallback)
+                    if (item.type == ItemType.CardRearrangement)
                     {
-                        CardChoiceCallback cbi = (CardChoiceCallback)item.obj;
-                        Game.CurrentGame.NotificationProxy.NotifyCardChoiceCallback(cbi.o);
+                        CardRearrangement ca = (CardRearrangement)item.data;
+                        Game.CurrentGame.NotificationProxy.NotifyCardChoiceCallback(ca);
                     }
-                    if (item.obj is CardUsageResponded)
+                    if (item.type == ItemType.CardUsageResponded)
                     {
-                        var cbi = (CardUsageResponded)item.obj;
+                        var cbi = (CardUsageResponded)item.data;
                         Game.CurrentGame.NotificationProxy.NotifyMultipleCardUsageResponded(Game.CurrentGame.Players[cbi.playerId]);
                     }
                     return Receive();
                 }
             }
-            else if (o is PlayerItem)
+            else if (o is Player)
             {
-                PlayerItem i = (PlayerItem)o;
-                o = Game.CurrentGame.Players[i.id];
             }
             else if (o is int)
             {
@@ -139,7 +139,7 @@ namespace Sanguosha.Core.Network
 
         public void AnswerNext()
         {
-            sender.Send(new CommandItem() { command = Command.QaId, data = commId });
+            sender.Send(new CommandItem() { command = Command.QaId, type = ItemType.Int, data=commId });
         }
 
         public void NextComm()
@@ -179,11 +179,12 @@ namespace Sanguosha.Core.Network
             sender.Flush();
         }
 
-        public void CardChoiceCallBack(object obj)
+        public void CardChoiceCallBack(CardRearrangement arrange)
         {
             CommandItem item = new CommandItem();
             item.command = Command.Interrupt;
-            item.obj = new CardChoiceCallback() { o = obj };
+            item.type = ItemType.CardRearrangement;
+            item.data = arrange;
             sender.Send(item);
         }
 

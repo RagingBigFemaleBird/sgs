@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media.Animation;
 using Sanguosha.Core.Cards;
+using Sanguosha.Core.UI;
 
 namespace Sanguosha.UI.Controls
 {
@@ -25,22 +26,6 @@ namespace Sanguosha.UI.Controls
     /// <param name="destDeckIndex">Index of destination deck in all decks.</param>
     /// <param name="destCardIndex">New position of the moved card in destination deck.</param>
     public delegate void OnCardArrange(int sourceDeckIndex, int sourceCardIndex, int destDeckIndex, int destCardIndex);
-
-    [Serializable]
-    public struct UiCardRearrangement
-    {
-        public int SourceDeckIndex;
-        public int SourceCardIndex;
-        public int DestDeckIndex;
-        public int DestCardIndex;
-        public UiCardRearrangement(int sourceDeckIndex, int sourceCardIndex, int destDeckIndex, int destCardIndex) : this()
-        {
-            SourceDeckIndex = sourceDeckIndex;
-            SourceCardIndex = sourceCardIndex;
-            DestDeckIndex = destDeckIndex;
-            DestCardIndex = destCardIndex;
-        }
-    }
 
     /// <summary>
     /// Interaction logic for CardArrangeBox.xaml
@@ -299,7 +284,7 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        public void MoveCard(UiCardRearrangement move)
+        public void MoveCard(CardRearrangement move)
         {
             if (_allCardStacks.Count <= Math.Max(move.SourceDeckIndex, move.DestDeckIndex)) return;
             var sourceDeck = _allCardStacks[move.SourceDeckIndex];
