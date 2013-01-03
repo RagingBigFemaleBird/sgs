@@ -41,7 +41,13 @@ namespace Sanguosha.Core.Utils
             {
                 foreach (var filePath in suspects.Take(total - maxAllowance))
                 {
-                    File.Delete(filePath);
+                    try
+                    {
+                        File.Delete(filePath);
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
             }            
             DateTime dt = DateTime.Now;
@@ -52,7 +58,7 @@ namespace Sanguosha.Core.Utils
                 try
                 {
                     string newFile = string.Format("{0}/{1}{2:yyyymmdd}{3}{4}{5}", pathName, fileName, dt,
-                                                   (int)dt.TimeOfDay.TotalMilliseconds, extension, tryTime);
+                                                   (int)dt.TimeOfDay.TotalMilliseconds, tryTime, extension);
                     fs = new FileStream(newFile, FileMode.Create);
                 }
                 catch (IOException)
