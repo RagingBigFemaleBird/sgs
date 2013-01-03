@@ -27,7 +27,9 @@ namespace Sanguosha.Expansions.Basic.Cards
             public Equipment ParentEquipment { get; set; }
             public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
             {
-                card = null;
+                card = new CompositeCard();
+                card.Type = new RegularSha();
+                if (Owner.HandCards().Count < 2) return VerifierResult.Fail;
                 if (cards == null || cards.Count == 0)
                 {
                     return VerifierResult.Partial;
@@ -48,9 +50,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     return VerifierResult.Partial;
                 }
-                card = new CompositeCard();
                 card.Subcards = new List<Card>(cards);
-                card.Type = new RegularSha();
                 return VerifierResult.Success;
             }
 

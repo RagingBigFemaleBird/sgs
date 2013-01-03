@@ -126,9 +126,9 @@ namespace Sanguosha.Core.UI
                 {
                     var commonResult = from type1 in AcceptableCardTypes
                                        join type2 in transformSkill.PossibleResults
-                                       on type1 equals type2
+                                       on type1.GetType().Name equals type2.GetType().Name
                                        select type1;
-                    if (commonResult.Count() == 0)
+                    if (commonResult.Count() != 0)
                     {
                         return SlowVerify(source, skill, cards, players);
                     }
