@@ -159,8 +159,6 @@ namespace Sanguosha.UI.Controls
 
         #region Events
 
-        public event EventHandler OnGameInitiated;
-
         #endregion
 
         #region Public Functions
@@ -223,8 +221,7 @@ namespace Sanguosha.UI.Controls
         public void NotifyGameStart(string connectionString)
         {
             GameServerConnectionString = connectionString;
-            var handler = OnGameInitiated;
-            if (handler != null) OnGameInitiated(this, new EventArgs());
+            LobbyView.Instance.StartGame();
         }
 
         public void NotifyRoomUpdate(int id, Room room)

@@ -30,6 +30,20 @@ namespace Sanguosha.UI.Controls
             InitializeComponent();
         }
 
+        private static LobbyView _instance;
+
+        /// <summary>
+        /// Gets the singleton instance of <c>LobbyViewModel</c>.
+        /// </summary>
+        public static LobbyView Instance
+        {
+            get
+            {
+                if (_instance == null) _instance = new LobbyView();
+                return _instance;
+            }
+        }
+
         public LobbyViewModel LobbyModel
         {
             get
@@ -38,7 +52,7 @@ namespace Sanguosha.UI.Controls
             }            
         }
 
-        private void _StartGame()
+        public void StartGame()
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
@@ -133,7 +147,6 @@ namespace Sanguosha.UI.Controls
         {
             LobbyViewModel.Instance.UpdateRooms();
             DataContext = LobbyViewModel.Instance;
-            LobbyModel.OnGameInitiated += (o, ea) => _StartGame();
         }
     }
 }
