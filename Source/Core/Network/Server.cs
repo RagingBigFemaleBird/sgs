@@ -100,7 +100,7 @@ namespace Sanguosha.Core.Network
                 handlers[i].threadServer = new Thread((ParameterizedThreadStart)((o) => 
                 {
                     ServerThread(handlers[(int)o]);
-                    handlers[(int)o].disconnected = true; 
+                    handlers[(int)o].disconnected = true;
                 })) { IsBackground = true };
                 handlers[i].threadServer.Start(i);
                 handlers[i].threadClient = new Thread((ParameterizedThreadStart)((o) => 

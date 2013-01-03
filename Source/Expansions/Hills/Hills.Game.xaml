@@ -30,4 +30,9 @@
     <sys:String x:Key="MultiChoice.Choice.HuaShen">{0}</sys:String>
     <sys:String x:Key="Deck.HuaShen.Name">化身</sys:String>
     <sys:String x:Key="Deck.Tian.Name">田</sys:String>
+    <sys:String x:Key="Status.DuanChang.Name">断肠</sys:String>
+    <LinearGradientBrush x:Key="Status.DuanChang.Brush" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FFA0A0A0" Offset="0"/>
+        <GradientStop Color="#FFDEDEDE" Offset="1"/>
+    </LinearGradientBrush>
 </ResourceDictionary>

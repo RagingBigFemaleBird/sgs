@@ -42,4 +42,10 @@
     <system:String x:Key="MultiChoice.Prompt.ChooseAllegiance">请选择您的国籍</system:String>
     <system:String x:Key="MultiChoice.Choice.Confirm">确定</system:String>
     <system:String x:Key="CardChoice.Prompt.PrivateDeck">{0}的{1}</system:String>
+
+    <system:String x:Key="Status.Disconnected.Name">离线</system:String>
+    <LinearGradientBrush x:Key="Status.Disconnected.Brush" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FF4EFF00" Offset="0"/>
+        <GradientStop Color="#FFDEDEDE" Offset="1"/>
+    </LinearGradientBrush>
 </ResourceDictionary>
