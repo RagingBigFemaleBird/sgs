@@ -42,7 +42,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 if (eventArgs.Source != Owner)
                     return;
                 Game.CurrentGame.UnregisterTrigger(GameEvent.CardUsageTargetValidating, protectTrigger);
-                Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], this);
+                Game.CurrentGame.UnregisterTrigger(GameEvent.PhasePostEnd, this);
             }
 
             private Trigger protectTrigger;
@@ -62,7 +62,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 {
                     Trigger tri = new ZhiChiProtect(Owner);
                     Game.CurrentGame.RegisterTrigger(GameEvent.CardUsageTargetValidating, tri);
-                    Game.CurrentGame.RegisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], new ZhiChiRemoval(Game.CurrentGame.CurrentPlayer, tri));
+                    Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, new ZhiChiRemoval(Game.CurrentGame.CurrentPlayer, tri));
                 },
                 TriggerCondition.OwnerIsTarget
             );

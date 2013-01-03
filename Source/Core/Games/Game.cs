@@ -1105,7 +1105,19 @@ namespace Sanguosha.Core.Games
             distLeft += args.AdjustmentAmount;
             distRight += args.AdjustmentAmount;
 
-            return distRight > distLeft ? distLeft : distRight;
+            var ret = distRight > distLeft ? distLeft : distRight;
+            if (ret < 0) ret = 0;
+
+            // the minimum distance is 0 between any two. if distance is -1, it means IGNORED distance (高顺),
+            // fortunately no one relies on this being -1 for now, so -1 is semantically equivalent to 0
+            args = new AdjustmentEventArgs();
+            args.Source = from;
+            args.Targets = new List<Player>() { to };
+            args.AdjustmentAmount = ret;
+            Game.CurrentGame.Emit(GameEvent.PlayerDistanceOverride, args);
+            ret = args.AdjustmentAmount;
+
+            return ret;
         }
 
         void _FilterCard(Player p, Card card)

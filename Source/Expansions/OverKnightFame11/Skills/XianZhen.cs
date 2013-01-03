@@ -48,8 +48,139 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
 
         public override bool Commit(GameEventArgs arg)
         {
+            Owner[XianZhenUsed] = 1;
+            var result = Game.CurrentGame.PinDian(Owner, arg.Targets[0], this);
+            if (!result)
+            {
+                var trigger = new XianZhenPassiveLose(Owner);
+                Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanUseCard, trigger);
+                Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, new XianZhenLoseRemoval(Owner, trigger));
+            }
+            else
+            {
+                arg.Targets[0][PlayerAttribute.Register(Armor.PlayerIgnoreArmor + Owner.Id)] = 1;
+                var trigger = new XianZhenPassiveWin1(Owner, arg.Targets[0]);
+                Game.CurrentGame.RegisterTrigger(Sha.PlayerShaTargetValidation, trigger);
+                var trigger2 = new XianZhenPassiveWin2(Owner);
+                Game.CurrentGame.RegisterTrigger(Sha.PlayerNumberOfShaCheck, trigger2);
+                var trigger3 = new XianZhenPassiveWin3(Owner, arg.Targets[0]);
+                Game.CurrentGame.RegisterTrigger(GameEvent.PlayerDistanceOverride, trigger3);
+                Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, new XianZhenWinRemoval(Owner, arg.Targets[0], trigger, trigger2, trigger3));
+            }
             return true;
         }
+
+        public XianZhen()
+        {
+        }
+
         private static PlayerAttribute XianZhenUsed = PlayerAttribute.Register("XianZhenUsed", true);
+
+        public class XianZhenPassiveLose : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                if (eventArgs.Source == Owner && eventArgs.Card.Type is Sha)
+                {
+                    throw new TriggerResultException(TriggerResult.Fail);
+                }
+            }
+            public XianZhenPassiveLose(Player p)
+            {
+                Owner = p;
+            }
+        }
+
+        public class XianZhenPassiveWin1 : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                ShaEventArgs args = (ShaEventArgs)eventArgs;
+                Trace.Assert(args != null);
+                if (args.Source != Owner) return;
+                if (args.Targets[0] == target)
+                {
+                    args.TargetApproval[0] = true;
+                }
+            }
+            Player target;
+            public XianZhenPassiveWin1(Player p, Player target)
+            {
+                Owner = p;
+                this.target = target;
+            }
+        }
+
+        public class XianZhenPassiveWin2 : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                if (eventArgs.Source != Owner) return;
+                throw new TriggerResultException(TriggerResult.Success);
+            }
+            public XianZhenPassiveWin2(Player p)
+            {
+                Owner = p;
+            }
+        }
+
+        public class XianZhenPassiveWin3 : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                var arg = eventArgs as AdjustmentEventArgs;
+                if (arg.Source == Owner && arg.Targets[0] == target) arg.AdjustmentAmount = -1;
+            }
+            Player target;
+            public XianZhenPassiveWin3(Player p, Player target)
+            {
+                Owner = p;
+                this.target = target;
+            }
+        }
+
+        public class XianZhenLoseRemoval : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                if (eventArgs.Source != Owner)
+                    return;
+                Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerCanUseCard, trigger);
+                Game.CurrentGame.UnregisterTrigger(GameEvent.PhasePostEnd, this);
+            }
+
+            private Trigger trigger;
+            public XianZhenLoseRemoval(Player p, Trigger trigger)
+            {
+                Owner = p;
+                this.trigger = trigger;
+            }
+        }
+
+        public class XianZhenWinRemoval : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                if (eventArgs.Source != Owner)
+                    return;
+                target[PlayerAttribute.Register(Armor.PlayerIgnoreArmor + Owner.Id)] = 0;
+                Game.CurrentGame.UnregisterTrigger(Sha.PlayerShaTargetValidation, trigger);
+                Game.CurrentGame.UnregisterTrigger(Sha.PlayerNumberOfShaCheck, trigger2);
+                Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerDistanceOverride, trigger3);
+                Game.CurrentGame.UnregisterTrigger(GameEvent.PhasePostEnd, this);
+            }
+
+            private Trigger trigger, trigger2, trigger3;
+            Player target;
+            public XianZhenWinRemoval(Player p, Player target, Trigger trigger, Trigger trigger2, Trigger trigger3)
+            {
+                Owner = p;
+                this.trigger = trigger;
+                this.trigger2 = trigger2;
+                this.trigger3 = trigger3;
+                this.target = target;
+            }
+        }
+
     }
 }

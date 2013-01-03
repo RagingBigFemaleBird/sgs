@@ -34,7 +34,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             sourceList.Add(source);
             GameEventArgs args = new GameEventArgs();
             args.Source = dest;
-            args.Targets = null;
+            args.Targets = sourceList;
             args.Card = new CompositeCard();
             args.Card.Type = RequiredCard();
             args.ReadonlyCard = readonlyCard;

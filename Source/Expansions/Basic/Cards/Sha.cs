@@ -40,6 +40,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 ShaEventArgs args = new ShaEventArgs();
                 args.Source = source;
                 args.Card = card;
+                args.Targets = targets;
                 args.RangeApproval = new List<bool>(targets.Count);
                 args.TargetApproval = new List<bool>(targets.Count);
                 foreach (Player t in targets)

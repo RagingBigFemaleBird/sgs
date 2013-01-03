@@ -35,9 +35,9 @@ namespace Sanguosha.Core.Cards
             get { return CardCategory.Armor; }
         }
 
-        public static bool ArmorIsValid(Player player, ReadOnlyCard card)
+        public static bool ArmorIsValid(Player player, Player source, ReadOnlyCard card)
         {
-            return player[PlayerAttribute.Register(PlayerIgnoreArmor + player.Id)] == 0 &&
+            return (source == null || player[PlayerAttribute.Register(PlayerIgnoreArmor + source.Id)] == 0) &&
                    player[UnconditionalIgnoreArmor] == 0 &&
                    (card == null || (card[Armor.IgnoreAllArmor] == 0 && card[CardAttribute.Register(IgnorePlayerArmor + player.Id)] != 1));
         }
