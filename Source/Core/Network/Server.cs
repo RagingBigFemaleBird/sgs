@@ -69,6 +69,7 @@ namespace Sanguosha.Core.Network
         /// </summary>
         public Server(Game game, int capacity, IPAddress address)
         {
+            isStopped = false;
             ipAddress = address;
             IPEndPoint ep = new IPEndPoint(ipAddress, 0);
             listener = new TcpListener(ep);
@@ -324,11 +325,16 @@ namespace Sanguosha.Core.Network
             Trace.TraceWarning("Expected Skill but type is {0}", o.GetType());
             return null;
         }
+        bool isStopped;
 
         public void SendObject(int clientId, object o)
         {
             //if all clients disconnect. terminate
-            if (!handlers.Any(hd => hd.disconnected == false)) throw new GameOverException();
+            if (!isStopped && !handlers.Any(hd => hd.disconnected == false))
+            {
+                isStopped = true;
+                throw new GameOverException();
+            }
             if (o is Card)
             {
                 var item = Translator.EncodeServerCard(o as Card, clientId);

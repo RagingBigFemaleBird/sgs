@@ -21,6 +21,12 @@ namespace Sanguosha.Expansions.Hills.Skills
     /// </summary>
     public class HuaShen : TriggerSkill
     {
+        protected override int GenerateSpecialEffectHintIndex(Player source, List<Player> targets)
+        {
+            if (Owner.IsFemale) return 1;
+            return 0;
+        }
+
         static PrivateDeckType HuaShenDeck = new PrivateDeckType("HuaShen");
 
         public static void AcquireHeroCard(Player player)

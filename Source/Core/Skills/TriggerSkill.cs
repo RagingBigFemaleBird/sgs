@@ -28,7 +28,13 @@ namespace Sanguosha.Core.Skills
             log.SkillAction = this;
             log.Source = Owner;
             log.Targets = targets;
+            log.SpecialEffectHint = GenerateSpecialEffectHintIndex(Owner, targets);
             Games.Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
+        }
+
+        protected virtual int GenerateSpecialEffectHintIndex(Player source, List<Player> targets)
+        {
+            return 0;
         }
 
         public void NotifySkillUse()

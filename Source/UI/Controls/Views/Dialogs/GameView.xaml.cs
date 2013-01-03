@@ -793,7 +793,7 @@ namespace Sanguosha.UI.Controls
                     {
                         soundKey = "Equip." + soundKey;
                     }
-                    Uri uri = GameSoundLocator.GetSkillSound(soundKey, log.SkillTag);
+                    Uri uri = GameSoundLocator.GetSkillSound(soundKey, log.SpecialEffectHint);
                     GameSoundPlayer.PlaySoundEffect(uri);
                 }
                 if (log.CardAction != null)

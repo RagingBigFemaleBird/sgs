@@ -108,6 +108,7 @@ namespace Sanguosha.Core.Skills
             log.SkillAction = this;
             log.Source = source;
             log.Targets = targets;
+            log.SpecialEffectHint = GenerateSpecialEffectHintIndex(source, targets, card);
             Games.Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
             if (card.Subcards != null)
             {
@@ -121,6 +122,12 @@ namespace Sanguosha.Core.Skills
                 }
             }
         }
+
+        protected virtual int GenerateSpecialEffectHintIndex(Player source, List<Player> targets, CompositeCard card)
+        {
+            return 0;
+        }
+
         public object Clone()
         {
             var skill = Activator.CreateInstance(this.GetType()) as CardTransformSkill;

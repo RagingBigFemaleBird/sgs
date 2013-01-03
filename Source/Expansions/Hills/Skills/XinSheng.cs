@@ -20,6 +20,12 @@ namespace Sanguosha.Expansions.Hills.Skills
     /// </summary>
     public class XinSheng : TriggerSkill
     {
+        protected override int GenerateSpecialEffectHintIndex(Player source, List<Player> targets)
+        {
+            if (Owner.IsFemale) return 1;
+            return 0;
+        }
+
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             var args = eventArgs as DamageEventArgs;

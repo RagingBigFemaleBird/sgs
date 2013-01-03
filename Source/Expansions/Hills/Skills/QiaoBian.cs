@@ -20,6 +20,10 @@ namespace Sanguosha.Expansions.Hills.Skills
     /// </summary>
     public class QiaoBian : TriggerSkill
     {
+        protected override int GenerateSpecialEffectHintIndex(Player source, List<Player> targets)
+        {
+            return (int)(Game.CurrentGame.CurrentPhase) - (int)(TurnPhase.Start);
+        }
         class DrawVerifier : CardsAndTargetsVerifier
         {
             public DrawVerifier()

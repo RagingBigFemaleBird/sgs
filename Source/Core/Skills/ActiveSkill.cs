@@ -83,7 +83,13 @@ namespace Sanguosha.Core.Skills
                 }
                 c.Log.SkillAction = this;
             }
+            log.SpecialEffectHint = GenerateSpecialEffectHintIndex(source, targets, cards);
             Games.Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
+        }
+
+        protected virtual int GenerateSpecialEffectHintIndex(Players.Player source, List<Players.Player> targets, List<Card> cards)
+        {
+            return 0;
         }
 
         protected void TargetsSplit(List<Players.Player> targets, out List<Players.Player> firstTargets, out List<Players.Player> secondaryTargets)
