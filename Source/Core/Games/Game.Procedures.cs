@@ -245,6 +245,7 @@ namespace Sanguosha.Core.Games
             }
 
             Trace.TraceInformation("Player {0} gain {1} hp, @ {2} hp", args.Targets[0].Id, args.Delta, args.Targets[0].Health);
+            Game.CurrentGame.NotificationProxy.NotifyRecoverHealth(args.Targets[0], args.Delta);
 
             try
             {
