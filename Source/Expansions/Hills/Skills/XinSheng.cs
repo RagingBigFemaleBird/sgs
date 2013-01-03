@@ -20,11 +20,26 @@ namespace Sanguosha.Expansions.Hills.Skills
     /// </summary>
     public class XinSheng : TriggerSkill
     {
+        void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
+        {
+            var args = eventArgs as DamageEventArgs;
+            int damage = args.Magnitude;
+            while (damage-- > 0)
+            {
+                if (AskForSkillUse())
+                {
+                    HuaShen.AcquireHeroCard(Owner);
+                }
+                else
+                    break;
+            }
+        }
+
         public XinSheng()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { HuaShen.AcquireHeroCard(p); },
+                Run,
                 TriggerCondition.OwnerIsTarget
             );
             Triggers.Add(GameEvent.AfterDamageInflicted, trigger);

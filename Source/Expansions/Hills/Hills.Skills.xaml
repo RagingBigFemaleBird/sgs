@@ -16,7 +16,7 @@
     <sys:String x:Key="Hero.SunCe.Name">孙策</sys:String>
     <sys:String x:Key="Hero.ZhangZhaoZhangHong.Name">张昭＆张纮</sys:String>
     <sys:String x:Key="Hero.ZuoCi.Name">左慈</sys:String>
-    <sys:String x:Key="Hero.CaiWenJi.Name">蔡文姬</sys:String>
+    <sys:String x:Key="Hero.CaiWenji.Name">蔡文姬</sys:String>
     <sys:String x:Key="Hero.ShenZhaoYun.Name">神赵云</sys:String>
     <sys:String x:Key="Hero.ShenSimaYi.Name">神司马懿</sys:String>
 

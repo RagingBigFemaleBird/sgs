@@ -23,4 +23,9 @@
     <sys:String x:Key="Expansion.OverKnightFame11Expansion.Name">一将11</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.LuoYing">是否发动落英获得【{0}】?</sys:String>
 
+    <sys:String x:Key="CardUsage.Prompt.MingCe">请选择一个【杀】的目标</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.MingCe">请选择明策【杀】还是摸一张牌</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.MingCeSha">对对方选择的另一名角色使用一张【杀】</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.MingCeMoPai">摸一张牌</sys:String>
+
 </ResourceDictionary>

@@ -15,12 +15,16 @@ using Sanguosha.Core.Exceptions;
 namespace Sanguosha.Core.Cards
 {
     
-    public abstract class CardHandler
+    public abstract class CardHandler : ICloneable
     {
         [NonSerialized]
         Dictionary<DeckPlace, List<Card>> deckBackup;
         [NonSerialized]
         List<Card> cardsOnHold;
+        public virtual object Clone()
+        {
+            return this.MemberwiseClone();
+        }
 
         public abstract CardCategory Category {get;}
 

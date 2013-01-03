@@ -390,9 +390,9 @@ namespace Sanguosha.Core.Games
                 {
                     unknownCard = new Card();
                     unknownCard.CopyFrom(card);
-                    if (unknownCard.Type is Heroes.HeroCardHandler)
+                    if (unknownCard.Type is CardHandler)
                     {
-                        unknownCard.Type = (Heroes.HeroCardHandler)(unknownCard.Type as Heroes.HeroCardHandler).Clone();
+                        unknownCard.Type = (CardHandler)(unknownCard.Type as CardHandler).Clone();
                     }
                 }
                 cardSet.Add(unknownCard);

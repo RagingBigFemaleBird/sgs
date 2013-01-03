@@ -540,6 +540,7 @@ namespace Sanguosha.Core.Games
                 {
                     foreach (Card c in game.Decks[null, RoleDeckType])
                     {
+                        c.Place = new DeckPlace(null, RoleDeckType);
                         if ((c.Type as RoleCardHandler).Role == Role.Ruler)
                         {
                             game.SyncImmutableCardAll(c);
