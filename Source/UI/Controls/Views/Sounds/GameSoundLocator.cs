@@ -69,6 +69,11 @@ namespace Sanguosha.UI.Controls
             return GetUriFromKey("Skills." + skillName + appendix);            
         }
 
+        public static Uri GetSystemSound(string key)
+        {
+            return GetUriFromKey(string.Format("System.{0}", key));
+        }
+
         public static Uri GetBgm()
         {
             return GetUriFromKey("BGM.default");

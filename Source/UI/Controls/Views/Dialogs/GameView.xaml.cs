@@ -661,6 +661,8 @@ namespace Sanguosha.UI.Controls
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
+                bool doEquipSound = false;
+                bool doHorseSound = false;
                 foreach (CardsMovement move in moves)
                 {
                     var cardsToAdd = new List<CardView>();
@@ -675,6 +677,14 @@ namespace Sanguosha.UI.Controls
                             cardsRemoved.Add(place, new List<Card>());
                         }
                         cardsRemoved[place].Add(card);
+                        if (!doEquipSound && (card.Type is Armor || card.Type is Weapon) && move.To.DeckType == DeckType.Equipment)
+                        {
+                            doEquipSound = true;
+                        }
+                        if (!doHorseSound && (card.Type is DefensiveHorse || card.Type is OffensiveHorse) && move.To.DeckType == DeckType.Equipment)
+                        {
+                            doHorseSound = true;
+                        }
                     }
                     foreach (var stackCards in cardsRemoved)
                     {
@@ -693,6 +703,17 @@ namespace Sanguosha.UI.Controls
                     _GetMovementDeck(move.To).AddCards(move.To.DeckType, cardsToAdd, move.Helper.IsFakedMove);
                 }
                 rtbLog.ScrollToEnd();
+                if (doEquipSound)
+                {
+                    Uri uri = GameSoundLocator.GetSystemSound("Equip");
+                    GameSoundPlayer.PlaySoundEffect(uri);
+                }
+                if (doHorseSound)
+                {
+                    Uri uri = GameSoundLocator.GetSystemSound("Horse");
+                    GameSoundPlayer.PlaySoundEffect(uri);
+                }
+
             }, System.Windows.Threading.DispatcherPriority.Send);
         }
 
@@ -710,6 +731,8 @@ namespace Sanguosha.UI.Controls
                 }
                 gameLogs.AppendDamageLog(source, target, magnitude, element);
                 rtbLog.ScrollToEnd();
+                Uri uri = GameSoundLocator.GetSystemSound("Damage");
+                GameSoundPlayer.PlaySoundEffect(uri);
             });
         }
 
@@ -765,7 +788,12 @@ namespace Sanguosha.UI.Controls
                             animPlayed = true;                            
                         }
                     }
-                    Uri uri = GameSoundLocator.GetSkillSound(log.SkillAction.GetType().Name, log.SkillTag);
+                    string soundKey = log.SkillAction.GetType().Name;
+                    if (log.SkillAction is IEquipmentSkill)
+                    {
+                        soundKey = "Equip." + soundKey;
+                    }
+                    Uri uri = GameSoundLocator.GetSkillSound(soundKey, log.SkillTag);
                     GameSoundPlayer.PlaySoundEffect(uri);
                 }
                 if (log.CardAction != null)
@@ -798,7 +826,10 @@ namespace Sanguosha.UI.Controls
                     bool? isMale = null;
                     if (log.Source != null) isMale = !log.Source.IsFemale;
                     Uri cardSoundUri = GameSoundLocator.GetCardSound(log.CardAction.Type.CardType, isMale);
-                    GameSoundPlayer.PlaySoundEffect(cardSoundUri);
+                    if (log.SkillAction == null)
+                    {
+                        GameSoundPlayer.PlaySoundEffect(cardSoundUri);
+                    }
                 }
 
                 if (log.Targets.Count > 0)
@@ -871,6 +902,19 @@ namespace Sanguosha.UI.Controls
             {
                 gameLogs.AppendLoseHealthLog(player, delta);
                 rtbLog.ScrollToEnd();
+                Uri uri = GameSoundLocator.GetSystemSound("LoseHealth");
+                GameSoundPlayer.PlaySoundEffect(uri);
+            });
+        }
+
+        public void NotifyRecoverHealth(Player player, int delta)
+        {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                gameLogs.AppendRecoverHealthLog(player, delta);
+                rtbLog.ScrollToEnd();
+                Uri uri = GameSoundLocator.GetSystemSound("RecoverHealth");
+                GameSoundPlayer.PlaySoundEffect(uri);
             });
         }
 

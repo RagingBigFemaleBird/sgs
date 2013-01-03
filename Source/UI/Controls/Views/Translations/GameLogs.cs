@@ -221,5 +221,18 @@ namespace Sanguosha.UI.Controls
                 }
             }
         }
+
+        internal void AppendRecoverHealthLog(Player player, int delta)
+        {
+            List<FlowDocument> docs = new List<FlowDocument>() { Logs[player], GlobalLog };
+            foreach (var doc in docs)
+            {
+                Paragraph para = LogFormatter.RichTranslateRecoverHealth(player, delta);
+                if (para != null)
+                {
+                    doc.Blocks.Add(para);
+                }
+            }            
+        }
     }
 }
