@@ -644,6 +644,19 @@ namespace Sanguosha.UI.Controls
             private set;
         }
 
+        private PrivateDeckViewModel _currentPrivateDeck;
+
+        public PrivateDeckViewModel CurrentPrivateDeck
+        {
+            get { return _currentPrivateDeck; }
+            set 
+            {
+                if (_currentPrivateDeck == value) return;
+                _currentPrivateDeck = value;
+                OnPropertyChanged("CurrentPrivateDeck");
+            }
+        }       
+
         public string HeroName
         {
             get
@@ -780,7 +793,7 @@ namespace Sanguosha.UI.Controls
         private SimpleRelayCommand submitCardUsageCommand;
         public void SubmitCardUsageCommand(object parameter)
         {
-            List<Card> cards = _GetSelectedHandCards();
+            List<Card> cards = _GetSelectedNonEquipCards();
             List<Player> players = _GetSelectedPlayers();
             ISkill skill = null;
             bool isEquipSkill;
@@ -975,18 +988,13 @@ namespace Sanguosha.UI.Controls
             return null;
         }
 
-        private List<Card> _GetSelectedHandCards()
+        private List<Card> _GetSelectedNonEquipCards()
         {
-            List<Card> cards = new List<Card>();
-            foreach (var card in HandCards)
-            {
-                if (card.IsSelected)
-                {
-                    Trace.Assert(card.Card != null);
-                    cards.Add(card.Card);
-                }
-            }
-            return cards;
+            IEnumerable<CardViewModel> source = (CurrentPrivateDeck == null) ? HandCards : HandCards.Concat(CurrentPrivateDeck.Cards);
+            var result = from c in source
+                         where c.IsSelected
+                         select c.Card;            
+            return new List<Card>(result);
         }
 
         private List<Player> _lastSelectedPlayers;
@@ -1059,6 +1067,7 @@ namespace Sanguosha.UI.Controls
                 playerModel.IsSelectionMode = false;
             }
             _lastSelectedPlayers.Clear();
+            CurrentPrivateDeck = null;            
             SubmitAnswerCommand = DisabledCommand;
             CancelAnswerCommand = DisabledCommand;
             AbortAnswerCommand = DisabledCommand;
@@ -1071,10 +1080,10 @@ namespace Sanguosha.UI.Controls
             CurrentPromptString = string.Empty;
             TimeOutSeconds = 0;
         }
-
+        
         private void _UpdateCardUsageStatus()
         {
-            List<Card> cards = _GetSelectedHandCards();
+            List<Card> cards = _GetSelectedNonEquipCards();
             List<Player> players = _GetSelectedPlayers();
             ISkill skill = null;
             bool isEquipCommand;
@@ -1104,25 +1113,56 @@ namespace Sanguosha.UI.Controls
                     // Handle kurou, luanwu and yeyan
                     if (skillCommand.Skill != null && skillCommand.IsSelected)
                     {
-                        var activeSkill = skillCommand.Skill as ActiveSkill;
-                        if (activeSkill != null)
+                        var helper = skillCommand.Skill.Helper;
+
+                        // Handle KuRou, LuanWu
+                        if (helper.HasNoConfirmation)
                         {
-                            if (activeSkill.UiHelper.HasNoConfirmation)
-                            {
-                                SubmitAnswerCommand.Execute(null);
-                                return;
-                            }
-                            foreach (var player in _game.PlayerModels)
-                                player.IsSelectionRepeatable = activeSkill.UiHelper.IsPlayerRepeatable;
+                            SubmitAnswerCommand.Execute(null);
+                            return;                            
                         }
-                        var ctSkill = skillCommand.Skill as CardTransformSkill;
-                        if (ctSkill != null)
+
+                        // Handle YeYan
+                        foreach (var player in _game.PlayerModels)
                         {
-                            if (ctSkill.UiHelper.HasNoConfirmation)
+                            if (player.IsSelectionRepeatable == helper.IsPlayerRepeatable)
                             {
-                                SubmitAnswerCommand.Execute(null);
-                                return;
+                                break;
                             }
+                            player.IsSelectionRepeatable = helper.IsPlayerRepeatable;
+                        }
+
+                        // Handle JiXi, PaiYi
+                        if (helper.OtherDecksUsed.Count > 0)
+                        {
+                            if (helper.OtherDecksUsed.Count != 1)
+                            {
+                                throw new NotImplementedException("Currently using more than one private decks is not supported");
+                            }
+                            var deck = helper.OtherDecksUsed[0];
+                            var deckModel = PrivateDecks.FirstOrDefault(d => d.Name == deck.Name);
+                            Trace.Assert(deckModel != null);
+                            if (deckModel != CurrentPrivateDeck)
+                            {
+                                if (CurrentPrivateDeck != null)
+                                {
+                                    foreach (var card in CurrentPrivateDeck.Cards)
+                                    {
+                                        card.IsSelectionMode = false;
+                                        card.OnSelectedChanged -= _updateCardUsageStatusHandler;
+                                    }
+                                }
+                                foreach (var card in deckModel.Cards)
+                                {
+                                    card.IsSelectionMode = true;
+                                    card.OnSelectedChanged += _updateCardUsageStatusHandler;
+                                }
+                                CurrentPrivateDeck = deckModel;
+                            }
+                        }
+                        else
+                        {                            
+                            CurrentPrivateDeck = null;
                         }
                     }
                     else
@@ -1130,6 +1170,7 @@ namespace Sanguosha.UI.Controls
                         skillCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
                     }
 
+                    // Handler GuHuo, QiCe
                     GuHuoSkillCommand cmdGuhuo = skillCommand as GuHuoSkillCommand;
                     if (cmdGuhuo != null)
                     {

@@ -57,6 +57,7 @@ namespace Sanguosha.Core.Cards
             minCards = 0;
             maxCards = int.MaxValue;
             discarding = false;
+            Helper = new UiHelper();
         }
 
         protected virtual bool VerifyCard(Player source, Card card)
@@ -144,9 +145,6 @@ namespace Sanguosha.Core.Cards
             return FastVerify(source, skill, cards, players);
         }
 
-        public virtual UiHelper Helper
-        {
-            get { return new UiHelper(); }
-        }
+        public UiHelper Helper { get; protected set; }
     }
 }

@@ -196,6 +196,14 @@ namespace Sanguosha.Core.Games
 
             Card uiCard = new Card(args.Card);
             uiCard.Id = (args.Card as ReadOnlyCard).Id;
+            if (uiCard.Log == null)
+            {
+                uiCard.Log = new ActionLog();
+            }
+            uiCard.Log.Source = player;
+            uiCard.Log.CardAction = handler;
+            uiCard.Log.SkillAction = skill;
+            uiCard.Log.GameAction = GameAction.Judge;
             Game.CurrentGame.NotificationProxy.NotifyJudge(player, uiCard, log, succeed);
 
             if (decks[player, DeckType.JudgeResult].Count != 0)
@@ -211,6 +219,7 @@ namespace Sanguosha.Core.Games
                 MoveCards(move);
                 PlayerDiscardedCard(player, backup, DiscardReason.Judge);
             }
+            Thread.Sleep(500);
             return args.Card as ReadOnlyCard;
         }
 

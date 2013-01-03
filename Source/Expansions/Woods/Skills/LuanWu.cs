@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.Woods.Skills
     {
         public LuanWu()
         {
-            UiHelper.HasNoConfirmation = true;
+            Helper.HasNoConfirmation = true;
             IsSingleUse = true;
         }
 

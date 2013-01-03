@@ -36,29 +36,19 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             {
                 return VerifierResult.Fail;
             }
-            if (cards == null)
+            if (cards != null && cards.Count > 0)
             {
-                return VerifierResult.Partial;
-            }
-            foreach (var cc in cards)
-            {
-                if (cc.Place.DeckType != DeckType.Hand)
-                {
-                    return VerifierResult.Fail;
-                }
-            }
-            if (cards.Count < Owner.HandCards().Count)
-            {
-                return VerifierResult.Partial;
+                return VerifierResult.Fail;
             }
 
-            card.Subcards.AddRange(cards);
+            card.Subcards.AddRange(Owner.HandCards());
             return VerifierResult.Success;
         }
 
         protected override bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets)
         {
             Owner[QiCeUsed] = 1;
+            Game.CurrentGame.SyncImmutableCardsAll(Owner.HandCards());
             return true;
         }
 

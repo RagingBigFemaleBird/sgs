@@ -348,7 +348,7 @@
                     </TransformGroup>
                 </Image.RenderTransform>
             </Image>
-            <local:SingleRowCardStack x:Name="privateCardArea" IsCardConsumer="True" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="-133,-80,98,8" Height="132" Width="200"  MaxCardSpacing="97" CardAlignment="Left" />
+            <local:SingleRowCardStack x:Name="privateCardArea" IsCardConsumer="True" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="-133,-140,98,8" Height="132" Width="200"  MaxCardSpacing="97" CardAlignment="Center" />
             <local:SingleRowCardStack x:Name="handCardArea" VerticalAlignment="Bottom" Margin="-133,0,98,8" Height="132" MaxCardSpacing="97" CardAlignment="Left" />
         </Grid>		
         <Grid x:Name="grid" Width="165" Grid.Row="1" Grid.Column="2" Background="Black">

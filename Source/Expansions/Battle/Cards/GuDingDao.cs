@@ -33,7 +33,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                     this,
                     (p, e, a) =>
                     {
-                        return a.Card.Type is Sha && Game.CurrentGame.Decks[a.Targets[0], DeckType.Hand].Count == 0;
+                        return a.ReadonlyCard != null && a.ReadonlyCard.Type is Sha && Game.CurrentGame.Decks[a.Targets[0], DeckType.Hand].Count == 0;
                     },
                     (p, e, a) => { (a as DamageEventArgs).Magnitude++; },
                     TriggerCondition.OwnerIsSource

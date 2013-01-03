@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Sanguosha.Core.UI;
 
 namespace Sanguosha.Core.Skills
 {
@@ -15,6 +16,10 @@ namespace Sanguosha.Core.Skills
     [Serializable]
     public class CheatSkill : ISkill
     {
+        public CheatSkill()
+        {
+            Helper = new UiHelper();
+        }
         public CheatType CheatType { get; set; }
         public int CardId { get; set; }
         public string SkillName { get; set; }
@@ -54,6 +59,15 @@ namespace Sanguosha.Core.Skills
             skill.CardId = this.CardId;
             skill.SkillName = this.SkillName;
             return skill;
+        }
+
+        [NonSerialized]
+        UiHelper helper;
+
+        public UiHelper Helper
+        {
+            get { return helper; }
+            private set { helper = value; }
         }
     }
 }

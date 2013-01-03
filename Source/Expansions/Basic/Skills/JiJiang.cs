@@ -21,7 +21,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     {
         public JiJiang()
         {
-            UiHelper.HasNoConfirmation = true;
+            Helper.HasNoConfirmation = true;
             IsRulerOnly = true;
         }
         public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)

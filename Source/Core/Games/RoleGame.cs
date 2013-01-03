@@ -279,6 +279,8 @@ namespace Sanguosha.Core.Games
                     c = eventArgs.Cards[0];
                 }
 
+                c.Type.TagAndNotify(eventArgs.Source, eventArgs.Targets, c);
+
                 // if it's delayed tool or equipment, we can't move it to compute area. call handlers directly
                 if (CardCategoryManager.IsCardCategory(c.Type.Category, CardCategory.DelayedTool)
                     || CardCategoryManager.IsCardCategory(c.Type.Category, CardCategory.Equipment))
@@ -310,7 +312,6 @@ namespace Sanguosha.Core.Games
                     }
                 }
                 bool runTrigger = !c.Type.IsReforging(eventArgs.Source, eventArgs.Skill, m.Cards, eventArgs.Targets);
-                c.Type.TagAndNotify(eventArgs.Source, eventArgs.Targets, c);
                 Game.CurrentGame.MoveCards(m);
                 if (isDoingAFavor != eventArgs.Source)
                 {
@@ -330,6 +331,15 @@ namespace Sanguosha.Core.Games
                 arg.Card = c;
                 arg.ReadonlyCard = rdonlyCard;
                 arg.InResponseTo = eventArgs.InResponseTo;
+                //we inherit card attributes if some readonly card is passed down from the caller (解烦)
+                if (eventArgs.ReadonlyCard != null)
+                {
+                    arg.ReadonlyCard.Attributes.Clear();
+                    foreach (var pair in eventArgs.ReadonlyCard.Attributes)
+                    {
+                        arg.ReadonlyCard.Attributes.Add(pair.Key, pair.Value);
+                    }
+                }
                 if (runTrigger)
                 {
                     try
@@ -530,6 +540,7 @@ namespace Sanguosha.Core.Games
                 {
                     foreach (Card c in game.Decks[null, RoleDeckType])
                     {
+                        c.Place = new DeckPlace(null, RoleDeckType);
                         if ((c.Type as RoleCardHandler).Role == Role.Ruler)
                         {
                             game.SyncImmutableCardAll(c);

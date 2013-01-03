@@ -101,14 +101,11 @@ namespace Sanguosha.Core.UI
                 {
                     while (true)
                     {
-                        if (skill is CardTransformSkill)
+                        if (skill != null)
                         {
-                            if ((skill as CardTransformSkill).UiHelper.OtherDecksUsed != null)
-                            {
-                                if ((skill as CardTransformSkill).UiHelper.OtherDecksUsed.Contains(item.Place.DeckType)) break;
-                            }
+                            if (skill.Helper.OtherDecksUsed.Contains(item.Place.DeckType)) break;
                         }
-                        Trace.TraceWarning("Client DDOS!");
+                        Trace.TraceWarning("Client hacking cards!");
                         return false;
                     }
                 }
@@ -132,7 +129,7 @@ namespace Sanguosha.Core.UI
             bool requireUnique = true;
             if (skill is ActiveSkill)
             {
-                if ((skill as ActiveSkill).UiHelper != null && (skill as ActiveSkill).UiHelper.IsPlayerRepeatable) requireUnique = false;
+                if ((skill as ActiveSkill).Helper != null && (skill as ActiveSkill).Helper.IsPlayerRepeatable) requireUnique = false;
             }
             if ((players != null && players.Distinct().Count() != players.Count && requireUnique) ||
                 verifier.FastVerify(HostPlayer, skill, cards, players) != VerifierResult.Success)

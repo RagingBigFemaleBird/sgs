@@ -15,7 +15,7 @@ namespace Sanguosha.Core.Skills
     
     public abstract class CardTransformSkill : ISkill
     {
-        public UiHelper UiHelper
+        public UiHelper Helper
         {
             get;
             protected set;
@@ -27,7 +27,7 @@ namespace Sanguosha.Core.Skills
         public CardTransformSkill()
         {
             LinkedPassiveSkill = null;
-            UiHelper = new UiHelper();
+            Helper = new UiHelper();
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace Sanguosha.Core.Skills
         {
             var skill = Activator.CreateInstance(this.GetType()) as CardTransformSkill;
             skill.Owner = this.Owner;
-            skill.UiHelper = this.UiHelper;
+            skill.Helper = this.Helper;
             return skill;
         }
     }

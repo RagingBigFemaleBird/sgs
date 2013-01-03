@@ -18,7 +18,6 @@
     <sys:String x:Key="Hero.XuSheng.Name">徐盛</sys:String>
     <sys:String x:Key="Hero.WuGuoTai.Name">吴国太</sys:String>
     <sys:String x:Key="Hero.MaSu.Name">马谡</sys:String>
-    <sys:String x:Key="Hero.ZhongHui.Name">钟会</sys:String>
     <sys:String x:Key="Hero.GaoShun.Name">高顺</sys:String>
 
     <sys:String x:Key="Skill.JueQing.Name">绝情</sys:String>
@@ -44,15 +43,7 @@
     <sys:String x:Key="Skill.XinZhan.Name">心战</sys:String>
     <sys:String x:Key="Skill.XinZhan.Description">出牌阶段，若你的手牌数大于你的体力上限，你可以：观看牌堆顶的三张牌，然后亮出其中任意数量的红桃牌并获得之，其余以任意顺序置于牌堆顶。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.XinZhan.Usage">点“心战”</sys:String>
-
-    <sys:String x:Key="Skill.QuanJi.Name">权计</sys:String>
-    <sys:String x:Key="Skill.QuanJi.Description">每当你受到1点伤害后，你可以摸一张牌，然后将一张手牌置于你的武将牌上，称为“权”；每有一张“权”，你的手牌上限+1。</sys:String>
-    <sys:String x:Key="Skill.QuanJi.Usage">系统提示（出牌阶段）→点“确定”&#10;选中一张手牌→点“确定”</sys:String>
-
-    <sys:String x:Key="Skill.PaiYi.Name">排异</sys:String>
-    <sys:String x:Key="Skill.PaiYi.Description">出牌阶段，你可以将一张“权”置入弃牌堆，令一名角色摸两张牌，然后若该角色的手牌数大于你的手牌数，你对其造成1点伤害。每阶段限一次。</sys:String>
-    <sys:String x:Key="Skill.PaiYi.Usage">点“排异”→选择1张权→选择一名目标→点“确定”</sys:String>
-
+    
     <sys:String x:Key="Skill.JinJiu.Name">禁酒</sys:String>
     <sys:String x:Key="Skill.JinJiu.Description">锁定技，你的【酒】均视为【杀】。</sys:String>
 

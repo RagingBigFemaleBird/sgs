@@ -28,19 +28,12 @@ namespace Sanguosha.Expansions.Fire.Skills
                 MinPlayers = 0;
                 MaxCards = QiXingCount;
                 MinCards = QiXingCount;
+                Helper.NoCardReveal = true;
             }
 
             protected override bool VerifyCard(Player source, Card card)
             {
                 return card.Place.DeckType == DeckType.Hand;
-            }
-
-            public override UiHelper Helper
-            {
-                get
-                {
-                    return new UiHelper() { NoCardReveal = true };
-                }
             }
         }
 

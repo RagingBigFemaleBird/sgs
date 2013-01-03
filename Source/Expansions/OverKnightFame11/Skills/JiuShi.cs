@@ -45,7 +45,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
 
         public JiuShi()
         {
-            UiHelper.HasNoConfirmation = true;
+            Helper.HasNoConfirmation = true;
             LinkedPassiveSkill = new JiuShiPassive();
         }
 
