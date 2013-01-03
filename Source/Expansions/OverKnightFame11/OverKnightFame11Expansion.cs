@@ -19,9 +19,9 @@ namespace Sanguosha.Expansions.OverKnightFame11
             CardSet = new List<Card>();
 
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("CaoZhi", true, Allegiance.Wei, 3, new LuoYing(), new JiuShi()))));
-            //CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ChenGong", true, Allegiance.Wei, 3, new MingCe(), new ZhiChi()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ChenGong", true, Allegiance.Wei, 3, new MingCe(), new ZhiChi()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("FaZheng", true, Allegiance.Shu, 3, new EnYuan(), new XuanHuo()))));
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("GaoShun", true, Allegiance.Qun, 4/*, new XianZhen()*/, new JinJiu()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("GaoShun", true, Allegiance.Qun, 4, new XianZhen(), new JinJiu()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("LingTong", true, Allegiance.Wu, 4, new XuanFeng()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("MaSu", true, Allegiance.Shu, 3, new XinZhan(), new HuiLei()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("WuGuotai", false, Allegiance.Wu, 3, new GanLu(), new BuYi()))));
