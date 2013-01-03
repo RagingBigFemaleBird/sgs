@@ -61,7 +61,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 var trigger = new AutoNotifyPassiveSkillTrigger(
                     this,
-                    (p, e, a) => { return (a.Card.Type is Sha) && (Game.CurrentGame.Decks[a.Targets[0], DeckType.Equipment].Any(s => (s.Type is DefensiveHorse) || (s.Type is OffensiveHorse))); },
+                    (p, e, a) => { return a.ReadonlyCard != null && (a.ReadonlyCard.Type is Sha) && (Game.CurrentGame.Decks[a.Targets[0], DeckType.Equipment].Any(s => (s.Type is DefensiveHorse) || (s.Type is OffensiveHorse))); },
                     Run,
                     TriggerCondition.OwnerIsSource
                 );

@@ -51,6 +51,9 @@ namespace Sanguosha.Core.Network
         class FlushObject
         {
         }
+        class TerminationObject
+        {
+        }
 
         private int maxClients;
 
@@ -324,6 +327,8 @@ namespace Sanguosha.Core.Network
 
         public void SendObject(int clientId, object o)
         {
+            //if all clients disconnect. terminate
+            if (!handlers.Any(hd => hd.disconnected == false)) throw new GameOverException();
             if (o is Card)
             {
                 var item = Translator.EncodeServerCard(o as Card, clientId);
@@ -378,10 +383,11 @@ namespace Sanguosha.Core.Network
 
         public void Stop()
         {
-            foreach (var thread in handlers)
+            for (int i = 0; i < handlers.Count(); i++)
             {
-                thread.threadClient.Abort();
-                thread.threadServer.Abort();
+                SendObject(i, new TerminationObject());
+                handlers[i].threadClient.Join();
+                handlers[i].threadServer.Abort();
             }
         }
 
@@ -404,6 +410,7 @@ namespace Sanguosha.Core.Network
                 handler.semIn.Release(1);
             }
         }
+
         private void ClientThread(ServerHandler handler)
         {
             ItemSender r = new ItemSender(handler.stream);
@@ -419,6 +426,11 @@ namespace Sanguosha.Core.Network
                     if (o is FlushObject)
                     {
                         r.Flush();
+                    }
+                    else if (o is TerminationObject)
+                    {
+                        r.Flush();
+                        return;
                     }
                     else if (!r.Send(o))
                     {
