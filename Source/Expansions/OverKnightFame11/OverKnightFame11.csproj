@@ -51,6 +51,7 @@
     <Compile Include="Skills\JueQing.cs" />
     <Compile Include="Skills\JuJian.cs" />
     <Compile Include="Skills\LuoYing.cs" />
+    <Compile Include="Skills\MingCe.cs" />
     <Compile Include="Skills\PoJun.cs" />
     <Compile Include="Skills\WuYan.cs" />
     <Compile Include="Skills\XianZhen.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Skills\XuanFeng.cs" />
     <Compile Include="Skills\XuanHuo.cs" />
     <Compile Include="Skills\YiZhong.cs" />
+    <Compile Include="Skills\ZhiChi.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.csproj">

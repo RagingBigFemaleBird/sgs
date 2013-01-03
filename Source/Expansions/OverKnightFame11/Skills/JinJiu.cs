@@ -31,7 +31,6 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.EnforcedCardTransform, trigger);
             IsEnforced = true;
-            IsRulerOnly = true;
         }
     }
 }

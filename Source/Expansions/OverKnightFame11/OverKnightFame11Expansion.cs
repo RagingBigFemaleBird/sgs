@@ -28,6 +28,7 @@ namespace Sanguosha.Expansions.OverKnightFame11
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("WuGuoTai", false, Allegiance.Wu, 3, new BuYi(), new GanLu()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("MaSu", true, Allegiance.Shu, 3, new XinZhan(), new HuiLei()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("GaoShun", true, Allegiance.Qun, 4, new JinJiu()/*, new XianZhen()*/))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ChenGong", true, Allegiance.Qun, 3, new MingCe(), new ZhiChi()))));
         }
     }
 }
