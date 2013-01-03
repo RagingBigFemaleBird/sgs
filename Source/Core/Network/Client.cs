@@ -128,11 +128,11 @@ namespace Sanguosha.Core.Network
             else if (o is CardItem)
             {
                 CardItem i = (CardItem)o;
-                return Translator.DecodeForClient(i, SelfId);
+                return Translator.DecodeCard(i, SelfId);
             }
             else if (o is SkillItem)
             {
-                return Translator.Translate((SkillItem)o);
+                return Translator.EncodeSkill((SkillItem)o);
             }
             return o;
         }
@@ -149,7 +149,7 @@ namespace Sanguosha.Core.Network
 
         public void AnswerItem(Card card)
         {            
-            sender.Send(Translator.TranslateForClient(card));
+            sender.Send(Translator.EncodeCard(card));
         }
 
         public void AnswerItem(ISkill skill)
@@ -160,7 +160,7 @@ namespace Sanguosha.Core.Network
             }
             else
             {
-                sender.Send(Translator.Translate(skill));
+                sender.Send(Translator.EncodeSkill(skill));
             }
         }
 

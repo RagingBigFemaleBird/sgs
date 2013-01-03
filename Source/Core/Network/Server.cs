@@ -254,7 +254,7 @@ namespace Sanguosha.Core.Network
             }
             if (o is CardItem)
             {
-                return Translator.DecodeForServer((CardItem)o, clientId);
+                return Translator.DecodeServerCard((CardItem)o, clientId);
             }
             Trace.TraceWarning("Expected Card but type is {0}", o.GetType());
             return null;
@@ -318,7 +318,7 @@ namespace Sanguosha.Core.Network
             }
             if (o is SkillItem)
             {
-                return Translator.Translate((SkillItem)o);
+                return Translator.EncodeSkill((SkillItem)o);
             }
             if (o is CheatSkill)
             {
@@ -332,7 +332,7 @@ namespace Sanguosha.Core.Network
         {
             if (o is Card)
             {
-                var item = Translator.TranslateForServer(o as Card, clientId);
+                var item = Translator.EncodeServerCard(o as Card, clientId);
                 o = item;
             }
             if (o is CheatSkill)
@@ -340,7 +340,7 @@ namespace Sanguosha.Core.Network
             }
             else if (o is ISkill)
             {
-                o = Translator.Translate(o as ISkill);
+                o = Translator.EncodeSkill(o as ISkill);
             }
             Trace.TraceInformation("Sending a {0} to {1}", o, clientId); 
             handlers[clientId].semAccess.WaitOne();
