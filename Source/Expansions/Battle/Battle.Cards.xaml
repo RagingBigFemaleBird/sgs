@@ -13,7 +13,7 @@
 
     <system:String x:Key="Card.Jiu.Name">酒</system:String>
     <system:String x:Key="Card.Jiu.Description"  xml:space="preserve">出牌阶段，对自己使用，令你本回合下一张使用的【杀】所造成的伤害+1。每阶段限一次。&#10;当你处于濒死状态时，对自己使用，你回复1点体力。</system:String>
-    <system:String x:Key="Card.TieSuoLianHuan.Usage" xml:space="preserve">选中【桃】→点“确定”&#10;响应出【酒】时→选中【酒】→点“确定”</system:String>
+    <system:String x:Key="Card.Jiu.Usage" xml:space="preserve">选中【酒】→点“确定”&#10;响应出【酒】时→选中【酒】→点“确定”</system:String>
 
     <system:String x:Key="Card.TieSuoLianHuan.Name">铁索连环</system:String>
     <system:String x:Key="Card.TieSuoLianHuan.Description"  xml:space="preserve">出牌阶段，对一至两名角色使用，目标角色分别横置或重置其武将牌（被横置武将牌的角色处于“连环状态”，重置武将牌即解除“连环状态”）。&#10;重铸：出牌阶段，你可以将此牌置入弃牌堆，然后摸1张牌。</system:String>

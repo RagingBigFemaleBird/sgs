@@ -94,6 +94,7 @@ namespace Sanguosha.Core.Network
             item.type = ItemType.HandCardMovement;
             item.data = move;
             sender.Send(item);
+            sender.Flush();
         }
 
         public object Receive()
@@ -186,6 +187,7 @@ namespace Sanguosha.Core.Network
             item.type = ItemType.CardRearrangement;
             item.data = arrange;
             sender.Send(item);
+            sender.Flush();
         }
 
         public void Stop()

@@ -38,7 +38,7 @@
 
     <system:String x:Key="Card.JieDaoShaRen.Name">借刀杀人</system:String>
     <system:String x:Key="Card.JieDaoShaRen.Description">出牌阶段，对装备区里有武器牌的一名其他角色A使用，你选择A攻击范围内的另一名角色B，A需对B使用一张【杀】，否则A必须将其装备区里的武器牌交给你。</system:String>
-    <system:String x:Key="Card.JieDaoShaRen.Description">选中【借刀杀人】→选择目标A→选择目标B→点“确定”</system:String>
+    <system:String x:Key="Card.JieDaoShaRen.Usage">选中【借刀杀人】→选择目标A→选择目标B→点“确定”</system:String>
 
     <system:String x:Key="Card.WuZhongShengYou.Name">无中生有</system:String>
     <system:String x:Key="Card.WuZhongShengYou.Description">出牌阶段，对自己使用，令目标角色摸两张牌。</system:String>
