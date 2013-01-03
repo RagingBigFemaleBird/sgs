@@ -19,6 +19,7 @@
     <sys:String x:Key="Hero.WuGuoTai.Name">吴国太</sys:String>
     <sys:String x:Key="Hero.MaSu.Name">马谡</sys:String>
     <sys:String x:Key="Hero.ZhongHui.Name">钟会</sys:String>
+    <sys:String x:Key="Hero.GaoShun.Name">高顺</sys:String>
 
     <sys:String x:Key="Skill.JueQing.Name">绝情</sys:String>
 
@@ -51,4 +52,11 @@
     <sys:String x:Key="Skill.PaiYi.Name">排异</sys:String>
     <sys:String x:Key="Skill.PaiYi.Description">出牌阶段，你可以将一张“权”置入弃牌堆，令一名角色摸两张牌，然后若该角色的手牌数大于你的手牌数，你对其造成1点伤害。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.PaiYi.Usage">点“排异”→选择1张权→选择一名目标→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.JinJiu.Name">禁酒</sys:String>
+    <sys:String x:Key="Skill.JinJiu.Description">锁定技，你的【酒】均视为【杀】。</sys:String>
+
+    <sys:String x:Key="Skill.XianZhen.Name">陷阵</sys:String>
+    <sys:String x:Key="Skill.XianZhen.Description">出牌阶段，你可以与一名其他角色拼点。若你赢，你获得以下技能直到回合结束：你无视与该角色的距离及其防具；你对该角色使用【杀】时无次数限制。若你没赢，你不能使用【杀】，直到回合结束。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.XianZhen.Usage">点“陷阵”→选择一名目标→点“确定”</sys:String>
 </ResourceDictionary>
