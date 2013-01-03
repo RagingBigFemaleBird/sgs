@@ -99,6 +99,8 @@ namespace Sanguosha.UI.Controls
                 {
                     tieSuoAnimation2.Start();
                 }
+                Uri uri = GameSoundLocator.GetSystemSound("IronShackled");
+                GameSoundPlayer.PlaySoundEffect(uri);
             }
             else if (e.PropertyName == "ImpersonatedHeroName")
             {
