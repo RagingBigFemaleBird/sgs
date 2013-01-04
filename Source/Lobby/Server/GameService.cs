@@ -64,12 +64,12 @@ namespace Sanguosha.Lobby.Server
             game.GameServer = server;
             var thread = new Thread(() => 
             {
-#if RELEASE
+#if !DEBUG
                 try
                 {
 #endif
                     game.Run(); callback(roomId);
-#if RELEASE
+#if !DEBUG
                 }
                 catch (Exception)
                 {
