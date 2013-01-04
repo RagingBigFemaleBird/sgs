@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace Sanguosha.UI.Animations
 {
@@ -25,7 +26,10 @@ namespace Sanguosha.UI.Animations
         public FiredImage()
         {
             _fireGenLock = new object();
-            CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMilliseconds(30);
+            timer.Tick += new EventHandler(CompositionTarget_Rendering);
+            timer.Start();
         }
 
         public BitmapSource Source
