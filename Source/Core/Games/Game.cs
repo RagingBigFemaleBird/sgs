@@ -782,6 +782,7 @@ namespace Sanguosha.Core.Games
                     {
                         decks[move.To].Add(card);
                     }
+                    card.HistoryPlace2 = card.HistoryPlace1;
                     card.HistoryPlace1 = card.Place;
                     card.Place = move.To;
                     //reset card type if entering hand or discard

@@ -23,7 +23,8 @@ namespace Sanguosha.Expansions.Basic.Skills
         public void ReplaceJudgementCard(Player player, Player judgePlayer, Card card)
         {
             Game.CurrentGame.EnterAtomicContext();
-            List<Card> toDiscard = new List<Card>(Game.CurrentGame.Decks[judgePlayer, DeckType.JudgeResult]);
+            var judgeDeck = Game.CurrentGame.Decks[judgePlayer, DeckType.JudgeResult];
+            List<Card> toDiscard = new List<Card>() {judgeDeck.Last()};
             CardsMovement move = new CardsMovement();
             move.Cards = new List<Card>() {card};
             move.To = new DeckPlace(judgePlayer, DeckType.JudgeResult);
@@ -42,7 +43,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             ISkill skill;
             List<Card> cards;
             List<Player> players;
-            Card c = Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult][0];
+            Card c = Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult].Last();
             if (Game.CurrentGame.UiProxies[player].AskForCardUsage(new CardUsagePrompt("GuiCai", eventArgs.Source, c.Suit, c.Rank), new GuiCaiVerifier(), out skill, out cards, out players))
             {
                 NotifySkillUse(new List<Player>());

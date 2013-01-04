@@ -94,6 +94,7 @@
     <Compile Include="Skills\RulerGivenSkill.cs" />
     <Compile Include="Skills\RulerGivenSkillContainerSkill.cs" />
     <Compile Include="Skills\TriggerSkill.cs" />
+    <Compile Include="Triggers\GetJudgeCardTrigger.cs" />
     <Compile Include="Triggers\RelayTrigger.cs" />
     <Compile Include="UI\CardRearrangement.cs" />
     <Compile Include="UI\CardChoiceCallback.cs" />

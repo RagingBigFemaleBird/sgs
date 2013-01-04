@@ -20,43 +20,14 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     public class LuoShen : TriggerSkill
     {
-        public class GetJudgeCardTrigger : Trigger
-        {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                if (eventArgs.Source != Owner)
-                {
-                    return;
-                }
-                //someone already took it...
-                if (Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult].Count == 0)
-                {
-                    return;
-                }
-                if (eventArgs.Card.SuitColor == SuitColorType.Black)
-                {
-                    Game.CurrentGame.HandleCardTransferToHand(Owner, Owner, new List<Card>(Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult]));
-                }
-                else
-                {
-                    Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerJudgeDone, this);
-                }
-                return;
-            }
-            public GetJudgeCardTrigger(Player p)
-            {
-                Owner = p;
-            }
-        }
-
         void OnPhaseBegin(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             if (AskForSkillUse())
             {
-                Game.CurrentGame.RegisterTrigger(GameEvent.PlayerJudgeDone, new GetJudgeCardTrigger(Owner) { Priority = int.MinValue });
                 ReadOnlyCard c;
                 do
                 {
+                    Game.CurrentGame.RegisterTrigger(GameEvent.PlayerJudgeDone, new GetJudgeCardTrigger(Owner, this, null) { Priority = int.MinValue });
                     c = Game.CurrentGame.Judge(Owner, this, null, (judgeResultCard) => { return judgeResultCard.SuitColor == SuitColorType.Black; });
                 } while (c.SuitColor == SuitColorType.Black && AskForSkillUse());
             }

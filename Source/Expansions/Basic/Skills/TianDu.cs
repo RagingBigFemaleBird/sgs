@@ -20,21 +20,24 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     public class TianDu : TriggerSkill
     {
-        void GetMyCard(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
+        public delegate bool askSkillDelegate();
+        public class AlwaysGetJudgeCardTrigger : GetJudgeCardTrigger
         {
-            Game.CurrentGame.HandleCardTransferToHand(Owner, Owner, new List<Card>(Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult]));
+            protected override bool IsCorrectJudgeAction(ISkill skill, ICard card)
+            {
+                if (askDel())
+                {
+                    return true;
+                }
+                return false;
+            }
+            askSkillDelegate askDel;
+            public AlwaysGetJudgeCardTrigger(Player owner, askSkillDelegate del) : base(owner, null, null, true) { askDel = del; }
         }
-
 
         public TianDu()
         {
-            var trigger = new AutoNotifyPassiveSkillTrigger(
-                this,
-                (p, e, a) => { return Game.CurrentGame.Decks[a.Source, DeckType.JudgeResult].Count > 0; },
-                GetMyCard,
-                TriggerCondition.OwnerIsSource
-            );
-            Triggers.Add(GameEvent.PlayerJudgeDone, trigger);
+            Triggers.Add(GameEvent.PlayerJudgeDone, new AlwaysGetJudgeCardTrigger(Owner, AskForSkillUse) { Priority = int.MinValue });
             IsAutoInvoked = true;
         }
     }
