@@ -368,7 +368,7 @@ namespace Sanguosha.UI.Controls
                 {
                     paragraph.Inlines.Add(string.Format("{0}将", sourceStr));
                     paragraph.Inlines.AddRange(cardsInline);
-                    paragraph.Inlines.Add("置入了齐牌堆");
+                    paragraph.Inlines.Add("置入了弃牌堆");
                 }
             }
                        
@@ -462,7 +462,7 @@ namespace Sanguosha.UI.Controls
             {
                 sourceStr += "造成的";
             }
-            string damageStr = string.Format("受到{0}{1}点{2}伤害，体力值为{3}", sourceStr, magnitude, Translate(element), target.Health);
+            string damageStr = string.Format("受到{0}{1}点{2}伤害，体力为{3}", sourceStr, magnitude, Translate(element), target.Health);
             
             para.Inlines.Add(new Run(damageStr) { Foreground = RedBrush });
             return para;
@@ -536,7 +536,7 @@ namespace Sanguosha.UI.Controls
         {
             Paragraph para = new Paragraph();
             para.Inlines.Add(Translate(player));
-            para.Inlines.Add(cards.Count == 1 ? "展示了一张手牌" : "展示了一张手牌");
+            para.Inlines.Add(cards.Count == 1 ? "展示了一张手牌" : "展示了手牌");
             para.Inlines.AddRange(RichTranslate(cards));
             return para;
         }
@@ -578,7 +578,7 @@ namespace Sanguosha.UI.Controls
         {
             Paragraph para = new Paragraph();
             para.Inlines.Add(new Run(Translate(player)));
-            string recoverStr = string.Format("恢复了{0}点体力，体力值为{1}", delta, player.Health);
+            string recoverStr = string.Format("恢复了{0}点体力，体力为{1}", delta, player.Health);
             para.Inlines.Add(new Run(recoverStr) { Foreground = GreenBrush });
             return para;
         }
