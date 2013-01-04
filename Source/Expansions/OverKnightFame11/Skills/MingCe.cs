@@ -140,7 +140,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                     args.Cards = cards;
                     Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
                 }
-                catch (TriggerResultException e)
+                catch (TriggerResultException)
                 {
                     // This must NOT happen if you are not asking user to provide the card
                     Trace.Assert(false);
