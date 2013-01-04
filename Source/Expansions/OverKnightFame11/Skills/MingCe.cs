@@ -93,37 +93,32 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
         {
             Owner[MingCeUsed] = 1;
             Game.CurrentGame.HandleCardTransferToHand(Owner, arg.Targets[0], arg.Cards);
-            List<Player> check;
-            check = new List<Player>();
+            List<Player> players = new List<Player>();
             foreach (Player p in Game.CurrentGame.AlivePlayers)
             {
                 if (arg.Targets[0] != p && Game.CurrentGame.DistanceTo(arg.Targets[0], p) <= arg.Targets[0][Player.AttackRange] + 1)
                 {
-                    check.Add(p);
+                    players.Add(p);
                     break;
                 }
             }
-            if (check.Count == 0)
+            if (players.Count == 0)
             {
                 Game.CurrentGame.DrawCards(arg.Targets[0], 1);
                 return true;
             }
-            int answer = 0;
             ISkill skill;
             List<Card> cards;
-            List<Player> players;
-            arg.Targets[0].AskForMultipleChoice(new MultipleChoicePrompt("MingCe"), new List<OptionPrompt>() { new OptionPrompt("MingCeSha", Owner), new OptionPrompt("MingCeMoPai") }, out answer);
+            Owner.AskForCardUsage(new CardUsagePrompt("MingCe"), new MingCeShaTargetVerifier(arg.Targets[0]), out skill, out cards, out players);
+            int answer = 0;
+            arg.Targets[0].AskForMultipleChoice(new MultipleChoicePrompt("MingCe"), new List<OptionPrompt>() { new OptionPrompt("MingCeSha", players[0]), new OptionPrompt("MingCeMoPai") }, out answer);
             if (answer == 0)
             {
-                if (!Owner.AskForCardUsage(new CardUsagePrompt("MingCe"), new MingCeShaTargetVerifier(arg.Targets[0]), out skill, out cards, out players))
-                {
-                    players = check;
-                }
                 try
                 {
                     GameEventArgs args = new GameEventArgs();
                     args.Source = arg.Targets[0];
-                    args.Targets = new List<Player>() { players[0] };
+                    args.Targets = players;
                     args.Skill = new MingCeShaComposerSkill();
                     args.Cards = cards;
                     Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);

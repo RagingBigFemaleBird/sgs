@@ -25,7 +25,7 @@
 
     <sys:String x:Key="CardUsage.Prompt.MingCe">请选择一个【杀】的目标</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.MingCe">请选择明策【杀】还是摸一张牌</sys:String>
-    <sys:String x:Key="MultiChoice.Choice.MingCeSha">对{0}选择的另一名角色使用一张【杀】</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.MingCeSha">对{0}使用一张【杀】</sys:String>
     <sys:String x:Key="MultiChoice.Choice.MingCeMoPai">摸一张牌</sys:String>
     <sys:String x:Key="Status.ZhiChi.Name">智迟</sys:String>
     <LinearGradientBrush x:Key="Status.ZhiChi.Brush" EndPoint="0.5,1" StartPoint="0.5,0">
