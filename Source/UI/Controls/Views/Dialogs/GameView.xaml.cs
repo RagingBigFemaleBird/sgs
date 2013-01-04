@@ -827,9 +827,15 @@ namespace Sanguosha.UI.Controls
                     if (log.Source != null) isMale = !log.Source.IsFemale;
                     Uri cardSoundUri = GameSoundLocator.GetCardSound(log.CardAction.Type.CardType, isMale);
                     var card = log.CardAction as Card;
-                    if (card != null && (card.Log == null || card.Log.SkillAction == null))
+                    if (card != null)
                     {
-                        GameSoundPlayer.PlaySoundEffect(cardSoundUri);
+                        bool play = true;
+                        if (card.Log != null && card.Log.SkillAction != null)
+                        {
+                            Uri uri = GameSoundLocator.GetSkillSound(card.Log.SkillAction.GetType().Name);
+                            if (uri != null) play = false;
+                        }
+                        if (play) GameSoundPlayer.PlaySoundEffect(cardSoundUri);
                     }
                 }
 

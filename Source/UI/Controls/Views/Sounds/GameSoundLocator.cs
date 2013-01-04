@@ -11,6 +11,7 @@ namespace Sanguosha.UI.Controls
         private static Dictionary<string, int> _soundsCount = new Dictionary<string, int>();
         private static Dictionary<string, string> _soundsPath = new Dictionary<string, string>();
         private static Dictionary<string, int> _soundsRotation = new Dictionary<string, int>();
+        private static Random _soundPicker = new Random(DateTime.Now.Millisecond);
 
         private static void _ParseDirectory(string key, string path)
         {
@@ -31,7 +32,13 @@ namespace Sanguosha.UI.Controls
                     }
                     else
                     {
-                        _soundsCount[totalKey]++;
+                        int last = _soundsCount[totalKey]++;
+
+                        // Pick the first sound effect on a random basis.
+                        if (_soundPicker.Next(last + 1) == 0)
+                        {
+                            _soundsRotation[totalKey] = last;
+                        }
                     }
                 }
             }
