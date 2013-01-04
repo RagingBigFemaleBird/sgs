@@ -21,7 +21,7 @@ namespace Sanguosha.Core.Cards
             attributes = null;
         }
 
-        public List<Card> Subcards {get; set;}
+        public List<Card> Subcards { get; set; }
 
         public virtual Player Owner { get; set; }
 
@@ -51,13 +51,17 @@ namespace Sanguosha.Core.Cards
             }
         }
 
+
         /// <summary>
-        /// Rank of a composite card is always 0.
+        /// 如果只改变牌或由牌变成的标记的名称（一张牌当另一张牌使用，如龙胆，火计），则花色和点数默认为不改变
+        /// 将多张牌当一张牌使用或打出时，视为无花色无点数
         /// </summary>
         public virtual int Rank
         {
             get
             {
+                if (Subcards.Count == 1)
+                    return Subcards[0].Rank;
                 return 0;
             }
             set
@@ -66,13 +70,12 @@ namespace Sanguosha.Core.Cards
             }
         }
 
-        /// <summary>
-        /// Suit of a composite card is always None.
-        /// </summary>
         public virtual SuitType Suit
         {
             get
             {
+                if (Subcards.Count == 1)
+                    return Subcards[0].Suit;
                 return SuitType.None;
             }
             set
@@ -107,7 +110,7 @@ namespace Sanguosha.Core.Cards
             }
         }
 
-        public virtual CardHandler Type {get; set;}
+        public virtual CardHandler Type { get; set; }
 
         protected Dictionary<CardAttribute, int> attributes;
 

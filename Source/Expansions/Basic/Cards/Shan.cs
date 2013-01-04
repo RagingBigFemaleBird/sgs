@@ -86,7 +86,11 @@ namespace Sanguosha.Expansions.Basic.Cards
                         arg.Cards = args.Cards;
                         arg.InResponseTo = eventArgs;
                         Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, arg);
+#if SB_FAQ
+                        numberOfShanRequired --;
+#else
                         numberOfShanRequired = eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + dest.Id)];
+#endif
                         continue;
                     }
                 }
@@ -123,9 +127,19 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     break;
                 }
+#if SB_FAQ
+                numberOfShanRequired --;
+#else
                 numberOfShanRequired = eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + dest.Id)];
+#endif
             }
-            if (cannotUseShan || numberOfShanRequired > 0) return;
+            if (cannotUseShan ||
+#if SB_FAQ
+                eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + dest.Id)] > 0
+#else
+                numberOfShanRequired > 0
+#endif
+                ) return;
             Trace.TraceInformation("Successfully dodged");
             args = new GameEventArgs();
             args.Source = source;
