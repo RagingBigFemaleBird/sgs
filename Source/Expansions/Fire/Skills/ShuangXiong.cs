@@ -20,33 +20,11 @@ namespace Sanguosha.Expansions.Fire.Skills
     /// </summary>
     public class ShuangXiong : TriggerSkill
     {
-        public class GetJudgeCardTrigger : Trigger
-        {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                if (eventArgs.Source != Owner)
-                {
-                    return;
-                }
-                Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerJudgeDone, this);
-                //someone already took it...
-                if (Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult].Count == 0)
-                {
-                    return;
-                }
-                Game.CurrentGame.HandleCardTransferToHand(Owner, Owner, new List<Card>(Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult]));
-                return;
-            }
-            public GetJudgeCardTrigger(Player p)
-            {
-                Owner = p;
-            }
-        }
 
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerJudgeDone, new GetJudgeCardTrigger(Owner) { Priority = int.MinValue });
-            var result = Game.CurrentGame.Judge(Owner, this);
+            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerJudgeDone, new GetJudgeCardTrigger(Owner, this, null) { Priority = int.MinValue });
+            var result = Game.CurrentGame.Judge(Owner, this, null);
             ISkill skill = new ShuangXiongCardTransformSkill(result.SuitColor);
             Game.CurrentGame.PlayerAcquireSkill(Owner, skill, true);
             Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, new TriggerRemoval(Owner, skill));

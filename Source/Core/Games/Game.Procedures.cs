@@ -155,18 +155,7 @@ namespace Sanguosha.Core.Games
             log.Source = player;
             CardsMovement move = new CardsMovement();
             Card c;
-            if (decks[player, DeckType.JudgeResult].Count != 0)
-            {
-                c = decks[player, DeckType.JudgeResult][0];
-                move = new CardsMovement();
-                move.Cards = new List<Card>();
-                List<Card> backup = new List<Card>(move.Cards);
-                move.Cards.Add(c);
-                move.To = new DeckPlace(null, DeckType.Discard);
-                PlayerAboutToDiscardCard(player, move.Cards, DiscardReason.Judge);
-                MoveCards(move);
-                PlayerDiscardedCard(player, backup, DiscardReason.Judge);
-            }
+            int initCount = decks[player, DeckType.JudgeResult].Count;
             SyncImmutableCardAll(PeekCard(0));
             c = Game.CurrentGame.DrawCard();
             move = new CardsMovement();
@@ -181,21 +170,23 @@ namespace Sanguosha.Core.Games
                 NotifyIntermediateJudgeResults(player, log, del);
             }
             Game.CurrentGame.Emit(GameEvent.PlayerJudgeBegin, args);
-            c = Game.CurrentGame.Decks[player, DeckType.JudgeResult][0];
-            args.Card = new ReadOnlyCard(c);
+            c = Game.CurrentGame.Decks[player, DeckType.JudgeResult].Last();
+            args.ReadonlyCard = new ReadOnlyCard(c);
             args.Cards = new List<Card>() { c };
+            args.Skill = skill;
+            args.Card = handler;
             Game.CurrentGame.Emit(GameEvent.PlayerJudgeDone, args);
             Trace.Assert(args.Source == player);
-            Trace.Assert(args.Card is ReadOnlyCard);
+            Trace.Assert(args.ReadonlyCard is ReadOnlyCard);
 
             bool? succeed = null;
             if (del != null)
             {
-                succeed = del(args.Card);
+                succeed = del(args.ReadonlyCard);
             }
 
-            Card uiCard = new Card(args.Card);
-            uiCard.Id = (args.Card as ReadOnlyCard).Id;
+            Card uiCard = new Card(args.ReadonlyCard);
+            uiCard.Id = (args.ReadonlyCard as ReadOnlyCard).Id;
             if (uiCard.Log == null)
             {
                 uiCard.Log = new ActionLog();
@@ -206,9 +197,9 @@ namespace Sanguosha.Core.Games
             uiCard.Log.GameAction = GameAction.Judge;
             Game.CurrentGame.NotificationProxy.NotifyJudge(player, uiCard, log, succeed);
 
-            if (decks[player, DeckType.JudgeResult].Count != 0)
+            if (decks[player, DeckType.JudgeResult].Count > initCount)
             {
-                c = decks[player, DeckType.JudgeResult][0];
+                c = decks[player, DeckType.JudgeResult].Last();
                 move = new CardsMovement();
                 move.Cards = new List<Card>();
                 List<Card> backup = new List<Card>(move.Cards);
@@ -220,7 +211,7 @@ namespace Sanguosha.Core.Games
                 PlayerDiscardedCard(player, backup, DiscardReason.Judge);
             }
             Thread.Sleep(500);
-            return args.Card as ReadOnlyCard;
+            return args.ReadonlyCard as ReadOnlyCard;
         }
 
         public void RecoverHealth(Player source, Player target, int magnitude)
@@ -404,6 +395,14 @@ namespace Sanguosha.Core.Games
 
         public void PlayerLostCard(Player p, List<Card> cards)
         {
+            if (atomic)
+            {
+                if (!cards.Any(cc => cc.Place.DeckType == DeckType.Hand || cc.Place.DeckType == DeckType.Equipment)) return;
+            }
+            else
+            {
+                if (!cards.Any(cc => cc.HistoryPlace1.DeckType == DeckType.Hand || cc.HistoryPlace1.DeckType == DeckType.Equipment)) return;
+            }
             try
             {
                 GameEventArgs arg = new GameEventArgs();

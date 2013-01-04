@@ -278,7 +278,10 @@ namespace Sanguosha.Lobby.Server
 
         private void _OnGameEnds(int roomId)
         {
-            rooms[roomId].State = RoomState.Waiting;
+            if (rooms.ContainsKey(roomId))
+            {
+                rooms[roomId].State = RoomState.Waiting;
+            }
         }
 
         public RoomOperationResult StartGame(LoginToken token)

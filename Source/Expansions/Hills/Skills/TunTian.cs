@@ -21,39 +21,21 @@ namespace Sanguosha.Expansions.Hills.Skills
     public class TunTian : TriggerSkill
     {
         public static PrivateDeckType TianDeck = new PrivateDeckType("Tian", true);
-
-        public class GetJudgeCardTrigger : Trigger
+        public class TunTianGetJudgeCardTrigger : GetJudgeCardTrigger
         {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            protected override void GetThoseCards(List<Card> list)
             {
-                if (eventArgs.Source != Owner)
-                {
-                    return;
-                }
-                Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerJudgeDone, this);
-                //someone already took it...
-                if (Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult].Count == 0)
-                {
-                    return;
-                }
-                if (eventArgs.Card.Suit != SuitType.Heart)
-                {
-                    CardsMovement move = new CardsMovement();
-                    move.Cards = new List<Card>(Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult]);
-                    move.To = new DeckPlace(Owner, TianDeck);
-                    Game.CurrentGame.MoveCards(move);
-                }
-                return;
+                CardsMovement move = new CardsMovement();
+                move.Cards = new List<Card>(list);
+                move.To = new DeckPlace(Owner, TianDeck);
+                Game.CurrentGame.MoveCards(move);
             }
-            public GetJudgeCardTrigger(Player p)
-            {
-                Owner = p;
-            }
+            public TunTianGetJudgeCardTrigger(Player p, ISkill s, ICard c) : base(p, s, c) { }
         }
 
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerJudgeDone, new GetJudgeCardTrigger(Owner) { Priority = int.MinValue });
+            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerJudgeDone, new TunTianGetJudgeCardTrigger(Owner, this, null) { Priority = int.MinValue });
             Game.CurrentGame.Judge(Owner, this, null, (judgeResultCard) => { return judgeResultCard.Suit != SuitType.Heart; });
         }
 

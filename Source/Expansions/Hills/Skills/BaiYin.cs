@@ -61,7 +61,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 ISkill skill;
                 List<Card> cards;
                 List<Player> players;
-                Card c = Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult][0];
+                Card c = Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult].Last();
                 if (Game.CurrentGame.UiProxies[player].AskForCardUsage(new CardUsagePrompt("GuiCai", eventArgs.Source, c.Suit, c.Rank), new GuiCaiVerifier(), out skill, out cards, out players))
                 {
                     NotifySkillUse();

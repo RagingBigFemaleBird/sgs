@@ -28,11 +28,11 @@ namespace Sanguosha.Expansions.Wind.Skills
             ISkill skill;
             List<Card> cards;
             List<Player> players;
-            Card c = Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult][0];
+            Card c = Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult].Last();
             if (Game.CurrentGame.UiProxies[player].AskForCardUsage(new CardUsagePrompt("GuiDao", eventArgs.Source, c.Suit, c.Rank), new GuiDaoVerifier(), out skill, out cards, out players))
             {
                 Game.CurrentGame.EnterAtomicContext();
-                List<Card> toDiscard = new List<Card>(Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult]);
+                List<Card> toDiscard = new List<Card>() {Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult].Last()};
                 CardsMovement move = new CardsMovement();
                 move.Cards = new List<Card>();
                 move.Cards.AddRange(cards);
