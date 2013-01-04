@@ -93,23 +93,27 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
         {
             Owner[MingCeUsed] = 1;
             Game.CurrentGame.HandleCardTransferToHand(Owner, arg.Targets[0], arg.Cards);
-            List<Player> players = new List<Player>();
+            List<Player> check = new List<Player>();
             foreach (Player p in Game.CurrentGame.AlivePlayers)
             {
                 if (arg.Targets[0] != p && Game.CurrentGame.DistanceTo(arg.Targets[0], p) <= arg.Targets[0][Player.AttackRange] + 1)
                 {
-                    players.Add(p);
+                    check.Add(p);
                     break;
                 }
             }
-            if (players.Count == 0)
+            if (check.Count == 0)
             {
                 Game.CurrentGame.DrawCards(arg.Targets[0], 1);
                 return true;
             }
             ISkill skill;
             List<Card> cards;
-            Owner.AskForCardUsage(new CardUsagePrompt("MingCe"), new MingCeShaTargetVerifier(arg.Targets[0]), out skill, out cards, out players);
+            List<Player> players;
+            if (!Owner.AskForCardUsage(new CardUsagePrompt("MingCe"), new MingCeShaTargetVerifier(arg.Targets[0]), out skill, out cards, out players))
+            {
+                players = new List<Player>(check);
+            }
             int answer = 0;
             arg.Targets[0].AskForMultipleChoice(new MultipleChoicePrompt("MingCe"), new List<OptionPrompt>() { new OptionPrompt("MingCeSha", players[0]), new OptionPrompt("MingCeMoPai") }, out answer);
             if (answer == 0)
@@ -118,7 +122,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 {
                     GameEventArgs args = new GameEventArgs();
                     args.Source = arg.Targets[0];
-                    args.Targets = players;
+                    args.Targets = new List<Player>() { players[0]};
                     args.Skill = new MingCeShaComposerSkill();
                     args.Cards = cards;
                     Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
