@@ -31,11 +31,11 @@ namespace Sanguosha.Expansions.Hills.Skills
                 {
                     p[BaiYinAwaken] = 1;
                     Game.CurrentGame.LoseMaxHealth(p, 1);
-                    Game.CurrentGame.PlayerAcquireSkill(p, new BaiYinFangZhu());
-                    Game.CurrentGame.PlayerAcquireSkill(p, new BaiYinGuiCai());
-                    Game.CurrentGame.PlayerAcquireSkill(p, new BaiYinJiZhi());
-                    Game.CurrentGame.PlayerAcquireSkill(p, new BaiYinWanSha());
-                    Game.CurrentGame.PlayerAcquireSkill(p, new BaiYinZhiHeng());
+                    Game.CurrentGame.PlayerAcquireSkill(p, new JiLveFangZhu());
+                    Game.CurrentGame.PlayerAcquireSkill(p, new JiLveGuiCai());
+                    Game.CurrentGame.PlayerAcquireSkill(p, new JiLveJiZhi());
+                    Game.CurrentGame.PlayerAcquireSkill(p, new JiLveWanSha());
+                    Game.CurrentGame.PlayerAcquireSkill(p, new JiLveZhiHeng());
                 },
                 TriggerCondition.OwnerIsSource
             );
@@ -45,7 +45,7 @@ namespace Sanguosha.Expansions.Hills.Skills
 
         public static PlayerAttribute BaiYinAwaken = PlayerAttribute.Register("BaiYinAwaken", false);
 
-        class BaiYinGuiCai : GuiCai
+        class JiLveGuiCai : GuiCai
         {
 
             protected override void OnJudgeBegin(Player player, GameEvent gameEvent, GameEventArgs eventArgs)
@@ -69,14 +69,14 @@ namespace Sanguosha.Expansions.Hills.Skills
                 }
             }
 
-            public BaiYinGuiCai()
+            public JiLveGuiCai()
             {
                 Triggers.Clear();
                 Triggers.Add(GameEvent.PlayerJudgeBegin, new RelayTrigger(OnJudgeBegin, TriggerCondition.Global));
             }
         }
 
-        class BaiYinFangZhu : FangZhu
+        class JiLveFangZhu : FangZhu
         {
             protected void Wrapper(Player player, GameEvent gameEvent, GameEventArgs eventArgs, List<Card> cards, List<Player> players)
             {
@@ -84,7 +84,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 OnAfterDamageInflicted(player, gameEvent, eventArgs, cards, players);
             }
 
-            public BaiYinFangZhu()
+            public JiLveFangZhu()
             {
                 Triggers.Clear();
                 var trigger = new AutoNotifyUsagePassiveSkillTrigger(
@@ -99,9 +99,9 @@ namespace Sanguosha.Expansions.Hills.Skills
             }
         }
 
-        class BaiYinJiZhi : TriggerSkill
+        class JiLveJiZhi : TriggerSkill
         {
-            public BaiYinJiZhi()
+            public JiLveJiZhi()
             {
                 Triggers.Add(GameEvent.PlayerUsedCard, new AutoNotifyPassiveSkillTrigger(this,
                     (p, e, a) => { return p[RenJie.RenMark] > 0 && CardCategoryManager.IsCardCategory(a.Card.Type.Category, CardCategory.ImmediateTool); },
@@ -111,9 +111,9 @@ namespace Sanguosha.Expansions.Hills.Skills
             }
         }
 
-        class BaiYinWanSha : AutoVerifiedActiveSkill
+        class JiLveWanSha : AutoVerifiedActiveSkill
         {
-            public BaiYinWanSha()
+            public JiLveWanSha()
             {
                 MinCards = 0;
                 MaxCards = 0;
@@ -170,7 +170,7 @@ namespace Sanguosha.Expansions.Hills.Skills
 
         }
 
-        class BaiYinZhiHeng : ZhiHeng
+        class JiLveZhiHeng : ZhiHeng
         {
             public override VerifierResult Validate(GameEventArgs arg)
             {
