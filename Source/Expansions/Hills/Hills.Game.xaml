@@ -22,7 +22,7 @@
     -->
     <sys:String x:Key="Expansion.HillsExpansion.Name">山</sys:String>
 
-    <sys:String x:Key="CardChoice.Prompt.GuZheng">固政 请选择一张牌返回{1}给的</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.GuZheng">固政 请选择一张牌返回给{1}</sys:String>
     <sys:String x:Key="CardChoice.Prompt.GuZheng.Others">请等待{0}为{1}固政</sys:String>
     <sys:String x:Key="MultiChoice.Choice.GuZhengHuoDe">获得其余卡牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.GuZhengBuHuoDe">弃置其余卡牌</sys:String>
