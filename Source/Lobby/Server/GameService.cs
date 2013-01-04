@@ -62,7 +62,20 @@ namespace Sanguosha.Lobby.Server
                 game.LoadExpansion(g);
             }
             game.GameServer = server;
-            var thread = new Thread(() => { game.Run(); callback(roomId); }) { IsBackground = true };
+            var thread = new Thread(() => 
+            {
+#if RELEASE
+                try
+                {
+#endif
+                    game.Run(); callback(roomId);
+#if RELEASE
+                }
+                catch (Exception)
+                {
+                }
+#endif
+            }) { IsBackground = true };
             thread.Start();
         }
 
