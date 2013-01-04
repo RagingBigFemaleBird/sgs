@@ -136,6 +136,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             {
                 return source[RenJie.RenMark] > 0 && source[BaiYinWanShaUsed] == 0;
             }
+            static PlayerAttribute WanShaStatus = PlayerAttribute.Register("JiLveWanSha", false, false, true);
 
             class WanShaRemoval : Trigger
             {
@@ -150,6 +151,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 {
                     if (eventArgs.Source == Owner)
                     {
+                        Owner[WanShaStatus] = 0;
                         Owner.LoseAdditionalSkill(skill);
                         Game.CurrentGame.UnregisterTrigger(GameEvent.PhasePostEnd, this);
                     }
@@ -160,6 +162,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             {
                 arg.Source[RenJie.RenMark]--;
                 arg.Source[BaiYinWanShaUsed] = 1;
+                arg.Source[WanShaStatus] = 1;
                 ISkill skill = new WanSha();
                 Game.CurrentGame.PlayerAcquireSkill(arg.Source, skill);
                 Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, new WanShaRemoval(arg.Source, skill));

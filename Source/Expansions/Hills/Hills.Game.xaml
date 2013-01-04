@@ -35,4 +35,9 @@
         <GradientStop Color="#FFA0A0A0" Offset="0"/>
         <GradientStop Color="#FFDEDEDE" Offset="1"/>
     </LinearGradientBrush>
+    <sys:String x:Key="Status.JiLveWanSha.Name">完杀</sys:String>
+    <LinearGradientBrush x:Key="Status.DuanChang.Brush" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FFA0A0A0" Offset="0"/>
+        <GradientStop Color="#FFDEDEDE" Offset="1"/>
+    </LinearGradientBrush>
 </ResourceDictionary>
