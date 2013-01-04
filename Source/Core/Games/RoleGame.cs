@@ -831,6 +831,11 @@ namespace Sanguosha.Core.Games
                 foreach (var player in Game.CurrentGame.Players)
                 {
                     Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.Decks[player, role][0]);
+                    var r = (Game.CurrentGame.Decks[player, role][0].Type as RoleCardHandler).Role;
+                    if (player.Role != r)
+                    {
+                        player.Role = r;
+                    }
                 }
             }
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
