@@ -31,13 +31,15 @@ namespace Sanguosha.Core.Triggers
             }
             var list = new List<Card>(eventArgs.Cards);
             eventArgs.Cards.Clear();
-            GetThoseCards(list);
+            GetJudgeCards(list);
             return;
         }
-        protected virtual void GetThoseCards(List<Card> list)
+
+        protected virtual void GetJudgeCards(List<Card> list)
         {
             Game.CurrentGame.HandleCardTransferToHand(Owner, Owner, list);
         }
+
         protected virtual bool IsCorrectJudgeAction(ISkill skill, ICard card)
         {
             return skill == jSkill && card == jCard;

@@ -23,7 +23,7 @@ namespace Sanguosha.Expansions.Hills.Skills
         public static PrivateDeckType TianDeck = new PrivateDeckType("Tian", true);
         public class TunTianGetJudgeCardTrigger : GetJudgeCardTrigger
         {
-            protected override void GetThoseCards(List<Card> list)
+            protected override void GetJudgeCards(List<Card> list)
             {
                 CardsMovement move = new CardsMovement();
                 move.Cards = new List<Card>(list);

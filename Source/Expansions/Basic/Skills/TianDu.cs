@@ -20,8 +20,8 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     public class TianDu : TriggerSkill
     {
-        public delegate bool askSkillDelegate();
-        public class AlwaysGetJudgeCardTrigger : GetJudgeCardTrigger
+        delegate bool _AskTianDuDelegate();
+        class AlwaysGetJudgeCardTrigger : GetJudgeCardTrigger
         {
             protected override bool IsCorrectJudgeAction(ISkill skill, ICard card)
             {
@@ -31,8 +31,8 @@ namespace Sanguosha.Expansions.Basic.Skills
                 }
                 return false;
             }
-            askSkillDelegate askDel;
-            public AlwaysGetJudgeCardTrigger(Player owner, askSkillDelegate del) : base(owner, null, null, true) { askDel = del; }
+            _AskTianDuDelegate askDel;
+            public AlwaysGetJudgeCardTrigger(Player owner, _AskTianDuDelegate del) : base(owner, null, null, true) { askDel = del; }
         }
 
         public TianDu()
