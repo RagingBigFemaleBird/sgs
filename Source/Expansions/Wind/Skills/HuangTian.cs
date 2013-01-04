@@ -55,13 +55,9 @@ namespace Sanguosha.Expansions.Wind.Skills
             return true;
         }
 
-
-        public override void CardRevealPolicy(Player p, List<Card> cards, List<Player> players)
+        public HuangTianGivenSkill()
         {
-            foreach (Card c in cards)
-            {
-                c.RevealOnce = true;
-            }
+            Helper.NoCardReveal = true;
         }
 
         public Player Master { get; set; }

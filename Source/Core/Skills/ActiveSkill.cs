@@ -60,10 +60,6 @@ namespace Sanguosha.Core.Skills
             }
         }
 
-        public virtual void CardRevealPolicy(Players.Player p, List<Card> cards, List<Players.Player> players)
-        {
-        }
-
         public void NotifyAction(Players.Player source, List<Players.Player> targets, List<Card> cards)
         {
             ActionLog log = new ActionLog();

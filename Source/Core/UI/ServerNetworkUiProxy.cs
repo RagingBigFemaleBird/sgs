@@ -161,13 +161,9 @@ namespace Sanguosha.Core.UI
                 if (cards != null)
                 {
                     server.SendObject(i, cards.Count);
-                    if (skill is ActiveSkill)
-                    {
-                        (skill as ActiveSkill).CardRevealPolicy(Game.CurrentGame.Players[i], cards, players);
-                    }
                     foreach (Card c in cards)
                     {
-                        if (!(skill is ActiveSkill) && !(skill != null && skill.GetType().Name.Contains("GuHuo")) && !(verifier.Helper.NoCardReveal))
+                        if (!(skill != null && skill.Helper.NoCardReveal) && !(verifier.Helper.NoCardReveal))
                         {
                             if (c.Place.DeckType != DeckType.Equipment && c.Place.DeckType != DeckType.DelayedTools)
                             {

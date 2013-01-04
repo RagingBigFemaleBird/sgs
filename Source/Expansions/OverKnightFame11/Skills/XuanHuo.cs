@@ -75,12 +75,5 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             return source != player;
         }
 
-        public override void CardRevealPolicy(Player p, List<Card> cards, List<Player> players)
-        {
-            foreach (Card c in cards)
-            {
-                c.RevealOnce = true;
-            }
-        }
     }
 }

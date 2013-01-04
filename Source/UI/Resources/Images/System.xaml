@@ -193,7 +193,7 @@
     <BitmapImage x:Key="GameResult.Lose.Image">GameResult/lose.png</BitmapImage>
     <BitmapImage x:Key="GameResult.Draw.Image">GameResult/draw.png</BitmapImage>
 
-    <CroppedBitmap x:Key="GuHuo.Sha.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,0,94,25" />
+    <CroppedBitmap x:Key="GuHuo.RegularSha.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,0,94,25" />
     <CroppedBitmap x:Key="GuHuo.Shan.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,26,94,25" />
     <CroppedBitmap x:Key="GuHuo.Tao.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,52,94,25" />
     <CroppedBitmap x:Key="GuHuo.HuoSha.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,78,94,25" />
@@ -212,7 +212,7 @@
     <CroppedBitmap x:Key="GuHuo.HuoGong.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,416,94,25" />
     <CroppedBitmap x:Key="GuHuo.TieSuoLianHuan.Normal" Source="Cards/GuHuo/cards.png" SourceRect="0,442,94,25" />
 
-    <CroppedBitmap x:Key="GuHuo.Sha.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,0,94,25" />
+    <CroppedBitmap x:Key="GuHuo.RegularSha.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,0,94,25" />
     <CroppedBitmap x:Key="GuHuo.Shan.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,26,94,25" />
     <CroppedBitmap x:Key="GuHuo.Tao.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,52,94,25" />
     <CroppedBitmap x:Key="GuHuo.HuoSha.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,78,94,25" />
@@ -231,7 +231,7 @@
     <CroppedBitmap x:Key="GuHuo.HuoGong.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,416,94,25" />
     <CroppedBitmap x:Key="GuHuo.TieSuoLianHuan.Hover" Source="Cards/GuHuo/cards.png" SourceRect="95,442,94,25" />
 
-    <CroppedBitmap x:Key="GuHuo.Sha.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,0,94,25" />
+    <CroppedBitmap x:Key="GuHuo.RegularSha.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,0,94,25" />
     <CroppedBitmap x:Key="GuHuo.Shan.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,26,94,25" />
     <CroppedBitmap x:Key="GuHuo.Tao.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,52,94,25" />
     <CroppedBitmap x:Key="GuHuo.HuoSha.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,78,94,25" />
@@ -250,7 +250,7 @@
     <CroppedBitmap x:Key="GuHuo.HuoGong.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,416,94,25" />
     <CroppedBitmap x:Key="GuHuo.TieSuoLianHuan.Down" Source="Cards/GuHuo/cards.png" SourceRect="190,442,94,25" />
 
-    <CroppedBitmap x:Key="GuHuo.Sha.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,0,94,25" />
+    <CroppedBitmap x:Key="GuHuo.RegularSha.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,0,94,25" />
     <CroppedBitmap x:Key="GuHuo.Shan.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,26,94,25" />
     <CroppedBitmap x:Key="GuHuo.Tao.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,52,94,25" />
     <CroppedBitmap x:Key="GuHuo.HuoSha.Disabled" Source="Cards/GuHuo/cards.png" SourceRect="285,78,94,25" />

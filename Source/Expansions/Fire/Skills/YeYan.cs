@@ -115,12 +115,5 @@ namespace Sanguosha.Expansions.Fire.Skills
             return true;
         }
 
-        public override void CardRevealPolicy(Player p, List<Card> cards, List<Player> players)
-        {
-            foreach (Card c in cards)
-            {
-                c.RevealOnce = true;
-            }
-        }
     }
 }

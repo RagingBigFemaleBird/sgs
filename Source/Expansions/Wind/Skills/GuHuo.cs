@@ -136,6 +136,11 @@ namespace Sanguosha.Expansions.Wind.Skills
             return ret;
         }
 
+        public GuHuo()
+        {
+            Helper.NoCardReveal = true;
+        }
+
         public CardHandler AdditionalType { get; set; }
     }
 }

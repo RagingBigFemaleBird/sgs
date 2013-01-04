@@ -63,16 +63,9 @@ namespace Sanguosha.Expansions.Basic.Skills
         }
 
         public static PlayerAttribute RenDeNumberOfCardsGiven = PlayerAttribute.Register("RenDeNumberOfCardsGiven", true);
-
-        public override void CardRevealPolicy(Core.Players.Player p, List<Card> cards, List<Core.Players.Player> players)
+        public RenDe()
         {
-            if (players.Contains(p))
-            {
-                foreach (Card c in cards)
-                {
-                    c.RevealOnce = true;
-                }
-            }
+            Helper.NoCardReveal = true;
         }
     }
 }
