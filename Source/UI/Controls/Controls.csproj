@@ -96,6 +96,9 @@
     <Compile Include="Views\Dialogs\PrivateDeckBox.xaml.cs">
       <DependentUpon>PrivateDeckBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Dialogs\WuGuBox.xaml.cs">
+      <DependentUpon>WuGuBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Pages\LobbyView.xaml.cs">
       <DependentUpon>LobbyView.xaml</DependentUpon>
     </Compile>
@@ -240,6 +243,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Dialogs\PrivateDeckBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\WuGuBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
