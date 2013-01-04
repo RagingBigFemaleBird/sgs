@@ -27,6 +27,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             card.Type = AdditionalType;
             if (Owner[QiCeUsed] == 1) return VerifierResult.Fail;
             if (Game.CurrentGame.CurrentPhase != TurnPhase.Play) return VerifierResult.Fail;
+            if (Game.CurrentGame.CurrentPlayer != Owner) return VerifierResult.Fail;
             if (Owner.HandCards().Count == 0) return VerifierResult.Fail;
             if (AdditionalType == null)
             {

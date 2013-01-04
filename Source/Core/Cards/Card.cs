@@ -45,7 +45,8 @@ namespace Sanguosha.Core.Cards
         {
             Suit = c.Suit;
             Rank = c.Rank;
-            Type = c.Type;
+            Type = (CardHandler)c.Type.Clone();
+            Trace.Assert(Type != null);
             RevealOnce = false;
             Place = c.Place;
             Id = c.Id;

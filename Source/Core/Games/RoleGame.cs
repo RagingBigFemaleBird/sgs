@@ -825,6 +825,14 @@ namespace Sanguosha.Core.Games
 
         private class PlayerIsDead : Trigger
         {
+            DeckType role = new DeckType("Role");
+            private void RevealAllPlayersRoles()
+            {
+                foreach (var player in Game.CurrentGame.Players)
+                {
+                    Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.Decks[player, role][0]);
+                }
+            }
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 Player p = eventArgs.Targets[0];
@@ -837,7 +845,6 @@ namespace Sanguosha.Core.Games
                 {
                     Trace.TraceInformation("Player {0} killed by Player {1}", p.Id, source.Id);
                 }
-                DeckType role = new DeckType("Role");
                 Trace.Assert(Game.CurrentGame.Decks[p, role].Count == 1);
                 Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.Decks[p, role][0]);
                 Trace.TraceInformation("Player {0} is {1}", p.Id, (Game.CurrentGame.Decks[p, role][0].Type as RoleCardHandler).Role);
@@ -849,11 +856,13 @@ namespace Sanguosha.Core.Games
                     Trace.TraceInformation("Ruler dead. Game over");
                     if (Game.CurrentGame.AlivePlayers.Count == 2)
                     {
+                        RevealAllPlayersRoles();
                         var winners = from pl in Game.CurrentGame.Players where pl.Role == Role.Defector select pl;
                         Game.CurrentGame.NotificationProxy.NotifyGameOver(false, winners.ToList());
                     }
                     else
                     {
+                        RevealAllPlayersRoles();
                         var winners = from pl in Game.CurrentGame.Players where pl.Role == Role.Rebel select pl;
                         Game.CurrentGame.NotificationProxy.NotifyGameOver(false, winners.ToList());
                     }
@@ -879,6 +888,7 @@ namespace Sanguosha.Core.Games
                     if (deadRebel == (Game.CurrentGame as RoleGame).NumberOfRebels && deadDefector == (Game.CurrentGame as RoleGame).NumberOfDefectors)
                     {
                         Trace.TraceInformation("Ruler wins.");
+                        RevealAllPlayersRoles();
                         var winners = from pl in Game.CurrentGame.Players where pl.Role == Role.Ruler || pl.Role == Role.Loyalist select pl;
                         Game.CurrentGame.NotificationProxy.NotifyGameOver(false, winners.ToList());
                         throw new GameOverException();
