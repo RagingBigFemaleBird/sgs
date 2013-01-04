@@ -21,6 +21,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
     {
         protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
+            Owner[FuLiUsed] = 1;
             Owner.Health = Game.CurrentGame.NumberOfAliveAllegiances;
             Owner.IsImprisoned = !Owner.IsImprisoned;
         }

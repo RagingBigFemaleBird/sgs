@@ -21,6 +21,7 @@ namespace Sanguosha.Expansions.Fire.Skills
     {
         protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
+            Owner[NiePanUsed] = 1;
             Game.CurrentGame.SyncImmutableCardsAll(Game.CurrentGame.Decks[Owner, DeckType.Hand]);
             List<Card> toDiscard = new List<Card>();
             toDiscard.AddRange(Game.CurrentGame.Decks[Owner, DeckType.Hand]);
