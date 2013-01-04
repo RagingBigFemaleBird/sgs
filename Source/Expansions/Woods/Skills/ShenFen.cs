@@ -57,7 +57,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                 }
                 else
                 {
-                    Game.CurrentGame.ForcePlayerDiscard(p, (pl, d) => { return 4; }, false);
+                    Game.CurrentGame.ForcePlayerDiscard(p, (pl, d) => { return 4 - d; }, false);
                 }
             }
             Owner.IsImprisoned = !Owner.IsImprisoned;
