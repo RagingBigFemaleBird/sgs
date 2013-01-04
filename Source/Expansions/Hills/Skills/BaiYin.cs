@@ -64,6 +64,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 Card c = Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult][0];
                 if (Game.CurrentGame.UiProxies[player].AskForCardUsage(new CardUsagePrompt("GuiCai", eventArgs.Source, c.Suit, c.Rank), new GuiCaiVerifier(), out skill, out cards, out players))
                 {
+                    NotifySkillUse();
                     player[RenJie.RenMark]--;
                     ReplaceJudgementCard(player, eventArgs.Source, cards[0]);
                 }
