@@ -48,7 +48,7 @@ namespace Sanguosha.UI.Controls
             _moveAnimation = new Storyboard();
             _moveAnimation.Children.Add(_daMoveX);
             _moveAnimation.Children.Add(_daMoveY);
-            _moveAnimation.AccelerationRatio = 0.3d;            
+            _moveAnimation.AccelerationRatio = 0.2d;            
         }
 
         public CardView(CardViewModel card) : this()
@@ -134,7 +134,7 @@ namespace Sanguosha.UI.Controls
         /// <summary>
         /// Pixels moved per second when doing card movement animation
         /// </summary>
-        private static double _movementSpeed = 800.0d;
+        private static double _movementSpeed = 1000.0d;
 
         /// <summary>
         /// Set position without showing card movement animation.
@@ -175,7 +175,7 @@ namespace Sanguosha.UI.Controls
             _daMoveX.To = destX;
             _daMoveY.To = destY;
 
-            double transitionInSeconds = Math.Max(0.2d, Math.Sqrt((destX - x) * (destX - x) + (destY - y) * (destY - y)) / _movementSpeed);
+            double transitionInSeconds = Math.Max(0.15d, Math.Sqrt((destX - x) * (destX - x) + (destY - y) * (destY - y)) / _movementSpeed);
             _daMoveX.Duration = TimeSpan.FromSeconds(transitionInSeconds);
             _daMoveY.Duration = TimeSpan.FromSeconds(transitionInSeconds);
 
