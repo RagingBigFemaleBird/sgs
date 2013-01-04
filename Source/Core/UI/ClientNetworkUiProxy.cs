@@ -95,8 +95,8 @@ namespace Sanguosha.Core.UI
         public bool TryAnswerForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             skill = null;
-            cards = null;
-            players = null;
+            cards = new List<Card>();
+            players = new List<Player>();
             object o = client.Receive();
             if (o == null)
             {
@@ -106,7 +106,6 @@ namespace Sanguosha.Core.UI
             {
                 return false;
             }
-            cards = new List<Card>();
             o = client.Receive();
             int count = (int)o;
             if (count == 1)
@@ -120,7 +119,6 @@ namespace Sanguosha.Core.UI
                 o = client.Receive();
                 cards.Add((Card)o);
             }
-            players = new List<Player>();
             o = client.Receive();
             count = (int)o;
             while (count-- > 0)
