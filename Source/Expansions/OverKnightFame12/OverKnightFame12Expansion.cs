@@ -24,6 +24,7 @@ namespace OverKnightFame12
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HanDang", true, Allegiance.Wu, 4, new GongQi(), new JieFan()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("BuLianShi", false, Allegiance.Wu, 3, new AnXu(), new ZhuiYi()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("CaoZhang", true, Allegiance.Wei, 4, new JiangChi()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("GuanXingZhangBao", true, Allegiance.Shu, 4, new FuHun()))));
         }
     }
 }
