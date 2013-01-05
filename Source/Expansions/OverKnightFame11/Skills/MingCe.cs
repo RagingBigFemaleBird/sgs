@@ -56,6 +56,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             MaxCards = 1;
             MinPlayers = 1;
             MaxPlayers = 2;
+            Helper.NoCardReveal = true;
         }
 
         class MingCeShaComposerSkill : CardTransformSkill
