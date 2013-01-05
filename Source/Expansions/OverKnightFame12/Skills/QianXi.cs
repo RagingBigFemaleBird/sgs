@@ -38,7 +38,6 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             );
             Triggers.Add(GameEvent.DamageCaused, trigger);
             IsAutoInvoked = false;
-            IsRulerOnly = true;
         }
     }
 }
