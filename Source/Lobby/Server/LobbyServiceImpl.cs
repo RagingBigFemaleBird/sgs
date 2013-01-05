@@ -67,7 +67,7 @@ namespace Sanguosha.Lobby.Server
             OperationContext.Current.Channel.Closed += new EventHandler(Channel_Faulted);
             token = new LoginToken();
             token.token = System.Guid.NewGuid();
-            Account account = new Account() { Username = username, Id = newAccountId++ };
+            Account account = new Account() { UserName = username, Id = newAccountId++ };
             retAccount = account;
             loggedInGuidToAccount.Add(token.token, account);
             loggedInGuidToChannel.Add(token.token, connection);
@@ -79,7 +79,7 @@ namespace Sanguosha.Lobby.Server
         private void _Logout(LoginToken token)
         {
             if (!loggedInGuidToAccount.ContainsKey(token.token)) return;
-            Console.WriteLine("{0} logged out", loggedInGuidToAccount[token.token].Username);
+            Console.WriteLine("{0} logged out", loggedInGuidToAccount[token.token].UserName);
             if (loggedInGuidToRoom.ContainsKey(token.token))
             {
                 _ExitRoom(token, loggedInGuidToRoom[token.token].Id);

@@ -156,6 +156,12 @@ namespace Sanguosha.UI.Main
                 hostName = hostName + ":" + DefaultLobbyPort;
             }
             string userName = tab0UserName.Text;
+#if !DEBUG
+            if (string.IsNullOrEmpty(userName))
+            {
+                _Warn("Please provide a username");
+            }
+#endif
 
             BackgroundWorker worker = new BackgroundWorker();
 
