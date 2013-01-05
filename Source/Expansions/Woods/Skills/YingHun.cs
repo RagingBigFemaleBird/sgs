@@ -10,6 +10,7 @@ using Sanguosha.Core.Skills;
 using Sanguosha.Expansions.Battle.Cards;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Games;
+using System.Diagnostics;
 
 namespace Sanguosha.Expansions.Woods.Skills
 {
@@ -18,6 +19,14 @@ namespace Sanguosha.Expansions.Woods.Skills
     /// </summary>
     public class YingHun : TriggerSkill
     {
+        protected override int GenerateSpecialEffectHintIndex(Player source, List<Player> targets)
+        {
+            Trace.Assert(Owner != null && Owner.Hero != null);
+            if (Owner == null || Owner.Hero == null) return 0;
+            else if (Owner.Hero.Name == "SunCe" || (Owner.Hero2 != null && Owner.Hero2.Name == "SunCe")) return 1;            
+            return 0;
+        }
+
         public class YingHunVerifier : CardsAndTargetsVerifier
         {
             protected override bool VerifyPlayer(Player source, Player player)
