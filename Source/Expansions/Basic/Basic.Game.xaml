@@ -21,7 +21,7 @@
     
     <sys:String x:Key="MultiChoice.Prompt.GangLie">{0}对你造成一点伤害，是否发动刚烈？</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.QiLinGong">请选择发动麒麟弓拆除的坐骑</sys:String>
-    <sys:String x:Key="CardUsage.Prompt.GangLie">{0}发动了刚烈，请弃两张牌或点“取消”受到一点伤害</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.GangLie">{0}发动了刚烈，请弃两张手牌或点“取消”受到一点伤害</sys:String>
     <sys:String x:Key="CardUsage.Prompt.TuXi">请选择1-2名角色发动“突袭”，或点“取消”</sys:String>
     <sys:String x:Key="CardChoice.Prompt.FanKui">您对{0}发动了“反馈”，请选择一张卡牌</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.FanKui">是否对{0}发动“反馈”？</sys:String>

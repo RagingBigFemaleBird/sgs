@@ -39,7 +39,7 @@ namespace Sanguosha.Expansions.Wind.Skills
 
             protected override bool VerifyCard(Player source, Card card)
             {
-                return card.Suit == SuitType.Heart;
+                return card.Suit == SuitType.Heart && card.Place.DeckType == DeckType.Hand;
             }
        }
 
