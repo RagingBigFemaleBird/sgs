@@ -48,9 +48,9 @@
     <system:String x:Key="Card.WuXieKeJi.Description">一张锦囊牌生效前，对该锦囊牌使用，抵消目标锦囊牌对一名角色产生的效果，或抵消另一张【无懈可击】产生的效果。</system:String>
     <system:String x:Key="Card.WuXieKeJi.Usage">系统提示→选中【无懈可击】→点“确定”</system:String>
 
-    <system:String x:Key="Card.WanJianQiFa.Name">万剑齐发</system:String>
+    <system:String x:Key="Card.WanJianQiFa.Name">万箭齐发</system:String>
     <system:String x:Key="Card.WanJianQiFa.Description">出牌阶段，对所有其他角色使用，每名目标角色需打出一张【闪】，否则受到1点伤害。</system:String>
-    <system:String x:Key="Card.WanJianQiFa.Usage">选中【万剑齐发】→点“确定”</system:String>
+    <system:String x:Key="Card.WanJianQiFa.Usage">选中【万箭齐发】→点“确定”</system:String>
 
     <system:String x:Key="Card.NanManRuQin.Name">南蛮入侵</system:String>
     <system:String x:Key="Card.NanManRuQin.Description">出牌阶段，对所有其他角色使用，每名目标角色需打出一张【杀】，否则受到1点伤害。</system:String>
