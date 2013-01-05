@@ -59,6 +59,11 @@ namespace Sanguosha.Core.Skills
                 card.Owner = Owner;
                 foreach (Card c in card.Subcards)
                 {
+                    if (c.Place.Player != null && c.Place.DeckType == DeckType.Equipment && CardCategoryManager.IsCardCategory(c.Type.Category, CardCategory.Equipment))
+                    {
+                        Equipment e = c.Type as Equipment;
+                        e.UnregisterTriggers(c.Place.Player);
+                    }
                     c.Type = card.Type;
                 }
             }

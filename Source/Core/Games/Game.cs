@@ -413,7 +413,7 @@ namespace Sanguosha.Core.Games
             {
                 
             }
-#if RELEASE
+#if !DEBUG
             catch (Exception e)
             {
                 Trace.TraceError(e.StackTrace);

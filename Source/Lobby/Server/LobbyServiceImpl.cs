@@ -220,25 +220,37 @@ namespace Sanguosha.Lobby.Server
 
         private void NotifyRoomLayoutChanged(int roomId)
         {
-            foreach (var notify in rooms[roomId].Seats)
+            try
             {
-                if (notify.Account != null)
+                foreach (var notify in rooms[roomId].Seats)
                 {
-                    var channel = loggedInGuidToChannel[loggedInAccountToGuid[notify.Account]];
-                    channel.NotifyRoomUpdate(rooms[roomId].Id, rooms[roomId]);
+                    if (notify.Account != null)
+                    {
+                        var channel = loggedInGuidToChannel[loggedInAccountToGuid[notify.Account]];
+                        channel.NotifyRoomUpdate(rooms[roomId].Id, rooms[roomId]);
+                    }
                 }
+            }
+            catch (Exception)
+            {
             }
         }
 
         private void _NotifyGameStart(int roomId, IPAddress ip, int port)
         {
-            foreach (var notify in rooms[roomId].Seats)
+            try
             {
-                if (notify.Account != null)
+                foreach (var notify in rooms[roomId].Seats)
                 {
-                    var channel = loggedInGuidToChannel[loggedInAccountToGuid[notify.Account]];
-                    channel.NotifyGameStart(ip.ToString() + ":" + port);
+                    if (notify.Account != null)
+                    {
+                        var channel = loggedInGuidToChannel[loggedInAccountToGuid[notify.Account]];
+                        channel.NotifyGameStart(ip.ToString() + ":" + port);
+                    }
                 }
+            }
+            catch (Exception)
+            {
             }
         }
 

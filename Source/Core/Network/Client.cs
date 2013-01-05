@@ -100,7 +100,13 @@ namespace Sanguosha.Core.Network
         public object Receive()
         {
             object o = receiver.Receive();
-            
+#if !DEBUG
+            if (o == null)
+            {
+                //disconnected. For now, end game
+                throw new GameOverException();
+            }
+#endif
             if (o is CommandItem)
             {
                 CommandItem item = (CommandItem)o;
