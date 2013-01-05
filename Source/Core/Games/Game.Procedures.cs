@@ -274,7 +274,7 @@ namespace Sanguosha.Core.Games
             int result = source.MaxHealth - magnitude;
             if (source.Health > result) source.Health = result;
             source.MaxHealth = result;
-            if (source.MaxHealth <= 0) Game.CurrentGame.Emit(GameEvent.PlayerIsDead, new GameEventArgs() { Source = null, Targets = new List<Player>() { source } });
+            if (source.MaxHealth <= 0) Game.CurrentGame.Emit(GameEvent.GameProcessPlayerIsDead, new GameEventArgs() { Source = null, Targets = new List<Player>() { source } });
         }
 
         /// <summary>
