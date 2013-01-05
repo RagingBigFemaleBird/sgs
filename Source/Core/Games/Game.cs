@@ -1107,10 +1107,13 @@ namespace Sanguosha.Core.Games
             distRight += args.AdjustmentAmount;
 
             var ret = distRight > distLeft ? distLeft : distRight;
-            if (ret < 0) ret = 0;
+            if (ret < 1)
+            {
+                ret = from == to ? 0 : 1;
+            }
 
-            // the minimum distance is 0 between any two. if distance is -1, it means IGNORED distance (高顺),
-            // fortunately no one relies on this being -1 for now, so -1 is semantically equivalent to 0
+            // the minimum distance is 1 between any two. if distance is 0, it means this is the distance to heself or herself.
+            // some skills took ignore distance, it means the distance between them is aways 1.
             args = new AdjustmentEventArgs();
             args.Source = from;
             args.Targets = new List<Player>() { to };

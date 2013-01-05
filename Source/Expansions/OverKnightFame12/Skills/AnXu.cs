@@ -14,7 +14,8 @@ using Sanguosha.Core.Players;
 namespace Sanguosha.Expansions.OverKnightFame12.Skills
 {
     /// <summary>
-    /// 【安恤】——出牌阶段，你可以指定其他两名手牌数不同的角色，其中手牌少的角色抽取手牌较多的角色一张手牌并展示之，如果该牌非黑桃，则你摸一张牌。每阶段限一次。/// </summary>
+    /// 安恤-出牌阶段，你可以指定其他两名手牌数不同的角色，其中手牌少的角色抽取手牌较多的角色一张手牌并展示之，如果该牌非黑桃，则你摸一张牌。每阶段限一次。
+    /// </summary>
     public class AnXu : ActiveSkill
     {
         public override VerifierResult Validate(GameEventArgs arg)

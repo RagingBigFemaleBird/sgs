@@ -129,7 +129,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 var arg = eventArgs as AdjustmentEventArgs;
-                if (arg.Source == Owner && arg.Targets[0] == target) arg.AdjustmentAmount = -1;
+                if (arg.Source == Owner && arg.Targets[0] == target) arg.AdjustmentAmount = 1;
             }
             Player target;
             public XianZhenPassiveWin3(Player p, Player target)
