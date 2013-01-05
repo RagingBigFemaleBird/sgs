@@ -14,6 +14,7 @@
     <sys:String x:Key="Hero.ZhongHui.Name">钟会</sys:String>
     <sys:String x:Key="Hero.HanDang.Name">韩当</sys:String>
     <sys:String x:Key="Hero.BuLianShi.Name">步练师</sys:String>
+    <sys:String x:Key="Hero.CaoZhang.Name">曹彰</sys:String>
 
     <sys:String x:Key="Skill.QiCe.Name">奇策</sys:String>
     <sys:String x:Key="Skill.ZhiYu.Name">智愚</sys:String>
@@ -33,5 +34,9 @@
     <sys:String x:Key="Skill.JieFan.Name">解烦</sys:String>
     <sys:String x:Key="Skill.AnXu.Name">安恤</sys:String>
     <sys:String x:Key="Skill.ZhuiYi.Name">追忆</sys:String>
+
+    <sys:String x:Key="Skill.JiangChi.Name">将驰</sys:String>
+    <sys:String x:Key="Skill.JiangChi.Description">摸牌阶段，你可以选择一项：&#10;1、额外摸一张牌，若如此做，你不能使用或打出【杀】，直到回合结束。&#10;2、少摸一张牌，若如此做，出牌阶段你使用【杀】时无距离限制且你可以额外使用一张【杀】，直到回合结束。</sys:String>
+    <sys:String x:Key="Skill.JiangChi.Usage">系统提示（摸牌阶段）→选择其中一项</sys:String>
 
 </ResourceDictionary>

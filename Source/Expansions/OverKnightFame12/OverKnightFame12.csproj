@@ -46,6 +46,7 @@
     <Compile Include="Skills\DangXian.cs" />
     <Compile Include="Skills\FuLi.cs" />
     <Compile Include="Skills\GongQi.cs" />
+    <Compile Include="Skills\JiangChi.cs" />
     <Compile Include="Skills\JieFan.cs" />
     <Compile Include="Skills\QiCe.cs" />
     <Compile Include="Skills\QuanJi.cs" />

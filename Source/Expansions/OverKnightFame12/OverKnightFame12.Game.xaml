@@ -27,4 +27,8 @@
     <sys:String x:Key="MultiChoice.Prompt.ZiLi">请选择自立回复体力或摸牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.ZiLiRecover">回复1点体力</sys:String>
     <sys:String x:Key="MultiChoice.Choice.ZiLiDraw">摸2张牌</sys:String>
+
+    <sys:String x:Key="MultiChoice.Prompt.JiangChi">请选择将驰增加或减少摸牌数，或点“取消”不发动技能</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.JiangChi1">多摸1张牌</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.JiangChi2">少摸1张牌</sys:String>
 </ResourceDictionary>
