@@ -160,6 +160,7 @@ namespace Sanguosha.UI.Main
             if (string.IsNullOrEmpty(userName))
             {
                 _Warn("Please provide a username");
+                return;
             }
 #endif
 
