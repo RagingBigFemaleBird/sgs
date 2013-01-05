@@ -661,7 +661,8 @@ namespace Sanguosha.UI.Controls
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                bool doEquipSound = false;
+                bool doWeaponSound = false;
+                bool doArmorSound = false;
                 bool doHorseSound = false;
                 foreach (CardsMovement move in moves)
                 {
@@ -677,13 +678,11 @@ namespace Sanguosha.UI.Controls
                             cardsRemoved.Add(place, new List<Card>());
                         }
                         cardsRemoved[place].Add(card);
-                        if (!doEquipSound && (card.Type is Armor || card.Type is Weapon) && move.To.DeckType == DeckType.Equipment)
+                        if (move.To.DeckType == DeckType.Equipment)
                         {
-                            doEquipSound = true;
-                        }
-                        if (!doHorseSound && (card.Type is DefensiveHorse || card.Type is OffensiveHorse) && move.To.DeckType == DeckType.Equipment)
-                        {
-                            doHorseSound = true;
+                            if (card.Type is Weapon) doWeaponSound = true;
+                            else if (card.Type is Armor) doArmorSound = true;
+                            else if (card.Type is DefensiveHorse || card.Type is OffensiveHorse) doHorseSound = true;
                         }
                     }
                     foreach (var stackCards in cardsRemoved)
@@ -703,9 +702,14 @@ namespace Sanguosha.UI.Controls
                     _GetMovementDeck(move.To).AddCards(move.To.DeckType, cardsToAdd, move.Helper.IsFakedMove);
                 }
                 rtbLog.ScrollToEnd();
-                if (doEquipSound)
+                if (doWeaponSound)
                 {
-                    Uri uri = GameSoundLocator.GetSystemSound("Equip");
+                    Uri uri = GameSoundLocator.GetSystemSound("Weapon");
+                    GameSoundPlayer.PlaySoundEffect(uri);
+                }
+                if (doArmorSound)
+                {
+                    Uri uri = GameSoundLocator.GetSystemSound("Armor");
                     GameSoundPlayer.PlaySoundEffect(uri);
                 }
                 if (doHorseSound)
@@ -929,12 +933,18 @@ namespace Sanguosha.UI.Controls
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
+                if (p == null)
+                {
+                    var cardView = CardView.CreateCard(card);
+                    cardView.CardModel.Footnote = LogFormatter.TranslateCardFootnote(new ActionLog() { Source = p, GameAction = GameAction.Show });
+                    discardDeck.AppendCards(new List<CardView>() { cardView });
+                    return;
+                }
+
                 Trace.Assert(card.Place.Player == p);
                 var cards = playersMap[p].RemoveCards(card.Place.DeckType, new List<Card>() { card }, true);
-                foreach (var c in cards)
-                {
-                    c.CardModel.Footnote = LogFormatter.TranslateCardFootnote(new ActionLog() { Source = p, GameAction = GameAction.Show });
-                }
+                Trace.Assert(cards.Count == 1);
+                cards[0].CardModel.Footnote = LogFormatter.TranslateCardFootnote(new ActionLog() { Source = p, GameAction = GameAction.Show });
                 discardDeck.AddCards(DeckType.Discard, cards, false, false);
                 gameLogs.AppendShowCardsLog(p, new List<Card>() { card });
                 rtbLog.ScrollToEnd();
