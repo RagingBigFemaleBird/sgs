@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ViewModels\CardSlotViewModel.cs" />
+    <Compile Include="ViewModels\VisibilityLinkedRelayCommand.cs" />
     <Compile Include="ViewModels\GameResultViewModel.cs" />
     <Compile Include="ViewModels\GuHuoSkillCommand.cs" />
     <Compile Include="ViewModels\LobbyViewModel.cs" />

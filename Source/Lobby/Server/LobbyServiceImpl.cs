@@ -308,6 +308,7 @@ namespace Sanguosha.Lobby.Server
                 if (room.State == RoomState.Gaming) return RoomOperationResult.Invalid;
                 if (total <= 1) return RoomOperationResult.Invalid;
                 if (initiator == null || initiator.State != SeatState.Host) return RoomOperationResult.Invalid;
+                if (room.Seats.Any(cs => cs.Account != null && cs.State != SeatState.Host && cs.State != SeatState.GuestReady)) return RoomOperationResult.Invalid;
                 room.State = RoomState.Gaming;
                 var gs = new GameSettings() { TimeOutSeconds = room.TimeOutSeconds, TotalPlayers = total, CheatEnabled = CheatEnabled };
                 GameService.StartGameService(HostingIp, gs, room.Id, _OnGameEnds, out portNumber);
@@ -329,6 +330,22 @@ namespace Sanguosha.Lobby.Server
                 var seat = room.Seats.FirstOrDefault(s => s.Account == loggedInGuidToAccount[token.token]);
                 if (seat == null) return RoomOperationResult.Invalid;
                 if (seat.State != SeatState.GuestTaken) return RoomOperationResult.Invalid;
+                seat.State = SeatState.GuestReady;
+                NotifyRoomLayoutChanged(room.Id);
+                return RoomOperationResult.Success;
+            }
+            return RoomOperationResult.Auth;
+        }
+
+        public RoomOperationResult CancelReady(LoginToken token)
+        {
+            if (VerifyClient(token))
+            {
+                if (!loggedInGuidToRoom.ContainsKey(token.token)) { return RoomOperationResult.Invalid; }
+                var room = loggedInGuidToRoom[token.token];
+                var seat = room.Seats.FirstOrDefault(s => s.Account == loggedInGuidToAccount[token.token]);
+                if (seat == null) return RoomOperationResult.Invalid;
+                if (seat.State != SeatState.GuestReady) return RoomOperationResult.Invalid;
                 seat.State = SeatState.GuestTaken;
                 NotifyRoomLayoutChanged(room.Id);
                 return RoomOperationResult.Success;

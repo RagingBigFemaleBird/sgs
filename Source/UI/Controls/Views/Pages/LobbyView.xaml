@@ -221,7 +221,9 @@
         </Grid>
         <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="2" ClipToBounds="True">
             <Image Margin="4,0,4,-12.01" Source="/Resources;component/Images/Lobby/notch.png" Stretch="None" VerticalAlignment="Bottom" />
-            <Button x:Name="startButton" Command="{Binding StartGameCommand}" Content="Button" Width="90" Height="100" HorizontalAlignment="Left" Style="{DynamicResource StartButtonStyle}" Margin="45,29.254,0,9.639" d:LayoutOverrides="Height" />
+            <Button x:Name="startButton" Command="{Binding StartGameCommand}" Content="Button" Width="90" Height="100" HorizontalAlignment="Left" Style="{DynamicResource StartButtonStyle}" Margin="45,29.254,0,9.639" Visibility="{Binding StartGameCommand.IsVisible, Converter={StaticResource boolToVisibilityConverter}}" d:LayoutOverrides="Height" />
+            <Button x:Name="readyButton" Command="{Binding ReadyCommand}" Content="Button" Width="90" Height="100" HorizontalAlignment="Left" Style="{DynamicResource LobbyReadyButtonStyle}" Margin="45,29.254,0,9.639" Visibility="{Binding ReadyCommand.IsVisible, Converter={StaticResource boolToVisibilityConverter}}" d:LayoutOverrides="Height" />
+            <Button x:Name="cancelReadyButton" Command="{Binding CancelReadyCommand}" Content="Button" Width="90" Height="100" HorizontalAlignment="Left" Style="{DynamicResource LobbyCancelButtonStyle}" Margin="45,29.254,0,9.639" Visibility="{Binding CancelReadyCommand.IsVisible, Converter={StaticResource boolToVisibilityConverter}}" d:LayoutOverrides="Height" />
             <Image Source="/Resources;component/Images/Lobby/buttonDock.png" Stretch="None" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,-39,0"/>
         </Grid>
         <Menu x:Name="mainMenu" Style="{DynamicResource MainMenuStyle}" Grid.ColumnSpan="2">

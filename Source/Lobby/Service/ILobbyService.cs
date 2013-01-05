@@ -69,6 +69,9 @@ namespace Sanguosha.Lobby.Core
         RoomOperationResult Ready(LoginToken token);
 
         [OperationContract]
+        RoomOperationResult CancelReady(LoginToken token);
+
+        [OperationContract]
         RoomOperationResult Kick(LoginToken token, int seatNo);
     }
 

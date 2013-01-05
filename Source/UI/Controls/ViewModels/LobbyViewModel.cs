@@ -21,7 +21,32 @@ namespace Sanguosha.UI.Controls
             CreateRoomCommand = new SimpleRelayCommand(o => CreateRoom()) { CanExecuteStatus = true };
             UpdateRoomCommand = new SimpleRelayCommand(o => UpdateRooms()) { CanExecuteStatus = true };
             EnterRoomCommand = new SimpleRelayCommand(o => EnterRoom()) { CanExecuteStatus = true };
-            StartGameCommand = new SimpleRelayCommand(o => StartGame()) { CanExecuteStatus = true };
+            StartGameCommand = new VisibilityLinkedRelayCommand(o => StartGame()) { CanExecuteStatus = false, IsVisible = false };
+            ReadyCommand = new VisibilityLinkedRelayCommand(o => PlayerReady()) { CanExecuteStatus = true, IsVisible = true };
+            CancelReadyCommand = new VisibilityLinkedRelayCommand(o => PlayerCancelReady()) { CanExecuteStatus = true, IsVisible = false };
+        }
+
+        private void PlayerCancelReady()        
+        {
+            var result = _connection.CancelReady(LoginToken);
+            if (result == RoomOperationResult.Success)
+            {
+                StartGameCommand.IsVisible = false;
+                CancelReadyCommand.IsVisible = false;
+                ReadyCommand.IsVisible = true;
+            }
+        }
+
+        private void PlayerReady()
+        {
+            var result = _connection.Ready(LoginToken);
+            if (result == RoomOperationResult.Success)
+            {
+                
+                StartGameCommand.IsVisible = false;
+                CancelReadyCommand.IsVisible = true;
+                ReadyCommand.IsVisible = false;
+            }
         }
 
         #region Fields
@@ -63,6 +88,7 @@ namespace Sanguosha.UI.Controls
 
 
         private RoomViewModel _currentRoom;
+                
 
         /// <summary>
         /// Gets/sets the currrent room that the user is viewing, has entered or is gaming in.
@@ -78,6 +104,10 @@ namespace Sanguosha.UI.Controls
                 if (_currentRoom == value) return;
                 _currentRoom = value;
                 OnPropertyChanged("CurrentRoom");
+                StartGameCommand.CanExecuteStatus = !(_currentRoom.Seats.Any(s => s.Account != null &&
+                                                                             s.State != SeatState.Host &&
+                                                                             s.State != SeatState.GuestReady));
+                CurrentSeat = CurrentRoom.Seats.FirstOrDefault(s => s.Account != null && s.Account.Id == CurrentAccount.Id);
             }
         }
 
@@ -150,9 +180,9 @@ namespace Sanguosha.UI.Controls
         public ICommand UpdateRoomCommand { get; set; }
         public ICommand CreateRoomCommand { get; set; }
         public ICommand EnterRoomCommand { get; set; }
-        public ICommand StartGameCommand { get; set; }
-        public ICommand ReadyCommand { get; set; }
-        public ICommand CancelReadyCommand { get; set; }
+        public VisibilityLinkedRelayCommand StartGameCommand { get; set; }
+        public VisibilityLinkedRelayCommand ReadyCommand { get; set; }
+        public VisibilityLinkedRelayCommand CancelReadyCommand { get; set; }
         #endregion
 
         #endregion
@@ -188,9 +218,11 @@ namespace Sanguosha.UI.Controls
             var room = _connection.CreateRoom(_loginToken);
             if (room != null)
             {
-                CurrentRoom = new RoomViewModel() { Room = room };
-                CurrentSeat = CurrentRoom.Seats.FirstOrDefault(s => s.Account != null && s.Account.Id == CurrentAccount.Id);
+                CurrentRoom = new RoomViewModel() { Room = room };                
                 Trace.Assert(CurrentSeat != null, "Successfully created a room, but do not find myself in the room");
+                StartGameCommand.IsVisible = true;
+                ReadyCommand.IsVisible = false;
+                CancelReadyCommand.IsVisible = false;
             }
         }
 
@@ -199,8 +231,7 @@ namespace Sanguosha.UI.Controls
             Room room;
             if (_connection.EnterRoom(_loginToken, _currentRoom.Id, false, null, out room) == RoomOperationResult.Success)
             {
-                CurrentRoom = new RoomViewModel() { Room = room };
-                CurrentSeat = CurrentRoom.Seats.FirstOrDefault(s => s.Account != null && s.Account.Id == CurrentAccount.Id);
+                CurrentRoom = new RoomViewModel() { Room = room };                
                 Trace.Assert(CurrentSeat != null, "Successfully joined a room, but do not find myself in the room");
             }
         }
@@ -239,7 +270,7 @@ namespace Sanguosha.UI.Controls
                 }
                 if (CurrentRoom.Id == id)
                 {
-                    CurrentRoom = new RoomViewModel() { Room = room };
+                    CurrentRoom = new RoomViewModel() { Room = room };                    
                 }
             });
         }
