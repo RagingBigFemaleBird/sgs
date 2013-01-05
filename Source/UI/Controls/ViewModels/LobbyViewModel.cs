@@ -278,5 +278,10 @@ namespace Sanguosha.UI.Controls
         #endregion
 
 
+
+
+        public void NotifyChat(string message)
+        {
+        }
     }
 }

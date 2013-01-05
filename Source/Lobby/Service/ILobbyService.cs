@@ -73,6 +73,9 @@ namespace Sanguosha.Lobby.Core
 
         [OperationContract]
         RoomOperationResult Kick(LoginToken token, int seatNo);
+
+        [OperationContract]
+        RoomOperationResult Chat(LoginToken token, string message);
     }
 
     public interface IGameClient
@@ -85,6 +88,9 @@ namespace Sanguosha.Lobby.Core
 
         [OperationContract(IsOneWay = true)]
         void NotifyGameStart(string connectionString);
+
+        [OperationContract(IsOneWay = true)]
+        void NotifyChat(string message);
     }
 
     static class Helper

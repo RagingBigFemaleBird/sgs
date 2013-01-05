@@ -146,6 +146,14 @@ namespace Sanguosha.UI.Main
 
         private void _startClient()
         {
+            string userName = tab0UserName.Text;
+#if !DEBUG
+            if (string.IsNullOrEmpty(userName))
+            {
+                _Warn("Please provide a username");
+                return;
+            }
+#endif
             busyIndicator.BusyContent = Resources["Busy.ConnectServer"];
             busyIndicator.IsBusy = true;
             ILobbyService server = null;
@@ -155,14 +163,6 @@ namespace Sanguosha.UI.Main
             {
                 hostName = hostName + ":" + DefaultLobbyPort;
             }
-            string userName = tab0UserName.Text;
-#if !DEBUG
-            if (string.IsNullOrEmpty(userName))
-            {
-                _Warn("Please provide a username");
-                return;
-            }
-#endif
 
             BackgroundWorker worker = new BackgroundWorker();
 
@@ -178,10 +178,11 @@ namespace Sanguosha.UI.Main
                     var channelFactory = new DuplexChannelFactory<ILobbyService>(lobbyModel, binding, endpoint);
                     server = channelFactory.CreateChannel();
                     Account ret;
-                    if (server.Login(1, userName, out token, out ret) == LoginStatus.Success)
+                    var stat = server.Login(1, userName, out token, out ret);
+                    if (stat == LoginStatus.Success)
                     {
                         LobbyViewModel.Instance.CurrentAccount = ret;
-                        ea.Result = true;
+                        ea.Result = stat;
                     }
                 }
                 catch (Exception e)
@@ -194,7 +195,7 @@ namespace Sanguosha.UI.Main
             {
                 busyIndicator.IsBusy = false;
                 bool success = false;
-                if ((bool)ea.Result)
+                if ((LoginStatus)ea.Result == LoginStatus.Success)
                 {
                     LobbyView lobby = LobbyView.Instance;
                     var lobbyModel = LobbyViewModel.Instance;
@@ -203,10 +204,20 @@ namespace Sanguosha.UI.Main
                     this.NavigationService.Navigate(lobby);
                     success = true;
                 }
-
                 if (!success)
                 {
-                    MessageBox.Show("Failed to launch client");
+                    if ((LoginStatus)ea.Result == LoginStatus.OutdatedVersion)
+                    {
+                        MessageBox.Show("Outdated version. Please update");
+                    }
+                    else if ((LoginStatus)ea.Result == LoginStatus.InvalidUsernameAndPassword)
+                    {
+                        MessageBox.Show("Invalid Username and Password");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to launch client");
+                    }
                 }
             };
 
