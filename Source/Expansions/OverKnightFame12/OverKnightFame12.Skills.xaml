@@ -17,6 +17,8 @@
     <sys:String x:Key="Hero.CaoZhang.Name">曹彰</sys:String>
     <sys:String x:Key="Hero.GuanXingZhangBao.Name">关兴张苞</sys:String>
     <sys:String x:Key="Hero.MaDai.Name">马岱</sys:String>
+    <sys:String x:Key="Hero.HuaXiong.Name">华雄</sys:String>
+    <sys:String x:Key="Hero.LiuBiao.Name">刘表</sys:String>
 
     <sys:String x:Key="Skill.QiCe.Name">奇策</sys:String>
     <sys:String x:Key="Skill.ZhiYu.Name">智愚</sys:String>
@@ -48,5 +50,15 @@
     <sys:String x:Key="Skill.QianXi.Name">潜袭</sys:String>
     <sys:String x:Key="Skill.QianXi.Description">每当你使用【杀】对距离为1的目标角色造成伤害时，你可以进行一次判定，若判定结果不为红桃，你防止此伤害，改为令其减1点体力上限。</sys:String>
     <sys:String x:Key="Skill.QianXi.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.ShiYong.Name">恃勇</sys:String>
+    <sys:String x:Key="Skill.ShiYong.Description">锁定技，每当你受到一次红色的【杀】或因【酒】生效而伤害+1的【杀】造成的伤害后，你减1点体力上限。</sys:String>
+
+    <sys:String x:Key="Skill.ZiShou.Name">自守</sys:String>
+    <sys:String x:Key="Skill.ZiShou.Description">摸牌阶段，若你已受伤，你可以额外摸X张牌（X为你已损失的体力值），然后跳过你的出牌阶段。</sys:String>
+    <sys:String x:Key="Skill.ZiShou.Usage">系统提示（摸牌阶段）→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.ZongShi.Name">宗室</sys:String>
+    <sys:String x:Key="Skill.ZongShi.Description">锁定技，你的手牌上限+X（X为现存势力数）。</sys:String>
 
 </ResourceDictionary>

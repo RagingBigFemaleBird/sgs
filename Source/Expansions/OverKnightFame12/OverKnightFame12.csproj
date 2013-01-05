@@ -52,9 +52,12 @@
     <Compile Include="Skills\QianXi.cs" />
     <Compile Include="Skills\QiCe.cs" />
     <Compile Include="Skills\QuanJi.cs" />
+    <Compile Include="Skills\ShiYong.cs" />
     <Compile Include="Skills\ZhiYu.cs" />
     <Compile Include="Skills\ZhuiYi.cs" />
     <Compile Include="Skills\ZiLi.cs" />
+    <Compile Include="Skills\ZiShou.cs" />
+    <Compile Include="Skills\ZongShi.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.csproj">

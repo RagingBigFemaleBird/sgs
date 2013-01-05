@@ -82,7 +82,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             return VerifierResult.Success;
         }
 
-        private class LeBuSiShuTrigger : Trigger
+        public class LeBuSiShuTrigger : Trigger
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
