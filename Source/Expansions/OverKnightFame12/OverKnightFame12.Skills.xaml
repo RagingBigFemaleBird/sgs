@@ -13,6 +13,7 @@
     <sys:String x:Key="Hero.LiaoHua.Name">廖化</sys:String>
     <sys:String x:Key="Hero.ZhongHui.Name">钟会</sys:String>
     <sys:String x:Key="Hero.HanDang.Name">韩当</sys:String>
+    <sys:String x:Key="Hero.BuLianShi.Name">步练师</sys:String>
 
     <sys:String x:Key="Skill.QiCe.Name">奇策</sys:String>
     <sys:String x:Key="Skill.ZhiYu.Name">智愚</sys:String>
@@ -30,5 +31,7 @@
     <sys:String x:Key="Skill.PaiYi.Usage">点“排异”→选择1张权→选择一名目标→点“确定”</sys:String>
     <sys:String x:Key="Skill.GongQi.Name">弓骑</sys:String>
     <sys:String x:Key="Skill.JieFan.Name">解烦</sys:String>
+    <sys:String x:Key="Skill.AnXu.Name">安恤</sys:String>
+    <sys:String x:Key="Skill.ZhuiYi.Name">追忆</sys:String>
 
 </ResourceDictionary>

@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="OverKnightFame12Expansion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Skills\AnXu.cs" />
     <Compile Include="Skills\DangXian.cs" />
     <Compile Include="Skills\FuLi.cs" />
     <Compile Include="Skills\GongQi.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="Skills\QiCe.cs" />
     <Compile Include="Skills\QuanJi.cs" />
     <Compile Include="Skills\ZhiYu.cs" />
+    <Compile Include="Skills\ZhuiYi.cs" />
     <Compile Include="Skills\ZiLi.cs" />
   </ItemGroup>
   <ItemGroup>
