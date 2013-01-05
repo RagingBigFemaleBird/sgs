@@ -29,6 +29,7 @@ namespace OverKnightFame12
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("MaDai", true, Allegiance.Shu, 4, new MaShu(), new QianXi()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HuaXiong", true, Allegiance.Qun, 6, new ShiYong()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("LiuBiao", true, Allegiance.Qun, 4, new ZiShou(), new ZongShi()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ChengPu", true, Allegiance.Wu, 4, new LiHuo(), new ChunLao()))));
         }
     }
 }

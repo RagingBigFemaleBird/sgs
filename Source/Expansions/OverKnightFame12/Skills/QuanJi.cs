@@ -43,7 +43,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             while (damage-- > 0)
             {
                 if (!AskForSkillUse())
-                    continue;
+                    break;
 
                 Game.CurrentGame.DrawCards(Owner, 1);
                 

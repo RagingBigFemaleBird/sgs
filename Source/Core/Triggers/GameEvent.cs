@@ -319,6 +319,14 @@ namespace Sanguosha.Core.Triggers
         public static readonly GameEvent CardUsageBeforeEffected = new GameEvent("CardUsageBeforeEffected");
 
         /// <summary>
+        /// 卡牌结算后，置入弃牌堆前
+        /// </summary>
+        /// <remarks>
+        /// 能发动的技能：【疠火①】。
+        /// </remarks>
+        public static readonly GameEvent CardUsageDone = new GameEvent("CardUsageDone");
+
+        /// <summary>
         /// 玩家可以使用卡牌
         /// </summary>
         public static readonly GameEvent PlayerCanUseCard;

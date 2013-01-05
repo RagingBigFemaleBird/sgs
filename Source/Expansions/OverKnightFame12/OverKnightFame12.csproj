@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Skills\ChunLao.cs" />
     <Compile Include="Skills\FuHun.cs" />
     <Compile Include="OverKnightFame12Expansion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="Skills\GongQi.cs" />
     <Compile Include="Skills\JiangChi.cs" />
     <Compile Include="Skills\JieFan.cs" />
+    <Compile Include="Skills\LiHuo.cs" />
     <Compile Include="Skills\QianXi.cs" />
     <Compile Include="Skills\QiCe.cs" />
     <Compile Include="Skills\QuanJi.cs" />

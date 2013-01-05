@@ -19,6 +19,7 @@
     <sys:String x:Key="Hero.MaDai.Name">马岱</sys:String>
     <sys:String x:Key="Hero.HuaXiong.Name">华雄</sys:String>
     <sys:String x:Key="Hero.LiuBiao.Name">刘表</sys:String>
+    <sys:String x:Key="Hero.ChengPu.Name">程普</sys:String>
 
     <sys:String x:Key="Skill.QiCe.Name">奇策</sys:String>
     <sys:String x:Key="Skill.ZhiYu.Name">智愚</sys:String>
@@ -26,7 +27,7 @@
     <sys:String x:Key="Skill.FuLi.Name">伏枥</sys:String>
     <sys:String x:Key="Skill.QuanJi.Name">权计</sys:String>
     <sys:String x:Key="Skill.QuanJi.Description">每当你受到1点伤害后，你可以摸一张牌，然后将一张手牌置于你的武将牌上，称为“权”；每有一张“权”，你的手牌上限+1。</sys:String>
-    <sys:String x:Key="Skill.QuanJi.Usage">系统提示（出牌阶段）→点“确定”&#10;选中一张手牌→点“确定”</sys:String>
+    <sys:String x:Key="Skill.QuanJi.Usage" xml:space="preserve">系统提示（出牌阶段）→点“确定”&#10;选中一张手牌→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.ZiLi.Name">自立</sys:String>
     <sys:String x:Key="Skill.ZiLi.Description">觉醒技，回合开始阶段开始时，若“权”的数量达到3或更多，你须减1点体力上限并选择一项：回复1点体力，或摸两张牌，然后获得技能“排异”（出牌阶段，你可以将一张“权”置入弃牌堆，令一名角色摸两张牌，然后若该角色的手牌数大于你的手牌数，你对其造成1点伤害。每阶段限一次）。</sys:String>
@@ -40,7 +41,7 @@
     <sys:String x:Key="Skill.ZhuiYi.Name">追忆</sys:String>
 
     <sys:String x:Key="Skill.JiangChi.Name">将驰</sys:String>
-    <sys:String x:Key="Skill.JiangChi.Description">摸牌阶段，你可以选择一项：&#10;1、额外摸一张牌，若如此做，你不能使用或打出【杀】，直到回合结束。&#10;2、少摸一张牌，若如此做，出牌阶段你使用【杀】时无距离限制且你可以额外使用一张【杀】，直到回合结束。</sys:String>
+    <sys:String x:Key="Skill.JiangChi.Description" xml:space="preserve">摸牌阶段，你可以选择一项：&#10;1、额外摸一张牌，若如此做，你不能使用或打出【杀】，直到回合结束。&#10;2、少摸一张牌，若如此做，出牌阶段你使用【杀】时无距离限制且你可以额外使用一张【杀】，直到回合结束。</sys:String>
     <sys:String x:Key="Skill.JiangChi.Usage">系统提示（摸牌阶段）→选择其中一项</sys:String>
 
     <sys:String x:Key="Skill.FuHun.Name">父魂</sys:String>
@@ -61,4 +62,11 @@
     <sys:String x:Key="Skill.ZongShi.Name">宗室</sys:String>
     <sys:String x:Key="Skill.ZongShi.Description">锁定技，你的手牌上限+X（X为现存势力数）。</sys:String>
 
+    <sys:String x:Key="Skill.LiHuo.Name">疠火</sys:String>
+    <sys:String x:Key="Skill.LiHuo.Description">你可以将一张普通【杀】当火【杀】使用，若以此法使用的【杀】造成了伤害，在此【杀】结算后你失去1点体力；你使用火【杀】时，可以额外选择一个目标。</sys:String>
+    <sys:String x:Key="Skill.LiHuo.Usage">点“疠火”→选中1张【杀】→选择攻击距离内的目标→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.ChunLao.Name">醇醪</sys:String>
+    <sys:String x:Key="Skill.ChunLao.Description">回合结束阶段开始时，若你的武将牌上没有牌，你可以将任意数量的【杀】置于你的武将牌上，称为“醇”；当一名角色处于濒死状态时，你可以将一张“醇”置入弃牌堆，视为该角色使用一张【酒】。</sys:String>
+    <sys:String x:Key="Skill.ChunLao.Usage" xml:space="preserve">系统提示（回合结束阶段）→选择要置于武将牌上的【杀】→点“确定”&#10;系统提示→点“确定”→选一张醇→点“确定”</sys:String>
 </ResourceDictionary>

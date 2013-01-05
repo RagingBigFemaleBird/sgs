@@ -357,6 +357,18 @@ namespace Sanguosha.Core.Games
 
                 c.Type.Process(arg);
 
+                if (runTrigger)
+                {
+                    try
+                    {
+                        Game.CurrentGame.Emit(GameEvent.CardUsageDone, arg);
+                    }
+                    catch (TriggerResultException)
+                    {
+                        throw new NotImplementedException();
+                    }
+                }
+
                 if (Game.CurrentGame.Decks[DeckType.Compute].Count > 0)
                 {
                     m.Cards = Game.CurrentGame.Decks[DeckType.Compute];
