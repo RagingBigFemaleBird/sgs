@@ -33,7 +33,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                 }
                 foreach (Player p in players)
                 {
-                    if (p == source)//||p==a.Source
+                    if (p == source || p.Id==source[ZhuiYiKiller])
                     {
                         return VerifierResult.Fail;
                     }
@@ -66,6 +66,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
         {
             var trigger = new AutoNotifyUsagePassiveSkillTrigger(
                 this,
+                (p, e, a) => { p[ZhuiYiKiller] = a.Source.Id; return true; },
                 OnDead,
                 TriggerCondition.OwnerIsTarget,
                 new ZhuiYiVerifier()
@@ -73,5 +74,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             Triggers.Add(GameEvent.PlayerIsDead, trigger);
             IsAutoInvoked = null;
         }
+        public static PlayerAttribute ZhuiYiKiller = PlayerAttribute.Register("ZhuiYiKiller");
+
     }
 }
