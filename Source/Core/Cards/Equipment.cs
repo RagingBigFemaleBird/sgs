@@ -87,8 +87,13 @@ namespace Sanguosha.Core.Cards
             return;
         }
 
-        public override void Process(Player source, List<Player> dests, ICard card, ReadOnlyCard cardr)
+        public override void Process(GameEventArgs handlerArgs)
         {
+            var source = handlerArgs.Source;
+            var dests = handlerArgs.Targets;
+            var readonlyCard = handlerArgs.ReadonlyCard;
+            var inResponseTo = handlerArgs.InResponseTo;
+            var card = handlerArgs.Card;
             Trace.Assert(dests == null || dests.Count == 0);
             Trace.Assert(card is Card);
             Card c = (Card)card;

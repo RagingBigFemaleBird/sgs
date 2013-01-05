@@ -27,7 +27,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected abstract string UsagePromptString { get; }
 
-        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)
         {
             SingleCardUsageVerifier v1 = responseCardVerifier;
             List<Player> sourceList = new List<Player>();

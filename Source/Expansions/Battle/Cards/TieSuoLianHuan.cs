@@ -17,20 +17,25 @@ namespace Sanguosha.Expansions.Battle.Cards
     
     public class TieSuoLianHuan : CardHandler
     {
-        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard cardr)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard cardr, GameEventArgs inResponseTo)
         {
             dest.IsIronShackled = !dest.IsIronShackled;
         }
 
-        public override void Process(Player source, List<Player> dests, ICard card, ReadOnlyCard readonlyCard)
+        public override void Process(GameEventArgs handlerArgs)
         {
+            var source = handlerArgs.Source;
+            var dests = handlerArgs.Targets;
+            var readonlyCard = handlerArgs.ReadonlyCard;
+            var inResponseTo = handlerArgs.InResponseTo;
+            var card = handlerArgs.Card;
             if (dests == null || dests.Count == 0)
             {
                 Game.CurrentGame.DrawCards(source, 1);
             }
             else
             {
-                base.Process(source, dests, card, readonlyCard);
+                base.Process(handlerArgs);
             }
         }
         public override bool IsReforging(Player source, ISkill skill, List<Card> cards, List<Player> targets)

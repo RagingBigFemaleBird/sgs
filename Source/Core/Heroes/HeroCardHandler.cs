@@ -7,6 +7,7 @@ using Sanguosha.Core.Heroes;
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.UI;
 using Sanguosha.Core.Players;
+using Sanguosha.Core.Triggers;
 
 namespace Sanguosha.Core.Heroes
 {
@@ -20,7 +21,7 @@ namespace Sanguosha.Core.Heroes
 
         }
 
-        protected override void Process(Players.Player source, Players.Player dest, ICard card, ReadOnlyCard readonlyCard)
+        protected override void Process(Players.Player source, Players.Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)
         {
             throw new NotImplementedException();
         }

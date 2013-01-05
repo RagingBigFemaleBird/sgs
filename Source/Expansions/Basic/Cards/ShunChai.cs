@@ -23,7 +23,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected abstract DeckPlace ShunChaiDest(Player source, Player dest);
 
-        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)
         {
             IUiProxy ui = Game.CurrentGame.UiProxies[source];
             if (source.IsDead) return;

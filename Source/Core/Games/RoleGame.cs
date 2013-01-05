@@ -285,7 +285,7 @@ namespace Sanguosha.Core.Games
                 if (CardCategoryManager.IsCardCategory(c.Type.Category, CardCategory.DelayedTool)
                     || CardCategoryManager.IsCardCategory(c.Type.Category, CardCategory.Equipment))
                 {
-                    c.Type.Process(eventArgs.Source, eventArgs.Targets, c, null);
+                    c.Type.Process(new GameEventArgs() { Source = eventArgs.Source, Targets = eventArgs.Targets, Card = c });
                     return;
                 }
                 var rdonlyCard = new ReadOnlyCard(c);
@@ -327,6 +327,7 @@ namespace Sanguosha.Core.Games
 
                 GameEventArgs arg = new GameEventArgs();
                 arg.Source = eventArgs.Source;
+                arg.UiTargets = eventArgs.Targets;
                 arg.Targets = c.Type.ActualTargets(arg.Source, eventArgs.Targets, c);
                 arg.Card = c;
                 arg.ReadonlyCard = rdonlyCard;
@@ -354,14 +355,7 @@ namespace Sanguosha.Core.Games
                     }
                 }
 
-                if (arg.InResponseTo != null)
-                {
-                    c.Type.Process(arg.Source, arg.Targets, c, arg.ReadonlyCard, arg.InResponseTo);
-                }
-                else
-                {
-                    c.Type.Process(arg.Source, arg.Targets, c, arg.ReadonlyCard);
-                }
+                c.Type.Process(arg);
 
                 if (Game.CurrentGame.Decks[DeckType.Compute].Count > 0)
                 {

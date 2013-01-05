@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             get { return CardCategory.Basic; }
         }
 
-        protected override void Process(Core.Players.Player source, Core.Players.Player dest, ICard card, ReadOnlyCard readonlyCard)
+        protected override void Process(Core.Players.Player source, Core.Players.Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)
         {
             throw new NotImplementedException();
         }

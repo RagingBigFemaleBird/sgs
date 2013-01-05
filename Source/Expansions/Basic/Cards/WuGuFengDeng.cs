@@ -50,7 +50,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
         }
 
-        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)
         {
             DeckType wuguDeck = new DeckType("WuGu");
             DeckType wuguFakeDeck = new DeckType("WuGuFake");
@@ -81,8 +81,13 @@ namespace Sanguosha.Expansions.Basic.Cards
             Game.CurrentGame.HandleCardTransferToHand(null, dest, answer[0]);
         }
 
-        public override void Process(Player source, List<Player> dests, ICard card, ReadOnlyCard readonlyCard)
+        public override void Process(GameEventArgs handlerArgs)
         {
+            var source = handlerArgs.Source;
+            var dests = handlerArgs.Targets;
+            var readonlyCard = handlerArgs.ReadonlyCard;
+            var inResponseTo = handlerArgs.InResponseTo;
+            var card = handlerArgs.Card;
             DeckType wuguDeck = new DeckType("WuGu");
             DeckType wuguFakeDeck = new DeckType("WuGuFake");
             CardsMovement move = new CardsMovement();
@@ -105,7 +110,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 fakeMapping.Add(faked, c);
             }
             Game.CurrentGame.NotificationProxy.NotifyWuGuStart(new DeckPlace(null, wuguFakeDeck));
-            base.Process(source, dests, card, readonlyCard);
+            base.Process(handlerArgs);
             Game.CurrentGame.NotificationProxy.NotifyWuGuEnd();
             Game.CurrentGame.Decks[null, wuguFakeDeck].Clear();
             if (Game.CurrentGame.Decks[null, wuguDeck].Count > 0)

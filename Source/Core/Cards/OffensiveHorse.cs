@@ -31,7 +31,7 @@ namespace Sanguosha.Core.Cards
             get { return CardCategory.OffensiveHorse; }
         }
 
-        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)
         {
             throw new NotImplementedException();
         }

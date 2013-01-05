@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Sanguosha.Core.Players;
+using Sanguosha.Core.Triggers;
 
 namespace Sanguosha.Core.Cards
 {
@@ -42,7 +43,7 @@ namespace Sanguosha.Core.Cards
                    (card == null || (card[Armor.IgnoreAllArmor] == 0 && card[CardAttribute.Register(IgnorePlayerArmor + player.Id)] != 1));
         }
 
-        protected override void Process(Player source, Players.Player dest, ICard card, ReadOnlyCard cardr)
+        protected override void Process(Player source, Players.Player dest, ICard card, ReadOnlyCard cardr, GameEventArgs inResponseTo)
         {
             throw new NotImplementedException();
         }

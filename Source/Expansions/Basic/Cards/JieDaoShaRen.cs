@@ -17,7 +17,7 @@ namespace Sanguosha.Expansions.Basic.Cards
     
     public class JieDaoShaRen : CardHandler
     {
-        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)
         {
             throw new NotImplementedException();
         }
@@ -60,8 +60,20 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
         }
 
-        public override void Process(Player source, List<Player> dests, ICard card, ReadOnlyCard readonlyCard)
+        public override List<Player> ActualTargets(Player source, List<Player> targets, ICard card)
         {
+            if (targets == null || targets.Count == 0) return new List<Player>();
+
+            return new List<Player>() { targets[0] };
+        }
+
+        public override void Process(GameEventArgs handlerArgs)
+        {
+            var source = handlerArgs.Source;
+            var dests = handlerArgs.UiTargets;
+            var readonlyCard = handlerArgs.ReadonlyCard;
+            var inResponseTo = handlerArgs.InResponseTo;
+            var card = handlerArgs.Card;
             Trace.Assert(dests.Count == 2);
             Player initiator = dests[0];
             GameEventArgs args = new GameEventArgs();

@@ -17,7 +17,7 @@ namespace Sanguosha.Expansions.Basic.Cards
     
     public class Tao : LifeSaver
     {
-        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)
         {
             if (readonlyCard[EatOneGetAnotherFreeCoupon] == 1)
             {

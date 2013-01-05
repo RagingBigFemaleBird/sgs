@@ -17,7 +17,7 @@ namespace Sanguosha.Expansions.Basic.Cards
     
     public class WuZhongShengYou : CardHandler
     {
-        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)
         {
             Game.CurrentGame.DrawCards(source, 2);
         }

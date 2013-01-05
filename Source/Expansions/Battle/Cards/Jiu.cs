@@ -18,7 +18,7 @@ namespace Sanguosha.Expansions.Battle.Cards
     
     public class Jiu : LifeSaver
     {
-        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)
         {
             if (Game.CurrentGame.IsDying.Count > 0)
             {

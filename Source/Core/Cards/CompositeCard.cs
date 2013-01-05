@@ -95,10 +95,12 @@ namespace Sanguosha.Core.Cards
         {
             get
             {
+                if (Subcards == null) return SuitColorType.None;
                 var colors =
                     from card in Subcards
                     select card.SuitColor;
-                colors = colors.Distinct();
+                if (colors != null) colors = colors.Distinct();
+                else colors = new List<SuitColorType>();
                 if (colors.Count() == 1)
                 {
                     return colors.First();

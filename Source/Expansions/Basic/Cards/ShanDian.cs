@@ -92,13 +92,18 @@ namespace Sanguosha.Expansions.Basic.Cards
             RecursiveShanDianDriver(p, p, c);
         }
 
-        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)
         {
             throw new NotImplementedException();
         }
 
-        public override void Process(Player source, List<Player> dests, ICard card, ReadOnlyCard readonlyCard)
+        public override void Process(GameEventArgs handlerArgs)
         {
+            var source = handlerArgs.Source;
+            var dests = handlerArgs.Targets;
+            var readonlyCard = handlerArgs.ReadonlyCard;
+            var inResponseTo = handlerArgs.InResponseTo;
+            var card = handlerArgs.Card;
             Trace.Assert(dests == null || dests.Count == 0);
             AttachTo(source, source, card);
         }

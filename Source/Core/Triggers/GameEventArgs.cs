@@ -45,6 +45,14 @@ namespace Sanguosha.Core.Triggers
             set { targets = value; }
         }
 
+        private List<Player> uiTargets;
+
+        public List<Player> UiTargets
+        {
+            get { return uiTargets; }
+            set { uiTargets = value; }
+        }
+
         private List<Card> cards;
 
         public List<Card> Cards

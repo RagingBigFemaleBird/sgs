@@ -22,13 +22,13 @@ namespace Sanguosha.Expansions.Basic.Cards
             get { return DamageElement.None; }
         }
 
-        public override void Process(Player source, List<Player> dests, ICard card, ReadOnlyCard readonlyCard)
+        public override void Process(GameEventArgs handlerArgs)
         {
-            source[NumberOfShaUsed]++;
-            base.Process(source, dests, card, readonlyCard);
+            handlerArgs.Source[NumberOfShaUsed]++;
+            base.Process(handlerArgs);
         }
 
-        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard)
+        protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)
         {
             Game.CurrentGame.DoDamage(source, dest, 1, ShaDamageElement, card, readonlyCard);
         }

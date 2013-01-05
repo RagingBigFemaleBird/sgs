@@ -1,4 +1,5 @@
 ﻿using Sanguosha.Core.Cards;
+using Sanguosha.Core.Triggers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Sanguosha.Core.Games
             get { return CardCategory.Unknown; }
         }
 
-        protected override void Process(Players.Player source, Players.Player dest, ICard card, ReadOnlyCard cardr)
+        protected override void Process(Players.Player source, Players.Player dest, ICard card, ReadOnlyCard cardr, GameEventArgs inResponseTo)
         {
             throw new NotImplementedException();
         }
