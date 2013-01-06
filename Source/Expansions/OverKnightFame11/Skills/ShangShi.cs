@@ -29,17 +29,15 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                         return false;
                     if (e == GameEvent.CardsLost)
                     {
-                        var result = from c in a.Cards select c.HistoryPlace1;
-                        if (!result.Any(d => d.DeckType == DeckType.Hand))
+                        if (!a.Cards.Any(c => c.HistoryPlace1.DeckType == DeckType.Hand))
                             return false;
                     }
                     if (e == GameEvent.CardsAcquired)
                     {
-                        var result = from c in a.Cards select c.Place;
-                        if (!result.Any(d => d.DeckType == DeckType.Hand))
+                        if (!a.Cards.Any(c => c.Place.DeckType == DeckType.Hand))
                             return false;
                     }
-                    if (e == GameEvent.AfterHealthChanged && (p.Health - (a as HealthChangedEventArgs).Delta < 0 || !a.Targets.Contains(p)))
+                    if (e == GameEvent.AfterHealthChanged && (!a.Targets.Contains(p) || p.Health - (a as HealthChangedEventArgs).Delta < 0))
                         return false;
                     return (Game.CurrentGame.CurrentPhaseEventIndex == 3 || Game.CurrentGame.CurrentPhase != TurnPhase.Discard) && p.HandCards().Count < p.LostHealth;
                 },
