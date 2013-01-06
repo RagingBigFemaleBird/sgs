@@ -23,7 +23,6 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
         public LiHuo()
         {
             LinkedPassiveSkill = new LiHuoPassive();
-            IsRulerOnly = true;
         }
         public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
         {

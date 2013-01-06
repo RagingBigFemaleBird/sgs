@@ -51,10 +51,12 @@
     <Compile Include="Skills\JiangChi.cs" />
     <Compile Include="Skills\JieFan.cs" />
     <Compile Include="Skills\LiHuo.cs" />
+    <Compile Include="Skills\MiJi.cs" />
     <Compile Include="Skills\QianXi.cs" />
     <Compile Include="Skills\QiCe.cs" />
     <Compile Include="Skills\QuanJi.cs" />
     <Compile Include="Skills\ShiYong.cs" />
+    <Compile Include="Skills\ZhenLie.cs" />
     <Compile Include="Skills\ZhiYu.cs" />
     <Compile Include="Skills\ZhuiYi.cs" />
     <Compile Include="Skills\ZiLi.cs" />
