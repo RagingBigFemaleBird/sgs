@@ -37,23 +37,6 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             }
         }
 
-        class ChunLaoSaveALifeVerifier : CardsAndTargetsVerifier
-        {
-            public ChunLaoSaveALifeVerifier()
-            {
-                MinCards = 1;
-                MaxCards = 1;
-                MinPlayers = 0;
-                MaxPlayers = 0;
-                Discarding = false;
-                Helper.OtherDecksUsed.Add(ChunDeck);
-            }
-            protected override bool VerifyCard(Player source, Card card)
-            {
-                return card.Place.DeckType == ChunDeck;
-            }
-        }
-
         public void StoreChun(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             ISkill skill;
@@ -71,29 +54,32 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
 
         public void SaveALife(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            List<List<Card>> answer;
-            if (!Game.CurrentGame.UiProxies[owner].AskForCardChoice(new CardChoicePrompt("ChunLao", owner),
-                new List<DeckPlace>() { new DeckPlace(owner, ChunDeck) }, 
-                new List<string>() { "ChunLao" },
-                new List<int>() { 1 }, 
-                new RequireOneCardChoiceVerifier(), 
-                out answer))
+            while (eventArgs.Targets[0].Health <= 0 && Game.CurrentGame.Decks[owner, ChunDeck].Count > 0 && AskForSkillUse())
             {
-                answer = new List<List<Card>>();
-                answer.Add(new List<Card>());
-                answer[0].Add(Game.CurrentGame.Decks[owner, ChunDeck][0]);
+                List<List<Card>> answer;
+                if (!Game.CurrentGame.UiProxies[owner].AskForCardChoice(new CardChoicePrompt("ChunLao", owner),
+                    new List<DeckPlace>() { new DeckPlace(owner, ChunDeck) },
+                    new List<string>() { "ChunLao" },
+                    new List<int>() { 1 },
+                    new RequireOneCardChoiceVerifier(),
+                    out answer))
+                {
+                    answer = new List<List<Card>>();
+                    answer.Add(new List<Card>());
+                    answer[0].Add(Game.CurrentGame.Decks[owner, ChunDeck][0]);
+                }
+                Card theCard = answer[0][0];
+                NotifySkillUse();
+                Game.CurrentGame.HandleCardDiscard(owner, new List<Card>() { theCard });
+                Game.CurrentGame.IsDying.Push(eventArgs.Targets[0]);
+                GameEventArgs args = new GameEventArgs();
+                args.Source = eventArgs.Targets[0];
+                args.Targets = new List<Player>() { eventArgs.Targets[0] };
+                args.Skill = new ChunLaoJiuCardTransformSkill();
+                args.Cards = new List<Card>();
+                Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
+                Game.CurrentGame.IsDying.Pop();
             }
-            Card theCard = answer[0][0];
-            NotifySkillUse();
-            Game.CurrentGame.HandleCardDiscard(owner, new List<Card>() { theCard });
-            Game.CurrentGame.IsDying.Push(eventArgs.Targets[0]);
-            GameEventArgs args = new GameEventArgs();
-            args.Source = eventArgs.Targets[0];
-            args.Targets = new List<Player>() { eventArgs.Targets[0] };
-            args.Skill = new ChunLaoJiuCardTransformSkill();
-            args.Cards = new List<Card>();
-            Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
-            Game.CurrentGame.IsDying.Pop();
         }
 
         private class ChunLaoJiuCardTransformSkill : CardTransformSkill
@@ -124,7 +110,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                     (p, e, a) => { return Game.CurrentGame.Decks[p, ChunDeck].Count != 0 && a.Targets[0].Health <= 0; },
                     SaveALife,
                     TriggerCondition.Global
-                ) { IsAutoNotify = false };
+                ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger1);
             Triggers.Add(GameEvent.PlayerDying, trigger2);
             IsAutoInvoked = null;

@@ -31,6 +31,10 @@ namespace OverKnightFame12
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("LiuBiao", true, Allegiance.Qun, 4, new ZiShou(), new ZongShi()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ChengPu", true, Allegiance.Wu, 4, new LiHuo(), new ChunLao()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("WangYi", false, Allegiance.Wei, 3, new ZhenLie(), new MiJi()))));
+
+            TriggerRegistration = new List<DelayedTriggerRegistration>();
+            TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.AfterDamageCaused, trigger = new LiHuoShaCausedDamage() });
+            TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.CardUsageDone, trigger = new LiHuoLoseHealth() });
         }
     }
 }

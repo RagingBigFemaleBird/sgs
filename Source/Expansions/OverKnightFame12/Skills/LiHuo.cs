@@ -56,17 +56,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
         {
             public LiHuoPassive()
             {
-                var trigger1 = new AutoNotifyPassiveSkillTrigger(
-                    this,
-                    (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard[LiHuoSha] != 0; },
-                    (p, e, a) =>
-                    {
-                        a.ReadonlyCard[LiHuoShaCausedDamage] = 1;
-                    },
-                    TriggerCondition.OwnerIsSource
-                ) { AskForConfirmation = false, IsAutoNotify = false };
-
-                var trigger2 = new AutoNotifyPassiveSkillTrigger(
+                var trigger = new AutoNotifyPassiveSkillTrigger(
                     this,
                     (p, e, a) => { return a.Card.Type is HuoSha; },
                     (p, e, a) =>
@@ -89,23 +79,33 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                     TriggerCondition.OwnerIsSource
                 ) { AskForConfirmation = false, IsAutoNotify = false };
 
-                var trigger3 = new AutoNotifyPassiveSkillTrigger(
-                    this,
-                    (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard[LiHuoShaCausedDamage] != 0; },
-                    (p, e, a) =>
-                    {
-                        Game.CurrentGame.LoseHealth(p, 1);
-                    },
-                    TriggerCondition.OwnerIsSource
-                ) { AskForConfirmation = false };
-
-                Triggers.Add(GameEvent.AfterDamageCaused, trigger1);
-                Triggers.Add(Sha.PlayerShaTargetValidation, trigger2);
-                Triggers.Add(GameEvent.CardUsageDone, trigger3);
+                Triggers.Add(Sha.PlayerShaTargetValidation, trigger);
             }
         }
 
-        private static CardAttribute LiHuoSha = CardAttribute.Register("LiHuoSha");
-        private static CardAttribute LiHuoShaCausedDamage = CardAttribute.Register("LiHuoShaCausedDamage");
+        public static CardAttribute LiHuoSha = CardAttribute.Register("LiHuoSha");
+        public static CardAttribute LiHuoShaCausedDamage = CardAttribute.Register("LiHuoShaCausedDamage");
+    }
+
+    public class LiHuoShaCausedDamage : Trigger
+    {
+        public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+        {
+            if (eventArgs.ReadonlyCard != null && eventArgs.ReadonlyCard[LiHuo.LiHuoSha] != 0)
+            {
+                eventArgs.ReadonlyCard[LiHuo.LiHuoShaCausedDamage] = 1;
+            }
+        }
+    }
+
+    public class LiHuoLoseHealth : Trigger
+    {
+        public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+        {
+            if (eventArgs.ReadonlyCard != null && eventArgs.ReadonlyCard[LiHuo.LiHuoShaCausedDamage] != 0)
+            {
+                Game.CurrentGame.LoseHealth(eventArgs.Source, 1);
+            }
+        }
     }
 }
