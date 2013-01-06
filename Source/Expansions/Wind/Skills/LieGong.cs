@@ -27,10 +27,21 @@ namespace Sanguosha.Expansions.Wind.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return (a.ReadonlyCard.Type is Sha) && (Game.CurrentGame.Decks[a.Targets[0], DeckType.Hand].Count >= a.Source.Health || Game.CurrentGame.Decks[a.Targets[0], DeckType.Hand].Count <= a.Source[Player.AttackRange] + 1); },
-                (p, e, a) => { a.ReadonlyCard[ShaCancelling.CannotProvideShan] = 1;},
+                (p, e, a) => { return (a.ReadonlyCard.Type is Sha); },
+                (p, e, a) => 
+                {
+                    foreach (var target in a.Targets)
+                    {
+                        if ((Game.CurrentGame.Decks[target, DeckType.Hand].Count >= a.Source.Health || Game.CurrentGame.Decks[target, DeckType.Hand].Count <= a.Source[Player.AttackRange] + 1)
+                         && AskForSkillUse())
+                        {
+                            a.ReadonlyCard[CardAttribute.Register(ShaCancelling.CannotProvideShan + target.Id)] = 1;
+                            NotifySkillUse(new List<Player>() { target });
+                        }
+                    }
+                },
                 TriggerCondition.OwnerIsSource
-            );
+            ) { IsAutoNotify = false, AskForConfirmation = false };
 
             Triggers.Add(GameEvent.CardUsageTargetConfirmed, trigger);
             IsAutoInvoked = true;

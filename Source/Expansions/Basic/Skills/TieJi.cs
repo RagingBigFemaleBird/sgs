@@ -22,10 +22,16 @@ namespace Sanguosha.Expansions.Basic.Skills
     {
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            var card = Game.CurrentGame.Judge(Owner, this, null, (judgeResultCard) => { return judgeResultCard.SuitColor == SuitColorType.Red; });
-            if (card.SuitColor == SuitColorType.Red)
+            foreach (var target in eventArgs.Targets)
             {
-                eventArgs.ReadonlyCard[ShaCancelling.CannotProvideShan] = 1;
+                if (AskForSkillUse())
+                {
+                    var card = Game.CurrentGame.Judge(Owner, this, null, (judgeResultCard) => { return judgeResultCard.SuitColor == SuitColorType.Red; });
+                    if (card.SuitColor == SuitColorType.Red)
+                    {
+                        eventArgs.ReadonlyCard[CardAttribute.Register(ShaCancelling.CannotProvideShan + target.Id)] = 1;
+                    }
+                }
             }
         }
 
@@ -36,7 +42,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 (p, e, a) => { return a.ReadonlyCard.Type is Sha; },
                 Run,
                 TriggerCondition.OwnerIsSource
-            );
+            ) { AskForConfirmation = false, IsAutoNotify = false };
 
             Triggers.Add(GameEvent.CardUsageTargetConfirmed, trigger);
             IsAutoInvoked = false;

@@ -58,7 +58,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             // this number is 0 for normal Sha/Shan. Lv Bu would like this to be 1
             eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + dest.Id)]++;
             int numberOfShanRequired = eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + dest.Id)];
-            bool cannotUseShan = eventArgs.ReadonlyCard[CannotProvideShan] == 1 ? true : false;
+            bool cannotUseShan = eventArgs.ReadonlyCard[CardAttribute.Register(CannotProvideShan + dest.Id)] == 1 ? true : false;
             bool cannotProvideShan = false;
             while (numberOfShanRequired > 0 && !cannotUseShan)
             {
@@ -162,6 +162,6 @@ namespace Sanguosha.Expansions.Basic.Cards
         /// 杀被闪
         /// </summary>
         public static readonly GameEvent PlayerShaTargetDodged = new GameEvent("PlayerShaTargetDodged");
-        public static readonly CardAttribute CannotProvideShan = CardAttribute.Register("CannotProvideShan");
+        public static readonly string CannotProvideShan = "CannotProvideShan";
     }
 }

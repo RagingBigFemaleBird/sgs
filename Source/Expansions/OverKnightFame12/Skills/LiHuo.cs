@@ -54,30 +54,14 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
 
         public class LiHuoPassive : TriggerSkill
         {
-            public class LiHuoLoseHealth : Trigger
-            {
-                public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
-                {
-                    if (eventArgs.Source != Owner) return;
-                    Game.CurrentGame.UnregisterTrigger(GameEvent.CardUsageDone, this);
-                    Owner[LiHuoShaDamageCaused] = 0;
-                    Game.CurrentGame.LoseHealth(Owner, 1);
-                }
-                public LiHuoLoseHealth(Player p)
-                {
-                    Owner = p;
-                }
-            }
-
             public LiHuoPassive()
             {
                 var trigger1 = new AutoNotifyPassiveSkillTrigger(
                     this,
-                    (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard[LiHuoSha] != 0 && Owner[LiHuoShaDamageCaused] == 0; },
-                    (p, e, a) => 
+                    (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard[LiHuoSha] != 0; },
+                    (p, e, a) =>
                     {
-                        Owner[LiHuoShaDamageCaused] = 1;
-                        Game.CurrentGame.RegisterTrigger(GameEvent.CardUsageDone, new LiHuoLoseHealth(p)); 
+                        a.ReadonlyCard[LiHuoShaCausedDamage] = 1;
                     },
                     TriggerCondition.OwnerIsSource
                 ) { AskForConfirmation = false, IsAutoNotify = false };
@@ -85,7 +69,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                 var trigger2 = new AutoNotifyPassiveSkillTrigger(
                     this,
                     (p, e, a) => { return a.Card.Type is HuoSha; },
-                    (p, e, a) => 
+                    (p, e, a) =>
                     {
                         ShaEventArgs args = (ShaEventArgs)a;
                         Trace.Assert(args != null);
@@ -103,14 +87,25 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                         }
                     },
                     TriggerCondition.OwnerIsSource
-                ) { AskForConfirmation = false,IsAutoNotify = false };
+                ) { AskForConfirmation = false, IsAutoNotify = false };
+
+                var trigger3 = new AutoNotifyPassiveSkillTrigger(
+                    this,
+                    (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard[LiHuoShaCausedDamage] != 0; },
+                    (p, e, a) =>
+                    {
+                        Game.CurrentGame.LoseHealth(p, 1);
+                    },
+                    TriggerCondition.OwnerIsSource
+                ) { AskForConfirmation = false };
 
                 Triggers.Add(GameEvent.AfterDamageCaused, trigger1);
                 Triggers.Add(Sha.PlayerShaTargetValidation, trigger2);
+                Triggers.Add(GameEvent.CardUsageDone, trigger3);
             }
         }
 
         private static CardAttribute LiHuoSha = CardAttribute.Register("LiHuoSha");
-        private static PlayerAttribute LiHuoShaDamageCaused = PlayerAttribute.Register("LiHuoShaDamageCaused");
+        private static CardAttribute LiHuoShaCausedDamage = CardAttribute.Register("LiHuoShaCausedDamage");
     }
 }
