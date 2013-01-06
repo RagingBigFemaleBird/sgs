@@ -116,7 +116,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
 
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                     this,
-                    (p, e, a) => { return Game.CurrentGame.Decks[p, ChunDeck].Count != 0; },
+                    (p, e, a) => { return Game.CurrentGame.Decks[p, ChunDeck].Count != 0 && a.Targets[0].Health <= 0; },
                     SaveALife,
                     TriggerCondition.Global
                 ) { IsAutoNotify = false };
