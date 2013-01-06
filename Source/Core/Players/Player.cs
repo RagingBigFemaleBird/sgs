@@ -155,6 +155,11 @@ namespace Sanguosha.Core.Players
             }
         }
 
+        public int LostHealth
+        {
+            get { return maxHealth - Math.Max(health, 0); }
+        }
+
         Dictionary<PlayerAttribute, int> attributes;
 
         public Dictionary<PlayerAttribute, int> Attributes

@@ -45,7 +45,7 @@ namespace Sanguosha.Expansions.Woods.Skills
 
         protected void Run(Player owner, GameEvent gameEvent, GameEventArgs eventArgs, List<Card> cards, List<Player> players)
         {
-            int x = owner.MaxHealth - owner.Health;
+            int x = owner.LostHealth;
             if (x == 1)
             {
                 Game.CurrentGame.DrawCards(players[0], 1);
@@ -88,7 +88,7 @@ namespace Sanguosha.Expansions.Woods.Skills
         {
             var trigger = new AutoNotifyUsagePassiveSkillTrigger(
                 this,
-                (p, e, a) => { return p.MaxHealth > p.Health; },
+                (p, e, a) => { return p.LostHealth > 0; },
                 Run,
                 TriggerCondition.OwnerIsSource,
                 new YingHunVerifier()

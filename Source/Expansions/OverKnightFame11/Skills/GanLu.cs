@@ -74,7 +74,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             if (players != null && players.Count == 2)
             {
                 int diff = Math.Abs(players[0].Equipments().Count - players[1].Equipments().Count);
-                if (diff > source.MaxHealth - source.Health) return false;
+                if (diff > source.LostHealth) return false;
             }
             return true;
         }

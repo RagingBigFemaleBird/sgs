@@ -27,9 +27,9 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 {
                     if (e == GameEvent.AfterHealthChanged && p.Health - (a as HealthChangedEventArgs).Delta < 0)
                         return false;
-                    return (Game.CurrentGame.CurrentPhaseEventIndex == 3 || Game.CurrentGame.CurrentPhase != TurnPhase.Discard) && p.HandCards().Count < p.MaxHealth - Math.Max(p.Health, 0); 
+                    return (Game.CurrentGame.CurrentPhaseEventIndex == 3 || Game.CurrentGame.CurrentPhase != TurnPhase.Discard) && p.HandCards().Count < p.LostHealth; 
                 },
-                (p, e, a) => { Game.CurrentGame.DrawCards(p, p.MaxHealth - Math.Max(p.Health, 0) - p.HandCards().Count); },
+                (p, e, a) => { Game.CurrentGame.DrawCards(p, p.LostHealth - p.HandCards().Count); },
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.CardsLost, trigger);

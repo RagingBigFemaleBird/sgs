@@ -39,7 +39,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                 ISkill skill;
                 List<Card> cards;
                 List<Player> players;
-                int toDraw = Owner.MaxHealth - Owner.Health;
+                int toDraw = Owner.LostHealth;
                 List<Card> remainingCards = new List<Card>();
                 CardsMovement move = new CardsMovement();
                 for (int i = 0; i < toDraw; i++)
@@ -65,7 +65,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                    this,
-                   (p, e, a) => { return p.MaxHealth - p.Health > 0; },
+                   (p, e, a) => { return p.LostHealth > 0; },
                    Run,
                    TriggerCondition.OwnerIsSource
                );

@@ -29,7 +29,7 @@ namespace Sanguosha.Expansions.Wind.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return p.Health < p.MaxHealth &&  Game.CurrentGame.DistanceTo(p, a.Targets[0]) <= 1; },
+                (p, e, a) => { return p.LostHealth > 0 &&  Game.CurrentGame.DistanceTo(p, a.Targets[0]) <= 1; },
                 Run,
                 TriggerCondition.OwnerIsSource
             );

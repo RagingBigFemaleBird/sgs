@@ -57,7 +57,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                 ReadOnlyCard ncard = new ReadOnlyCard(args.ReadonlyCard);
                 ncard[Armor.IgnoreAllArmor] = 0;
                 Game.CurrentGame.DoDamage(args.Source, players[0], args.Magnitude, args.Element, args.Card, ncard);
-                Game.CurrentGame.DrawCards(players[0], players[0].MaxHealth - players[0].Health);
+                Game.CurrentGame.DrawCards(players[0], players[0].LostHealth);
                 throw new TriggerResultException(TriggerResult.End);
             }
         }

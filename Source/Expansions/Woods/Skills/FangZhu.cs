@@ -59,7 +59,7 @@ namespace Sanguosha.Expansions.Woods.Skills
         protected void OnAfterDamageInflicted(Player owner, GameEvent gameEvent, GameEventArgs eventArgs, List<Card> cards, List<Player> players)
         {
             players[0].IsImprisoned = !players[0].IsImprisoned;
-            Game.CurrentGame.DrawCards(players[0], Owner.MaxHealth - Owner.Health);
+            Game.CurrentGame.DrawCards(players[0], Owner.LostHealth);
         }
 
         public FangZhu()

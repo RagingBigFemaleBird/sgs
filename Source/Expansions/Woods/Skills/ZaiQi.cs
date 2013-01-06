@@ -26,7 +26,7 @@ namespace Sanguosha.Expansions.Woods.Skills
 
             CardsMovement move = new CardsMovement();
             move.Cards = new List<Card>();
-            int toDraw = Owner.MaxHealth - Owner.Health;
+            int toDraw = Owner.LostHealth;
             for (int i = 0; i < toDraw; i++)
             {
                 Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.PeekCard(0));
@@ -56,7 +56,7 @@ namespace Sanguosha.Expansions.Woods.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return p.MaxHealth > p.Health; },
+                (p, e, a) => { return p.LostHealth > 0; },
                 Run,
                 TriggerCondition.OwnerIsSource
             );

@@ -39,7 +39,7 @@ namespace Sanguosha.Expansions.Basic.Skills
 
         protected override bool VerifyPlayer(Player source, Player player)
         {
-            return player.IsMale && player.Health < player.MaxHealth;
+            return player.IsMale && player.LostHealth > 0;
         }
 
         public JieYin()
