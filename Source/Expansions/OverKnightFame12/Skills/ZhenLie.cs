@@ -30,7 +30,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                 NotifySkillUse(new List<Player>());
                 Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.PeekCard(0));
                 Card c1 = Game.CurrentGame.DrawCard();
-                new GuiCai().ReplaceJudgementCard(player, eventArgs.Source, c1);
+                new GuiCai().ReplaceJudgementCard(null, eventArgs.Source, c1);
             }
         }
 
