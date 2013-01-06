@@ -35,7 +35,6 @@ namespace Sanguosha.Expansions.SP.Skills
             MaxPlayers = 999;
             MinPlayers = 1;
             Discarding = true;
-            IsRulerOnly = true;
         }
 
 		protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
