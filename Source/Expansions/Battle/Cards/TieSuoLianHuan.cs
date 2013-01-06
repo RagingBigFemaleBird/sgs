@@ -17,6 +17,8 @@ namespace Sanguosha.Expansions.Battle.Cards
     
     public class TieSuoLianHuan : CardHandler
     {
+        // WARNING: MASSIVE UGLY HACK for 蛊惑 and similar skills
+        public static readonly CardAttribute ProhibitReforging = CardAttribute.Register("ProhibitReforging");
         protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard cardr, GameEventArgs inResponseTo)
         {
             dest.IsIronShackled = !dest.IsIronShackled;
@@ -52,6 +54,10 @@ namespace Sanguosha.Expansions.Battle.Cards
             if (targets != null && targets.Count >= 3)
             {
                 return VerifierResult.Fail;
+            }
+            if (targets == null || targets.Count == 0 && card[ProhibitReforging] == 1)
+            {
+                return VerifierResult.Partial;
             }
             return VerifierResult.Success;
         }

@@ -11,6 +11,7 @@ using Sanguosha.Expansions.Basic.Cards;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Games;
 using System.Diagnostics;
+using Sanguosha.Expansions.Battle.Cards;
 
 namespace Sanguosha.Expansions.Wind.Skills
 {
@@ -24,6 +25,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             card = new CompositeCard();
             card.Subcards = new List<Card>();
             card.Type = AdditionalType;
+            card[TieSuoLianHuan.ProhibitReforging] = 1;
             if (cards == null || cards.Count == 0)
             {
                 return VerifierResult.Partial;

@@ -11,6 +11,7 @@ using Sanguosha.Expansions.Basic.Cards;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Games;
 using System.Diagnostics;
+using Sanguosha.Expansions.Battle.Cards;
 
 namespace Sanguosha.Expansions.OverKnightFame12.Skills
 {
@@ -25,6 +26,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             card = new CompositeCard();
             card.Subcards = new List<Card>();
             card.Type = AdditionalType;
+            card[TieSuoLianHuan.ProhibitReforging] = 1;
             if (Owner[QiCeUsed] == 1) return VerifierResult.Fail;
             if (Game.CurrentGame.CurrentPhase != TurnPhase.Play) return VerifierResult.Fail;
             if (Game.CurrentGame.CurrentPlayer != Owner) return VerifierResult.Fail;
