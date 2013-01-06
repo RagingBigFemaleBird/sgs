@@ -216,14 +216,6 @@ namespace Sanguosha.Core.Triggers
         /// </summary>
         public static readonly GameEvent CardsLost = new GameEvent("CardsLost");
 
-        /// <summary>
-        /// 角色获得武将技能时能
-        /// </summary>
-        /// <remarks>
-        /// 能发动的技能：【伤逝】。
-        /// </remarks>
-        public static readonly GameEvent SkillAcquired;
-
         // Damage related
         /// <summary>
         /// 确定伤害来源

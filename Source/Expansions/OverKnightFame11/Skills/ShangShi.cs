@@ -23,15 +23,15 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return Game.CurrentGame.CurrentPhase != TurnPhase.Discard && p.HandCards().Count < p.MaxHealth - p.Health; },
+                (p, e, a) => { return (Game.CurrentGame.CurrentPhaseEventIndex == 3 || Game.CurrentGame.CurrentPhase != TurnPhase.Discard) && p.HandCards().Count < p.MaxHealth - p.Health; },
                 (p, e, a) => { Game.CurrentGame.DrawCards(p, p.MaxHealth - p.Health - p.HandCards().Count); },
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.CardsLost, trigger);
             Triggers.Add(GameEvent.CardsAcquired, trigger);
             Triggers.Add(GameEvent.AfterHealthChanged, trigger);
-            Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger);
-            Triggers.Add(GameEvent.PhasePostEnd, trigger);
+            Triggers.Add(GameEvent.PhaseOutEvents[TurnPhase.Discard], trigger);
+            Triggers.Add(GameEvent.PlayerSkillSetChanged, trigger);
             IsAutoInvoked = true;
         }
     }
