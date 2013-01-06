@@ -66,7 +66,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
         {
             var trigger = new AutoNotifyUsagePassiveSkillTrigger(
                 this,
-                (p, e, a) => { p[ZhuiYiKiller] = a.Source.Id; return true; },
+                (p, e, a) => { if (a.Source == null) return false; p[ZhuiYiKiller] = a.Source.Id; return true; },
                 OnDead,
                 TriggerCondition.OwnerIsTarget,
                 new ZhuiYiVerifier()
