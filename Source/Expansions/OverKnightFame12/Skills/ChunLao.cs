@@ -68,8 +68,8 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                     answer.Add(new List<Card>());
                     answer[0].Add(Game.CurrentGame.Decks[owner, ChunDeck][0]);
                 }
+                NotifySkillUse(eventArgs.Targets);
                 Card theCard = answer[0][0];
-                NotifySkillUse();
                 Game.CurrentGame.HandleCardDiscard(owner, new List<Card>() { theCard });
                 Game.CurrentGame.IsDying.Push(eventArgs.Targets[0]);
                 GameEventArgs args = new GameEventArgs();

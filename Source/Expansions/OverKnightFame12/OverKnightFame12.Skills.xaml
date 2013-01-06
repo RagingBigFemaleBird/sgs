@@ -39,7 +39,10 @@
     <sys:String x:Key="Skill.GongQi.Name">弓骑</sys:String>
     <sys:String x:Key="Skill.JieFan.Name">解烦</sys:String>
     <sys:String x:Key="Skill.AnXu.Name">安恤</sys:String>
+
     <sys:String x:Key="Skill.ZhuiYi.Name">追忆</sys:String>
+    <sys:String x:Key="Skill.ZhuiYi.Description">你死亡时，可以令一名其他角色（杀死你的角色除外）摸三张牌并回复1点体力。</sys:String>
+    <sys:String x:Key="Skill.ZhuiYi.Usage">系统提示→选择一名目标→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.JiangChi.Name">将驰</sys:String>
     <sys:String x:Key="Skill.JiangChi.Description" xml:space="preserve">摸牌阶段，你可以选择一项：&#10;1、额外摸一张牌，若如此做，你不能使用或打出【杀】，直到回合结束。&#10;2、少摸一张牌，若如此做，出牌阶段你使用【杀】时无距离限制且你可以额外使用一张【杀】，直到回合结束。</sys:String>
@@ -69,7 +72,7 @@
 
     <sys:String x:Key="Skill.ChunLao.Name">醇醪</sys:String>
     <sys:String x:Key="Skill.ChunLao.Description">回合结束阶段开始时，若你的武将牌上没有牌，你可以将任意数量的【杀】置于你的武将牌上，称为“醇”；当一名角色处于濒死状态时，你可以将一张“醇”置入弃牌堆，视为该角色使用一张【酒】。</sys:String>
-    <sys:String x:Key="Skill.ChunLao.Usage" xml:space="preserve">系统提示（回合结束阶段）→选择要置于武将牌上的【杀】→点“确定”&#10;系统提示→点“确定”→选一张醇→点“确定”</sys:String>
+    <sys:String x:Key="Skill.ChunLao.Usage" xml:space="preserve">系统提示（回合结束阶段）→选择要置于武将牌上的【杀】→点“确定”&#10;系统提示→点“确定”→选一张醇</sys:String>
 
     <sys:String x:Key="Skill.ZhenLie.Name">贞烈</sys:String>
     <sys:String x:Key="Skill.ZhenLie.Description">在你的判定牌生效前，你可以从牌堆顶亮出一张牌代替之。</sys:String>
@@ -77,5 +80,5 @@
 
     <sys:String x:Key="Skill.MiJi.Name">秘计</sys:String>
     <sys:String x:Key="Skill.MiJi.Description">回合开始/结束阶段开始时，若你已受伤，你可以进行一次判定，若判定结果为黑色，你观看牌堆顶的X张牌（X为你已损失的体力值），然后将这些牌交给一名角色。</sys:String>
-    <sys:String x:Key="Skill.MiJi.Usage">系统提示→点“确定”→选择秘计的角色→点“确定”</sys:String>
+    <sys:String x:Key="Skill.MiJi.Usage">系统提示→点“确定”→选择一名目标→点“确定”</sys:String>
 </ResourceDictionary>
