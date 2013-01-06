@@ -5,6 +5,7 @@ using Sanguosha.Core.Cards;
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
+using System.Diagnostics;
 
 namespace Sanguosha.Expansions.SP.Skills
 {
@@ -22,7 +23,10 @@ namespace Sanguosha.Expansions.SP.Skills
             foreach (var p in arg.Targets)
                 Game.CurrentGame.DoDamage(arg.Source, p, 1, DamageElement.None, null, null);
             foreach (var p in arg.Targets)
+            {
+                if (p.IsDead) continue;
                 Game.CurrentGame.DrawCards(p, 1);
+            }
             return true;
         }
 
@@ -32,7 +36,7 @@ namespace Sanguosha.Expansions.SP.Skills
         {
             MinCards = 1;
             MaxCards = 1;
-            MaxPlayers = 999;
+            MaxPlayers = int.MaxValue;
             MinPlayers = 1;
             Discarding = true;
         }
@@ -41,6 +45,7 @@ namespace Sanguosha.Expansions.SP.Skills
         {
             if (source[XueJiUsed] != 0)
                 return false;
+            if (players != null && source.LostHealth < players.Count) return false;
             if (players != null)
                 foreach (var p in players)
                     if (Game.CurrentGame.DistanceTo(source, p) > source[Player.AttackRange] + 1)
