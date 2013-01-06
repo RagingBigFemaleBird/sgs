@@ -1,4 +1,4 @@
-ï»¿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,21 +15,21 @@ using Sanguosha.Expansions.Basic.Cards;
 
 namespace Sanguosha.Expansions.SP.Skills
 {
-    /// <summary>
-    /// è™å•¸-å¯ä»¥å•¸ä¸€ä¸‹
-    /// </summary>
+    /// <summary>    
+	/// ¡¾»¢Ğ¥¡¿¡ª¡ªÈôÄãÓÚ³öÅÆ½×¶ÎÊ¹ÓÃµÄ¡¾É±¡¿±»¡¾ÉÁ¡¿µÖÏû£¬Ôò±¾½×¶ÎÄã¿ÉÒÔ¶îÍâÊ¹ÓÃÒ»ÕÅ¡¾É±¡¿¡£
+	/// </summary>
     public class HuXiao : TriggerSkill
     {
-        public HuXiao()
-        {
-            var trigger = new AutoNotifyPassiveSkillTrigger(
-                this,
-                (p, e, a) => { return Game.CurrentGame.CurrentPhase == TurnPhase.Play && Game.CurrentGame.CurrentPlayer == p; },
-                (p, e, a) => { p[Sha.AdditionalShaUsable]++; },
-                TriggerCondition.OwnerIsSource
-            ) { AskForConfirmation = false };
-            Triggers.Add(ShaCancelling.PlayerShaTargetDodged, trigger);
-            IsAutoInvoked = null;
-        }
-    }
+	    public HuXiao()
+	    {
+	    var trigger = new AutoNotifyPassiveSkillTrigger(
+	        this,
+	        (p, e, a) => { return Game.CurrentGame.CurrentPhase == TurnPhase.Play && Game.CurrentGame.CurrentPlayer == p;},
+	        (p, e, a) => { p[Sha.AdditionalShaUsable]++; },
+	        TriggerCondition.OwnerIsSource
+	        ) { AskForConfirmation = false };
+	    Triggers.Add(ShaCancelling.PlayerShaTargetDodged, trigger);
+	    IsAutoInvoked = null;
+	    }
+	}
 }
