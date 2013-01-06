@@ -59,7 +59,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             ISkill skill;
             List<Card> cards;
             List<Player> players;
-            if (owner.AskForCardUsage(new CardUsagePrompt("ChunLaoStore"), new ChunLaoStoreChunVerifier(), out skill, out cards, out players))
+            if (owner.AskForCardUsage(new CardUsagePrompt("ChunLao"), new ChunLaoStoreChunVerifier(), out skill, out cards, out players))
             {
                 NotifySkillUse();
                 CardsMovement move = new CardsMovement();
@@ -71,16 +71,21 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
 
         public void SaveALife(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            ISkill skill;
-            List<Card> cards;
-            List<Player> players;
-            if (!owner.AskForCardUsage(new CardUsagePrompt("ChunLaoSave"), new ChunLaoSaveALifeVerifier(), out skill, out cards, out players))
+            List<List<Card>> answer;
+            if (!Game.CurrentGame.UiProxies[owner].AskForCardChoice(new CardChoicePrompt("ChunLao", owner),
+                new List<DeckPlace>() { new DeckPlace(owner, ChunDeck) }, 
+                new List<string>() { "ChunLao" },
+                new List<int>() { 1 }, 
+                new RequireOneCardChoiceVerifier(), 
+                out answer))
             {
-                cards = new List<Card>();
-                cards.Add(Game.CurrentGame.Decks[owner, ChunDeck][0]);
+                answer = new List<List<Card>>();
+                answer.Add(new List<Card>());
+                answer[0].Add(Game.CurrentGame.Decks[owner, ChunDeck][0]);
             }
+            Card theCard = answer[0][0];
             NotifySkillUse();
-            Game.CurrentGame.HandleCardDiscard(owner, cards);
+            Game.CurrentGame.HandleCardDiscard(owner, new List<Card>() { theCard });
             Game.CurrentGame.IsDying.Push(eventArgs.Targets[0]);
             GameEventArgs args = new GameEventArgs();
             args.Source = eventArgs.Targets[0];

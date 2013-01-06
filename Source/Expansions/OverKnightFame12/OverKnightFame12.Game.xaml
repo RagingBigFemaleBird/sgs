@@ -33,8 +33,9 @@
     <sys:String x:Key="MultiChoice.Choice.JiangChi2">少摸1张牌</sys:String>
 
     <sys:String x:Key="Deck.Chun.Name">醇</sys:String>
-    <sys:String x:Key="CardUsage.Prompt.ChunLaoSave">请选择一张醇</sys:String>
-    <sys:String x:Key="CardUsage.Prompt.ChunLaoStore">你可以将杀置于武将牌上</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.ChunLao">你可以将杀置于武将牌上</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.ChunLao">请选择一张醇</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.ChunLao.Others">醇醪 请等待{0}选择一张醇</sys:String>
 
     <sys:String x:Key="MultiChoice.Prompt.ZhenLie">你的判定结果是{0}{1}，是否发动贞烈改判？</sys:String>
 
