@@ -15,7 +15,7 @@ namespace Sanguosha.Expansions.SP.Skills
     {
         public override bool Commit(GameEventArgs arg)
         {
-            Owner[XieJiUsed] = 1;
+            Owner[XueJiUsed] = 1;
             List<Card> cards = arg.Cards;
 			Game.CurrentGame.HandleCardDiscard(Owner, cards);
             Game.CurrentGame.SortByOrderOfComputation(Owner, arg.Targets);
@@ -26,7 +26,7 @@ namespace Sanguosha.Expansions.SP.Skills
             return true;
         }
 
-        public static PlayerAttribute XieJiUsed = PlayerAttribute.Register("XieJiUsed", true);
+        public static PlayerAttribute XueJiUsed = PlayerAttribute.Register("XueJiUsed", true);
 
         public XueJi()
         {
@@ -39,7 +39,7 @@ namespace Sanguosha.Expansions.SP.Skills
 
 		protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
 		{
-			if(source[XieJiUsed]!=0)
+			if(source[XueJiUsed]!=0)
 				return false;
 			if(players!=null)
 				foreach(var p in players)
