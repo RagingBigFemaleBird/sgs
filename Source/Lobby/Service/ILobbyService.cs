@@ -15,6 +15,8 @@ namespace Sanguosha.Lobby.Core
         OutdatedVersion = 1,
         InvalidUsernameAndPassword,
     }
+
+    [Serializable]
     public struct LoginToken
     {
         public Guid token;

@@ -13,6 +13,8 @@ using Sanguosha.Core.Games;
 using System.Diagnostics;
 using System.IO;
 using Sanguosha.Core.UI;
+using System.Runtime.Serialization.Formatters.Binary;
+using Sanguosha.Lobby.Core;
 
 namespace Sanguosha.Core.Network
 {
@@ -91,12 +93,42 @@ namespace Sanguosha.Core.Network
         public void Start()
         {
             Trace.TraceInformation("Listener Started on {0} : {1}", ipAddress.ToString(), IpPort);
+            game.Settings.DisplayedNames = new List<string>();
             for (int i = 0; i < maxClients; i++)
             {
                 handlers[i].game = game;
                 handlers[i].client = listener.AcceptTcpClient();
                 Trace.TraceInformation("Client connected");
                 handlers[i].stream = handlers[i].client.GetStream();
+                handlers[i].stream.ReadTimeout = 2000;
+                if (game.Configuration != null)
+                {
+                    object item;
+                    try
+                    {
+                        item = (new ItemReceiver(handlers[i].stream)).Receive();
+                    }
+                    catch (Exception)
+                    {
+                        item = null;
+                    }
+                    if (!(item is LoginToken) ||
+                     !game.Configuration.AccountIds.Any(id => id.token == ((LoginToken)item).token))
+                    {
+                        handlers[i].client.Close();
+                        i--; 
+                        continue;
+                    }
+                    int index;
+                    for (index = 0; index < game.Configuration.AccountIds.Count; index++)
+                    {
+                        if (game.Configuration.AccountIds[index].token == ((LoginToken)item).token)
+                        {
+                            game.Settings.DisplayedNames.Add(game.Configuration.DisplayedNames[index]);
+                        }
+                    }
+                }
+                handlers[i].stream.ReadTimeout = Timeout.Infinite;
                 handlers[i].threadServer = new Thread((ParameterizedThreadStart)((o) => 
                 {
                     ServerThread(handlers[(int)o]);

@@ -42,10 +42,21 @@ namespace Sanguosha.UI.Controls
                 if (_game == value) return;
                 _game = value;
                 _game.RegisterCurrentThread();
-                PlayerModels.Clear();                
+                PlayerModels.Clear();
+                int i = 0;
                 foreach (var player in _game.Players)
                 {
-                    PlayerModels.Add(new PlayerViewModel(player, this, false));
+                    string name;
+                    if (_game.Settings.DisplayedNames.Count == _game.Players.Count)
+                    {
+                        name = _game.Settings.DisplayedNames[i];
+                    }
+                    else
+                    {
+                        name = "三国杀爱好者";
+                    }
+                    i++;
+                    PlayerModels.Add(new PlayerViewModel(player, this, false) { DisplayedUsername = name });
                 }
                 PlayerModels[0].IsPlayable = true;
             }
