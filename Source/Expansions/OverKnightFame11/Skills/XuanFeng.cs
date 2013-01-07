@@ -56,7 +56,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
             {
                 card = new CompositeCard();
-                card.Type = new Sha();
+                card.Type = new RegularSha();
                 return VerifierResult.Success;
             }
             protected override void NotifyAction(Player source, List<Player> targets, CompositeCard card)

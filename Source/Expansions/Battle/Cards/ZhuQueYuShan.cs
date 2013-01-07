@@ -33,11 +33,17 @@ namespace Sanguosha.Expansions.Battle.Cards
                     this,
                     (p, e, a) =>
                     {
+                        if (a.Card is CompositeCard)
+                        {
+                            CompositeCard card = a.Card as CompositeCard;
+                            return card.Type is RegularSha && (card.Subcards == null || card.Subcards.Count == 0);
+                        }
                         return a.ReadonlyCard.Type is RegularSha;
                     },
                     (p, e, a) =>
                     {
-                        a.Card.Type = new HuoSha(); a.ReadonlyCard = new ReadOnlyCard(a.Card);
+                        if (!(a.Card is CompositeCard)) a.ReadonlyCard = new ReadOnlyCard(a.Card);
+                        a.Card.Type = new HuoSha(); 
                     },
                     TriggerCondition.OwnerIsSource
                 ) { Priority = int.MaxValue };
