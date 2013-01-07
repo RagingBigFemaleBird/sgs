@@ -35,18 +35,16 @@ namespace Sanguosha.Expansions.SP.Skills
                 (p, e, a) =>
                 {
                     var h = a.Source.Hero;
+                    List<ISkill> skills = new List<ISkill>();
                     foreach (var sk in h.Skills)
                     {
-                        if (sk is HuXiao)
-                        {
-                            sk.Owner = null;
-                            h.Skills.Remove(sk);
-                        }
+                        if (sk is HuXiao) sk.Owner = null;
+                        else skills.Add(sk);
                     }
                     p[WuJiAwaken]++;
                     p.MaxHealth++;
                     Game.CurrentGame.RecoverHealth(p, p, 1);
-                    a.Source.Hero = new Hero(h.Name, h.IsMale, h.Allegiance, h.MaxHealth, h.Skills);
+                    a.Source.Hero = new Hero(h.Name, h.IsMale, h.Allegiance, h.MaxHealth, skills);
                 },
                 TriggerCondition.OwnerIsSource
             );

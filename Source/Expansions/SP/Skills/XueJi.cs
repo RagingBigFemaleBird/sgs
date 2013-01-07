@@ -43,7 +43,7 @@ namespace Sanguosha.Expansions.SP.Skills
 
         protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
         {
-            if (source[XueJiUsed] != 0) return false;
+            if (source[XueJiUsed] != 0 || source.LostHealth == 0) return false;
             if (players != null && source.LostHealth < players.Count) return false;
             return true;
         }
