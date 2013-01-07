@@ -12,11 +12,11 @@ using Sanguosha.Core.Players;
 
 namespace Sanguosha.Expansions.OverKnightFame12.Skills
 {
+    /// <summary>
+    /// 宗室-锁定技，你的手牌上限+X（X为现存势力数）。
+    /// </summary>
     public class ZongShi : TriggerSkill
     {
-        /// <summary>
-        /// 宗室-锁定技，你的手牌上限+X（X为现存势力数）。
-        /// </summary>
         public ZongShi()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(

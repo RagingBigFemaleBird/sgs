@@ -15,11 +15,11 @@ using Sanguosha.Core.Exceptions;
 
 namespace Sanguosha.Expansions.OverKnightFame12.Skills
 {
+    /// <summary>
+    /// 贞烈-在你的判定牌生效前，你可以从牌堆顶亮出一张牌代替之。
+    /// </summary>
     public class ZhenLie : TriggerSkill
     {
-        /// <summary>
-        /// 贞烈-在你的判定牌生效前，你可以从牌堆顶亮出一张牌代替之。
-        /// </summary>
         void OnJudgeBegin(Player player, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             Card c = Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult].Last();

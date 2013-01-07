@@ -15,15 +15,14 @@ using Sanguosha.Core.Exceptions;
 
 namespace Sanguosha.Expansions.SP.Skills
 {
+    /// <summary>
+    /// 援护-回合结束阶段开始时，你可以将一张装备牌置于一名角色的装备区里，然后根据此装备牌的种类执行以下效果。
+    /// 武器牌：弃置与该角色距离为1的一名角色区域中的一张牌；
+    /// 防具牌：该角色摸一张牌；
+    /// 坐骑牌：该角色回复1点体力。
+    /// </summary>
     public class YuanHu : TriggerSkill
     {
-        /// <summary>
-        /// 援护-回合结束阶段开始时，你可以将一张装备牌置于一名角色的装备区里，然后根据此装备牌的种类执行以下效果。
-        /// 武器牌：弃置与该角色距离为1的一名角色区域中的一张牌；
-        /// 防具牌：该角色摸一张牌；
-        /// 坐骑牌：该角色回复1点体力。
-        /// </summary>
-
         class YuanHuVerifier : CardUsageVerifier
         {
             public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)

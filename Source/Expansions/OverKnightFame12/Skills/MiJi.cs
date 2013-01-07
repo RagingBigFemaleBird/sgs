@@ -14,11 +14,11 @@ using Sanguosha.Core.Exceptions;
 
 namespace Sanguosha.Expansions.OverKnightFame12.Skills
 {
+    /// <summary>
+    /// 秘计-回合开始/结束阶段开始时，若你已受伤，你可以进行一次判定，若判定结果为黑色，你观看牌堆顶的X张牌（X为你已损失的体力值），然后将这些牌交给一名角色。
+    /// </summary>
     public class MiJi : TriggerSkill
     {
-        /// <summary>
-        /// 秘计-回合开始/结束阶段开始时，若你已受伤，你可以进行一次判定，若判定结果为黑色，你观看牌堆顶的X张牌（X为你已损失的体力值），然后将这些牌交给一名角色。
-        /// </summary>
         class MiJiVerifier : CardsAndTargetsVerifier
         {
             public MiJiVerifier()

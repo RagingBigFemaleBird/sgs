@@ -16,11 +16,11 @@ using Sanguosha.Core.Exceptions;
 
 namespace Sanguosha.Expansions.OverKnightFame12.Skills
 {
+    /// <summary>
+    /// 父魂-摸牌阶段开始时，你可以放弃摸牌，改为从牌堆顶亮出两张牌并获得之，若亮出的牌颜色不同，你获得技能“武圣”、“咆哮”，直到回合结束。
+    /// </summary>
     public class FuHun : TriggerSkill
     {
-        /// <summary>
-        /// 父魂-摸牌阶段开始时，你可以放弃摸牌，改为从牌堆顶亮出两张牌并获得之，若亮出的牌颜色不同，你获得技能“武圣”、“咆哮”，直到回合结束。
-        /// </summary>
         public class RemoveShengPao : Trigger
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)

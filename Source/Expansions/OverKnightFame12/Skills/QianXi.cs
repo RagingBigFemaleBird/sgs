@@ -14,11 +14,11 @@ using Sanguosha.Core.Exceptions;
 
 namespace Sanguosha.Expansions.OverKnightFame12.Skills
 {
+    /// <summary>
+    /// 潜袭-每当你使用【杀】对距离为1的目标角色造成伤害时，你可以进行一次判定，若判定结果不为红桃，你防止此伤害，改为令其减1点体力上限。
+    /// </summary>
     public class QianXi : TriggerSkill
     {
-        /// <summary>
-        /// 潜袭-每当你使用【杀】对距离为1的目标角色造成伤害时，你可以进行一次判定，若判定结果不为红桃，你防止此伤害，改为令其减1点体力上限。
-        /// </summary>
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             var card = Game.CurrentGame.Judge(Owner, this, null, (judgeResultCard) => { return judgeResultCard.Suit != SuitType.Heart; });

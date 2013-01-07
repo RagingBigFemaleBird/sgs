@@ -14,11 +14,11 @@ using Sanguosha.Expansions.Battle.Cards;
 
 namespace Sanguosha.Expansions.OverKnightFame12.Skills
 {
+    /// <summary>
+    /// 恃勇-锁定技，每当你受到一次红色的【杀】或因【酒】生效而伤害+1的【杀】造成的伤害后，你减1点体力上限。
+    /// </summary>
     public class ShiYong : TriggerSkill
     {
-        /// <summary>
-        /// 恃勇-锁定技，每当你受到一次红色的【杀】或因【酒】生效而伤害+1的【杀】造成的伤害后，你减1点体力上限。
-        /// </summary>
         public ShiYong()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
