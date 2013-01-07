@@ -47,8 +47,8 @@ namespace Sanguosha.Core.Cards
                 if (!deckBackup.ContainsKey(c.Place))
                 {
                     deckBackup.Add(c.Place, new List<Card>(Game.CurrentGame.Decks[c.Place]));
-                    Game.CurrentGame.Decks[c.Place].Remove(c);
                 }
+                Game.CurrentGame.Decks[c.Place].Remove(c);
             }
             cardsOnHold = cards;
         }

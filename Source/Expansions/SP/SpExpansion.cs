@@ -21,6 +21,7 @@ namespace Sanguosha.Expansions.SP
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("YangXiu", true, Allegiance.Wei, 3, new DanLao(), new JiLei()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("GuanYinPing", false, Allegiance.Shu, 3, new WuJi(), new HuXiao(), new XueJi()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("YuanShu", true, Allegiance.Qun, 4, new YongSi(), new WeiDi()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("CaoHong", true, Allegiance.Wei, 4, new YuanHu()))));
         }
     }
 }

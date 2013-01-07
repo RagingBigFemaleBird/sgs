@@ -13,6 +13,7 @@
     <sys:String x:Key="Hero.YuanShu.Name">袁术</sys:String>
     <sys:String x:Key="Hero.GuanYinPing.Name">关银屏</sys:String>
     <sys:String x:Key="Hero.SPPangTong.Name">SP庞统</sys:String>
+    <sys:String x:Key="Hero.CaoHong.Name">曹洪</sys:String>
 
     <sys:String x:Key="Skill.WeiDi.Name">伪帝</sys:String>
     <sys:String x:Key="Skill.YongSi.Name">庸肆</sys:String>
@@ -25,5 +26,9 @@
     <sys:String x:Key="Skill.ManJuan.Name">漫卷</sys:String>
     <sys:String x:Key="Skill.ZuiXiang.Name">醉乡</sys:String>
     <sys:String x:Key="Skill.DanLao.Name">啖酪</sys:String>
+
+    <sys:String x:Key="Skill.YuanHu.Name">援护</sys:String>
+    <sys:String x:Key="Skill.YuanHu.Description" xml:space="preserve">回合结束阶段开始时，你可以将一张装备牌置于一名角色的装备区里，然后根据此装备牌的种类执行以下效果。&#10;武器牌：弃置与该角色距离为1的一名角色区域中的一张牌；&#10;防具牌：该角色摸一张牌；&#10;坐骑牌：该角色回复1点体力。</sys:String>
+    <sys:String x:Key="Skill.YuanHu.Usage">系统提示→选择一张装备牌→选择目标→点“确定”</sys:String>
 
 </ResourceDictionary>

@@ -51,6 +51,7 @@
     <Compile Include="Skills\WuJi.cs" />
     <Compile Include="Skills\XueJi.cs" />
     <Compile Include="Skills\YongSi.cs" />
+    <Compile Include="Skills\YuanHu.cs" />
     <Compile Include="SpExpansion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
