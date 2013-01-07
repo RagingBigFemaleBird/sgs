@@ -43,13 +43,8 @@ namespace Sanguosha.Expansions.SP.Skills
 
         protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
         {
-            if (source[XueJiUsed] != 0)
-                return false;
+            if (source[XueJiUsed] != 0) return false;
             if (players != null && source.LostHealth < players.Count) return false;
-            if (players != null)
-                foreach (var p in players)
-                    if (Game.CurrentGame.DistanceTo(source, p) > source[Player.AttackRange] + 1)
-                        return false;
             return true;
         }
 
@@ -60,7 +55,7 @@ namespace Sanguosha.Expansions.SP.Skills
 
         protected override bool VerifyPlayer(Player source, Player player)
         {
-            return source != player;
+            return source != player && Game.CurrentGame.DistanceTo(source, player) <= source[Player.AttackRange] + 1;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Sanguosha.Expansions.SP.Skills
             var trigger1 = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => { return p[WuJiAwaken] == 0; },
-                (p, e, a) => { p[WuJiCount]++; },
+                (p, e, a) => { p[WuJiCount] += (a as DamageEventArgs).Magnitude; },
                 TriggerCondition.OwnerIsSource
             ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.AfterDamageCaused, trigger1);
