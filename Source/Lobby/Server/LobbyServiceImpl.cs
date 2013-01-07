@@ -337,7 +337,18 @@ namespace Sanguosha.Lobby.Server
                     if (unready.State == SeatState.GuestReady) unready.State = SeatState.GuestTaken;
                 }
                 var gs = new GameSettings() { TimeOutSeconds = room.TimeOutSeconds, TotalPlayers = total, CheatEnabled = CheatEnabled };
-                GameService.StartGameService(HostingIp, gs, room.Id, _OnGameEnds, out portNumber);
+                var config = new AccountConfiguration();
+                config.AccountIds = new List<LoginToken>();
+                config.DisplayedNames = new List<string>();
+                foreach (var addconfig in room.Seats)
+                {
+                    if (addconfig.Account != null)
+                    {
+                        config.AccountIds.Add(new LoginToken() { token = loggedInAccountToGuid[addconfig.Account] });
+                        config.DisplayedNames.Add(addconfig.Account.UserName);
+                    }
+                }
+                GameService.StartGameService(HostingIp, gs, config, room.Id, _OnGameEnds, out portNumber);
                 _NotifyGameStart(loggedInGuidToRoom[token.token].Id, HostingIp, portNumber);
                 return RoomOperationResult.Success;
             }

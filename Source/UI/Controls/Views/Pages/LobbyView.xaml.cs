@@ -76,7 +76,7 @@ namespace Sanguosha.UI.Controls
                     try
                     {
                         ea.Result = false;
-                        client.Start();
+                        client.Start(null, LobbyModel.LoginToken);
                         client.RecordStream = FileRotator.CreateFile("./Replays", "SGSREPLAY", ".sgs", 10);
                         ea.Result = true;
                     }

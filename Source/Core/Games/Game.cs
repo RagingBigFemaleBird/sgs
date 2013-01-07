@@ -91,6 +91,8 @@ namespace Sanguosha.Core.Games
 
         public GameSettings Settings { get; set; }
 
+        public AccountConfiguration Configuration { get; set; }
+
         static Game()
         {
             games = new Dictionary<Thread,Game>();

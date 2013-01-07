@@ -13,6 +13,7 @@ using Sanguosha.Core.Games;
 using System.Diagnostics;
 using System.IO;
 using Sanguosha.Core.UI;
+using Sanguosha.Lobby.Core;
 
 namespace Sanguosha.Core.Network
 {
@@ -51,7 +52,7 @@ namespace Sanguosha.Core.Network
         /// <param name="replayStream"></param>
         /// <exception cref="System.ArgumentOutOfRangeException" />
         /// <exception cref="System.Net.Sockets.SocketException" />
-        public void Start(Stream recordStream = null)
+        public void Start(Stream recordStream = null, LoginToken? token = null)
         {
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse(IpString), PortNumber);
             TcpClient client = new TcpClient();
@@ -59,6 +60,11 @@ namespace Sanguosha.Core.Network
             NetworkStream stream = client.GetStream();
             receiver = new ItemReceiver(stream, recordStream);
             sender = new ItemSender(stream);
+            if (token != null)
+            {
+                sender.Send((LoginToken)token);
+                sender.Flush();
+            }
             commId = 0;
         }
 

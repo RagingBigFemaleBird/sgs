@@ -944,6 +944,19 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        private string _displayedUsername;
+
+        public string DisplayedUsername
+        {
+            get { return _displayedUsername; }
+            set
+            {
+                if (_displayedUsername == value) return;
+                _displayedUsername = value;
+                OnPropertyChanged("DisplayedUsername");
+            }
+        }
+
         private string _prompt;
         public string CurrentPromptString
         {
