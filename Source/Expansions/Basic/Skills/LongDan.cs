@@ -16,6 +16,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     public class LongDan : CardTransformSkill
     {
+        public static readonly CardAttribute CanShuaLiuMang = CardAttribute.Register("CanShuaLiuMang");
         public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
         {
             card = null;
@@ -36,6 +37,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 card = new CompositeCard();
                 card.Subcards = new List<Card>(cards);
                 card.Type = new RegularSha();
+                card[CanShuaLiuMang] = 1;
                 return VerifierResult.Success;
             }
             else if (cards[0].Type is Sha)
@@ -43,6 +45,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 card = new CompositeCard();
                 card.Subcards = new List<Card>(cards);
                 card.Type = new Shan();
+                card[CanShuaLiuMang] = 1;
                 return VerifierResult.Success;
             }
             return VerifierResult.Fail;

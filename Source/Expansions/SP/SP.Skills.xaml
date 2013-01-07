@@ -13,6 +13,7 @@
     <sys:String x:Key="Hero.YuanShu.Name">袁术</sys:String>
     <sys:String x:Key="Hero.GuanYinPing.Name">关银屏</sys:String>
     <sys:String x:Key="Hero.SPPangTong.Name">SP庞统</sys:String>
+    <sys:String x:Key="Hero.SPZhaoYun.Name">SP赵云</sys:String>
 
     <sys:String x:Key="Skill.WeiDi.Name">伪帝</sys:String>
     <sys:String x:Key="Skill.YongSi.Name">庸肆</sys:String>
@@ -25,5 +26,6 @@
     <sys:String x:Key="Skill.ManJuan.Name">漫卷</sys:String>
     <sys:String x:Key="Skill.ZuiXiang.Name">醉乡</sys:String>
     <sys:String x:Key="Skill.DanLao.Name">啖酪</sys:String>
+    <sys:String x:Key="Skill.ChongZhen.Name">冲阵</sys:String>
 
 </ResourceDictionary>
