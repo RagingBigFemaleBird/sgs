@@ -31,34 +31,15 @@
                 <Setter Property="Margin" Value="3.666,0,7.333,7"/>
                 <Setter Property="Foreground" Value="#FFF9FBE6" />
                 <Setter Property="Text" Value="{Binding Footnote}" />
-            </Style>
-            <Storyboard x:Key="sbFade">
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
-                    <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1">
-                        <EasingDoubleKeyFrame.EasingFunction>
-                            <CubicEase EasingMode="EaseOut"/>
-                        </EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-            </Storyboard>
-            <Storyboard x:Key="sbUnfade">
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0">
-                        <EasingDoubleKeyFrame.EasingFunction>
-                            <CubicEase EasingMode="EaseOut"/>
-                        </EasingDoubleKeyFrame.EasingFunction>
-                    </EasingDoubleKeyFrame>
-                </DoubleAnimationUsingKeyFrames>
-            </Storyboard>
+            </Style>           
             <Storyboard x:Key="sbHighlight">
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="border">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="bdHighlight">
+                	<EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="1"/>
                 </DoubleAnimationUsingKeyFrames>
             </Storyboard>
             <Storyboard x:Key="sbUnHighlight">
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="border">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="bdHighlight">
+                	<EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="0"/>
                 </DoubleAnimationUsingKeyFrames>
             </Storyboard>
             <Storyboard x:Key="sbAppear">
@@ -80,10 +61,34 @@
             		</EasingDoubleKeyFrame>
             	</DoubleAnimationUsingKeyFrames>
             </Storyboard>
+            <Storyboard x:Key="sbSelect">
+            	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="grid">
+            		<EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="-20"/>
+            	</DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="sbDeselect">
+            	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="grid">
+            		<EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="0"/>
+            	</DoubleAnimationUsingKeyFrames>
+            	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="bdHighlight">
+            		<EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="0"/>
+            	</DoubleAnimationUsingKeyFrames>
+            </Storyboard>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
-        <VisualStateManager.VisualStateGroups>
+    <Grid x:Name="grid" RenderTransformOrigin="0.5,0.5">
+        <Grid.CacheMode>
+            <BitmapCache EnableClearType="True" />
+        </Grid.CacheMode>
+    	<Grid.RenderTransform>
+    		<TransformGroup>
+    			<ScaleTransform/>
+    			<SkewTransform/>
+    			<RotateTransform/>
+    			<TranslateTransform/>
+    		</TransformGroup>
+    	</Grid.RenderTransform>
+		        <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="FadeStates">
                 <VisualState x:Name="Faded">
                     <Storyboard>
@@ -101,13 +106,22 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <Viewbox Stretch="Uniform">            
+        <Viewbox x:Name="viewbox" Stretch="Uniform" RenderTransformOrigin="0.5,0.5">
+        	<Viewbox.RenderTransform>
+        		<TransformGroup>
+        			<ScaleTransform/>
+        			<SkewTransform/>
+        			<RotateTransform/>
+        			<TranslateTransform/>
+        		</TransformGroup>
+        	</Viewbox.RenderTransform>            
             <Grid Height="130" Width="93">                
-                <Border x:Name="border" CornerRadius="3" Background="Black" Margin="-1, -1, -1, -1" Opacity="0.2">
+                <Border x:Name="bdHighlight" CornerRadius="3" Background="White" Margin="-1, -1, -1, -1" Opacity="0">
                     <Border.Effect>
-                        <BlurEffect Radius="3" />
+                        <BlurEffect Radius="10" />
                     </Border.Effect>
                 </Border>
+				<Border x:Name="border" CornerRadius="3" Background="Black" Margin="-1, -1, -1, -1" Opacity="0.2" />                    
                 <!--Hint is used to display a CardView as a card slot-->
                 <TextBlock Text="{Binding Hint, Mode=OneWay}" Foreground="#FFA79D75" FontFamily="SimSun" FontSize="14" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 <TextBlock Text="{Binding TypeString}" Foreground="Yellow" FontFamily="SimSun"/>

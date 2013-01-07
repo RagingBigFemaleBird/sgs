@@ -36,19 +36,7 @@ namespace Sanguosha.UI.Controls
             this.MouseLeftButtonUp += CardView_MouseLeftButtonUp;
             this.MouseEnter += CardView_MouseEnter;
             this.MouseLeave += CardView_MouseLeave;
-
-            _OnCardSelectedChangedHandler = new EventHandler(_OnCardSelectedChanged);
-
-            _daMoveX = new DoubleAnimation();
-            _daMoveY = new DoubleAnimation();            
-            Storyboard.SetTarget(_daMoveX, this);
-            Storyboard.SetTargetProperty(_daMoveX, new PropertyPath(Canvas.LeftProperty));
-            Storyboard.SetTarget(_daMoveY, this);
-            Storyboard.SetTargetProperty(_daMoveY, new PropertyPath(Canvas.TopProperty));                        
-            _moveAnimation = new Storyboard();
-            _moveAnimation.Children.Add(_daMoveX);
-            _moveAnimation.Children.Add(_daMoveY);
-            _moveAnimation.AccelerationRatio = 0.2d;            
+            _OnCardSelectedChangedHandler = new EventHandler(_OnCardSelectedChanged);           
         }
 
         public CardView(CardViewModel card) : this()
@@ -58,12 +46,15 @@ namespace Sanguosha.UI.Controls
 
         void CardView_MouseLeave(object sender, MouseEventArgs e)
         {
-            (Resources["sbUnHighlight"] as Storyboard).Begin();
+            if (CardModel != null && !CardModel.IsSelected)
+            {
+                (Resources["sbUnHighlight"] as Storyboard).Begin();
+            }
         }
 
         void CardView_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (IsEnabled)
+            if (CardModel != null && CardModel.IsEnabled)
             {
                 (Resources["sbHighlight"] as Storyboard).Begin();
             }
@@ -103,8 +94,8 @@ namespace Sanguosha.UI.Controls
         private void _OnCardSelectedChanged(object sender, EventArgs args)
         {
             CardViewModel model = sender as CardViewModel;
-            if (model.IsSelected) Offset = new Point(0, -20);
-            else Offset = new Point(0, 0);
+            if (model.IsSelected) (Resources["sbSelect"] as Storyboard).Begin();
+            else (Resources["sbDeselect"] as Storyboard).Begin();
         }
 
         public Card Card
@@ -125,16 +116,7 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        public static double WidthHeightRatio = 0.7154;
-
-        DoubleAnimation _daMoveX;
-        DoubleAnimation _daMoveY;        
-        Storyboard _moveAnimation;
-
-        /// <summary>
-        /// Pixels moved per second when doing card movement animation
-        /// </summary>
-        private static double _movementSpeed = 1000.0d;
+        public static double WidthHeightRatio = 0.7154;        
 
         /// <summary>
         /// Set position without showing card movement animation.
@@ -148,17 +130,14 @@ namespace Sanguosha.UI.Controls
             SetValue(Canvas.TopProperty, p.Y);
         }
 
-        /// <summary>
-        /// Animate card to <c>Position</c>.
-        /// </summary>
-        public void Rebase()
+        public Storyboard GetRebaseAnimation(double transitionInSeconds = 0.4d)
         {
-            if (Position == null) return;
-            if (Parent == null || !(Parent is Canvas)) return;
+            if (Position == null) return null;
+            if (Parent == null || !(Parent is Canvas)) return null;
 
-            double destX = Position.X + Offset.X;
-            double destY = Position.Y + Offset.Y;
-            
+            double destX = Position.X;
+            double destY = Position.Y;
+
             double x = (double)GetValue(Canvas.LeftProperty);
             double y = (double)GetValue(Canvas.TopProperty);
 
@@ -166,21 +145,34 @@ namespace Sanguosha.UI.Controls
             {
                 SetValue(Canvas.LeftProperty, destX);
                 SetValue(Canvas.TopProperty, destY);
-                return;
+                return null;
             }
-                
-            Point point = new Point(x, y);
-            _daMoveX.From = x;
-            _daMoveY.From = y;
+
+            var _daMoveX = new DoubleAnimation();
+            var _daMoveY = new DoubleAnimation();
+            var _moveAnimation = new Storyboard();
+
+            Storyboard.SetTarget(_daMoveX, this);
+            Storyboard.SetTargetProperty(_daMoveX, new PropertyPath(Canvas.LeftProperty));
+            Storyboard.SetTarget(_daMoveY, this);
+            Storyboard.SetTargetProperty(_daMoveY, new PropertyPath(Canvas.TopProperty));
+            _moveAnimation.Children.Add(_daMoveX);
+            _moveAnimation.Children.Add(_daMoveY);
             _daMoveX.To = destX;
             _daMoveY.To = destY;
-
-            double transitionInSeconds = Math.Max(0.15d, Math.Sqrt((destX - x) * (destX - x) + (destY - y) * (destY - y)) / _movementSpeed);
             _daMoveX.Duration = TimeSpan.FromSeconds(transitionInSeconds);
             _daMoveY.Duration = TimeSpan.FromSeconds(transitionInSeconds);
+            _moveAnimation.Duration = TimeSpan.FromSeconds(transitionInSeconds);            
+            return _moveAnimation;
+        }
 
-            _moveAnimation.Duration = TimeSpan.FromSeconds(transitionInSeconds);
-            _moveAnimation.Begin(this, true);
+        /// <summary>
+        /// Animate card to <c>Position</c>.
+        /// </summary>
+        public void Rebase(double transitionInSeconds = 0.4d)
+        {
+            var anim = GetRebaseAnimation(transitionInSeconds);
+            if (anim != null) anim.Begin(this, HandoffBehavior.Compose);
         }
 
         public void Appear(double duration)
@@ -342,18 +334,7 @@ namespace Sanguosha.UI.Controls
         #endregion
 
         #region Dependency Properties
-
-        public Point Offset
-        {
-            get { return (Point)GetValue(OffsetProperty); }
-            set { SetValue(OffsetProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for Offset.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty OffsetProperty =
-            DependencyProperty.Register("Offset", typeof(Point), typeof(CardView), new UIPropertyMetadata(new Point(0, 0),
-                new PropertyChangedCallback(OnOffsetPropertyChanged)));
-        
+       
         public Point Position
         {
             get { return (Point)GetValue(PositionProperty); }
