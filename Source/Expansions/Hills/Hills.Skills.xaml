@@ -27,6 +27,7 @@
 
     <sys:String x:Key="Skill.TunTian.Name">屯田</sys:String>
     <sys:String x:Key="Skill.TunTian.Description">你的回合外，当你失去牌时，你可以进行一次判定，将非红桃结果的判定牌置于你的武将牌上，称为“田”；每有一张“田”，你计算的与其他角色的距离-1。</sys:String>
+    <sys:String x:Key="Skill.TunTian.Usage">系统提示→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.ZaoXian.Name">凿险</sys:String>
     <sys:String x:Key="Skill.ZaoXian.Description">觉醒技，回合开始阶段开始时，若“田”的数量达到3或更多，你须减1点体力上限，并获得技能“急袭”（你可以将一张“田”当【顺手牵羊】使用）。</sys:String>
@@ -38,6 +39,7 @@
     <sys:String x:Key="Skill.TiaoXin.Name">挑衅</sys:String>
     <sys:String x:Key="Skill.TiaoXin.Description">出牌阶段，你可以令一名你在其攻击范围内的其他角色选择一项：对你使用一张【杀】，或令你弃置其一张牌。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.TiaoXin.Usage">点“挑衅”→选择一名目标→点“确定”</sys:String>
+    <sys:String x:Key="Skill.TiaoXin.Prompt">请选择一个目标</sys:String>
 
     <sys:String x:Key="Skill.ZhiJi.Name">志继</sys:String>
     <sys:String x:Key="Skill.ZhiJi.Description">觉醒技，回合开始阶段开始时，若你没有手牌，你须选择一项：回复1点体力，或摸两张牌。然后你减1点体力上限，获得技能“观星”。</sys:String>
@@ -66,11 +68,12 @@
 
     <sys:String x:Key="Skill.ZhiBaGivenSkill.Name">制霸</sys:String>
     <sys:String x:Key="Skill.ZhiBaGivenSkill.Description">主公技，其他吴势力角色可以在他们各自的出牌阶段与你拼点（“魂姿”发动后，你可以拒绝此拼点），若该角色没赢，你可以获得双方拼点的牌。每阶段限一次。</sys:String>
-    <sys:String x:Key="Skill.ZhiBaGivenSkill.Usage">点“制霸”→点“确定”→选中拼点牌→点“确定”</sys:String>
+    <sys:String x:Key="Skill.ZhiBaGivenSkill.Usage">点“制霸”→选中拼点牌→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.ZhiJian.Name">直谏</sys:String>
     <sys:String x:Key="Skill.ZhiJian.Description">出牌阶段，你可以将手牌中的一张装备牌置于一名其他角色的装备区里，然后摸一张牌。</sys:String>
     <sys:String x:Key="Skill.ZhiJian.Usage">点“直谏”→选中1张装备牌→选择一名其他角色→点“确定”</sys:String>
+    <sys:String x:Key="Skill.ZhiJian.Prompt">请选择一张手牌中的装备牌和一个目标</sys:String>
 
     <sys:String x:Key="Skill.GuZheng.Name">固政</sys:String>
     <sys:String x:Key="Skill.GuZheng.Description">出牌阶段，你可以将手牌中的一张装备牌置于一名其他角色的装备区里，然后摸一张牌。</sys:String>
