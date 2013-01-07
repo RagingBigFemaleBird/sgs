@@ -93,7 +93,7 @@ namespace Sanguosha.Core.Network
         public void Start()
         {
             Trace.TraceInformation("Listener Started on {0} : {1}", ipAddress.ToString(), IpPort);
-            game.Settings.DisplayedNames = new List<string>();
+            game.Settings.Accounts = new List<Account>();
             for (int i = 0; i < maxClients; i++)
             {
                 handlers[i].game = game;
@@ -124,7 +124,7 @@ namespace Sanguosha.Core.Network
                     {
                         if (game.Configuration.AccountIds[index].token == ((LoginToken)item).token)
                         {
-                            game.Settings.DisplayedNames.Add(game.Configuration.DisplayedNames[index]);
+                            game.Settings.Accounts.Add(game.Configuration.Accounts[index]);
                         }
                     }
                 }

@@ -9,6 +9,6 @@ namespace Sanguosha.Lobby.Core
     public class AccountConfiguration
     {
         public List<LoginToken> AccountIds { get; set; }
-        public List<string> DisplayedNames { get; set; }
+        public List<Account> Accounts { get; set; }
     }
 }

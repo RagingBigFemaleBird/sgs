@@ -47,9 +47,9 @@ namespace Sanguosha.UI.Controls
                 foreach (var player in _game.Players)
                 {
                     string name;
-                    if (_game.Settings.DisplayedNames.Count == _game.Players.Count)
+                    if (_game.Settings.Accounts.Count == _game.Players.Count)
                     {
-                        name = _game.Settings.DisplayedNames[i];
+                        name = _game.Settings.Accounts[i].UserName;
                     }
                     else
                     {

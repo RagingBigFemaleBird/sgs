@@ -12,12 +12,7 @@ namespace Sanguosha.Lobby.Core
         public int TimeOutSeconds { get; set; }
         public bool CheatEnabled { get; set; }
         public int NumberOfDefectors { get; set; }
-        private List<string> displayedNames;
+        public List<Account> Accounts;
 
-        public List<string> DisplayedNames
-        {
-            get { return displayedNames; }
-            set { displayedNames = value; }
-        }
     }
 }

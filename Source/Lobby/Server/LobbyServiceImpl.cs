@@ -339,13 +339,13 @@ namespace Sanguosha.Lobby.Server
                 var gs = new GameSettings() { TimeOutSeconds = room.TimeOutSeconds, TotalPlayers = total, CheatEnabled = CheatEnabled };
                 var config = new AccountConfiguration();
                 config.AccountIds = new List<LoginToken>();
-                config.DisplayedNames = new List<string>();
+                config.Accounts = new List<Account>();
                 foreach (var addconfig in room.Seats)
                 {
                     if (addconfig.Account != null)
                     {
                         config.AccountIds.Add(new LoginToken() { token = loggedInAccountToGuid[addconfig.Account] });
-                        config.DisplayedNames.Add(addconfig.Account.UserName);
+                        config.Accounts.Add(addconfig.Account);
                     }
                 }
                 GameService.StartGameService(HostingIp, gs, config, room.Id, _OnGameEnds, out portNumber);
