@@ -475,6 +475,9 @@
     <Resource Include="Images\Buttons\lobbySpectate\hover.png" />
     <Resource Include="Images\Buttons\lobbySpectate\normal.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Lobby\Seat\closed.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /S /Y $(ProjectDir)*.* $(TargetDir)Resources\

@@ -148,5 +148,15 @@ namespace Sanguosha.UI.Controls
             LobbyViewModel.Instance.UpdateRooms();
             DataContext = LobbyViewModel.Instance;
         }
+
+        public void NotifyKeyEvent(string p)
+        {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                FlowDocument doc = new FlowDocument();
+                doc.Blocks.Add(new Paragraph(new Run(p)));
+                keyEventNotifier.AddLog(doc);
+            });
+        }
     }
 }

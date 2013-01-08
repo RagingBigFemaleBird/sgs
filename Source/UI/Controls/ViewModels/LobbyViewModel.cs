@@ -254,7 +254,9 @@ namespace Sanguosha.UI.Controls
         #region Server Callbacks
         public void NotifyKicked()
         {
-            throw new NotImplementedException();
+            LobbyView.Instance.NotifyKeyEvent(Application.Current.TryFindResource("Lobby.Event.SelfKicked") as string);
+            CurrentRoom = null;
+            UpdateRooms();
         }
 
         public void NotifyGameStart(string connectionString)

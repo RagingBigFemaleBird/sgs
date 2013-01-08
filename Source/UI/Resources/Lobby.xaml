@@ -10,6 +10,7 @@
     <sys:String x:Key="Seat.State.Gaming.Name">游戏中</sys:String>
     <sys:String x:Key="Seat.State.GuestReady.Name">准备</sys:String>
     <sys:String x:Key="Seat.State.Host.Name">盟主</sys:String>
+    <sys:String x:Key="Lobby.Event.SelfKicked">你被房主请出了房间</sys:String>
     <SolidColorBrush x:Key="RoomState.Gaming.Color" Color="#FFE4D5A0" />
     <SolidColorBrush x:Key="RoomState.Waiting.Color" Color="Red" /> 
 </ResourceDictionary>

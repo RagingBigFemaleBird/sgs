@@ -235,6 +235,7 @@
             </local:LobbyMainButton>
             <Image Source="/Resources;component/Images/Lobby/buttonDock.png" Stretch="None" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,-39,0"/>
         </Grid>
+        <local:KeyEventNotifierView x:Name="keyEventNotifier" IsHitTestVisible="False" Grid.ColumnSpan="2" />
         <Menu x:Name="mainMenu" Style="{DynamicResource MainMenuStyle}" Grid.ColumnSpan="2">
             <MenuItem Padding="0" Style="{DynamicResource MenuItemStyle1}" Height="20">
                 <MenuItem.Header>

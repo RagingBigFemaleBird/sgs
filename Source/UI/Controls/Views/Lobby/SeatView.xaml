@@ -185,11 +185,14 @@
         </EventTrigger>
     </UserControl.Triggers>	
     <Grid x:Name="LayoutRoot">
-        <Button x:Name="btnJoin" VerticalContentAlignment="Bottom" Command="{Binding JoinCommand}" Cursor="Hand" Style="{DynamicResource EmptySeatButtonStyle}">
-            <Grid x:Name="gridOpenSeat" Margin="0,0,0,10">
-                <Button x:Name="btnClose" Content ="禁止进入" Command="{Binding CloseCommand}" Style="{StaticResource DefaultButtonStyleRed}" Opacity="0" Visibility="{Binding IsEmpty, Converter={StaticResource boolToVisibilityConverter}}" />
-                <Button x:Name="btnOpen" Content ="开放座位" Command="{Binding OpenCommand}" Style="{StaticResource DefaultButtonStyleRed}" Opacity="0" Visibility="{Binding IsClosed, Converter={StaticResource boolToVisibilityConverter}}" />
-            </Grid>
+        <Button x:Name="btnJoin" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{Binding JoinCommand}" Cursor="Hand" Style="{DynamicResource EmptySeatButtonStyle}">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        		<Image Source="/Resources;component/Images/Lobby/Seat/closed.png" Visibility="{Binding IsClosed, Converter={StaticResource boolToVisibilityConverter}}" Stretch="None" Margin="0,0,0.5,1.5" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+        		<Grid x:Name="gridOpenSeat" Visibility="Hidden" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+        			<Button x:Name="btnClose" Content ="禁止进入" Command="{Binding CloseCommand}" Style="{StaticResource DefaultButtonStyleRed}" Opacity="0" Visibility="{Binding IsEmpty, Converter={StaticResource boolToVisibilityConverter}}" Margin="0,0,0.001,0" />
+        			<Button x:Name="btnOpen" Content ="开放座位" Command="{Binding OpenCommand}" Style="{StaticResource DefaultButtonStyleRed}" Opacity="0" Visibility="{Binding IsClosed, Converter={StaticResource boolToVisibilityConverter}}" Margin="0,0,0.001,0" />
+        		</Grid>
+        	</Grid>
         </Button>
         <Grid x:Name="gridTakenSeat" Visibility="{Binding IsTaken, Converter={StaticResource boolToVisibilityConverter}}">
             <Image Source="/Resources;component/Images/Lobby/Seat/bg0.png" Stretch="Fill"/>
@@ -255,7 +258,7 @@
             </RichTextBox>
             <Path Data="M86,25.5 L199,25.5" Height="1" Margin="86,28.835,7,0" Stretch="Fill" Stroke="#FFC7B564" VerticalAlignment="Top"/>
             <Path Data="M86,25.5 L199,25.5" Height="1" Margin="86,54.181,7,0" Stretch="Fill" Stroke="#FFC7B564" VerticalAlignment="Top"/>
-            <Button x:Name="btnKick" Content ="踢出房间" Command="{Binding KickCommand}" Margin="0,0,0,10" Style="{StaticResource DefaultButtonStyleRed}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Opacity="0" />
+            <Button x:Name="btnKick" Content ="踢出房间" Command="{Binding KickCommand}" Margin="0,0,0,10" Style="{StaticResource DefaultButtonStyleRed}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Opacity="0" Visibility="Hidden" />
             <Button x:Name="btnExit" Content ="退出房间" Command="{Binding KickCommand}" Margin="0,0,0,10" Style="{StaticResource DefaultButtonStyleRed}" Visibility="{Binding IsCurrentSeat, Converter={StaticResource boolToVisibilityConverter}}"
                     VerticalAlignment="Bottom" HorizontalAlignment="Center" Opacity="0" />
             <local:OutlinedTextBlock HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-5,-8,0"
