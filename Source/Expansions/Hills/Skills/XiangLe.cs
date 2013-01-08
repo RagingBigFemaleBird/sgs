@@ -46,8 +46,10 @@ namespace Sanguosha.Expansions.Hills.Skills
                 Game.CurrentGame.HandleCardDiscard(eventArgs.Source, cards);
                 return;
             }
-            eventArgs.ReadonlyCard[CardAttribute.Register("XiangLe" + owner.Id)] = 1;
+            eventArgs.ReadonlyCard[XiangLeEffect[owner]] = 1;
         }
+
+        private static CardAttribute XiangLeEffect = CardAttribute.Register("XiangLeEffect");
 
         public XiangLe()
         {
@@ -59,7 +61,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             ) { Priority = SkillPriority.XiangLe };
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard[CardAttribute.Register("XiangLe" + p.Id)] == 1; },
+                (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard[XiangLeEffect[p]] == 1; },
                 (p, e, a) => { throw new TriggerResultException(TriggerResult.End); },
                 TriggerCondition.OwnerIsTarget
             );

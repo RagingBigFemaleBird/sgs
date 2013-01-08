@@ -219,7 +219,7 @@ namespace Sanguosha.UI.Controls
                         else
                         {
                             cardsToRemove.Add(cardView);
-                            cardView.Offset = new Point(0, 0);
+                            cardView.CardModel.IsSelected = false;
                             cardView.DragDirection = DragDirection.None;
                             PlayerModel.HandCards.Remove(viewModel);                            
                         }
@@ -460,7 +460,7 @@ namespace Sanguosha.UI.Controls
             transformGroup.Children.Add(scale);
             card.RenderTransform = transformGroup;
 
-            DoubleAnimation rotateAnim = new DoubleAnimation(720, new Duration(TimeSpan.FromSeconds(0.8d)));
+            DoubleAnimation rotateAnim = new DoubleAnimation(180, new Duration(TimeSpan.FromSeconds(0.8d)));
             DoubleAnimation scaleXAnim = new DoubleAnimation(0.25, new Duration(TimeSpan.FromSeconds(0.8d)));
             DoubleAnimation scaleYAnim = new DoubleAnimation(0.25, new Duration(TimeSpan.FromSeconds(0.8d)));
             Storyboard.SetTarget(rotateAnim, card);
@@ -473,11 +473,12 @@ namespace Sanguosha.UI.Controls
             storyboard.Children.Add(rotateAnim);
             storyboard.Children.Add(scaleXAnim);
             storyboard.Children.Add(scaleYAnim);
+            var anim = card.GetRebaseAnimation(0.8d);
+            if (anim != null) storyboard.Children.Add(anim);
             storyboard.AccelerationRatio = 0.4d;
             storyboard.Begin();
-
             card.Disappear(1.2d);
-            card.Rebase();
+            
         }
 
         protected override CardView RemoveRoleCard(Card card)

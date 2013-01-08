@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.Threading;
 using Sanguosha.Core.UI;
 using System.Diagnostics;
+using Sanguosha.Lobby.Core;
 
 namespace Sanguosha.UI.Controls
 {
@@ -944,18 +945,18 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        private string _displayedUsername;
+        private Account _account;
 
-        public string DisplayedUsername
+        public Account Account
         {
-            get { return _displayedUsername; }
-            set
+            get { return _account; }
+            set 
             {
-                if (_displayedUsername == value) return;
-                _displayedUsername = value;
-                OnPropertyChanged("DisplayedUsername");
+                if (_account == value) return;
+                _account = value;
+                OnPropertyChanged("Account");
             }
-        }
+        }     
 
         private string _prompt;
         public string CurrentPromptString

@@ -9,6 +9,7 @@ using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Network;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Sanguosha.Core.UI
 {
@@ -34,6 +35,7 @@ namespace Sanguosha.Core.UI
             proxy = p;
             client = c;
             active = a;
+            lastTS = 0;
         }
 
         public void TryAskForCardUsage(Prompt prompt, ICardUsageVerifier verifier)
@@ -134,10 +136,42 @@ namespace Sanguosha.Core.UI
             client.NextComm();
         }
 
+        void _RecordTimeStamp()
+        {
+            if (client.RecordStream == null) return;
+            Trace.Assert(!client.IsReplay);
+            TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
+            Int64 msSinceEpoch = (Int64)t.TotalMilliseconds;
+            client.RecordStream.Write(BitConverter.GetBytes(msSinceEpoch), 0, 8);
+        }
+
+        private Int64 lastTS;
+
+        void _GetTimeStamp()
+        {
+            if (!client.IsReplay) return;
+            byte[] ts = new byte[8];
+            client.ReplayStream.Read(ts, 0, 8);
+            Int64 last = BitConverter.ToInt64(ts, 0);
+            if (lastTS != 0)
+            {
+                Int64 toSleep = last - lastTS;
+                Thread.Sleep((int)toSleep);
+            }
+            lastTS = last;
+        }
+
+        void _SimulateReplayDelay()
+        {
+            _RecordTimeStamp();
+            _GetTimeStamp();
+        }
+
         public bool AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             Trace.TraceInformation("Asking Card Usage to {0}.", HostPlayer.Id);
             TryAskForCardUsage(prompt, verifier);
+            _SimulateReplayDelay();
             if (active)
             {
                 NextQuestion();
@@ -162,6 +196,7 @@ namespace Sanguosha.Core.UI
         {
             Trace.TraceInformation("Asking Card Choice to {0}.", HostPlayer.Id);
             TryAskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, options, callback);
+            _SimulateReplayDelay();
             if (active)
             {
                 NextQuestion();
@@ -186,6 +221,7 @@ namespace Sanguosha.Core.UI
         {
             Trace.TraceInformation("Asking Multiple choice to {0}.", HostPlayer.Id);
             TryAskForMultipleChoice(prompt, questions);
+            _SimulateReplayDelay();
             if (active)
             {
                 NextQuestion();

@@ -427,13 +427,13 @@ namespace Sanguosha.UI.Controls
             Storyboard.SetTargetProperty(scaleXAnim, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"));
             Storyboard.SetTargetProperty(scaleYAnim, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"));
             Storyboard storyboard = new Storyboard();
-            storyboard.Children.Add(scaleXAnim);
+            storyboard.Children.Add(scaleXAnim);            
             storyboard.Children.Add(scaleYAnim);
+            var anim = card.GetRebaseAnimation(0.5d);
+            if (anim != null) storyboard.Children.Add(anim);
             storyboard.AccelerationRatio = 0.4d;
             storyboard.Begin();
-
-            card.Disappear(0.5d);
-            card.Rebase();
+            card.Disappear(0.5d);            
         }
 
         protected override CardView RemoveRoleCard(Card card)

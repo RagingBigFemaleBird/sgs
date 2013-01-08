@@ -9,6 +9,7 @@ using Sanguosha.Core.Skills;
 using Sanguosha.Core.Heroes;
 using Sanguosha.Core.Games;
 using System.Collections.ObjectModel;
+using Sanguosha.Lobby.Core;
 
 namespace Sanguosha.Core.Players
 {   
@@ -35,14 +36,6 @@ namespace Sanguosha.Core.Players
         {
             get { return id; }
             set { id = value; }
-        }
-
-        string userName;
-
-        public string UserName
-        {
-            get { return userName; }
-            set { userName = value; }
         }
 
         bool isIronShackled;

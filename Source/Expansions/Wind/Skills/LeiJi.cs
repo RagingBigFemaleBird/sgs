@@ -44,14 +44,14 @@ namespace Sanguosha.Expansions.Wind.Skills
         {
             var trigger = new AutoNotifyUsagePassiveSkillTrigger(
                 this,
-                (p, e, a) => { return a.Card.Type is Shan; },
+                (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard.Type is Shan; },
                 Run,
                 TriggerCondition.OwnerIsSource,
                 new LeiJiVerifier()
             );
             var trigger2 = new AutoNotifyUsagePassiveSkillTrigger(
                 this,
-                (p, e, a) => { return a.Card.Type is Shan;},
+                (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard.Type is Shan; },
                 Run,
                 TriggerCondition.OwnerIsSource,
                 new LeiJiVerifier()

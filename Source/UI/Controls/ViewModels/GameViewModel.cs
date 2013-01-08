@@ -46,19 +46,14 @@ namespace Sanguosha.UI.Controls
                 int i = 0;
                 foreach (var player in _game.Players)
                 {
-                    string name;
-                    if (_game.Settings.Accounts.Count == _game.Players.Count)
+                    Trace.Assert(_game.Settings.Accounts.Count == _game.Players.Count);
+                    PlayerModels.Add(new PlayerViewModel(player, this, false) 
                     {
-                        name = _game.Settings.Accounts[i].UserName;
-                    }
-                    else
-                    {
-                        name = "三国杀爱好者";
-                    }
+                        Account = _game.Settings.Accounts[i] 
+                    });
                     i++;
-                    PlayerModels.Add(new PlayerViewModel(player, this, false) { DisplayedUsername = name });
                 }
-                PlayerModels[0].IsPlayable = true;
+                PlayerModels[0].IsPlayable = !_game.IsReplay;
             }
         }        
         
@@ -84,7 +79,7 @@ namespace Sanguosha.UI.Controls
                     PlayerViewModel playerModel = PlayerModels[j];
                     if (gamePlayer == playerModel.Player)
                     {
-                        playerModel.IsPlayable = (i == 0);
+                        playerModel.IsPlayable = (i == 0) && !_game.IsReplay;
                         if (j != i)
                         {
                             PlayerModels.Move(j, i);

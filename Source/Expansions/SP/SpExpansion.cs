@@ -9,6 +9,7 @@ using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Heroes;
 using Sanguosha.Expansions.SP.Skills;
+using Sanguosha.Expansions.Basic.Skills;
 
 namespace Sanguosha.Expansions.SP
 {

@@ -23,7 +23,7 @@ namespace Sanguosha.UI.Controls
             if (player == null) return string.Empty;
             if (player.Hero == null)
             {
-                return player.UserName ?? string.Empty;
+                return Game.CurrentGame.Settings.Accounts[player.Id].UserName ?? string.Empty;
             }
             string key = string.Format("Hero.{0}.Name", player.Hero.Name);
             string name = Application.Current.TryFindResource(key) as string;
@@ -429,7 +429,7 @@ namespace Sanguosha.UI.Controls
             {
                 name = "主公";
             }
-            else name = player.UserName;
+            else name = Translate(player);
 
             string heroName = TranslateHeroName(hero);
             para.Inlines.Add(new Run(string.Format("{0}选择了", name)) { Foreground = OrangeBrush });

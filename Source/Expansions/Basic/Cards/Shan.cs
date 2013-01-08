@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         {
             if (eventArgs != null)
             {
-                eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + source.Id)]--;
+                eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses[source]]--;
             }
         }
 
@@ -56,9 +56,9 @@ namespace Sanguosha.Expansions.Basic.Cards
             GameEventArgs args = new GameEventArgs();
             Game.CurrentGame.Emit(PlayerShaTargetShanModifier, args);
             // this number is 0 for normal Sha/Shan. Lv Bu would like this to be 1
-            eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + dest.Id)]++;
-            int numberOfShanRequired = eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + dest.Id)];
-            bool cannotUseShan = eventArgs.ReadonlyCard[CardAttribute.Register(CannotProvideShan + dest.Id)] == 1 ? true : false;
+            eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses[dest]]++;
+            int numberOfShanRequired = eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses[dest]];
+            bool cannotUseShan = (eventArgs.ReadonlyCard[CannotProvideShan[dest]] == 1);
             bool cannotProvideShan = false;
             while (numberOfShanRequired > 0 && !cannotUseShan)
             {
@@ -83,9 +83,9 @@ namespace Sanguosha.Expansions.Basic.Cards
                         arg.InResponseTo = eventArgs;
                         Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, arg);
 #if SB_FAQ
-                        numberOfShanRequired --;
+                        numberOfShanRequired--;
 #else
-                        numberOfShanRequired = eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + dest.Id)];
+                        numberOfShanRequired = eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses[dest]];
 #endif
                         continue;
                     }
@@ -124,14 +124,14 @@ namespace Sanguosha.Expansions.Basic.Cards
                     break;
                 }
 #if SB_FAQ
-                numberOfShanRequired --;
+                numberOfShanRequired--;
 #else
-                numberOfShanRequired = eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + dest.Id)];
+                numberOfShanRequired = eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses[dest]];
 #endif
             }
             if (cannotUseShan ||
 #if SB_FAQ
-                eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + dest.Id)] > 0
+                eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses[dest]] > 0
 #else
                 numberOfShanRequired > 0
 #endif
@@ -162,6 +162,6 @@ namespace Sanguosha.Expansions.Basic.Cards
         /// 杀被闪
         /// </summary>
         public static readonly GameEvent PlayerShaTargetDodged = new GameEvent("PlayerShaTargetDodged");
-        public static readonly string CannotProvideShan = "CannotProvideShan";
+        public static readonly CardAttribute CannotProvideShan = CardAttribute.Register("CannotProvideShan");
     }
 }

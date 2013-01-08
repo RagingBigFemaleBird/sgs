@@ -139,7 +139,7 @@ namespace Sanguosha.UI.Controls
                 if (line.IsResultDeck)
                 {
                     string key = string.Format("CardSlot.Hint.{0}", line.DeckName);
-                    string hint = Resources.Contains(key) ? Resources[key] as string : string.Empty;
+                    string hint = (Application.Current.TryFindResource(key) as string) ?? string.Empty;
                     var slots = new List<CardViewModel>();
                     for (int i = 0; i < line.Capacity; i++)
                     {

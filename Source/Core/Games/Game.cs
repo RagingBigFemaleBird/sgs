@@ -145,6 +145,14 @@ namespace Sanguosha.Core.Games
         public Network.Server GameServer { get; set; }
         public Network.Client GameClient { get; set; }
 
+        public bool IsReplay
+        {
+            get
+            {
+                if (GameClient != null) return GameClient.IsReplay;
+                return false;
+            }
+        }
 
         public void SyncUnknownLocationCard(Player player, Card card)
         {

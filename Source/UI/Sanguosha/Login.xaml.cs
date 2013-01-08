@@ -24,6 +24,7 @@ using Sanguosha.Lobby.Server;
 using System.Net.NetworkInformation;
 using System.Net;
 using System.Net.Security;
+using Sanguosha.Core.Utils;
 
 namespace Sanguosha.UI.Main
 {
@@ -170,7 +171,7 @@ namespace Sanguosha.UI.Main
             {
                 try
                 {
-                    ea.Result = false;
+                    ea.Result = LoginStatus.UnknownFailure;
                     var lobbyModel = LobbyViewModel.Instance;
                     var binding = new NetTcpBinding();
                     binding.Security.Mode = SecurityMode.None;

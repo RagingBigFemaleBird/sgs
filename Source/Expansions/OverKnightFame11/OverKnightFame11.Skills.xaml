@@ -20,6 +20,7 @@
     <sys:String x:Key="Hero.XuShu.Name">徐庶</sys:String>
     <sys:String x:Key="Hero.YuJin.Name">于禁</sys:String>
     <sys:String x:Key="Hero.ZhangChunhua.Name">张春华</sys:String>
+    <sys:String x:Key="Hero.ZhongHui.Name">钟会</sys:String>
     
     
     <sys:String x:Key="Skill.LuoYing.Name">落英</sys:String>
@@ -32,7 +33,8 @@
 
     <sys:String x:Key="Skill.MingCe.Name">明策</sys:String>
     <sys:String x:Key="Skill.MingCe.Description">出牌阶段，你可以交给一名其他角色一张装备牌或【杀】，该角色选择一项：1. 视为对其攻击范围内你选择的另一名角色使用一张【杀】。2. 摸一张牌。每阶段限一次。</sys:String>
-    <sys:String x:Key="Skill.MingCe.Usage">点“明策”→选中一张装备牌或【杀】→选择目标→点“确定”→选择攻击范围内的一名角色（若有）→点“确定”</sys:String>
+    <sys:String x:Key="Skill.MingCe.Usage">点“明策”→选中一张装备牌或【杀】→选择目标→点“确定”→选择目标攻击范围内的一名角色（若有）→点“确定”</sys:String>
+    <sys:String x:Key="Skill.MingCe.Prompt">请选择一张装备牌或杀并选择一个目标</sys:String>
 
     <sys:String x:Key="Skill.ZhiChi.Name">智迟</sys:String>
     <sys:String x:Key="Skill.ZhiChi.Description">锁定技，你的回合外，每当你受到一次伤害后，【杀】或非延时类锦囊牌对你无效，直到回合结束。</sys:String>
@@ -43,10 +45,12 @@
     <sys:String x:Key="Skill.XuanHuo.Name">眩惑</sys:String>
     <sys:String x:Key="Skill.XuanHuo.Description">出牌阶段，你可以将一张红桃手牌交给一名其他角色，然后你获得该角色的一张牌并交给除该角色外的其他角色。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.XuanHuo.Usage">点“眩惑”→选中一张红桃手牌→选择目标→点“确定”→选择一张牌→选择目标→点“确定”</sys:String>
+    <sys:String x:Key="Skill.XuanHuo.Prompt">请选择一张红桃手牌并选择一个目标</sys:String>
 
     <sys:String x:Key="Skill.XianZhen.Name">陷阵</sys:String>
     <sys:String x:Key="Skill.XianZhen.Description">出牌阶段，你可以与一名角色拼点。若你赢，你获得以下技能直到回合结束：无视与该角色的距离及其防具；可对该角色使用任意数量的【杀】。若你没赢，你不能使用【杀】直到回合结束。每回合限一次。</sys:String>
     <sys:String x:Key="Skill.XianZhen.Usage">点“陷阵”→选择目标→点“确定”→选择一张牌→点“确定”</sys:String>
+    <sys:String x:Key="Skill.XianZhen.Prompt">请选择一个目标</sys:String>
 
     <sys:String x:Key="Skill.JinJiu.Name">禁酒</sys:String>
     <sys:String x:Key="Skill.JinJiu.Description">锁定技，你的【酒】均视为【杀】。</sys:String>
@@ -65,6 +69,7 @@
     <sys:String x:Key="Skill.GanLu.Name">甘露</sys:String>
     <sys:String x:Key="Skill.GanLu.Description">出牌阶段，你可以交换两名角色装备区里的牌，以此法交换的装备数差不能超过X（X为你已损失体力值）。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.GanLu.Usage">点“甘露”→选择两名角色→点“确定”</sys:String>
+    <sys:String x:Key="Skill.GanLu.Prompt">请选择两名目标</sys:String>
 
     <sys:String x:Key="Skill.BuYi.Name">补益</sys:String>
     <sys:String x:Key="Skill.BuYi.Description">当一名角色进入濒死状态时，你可以展示该角色的一张手牌，若此牌不为基本牌，该角色弃置之，然后回复1点体力。</sys:String>
@@ -80,6 +85,7 @@
     <sys:String x:Key="Skill.JuJian.Name">举荐</sys:String>
     <sys:String x:Key="Skill.JuJian.Description">出牌阶段，你可以弃置至多三张牌，然后令一名其他角色摸等量的牌。若你以此法弃置三张同一类别的牌，你回复1点体力。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.JuJian.Usage">点“举荐”→选中至多三张牌→选择一名目标→点“确定”</sys:String>
+    <sys:String x:Key="Skill.JuJian.Prompt">请选择不超过三张牌和一名目标</sys:String>
 
     <sys:String x:Key="Skill.YiZhong.Name">毅重</sys:String>
     <sys:String x:Key="Skill.YiZhong.Description">锁定技，若你的装备区没有防具牌，黑色的【杀】对你无效。</sys:String>
@@ -90,5 +96,16 @@
     <sys:String x:Key="Skill.ShangShi.Name">伤逝</sys:String>
     <sys:String x:Key="Skill.ShangShi.Description">弃牌阶段外，当你的手牌数小于你已损失的体力值时，你可以将手牌数补至等同于你已损失的体力值。</sys:String>
     <sys:String x:Key="Skill.ShangShi.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.QuanJi.Name">权计</sys:String>
+    <sys:String x:Key="Skill.QuanJi.Description">每当你受到1点伤害后，你可以摸一张牌，然后将一张手牌置于你的武将牌上，称为“权”；每有一张“权”，你的手牌上限+1。</sys:String>
+    <sys:String x:Key="Skill.QuanJi.Usage">系统提示→点“确定”→选中一张手牌→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.ZiLi.Name">自立</sys:String>
+    <sys:String x:Key="Skill.ZiLi.Description">觉醒技，回合开始阶段开始时，若“权”的数量达到3或更多，你须减1点体力上限并选择一项：回复1点体力，或摸两张牌，然后获得技能“排异”（出牌阶段，你可以将一张“权”置入弃牌堆，令一名角色摸两张牌，然后若该角色的手牌数大于你的手牌数，你对其造成1点伤害。每阶段限一次）。</sys:String>
+
+    <sys:String x:Key="Skill.PaiYi.Name">排异</sys:String>
+    <sys:String x:Key="Skill.PaiYi.Description">出牌阶段，你可以将一张“权”置入弃牌堆，令一名角色摸两张牌，然后若该角色的手牌数大于你的手牌数，你对其造成1点伤害。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.PaiYi.Usage">点“排异”→选择1张权→选择一名目标→点“确定”</sys:String>
     
 </ResourceDictionary>

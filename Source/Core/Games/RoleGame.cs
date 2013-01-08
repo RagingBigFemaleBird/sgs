@@ -305,7 +305,7 @@ namespace Sanguosha.Core.Games
                 Player isDoingAFavor = eventArgs.Source;
                 foreach (var checkFavor in m.Cards)
                 {
-                    if (checkFavor.Owner != eventArgs.Source)
+                    if (checkFavor.Owner != null && checkFavor.Owner != eventArgs.Source)
                     {
                         Trace.TraceInformation("Acting on behalf of others");
                         isDoingAFavor = checkFavor.Owner;
@@ -315,9 +315,8 @@ namespace Sanguosha.Core.Games
                 Game.CurrentGame.MoveCards(m);
                 if (isDoingAFavor != eventArgs.Source)
                 {
-                    Game.CurrentGame.PlayerPlayedCard(isDoingAFavor, eventArgs.Card);
+                    Game.CurrentGame.PlayerPlayedCard(isDoingAFavor, eventArgs.Targets, eventArgs.Card);
                     Game.CurrentGame.PlayerLostCard(isDoingAFavor, eventArgs.Cards);
-                    Game.CurrentGame.PlayerPlayedCard(isDoingAFavor, eventArgs.Card);
                 }
                 else
                 {

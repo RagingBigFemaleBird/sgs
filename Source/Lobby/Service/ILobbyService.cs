@@ -14,6 +14,7 @@ namespace Sanguosha.Lobby.Core
         Success = 0,
         OutdatedVersion = 1,
         InvalidUsernameAndPassword,
+        UnknownFailure
     }
 
     [Serializable]

@@ -28,7 +28,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                 {
                     if (Owner == pl)
                     {
-                        eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + pl.Id)] = 1;
+                        eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses[pl]] = 1;
                     }
                 }
             }
@@ -38,12 +38,12 @@ namespace Sanguosha.Expansions.Woods.Skills
                 {
                     if (pl.IsFemale)
                     {
-                        eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + pl.Id)] = 1;
+                        eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses[pl]] = 1;
                     }
                 }
             }
         }
-
+        
         public RouLin()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(

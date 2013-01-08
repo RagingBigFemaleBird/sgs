@@ -130,6 +130,10 @@
     <BitmapImage x:Key="Login.Button.Cancel.Hover">Buttons/lobbyCancel/hover.png</BitmapImage>
     <BitmapImage x:Key="Login.Button.Cancel.Down">Buttons/lobbyCancel/down.png</BitmapImage>
     <BitmapImage x:Key="Login.Button.Cancel.Disabled">Buttons/lobbyCancel/disabled.png</BitmapImage>
+    <BitmapImage x:Key="Login.Button.Spectate.Up">Buttons/lobbySpectate/normal.png</BitmapImage>
+    <BitmapImage x:Key="Login.Button.Spectate.Hover">Buttons/lobbySpectate/hover.png</BitmapImage>
+    <BitmapImage x:Key="Login.Button.Spectate.Down">Buttons/lobbySpectate/down.png</BitmapImage>
+    <BitmapImage x:Key="Login.Button.Spectate.Disabled">Buttons/lobbySpectate/disabled.png</BitmapImage>
     
     <BitmapImage x:Key="Game.InfoPanel.Header">Game/infoPlaneHeader.png</BitmapImage>
     <BitmapImage x:Key="Game.InfoPanel.Body">Game/infoPlaneBody.png</BitmapImage>

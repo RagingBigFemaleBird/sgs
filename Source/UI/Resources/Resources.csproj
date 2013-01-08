@@ -469,6 +469,12 @@
     <Resource Include="Images\GameResult\lose.png" />
     <Resource Include="Images\GameResult\win.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Buttons\lobbySpectate\disabled.png" />
+    <Resource Include="Images\Buttons\lobbySpectate\down.png" />
+    <Resource Include="Images\Buttons\lobbySpectate\hover.png" />
+    <Resource Include="Images\Buttons\lobbySpectate\normal.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /S /Y $(ProjectDir)*.* $(TargetDir)Resources\

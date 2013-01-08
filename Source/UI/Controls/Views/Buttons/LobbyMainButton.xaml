@@ -1,0 +1,27 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	x:Class="Sanguosha.UI.Controls.LobbyMainButton"
+	x:Name="UserControl"
+    xmlns:local="clr-namespace:Sanguosha.UI.Controls"
+	d:DesignWidth="640" d:DesignHeight="480">
+	<UserControl.Resources>
+		<ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Controls;component/Common.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/Lobby.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>        
+	</UserControl.Resources>
+	<Grid x:Name="LayoutRoot">		
+        <Button x:Name="readyButton" Command="{Binding ReadyCommand}" Style="{DynamicResource LobbyReadyButtonStyle}" />
+        <Button x:Name="cancelButton" Command="{Binding CancelReadyCommand}" Style="{DynamicResource LobbyCancelButtonStyle}" />
+        <Button x:Name="spectateButton" Command="{Binding SpectateCommand}" Style="{DynamicResource LobbySpectateButtonStyle}" />
+        <Button x:Name="startButton" Command="{Binding StartGameCommand}" Style="{DynamicResource StartButtonStyle}" />        
+    </Grid>
+</UserControl>
