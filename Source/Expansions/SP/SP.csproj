@@ -47,8 +47,11 @@
     </Compile>
     <Compile Include="Skills\HuXiao.cs" />
     <Compile Include="Skills\JiLei.cs" />
+    <Compile Include="Skills\ShenJi.cs" />
+    <Compile Include="Skills\ShenWei.cs" />
     <Compile Include="Skills\WeiDi.cs" />
     <Compile Include="Skills\WuJi.cs" />
+    <Compile Include="Skills\XiuLuo.cs" />
     <Compile Include="Skills\XueJi.cs" />
     <Compile Include="Skills\YiCong.cs" />
     <Compile Include="Skills\YongSi.cs" />
