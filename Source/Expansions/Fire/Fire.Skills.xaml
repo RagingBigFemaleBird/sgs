@@ -55,8 +55,8 @@
 
     <sys:String x:Key="Skill.TianYi.Name">天义</sys:String>
     <sys:String x:Key="Skill.TianYi.Description">出牌阶段，你可以与一名其他角色拼点。若你赢，你获得以下技能直到回合结束：你使用【杀】时无距离限制；可以额外使用一张【杀】；使用【杀】时可以额外选择一个目标。若你没赢，你不能使用【杀】，直到回合结束。每阶段限一次。</sys:String>
-    <sys:String x:Key="Skill.TianYi.Usage">点“天义”→选中拼点牌→选择目标→点“确定”</sys:String>
-    <sys:String x:Key="Skill.TianYi.Prompt">请选择一张手牌和一个目标</sys:String>
+    <sys:String x:Key="Skill.TianYi.Usage">点“天义”→选择目标→选择拼点牌→点“确定”</sys:String>
+    <sys:String x:Key="Skill.TianYi.Prompt">请选择一个目标</sys:String>
 
     <sys:String x:Key="Skill.LuanJi.Name">乱击</sys:String>
     <sys:String x:Key="Skill.LuanJi.Description">你可以将两张花色相同的手牌当【万箭齐发】使用。</sys:String>
