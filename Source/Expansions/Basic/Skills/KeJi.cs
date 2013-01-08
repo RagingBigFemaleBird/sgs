@@ -27,7 +27,7 @@ namespace Sanguosha.Expansions.Basic.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return Game.CurrentGame.CurrentPhase == TurnPhase.Play && Game.CurrentGame.CurrentPlayer == p && a.Card != null && a.Card.Type is Sha; },
+                (p, e, a) => { return Game.CurrentGame.CurrentPhase == TurnPhase.Play && Game.CurrentGame.CurrentPlayer == p && a.Card != null && a.ReadonlyCard != null && a.ReadonlyCard.Type is Sha; },
                 (p, e, a) => { p[KeJiFailed] = 1;},
                 TriggerCondition.OwnerIsSource
             ) { IsAutoNotify = false, AskForConfirmation = false };

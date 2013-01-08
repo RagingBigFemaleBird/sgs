@@ -9,6 +9,7 @@ using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Heroes;
 using Sanguosha.Expansions.SP.Skills;
+using Sanguosha.Expansions.Basic.Skills;
 
 namespace Sanguosha.Expansions.SP
 {
@@ -21,6 +22,7 @@ namespace Sanguosha.Expansions.SP
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("YangXiu", true, Allegiance.Wei, 3, new DanLao(), new JiLei()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("GuanYinPing", false, Allegiance.Shu, 3, new WuJi(), new HuXiao(), new XueJi()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("YuanShu", true, Allegiance.Qun, 4, new YongSi(), new WeiDi()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SPZhaoYun", true, Allegiance.Qun, 3, new LongDan(), new ChongZhen()))));
         }
     }
 }

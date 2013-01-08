@@ -315,9 +315,8 @@ namespace Sanguosha.Core.Games
                 Game.CurrentGame.MoveCards(m);
                 if (isDoingAFavor != eventArgs.Source)
                 {
-                    Game.CurrentGame.PlayerPlayedCard(isDoingAFavor, eventArgs.Card);
+                    Game.CurrentGame.PlayerPlayedCard(isDoingAFavor, eventArgs.Targets, eventArgs.Card);
                     Game.CurrentGame.PlayerLostCard(isDoingAFavor, eventArgs.Cards);
-                    Game.CurrentGame.PlayerPlayedCard(isDoingAFavor, eventArgs.Card);
                 }
                 else
                 {

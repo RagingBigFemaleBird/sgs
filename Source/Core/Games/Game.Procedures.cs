@@ -282,14 +282,15 @@ namespace Sanguosha.Core.Games
         /// </summary>
         /// <param name="source"></param>
         /// <param name="c"></param>
-        public void PlayerPlayedCard(Player source, ICard c)
+        public void PlayerPlayedCard(Player source, List<Player> targets, ICard c)
         {
             try
             {
                 GameEventArgs arg = new GameEventArgs();
                 arg.Source = source;
-                arg.Targets = null;
+                arg.Targets = targets;
                 arg.Card = c;
+                arg.ReadonlyCard = new ReadOnlyCard(c);
 
                 Emit(GameEvent.PlayerPlayedCard, arg);
             }
@@ -343,8 +344,8 @@ namespace Sanguosha.Core.Games
                 PlayerAboutToDiscardCard(isDoingAFavor, m.Cards, DiscardReason.Play);
                 MoveCards(m);
                 PlayerLostCard(p, backup);
-                PlayerPlayedCard(isDoingAFavor, result);
-                PlayerPlayedCard(p, result);
+                PlayerPlayedCard(isDoingAFavor, targets, result);
+                PlayerPlayedCard(p, targets, result);
                 PlayerDiscardedCard(isDoingAFavor, backup, DiscardReason.Play);
             }
             else
@@ -352,7 +353,7 @@ namespace Sanguosha.Core.Games
                 PlayerAboutToDiscardCard(p, m.Cards, DiscardReason.Play);
                 MoveCards(m);
                 PlayerLostCard(p, backup);
-                PlayerPlayedCard(p, result);
+                PlayerPlayedCard(p, targets, result);
                 PlayerDiscardedCard(p, backup, DiscardReason.Play);
             }
             return true;
