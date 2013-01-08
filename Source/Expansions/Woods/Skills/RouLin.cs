@@ -38,7 +38,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                 {
                     if (pl.IsFemale)
                     {
-                        eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses[pl.Id]] = 1;
+                        eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses[pl]] = 1;
                     }
                 }
             }
