@@ -97,11 +97,18 @@ namespace Sanguosha.UI.Controls
                 if (_currentRoom == value) return;
                 _currentRoom = value;
                 OnPropertyChanged("CurrentRoom");
-                StartGameCommand.CanExecuteStatus = !(_currentRoom.Seats.Any(s => s.Account != null &&
-                                                                             s.State != SeatState.Host &&
-                                                                             s.State != SeatState.GuestReady))
-                                                    && _currentRoom.Seats.Count(s => s.Account != null) >= 2;
-                CurrentSeat = CurrentRoom.Seats.FirstOrDefault(s => s.Account != null && s.Account.Id == CurrentAccount.Id);
+                if (value != null)
+                {
+                    StartGameCommand.CanExecuteStatus = !(_currentRoom.Seats.Any(s => s.Account != null &&
+                                                                                 s.State != SeatState.Host &&
+                                                                                 s.State != SeatState.GuestReady))
+                                                        && _currentRoom.Seats.Count(s => s.Account != null) >= 2;
+                    CurrentSeat = CurrentRoom.Seats.FirstOrDefault(s => s.Account != null && s.Account.Id == CurrentAccount.Id);
+                }
+                else
+                {
+                    CurrentSeat = null;
+                }
             }
         }
 
@@ -256,18 +263,24 @@ namespace Sanguosha.UI.Controls
         {
             LobbyView.Instance.NotifyKeyEvent(Application.Current.TryFindResource("Lobby.Event.SelfKicked") as string);
             CurrentRoom = null;
-            UpdateRooms();
+            Application.Current.Dispatcher.BeginInvoke((ThreadStart)delegate()
+            {
+                UpdateRooms();
+            });
         }
 
         public void NotifyGameStart(string connectionString)
         {
             GameServerConnectionString = connectionString;
-            LobbyView.Instance.StartGame();
+            Application.Current.Dispatcher.BeginInvoke((ThreadStart)delegate()
+            {
+                LobbyView.Instance.StartGame();
+            });
         }
 
         public void NotifyRoomUpdate(int id, Room room)
         {
-            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            Application.Current.Dispatcher.BeginInvoke((ThreadStart)delegate()
             {
                 var result = Rooms.FirstOrDefault(r => r.Id == id);
                 if (result != null)

@@ -1283,7 +1283,7 @@ namespace Sanguosha.UI.Controls
                     foreach (var equipCommand in EquipCommands)
                     {
                         bool enabledAsSkill = false;
-                        if (skill == null && equipCommand.SkillCommand.Skill != null && equipCommand.SkillCommand.Skill is CardTransformSkill)
+                        if (skill == null && equipCommand.SkillCommand.Skill != null && (equipCommand.SkillCommand.Skill is CardTransformSkill || equipCommand.SkillCommand.Skill is ActiveSkill))
                         {
                             enabledAsSkill = (currentUsageVerifier.Verify(HostPlayer, equipCommand.SkillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
                         }

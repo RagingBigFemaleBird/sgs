@@ -65,7 +65,8 @@ namespace Sanguosha.UI.Controls
             // Host can kick non-ready guests and close seats
             return (currentSeat.State == SeatState.Host &&
                    (clickedSeat.State == SeatState.Empty ||
-                    clickedSeat.State == SeatState.GuestTaken));
+                    clickedSeat.State == SeatState.GuestTaken ||
+                    clickedSeat.State == SeatState.GuestReady));
         }
 
 

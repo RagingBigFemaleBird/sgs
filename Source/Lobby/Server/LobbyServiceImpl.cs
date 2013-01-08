@@ -401,7 +401,9 @@ namespace Sanguosha.Lobby.Server
                 if (seat.State != SeatState.Host) return RoomOperationResult.Invalid;
                 if (room.Seats[seatNo].State == SeatState.GuestReady || room.Seats[seatNo].State == SeatState.GuestTaken)
                 {
-                    _ExitRoom(new LoginToken() { token = loggedInAccountToGuid[room.Seats[seatNo].Account] });
+                    var kicked = new LoginToken() { token = loggedInAccountToGuid[room.Seats[seatNo].Account] };
+                    _ExitRoom(kicked);
+                    loggedInGuidToChannel[kicked.token].NotifyKicked();
                     return RoomOperationResult.Success;
                 }
                 return RoomOperationResult.Invalid;
