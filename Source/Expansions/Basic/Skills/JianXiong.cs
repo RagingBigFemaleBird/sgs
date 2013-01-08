@@ -36,6 +36,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 TriggerCondition.OwnerIsTarget
             );
             Triggers.Add(GameEvent.AfterDamageInflicted, trigger);
+            IsAutoInvoked = false;
         }
     }
 }

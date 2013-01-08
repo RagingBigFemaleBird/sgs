@@ -56,7 +56,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 TriggerCondition.OwnerIsTarget | TriggerCondition.SourceHasCards
             ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.AfterDamageInflicted, trigger);
-            IsAutoInvoked = null;
+            IsAutoInvoked = false;
         }
 
     }
