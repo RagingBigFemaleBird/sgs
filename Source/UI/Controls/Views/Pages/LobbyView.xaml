@@ -97,6 +97,7 @@
                 </Style.BasedOn>
             </Style>
             <local:CurrentRoomAndSeatToButtonStateConverter x:Key="currentRoomAndSeatToButtonStateConverter"/>
+            <local:SeatStateToControlStatusConverter x:Key="seatStateToControlStatusConverter" />
             </ResourceDictionary>
         </Page.Resources>
     <Grid>
@@ -137,11 +138,11 @@
                             <DataGridTemplateColumn Header="操作" Width="1*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                    	<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                         <Button Content="查看" Style="{DynamicResource DefaultButtonStyleRed}" VerticalAlignment="Center" Click="viewRoomButton_Click"/>
-                                    	<Button Content="加入" Style="{DynamicResource DefaultButtonStyleRed}" Margin="2,0,0,0" VerticalAlignment="Center" Click="enterRoomButton_Click"/>
-										</StackPanel>
-									</DataTemplate>
+                                        <Button Content="加入" Style="{DynamicResource DefaultButtonStyleRed}" Margin="2,0,0,0" VerticalAlignment="Center" Click="enterRoomButton_Click"/>
+                                        </StackPanel>
+                                    </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
@@ -153,9 +154,9 @@
             <Border Margin="4, 10, 0, 0" BorderThickness="1" CornerRadius="3" BorderBrush="Black" >
                 <Border BorderThickness="1" CornerRadius="3" BorderBrush="#FFA59579" >
                     <Border BorderThickness="1" CornerRadius="3" BorderBrush="Black" >
-                    	<Border.Background>
-                    		<ImageBrush ImageSource="/Resources;component/Images/Lobby/roomBg.jpg" Viewport="0,0,525,255" ViewportUnits="Absolute" TileMode="FlipXY"/>
-                    	</Border.Background>
+                        <Border.Background>
+                            <ImageBrush ImageSource="/Resources;component/Images/Lobby/roomBg.jpg" Viewport="0,0,525,255" ViewportUnits="Absolute" TileMode="FlipXY"/>
+                        </Border.Background>
                         <Grid Margin="0,15,0,184">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.5*" />
@@ -171,7 +172,8 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <local:SeatView Width="207" Height="116" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0" />
+                                        <local:SeatView Width="207" Height="116" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0" 
+                                                        IsControllable="{Binding State, Converter={StaticResource seatStateToControlStatusConverter}}" />
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
@@ -183,7 +185,8 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <local:SeatView Width="207" Height="116" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,0" />
+                                        <local:SeatView Width="207" Height="116" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,0"
+                                                        IsControllable="{Binding State, Converter={StaticResource seatStateToControlStatusConverter}}" />
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
@@ -196,10 +199,10 @@
         <Grid Grid.Row="2">
         <Grid x:Name="roomNavigationPanel" VerticalAlignment="Top" Height="25" Margin="0,2,0,0">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
-			<Button Content="刷新列表" Command="{Binding UpdateRoomCommand}" Margin="3,0" Width="63" Style="{DynamicResource DefaultButtonStyle1}"/>
+            <Button Content="刷新列表" Command="{Binding UpdateRoomCommand}" Margin="3,0" Width="63" Style="{DynamicResource DefaultButtonStyle1}"/>
             <Button Content="创建房间" Command="{Binding CreateRoomCommand}" Margin="3,0" Width="63" Style="{DynamicResource DefaultButtonStyleBrown}"/>
-        	</StackPanel>
-		</Grid>
+            </StackPanel>
+        </Grid>
         <Border Grid.Row="1" Margin="0,34,0,0" BorderThickness="1" CornerRadius="3" BorderBrush="Black" >
             <Border BorderThickness="1" CornerRadius="3" BorderBrush="#FFA59579" >
                 <Border BorderThickness="1" CornerRadius="3" BorderBrush="Black" Background="#FF4A3B2D" Margin="0,0,-1,0" >

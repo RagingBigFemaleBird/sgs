@@ -55,15 +55,15 @@ namespace Sanguosha.UI.Controls
         }
     }
 
-	/// <summary>
-	/// Interaction logic for LobbyMainButton.xaml
-	/// </summary>
-	public partial class LobbyMainButton : UserControl
-	{
-		public LobbyMainButton()
-		{
-			this.InitializeComponent();
-		}
+    /// <summary>
+    /// Interaction logic for LobbyMainButton.xaml
+    /// </summary>
+    public partial class LobbyMainButton : UserControl
+    {
+        public LobbyMainButton()
+        {
+            this.InitializeComponent();
+        }
 
         public LobbyMainButtonState State
         {
@@ -99,5 +99,5 @@ namespace Sanguosha.UI.Controls
                     break;
             }
         }
-	}
+    }
 }

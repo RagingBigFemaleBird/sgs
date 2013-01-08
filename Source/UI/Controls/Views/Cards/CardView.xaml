@@ -138,26 +138,47 @@
                 <Image x:Name="tbSuit" Source="{res:ResourceKeyBinding Path=Suit, StringFormat=Card.Suit.\{0\}.Image.Normal}" Width="14" Height="14" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5.666,19.334,0,0"/>
             </Grid>
         </Viewbox>
-        <TextBlock x:Name="tbFootnote2" Style="{DynamicResource footNoteStyle}">
-                <TextBlock.Effect>
-                    <DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="1" Direction="0"/>
-                </TextBlock.Effect>
+        <TextBlock x:Name="tbFootnote2" Style="{DynamicResource footNoteStyle}" Foreground="Black" RenderTransformOrigin="0.5,0.5" >
+        	<TextBlock.RenderTransform>
+        		<TransformGroup>
+        			<ScaleTransform/>
+        			<SkewTransform/>
+        			<RotateTransform/>
+        			<TranslateTransform X="-1"/>
+        		</TransformGroup>
+        	</TextBlock.RenderTransform>
         </TextBlock>
-        <TextBlock x:Name="tbFootnote3" Style="{DynamicResource footNoteStyle}">
-                <TextBlock.Effect>
-                    <DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="1" Direction="90"/>
-                </TextBlock.Effect>
+        <TextBlock x:Name="tbFootnote3" Style="{DynamicResource footNoteStyle}" Foreground="Black" RenderTransformOrigin="0.5,0.5" >
+        	<TextBlock.RenderTransform>
+        		<TransformGroup>
+        			<ScaleTransform/>
+        			<SkewTransform/>
+        			<RotateTransform/>
+        			<TranslateTransform X="1"/>
+        		</TransformGroup>
+        	</TextBlock.RenderTransform>
         </TextBlock>
-        <TextBlock x:Name="tbFootnote4" Style="{DynamicResource footNoteStyle}">
-                <TextBlock.Effect>
-                    <DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="1" Direction="180"/>
-                </TextBlock.Effect>
+        <TextBlock x:Name="tbFootnote4" Style="{DynamicResource footNoteStyle}" Foreground="Black" RenderTransformOrigin="0.5,0.5" >
+        	<TextBlock.RenderTransform>
+        		<TransformGroup>
+        			<ScaleTransform/>
+        			<SkewTransform/>
+        			<RotateTransform/>
+        			<TranslateTransform Y="-1"/>
+        		</TransformGroup>
+        	</TextBlock.RenderTransform>
         </TextBlock>
-        <TextBlock x:Name="tbFootnote" Style="{DynamicResource footNoteStyle}">
-                <TextBlock.Effect>
-                    <DropShadowEffect BlurRadius="2" Color="Black" ShadowDepth="1" Direction="270"/>
-                </TextBlock.Effect>
+        <TextBlock x:Name="tbFootnote" Style="{DynamicResource footNoteStyle}" Foreground="Black" RenderTransformOrigin="0.5,0.5" >
+        	<TextBlock.RenderTransform>
+        		<TransformGroup>
+        			<ScaleTransform/>
+        			<SkewTransform/>
+        			<RotateTransform/>
+        			<TranslateTransform Y="1"/>
+        		</TransformGroup>
+        	</TextBlock.RenderTransform>
         </TextBlock>
+		<TextBlock x:Name="tbFootnote5" Style="{DynamicResource footNoteStyle}" Foreground="White" />
         <Border x:Name="fadeMask" Background="#64000000" Opacity="0">
             <i:Interaction.Behaviors>
                 <ei:DataStateBehavior Value="true" TrueState="Faded" FalseState="Unfaded" Binding="{Binding IsFaded}"/>

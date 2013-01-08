@@ -99,7 +99,8 @@ namespace Sanguosha.UI.Controls
                 OnPropertyChanged("CurrentRoom");
                 StartGameCommand.CanExecuteStatus = !(_currentRoom.Seats.Any(s => s.Account != null &&
                                                                              s.State != SeatState.Host &&
-                                                                             s.State != SeatState.GuestReady));
+                                                                             s.State != SeatState.GuestReady))
+                                                    && _currentRoom.Seats.Count(s => s.Account != null) >= 2;
                 CurrentSeat = CurrentRoom.Seats.FirstOrDefault(s => s.Account != null && s.Account.Id == CurrentAccount.Id);
             }
         }
@@ -137,7 +138,9 @@ namespace Sanguosha.UI.Controls
             set
             {
                 if (_currentSeat == value) return;
+                if (_currentSeat != null) _currentSeat.IsCurrentSeat = false;
                 _currentSeat = value;
+                if (value != null) value.IsCurrentSeat = true;
                 OnPropertyChanged("CurrentSeat");
             }
         }
@@ -216,21 +219,36 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        public void EnterRoom()
+        private bool _IsSuccess(RoomOperationResult result)
+        {
+            return result == RoomOperationResult.Success;
+        }
+
+        public bool EnterRoom()
         {
             Room room;
-            if (_connection.EnterRoom(_loginToken, _currentRoom.Id, false, null, out room) == RoomOperationResult.Success)
+            if (CurrentSeat != null)
+            {
+                if (!ExitRoom()) return false;
+            }
+            if (_IsSuccess(Connection.EnterRoom(_loginToken, _currentRoom.Id, false, null, out room)))
             {
                 CurrentRoom = new RoomViewModel() { Room = room };                
                 Trace.Assert(CurrentSeat != null, "Successfully joined a room, but do not find myself in the room");
+                return true;
             }
+            return false;
         }
 
-        public void StartGame()
+        public bool ExitRoom()
         {
-            if (_connection.StartGame(_loginToken) == RoomOperationResult.Success)
-            {
-            }
+            if (CurrentRoom == null) return false;
+            return _IsSuccess(Connection.ExitRoom(LoginToken));
+        }
+
+        public bool StartGame()
+        {
+            return _IsSuccess(_connection.StartGame(_loginToken));
         }
 
         #region Server Callbacks
@@ -269,6 +287,25 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyChat(string message)
         {
+        }
+
+        public bool JoinSeat(SeatViewModel seat)
+        {
+            if (CurrentSeat == null)
+            {
+                if (!EnterRoom()) return false;
+            }
+            return _IsSuccess(Connection.ChangeSeat(LoginToken, CurrentRoom.Seats.IndexOf(seat)));
+        }
+
+        public bool CloseSeat(SeatViewModel seat)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool KickPlayer(SeatViewModel seat)
+        {
+            return _IsSuccess(Connection.Kick(LoginToken, CurrentRoom.Seats.IndexOf(seat)));
         }
     }
 }

@@ -122,95 +122,162 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <Storyboard x:Key="OnMouseEnter1">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="btnClose">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="OnMouseLeave1">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="btnClose">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="OnMouseEnter2">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="btnKick">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="btnExit">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1"/>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="OnMouseLeave2">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="btnKick">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="btnExit">
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Style x:Key="EmptySeatButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid>
+                                <Image Source="/Resources;component/Images/Lobby/Seat/empty.png" Stretch="Fill"/>
+                                <Image x:Name="image" Source="/Resources;component/Images/Lobby/Seat/pattern.png" Stretch="Fill"/>
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsFocused" Value="True"/>
+                                <Trigger Property="IsDefaulted" Value="True"/>
+                                <Trigger Property="IsMouseOver" Value="True"/>
+                                <Trigger Property="IsPressed" Value="True"/>
+                                <Trigger Property="IsEnabled" Value="False"/>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
-    </UserControl.Resources>	
+    </UserControl.Resources>
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="Mouse.MouseEnter" SourceName="gridTakenSeat">
+            <BeginStoryboard x:Name="OnMouseLeave1_BeginStoryboard" Storyboard="{StaticResource OnMouseEnter2}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="Mouse.MouseLeave" SourceName="gridTakenSeat">
+            <BeginStoryboard x:Name="OnMouseLeave2_BeginStoryboard" Storyboard="{StaticResource OnMouseLeave2}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="Mouse.MouseEnter" SourceName="btnJoin">
+            <BeginStoryboard x:Name="OnMouseEnter1_BeginStoryboard" Storyboard="{StaticResource OnMouseEnter1}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="Mouse.MouseLeave" SourceName="btnJoin">
+            <BeginStoryboard x:Name="OnMouseLeave2_BeginStoryboard1" Storyboard="{StaticResource OnMouseLeave1}"/>
+        </EventTrigger>
+    </UserControl.Triggers>	
     <Grid x:Name="LayoutRoot">
-    	<Image Source="/Resources;component/Images/Lobby/Seat/empty.png" Stretch="Fill"/>
-    	<Image Source="/Resources;component/Images/Lobby/Seat/pattern.png" Stretch="Fill"/>
-    	<Grid x:Name="gridTakenSeat" Visibility="{Binding IsTaken, Converter={StaticResource boolToVisibilityConverter}}">
-    		<Image Source="/Resources;component/Images/Lobby/Seat/bg0.png" Stretch="Fill"/>
-    		<Grid  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7,7,0,0" Width="75" Height="75" >
-    			<Image Source="/Resources;component/Images/Lobby/Seat/photo0.gif" Stretch="Fill" />
-    			<Image Source="/Resources;component/Images/Lobby/Seat/bd0.png" Stretch="Fill" />
-    		</Grid>
-    		<Image Margin="4,0,0,4" VerticalAlignment="Bottom" HorizontalAlignment="Left" Source="/Resources;component/Images/Lobby/Seat/win.png" Stretch="None" RenderTransformOrigin="0,1">
-    			<Image.RenderTransform>
-    				<TransformGroup>
-    					<ScaleTransform ScaleX="0.6" ScaleY="0.6"/>
-    					<SkewTransform/>
-    					<RotateTransform/>
-    					<TranslateTransform/>
-    				</TransformGroup>
-    			</Image.RenderTransform>
-    		</Image>
-    		<Image Margin="0,0,4,4" VerticalAlignment="Bottom" HorizontalAlignment="Right" Source="/Resources;component/Images/Lobby/Seat/quit.png" Stretch="None" RenderTransformOrigin="1,1">
-    			<Image.RenderTransform>
-    				<TransformGroup>
-    					<ScaleTransform ScaleX="0.6" ScaleY="0.6"/>
-    					<SkewTransform/>
-    					<RotateTransform/>
-    					<TranslateTransform/>
-    				</TransformGroup>
-    			</Image.RenderTransform>
-    		</Image>
-    		<Grid Height="13" VerticalAlignment="Bottom" Margin="24,0,24,13.5">
-    			<Border CornerRadius="15,15,0,0" ClipToBounds="True" BorderThickness="0,0,0,1" BorderBrush="#FF9D9D9D">
-    				<Border BorderThickness="1,1,0,0" Background="#FF2F363E" BorderBrush="Black" CornerRadius="15,15,0,0" ClipToBounds="True">
-    					<Border.Effect>
-    						<BlurEffect Radius="5" />
-    					</Border.Effect>	
-    				</Border>
-    			</Border>
-    			<ProgressBar Style="{DynamicResource winProgressBarStyle}" Value="46" />
-    			<ProgressBar Value="20" Style="{DynamicResource quitProgressBarStyle}" />
-    			<Border Background="#FF2F363E" CornerRadius="0,0,8,8" ClipToBounds="True" BorderThickness="1,0,1,1" Margin="12.5,0,0,-8.501" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="34.5">
-    				<Border.BorderBrush>
-    					<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-    						<GradientStop Color="#FFA1A1A1" Offset="1"/>
-    						<GradientStop Color="Black"/>
-    					</LinearGradientBrush>
-    				</Border.BorderBrush>
-    				<TextBlock Text="46%" FontFamily="Arial" Foreground="Lime" FontSize="9" HorizontalAlignment="Center" Margin="0,0,0,0" />
-    			</Border>
-    			<Border Background="#FF2F363E" CornerRadius="0,0,8,8" ClipToBounds="True" BorderThickness="1,0,1,1" Margin="0,0,12,-8.501" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="34.5">
-    				<Border.BorderBrush>
-    					<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-    						<GradientStop Color="#FFA1A1A1" Offset="1"/>
-    						<GradientStop Color="Black"/>
-    					</LinearGradientBrush>
-    				</Border.BorderBrush>
-    				<TextBlock Text="20%" FontFamily="Arial" Foreground="Red" FontSize="9" HorizontalAlignment="Center" Margin="0,0,0,0" />
-    			</Border>						
-    		</Grid>	
-    		<RichTextBox Margin="86,7,8,34" FontSize="15" FontFamily="KaiTi" Background="Transparent" Foreground="White" BorderBrush="#FFC7B564" IsHitTestVisible="False">
-    			<FlowDocument TextAlignment="Center" LineHeight="10">
-    				<Paragraph><Run Text="Lv. 2" FontFamily="Arial"  FontSize="13"/></Paragraph>				
-    				<Paragraph><Run Text="{Binding Account.UserName}"/></Paragraph>
-    				<Paragraph><Run Text="技巧度："/><Run Text=" "/><Run Text="12" FontFamily="Arial" /></Paragraph>
-    			</FlowDocument>
-    		</RichTextBox>
-    		<Path Data="M86,25.5 L199,25.5" Height="1" Margin="86,28.835,7,0" Stretch="Fill" Stroke="#FFC7B564" VerticalAlignment="Top"/>
-    		<Path Data="M86,25.5 L199,25.5" Height="1" Margin="86,54.181,7,0" Stretch="Fill" Stroke="#FFC7B564" VerticalAlignment="Top"/>
-    		<local:OutlinedTextBlock HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-5,-8,0"
-									 Text="{res:ResourceKeyBinding Path=State, StringFormat=Seat.State.{0}.Name}" FontSize="26.25" FontFamily="STLiTi" RenderTransformOrigin="0.5,0.5" >
-    			<local:OutlinedTextBlock.RenderTransform>
-    				<TransformGroup>
-    					<ScaleTransform/>
-    					<SkewTransform/>
-    					<RotateTransform Angle="30"/>
-    					<TranslateTransform/>
-    				</TransformGroup>
-    			</local:OutlinedTextBlock.RenderTransform>
-    			<local:OutlinedTextBlock.Fill>
-    				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-    					<GradientStop Color="#FFFFDD3F" Offset="0.004"/>
-    					<GradientStop Color="White" Offset="1"/>
-    				</LinearGradientBrush>
-    			</local:OutlinedTextBlock.Fill>
-				<local:OutlinedTextBlock.Effect>
-					<DropShadowEffect ShadowDepth="0" Color="White" BlurRadius="10" />
-				</local:OutlinedTextBlock.Effect>
-    		</local:OutlinedTextBlock>
-		</Grid>    	
-	</Grid>
+        <Button x:Name="btnJoin" VerticalContentAlignment="Bottom" Command="{Binding JoinCommand}" Cursor="Hand" Style="{DynamicResource EmptySeatButtonStyle}">
+            <Grid x:Name="gridOpenSeat" Margin="0,0,0,10">
+                <Button x:Name="btnClose" Content ="禁止进入" Command="{Binding CloseCommand}" Style="{StaticResource DefaultButtonStyleRed}" Opacity="0" Visibility="{Binding IsEmpty, Converter={StaticResource boolToVisibilityConverter}}" />
+                <Button x:Name="btnOpen" Content ="开放座位" Command="{Binding OpenCommand}" Style="{StaticResource DefaultButtonStyleRed}" Opacity="0" Visibility="{Binding IsClosed, Converter={StaticResource boolToVisibilityConverter}}" />
+            </Grid>
+        </Button>
+        <Grid x:Name="gridTakenSeat" Visibility="{Binding IsTaken, Converter={StaticResource boolToVisibilityConverter}}">
+            <Image Source="/Resources;component/Images/Lobby/Seat/bg0.png" Stretch="Fill"/>
+            <Grid  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="7,7,0,0" Width="75" Height="75" >
+                <Image Source="/Resources;component/Images/Lobby/Seat/photo0.gif" Stretch="Fill" />
+                <Image Source="/Resources;component/Images/Lobby/Seat/bd0.png" Stretch="Fill" />
+            </Grid>
+            <Image Margin="4,0,0,4" VerticalAlignment="Bottom" HorizontalAlignment="Left" Source="/Resources;component/Images/Lobby/Seat/win.png" Stretch="None" RenderTransformOrigin="0,1">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="0.6" ScaleY="0.6"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+            <Image Margin="0,0,4,4" VerticalAlignment="Bottom" HorizontalAlignment="Right" Source="/Resources;component/Images/Lobby/Seat/quit.png" Stretch="None" RenderTransformOrigin="1,1">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="0.6" ScaleY="0.6"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+            <Grid Height="13" VerticalAlignment="Bottom" Margin="24,0,24,13.5">
+                <Border CornerRadius="15,15,0,0" ClipToBounds="True" BorderThickness="0,0,0,1" BorderBrush="#FF9D9D9D">
+                    <Border BorderThickness="1,1,0,0" Background="#FF2F363E" BorderBrush="Black" CornerRadius="15,15,0,0" ClipToBounds="True">
+                        <Border.Effect>
+                            <BlurEffect Radius="5" />
+                        </Border.Effect>	
+                    </Border>
+                </Border>
+                <ProgressBar Style="{DynamicResource winProgressBarStyle}" Value="46" />
+                <ProgressBar Value="20" Style="{DynamicResource quitProgressBarStyle}" />
+                <Border Background="#FF2F363E" CornerRadius="0,0,8,8" ClipToBounds="True" BorderThickness="1,0,1,1" Margin="12.5,0,0,-8.501" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="34.5">
+                    <Border.BorderBrush>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFA1A1A1" Offset="1"/>
+                            <GradientStop Color="Black"/>
+                        </LinearGradientBrush>
+                    </Border.BorderBrush>
+                    <TextBlock Text="46%" FontFamily="Arial" Foreground="Lime" FontSize="9" HorizontalAlignment="Center" Margin="0,0,0,0" />
+                </Border>
+                <Border Background="#FF2F363E" CornerRadius="0,0,8,8" ClipToBounds="True" BorderThickness="1,0,1,1" Margin="0,0,12,-8.501" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="34.5">
+                    <Border.BorderBrush>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFA1A1A1" Offset="1"/>
+                            <GradientStop Color="Black"/>
+                        </LinearGradientBrush>
+                    </Border.BorderBrush>
+                    <TextBlock Text="20%" FontFamily="Arial" Foreground="Red" FontSize="9" HorizontalAlignment="Center" Margin="0,0,0,0" />
+                </Border>						
+            </Grid>	
+            <RichTextBox Margin="86,7,8,34" FontSize="15" FontFamily="KaiTi" Background="Transparent" Foreground="White" BorderBrush="#FFC7B564" IsHitTestVisible="False">
+                <FlowDocument TextAlignment="Center" LineHeight="10">
+                    <Paragraph><Run Text="Lv. 2" FontFamily="Arial"  FontSize="13"/></Paragraph>				
+                    <Paragraph><Run Text="{Binding Account.UserName}"/></Paragraph>
+                    <Paragraph><Run Text="技巧度："/><Run Text=" "/><Run Text="12" FontFamily="Arial" /></Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+            <Path Data="M86,25.5 L199,25.5" Height="1" Margin="86,28.835,7,0" Stretch="Fill" Stroke="#FFC7B564" VerticalAlignment="Top"/>
+            <Path Data="M86,25.5 L199,25.5" Height="1" Margin="86,54.181,7,0" Stretch="Fill" Stroke="#FFC7B564" VerticalAlignment="Top"/>
+            <Button x:Name="btnKick" Content ="踢出房间" Command="{Binding KickCommand}" Margin="0,0,0,10" Style="{StaticResource DefaultButtonStyleRed}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Opacity="0" />
+            <Button x:Name="btnExit" Content ="退出房间" Command="{Binding KickCommand}" Margin="0,0,0,10" Style="{StaticResource DefaultButtonStyleRed}" Visibility="{Binding IsCurrentSeat, Converter={StaticResource boolToVisibilityConverter}}"
+                    VerticalAlignment="Bottom" HorizontalAlignment="Center" Opacity="0" />
+            <local:OutlinedTextBlock HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-5,-8,0"
+                                     Text="{res:ResourceKeyBinding Path=State, StringFormat=Seat.State.\{0\}.Name}" FontSize="26.25" FontFamily="STLiTi" RenderTransformOrigin="0.5,0.5" >
+                <local:OutlinedTextBlock.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="30"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </local:OutlinedTextBlock.RenderTransform>
+                <local:OutlinedTextBlock.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFFFDD3F" Offset="0.004"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
+                </local:OutlinedTextBlock.Fill>
+                <local:OutlinedTextBlock.Effect>
+                    <DropShadowEffect ShadowDepth="0" Color="White" BlurRadius="10" />
+                </local:OutlinedTextBlock.Effect>
+            </local:OutlinedTextBlock>
+        </Grid>    	
+    </Grid>
 </UserControl>

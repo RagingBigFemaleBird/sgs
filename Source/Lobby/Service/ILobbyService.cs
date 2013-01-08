@@ -60,7 +60,7 @@ namespace Sanguosha.Lobby.Core
         RoomOperationResult EnterRoom(LoginToken token, int roomId, bool spectate, string password, out Room room);
 
         [OperationContract]
-        RoomOperationResult ExitRoom(LoginToken token, int roomId);
+        RoomOperationResult ExitRoom(LoginToken token);
 
         [OperationContract]
         RoomOperationResult ChangeSeat(LoginToken token, int newSeat);

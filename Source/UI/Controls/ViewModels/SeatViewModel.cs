@@ -5,6 +5,7 @@ using System.Windows.Data;
 using System.ComponentModel;
 using Sanguosha.UI.Controls;
 using Sanguosha.Lobby.Core;
+using System.Windows.Input;
 
 namespace Sanguosha.UI.Controls
 {
@@ -12,7 +13,24 @@ namespace Sanguosha.UI.Controls
     {
         public SeatViewModel()
         {
-            
+            JoinCommand = new SimpleRelayCommand((o) => { JoinSeat(); }) { CanExecuteStatus = true };
+            CloseCommand = new SimpleRelayCommand((o) => { CloseSeat(); }) { CanExecuteStatus = true };
+            KickCommand = new SimpleRelayCommand((o) => { KickPlayer(); }) { CanExecuteStatus = true };
+        }
+
+        private void KickPlayer()
+        {
+            LobbyViewModel.Instance.KickPlayer(this);
+        }
+
+        private void CloseSeat()
+        {
+            LobbyViewModel.Instance.CloseSeat(this);
+        }
+
+        private void JoinSeat()
+        {
+            LobbyViewModel.Instance.JoinSeat(this);
         }
 
         private Seat _seat;
@@ -45,6 +63,19 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        private bool _isCurrentSeat;
+
+        public bool IsCurrentSeat
+        {
+            get { return _isCurrentSeat; }
+            set 
+            {
+                if (_isCurrentSeat == value) return;
+                _isCurrentSeat = value;
+                OnPropertyChanged("IsCurrentSeat");
+            }
+        }
+
         private SeatState _state;
 
         public SeatState State 
@@ -59,6 +90,24 @@ namespace Sanguosha.UI.Controls
                 _state = value;
                 OnPropertyChanged("State");
                 OnPropertyChanged("IsTaken");
+                OnPropertyChanged("IsEmpty");
+                OnPropertyChanged("IsClosed");
+            }
+        }
+
+        public bool IsEmpty
+        {
+            get
+            {
+                return _state == SeatState.Empty;
+            }
+        }
+
+        public bool IsClosed
+        {
+            get
+            {
+                return _state == SeatState.Closed;
             }
         }
 
@@ -69,5 +118,25 @@ namespace Sanguosha.UI.Controls
                 return (_state != SeatState.Empty && _state != SeatState.Closed);
             }
         }
+
+        #region Commands
+        public ICommand JoinCommand
+        {
+            get;
+            set;
+        }
+
+        public ICommand CloseCommand
+        {
+            get;
+            set;
+        }
+
+        public ICommand KickCommand
+        {
+            get;
+            set;
+        }
+        #endregion
     }
 }
