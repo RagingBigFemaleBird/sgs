@@ -21,9 +21,9 @@ namespace Sanguosha.UI.Controls
             CreateRoomCommand = new SimpleRelayCommand(o => CreateRoom()) { CanExecuteStatus = true };
             UpdateRoomCommand = new SimpleRelayCommand(o => UpdateRooms()) { CanExecuteStatus = true };
             EnterRoomCommand = new SimpleRelayCommand(o => EnterRoom()) { CanExecuteStatus = true };
-            StartGameCommand = new VisibilityLinkedRelayCommand(o => StartGame()) { CanExecuteStatus = false, IsVisible = false };
-            ReadyCommand = new VisibilityLinkedRelayCommand(o => PlayerReady()) { CanExecuteStatus = true, IsVisible = true };
-            CancelReadyCommand = new VisibilityLinkedRelayCommand(o => PlayerCancelReady()) { CanExecuteStatus = true, IsVisible = false };
+            StartGameCommand = new SimpleRelayCommand(o => StartGame()) { CanExecuteStatus = false };
+            ReadyCommand = new SimpleRelayCommand(o => PlayerReady()) { CanExecuteStatus = true };
+            CancelReadyCommand = new SimpleRelayCommand(o => PlayerCancelReady()) { CanExecuteStatus = true};
         }
 
         private void PlayerCancelReady()        
@@ -31,9 +31,6 @@ namespace Sanguosha.UI.Controls
             var result = _connection.CancelReady(LoginToken);
             if (result == RoomOperationResult.Success)
             {
-                StartGameCommand.IsVisible = false;
-                CancelReadyCommand.IsVisible = false;
-                ReadyCommand.IsVisible = true;
             }
         }
 
@@ -41,11 +38,7 @@ namespace Sanguosha.UI.Controls
         {
             var result = _connection.Ready(LoginToken);
             if (result == RoomOperationResult.Success)
-            {
-                
-                StartGameCommand.IsVisible = false;
-                CancelReadyCommand.IsVisible = true;
-                ReadyCommand.IsVisible = false;
+            {                
             }
         }
 
@@ -180,9 +173,9 @@ namespace Sanguosha.UI.Controls
         public ICommand UpdateRoomCommand { get; set; }
         public ICommand CreateRoomCommand { get; set; }
         public ICommand EnterRoomCommand { get; set; }
-        public VisibilityLinkedRelayCommand StartGameCommand { get; set; }
-        public VisibilityLinkedRelayCommand ReadyCommand { get; set; }
-        public VisibilityLinkedRelayCommand CancelReadyCommand { get; set; }
+        public SimpleRelayCommand StartGameCommand { get; set; }
+        public SimpleRelayCommand ReadyCommand { get; set; }
+        public SimpleRelayCommand CancelReadyCommand { get; set; }
         #endregion
 
         #endregion
@@ -220,9 +213,6 @@ namespace Sanguosha.UI.Controls
             {
                 CurrentRoom = new RoomViewModel() { Room = room };                
                 Trace.Assert(CurrentSeat != null, "Successfully created a room, but do not find myself in the room");
-                StartGameCommand.IsVisible = true;
-                ReadyCommand.IsVisible = false;
-                CancelReadyCommand.IsVisible = false;
             }
         }
 
@@ -276,9 +266,6 @@ namespace Sanguosha.UI.Controls
         }
         #endregion
         #endregion
-
-
-
 
         public void NotifyChat(string message)
         {

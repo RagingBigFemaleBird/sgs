@@ -170,7 +170,7 @@ namespace Sanguosha.UI.Main
             {
                 try
                 {
-                    ea.Result = false;
+                    ea.Result = LoginStatus.UnknownFailure;
                     var lobbyModel = LobbyViewModel.Instance;
                     var binding = new NetTcpBinding();
                     binding.Security.Mode = SecurityMode.None;

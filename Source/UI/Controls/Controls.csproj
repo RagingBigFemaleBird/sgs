@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ExpressionBlendVersion>4.0.20901.0</ExpressionBlendVersion>
+    <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{87F9F9C1-37B0-4725-8EB7-4A07560F7AD6}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -62,7 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ViewModels\CardSlotViewModel.cs" />
-    <Compile Include="ViewModels\VisibilityLinkedRelayCommand.cs" />
     <Compile Include="ViewModels\GameResultViewModel.cs" />
     <Compile Include="ViewModels\GuHuoSkillCommand.cs" />
     <Compile Include="ViewModels\LobbyViewModel.cs" />
@@ -73,6 +72,9 @@
     <Compile Include="Views\BaseControls\BoolToDoubleConverter.cs" />
     <Compile Include="Views\BaseControls\FlowDocumentExtensions.cs" />
     <Compile Include="Views\Buttons\ImageButton.cs" />
+    <Compile Include="Views\Buttons\LobbyMainButton.xaml.cs">
+      <DependentUpon>LobbyMainButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Cards\CardInteraction.cs" />
     <Compile Include="Views\Cards\DragDirection.cs" />
     <Compile Include="Views\Cards\SuitColorToColorConverter.cs" />
@@ -206,6 +208,10 @@
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Buttons\LobbyMainButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Controls\KeyEventNotifierView.xaml">
       <Generator>MSBuild:Compile</Generator>
