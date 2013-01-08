@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
+    <ExpressionBlendVersion>4.0.20901.0</ExpressionBlendVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{87F9F9C1-37B0-4725-8EB7-4A07560F7AD6}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -81,6 +81,9 @@
     <Compile Include="Views\Containers\SingleRowCardStack.cs" />
     <Compile Include="Views\Controls\KeyEventNotifierView.xaml.cs">
       <DependentUpon>KeyEventNotifierView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controls\ReplayController.xaml.cs">
+      <DependentUpon>ReplayController.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\CardArrangeBox.xaml.cs">
       <DependentUpon>CardArrangeBox.xaml</DependentUpon>
@@ -214,6 +217,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Controls\KeyEventNotifierView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Controls\ReplayController.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
