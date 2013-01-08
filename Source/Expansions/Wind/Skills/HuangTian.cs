@@ -22,8 +22,7 @@ namespace Sanguosha.Expansions.Wind.Skills
     {
         public override VerifierResult Validate(GameEventArgs arg)
         {
-            PlayerAttribute HuangTianUsed = PlayerAttribute.Register("HuangTianUsed" + Master.Id, true);
-            if (Owner[HuangTianUsed] != 0)
+            if (Owner[HuangTianUsed[Master]] != 0)
             {
                 return VerifierResult.Fail;
             }
@@ -47,10 +46,11 @@ namespace Sanguosha.Expansions.Wind.Skills
             return VerifierResult.Success;
         }
 
+        public static readonly PlayerAttribute HuangTianUsed = PlayerAttribute.Register("HuangTianUsed", true);
+
         public override bool Commit(GameEventArgs arg)
-        {
-            PlayerAttribute HuangTianUsed = PlayerAttribute.Register("HuangTianUsed"+Master.Id, true);
-            Owner[HuangTianUsed] = 1;
+        {            
+            Owner[HuangTianUsed[Master]] = 1;
             Game.CurrentGame.HandleCardTransferToHand(Owner, Master, arg.Cards);
             return true;
         }

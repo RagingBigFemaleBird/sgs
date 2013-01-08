@@ -9,13 +9,14 @@ namespace Sanguosha.Core.Cards
 {
     public class CardAttribute
     {
-        public static string TargetRequireTwoResponses = "TargetRequireTwoResponses";
+        public static readonly CardAttribute TargetRequireTwoResponses = CardAttribute.Register("TargetRequireTwoResponses");
 
         public static readonly CardAttribute SourceRequireTwoResponses = CardAttribute.Register("SourceRequireTwoResponses");
 
         private CardAttribute(string attrName)
         {
             Name = attrName;
+            internalAttributes = new Dictionary<object, CardAttribute>();
         }
         
         private string name;
@@ -28,6 +29,23 @@ namespace Sanguosha.Core.Cards
 
         static Dictionary<string, CardAttribute> _attributeNames;
 
+        private Dictionary<object, CardAttribute> internalAttributes;
+        private object internalKey = null;
+
+        public CardAttribute this[object key]
+        {
+            get
+            {
+                if (!internalAttributes.ContainsKey(key))
+                {
+                    var attribute = new CardAttribute(this.Name);
+                    attribute.internalKey = key;
+                    internalAttributes.Add(key, attribute);
+                }
+                return internalAttributes[key];
+            }
+        }
+
         public static CardAttribute Register(string attributeName)
         {
             if (_attributeNames == null)
@@ -36,49 +54,11 @@ namespace Sanguosha.Core.Cards
             }
             if (_attributeNames.ContainsKey(attributeName))
             {
-                return _attributeNames[attributeName];
+                throw new DuplicateAttributeKeyException(attributeName);
             }
             var attr = new CardAttribute(attributeName);
             _attributeNames.Add(attributeName, attr);
             return attr;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (System.Object.ReferenceEquals(obj, this))
-            {
-                return true;
-            }
-            if (!(obj is CardAttribute))
-            {
-                return false;
-            }
-            CardAttribute type2 = (CardAttribute)obj;
-            return name.Equals(type2.name);
-        }
-
-        public static bool operator ==(CardAttribute a, CardAttribute b)
-        {
-            if (System.Object.ReferenceEquals(a, b))
-            {
-                return true;
-            }
-
-            if (((object)a == null) || ((object)b == null))
-            {
-                return false;
-            }
-
-            return a.name == b.name;
-        }
-
-        public static bool operator !=(CardAttribute a, CardAttribute b)
-        {
-            return !(a == b);
-        }
-        public override int GetHashCode()
-        {
-            return name.GetHashCode();
         }
     }
 }

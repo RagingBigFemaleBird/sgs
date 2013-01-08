@@ -36,12 +36,14 @@ namespace Sanguosha.Expansions.SP.Skills
             }
         }
 
+        private static readonly CardAttribute DanLaoEffect = CardAttribute.Register("DanLao");
+
         public void OnPlayerIsCardTarget(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             Game.CurrentGame.DrawCards(owner, 1);
-            eventArgs.ReadonlyCard[CardAttribute.Register("DanLao" + owner.Id)] = 1;
+            eventArgs.ReadonlyCard[DanLaoEffect[owner]] = 1;
         }
-
+        
         public DanLao()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
@@ -52,7 +54,7 @@ namespace Sanguosha.Expansions.SP.Skills
             );
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard[CardAttribute.Register("DanLao" + p.Id)] == 1; },
+                (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard[DanLaoEffect[p]] == 1; },
                 (p, e, a) => { throw new TriggerResultException(TriggerResult.End); },
                 TriggerCondition.OwnerIsTarget
             ) { AskForConfirmation = false };

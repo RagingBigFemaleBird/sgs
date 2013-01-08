@@ -30,7 +30,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             {
                 foreach (Player p in eventArgs.Targets)
                 {
-                    eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + p.Id)] = 1;
+                    eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses[p]] = 1;
                 }
             }
         }

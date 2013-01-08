@@ -15,6 +15,7 @@ namespace Sanguosha.Core.Players
             AutoReset = autoReset;
             IsMark = isAMark;
             IsStatus = isStatus;
+            internalAttributes = new Dictionary<object, PlayerAttribute>();
         }
 
         private string name;
@@ -51,6 +52,23 @@ namespace Sanguosha.Core.Players
 
         static Dictionary<string, PlayerAttribute> _attributeNames;
 
+        private Dictionary<object, PlayerAttribute> internalAttributes;
+        private object internalKey = null;
+
+        public PlayerAttribute this[object key]
+        {
+            get
+            {
+                if (!internalAttributes.ContainsKey(key))
+                {
+                    var attribute = new PlayerAttribute(this.Name, this.autoReset, this.isMark, this.isStatus);
+                    attribute.internalKey = key;
+                    internalAttributes.Add(key, attribute);
+                }
+                return internalAttributes[key];
+            }
+        }
+
         public static PlayerAttribute Register(string attributeName, bool autoReset = false, bool isAMark = false, bool isStatus = false)
         {
             if (_attributeNames == null)
@@ -65,44 +83,6 @@ namespace Sanguosha.Core.Players
             var attr = new PlayerAttribute(attributeName, autoReset, isAMark, isStatus);
             _attributeNames.Add(attributeName, attr);
             return attr;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (System.Object.ReferenceEquals(obj, this))
-            {
-                return true;
-            }
-            if (!(obj is PlayerAttribute))
-            {
-                return false;
-            }
-            PlayerAttribute type2 = (PlayerAttribute)obj;
-            return name.Equals(type2.name);
-        }
-
-        public static bool operator ==(PlayerAttribute a, PlayerAttribute b)
-        {
-            if (System.Object.ReferenceEquals(a, b))
-            {
-                return true;
-            }
-
-            if (((object)a == null) || ((object)b == null))
-            {
-                return false;
-            }
-
-            return a.name.Equals(b.name);
-        }
-
-        public static bool operator !=(PlayerAttribute a, PlayerAttribute b)
-        {
-            return !(a == b);
-        }
-        public override int GetHashCode()
-        {
-            return name.GetHashCode();
         }
     }
 }

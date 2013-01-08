@@ -15,22 +15,25 @@ namespace Sanguosha.Core.Cards
         /// 玩家无视防具
         /// </summary>
         /// <remarks>高顺</remarks>
-        public static readonly string PlayerIgnoreArmor = "PlayerIgnoreArmor";
+        public static readonly PlayerAttribute PlayerIgnoreArmor = PlayerAttribute.Register("PlayerIgnoreArmor");
+        
         /// <summary>
         /// 无条件防具无效
         /// </summary>
         /// <seealso cref="Sanguosha.Expansions.Woods.Skills.WuQian"/>
         public static readonly PlayerAttribute UnconditionalIgnoreArmor = PlayerAttribute.Register("UnconditionalIgnoreArmor", false);
+        
         /// <summary>
         /// 卡牌（杀）无视所有防具
         /// </summary>
         /// <remarks>青钢剑</remarks>
         public static readonly CardAttribute IgnoreAllArmor = CardAttribute.Register("IgnoreAllArmor");
+
         /// <summary>
         /// 卡牌无视某个玩家防具
         /// </summary>
         /// <remarks>还没人用</remarks>
-        public static readonly string IgnorePlayerArmor = "IgnorePlayerArmor";
+        public static readonly CardAttribute IgnorePlayerArmor = CardAttribute.Register("IgnorePlayerArmor");
         public override CardCategory Category
         {
             get { return CardCategory.Armor; }
@@ -38,9 +41,9 @@ namespace Sanguosha.Core.Cards
 
         public static bool ArmorIsValid(Player player, Player source, ReadOnlyCard card)
         {
-            return (source == null || player[PlayerAttribute.Register(PlayerIgnoreArmor + source.Id)] == 0) &&
+            return (source == null || player[PlayerIgnoreArmor[source]] == 0) &&
                    player[UnconditionalIgnoreArmor] == 0 &&
-                   (card == null || (card[Armor.IgnoreAllArmor] == 0 && card[CardAttribute.Register(IgnorePlayerArmor + player.Id)] != 1));
+                   (card == null || (card[Armor.IgnoreAllArmor] == 0 && card[IgnorePlayerArmor[player]] != 1));
         }
 
         protected override void Process(Player source, Players.Player dest, ICard card, ReadOnlyCard cardr, GameEventArgs inResponseTo)

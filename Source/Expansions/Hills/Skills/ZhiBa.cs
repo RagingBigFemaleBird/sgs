@@ -21,10 +21,10 @@ namespace Sanguosha.Expansions.Hills.Skills
     /// </summary>
     public class ZhiBaGivenSkill : ActiveSkill, IRulerGivenSkill
     {
+        private static readonly PlayerAttribute ZhiBaUsed = PlayerAttribute.Register("ZhiBaUsedUsed", true);
         public override VerifierResult Validate(GameEventArgs arg)
-        {
-            PlayerAttribute ZhiBaUsed = PlayerAttribute.Register("ZhiBaUsedUsed" + Master.Id, true);
-            if (Owner[ZhiBaUsed] != 0)
+        {            
+            if (Owner[ZhiBaUsed[Master]] != 0)
             {
                 return VerifierResult.Fail;
             }
@@ -46,8 +46,7 @@ namespace Sanguosha.Expansions.Hills.Skills
 
         public override bool Commit(GameEventArgs arg)
         {
-            PlayerAttribute ZhiBaUsed = PlayerAttribute.Register("ZhiBaUsedUsed" + Master.Id, true);
-            Owner[ZhiBaUsed] = 1;
+            Owner[ZhiBaUsed[Master]] = 1;
             if (Master[HunZi.HunZiAwakened] == 1)
             {
                 int answer;

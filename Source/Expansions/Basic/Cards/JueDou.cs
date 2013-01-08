@@ -48,7 +48,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     prompt = new CardUsagePrompt("JueDou2", current == dest ? source : dest);
                     firstTime = false;
                 }
-                int numberOfShaRequired = current == dest ? readonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + dest.Id)] + 1 : readonlyCard[CardAttribute.SourceRequireTwoResponses] + 1;
+                int numberOfShaRequired = current == dest ? readonlyCard[CardAttribute.TargetRequireTwoResponses[dest]] + 1 : readonlyCard[CardAttribute.SourceRequireTwoResponses] + 1;
                 bool cannotProvideSha = false;
                 while (numberOfShaRequired > 0)
                 {

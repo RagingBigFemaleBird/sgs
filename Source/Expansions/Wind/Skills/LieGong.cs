@@ -35,7 +35,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                         if ((Game.CurrentGame.Decks[target, DeckType.Hand].Count >= a.Source.Health || Game.CurrentGame.Decks[target, DeckType.Hand].Count <= a.Source[Player.AttackRange] + 1)
                          && AskForSkillUse())
                         {
-                            a.ReadonlyCard[CardAttribute.Register(ShaCancelling.CannotProvideShan + target.Id)] = 1;
+                            a.ReadonlyCard[ShaCancelling.CannotProvideShan[target]] = 1;
                             NotifySkillUse(new List<Player>() { target });
                         }
                     }

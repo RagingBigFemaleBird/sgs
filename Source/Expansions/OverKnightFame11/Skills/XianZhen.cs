@@ -58,7 +58,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             }
             else
             {
-                arg.Targets[0][PlayerAttribute.Register(Armor.PlayerIgnoreArmor + Owner.Id)] = 1;
+                arg.Targets[0][Armor.PlayerIgnoreArmor[Owner]] = 1;
                 var trigger = new XianZhenPassiveWin1(Owner, arg.Targets[0]);
                 Game.CurrentGame.RegisterTrigger(Sha.PlayerShaTargetValidation, trigger);
                 var trigger2 = new XianZhenPassiveWin2(Owner);
@@ -163,7 +163,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             {
                 if (eventArgs.Source != Owner)
                     return;
-                target[PlayerAttribute.Register(Armor.PlayerIgnoreArmor + Owner.Id)] = 0;
+                target[Armor.PlayerIgnoreArmor[Owner]] = 0;
                 Game.CurrentGame.UnregisterTrigger(Sha.PlayerShaTargetValidation, trigger);
                 Game.CurrentGame.UnregisterTrigger(Sha.PlayerNumberOfShaCheck, trigger2);
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerDistanceOverride, trigger3);
