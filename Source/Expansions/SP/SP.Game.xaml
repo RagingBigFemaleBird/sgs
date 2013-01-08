@@ -29,4 +29,10 @@
     <sys:String x:Key="CardChoice.Prompt.YuanHu">请选择{0}的一张牌</sys:String>
     <sys:String x:Key="CardChoice.Prompt.YuanHu.Others">援护 请等待{0}选择{1}的一张牌</sys:String>
     <sys:String x:Key="CardUsage.Prompt.YuanHu">你现在可以发动缓护技能</sys:String>
+
+    <sys:String x:Key="CardChoice.Prompt.XiuLuo">修罗</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.XiuLuo.Others">修罗 请等待{0}的选择卡牌</sys:String>
+
+    <sys:String x:Key="CardSlot.Hint.XLJinNang">弃置延时锦囊</sys:String>
+    <sys:String x:Key="CardSlot.Hint.XLShouPai">弃置手牌</sys:String>
 </ResourceDictionary>

@@ -40,4 +40,5 @@
     <sys:String x:Key="MultiChoice.Choice.ZiLiRecover">回复1点体力</sys:String>
     <sys:String x:Key="MultiChoice.Choice.ZiLiDraw">摸2张牌</sys:String>
 
+    <sys:String x:Key="CardSlot.Hint.HuoDe">获得</sys:String>
 </ResourceDictionary>

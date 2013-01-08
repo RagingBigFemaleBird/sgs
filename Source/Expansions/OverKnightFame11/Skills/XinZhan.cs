@@ -64,7 +64,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             options.DefaultResult = new List<List<Card>>() { new List<Card>(Game.CurrentGame.Decks[null, XinZhanDeck]), new List<Card>() };
             if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("XinZhan"),
                     new List<DeckPlace>() {},
-                    new List<string>() { "PaiXu", "HuoDe" },
+                    new List<string>() { "PaiDuiDing", "HuoDe" },
                     new List<int>() {choiceCount, choiceCount},
                     new XinZhanVerifier(),
                     out answer,

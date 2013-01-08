@@ -43,7 +43,7 @@
 
     <sys:String x:Key="Skill.XiuLuo.Name">修罗</sys:String>
     <sys:String x:Key="Skill.XiuLuo.Description">回合开始阶段开始时，你可以弃置与你判定区里一张牌相同花色的一张手牌，然后你弃置你判定区里的该牌。</sys:String>
-    <sys:String x:Key="Skill.XiuLuo.Usage">系统提示→点“确定”→选择一张延时类锦囊→选中一张手牌→点“确定”</sys:String>
+    <sys:String x:Key="Skill.XiuLuo.Usage">系统提示→点“确定”→选择一张延时类锦囊→选择一张手牌→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.ShenWei.Name">神威</sys:String>
     <sys:String x:Key="Skill.ShenWei.Description">锁定技，摸牌阶段，你额外摸两张牌；你的手牌上限+2。</sys:String>
