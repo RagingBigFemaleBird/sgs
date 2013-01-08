@@ -10,6 +10,7 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Network;
 using System.Diagnostics;
 using System.Threading;
+using Sanguosha.Core.Utils;
 
 namespace Sanguosha.Core.UI
 {
@@ -156,7 +157,19 @@ namespace Sanguosha.Core.UI
             if (lastTS != 0)
             {
                 Int64 toSleep = last - lastTS;
-                Thread.Sleep((int)toSleep);
+                if (Game.CurrentGame.ReplayController != null)
+                {
+                    if (!Game.CurrentGame.ReplayController.NoDelays)
+                    {
+                        if (Game.CurrentGame.ReplayController.EvenDelays) toSleep = 1;
+                        if (Game.CurrentGame.ReplayController.Speed != 0) toSleep = (Int64)(((double)toSleep) * Game.CurrentGame.ReplayController.Speed);
+                        Thread.Sleep((int)toSleep);
+                    }
+                }
+                else
+                {
+                    Thread.Sleep((int)toSleep);
+                }
             }
             lastTS = last;
         }
