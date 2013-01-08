@@ -473,7 +473,7 @@
             </Grid>
             <Canvas x:Name="animationCenter1" HorizontalAlignment="Left" Height="16" Margin="63,69,0,0" VerticalAlignment="Top" Width="18" IsHitTestVisible="False"/>            
         </Grid>
-        <StackPanel Height="29" Orientation="Horizontal" HorizontalAlignment="Left" Margin="200,0,0,0" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="50" x:Name="delayedToolsDock" VerticalAlignment="Top" >
+        <StackPanel Height="29" Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="200,0,0,0" x:Name="delayedToolsDock" VerticalAlignment="Top" Grid.ColumnSpan="2" >
             <i:Interaction.Behaviors>
                 <ei:FluidMoveBehavior AppliesTo="Children" Duration="0:0:5">
                     <ei:FluidMoveBehavior.EaseX>
