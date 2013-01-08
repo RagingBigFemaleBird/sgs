@@ -8,8 +8,11 @@
         <!-- Resources scoped at the Application level should be defined here. -->
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>                
-                <ResourceDictionary Source="/Resources;component/System.xaml"/>                
-            </ResourceDictionary.MergedDictionaries>            
+                <ResourceDictionary Source="/Resources;component/System.xaml"/>
+                <ResourceDictionary Source="/Controls;component/Views/Skills/SkillButtonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

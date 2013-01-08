@@ -284,6 +284,7 @@ namespace Sanguosha.Core.Games
         /// <param name="c"></param>
         public void PlayerPlayedCard(Player source, List<Player> targets, ICard c)
         {
+            Trace.Assert(c != null);
             try
             {
                 GameEventArgs arg = new GameEventArgs();
