@@ -46,17 +46,12 @@ namespace Sanguosha.UI.Controls
                 int i = 0;
                 foreach (var player in _game.Players)
                 {
-                    string name;
-                    if (_game.Settings.Accounts.Count == _game.Players.Count)
+                    Trace.Assert(_game.Settings.Accounts.Count == _game.Players.Count);
+                    PlayerModels.Add(new PlayerViewModel(player, this, false) 
                     {
-                        name = _game.Settings.Accounts[i].UserName;
-                    }
-                    else
-                    {
-                        name = "三国杀爱好者";
-                    }
+                        Account = _game.Settings.Accounts[i] 
+                    });
                     i++;
-                    PlayerModels.Add(new PlayerViewModel(player, this, false) { DisplayedUsername = name });
                 }
                 PlayerModels[0].IsPlayable = true;
             }
