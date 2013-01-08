@@ -57,14 +57,13 @@ namespace Sanguosha.Expansions.SP.Skills
                 }
 
                 CardHandler handler = new Sha();
-                bool holdInTemp = cards[0].Place.DeckType == DeckType.Hand;
-                if (holdInTemp) handler.HoldInTemp(cards);
+                handler.HoldInTemp(cards);
                 if (players.Count == 1 && cards.Count == 1 && cards[0].Type.IsCardCategory(CardCategory.Weapon))
                 {
                     List<Player> pls = Game.CurrentGame.AlivePlayers;
                     if (pls.Any(p => p != players[0] && Game.CurrentGame.DistanceTo(players[0], p) == 1 && p.HandCards().Concat(p.Equipments()).Count() > 0))
                     {
-                        if (holdInTemp) handler.ReleaseHoldInTemp();
+                        handler.ReleaseHoldInTemp();
                         return VerifierResult.Partial;
                     }
                 }
@@ -72,11 +71,11 @@ namespace Sanguosha.Expansions.SP.Skills
                 {
                     if (Game.CurrentGame.DistanceTo(players[0], players[1]) != 1 || players[1].HandCards().Concat(players[1].Equipments()).Count() == 0)
                     {
-                        if (holdInTemp) handler.ReleaseHoldInTemp();
+                        handler.ReleaseHoldInTemp();
                         return VerifierResult.Fail;
                     }
                 }
-                if (holdInTemp) handler.ReleaseHoldInTemp();
+                handler.ReleaseHoldInTemp();
                 return VerifierResult.Success;
             }
             public override IList<CardHandler> AcceptableCardTypes
