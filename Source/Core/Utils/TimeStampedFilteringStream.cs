@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Threading;
 
 namespace Sanguosha.Core.Utils
 {
-    public class RecordTakingInputStream : Stream
+    public class TimeStampedFilteringStream : Stream
     {
         private Stream _inputStream;
 
@@ -15,23 +16,11 @@ namespace Sanguosha.Core.Utils
             get { return _inputStream; }
             set { _inputStream = value; }
         }
-        private Stream _recordStream;
 
-        public Stream RecordStream
+        public TimeStampedFilteringStream(Stream inputStream)
         {
-            get { return _recordStream; }
-            set { _recordStream = value; }
-        }
-
-        public RecordTakingInputStream()
-        {
-
-        }
-
-        public RecordTakingInputStream(Stream inputStream, Stream recordStream)
-        {
+            lastEpoch = 0;
             _inputStream = inputStream;
-            _recordStream = recordStream;
         }
 
         public override bool CanRead
@@ -46,18 +35,14 @@ namespace Sanguosha.Core.Utils
 
         public override bool CanWrite
         {
-            get 
+            get
             {
-                return false; 
+                return false;
             }
         }
 
         public override void Flush()
         {
-            if (RecordStream != null)
-            {
-                RecordStream.Flush();
-            }
         }
 
         public override long Length
@@ -76,17 +61,19 @@ namespace Sanguosha.Core.Utils
                 InputStream.Position = value;
             }
         }
+        int lastEpoch;
 
         public override int Read(byte[] buffer, int offset, int count)
         {
-            int bytesRead = InputStream.Read(buffer, offset, count);
-            if (RecordStream != null)
+            byte[] ts = new byte[4];
+            InputStream.Read(ts, 0, 4);
+            if (lastEpoch != 0)
             {
-                TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
-                int secondsSinceEpoch = (int)t.TotalSeconds;
-                RecordStream.Write(BitConverter.GetBytes(secondsSinceEpoch), 0, 4);
-                RecordStream.Write(buffer, offset, bytesRead);
+                int toSleep = BitConverter.ToInt32(ts, 0) - lastEpoch;
+                Thread.Sleep(toSleep * 1000);
             }
+            lastEpoch = BitConverter.ToInt32(ts, 0);
+            int bytesRead = InputStream.Read(buffer, offset, count);
             return bytesRead;
         }
 

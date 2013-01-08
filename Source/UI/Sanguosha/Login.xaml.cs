@@ -24,6 +24,7 @@ using Sanguosha.Lobby.Server;
 using System.Net.NetworkInformation;
 using System.Net;
 using System.Net.Security;
+using Sanguosha.Core.Utils;
 
 namespace Sanguosha.UI.Main
 {
@@ -318,7 +319,7 @@ namespace Sanguosha.UI.Main
             try
             {
                 client = new Client();
-                client.StartReplay(File.Open(fileName, FileMode.Open));
+                client.StartReplay(new TimeStampedFilteringStream(File.Open(fileName, FileMode.Open)));
                 game = new MainGame();
                 game.NetworkClient = client;
             }
