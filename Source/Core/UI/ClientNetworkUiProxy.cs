@@ -161,8 +161,10 @@ namespace Sanguosha.Core.UI
                 {
                     if (!Game.CurrentGame.ReplayController.NoDelays)
                     {
-                        if (Game.CurrentGame.ReplayController.EvenDelays) toSleep = 1;
-                        if (Game.CurrentGame.ReplayController.Speed != 0) toSleep = (Int64)(((double)toSleep) * Game.CurrentGame.ReplayController.Speed);
+                        if (Game.CurrentGame.ReplayController.EvenDelays) toSleep = ReplayController.EvenReplayBaseSpeedInMs;
+                        if (Game.CurrentGame.ReplayController.Speed != 0) toSleep = (Int64)(((double)toSleep) / Game.CurrentGame.ReplayController.Speed);
+                        Game.CurrentGame.ReplayController.Lock();
+                        Game.CurrentGame.ReplayController.Unlock();
                         Thread.Sleep((int)toSleep);
                     }
                 }
