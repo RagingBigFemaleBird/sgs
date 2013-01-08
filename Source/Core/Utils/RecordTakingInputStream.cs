@@ -82,9 +82,6 @@ namespace Sanguosha.Core.Utils
             int bytesRead = InputStream.Read(buffer, offset, count);
             if (RecordStream != null)
             {
-                TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
-                int secondsSinceEpoch = (int)t.TotalSeconds;
-                RecordStream.Write(BitConverter.GetBytes(secondsSinceEpoch), 0, 4);
                 RecordStream.Write(buffer, offset, bytesRead);
             }
             return bytesRead;

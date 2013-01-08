@@ -53,7 +53,7 @@ namespace Sanguosha.UI.Controls
                     });
                     i++;
                 }
-                PlayerModels[0].IsPlayable = true;
+                PlayerModels[0].IsPlayable = !_game.IsReplay;
             }
         }        
         
@@ -79,7 +79,7 @@ namespace Sanguosha.UI.Controls
                     PlayerViewModel playerModel = PlayerModels[j];
                     if (gamePlayer == playerModel.Player)
                     {
-                        playerModel.IsPlayable = (i == 0);
+                        playerModel.IsPlayable = (i == 0) && !_game.IsReplay;
                         if (j != i)
                         {
                             PlayerModels.Move(j, i);

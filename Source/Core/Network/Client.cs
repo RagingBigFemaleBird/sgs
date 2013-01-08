@@ -71,15 +71,32 @@ namespace Sanguosha.Core.Network
         public void StartReplay(Stream replayStream)
         {
             receiver = new ItemReceiver(replayStream);
+            this.replayStream = replayStream;
             sender = new ItemSender(Stream.Null);
             commId = 0;
+            isReplay = true;
+        }
+
+        private bool isReplay;
+
+        public bool IsReplay
+        {
+            get { return isReplay; }
+            set { isReplay = value; }
+        }
+
+        private Stream replayStream;
+
+        public Stream ReplayStream
+        {
+            get { return replayStream; }
         }
 
         public Stream RecordStream
         {
             get
             {
-                if (receiver == null) return receiver.RecordStream;
+                if (receiver != null) return receiver.RecordStream;
                 else return null;
             }
             set

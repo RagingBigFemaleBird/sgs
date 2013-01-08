@@ -319,7 +319,7 @@ namespace Sanguosha.UI.Main
             try
             {
                 client = new Client();
-                client.StartReplay(new TimeStampedFilteringStream(File.Open(fileName, FileMode.Open)));
+                client.StartReplay(File.Open(fileName, FileMode.Open));
                 game = new MainGame();
                 game.NetworkClient = client;
             }
