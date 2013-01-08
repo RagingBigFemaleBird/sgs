@@ -55,7 +55,7 @@
     <sys:String x:Key="Skill.TuXi.Usage">系统提示→点“确定”→选择1至2个目标→点“确定”→点选获得目标手牌</sys:String>
 
     <sys:String x:Key="Skill.LuoYi.Name">裸衣</sys:String>
-    <sys:String x:Key="Skill.LuoYi.Description">摸牌阶段开始时，你可以放弃摸牌，改为获得一至两名其他角色的各一张手牌。</sys:String>
+    <sys:String x:Key="Skill.LuoYi.Description">摸牌阶段，你可以少摸一张牌，然后你使用的【杀】或【决斗】（你为伤害来源时）造成的伤害+1，直到回合结束。</sys:String>
     <sys:String x:Key="Skill.LuoYi.Usage">系统提示→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.TianDu.Name">天妒</sys:String>

@@ -10,22 +10,60 @@
     <sys:String x:Key="Skill.RenDe.Usage">点"仁德"→选中数张手牌→选择目标→“确定”</sys:String>
     -->
     <sys:String x:Key="Hero.YangXiu.Name">杨修</sys:String>
+    <sys:String x:Key="Hero.QunDiaoChan.Name">貂蝉</sys:String>
+    <sys:String x:Key="Hero.GongsunZan.Name">公孙瓒</sys:String>
     <sys:String x:Key="Hero.YuanShu.Name">袁术</sys:String>
-    <sys:String x:Key="Hero.GuanYinPing.Name">关银屏</sys:String>
-    <sys:String x:Key="Hero.SPPangTong.Name">SP庞统</sys:String>
-    <sys:String x:Key="Hero.SPZhaoYun.Name">SP赵云</sys:String>
+    <sys:String x:Key="Hero.ShuSunShangxiang.Name">蜀孙尚香</sys:String>
+    <sys:String x:Key="Hero.WeiPangDe.Name">魏庞德</sys:String>
+    <sys:String x:Key="Hero.HuLaoLvBu.Name">神吕布-1</sys:String>
+    <sys:String x:Key="Hero.HuLaoLvBu2.Name">神吕布-2</sys:String>
+    <sys:String x:Key="Hero.WeiCaiWenji.Name">魏蔡文姬</sys:String>
+    <sys:String x:Key="Hero.QunMaChao.Name">群马超</sys:String>
+    <sys:String x:Key="Hero.WeiJiaXu.Name">魏贾诩</sys:String>
+    <sys:String x:Key="Hero.CaoHong.Name">曹洪</sys:String>
+    <sys:String x:Key="Hero.GuanYinping.Name">关银屏</sys:String>
 
-    <sys:String x:Key="Skill.WeiDi.Name">伪帝</sys:String>
-    <sys:String x:Key="Skill.YongSi.Name">庸肆</sys:String>
-    <sys:String x:Key="Skill.XueJi.Name">血祭</sys:String>
-    <sys:String x:Key="Skill.HuXiao.Name">虎啸</sys:String>
-    <sys:String x:Key="Skill.WuJi.Name">武继</sys:String>
+    
+    <sys:String x:Key="Skill.DanLao.Name">啖酪</sys:String>
+    <sys:String x:Key="Skill.DanLao.Description">当你成为一张锦囊牌的目标后，若此牌的目标为两名（或以上），你可以摸一张牌，若如此做，此锦囊牌对你无效。</sys:String>
+    <sys:String x:Key="Skill.DanLao.Usage">系统提示→点“确定”</sys:String>
+    
     <sys:String x:Key="Skill.JiLei.Name">鸡肋</sys:String>
     <sys:String x:Key="Skill.JiLei.Description">每当你受到伤害时，你可以说出一种牌的类别，令伤害来源不能使用、打出或弃置其此类别的手牌，直到回合结束。</sys:String>
     <sys:String x:Key="Skill.JiLei.Usage">系统提示→选择牌的类别或点取消不发动</sys:String>
-    <sys:String x:Key="Skill.ManJuan.Name">漫卷</sys:String>
-    <sys:String x:Key="Skill.ZuiXiang.Name">醉乡</sys:String>
-    <sys:String x:Key="Skill.DanLao.Name">啖酪</sys:String>
-    <sys:String x:Key="Skill.ChongZhen.Name">冲阵</sys:String>
+
+    <sys:String x:Key="Skill.YiCong.Name">义从</sys:String>
+    <sys:String x:Key="Skill.YiCong.Description">锁定技，若你当前的体力值大于2，你计算的与其他角色的距离-1；若你当前的体力值小于或等于2，其他角色计算的与你的距离+1。</sys:String>
+
+    <sys:String x:Key="Skill.YongSi.Name">庸肆</sys:String>
+    <sys:String x:Key="Skill.YongSi.Description">锁定技，摸牌阶段，你额外摸等同于现存势力数的牌；弃牌阶段开始时，你须弃置等同于现存势力数的牌。</sys:String>
+    
+    <sys:String x:Key="Skill.WeiDi.Name">伪帝</sys:String>
+    <sys:String x:Key="Skill.WeiDi.Description">锁定技，你拥有当前主公的主公技。</sys:String>
+
+    <sys:String x:Key="Skill.XiuLuo.Name">修罗</sys:String>
+    <sys:String x:Key="Skill.XiuLuo.Description">回合开始阶段开始时，你可以弃置与你判定区里一张牌相同花色的一张手牌，然后你弃置你判定区里的该牌。</sys:String>
+    <sys:String x:Key="Skill.XiuLuo.Usage">系统提示→点“确定”→选择一张延时类锦囊→选中一张手牌→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.ShenWei.Name">神威</sys:String>
+    <sys:String x:Key="Skill.ShenWei.Description">锁定技，摸牌阶段，你额外摸两张牌；你的手牌上限+2。</sys:String>
+
+    <sys:String x:Key="Skill.ShenJi.Name">神戟</sys:String>
+    <sys:String x:Key="Skill.ShenJi.Description">若你的装备区没有武器牌，当你使用【杀】时，你可以额外选择至多两个目标。</sys:String>
+
+    <sys:String x:Key="Skill.YuanHu.Name">援护</sys:String>
+    <sys:String x:Key="Skill.YuanHu.Description" xml:space="preserve">回合结束阶段开始时，你可以将一张装备牌置于一名角色的装备区里，然后根据此装备牌的种类执行以下效果。&#10;武器牌：弃置与该角色距离为1的一名角色区域中的一张牌；&#10;防具牌：该角色摸一张牌；&#10;坐骑牌：该角色回复一点体力。</sys:String>
+    <sys:String x:Key="Skill.YuanHu.Usage" xml:space="preserve">系统提示→选择一张装备牌（武器牌）→选择目标→选择目标距离为1的一名角色（若有）→点“确定”&#10;系统提示→选择一张装备牌（非武器牌）→选择目标→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.XueJi.Name">血祭</sys:String>
+    <sys:String x:Key="Skill.XueJi.Description">出牌阶段，你可以弃置一张红色牌，对你攻击范围内的至多X名其他角色各造成1点伤害，然后这些角色各摸一张牌。X为你损失的体力值。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.XueJi.Usage">点“血祭”→选择一张红色牌→选择若干个目标→点“确定”</sys:String>
+    <sys:String x:Key="Skill.XueJi.Prompt">请选择一张红色牌与若干个目标</sys:String>
+
+    <sys:String x:Key="Skill.HuXiao.Name">虎啸</sys:String>
+    <sys:String x:Key="Skill.HuXiao.Description">你于出牌阶段每使用一张【杀】被【闪】抵消，此阶段你可以额外使用一张【杀】。</sys:String>
+
+    <sys:String x:Key="Skill.WuJi.Name">武继</sys:String>
+    <sys:String x:Key="Skill.WuJi.Description">觉醒技，回合结束阶段开始时，若本回合你已造成3点或更多伤害，你须加1点体力上限并回复1点体力，然后失去技能“虎啸”。</sys:String>
 
 </ResourceDictionary>

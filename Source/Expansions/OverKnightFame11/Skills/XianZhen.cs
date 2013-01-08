@@ -15,11 +15,11 @@ using Sanguosha.Core.Exceptions;
 
 namespace Sanguosha.Expansions.OverKnightFame11.Skills
 {
+    /// <summary>
+    /// 陷阵-出牌阶段，你可以与一名其他角色拼点。若你赢，你获得以下技能直到回合结束：你无视与该角色的距离及其防具；你对该角色使用【杀】时无次数限制。若你没赢，你不能使用【杀】，直到回合结束。每阶段限一次。
+    /// </summary>
     public class XianZhen : ActiveSkill
     {
-        /// <summary>
-        /// 陷阵-出牌阶段，你可以与一名其他角色拼点。若你赢，你获得以下技能直到回合结束：你无视与该角色的距离及其防具；你对该角色使用【杀】时无次数限制。若你没赢，你不能使用【杀】，直到回合结束。每阶段限一次。
-        /// </summary>
         public override VerifierResult Validate(GameEventArgs arg)
         {
             if (Owner[XianZhenUsed] != 0)

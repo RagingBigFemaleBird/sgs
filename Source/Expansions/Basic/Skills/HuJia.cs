@@ -127,7 +127,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 TriggerCondition.OwnerIsSource
             ) { Type = TriggerType.Skill };
             Triggers.Add(GameEvent.PlayerRequireCard, trigger);
-            IsAutoInvoked = null;
+            IsAutoInvoked = false;
             IsRulerOnly = true;
         }
 

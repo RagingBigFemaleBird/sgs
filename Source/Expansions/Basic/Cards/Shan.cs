@@ -83,7 +83,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                         arg.InResponseTo = eventArgs;
                         Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, arg);
 #if SB_FAQ
-                        numberOfShanRequired --;
+                        numberOfShanRequired--;
 #else
                         numberOfShanRequired = eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses[dest]];
 #endif
@@ -126,7 +126,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 #if SB_FAQ
                 numberOfShanRequired--;
 #else
-                numberOfShanRequired = eventArgs.ReadonlyCard[CardAttribute.Register(CardAttribute.TargetRequireTwoResponses + dest.Id)];
+                numberOfShanRequired = eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses[dest]];
 #endif
             }
             if (cannotUseShan ||

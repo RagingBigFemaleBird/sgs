@@ -25,4 +25,8 @@
     <sys:String x:Key="MultiChoice.Choice.JiBen">基本牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.JinNang">锦囊牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.ZhuangBei">装备牌</sys:String>
+
+    <sys:String x:Key="CardChoice.Prompt.YuanHu">请选择{0}的一张牌</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.YuanHu.Others">援护 请等待{0}选择{1}的一张牌</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.YuanHu">你现在可以发动缓护技能</sys:String>
 </ResourceDictionary>

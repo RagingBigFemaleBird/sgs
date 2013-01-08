@@ -16,11 +16,11 @@ using Sanguosha.Core.Exceptions;
 
 namespace Sanguosha.Expansions.OverKnightFame12.Skills
 {
+    /// <summary>
+    /// 醇醪-回合结束阶段开始时，若你的武将牌上没有牌，你可以将任意数量的【杀】置于你的武将牌上，称为“醇”；当一名角色处于濒死状态时，你可以将一张“醇”置入弃牌堆，视为该角色使用一张【酒】。
+    /// </summary>
     public class ChunLao : TriggerSkill
     {
-        /// <summary>
-        /// 醇醪-回合结束阶段开始时，若你的武将牌上没有牌，你可以将任意数量的【杀】置于你的武将牌上，称为“醇”；当一名角色处于濒死状态时，你可以将一张“醇”置入弃牌堆，视为该角色使用一张【酒】。
-        /// </summary>
         class ChunLaoStoreChunVerifier : CardsAndTargetsVerifier
         {
             public ChunLaoStoreChunVerifier()
