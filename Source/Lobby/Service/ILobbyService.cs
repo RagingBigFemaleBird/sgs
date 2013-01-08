@@ -78,6 +78,12 @@ namespace Sanguosha.Lobby.Core
         RoomOperationResult Kick(LoginToken token, int seatNo);
 
         [OperationContract]
+        RoomOperationResult OpenSeat(LoginToken token, int seatNo);
+
+        [OperationContract]
+        RoomOperationResult CloseSeat(LoginToken token, int seatNo);
+
+        [OperationContract]
         RoomOperationResult Chat(LoginToken token, string message);
     }
 
