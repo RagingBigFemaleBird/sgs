@@ -13,7 +13,7 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Exceptions;
 
-namespace Sanguosha.Expansions.OverKnightFame12.Skills
+namespace Sanguosha.Expansions.OverKnightFame11.Skills
 {
     /// <summary>
     /// 自立-觉醒技，回合开始阶段开始时，若“权”的数量达到3或更多，你须减1点体力上限并选择一项：回复1点体力，或摸两张牌，然后获得技能“排异”（出牌阶段，你可以将一张“权”置入弃牌堆，令一名角色摸两张牌，然后若该角色的手牌数大于你的手牌数，你对其造成1点伤害。每阶段限一次）。

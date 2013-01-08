@@ -12,7 +12,7 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Exceptions;
 
-namespace Sanguosha.Expansions.OverKnightFame12.Skills
+namespace Sanguosha.Expansions.OverKnightFame11.Skills
 {
     /// <summary>
     /// 权计-每当你受到1点伤害后，你可以摸一张牌，然后将一张手牌置于你的武将牌上，称为“权”；每有一张“权”，你的手牌上限+1。

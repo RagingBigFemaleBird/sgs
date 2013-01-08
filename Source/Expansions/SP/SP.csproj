@@ -42,7 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Skills\ChongZhen.cs" />
     <Compile Include="Skills\DanLao.cs">
       <SubType>Code</SubType>
     </Compile>

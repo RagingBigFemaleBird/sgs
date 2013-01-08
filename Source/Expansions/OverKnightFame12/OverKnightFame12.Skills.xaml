@@ -20,7 +20,6 @@
     <sys:String x:Key="Hero.MaDai.Name">马岱</sys:String>
     <sys:String x:Key="Hero.WangYi.Name">王异</sys:String>
     <sys:String x:Key="Hero.XunYou.Name">荀攸</sys:String>
-    <sys:String x:Key="Hero.ZhongHui.Name">钟会</sys:String>
 
 
     <sys:String x:Key="Skill.AnXu.Name">安恤</sys:String>
@@ -94,15 +93,4 @@
     <sys:String x:Key="Skill.ZhiYu.Name">智愚</sys:String>
     <sys:String x:Key="Skill.ZhiYu.Description">每当你受到一次伤害后，你可以摸一张牌，然后展示所有手牌，若颜色均相同，伤害来源弃置一张手牌。</sys:String>
     <sys:String x:Key="Skill.ZhiYu.Usage">系统提示→点“确定”</sys:String>
-
-    <sys:String x:Key="Skill.QuanJi.Name">权计</sys:String>
-    <sys:String x:Key="Skill.QuanJi.Description">每当你受到1点伤害后，你可以摸一张牌，然后将一张手牌置于你的武将牌上，称为“权”；每有一张“权”，你的手牌上限+1。</sys:String>
-    <sys:String x:Key="Skill.QuanJi.Usage">系统提示→点“确定”→选中一张手牌→点“确定”</sys:String>
-
-    <sys:String x:Key="Skill.ZiLi.Name">自立</sys:String>
-    <sys:String x:Key="Skill.ZiLi.Description">觉醒技，回合开始阶段开始时，若“权”的数量达到3或更多，你须减1点体力上限并选择一项：回复1点体力，或摸两张牌，然后获得技能“排异”（出牌阶段，你可以将一张“权”置入弃牌堆，令一名角色摸两张牌，然后若该角色的手牌数大于你的手牌数，你对其造成1点伤害。每阶段限一次）。</sys:String>
-
-    <sys:String x:Key="Skill.PaiYi.Name">排异</sys:String>
-    <sys:String x:Key="Skill.PaiYi.Description">出牌阶段，你可以将一张“权”置入弃牌堆，令一名角色摸两张牌，然后若该角色的手牌数大于你的手牌数，你对其造成1点伤害。每阶段限一次。</sys:String>
-    <sys:String x:Key="Skill.PaiYi.Usage">点“排异”→选择1张权→选择一名目标→点“确定”</sys:String>
 </ResourceDictionary>
