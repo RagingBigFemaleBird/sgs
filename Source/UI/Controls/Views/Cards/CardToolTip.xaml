@@ -7,7 +7,7 @@
     <local:CardToolTipConverter x:Key="cardToolTipConverter" />
 
     <DataTemplate x:Key="BasicCardToolTipTemplate">
-        <RichTextBox IsReadOnly="True" FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0">
+        <RichTextBox IsReadOnly="True" FontFamily="SimSun" FontSize="12" Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0">
             <FlowDocument>
                 <Paragraph LineHeight="18">
                     <Run FontWeight="Bold" 

@@ -478,6 +478,33 @@
   <ItemGroup>
     <Resource Include="Images\Lobby\Seat\closed.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Facials\0.gif" />
+    <Resource Include="Images\Facials\1.gif" />
+    <Resource Include="Images\Facials\10.gif" />
+    <Resource Include="Images\Facials\11.gif" />
+    <Resource Include="Images\Facials\12.gif" />
+    <Resource Include="Images\Facials\13.gif" />
+    <Resource Include="Images\Facials\14.gif" />
+    <Resource Include="Images\Facials\15.gif" />
+    <Resource Include="Images\Facials\16.gif" />
+    <Resource Include="Images\Facials\17.gif" />
+    <Resource Include="Images\Facials\18.gif" />
+    <Resource Include="Images\Facials\19.gif" />
+    <Resource Include="Images\Facials\2.gif" />
+    <Resource Include="Images\Facials\20.gif" />
+    <Resource Include="Images\Facials\21.gif" />
+    <Resource Include="Images\Facials\22.gif" />
+    <Resource Include="Images\Facials\23.gif" />
+    <Resource Include="Images\Facials\24.gif" />
+    <Resource Include="Images\Facials\3.gif" />
+    <Resource Include="Images\Facials\4.gif" />
+    <Resource Include="Images\Facials\5.gif" />
+    <Resource Include="Images\Facials\6.gif" />
+    <Resource Include="Images\Facials\7.gif" />
+    <Resource Include="Images\Facials\8.gif" />
+    <Resource Include="Images\Facials\9.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /S /Y $(ProjectDir)*.* $(TargetDir)Resources\

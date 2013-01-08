@@ -94,7 +94,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => { return a.Source != null; },
-                (p, e, a) => { a.Source[MengYanMark] = a.Source[MengYanMark] + 1;},
+                (p, e, a) => { a.Source[MengYanMark]++; },
                 TriggerCondition.OwnerIsTarget
             );
             var trigger2 = new AutoNotifyPassiveSkillTrigger(

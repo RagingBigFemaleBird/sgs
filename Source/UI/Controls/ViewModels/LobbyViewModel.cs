@@ -185,6 +185,8 @@ namespace Sanguosha.UI.Controls
 
         #region Events
 
+        public event ChatEvent OnChat;
+
         #endregion
 
         #region Public Functions
@@ -289,6 +291,7 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyChat(string message)
         {
+            OnChat(message);
         }
 
         public bool JoinSeat(SeatViewModel seat)
@@ -302,12 +305,19 @@ namespace Sanguosha.UI.Controls
 
         public bool CloseSeat(SeatViewModel seat)
         {
-            throw new NotImplementedException();
+            return _IsSuccess(Connection.CloseSeat(LoginToken, CurrentRoom.Seats.IndexOf(seat)));
         }
 
         public bool KickPlayer(SeatViewModel seat)
         {
             return _IsSuccess(Connection.Kick(LoginToken, CurrentRoom.Seats.IndexOf(seat)));
         }
+
+        public bool SendMessage(string msg)
+        {
+            return _IsSuccess(Connection.Chat(LoginToken, msg));
+        }
     }
+
+    public delegate void ChatEvent(string msg);
 }
