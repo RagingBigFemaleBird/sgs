@@ -46,7 +46,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                     break;
 
                 Game.CurrentGame.DrawCards(Owner, 1);
-                
+
                 ISkill skill;
                 List<Card> cards;
                 List<Player> players;
@@ -76,13 +76,13 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                     args.AdjustmentAmount += Game.CurrentGame.Decks[p, QuanDeck].Count;
                 },
                 TriggerCondition.OwnerIsSource
-            );
+            ) { AskForConfirmation = false, IsAutoNotify = false };
 
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
                 Run,
                 TriggerCondition.OwnerIsTarget
-            ) { AskForConfirmation = false};
+            ) { AskForConfirmation = false };
 
             Triggers.Add(GameEvent.PlayerHandCardCapacityAdjustment, trigger);
             Triggers.Add(GameEvent.AfterDamageInflicted, trigger2);
