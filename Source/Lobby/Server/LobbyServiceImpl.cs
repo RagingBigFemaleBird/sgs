@@ -401,10 +401,45 @@ namespace Sanguosha.Lobby.Server
                 if (seat.State != SeatState.Host) return RoomOperationResult.Invalid;
                 if (room.Seats[seatNo].State == SeatState.GuestReady || room.Seats[seatNo].State == SeatState.GuestTaken)
                 {
-                    _ExitRoom(new LoginToken() { token = loggedInAccountToGuid[room.Seats[seatNo].Account] });
+                    var kicked = new LoginToken() { token = loggedInAccountToGuid[room.Seats[seatNo].Account] };
+                    _ExitRoom(kicked);
+                    loggedInGuidToChannel[kicked.token].NotifyKicked();
                     return RoomOperationResult.Success;
                 }
                 return RoomOperationResult.Invalid;
+            }
+            return RoomOperationResult.Auth;
+        }
+
+        public RoomOperationResult OpenSeat(LoginToken token, int seatNo)
+        {
+            if (VerifyClient(token))
+            {
+                if (!loggedInGuidToRoom.ContainsKey(token.token)) { return RoomOperationResult.Invalid; }
+                var room = loggedInGuidToRoom[token.token];
+                var seat = room.Seats.FirstOrDefault(s => s.Account == loggedInGuidToAccount[token.token]);
+                if (seat == null) return RoomOperationResult.Invalid;
+                if (seat.State != SeatState.Host) return RoomOperationResult.Invalid;
+                if (room.Seats[seatNo].State != SeatState.Empty) return RoomOperationResult.Invalid;
+                room.Seats[seatNo].State = SeatState.Closed;
+                NotifyRoomLayoutChanged(room.Id);
+                return RoomOperationResult.Success;
+            }
+            return RoomOperationResult.Auth;
+        }
+
+        public RoomOperationResult CloseSeat(LoginToken token, int seatNo)
+        {
+            if (VerifyClient(token))
+            {
+                if (!loggedInGuidToRoom.ContainsKey(token.token)) { return RoomOperationResult.Invalid; }
+                var room = loggedInGuidToRoom[token.token];
+                var seat = room.Seats.FirstOrDefault(s => s.Account == loggedInGuidToAccount[token.token]);
+                if (seat == null) return RoomOperationResult.Invalid;
+                if (seat.State != SeatState.Host) return RoomOperationResult.Invalid;
+                if (room.Seats[seatNo].State != SeatState.Closed) return RoomOperationResult.Invalid;
+                room.Seats[seatNo].State = SeatState.Empty;
+                NotifyRoomLayoutChanged(room.Id);
             }
             return RoomOperationResult.Auth;
         }

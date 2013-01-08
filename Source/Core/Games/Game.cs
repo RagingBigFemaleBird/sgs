@@ -13,6 +13,7 @@ using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.UI;
 using Sanguosha.Core.Skills;
 using Sanguosha.Lobby.Core;
+using Sanguosha.Core.Utils;
 
 
 namespace Sanguosha.Core.Games
@@ -153,6 +154,8 @@ namespace Sanguosha.Core.Games
                 return false;
             }
         }
+
+        public ReplayController ReplayController { get; set; }
 
         public void SyncUnknownLocationCard(Player player, Card card)
         {

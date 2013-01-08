@@ -23,7 +23,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     {
         public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            if (eventArgs.Cards[0].SuitColor == SuitColorType.Black)
+            if (eventArgs.Cards.Count > 0 && eventArgs.Cards[0].SuitColor == SuitColorType.Black)
                 base.Run(gameEvent, eventArgs);
             else
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerJudgeDone, this); 

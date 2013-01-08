@@ -140,6 +140,7 @@
     <Compile Include="Utils\RawDeserializer.cs" />
     <Compile Include="Utils\RawSerializer.cs" />
     <Compile Include="Utils\RecordTakingInputStream.cs" />
+    <Compile Include="Utils\ReplayController.cs" />
     <Compile Include="Utils\TypeIO.cs" />
   </ItemGroup>
   <ItemGroup>

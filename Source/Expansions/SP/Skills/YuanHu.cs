@@ -51,10 +51,6 @@ namespace Sanguosha.Expansions.SP.Skills
                 {
                     return VerifierResult.Fail;
                 }
-                if (players[0].Equipments().Any(c => c.Type.IsCardCategory(cards[0].Type.Category)))
-                {
-                    return VerifierResult.Fail;
-                }
 
                 CardHandler handler = new Sha();
                 handler.HoldInTemp(cards);
@@ -75,6 +71,11 @@ namespace Sanguosha.Expansions.SP.Skills
                         return VerifierResult.Fail;
                     }
                 }
+                if (players[0].Equipments().Any(c => c.Type.IsCardCategory(cards[0].Type.Category)))
+                {
+                    handler.ReleaseHoldInTemp();
+                    return VerifierResult.Fail;
+                }
                 handler.ReleaseHoldInTemp();
                 return VerifierResult.Success;
             }
@@ -94,21 +95,8 @@ namespace Sanguosha.Expansions.SP.Skills
                     {
                         if (players.Count == 2)
                         {
-                            List<List<Card>> answer;
-                            List<DeckPlace> places = new List<DeckPlace>();
-                            places.Add(new DeckPlace(players[1], DeckType.Hand));
-                            places.Add(new DeckPlace(players[1], DeckType.Equipment));
-                            if (!owner.AskForCardChoice(new CardChoicePrompt("YuanHu", players[1], owner),
-                                places,
-                                new List<string>() { "YuanHu" },
-                                new List<int>() { 1 },
-                                new RequireOneCardChoiceVerifier(),
-                                out answer))
-                            {
-                                answer = new List<List<Card>>();
-                                answer[0].Add(players[1].HandCards().Concat(players[1].Equipments()).First());
-                            }
-                            Game.CurrentGame.HandleCardDiscard(players[1], answer[0]);
+                            var Card = Game.CurrentGame.SelectACardFrom(players[1], owner, new CardChoicePrompt("YuanHu", players[1], owner), "YuanHu");
+                            Game.CurrentGame.HandleCardDiscard(players[1], new List<Card>() { Card });
                         }
                         break;
                     }

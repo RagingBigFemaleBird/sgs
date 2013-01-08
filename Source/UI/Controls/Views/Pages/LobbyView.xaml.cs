@@ -54,58 +54,55 @@ namespace Sanguosha.UI.Controls
 
         public void StartGame()
         {
-            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            Client client;
+
+            client = new Client();
+            string addr = LobbyModel.GameServerConnectionString;
+            string[] args = addr.Split(':');
+            Trace.Assert(args.Length == 2);
+            client.IpString = args[0];
+            client.PortNumber = int.Parse(args[1]);
+
+            busyIndicator.BusyContent = Resources["Busy.JoinGame"];
+            busyIndicator.IsBusy = true;
+
+            //client.Start(isReplay, FileStream = file.open(...))
+            BackgroundWorker worker = new BackgroundWorker();
+
+            worker.DoWork += (o, ea) =>
             {
-                Client client;
-
-                client = new Client();
-                string addr = LobbyModel.GameServerConnectionString;
-                string[] args = addr.Split(':');
-                Trace.Assert(args.Length == 2);
-                client.IpString = args[0];                
-                client.PortNumber = int.Parse(args[1]);                
-
-                busyIndicator.BusyContent = Resources["Busy.JoinGame"];
-                busyIndicator.IsBusy = true;
-
-                //client.Start(isReplay, FileStream = file.open(...))
-                BackgroundWorker worker = new BackgroundWorker();
-
-                worker.DoWork += (o, ea) =>
+                try
                 {
-                    try
-                    {
-                        ea.Result = false;
-                        client.Start(null, LobbyModel.LoginToken);
-                        client.RecordStream = FileRotator.CreateFile("./Replays", "SGSREPLAY", ".sgs", 10);
-                        ea.Result = true;
-                    }
-                    catch (Exception e)
-                    {
-                        Trace.TraceError("Connection failure : " + e.StackTrace);
-                        Trace.Assert(false);
-                    }
-                };
-
-                worker.RunWorkerCompleted += (o, ea) =>
+                    ea.Result = false;
+                    client.Start(null, LobbyModel.LoginToken);
+                    client.RecordStream = FileRotator.CreateFile("./Replays", "SGSREPLAY", ".sgs", 10);
+                    ea.Result = true;
+                }
+                catch (Exception e)
                 {
-                    busyIndicator.IsBusy = false;
-                    if ((bool)ea.Result)
-                    {
-                        MainGame game = new MainGame();
-                        game.NetworkClient = client;
-                        this.NavigationService.Navigate(game);
-                        return;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Failed to create connection for " + LobbyModel.GameServerConnectionString);
-                        Trace.Assert(false);
-                    }
-                };
+                    Trace.TraceError("Connection failure : " + e.StackTrace);
+                    Trace.Assert(false);
+                }
+            };
 
-                worker.RunWorkerAsync();
-            });
+            worker.RunWorkerCompleted += (o, ea) =>
+            {
+                busyIndicator.IsBusy = false;
+                if ((bool)ea.Result)
+                {
+                    MainGame game = new MainGame();
+                    game.NetworkClient = client;
+                    this.NavigationService.Navigate(game);
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("Failed to create connection for " + LobbyModel.GameServerConnectionString);
+                    Trace.Assert(false);
+                }
+            };
+
+            worker.RunWorkerAsync();
         }
 
         private void muteButton_Click(object sender, System.Windows.RoutedEventArgs e)
