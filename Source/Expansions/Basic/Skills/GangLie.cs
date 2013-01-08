@@ -101,7 +101,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 TriggerCondition.OwnerIsTarget
             ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.AfterDamageInflicted, trigger);
-            IsAutoInvoked = null;
+            IsAutoInvoked = false;
         }
     }
 }
