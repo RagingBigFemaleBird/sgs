@@ -22,13 +22,14 @@ namespace Sanguosha.Core.Games
         /// 造成伤害
         /// </summary>
         /// <param name="source">伤害来源</param>
+        /// <param name="originalTarget">最初的伤害目标</param>
         /// <param name="dest">伤害目标</param>
         /// <param name="magnitude">伤害点数</param>
         /// <param name="elemental">伤害属性</param>
         /// <param name="cards">造成伤害的牌</param>
-        public void DoDamage(Player source, Player dest, int magnitude, DamageElement elemental, ICard card, ReadOnlyCard readonlyCard)
+        public void DoDamage(Player source, Player dest, Player originalTarget, int magnitude, DamageElement elemental, ICard card, ReadOnlyCard readonlyCard)
         {
-            var damageArgs = new DamageEventArgs() { Source = source, Targets = new List<Player>(), Magnitude = magnitude, Element = elemental };
+            var damageArgs = new DamageEventArgs() { Source = source, OriginalTarget = originalTarget, Targets = new List<Player>(), Magnitude = magnitude, Element = elemental };
             HealthChangedEventArgs healthChangedArgs;
             int ironShackledDamage = 0;
             DamageElement ironShackledDamageElement = DamageElement.None;
@@ -79,6 +80,9 @@ namespace Sanguosha.Core.Games
             {
                 if (e.Status == TriggerResult.End)
                 {
+                    //伤害结算完毕事件应该总是被触发
+                    //受到伤害的角色如果存活能发动的技能/会执行的技能效果：【酒诗②】、执行【天香】摸牌的效果。
+                    Game.CurrentGame.Emit(GameEvent.DamageComputingFinished, damageArgs);
                     Trace.TraceInformation("Damage Aborted");
                     return;
                 }
@@ -104,15 +108,20 @@ namespace Sanguosha.Core.Games
             if (ironShackledDamage != 0)
             {
                 List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
-                Game.CurrentGame.SortByOrderOfComputation(damageArgs.Targets[0], toProcess);
+                Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, toProcess);
                 foreach (Player p in toProcess)
                 {
                     if (p.IsIronShackled)
                     {
-                        DoDamage(damageArgs.Source, p, ironShackledDamage, ironShackledDamageElement, card, readonlyCard);
+                        DoDamage(damageArgs.Source, p, originalTarget, ironShackledDamage, ironShackledDamageElement, card, readonlyCard);
                     }
                 }
             }
+        }
+
+        public void DoDamage(Player source, Player dest, int magnitude, DamageElement elemental, ICard card, ReadOnlyCard readonlyCard)
+        {
+            DoDamage(source, dest, dest, magnitude, elemental, card, readonlyCard);
         }
 
         public void PlayerAcquireSkill(Player p, ISkill skill, bool undeletable = false)

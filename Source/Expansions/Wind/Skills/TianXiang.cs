@@ -56,11 +56,13 @@ namespace Sanguosha.Expansions.Wind.Skills
                 Game.CurrentGame.HandleCardDiscard(Owner, cards);
                 ReadOnlyCard ncard = new ReadOnlyCard(args.ReadonlyCard);
                 ncard[Armor.IgnoreAllArmor] = 0;
-                Game.CurrentGame.DoDamage(args.Source, players[0], args.Magnitude, args.Element, args.Card, ncard);
-                Game.CurrentGame.DrawCards(players[0], players[0].LostHealth);
+                players[0][TianXiangTarget] = 1;
+                Game.CurrentGame.DoDamage(args.Source, players[0], Owner, args.Magnitude, args.Element, args.Card, ncard);
                 throw new TriggerResultException(TriggerResult.End);
             }
         }
+
+        private static PlayerAttribute TianXiangTarget = PlayerAttribute.Register("TianXiangTarget");
 
         public TianXiang()
         {
@@ -69,8 +71,14 @@ namespace Sanguosha.Expansions.Wind.Skills
                 Run,
                 TriggerCondition.OwnerIsTarget
             ) { AskForConfirmation = false, IsAutoNotify = false };
-
+            var trigger2 = new AutoNotifyPassiveSkillTrigger(
+                this,
+                (p, e, a) => { return a.Targets[0][TianXiangTarget] != 0 && !a.Targets[0].IsDead; },
+                (p, e, a) => { Game.CurrentGame.DrawCards(a.Targets[0], a.Targets[0].LostHealth); a.Targets[0][TianXiangTarget] = 0; },
+                TriggerCondition.Global
+            ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.DamageInflicted, trigger);
+            Triggers.Add(GameEvent.DamageComputingFinished, trigger2);
             IsAutoInvoked = null;
         }
 

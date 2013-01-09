@@ -122,6 +122,12 @@ namespace Sanguosha.Core.Triggers
 
     public class DamageEventArgs : GameEventArgs
     {
+        public Player OriginalTarget
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Gets/sets the magnitude of damage
         /// </summary>
@@ -130,7 +136,7 @@ namespace Sanguosha.Core.Triggers
             get;
             set;
         }
-       
+
         public DamageElement Element
         {
             get;
