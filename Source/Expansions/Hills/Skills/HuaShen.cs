@@ -83,12 +83,54 @@ namespace Sanguosha.Expansions.Hills.Skills
             return;
         }
 
+        class LoseHuaShen : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                if (eventArgs.Source != Owner)
+                {
+                    return;
+                }
+                List<ISkill> allSkills = new List<ISkill>();
+                if (Owner.Hero != null)
+                {
+                    allSkills.AddRange(Owner.Hero.Skills);
+                }
+                if (Owner.Hero2 != null)
+                {
+                    allSkills.AddRange(Owner.Hero2.Skills);
+                }
+                allSkills.AddRange(Owner.AdditionalSkills);
+                if (allSkills.Any(s => s is HuaShen))
+                {
+                    return;
+                }
+                Owner.Allegiance = Allegiance.Qun;
+                Owner.IsMale = true;
+                Owner.IsFemale = !Owner.IsMale;
+                Game.CurrentGame.NotificationProxy.NotifyImpersonation(Owner, null, null);
+                Game.CurrentGame.Emit(GameEvent.PlayerChangedAllegiance, new GameEventArgs() { Source = Owner });
+                Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerSkillSetChanged, this);
+            }
+
+            public LoseHuaShen(Player p)
+            {
+                Owner = p;
+            }
+        }
+
         public HuaShen()
         {
             acquiredSkill = null;
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { AcquireHeroCard(p); AcquireHeroCard(p); Run(p, e, a); },
+                (p, e, a) => 
+                { 
+                    AcquireHeroCard(p); 
+                    AcquireHeroCard(p); 
+                    Run(p, e, a);
+                    Game.CurrentGame.RegisterTrigger(GameEvent.PlayerSkillSetChanged, new LoseHuaShen(p));
+                },
                 TriggerCondition.OwnerIsSource
             ) { AskForConfirmation = false };
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
@@ -101,6 +143,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             Triggers.Add(GameEvent.PhaseProceedEvents[TurnPhase.BeforeStart], trigger2);
             Triggers.Add(GameEvent.PhaseEndEvents[TurnPhase.PostEnd], trigger2);
             IsAutoInvoked = false;
+            IsRulerOnly = true;
         }
     }
 }

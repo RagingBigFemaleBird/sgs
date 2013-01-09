@@ -38,6 +38,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                         sk.Owner = null;
                     }
                     a.Source.Hero = new Hero(h.Name, h.IsMale, h.Allegiance, h.MaxHealth, new List<ISkill>());
+                    Game.CurrentGame.Emit(GameEvent.PlayerSkillSetChanged, new GameEventArgs() { Source = a.Source});
                     a.Source[DuanChangStatus] = 1;
                 },
                 TriggerCondition.OwnerIsTarget
