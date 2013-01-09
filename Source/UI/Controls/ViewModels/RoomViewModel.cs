@@ -73,7 +73,7 @@ namespace Sanguosha.UI.Controls
         {
             get
             {
-                return Seats.Count(p => p.State != SeatState.Empty);
+                return Seats.Count(p => p.State != SeatState.Empty && p.State != SeatState.Closed);
             }
         }
 

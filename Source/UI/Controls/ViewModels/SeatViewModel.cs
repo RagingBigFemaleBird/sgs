@@ -75,6 +75,14 @@ namespace Sanguosha.UI.Controls
             {
                 if (_state == value) return;
                 _state = value;
+                if (_state == SeatState.Closed)
+                {
+                    (JoinCommand as SimpleRelayCommand).CanExecuteStatus = false;
+                }
+                else
+                {
+                    (JoinCommand as SimpleRelayCommand).CanExecuteStatus = true;
+                }
                 OnPropertyChanged("State");
                 OnPropertyChanged("IsTaken");
                 OnPropertyChanged("IsEmpty");

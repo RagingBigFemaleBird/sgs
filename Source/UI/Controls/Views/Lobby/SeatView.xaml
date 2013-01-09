@@ -70,12 +70,12 @@
                 </Setter>
             </Style>
             <Storyboard x:Key="OnMouseEnter1">
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="btnClose">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="gridOpenSeat">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1"/>
                 </DoubleAnimationUsingKeyFrames>
             </Storyboard>
             <Storyboard x:Key="OnMouseLeave1">
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="btnClose">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="gridOpenSeat">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
                 </DoubleAnimationUsingKeyFrames>
             </Storyboard>
@@ -135,9 +135,9 @@
         <Button x:Name="btnJoin" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Command="{Binding JoinCommand}" Cursor="Hand" Style="{DynamicResource EmptySeatButtonStyle}">
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         		<Image Source="/Resources;component/Images/Lobby/Seat/closed.png" Visibility="{Binding IsClosed, Converter={StaticResource boolToVisibilityConverter}}" Stretch="None" Margin="0,0,0.5,1.5" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-        		<Grid x:Name="gridOpenSeat" Visibility="Hidden" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-        			<Button x:Name="btnClose" Content ="禁止进入" Command="{Binding CloseCommand}" Style="{StaticResource DefaultButtonStyleRed}" Opacity="0" Visibility="{Binding IsEmpty, Converter={StaticResource boolToVisibilityConverter}}" Margin="0,0,0.001,0" />
-        			<Button x:Name="btnOpen" Content ="开放座位" Command="{Binding OpenCommand}" Style="{StaticResource DefaultButtonStyleRed}" Opacity="0" Visibility="{Binding IsClosed, Converter={StaticResource boolToVisibilityConverter}}" Margin="0,0,0.001,0" />
+        		<Grid x:Name="gridOpenSeat" Visibility="Hidden" VerticalAlignment="Bottom" HorizontalAlignment="Center" Opacity="0">
+        			<Button x:Name="btnClose" Content ="禁止进入" Command="{Binding CloseCommand}" Style="{StaticResource DefaultButtonStyleRed}" Visibility="{Binding IsEmpty, Converter={StaticResource boolToVisibilityConverter}}" Margin="0,0,0.001,0" />
+        			<Button x:Name="btnOpen" Content ="开放座位" Command="{Binding OpenCommand}" Style="{StaticResource DefaultButtonStyleRed}" Visibility="{Binding IsClosed, Converter={StaticResource boolToVisibilityConverter}}" Margin="0,0,0.001,0" />
         		</Grid>
         	</Grid>
         </Button>

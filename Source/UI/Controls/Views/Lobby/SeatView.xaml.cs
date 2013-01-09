@@ -62,7 +62,7 @@ namespace Sanguosha.UI.Controls
             SeatState state = (SeatState)value;
             SeatState currentState = LobbyViewModel.Instance.CurrentSeat.State;
             return (currentState == SeatState.Host &&
-                    (state == SeatState.Empty || state == SeatState.GuestTaken || state == SeatState.GuestReady));
+                    state != SeatState.Host && state != SeatState.Gaming);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

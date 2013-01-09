@@ -250,7 +250,8 @@ namespace Sanguosha.UI.Controls
             var room = _connection.CreateRoom(_loginToken);
             if (room != null)
             {
-                CurrentRoom = new RoomViewModel() { Room = room };                
+                CurrentRoom = new RoomViewModel() { Room = room };
+                UpdateRooms();
                 Trace.Assert(CurrentSeat != null, "Successfully created a room, but do not find myself in the room");
             }
         }
