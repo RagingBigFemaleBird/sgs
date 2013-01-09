@@ -234,13 +234,13 @@
                 </Setter>
             </Style>
             <Storyboard x:Key="Countdown"/>
-			<Storyboard x:Key="sbStartImpersonate" RepeatBehavior="Forever" AutoReverse="True">
-            	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:RippleTransitionEffect.Progress)" Storyboard.TargetName="heroPhoto">
-            		<EasingDoubleKeyFrame KeyTime="0" Value="100"/>
-            		<EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
-            		<EasingDoubleKeyFrame KeyTime="0:0:5" Value="0"/>
-            		<EasingDoubleKeyFrame KeyTime="0:0:6" Value="100"/>
-            	</DoubleAnimationUsingKeyFrames>
+            <Storyboard x:Key="sbStartImpersonate" RepeatBehavior="Forever" AutoReverse="True">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:RippleTransitionEffect.Progress)" Storyboard.TargetName="heroPhoto">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="100"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:5" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:6" Value="100"/>
+                </DoubleAnimationUsingKeyFrames>
             </Storyboard>
             <Storyboard x:Key="sbDeathTransition">
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:MonochromeEffect.Strength)" Storyboard.TargetName="grid">
@@ -361,20 +361,20 @@
                     <Image.ToolTip>
                         <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
                     </Image.ToolTip>
-					<Image.Effect>
-                    	<Sanguosha_UI_Effects:RippleTransitionEffect x:Name="impersonateEffect" Progress="100"/>
+                    <Image.Effect>
+                        <Sanguosha_UI_Effects:RippleTransitionEffect x:Name="impersonateEffect" Progress="100"/>
                     </Image.Effect>
                     <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
                 </Image>
-				<Rectangle Visibility="{Binding IsDrank, Converter={StaticResource boolToVisibilityConverter}}" >
-					<Rectangle.Fill>
-						<RadialGradientBrush>
-							<GradientStop Color="#00FF0000" Offset="1"/>							
-							<GradientStop Color="#4C640000" Offset="0.558"/>
-							<GradientStop Color="#4CFF0000"/>
-						</RadialGradientBrush>
-					</Rectangle.Fill>
-				</Rectangle>
+                <Rectangle Visibility="{Binding IsDrank, Converter={StaticResource boolToVisibilityConverter}}" >
+                    <Rectangle.Fill>
+                        <RadialGradientBrush>
+                            <GradientStop Color="#00FF0000" Offset="1"/>							
+                            <GradientStop Color="#4C640000" Offset="0.558"/>
+                            <GradientStop Color="#4CFF0000"/>
+                        </RadialGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
                 <Image Source="/Resources;component/Images/MainPlayerInfoView/imprisoned.png" Stretch="Fill" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}"/>
             </Grid>
             <Border x:Name="fadeMask" Background="#64000000" Opacity="0" IsHitTestVisible="False">
@@ -473,7 +473,7 @@
             </Grid>
             <Canvas x:Name="animationCenter1" HorizontalAlignment="Left" Height="16" Margin="63,69,0,0" VerticalAlignment="Top" Width="18" IsHitTestVisible="False"/>            
         </Grid>
-        <StackPanel Height="29" Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="200,0,0,0" x:Name="delayedToolsDock" VerticalAlignment="Top" Grid.ColumnSpan="2" >
+        <StackPanel Grid.Row="2" Height="29" Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="200,-20,0,0" x:Name="delayedToolsDock" VerticalAlignment="Top" Grid.ColumnSpan="2" >
             <i:Interaction.Behaviors>
                 <ei:FluidMoveBehavior AppliesTo="Children" Duration="0:0:5">
                     <ei:FluidMoveBehavior.EaseX>
