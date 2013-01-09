@@ -451,20 +451,20 @@ namespace Sanguosha.Lobby.Server
             {
                 try
                 {
-                    if (loggedInGuidToRoom.ContainsKey(token.token) && loggedInGuidToRoom[token.token].State == RoomState.Gaming)
+                    if (loggedInGuidToRoom.ContainsKey(token.token)/* && loggedInGuidToRoom[token.token].State == RoomState.Gaming*/)
                     {
                         foreach (var seat in loggedInGuidToRoom[token.token].Seats)
                         {
                             loggedInGuidToChannel[loggedInAccountToGuid[seat.Account]].NotifyChat(loggedInGuidToAccount[token.token], message);
                         }
                     }
-                    else
+                    /*else
                     {
                         foreach (var pair in loggedInGuidToChannel)
                         {
                             pair.Value.NotifyChat(loggedInGuidToAccount[token.token], message);
                         }
-                    }
+                    }*/
                 }
                 catch (Exception)
                 {
