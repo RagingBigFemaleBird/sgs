@@ -39,9 +39,9 @@ namespace Sanguosha.Expansions.Woods.Skills
             Triggers.Add(GameEvent.AfterDamageCaused, trigger);
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return a.Source.Allegiance == Allegiance.Qun && a.Source[BaoNveUsable] == 0; },
-                (p, e, a) => { a.Source[BaoNveUsable] = 1; },
-                TriggerCondition.Global
+                (p, e, a) => { return p[BaoNveUsable] == 0; },
+                (p, e, a) => { p[BaoNveUsable] = 1; },
+                TriggerCondition.OwnerIsSource
             ) { IsAutoNotify = false, AskForConfirmation = false, Priority = int.MinValue };
             Triggers.Add(GameEvent.DamageInflicted, trigger2);
             IsAutoInvoked = false;

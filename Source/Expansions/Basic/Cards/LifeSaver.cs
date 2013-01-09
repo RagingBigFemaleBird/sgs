@@ -134,16 +134,6 @@ namespace Sanguosha.Expansions.Basic.Cards
             Trace.TraceInformation("Player {0} dead", target.Id);
             Trace.Assert(target == Game.CurrentGame.IsDying.Pop());
             Game.CurrentGame.Emit(GameEvent.GameProcessPlayerIsDead, eventArgs);
-            target.IsDead = true;
-            Game.CurrentGame.SyncCardsAll(Game.CurrentGame.Decks[target, DeckType.Hand]);
-            CardsMovement move = new CardsMovement();
-            move.Cards = new List<Card>();
-            move.Cards.AddRange(Game.CurrentGame.Decks[target, DeckType.Hand]);
-            move.Cards.AddRange(Game.CurrentGame.Decks[target, DeckType.Equipment]);
-            move.Cards.AddRange(Game.CurrentGame.Decks[target, DeckType.DelayedTools]);
-            move.To = new DeckPlace(null, DeckType.Discard);
-            Game.CurrentGame.MoveCards(move);
-
         }
     }
 }

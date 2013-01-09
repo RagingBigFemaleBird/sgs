@@ -907,6 +907,17 @@ namespace Sanguosha.Core.Games
 
                 Game.CurrentGame.Emit(GameEvent.PlayerIsDead, eventArgs);
                 p.IsDead = true;
+                {
+                    //弃置死亡玩家所有的牌
+                    Game.CurrentGame.SyncCardsAll(Game.CurrentGame.Decks[p, DeckType.Hand]);
+                    CardsMovement move = new CardsMovement();
+                    move.Cards = new List<Card>();
+                    move.Cards.AddRange(Game.CurrentGame.Decks[p, DeckType.Hand]);
+                    move.Cards.AddRange(Game.CurrentGame.Decks[p, DeckType.Equipment]);
+                    move.Cards.AddRange(Game.CurrentGame.Decks[p, DeckType.DelayedTools]);
+                    move.To = new DeckPlace(null, DeckType.Discard);
+                    Game.CurrentGame.MoveCards(move);
+                }
                 if (p.Hero != null)
                 {
                     foreach (ISkill s in p.Hero.Skills)
@@ -927,7 +938,7 @@ namespace Sanguosha.Core.Games
                         }
                     }
                 }
-                
+
                 if (p.Role == Role.Rebel || p.Role == Role.Defector)
                 {
                     if (source != null && !source.IsDead && p.Role == Role.Rebel)
