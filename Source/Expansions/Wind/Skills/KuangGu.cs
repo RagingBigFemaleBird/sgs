@@ -22,23 +22,27 @@ namespace Sanguosha.Expansions.Wind.Skills
     {
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            Game.CurrentGame.RecoverHealth(Owner, Owner, (eventArgs as DamageEventArgs).Magnitude);
+            int recover = (eventArgs as DamageEventArgs).Magnitude;
+            while (recover-- <= 0)
+            {
+                Game.CurrentGame.RecoverHealth(Owner, Owner, 1);
+            }
         }
 
         public KuangGu()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return p.LostHealth > 0 && p[KuangGuUsable] == 1; },
+                (p, e, a) => { int result = p[KuangGuUsable]; p[KuangGuUsable] = 0; return p.LostHealth > 0 && result == 1; },
                 Run,
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.AfterDamageCaused, trigger);
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return Game.CurrentGame.DistanceTo(p, a.Targets[0]) <= 1 && a.Source[KuangGuUsable] == 0; },
-                (p, e, a) => { a.Source[KuangGuUsable] = 1; },
-                TriggerCondition.Global
+                (p, e, a) => { return Game.CurrentGame.DistanceTo(p, a.Targets[0]) <= 1 && p[KuangGuUsable] == 0; },
+                (p, e, a) => { p[KuangGuUsable] = 1; },
+                TriggerCondition.OwnerIsSource
             ) { IsAutoNotify = false, AskForConfirmation = false, Priority = int.MinValue };
             Triggers.Add(GameEvent.DamageInflicted, trigger2);
             IsEnforced = true;
