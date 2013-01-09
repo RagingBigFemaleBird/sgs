@@ -464,9 +464,6 @@ namespace Sanguosha.Core.Games
                 var dealdeck = new List<Card>(game.Decks[DeckType.Dealing]);
                 foreach (Card card in dealdeck)
                 {
-                    card.PlaceOverride = null;
-                    card.HistoryPlace1 = null;
-                    card.HistoryPlace2 = null;
                     // We don't want hero cards
                     if (card.Type is HeroCardHandler)
                     {
