@@ -33,7 +33,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard.Type is Sha &&
-                    Game.CurrentGame.DistanceTo(Owner, a.Targets[0]) == 1; },
+                    Game.CurrentGame.DistanceTo(Owner, a.Targets[0]) == 1 && (a as DamageEventArgs).OriginalTarget == a.Targets[0]; },
                 Run,
                 TriggerCondition.OwnerIsSource
             );

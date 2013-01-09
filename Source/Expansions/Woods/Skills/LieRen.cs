@@ -56,7 +56,7 @@ namespace Sanguosha.Expansions.Woods.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard.Type is Sha && Game.CurrentGame.Decks[p, DeckType.Hand].Count > 0 && !a.Targets[0].IsDead && Game.CurrentGame.Decks[a.Targets[0], DeckType.Hand].Count > 0; },
+                (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard.Type is Sha && p.HandCards().Count > 0 && !a.Targets[0].IsDead && a.Targets[0].HandCards().Count > 0 && (a as DamageEventArgs).OriginalTarget == a.Targets[0]; },
                 Run,
                 TriggerCondition.OwnerIsSource
             );
