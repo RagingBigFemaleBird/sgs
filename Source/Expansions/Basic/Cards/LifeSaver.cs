@@ -89,7 +89,6 @@ namespace Sanguosha.Expansions.Basic.Cards
             if (target.Health > 0) return;
             Game.CurrentGame.IsDying.Push(target);
             List<Player> toAsk = new List<Player>(Game.CurrentGame.AlivePlayers);
-            Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, toAsk);
             LifeSaverVerifier v = new LifeSaverVerifier();
             v.DyingPlayer = target;
             foreach (Player p in toAsk)

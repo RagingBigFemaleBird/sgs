@@ -50,7 +50,6 @@ namespace Sanguosha.Expansions.Woods.Skills
             Owner[LuanWuUsed] = 1;
             var toProcess = Game.CurrentGame.AlivePlayers;
             toProcess.Remove(Owner);
-            Game.CurrentGame.SortByOrderOfComputation(Owner, toProcess);
             foreach (Player target in toProcess)
             {
                 ISkill skill;

@@ -37,7 +37,6 @@ namespace Sanguosha.Expansions.Fire.Skills
                 QinYinQuestion.Add(new OptionPrompt("QinYinShiQu"));
                 int answer;
                 var toProcess = Game.CurrentGame.AlivePlayers;
-                Game.CurrentGame.SortByOrderOfComputation(Owner, toProcess);
                 if (Game.CurrentGame.UiProxies[owner].AskForMultipleChoice(new MultipleChoicePrompt("QinYin"), QinYinQuestion, out answer))
                 {
                     if (answer == 0)
