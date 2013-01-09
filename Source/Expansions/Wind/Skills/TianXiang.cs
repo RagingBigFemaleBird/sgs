@@ -58,7 +58,6 @@ namespace Sanguosha.Expansions.Wind.Skills
                 if (args.ReadonlyCard != null)
                 {
                     ncard = new ReadOnlyCard(args.ReadonlyCard);
-                    ncard[Armor.IgnoreAllArmor] = 0;
                 }
                 ncard[TianXiangDamage] = 1;
                 Game.CurrentGame.DoDamage(args.Source, players[0], Owner, args.Magnitude, args.Element, args.Card, ncard);
