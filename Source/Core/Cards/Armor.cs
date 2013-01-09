@@ -24,15 +24,15 @@ namespace Sanguosha.Core.Cards
         public static readonly PlayerAttribute UnconditionalIgnoreArmor = PlayerAttribute.Register("UnconditionalIgnoreArmor", false);
         
         /// <summary>
-        /// 卡牌（杀）无视所有防具
+        /// 卡牌无视所有防具
         /// </summary>
-        /// <remarks>青钢剑</remarks>
+        /// <remarks></remarks>
         public static readonly CardAttribute IgnoreAllArmor = CardAttribute.Register("IgnoreAllArmor");
 
         /// <summary>
         /// 卡牌无视某个玩家防具
         /// </summary>
-        /// <remarks>还没人用</remarks>
+        /// <remarks>青钢剑</remarks>
         public static readonly CardAttribute IgnorePlayerArmor = CardAttribute.Register("IgnorePlayerArmor");
         public override CardCategory Category
         {
@@ -43,7 +43,7 @@ namespace Sanguosha.Core.Cards
         {
             return (source == null || player[PlayerIgnoreArmor[source]] == 0) &&
                    player[UnconditionalIgnoreArmor] == 0 &&
-                   (card == null || (card[Armor.IgnoreAllArmor] == 0 && card[IgnorePlayerArmor[player]] != 1));
+                   (card == null || (card[Armor.IgnoreAllArmor] == 0 && card[IgnorePlayerArmor[player]] == 0));
         }
 
         protected override void Process(Player source, Players.Player dest, ICard card, ReadOnlyCard cardr, GameEventArgs inResponseTo)

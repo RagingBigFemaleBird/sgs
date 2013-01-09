@@ -108,7 +108,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             ) { AskForConfirmation = false };
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Start], trigger);
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger2);
-            Triggers.Add(GameEvent.DamageInflicted, trigger3);
+            Triggers.Add(GameEvent.DamageComputingStarted, trigger3);
             IsAutoInvoked = false;
         }
 

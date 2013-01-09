@@ -39,7 +39,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                     },
                     Run,
                     TriggerCondition.OwnerIsTarget
-                ) { Priority = int.MinValue };
+                );
                 Triggers.Add(GameEvent.DamageInflicted, trigger);
                 IsEnforced = true;
             }

@@ -30,7 +30,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 foreach (var target in eventArgs.Targets)
                 {
-                    eventArgs.ReadonlyCard[Armor.IgnorePlayerArmor[target]] = 1;
+                    eventArgs.ReadonlyCard[Armor.IgnorePlayerArmor[target]]++;
                 }
             }
 
@@ -46,6 +46,26 @@ namespace Sanguosha.Expansions.Basic.Cards
                     TriggerCondition.OwnerIsSource
                 );
                 Triggers.Add(GameEvent.CardUsageTargetConfirmed, trigger);
+                var trigger2 = new AutoNotifyPassiveSkillTrigger(
+                    this,
+                    (p, e, a) =>
+                    {
+                        return a.ReadonlyCard != null && (a.ReadonlyCard.Type is Sha);
+                    },
+                    (p, e, a) => { var args = a as DamageEventArgs; args.ReadonlyCard[Armor.IgnorePlayerArmor[args.Targets[0]]]--;},
+                    TriggerCondition.OwnerIsSource
+                ) { AskForConfirmation = false, IsAutoNotify = false, Priority = int.MinValue };
+                Triggers.Add(GameEvent.DamageInflicted, trigger2);
+                var trigger3 = new AutoNotifyPassiveSkillTrigger(
+                    this,
+                    (p, e, a) =>
+                    {
+                        return a.ReadonlyCard != null && (a.ReadonlyCard.Type is Sha);
+                    },
+                    (p, e, a) => { a.ReadonlyCard[Armor.IgnorePlayerArmor[a.Targets[0]]]--; },
+                    TriggerCondition.OwnerIsSource
+                ) { AskForConfirmation = false, IsAutoNotify = false, Priority = int.MinValue };
+                Triggers.Add(ShaCancelling.PlayerShaTargetDodged, trigger3);
                 IsEnforced = true;
             }
         }
