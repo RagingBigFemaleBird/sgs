@@ -24,6 +24,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
         {
             Game.CurrentGame.DrawCards(owner, 1);
             Game.CurrentGame.SyncImmutableCardsAll(owner.HandCards());
+            Game.CurrentGame.ShowHandCards(owner, owner.HandCards());
             var result = from card in owner.HandCards() select card.SuitColor;
             if (result.Distinct().Count() == 1)
             {

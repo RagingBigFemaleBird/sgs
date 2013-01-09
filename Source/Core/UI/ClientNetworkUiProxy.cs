@@ -256,7 +256,7 @@ namespace Sanguosha.Core.UI
             return false;
         }
 
-        private bool TryAnswerForMultipleChoice(out int answer)
+        public bool TryAnswerForMultipleChoice(out int answer)
         {
             answer = 0;
             object o = client.Receive();
@@ -268,7 +268,7 @@ namespace Sanguosha.Core.UI
             return true;
         }
 
-        private void TryAskForMultipleChoice(Prompt prompt, List<OptionPrompt> questions)
+        public void TryAskForMultipleChoice(Prompt prompt, List<OptionPrompt> questions)
         {
             int answer;
             if (!active)

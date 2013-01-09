@@ -1127,5 +1127,14 @@ namespace Sanguosha.UI.Controls
         }
         #endregion
 
+
+
+        public void NotifyShowCardsStart(Player p, List<Card> cards)
+        {
+        }
+
+        public void NotifyShowCardsEnd()
+        {
+        }
     }
 }

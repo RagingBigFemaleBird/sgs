@@ -377,7 +377,7 @@ namespace Sanguosha.Core.UI
             return ret;
         }
 
-        private void SendMultipleChoice(int answer)
+        public void SendMultipleChoice(int answer)
         {
             for (int i = 0; i < server.MaxClients; i++)
             {
@@ -386,7 +386,7 @@ namespace Sanguosha.Core.UI
             }
         }
 
-        private bool TryAskForMultipleChoice(out int answer)
+        public bool TryAskForMultipleChoice(out int answer)
         {
             answer = 0;
             Trace.TraceInformation("Asking Multiple choice to {0}, timeout {1}.", HostPlayer.Id, TimeOutSeconds);

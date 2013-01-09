@@ -743,5 +743,13 @@ namespace Sanguosha.Core.Games
                 c.Id = -1;
             }
         }
+
+        public void ShowHandCards(Player p, List<Card> cards)
+        {
+            Game.CurrentGame.NotificationProxy.NotifyShowCardsStart(p, cards);
+            Dictionary<Player, int> answers;
+            Game.CurrentGame.GlobalProxy.AskForMultipleMCQ(new MultipleChoicePrompt("Testing MCQ"), new List<OptionPrompt>() { OptionPrompt.YesChoice }, Game.CurrentGame.AlivePlayers, out answers);
+            Game.CurrentGame.NotificationProxy.NotifyShowCardsEnd();
+        }
     }
 }

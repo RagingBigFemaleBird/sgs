@@ -17,6 +17,7 @@ namespace Sanguosha.Core.UI
         ClientNetworkUiProxy proxy;
         List<ClientNetworkUiProxy> inactiveProxies;
         Prompt prompt;
+        List<OptionPrompt> questions;
         ICardUsageVerifier verifier;
         Game game;
 
@@ -48,6 +49,52 @@ namespace Sanguosha.Core.UI
             game = g;
             proxy = p;
             inactiveProxies = inactive;
+        }
+
+        public void AskForMultipleMCQ(Prompt prompt, List<OptionPrompt> questions, List<Player> players, out Dictionary<Player, int> aanswer)
+        {
+            this.prompt = prompt;
+            this.questions = questions;
+            foreach (var z in inactiveProxies)
+            {
+                if (players.Contains(z.HostPlayer))
+                {
+                    z.TryAskForMultipleChoice(prompt, questions);
+                }
+            }
+            Thread t = null;
+            if (players.Contains(proxy.HostPlayer))
+            {
+                t = new Thread(AskMCQUiThread) { IsBackground = true };
+                t.Start();
+            }
+            aanswer = new Dictionary<Player, int>();
+            foreach (var p in players)
+            {
+                int answer = 0;
+                proxy.TryAnswerForMultipleChoice(out answer);
+                aanswer.Add(p, answer);
+            }
+            if (players.Contains(proxy.HostPlayer))
+            {
+                t.Abort();
+                proxy.Freeze();
+                proxy.NextQuestion();
+            }
+            foreach (var otherProxy in inactiveProxies)
+            {
+                if (players.Contains(otherProxy.HostPlayer))
+                {
+                    otherProxy.Freeze();
+                }
+            }
+
+        }
+
+        private void AskMCQUiThread()
+        {
+            game.RegisterCurrentThread();
+            proxy.TryAskForMultipleChoice(prompt, questions);
         }
 
         public void AskForMultipleCardUsage(Prompt prompt, ICardUsageVerifier verifier, List<Player> players, out Dictionary<Player, ISkill> askill, out Dictionary<Player, List<Card>> acards, out Dictionary<Player, List<Player>> aplayers)

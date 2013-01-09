@@ -43,6 +43,93 @@ namespace Sanguosha.Core.UI
             public AdditionalCardChoiceOptions options;
         }
 
+        private struct MCQListenerThreadParameters
+        {
+            public ServerNetworkUiProxy proxy;
+            public Prompt prompt;
+            public Player player;
+        }
+        Dictionary<Player, int> manswerMCQ;
+
+        public void AskForMultipleMCQ(Prompt prompt, List<OptionPrompt> questions, List<Player> players, out Dictionary<Player, int> aanswer)
+        {
+            proxyListener = new Dictionary<Player, Thread>();
+            semAccess = new Semaphore(1, 1);
+            semWake = new Semaphore(0, 2);
+            semDone = new Semaphore(players.Count - 1, players.Count - 1);
+            manswerMCQ = new Dictionary<Player,int>();
+            foreach (var player in players)
+            {
+                if (!proxy.ContainsKey(player))
+                {
+                    continue;
+                }
+                MCQListenerThreadParameters para = new MCQListenerThreadParameters();
+                para.player = player;
+                para.prompt = prompt;
+                para.proxy = proxy[player];
+                Thread t = new Thread(
+                    (ParameterizedThreadStart)
+                    ((p) =>
+                    {
+                        MultiMCQProxyListenerThread((MCQListenerThreadParameters)p);
+                    })) { IsBackground = true };
+                t.Start(para);
+                proxyListener.Add(player, t);
+            }
+            semWake.WaitOne(TimeOutSeconds * 1000);
+            semAccess.WaitOne(100);
+
+            foreach (var pair in proxyListener)
+            {
+                pair.Value.Abort();
+                proxy[pair.Key].NextQuestion();
+            }
+
+            foreach (var player in players)
+            {
+                if (!manswerMCQ.ContainsKey(player))
+                {
+                    manswerMCQ.Add(player, 0);
+                }
+            }
+
+            foreach (var player in Game.CurrentGame.Players)
+            {
+                if (!proxy.ContainsKey(player))
+                {
+                    continue;
+                }
+                else
+                {
+                    foreach (var p in players)
+                    {
+                        proxy[player].SendMultipleChoice(manswerMCQ[p]);
+                    }
+                    break;
+                }
+            }
+            aanswer = manswerMCQ;
+        }
+
+        private void MultiMCQProxyListenerThread(MCQListenerThreadParameters para)
+        {
+            game.RegisterCurrentThread();
+            int answer = 0;
+            if (para.proxy.TryAskForMultipleChoice(out answer))
+            {
+
+                semAccess.WaitOne();
+                manswerMCQ.Add(para.player, answer);
+                semAccess.Release(1);
+            }
+            if (!semDone.WaitOne(0))
+            {
+                Trace.TraceInformation("All done");
+                semWake.Release(1);
+            }
+        }
+
         Dictionary<Player, ISkill> manswerSkill;
         Dictionary<Player, List<Card>> manswerCards;
         Dictionary<Player, List<Player>> manswerPlayers;

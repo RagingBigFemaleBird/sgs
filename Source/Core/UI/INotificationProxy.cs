@@ -34,6 +34,8 @@ namespace Sanguosha.Core.UI
         void NotifyMultipleCardUsageResponded(Player player);
         void NotifyPinDianEnd(Card c1, Card c2);
         void NotifyLogEvent(Prompt prompt);
+        void NotifyShowCardsStart(Player p, List<Card> cards);
+        void NotifyShowCardsEnd();
     }
 
     public class DummyNotificationProxy : INotificationProxy
@@ -116,6 +118,15 @@ namespace Sanguosha.Core.UI
 
 
         public void NotifyCardChoiceCallback(CardRearrangement o)
+        {
+        }
+
+
+        public void NotifyShowCardsStart(Player p, List<Card> cards)
+        {
+        }
+
+        public void NotifyShowCardsEnd()
         {
         }
     }

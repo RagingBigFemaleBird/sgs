@@ -23,6 +23,10 @@ namespace Sanguosha.Core.UI
             return false;
         }
 
+        public void AskForMultipleMCQ(Prompt prompt, List<OptionPrompt> questions, List<Player> players, out Dictionary<Player, int> aanswer)
+        {
+            throw new NotImplementedException();
+        }
 
         public void AskForHeroChoice(Dictionary<Player, List<Card>> restDraw, Dictionary<Player, Card> heroSelection)
         {
