@@ -17,6 +17,7 @@ namespace Sanguosha.UI.Controls
     {
         private LobbyViewModel()
         {
+            _chatCache = new List<KeyValuePair<string, string>>();
             Rooms = new ObservableCollection<RoomViewModel>();
             CreateRoomCommand = new SimpleRelayCommand(o => CreateRoom()) { CanExecuteStatus = true };
             UpdateRoomCommand = new SimpleRelayCommand(o => UpdateRooms()) { CanExecuteStatus = true };
@@ -307,14 +308,26 @@ namespace Sanguosha.UI.Controls
         #endregion
         #endregion
 
+        private List<KeyValuePair<string, string>> _chatCache;
+
         public void NotifyChat(Account act, string message)
         {
             Application.Current.Dispatcher.BeginInvoke((ThreadStart)delegate()
             {
+                if (_chatCache.Count > 100) _chatCache.RemoveRange(0, 50);
+                _chatCache.Add(new KeyValuePair<string, string>(act.UserName, message));                
                 var handler = OnChat;
                 if (handler != null)
                 {
-                    handler(act.UserName, message);
+                    foreach (var cache in _chatCache)
+                    {
+                        handler(cache.Key, cache.Value);
+                    }
+                    _chatCache.Clear();
+                }
+                else
+                {
+                    
                 }
             });
         }

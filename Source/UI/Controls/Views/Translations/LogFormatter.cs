@@ -473,7 +473,7 @@ namespace Sanguosha.UI.Controls
         static Brush OrangeBrush = new SolidColorBrush(new Color() { R = 255, G = 102, B = 0, A = 255 });
         static Brush YellowBrush = new SolidColorBrush(Colors.Yellow);
         static Brush GreenBrush = new SolidColorBrush(new Color() { R = 0, G = 204, B = 0, A = 255 });
-        static Brush DarkGreenBrush = new SolidColorBrush(new Color() { R = 104, G = 135, B = 41 });
+        static Brush DarkGreenBrush = new SolidColorBrush(new Color() { R = 104, G = 135, B = 41, A = 255});
 
         public static Paragraph RichTranslateDeath(Player p, Player by)
         {
@@ -591,11 +591,11 @@ namespace Sanguosha.UI.Controls
             string speaker = userName ?? string.Empty;
             if (!string.IsNullOrEmpty(playerName))
             {
-                speaker = (speaker == string.Empty) ? playerName : string.Format("{0}({1}): ", playerName, userName);
+                speaker = (speaker == string.Empty) ? playerName : string.Format("{0}({1})", playerName, userName);
             }
             if (speaker != string.Empty)
             {
-                para.Inlines.Add(new Run(speaker) { Foreground = DarkGreenBrush });
+                para.Inlines.Add(new Run(speaker + ": ") { Foreground = DarkGreenBrush });
             }
             para.Inlines.AddRange(RichTranslateChatMessage(message));
             return para;

@@ -220,27 +220,13 @@
                         </TabItem>
                     </TabControl>
                 </Canvas>
-                <RichTextBox Grid.Row="1" Background="Transparent" Margin="0,0,2,0" Style="{DynamicResource RichTextBoxStyle}" Foreground="#FFDCDBBD" FontFamily="SimSun" FontSize="13.333" BorderBrush="Transparent" IsReadOnly="True" IsReadOnlyCaretVisible="True" VerticalScrollBarVisibility="Auto">
-                    <FlowDocument>
-                        <Paragraph>
-                            <Run Language="zh-cn" Text="刘备：黄月英，你要那么多牌干什么？"/>
-                        </Paragraph>
-                        <Paragraph>
-                            <Run Language="zh-cn" Text="黄月英：你给我的好不？"/>
-                        </Paragraph>
-                        <Paragraph>
-                            <Run Language="zh-cn" Text="刘备：自己去看游戏记录，那些牌都是从牌堆里摸的"/>
-                        </Paragraph>
-                        <Paragraph>
-                            <Run Language="zh-cn" Text="黄月英：是么，我怎么不记得了？"/>
-                        </Paragraph>
-                        <Paragraph>
-                            <Run Language="zh-cn" Text="张飞：要不，英姐你拿张手牌给军师，他那现在一张牌都没有呢。"/>
-                        </Paragraph>
-                        <Paragraph>
-                            <Run Language="zh-cn" Text="关羽：别吵了，那张黑色的闪电给军师，剩下的都是红牌，都给我。"/>
-                        </Paragraph>
-                    </FlowDocument>
+                <RichTextBox x:Name="chatBox" Grid.Row="1" Background="Transparent" Margin="0,0,2,0" Style="{DynamicResource RichTextBoxStyle}" Foreground="#FFDCDBBD" FontFamily="SimSun" FontSize="13.333" BorderBrush="Transparent" IsReadOnly="True" IsReadOnlyCaretVisible="True" VerticalScrollBarVisibility="Auto">
+                    <RichTextBox.Resources>
+                        <Style TargetType="{x:Type Paragraph}">
+                            <Setter Property="Margin" Value="0,5"/>
+                        </Style>
+                    </RichTextBox.Resources>
+                    <FlowDocument />
                 </RichTextBox>
                 <local:ChatWidget Grid.Row="2" Height="18" VerticalAlignment="Top" Margin="5,0"/>
             </Grid>

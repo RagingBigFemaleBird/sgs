@@ -125,6 +125,16 @@ namespace Sanguosha.UI.Controls
             {
                 pinDianWindow.Close();
             };
+            chatEventHandler = new ChatEventHandler(LobbyModel_OnChat);
+            LobbyViewModel.Instance.OnChat += chatEventHandler;
+        }
+
+        private ChatEventHandler chatEventHandler;
+
+        void LobbyModel_OnChat(string userName, string msg)
+        {            
+            chatBox.Document.Blocks.Add(LogFormatter.RichTranslateChat(string.Empty, userName, msg));
+            chatBox.ScrollToEnd();
         }
 
         void GameView_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -863,6 +873,13 @@ namespace Sanguosha.UI.Controls
         {
         }
 
+        public void NotifyShowCardsStart(Player p, List<Card> cards)
+        {
+        }
+
+        public void NotifyShowCardsEnd()
+        {
+        }
 
         private void _AppendKeyEventLog(Paragraph log)
         {
@@ -1095,6 +1112,7 @@ namespace Sanguosha.UI.Controls
                     }
                     model.Add(m);
                 }
+                LobbyViewModel.Instance.OnChat -= chatEventHandler;
                 gameResultBox.DataContext = model;
                 gameResultWindow.Content = gameResultBox;
                 gameResultWindow.Show();
@@ -1108,7 +1126,6 @@ namespace Sanguosha.UI.Controls
                 };
             });
         }
-
         #endregion
 
         #region Private Decks
@@ -1126,15 +1143,6 @@ namespace Sanguosha.UI.Controls
             deckDisplayWindow.Show();
         }
         #endregion
-
-
-
-        public void NotifyShowCardsStart(Player p, List<Card> cards)
-        {
-        }
-
-        public void NotifyShowCardsEnd()
-        {
-        }
+        
     }
 }
