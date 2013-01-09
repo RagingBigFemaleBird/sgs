@@ -13,6 +13,7 @@ namespace Sanguosha.UI.Controls
     {
         public SeatViewModel()
         {
+            ExitCommand = new SimpleRelayCommand((o) => { LobbyViewModel.Instance.ExitRoom(); }) { CanExecuteStatus = true };
             JoinCommand = new SimpleRelayCommand((o) => { LobbyViewModel.Instance.JoinSeat(this); }) { CanExecuteStatus = true };
             CloseCommand = new SimpleRelayCommand((o) => { LobbyViewModel.Instance.CloseSeat(this); }) { CanExecuteStatus = true };
             OpenCommand = new SimpleRelayCommand((o) => { LobbyViewModel.Instance.OpenSeat(this); }) { CanExecuteStatus = true };
@@ -106,6 +107,12 @@ namespace Sanguosha.UI.Controls
         }
 
         #region Commands
+        public ICommand ExitCommand
+        {
+            get;
+            set;
+        }
+        
         public ICommand JoinCommand
         {
             get;

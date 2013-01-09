@@ -225,14 +225,20 @@ namespace Sanguosha.UI.Controls
         {
             var result = _connection.GetRooms(_loginToken, false);
             Rooms.Clear();
+            bool found = false;
             foreach (var room in result)
             {
                 var model = new RoomViewModel() { Room = room };
                 Rooms.Add(model);
                 if (CurrentRoom != null && room.Id == CurrentRoom.Id)
                 {
+                    found = true;
                     CurrentRoom = model;
                 }
+            }
+            if (!found)
+            {
+                CurrentRoom = null;
             }
         }
 
@@ -273,7 +279,13 @@ namespace Sanguosha.UI.Controls
         public bool ExitRoom()
         {
             if (CurrentRoom == null) return false;
-            return _IsSuccess(Connection.ExitRoom(LoginToken));
+            if (_IsSuccess(Connection.ExitRoom(LoginToken)))
+            {
+                CurrentSeat = null;
+                UpdateRooms();
+                return true;
+            }
+            return false;
         }
 
         public bool StartGame()

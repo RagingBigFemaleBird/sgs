@@ -55,20 +55,6 @@ namespace Sanguosha.UI.Controls
 
     public class SeatStateToControlStatusConverter : IValueConverter
     {
-        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            if (values == null || values.Length != 4) return false;
-            SeatViewModel clickedSeat = (SeatViewModel)values[0];
-            SeatViewModel currentSeat = (SeatViewModel)values[1];
-            if (currentSeat == null) return false;
-
-            // Host can kick non-ready guests and close seats
-            return (currentSeat.State == SeatState.Host &&
-                   (clickedSeat.State == SeatState.Empty ||
-                    clickedSeat.State == SeatState.GuestTaken ||
-                    clickedSeat.State == SeatState.GuestReady));
-        }
-
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -76,7 +62,7 @@ namespace Sanguosha.UI.Controls
             SeatState state = (SeatState)value;
             SeatState currentState = LobbyViewModel.Instance.CurrentSeat.State;
             return (currentState == SeatState.Host &&
-                    (state == SeatState.Empty || state == SeatState.GuestTaken));
+                    (state == SeatState.Empty || state == SeatState.GuestTaken || state == SeatState.GuestReady));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

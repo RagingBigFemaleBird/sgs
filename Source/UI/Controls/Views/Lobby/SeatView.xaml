@@ -206,7 +206,7 @@
             <Path Data="M86,25.5 L199,25.5" Height="1" Margin="86,28.835,7,0" Stretch="Fill" Stroke="#FFC7B564" VerticalAlignment="Top"/>
             <Path Data="M86,25.5 L199,25.5" Height="1" Margin="86,54.181,7,0" Stretch="Fill" Stroke="#FFC7B564" VerticalAlignment="Top"/>
             <Button x:Name="btnKick" Content ="踢出房间" Command="{Binding KickCommand}" Margin="0,0,0,10" Style="{StaticResource DefaultButtonStyleRed}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Opacity="0" Visibility="Hidden" />
-            <Button x:Name="btnExit" Content ="退出房间" Command="{Binding KickCommand}" Margin="0,0,0,10" Style="{StaticResource DefaultButtonStyleRed}" Visibility="{Binding IsCurrentSeat, Converter={StaticResource boolToVisibilityConverter}}"
+            <Button x:Name="btnExit" Content ="退出房间" Command="{Binding ExitCommand}" Margin="0,0,0,10" Style="{StaticResource DefaultButtonStyleRed}" Visibility="{Binding IsCurrentSeat, Converter={StaticResource boolToVisibilityConverter}}"
                     VerticalAlignment="Bottom" HorizontalAlignment="Center" Opacity="0" />
             <local:OutlinedTextBlock HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-5,-8,0"
                                      Text="{res:ResourceKeyBinding Path=State, StringFormat=Seat.State.\{0\}.Name}" FontSize="26.25" FontFamily="STLiTi" RenderTransformOrigin="0.5,0.5" >

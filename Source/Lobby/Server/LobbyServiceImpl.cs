@@ -419,8 +419,8 @@ namespace Sanguosha.Lobby.Server
                 var seat = room.Seats.FirstOrDefault(s => s.Account == loggedInGuidToAccount[token.token]);
                 if (seat == null) return RoomOperationResult.Invalid;
                 if (seat.State != SeatState.Host) return RoomOperationResult.Invalid;
-                if (room.Seats[seatNo].State != SeatState.Empty) return RoomOperationResult.Invalid;
-                room.Seats[seatNo].State = SeatState.Closed;
+                if (room.Seats[seatNo].State != SeatState.Closed) return RoomOperationResult.Invalid;
+                room.Seats[seatNo].State = SeatState.Empty;
                 NotifyRoomLayoutChanged(room.Id);
                 return RoomOperationResult.Success;
             }
@@ -436,8 +436,8 @@ namespace Sanguosha.Lobby.Server
                 var seat = room.Seats.FirstOrDefault(s => s.Account == loggedInGuidToAccount[token.token]);
                 if (seat == null) return RoomOperationResult.Invalid;
                 if (seat.State != SeatState.Host) return RoomOperationResult.Invalid;
-                if (room.Seats[seatNo].State != SeatState.Closed) return RoomOperationResult.Invalid;
-                room.Seats[seatNo].State = SeatState.Empty;
+                if (room.Seats[seatNo].State != SeatState.Empty) return RoomOperationResult.Invalid;
+                room.Seats[seatNo].State = SeatState.Closed;
                 NotifyRoomLayoutChanged(room.Id);
             }
             return RoomOperationResult.Auth;
