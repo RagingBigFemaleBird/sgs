@@ -54,15 +54,19 @@ namespace Sanguosha.Expansions.Wind.Skills
             {
                 NotifySkillUse(players);
                 Game.CurrentGame.HandleCardDiscard(Owner, cards);
-                ReadOnlyCard ncard = new ReadOnlyCard(args.ReadonlyCard);
-                ncard[Armor.IgnoreAllArmor] = 0;
-                players[0][TianXiangTarget] = 1;
+                ReadOnlyCard ncard = new ReadOnlyCard(new Card() { Place = new DeckPlace(null, null)});
+                if (args.ReadonlyCard != null)
+                {
+                    ncard = new ReadOnlyCard(args.ReadonlyCard);
+                    ncard[Armor.IgnoreAllArmor] = 0;
+                }
+                ncard[TianXiangDamage] = 1;
                 Game.CurrentGame.DoDamage(args.Source, players[0], Owner, args.Magnitude, args.Element, args.Card, ncard);
                 throw new TriggerResultException(TriggerResult.End);
             }
         }
 
-        private static PlayerAttribute TianXiangTarget = PlayerAttribute.Register("TianXiangTarget");
+        private static CardAttribute TianXiangDamage = CardAttribute.Register("TianXiangDamage");
 
         public TianXiang()
         {
@@ -73,8 +77,8 @@ namespace Sanguosha.Expansions.Wind.Skills
             ) { AskForConfirmation = false, IsAutoNotify = false };
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return a.Targets[0][TianXiangTarget] != 0 && !a.Targets[0].IsDead; },
-                (p, e, a) => { Game.CurrentGame.DrawCards(a.Targets[0], a.Targets[0].LostHealth); a.Targets[0][TianXiangTarget] = 0; },
+                (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard[TianXiangDamage] != 0 && !a.Targets[0].IsDead; },
+                (p, e, a) => { Game.CurrentGame.DrawCards(a.Targets[0], a.Targets[0].LostHealth); a.ReadonlyCard[TianXiangDamage] = 0; },
                 TriggerCondition.Global
             ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.DamageInflicted, trigger);
