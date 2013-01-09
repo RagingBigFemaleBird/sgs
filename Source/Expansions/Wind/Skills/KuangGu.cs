@@ -23,7 +23,7 @@ namespace Sanguosha.Expansions.Wind.Skills
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             int recover = (eventArgs as DamageEventArgs).Magnitude;
-            while (recover-- <= 0)
+            while (recover-- > 0)
             {
                 Game.CurrentGame.RecoverHealth(Owner, Owner, 1);
             }
@@ -33,21 +33,21 @@ namespace Sanguosha.Expansions.Wind.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { int result = p[KuangGuUsable]; p[KuangGuUsable] = 0; return p.LostHealth > 0 && result == 1; },
+                (p, e, a) => { return p.LostHealth > 0 && (a as DamageEventArgs).ReadonlyCard[KuangGuUsable] == 1; },
                 Run,
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.AfterDamageCaused, trigger);
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return Game.CurrentGame.DistanceTo(p, a.Targets[0]) <= 1 && p[KuangGuUsable] == 0; },
-                (p, e, a) => { p[KuangGuUsable] = 1; },
+                (p, e, a) => { return Game.CurrentGame.DistanceTo(p, a.Targets[0]) <= 1; },
+                (p, e, a) => { (a as DamageEventArgs).ReadonlyCard[KuangGuUsable] = 1; },
                 TriggerCondition.OwnerIsSource
             ) { IsAutoNotify = false, AskForConfirmation = false, Priority = int.MinValue };
             Triggers.Add(GameEvent.DamageInflicted, trigger2);
             IsEnforced = true;
         }
 
-        private static PlayerAttribute KuangGuUsable = PlayerAttribute.Register("KuangGuUsable");
+        private static CardAttribute KuangGuUsable = CardAttribute.Register("KuangGuUsable");
     }
 }

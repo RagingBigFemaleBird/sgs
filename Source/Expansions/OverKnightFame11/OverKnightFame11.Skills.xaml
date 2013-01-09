@@ -27,6 +27,7 @@
     <sys:String x:Key="Skill.LuoYing.Description">当其他角色的一张梅花牌因弃置或判定而置入弃牌堆时，你可以获得之。</sys:String>
     <sys:String x:Key="Skill.LuoYing.Usage">系统提示→点“确定”</sys:String>
 
+    <sys:String x:Key="Skill.JiuShiPassive.Name">酒诗</sys:String>
     <sys:String x:Key="Skill.JiuShi.Name">酒诗</sys:String>
     <sys:String x:Key="Skill.JiuShi.Description">若你的武将牌正面朝上，你可以将你的武将牌翻面，视为使用一张【酒】；若你的武将牌背面朝上时你受到伤害，你可以在伤害结算后将你的武将牌翻转至正面朝上。</sys:String>
     <sys:String x:Key="Skill.JiuShi.Usage"  xml:space="preserve">点“酒诗”&#10;系统提示→点“确定”</sys:String>

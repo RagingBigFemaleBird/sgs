@@ -54,11 +54,8 @@ namespace Sanguosha.Expansions.Wind.Skills
             {
                 NotifySkillUse(players);
                 Game.CurrentGame.HandleCardDiscard(Owner, cards);
-                ReadOnlyCard ncard = new ReadOnlyCard(new Card() { Place = new DeckPlace(null, null)});
-                if (args.ReadonlyCard != null)
-                {
-                    ncard = new ReadOnlyCard(args.ReadonlyCard);
-                }
+                ReadOnlyCard ncard = new ReadOnlyCard(args.ReadonlyCard);
+                ncard.Attributes.Clear();
                 ncard[TianXiangDamage] = 1;
                 Game.CurrentGame.DoDamage(args.Source, players[0], Owner, args.Magnitude, args.Element, args.Card, ncard);
                 throw new TriggerResultException(TriggerResult.End);

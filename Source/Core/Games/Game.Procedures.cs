@@ -34,6 +34,10 @@ namespace Sanguosha.Core.Games
             int ironShackledDamage = 0;
             DamageElement ironShackledDamageElement = DamageElement.None;
             damageArgs.ReadonlyCard = readonlyCard;
+            if (damageArgs.ReadonlyCard == null)
+            {
+                damageArgs.ReadonlyCard = new ReadOnlyCard(new Card() { Place = new DeckPlace(null, null) });
+            }
             if (card is CompositeCard)
             {
                 if ((card as CompositeCard).Subcards != null)
@@ -764,5 +768,6 @@ namespace Sanguosha.Core.Games
             Game.CurrentGame.GlobalProxy.AskForMultipleMCQ(new MultipleChoicePrompt("Testing MCQ"), new List<OptionPrompt>() { OptionPrompt.YesChoice }, Game.CurrentGame.AlivePlayers, out answers);
             Game.CurrentGame.NotificationProxy.NotifyShowCardsEnd();
         }
+
     }
 }
