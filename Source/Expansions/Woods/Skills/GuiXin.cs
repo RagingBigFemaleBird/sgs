@@ -27,7 +27,7 @@ namespace Sanguosha.Expansions.Woods.Skills
             {
                 var players = Game.CurrentGame.AlivePlayers;
                 players.Remove(Owner);
-                Game.CurrentGame.SortByOrderOfComputation(Owner, players);
+                Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, players);
                 bool invoke = false;
                 foreach (Player p in players)
                 {

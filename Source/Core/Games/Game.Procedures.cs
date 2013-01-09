@@ -22,8 +22,8 @@ namespace Sanguosha.Core.Games
         /// 造成伤害
         /// </summary>
         /// <param name="source">伤害来源</param>
-        /// <param name="originalTarget">最初的伤害目标</param>
         /// <param name="dest">伤害目标</param>
+        /// <param name="originalTarget">最初的伤害目标</param>
         /// <param name="magnitude">伤害点数</param>
         /// <param name="elemental">伤害属性</param>
         /// <param name="cards">造成伤害的牌</param>
