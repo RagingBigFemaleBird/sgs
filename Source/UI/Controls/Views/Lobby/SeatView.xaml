@@ -14,60 +14,9 @@
                 <ResourceDictionary Source="pack://application:,,,/Controls;component/Common.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-            <LinearGradientBrush x:Key="ProgressBarBackground" EndPoint="1,0" StartPoint="0,0">
-                <GradientStop Color="#BABABA" Offset="0"/>
-                <GradientStop Color="#C7C7C7" Offset="0.5"/>
-                <GradientStop Color="#BABABA" Offset="1"/>
-            </LinearGradientBrush>
-            <LinearGradientBrush x:Key="ProgressBarBorderBrush" EndPoint="0,1" StartPoint="0,0">
-                <GradientStop Color="#B2B2B2" Offset="0"/>
-                <GradientStop Color="#8C8C8C" Offset="1"/>
-            </LinearGradientBrush>
-            <LinearGradientBrush x:Key="ProgressBarGlassyHighlight" EndPoint="0,1" StartPoint="0,0">
-                <GradientStop Color="#50FFFFFF" Offset="0.5385"/>
-                <GradientStop Color="#00FFFFFF" Offset="0.5385"/>
-            </LinearGradientBrush>
-            <LinearGradientBrush x:Key="ProgressBarTopHighlight" EndPoint="0,1" StartPoint="0,0">
-                <GradientStop Color="#80FFFFFF" Offset="0.05"/>
-                <GradientStop Color="#00FFFFFF" Offset="0.25"/>
-            </LinearGradientBrush>
-            <LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill" EndPoint="1,0" StartPoint="0,0">
-                <GradientStop Color="#00FFFFFF" Offset="0"/>
-                <GradientStop Color="#60FFFFFF" Offset="0.4"/>
-                <GradientStop Color="#60FFFFFF" Offset="0.6"/>
-                <GradientStop Color="#00FFFFFF" Offset="1"/>
-            </LinearGradientBrush>
-            <LinearGradientBrush x:Key="ProgressBarIndicatorDarkEdgeLeft" EndPoint="1,0" StartPoint="0,0">
-                <GradientStop Color="#0C000000" Offset="0"/>
-                <GradientStop Color="#20000000" Offset="0.3"/>
-                <GradientStop Color="#00000000" Offset="1"/>
-            </LinearGradientBrush>
-            <LinearGradientBrush x:Key="ProgressBarIndicatorDarkEdgeRight" EndPoint="1,0" StartPoint="0,0">
-                <GradientStop Color="#00000000" Offset="0"/>
-                <GradientStop Color="#20000000" Offset="0.7"/>
-                <GradientStop Color="#0C000000" Offset="1"/>
-            </LinearGradientBrush>
-            <RadialGradientBrush x:Key="ProgressBarIndicatorLightingEffectLeft" RadiusY="1" RadiusX="1" RelativeTransform="1,0,0,1,0.5,0.5">
-                <GradientStop Color="#60FFFFC4" Offset="0"/>
-                <GradientStop Color="#00FFFFC4" Offset="1"/>
-            </RadialGradientBrush>
-            <LinearGradientBrush x:Key="ProgressBarIndicatorLightingEffect" EndPoint="0,0" StartPoint="0,1">
-                <GradientStop Color="#60FFFFC4" Offset="0"/>
-                <GradientStop Color="#00FFFFC4" Offset="1"/>
-            </LinearGradientBrush>
-            <RadialGradientBrush x:Key="ProgressBarIndicatorLightingEffectRight" RadiusY="1" RadiusX="1" RelativeTransform="1,0,0,1,-0.5,0.5">
-                <GradientStop Color="#60FFFFC4" Offset="0"/>
-                <GradientStop Color="#00FFFFC4" Offset="1"/>
-            </RadialGradientBrush>
-            <LinearGradientBrush x:Key="ProgressBarIndicatorGlassyHighlight" EndPoint="0,1" StartPoint="0,0">
-                <GradientStop Color="#90FFFFFF" Offset="0.5385"/>
-                <GradientStop Color="#00FFFFFF" Offset="0.5385"/>
-            </LinearGradientBrush>
+            </ResourceDictionary.MergedDictionaries>           
             <Style x:Key="winProgressBarStyle" TargetType="{x:Type ProgressBar}">
-                <Setter Property="Foreground" Value="#01D328"/>
-                <Setter Property="Background" Value="{StaticResource ProgressBarBackground}"/>
-                <Setter Property="BorderBrush" Value="{StaticResource ProgressBarBorderBrush}"/>
+                <Setter Property="Foreground" Value="#01D328"/>                
                 <Setter Property="BorderThickness" Value="1"/>
                 <Setter Property="Template">
                     <Setter.Value>
@@ -76,7 +25,7 @@
                                 <Rectangle x:Name="PART_Track" Margin="1"/>
                                 <Decorator x:Name="PART_Indicator" HorizontalAlignment="Left" Margin="1">
                                     <Grid x:Name="Foreground">
-                                        <Border Margin="2" CornerRadius="5,8,0,0"  ClipToBounds="True">
+                                        <Border Margin="2" CornerRadius="0,8,0,5"  ClipToBounds="True">
                                             <Border.Background>
                                                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                                     <GradientStop Color="#FF2FFE61" Offset="0"/>
@@ -85,7 +34,7 @@
                                                     <GradientStop Color="#FF1BAE31" Offset="0.51"/>
                                                 </LinearGradientBrush>
                                             </Border.Background>        								
-                                    </Border>
+                                        </Border>
                                     </Grid>									
                                 </Decorator>
                             </Grid>
@@ -94,9 +43,7 @@
                 </Setter>
             </Style>
             <Style x:Key="quitProgressBarStyle" TargetType="{x:Type ProgressBar}">
-                <Setter Property="Foreground" Value="#01D328"/>
-                <Setter Property="Background" Value="{StaticResource ProgressBarBackground}"/>
-                <Setter Property="BorderBrush" Value="{StaticResource ProgressBarBorderBrush}"/>
+                <Setter Property="Foreground" Value="#01D328"/>                
                 <Setter Property="BorderThickness" Value="1"/>
                 <Setter Property="Template">
                     <Setter.Value>

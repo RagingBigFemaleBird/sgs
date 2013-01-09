@@ -50,9 +50,9 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type TextBoxBase}">
-                            <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Template="{DynamicResource ThinScrollViewerControlTemplate}" FontFamily="SimSun" Foreground="#FFF6DE9C"/>					
+                            <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Template="{DynamicResource ThinScrollViewerControlTemplate}" FontFamily="SimSun" Foreground="#FFF6DE9C"/>
                             <ControlTemplate.Triggers>
-                                <Trigger Property="IsEnabled" Value="false">							
+                                <Trigger Property="IsEnabled" Value="false">
                                     <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                                 </Trigger>
                             </ControlTemplate.Triggers>
@@ -98,8 +98,8 @@
             </Style>
             <local:CurrentRoomAndSeatToButtonStateConverter x:Key="currentRoomAndSeatToButtonStateConverter"/>
             <local:SeatStateToControlStatusConverter x:Key="seatStateToControlStatusConverter" />
-            </ResourceDictionary>
-        </Page.Resources>
+        </ResourceDictionary>
+    </Page.Resources>
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="{DynamicResource Game.Table.Background}"/>
@@ -139,18 +139,18 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <Button Content="查看" Style="{DynamicResource DefaultButtonStyleRed}" VerticalAlignment="Center" Click="viewRoomButton_Click"/>
-                                        <Button Content="加入" Style="{DynamicResource DefaultButtonStyleRed}" Margin="2,0,0,0" VerticalAlignment="Center" Click="enterRoomButton_Click"/>
+                                            <Button Content="查看" Style="{DynamicResource DefaultButtonStyleRed}" VerticalAlignment="Center" Click="viewRoomButton_Click"/>
+                                            <Button Content="加入" Style="{DynamicResource DefaultButtonStyleRed}" Margin="2,0,0,0" VerticalAlignment="Center" Click="enterRoomButton_Click"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
-                    </DataGrid>	
+                    </DataGrid>
                 </Border>
             </Border>
         </Border>
-        <Grid Grid.Row="1" Grid.Column="1" Grid.RowSpan="2">	
+        <Grid Grid.Row="1" Grid.Column="1" Grid.RowSpan="2">
             <Border Margin="4, 10, 0, 0" BorderThickness="1" CornerRadius="3" BorderBrush="Black" >
                 <Border BorderThickness="1" CornerRadius="3" BorderBrush="#FFA59579" >
                     <Border BorderThickness="1" CornerRadius="3" BorderBrush="Black" >
@@ -163,12 +163,12 @@
                                 <ColumnDefinition Width="80" />
                                 <ColumnDefinition Width="0.5*" />
                             </Grid.ColumnDefinitions>
-                            
+
                             <ItemsControl ItemsSource="{Binding CurrentRoom.LeftSeats}" Margin="0,0,0,0">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <UniformGrid Columns="1" />
-                                    </ItemsPanelTemplate>  			
+                                    </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
@@ -181,7 +181,7 @@
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <UniformGrid Columns="1" />
-                                    </ItemsPanelTemplate>  			
+                                    </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
@@ -193,35 +193,28 @@
                         </Grid>
                     </Border>
                 </Border>
-            </Border>				
-            <Image HorizontalAlignment="Left" Height="25" Margin="30,2,0,0" Source="/Resources;component/Images/Lobby/roomInfo.png" Stretch="Fill" VerticalAlignment="Top" Width="85" d:LayoutOverrides="GridBox"/>            
+            </Border>
+            <Image HorizontalAlignment="Left" Height="25" Margin="30,2,0,0" Source="/Resources;component/Images/Lobby/roomInfo.png" Stretch="Fill" VerticalAlignment="Top" Width="85" d:LayoutOverrides="GridBox"/>
         </Grid>
         <Grid Grid.Row="2">
-        <Grid x:Name="roomNavigationPanel" VerticalAlignment="Top" Height="25" Margin="0,2,0,0">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
-            <Button Content="刷新列表" Command="{Binding UpdateRoomCommand}" Margin="3,0" Width="63" Style="{DynamicResource DefaultButtonStyle1}"/>
-            <Button Content="创建房间" Command="{Binding CreateRoomCommand}" Margin="3,0" Width="63" Style="{DynamicResource DefaultButtonStyleBrown}"/>
-            </StackPanel>
-        </Grid>
-        <Border Grid.Row="1" Margin="0,34,0,0" BorderThickness="1" CornerRadius="3" BorderBrush="Black" >
-            <Border BorderThickness="1" CornerRadius="3" BorderBrush="#FFA59579" >
-                <Border BorderThickness="1" CornerRadius="3" BorderBrush="Black" Background="#FF4A3B2D" Margin="0,0,-1,0" >
-                    <Grid>
-                    <RichTextBox Margin="0,0,0,18.687" Background="Transparent" Style="{DynamicResource RichTextBoxStyle}" Foreground="#FFDCDBBD" FontFamily="SimSun" FontSize="13.333" BorderBrush="Transparent" IsReadOnly="True" IsReadOnlyCaretVisible="True" VerticalScrollBarVisibility="Auto">
-                        <FlowDocument>
-                                <Paragraph><Run Language="zh-cn" Text="刘备：黄月英，你要那么多牌干什么？"/></Paragraph>
-                                <Paragraph><Run Language="zh-cn" Text="黄月英：你给我的好不？"/></Paragraph>
-                                <Paragraph><Run Language="zh-cn" Text="刘备：自己去看游戏记录，那些牌都是从牌堆里摸的"/></Paragraph>
-                                <Paragraph><Run Language="zh-cn" Text="黄月英：是么，我怎么不记得了？"/></Paragraph>
-                                <Paragraph><Run Language="zh-cn" Text="张飞：要不，英姐你拿张手牌给军师，他那现在一张牌都没有呢。"/></Paragraph>
-                                <Paragraph><Run Language="zh-cn" Text="关羽：别吵了，那张黑色的闪电给军师，剩下的都是红牌，都给我。"/></Paragraph>
-                        </FlowDocument>
-                    </RichTextBox>
-                    <local:ChatWidget Background="#FF191919" VerticalAlignment="Bottom" Height="19" Margin="0,0,0,0"/>
-                    </Grid>
+            <Grid x:Name="roomNavigationPanel" VerticalAlignment="Top" Height="25" Margin="0,2,0,0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <Button Content="刷新列表" Command="{Binding UpdateRoomCommand}" Margin="3,0" Width="63" Style="{DynamicResource DefaultButtonStyle1}"/>
+                    <Button Content="创建房间" Command="{Binding CreateRoomCommand}" Margin="3,0" Width="63" Style="{DynamicResource DefaultButtonStyleBrown}"/>
+                </StackPanel>
+            </Grid>
+            <Border Grid.Row="1" Margin="0,34,0,0" BorderThickness="1" CornerRadius="3" BorderBrush="Black" >
+                <Border BorderThickness="1" CornerRadius="3" BorderBrush="#FFA59579" >
+                    <Border BorderThickness="1" CornerRadius="3" BorderBrush="Black" Background="#FF4A3B2D" Margin="0,0,-1,0" >
+                        <Grid>
+                            <RichTextBox x:Name="chatBox" Margin="0,0,0,18.687" Background="Transparent" Style="{DynamicResource RichTextBoxStyle}" Foreground="#FFDCDBBD" FontFamily="SimSun" FontSize="13.333" BorderBrush="Transparent" IsReadOnly="True" IsReadOnlyCaretVisible="True" VerticalScrollBarVisibility="Auto" >
+                                <FlowDocument />
+                            </RichTextBox>
+                            <local:ChatWidget Background="#FF191919" VerticalAlignment="Bottom" Height="19" Margin="0,0,0,0"/>
+                        </Grid>
+                    </Border>
                 </Border>
             </Border>
-        </Border>
         </Grid>
         <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="2" ClipToBounds="True">
             <Image Margin="4,0,4,-12.01" Source="/Resources;component/Images/Lobby/notch.png" Stretch="None" VerticalAlignment="Bottom" />
@@ -251,7 +244,7 @@
                         <Image Height="14" Source="/Resources;component/Images/System/btnSettings.png" Stretch="Fill" Width="16"/>
                     </Button>
                 </MenuItem.Header>
-            </MenuItem>            
+            </MenuItem>
             <MenuItem Padding="0" Style="{DynamicResource MenuItemStyle1}" Height="20">
                 <MenuItem.Header>
                     <Button Content="返回" Style="{DynamicResource DefaultButtonStyleRed}" Height="20" Padding="2,0,4,0" Margin="0,0,0,0" />

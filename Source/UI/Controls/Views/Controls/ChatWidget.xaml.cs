@@ -28,12 +28,11 @@ namespace Sanguosha.UI.Controls
         private void _LoadFacials()
         {
             var items = new ObservableCollection<int>();
-            int i = 0;
-            while (true)
+            for (int i = 0; i < 100; i++)
             {
                 string key = string.Format("Facial.{0}.Image", i);
                 if (!Resources.Contains(key)) break;
-                items.Add(i++);                
+                items.Add(i); 
             }
             gridFacials.DataContext = items;
         }
@@ -46,7 +45,7 @@ namespace Sanguosha.UI.Controls
         private void btnSmiley_Click(object sender, RoutedEventArgs e)
         {
             int index = (int)(sender as Button).DataContext;
-            txtMessage.Text += string.Format("#{0}", index);
+            txtMessage.Text += index.ToString("D2");
             popFacials.IsOpen = false;
         }
 
@@ -63,6 +62,7 @@ namespace Sanguosha.UI.Controls
             if (txtMessage.Text.Length > 0)
             {
                 LobbyViewModel.Instance.SendMessage(txtMessage.Text);
+                txtMessage.Text = string.Empty;
             }
         }
 	}

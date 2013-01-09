@@ -13,24 +13,10 @@ namespace Sanguosha.UI.Controls
     {
         public SeatViewModel()
         {
-            JoinCommand = new SimpleRelayCommand((o) => { JoinSeat(); }) { CanExecuteStatus = true };
-            CloseCommand = new SimpleRelayCommand((o) => { CloseSeat(); }) { CanExecuteStatus = true };
-            KickCommand = new SimpleRelayCommand((o) => { KickPlayer(); }) { CanExecuteStatus = true };
-        }
-
-        private void KickPlayer()
-        {
-            LobbyViewModel.Instance.KickPlayer(this);
-        }
-
-        private void CloseSeat()
-        {
-            LobbyViewModel.Instance.CloseSeat(this);
-        }
-
-        private void JoinSeat()
-        {
-            LobbyViewModel.Instance.JoinSeat(this);
+            JoinCommand = new SimpleRelayCommand((o) => { LobbyViewModel.Instance.JoinSeat(this); }) { CanExecuteStatus = true };
+            CloseCommand = new SimpleRelayCommand((o) => { LobbyViewModel.Instance.CloseSeat(this); }) { CanExecuteStatus = true };
+            OpenCommand = new SimpleRelayCommand((o) => { LobbyViewModel.Instance.OpenSeat(this); }) { CanExecuteStatus = true };
+            KickCommand = new SimpleRelayCommand((o) => { LobbyViewModel.Instance.KickPlayer(this); }) { CanExecuteStatus = true };
         }
 
         private Seat _seat;
@@ -127,6 +113,12 @@ namespace Sanguosha.UI.Controls
         }
 
         public ICommand CloseCommand
+        {
+            get;
+            set;
+        }
+
+        public ICommand OpenCommand
         {
             get;
             set;

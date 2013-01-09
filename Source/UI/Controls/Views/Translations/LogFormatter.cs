@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Heroes;
+using System.Windows.Media.Imaging;
 
 namespace Sanguosha.UI.Controls
 {
@@ -472,6 +473,7 @@ namespace Sanguosha.UI.Controls
         static Brush OrangeBrush = new SolidColorBrush(new Color() { R = 255, G = 102, B = 0, A = 255 });
         static Brush YellowBrush = new SolidColorBrush(Colors.Yellow);
         static Brush GreenBrush = new SolidColorBrush(new Color() { R = 0, G = 204, B = 0, A = 255 });
+        static Brush DarkGreenBrush = new SolidColorBrush(new Color() { R = 104, G = 135, B = 41 });
 
         public static Paragraph RichTranslateDeath(Player p, Player by)
         {
@@ -581,6 +583,65 @@ namespace Sanguosha.UI.Controls
             string recoverStr = string.Format("恢复了{0}点体力，体力为{1}", delta, player.Health);
             para.Inlines.Add(new Run(recoverStr) { Foreground = GreenBrush });
             return para;
+        }
+
+        internal static Paragraph RichTranslateChat(string playerName, string userName, string message)
+        {
+            Paragraph para = new Paragraph();
+            string speaker = userName ?? string.Empty;
+            if (!string.IsNullOrEmpty(playerName))
+            {
+                speaker = (speaker == string.Empty) ? playerName : string.Format("{0}({1}): ", playerName, userName);
+            }
+            if (speaker != string.Empty)
+            {
+                para.Inlines.Add(new Run(speaker) { Foreground = DarkGreenBrush });
+            }
+            para.Inlines.AddRange(RichTranslateChatMessage(message));
+            return para;
+        }
+
+        internal static IList<Inline> RichTranslateChatMessage(string message)
+        {
+            IList<Inline> inlines = new List<Inline>();
+            var parts = message.Split('#');
+            bool isFirst = false;
+            foreach (var part in parts)
+            {
+                int index;
+                if (isFirst || part.Length < 2 ||
+                    !int.TryParse(part.Substring(0, 2), out index))
+                {
+                    inlines.Add(new Run(part));
+                    continue;
+                }
+                string key = string.Format("Facial.{0}.Image", index);
+                if (!_imageDict.Contains(key))
+                {
+                    inlines.Add(new Run(part));
+                    continue;
+                }
+                else
+                {
+                    InlineUIContainer container = new InlineUIContainer(new Image() { Source = _imageDict[key] as ImageSource, Width = 18, Height = 18 });
+                    inlines.Add(container);
+                    if (part.Length > 2)
+                    {
+                        inlines.Add(new Run(part.Substring(2)));
+                    }
+                }
+            }
+            return inlines;
+        }
+
+        static ResourceDictionary _imageDict;
+
+        static LogFormatter()
+        {
+            _imageDict = new ResourceDictionary() 
+            {
+                Source = new Uri("pack://application:,,,/Resources;component/Images/System.xaml") 
+            };
         }
     }
 }

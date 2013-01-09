@@ -99,7 +99,7 @@ namespace Sanguosha.Lobby.Core
         void NotifyGameStart(string connectionString);
 
         [OperationContract(IsOneWay = true)]
-        void NotifyChat(string message);
+        void NotifyChat(Account account, string message);
     }
 
     static class Helper
