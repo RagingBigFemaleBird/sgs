@@ -25,5 +25,13 @@ namespace Sanguosha.Core.UI
             get { return windowId; }
             set { windowId = value; }
         }
+
+        private bool isWuGu;
+
+        public bool IsWuGu
+        {
+            get { return isWuGu; }
+            set { isWuGu = value; }
+        }
     }
 }
