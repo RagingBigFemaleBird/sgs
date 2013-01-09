@@ -479,8 +479,10 @@ namespace Sanguosha.Core.Games
                 move.Helper = helper;
             }
             MoveCards(move);
+            EnterAtomicContext();
             PlayerLostCard(from, cards);
             PlayerAcquiredCard(to, cards);
+            ExitAtomicContext();
         }
 
         public void HandleCardTransfer(Player from, Player to, DeckType target, List<Card> cards)
@@ -490,8 +492,10 @@ namespace Sanguosha.Core.Games
             move.To = new DeckPlace(to, target);
             move.Helper = new MovementHelper();
             MoveCards(move);
+            EnterAtomicContext();
             PlayerLostCard(from, cards);
             PlayerAcquiredCard(to, cards);
+            ExitAtomicContext();
         }
 
 
