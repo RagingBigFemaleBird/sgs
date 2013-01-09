@@ -60,29 +60,22 @@ namespace Sanguosha.Expansions.SP.Skills
 
         void Run(Player owner, GameEvent gameEvent, GameEventArgs args)
         {
-            while (owner.DelayedTools().Count > 0 && owner.HandCards().Count > 0 && AskForSkillUse())
+            List<List<Card>> answer;
+            List<DeckPlace> sourceDeck = new List<DeckPlace>();
+            sourceDeck.Add(new DeckPlace(owner, DeckType.DelayedTools));
+            sourceDeck.Add(new DeckPlace(owner, DeckType.Hand));
+            if (owner.AskForCardChoice(new CardChoicePrompt("XiuLuo", owner),
+                sourceDeck,
+                new List<string>() { "XLJinNang", "XLShouPai" },
+                new List<int>() { 1, 1 },
+                new XiuLuoVerifier(),
+                out answer,
+                null,
+                CardChoiceCallback.GenericCardChoiceCallback))
             {
-                List<List<Card>> answer;
-                List<DeckPlace> sourceDeck = new List<DeckPlace>();
-                sourceDeck.Add(new DeckPlace(owner, DeckType.DelayedTools));
-                sourceDeck.Add(new DeckPlace(owner, DeckType.Hand));
-                if (owner.AskForCardChoice(new CardChoicePrompt("XiuLuo", owner),
-                    sourceDeck,
-                    new List<string>() { "XLJinNang", "XLShouPai" },
-                    new List<int>() { 1, 1 },
-                    new XiuLuoVerifier(),
-                    out answer,
-                    null,
-                    CardChoiceCallback.GenericCardChoiceCallback))
-                {
-                    NotifySkillUse();
-                    Game.CurrentGame.HandleCardDiscard(owner, answer[1]);
-                    Game.CurrentGame.HandleCardDiscard(owner, answer[0]);
-                }
-                else
-                {
-                    break;
-                }
+                NotifySkillUse();
+                Game.CurrentGame.HandleCardDiscard(owner, answer[1]);
+                Game.CurrentGame.HandleCardDiscard(owner, answer[0]);
             }
         }
 
@@ -93,7 +86,7 @@ namespace Sanguosha.Expansions.SP.Skills
                 (p, e, a) => { return p.DelayedTools().Count > 0 && p.HandCards().Count > 0; },
                 Run,
                 TriggerCondition.OwnerIsSource
-            ) { AskForConfirmation = false, IsAutoNotify = false };
+            ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Start], trigger);
             IsAutoInvoked = null;
         }
