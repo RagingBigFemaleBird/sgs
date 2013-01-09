@@ -12,7 +12,7 @@
     <sys:String x:Key="Hero.SPZhaoYun.Name">SP赵云</sys:String>
     <sys:String x:Key="Hero.SPDiaoChan.Name">SP貂蝉</sys:String>
     <sys:String x:Key="Hero.SPCaoRen.Name">SP曹仁</sys:String>
-    <sys:String x:Key="Hero.SPPangTong.Name">SP曹仁</sys:String>
+    <sys:String x:Key="Hero.SPPangTong.Name">SP庞统</sys:String>
     <sys:String x:Key="Hero.SPZhangFei.Name">SP张飞</sys:String>
     <sys:String x:Key="Hero.SPLvMeng.Name">SP吕蒙</sys:String>
     <sys:String x:Key="Hero.SPLiuBei.Name">SP刘备</sys:String>
