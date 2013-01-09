@@ -132,8 +132,11 @@ namespace Sanguosha.UI.Controls
         private ChatEventHandler chatEventHandler;
 
         void LobbyModel_OnChat(string userName, string msg)
-        {            
-            chatBox.Document.Blocks.Add(LogFormatter.RichTranslateChat(string.Empty, userName, msg));
+        {
+            var player = GameModel.PlayerModels.FirstOrDefault(p => p.Account != null && p.Account.UserName == userName);
+            string heroName = string.Empty;
+            if (player.Hero != null) heroName = player.Hero.Name;
+            chatBox.Document.Blocks.Add(LogFormatter.RichTranslateChat(heroName, userName, msg));
             chatBox.ScrollToEnd();
         }
 

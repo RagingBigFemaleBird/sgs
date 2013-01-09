@@ -192,8 +192,28 @@ namespace Sanguosha.UI.Controls
         #endregion
 
         #region Events
+        private ChatEventHandler chatEventHandler;
 
-        public event ChatEventHandler OnChat;
+        public event ChatEventHandler OnChat
+        {
+            add 
+            {
+                chatEventHandler = value;
+                if (value != null)
+                {
+                    foreach (var cache in _chatCache)
+                    {
+                        value(cache.Key, cache.Value);
+                    }
+                    _chatCache.Clear();
+                }
+            }
+            remove 
+            {
+                if (chatEventHandler == value)
+                    chatEventHandler = null;
+            }
+        }
 
         #endregion
 
@@ -316,7 +336,7 @@ namespace Sanguosha.UI.Controls
             {
                 if (_chatCache.Count > 100) _chatCache.RemoveRange(0, 50);
                 _chatCache.Add(new KeyValuePair<string, string>(act.UserName, message));                
-                var handler = OnChat;
+                var handler = chatEventHandler;
                 if (handler != null)
                 {
                     foreach (var cache in _chatCache)
@@ -324,10 +344,6 @@ namespace Sanguosha.UI.Controls
                         handler(cache.Key, cache.Value);
                     }
                     _chatCache.Clear();
-                }
-                else
-                {
-                    
                 }
             });
         }
