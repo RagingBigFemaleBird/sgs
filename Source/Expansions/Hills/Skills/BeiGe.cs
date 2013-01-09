@@ -59,7 +59,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             ISkill skill;
             List<Card> cards;
             List<Player> players;
-            if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("BeiGe"), new BeiGeVerifier(), out skill, out cards, out players))
+            if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("BeiGe", eventArgs.Source), new BeiGeVerifier(), out skill, out cards, out players))
             {
                 NotifySkillUse(players);
                 Game.CurrentGame.HandleCardDiscard(owner, cards);

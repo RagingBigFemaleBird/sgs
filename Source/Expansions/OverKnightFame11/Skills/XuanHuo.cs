@@ -43,7 +43,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             ISkill skill;
             List<Card> cards;
             List<Player> players;
-            if (Owner.AskForCardUsage(new CardUsagePrompt("XuanHuo"), new XuanHuoVerifier(), out skill, out cards, out players))
+            if (Owner.AskForCardUsage(new CardUsagePrompt("XuanHuo", arg.Targets[0]), new XuanHuoVerifier(), out skill, out cards, out players))
             {
                 Game.CurrentGame.HandleCardTransferToHand(Owner, players[0], new List<Card>() { result });
             }

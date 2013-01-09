@@ -6,6 +6,13 @@
     <sys:String x:Key="MultiChoice.Prompt.QinYin">请选择琴音回复或失去体力，或点“取消”不发动技能</sys:String>
     <sys:String x:Key="MultiChoice.Choice.QinYinHuiFu">所有人回复一点体力</sys:String>
     <sys:String x:Key="MultiChoice.Choice.QinYinShiQu">所有人失去一点体力</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.QuHu">请选择一名受伤害的角色</sys:String>
     <sys:String x:Key="CardUsage.Prompt.JieMing">请选择一名角色对其使用“节命”</sys:String>
     <sys:String x:Key="Deck.QiXing.Name">七星</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.QiXing">请选择{0}张手牌置于武将牌上</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.DaWu">请使用技能“大雾”</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.KuangFeng">请对一名角色使用技能“狂风”</sys:String>
+
+    <sys:String x:Key="CardChoice.Prompt.MengJin">猛进</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.MengJin.Others">猛进 请等待{0}的选择</sys:String>
 </ResourceDictionary>

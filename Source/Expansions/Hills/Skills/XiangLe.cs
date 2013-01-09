@@ -41,7 +41,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             ISkill skill;
             List<Card> cards;
             List<Player> players;
-            if (!(eventArgs.Source == null || eventArgs.Source.IsDead) && Game.CurrentGame.UiProxies[eventArgs.Source].AskForCardUsage(new CardUsagePrompt("XiangLe"), new XiangLeVerifier(), out skill, out cards, out players))
+            if (!(eventArgs.Source == null || eventArgs.Source.IsDead) && Game.CurrentGame.UiProxies[eventArgs.Source].AskForCardUsage(new CardUsagePrompt("XiangLe", eventArgs.Source), new XiangLeVerifier(), out skill, out cards, out players))
             {
                 Game.CurrentGame.HandleCardDiscard(eventArgs.Source, cards);
                 return;

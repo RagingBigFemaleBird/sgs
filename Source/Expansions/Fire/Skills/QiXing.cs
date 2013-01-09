@@ -55,7 +55,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             move.To = new DeckPlace(Owner, DeckType.Hand);
             move.Helper.IsFakedMove = true;
             Game.CurrentGame.MoveCards(move);
-            if (!Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("QiXing"), new QiXingVerifier(7), out skill, out cards, out players))
+            if (!Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("QiXing", 7), new QiXingVerifier(7), out skill, out cards, out players))
             {
                 cards = new List<Card>();
                 cards.AddRange(Game.CurrentGame.Decks[Owner, DeckType.Hand].GetRange(0, 7));
@@ -78,7 +78,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             move.To = new DeckPlace(Owner, DeckType.Hand);
             move.Helper.IsFakedMove = true;
             Game.CurrentGame.MoveCards(move);
-            if (!Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("QiXing"), new QiXingVerifier(qxCount), out skill, out cards, out players))
+            if (!Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("QiXing", qxCount), new QiXingVerifier(qxCount), out skill, out cards, out players))
             {
                 cards = new List<Card>();
                 cards.AddRange(Game.CurrentGame.Decks[Owner, DeckType.Hand].GetRange(0, qxCount));

@@ -100,7 +100,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             foreach (Player p in players)
             {
                 List<List<Card>> answer;
-                if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("QiaoBian"), new List<DeckPlace>() { new DeckPlace(p, DeckType.Hand) },
+                if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("QiaoBian", Owner), new List<DeckPlace>() { new DeckPlace(p, DeckType.Hand) },
                     new List<string>() { "QiaoBian" }, new List<int>() { 1 }, new RequireOneCardChoiceVerifier(), out answer))
                 {
                     answer = new List<List<Card>>();
@@ -198,7 +198,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             List<int> resultDeckMax = new List<int>();
             resultDeckMax.Add(1);
             List<List<Card>> answer;
-            if (Game.CurrentGame.UiProxies[player].AskForCardChoice(new CardChoicePrompt("QiaoBian"), places, resultDeckPlace, resultDeckMax, new QiaoBianMoveVerifier(source, dest), out answer))
+            if (Game.CurrentGame.UiProxies[player].AskForCardChoice(new CardChoicePrompt("QiaoBian", Owner), places, resultDeckPlace, resultDeckMax, new QiaoBianMoveVerifier(source, dest), out answer))
             {
                 Card theCard = answer[0][0];
                 DeckType targetDeck = theCard.Place.DeckType;

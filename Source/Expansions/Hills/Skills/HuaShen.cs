@@ -47,7 +47,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 Owner.LoseAdditionalSkill(acquiredSkill);
             List<List<Card>> answer;
             if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(
-                new CardChoicePrompt("HuaShen"),
+                new CardChoicePrompt("HuaShen", Owner),
                 new List<DeckPlace>() { new DeckPlace(Owner, HuaShenDeck) },
                 new List<string>() { "HuaShen" },
                 new List<int>() { 1 },

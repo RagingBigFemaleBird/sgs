@@ -23,8 +23,21 @@
     <sys:String x:Key="Expansion.OverKnightFame11Expansion.Name">一将11</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.LuoYing">是否发动落英获得【{0}】?</sys:String>
 
-    <sys:String x:Key="CardUsage.Prompt.MingCe">请选择一个【杀】的目标</sys:String>
-    <sys:String x:Key="MultiChoice.Prompt.MingCe">请选择明策【杀】还是摸一张牌</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.XuanHuo">请将该牌交给一名{0}以外的角色</sys:String>
+    
+    <sys:String x:Key="MultiChoice.Prompt.XuanFeng">请选择一项“旋风”的效果</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.XuanFengChuSha">视为对一名角色使用一张【杀】</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.XuanFengShangHai">对距离1的一名角色造成1点伤害</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.XuanFeng1">请选择【杀】的目标</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.XuanFeng2">请选择受伤害的角色</sys:String>
+
+    <sys:String x:Key="CardChoice.Prompt.XinZhan">心战</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.XinZhan.Others">心战 请等待{0}的选择</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.EnYuan">请交给{0}一张红桃牌或点“取消”失去1点体力</sys:String>
+    
+    <sys:String x:Key="CardUsage.Prompt.MingCe">请对{0}使用一张【杀】</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.MingCe">请选择一项“明策”的效果</sys:String>
     <sys:String x:Key="MultiChoice.Choice.MingCeSha">对{0}使用一张【杀】</sys:String>
     <sys:String x:Key="MultiChoice.Choice.MingCeMoPai">摸一张牌</sys:String>
     <sys:String x:Key="Status.ZhiChi.Name">智迟</sys:String>
@@ -36,9 +49,9 @@
     <sys:String x:Key="Deck.Quan.Name">权</sys:String>
     <sys:String x:Key="CardUsage.Prompt.QuanJi">请选择一张手牌置于武将牌上</sys:String>
 
-    <sys:String x:Key="MultiChoice.Prompt.ZiLi">请选择自立回复体力或摸牌</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.ZiLi">请选择一项“自立”的效果</sys:String>
     <sys:String x:Key="MultiChoice.Choice.ZiLiRecover">回复1点体力</sys:String>
-    <sys:String x:Key="MultiChoice.Choice.ZiLiDraw">摸2张牌</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.ZiLiDraw">摸两张牌</sys:String>
 
     <sys:String x:Key="CardSlot.Hint.HuoDe">获得</sys:String>
 </ResourceDictionary>

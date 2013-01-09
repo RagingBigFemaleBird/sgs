@@ -129,7 +129,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             arg.Targets[0].AskForMultipleChoice(new MultipleChoicePrompt("MingCe"), new List<OptionPrompt>() { new OptionPrompt("MingCeSha", arg.Targets[1]), new OptionPrompt("MingCeMoPai") }, out answer);
             if (answer == 0)
             {
-                arg.Targets[0].AskForCardUsage(new CardUsagePrompt("MingCe"), new MingCeShaVerifier(arg.Targets[1]), out skill, out cards, out players);
+                arg.Targets[0].AskForCardUsage(new CardUsagePrompt("MingCe", arg.Targets[1]), new MingCeShaVerifier(arg.Targets[1]), out skill, out cards, out players);
                 try
                 {
                     GameEventArgs args = new GameEventArgs();

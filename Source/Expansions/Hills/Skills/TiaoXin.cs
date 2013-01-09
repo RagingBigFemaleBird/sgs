@@ -29,7 +29,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             List<Player> players;
             while (true)
             {
-                if (Game.CurrentGame.UiProxies[target].AskForCardUsage(new CardUsagePrompt("TiaoXin"), new JieDaoShaRen.JieDaoShaRenVerifier(Owner),
+                if (Game.CurrentGame.UiProxies[target].AskForCardUsage(new CardUsagePrompt("TiaoXin", Owner), new JieDaoShaRen.JieDaoShaRenVerifier(Owner),
                     out skill, out cards, out players))
                 {
                     try
