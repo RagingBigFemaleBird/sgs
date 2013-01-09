@@ -1113,5 +1113,5 @@
                 <Setter Property="Template" Value="{StaticResource ComboBoxEditableTemplate}"/>
             </Trigger>
         </Style.Triggers>
-    </Style>
+    </Style>   
 </ResourceDictionary>

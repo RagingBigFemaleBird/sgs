@@ -185,12 +185,14 @@ namespace Sanguosha.UI.Controls
         public ICommand EnterRoomCommand { get; set; }
         public SimpleRelayCommand StartGameCommand { get; set; }
         public SimpleRelayCommand ReadyCommand { get; set; }
-        public SimpleRelayCommand CancelReadyCommand { get; set; }
+        public SimpleRelayCommand CancelReadyCommand { get; set; }        
         #endregion
 
         #endregion
 
         #region Events
+
+        public event ChatEventHandler OnChat;
 
         #endregion
 
@@ -255,7 +257,12 @@ namespace Sanguosha.UI.Controls
 
         public bool StartGame()
         {
-            return _IsSuccess(_connection.StartGame(_loginToken));
+            if (_IsSuccess(_connection.StartGame(_loginToken)))
+            {
+                CurrentRoom.State = RoomState.Gaming;
+                return true;
+            }
+            return false;
         }
 
         #region Server Callbacks
@@ -300,8 +307,16 @@ namespace Sanguosha.UI.Controls
         #endregion
         #endregion
 
-        public void NotifyChat(string message)
+        public void NotifyChat(Account act, string message)
         {
+            Application.Current.Dispatcher.BeginInvoke((ThreadStart)delegate()
+            {
+                var handler = OnChat;
+                if (handler != null)
+                {
+                    handler(act.UserName, message);
+                }
+            });
         }
 
         public bool JoinSeat(SeatViewModel seat)
@@ -315,12 +330,24 @@ namespace Sanguosha.UI.Controls
 
         public bool CloseSeat(SeatViewModel seat)
         {
-            throw new NotImplementedException();
+            return _IsSuccess(Connection.CloseSeat(LoginToken, CurrentRoom.Seats.IndexOf(seat)));
+        }
+
+        public bool OpenSeat(SeatViewModel seat)
+        {
+            return _IsSuccess(Connection.OpenSeat(LoginToken, CurrentRoom.Seats.IndexOf(seat)));
         }
 
         public bool KickPlayer(SeatViewModel seat)
         {
             return _IsSuccess(Connection.Kick(LoginToken, CurrentRoom.Seats.IndexOf(seat)));
         }
+
+        public bool SendMessage(string msg)
+        {
+            return _IsSuccess(Connection.Chat(LoginToken, msg));
+        }
     }
+
+    public delegate void ChatEventHandler(string userName, string msg);
 }

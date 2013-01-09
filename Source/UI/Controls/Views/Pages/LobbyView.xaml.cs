@@ -28,6 +28,16 @@ namespace Sanguosha.UI.Controls
         public LobbyView()
         {
             InitializeComponent();
+            chatEventHandler =  new ChatEventHandler(LobbyModel_OnChat);
+            LobbyModel.OnChat += chatEventHandler;
+        }
+
+        private ChatEventHandler chatEventHandler;
+
+        void LobbyModel_OnChat(string userName, string msg)
+        {            
+            chatBox.Document.Blocks.Add(LogFormatter.RichTranslateChat(string.Empty, userName, msg));
+            chatBox.ScrollToEnd();
         }
 
         private static LobbyView _instance;
@@ -39,7 +49,7 @@ namespace Sanguosha.UI.Controls
         {
             get
             {
-                if (_instance == null) _instance = new LobbyView();
+                if (_instance == null) _instance = new LobbyView();        
                 return _instance;
             }
         }
@@ -90,6 +100,8 @@ namespace Sanguosha.UI.Controls
                 busyIndicator.IsBusy = false;
                 if ((bool)ea.Result)
                 {
+                    chatBox.Document.Blocks.Clear();
+                    LobbyViewModel.Instance.OnChat -= chatEventHandler;
                     MainGame game = new MainGame();
                     game.NetworkClient = client;
                     this.NavigationService.Navigate(game);
@@ -154,6 +166,12 @@ namespace Sanguosha.UI.Controls
                 doc.Blocks.Add(new Paragraph(new Run(p)));
                 keyEventNotifier.AddLog(doc);
             });
+        }
+
+        public void Refresh()
+        {
+            LobbyModel.OnChat += chatEventHandler;
+            LobbyViewModel.Instance.UpdateRooms();
         }
     }
 }

@@ -455,14 +455,14 @@ namespace Sanguosha.Lobby.Server
                     {
                         foreach (var seat in loggedInGuidToRoom[token.token].Seats)
                         {
-                            loggedInGuidToChannel[loggedInAccountToGuid[seat.Account]].NotifyChat(message);
+                            loggedInGuidToChannel[loggedInAccountToGuid[seat.Account]].NotifyChat(loggedInGuidToAccount[token.token], message);
                         }
                     }
                     else
                     {
                         foreach (var pair in loggedInGuidToChannel)
                         {
-                            pair.Value.NotifyChat(message);
+                            pair.Value.NotifyChat(loggedInGuidToAccount[token.token], message);
                         }
                     }
                 }

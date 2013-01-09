@@ -304,4 +304,30 @@
     <BitmapImage x:Key="Selection.Digit.7">Digits/7.png</BitmapImage>
     <BitmapImage x:Key="Selection.Digit.8">Digits/8.png</BitmapImage>
     <BitmapImage x:Key="Selection.Digit.9">Digits/9.png</BitmapImage>
+	
+	<BitmapImage x:Key="Facial.0.Image">Facials/0.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.1.Image">Facials/1.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.2.Image">Facials/2.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.3.Image">Facials/3.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.4.Image">Facials/4.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.5.Image">Facials/5.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.6.Image">Facials/6.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.7.Image">Facials/7.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.8.Image">Facials/8.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.9.Image">Facials/9.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.10.Image">Facials/10.gif</BitmapImage>	
+	<BitmapImage x:Key="Facial.11.Image">Facials/11.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.12.Image">Facials/12.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.13.Image">Facials/13.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.14.Image">Facials/14.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.15.Image">Facials/15.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.16.Image">Facials/16.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.17.Image">Facials/17.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.18.Image">Facials/18.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.19.Image">Facials/19.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.20.Image">Facials/20.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.21.Image">Facials/21.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.22.Image">Facials/22.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.23.Image">Facials/23.gif</BitmapImage>
+	<BitmapImage x:Key="Facial.24.Image">Facials/24.gif</BitmapImage>
 </ResourceDictionary>
