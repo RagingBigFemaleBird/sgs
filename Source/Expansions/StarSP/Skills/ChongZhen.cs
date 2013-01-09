@@ -32,6 +32,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                         {
                             foreach (var target in a.Targets)
                             {
+                                if (target.HandCards().Count == 0) continue;
                                 var result = Game.CurrentGame.SelectACardFrom(target, p, new Prompt("ChongZhen"), "ChongZhen", true, true, true);
                                 Game.CurrentGame.HandleCardTransferToHand(target, p, new List<Card>() { result });
                             }
