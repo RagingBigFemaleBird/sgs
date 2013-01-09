@@ -78,7 +78,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 answer[0] = new List<Card>() { fakeMapping[theCard] };
                 fakeMapping[theCard] = null;
             }
-            Game.CurrentGame.HandleCardTransferToHand(null, dest, answer[0]);
+            Game.CurrentGame.HandleCardTransferToHand(null, dest, answer[0], new MovementHelper() { IsWuGu = true });
         }
 
         public override void Process(GameEventArgs handlerArgs)
