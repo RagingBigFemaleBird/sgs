@@ -5,8 +5,9 @@ using System.Text;
 
 namespace Sanguosha.Lobby.Core
 {
-    public class Versioning
+    public class Misc
     {
         public static int ProtocolVersion = 2;
+        public static int MaxChatLength = 160;
     }
 }

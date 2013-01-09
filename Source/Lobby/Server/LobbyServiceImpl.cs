@@ -63,7 +63,7 @@ namespace Sanguosha.Lobby.Server
         {
             token = new LoginToken();
             token.token = System.Guid.NewGuid();
-            if (version != Versioning.ProtocolVersion)
+            if (version != Misc.ProtocolVersion)
             {
                 retAccount = null;
                 return LoginStatus.OutdatedVersion;
@@ -448,6 +448,7 @@ namespace Sanguosha.Lobby.Server
         {
             if (VerifyClient(token))
             {
+                if (message.Length > Misc.MaxChatLength) return RoomOperationResult.Invalid;
                 try
                 {
                     if (loggedInGuidToRoom.ContainsKey(token.token)/* && loggedInGuidToRoom[token.token].State == RoomState.Gaming*/)

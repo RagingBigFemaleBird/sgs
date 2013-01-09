@@ -179,7 +179,7 @@ namespace Sanguosha.UI.Main
                     var channelFactory = new DuplexChannelFactory<ILobbyService>(lobbyModel, binding, endpoint);
                     server = channelFactory.CreateChannel();
                     Account ret;
-                    var stat = server.Login(Versioning.ProtocolVersion, userName, out token, out ret);
+                    var stat = server.Login(Misc.ProtocolVersion, userName, out token, out ret);
                     if (stat == LoginStatus.Success)
                     {
                         LobbyViewModel.Instance.CurrentAccount = ret;
