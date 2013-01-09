@@ -13,7 +13,6 @@ namespace Sanguosha.Lobby.Server
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, InstanceContextMode = InstanceContextMode.Single)]
     public class LobbyServiceImpl : ILobbyService
     {
-        static int protocolVersion = 1;
         Dictionary<int, Room> rooms;
         int newRoomId;
         int newAccountId;
@@ -64,7 +63,7 @@ namespace Sanguosha.Lobby.Server
         {
             token = new LoginToken();
             token.token = System.Guid.NewGuid();
-            if (version != protocolVersion)
+            if (version != Versioning.ProtocolVersion)
             {
                 retAccount = null;
                 return LoginStatus.OutdatedVersion;
