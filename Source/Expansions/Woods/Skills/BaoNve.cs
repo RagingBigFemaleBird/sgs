@@ -27,6 +27,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                 (p, e, a) => { return (a as DamageEventArgs).ReadonlyCard[BaoNveUsable] == 1; },
                 (p, e, a) => 
                 {
+                    (a as DamageEventArgs).ReadonlyCard[BaoNveUsable] = 0;
                     var result = Game.CurrentGame.Judge(p, this, null, (judgeResultCard) => { return judgeResultCard.Suit == SuitType.Spade; });
                     if (result.Suit == SuitType.Spade)
                     {

@@ -22,6 +22,7 @@ namespace Sanguosha.Expansions.Wind.Skills
     {
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
+            (eventArgs as DamageEventArgs).ReadonlyCard[KuangGuUsable] = 0;
             int recover = (eventArgs as DamageEventArgs).Magnitude;
             while (recover-- > 0)
             {

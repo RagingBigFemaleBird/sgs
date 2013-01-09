@@ -28,7 +28,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 var trigger = new AutoNotifyPassiveSkillTrigger(
                     this,
                     (p, e, a) => { return (a as DamageEventArgs).ReadonlyCard[JiuShiUsable] == 1; },
-                    (p, e, a) => { p.IsImprisoned = false;},
+                    (p, e, a) => { (a as DamageEventArgs).ReadonlyCard[JiuShiUsable] = 0; p.IsImprisoned = false; },
                     TriggerCondition.OwnerIsTarget
                 ) { };
                 Triggers.Add(GameEvent.DamageComputingFinished, trigger);

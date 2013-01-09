@@ -28,7 +28,10 @@ namespace Sanguosha.Expansions.Basic.Cards
             public Equipment ParentEquipment { get; set; }
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                eventArgs.ReadonlyCard[Armor.IgnoreAllArmor] = 1;
+                foreach (var target in eventArgs.Targets)
+                {
+                    eventArgs.ReadonlyCard[Armor.IgnorePlayerArmor[target]] = 1;
+                }
             }
 
             public QingGangJianSkill()
