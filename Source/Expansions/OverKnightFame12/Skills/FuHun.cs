@@ -26,14 +26,18 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 if (eventArgs.Source != Owner) return;
-                Owner.LoseAdditionalSkill(FHWuSheng);
-                Owner.LoseAdditionalSkill(FHPaoXiao);
+                Owner.LoseAdditionalSkill(fhWuSheng);
+                Owner.LoseAdditionalSkill(fhPaoXiao);
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PhasePostEnd, this);
             }
-            public RemoveShengPao(Player p)
+            public RemoveShengPao(Player p, ISkill s1, ISkill s2)
             {
                 Owner = p;
+                fhWuSheng = s1;
+                fhPaoXiao = s2;
             }
+            ISkill fhWuSheng;
+            ISkill fhPaoXiao;
         }
 
         void Run(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
@@ -54,9 +58,11 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             Game.CurrentGame.HandleCardTransferToHand(null, owner, Game.CurrentGame.Decks[null, FuHunDeck]);
             if (result.Distinct().Count() == toDraw)
             {
-                Trigger tri = new RemoveShengPao(owner);
-                owner.AcquireAdditionalSkill(FHWuSheng);
-                owner.AcquireAdditionalSkill(FHPaoXiao);
+                fhWuSheng = new WuSheng();
+                fhPaoXiao = new PaoXiao();
+                Trigger tri = new RemoveShengPao(owner, fhWuSheng, fhPaoXiao);
+                owner.AcquireAdditionalSkill(fhWuSheng);
+                owner.AcquireAdditionalSkill(fhPaoXiao);
                 Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, tri);
             }
             Game.CurrentGame.CurrentPhaseEventIndex++;
@@ -74,7 +80,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             IsAutoInvoked = null;
         }
 
-        private static ISkill FHWuSheng = new WuSheng();
-        private static ISkill FHPaoXiao = new PaoXiao();
+        ISkill fhWuSheng;
+        ISkill fhPaoXiao;
     }
 }

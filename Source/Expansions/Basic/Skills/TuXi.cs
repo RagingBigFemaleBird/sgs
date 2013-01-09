@@ -69,7 +69,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 {
                     List<List<Card>> answer;
                     if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("TuXi"), new List<DeckPlace>() { new DeckPlace(p, DeckType.Hand) },
-                        new List<string>() { "TuXi" }, new List<int>() { 1 }, new RequireOneCardChoiceVerifier(), out answer))
+                        new List<string>() { "TuXi" }, new List<int>() { 1 }, new RequireOneCardChoiceVerifier(true), out answer))
                     {
                         answer = new List<List<Card>>();
                         answer.Add(new List<Card>());

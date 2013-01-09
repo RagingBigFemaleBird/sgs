@@ -522,7 +522,7 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        private void EmitTriggers(GameEvent e, List<TriggerWithParam> triggers)
+        private void EmitTriggers(List<TriggerWithParam> triggers)
         {
             triggers.Sort((a, b) =>
             {
@@ -562,7 +562,7 @@ namespace Sanguosha.Core.Games
             {
                 if (t.trigger.Owner == null || !t.trigger.Owner.IsDead)
                 {
-                    t.trigger.Run(e, t.args);
+                    t.trigger.Run(t.gameEvent, t.args);
                 }
             }
         }
@@ -586,12 +586,12 @@ namespace Sanguosha.Core.Games
                 {
                     if (t.Enabled)
                     {
-                        triggersToRun.Add(new TriggerWithParam() { trigger = t, args = eventParam });
+                        triggersToRun.Add(new TriggerWithParam() { gameEvent = gameEvent, trigger = t, args = eventParam });
                     }
                 }
                 if (!atomic)
                 {
-                    EmitTriggers(gameEvent, triggersToRun);
+                    EmitTriggers(triggersToRun);
                     additionalTriggers = new List<Trigger>(triggers[gameEvent].Except(oldTriggers));
                     oldTriggers = new List<Trigger>(triggers[gameEvent]);
                     continue;
@@ -603,11 +603,7 @@ namespace Sanguosha.Core.Games
                     {
                         triggerPlace = atomicTriggersBeforeMove;
                     }
-                    if (!triggerPlace.ContainsKey(gameEvent))
-                    {
-                        triggerPlace.Add(gameEvent, new List<TriggerWithParam>());
-                    }
-                    triggerPlace[gameEvent].AddRange(triggersToRun);
+                    triggerPlace.AddRange(triggersToRun);
                 }
                 break;
             }
@@ -683,13 +679,14 @@ namespace Sanguosha.Core.Games
 
         private struct TriggerWithParam
         {
+            public GameEvent gameEvent;
             public Trigger trigger;
             public GameEventArgs args;
         }
 
         List<CardsMovement> atomicMoves;
-        Dictionary<GameEvent, List<TriggerWithParam>> atomicTriggers;
-        Dictionary<GameEvent, List<TriggerWithParam>> atomicTriggersBeforeMove;
+        List<TriggerWithParam> atomicTriggers;
+        List<TriggerWithParam> atomicTriggersBeforeMove;
         
         public void EnterAtomicContext()
         {
@@ -697,8 +694,8 @@ namespace Sanguosha.Core.Games
             if (atomicLevel == 0)
             {
                 atomicMoves = new List<CardsMovement>();
-                atomicTriggers = new Dictionary<GameEvent, List<TriggerWithParam>>();
-                atomicTriggersBeforeMove = new Dictionary<GameEvent, List<TriggerWithParam>>();
+                atomicTriggers = new List<TriggerWithParam>();
+                atomicTriggersBeforeMove = new List<TriggerWithParam>();
             }
             atomicLevel++;
         }
@@ -713,15 +710,9 @@ namespace Sanguosha.Core.Games
             var moves = atomicMoves;
             var triggers = atomicTriggers;
             atomic = false;
-            foreach (var v in atomicTriggersBeforeMove)
-            {
-                EmitTriggers(v.Key, v.Value);
-            }
+            EmitTriggers(atomicTriggersBeforeMove);
             MoveCards(atomicMoves);
-            foreach (var v in atomicTriggers)
-            {
-                EmitTriggers(v.Key, v.Value);
-            }
+            EmitTriggers(atomicTriggers);
         }
 
         private void AddAtomicMoves(List<CardsMovement> moves)
