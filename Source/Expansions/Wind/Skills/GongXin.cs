@@ -54,7 +54,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             List<List<Card>> answer;
             Game.CurrentGame.SyncCards(Owner, Game.CurrentGame.Decks[target, DeckType.Hand]);
             Game.CurrentGame.HandCardVisibility[Owner].Add(target);
-            if (Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("GongXin"),
+            if (Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("GongXin", Owner),
                     new List<DeckPlace>() { new DeckPlace(target, DeckType.Hand) },
                     new List<string>() { "PaiDuiDing", "QiPaiDui" },
                     new List<int>() { 1, 1 },

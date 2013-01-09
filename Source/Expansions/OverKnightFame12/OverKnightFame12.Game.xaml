@@ -27,13 +27,18 @@
     <sys:String x:Key="MultiChoice.Choice.JiangChi2">少摸1张牌</sys:String>
 
     <sys:String x:Key="Deck.Chun.Name">醇</sys:String>
-    <sys:String x:Key="CardUsage.Prompt.ChunLao">你可以将杀置于武将牌上</sys:String>
-    <sys:String x:Key="CardChoice.Prompt.ChunLao">请选择一张醇</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.ChunLao">请选择发动“醇醪”的杀</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.ChunLao">醇醪 请选择一张醇</sys:String>
     <sys:String x:Key="CardChoice.Prompt.ChunLao.Others">醇醪 请等待{0}选择一张醇</sys:String>
 
     <sys:String x:Key="MultiChoice.Prompt.ZhenLie">你的判定结果是{0}{1}，是否发动贞烈改判？</sys:String>
 
     <sys:String x:Key="CardUsage.Prompt.MiJi">请选择一个秘计的目标</sys:String>
+    
+    <sys:String x:Key="CardUsage.Prompt.JieFan">你可以使用“解烦”对{0}使用一张【杀】</sys:String>
 
     <sys:String x:Key="CardUsage.Prompt.ZhuiYi">请选择一个追忆的目标，或点“取消”不发动技能</sys:String>
+
+    <sys:String x:Key="CardChoice.Prompt.AnXu">安恤 请选择一张手牌</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.AnXu.Others">安恤 请等待{0}的选择</sys:String>
 </ResourceDictionary>

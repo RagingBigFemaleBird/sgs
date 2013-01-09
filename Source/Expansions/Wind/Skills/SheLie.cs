@@ -77,7 +77,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             move.To = new DeckPlace(null, shelieDeck);
             Game.CurrentGame.MoveCards(move);
             List<List<Card>> answer;
-            if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("SheLie"),
+            if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("SheLie", Owner),
                     new List<DeckPlace>() { new DeckPlace(null, shelieDeck) },
                     new List<string>() { "SheLie" },
                     new List<int>() { 4 },

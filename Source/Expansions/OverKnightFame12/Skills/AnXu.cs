@@ -67,7 +67,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
 				more=arg.Targets[0];
 			}
 			List<List<Card>> answer;
-			if (!Game.CurrentGame.UiProxies[less].AskForCardChoice(new CardChoicePrompt("AnXu"), new List<DeckPlace>() { new DeckPlace(more, DeckType.Hand) },
+			if (!Game.CurrentGame.UiProxies[less].AskForCardChoice(new CardChoicePrompt("AnXu", less), new List<DeckPlace>() { new DeckPlace(more, DeckType.Hand) },
 			new List<string>() { "AnXu" }, new List<int>() { 1 }, new RequireOneCardChoiceVerifier(), out answer))
 			{
 				answer = new List<List<Card>>();

@@ -20,8 +20,26 @@
     <sys:String x:Key="MultiChoice.Choice.JinNang">锦囊牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.ZhuangBei">装备牌</sys:String>    
     -->
-    <sys:String x:Key="Deck.BuQu.Name">不屈</sys:String>
 	<sys:String x:Key="Expansion.WindExpansion.Name">风</sys:String>
+    <sys:String x:Key="Deck.BuQu.Name">不屈</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.TianXiang">你可以使用一张红桃牌发动“天香”来转移伤害</sys:String>
+    
+    <sys:String x:Key="CardUsage.Prompt.ShenSu1">你可以使用“神速”跳过判定阶段和摸牌阶段</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.ShenSu2">你可以弃一张装备牌使用“神速”跳过出牌阶段</sys:String>
+    
+    <sys:String x:Key="CardChoice.Prompt.SheLie">涉猎</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.SheLie.Others">涉猎 请等待{0}的选择</sys:String>
+    
+    <sys:String x:Key="CardChoice.Prompt.GongXin">攻心</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.GongXin.Others">攻心 请等待{0}的选择</sys:String>
+    
+    <sys:String x:Key="CardUsage.Prompt.WuHun">请选择“武魂”的目标</sys:String>
+    
+    <sys:String x:Key="CardUsage.Prompt.GuiDao">{0}判定结果是{1}{2}，请打出一张黑色牌替换之，或点“取消”不发动鬼道</sys:String>
+
+    <sys:String x:Key="MultiChoice.Prompt.GuHuo">{0}使用了“蛊惑”，据说这张牌是{1}，是否质疑？</sys:String>
+    
     <sys:String x:Key="Status.ZhiYi.Name">质疑</sys:String>
     <LinearGradientBrush x:Key="Status.ZhiYi.Brush" EndPoint="0.5,1" StartPoint="0.5,0">
         <GradientStop Color="#FF4EFF00" Offset="0"/>

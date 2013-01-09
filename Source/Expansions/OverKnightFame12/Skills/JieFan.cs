@@ -28,7 +28,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             List<Player> players;
             while (true)
             {
-                if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("JieFan"), new JieDaoShaRen.JieDaoShaRenVerifier(shaTarget),
+                if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("JieFan", shaTarget), new JieDaoShaRen.JieDaoShaRenVerifier(shaTarget),
                     out skill, out cards, out players))
                 {
                     NotifySkillUse();

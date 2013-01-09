@@ -21,4 +21,9 @@
     <sys:String x:Key="MultiChoice.Choice.ZhuangBei">装备牌</sys:String>
 	-->
     <sys:String x:Key="Expansion.StarSpExpansion.Name">☆SP</sys:String>
+
+    <sys:String x:Key="CardChoice.Prompt.ManJuan">漫卷 请选择一张牌</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.ManJuan.Others">漫卷 请等待{0}的选择</sys:String>
+    
+    <sys:String x:Key="CardUsage.Prompt.DaHe">请将你的拼点牌交给一名角色</sys:String>
 </ResourceDictionary>

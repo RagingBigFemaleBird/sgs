@@ -22,18 +22,26 @@
     -->
     <sys:String x:Key="Expansion.WoodsExpansion.Name">林</sys:String>
 
-    <sys:String x:Key="CardUsage.Prompt.YingHun">请选择一名角色对其使用“英魂”</sys:String>
     <sys:String x:Key="CardUsage.Prompt.LuanWu">请对与你距离最近的一名其他角色使用【杀】或点“取消”失去1点体力</sys:String>
-    <sys:String x:Key="MultiChoice.Prompt.Zhiba">你可以点“取消”拒绝此次拼点</sys:String>
+    
+    <sys:String x:Key="CardUsage.Prompt.HaoShi">请将一半的手牌交给手牌数最少的其他角色</sys:String>
 
+    <sys:String x:Key="CardUsage.Prompt.YingHun">请选择一名角色对其使用“英魂”</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.YingHun">请选择你要令{0}执行的动作</sys:String>
     <sys:String x:Key="MultiChoice.Choice.YingHun1">摸{0}张牌，弃1张牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.YingHun2">摸1张牌，弃{0}张牌</sys:String>
 
-    <sys:String x:Key="CardChoice.Prompt.GuiXin">请选择{0}的一张牌</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.GuiXin">归心 请选择{0}区域内的一张牌</sys:String>
     <sys:String x:Key="CardChoice.Prompt.GuiXin.Others">归心 请等待{1}选择{0}的牌</sys:String>
 
-    <sys:String x:Key="MultiChoice.Prompt.WuMou">请选择无谋弃置标记或失去体力</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.LieRen">烈刃 请选择{0}的一张牌</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.LieRen.Others">烈刃 请等待{1}选择{0}的牌</sys:String>
+
+    <sys:String x:Key="MultiChoice.Prompt.WuMou">请选择一项“无谋”的效果</sys:String>
     <sys:String x:Key="MultiChoice.Choice.WuMouMark">弃1枚“暴怒”标记</sys:String>
     <sys:String x:Key="MultiChoice.Choice.WuMouHealth">失去1点体力</sys:String>
+
+    <sys:String x:Key="MultiChoice.Prompt.BengHuai">请选择一项“崩坏”的效果</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.TiLiZhi">失去1点体力</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.TiLiShangXian">失去1点体力上限</sys:String>
 </ResourceDictionary>
