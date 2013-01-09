@@ -45,7 +45,7 @@ namespace Sanguosha.UI.Controls
         private void btnSmiley_Click(object sender, RoutedEventArgs e)
         {
             int index = (int)(sender as Button).DataContext;
-            txtMessage.Text += index.ToString("D2");
+            txtMessage.Text += "#" + index.ToString("D2");
             popFacials.IsOpen = false;
         }
 
