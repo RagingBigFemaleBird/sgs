@@ -21,6 +21,11 @@ namespace Sanguosha.Expansions.StarSP.Skills
     /// </summary>
     public class LiHun : ActiveSkill
     {
+        protected override int GenerateSpecialEffectHintIndex(Player source, List<Player> targets, List<Card> cards)
+        {
+            return Game.CurrentGame.CurrentPhaseEventIndex - 1;
+        }
+
         public override VerifierResult Validate(GameEventArgs arg)
         {
             if (Owner[LiHunUsed] != 0)
@@ -97,6 +102,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                             cards = cards.GetRange(0, target.Health);
                         }
                     }
+                    new LiHun().NotifyAction(Owner, new List<Player>(), new List<Card>());
                     Game.CurrentGame.SyncCards(target, cards);
                     Game.CurrentGame.HandleCardTransferToHand(Owner, target, cards);
                     break;
