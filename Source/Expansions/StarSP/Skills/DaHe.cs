@@ -56,7 +56,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                     Game.CurrentGame.EnterAtomicContext();
                     Game.CurrentGame.PlayerLostCard(Owner, new List<Card>() { card1 });
                     Game.CurrentGame.PlayerLostCard(arg.Targets[0], new List<Card>() { card2 });
-                    Game.CurrentGame.HandleCardTransferToHand(Owner, players[0], new List<Card>() { card1, card2 });
+                    Game.CurrentGame.HandleCardTransferToHand(Owner, players[0], new List<Card>() { card2 });
                     Game.CurrentGame.ExitAtomicContext();
                     return true;
                 }
@@ -65,14 +65,10 @@ namespace Sanguosha.Expansions.StarSP.Skills
             Game.CurrentGame.PlaceIntoDiscard(Owner, new List<Card>() { card1 });
             Game.CurrentGame.PlaceIntoDiscard(arg.Targets[0], new List<Card>() { card2 });
             Game.CurrentGame.ExitAtomicContext();
-            if (!win)
+            if (!win && Owner.HandCards().Count > 0)
             {
-                Game.CurrentGame.ForcePlayerDiscard(Owner,
-                                                    (p, i) =>
-                                                    {
-                                                        return 1 - i;
-                                                    },
-                                                    false);
+                Game.CurrentGame.ForcePlayerDiscard(Owner,(p, i) => { return 1 - i; }, false);
+                Game.CurrentGame.ShowHandCards(Owner, Owner.HandCards());
             }
             return true;
         }
