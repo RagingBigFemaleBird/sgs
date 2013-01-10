@@ -115,7 +115,6 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 {
                     players = new List<Player>();
                     List<Player> nPlayers = Game.CurrentGame.AlivePlayers;
-                    nPlayers.Remove(Owner);
                     players.Add(nPlayers[0]);
                 }
                 Owner[XueHenEffect] = 1;

@@ -32,7 +32,7 @@
     <sys:String x:Key="MultiChoice.Choice.XueHenSha">视为使用一张【杀】</sys:String>
     <sys:String x:Key="CardUsage.Prompt.XueHen">请选择一个目标使用【杀】</sys:String>
     <sys:String x:Key="CardChoice.Prompt.XueHen">雪恨 请选择{0}的牌</sys:String>
-    <sys:String x:Key="CardChoice.Prompt.XueHen.Others">漫卷 请等待{0}选择{1}的牌</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.XueHen.Others">雪恨 请等待{0}选择{1}的牌</sys:String>
     
     <sys:String x:Key="Status.FenYong.Name">愤勇</sys:String>
     <LinearGradientBrush x:Key="Status.FenYong.Brush" EndPoint="0.5,1" StartPoint="0.5,0">
