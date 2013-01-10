@@ -47,4 +47,6 @@
         <GradientStop Color="#FFA0A0A0" Offset="0"/>
         <GradientStop Color="#FFDEDEDE" Offset="1"/>
     </LinearGradientBrush>
+
+    <sys:String x:Key="CardUsage.Prompt.AnXian">你可以弃置一张手牌使这张【杀】无效</sys:String>
 </ResourceDictionary>

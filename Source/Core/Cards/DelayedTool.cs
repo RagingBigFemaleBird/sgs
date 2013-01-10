@@ -42,7 +42,7 @@ namespace Sanguosha.Core.Cards
             Game.CurrentGame.PlayerLostCard(source, cards);
         }
 
-        public bool DelayedToolConflicting(Player p)
+        public virtual bool DelayedToolConflicting(Player p)
         {
             foreach (Card c in Game.CurrentGame.Decks[p, DeckType.DelayedTools])
             {

@@ -70,13 +70,15 @@
     <sys:String x:Key="Skill.ShiChou.Usage">系统提示→点“确定”→选择两张牌→选择一名目标角色→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.YanXiao.Name">言笑</sys:String>
-    <sys:String x:Key="Skill.YanXiao.Description">出牌阶段，你可以将一张方片牌置入一名角色的判定区内，该角色的判定阶段开始时，获得其判定区内的所有牌。</sys:String>
+    <sys:String x:Key="Skill.YanXiao.Description">出牌阶段，你可以将一张方片牌置入一名角色的判定区内，判定区内有“言笑”牌的角色下个判定阶段开始时，获得其判定区内的所有牌。</sys:String>
     <sys:String x:Key="Skill.YanXiao.Usage">点“言笑”→选择一张方片牌→选择一名角色→点“确定”</sys:String>
     <sys:String x:Key="Skill.YanXiao.Prompt">请选择一张方片牌和一名目标</sys:String>
 
+    <sys:String x:Key="Card.YanXiaoPai.Name">“言笑”牌</sys:String>
+
     <sys:String x:Key="Skill.AnXian.Name">安娴</sys:String>
-    <sys:String x:Key="Skill.AnXian.Description">当你使用【杀】对目标角色造成伤害时，你可以防止此伤害，该角色须弃置一张手牌，然后你摸一张牌；当你成为【杀】的目标时，你可以弃置一张手牌使该【杀】对你无效，然后该【杀】的使用者摸一张牌。</sys:String>
-    <sys:String x:Key="Skill.AnXian.Usage">系统提示→点“确定”</sys:String>
+    <sys:String x:Key="Skill.AnXian.Description">当你使用【杀】对目标角色造成伤害时，你可以防止此伤害，该角色须弃置一张手牌，然后你摸一张牌；当你成为【杀】的目标时，你可以弃置一张手牌使之无效，然后该【杀】的使用者摸一张牌。</sys:String>
+    <sys:String x:Key="Skill.AnXian.Usage" xml:space="preserve">系统提示→点“确定”&#10;系统提示→选择一张手牌→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.YinLing.Name">银铃</sys:String>
     <sys:String x:Key="Skill.YinLing.Description">出牌阶段，若“锦”的数量少于4，你可以弃置一张黑色牌并选择一名其他角色，你选择其一张牌并置于你的武将牌上，称为“锦”。</sys:String>

@@ -350,7 +350,7 @@ namespace Sanguosha.Core.Games
                     }
                     catch (TriggerResultException)
                     {
-                        throw new NotImplementedException();
+                        //SB 大乔的安娴可以让杀在指定目标时无效
                     }
                 }
 
