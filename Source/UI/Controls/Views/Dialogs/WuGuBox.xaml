@@ -16,7 +16,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <local:CardView Margin="3,10" />
+                    <local:CardView Margin="3,10" OffsetOnSelect="false" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>  

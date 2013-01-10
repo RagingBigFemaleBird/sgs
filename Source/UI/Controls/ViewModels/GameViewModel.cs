@@ -106,6 +106,28 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        private WuGuChoiceViewModel _wuGuModel;
+
+        public WuGuChoiceViewModel WuGuModel
+        {
+            get
+            {
+                return _wuGuModel;
+            }
+            set
+            {
+                if (_wuGuModel == value) return;
+                _wuGuModel = value;
+                OnPropertyChanged("WuGuModel");
+            }
+        }
+
+        public PlayerViewModel CurrentActivePlayer
+        {
+            get;
+            set;
+        }
+
         public GameTableLayout TableLayout
         {
             get 

@@ -36,7 +36,8 @@ namespace Sanguosha.UI.Controls
             this.MouseLeftButtonUp += CardView_MouseLeftButtonUp;
             this.MouseEnter += CardView_MouseEnter;
             this.MouseLeave += CardView_MouseLeave;
-            _OnCardSelectedChangedHandler = new EventHandler(_OnCardSelectedChanged);           
+            _OnCardSelectedChangedHandler = new EventHandler(_OnCardSelectedChanged);
+            OffsetOnSelect = true;
         }
 
         public CardView(CardViewModel card) : this()
@@ -89,13 +90,18 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public bool OffsetOnSelect { get; set; }
+
         private EventHandler _OnCardSelectedChangedHandler;
 
         private void _OnCardSelectedChanged(object sender, EventArgs args)
         {
-            CardViewModel model = sender as CardViewModel;
-            if (model.IsSelected) (Resources["sbSelect"] as Storyboard).Begin();
-            else (Resources["sbDeselect"] as Storyboard).Begin();
+            if (OffsetOnSelect)
+            {
+                CardViewModel model = sender as CardViewModel;
+                if (model.IsSelected) (Resources["sbSelect"] as Storyboard).Begin();
+                else (Resources["sbDeselect"] as Storyboard).Begin();
+            }
         }
 
         public Card Card

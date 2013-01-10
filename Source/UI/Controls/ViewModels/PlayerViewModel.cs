@@ -35,7 +35,7 @@ namespace Sanguosha.UI.Controls
             HeroSkillNames = new ObservableCollection<string>();
             heroNameChars = new ObservableCollection<string>();
             PrivateDecks = new ObservableCollection<PrivateDeckViewModel>();
-            
+
             MultiChoiceCommands = new ObservableCollection<ICommand>();
 
             submitCardUsageCommand = new SimpleRelayCommand(SubmitCardUsageCommand);
@@ -279,7 +279,7 @@ namespace Sanguosha.UI.Controls
             {
                 if (attribute == Sanguosha.Expansions.Battle.Cards.Jiu.Drank)
                 {
-                    IsDrank = (_player[attribute] == 1);                
+                    IsDrank = (_player[attribute] == 1);
                 }
                 else if (attribute.IsMark)
                 {
@@ -505,7 +505,7 @@ namespace Sanguosha.UI.Controls
 
         private bool _isDrank;
 
-        public bool IsDrank 
+        public bool IsDrank
         {
             get { return _isDrank; }
             set
@@ -650,13 +650,13 @@ namespace Sanguosha.UI.Controls
         public PrivateDeckViewModel CurrentPrivateDeck
         {
             get { return _currentPrivateDeck; }
-            set 
+            set
             {
                 if (_currentPrivateDeck == value) return;
                 _currentPrivateDeck = value;
                 OnPropertyChanged("CurrentPrivateDeck");
             }
-        }       
+        }
 
         public string HeroName
         {
@@ -950,13 +950,13 @@ namespace Sanguosha.UI.Controls
         public Account Account
         {
             get { return _account; }
-            set 
+            set
             {
                 if (_account == value) return;
                 _account = value;
                 OnPropertyChanged("Account");
             }
-        }     
+        }
 
         private string _prompt;
         public string CurrentPromptString
@@ -1007,7 +1007,7 @@ namespace Sanguosha.UI.Controls
             IEnumerable<CardViewModel> source = (CurrentPrivateDeck == null) ? HandCards : HandCards.Concat(CurrentPrivateDeck.Cards);
             var result = from c in source
                          where c.IsSelected
-                         select c.Card;            
+                         select c.Card;
             return new List<Card>(result);
         }
 
@@ -1081,7 +1081,7 @@ namespace Sanguosha.UI.Controls
                 playerModel.IsSelectionMode = false;
             }
             _lastSelectedPlayers.Clear();
-            CurrentPrivateDeck = null;            
+            CurrentPrivateDeck = null;
             SubmitAnswerCommand = DisabledCommand;
             CancelAnswerCommand = DisabledCommand;
             AbortAnswerCommand = DisabledCommand;
@@ -1094,7 +1094,7 @@ namespace Sanguosha.UI.Controls
             CurrentPromptString = string.Empty;
             TimeOutSeconds = 0;
         }
-        
+
         private void _UpdateCardUsageStatus()
         {
             List<Card> cards = _GetSelectedNonEquipCards();
@@ -1133,7 +1133,7 @@ namespace Sanguosha.UI.Controls
                         if (helper.HasNoConfirmation)
                         {
                             SubmitAnswerCommand.Execute(null);
-                            return;                            
+                            return;
                         }
 
                         // Handle YeYan
@@ -1175,7 +1175,7 @@ namespace Sanguosha.UI.Controls
                             }
                         }
                         else
-                        {                            
+                        {
                             CurrentPrivateDeck = null;
                         }
                     }
@@ -1394,21 +1394,20 @@ namespace Sanguosha.UI.Controls
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                if (!IsPlayable)
-                {
-                    Trace.Assert(currentUsageVerifier == null);
-                    TimeOutSeconds = timeOutSeconds;
-                    CardUsageAnsweredEvent(null, null, null);
-                    return;
-                }
-
+                GameModel.CurrentActivePlayer = this;
                 lock (verifierLock)
                 {
                     TimeOutSeconds = timeOutSeconds;
                     currentUsageVerifier = verifier;
                     Trace.Assert(currentUsageVerifier != null);
-                    Game.CurrentGame.CurrentActingPlayer = HostPlayer;
                     CurrentPrompt = prompt;
+                }
+
+                if (!IsPlayable)
+                {
+                    TimeOutSeconds = timeOutSeconds;
+                    CardUsageAnsweredEvent(null, null, null);
+                    return;
                 }
 
                 foreach (var equipCommand in EquipCommands)
@@ -1592,6 +1591,11 @@ namespace Sanguosha.UI.Controls
             private set;
         }
 
+        public void AnswerWuGuChoice(Card card)
+        {
+            CardChoiceAnsweredEvent(new List<List<Card>>() { new List<Card>() { card } });
+        }
+
         public void AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks,
                                      List<string> resultDeckNames,
                                      List<int> resultDeckMaximums,
@@ -1606,27 +1610,39 @@ namespace Sanguosha.UI.Controls
             {
                 lock (verifierLock)
                 {
+                    GameModel.CurrentActivePlayer = this;
                     if (!IsPlayable)
                     {
                         Trace.Assert(currentUsageVerifier == null);
                         TimeOutSeconds = timeOutSeconds;
                         CardChoiceAnsweredEvent(null);
-                    }
-                    _currentChoiceOptions = options;
-                    _ConstructCardChoiceModel(sourceDecks, resultDeckNames, resultDeckMaximums, options, verifier, timeOutSeconds, callback);
-                    if (!IsPlayable)
-                    {
-                        CardChoiceModel.DisplayOnly = true;
                         prompt.ResourceKey = prompt.ResourceKey + Prompt.NonPlaybleAppendix;
                         prompt.Values.Insert(0, Player);
-                        CurrentCardChoiceRearrangeCallback = null;
+                    }
+                    if (options != null && options.IsWuGu)
+                    {
+                        Trace.Assert(GameModel.WuGuModel != null);
+                        TimeOutSeconds = timeOutSeconds;
+                        GameModel.WuGuModel.IsEnabled = IsPlayable;
+                        GameModel.WuGuModel.Prompt = PromptFormatter.Format(prompt);
                     }
                     else
                     {
-                        CurrentCardChoiceRearrangeCallback = callback;
+                        _currentChoiceOptions = options;
+                        _ConstructCardChoiceModel(sourceDecks, resultDeckNames, resultDeckMaximums, options, verifier, timeOutSeconds, callback);
+                        CardChoiceModel.Prompt = PromptFormatter.Format(prompt);
+                        if (!IsPlayable)
+                        {
+                            CardChoiceModel.DisplayOnly = true;
+                            prompt.Values.Insert(0, Player);
+                            CurrentCardChoiceRearrangeCallback = null;
+                        }
+                        else
+                        {
+                            CurrentCardChoiceRearrangeCallback = callback;
+                        }
+                        IsCardChoiceQuestionShown = true;
                     }
-                    CardChoiceModel.Prompt = PromptFormatter.Format(prompt);
-                    IsCardChoiceQuestionShown = true;
                 }
             });
         }
@@ -1643,6 +1659,11 @@ namespace Sanguosha.UI.Controls
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
+                GameModel.CurrentActivePlayer = this;
+                CurrentPrompt = prompt;
+                CurrentPromptString = PromptFormatter.Format(prompt);
+                _currentMultiChoices = choices;
+
                 if (!IsPlayable)
                 {
                     Trace.Assert(currentUsageVerifier == null);
@@ -1650,10 +1671,6 @@ namespace Sanguosha.UI.Controls
                     MultipleChoiceAnsweredEvent(0);
                     return;
                 }
-
-                CurrentPrompt = prompt;
-                CurrentPromptString = PromptFormatter.Format(prompt);
-                _currentMultiChoices = choices;
 
                 if (prompt.ResourceKey == Prompt.MultipleChoicePromptPrefix + Prompt.SkillUseYewNoPrompt)
                 {
@@ -1807,8 +1824,8 @@ namespace Sanguosha.UI.Controls
             }
             return true;
         }
-        #endregion       
-    
+        #endregion
+
         internal void AnswerEmptyMultichoiceQuestion()
         {
             if (IsPlayable)

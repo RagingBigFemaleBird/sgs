@@ -126,7 +126,6 @@ namespace Sanguosha.Core.Games
             players = new List<Player>();
             cardHandlers = new Dictionary<string, CardHandler>();
             uiProxies = new Dictionary<Player, IUiProxy>();
-            currentActingPlayer = null;
             triggersToRegister = new List<DelayedTriggerRegistration>();
             isDying = new Stack<Player>();
             handCardVisibility = new Dictionary<Player, List<Player>>();
@@ -881,23 +880,6 @@ namespace Sanguosha.Core.Games
             move.To = new DeckPlace(player, DeckType.Hand);
             MoveCards(move);
             PlayerAcquiredCard(player, cardsDrawn);
-        }
-
-        Player currentActingPlayer;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>UI ONLY!</remarks>
-        public Player CurrentActingPlayer
-        {
-            get { return currentActingPlayer; }
-            set
-            {
-                if (currentActingPlayer == value) return;
-                currentActingPlayer = value;
-                OnPropertyChanged("CurrentActingPlayer");
-            }
         }
 
         Player currentPlayer;

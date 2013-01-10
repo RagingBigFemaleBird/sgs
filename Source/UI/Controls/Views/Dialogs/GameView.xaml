@@ -248,12 +248,12 @@
                   Template="{DynamicResource DarkGreenWindowStyle}"
                   HorizontalContentAlignment="Center"
                   CloseButtonVisibility="{Binding CanClose, Converter={StaticResource boolToVisibilityConverter}}"
-                  Caption="{Binding Prompt}"
+                  Caption="{Binding WuGuModel.Prompt}"
                   WindowStartupLocation="Center">
             <xctk:ChildWindow.Effect>
                 <DropShadowEffect BlurRadius="10"/>
             </xctk:ChildWindow.Effect>
-            <local:WuGuBox />
+            <local:WuGuBox x:Name="wuGuBox" DataContext="{Binding WuGuModel.Cards}" IsHitTestVisible="{Binding WuGuModel.IsEnabled}"/>
         </xctk:ChildWindow>
         <Grid>
             <xctk:ChildWindow x:Name="pinDianWindow" 

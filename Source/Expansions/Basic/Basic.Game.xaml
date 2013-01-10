@@ -30,7 +30,8 @@
     <sys:String x:Key="CardUsage.Prompt.GuiCai">{0}判定结果是{1}{2}，请打出一张手牌代替之，或点“取消”不发动鬼才</sys:String>
     <sys:String x:Key="CardChoice.Prompt.ShunShou">顺手牵羊</sys:String>
     <sys:String x:Key="CardChoice.Prompt.GuoHe">过河拆桥</sys:String>
-    <sys:String x:Key="CardChoice.Prompt.WuGuFengDeng">五谷丰登</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.WuGuFengDeng">五谷丰登 请选择一张牌</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.WuGuFengDeng.Others">五谷丰登 请等待{0}选牌</sys:String>
     <sys:String x:Key="CardChoice.Prompt.HanBing">寒冰剑</sys:String>
     <sys:String x:Key="CardChoice.Prompt.GuanXing">观星 请拖动卡牌以调整其在排堆中的位置</sys:String>
     <sys:String x:Key="CardChoice.Prompt.GuanXing.Others">观星 {0}正在排列卡牌</sys:String>

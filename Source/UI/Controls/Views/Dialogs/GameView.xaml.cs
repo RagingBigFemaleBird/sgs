@@ -135,7 +135,7 @@ namespace Sanguosha.UI.Controls
         {
             var player = GameModel.PlayerModels.FirstOrDefault(p => p.Account != null && p.Account.UserName == userName);
             string heroName = string.Empty;
-            if (player.Hero != null) heroName = player.Hero.Name;
+            if (player.Hero != null) heroName = LogFormatter.Translate(player.Hero);
             chatBox.Document.Blocks.Add(LogFormatter.RichTranslateChat(heroName, userName, msg));
             chatBox.ScrollToEnd();
         }
@@ -678,6 +678,20 @@ namespace Sanguosha.UI.Controls
                 bool doHorseSound = false;
                 foreach (CardsMovement move in moves)
                 {
+                    if (move.Helper.IsWuGu)
+                    {
+                        Trace.Assert(GameModel.WuGuModel != null);
+                        Trace.Assert(move.Cards.Count == 1);
+                        Trace.Assert(move.To.Player != null);
+                        Trace.Assert(move.Cards[0].Id != -1);
+
+                        var cardModel = GameModel.WuGuModel.Cards.FirstOrDefault(c => c.Card.Id == move.Cards[0].Id);
+                        Trace.Assert(cardModel != null);
+                        cardModel.IsEnabled = false;
+                        cardModel.Footnote = LogFormatter.Translate(move.To.Player);
+                        cardModel.IsFootnoteVisible = true;
+                    }
+
                     var cardsToAdd = new List<CardView>();
                     var cardsRemoved = new Dictionary<DeckPlace, List<Card>>();
 
@@ -1071,13 +1085,34 @@ namespace Sanguosha.UI.Controls
             });
         }
 
-
         public void NotifyWuGuStart(DeckPlace place)
         {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                GameModel.WuGuModel = new WuGuChoiceViewModel();
+                foreach (var c in Game.CurrentGame.Decks[place])
+                {
+                    var card = new CardViewModel() { Card = c, IsSelectionMode = true, IsEnabled = true };
+                    GameModel.WuGuModel.Cards.Add(card);
+                    card.OnSelectedChanged += new EventHandler(card_OnSelectedChanged);
+                }
+                
+                wuGuWindow.Show();
+            });
+        }
+
+        void card_OnSelectedChanged(object sender, EventArgs e)
+        {
+            GameModel.CurrentActivePlayer.AnswerWuGuChoice((sender as CardViewModel).Card);
         }
 
         public void NotifyWuGuEnd()
         {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                wuGuWindow.Close();
+                GameModel.WuGuModel = null;
+            });
         }
 
 

@@ -69,6 +69,7 @@
     <Compile Include="ViewModels\PrivateDeckViewModel.cs" />
     <Compile Include="ViewModels\RoomViewModel.cs" />
     <Compile Include="ViewModels\SeatViewModel.cs" />
+    <Compile Include="ViewModels\WuGuChoiceViewModel.cs" />
     <Compile Include="Views\BaseControls\BoolToDoubleConverter.cs" />
     <Compile Include="Views\BaseControls\FlowDocumentExtensions.cs" />
     <Compile Include="Views\Buttons\ImageButton.cs" />
