@@ -28,7 +28,7 @@ namespace Sanguosha.Core.UI
         void NotifyShowCard(Player p, Card card);
         void NotifyCardChoiceCallback(CardRearrangement o);
         void NotifyImpersonation(Player p, Hero h, ISkill s);
-        void NotifyWuGuStart(DeckPlace place);
+        void NotifyWuGuStart(Prompt prompt, DeckPlace place);
         void NotifyWuGuEnd();
         void NotifyPinDianStart(Player from, Player to, ISkill skill);
         void NotifyMultipleCardUsageResponded(Player player);
@@ -92,7 +92,7 @@ namespace Sanguosha.Core.UI
         {            
         }
 
-        public void NotifyWuGuStart(DeckPlace place)
+        public void NotifyWuGuStart(Prompt prompt, DeckPlace place)
         {
         }
 

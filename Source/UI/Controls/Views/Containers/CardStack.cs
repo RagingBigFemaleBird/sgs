@@ -206,7 +206,7 @@ namespace Sanguosha.UI.Controls
                         ParentCanvas.Children.Add(card);
                     }
                     card.Position = new Point(newX, topLeft.Y + ActualHeight / 2 - cardHeight / 2);
-                    card.SetValue(Canvas.ZIndexProperty, zindex + i / cards.Count);
+                    card.SetValue(Canvas.ZIndexProperty, zindex + i);
                     card.Rebase();
                     i++;
                 }

@@ -505,6 +505,36 @@
     <Resource Include="Images\Facials\8.gif" />
     <Resource Include="Images\Facials\9.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Club-disabled.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Club-down.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Club-hover.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Club-normal.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Diamond-disabled.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Diamond-down.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Diamond-hover.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Diamond-normal.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Heart-disabled.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Heart-down.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Heart-hover.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Heart-normal.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Qun-down.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Qun-hover.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Qun-normal.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Shu-down.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Shu-hover.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Shu-normal.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Spade-disabled.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Spade-down.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Spade-hover.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Spade-normal.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Wei-down.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Wei-hover.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Wei-normal.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Wu-down.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Wu-hover.png" />
+    <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Wu-normal.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /S /Y $(ProjectDir)*.* $(TargetDir)Resources\

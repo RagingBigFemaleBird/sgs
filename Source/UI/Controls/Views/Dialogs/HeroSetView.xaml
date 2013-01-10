@@ -119,7 +119,7 @@
         								</TransformGroup>
         							</TextBlock.RenderTransform>
         						</TextBlock>
-        						<local:OutlinedTextBlock x:Name="textBlock" Fill="Black" Text="{Binding Mode=OneWay, Converter={StaticResource skillToolTipConverter}, ConverterParameter=Name}" FontFamily="LiSu" Margin="3,-1,-5,0" HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" FontSize="16" RenderTransformOrigin="0.5,0.5" Stroke="White">
+        						<local:OutlinedTextBlock x:Name="textBlock" Fill="Black" Text="{Binding Mode=OneWay, Converter={StaticResource skillToolTipConverter}, ConverterParameter=Name}" FontFamily="pack://application:,,,/Resources;component/Fonts/#STLiTi" Margin="3,-1,-5,0" HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" FontSize="16" RenderTransformOrigin="0.5,0.5" Stroke="White">
         							<local:OutlinedTextBlock.RenderTransform>
         								<TransformGroup>
         									<ScaleTransform/>

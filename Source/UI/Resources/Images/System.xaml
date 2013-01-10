@@ -117,6 +117,35 @@
     <BitmapImage x:Key="Button.MultiChoice.Down.Right">Buttons/multichoice/normal-right.png</BitmapImage>
     <BitmapImage x:Key="Button.MultiChoice.Disabled.Right">Buttons/multichoice/disabled-right.png</BitmapImage>
 
+    <BitmapImage x:Key="Button.MultiChoice.Club.Up">Buttons/multichoice/MultiChoice.Choice.Club-normal.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Club.Down">Buttons/multichoice/MultiChoice.Choice.Club-down.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Club.Hover">Buttons/multichoice/MultiChoice.Choice.Club-hover.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Club.Disabled">Buttons/multichoice/MultiChoice.Choice.Club-disabled.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Heart.Up">Buttons/multichoice/MultiChoice.Choice.Heart-normal.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Heart.Down">Buttons/multichoice/MultiChoice.Choice.Heart-down.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Heart.Hover">Buttons/multichoice/MultiChoice.Choice.Heart-hover.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Heart.Disabled">Buttons/multichoice/MultiChoice.Choice.Heart-disabled.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Diamond.Up">Buttons/multichoice/MultiChoice.Choice.Diamond-normal.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Diamond.Down">Buttons/multichoice/MultiChoice.Choice.Diamond-down.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Diamond.Hover">Buttons/multichoice/MultiChoice.Choice.Diamond-hover.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Diamond.Disabled">Buttons/multichoice/MultiChoice.Choice.Diamond-disabled.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Spade.Up">Buttons/multichoice/MultiChoice.Choice.Spade-normal.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Spade.Down">Buttons/multichoice/MultiChoice.Choice.Spade-down.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Spade.Hover">Buttons/multichoice/MultiChoice.Choice.Spade-hover.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Spade.Disabled">Buttons/multichoice/MultiChoice.Choice.Spade-disabled.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Shu.Up">Buttons/multichoice/MultiChoice.Choice.Shu-normal.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Shu.Down">Buttons/multichoice/MultiChoice.Choice.Shu-down.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Shu.Hover">Buttons/multichoice/MultiChoice.Choice.Shu-hover.png</BitmapImage>    
+    <BitmapImage x:Key="Button.MultiChoice.Wei.Up">Buttons/multichoice/MultiChoice.Choice.Wei-normal.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Wei.Down">Buttons/multichoice/MultiChoice.Choice.Wei-down.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Wei.Hover">Buttons/multichoice/MultiChoice.Choice.Wei-hover.png</BitmapImage>    
+    <BitmapImage x:Key="Button.MultiChoice.Wu.Up">Buttons/multichoice/MultiChoice.Choice.Wu-normal.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Wu.Down">Buttons/multichoice/MultiChoice.Choice.Wu-down.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Wu.Hover">Buttons/multichoice/MultiChoice.Choice.Wu-hover.png</BitmapImage>    
+    <BitmapImage x:Key="Button.MultiChoice.Qun.Up">Buttons/multichoice/MultiChoice.Choice.Qun-normal.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Qun.Down">Buttons/multichoice/MultiChoice.Choice.Qun-down.png</BitmapImage>
+    <BitmapImage x:Key="Button.MultiChoice.Qun.Hover">Buttons/multichoice/MultiChoice.Choice.Qun-hover.png</BitmapImage>    
+    
     <BitmapImage x:Key="Login.Background">System/loginBg.jpg</BitmapImage>
     <BitmapImage x:Key="Login.Button.Start.Up">Buttons/start/normal.png</BitmapImage>
     <BitmapImage x:Key="Login.Button.Start.Hover">Buttons/start/hover.png</BitmapImage>

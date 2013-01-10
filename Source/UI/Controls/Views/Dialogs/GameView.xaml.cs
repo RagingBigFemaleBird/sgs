@@ -133,9 +133,9 @@ namespace Sanguosha.UI.Controls
 
         void LobbyModel_OnChat(string userName, string msg)
         {
-            var player = GameModel.PlayerModels.FirstOrDefault(p => p.Account != null && p.Account.UserName == userName);
+            var player = GameModel.PlayerModels.FirstOrDefault(p => p.Account != null && p.Account.UserName == userName);            
             string heroName = string.Empty;
-            if (player.Hero != null) heroName = LogFormatter.Translate(player.Hero);
+            if (player != null && player.Hero != null) heroName = LogFormatter.Translate(player.Hero);
             chatBox.Document.Blocks.Add(LogFormatter.RichTranslateChat(heroName, userName, msg));
             chatBox.ScrollToEnd();
         }
@@ -1085,16 +1085,24 @@ namespace Sanguosha.UI.Controls
             });
         }
 
-        public void NotifyWuGuStart(DeckPlace place)
+        public void NotifyWuGuStart(Prompt prompt, DeckPlace place)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 GameModel.WuGuModel = new WuGuChoiceViewModel();
+                GameModel.WuGuModel.Prompt = PromptFormatter.Format(prompt);
+                bool isFirstRow = true;
+                int i = 0;
+                int total = Game.CurrentGame.Decks[place].Count;
+                
                 foreach (var c in Game.CurrentGame.Decks[place])
                 {
+                    if (isFirstRow && total > 4 && i >= total / 2) isFirstRow = false;
                     var card = new CardViewModel() { Card = c, IsSelectionMode = true, IsEnabled = true };
-                    GameModel.WuGuModel.Cards.Add(card);
+                    if (isFirstRow) GameModel.WuGuModel.Cards1.Add(card);
+                    else GameModel.WuGuModel.Cards2.Add(card);
                     card.OnSelectedChanged += new EventHandler(card_OnSelectedChanged);
+                    i++;
                 }
                 
                 wuGuWindow.Show();

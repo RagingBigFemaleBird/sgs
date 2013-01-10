@@ -109,7 +109,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 Game.CurrentGame.Decks[null, wuguFakeDeck].Add(faked);
                 fakeMapping.Add(faked, c);
             }
-            Game.CurrentGame.NotificationProxy.NotifyWuGuStart(new DeckPlace(null, wuguFakeDeck));
+            Game.CurrentGame.NotificationProxy.NotifyWuGuStart(new CardChoicePrompt("WuGuFengDeng.Init"), new DeckPlace(null, wuguFakeDeck));
             base.Process(handlerArgs);
             Game.CurrentGame.NotificationProxy.NotifyWuGuEnd();
             Game.CurrentGame.Decks[null, wuguFakeDeck].Clear();

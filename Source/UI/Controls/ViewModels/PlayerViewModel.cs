@@ -1594,7 +1594,9 @@ namespace Sanguosha.UI.Controls
         public void AnswerWuGuChoice(Card card)
         {
             if (GameModel.WuGuModel.IsEnabled)
+            {
                 CardChoiceAnsweredEvent(new List<List<Card>>() { new List<Card>() { card } });
+            }
             GameModel.WuGuModel.IsEnabled = false;
         }
 

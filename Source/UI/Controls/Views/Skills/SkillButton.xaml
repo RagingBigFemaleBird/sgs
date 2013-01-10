@@ -208,7 +208,7 @@
                             </Viewbox.RenderTransform>
                             <StackPanel Orientation="Horizontal" Height="64">			
                                 <Image Height="48" Source="../Resources/SkillButton/lock/locked.png" Stretch="Fill" />
-                                <local:OutlinedTextBlock Height="64" FontSize="55" Text="锁定发动" VerticalAlignment="Center" FontFamily="LiSu" Stroke="Transparent" Fill="#FFFD9700" />
+                                <local:OutlinedTextBlock Height="64" FontSize="55" Text="锁定发动" VerticalAlignment="Center" FontFamily="pack://application:,,,/Resources;component/Fonts/#STLiTi" Stroke="Transparent" Fill="#FFFD9700" />
                             </StackPanel>		
                         </Viewbox>
                         <Viewbox x:Name="viewboxUnlock" Opacity="0" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
@@ -222,7 +222,7 @@
                             </Viewbox.RenderTransform>
                             <StackPanel Orientation="Horizontal" Height="64">			
                                 <Image Height="48" Source="../Resources/SkillButton/lock/unlocked.png" Stretch="Fill" />
-                                <local:OutlinedTextBlock Height="64" FontSize="55" Text="解除锁定" VerticalAlignment="Center" FontFamily="LiSu" Stroke="Transparent" Fill="#FFFD9700" />
+                                <local:OutlinedTextBlock Height="64" FontSize="55" Text="解除锁定" VerticalAlignment="Center" FontFamily="pack://application:,,,/Resources;component/Fonts/#STLiTi" Stroke="Transparent" Fill="#FFFD9700" />
                             </StackPanel>		
                         </Viewbox>
                     </Grid>

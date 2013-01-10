@@ -162,19 +162,19 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <Grid x:Name="gridNormalAppearance">
-                            <Image Stretch="None" Source="{res:ImageBinding Path=ChoiceKey.ResourceKey, StringFormat=Resources/Images/Buttons/multichoice/\{0\}-normal.png}"/>
+                            <Image Stretch="None" Source="{res:ImageBinding Path=ChoiceKey.ResourceKey, ResourceKeyFormat=Button.MultiChoice.{0}.Up, StringFormat=Resources/Images/Buttons/multichoice/\{0\}-normal.png}"/>
                         </Grid>
 
                         <Grid x:Name="gridHoverAppearance" Visibility="Hidden">
-                            <Image Stretch="None" Source="{res:ImageBinding Path=ChoiceKey.ResourceKey, StringFormat=Resources/Images/Buttons/multichoice/\{0\}-hover.png}"/>
+                            <Image Stretch="None" Source="{res:ImageBinding Path=ChoiceKey.ResourceKey, ResourceKeyFormat=Button.MultiChoice.{0}.Hover, StringFormat=Resources/Images/Buttons/multichoice/\{0\}-hover.png}"/>
                         </Grid>
 
                         <Grid x:Name="gridDownAppearance" Visibility="Hidden">
-                            <Image Stretch="None" Source="{res:ImageBinding Path=ChoiceKey.ResourceKey, StringFormat=Resources/Images/Buttons/multichoice/\{0\}-down.png}"/>
+                            <Image Stretch="None" Source="{res:ImageBinding Path=ChoiceKey.ResourceKey, ResourceKeyFormat=Button.MultiChoice.{0}.Down, StringFormat=Resources/Images/Buttons/multichoice/\{0\}-down.png}"/>
                         </Grid>
 
                         <Grid x:Name="gridDisabledAppearance" Visibility="Hidden">
-                            <Image Stretch="None" Source="{res:ImageBinding Path=ChoiceKey.ResourceKey, StringFormat=Resources/Images/Buttons/multichoice/\{0\}-disabled.png}"/>
+                            <Image Stretch="None" Source="{res:ImageBinding Path=ChoiceKey.ResourceKey, ResourceKeyFormat=Button.MultiChoice.{0}.Disabled, StringFormat=Resources/Images/Buttons/multichoice/\{0\}-disabled.png}"/>
                         </Grid>
                     </Grid>
 

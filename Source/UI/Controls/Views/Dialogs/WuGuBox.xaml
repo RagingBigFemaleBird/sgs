@@ -8,10 +8,10 @@
              xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ItemsControl ItemsSource="{Binding}">
+        <ItemsControl ItemsSource="{Binding Cards1}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Rows="2" />
+                    <StackPanel Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
@@ -19,6 +19,18 @@
                     <local:CardView Margin="3,10" OffsetOnSelect="false" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-        </ItemsControl>  
+        </ItemsControl>
+        <ItemsControl ItemsSource="{Binding Cards2}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <local:CardView Margin="3,10" OffsetOnSelect="false" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>

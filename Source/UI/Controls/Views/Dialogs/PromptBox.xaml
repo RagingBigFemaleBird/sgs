@@ -113,7 +113,7 @@
                                 <Grid.Background>
                                     <ImageBrush ImageSource="../Resources/CardSelectionBox/promptMiddle.png"/>
                                 </Grid.Background>
-                                <local:OutlinedTextBlock x:Name="txtPrompt" Text="{TemplateBinding Caption}" FontFamily="LiSu" Fill="#FFE4D5A0" VerticalAlignment="Center" FontSize="18"/>
+                                <local:OutlinedTextBlock x:Name="txtPrompt" Text="{TemplateBinding Caption}" FontFamily="pack://application:,,,/Resources;component/Fonts/#STLiTi" Fill="#FFE4D5A0" VerticalAlignment="Center" FontSize="18"/>
                             </Grid>
                             <Image HorizontalAlignment="Left" Grid.Column="2" Source="../Resources/CardSelectionBox/promptRight.png" Stretch="Fill" VerticalAlignment="Top"/>
                         </Grid>
@@ -200,7 +200,7 @@
                         <Grid.Background>
                         <ImageBrush ImageSource="../Resources/CardSelectionBox/promptMiddle.png"/>
                         </Grid.Background>
-                        <local:OutlinedTextBlock x:Name="txtPrompt" Text="{Binding Path=Prompt}" FontFamily="LiSu" Fill="#FFE4D5A0" VerticalAlignment="Center" FontSize="18"/>
+                        <local:OutlinedTextBlock x:Name="txtPrompt" Text="{Binding Path=Prompt}" FontFamily="pack://application:,,,/Resources;component/Fonts/#STLiTi" Fill="#FFE4D5A0" VerticalAlignment="Center" FontSize="18"/>
                     </Grid>
                 <Image HorizontalAlignment="Left" Grid.Column="2" Source="../Resources/CardSelectionBox/promptRight.png" Stretch="Fill" VerticalAlignment="Top"/>
                 </Grid>
