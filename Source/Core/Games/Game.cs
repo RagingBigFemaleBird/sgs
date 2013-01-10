@@ -418,8 +418,7 @@ namespace Sanguosha.Core.Games
 
             InitTriggers();
             try
-            {
-                NotificationProxy.NotifyGameStart();
+            {                
                 Emit(GameEvent.GameStart, new GameEventArgs());
             }
             catch (GameOverException)
@@ -1031,7 +1030,6 @@ namespace Sanguosha.Core.Games
 
         public virtual void SortByOrderOfComputation(Player withRespectTo, List<Player> players)
         {
-            Trace.Assert(withRespectTo != null);
             if (withRespectTo == null) return;
             players.Sort((a, b) =>
                 {

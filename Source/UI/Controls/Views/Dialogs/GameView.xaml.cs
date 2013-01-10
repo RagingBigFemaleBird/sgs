@@ -806,10 +806,6 @@ namespace Sanguosha.UI.Controls
                         }
                     }
                     string soundKey = log.SkillAction.GetType().Name;
-                    if (log.SkillAction is IEquipmentSkill)
-                    {
-                        soundKey = "Equip." + soundKey;
-                    }
                     Uri uri = GameSoundLocator.GetSkillSound(soundKey, log.SpecialEffectHint);
                     GameSoundPlayer.PlaySoundEffect(uri);
                 }
@@ -847,7 +843,7 @@ namespace Sanguosha.UI.Controls
                     if (card != null)
                     {
                         bool play = true;
-                        if (card.Log != null && card.Log.SkillAction != null)
+                        if (card.Log != null && card.Log.SkillAction is IEquipmentSkill)
                         {
                             Uri uri = GameSoundLocator.GetSkillSound(card.Log.SkillAction.GetType().Name);
                             if (uri != null) play = false;
@@ -911,6 +907,8 @@ namespace Sanguosha.UI.Controls
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
+                var uri = GameSoundLocator.GetDeathSound(p.Hero.Name);
+                GameSoundPlayer.PlaySoundEffect(uri);
                 gameLogs.AppendDeathLog(p, by);
             });
         }
@@ -956,7 +954,8 @@ namespace Sanguosha.UI.Controls
                 if (p == null)
                 {
                     var cardView = CardView.CreateCard(card);
-                    cardView.CardModel.Footnote = LogFormatter.TranslateCardFootnote(new ActionLog() { Source = p, GameAction = GameAction.Show });
+                    GlobalCanvas.Children.Add(cardView);
+                    cardView.CardModel.Footnote = LogFormatter.TranslateCardFootnote(card.Log);
                     discardDeck.AppendCards(new List<CardView>() { cardView });
                     return;
                 }
@@ -1004,7 +1003,7 @@ namespace Sanguosha.UI.Controls
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                GameSoundPlayer.PlayBackgroundMusic(GameSoundLocator.GetBgm());
+                GameSoundPlayer.PlaySoundEffect(GameSoundLocator.GetSystemSound("GameStart"));
             });
         }
 
@@ -1074,6 +1073,7 @@ namespace Sanguosha.UI.Controls
             {
                 Uri uri = GameSoundLocator.GetSystemSound("GameOver");
                 GameSoundPlayer.PlaySoundEffect(uri);
+                GameSoundPlayer.PlayBackgroundMusic(null);
                 List<Player> drawers;
                 List<Player> losers;
                 if (isDraw)
@@ -1146,6 +1146,10 @@ namespace Sanguosha.UI.Controls
             deckDisplayWindow.Show();
         }
         #endregion
-        
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            GameSoundPlayer.PlayBackgroundMusic(GameSoundLocator.GetBgm());
+        }        
     }
 }

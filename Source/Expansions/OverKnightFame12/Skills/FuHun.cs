@@ -50,7 +50,10 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             {
                 Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.PeekCard(0));
                 Card c = Game.CurrentGame.DrawCard();
+                c.Log.SkillAction = this;
+                c.Log.Source = owner;
                 move.Cards.Add(c);
+                Game.CurrentGame.NotificationProxy.NotifyShowCard(null, c);
             }
             move.To = new DeckPlace(null, FuHunDeck);
             var result = from c in move.Cards select c.SuitColor;

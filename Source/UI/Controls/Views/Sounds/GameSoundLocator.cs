@@ -55,6 +55,7 @@ namespace Sanguosha.UI.Controls
             _initialized = true;
             _ParseDirectory("BGM", "./Resources/Sounds/BGM");
             _ParseDirectory("System", "./Resources/Sounds/System");
+            _ParseDirectory("Death", "./Resources/Sounds/Death");
             _ParseDirectory("Cards.Male", "./Resources/Sounds/Cards/Male");
             _ParseDirectory("Cards.Female", "./Resources/Sounds/Cards/Female");
             _ParseDirectory("Cards.Common", "./Resources/Sounds/Cards/Common");
@@ -79,6 +80,11 @@ namespace Sanguosha.UI.Controls
         public static Uri GetSystemSound(string key)
         {
             return GetUriFromKey(string.Format("System.{0}", key));
+        }
+
+        public static Uri GetDeathSound(string key)
+        {
+            return GetUriFromKey(string.Format("Death.{0}", key));
         }
 
         public static Uri GetBgm()

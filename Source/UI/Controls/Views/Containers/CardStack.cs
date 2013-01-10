@@ -237,7 +237,7 @@ namespace Sanguosha.UI.Controls
             AddCards(cardViews);
         }
 
-        public void AppendCards(IList<CardView> cards)
+        public virtual void AppendCards(IList<CardView> cards)
         {
             if (cards.Count == 0) return;
             Canvas canvas = cards[0].Parent as Canvas;
@@ -267,7 +267,7 @@ namespace Sanguosha.UI.Controls
 
         private static double _cardOpacityChangeAnimationDurationSeconds = 0.5d;
 
-        public void AddCards(IList<CardView> cards)
+        public virtual void AddCards(IList<CardView> cards)
         {
             lock (_cards)
             {

@@ -76,9 +76,13 @@ namespace Sanguosha.UI.Controls
         private static Uri currentBgm;
         
         public static void PlayBackgroundMusic(Uri uri)
-        {
-            if (uri == null) return;
+        {            
             if (_bgmPlayer == null) _bgmPlayer = new MediaPlayer();
+            if (uri == null)
+            {
+                _bgmPlayer.Stop();
+                return;
+            }
             currentBgm = uri;
             _bgmPlayer.Open(uri);
             if (!_isMute) _bgmPlayer.Play();

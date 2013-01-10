@@ -51,21 +51,20 @@ namespace Sanguosha.UI.Controls
                 dest = "对" + Translate(log.Targets[0]);
             }
             string skill = Translate(log.SkillAction);
-            string formatter = source;
             switch(log.GameAction)
             {
                 case GameAction.None:
-                    return formatter;
+                    return string.Concat(source, skill);
                 case GameAction.Use:
-                    return string.Format("{0}{1}{2}", source, dest, skill);
+                    return string.Concat(source, dest, skill);
                 case GameAction.Play:
-                    return string.Format("{0}{2}{1}打出", source, dest, skill);
+                    return string.Concat(source, skill, dest, "打出");
                 case GameAction.PlaceIntoDiscard:
-                    return string.Format("{0}{1}置入弃牌堆", source, skill);
+                    return string.Concat(source, skill, "置入弃牌堆");
                 case GameAction.Discard:
-                    return string.Format("{0}{1}弃置", source, skill);
+                    return string.Concat(source, skill, "弃置");
                 case GameAction.Show:
-                    return string.Format("{0}展示", source);
+                    return string.Concat(source, "展示");
             }
             return string.Empty;
         }

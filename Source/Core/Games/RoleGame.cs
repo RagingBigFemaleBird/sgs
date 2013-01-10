@@ -742,7 +742,9 @@ namespace Sanguosha.Core.Games
 
                 Player current = game.CurrentPlayer = game.Players[rulerId];
 
-                StartGameDeal(game);
+                Game.CurrentGame.NotificationProxy.NotifyGameStart();
+
+                StartGameDeal(game);                
                 
                 foreach (var act in game.AlivePlayers)
                 {

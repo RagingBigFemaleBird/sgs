@@ -89,7 +89,33 @@ namespace Sanguosha.UI.Controls
                 MarkClearance(card);
             }
         }
-        
+
+        public override void AppendCards(IList<CardView> cards)
+        {
+            foreach (var card in cards)
+            {
+                card.CardModel.IsFootnoteVisible = true;
+            }
+            base.AppendCards(cards);
+            foreach (var card in cards)
+            {
+                card.DiscardDeckClearTimeStamp = int.MaxValue;
+            }
+        }
+
+        public override void AddCards(IList<CardView> cards)
+        {
+            foreach (var card in cards)
+            {
+                card.CardModel.IsFootnoteVisible = true;
+            }
+            base.AddCards(cards);
+            foreach (var card in cards)
+            {
+                card.DiscardDeckClearTimeStamp = int.MaxValue;
+            }
+        }
+
         public void AddCards(DeckType deck, IList<CardView> cards, bool isFaked)
         {
             AddCards(deck, cards, isFaked, true);
@@ -115,13 +141,13 @@ namespace Sanguosha.UI.Controls
             Canvas canvas = cards[0].Parent as Canvas;
             Trace.Assert(canvas != null);
 
-            foreach (var card in cards)
+
+            if (updateFootnote)
             {
-                if (updateFootnote)
+                foreach (var card in cards)
                 {
                     card.CardModel.UpdateFootnote();
                 }
-                card.CardModel.IsFootnoteVisible = true;
             }
 
             // Do not show cards that move from compute area to discard area
@@ -129,6 +155,7 @@ namespace Sanguosha.UI.Controls
             if (from != DeckType.Compute && from != DeckType.JudgeResult && from != DeckType.Dealing)
             {
                 AddCards(cards);
+                // Card just entered compute area should hold until they enter discard area.
             }
             else if (from == DeckType.Dealing && deck == DeckType.JudgeResult)
             {
@@ -141,12 +168,6 @@ namespace Sanguosha.UI.Controls
                 {                    
                     canvas.Children.Remove(card);             
                 }
-            }
-
-            // Card just entered compute area should hold until they enter discard area.
-            foreach (var card in cards)
-            {
-                card.DiscardDeckClearTimeStamp = int.MaxValue;
             }            
             
             // When a card enters discard area, every thing in the deck should fade out (but
