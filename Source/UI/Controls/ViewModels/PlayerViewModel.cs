@@ -1808,5 +1808,13 @@ namespace Sanguosha.UI.Controls
             return true;
         }
         #endregion       
+    
+        internal void AnswerEmptyMultichoiceQuestion()
+        {
+            if (IsPlayable)
+            {
+                ExecuteMultiChoiceCommand(0);
+            }
+        }
     }
 }

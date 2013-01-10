@@ -35,6 +35,8 @@
     <system:String x:Key="CardChoice.Prompt.RulerHeroChoice">您的身份是主公，请选择一名武将</system:String>
     <system:String x:Key="CardChoice.Prompt.RulerHeroChoice.Others">请等待主公选择武将</system:String>
     <system:String x:Key="CardChoice.Prompt.HeroChoice">请选择一名武将</system:String>
+    <system:String x:Key="CardChoice.Prompt.ShowCards">{0}的手牌 观看完请关闭窗口</system:String>
+    <system:String x:Key="MultiChoice.Prompt.ShowCards">观看完{0}展示的手牌后，请关闭窗口或点确定</system:String>
     <system:String x:Key="MultiChoice.Prompt.SkillYesNo">是否发动{0}?</system:String>
     <system:String x:Key="Translation.Usage">操作步骤</system:String>
     <system:String x:Key="CardUsage.Prompt.PinDian">请选择一张拼点牌</system:String>

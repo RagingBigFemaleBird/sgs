@@ -51,7 +51,7 @@ namespace Sanguosha.Core.UI
             inactiveProxies = inactive;
         }
 
-        public void AskForMultipleMCQ(Prompt prompt, List<OptionPrompt> questions, List<Player> players, out Dictionary<Player, int> aanswer)
+        public void AskForMultipleChoice(Prompt prompt, List<OptionPrompt> questions, List<Player> players, out Dictionary<Player, int> aanswer)
         {
             this.prompt = prompt;
             this.questions = questions;

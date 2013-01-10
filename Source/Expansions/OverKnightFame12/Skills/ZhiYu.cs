@@ -28,12 +28,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             var result = from card in owner.HandCards() select card.SuitColor;
             if (result.Distinct().Count() == 1)
             {
-                Game.CurrentGame.ForcePlayerDiscard(eventArgs.Source,
-                                                    (p, i) =>
-                                                    {
-                                                        return 1 - i;
-                                                    },
-                                                    false);
+                Game.CurrentGame.ForcePlayerDiscard(eventArgs.Source, (p, i) => { return 1 - i; }, false);
             }
         }
 

@@ -312,7 +312,6 @@ namespace Sanguosha.UI.Controls
             {
                 gridRoot.Children.Remove(_privateDeckChoiceWindow);
                 _privateDeckChoiceWindow = null;
-
             }
         }
 
@@ -872,12 +871,53 @@ namespace Sanguosha.UI.Controls
         {
         }
 
+        private ChildWindow _showHandCardsWindow;
+
         public void NotifyShowCardsStart(Player p, List<Card> cards)
         {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                if (_showHandCardsWindow != null)
+                {
+                    gridRoot.Children.Remove(_showHandCardsWindow);
+                }
+
+                _showHandCardsWindow = new ChildWindow();
+                _showHandCardsWindow.Template = Resources["DarkGreenWindowStyle"] as ControlTemplate;
+                _showHandCardsWindow.MaxWidth = 800;
+                _showHandCardsWindow.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
+                _showHandCardsWindow.CloseButtonVisibility = Visibility.Visible;
+                _showHandCardsWindow.Effect = new DropShadowEffect() { BlurRadius = 10d };
+                _showHandCardsWindow.WindowStartupLocation = Xceed.Wpf.Toolkit.WindowStartupLocation.Center;
+                string title = PromptFormatter.Format(new CardChoicePrompt("ShowCards", p));
+                _showHandCardsWindow.Caption = title;
+
+                var viewModels = from c in cards select new CardViewModel() { Card = c };
+
+                var box = new PrivateDeckBox();
+                box.IsHitTestVisible = false;
+                box.Margin = new Thickness(0, -20, 0, 0);
+                box.DataContext = new ObservableCollection<CardViewModel>(viewModels);
+                _showHandCardsWindow.Content = box;
+
+                gridRoot.Children.Add(_showHandCardsWindow);
+                _showHandCardsWindow.Show();
+
+                _showHandCardsWindow.Closed += (o, e) =>
+                {
+                    GameModel.MainPlayerModel.AnswerEmptyMultichoiceQuestion();
+                };
+            });
         }
 
         public void NotifyShowCardsEnd()
         {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                if (_showHandCardsWindow == null) return;
+                gridRoot.Children.Remove(_showHandCardsWindow);
+                _showHandCardsWindow = null;
+            });
         }
 
         private void _AppendKeyEventLog(Paragraph log)

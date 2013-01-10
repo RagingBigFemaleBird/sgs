@@ -58,12 +58,12 @@ namespace Sanguosha.Core.Games
 
             try
             {
-                Game.CurrentGame.Emit(GameEvent.DamageSourceConfirmed, damageArgs);
-                Game.CurrentGame.Emit(GameEvent.DamageElementConfirmed, damageArgs);
-                Game.CurrentGame.Emit(GameEvent.BeforeDamageComputing, damageArgs);
-                Game.CurrentGame.Emit(GameEvent.DamageComputingStarted, damageArgs);
-                Game.CurrentGame.Emit(GameEvent.DamageCaused, damageArgs);
-                Game.CurrentGame.Emit(GameEvent.DamageInflicted, damageArgs);
+                Emit(GameEvent.DamageSourceConfirmed, damageArgs);
+                Emit(GameEvent.DamageElementConfirmed, damageArgs);
+                Emit(GameEvent.BeforeDamageComputing, damageArgs);
+                Emit(GameEvent.DamageComputingStarted, damageArgs);
+                Emit(GameEvent.DamageCaused, damageArgs);
+                Emit(GameEvent.DamageInflicted, damageArgs);
                 if (damageArgs.Magnitude == 0)
                 {
                     Trace.TraceInformation("Damage is 0, aborting");
@@ -77,7 +77,7 @@ namespace Sanguosha.Core.Games
                     damageArgs.Targets[0].IsIronShackled = false;
                 }
                 healthChangedArgs = new HealthChangedEventArgs(damageArgs);
-                Game.CurrentGame.Emit(GameEvent.BeforeHealthChanged, healthChangedArgs);
+                Emit(GameEvent.BeforeHealthChanged, healthChangedArgs);
                 damageArgs.Magnitude = -healthChangedArgs.Delta;
             }
             catch (TriggerResultException e)
@@ -86,7 +86,7 @@ namespace Sanguosha.Core.Games
                 {
                     //伤害结算完毕事件应该总是被触发
                     //受到伤害的角色如果存活能发动的技能/会执行的技能效果：【酒诗②】、执行【天香】摸牌的效果。
-                    Game.CurrentGame.Emit(GameEvent.DamageComputingFinished, damageArgs);
+                    Emit(GameEvent.DamageComputingFinished, damageArgs);
                     Trace.TraceInformation("Damage Aborted");
                     return;
                 }
@@ -101,18 +101,18 @@ namespace Sanguosha.Core.Games
 
             try
             {
-                Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, healthChangedArgs);
+                Emit(GameEvent.AfterHealthChanged, healthChangedArgs);
             }
             catch (TriggerResultException)
             {
             }
-            Game.CurrentGame.Emit(GameEvent.AfterDamageCaused, damageArgs);
-            Game.CurrentGame.Emit(GameEvent.AfterDamageInflicted, damageArgs);
-            Game.CurrentGame.Emit(GameEvent.DamageComputingFinished, damageArgs);
+            Emit(GameEvent.AfterDamageCaused, damageArgs);
+            Emit(GameEvent.AfterDamageInflicted, damageArgs);
+            Emit(GameEvent.DamageComputingFinished, damageArgs);
             if (ironShackledDamage != 0)
             {
-                List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
-                Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, toProcess);
+                List<Player> toProcess = new List<Player>(AlivePlayers);
+                SortByOrderOfComputation(CurrentPlayer, toProcess);
                 foreach (Player p in toProcess)
                 {
                     if (p.IsIronShackled)
@@ -133,7 +133,7 @@ namespace Sanguosha.Core.Games
             p.AcquireAdditionalSkill(skill, undeletable);
             GameEventArgs args = new GameEventArgs();
             args.Source = p;
-            Game.CurrentGame.Emit(GameEvent.PlayerSkillSetChanged, args);
+            Emit(GameEvent.PlayerSkillSetChanged, args);
             _ResetCards(p);
         }
 
@@ -142,7 +142,7 @@ namespace Sanguosha.Core.Games
             p.LoseAdditionalSkill(skill, undeletable);
             GameEventArgs args = new GameEventArgs();
             args.Source = p;
-            Game.CurrentGame.Emit(GameEvent.PlayerSkillSetChanged, args);
+            Emit(GameEvent.PlayerSkillSetChanged, args);
             _ResetCards(p);
         }
 
@@ -151,7 +151,7 @@ namespace Sanguosha.Core.Games
             if (p.Allegiance == Heroes.Allegiance.God)
             {
                 int answer = 0;
-                Game.CurrentGame.UiProxies[p].AskForMultipleChoice(new MultipleChoicePrompt("ChooseAllegiance"), Prompt.AllegianceChoices, out answer);
+                UiProxies[p].AskForMultipleChoice(new MultipleChoicePrompt("ChooseAllegiance"), Prompt.AllegianceChoices, out answer);
                 if (answer == 0) p.Allegiance = Heroes.Allegiance.Qun;
                 if (answer == 1) p.Allegiance = Heroes.Allegiance.Shu;
                 if (answer == 2) p.Allegiance = Heroes.Allegiance.Wei;
@@ -170,7 +170,7 @@ namespace Sanguosha.Core.Games
             Card c;
             int initCount = decks[player, DeckType.JudgeResult].Count;
             SyncImmutableCardAll(PeekCard(0));
-            c = Game.CurrentGame.DrawCard();
+            c = DrawCard();
             move = new CardsMovement();
             move.Cards = new List<Card>();
             move.Cards.Add(c);
@@ -178,17 +178,17 @@ namespace Sanguosha.Core.Games
             MoveCards(move);
             GameEventArgs args = new GameEventArgs();
             args.Source = player;
-            if (Game.CurrentGame.triggers.ContainsKey(GameEvent.PlayerJudgeBegin) && Game.CurrentGame.triggers[GameEvent.PlayerJudgeBegin].Count > 0)
+            if (triggers.ContainsKey(GameEvent.PlayerJudgeBegin) && triggers[GameEvent.PlayerJudgeBegin].Count > 0)
             {
                 NotifyIntermediateJudgeResults(player, log, del);
             }
-            Game.CurrentGame.Emit(GameEvent.PlayerJudgeBegin, args);
-            c = Game.CurrentGame.Decks[player, DeckType.JudgeResult].Last();
+            Emit(GameEvent.PlayerJudgeBegin, args);
+            c = Decks[player, DeckType.JudgeResult].Last();
             args.ReadonlyCard = new ReadOnlyCard(c);
             args.Cards = new List<Card>() { c };
             args.Skill = skill;
             args.Card = handler;
-            Game.CurrentGame.Emit(GameEvent.PlayerJudgeDone, args);
+            Emit(GameEvent.PlayerJudgeDone, args);
             Trace.Assert(args.Source == player);
             Trace.Assert(args.ReadonlyCard is ReadOnlyCard);
 
@@ -208,7 +208,7 @@ namespace Sanguosha.Core.Games
             uiCard.Log.CardAction = handler;
             uiCard.Log.SkillAction = skill;
             uiCard.Log.GameAction = GameAction.Judge;
-            Game.CurrentGame.NotificationProxy.NotifyJudge(player, uiCard, log, succeed);
+            NotificationProxy.NotifyJudge(player, uiCard, log, succeed);
 
             if (decks[player, DeckType.JudgeResult].Count > initCount)
             {
@@ -236,7 +236,7 @@ namespace Sanguosha.Core.Games
             var args = new HealthChangedEventArgs() { Source = source, Delta = magnitude };
             args.Targets.Add(target);
 
-            Game.CurrentGame.Emit(GameEvent.BeforeHealthChanged, args);
+            Emit(GameEvent.BeforeHealthChanged, args);
 
             Trace.Assert(args.Targets.Count == 1);
             if (args.Targets[0].Health + args.Delta > args.Targets[0].MaxHealth)
@@ -249,11 +249,11 @@ namespace Sanguosha.Core.Games
             }
 
             Trace.TraceInformation("Player {0} gain {1} hp, @ {2} hp", args.Targets[0].Id, args.Delta, args.Targets[0].Health);
-            Game.CurrentGame.NotificationProxy.NotifyRecoverHealth(args.Targets[0], args.Delta);
+            NotificationProxy.NotifyRecoverHealth(args.Targets[0], args.Delta);
 
             try
             {
-                Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, args);
+                Emit(GameEvent.AfterHealthChanged, args);
             }
             catch (TriggerResultException)
             {
@@ -265,16 +265,16 @@ namespace Sanguosha.Core.Games
             var args = new HealthChangedEventArgs() { Source = source, Delta = -magnitude };
             args.Targets.Add(source);
 
-            Game.CurrentGame.Emit(GameEvent.BeforeHealthChanged, args);
+            Emit(GameEvent.BeforeHealthChanged, args);
 
             Trace.Assert(args.Targets.Count == 1);
             args.Targets[0].Health += args.Delta;
             Trace.TraceInformation("Player {0} lose {1} hp, @ {2} hp", args.Targets[0].Id, -args.Delta, args.Targets[0].Health);
-            Game.CurrentGame.NotificationProxy.NotifyLoseHealth(args.Targets[0], -args.Delta);
+            NotificationProxy.NotifyLoseHealth(args.Targets[0], -args.Delta);
 
             try
             {
-                Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, args);
+                Emit(GameEvent.AfterHealthChanged, args);
             }
             catch (TriggerResultException)
             {
@@ -287,7 +287,7 @@ namespace Sanguosha.Core.Games
             int result = source.MaxHealth - magnitude;
             if (source.Health > result) source.Health = result;
             source.MaxHealth = result;
-            if (source.MaxHealth <= 0) Game.CurrentGame.Emit(GameEvent.GameProcessPlayerIsDead, new GameEventArgs() { Source = null, Targets = new List<Player>() { source } });
+            if (source.MaxHealth <= 0) Emit(GameEvent.GameProcessPlayerIsDead, new GameEventArgs() { Source = null, Targets = new List<Player>() { source } });
         }
 
         /// <summary>
@@ -510,8 +510,8 @@ namespace Sanguosha.Core.Games
             int numberOfCardsDiscarded = 0;
             while (true)
             {
-                int handCardCount = Game.CurrentGame.Decks[player, DeckType.Hand].Count; // 玩家手牌数
-                int equipCardCount = Game.CurrentGame.Decks[player, DeckType.Equipment].Count; // 玩家装备牌数
+                int handCardCount = Decks[player, DeckType.Hand].Count; // 玩家手牌数
+                int equipCardCount = Decks[player, DeckType.Equipment].Count; // 玩家装备牌数
                 int toDiscard = numberOfCards(player, numberOfCardsDiscarded);
                 // Have we finished discarding everything?
                 // We finish if 
@@ -521,26 +521,27 @@ namespace Sanguosha.Core.Games
                 {
                     break;
                 }
-                Trace.Assert(Game.CurrentGame.UiProxies.ContainsKey(player));
-                IUiProxy proxy = Game.CurrentGame.UiProxies[player];
+                Trace.Assert(UiProxies.ContainsKey(player));
+                IUiProxy proxy = UiProxies[player];
                 ISkill skill;
                 List<Card> cards;
                 List<Player> players;
                 PlayerForceDiscardVerifier v = new PlayerForceDiscardVerifier(toDiscard, canDiscardEquipment);
                 cannotBeDiscarded = 0;
-                foreach (Card c in Game.CurrentGame.Decks[player, DeckType.Hand])
+                foreach (Card c in Decks[player, DeckType.Hand])
                 {
-                    if (!Game.CurrentGame.PlayerCanDiscardCard(player, c))
+                    if (!PlayerCanDiscardCard(player, c))
                     {
                         cannotBeDiscarded++;
                     }
                 }
                 //如果玩家无法达到弃牌要求 则 摊牌
                 bool status = (canDiscardEquipment ? equipCardCount : 0) + handCardCount - toDiscard >= cannotBeDiscarded;
-                Game.CurrentGame.SyncConfirmationStatus(ref status);
+                SyncConfirmationStatus(ref status);
                 if (!status)
                 {
-                    Game.CurrentGame.SyncImmutableCardsAll(Game.CurrentGame.Decks[player, DeckType.Hand]);
+                    SyncImmutableCardsAll(Decks[player, DeckType.Hand]);
+                    ShowHandCards(player, Decks[player, DeckType.Hand]);
                 }
 
                 if (!proxy.AskForCardUsage(new Prompt(Prompt.DiscardPhasePrompt, toDiscard),
@@ -549,15 +550,15 @@ namespace Sanguosha.Core.Games
                     //玩家没有回应(default)
                     //如果玩家有不可弃掉的牌(这个只有服务器知道） 则通知所有客户端该玩家手牌
                     status = (cannotBeDiscarded == 0);
-                    Game.CurrentGame.SyncConfirmationStatus(ref status);
+                    SyncConfirmationStatus(ref status);
                     if (!status)
                     {
-                        Game.CurrentGame.SyncImmutableCardsAll(Game.CurrentGame.Decks[player, DeckType.Hand]);
+                        SyncImmutableCardsAll(Decks[player, DeckType.Hand]);
                     }
                     cannotBeDiscarded = 0;
-                    foreach (Card c in Game.CurrentGame.Decks[player, DeckType.Hand])
+                    foreach (Card c in Decks[player, DeckType.Hand])
                     {
-                        if (!Game.CurrentGame.PlayerCanDiscardCard(player, c))
+                        if (!PlayerCanDiscardCard(player, c))
                         {
                             cannotBeDiscarded++;
                         }
@@ -566,14 +567,14 @@ namespace Sanguosha.Core.Games
                     Trace.TraceInformation("Invalid answer, choosing for you");
                     cards = new List<Card>();
                     int cardsDiscarded = 0;
-                    var chooseFrom = new List<Card>(Game.CurrentGame.Decks[player, DeckType.Hand]);
+                    var chooseFrom = new List<Card>(Decks[player, DeckType.Hand]);
                     if (canDiscardEquipment)
                     {
-                        chooseFrom.AddRange(Game.CurrentGame.Decks[player, DeckType.Equipment]);
+                        chooseFrom.AddRange(Decks[player, DeckType.Equipment]);
                     }
                     foreach (Card c in chooseFrom)
                     {
-                        if (Game.CurrentGame.PlayerCanDiscardCard(player, c))
+                        if (PlayerCanDiscardCard(player, c))
                         {
                             cards.Add(c);
                             cardsDiscarded++;
@@ -586,7 +587,7 @@ namespace Sanguosha.Core.Games
                     }
                 }
                 numberOfCardsDiscarded += cards.Count;
-                Game.CurrentGame.HandleCardDiscard(player, cards);
+                HandleCardDiscard(player, cards);
             }
         }
 
@@ -658,7 +659,7 @@ namespace Sanguosha.Core.Games
             arg.Card = card;
             try
             {
-                Game.CurrentGame.Emit(GameEvent.PlayerCanBeTargeted, arg);
+                Emit(GameEvent.PlayerCanBeTargeted, arg);
                 return true;
             }
             catch (TriggerResultException e)
@@ -678,7 +679,7 @@ namespace Sanguosha.Core.Games
 
         public void PinDianReturnCards(Player from, Player to, out Card c1, out Card c2, ISkill skill)
         {
-            Game.CurrentGame.NotificationProxy.NotifyPinDianStart(from, to, skill);
+            NotificationProxy.NotifyPinDianStart(from, to, skill);
             Dictionary<Player, ISkill> aSkill;
             Dictionary<Player, List<Card>> aCards;
             Dictionary<Player, List<Player>> aPlayers;
@@ -687,7 +688,7 @@ namespace Sanguosha.Core.Games
             Card card1, card2;
             if (!aCards.ContainsKey(from) || aCards[from].Count == 0)
             {
-                card1 = Game.CurrentGame.Decks[from, DeckType.Hand][0];
+                card1 = Decks[from, DeckType.Hand][0];
                 SyncImmutableCardAll(card1);
             }
             else
@@ -696,7 +697,7 @@ namespace Sanguosha.Core.Games
             }
             if (!aCards.ContainsKey(to) || aCards[to].Count == 0)
             {
-                card2 = Game.CurrentGame.Decks[to, DeckType.Hand][0];
+                card2 = Decks[to, DeckType.Hand][0];
                 SyncImmutableCardAll(card2);
             }
             else
@@ -705,7 +706,7 @@ namespace Sanguosha.Core.Games
             }
             c1 = card1;
             c2 = card2;
-            Game.CurrentGame.NotificationProxy.NotifyPinDianEnd(c1, c2);
+            NotificationProxy.NotifyPinDianEnd(c1, c2);
         }
 
         public bool PinDian(Player from, Player to, ISkill skill)
@@ -743,11 +744,11 @@ namespace Sanguosha.Core.Games
             Card theCard = answer[0][0];
             if (noReveal)
             {
-                Game.CurrentGame.SyncCard(from, ref theCard);
+                SyncCard(from, ref theCard);
             }
             else
             {
-                Game.CurrentGame.SyncCardAll(ref theCard);
+                SyncCardAll(ref theCard);
             }
             Trace.Assert(answer.Count == 1 && answer[0].Count == 1);
             return theCard;
@@ -755,7 +756,7 @@ namespace Sanguosha.Core.Games
 
         public void HideHandCard(Card c)
         {
-            if (Game.CurrentGame.IsClient && Game.CurrentGame.GameClient.SelfId != c.Place.Player.Id && c.Place.DeckType == DeckType.Hand)
+            if (IsClient && GameClient.SelfId != c.Place.Player.Id && c.Place.DeckType == DeckType.Hand)
             {
                 c.Id = -1;
             }
@@ -763,10 +764,11 @@ namespace Sanguosha.Core.Games
 
         public void ShowHandCards(Player p, List<Card> cards)
         {
-            Game.CurrentGame.NotificationProxy.NotifyShowCardsStart(p, cards);
+            if (cards.Count == 0) return;
+            NotificationProxy.NotifyShowCardsStart(p, cards);
             Dictionary<Player, int> answers;
-            Game.CurrentGame.GlobalProxy.AskForMultipleMCQ(new MultipleChoicePrompt("ShowCards"), new List<OptionPrompt>() { OptionPrompt.YesChoice }, Game.CurrentGame.AlivePlayers, out answers);
-            Game.CurrentGame.NotificationProxy.NotifyShowCardsEnd();
+            GlobalProxy.AskForMultipleChoice(new MultipleChoicePrompt("ShowCards", p), new List<OptionPrompt>() { OptionPrompt.YesChoice }, AlivePlayers, out answers);
+            NotificationProxy.NotifyShowCardsEnd();
         }
 
     }

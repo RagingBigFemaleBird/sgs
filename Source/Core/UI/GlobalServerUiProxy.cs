@@ -51,7 +51,7 @@ namespace Sanguosha.Core.UI
         }
         Dictionary<Player, int> manswerMCQ;
 
-        public void AskForMultipleMCQ(Prompt prompt, List<OptionPrompt> questions, List<Player> players, out Dictionary<Player, int> aanswer)
+        public void AskForMultipleChoice(Prompt prompt, List<OptionPrompt> questions, List<Player> players, out Dictionary<Player, int> aanswer)
         {
             proxyListener = new Dictionary<Player, Thread>();
             semAccess = new Semaphore(1, 1);
