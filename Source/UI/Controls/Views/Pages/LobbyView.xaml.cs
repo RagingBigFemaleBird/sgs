@@ -133,23 +133,26 @@ namespace Sanguosha.UI.Controls
 
         private void viewRoomButton_Click(object sender, RoutedEventArgs e)
         {
-            Trace.Assert(sender is Button);
+            Trace.Assert(sender is Button);            
             var model = (sender as Button).DataContext as RoomViewModel;
-            if (model != null)
+            if (model != null && (LobbyViewModel.Instance.CurrentSeat == null || LobbyViewModel.Instance.ExitRoom()))
             {
                 LobbyModel.CurrentRoom = model;
-            }
+            }            
         }
 
         private void enterRoomButton_Click(object sender, RoutedEventArgs e)
         {
             Trace.Assert(sender is Button);
             var model = (sender as Button).DataContext as RoomViewModel;
-            if (model != null)
+            if (model != null  && (LobbyViewModel.Instance.CurrentSeat == null || LobbyViewModel.Instance.ExitRoom()))
             {
                 LobbyModel.CurrentRoom = model;
-                LobbyModel.EnterRoom();
-            }
+                if (!LobbyModel.EnterRoom())
+                {
+                    LobbyModel.CurrentRoom = null; 
+                }                
+            }            
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -168,10 +171,47 @@ namespace Sanguosha.UI.Controls
             });
         }
 
-        public void Refresh()
+        public void Reload()
         {
             LobbyModel.OnChat += chatEventHandler;
             LobbyViewModel.Instance.UpdateRooms();
+        }
+    }
+
+    public class RoomButtonVisibilityConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (values == null) return Visibility.Collapsed;
+            Trace.Assert(values.Length == 3);
+            int room;
+            int currentRoom;
+            try
+            {
+                room = (int)values[0];
+                currentRoom = (int)values[1];
+            }
+            catch (Exception)
+            {
+                return Visibility.Visible;
+            }
+            var currentSeat = values[2];            
+            if ((parameter as string) == "View")
+            {
+                if (room == currentRoom) return Visibility.Collapsed;
+                else return Visibility.Visible;
+            }
+            else
+            {
+                Trace.Assert((parameter as string) == "Enter");
+                if (room == currentRoom && currentSeat != null) return Visibility.Collapsed;
+                else return Visibility.Visible;
+            }            
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

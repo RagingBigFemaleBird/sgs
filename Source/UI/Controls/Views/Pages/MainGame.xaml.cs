@@ -45,7 +45,7 @@ namespace Sanguosha.UI.Controls
         void gameView_OnGameCompleted(object sender, EventArgs e)
         {
             this.NavigationService.Navigate(LobbyView.Instance);
-            LobbyView.Instance.Refresh();
+            LobbyView.Instance.Reload();
         }
 
         void ctrlGetSkill_OnSkillNameSelected(string skillName)
