@@ -92,7 +92,7 @@
     <sys:String x:Key="Skill.FenYong.Usage">系统提示→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.XueHen.Name">雪恨</sys:String>
-    <sys:String x:Key="Skill.XueHen.Description">锁定技，一名角色的回合结束阶段开始时，若你的体力牌为竖置状态，你须横置之并选择一项：1、弃置其等同于你已损失体力值数的牌；2、视为对一名其他角色使用一张【杀】。</sys:String>
+    <sys:String x:Key="Skill.XueHen.Description">锁定技，一名角色的回合结束阶段开始时，若你的体力牌为竖置状态，你须横置之并选择一项：1、弃置其等同于你已损失体力值数的牌；2、视为对一名角色使用一张【杀】。</sys:String>
     <sys:String x:Key="Skill.XueHen.Usage" xml:space="preserve">系统提示→选择第一项→选择若干张牌→点“确定”&#10;系统提示→选择第二项→选择【杀】的目标→点“确定”</sys:String>
 
 </ResourceDictionary>

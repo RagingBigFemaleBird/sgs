@@ -43,8 +43,10 @@
   <ItemGroup>
     <Compile Include="Skills\ChongZhen.cs" />
     <Compile Include="Skills\DaHe.cs" />
+    <Compile Include="Skills\FenYong.cs" />
     <Compile Include="Skills\JiE.cs" />
     <Compile Include="Skills\ManJuan.cs" />
+    <Compile Include="Skills\XueHen.cs" />
     <Compile Include="Skills\ZuiXiang.cs" />
     <Compile Include="StarSpExpansion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

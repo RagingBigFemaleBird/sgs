@@ -51,7 +51,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 ISkill skill;
                 List<Card> cards;
                 List<Player> players;
-                if (Owner.AskForCardUsage(new CardUsagePrompt("DaHe"), new DaHeVerifier(), out skill, out cards, out players))
+                if (Owner.AskForCardUsage(new CardUsagePrompt("DaHe", arg.Targets[0]), new DaHeVerifier(), out skill, out cards, out players))
                 {
                     Game.CurrentGame.EnterAtomicContext();
                     Game.CurrentGame.PlayerLostCard(Owner, new List<Card>() { card1 });
