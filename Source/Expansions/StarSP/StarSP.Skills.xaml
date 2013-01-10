@@ -25,7 +25,7 @@
     <sys:String x:Key="Skill.ChongZhen.Usage">系统提示→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.LiHun.Name">离魂</sys:String>
-    <sys:String x:Key="Skill.LiHun.Description">出牌阶段，你可以弃置一张牌并将你的武将牌翻面，若如此做，选择一名男性角色，获得其所有手牌；出牌阶段结束时，你须交给该角色等同于其当前体力值数的手牌。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.LiHun.Description">出牌阶段，你可以弃置一张牌并将你的武将牌翻面，若如此做，选择一名男性角色，获得其所有手牌；出牌阶段结束时，你须交给该角色等同于其当前体力值数的牌。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.LiHun.Usage">点“离魂”→选择一张牌→选择一名男性角色→点“确定”</sys:String>
     <sys:String x:Key="Skill.LiHun.Prompt">请选择一张牌并选择一名男性角色</sys:String>
 
