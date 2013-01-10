@@ -117,6 +117,7 @@ namespace Sanguosha.Core.Games
                 {
                     if (p.IsIronShackled)
                     {
+                        Thread.Sleep(610);
                         DoDamage(damageArgs.Source, p, originalTarget, ironShackledDamage, ironShackledDamageElement, card, readonlyCard);
                     }
                 }
@@ -466,6 +467,8 @@ namespace Sanguosha.Core.Games
             move.To = new DeckPlace(null, DeckType.Discard);
             PlayerAboutToDiscardCard(p, move.Cards, reason);
             MoveCards(move);
+            if (!atomic)
+                Thread.Sleep(480);
             if (p != null)
             {
                 PlayerLostCard(p, backup);
@@ -483,6 +486,7 @@ namespace Sanguosha.Core.Games
                 move.Helper = helper;
             }
             MoveCards(move);
+            Thread.Sleep(700);
             EnterAtomicContext();
             PlayerLostCard(from, cards);
             PlayerAcquiredCard(to, cards);
@@ -496,6 +500,7 @@ namespace Sanguosha.Core.Games
             move.To = new DeckPlace(to, target);
             move.Helper = new MovementHelper();
             MoveCards(move);
+            Thread.Sleep(700);
             EnterAtomicContext();
             PlayerLostCard(from, cards);
             PlayerAcquiredCard(to, cards);

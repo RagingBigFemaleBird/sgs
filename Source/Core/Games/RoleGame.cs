@@ -354,6 +354,8 @@ namespace Sanguosha.Core.Games
                     }
                 }
 
+                Thread.Sleep(500);
+
                 c.Type.Process(arg);
 
                 if (runTrigger)
@@ -805,6 +807,7 @@ namespace Sanguosha.Core.Games
                         {
                             break;
                         }
+                        Thread.Sleep(300);
                     }
                 }
                 Game.CurrentGame.Emit(GameEvent.PhasePostEnd, new GameEventArgs() { Source = currentPlayer });

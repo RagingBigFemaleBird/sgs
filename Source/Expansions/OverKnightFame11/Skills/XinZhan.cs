@@ -12,6 +12,7 @@ using Sanguosha.Expansions.Basic.Cards;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Exceptions;
+using System.Threading;
 
 namespace Sanguosha.Expansions.OverKnightFame11.Skills
 {
@@ -43,10 +44,10 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
 
         public override bool Commit(GameEventArgs arg)
         {
+            Thread.Sleep(2550);
+
             Owner[XinZhanUsed] = 1;
-
             DeckType XinZhanDeck = new DeckType("XinZhan");
-
             CardsMovement move = new CardsMovement();
             move.Cards = new List<Card>();
             for (int i = 0; i < choiceCount; i++)
