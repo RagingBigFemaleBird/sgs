@@ -21,7 +21,7 @@ namespace Sanguosha.Expansions.StarSP
 
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SPZhaoYun", true, Allegiance.Qun, 3, new LongDan(), new ChongZhen()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SPDiaoChan", false, Allegiance.Qun, 3, new LiHun(), new BiYue()))));
-            //CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SPCaoRen", true, Allegiance.Wei, 4, new KuiWei(), new YanZheng()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SPCaoRen", true, Allegiance.Wei, 4, new KuiWei(), new YanZheng()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SPPangTong", true, Allegiance.Qun, 3, new ManJuan(), new ZuiXiang()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SPZhangFei", true, Allegiance.Shu, 4, new JiE(), new DaHe()))));
             //CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SPLvMeng", true, Allegiance.Wu, 3, new TanHu(), new MouDuan()))));

@@ -41,4 +41,10 @@
         <GradientStop Color="#FFA0A0A0" Offset="0"/>
         <GradientStop Color="#FFDEDEDE" Offset="1"/>
     </LinearGradientBrush>
+
+    <sys:String x:Key="Status.KuiWei.Name">溃围</sys:String>
+    <LinearGradientBrush x:Key="Status.KuiWei.Brush" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FFA0A0A0" Offset="0"/>
+        <GradientStop Color="#FFDEDEDE" Offset="1"/>
+    </LinearGradientBrush>
 </ResourceDictionary>
