@@ -1,8 +1,6 @@
 Source/Sanguosha/bin
 Source/Sanguosha/obj
 *.suo
-*.exe
-*.dll
 *.pdb
 *.cache
 *.user
