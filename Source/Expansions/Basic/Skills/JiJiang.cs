@@ -66,7 +66,6 @@ namespace Sanguosha.Expansions.Basic.Skills
             ICard result = null;
             List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
             toProcess.Remove(Owner);
-            Game.CurrentGame.SortByOrderOfComputation(Owner, toProcess);
             bool noAnswer = true;
             foreach (var player in toProcess)
             {

@@ -39,7 +39,6 @@ namespace Sanguosha.Expansions.Woods.Skills
             Owner[KuangBao.BaoNuMark] -= 6;
             var players = Game.CurrentGame.AlivePlayers;
             players.Remove(Owner);
-            Game.CurrentGame.SortByOrderOfComputation(Owner, players);
             foreach (Player p in players)
             {
                 Game.CurrentGame.DoDamage(Owner, p, 1, DamageElement.None, null, arg.ReadonlyCard);

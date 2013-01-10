@@ -731,7 +731,7 @@ namespace Sanguosha.Core.Games
                 {
                     pxy.Value.Freeze();
                 }
-                var toCheck = game.AlivePlayers;
+                var toCheck = new List<Player>(game.Players);
                 game.SortByOrderOfComputation(game.Players[rulerId], toCheck);
                 foreach (var p in toCheck)
                 {

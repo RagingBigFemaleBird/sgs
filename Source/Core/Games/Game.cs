@@ -660,6 +660,7 @@ namespace Sanguosha.Core.Games
                         list.Add(p);
                     }
                 }
+                SortByOrderOfComputation(currentPlayer, list);
                 return list;
             }
         }
@@ -1030,6 +1031,8 @@ namespace Sanguosha.Core.Games
 
         public virtual void SortByOrderOfComputation(Player withRespectTo, List<Player> players)
         {
+            Trace.Assert(withRespectTo != null);
+            if (withRespectTo == null) return;
             players.Sort((a, b) =>
                 {
                     return OrderOf(withRespectTo, a).CompareTo(OrderOf(withRespectTo, b));

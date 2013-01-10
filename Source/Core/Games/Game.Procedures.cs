@@ -765,7 +765,7 @@ namespace Sanguosha.Core.Games
         {
             Game.CurrentGame.NotificationProxy.NotifyShowCardsStart(p, cards);
             Dictionary<Player, int> answers;
-            Game.CurrentGame.GlobalProxy.AskForMultipleMCQ(new MultipleChoicePrompt("Testing MCQ"), new List<OptionPrompt>() { OptionPrompt.YesChoice }, Game.CurrentGame.AlivePlayers, out answers);
+            Game.CurrentGame.GlobalProxy.AskForMultipleMCQ(new MultipleChoicePrompt("ShowCards"), new List<OptionPrompt>() { OptionPrompt.YesChoice }, Game.CurrentGame.AlivePlayers, out answers);
             Game.CurrentGame.NotificationProxy.NotifyShowCardsEnd();
         }
 
