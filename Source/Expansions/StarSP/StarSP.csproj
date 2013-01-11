@@ -53,6 +53,7 @@
     <Compile Include="Skills\ManJuan.cs" />
     <Compile Include="Skills\XueHen.cs" />
     <Compile Include="Skills\YanXiao.cs" />
+    <Compile Include="Skills\ZhaoLie.cs" />
     <Compile Include="Skills\ZuiXiang.cs" />
     <Compile Include="StarSpExpansion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

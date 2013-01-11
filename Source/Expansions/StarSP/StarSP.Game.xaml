@@ -49,4 +49,9 @@
     </LinearGradientBrush>
 
     <sys:String x:Key="CardUsage.Prompt.AnXian">你可以弃置一张手牌使这张【杀】对你无效</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.ZhaoLie">你可以选译一名角色发动昭烈</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.ZhaoLie">请选择一项“昭烈”的效果</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.ZhaoLieShangHai">受到{0}点伤害，获得{1}张牌</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.ZhaoLieQiPai">依次弃置{0}张牌，对方获得{1}张牌</sys:String>
 </ResourceDictionary>
