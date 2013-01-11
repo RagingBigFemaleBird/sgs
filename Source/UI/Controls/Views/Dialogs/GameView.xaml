@@ -232,8 +232,10 @@
         </Grid>
         
         <Canvas x:Name="gameGlobalCanvas" Grid.RowSpan="2" Grid.ColumnSpan="2" />
-        <local:ReplayControllerView DataContext="{Binding ReplayController}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="197" Height="31" Visibility="{Binding IsReplay}" />
-        <xctk:ChildWindow x:Name="deckDisplayWindow" 
+        <Grid Visibility="{Binding IsReplay, Converter={StaticResource boolToVisibilityConverter}}"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="197" Height="31">
+            <local:ReplayControllerView DataContext="{Binding ReplayController}" />
+         </Grid>
+         <xctk:ChildWindow x:Name="deckDisplayWindow" 
                   Template="{DynamicResource DarkGreenWindowStyle}"        
                   MaxWidth="600"
                   HorizontalContentAlignment="Center"
