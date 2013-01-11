@@ -15,6 +15,7 @@ using System.IO;
 using Sanguosha.Core.UI;
 using System.Runtime.Serialization.Formatters.Binary;
 using Sanguosha.Lobby.Core;
+using Sanguosha.Core.Utils;
 
 namespace Sanguosha.Core.Network
 {
@@ -129,6 +130,7 @@ namespace Sanguosha.Core.Network
                     }
                 }
                 handlers[i].stream.ReadTimeout = Timeout.Infinite;
+                handlers[i].stream = new RecordTakingOutputStream(handlers[i].stream);
                 handlers[i].threadServer = new Thread((ParameterizedThreadStart)((o) => 
                 {
                     ServerThread(handlers[(int)o]);
@@ -142,6 +144,77 @@ namespace Sanguosha.Core.Network
                 handlers[i].threadClient.Start(i);
             }
             Trace.TraceInformation("Server ready");
+            reconnectThread = new Thread(ReconnectionListener);
+            reconnectThread.Start();
+        }
+        
+        Thread reconnectThread;
+
+        void ReconnectionListener()
+        {
+            Trace.TraceInformation("Reconnection listener Started on {0} : {1}", ipAddress.ToString(), IpPort);
+            game.Settings.Accounts = new List<Account>();
+            while (true)
+            {
+                var client = listener.AcceptTcpClient();
+                Trace.TraceInformation("Client connected");
+                var stream = client.GetStream();
+                stream.ReadTimeout = 2000;
+                Account theAccount = null;
+                if (game.Configuration != null)
+                {
+                    object item;
+                    try
+                    {
+                        item = (new ItemReceiver(stream)).Receive();
+                    }
+                    catch (Exception)
+                    {
+                        item = null;
+                    }
+                    if (!(item is LoginToken) ||
+                     !game.Configuration.AccountIds.Any(id => id.token == ((LoginToken)item).token))
+                    {
+                        client.Close();
+                        continue;
+                    }
+                    int index;
+                    for (index = 0; index < game.Configuration.AccountIds.Count; index++)
+                    {
+                        if (game.Configuration.AccountIds[index].token == ((LoginToken)item).token)
+                        {
+                            theAccount = game.Configuration.Accounts[index];
+                        }
+                    }
+                }
+                stream.ReadTimeout = Timeout.Infinite;
+                int indexC = game.Settings.Accounts.IndexOf(theAccount);
+                lock (handlers[indexC].queueIn)
+                {
+                    lock (handlers[indexC].queueOut)
+                    {
+                        var newRCStream = new RecordTakingOutputStream(stream);
+                        (handlers[indexC].stream as RecordTakingOutputStream).DumpTo(newRCStream);
+                        handlers[indexC].disconnected = false;
+                        handlers[indexC].threadClient.Abort();
+                        handlers[indexC].threadServer.Abort();
+                        newRCStream.Flush();
+                        handlers[indexC].stream = newRCStream;
+                        handlers[indexC].threadServer = new Thread((ParameterizedThreadStart)((o) =>
+                        {
+                            ServerThread(handlers[(int)o]);
+                            handlers[(int)o].disconnected = true;
+                        })) { IsBackground = true };
+                        handlers[indexC].threadServer.Start(indexC);
+                        handlers[indexC].threadClient = new Thread((ParameterizedThreadStart)((o) =>
+                        {
+                            ClientThread(handlers[(int)o]);
+                        })) { IsBackground = true };
+                        handlers[indexC].threadClient.Start(indexC);
+                    }
+                }
+            }
+
         }
 
         public void CommIdInc(int clientId)
@@ -427,6 +500,7 @@ namespace Sanguosha.Core.Network
                 handlers[i].threadClient.Join();
                 handlers[i].threadServer.Abort();
             }
+            reconnectThread.Abort();
         }
 
         private void ServerThread(ServerHandler handler)
