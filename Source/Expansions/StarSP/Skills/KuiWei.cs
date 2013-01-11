@@ -21,7 +21,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
     /// </summary>
     public class KuiWei : TriggerSkill
     {
-        void KuiWeiDisCards(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
+        void KuiWeiDiscard(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             Owner[KuiWeiStatus] = 0;
             int count = GetWeaponCount();
@@ -68,7 +68,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 this,
                 (p, e, a) =>
                 { return p[KuiWeiStatus] == 1; },
-                KuiWeiDisCards,
+                KuiWeiDiscard,
                 TriggerCondition.OwnerIsSource
             ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Draw], trigger2);
