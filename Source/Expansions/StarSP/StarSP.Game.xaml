@@ -48,6 +48,12 @@
         <GradientStop Color="#FFDEDEDE" Offset="1"/>
     </LinearGradientBrush>
 
+    <sys:String x:Key="Status.ShiChou.Name">誓仇</sys:String>
+    <LinearGradientBrush x:Key="Status.ShiChou.Brush" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FFA0A0A0" Offset="0"/>
+        <GradientStop Color="#FFDEDEDE" Offset="1"/>
+    </LinearGradientBrush>
+    
     <sys:String x:Key="CardUsage.Prompt.AnXian">你可以弃置一张手牌使这张【杀】对你无效</sys:String>
 
     <sys:String x:Key="CardUsage.Prompt.ZhaoLie">你可以选译一名角色发动昭烈</sys:String>
@@ -56,4 +62,17 @@
     <sys:String x:Key="MultiChoice.Choice.ZhaoLieQiPai">依次弃置{0}张牌，对方获得{1}张牌</sys:String>
 
     <sys:String x:Key="CardUsage.Prompt.ShiChou">你可以选译两张牌以及一名角色发动誓仇</sys:String>
+
+    <sys:String x:Key="Deck.Jin.Name">锦</sys:String>
+    <sys:String x:Key="Deck.Temp.Name">∞</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.YinLing">银铃 请选择{0}的1张牌</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.YinLing.Others">银铃 请等待{0}选择{1}的1张牌</sys:String>
+
+    <sys:String x:Key="CardChoice.Prompt.JunWei">军威 请选择3张锦</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.JunWei.Others">军威 请等待{0}3张锦</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.JunWeiChoice">军威 请选择{0}的1张牌</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.JunWeiChoice.Others">军威 请等待{0}选择{1}的1张牌</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.JunWei">你可以选择3张锦和一个目标发动技能军威</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.JunWeiGiveShan">请把闪交给一名角色</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.JunWeiShowCard">请展示一张闪，或点取消流失体力</sys:String>
 </ResourceDictionary>

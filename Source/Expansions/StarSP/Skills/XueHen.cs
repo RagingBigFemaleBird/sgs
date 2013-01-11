@@ -38,7 +38,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             }
         }
 
-        class XueHenCardChoiceVerifier : ICardChoiceVerifier
+        public class XueHenCardChoiceVerifier : ICardChoiceVerifier
         {
             public VerifierResult Verify(List<List<Card>> answer)
             {
@@ -100,6 +100,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                     CardChoiceCallback.GenericCardChoiceCallback))
                 {
                     choiceAnswer = new List<List<Card>>();
+                    choiceAnswer.Add(new List<Card>());
                     choiceAnswer[0].AddRange(current.HandCards());
                     choiceAnswer[0].AddRange(current.Equipments());
                     choiceAnswer[0] = choiceAnswer[0].GetRange(0, choiceCount);

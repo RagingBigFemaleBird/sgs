@@ -82,6 +82,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             {
                 if (!eventArgs.Targets.Contains(Owner)) return ;
                 Owner[ShiChouTarget[source]] = 0;
+                Owner[ShiChouStatus] = 0;
                 Game.CurrentGame.UnregisterTrigger(GameEvent.DamageInflicted, protectTrigger);
                 Game.CurrentGame.UnregisterTrigger(GameEvent.DamageComputingFinished, drawCardsTrigger);
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerIsAboutToDie, this);
@@ -117,6 +118,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 players[0][ShiChouTarget[Owner]] = 1;
                 Game.CurrentGame.SyncCards(players[0], cards);
                 Game.CurrentGame.HandleCardTransferToHand(Owner, players[0], cards);
+                players[0][ShiChouStatus] = 1;
                 Trigger tri1 = new ShiChouProtect(Owner, players[0]);
                 Trigger tri2 = new ShiChouDrawCards(players[0]);
                 Trigger tri3 = new ShiChouRemoval(players[0], Owner, tri1, tri2);
@@ -143,5 +145,6 @@ namespace Sanguosha.Expansions.StarSP.Skills
         private static CardAttribute ShiChouDamage = CardAttribute.Register("ShiChouDamage");
         private static PlayerAttribute ShiChouUsed = PlayerAttribute.Register("ShiChouUsed");
         private static PlayerAttribute ShiChouTarget = PlayerAttribute.Register("ShiChouTarget");
+        private static PlayerAttribute ShiChouStatus = PlayerAttribute.Register("ShiChou", false, false, true);
     }
 }
