@@ -105,7 +105,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             List<Player> players;
             if (Owner.AskForCardUsage(new CardUsagePrompt("JunWei"), new JunWeiVerifier(), out skill, out cards, out players))
             {
-                NotifySkillUse();
+                NotifySkillUse(players);
                 Game.CurrentGame.HandleCardDiscard(Owner, cards);
                 Player target = players[0];
                 if (target.AskForCardUsage(new CardUsagePrompt("JunWeiShowCard"), new JunWeiShowCardVerifier(), out skill, out cards, out players))
