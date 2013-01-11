@@ -747,11 +747,14 @@ namespace Sanguosha.Core.Games
                 Shuffle(game.Decks[null, DeckType.Dealing]);
 
                 Player current = game.CurrentPlayer = game.Players[rulerId];
+                
+                StartGameDeal(game);
+
+                Thread.Sleep(1000);
 
                 Game.CurrentGame.NotificationProxy.NotifyGameStart();
+                Thread.Sleep(2000);
 
-                StartGameDeal(game);                
-                
                 foreach (var act in game.AlivePlayers)
                 {
                     game.Emit(GameEvent.PlayerGameStartAction, new GameEventArgs() { Source = act });

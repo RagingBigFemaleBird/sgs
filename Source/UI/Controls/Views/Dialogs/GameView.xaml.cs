@@ -1074,6 +1074,7 @@ namespace Sanguosha.UI.Controls
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 GameSoundPlayer.PlaySoundEffect(GameSoundLocator.GetSystemSound("GameStart"));
+                PlayAnimation(new GameStartAnimation());
             });
         }
 

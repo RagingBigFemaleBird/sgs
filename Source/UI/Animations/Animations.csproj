@@ -64,6 +64,9 @@
     <Compile Include="BaiYinAnimation.xaml.cs">
       <DependentUpon>BaiYinAnimation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GameStartAnimation.xaml.cs">
+      <DependentUpon>GameStartAnimation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WinDecorationAnimation.xaml.cs">
       <DependentUpon>WinDecorationAnimation.xaml</DependentUpon>
     </Compile>
@@ -221,6 +224,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BaiYinAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GameStartAnimation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -539,6 +546,37 @@
     <Resource Include="WinAnimation\bg.png" />
     <Resource Include="WinAnimation\li.png" />
     <Resource Include="WinAnimation\sheng.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GameStartAnimation\bg.png" />
+    <Resource Include="GameStartAnimation\kai.png" />
+    <Resource Include="GameStartAnimation\zhan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="HuoShaAnimation\background.png" />
+    <Resource Include="HuoShaAnimation\faded.png" />
+    <Resource Include="HuoShaAnimation\fire0.png" />
+    <Resource Include="HuoShaAnimation\fire1.png" />
+    <Resource Include="HuoShaAnimation\fire2.png" />
+    <Resource Include="HuoShaAnimation\fire3.png" />
+    <Resource Include="HuoShaAnimation\foreground.png" />
+    <Resource Include="JiuAnimation\bgred.png" />
+    <Resource Include="JiuAnimation\bgyellow.png" />
+    <Resource Include="JiuAnimation\foreground.png" />
+    <Resource Include="JiuAnimation\text.png" />
+    <Resource Include="LeiShaAnimation\background.png" />
+    <Resource Include="LeiShaAnimation\bloom.png" />
+    <Resource Include="LeiShaAnimation\bloom2.png" />
+    <Resource Include="LeiShaAnimation\faded.png" />
+    <Resource Include="LeiShaAnimation\foreground.png" />
+    <Resource Include="LeiShaAnimation\thunder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="TengJiaAnimation\burn0.png" />
+    <Resource Include="TengJiaAnimation\burn1.png" />
+    <Resource Include="TengJiaAnimation\burn2.png" />
+    <Resource Include="TengJiaAnimation\burn3.png" />
+    <Resource Include="TengJiaAnimation\burn4.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Expression\Blend\.NETFramework\v4.0\Microsoft.Expression.Blend.WPF.targets" />
