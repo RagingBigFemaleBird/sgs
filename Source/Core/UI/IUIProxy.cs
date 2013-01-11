@@ -42,6 +42,10 @@ namespace Sanguosha.Core.UI
         /// </summary>
         /// <seealso cref="Sanguosha.Expansions.OverKnightFame11.Skills.XinZhan"/>
         public List<bool> AdditionalFineGrainedCardRevealPolicy { get; set; }
+        /// <summary>
+        /// Gets/sets whether a player can abstain from making the choice.
+        /// </summary>
+        public bool IsCancellable { get; set; }
     }
     
     public interface ICardChoiceVerifier

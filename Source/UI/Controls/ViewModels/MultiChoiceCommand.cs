@@ -18,6 +18,11 @@ namespace Sanguosha.UI.Controls
             base.Execute(choiceIndex);
         }
 
+        public override bool CanExecute(object parameter)
+        {
+            return IsCancel || base.CanExecute(parameter);
+        }
+
         private OptionPrompt choiceKey;
         public OptionPrompt ChoiceKey
         {
@@ -44,5 +49,10 @@ namespace Sanguosha.UI.Controls
                 OnPropertyChanged("ChoiceIndex");
             }
         }
+
+        /// <summary>
+        /// Gets/sets if this command is the choice to cancel a multichoice.
+        /// </summary>
+        public bool IsCancel { get; set; }
     }
 }

@@ -917,6 +917,19 @@ namespace Sanguosha.UI.Controls
                 IsCardChoiceQuestionShown = false;
             }
         }
+
+        public void CancelCardChoiceCommand(object parameter)
+        {
+            lock (verifierLock)
+            {
+                Trace.Assert(currentUsageVerifier == null);
+                var model = CardChoiceModel;
+                Trace.Assert(model != null);
+                CardChoiceAnsweredEvent(null);
+                CardChoiceModel.TimeOutSeconds = 0;
+                IsCardChoiceQuestionShown = false;
+            }
+        }
         #endregion
 
         #endregion
@@ -1579,7 +1592,7 @@ namespace Sanguosha.UI.Controls
                         ChoiceIndex = i
                     };
                     choiceModel.MultiChoiceCommands.Add(command);
-                }
+                }                
             }
             else
             {
@@ -1590,6 +1603,16 @@ namespace Sanguosha.UI.Controls
                 };
                 choiceModel.MultiChoiceCommands.Add(command);
             }
+            if (options != null && options.IsCancellable)
+            {
+                MultiChoiceCommand command = new MultiChoiceCommand(CancelCardChoiceCommand)
+                {
+                    IsCancel = true,
+                    ChoiceKey = new OptionPrompt("Cancel")
+                };
+                choiceModel.MultiChoiceCommands.Add(command);
+            }
+
             choiceModel.Verifier = verifier;
             choiceModel.TimeOutSeconds = timeOutSeconds;
             CardChoiceModel = choiceModel;

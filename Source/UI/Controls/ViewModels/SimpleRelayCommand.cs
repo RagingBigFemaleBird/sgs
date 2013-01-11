@@ -51,7 +51,7 @@ namespace Sanguosha.UI.Controls
 
         #region ICommand Members
 
-        public bool CanExecute(object parameter)
+        public virtual bool CanExecute(object parameter)
         {
             return CanExecuteStatus;
         }

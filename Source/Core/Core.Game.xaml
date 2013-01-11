@@ -43,6 +43,7 @@
     <system:String x:Key="Window.PinDian.Prompt">{0}拼点</system:String>
     <system:String x:Key="MultiChoice.Prompt.ChooseAllegiance">请选择您的国籍</system:String>
     <system:String x:Key="MultiChoice.Choice.Confirm">确定</system:String>
+    <system:String x:Key="MultiChoice.Choice.Cancel">取消</system:String>
     <system:String x:Key="CardChoice.Prompt.PrivateDeck">{0}的{1}</system:String>
 
     <system:String x:Key="Status.Disconnected.Name">离线</system:String>
