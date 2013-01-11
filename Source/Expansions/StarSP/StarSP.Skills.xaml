@@ -63,11 +63,11 @@
 
     <sys:String x:Key="Skill.ZhaoLie.Name">昭烈</sys:String>
     <sys:String x:Key="Skill.ZhaoLie.Description">摸牌阶段摸牌时，你可以少摸一张牌并选择你攻击范围内的一名其他角色，然后亮出牌堆顶的三张牌，将其中的非基本牌和【桃】置入弃牌堆，该角色须选择一项：1、受到你的X点伤害，然后获得剩下的牌；2、依次弃置X张牌，然后你获得剩下的牌。（X为其中除【桃】外的基本牌的数量）。</sys:String>
-    <sys:String x:Key="Skill.ZhaoLie.Usage">系统提示→点“确定”→选择一名角色→点“确定”</sys:String>
+    <sys:String x:Key="Skill.ZhaoLie.Usage">系统提示→选择一名角色→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.ShiChou.Name">誓仇</sys:String>
     <sys:String x:Key="Skill.ShiChou.Description">主公技，限定技，回合开始时，你可以交给一名蜀势力的其他角色两张牌，若如此做，直到该角色进入濒死状态前，当你受到伤害时，将该伤害转移给该角色，然后该角色摸等同于转移的伤害数值的牌。</sys:String>
-    <sys:String x:Key="Skill.ShiChou.Usage">系统提示→点“确定”→选择两张牌→选择一名目标角色→点“确定”</sys:String>
+    <sys:String x:Key="Skill.ShiChou.Usage">系统提示→选择两张牌→选择一名目标角色→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.YanXiao.Name">言笑</sys:String>
     <sys:String x:Key="Skill.YanXiao.Description">出牌阶段，你可以将一张方片牌置入一名角色的判定区内，判定区内有“言笑”牌的角色下个判定阶段开始时，获得其判定区内的所有牌。</sys:String>

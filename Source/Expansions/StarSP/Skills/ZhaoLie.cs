@@ -77,9 +77,13 @@ namespace Sanguosha.Expansions.StarSP.Skills
             Game.CurrentGame.HandleCardDiscard(null, toDiscard);
             if (answer == 0)
             {
-                ReadOnlyCard rCard = new ReadOnlyCard(new Card() { Place = new DeckPlace(null, null) });
-                rCard[ZhaoLieDamage] = 1;
-                Game.CurrentGame.DoDamage(Owner, ZhaoLieTarget, notBasicCards.Count, DamageElement.None, null, rCard);
+                if (notBasicCards.Count == 0) Game.CurrentGame.HandleCardTransferToHand(null, ZhaoLieTarget, basicCards);
+                else
+                {
+                    ReadOnlyCard rCard = new ReadOnlyCard(new Card() { Place = new DeckPlace(null, null) });
+                    rCard[ZhaoLieDamage] = 1;
+                    Game.CurrentGame.DoDamage(Owner, ZhaoLieTarget, notBasicCards.Count, DamageElement.None, null, rCard);
+                }
             }
             else
             {
@@ -142,7 +146,6 @@ namespace Sanguosha.Expansions.StarSP.Skills
                ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.DamageComputingFinished, trigger4);
 
-            IsRulerOnly = true;
             IsAutoInvoked = null;
         }
 

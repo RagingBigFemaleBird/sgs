@@ -97,13 +97,13 @@ namespace Sanguosha.Expansions.Basic.Skills
                     CardChoiceCallback.GenericCardChoiceCallback))
             {
                 Game.CurrentGame.NotificationProxy.NotifyLogEvent(new Prompt(Prompt.LogEventPrefix + "GuanXing", Owner, Game.CurrentGame.Decks[null, GuanXingDeck].Count, 0));
-                Game.CurrentGame.InsertBeforeDeal(null, Game.CurrentGame.Decks[null, GuanXingDeck]);
+                Game.CurrentGame.InsertBeforeDeal(null, Game.CurrentGame.Decks[null, GuanXingDeck], new MovementHelper(){IsFakedMove = true});
             }
             else
             {
                 Game.CurrentGame.NotificationProxy.NotifyLogEvent(new Prompt(Prompt.LogEventPrefix + "GuanXing", Owner, answer[0].Count, answer[1].Count));
-                Game.CurrentGame.InsertBeforeDeal(null, answer[0]);
-                Game.CurrentGame.InsertAfterDeal(null, answer[1]);
+                Game.CurrentGame.InsertBeforeDeal(null, answer[0], new MovementHelper() { IsFakedMove = true });
+                Game.CurrentGame.InsertAfterDeal(null, answer[1], new MovementHelper() { IsFakedMove = true });
             }
 
         }
