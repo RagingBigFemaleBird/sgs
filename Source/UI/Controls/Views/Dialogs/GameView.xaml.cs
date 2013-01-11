@@ -30,6 +30,7 @@ using Sanguosha.Expansions.Basic.Cards;
 using Sanguosha.Expansions.Battle.Cards;
 using Xceed.Wpf.Toolkit;
 using System.Windows.Media.Effects;
+using System.Windows.Threading;
 
 namespace Sanguosha.UI.Controls
 {
@@ -171,6 +172,11 @@ namespace Sanguosha.UI.Controls
         #endregion
 
         #region Private Functions
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            GameSoundPlayer.PlayBackgroundMusic(GameSoundLocator.GetBgm());
+        }        
 
         private void _Resize(Size size)
         {
@@ -501,6 +507,16 @@ namespace Sanguosha.UI.Controls
             playersMap[model.MainPlayerModel.Player] = mainPlayerPanel;
         }
         
+        #endregion
+
+        #region Public Functions
+        public void PlayAnimation(AnimationBase animation)
+        {
+            animation.HorizontalAlignment = HorizontalAlignment.Center;
+            animation.VerticalAlignment = VerticalAlignment.Center;
+            animationCenter.Children.Add(animation);
+            animation.Start();
+        }
         #endregion
 
         #region Layout Related
@@ -1149,14 +1165,14 @@ namespace Sanguosha.UI.Controls
                 pinDianBox.RevealResult(c1, c2);
             });
         }
-
+                
         public void NotifyGameOver(bool isDraw, List<Player> winners)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 Uri uri = GameSoundLocator.GetSystemSound("GameOver");
                 GameSoundPlayer.PlaySoundEffect(uri);
-                GameSoundPlayer.PlayBackgroundMusic(null);
+                GameSoundPlayer.PlayBackgroundMusic(null);                
                 List<Player> drawers;
                 List<Player> losers;
                 if (isDraw)
@@ -1170,6 +1186,19 @@ namespace Sanguosha.UI.Controls
                     drawers = new List<Player>();
                     losers = new List<Player>(Game.CurrentGame.Players.Except(winners));
                 }
+                bool delayWindow = true;
+                if (winners.Contains(GameModel.MainPlayerModel.Player))
+                {
+                    PlayAnimation(new WinAnimation());
+                }
+                else if (losers.Contains(GameModel.MainPlayerModel.Player))
+                {
+                    PlayAnimation(new LoseAnimation());
+                }
+                else delayWindow = false;
+                LobbyViewModel.Instance.OnChat -= chatEventHandler;
+
+
                 ObservableCollection<GameResultViewModel> model = new ObservableCollection<GameResultViewModel>();
                 foreach (Player player in winners.Concat(losers).Concat(drawers))
                 {
@@ -1198,10 +1227,8 @@ namespace Sanguosha.UI.Controls
                     }
                     model.Add(m);
                 }
-                LobbyViewModel.Instance.OnChat -= chatEventHandler;
                 gameResultBox.DataContext = model;
-                gameResultWindow.Content = gameResultBox;
-                gameResultWindow.Show();
+                gameResultWindow.Content = gameResultBox;                
                 gameResultWindow.Closed += (o, e) =>
                 {
                     var handler = OnGameCompleted;
@@ -1210,6 +1237,22 @@ namespace Sanguosha.UI.Controls
                         handler(this, new EventArgs());
                     }
                 };
+
+                if (delayWindow)
+                {
+                    DispatcherTimer timer = new DispatcherTimer();
+                    timer.Tick += (o, e) =>
+                    {
+                        gameResultWindow.Show();
+                        timer.Stop();                        
+                    };
+                    timer.Interval = TimeSpan.FromSeconds(2);
+                    timer.Start();
+                }
+                else
+                {
+                    gameResultWindow.Show();
+                }
             });
         }
         #endregion
@@ -1228,11 +1271,6 @@ namespace Sanguosha.UI.Controls
             deckDisplayWindow.DataContext = choiceModel;
             deckDisplayWindow.Show();
         }
-        #endregion
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            GameSoundPlayer.PlayBackgroundMusic(GameSoundLocator.GetBgm());
-        }        
+        #endregion        
     }
 }

@@ -130,11 +130,6 @@
 			</DoubleAnimationUsingKeyFrames>
 		</Storyboard>
 	</local:AnimationBase.Resources>
-	<local:AnimationBase.Triggers>
-		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
-			<BeginStoryboard Storyboard="{StaticResource mainAnimation}"/>
-		</EventTrigger>
-	</local:AnimationBase.Triggers>
 	<Grid>
 		<Image x:Name="image2" Margin="101,102,60,86" Source="QiLinAnimation/QiLin.png" Stretch="Fill" Opacity="0"/>
 		<Path x:Name="path" Data="M211,102 L175,160" Fill="#FFF4F4F5" Margin="0,108.332,94.998,139.168" Stretch="Fill" HorizontalAlignment="Right" Width="30.783" RenderTransformOrigin="0,1" StrokeThickness="2" Opacity="0">
