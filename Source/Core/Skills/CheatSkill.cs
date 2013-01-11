@@ -33,6 +33,11 @@ namespace Sanguosha.Core.Skills
             set { owner = value; }
         }
 
+        public DeckType ExtraCardsDeck
+        {
+            get { return null; }
+        }
+
         public bool IsRulerOnly
         {
             get { return false; }
@@ -52,6 +57,7 @@ namespace Sanguosha.Core.Skills
         {
             get { return false; }
         }
+
         public object Clone()
         {
             var skill = Activator.CreateInstance(this.GetType()) as CheatSkill;

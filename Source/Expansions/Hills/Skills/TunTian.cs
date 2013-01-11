@@ -55,6 +55,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             ) { IsAutoNotify = false, AskForConfirmation = false };
             Triggers.Add(GameEvent.PlayerDistanceAdjustment, trigger2);
             IsAutoInvoked = true;
+            ExtraCardsDeck = TianDeck;
         }
     }
 }

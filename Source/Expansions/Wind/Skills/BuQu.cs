@@ -21,7 +21,6 @@ namespace Sanguosha.Expansions.Wind.Skills
     {
         protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            DeckType bq = new PrivateDeckType("BuQu", true);
             if (1 - Owner.Health > Game.CurrentGame.Decks[Owner, bq].Count)
             {
                 int toDraw = 1 - Owner.Health - Game.CurrentGame.Decks[Owner, bq].Count;
@@ -83,7 +82,6 @@ namespace Sanguosha.Expansions.Wind.Skills
                 this,
                 (p, e, a) => 
                 {
-                    DeckType bq = new PrivateDeckType("BuQu", true);
                     if (p.Health > 0 && Game.CurrentGame.Decks[Owner, bq].Count > 0)
                     {
                         int toDraw = Game.CurrentGame.Decks[Owner, bq].Count;
@@ -102,8 +100,9 @@ namespace Sanguosha.Expansions.Wind.Skills
                 TriggerCondition.OwnerIsTarget
             ) { Type = TriggerType.Skill };
             Triggers.Add(GameEvent.AfterHealthChanged, trigger);
+            ExtraCardsDeck = bq;
             IsAutoInvoked = true;
         }
-
+        private static PrivateDeckType bq = new PrivateDeckType("BuQu", true);
     }
 }

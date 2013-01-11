@@ -114,6 +114,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger1);
             Triggers.Add(GameEvent.PlayerDying, trigger2);
             IsAutoInvoked = null;
+            ExtraCardsDeck = ChunDeck;
         }
 
         public static PrivateDeckType ChunDeck = new PrivateDeckType("Chun", false);

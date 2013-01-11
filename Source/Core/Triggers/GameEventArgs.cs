@@ -155,4 +155,24 @@ namespace Sanguosha.Core.Triggers
         public int AdjustmentAmount { get; set; }
         public int OriginalAmount { get; set; }
     }
+
+    public class SkillSetChangedEventArgs : GameEventArgs
+    {
+        public SkillSetChangedEventArgs()
+        {
+            Skills = new List<ISkill>();
+        }
+
+        public bool isLoseSkill
+        {
+            get;
+            set;
+        }
+
+        public List<ISkill> Skills
+        {
+            get;
+            set;
+        }
+    }
 }

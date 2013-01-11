@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 
 using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Skills;
@@ -36,15 +37,26 @@ namespace Sanguosha.Expansions.SP.Skills
                 {
                     var h = a.Source.Hero;
                     List<ISkill> skills = new List<ISkill>();
+                    ISkill huxiao = null;
                     foreach (var sk in h.Skills)
                     {
-                        if (sk is HuXiao) sk.Owner = null;
+                        if (sk is HuXiao)
+                        {
+                            sk.Owner = null;
+                            huxiao = sk;
+                        }
                         else skills.Add(sk);
                     }
+                    Trace.Assert(huxiao != null);
                     p[WuJiAwaken]++;
                     p.MaxHealth++;
                     Game.CurrentGame.RecoverHealth(p, p, 1);
                     a.Source.Hero = new Hero(h.Name, h.IsMale, h.Allegiance, h.MaxHealth, skills);
+                    SkillSetChangedEventArgs args = new SkillSetChangedEventArgs();
+                    args.Source = a.Source;
+                    args.Skills.Add(huxiao);
+                    args.isLoseSkill = true;
+                    Game.CurrentGame.Emit(GameEvent.PlayerSkillSetChanged, args);
                 },
                 TriggerCondition.OwnerIsSource
             );

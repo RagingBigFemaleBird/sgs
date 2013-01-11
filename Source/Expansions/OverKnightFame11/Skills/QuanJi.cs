@@ -84,6 +84,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             Triggers.Add(GameEvent.PlayerHandCardCapacityAdjustment, trigger);
             Triggers.Add(GameEvent.AfterDamageInflicted, trigger2);
             IsAutoInvoked = true;
+            ExtraCardsDeck = QuanDeck;
         }
 
         public static PrivateDeckType QuanDeck = new PrivateDeckType("Quan", false);

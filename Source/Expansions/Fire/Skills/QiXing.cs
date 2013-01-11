@@ -107,6 +107,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             Triggers.Add(GameEvent.PlayerGameStartAction, trigger);
             Triggers.Add(GameEvent.PhaseEndEvents[TurnPhase.Draw], trigger2);
             IsAutoInvoked = false;
+            ExtraCardsDeck = QiXingDeck;
         }
 
     }
