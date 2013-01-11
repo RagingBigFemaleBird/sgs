@@ -101,6 +101,11 @@ namespace Sanguosha.Core.UI
 
     public abstract class CardUsageVerifier : ICardUsageVerifier
     {
+        public CardUsageVerifier()
+        {
+            Helper = new UiHelper();
+        }
+
         public virtual VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> players)
         {
             CardTransformSkill transformSkill = skill as CardTransformSkill;
@@ -207,9 +212,10 @@ namespace Sanguosha.Core.UI
         public abstract IList<CardHandler> AcceptableCardTypes { get; }
 
 
-        public virtual UiHelper Helper
+        public UiHelper Helper
         {
-            get { return new UiHelper(); }
+            get;
+            set;
         }
 
     }

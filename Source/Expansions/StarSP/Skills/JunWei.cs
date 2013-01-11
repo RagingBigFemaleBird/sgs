@@ -104,7 +104,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             List<Card> cards;
             List<Player> players;
             List<List<Card>> answer;
-            if (!Owner.AskForCardUsage(new CardUsagePrompt("JunWei"), new JunWeiVerifier(), out skill, out cards, out players))
+            if (Owner.AskForCardUsage(new CardUsagePrompt("JunWei"), new JunWeiVerifier(), out skill, out cards, out players))
             {
                 Game.CurrentGame.HandleCardDiscard(Owner, cards);
                 Player target = players[0];
@@ -150,7 +150,6 @@ namespace Sanguosha.Expansions.StarSP.Skills
             ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger);
             IsAutoInvoked = null;
-            Helper.OtherDecksUsed.Add(YinLing.JinDeck);
         }
 
         public static PrivateDeckType TempDeck = new PrivateDeckType("Temp", true);
