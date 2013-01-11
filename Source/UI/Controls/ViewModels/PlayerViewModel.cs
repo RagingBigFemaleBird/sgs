@@ -1401,6 +1401,7 @@ namespace Sanguosha.UI.Controls
                     currentUsageVerifier = verifier;
                     Trace.Assert(currentUsageVerifier != null);
                     CurrentPrompt = prompt;
+                    CurrentPromptString = PromptFormatter.Format(prompt);
                 }
 
                 if (!IsPlayable)

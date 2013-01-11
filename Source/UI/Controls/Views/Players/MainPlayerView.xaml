@@ -359,7 +359,28 @@
             <Grid Margin="0.5,2,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="134" Height="134" IsEnabled="{Binding IsEnabled}" MouseLeftButtonDown="Border_MouseLeftButtonDown" MouseRightButtonDown="Border_MouseRightButtonDown">
                 <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=71\,28\,145\,145, Path=HeroName, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/Full/\{0\}.png}">
                     <Image.ToolTip>
-                        <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
+                        <ToolTip x:Name="toolTip" Placement="Top" >
+                            <StackPanel>
+                                <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0" Width="330">
+                                    <FlowDocument>
+                                        <Paragraph LineHeight="18">
+                                            <Run Text="{Binding Path=Hero.Name, Mode=OneWay, Converter={StaticResource heroToolTipConverter}, ConverterParameter=Name}" Foreground="Yellow" FontSize ="14" FontWeight="Bold"/>
+                                            <Run Text=" " />
+                                            <Run Text="{Binding Path=Hero.Allegiance, Mode=OneWay, Converter={StaticResource heroToolTipConverter}, ConverterParameter=Allegiance}"/>
+                                            <Run Text=" 体力"/>
+                                            <Run Text="{Binding Path=Hero.MaxHealth, Mode=OneWay}"/>
+                                        </Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                                <ItemsControl ItemsSource="{Binding HeroSkillNames, Mode=OneTime}" ItemTemplate="{StaticResource SkillToolTipTemplate2}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </StackPanel>
+                        </ToolTip>
                     </Image.ToolTip>
                     <Image.Effect>
                         <Sanguosha_UI_Effects:RippleTransitionEffect x:Name="impersonateEffect" Progress="100"/>

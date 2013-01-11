@@ -3,6 +3,7 @@
                     xmlns:local="clr-namespace:Sanguosha.UI.Controls"
                     xmlns:ee="http://schemas.microsoft.com/expression/2010/effects" 
                     xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources">
+   
     <Style TargetType="{x:Type local:ImageButton}">
         <Setter Property="Focusable"
                         Value="false" />

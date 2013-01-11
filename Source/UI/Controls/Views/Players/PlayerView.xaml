@@ -180,9 +180,7 @@
         <Grid.ToolTip>
             <ToolTip x:Name="toolTip" Content="{Binding}" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
         </Grid.ToolTip>
-        <ToolTipService.ShowOnDisabled>
-            <System:Boolean>True</System:Boolean>
-        </ToolTipService.ShowOnDisabled>
+        <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
         <VisualStateManager.CustomVisualStateManager>
             <ei:ExtendedVisualStateManager/>
         </VisualStateManager.CustomVisualStateManager>

@@ -137,11 +137,14 @@ namespace Sanguosha.Core.UI
             client.NextComm();
         }
 
+        private DateTime? _startTimeStamp;
+
         void _RecordTimeStamp()
-        {
+        {            
             if (client.RecordStream == null) return;
             Trace.Assert(Game.CurrentGame.ReplayController == null);
-            TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
+            if (_startTimeStamp == null) _startTimeStamp = DateTime.Now;
+            TimeSpan t = DateTime.Now - (DateTime)_startTimeStamp;
             Int64 msSinceEpoch = (Int64)t.TotalMilliseconds;
             client.RecordStream.Write(BitConverter.GetBytes(msSinceEpoch), 0, 8);
         }
