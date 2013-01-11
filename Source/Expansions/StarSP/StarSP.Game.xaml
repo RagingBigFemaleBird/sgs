@@ -64,7 +64,7 @@
     <sys:String x:Key="CardUsage.Prompt.ShiChou">你可以选译两张牌以及一名角色发动誓仇</sys:String>
 
     <sys:String x:Key="Deck.Jin.Name">锦</sys:String>
-    <sys:String x:Key="Deck.Temp.Name">∞</sys:String>
+    <sys:String x:Key="Deck.JunWei.Name">∞</sys:String>
     <sys:String x:Key="CardChoice.Prompt.YinLing">银铃 请选择{0}的1张牌</sys:String>
     <sys:String x:Key="CardChoice.Prompt.YinLing.Others">银铃 请等待{0}选择{1}的1张牌</sys:String>
 

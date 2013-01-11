@@ -103,9 +103,9 @@ namespace Sanguosha.Expansions.StarSP.Skills
             ISkill skill;
             List<Card> cards;
             List<Player> players;
-            List<List<Card>> answer;
             if (Owner.AskForCardUsage(new CardUsagePrompt("JunWei"), new JunWeiVerifier(), out skill, out cards, out players))
             {
+                NotifySkillUse();
                 Game.CurrentGame.HandleCardDiscard(Owner, cards);
                 Player target = players[0];
                 if (target.AskForCardUsage(new CardUsagePrompt("JunWeiShowCard"), new JunWeiShowCardVerifier(), out skill, out cards, out players))
@@ -124,6 +124,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                     Game.CurrentGame.LoseHealth(target, 1);
                     if (target.Equipments().Count == 0) return;
                     Thread.Sleep(380);
+                    List<List<Card>> answer;
                     List<DeckPlace> sourceDecks = new List<DeckPlace>();
                     sourceDecks.Add(new DeckPlace(target, DeckType.Equipment));
                     if (!Owner.AskForCardChoice(new CardChoicePrompt("JunWeiChoice", target, Owner),
@@ -133,13 +134,80 @@ namespace Sanguosha.Expansions.StarSP.Skills
                         new RequireOneCardChoiceVerifier(),
                         out answer))
                     {
-                        answer[0].Clear();
+                        answer = new List<List<Card>>();
+                        answer.Add(new List<Card>());
                         answer[0].Add(target.Equipments().First());
                     }
-                    Game.CurrentGame.HandleCardTransfer(target, target, TempDeck, answer[0]);
+                    Game.CurrentGame.HandleCardTransfer(target, target, JunWeiDeck, answer[0]);
                 }
             }
         }
+
+        void InstallEquipment(Player p, Card card)
+        {
+            CardsMovement attachMove = new CardsMovement();
+            attachMove.Cards = new List<Card>();
+            attachMove.Cards.Add(card);
+            attachMove.To = new DeckPlace(p, DeckType.Equipment);
+            foreach (Card c in p.Equipments())
+            {
+                if (c.Type.IsCardCategory(card.Type.Category))
+                {
+                    Game.CurrentGame.EnterAtomicContext();
+                    Game.CurrentGame.HandleCardDiscard(p, new List<Card>() { c });
+                    Game.CurrentGame.MoveCards(attachMove);
+                    Game.CurrentGame.PlayerAcquiredCard(p, new List<Card>() { card });
+                    Game.CurrentGame.ExitAtomicContext();
+                    return;
+                }
+            }
+            Game.CurrentGame.MoveCards(attachMove);
+            Game.CurrentGame.PlayerAcquiredCard(p, new List<Card>() { card });
+            return;
+        }
+
+        class LoseJunWei : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                if (eventArgs.Source != Owner)
+                {
+                    return;
+                }
+                List<ISkill> allSkills = new List<ISkill>();
+                if (Owner.Hero != null)
+                {
+                    allSkills.AddRange(Owner.Hero.Skills);
+                }
+                if (Owner.Hero2 != null)
+                {
+                    allSkills.AddRange(Owner.Hero2.Skills);
+                }
+                allSkills.AddRange(Owner.AdditionalSkills);
+                if (allSkills.Any(s => s is JunWei))
+                {
+                    return;
+                }
+                DiscardedTempCard();
+            }
+
+            public LoseJunWei(Player p)
+            {
+                Owner = p;
+            }
+        }
+
+        private static void DiscardedTempCard()
+        {
+            foreach (Player pl in Game.CurrentGame.AlivePlayers)
+            {
+                if (Game.CurrentGame.Decks[pl, JunWeiDeck].Count > 0)
+                {
+                    Game.CurrentGame.HandleCardDiscard(pl, Game.CurrentGame.Decks[pl, JunWeiDeck]);
+                }
+            }
+        }
+
         public JunWei()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
@@ -149,9 +217,40 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 TriggerCondition.OwnerIsSource
             ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger);
+
+            var trigger2 = new AutoNotifyPassiveSkillTrigger(
+                this,
+                (p, e, a) => { return Game.CurrentGame.Decks[a.Source, JunWeiDeck].Count > 0; },
+                (p, e, a) =>
+                {
+                    List<Card> cards = new List<Card>(Game.CurrentGame.Decks[a.Source, JunWeiDeck]);
+                    cards.Reverse();
+                    foreach (Card c in cards)
+                    {
+                        InstallEquipment(a.Source, c);
+                    }
+                },
+                TriggerCondition.Global
+            ) { AskForConfirmation = false, IsAutoNotify = false };
+            Triggers.Add(GameEvent.PhasePostEnd, trigger2);
+
+            var trigger3 = new AutoNotifyPassiveSkillTrigger(
+                this,
+                (p, e, a) => { DiscardedTempCard(); },
+                TriggerCondition.OwnerIsTarget
+            ) { AskForConfirmation = false, IsAutoNotify = false };
+            Triggers.Add(GameEvent.PlayerIsDead, trigger3);
+
+            var trigger4 = new AutoNotifyPassiveSkillTrigger(
+                this,
+                (p, e, a) => { Game.CurrentGame.RegisterTrigger(GameEvent.PlayerSkillSetChanged, new LoseJunWei(p)); },
+                TriggerCondition.OwnerIsSource
+            ) { AskForConfirmation = false, IsAutoNotify = false };
+            Triggers.Add(GameEvent.PlayerGameStartAction, trigger4);
+
             IsAutoInvoked = null;
         }
 
-        public static PrivateDeckType TempDeck = new PrivateDeckType("Temp", true);
+        public static PrivateDeckType JunWeiDeck = new PrivateDeckType("JunWei", true);
     }
 }

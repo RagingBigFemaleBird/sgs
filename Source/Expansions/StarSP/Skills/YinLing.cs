@@ -27,7 +27,6 @@ namespace Sanguosha.Expansions.StarSP.Skills
             MaxPlayers = 1;
             MinPlayers = 1;
             Discarding = true;
-            IsRulerOnly = true;
         }
 
         protected override bool VerifyPlayer(Player source, Player player)
