@@ -1412,6 +1412,39 @@ namespace Sanguosha.UI.Controls
                     CurrentPromptString = PromptFormatter.Format(prompt);
                 }
 
+                if (verifier != null && verifier.Helper != null &&
+                    verifier.Helper.OtherDecksUsed != null && verifier.Helper.OtherDecksUsed.Count != 0)
+                {
+                    var helper = verifier.Helper;
+                    if (helper.OtherDecksUsed.Count > 0)
+                    {
+                        if (helper.OtherDecksUsed.Count != 1)
+                        {
+                            throw new NotImplementedException("Currently using more than one private decks is not supported");
+                        }
+                        var deck = helper.OtherDecksUsed[0];
+                        var deckModel = PrivateDecks.FirstOrDefault(d => d.Name == deck.Name);
+                        Trace.Assert(deckModel != null);
+                        if (deckModel != CurrentPrivateDeck)
+                        {
+                            if (CurrentPrivateDeck != null)
+                            {
+                                foreach (var card in CurrentPrivateDeck.Cards)
+                                {
+                                    card.IsSelectionMode = false;
+                                    card.OnSelectedChanged -= _updateCardUsageStatusHandler;
+                                }
+                            }
+                            foreach (var card in deckModel.Cards)
+                            {
+                                card.IsSelectionMode = IsPlayable;
+                                card.OnSelectedChanged += _updateCardUsageStatusHandler;
+                            }
+                            CurrentPrivateDeck = deckModel;
+                        }
+                    }
+                }
+
                 if (!IsPlayable)
                 {
                     TimeOutSeconds = timeOutSeconds;
