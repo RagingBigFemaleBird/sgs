@@ -985,7 +985,7 @@ namespace Sanguosha.UI.Controls
             {
                 gameLogs.AppendLoseHealthLog(player, delta);
                 rtbLog.ScrollToEnd();
-                Uri uri = GameSoundLocator.GetSystemSound("LoseHealth");
+                Uri uri = GameSoundLocator.GetSystemSound("Damage");
                 GameSoundPlayer.PlaySoundEffect(uri);
             });
         }
