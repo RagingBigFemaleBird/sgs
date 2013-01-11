@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         {
             if (eventArgs != null)
             {
-                eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses[source]]--;
+                eventArgs.ReadonlyCard[ShaCancelling.ShaCancellationCount]--;
             }
         }
 
@@ -56,9 +56,9 @@ namespace Sanguosha.Expansions.Basic.Cards
             GameEventArgs args = new GameEventArgs();
             Game.CurrentGame.Emit(PlayerShaTargetShanModifier, args);
             // this number is 0 for normal Sha/Shan. Lv Bu would like this to be 1
-            eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses[dest]]++;
-            int numberOfShanRequired = eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses[dest]];
-            bool cannotUseShan = (eventArgs.ReadonlyCard[CannotProvideShan[dest]] == 1);
+            int numberOfShanRequired = eventArgs.ReadonlyCard[ShaCancellationCount] = eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses[dest]] + 1;
+            bool cannotUseShan = (eventArgs.ReadonlyCard[CannotProvideShan[dest]] >= 1);
+            if (cannotUseShan) eventArgs.ReadonlyCard[CannotProvideShan[dest]]--;
             bool cannotProvideShan = false;
             while (numberOfShanRequired > 0 && !cannotUseShan)
             {
@@ -85,7 +85,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 #if SB_FAQ
                         numberOfShanRequired--;
 #else
-                        numberOfShanRequired = eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses[dest]];
+                        numberOfShanRequired = eventArgs.ReadonlyCard[ShaCancellationCount];
 #endif
                         continue;
                     }
@@ -126,12 +126,12 @@ namespace Sanguosha.Expansions.Basic.Cards
 #if SB_FAQ
                 numberOfShanRequired--;
 #else
-                numberOfShanRequired = eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses[dest]];
+                numberOfShanRequired = eventArgs.ReadonlyCard[ShaCancellationCount];
 #endif
             }
             if (cannotUseShan ||
 #if SB_FAQ
-                eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses[dest]] > 0
+                eventArgs.ReadonlyCard[ShaCancellationCount] > 0
 #else
                 numberOfShanRequired > 0
 #endif
@@ -163,5 +163,6 @@ namespace Sanguosha.Expansions.Basic.Cards
         /// </summary>
         public static readonly GameEvent PlayerShaTargetDodged = new GameEvent("PlayerShaTargetDodged");
         public static readonly CardAttribute CannotProvideShan = CardAttribute.Register("CannotProvideShan");
+        public static readonly CardAttribute ShaCancellationCount = CardAttribute.Register("ShaCancellationCount");
     }
 }

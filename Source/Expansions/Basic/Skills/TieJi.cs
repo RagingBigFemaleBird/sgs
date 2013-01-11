@@ -29,7 +29,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                     var card = Game.CurrentGame.Judge(Owner, this, null, (judgeResultCard) => { return judgeResultCard.SuitColor == SuitColorType.Red; });
                     if (card.SuitColor == SuitColorType.Red)
                     {
-                        eventArgs.ReadonlyCard[ShaCancelling.CannotProvideShan[target]] = 1;
+                        eventArgs.ReadonlyCard[ShaCancelling.CannotProvideShan[target]]++;
                     }
                 }
             }

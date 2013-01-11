@@ -130,7 +130,7 @@ namespace Sanguosha.Core.Network
                     }
                 }
                 handlers[i].stream.ReadTimeout = Timeout.Infinite;
-                handlers[i].stream = new RecordTakingOutputStream(handlers[i].stream);
+                //handlers[i].stream = new RecordTakingOutputStream(handlers[i].stream);
                 handlers[i].threadServer = new Thread((ParameterizedThreadStart)((o) => 
                 {
                     ServerThread(handlers[(int)o]);
@@ -145,7 +145,7 @@ namespace Sanguosha.Core.Network
             }
             Trace.TraceInformation("Server ready");
             reconnectThread = new Thread(ReconnectionListener);
-            reconnectThread.Start();
+            //reconnectThread.Start();
         }
         
         Thread reconnectThread;
