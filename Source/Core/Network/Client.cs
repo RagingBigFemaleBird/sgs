@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.IO;
 using Sanguosha.Core.UI;
 using Sanguosha.Lobby.Core;
+using Sanguosha.Core.Utils;
 
 namespace Sanguosha.Core.Network
 {
@@ -68,21 +69,15 @@ namespace Sanguosha.Core.Network
             commId = 0;
         }
 
+        public ReplayController ReplayController { get; set; }
+
         public void StartReplay(Stream replayStream)
         {
             receiver = new ItemReceiver(replayStream);
             this.replayStream = replayStream;
             sender = new ItemSender(Stream.Null);
             commId = 0;
-            isReplay = true;
-        }
-
-        private bool isReplay;
-
-        public bool IsReplay
-        {
-            get { return isReplay; }
-            set { isReplay = value; }
+            ReplayController = new Utils.ReplayController();
         }
 
         private Stream replayStream;

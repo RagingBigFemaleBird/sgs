@@ -134,7 +134,7 @@ namespace Sanguosha.UI.Controls
                 var proxy = new AsyncUiAdapter(gameModel.PlayerModels[i]);
 #endif
                 _game.UiProxies.Add(player, proxy);
-            }
+            }            
 #if NETWORKING
             _game.GlobalProxy = new GlobalClientUiProxy(_game, activeClientProxy, inactive);
 #endif

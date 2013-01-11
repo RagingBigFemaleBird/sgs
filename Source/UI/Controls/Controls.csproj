@@ -67,12 +67,14 @@
     <Compile Include="ViewModels\LobbyViewModel.cs" />
     <Compile Include="ViewModels\MarkViewModel.cs" />
     <Compile Include="ViewModels\PrivateDeckViewModel.cs" />
+    <Compile Include="ViewModels\ReplayControllerViewModel.cs" />
     <Compile Include="ViewModels\RoomViewModel.cs" />
     <Compile Include="ViewModels\SeatViewModel.cs" />
     <Compile Include="ViewModels\WuGuChoiceViewModel.cs" />
     <Compile Include="Views\BaseControls\BoolToDoubleConverter.cs" />
     <Compile Include="Views\BaseControls\FlowDocumentExtensions.cs" />
     <Compile Include="Views\Buttons\ImageButton.cs" />
+    <Compile Include="Views\Buttons\ImageToggleButton.cs" />
     <Compile Include="Views\Buttons\LobbyMainButton.xaml.cs">
       <DependentUpon>LobbyMainButton.xaml</DependentUpon>
     </Compile>
@@ -83,8 +85,8 @@
     <Compile Include="Views\Controls\KeyEventNotifierView.xaml.cs">
       <DependentUpon>KeyEventNotifierView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Controls\ReplayController.xaml.cs">
-      <DependentUpon>ReplayController.xaml</DependentUpon>
+    <Compile Include="Views\Controls\ReplayControllerView.xaml.cs">
+      <DependentUpon>ReplayControllerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\CardArrangeBox.xaml.cs">
       <DependentUpon>CardArrangeBox.xaml</DependentUpon>
@@ -221,7 +223,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Controls\ReplayController.xaml">
+    <Page Include="Views\Controls\ReplayControllerView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

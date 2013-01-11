@@ -140,7 +140,7 @@ namespace Sanguosha.Core.UI
         void _RecordTimeStamp()
         {
             if (client.RecordStream == null) return;
-            Trace.Assert(!client.IsReplay);
+            Trace.Assert(Game.CurrentGame.ReplayController == null);
             TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
             Int64 msSinceEpoch = (Int64)t.TotalMilliseconds;
             client.RecordStream.Write(BitConverter.GetBytes(msSinceEpoch), 0, 8);
@@ -150,26 +150,20 @@ namespace Sanguosha.Core.UI
 
         void _GetTimeStamp()
         {
-            if (!client.IsReplay) return;
+            if (Game.CurrentGame.ReplayController == null) return;
             byte[] ts = new byte[8];
             client.ReplayStream.Read(ts, 0, 8);
             Int64 last = BitConverter.ToInt64(ts, 0);
             if (lastTS != 0)
             {
                 Int64 toSleep = last - lastTS;
-                if (Game.CurrentGame.ReplayController != null)
+                ReplayController controller = Game.CurrentGame.ReplayController;
+                if (!controller.NoDelays)
                 {
-                    if (!Game.CurrentGame.ReplayController.NoDelays)
-                    {
-                        if (Game.CurrentGame.ReplayController.EvenDelays) toSleep = ReplayController.EvenReplayBaseSpeedInMs;
-                        if (Game.CurrentGame.ReplayController.Speed != 0) toSleep = (Int64)(((double)toSleep) / Game.CurrentGame.ReplayController.Speed);
-                        Game.CurrentGame.ReplayController.Lock();
-                        Game.CurrentGame.ReplayController.Unlock();
-                        Thread.Sleep((int)toSleep);
-                    }
-                }
-                else
-                {
+                    if (controller.EvenDelays) toSleep = ReplayController.EvenReplayBaseSpeedInMs;
+                    if (controller.Speed != 0) toSleep = (Int64)(((double)toSleep) / controller.Speed);
+                    controller.Lock();
+                    controller.Unlock();
                     Thread.Sleep((int)toSleep);
                 }
             }

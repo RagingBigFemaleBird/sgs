@@ -535,6 +535,29 @@
     <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Wu-hover.png" />
     <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Wu-normal.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Replay\bg.png" />
+    <Resource Include="Images\Replay\const-down.png" />
+    <Resource Include="Images\Replay\const-downhover.png" />
+    <Resource Include="Images\Replay\const-hover.png" />
+    <Resource Include="Images\Replay\const-normal.png" />
+    <Resource Include="Images\Replay\fast-disabled.png" />
+    <Resource Include="Images\Replay\fast-down.png" />
+    <Resource Include="Images\Replay\fast-hover.png" />
+    <Resource Include="Images\Replay\fast-normal.png" />
+    <Resource Include="Images\Replay\pause-disabled.png" />
+    <Resource Include="Images\Replay\pause-down.png" />
+    <Resource Include="Images\Replay\pause-hover.png" />
+    <Resource Include="Images\Replay\pause-normal.png" />
+    <Resource Include="Images\Replay\play-disabled.png" />
+    <Resource Include="Images\Replay\play-down.png" />
+    <Resource Include="Images\Replay\play-hover.png" />
+    <Resource Include="Images\Replay\play-normal.png" />
+    <Resource Include="Images\Replay\slow-disabled.png" />
+    <Resource Include="Images\Replay\slow-down.png" />
+    <Resource Include="Images\Replay\slow-hover.png" />
+    <Resource Include="Images\Replay\slow-normal.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /S /Y $(ProjectDir)*.* $(TargetDir)Resources\

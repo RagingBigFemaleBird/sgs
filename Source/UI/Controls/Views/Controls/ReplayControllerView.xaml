@@ -1,0 +1,46 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	x:Class="Sanguosha.UI.Controls.ReplayControllerView"
+	x:Name="UserControl"
+	xmlns:local="clr-namespace:Sanguosha.UI.Controls"
+    xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
+	d:DesignWidth="197" d:DesignHeight="31" Opacity="0.5">
+	<UserControl.Resources>
+		<Storyboard x:Key="OnMouseEnter1">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="UserControl">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+		<Storyboard x:Key="OnMouseLeave1">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="UserControl">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0.5"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+	</UserControl.Resources>
+	<UserControl.Triggers>
+		<EventTrigger RoutedEvent="Mouse.MouseEnter" SourceName="UserControl">
+			<BeginStoryboard Storyboard="{StaticResource OnMouseEnter1}"/>
+		</EventTrigger>
+		<EventTrigger RoutedEvent="Mouse.MouseLeave">
+			<BeginStoryboard x:Name="OnMouseLeave1_BeginStoryboard" Storyboard="{StaticResource OnMouseLeave1}"/>
+		</EventTrigger>
+	</UserControl.Triggers>
+
+	<Grid x:Name="LayoutRoot">
+		<StackPanel Orientation="Horizontal" >
+			<StackPanel.Background>
+                <ImageBrush ImageSource="/Resources;component/Images/Replay/bg.png" />
+			</StackPanel.Background>
+            <local:ImageToggleButton IsChecked="{Binding EvenDelays}" Width="25" Height="21" VerticalAlignment="Center" Margin="15,0,0,0" NormalImage="/Resources;component/Images/Replay/const-normal.png"	HoverImage="/Resources;component/Images/Replay/const-hover.png" PressedImage="/Resources;component/Images/Replay/const-down.png" HoverPressedImage="/Resources;component/Images/Replay/const-downhover.png" />
+            <local:ImageButton Command="{Binding SlowDownCommand}" Width="25" Height="21" VerticalAlignment="Center" Margin="5,0,0,0" NormalImage="/Resources;component/Images/Replay/slow-normal.png"	HoverImage="/Resources;component/Images/Replay/slow-hover.png" PressedImage="/Resources;component/Images/Replay/slow-down.png" DisabledImage="/Resources;component/Images/Replay/slow-disabled.png" />            
+            <local:ImageToggleButton IsChecked="{Binding IsPaused}" Width="25" Height="21" VerticalAlignment="Center" Margin="5,0,0,0" NormalImage="/Resources;component/Images/Replay/pause-normal.png"	HoverImage="/Resources;component/Images/Replay/pause-hover.png" PressedImage="/Resources;component/Images/Replay/play-down.png" HoverPressedImage="/Resources;component/Images/Replay/play-hover.png" />
+            <local:ImageButton Command="{Binding SpeedUpCommand}" Width="25" Height="21" VerticalAlignment="Center" Margin="5,0,0,0" NormalImage="/Resources;component/Images/Replay/fast-normal.png"	HoverImage="/Resources;component/Images/Replay/fast-hover.png" PressedImage="/Resources;component/Images/Replay/fast-down.png" DisabledImage="/Resources;component/Images/Replay/fast-disabled.png" />
+            <TextBlock Text="×" FontFamily="Arial" Foreground="White" VerticalAlignment="Center" Margin="6,3,0,0" FontSize="20" />
+            <TextBlock Text="{Binding SpeedString, Mode=OneWay}" FontFamily="Arial" Foreground="White" VerticalAlignment="Center" FontWeight="Bold"  Margin="0,0,0,0" FontSize="15" />
+		</StackPanel>		
+	</Grid>
+</UserControl>

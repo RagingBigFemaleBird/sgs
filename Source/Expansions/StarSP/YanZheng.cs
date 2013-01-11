@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text;
 
 using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Cards;

@@ -318,9 +318,9 @@ namespace Sanguosha.UI.Main
             MainGame game = null;
             try
             {
-                client = new Client();
-                client.StartReplay(File.Open(fileName, FileMode.Open));
+                client = new Client();                
                 game = new MainGame();
+                client.StartReplay(File.Open(fileName, FileMode.Open));
                 game.NetworkClient = client;
             }
             catch (Exception)

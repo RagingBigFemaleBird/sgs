@@ -34,5 +34,46 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>  
+    </Style>
+
+    <Style TargetType="{x:Type local:ImageToggleButton}">
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ImageToggleButton}">
+                    <Image x:Name="PART_Image"
+                                 Source="{Binding NormalImage, RelativeSource={RelativeSource TemplatedParent}}"/>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsChecked" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Source"
+                                            Value="{Binding HoverImage, RelativeSource={RelativeSource TemplatedParent}}"
+                                            TargetName="PART_Image"/>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="False" />
+                                <Condition Property="IsChecked" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Source"
+                                            Value="{Binding PressedImage, RelativeSource={RelativeSource TemplatedParent}}"
+                                            TargetName="PART_Image"/>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsChecked" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Source"
+                                            Value="{Binding HoverPressedImage, RelativeSource={RelativeSource TemplatedParent}}"
+                                            TargetName="PART_Image"/>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
