@@ -209,7 +209,15 @@ namespace Sanguosha.UI.Controls
                 {
                     foreach (var heroChar in name)
                     {
-                        heroNameChars.Add(heroChar.ToString());
+                        if (heroNameChars.Count > 0 && (char.IsUpper(heroChar) || char.IsLower(heroChar)) &&
+                            (char.IsUpper(heroNameChars.Last().Last()) || char.IsUpper(heroNameChars.Last().Last())))
+                        {
+                            heroNameChars[heroNameChars.Count - 1] += heroChar;
+                        }
+                        else
+                        {
+                            heroNameChars.Add(heroChar.ToString());
+                        }
                     }
                 }
                 foreach (var skill in Hero.Skills)
