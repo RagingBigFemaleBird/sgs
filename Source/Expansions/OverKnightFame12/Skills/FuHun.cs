@@ -26,8 +26,8 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 if (eventArgs.Source != Owner) return;
-                Owner.LoseAdditionalSkill(fhWuSheng);
-                Owner.LoseAdditionalSkill(fhPaoXiao);
+                Game.CurrentGame.PlayerLoseSkill(Owner, fhWuSheng);
+                Game.CurrentGame.PlayerLoseSkill(Owner, fhPaoXiao);
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PhasePostEnd, this);
             }
             public RemoveShengPao(Player p, ISkill s1, ISkill s2)
@@ -61,11 +61,9 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             Game.CurrentGame.HandleCardTransferToHand(null, owner, Game.CurrentGame.Decks[null, FuHunDeck]);
             if (result.Distinct().Count() == toDraw)
             {
-                fhWuSheng = new WuSheng();
-                fhPaoXiao = new PaoXiao();
                 Trigger tri = new RemoveShengPao(owner, fhWuSheng, fhPaoXiao);
-                owner.AcquireAdditionalSkill(fhWuSheng);
-                owner.AcquireAdditionalSkill(fhPaoXiao);
+                Game.CurrentGame.PlayerAcquireSkill(owner, fhWuSheng);
+                Game.CurrentGame.PlayerAcquireSkill(owner, fhPaoXiao);
                 Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, tri);
             }
             Game.CurrentGame.CurrentPhaseEventIndex++;
@@ -74,6 +72,8 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
 
         public FuHun()
         {
+            fhWuSheng = new WuSheng();
+            fhPaoXiao = new PaoXiao();
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
                 Run,
