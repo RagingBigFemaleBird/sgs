@@ -48,13 +48,13 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 {
                     return VerifierResult.Fail;
                 }
-                if (cards == null || players == null || players.Count == 0)
-                {
-                    return VerifierResult.Partial;
-                }
                 if (cards.Any(c => c.Place.DeckType != YinLing.JinDeck))
                 {
                     return VerifierResult.Fail;
+                }
+                if (cards == null || players == null || players.Count == 0)
+                {
+                    return VerifierResult.Partial;
                 }
                 if (cards.Count < 3)
                     return VerifierResult.Partial;

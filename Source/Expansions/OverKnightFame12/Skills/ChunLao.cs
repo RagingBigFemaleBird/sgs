@@ -52,24 +52,33 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             }
         }
 
+        class ChuLaoVerifier : CardsAndTargetsVerifier
+        {
+            public ChuLaoVerifier()
+            {
+                MaxCards = 1;
+                MinCards = 1;
+                MaxPlayers = 0;
+                Discarding = true;
+                Helper.OtherDecksUsed.Add(ChunDeck);
+            }
+
+            protected override bool VerifyCard(Player source, Card card)
+            {
+                return card.Place.DeckType == ChunDeck;
+            }
+        }
+
         public void SaveALife(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            while (eventArgs.Targets[0].Health <= 0 && Game.CurrentGame.Decks[owner, ChunDeck].Count > 0 && AskForSkillUse())
+            ISkill skill;
+            List<Card> cards;
+            List<Player> players;
+            while (eventArgs.Targets[0].Health <= 0 && Game.CurrentGame.Decks[owner, ChunDeck].Count > 0 &&
+                owner.AskForCardUsage(new CardUsagePrompt("ChunLaoSave"), new  ChuLaoVerifier(), out skill, out cards, out players))
             {
-                List<List<Card>> answer;
-                if (!Game.CurrentGame.UiProxies[owner].AskForCardChoice(new CardChoicePrompt("ChunLao", owner),
-                    new List<DeckPlace>() { new DeckPlace(owner, ChunDeck) },
-                    new List<string>() { "ChunLao" },
-                    new List<int>() { 1 },
-                    new RequireOneCardChoiceVerifier(),
-                    out answer))
-                {
-                    answer = new List<List<Card>>();
-                    answer.Add(new List<Card>());
-                    answer[0].Add(Game.CurrentGame.Decks[owner, ChunDeck][0]);
-                }
                 NotifySkillUse(eventArgs.Targets);
-                Card theCard = answer[0][0];
+                Card theCard = cards[0];
                 Game.CurrentGame.HandleCardDiscard(owner, new List<Card>() { theCard });
                 Game.CurrentGame.IsDying.Push(eventArgs.Targets[0]);
                 GameEventArgs args = new GameEventArgs();
