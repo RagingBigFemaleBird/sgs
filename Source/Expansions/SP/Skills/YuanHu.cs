@@ -31,9 +31,25 @@ namespace Sanguosha.Expansions.SP.Skills
                 {
                     return VerifierResult.Fail;
                 }
+                if (skill != null)
+                {
+                    return VerifierResult.Fail;
+                }
                 if (cards == null || cards.Count == 0)
                 {
                     return VerifierResult.Partial;
+                }
+                if (players == null || players.Count == 0)
+                {
+                    return VerifierResult.Partial;
+                }
+                if (players.Count > 1)
+                {
+                    return VerifierResult.Fail;
+                }
+                if (players[0].Equipments().Any(c => c.Type.IsCardCategory(cards[0].Type.Category)))
+                {
+                    return VerifierResult.Fail;
                 }
                 if (!cards[0].Type.IsCardCategory(CardCategory.Equipment))
                 {
@@ -43,45 +59,27 @@ namespace Sanguosha.Expansions.SP.Skills
                 {
                     return VerifierResult.Fail;
                 }
-                if (players == null || players.Count == 0)
-                {
-                    return VerifierResult.Partial;
-                }
-                if (players.Count > 2 || players.Count > 1 && !cards[0].Type.IsCardCategory(CardCategory.Weapon))
-                {
-                    return VerifierResult.Fail;
-                }
-
-                CardHandler handler = new Sha();
-                handler.HoldInTemp(cards);
-                if (players.Count == 1 && cards.Count == 1 && cards[0].Type.IsCardCategory(CardCategory.Weapon))
-                {
-                    List<Player> pls = Game.CurrentGame.AlivePlayers;
-                    if (pls.Any(p => p != players[0] && Game.CurrentGame.DistanceTo(players[0], p) == 1 && p.HandCards().Concat(p.Equipments()).Count() > 0))
-                    {
-                        handler.ReleaseHoldInTemp();
-                        return VerifierResult.Partial;
-                    }
-                }
-                if (players.Count == 2)
-                {
-                    if (Game.CurrentGame.DistanceTo(players[0], players[1]) != 1 || players[1].HandCards().Concat(players[1].Equipments()).Count() == 0)
-                    {
-                        handler.ReleaseHoldInTemp();
-                        return VerifierResult.Fail;
-                    }
-                }
-                if (players[0].Equipments().Any(c => c.Type.IsCardCategory(cards[0].Type.Category)))
-                {
-                    handler.ReleaseHoldInTemp();
-                    return VerifierResult.Fail;
-                }
-                handler.ReleaseHoldInTemp();
                 return VerifierResult.Success;
             }
             public override IList<CardHandler> AcceptableCardTypes
             {
                 get { return null; }
+            }
+        }
+
+        class YuanHuChoiceOnePlayer : CardsAndTargetsVerifier
+        {
+            public YuanHuChoiceOnePlayer(Player target)
+            {
+                MaxPlayers = 1;
+                MaxCards = 0;
+                this.target = target;
+            }
+
+            Player target;
+            protected override bool VerifyPlayer(Player source, Player player)
+            {
+                return Game.CurrentGame.DistanceTo(player, target) == 1;
             }
         }
 
@@ -93,11 +91,18 @@ namespace Sanguosha.Expansions.SP.Skills
             {
                 case CardCategory.Weapon:
                     {
-                        if (players.Count == 2)
+                        var result = from player in Game.CurrentGame.AlivePlayers where player != players[0] && Game.CurrentGame.DistanceTo(players[0], player) == 1 select player;
+                        if (result.Count() == 0) break;
+                        ISkill skill;
+                        List<Card> nCards;
+                        List<Player> nPlayers;
+                        if (!owner.AskForCardUsage(new CardUsagePrompt("YuanHuQiZhi"), new YuanHuChoiceOnePlayer(players[0]), out skill, out nCards, out nPlayers))
                         {
-                            var Card = Game.CurrentGame.SelectACardFrom(players[1], owner, new CardChoicePrompt("YuanHu", players[1], owner), "YuanHu");
-                            Game.CurrentGame.HandleCardDiscard(players[1], new List<Card>() { Card });
+                            nPlayers = new List<Player>();
+                            nPlayers.Add(result.First());
                         }
+                        var Card = Game.CurrentGame.SelectACardFrom(nPlayers[0], owner, new CardChoicePrompt("YuanHu", nPlayers[0], owner), "YuanHu");
+                        Game.CurrentGame.HandleCardDiscard(nPlayers[0], new List<Card>() { Card });
                         break;
                     }
                 case CardCategory.Armor:
