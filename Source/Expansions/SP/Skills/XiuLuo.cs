@@ -64,13 +64,15 @@ namespace Sanguosha.Expansions.SP.Skills
             List<DeckPlace> sourceDeck = new List<DeckPlace>();
             sourceDeck.Add(new DeckPlace(owner, DeckType.DelayedTools));
             sourceDeck.Add(new DeckPlace(owner, DeckType.Hand));
+            AdditionalCardChoiceOptions options = new AdditionalCardChoiceOptions();
+            options.IsCancellable = true;
             if (owner.AskForCardChoice(new CardChoicePrompt("XiuLuo", owner),
                 sourceDeck,
                 new List<string>() { "XLJinNang", "XLShouPai" },
                 new List<int>() { 1, 1 },
                 new XiuLuoVerifier(),
                 out answer,
-                null,
+                options,
                 CardChoiceCallback.GenericCardChoiceCallback))
             {
                 NotifySkillUse();
@@ -86,7 +88,7 @@ namespace Sanguosha.Expansions.SP.Skills
                 (p, e, a) => { return p.DelayedTools().Count > 0 && p.HandCards().Count > 0; },
                 Run,
                 TriggerCondition.OwnerIsSource
-            ) { IsAutoNotify = false };
+            ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Start], trigger);
             IsAutoInvoked = null;
         }
