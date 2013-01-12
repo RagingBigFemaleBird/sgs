@@ -25,6 +25,7 @@ namespace Sanguosha.Expansions.Hills.Skills
         {
             protected override void GetJudgeCards(List<Card> list)
             {
+                if (list[0].Suit == SuitType.Heart) return;
                 CardsMovement move = new CardsMovement();
                 move.Cards = new List<Card>(list);
                 move.To = new DeckPlace(Owner, TianDeck);
