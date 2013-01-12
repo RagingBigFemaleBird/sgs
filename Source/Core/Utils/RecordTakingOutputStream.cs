@@ -78,7 +78,7 @@ namespace Sanguosha.Core.Utils
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-/*            if (count > 0)
+            if (count > 0)
             {
                 try
                 {
@@ -90,7 +90,7 @@ namespace Sanguosha.Core.Utils
                 {
                 }
             }
-*/            OutputStream.Write(buffer, offset, count);
+            OutputStream.Write(buffer, offset, count);
         }
         
         public void DumpTo(Stream s)

@@ -130,7 +130,7 @@ namespace Sanguosha.Core.Network
                     }
                 }
                 handlers[i].stream.ReadTimeout = Timeout.Infinite;
-                //handlers[i].stream = new RecordTakingOutputStream(handlers[i].stream);
+                handlers[i].stream = new RecordTakingOutputStream(handlers[i].stream);
                 handlers[i].threadServer = new Thread((ParameterizedThreadStart)((o) => 
                 {
                     ServerThread(handlers[(int)o]);
@@ -145,7 +145,7 @@ namespace Sanguosha.Core.Network
             }
             Trace.TraceInformation("Server ready");
             reconnectThread = new Thread(ReconnectionListener);
-            //reconnectThread.Start();
+            reconnectThread.Start();
         }
         
         Thread reconnectThread;
@@ -153,7 +153,6 @@ namespace Sanguosha.Core.Network
         void ReconnectionListener()
         {
             Trace.TraceInformation("Reconnection listener Started on {0} : {1}", ipAddress.ToString(), IpPort);
-            game.Settings.Accounts = new List<Account>();
             while (true)
             {
                 var client = listener.AcceptTcpClient();
@@ -193,6 +192,7 @@ namespace Sanguosha.Core.Network
                 {
                     lock (handlers[indexC].queueOut)
                     {
+                        (handlers[indexC].stream as RecordTakingOutputStream).Flush();
                         var newRCStream = new RecordTakingOutputStream(stream);
                         (handlers[indexC].stream as RecordTakingOutputStream).DumpTo(newRCStream);
                         handlers[indexC].disconnected = false;
@@ -500,6 +500,7 @@ namespace Sanguosha.Core.Network
                 handlers[i].threadClient.Join();
                 handlers[i].threadServer.Abort();
             }
+            listener.Stop();
             reconnectThread.Abort();
         }
 
