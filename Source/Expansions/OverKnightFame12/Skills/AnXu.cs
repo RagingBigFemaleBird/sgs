@@ -37,17 +37,14 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             {
                 return VerifierResult.Fail;
             }
-            foreach (Player p in arg.Targets)
+            if (arg.Targets.Any(p => p == Owner))
             {
-                if (p == Owner)
-                {
-                    return VerifierResult.Fail;
-                }
+                return VerifierResult.Fail;
             }
             if (arg.Targets != null && arg.Targets.Count == 2)
             {
-                if(Game.CurrentGame.Decks[arg.Targets[0], DeckType.Hand].Count == Game.CurrentGame.Decks[arg.Targets[1], DeckType.Hand].Count)
-					return VerifierResult.Fail;
+                if (arg.Targets[0].HandCards().Count == arg.Targets[1].HandCards().Count)
+                    return VerifierResult.Fail;
             }
             if (arg.Targets == null || arg.Targets.Count < 2)
             {
@@ -59,28 +56,21 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
         public override bool Commit(GameEventArgs arg)
         {
             Owner[AnXuUsed] = 1;
-			Player less=arg.Targets[0];
-			Player more=arg.Targets[1];
-			if(Game.CurrentGame.Decks[arg.Targets[0], DeckType.Hand].Count>Game.CurrentGame.Decks[arg.Targets[1], DeckType.Hand].Count)
-			{
-				less=arg.Targets[1];
-				more=arg.Targets[0];
-			}
-			List<List<Card>> answer;
-			if (!Game.CurrentGame.UiProxies[less].AskForCardChoice(new CardChoicePrompt("AnXu", less), new List<DeckPlace>() { new DeckPlace(more, DeckType.Hand) },
-			new List<string>() { "AnXu" }, new List<int>() { 1 }, new RequireOneCardChoiceVerifier(), out answer))
-			{
-				answer = new List<List<Card>>();
-				answer.Add(new List<Card>());
-				answer[0].Add(Game.CurrentGame.Decks[more, DeckType.Hand][0]);
-			}
-			Game.CurrentGame.HandleCardTransferToHand(more, less, answer[0]);
-            var theCard = answer[0][0];
+            Player less = arg.Targets[0];
+            Player more = arg.Targets[1];
+            if (arg.Targets[0].HandCards().Count > arg.Targets[1].HandCards().Count)
+            {
+                less = arg.Targets[1];
+                more = arg.Targets[0];
+            }
+            var theCard = Game.CurrentGame.SelectACardFrom(more, less, new CardChoicePrompt("AnXu", less), "AnXu", true);
+            Game.CurrentGame.SyncCard(less, ref theCard);
+            Game.CurrentGame.HandleCardTransferToHand(more, less, new List<Card>() { theCard });
             Game.CurrentGame.SyncCardAll(ref theCard);
-			Game.CurrentGame.NotificationProxy.NotifyShowCard(less, theCard);
-			if (theCard.Suit!= SuitType.Spade)
-				Game.CurrentGame.DrawCards(Owner,1);
-			return true;
+            Game.CurrentGame.NotificationProxy.NotifyShowCard(less, theCard);
+            if (theCard.Suit != SuitType.Spade)
+                Game.CurrentGame.DrawCards(Owner, 1);
+            return true;
         }
         public static PlayerAttribute AnXuUsed = PlayerAttribute.Register("AnXuUsed", true);
 
