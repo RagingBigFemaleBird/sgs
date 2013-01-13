@@ -12,6 +12,7 @@ using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.UI;
 using Sanguosha.Core.Skills;
+using Sanguosha.Core.Utils;
 
 
 namespace Sanguosha.Core.Games
@@ -117,7 +118,7 @@ namespace Sanguosha.Core.Games
                 {
                     if (p.IsIronShackled)
                     {
-                        Thread.Sleep(610);
+                        GameDelays.Delay(GameDelayTypes.TieSuoDamage);
                         DoDamage(damageArgs.Source, p, originalTarget, ironShackledDamage, ironShackledDamageElement, card, readonlyCard);
                     }
                 }
@@ -228,7 +229,7 @@ namespace Sanguosha.Core.Games
                 MoveCards(move);
                 PlayerDiscardedCard(player, backup, DiscardReason.Judge);
             }
-            Thread.Sleep(500);
+            GameDelays.Delay(GameDelayTypes.JudgeEnd);
             return args.ReadonlyCard as ReadOnlyCard;
         }
 
@@ -473,7 +474,7 @@ namespace Sanguosha.Core.Games
             PlayerAboutToDiscardCard(p, move.Cards, reason);
             MoveCards(move);
             if (!atomic)
-                Thread.Sleep(480);
+                GameDelays.Delay(GameDelayTypes.Discard);
             if (p != null)
             {
                 PlayerLostCard(p, backup);
@@ -491,7 +492,7 @@ namespace Sanguosha.Core.Games
                 move.Helper = helper;
             }
             MoveCards(move);
-            Thread.Sleep(700);
+            GameDelays.Delay(GameDelayTypes.CardTransfer);
             EnterAtomicContext();
             PlayerLostCard(from, cards);
             PlayerAcquiredCard(to, cards);
@@ -505,7 +506,7 @@ namespace Sanguosha.Core.Games
             move.To = new DeckPlace(to, target);
             move.Helper = new MovementHelper();
             MoveCards(move);
-            Thread.Sleep(700);
+            GameDelays.Delay(GameDelayTypes.CardTransfer);
             EnterAtomicContext();
             PlayerLostCard(from, cards);
             PlayerAcquiredCard(to, cards);

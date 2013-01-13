@@ -877,7 +877,7 @@ namespace Sanguosha.Core.Games
             move.Cards = cardsDrawn;
             move.To = new DeckPlace(player, DeckType.Hand);
             MoveCards(move);
-            Thread.Sleep(400);
+            GameDelays.Delay(GameDelayTypes.Draw);
             PlayerAcquiredCard(player, cardsDrawn);
         }
 

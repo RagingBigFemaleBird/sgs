@@ -13,6 +13,7 @@ using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.Cards;
 using Sanguosha.Expansions.Basic.Cards;
 using System.Threading;
+using Sanguosha.Core.Utils;
 
 namespace Sanguosha.Expansions.StarSP.Skills
 {
@@ -123,7 +124,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 {
                     Game.CurrentGame.LoseHealth(target, 1);
                     if (target.Equipments().Count == 0) return;
-                    Thread.Sleep(380);
+                    GameDelays.Delay(GameDelayTypes.JunWei);
                     List<List<Card>> answer;
                     List<DeckPlace> sourceDecks = new List<DeckPlace>();
                     sourceDecks.Add(new DeckPlace(target, DeckType.Equipment));

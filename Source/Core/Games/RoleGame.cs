@@ -13,6 +13,7 @@ using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.Heroes;
 using System.Threading;
 using Sanguosha.Core.Games;
+using Sanguosha.Core.Utils;
 
 namespace Sanguosha.Core.Games
 {
@@ -358,7 +359,7 @@ namespace Sanguosha.Core.Games
                     }
                 }
 
-                Thread.Sleep(500);
+                GameDelays.Delay(GameDelayTypes.PlayerAction);
 
                 c.Type.Process(arg);
 
@@ -577,7 +578,7 @@ namespace Sanguosha.Core.Games
                 }
                 game.MoveCards(moves, null);
 
-                Thread.Sleep(1200);
+                GameDelays.Delay(GameDelayTypes.GameStart);
 
                 i = 0;
                 foreach (Player player in game.Players)
@@ -595,7 +596,7 @@ namespace Sanguosha.Core.Games
                     i++;
                 }
 
-                Thread.Sleep(400);
+                GameDelays.Delay(GameDelayTypes.RoleDistribute);
 
                 //hero allocation
                 Shuffle(game.Decks[DeckType.Heroes]);
@@ -750,10 +751,11 @@ namespace Sanguosha.Core.Games
                 
                 StartGameDeal(game);
 
-                Thread.Sleep(1000);
+                GameDelays.Delay(GameDelayTypes.GameStart);
 
                 Game.CurrentGame.NotificationProxy.NotifyGameStart();
-                Thread.Sleep(2000);
+                GameDelays.Delay(GameDelayTypes.GameStart);
+                GameDelays.Delay(GameDelayTypes.GameStart);
 
                 foreach (var act in game.AlivePlayers)
                 {
@@ -814,7 +816,7 @@ namespace Sanguosha.Core.Games
                         {
                             break;
                         }
-                        Thread.Sleep(300);
+                        GameDelays.Delay(GameDelayTypes.ChangePlayer);
                     }
                 }
                 Game.CurrentGame.Emit(GameEvent.PhasePostEnd, new GameEventArgs() { Source = currentPlayer });

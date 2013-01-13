@@ -137,6 +137,7 @@
     <Compile Include="UI\AlwaysTrueChoiceVerifier.cs" />
     <Compile Include="UI\TestUiProxy.cs" />
     <Compile Include="Utils\FileRotater.cs" />
+    <Compile Include="Utils\GameDelays.cs" />
     <Compile Include="Utils\RawDeserializer.cs" />
     <Compile Include="Utils\RawSerializer.cs" />
     <Compile Include="Utils\RecordTakingInputStream.cs" />

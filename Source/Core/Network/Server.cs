@@ -94,6 +94,7 @@ namespace Sanguosha.Core.Network
         public void Start()
         {
             Trace.TraceInformation("Listener Started on {0} : {1}", ipAddress.ToString(), IpPort);
+            int To = 6000;
             game.Settings.Accounts = new List<Account>();
             for (int i = 0; i < maxClients; i++)
             {
@@ -101,7 +102,8 @@ namespace Sanguosha.Core.Network
                 handlers[i].client = listener.AcceptTcpClient();
                 Trace.TraceInformation("Client connected");
                 handlers[i].stream = handlers[i].client.GetStream();
-                handlers[i].stream.ReadTimeout = 2000;
+                handlers[i].stream.ReadTimeout = To;
+                if (To >= 2000) To -= 1000;
                 if (game.Configuration != null)
                 {
                     object item;
