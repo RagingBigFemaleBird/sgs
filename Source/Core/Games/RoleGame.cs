@@ -935,10 +935,11 @@ namespace Sanguosha.Core.Games
                     move.Cards.AddRange(Game.CurrentGame.Decks[p, DeckType.DelayedTools]);
                     move.To = new DeckPlace(null, DeckType.Discard);
                     Game.CurrentGame.MoveCards(move);
-                    foreach (var kvp in p.Attributes)
+                    var makeACopy = new List<PlayerAttribute>(p.Attributes.Keys);
+                    foreach (var kvp in makeACopy)
                     {
-                        if (kvp.Key.IsMark)
-                            p[kvp.Key] = 0;
+                        if (kvp.IsMark)
+                            p[kvp] = 0;
                     }
                 }
                 if (p.Hero != null)
