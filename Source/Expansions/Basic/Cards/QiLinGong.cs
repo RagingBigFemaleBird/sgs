@@ -71,7 +71,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         public override int AttackRange
         {
-            get { return 3; }
+            get { return 5; }
         }
 
         protected override void RegisterWeaponTriggers(Player p)
