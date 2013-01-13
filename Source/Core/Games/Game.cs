@@ -518,9 +518,14 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        private void EmitTriggers(List<TriggerWithParam> triggers)
+        private class TriggerComparer : IComparer<TriggerWithParam>
         {
-            triggers.Sort((a, b) =>
+            public TriggerComparer(Game game)
+            {
+                this.game = game;
+            }
+            Game game;
+            public int Compare(TriggerWithParam a, TriggerWithParam b)
             {
                 int result2 = a.trigger.Type.CompareTo(b.trigger.Type);
                 if (result2 != 0)
@@ -532,7 +537,7 @@ namespace Sanguosha.Core.Games
                 {
                     return -result;
                 }
-                Player p = CurrentPlayer;
+                Player p = game.CurrentPlayer;
                 int result3 = 0;
                 if (a.trigger.Owner != b.trigger.Owner)
                 {
@@ -548,13 +553,18 @@ namespace Sanguosha.Core.Games
                             result3 = 1;
                             break;
                         }
-                        p = NextAlivePlayer(p);
-                    } while (p != CurrentPlayer);
+                        p = game.NextAlivePlayer(p);
+                    } while (p != game.CurrentPlayer);
 
                 }
                 return result3;
-            });
-            foreach (var t in triggers)
+            }
+        }
+
+        private void EmitTriggers(List<TriggerWithParam> triggers)
+        {
+            var result = triggers.OrderBy((a) => { return a; }, new TriggerComparer(this));
+            foreach (var t in result)
             {
                 if (t.trigger.Owner == null || !t.trigger.Owner.IsDead)
                 {
