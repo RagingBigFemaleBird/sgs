@@ -22,6 +22,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     {
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
+            int i = 0;
             foreach (var target in eventArgs.Targets)
             {
                 if (AskForSkillUse())
@@ -29,9 +30,10 @@ namespace Sanguosha.Expansions.Basic.Skills
                     var card = Game.CurrentGame.Judge(Owner, this, null, (judgeResultCard) => { return judgeResultCard.SuitColor == SuitColorType.Red; });
                     if (card.SuitColor == SuitColorType.Red)
                     {
-                        eventArgs.ReadonlyCard[ShaCancelling.CannotProvideShan[target]]++;
+                        eventArgs.ReadonlyCard[ShaCancelling.CannotProvideShan[target]] |= (1 << i);
                     }
                 }
+                i++;
             }
         }
 
