@@ -202,7 +202,33 @@ namespace Sanguosha.Core.UI
         private void AskUiThread()
         {
             game.RegisterCurrentThread();
-            proxy.TryAskForCardUsage(prompt, verifier);
+            if (proxy.HostPlayer.IsDead) return;
+            bool found = true;
+            if (verifier.AcceptableCardTypes != null && verifier.AcceptableCardTypes.Count > 0)
+            {
+                found = false;
+                foreach (var sk in proxy.HostPlayer.ActionableSkills)
+                {
+                    CardTransformSkill transformSkill = sk as CardTransformSkill;
+                    if (transformSkill == null) continue;
+                    var commonResult = from type1 in verifier.AcceptableCardTypes
+                                       where transformSkill.PossibleResults.Any(ci => type1.GetType().IsAssignableFrom(ci.GetType()))
+                                       select type1;
+                    if (commonResult.Count() != 0)
+                    {
+                        found = true;
+                    }
+                }
+                var commonResult2 = from type1 in verifier.AcceptableCardTypes
+                                   where proxy.HostPlayer.HandCards().Any(ci => type1.GetType().IsAssignableFrom(ci.Type.GetType()))
+                                   select type1;
+                if (commonResult2.Count() != 0)
+                {
+                    found = true;
+                }
+            }
+            if (!found) proxy.SkipAskForCardUsage();
+            else proxy.TryAskForCardUsage(prompt, verifier);
         }
 
         public void AskForHeroChoice(Dictionary<Player, List<Card>> restDraw, Dictionary<Player, Card> heroSelection)

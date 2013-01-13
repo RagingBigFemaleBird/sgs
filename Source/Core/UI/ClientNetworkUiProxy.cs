@@ -39,6 +39,13 @@ namespace Sanguosha.Core.UI
             lastTS = 0;
         }
 
+        public void SkipAskForCardUsage()
+        {
+            client.AnswerNext();
+            client.AnswerItem(0);
+            client.Flush();
+        }
+
         public void TryAskForCardUsage(Prompt prompt, ICardUsageVerifier verifier)
         {
             ISkill skill;
