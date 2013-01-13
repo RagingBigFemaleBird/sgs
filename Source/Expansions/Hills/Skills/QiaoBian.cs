@@ -40,7 +40,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             }
             protected override bool VerifyPlayer(Player source, Player player)
             {
-                return player != source;
+                return player != source && player.HandCards().Count > 0;
             }
         }
 
@@ -104,8 +104,10 @@ namespace Sanguosha.Expansions.Hills.Skills
                     new List<string>() { "QiaoBian" }, new List<int>() { 1 }, new RequireOneCardChoiceVerifier(), out answer))
                 {
                     answer = new List<List<Card>>();
+                    var theCard = Game.CurrentGame.Decks[p, DeckType.Hand][0];
+                    Game.CurrentGame.SyncCard(p, ref theCard);
                     answer.Add(new List<Card>());
-                    answer[0].Add(Game.CurrentGame.Decks[p, DeckType.Hand][0]);
+                    answer[0].Add(theCard);
                 }
                 Game.CurrentGame.HandleCardTransferToHand(p, Owner, answer[0]);
             }

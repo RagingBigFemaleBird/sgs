@@ -77,6 +77,7 @@ namespace Sanguosha.Core.Cards
 
         public VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
         {
+            if (players != null && players.Any(pl => pl.IsDead)) return VerifierResult.Fail;
             if (skill != null)
             {
                 return VerifierResult.Fail;
