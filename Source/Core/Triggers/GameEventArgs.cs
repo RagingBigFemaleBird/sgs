@@ -163,7 +163,7 @@ namespace Sanguosha.Core.Triggers
             Skills = new List<ISkill>();
         }
 
-        public bool isLoseSkill
+        public bool IsLosingSkill
         {
             get;
             set;

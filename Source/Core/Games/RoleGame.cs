@@ -1019,7 +1019,7 @@ namespace Sanguosha.Core.Games
             {
                 SkillSetChangedEventArgs args = eventArgs as SkillSetChangedEventArgs;
                 Trace.Assert(args != null);
-                if (!args.isLoseSkill) return;
+                if (!args.IsLosingSkill) return;
                 foreach (var sk in args.Skills)
                 {
                     if (sk.ExtraCardsDeck != null && Game.CurrentGame.Decks[args.Source, sk.ExtraCardsDeck].Count > 0)
