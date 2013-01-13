@@ -93,6 +93,10 @@ namespace Sanguosha.Core.Games
                 Trace.TraceInformation("Player {0} action.", currentPlayer.Id);
                 while (true)
                 {
+                    if (currentPlayer.IsDead)
+                    {
+                        break;
+                    }
                     Trace.Assert(Game.CurrentGame.UiProxies.ContainsKey(currentPlayer));
                     IUiProxy proxy = Game.CurrentGame.UiProxies[currentPlayer];
                     ISkill skill;
