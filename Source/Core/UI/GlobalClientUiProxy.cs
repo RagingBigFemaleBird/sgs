@@ -211,6 +211,7 @@ namespace Sanguosha.Core.UI
                 {
                     CardTransformSkill transformSkill = sk as CardTransformSkill;
                     if (transformSkill == null) continue;
+                    if (transformSkill.PossibleResults == null) continue;
                     var commonResult = from type1 in verifier.AcceptableCardTypes
                                        where transformSkill.PossibleResults.Any(ci => type1.GetType().IsAssignableFrom(ci.GetType()))
                                        select type1;
