@@ -143,29 +143,6 @@ namespace Sanguosha.Expansions.StarSP.Skills
             }
         }
 
-        void InstallEquipment(Player p, Card card)
-        {
-            CardsMovement attachMove = new CardsMovement();
-            attachMove.Cards = new List<Card>();
-            attachMove.Cards.Add(card);
-            attachMove.To = new DeckPlace(p, DeckType.Equipment);
-            foreach (Card c in p.Equipments())
-            {
-                if (c.Type.IsCardCategory(card.Type.Category))
-                {
-                    Game.CurrentGame.EnterAtomicContext();
-                    Game.CurrentGame.HandleCardDiscard(p, new List<Card>() { c });
-                    Game.CurrentGame.MoveCards(attachMove);
-                    Game.CurrentGame.PlayerAcquiredCard(p, new List<Card>() { card });
-                    Game.CurrentGame.ExitAtomicContext();
-                    return;
-                }
-            }
-            Game.CurrentGame.MoveCards(attachMove);
-            Game.CurrentGame.PlayerAcquiredCard(p, new List<Card>() { card });
-            return;
-        }
-
         class LoseJunWei : Trigger
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
@@ -227,7 +204,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                     cards.Reverse();
                     foreach (Card c in cards)
                     {
-                        InstallEquipment(a.Source, c);
+                        (c.Type as Equipment).Install(a.Source, c);
                     }
                 },
                 TriggerCondition.Global

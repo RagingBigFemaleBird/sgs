@@ -155,63 +155,70 @@ namespace Sanguosha.Core.Network
             Trace.TraceInformation("Reconnection listener Started on {0} : {1}", ipAddress.ToString(), IpPort);
             while (true)
             {
-                var client = listener.AcceptTcpClient();
-                Trace.TraceInformation("Client connected");
-                var stream = client.GetStream();
-                stream.ReadTimeout = 2000;
-                Account theAccount = null;
-                if (game.Configuration != null)
+                try
                 {
-                    object item;
-                    try
+                    var client = listener.AcceptTcpClient();
+                    Trace.TraceInformation("Client connected");
+                    var stream = client.GetStream();
+                    stream.ReadTimeout = 2000;
+                    Account theAccount = null;
+                    if (game.Configuration != null)
                     {
-                        item = (new ItemReceiver(stream)).Receive();
-                    }
-                    catch (Exception)
-                    {
-                        item = null;
-                    }
-                    if (!(item is LoginToken) ||
-                     !game.Configuration.AccountIds.Any(id => id.token == ((LoginToken)item).token))
-                    {
-                        client.Close();
-                        continue;
-                    }
-                    int index;
-                    for (index = 0; index < game.Configuration.AccountIds.Count; index++)
-                    {
-                        if (game.Configuration.AccountIds[index].token == ((LoginToken)item).token)
+                        object item;
+                        try
                         {
-                            theAccount = game.Configuration.Accounts[index];
+                            item = (new ItemReceiver(stream)).Receive();
+                        }
+                        catch (Exception)
+                        {
+                            item = null;
+                        }
+                        if (!(item is LoginToken) ||
+                         !game.Configuration.AccountIds.Any(id => id.token == ((LoginToken)item).token))
+                        {
+                            client.Close();
+                            continue;
+                        }
+                        int index;
+                        for (index = 0; index < game.Configuration.AccountIds.Count; index++)
+                        {
+                            if (game.Configuration.AccountIds[index].token == ((LoginToken)item).token)
+                            {
+                                theAccount = game.Configuration.Accounts[index];
+                            }
+                        }
+                    }
+                    stream.ReadTimeout = Timeout.Infinite;
+                    int indexC = game.Settings.Accounts.IndexOf(theAccount);
+                    lock (handlers[indexC].queueIn)
+                    {
+                        lock (handlers[indexC].queueOut)
+                        {
+                            (handlers[indexC].stream as RecordTakingOutputStream).Flush();
+                            var newRCStream = new RecordTakingOutputStream(stream);
+                            (handlers[indexC].stream as RecordTakingOutputStream).DumpTo(newRCStream);
+                            handlers[indexC].disconnected = false;
+                            handlers[indexC].threadClient.Abort();
+                            handlers[indexC].threadServer.Abort();
+                            newRCStream.Flush();
+                            handlers[indexC].stream = newRCStream;
+                            handlers[indexC].threadServer = new Thread((ParameterizedThreadStart)((o) =>
+                            {
+                                ServerThread(handlers[(int)o]);
+                                handlers[(int)o].disconnected = true;
+                            })) { IsBackground = true };
+                            handlers[indexC].threadServer.Start(indexC);
+                            handlers[indexC].threadClient = new Thread((ParameterizedThreadStart)((o) =>
+                            {
+                                ClientThread(handlers[(int)o]);
+                            })) { IsBackground = true };
+                            handlers[indexC].threadClient.Start(indexC);
                         }
                     }
                 }
-                stream.ReadTimeout = Timeout.Infinite;
-                int indexC = game.Settings.Accounts.IndexOf(theAccount);
-                lock (handlers[indexC].queueIn)
+                catch (Exception)
                 {
-                    lock (handlers[indexC].queueOut)
-                    {
-                        (handlers[indexC].stream as RecordTakingOutputStream).Flush();
-                        var newRCStream = new RecordTakingOutputStream(stream);
-                        (handlers[indexC].stream as RecordTakingOutputStream).DumpTo(newRCStream);
-                        handlers[indexC].disconnected = false;
-                        handlers[indexC].threadClient.Abort();
-                        handlers[indexC].threadServer.Abort();
-                        newRCStream.Flush();
-                        handlers[indexC].stream = newRCStream;
-                        handlers[indexC].threadServer = new Thread((ParameterizedThreadStart)((o) =>
-                        {
-                            ServerThread(handlers[(int)o]);
-                            handlers[(int)o].disconnected = true;
-                        })) { IsBackground = true };
-                        handlers[indexC].threadServer.Start(indexC);
-                        handlers[indexC].threadClient = new Thread((ParameterizedThreadStart)((o) =>
-                        {
-                            ClientThread(handlers[(int)o]);
-                        })) { IsBackground = true };
-                        handlers[indexC].threadClient.Start(indexC);
-                    }
+                    return;
                 }
             }
 

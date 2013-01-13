@@ -87,8 +87,6 @@ namespace Sanguosha.Expansions.Battle
             TriggerRegistration = new List<DelayedTriggerRegistration>();
             TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.DamageElementConfirmed, trigger = new JiuDamage() });
             TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.PlayerUsedCard, trigger = new JiuSha() });
-            TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.CardsLost, trigger = new BaiYinShiZiRegen() });
-
         }
     }
 }

@@ -43,6 +43,23 @@ namespace Sanguosha.Expansions.Battle.Cards
                 Triggers.Add(GameEvent.DamageInflicted, trigger);
                 IsEnforced = true;
             }
+
+            public override Player Owner
+            {
+                get
+                {
+                    return base.Owner;
+                }
+                set
+                {
+                    if (base.Owner == value) return;
+                    if (value != null)
+                    {
+                        Game.CurrentGame.RegisterTrigger(GameEvent.CardsLost, new BaiYinShiZiRegen(ParentEquipment.ParentCard, value));
+                    }
+                    base.Owner = value;
+                }
+            }
         }
 
         public BaiYinShiZi()
@@ -58,11 +75,20 @@ namespace Sanguosha.Expansions.Battle.Cards
         {
             foreach (Card c in eventArgs.Cards)
             {
-                if ((c.Type is BaiYinShiZi) && c.HistoryPlace1.DeckType == DeckType.Equipment)
+                if (c == theCard)
                 {
-                    Game.CurrentGame.RecoverHealth(c.HistoryPlace1.Player, c.HistoryPlace1.Player, 1);
+                    Game.CurrentGame.RecoverHealth(thePlayer, thePlayer, 1);
+                    Game.CurrentGame.UnregisterTrigger(GameEvent.CardsLost, this);
                 }
             }
+        }
+
+        Card theCard;
+        Player thePlayer;
+        public BaiYinShiZiRegen(Card c, Player p)
+        {
+            theCard = c;
+            thePlayer = p;
         }
     }
 }

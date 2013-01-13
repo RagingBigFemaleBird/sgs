@@ -206,7 +206,7 @@ namespace Sanguosha.Lobby.Server
                         seat.Account = null;
                         seat.State = SeatState.Empty;
                         loggedInGuidToRoom.Remove(token.token);
-                        if (!room.Seats.Any(state => state.State != SeatState.Empty))
+                        if (!room.Seats.Any(state => state.State != SeatState.Empty && state.State != SeatState.Closed))
                         {
                             rooms.Remove(room.Id);
                             return RoomOperationResult.Success;

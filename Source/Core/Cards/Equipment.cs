@@ -63,6 +63,7 @@ namespace Sanguosha.Core.Cards
         /// <param name="card"></param>
         public void Install(Player p, Card card)
         {
+            ParentCard = card;
             CardsMovement attachMove = new CardsMovement();
             attachMove.Cards = new List<Card>();
             attachMove.Cards.Add(card);
@@ -115,5 +116,7 @@ namespace Sanguosha.Core.Cards
         }
 
         public bool InUse { get; set; }
+
+        public Card ParentCard { get; set; }
     }
 }
