@@ -934,6 +934,12 @@ namespace Sanguosha.Core.Games
                     move.Cards.AddRange(Game.CurrentGame.Decks[p, DeckType.Equipment]);
                     move.Cards.AddRange(Game.CurrentGame.Decks[p, DeckType.DelayedTools]);
                     move.To = new DeckPlace(null, DeckType.Discard);
+                    foreach (var setLog in move.Cards)
+                    {
+                        setLog.Log = new ActionLog();
+                        setLog.Log.Source = p;
+                        setLog.Log.GameAction = GameAction.Discard;
+                    }
                     Game.CurrentGame.MoveCards(move);
                     var makeACopy = new List<PlayerAttribute>(p.Attributes.Keys);
                     foreach (var kvp in makeACopy)
