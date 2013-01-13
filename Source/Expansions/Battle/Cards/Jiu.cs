@@ -80,7 +80,6 @@ namespace Sanguosha.Expansions.Battle.Cards
             if (args.Source != null && args.ReadonlyCard != null && args.ReadonlyCard[Jiu.JiuSha] == 1)
             {
                 args.Magnitude++;
-                args.ReadonlyCard[Jiu.JiuSha] = 0;
             }
         }
     }

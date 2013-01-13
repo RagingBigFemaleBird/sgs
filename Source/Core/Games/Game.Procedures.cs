@@ -30,6 +30,7 @@ namespace Sanguosha.Core.Games
         /// <param name="cards">造成伤害的牌</param>
         public void DoDamage(Player source, Player dest, Player originalTarget, int magnitude, DamageElement elemental, ICard card, ReadOnlyCard readonlyCard)
         {
+            if (dest.IsDead) return;
             var damageArgs = new DamageEventArgs() { Source = source, OriginalTarget = originalTarget, Targets = new List<Player>(), Magnitude = magnitude, Element = elemental };
             HealthChangedEventArgs healthChangedArgs;
             int ironShackledDamage = 0;
@@ -119,6 +120,8 @@ namespace Sanguosha.Core.Games
                     if (p.IsIronShackled)
                     {
                         GameDelays.Delay(GameDelayTypes.TieSuoDamage);
+                        var newCard = new ReadOnlyCard(readonlyCard);
+                        newCard.Attributes.Clear();
                         DoDamage(damageArgs.Source, p, originalTarget, ironShackledDamage, ironShackledDamageElement, card, readonlyCard);
                     }
                 }
@@ -132,6 +135,7 @@ namespace Sanguosha.Core.Games
 
         public void PlayerAcquireSkill(Player p, ISkill skill, bool undeletable = false)
         {
+            if (p.IsDead) return;
             p.AcquireAdditionalSkill(skill, undeletable);
             SkillSetChangedEventArgs args = new SkillSetChangedEventArgs();
             args.Source = p;
@@ -235,6 +239,7 @@ namespace Sanguosha.Core.Games
 
         public void RecoverHealth(Player source, Player target, int magnitude)
         {
+            if (target.IsDead) return;
             if (target.Health >= target.MaxHealth)
             {
                 return;
@@ -268,6 +273,7 @@ namespace Sanguosha.Core.Games
 
         public void LoseHealth(Player source, int magnitude)
         {
+            if (source.IsDead) return;
             var args = new HealthChangedEventArgs() { Source = source, Delta = -magnitude };
             args.Targets.Add(source);
 
@@ -290,6 +296,7 @@ namespace Sanguosha.Core.Games
 
         public void LoseMaxHealth(Player source, int magnitude)
         {
+            if (source.IsDead) return;
             int result = source.MaxHealth - magnitude;
             if (source.Health > result) source.Health = result;
             source.MaxHealth = result;
@@ -484,6 +491,18 @@ namespace Sanguosha.Core.Games
 
         public void HandleCardTransferToHand(Player from, Player to, List<Card> cards, MovementHelper helper = null)
         {
+            if (to.IsDead)
+            {
+                if (cards.Any(cd => cd.Place.DeckType != DeckType.Hand && cd.Place.DeckType != DeckType.Equipment && cd.Place.DeckType != DeckType.DelayedTools))
+                {
+                    CardsMovement move1 = new CardsMovement();
+                    move1.Cards = new List<Card>(cards);
+                    move1.To = new DeckPlace(null, DeckType.Discard);
+                    MoveCards(move1);
+                    PlayerLostCard(from, cards);
+                }
+                return;
+            }
             CardsMovement move = new CardsMovement();
             move.Cards = new List<Card>(cards);
             move.To = new DeckPlace(to, DeckType.Hand);
@@ -501,6 +520,18 @@ namespace Sanguosha.Core.Games
 
         public void HandleCardTransfer(Player from, Player to, DeckType target, List<Card> cards)
         {
+            if (to.IsDead)
+            {
+                if (cards.Any(cd => cd.Place.DeckType != DeckType.Hand && cd.Place.DeckType != DeckType.Equipment && cd.Place.DeckType != DeckType.DelayedTools))
+                {
+                    CardsMovement move1 = new CardsMovement();
+                    move1.Cards = new List<Card>(cards);
+                    move1.To = new DeckPlace(null, DeckType.Discard);
+                    MoveCards(move1);
+                    PlayerLostCard(from, cards);
+                }
+                return;
+            } 
             CardsMovement move = new CardsMovement();
             move.Cards = new List<Card>(cards);
             move.To = new DeckPlace(to, target);
@@ -516,6 +547,7 @@ namespace Sanguosha.Core.Games
 
         public void ForcePlayerDiscard(Player player, NumberOfCardsToForcePlayerDiscard numberOfCards, bool canDiscardEquipment)
         {
+            if (player.IsDead) return;
             Trace.TraceInformation("Player {0} discard.", player);
             int cannotBeDiscarded = 0;
             int numberOfCardsDiscarded = 0;
