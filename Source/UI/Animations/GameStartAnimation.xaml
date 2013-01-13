@@ -300,7 +300,7 @@
 		</EventTrigger>
 	</local:AnimationBase.Triggers>	
     <Grid x:Name="grid1">	
-    	<Grid x:Name="grid">
+    	<Grid x:Name="grid" Margin="0,48,0,-48">
     		<Grid.Effect>
     			<DropShadowEffect ShadowDepth="0" Color="#FFFB8D1E" BlurRadius="50"/>
     		</Grid.Effect>
@@ -345,7 +345,7 @@
     			</Image.RenderTransform>
     		</Image>    		
     	</Grid>
-    	<Grid x:Name="grid2" Margin="144,0,-144,-154.5" RenderTransformOrigin="0.5,0.5" Height="300" VerticalAlignment="Bottom">
+    	<Grid x:Name="grid2" Margin="119,0,-119,-173.5" RenderTransformOrigin="0.5,0.5" Height="300" VerticalAlignment="Bottom">
     		<Grid.Resources>
     			<Style x:Key="{x:Type Path}" TargetType="{x:Type Path}">
     				<Setter Property="Fill" Value="#FFFB9909" />
@@ -354,7 +354,7 @@
     		</Grid.Resources>
     		<Grid.RenderTransform>
     			<TransformGroup>
-    				<ScaleTransform/>
+    				<ScaleTransform ScaleX="0.8" ScaleY="0.8"/>
     				<SkewTransform/>
     				<RotateTransform Angle="40"/>
     				<TranslateTransform/>
