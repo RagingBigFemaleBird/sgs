@@ -23,10 +23,13 @@ namespace Sanguosha.Core.Cards
         List<Card> cardsOnHold;
         public virtual object Clone()
         {
-            return this.MemberwiseClone();
+            return Activator.CreateInstance(this.GetType());            
         }
 
-        public abstract CardCategory Category {get;}
+        public abstract CardCategory Category 
+        {
+            get;
+        }
 
         /// <summary>
         /// 临时将卡牌提出，verify时使用

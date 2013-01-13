@@ -16,6 +16,11 @@ namespace Sanguosha.Core.Cards
     
     public class OffensiveHorse : Equipment
     {
+        public override object Clone()
+        {
+            return Activator.CreateInstance(this.GetType(), this.HorseName);
+        }
+
         protected override void RegisterEquipmentTriggers(Player p)
         {
             p[Player.RangeMinus]--;

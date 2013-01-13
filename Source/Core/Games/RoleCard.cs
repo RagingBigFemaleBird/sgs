@@ -9,6 +9,11 @@ namespace Sanguosha.Core.Games
 {
     public class RoleCardHandler : CardHandler
     {
+        public override object Clone()
+        {
+            return new RoleCardHandler(this.Role);
+        }
+
         public override CardCategory Category
         {
             get { return CardCategory.Unknown; }

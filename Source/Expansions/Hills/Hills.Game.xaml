@@ -26,12 +26,12 @@
     <sys:String x:Key="MultiChoice.Choice.MoPai">摸两张牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.HuiFuTiLi">回复1点体力</sys:String>
 
-    <sys:String x:Key="MultiChoice.Prompt.ZhiBa">你可以点“取消”拒绝此次拼点</sys:String>
-    <sys:String x:Key="MultiChoice.Prompt.ZhiBaHuoDe">是否获得双方的拼点牌？</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.ZhiBa">是否接受{0}的“制霸”拼点？</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.ZhiBaHuoDe">是否获得拼点牌？</sys:String>
 
     <sys:String x:Key="CardUsage.Prompt.XiangLe">{0}的“享乐”被触发，请弃置一张基本牌使此【杀】生效</sys:String>
-    
-    <sys:String x:Key="CardUsage.Prompt.TiaoXin">受到“挑衅”影响，你需要对{0}使用一张【杀】</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.TiaoXin">{0}对你发动“挑衅”，请对其出一张【杀】或点“取消”</sys:String>
 
     <sys:String x:Key="CardChoice.Prompt.QiaoBian">巧变</sys:String>
     <sys:String x:Key="CardChoice.Prompt.QiaoBian.Others">巧变 请等待{0}的选择</sys:String>

@@ -18,7 +18,6 @@ namespace Sanguosha.Core.Heroes
             Hero h = (Hero)hero.Clone();
             HeroCardHandler handler = new HeroCardHandler(h);
             return handler;
-
         }
 
         protected override void Process(Players.Player source, Players.Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)
