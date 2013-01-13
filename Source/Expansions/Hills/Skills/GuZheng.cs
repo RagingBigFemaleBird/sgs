@@ -24,6 +24,15 @@ namespace Sanguosha.Expansions.Hills.Skills
 
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
+            if (!AskForSkillUse())
+            {
+                GuZhengCards = new List<Card>();
+                return;
+            }
+            else
+            {
+                NotifySkillUse();
+            }
             var GuZhengDeck = new DeckType("GuZheng");
             foreach (Card c in new List<Card>(GuZhengCards))
             {
@@ -88,7 +97,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 (p, e, a) => { return GuZhengCards.Count > 0 && Game.CurrentGame.CurrentPlayer != p; },
                 Run,
                 TriggerCondition.Global
-            ) { Priority = 1 };
+            ) { Priority = 1, AskForConfirmation = false, IsAutoNotify = false };
             var trigger3 = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => { GuZhengCards = new List<Card>(); },
