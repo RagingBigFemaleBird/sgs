@@ -870,6 +870,7 @@ namespace Sanguosha.Core.Games
 
         public void DrawCards(Player player, int num)
         {
+            if (player.IsDead) return;
             List<Card> cardsDrawn = new List<Card>();
             try
             {
