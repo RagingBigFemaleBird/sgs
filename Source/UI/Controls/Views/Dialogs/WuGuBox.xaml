@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:Sanguosha.UI.Controls"
              xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+    <StackPanel>
         <ItemsControl ItemsSource="{Binding Cards1}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -28,9 +28,9 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <local:CardView Margin="3,10" OffsetOnSelect="false" />
+                    <local:CardView Margin="3,30,3,10" OffsetOnSelect="false" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-    </Grid>
+    </StackPanel>
 </UserControl>
