@@ -922,7 +922,7 @@ namespace Sanguosha.Core.Games
                 Game.CurrentGame.Emit(GameEvent.PlayerIsDead, eventArgs);
                 p.IsDead = true;
                 {
-                    //弃置死亡玩家所有的牌
+                    //弃置死亡玩家所有的牌和标记
                     Game.CurrentGame.SyncCardsAll(Game.CurrentGame.Decks[p, DeckType.Hand]);
                     CardsMovement move = new CardsMovement();
                     move.Cards = new List<Card>();
@@ -931,6 +931,11 @@ namespace Sanguosha.Core.Games
                     move.Cards.AddRange(Game.CurrentGame.Decks[p, DeckType.DelayedTools]);
                     move.To = new DeckPlace(null, DeckType.Discard);
                     Game.CurrentGame.MoveCards(move);
+                    foreach (var kvp in p.Attributes)
+                    {
+                        if (kvp.Key.IsMark)
+                            p[kvp.Key] = 0;
+                    }
                 }
                 if (p.Hero != null)
                 {
