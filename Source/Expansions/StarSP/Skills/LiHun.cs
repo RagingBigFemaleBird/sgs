@@ -103,7 +103,6 @@ namespace Sanguosha.Expansions.StarSP.Skills
                         }
                     }
                     new LiHun().NotifyAction(Owner, new List<Player>(), new List<Card>());
-                    Game.CurrentGame.SyncCards(target, cards);
                     Game.CurrentGame.HandleCardTransferToHand(Owner, target, cards);
                     break;
                 }
@@ -122,7 +121,6 @@ namespace Sanguosha.Expansions.StarSP.Skills
             Owner[LiHunUsed] = 1;
             Game.CurrentGame.HandleCardDiscard(Owner, arg.Cards);
             Owner.IsImprisoned = !Owner.IsImprisoned;
-            Game.CurrentGame.SyncCards(Owner, arg.Targets[0].HandCards());
             Game.CurrentGame.HandleCardTransferToHand(arg.Targets[0], Owner, arg.Targets[0].HandCards());
             Game.CurrentGame.RegisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.Play], new LiHunGiveBack(Owner, arg.Targets[0]));
             return true;

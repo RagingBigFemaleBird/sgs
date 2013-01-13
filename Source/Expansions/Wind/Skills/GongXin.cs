@@ -52,7 +52,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             Owner[GongXinUsed] = 1;
             Player target = arg.Targets[0];
             List<List<Card>> answer;
-            Game.CurrentGame.SyncCards(Owner, Game.CurrentGame.Decks[target, DeckType.Hand]);
+            Game.CurrentGame.SyncImmutableCards(Owner, Game.CurrentGame.Decks[target, DeckType.Hand]);
             Game.CurrentGame.HandCardVisibility[Owner].Add(target);
             if (Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("GongXin", Owner),
                     new List<DeckPlace>() { new DeckPlace(target, DeckType.Hand) },

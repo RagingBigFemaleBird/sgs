@@ -624,7 +624,7 @@ namespace Sanguosha.Core.Games
                     game.SyncImmutableCardAll(game.Decks[DeckType.Heroes][rc]);
                     rulerDraw.Add(game.Decks[DeckType.Heroes][rc]);
                 }
-                game.SyncCards(game.Players[rulerId], rulerDraw);
+                game.SyncImmutableCards(game.Players[rulerId], rulerDraw);
                 DeckType tempHero = new DeckType("TempHero");
                 game.Decks[null, tempHero].AddRange(rulerDraw);
                 Trace.TraceInformation("Ruler is {0}", rulerId);
@@ -927,7 +927,7 @@ namespace Sanguosha.Core.Games
                 p.IsDead = true;
                 {
                     //弃置死亡玩家所有的牌和标记
-                    Game.CurrentGame.SyncCardsAll(Game.CurrentGame.Decks[p, DeckType.Hand]);
+                    Game.CurrentGame.SyncImmutableCardsAll(Game.CurrentGame.Decks[p, DeckType.Hand]);
                     CardsMovement move = new CardsMovement();
                     move.Cards = new List<Card>();
                     move.Cards.AddRange(Game.CurrentGame.Decks[p, DeckType.Hand]);

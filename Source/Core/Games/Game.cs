@@ -200,7 +200,7 @@ namespace Sanguosha.Core.Games
             card = cards[0];
         }
 
-        public void SyncCards(Player player, List<Card> cards)
+        private void SyncCards(Player player, List<Card> cards)
         {
             for (int i = 0; i < cards.Count; i++)
             {

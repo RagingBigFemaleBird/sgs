@@ -116,7 +116,6 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 NotifySkillUse(players);
                 Owner[ShiChouUsed] = 1;
                 players[0][ShiChouTarget[Owner]] = 1;
-                Game.CurrentGame.SyncCards(players[0], cards);
                 Game.CurrentGame.HandleCardTransferToHand(Owner, players[0], cards);
                 players[0][ShiChouStatus] = 1;
                 Trigger tri1 = new ShiChouProtect(Owner, players[0]);
