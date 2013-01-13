@@ -68,6 +68,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             if (!win && Owner.HandCards().Count > 0)
             {
                 Game.CurrentGame.ForcePlayerDiscard(Owner,(p, i) => { return 1 - i; }, false);
+                Game.CurrentGame.SyncImmutableCardsAll(Owner.HandCards());
                 Game.CurrentGame.ShowHandCards(Owner, Owner.HandCards());
             }
             return true;

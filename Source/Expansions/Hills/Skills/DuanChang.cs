@@ -43,7 +43,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                     SkillSetChangedEventArgs args = new SkillSetChangedEventArgs();
                     args.Source = a.Source;
                     args.Skills.AddRange(skills);
-                    args.isLoseSkill = true;
+                    args.IsLosingSkill = true;
                     Game.CurrentGame.Emit(GameEvent.PlayerSkillSetChanged, args);
                     a.Source[DuanChangStatus] = 1;
                 },

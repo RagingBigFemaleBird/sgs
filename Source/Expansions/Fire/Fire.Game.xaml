@@ -10,8 +10,8 @@
     <sys:String x:Key="CardUsage.Prompt.JieMing">请选择一名角色对其使用“节命”</sys:String>
     <sys:String x:Key="Deck.QiXing.Name">七星</sys:String>
     <sys:String x:Key="CardUsage.Prompt.QiXing">请选择{0}张手牌置于武将牌上</sys:String>
-    <sys:String x:Key="CardUsage.Prompt.DaWu">请使用技能“大雾”</sys:String>
-    <sys:String x:Key="CardUsage.Prompt.KuangFeng">请对一名角色使用技能“狂风”</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.DaWu">若要发动“大雾”，请选择若干七星牌和等量目标</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.KuangFeng">若要发动“狂风”，请选择一张七星牌和一名目标</sys:String>
 
     <sys:String x:Key="CardChoice.Prompt.MengJin">猛进</sys:String>
     <sys:String x:Key="CardChoice.Prompt.MengJin.Others">猛进 请等待{0}的选择</sys:String>

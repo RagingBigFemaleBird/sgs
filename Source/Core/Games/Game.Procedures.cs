@@ -136,7 +136,7 @@ namespace Sanguosha.Core.Games
             SkillSetChangedEventArgs args = new SkillSetChangedEventArgs();
             args.Source = p;
             args.Skills.Add(skill);
-            args.isLoseSkill = false;
+            args.IsLosingSkill = false;
             Emit(GameEvent.PlayerSkillSetChanged, args);
             _ResetCards(p);
         }
@@ -147,7 +147,7 @@ namespace Sanguosha.Core.Games
             SkillSetChangedEventArgs args = new SkillSetChangedEventArgs();
             args.Source = p;
             args.Skills.Add(skill);
-            args.isLoseSkill = true;
+            args.IsLosingSkill = true;
             Emit(GameEvent.PlayerSkillSetChanged, args);
             _ResetCards(p);
         }

@@ -55,7 +55,7 @@ namespace Sanguosha.Expansions.SP.Skills
                     SkillSetChangedEventArgs args = new SkillSetChangedEventArgs();
                     args.Source = a.Source;
                     args.Skills.Add(huxiao);
-                    args.isLoseSkill = true;
+                    args.IsLosingSkill = true;
                     Game.CurrentGame.Emit(GameEvent.PlayerSkillSetChanged, args);
                 },
                 TriggerCondition.OwnerIsSource

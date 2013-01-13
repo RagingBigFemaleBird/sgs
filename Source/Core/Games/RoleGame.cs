@@ -215,7 +215,7 @@ namespace Sanguosha.Core.Games
                 Game.CurrentGame.ForcePlayerDiscard(currentPlayer, 
                     (p, d) => 
                     { 
-                        int i = Game.CurrentGame.Decks[p, DeckType.Hand].Count - p.Health - args.AdjustmentAmount;
+                        int i = Game.CurrentGame.Decks[p, DeckType.Hand].Count - Math.Max(0, p.Health) - args.AdjustmentAmount;
                         if (i < 0) i = 0;
                         return i;
                     }, 
@@ -1019,7 +1019,7 @@ namespace Sanguosha.Core.Games
             {
                 SkillSetChangedEventArgs args = eventArgs as SkillSetChangedEventArgs;
                 Trace.Assert(args != null);
-                if (!args.isLoseSkill) return;
+                if (!args.IsLosingSkill) return;
                 foreach (var sk in args.Skills)
                 {
                     if (sk.ExtraCardsDeck != null && Game.CurrentGame.Decks[args.Source, sk.ExtraCardsDeck].Count > 0)
