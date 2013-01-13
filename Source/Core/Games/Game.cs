@@ -1122,7 +1122,7 @@ namespace Sanguosha.Core.Games
         {
             if (card.Id > 0)
             {
-                card.Type = GameEngine.CardSet[card.Id].Type;
+                card.Type = (CardHandler)GameEngine.CardSet[card.Id].Type.Clone();
                 card.Suit = GameEngine.CardSet[card.Id].Suit;
                 card.Rank = GameEngine.CardSet[card.Id].Rank;
             }
