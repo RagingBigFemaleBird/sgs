@@ -289,6 +289,10 @@ namespace Sanguosha.UI.Controls
                 {
                     IsDrank = (_player[attribute] == 1);
                 }
+                else if (attribute == Player.IsDying)
+                {
+                    IsDying = (_player[attribute] == 1);
+                }
                 else if (attribute.IsMark)
                 {
                     int count = _player[attribute];
@@ -609,6 +613,22 @@ namespace Sanguosha.UI.Controls
             get
             {
                 return DockedSkillCommands.Concat(RulerGivenSkillCommands);
+            }
+        }
+
+        private bool _isDying;
+
+        public bool IsDying
+        {
+            get
+            {
+                return _isDying;
+            }
+            private set
+            {
+                if (_isDying == value) return;
+                _isDying = value;
+                OnPropertyChanged("IsDying");
             }
         }
 
@@ -1289,7 +1309,9 @@ namespace Sanguosha.UI.Controls
                 {
                     List<Card> attempt = new List<Card>(cards);
 
-                    foreach (var card in HandCards)
+                    var cardsToTry = CurrentPrivateDeck == null ? HandCards : HandCards.Concat(CurrentPrivateDeck.Cards);
+
+                    foreach (var card in cardsToTry)
                     {
                         if (card.IsSelected)
                         {
