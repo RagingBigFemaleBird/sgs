@@ -77,6 +77,8 @@ namespace Sanguosha.Core.Games
                     Trace.TraceInformation("IronShackled damage {0}", ironShackledDamage);
                     ironShackledDamageElement = damageArgs.Element;
                     damageArgs.Targets[0].IsIronShackled = false;
+                    // if this is TieSuo damage already, prevent itself from spreading...
+                    if (readonlyCard[IsIronShackleDamage] == 1) ironShackledDamage = 0;
                 }
                 healthChangedArgs = new HealthChangedEventArgs(damageArgs);
                 Emit(GameEvent.BeforeHealthChanged, healthChangedArgs);
@@ -120,13 +122,14 @@ namespace Sanguosha.Core.Games
                     if (p.IsIronShackled)
                     {
                         GameDelays.Delay(GameDelayTypes.TieSuoDamage);
-                        var newCard = new ReadOnlyCard(readonlyCard);
-                        newCard.Attributes.Clear();
-                        DoDamage(damageArgs.Source, p, originalTarget, ironShackledDamage, ironShackledDamageElement, card, newCard);
+                        readonlyCard[IsIronShackleDamage] = 1;
+                        DoDamage(damageArgs.Source, p, originalTarget, ironShackledDamage, ironShackledDamageElement, card, readonlyCard);
                     }
                 }
             }
         }
+
+        public static CardAttribute IsIronShackleDamage = CardAttribute.Register("IsIronShackleDamage");
 
         public void DoDamage(Player source, Player dest, int magnitude, DamageElement elemental, ICard card, ReadOnlyCard readonlyCard)
         {

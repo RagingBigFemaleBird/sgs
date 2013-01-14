@@ -54,7 +54,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                         places.Add(new DeckPlace(p, DeckType.Equipment));
                         places.Add(new DeckPlace(p, DeckType.DelayedTools));
                         if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("GuiXin", p, Owner), places,
-                             new List<string>() { "GuiXin" }, new List<int>() { 1 }, new RequireOneCardChoiceVerifier(), out answer))
+                             new List<string>() { "GuiXin" }, new List<int>() { 1 }, new RequireOneCardChoiceVerifier(true), out answer))
                         {
                             answer = new List<List<Card>>();
                             answer.Add(new List<Card>());
