@@ -122,7 +122,7 @@ namespace Sanguosha.Core.Games
                         GameDelays.Delay(GameDelayTypes.TieSuoDamage);
                         var newCard = new ReadOnlyCard(readonlyCard);
                         newCard.Attributes.Clear();
-                        DoDamage(damageArgs.Source, p, originalTarget, ironShackledDamage, ironShackledDamageElement, card, readonlyCard);
+                        DoDamage(damageArgs.Source, p, originalTarget, ironShackledDamage, ironShackledDamageElement, card, newCard);
                     }
                 }
             }
