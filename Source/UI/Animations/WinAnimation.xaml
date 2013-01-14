@@ -7,7 +7,7 @@
              xmlns:Sanguosha_UI_Effects="clr-namespace:Sanguosha.UI.Effects;assembly=Effects"
              x:Class="Sanguosha.UI.Animations.WinAnimation"
              mc:Ignorable="d" 
-             Height="300" Width="300">
+             Height="300" Width="600">
 	<local:AnimationBase.Resources>
 		<Storyboard x:Key="mainAnimation">
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="image">

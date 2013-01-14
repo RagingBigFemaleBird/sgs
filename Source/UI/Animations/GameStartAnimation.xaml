@@ -108,6 +108,14 @@
 				<EasingDoubleKeyFrame KeyTime="0:0:1.4" Value="1"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:2" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
+			<ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="image5">
+				<EasingThicknessKeyFrame KeyTime="0:0:1.7" Value="0,82,0,0"/>
+				<EasingThicknessKeyFrame KeyTime="0:0:2" Value="0,122,0,0"/>
+			</ThicknessAnimationUsingKeyFrames>
+			<ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="image4">
+				<EasingThicknessKeyFrame KeyTime="0:0:1.6" Value="0,0,0,42"/>
+				<EasingThicknessKeyFrame KeyTime="0:0:2" Value="0,0,0,2"/>
+			</ThicknessAnimationUsingKeyFrames>
 		</Storyboard>
 		<Storyboard x:Key="FlameAnimation" RepeatBehavior="Forever">
 			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Path.Data)" Storyboard.TargetName="path">
@@ -371,7 +379,7 @@
     			</Path.Effect>
     		</Path>
     	</Grid>			
-    	<Image x:Name="image5" HorizontalAlignment="Center" Margin="0,62,0,0" Source="GameStartAnimation/kai.png" Stretch="None" Width="113" VerticalAlignment="Top" Visibility="Hidden" RenderTransformOrigin="0.5,0.5">
+    	<Image x:Name="image5" HorizontalAlignment="Center" Margin="0,82,0,0" Source="GameStartAnimation/kai.png" Stretch="None" Width="113" VerticalAlignment="Top" Visibility="Hidden" RenderTransformOrigin="0.5,0.5">
     		<Image.RenderTransform>
     			<TransformGroup>
     				<ScaleTransform/>
@@ -381,7 +389,7 @@
     			</TransformGroup>
     		</Image.RenderTransform>
     	</Image>
-    	<Image x:Name="image4" HorizontalAlignment="Center" Margin="0,0,0,62" Source="GameStartAnimation/zhan.png" Stretch="None" Width="115" Height="83" VerticalAlignment="Bottom" Visibility="Hidden" RenderTransformOrigin="0.5,0.5">
+    	<Image x:Name="image4" HorizontalAlignment="Center" Margin="0,0,0,42" Source="GameStartAnimation/zhan.png" Stretch="None" Width="115" Height="83" VerticalAlignment="Bottom" Visibility="Hidden" RenderTransformOrigin="0.5,0.5">
     		<Image.RenderTransform>
     			<TransformGroup>
     				<ScaleTransform/>
