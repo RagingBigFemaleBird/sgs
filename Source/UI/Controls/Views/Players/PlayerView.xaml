@@ -339,7 +339,7 @@
                     		</Grid.Background>
 							<local:OutlinedTextBlock Text="{res:ResourceKeyBinding Path=ImpersonatedSkill, StringFormat=Skill.{0}.Name}" FontSize="21" Fill="White" FontFamily="pack://application:,,,/Resources;component/Fonts/#STLiTi" Margin="5,1" Stroke="Blue" StrokeThickness="3"/>
 						</Grid>
-                        <Image Height="30" Margin="0,0,41,7" Source="/Resources;component/Images/Game/saveMe.png" Visibility="{Binding IsDying, Converter={StaticResource boolToVisibilityConverter}}" Stretch="Fill" VerticalAlignment="Bottom"/>
+                        <Image Height="30" Margin="20,0,21,7" Source="/Resources;component/Images/Game/saveMe.png" Visibility="{Binding IsDying, Converter={StaticResource boolToVisibilityConverter}}" Stretch="Fill" VerticalAlignment="Bottom"/>
 					</Grid>
                 </Border>
                 <Image x:Name="allegianceMask" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Mask}" HorizontalAlignment="Left" Grid.RowSpan="2" Width="38" Stretch="Fill" Margin="-3.335,4.333,0,0.667" ClipToBounds="True" Height="119" VerticalAlignment="Top"/>
