@@ -88,6 +88,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             if (Game.CurrentGame.IsDying.Contains(target)) return;
             if (target.Health > 0) return;
             Game.CurrentGame.IsDying.Push(target);
+            target[Player.IsDying] = 1;
             List<Player> toAsk = new List<Player>(Game.CurrentGame.AlivePlayers);
             LifeSaverVerifier v = new LifeSaverVerifier();
             v.DyingPlayer = target;
@@ -116,11 +117,13 @@ namespace Sanguosha.Expansions.Basic.Cards
                         }
                         if (!Game.CurrentGame.IsDying.Contains(target))
                         {
+                            target[Player.IsDying] = 0;
                             return;
                         }
                         if (target.Health > 0)
                         {
                             Trace.Assert(target == Game.CurrentGame.IsDying.Pop());
+                            target[Player.IsDying] = 0;
                             return;
                         }
                     }
@@ -132,6 +135,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
             Trace.TraceInformation("Player {0} dead", target.Id);
             Trace.Assert(target == Game.CurrentGame.IsDying.Pop());
+            target[Player.IsDying] = 0;
             Game.CurrentGame.Emit(GameEvent.GameProcessPlayerIsDead, eventArgs);
         }
     }

@@ -100,8 +100,8 @@ namespace Sanguosha.Core.UI
                 }
                 if (item.Owner != HostPlayer)
                 {
-                    if (!verifier.Helper.OtherDecksUsed.Contains(item.Place.DeckType) ||
-                        (skill != null && !skill.Helper.OtherDecksUsed.Contains(item.Place.DeckType)))
+                    if (!(verifier.Helper.OtherDecksUsed.Any(dc => dc == item.Place.DeckType) ||
+                        (skill != null && skill.Helper.OtherDecksUsed.Any(dc => dc == item.Place.DeckType))))
                     {                        
                         Trace.TraceWarning("Client hacking cards!");
                         return false;
