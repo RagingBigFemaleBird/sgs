@@ -264,6 +264,11 @@ namespace Sanguosha.UI.Main
                     //, new Uri[] { new Uri(string.Format("net.tcp://{0}:{1}/GameService", serverIp, portNumber)) });
                     var binding = new NetTcpBinding();
 
+                    binding.ReceiveTimeout = new TimeSpan(1, 0, 0);
+                    binding.SendTimeout = new TimeSpan(1, 0, 0);
+                    binding.OpenTimeout = new TimeSpan(1, 0, 0);
+                    binding.CloseTimeout = new TimeSpan(1, 0, 0);
+
                     binding.Security.Mode = SecurityMode.None;
                     binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.None;
                     binding.Security.Transport.ProtectionLevel = ProtectionLevel.None;
