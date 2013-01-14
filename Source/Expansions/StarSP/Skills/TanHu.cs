@@ -46,8 +46,8 @@ namespace Sanguosha.Expansions.StarSP.Skills
         public override bool Commit(GameEventArgs arg)
         {
             Owner[TanHuUsed] = 1;
-            target = arg.Targets[0];
-            isWin = Game.CurrentGame.PinDian(Owner, target, this);
+            bool isWin = Game.CurrentGame.PinDian(Owner, arg.Targets[0], this);
+            if (isWin) Owner[TanHuWin[arg.Targets[0]]] = 1;
             return true;
         }
 
@@ -57,20 +57,20 @@ namespace Sanguosha.Expansions.StarSP.Skills
             {
                 var trigger = new AutoNotifyPassiveSkillTrigger(
                     this,
-                    (p, e, a) => { return p[TanHuUsed] == 1 && isWin; },
-                    (p, e, a) => { var arg = a as AdjustmentEventArgs; if (arg.Targets[0] == target) arg.AdjustmentAmount = 1; },
+                    (p, e, a) => { return p[TanHuWin[a.Targets[0]]] != 0; },
+                    (p, e, a) => { var arg = a as AdjustmentEventArgs; arg.AdjustmentAmount = 1; },
                     TriggerCondition.OwnerIsSource
                     ) { AskForConfirmation = false, IsAutoNotify = false };
                 Triggers.Add(GameEvent.PlayerDistanceOverride, trigger);
 
                 var trigger2 = new AutoNotifyPassiveSkillTrigger(
                     this,
-                    (p, e, a) => { return p[TanHuUsed] == 1 && isWin && a.Targets[0] == target; },
+                    (p, e, a) => { return p[TanHuWin[a.Targets[0]]] != 0; },
                     (p, e, a) => 
                     {
                         if (a.ReadonlyCard.Type.IsCardCategory(CardCategory.ImmediateTool))
                         {
-                            a.ReadonlyCard[WuXieKeJi.CannotBeCountered[target]] = 1;
+                            a.ReadonlyCard[WuXieKeJi.CannotBeCountered[a.Targets[0]]] = 1;
                         }
                     },
                     TriggerCondition.OwnerIsSource
@@ -79,8 +79,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             }
         }
 
-        static bool isWin;
-        static Player target;
+        private static PlayerAttribute TanHuWin = PlayerAttribute.Register("TanHuWin", true);
         private static PlayerAttribute TanHuUsed = PlayerAttribute.Register("TanHuUsed", true);
     }
 }

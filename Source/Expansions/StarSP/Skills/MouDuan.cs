@@ -86,7 +86,6 @@ namespace Sanguosha.Expansions.StarSP.Skills
             Triggers.Add(GameEvent.PhaseBeforeStart, trigger3);
 
             IsAutoInvoked = null;
-            IsRulerOnly = true;
         }
 
         private ISkill mdJiAng;
