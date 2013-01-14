@@ -484,6 +484,7 @@
                                VerticalAlignment="Center" HorizontalAlignment="Center"
                                Visibility="{Binding IsSelectionRepeatable, Converter={StaticResource boolToVisibilityConverter}}"
                                IsHitTestVisible="False" />
+                <Image Height="30" Margin="8,26,27,0" Source="/Resources;component/Images/Game/saveMe.png" Stretch="Fill" VerticalAlignment="Top" Visibility="{Binding IsDying, Converter={StaticResource boolToVisibilityConverter}}"/>
                 </Grid>
             <Grid Margin="-15.673,10.331,0,0" Height="22" VerticalAlignment="Top" Width="169" HorizontalAlignment="Left">
                 <Grid.ToolTip>
