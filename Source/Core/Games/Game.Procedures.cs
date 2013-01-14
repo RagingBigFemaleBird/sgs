@@ -35,11 +35,11 @@ namespace Sanguosha.Core.Games
             HealthChangedEventArgs healthChangedArgs;
             int ironShackledDamage = 0;
             DamageElement ironShackledDamageElement = DamageElement.None;
-            damageArgs.ReadonlyCard = readonlyCard;
-            if (damageArgs.ReadonlyCard == null)
+            if (readonlyCard == null)
             {
-                damageArgs.ReadonlyCard = new ReadOnlyCard(new Card() { Place = new DeckPlace(null, null) });
+                readonlyCard = new ReadOnlyCard(new Card() { Place = new DeckPlace(null, null) });
             }
+            damageArgs.ReadonlyCard = readonlyCard;
             if (card is CompositeCard)
             {
                 if ((card as CompositeCard).Subcards != null)

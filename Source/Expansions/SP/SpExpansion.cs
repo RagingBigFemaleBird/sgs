@@ -31,7 +31,7 @@ namespace Sanguosha.Expansions.SP
             //CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("WeiPangDe", true, Allegiance.Wei, 4, new MaShu(), new MengJin()))));
             //CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("WeiGuanYu", true, Allegiance.Wei, 4, new WuSheng(), new DanQi()))));
             //CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HuLaoLvBu", true, Allegiance.God, 8, new MaShu(), new WuShuang()))));
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HuLaoLvBu2", true, Allegiance.God, 4, new MaShu(), new WuShuang(), new XiuLuo(), new ShenWei(), new ShenJi()))));
+            //CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HuLaoLvBu2", true, Allegiance.God, 4, new MaShu(), new WuShuang(), new XiuLuo(), new ShenWei(), new ShenJi()))));
             //CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("WeiCaiWenji", false, Allegiance.Wei, 3, new BeiGe(), new DuanChang()))));
             //CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("QunMaChao", true, Allegiance.Qun, 4, new MaShu(), new TieJi()))));
             //CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("WeiJiaXu", true, Allegiance.Wei, 3, new WanSha(), new LuanWu(), new WeiMu()))));
