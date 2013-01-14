@@ -337,7 +337,7 @@
                     		<Grid.Background>
                     			<ImageBrush ImageSource="{DynamicResource PlayerInfoView.AcquiredSkill.Background}"/>
                     		</Grid.Background>
-							<local:OutlinedTextBlock Text="{res:ResourceKeyBinding Path=ImpersonatedSkill, StringFormat=Skill.{0}.Name}" FontSize="21" Fill="White" FontFamily="pack://application:,,,/Resources;component/Fonts/#STLiTi" Margin="5,1" Stroke="Blue" StrokeThickness="3"/>
+                                <local:OutlinedTextBlock Text="{res:ResourceKeyBinding Path=ImpersonatedSkill, StringFormat=Skill.{0}.Name}" FontSize="21" Fill="White" FontFamily="/Resources;component/Fonts/#LiSu" Margin="5,1" Stroke="Blue" StrokeThickness="3"/>
 						</Grid>
                         <Image Height="30" Margin="20,0,21,7" Source="/Resources;component/Images/Game/saveMe.png" Visibility="{Binding IsDying, Converter={StaticResource boolToVisibilityConverter}}" Stretch="Fill" VerticalAlignment="Bottom"/>
 					</Grid>
@@ -366,7 +366,7 @@
                                                          StrokeThickness="1"
                                                          FontWeight="Bold"
                                                          Text="{Binding DataContext, RelativeSource={RelativeSource Self}}" 
-                                                         FontFamily="pack://application:,,,/Resources;component/Fonts/#STLiTi" FontSize="18.667" 
+                                                         FontFamily="pack://application:,,,/Resources;component/Fonts/#LiSu" FontSize="18.667" 
                                                          VerticalAlignment="Center" TextAlignment="Center"
                                                          TextTrimming="None"/>
                             </Viewbox>

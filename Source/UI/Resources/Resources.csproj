@@ -78,6 +78,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Fonts\simkai.ttf" />
+    <Resource Include="Fonts\SIMLI.TTF" />
     <Resource Include="Fonts\STLITI.TTF" />
     <Resource Include="Fonts\STXINGKA.TTF" />
     <None Include="Properties\Settings.settings">

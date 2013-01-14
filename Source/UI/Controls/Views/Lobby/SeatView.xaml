@@ -195,8 +195,8 @@
                     </Border.BorderBrush>
                     <TextBlock Text="20%" FontFamily="Arial" Foreground="Red" FontSize="9" HorizontalAlignment="Center" Margin="0,0,0,0" />
                 </Border>						
-            </Grid>	
-            <RichTextBox Margin="86,7,8,34" FontSize="15" FontFamily="KaiTi" Background="Transparent" Foreground="White" BorderBrush="#FFC7B564" IsHitTestVisible="False">
+            </Grid>
+            <RichTextBox Margin="86,7,8,34" FontSize="15" FontFamily="/Resources;component/Fonts/#KaiTi" Background="Transparent" Foreground="White" BorderBrush="#FFC7B564" IsHitTestVisible="False">
                 <FlowDocument TextAlignment="Center" LineHeight="10">
                     <Paragraph><Run Text="Lv. 2" FontFamily="Arial"  FontSize="13"/></Paragraph>				
                     <Paragraph><Run Text="{Binding Account.UserName}"/></Paragraph>

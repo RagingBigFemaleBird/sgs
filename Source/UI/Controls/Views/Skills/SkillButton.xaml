@@ -67,8 +67,8 @@
                                         <ColumnDefinition Width="21"/>
                                     </Grid.ColumnDefinitions>
                                     <Image HorizontalAlignment="Right" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Up.Left}"/>
-                                    <Image Grid.Column="1" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Up.Middle}"/>
                                     <Image Grid.Column="2" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Up.Right}"/>
+                                    <Image Margin="-1,0" Grid.Column="1" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Up.Middle}"/>                        
                                 </Grid>
                                 
                                 <Grid x:Name="gridHoverAppearance" Visibility="Hidden">
@@ -77,9 +77,9 @@
                                         <ColumnDefinition Width="1*"/>
                                         <ColumnDefinition Width="21"/>
                                     </Grid.ColumnDefinitions>
-                                    <Image HorizontalAlignment="Right" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Hover.Left}"/>
-                                    <Image Grid.Column="1" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Hover.Middle}"/>
+                                    <Image HorizontalAlignment="Right" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Hover.Left}"/>                                    
                                     <Image Grid.Column="2" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Hover.Right}"/>
+                                    <Image Margin="-1,0"  Grid.Column="1" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Hover.Middle}"/>
                                 </Grid>
                                 
                                 <Grid x:Name="gridDownAppearance" Visibility="Hidden">
@@ -88,9 +88,9 @@
                                         <ColumnDefinition Width="1*"/>
                                         <ColumnDefinition Width="21"/>
                                     </Grid.ColumnDefinitions>
-                                    <Image HorizontalAlignment="Right" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Down.Left}"/>
-                                    <Image Grid.Column="1" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Down.Middle}"/>
+                                    <Image HorizontalAlignment="Right" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Down.Left}"/>                                    
                                     <Image Grid.Column="2" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Down.Right}"/>
+                                    <Image Margin="-1,0" Grid.Column="1" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Down.Middle}"/>
                                 </Grid>
                                 
                                 <Grid x:Name="gridDisabledAppearance" Visibility="Hidden">
@@ -99,9 +99,9 @@
                                         <ColumnDefinition Width="1*"/>
                                         <ColumnDefinition Width="21"/>
                                     </Grid.ColumnDefinitions>
-                                    <Image HorizontalAlignment="Right" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Disabled.Left}"/>
-                                    <Image Grid.Column="1" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Disabled.Middle}"/>
+                                    <Image HorizontalAlignment="Right" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Disabled.Left}"/>                                    
                                     <Image Grid.Column="2" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Disabled.Right}"/>
+                                    <Image Margin="-1,0" Grid.Column="1" Stretch="Fill" Source="{res:ResourceKeyBinding Path=SkillType, StringFormat=Button.Skill.\{0\}.Disabled.Middle}"/>
                                 </Grid>
 
                                 <Grid x:Name="spinBorderGrids">
@@ -333,12 +333,12 @@
                 <ToolTip ContentTemplate="{StaticResource SkillToolTipTemplate}" Content="{Binding Mode=OneWay}" />
             </ToggleButton.ToolTip>
             <Grid>
-                <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="Black" Stroke="Black" StrokeThickness="3" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify">
+                <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="Black" Stroke="Black" StrokeThickness="3" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="/Resources;component/Fonts/#KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify">
                     <local:OutlinedTextBlock.Effect>
                         <BlurEffect />
                     </local:OutlinedTextBlock.Effect>
                 </local:OutlinedTextBlock>
-                <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="White" Stroke="White" StrokeThickness="1" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify"/>
+                <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="White" Stroke="White" StrokeThickness="1" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="/Resources;component/Fonts/#KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify"/>
             </Grid>
         </ToggleButton>
     </DataTemplate>
@@ -348,12 +348,12 @@
                     <ToolTip ContentTemplate="{StaticResource SkillToolTipTemplate}" Content="{Binding Mode=OneWay}" />
                 </ToggleButton.ToolTip>
                 <Grid>
-                    <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="Black" Stroke="Black" StrokeThickness="3" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify">
+                <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="Black" Stroke="Black" StrokeThickness="3" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="/Resources;component/Fonts/#KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify">
                         <local:OutlinedTextBlock.Effect>
                             <BlurEffect />
                         </local:OutlinedTextBlock.Effect>
                     </local:OutlinedTextBlock>
-                    <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="White" Stroke="White" StrokeThickness="1" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify"/>
+                <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="White" Stroke="White" StrokeThickness="1" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="/Resources;component/Fonts/#KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify"/>
                 </Grid>
         </ToggleButton>
     </DataTemplate>

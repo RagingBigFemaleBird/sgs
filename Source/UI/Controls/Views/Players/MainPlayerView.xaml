@@ -428,7 +428,7 @@
                                                          StrokeThickness="1"
                                                          FontWeight="Bold"
                                                          Text="{Binding DataContext, RelativeSource={RelativeSource Self}}" 
-                                                         FontFamily="pack://application:,,,/Resources;component/Fonts/#STLiTi" FontSize="18.667" 
+                                                         FontFamily="/Resources;component/Fonts/#LiSu" FontSize="18.667" 
                                                          VerticalAlignment="Center" TextAlignment="Center"
                                                          TextTrimming="None"/>
                         </Viewbox>
