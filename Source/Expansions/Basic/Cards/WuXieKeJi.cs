@@ -50,7 +50,8 @@ namespace Sanguosha.Expansions.Basic.Cards
             Trace.Assert(eventArgs.Targets.Count == 1);
             Player promptPlayer = eventArgs.Targets[0];
             ICard promptCard = eventArgs.ReadonlyCard;
-            if (card != null && CardCategoryManager.IsCardCategory(card.Type.Category, CardCategory.Tool) && card[WuXieKeJi.CannotBeCountered] == 0)
+            if (card != null && CardCategoryManager.IsCardCategory(card.Type.Category, CardCategory.Tool) &&
+                card[WuXieKeJi.CannotBeCountered] == 0 && card[WuXieKeJi.CannotBeCountered[promptPlayer]] == 0)
             {
                 bool askWuXie = false;
                 foreach (var p in Game.CurrentGame.AlivePlayers)

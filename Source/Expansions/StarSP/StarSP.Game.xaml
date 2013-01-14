@@ -75,4 +75,6 @@
     <sys:String x:Key="CardUsage.Prompt.JunWei">你可以选择3张锦和一个目标发动技能军威</sys:String>
     <sys:String x:Key="CardUsage.Prompt.JunWeiGiveShan">请把闪交给一名角色</sys:String>
     <sys:String x:Key="CardUsage.Prompt.JunWeiShowCard">请展示一张闪，或点取消流失体力</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.MouDuan">你可以弃置一张牌，尝试把标记翻面为武</sys:String>
 </ResourceDictionary>

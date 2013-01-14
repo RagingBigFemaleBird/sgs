@@ -52,7 +52,9 @@
     <Compile Include="Skills\KuiWei.cs" />
     <Compile Include="Skills\LiHun.cs" />
     <Compile Include="Skills\ManJuan.cs" />
+    <Compile Include="Skills\MouDuan.cs" />
     <Compile Include="Skills\ShiChou.cs" />
+    <Compile Include="Skills\TanHu.cs" />
     <Compile Include="Skills\XueHen.cs" />
     <Compile Include="Skills\YanXiao.cs" />
     <Compile Include="Skills\YanZheng.cs" />
@@ -74,6 +76,10 @@
     <ProjectReference Include="..\Battle\Battle.csproj">
       <Project>{850AB9CB-90A0-4625-87FA-1F7CE04A5404}</Project>
       <Name>Battle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hills\Hills.csproj">
+      <Project>{893e3214-c48d-493c-b09d-7a31756b72b9}</Project>
+      <Name>Hills</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
