@@ -121,6 +121,7 @@ namespace Sanguosha.UI.Main
             _startButtonEnabled = true; // @todo: change this.
             if (!PreloadCompleted)
             {
+
                 loadingThread = new Thread(_Load) { IsBackground = true };
                 loadingThread.Start();
                 InitializeComponent();
@@ -130,6 +131,8 @@ namespace Sanguosha.UI.Main
                 InitializeComponent();
                 _UpdateStartButton();
             }
+            tab0UserName.Text = Properties.Settings.Default.LastUserName;
+            tab0HostName.Text = Properties.Settings.Default.LastHostName;
             tab1Port.Text = DefaultLobbyPort.ToString();            
         }
 
@@ -148,6 +151,9 @@ namespace Sanguosha.UI.Main
         private void _startClient()
         {
             string userName = tab0UserName.Text;
+            Properties.Settings.Default.LastHostName = tab0HostName.Text;
+            Properties.Settings.Default.LastUserName = tab0UserName.Text;
+            Properties.Settings.Default.Save();
 #if !DEBUG
             if (string.IsNullOrEmpty(userName))
             {
