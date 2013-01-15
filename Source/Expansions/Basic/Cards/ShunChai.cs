@@ -40,15 +40,9 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 Trace.TraceInformation("Player {0} Invalid answer", source.Id);
                 answer = new List<List<Card>>();
-                answer.Add(new List<Card>());
-                var collection = Game.CurrentGame.Decks[dest, DeckType.Hand].Concat
-                                 (Game.CurrentGame.Decks[dest, DeckType.DelayedTools].Concat
-                                 (Game.CurrentGame.Decks[dest, DeckType.Equipment]));
-                answer[0].Add(collection.First());
+                answer.Add(Game.CurrentGame.PickDefaultCardsFrom(places));
             }
             Card theCard = answer[0][0];
-            Game.CurrentGame.SyncCard(dest, ref theCard);
-            Trace.Assert(answer.Count == 1 && answer[0].Count == 1);
 
             if (ShunChaiDest(source, dest).DeckType == DeckType.Discard)
             {

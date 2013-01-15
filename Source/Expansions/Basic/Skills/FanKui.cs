@@ -29,23 +29,14 @@ namespace Sanguosha.Expansions.Basic.Skills
             List<int> max = new List<int>() { 1 };
             List<List<Card>> result;
             List<string> deckname = new List<string>() {"FanKui choice"};
-            Card theCard;
 
             if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("FanKui", eventArgs.Source), deck, deckname, max, new RequireOneCardChoiceVerifier(true), out result))
             {
-
                 Trace.TraceInformation("Invalid choice for FanKui");
-                theCard = Game.CurrentGame.Decks[eventArgs.Source, DeckType.Hand]
-                    .Concat(Game.CurrentGame.Decks[eventArgs.Source, DeckType.Equipment]).First();
+                result = new List<List<Card>>();
+                result.Add(Game.CurrentGame.PickDefaultCardsFrom(deck));
             }
-            else
-            {
-                theCard = result[0][0];
-            }
-            Game.CurrentGame.SyncCard(eventArgs.Source, ref theCard);
-            List<Card> cards = new List<Card>();
-            cards.Add(theCard);
-            Game.CurrentGame.HandleCardTransferToHand(eventArgs.Source, owner, cards);
+            Game.CurrentGame.HandleCardTransferToHand(eventArgs.Source, owner, result[0]);
         }
 
         public FanKui()

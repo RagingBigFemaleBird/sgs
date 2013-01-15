@@ -57,12 +57,9 @@ namespace Sanguosha.Expansions.Woods.Skills
                              new List<string>() { "GuiXin" }, new List<int>() { 1 }, new RequireOneCardChoiceVerifier(true), out answer))
                         {
                             answer = new List<List<Card>>();
-                            answer.Add(new List<Card>());
-                            answer[0].Add(Game.CurrentGame.Decks[p, DeckType.Hand][0]);
+                            answer.Add(Game.CurrentGame.PickDefaultCardsFrom(places));
                         }
-                        Card theCard = answer[0][0];
-                        Game.CurrentGame.SyncCard(p, ref theCard);
-                        Game.CurrentGame.HandleCardTransferToHand(p, Owner, new List<Card>() {theCard});
+                        Game.CurrentGame.HandleCardTransferToHand(p, Owner, new List<Card>() {answer[0][0]});
                     }
                     Owner.IsImprisoned = !Owner.IsImprisoned;
                 }

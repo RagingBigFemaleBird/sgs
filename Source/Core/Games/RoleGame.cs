@@ -976,7 +976,7 @@ namespace Sanguosha.Core.Games
                 if (p.Role == Role.Loyalist && source.Role == Role.Ruler)
                 {
                     Trace.TraceInformation("Loyalist killl by ruler. GG");
-                    Game.CurrentGame.SyncCardsAll(Game.CurrentGame.Decks[source, DeckType.Hand]);
+                    Game.CurrentGame.SyncImmutableCardsAll(Game.CurrentGame.Decks[source, DeckType.Hand]);
                     CardsMovement move = new CardsMovement();
                     move.Cards = new List<Card>();
                     foreach (Card c in Game.CurrentGame.Decks[source, DeckType.Hand])

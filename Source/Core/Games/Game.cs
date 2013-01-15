@@ -240,7 +240,7 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public void SyncCardsAll(List<Card> cards)
+        private void SyncCardsAll(List<Card> cards)
         {
             foreach (Player p in players)
             {

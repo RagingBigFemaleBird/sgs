@@ -817,5 +817,27 @@ namespace Sanguosha.Core.Games
             NotificationProxy.NotifyShowCardsEnd();
         }
 
+        public List<Card> PickDefaultCardsFrom(List<DeckPlace> places, int n = 1)
+        {
+            List<Card> cards = new List<Card>();
+            foreach (var pl in places)
+            {
+                cards.AddRange(Decks[pl]);
+            }
+            List<Card> result = new List<Card>();
+            while (n-- > 0)
+            {
+                if (cards.Count == 0) return result;
+                var theCard = cards.First();
+                cards.Remove(theCard);
+                if (theCard.Place.DeckType == DeckType.Hand)
+                {
+                    SyncCard(theCard.Place.Player, ref theCard);
+                }
+                result.Add(theCard);
+            }
+            return result;
+        }
+
     }
 }
