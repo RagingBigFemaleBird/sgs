@@ -88,6 +88,11 @@
     <Compile Include="Heroes\UnknownHeroCardHandler.cs" />
     <Compile Include="Games\RoleCard.cs" />
     <Compile Include="Network\SerializableItems.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Skills\AutoVerifiedActiveSkill.cs" />
     <Compile Include="Skills\CheatSkill.cs" />
     <Compile Include="Skills\IAdditionalTypedSkill.cs" />
@@ -146,9 +151,14 @@
     <Compile Include="Utils\TypeIO.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Core.Game.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

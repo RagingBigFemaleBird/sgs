@@ -51,10 +51,11 @@ namespace Sanguosha.Core.Games
         public static void LoadExpansions(string folderPath)
         {
             Trace.TraceInformation("LOADING CARDSETS FROM : " + folderPath);
-            var files = Directory.GetFiles(folderPath);
+            var files = (from f in Directory.GetFiles(folderPath) where f.EndsWith(".dll") select f).OrderBy(
+                        (a) => { int idx = Properties.Settings.Default.LoadSequence.IndexOf(Path.GetFileNameWithoutExtension(a).ToLower()); if (idx < 0) return int.MaxValue; return idx; });
             foreach (var file in files)
             {
-                if (!file.EndsWith(".dll")) continue;
+
                 try
                 {
                     Assembly assembly = Assembly.LoadFile(Path.GetFullPath(file));
