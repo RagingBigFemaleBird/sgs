@@ -35,8 +35,10 @@
     <sys:String x:Key="CardChoice.Prompt.GongXin.Others">攻心 请等待{0}的选择</sys:String>
     
     <sys:String x:Key="CardUsage.Prompt.WuHun">请选择“武魂”的目标</sys:String>
-    
+
     <sys:String x:Key="CardUsage.Prompt.GuiDao">{0}判定结果是{1}{2}，请打出一张黑色牌替换之，或点“取消”不发动鬼道</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.LeiJi">请选择一个雷击的目标</sys:String>
 
     <sys:String x:Key="MultiChoice.Prompt.GuHuo">{0}使用了“蛊惑”，据说这张牌是{1}，是否质疑？</sys:String>
     
