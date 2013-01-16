@@ -49,16 +49,9 @@ namespace Sanguosha.Expansions.Wind.Skills
                 TriggerCondition.OwnerIsSource,
                 new LeiJiVerifier()
             );
-            var trigger2 = new AutoNotifyUsagePassiveSkillTrigger(
-                this,
-                (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard.Type is Shan; },
-                Run,
-                TriggerCondition.OwnerIsSource,
-                new LeiJiVerifier()
-            );
 
             Triggers.Add(GameEvent.PlayerPlayedCard, trigger);
-            Triggers.Add(GameEvent.PlayerUsedCard, trigger2);
+            Triggers.Add(GameEvent.PlayerUsedCard, trigger);
             IsAutoInvoked = null;
         }
 

@@ -45,7 +45,8 @@
 
     <sys:String x:Key="Skill.LeiJi.Name">雷击</sys:String>
     <sys:String x:Key="Skill.LeiJi.Description">当你使用或打出一张【闪】（若为使用则在选择目标后），你可以令一名角色进行一次判定，若判定结果为黑桃，你对该角色造成2点雷电伤害。</sys:String>
-    <sys:String x:Key="Skill.LeiJi.Usage">系统提示→点“确定”→选择目标→点“确定”</sys:String>
+    <sys:String x:Key="Skill.LeiJi.Usage">系统提示→选择目标→点“确定”</sys:String>
+    <sys:String x:Key="Skill.LeiJi.Prompt">请选择一个雷击的目标</sys:String>
 
     <sys:String x:Key="Skill.GuiDao.Name">鬼道</sys:String>
     <sys:String x:Key="Skill.GuiDao.Description">在一名角色的判定牌生效前，你可以打出一张黑色牌替换之。</sys:String>
