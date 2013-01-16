@@ -60,8 +60,14 @@ namespace Sanguosha.Core.Games
 
             try
             {
-                Emit(GameEvent.DamageSourceConfirmed, damageArgs);
-                Emit(GameEvent.DamageElementConfirmed, damageArgs);
+                //伤害来源与基数、属性的确定发生在伤害结算前，连环，以及转移的伤害不会重新确定来源与基数，所以不会多次触发【裸衣】，以及【酒】
+                while (damageArgs.ReadonlyCard[SourceAndElementIsConfirmed] == 0)
+                {
+                    Emit(GameEvent.DamageSourceConfirmed, damageArgs);
+                    Emit(GameEvent.DamageElementConfirmed, damageArgs);
+                    damageArgs.ReadonlyCard[SourceAndElementIsConfirmed] = 1;
+                    break;
+                }
                 Emit(GameEvent.BeforeDamageComputing, damageArgs);
                 Emit(GameEvent.DamageComputingStarted, damageArgs);
                 Emit(GameEvent.DamageCaused, damageArgs);
@@ -129,7 +135,8 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public static CardAttribute IsIronShackleDamage = CardAttribute.Register("IsIronShackleDamage");
+        private static CardAttribute IsIronShackleDamage = CardAttribute.Register("IsIronShackleDamage");
+        private static CardAttribute SourceAndElementIsConfirmed = CardAttribute.Register("SourceAndElementIsConfirmed");
 
         public void DoDamage(Player source, Player dest, int magnitude, DamageElement elemental, ICard card, ReadOnlyCard readonlyCard)
         {
