@@ -899,7 +899,6 @@ namespace Sanguosha.Core.Games
             get { return currentPlayer; }
             set 
             {
-                Trace.Assert(value != null);
                 if (currentPlayer != null)
                 {
                     var temp = new Dictionary<PlayerAttribute, int>(currentPlayer.Attributes);

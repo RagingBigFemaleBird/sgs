@@ -819,6 +819,7 @@ namespace Sanguosha.Core.Games
                         GameDelays.Delay(GameDelayTypes.ChangePlayer);
                     }
                 }
+                game.CurrentPlayer = null;
                 Game.CurrentGame.Emit(GameEvent.PhasePostEnd, new GameEventArgs() { Source = currentPlayer });
             }
         }

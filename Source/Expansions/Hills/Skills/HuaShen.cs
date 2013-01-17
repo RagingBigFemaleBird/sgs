@@ -43,8 +43,9 @@ namespace Sanguosha.Expansions.Hills.Skills
 
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
+            ISkill tempSkill = null;
             if (acquiredSkill != null)
-                Game.CurrentGame.PlayerLoseSkill(Owner, acquiredSkill);
+                tempSkill = acquiredSkill;
             List<List<Card>> answer;
             if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(
                 new CardChoicePrompt("HuaShen", Owner),
@@ -73,13 +74,15 @@ namespace Sanguosha.Expansions.Hills.Skills
             int skanswer;
             Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("HuaShen"), hsOptions, out skanswer);
             acquiredSkill = skills[skanswer];
-            Game.CurrentGame.PlayerAcquireSkill(Owner, acquiredSkill);
             Owner.Allegiance = handler.Hero.Allegiance;
             Owner.IsMale = handler.Hero.IsMale;
             Owner.IsFemale = !handler.Hero.IsMale;
             Game.CurrentGame.NotificationProxy.NotifyImpersonation(Owner, handler.Hero, acquiredSkill);
             Game.CurrentGame.HandleGodHero(Owner);
             Game.CurrentGame.Emit(GameEvent.PlayerChangedAllegiance, new GameEventArgs() { Source = Owner });
+            Game.CurrentGame.PlayerAcquireSkill(Owner, acquiredSkill);
+            if (tempSkill != null)
+                Game.CurrentGame.PlayerLoseSkill(Owner, tempSkill);
             return;
         }
 
@@ -132,7 +135,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             );
             Triggers.Add(GameEvent.PlayerGameStartAction, trigger);
             Triggers.Add(GameEvent.PhaseProceedEvents[TurnPhase.BeforeStart], trigger2);
-            Triggers.Add(GameEvent.PhaseEndEvents[TurnPhase.PostEnd], trigger2);
+            Triggers.Add(GameEvent.PhasePostEnd, trigger2);
 
             IsAutoInvoked = false;
             ExtraCardsDeck = HuaShenDeck;
