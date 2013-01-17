@@ -24,7 +24,7 @@ namespace Sanguosha.Expansions.Woods.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return a.Card.SuitColor == SuitColorType.Black; },
+                (p, e, a) => { return a.Cards[0].SuitColor == SuitColorType.Black; },
                 (p, e, a) => { Game.CurrentGame.DrawCards(Master, 1); },
                 TriggerCondition.OwnerIsSource
             );
