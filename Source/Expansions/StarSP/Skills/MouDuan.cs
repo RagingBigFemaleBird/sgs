@@ -55,7 +55,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             mdYingZi = new YingZi();
             mdKeJi = new KeJi();
 
-            loseMouDuanTrigger = new LosingSkillTrigger(this, loseMouDuan);
+            loseMouDuanTrigger = new RegistLosingSkillTrigger(this, loseMouDuan);
 
             var trigger1 = new AutoNotifyPassiveSkillTrigger(
                 this,

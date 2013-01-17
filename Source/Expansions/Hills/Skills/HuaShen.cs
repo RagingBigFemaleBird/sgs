@@ -91,13 +91,13 @@ namespace Sanguosha.Expansions.Hills.Skills
             Game.CurrentGame.NotificationProxy.NotifyImpersonation(Owner, null, null);
             Game.CurrentGame.Emit(GameEvent.PlayerChangedAllegiance, new GameEventArgs() { Source = Owner });
             if (acquiredSkill != null && Owner.AdditionalSkills.Contains(acquiredSkill))
-                Owner.LoseAdditionalSkill(acquiredSkill);
+                Game.CurrentGame.PlayerLoseSkill(Owner, acquiredSkill);
         }
 
         public HuaShen()
         {
             acquiredSkill = null;
-            Trigger loseHuaShenTrigger = new LosingSkillTrigger(this, LoseHuaShen);
+            Trigger loseHuaShenTrigger = new RegistLosingSkillTrigger(this, LoseHuaShen);
 
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,

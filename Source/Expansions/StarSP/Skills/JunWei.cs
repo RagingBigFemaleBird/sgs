@@ -194,7 +194,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PlayerIsDead, trigger3);
 
-            Trigger tri = new LosingSkillTrigger(this, LoseJunWei);
+            Trigger tri = new RegistLosingSkillTrigger(this, LoseJunWei);
             Triggers.Add(GameEvent.PlayerGameStartAction, tri);
             Triggers.Add(GameEvent.PlayerSkillSetChanged, tri);
 

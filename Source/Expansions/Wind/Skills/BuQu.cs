@@ -108,7 +108,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             ) { Type = TriggerType.Skill };
             Triggers.Add(GameEvent.AfterHealthChanged, trigger);
 
-            Trigger tri = new LosingSkillTrigger(this, LoseBuQu);
+            Trigger tri = new RegistLosingSkillTrigger(this, LoseBuQu);
             Triggers.Add(GameEvent.PlayerGameStartAction, tri);
             Triggers.Add(GameEvent.PlayerSkillSetChanged, tri);
 

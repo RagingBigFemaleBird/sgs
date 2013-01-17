@@ -224,7 +224,7 @@ namespace Sanguosha.Core.Skills
             }
         }
 
-        protected class LosingSkillTrigger : Trigger
+        protected class RegistLosingSkillTrigger : Trigger
         {
             class OnLosingSkill : Trigger
             {
@@ -251,7 +251,7 @@ namespace Sanguosha.Core.Skills
                 ISkill Skill;
             }
 
-            public LosingSkillTrigger(TriggerSkill skill, TriggerAction execute)
+            public RegistLosingSkillTrigger(TriggerSkill skill, TriggerAction execute)
             {
                 Skill = skill;
                 Execute = execute;
