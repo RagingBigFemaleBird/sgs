@@ -1068,7 +1068,7 @@ namespace Sanguosha.Core.Games
             RegisterTrigger(GameEvent.GameProcessPlayerIsDead, new PlayerIsDead() { Priority = int.MinValue });
             RegisterTrigger(GameEvent.CardUsageBeforeEffected, new DeadManStopper() { Priority = int.MaxValue });
             RegisterTrigger(GameEvent.CardUsageBeforeEffected, new DeadManStopper() { Priority = int.MinValue });
-            RegisterTrigger(GameEvent.PlayerSkillSetChanged, new OnPlayerLoseSkills() { Priority = int.MinValue });
+            RegisterTrigger(GameEvent.PlayerSkillSetChanged, new OnPlayerLoseSkills() { Priority = -1 });
         }
     }
 

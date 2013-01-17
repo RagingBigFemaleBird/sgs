@@ -31,6 +31,23 @@ namespace Sanguosha.Expansions.StarSP.Skills
             }
         }
 
+        void loseMouDuan(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
+        {
+            if (Owner[WuMark] != 0)
+            {
+                Owner[WuMark] = 0;
+                Game.CurrentGame.PlayerLoseSkill(Owner, mdJiAng);
+                Game.CurrentGame.PlayerLoseSkill(Owner, mdQianXun);
+            }
+            else
+            {
+                Owner[WenMark] = 0;
+                Game.CurrentGame.PlayerLoseSkill(Owner, mdYingZi);
+                Game.CurrentGame.PlayerLoseSkill(Owner, mdKeJi);
+            }
+            loseMouDuanTrigger.Owner = null;
+        }
+
         public MouDuan()
         {
             mdJiAng = new JiAng();
@@ -38,17 +55,40 @@ namespace Sanguosha.Expansions.StarSP.Skills
             mdYingZi = new YingZi();
             mdKeJi = new KeJi();
 
+            loseMouDuanTrigger = new LosingSkillTrigger(this, loseMouDuan);
+
             var trigger1 = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) =>
                 {
-                    p[WuMark] = 1;
-                    Game.CurrentGame.PlayerAcquireSkill(p, mdJiAng);
-                    Game.CurrentGame.PlayerAcquireSkill(p, mdQianXun);
+                    if (e == GameEvent.PlayerSkillSetChanged)
+                    {
+                        SkillSetChangedEventArgs args = a as SkillSetChangedEventArgs;
+                        return !args.IsLosingSkill && args.Skills.Contains(this);
+                    }
+                    return true;
+                },
+                (p, e, a) =>
+                {
+                    if (p.HandCards().Count > 2)
+                    {
+                        p[WuMark] = 1;
+                        Game.CurrentGame.PlayerAcquireSkill(p, mdJiAng);
+                        Game.CurrentGame.PlayerAcquireSkill(p, mdQianXun);
+                    }
+                    else
+                    {
+                        p[WenMark] = 1;
+                        Game.CurrentGame.PlayerAcquireSkill(p, mdYingZi);
+                        Game.CurrentGame.PlayerAcquireSkill(p, mdKeJi);
+                    }
+                    loseMouDuanTrigger.Owner = p;
+                    loseMouDuanTrigger.Run(e, a);
                 },
                 TriggerCondition.OwnerIsSource
                 ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PlayerGameStartAction, trigger1);
+            Triggers.Add(GameEvent.PlayerSkillSetChanged, trigger1);
 
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
@@ -63,12 +103,12 @@ namespace Sanguosha.Expansions.StarSP.Skills
                     Game.CurrentGame.PlayerAcquireSkill(p, mdKeJi);
                 },
                 TriggerCondition.OwnerIsSource
-                ) { AskForConfirmation = false};
+                ) { AskForConfirmation = false };
             Triggers.Add(GameEvent.CardsLost, trigger2);
 
             var trigger3 = new AutoNotifyUsagePassiveSkillTrigger(
                 this,
-                (p, e, a) =>{return p[WenMark] != 0;},
+                (p, e, a) => { return p[WenMark] != 0; },
                 (p, e, a, c, t) =>
                 {
                     Game.CurrentGame.HandleCardDiscard(p, c);
@@ -88,6 +128,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             IsAutoInvoked = null;
         }
 
+        Trigger loseMouDuanTrigger;
         private ISkill mdJiAng;
         private ISkill mdQianXun;
         private ISkill mdYingZi;

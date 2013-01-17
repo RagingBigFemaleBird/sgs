@@ -13,7 +13,7 @@ using Sanguosha.Core.Players;
 namespace Sanguosha.Core.Skills
 {
     public delegate void TriggerActionWithCardsAndPlayers(Player owner, GameEvent gameEvent, GameEventArgs args, List<Card> cards, List<Player> players);
-   
+
     public abstract class TriggerSkill : PassiveSkill
     {
         public TriggerSkill()
@@ -41,7 +41,7 @@ namespace Sanguosha.Core.Skills
         {
             NotifySkillUse(new List<Player>());
         }
-        
+
         protected bool AskForSkillUse()
         {
             int answer;
@@ -152,12 +152,12 @@ namespace Sanguosha.Core.Skills
                 set;
             }
         }
-        
+
         protected class AutoNotifyPassiveSkillTrigger : Trigger
         {
             public AutoNotifyPassiveSkillTrigger(TriggerSkill skill, TriggerPredicate canExecute, TriggerAction execute, TriggerCondition condition) :
                 this(skill, new RelayTrigger(canExecute, execute, condition))
-            {}
+            { }
 
             public AutoNotifyPassiveSkillTrigger(TriggerSkill skill, TriggerAction execute, TriggerCondition condition) :
                 this(skill, new RelayTrigger(execute, condition))
@@ -223,7 +223,82 @@ namespace Sanguosha.Core.Skills
                 set;
             }
         }
-        
+
+        protected class LosingSkillTrigger : Trigger
+        {
+            class OnLosingSkill : Trigger
+            {
+                public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+                {
+                    SkillSetChangedEventArgs args = eventArgs as SkillSetChangedEventArgs;
+                    if (args.Source != Owner || !args.IsLosingSkill || !args.Skills.Contains(Skill))
+                    {
+                        return;
+                    }
+                    Execute(Owner, gameEvent, eventArgs);
+                    Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerSkillSetChanged, this);
+                }
+
+                public OnLosingSkill(Player p, ISkill skill, TriggerAction execute)
+                {
+                    Owner = p;
+                    Skill = skill;
+                    Execute = execute;
+                    Priority = int.MinValue;
+                }
+
+                TriggerAction Execute;
+                ISkill Skill;
+            }
+
+            public LosingSkillTrigger(TriggerSkill skill, TriggerAction execute)
+            {
+                Skill = skill;
+                Execute = execute;
+            }
+
+            public override Player Owner
+            {
+                get
+                {
+                    return base.Owner;
+                }
+                set
+                {
+                    base.Owner = value;
+                }
+            }
+
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                if (eventArgs.Source != Owner)
+                {
+                    return;
+                }
+                if (gameEvent == GameEvent.PlayerSkillSetChanged)
+                {
+                    SkillSetChangedEventArgs args = eventArgs as SkillSetChangedEventArgs;
+                    if (args.IsLosingSkill || !args.Skills.Contains(Skill))
+                    {
+                        return;
+                    }
+                }
+                Game.CurrentGame.RegisterTrigger(GameEvent.PlayerSkillSetChanged, new OnLosingSkill(Owner, Skill, Execute));
+            }
+
+            public TriggerAction Execute
+            {
+                get;
+                set;
+            }
+
+            public TriggerSkill Skill
+            {
+                get;
+                set;
+            }
+        }
+
         private bool _isTriggerInstalled;
 
         protected override void InstallTriggers(Players.Player owner)
@@ -259,9 +334,9 @@ namespace Sanguosha.Core.Skills
     }
 
 
-    
+
     public abstract class ArmorTriggerSkill : TriggerSkill, IEquipmentSkill
     {
-        public Equipment ParentEquipment {get; set;}
+        public Equipment ParentEquipment { get; set; }
     }
 }

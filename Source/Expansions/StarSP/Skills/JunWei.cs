@@ -144,44 +144,19 @@ namespace Sanguosha.Expansions.StarSP.Skills
             }
         }
 
-        class LoseJunWei : Trigger
+        void LoseJunWei(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                if (eventArgs.Source != Owner)
-                {
-                    return;
-                }
-                List<ISkill> allSkills = new List<ISkill>();
-                if (Owner.Hero != null)
-                {
-                    allSkills.AddRange(Owner.Hero.Skills);
-                }
-                if (Owner.Hero2 != null)
-                {
-                    allSkills.AddRange(Owner.Hero2.Skills);
-                }
-                allSkills.AddRange(Owner.AdditionalSkills);
-                if (allSkills.Any(s => s is JunWei))
-                {
-                    return;
-                }
-                DiscardedTempCard();
-            }
-
-            public LoseJunWei(Player p)
-            {
-                Owner = p;
-            }
+            DiscardedTempCard();
         }
 
-        private static void DiscardedTempCard()
+        void DiscardedTempCard()
         {
             foreach (Player pl in Game.CurrentGame.AlivePlayers)
             {
                 if (Game.CurrentGame.Decks[pl, JunWeiDeck].Count > 0)
                 {
-                    Game.CurrentGame.HandleCardDiscard(pl, Game.CurrentGame.Decks[pl, JunWeiDeck]);
+                    List<Card> tmp = new List<Card>(Game.CurrentGame.Decks[pl, JunWeiDeck]);
+                    Game.CurrentGame.HandleCardDiscard(pl, tmp);
                 }
             }
         }
@@ -219,12 +194,9 @@ namespace Sanguosha.Expansions.StarSP.Skills
             ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PlayerIsDead, trigger3);
 
-            var trigger4 = new AutoNotifyPassiveSkillTrigger(
-                this,
-                (p, e, a) => { Game.CurrentGame.RegisterTrigger(GameEvent.PlayerSkillSetChanged, new LoseJunWei(p)); },
-                TriggerCondition.OwnerIsSource
-            ) { AskForConfirmation = false, IsAutoNotify = false };
-            Triggers.Add(GameEvent.PlayerGameStartAction, trigger4);
+            Trigger tri = new LosingSkillTrigger(this, LoseJunWei);
+            Triggers.Add(GameEvent.PlayerGameStartAction, tri);
+            Triggers.Add(GameEvent.PlayerSkillSetChanged, tri);
 
             IsAutoInvoked = null;
         }

@@ -157,6 +157,7 @@ namespace Sanguosha.Core.Games
 
         public void PlayerLoseSkill(Player p, ISkill skill, bool undeletable = false)
         {
+            if (!undeletable && !p.AdditionalSkills.Contains(skill)) return;
             p.LoseAdditionalSkill(skill, undeletable);
             SkillSetChangedEventArgs args = new SkillSetChangedEventArgs();
             args.Source = p;
