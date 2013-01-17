@@ -16,62 +16,124 @@ using Sanguosha.Core.Exceptions;
 namespace Sanguosha.Expansions.OverKnightFame11.Skills
 {
     /// <summary>
-    /// 恩怨-锁定技，其他角色每令你回复1点体力，该角色摸一张牌；其他角色每对你造成一次伤害，须给你一张红桃手牌，否则该角色失去1点体力。
+    /// 恩怨-你每次获得一名其他角色两张或更多的牌时，可以令其摸一张牌；每当你受到1点伤害后，你可以令伤害来源选择一项：交给你一张手牌，或失去1点体力。
     /// </summary>
     public class EnYuan : TriggerSkill
     {
+        protected override int GenerateSpecialEffectHintIndex(Player source, List<Player> targets)
+        {
+            return source[EnYuanEffect];
+        }
+
         public class EnYuanVerifier : CardsAndTargetsVerifier
         {
             public EnYuanVerifier()
             {
                 MinCards = 1;
                 MaxCards = 1;
-                MinPlayers = 0;
                 MaxPlayers = 0;
             }
             protected override bool VerifyCard(Player source, Card card)
             {
-                return card.Suit == SuitType.Heart;
+                return card.Place.DeckType == DeckType.Hand;
             }
         }
 
-        public void Run(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
+        public void Yuan(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            ISkill skill;
-            List<Card> cards;
-            List<Player> players;
-            if (eventArgs.Source.AskForCardUsage(new CardUsagePrompt("EnYuan", owner), new EnYuanVerifier(), out skill, out cards, out players))
+            int magnitude = (eventArgs as DamageEventArgs).Magnitude;
+            while (magnitude-- > 0)
             {
-                Game.CurrentGame.HandleCardTransferToHand(eventArgs.Source, owner, cards);
+                if (!AskForSkillUse())
+                    break;
+                Owner[EnYuanEffect] = 1;
+                NotifySkillUse();
+                ISkill skill;
+                List<Card> cards;
+                List<Player> players;
+                if (eventArgs.Source.AskForCardUsage(new CardUsagePrompt("EnYuan", owner), new EnYuanVerifier(), out skill, out cards, out players))
+                {
+                    Game.CurrentGame.HandleCardTransferToHand(eventArgs.Source, owner, cards);
+                }
+                else
+                {
+                    Game.CurrentGame.LoseHealth(eventArgs.Source, 1);
+                }
             }
-            else
+        }
+
+        bool EnVerifier(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
+        {
+            enSources.Clear();
+            if (eventArgs.Cards.All(c => c.HistoryPlace1.Player == null && (c.HistoryPlace2 == null || c.HistoryPlace2.Player == null))) return false;
+            Dictionary<Player, int> dic = new Dictionary<Player, int>();
+            bool useHistoryPlace2 = false;
+            if (eventArgs.Cards.All(c => c.HistoryPlace1.Player == null && c.HistoryPlace1.DeckType != DeckType.Compute && 
+                c.HistoryPlace1.DeckType != DeckType.Dealing && c.HistoryPlace1.DeckType != DeckType.Discard && c.HistoryPlace1.DeckType != DeckType.Heroes))
             {
-                Game.CurrentGame.LoseHealth(eventArgs.Source, 1);
+                useHistoryPlace2 = true;
+            }
+            if (useHistoryPlace2)
+            {
+                foreach (Card card in eventArgs.Cards)
+                {
+                    if (card.HistoryPlace2.Player == null) continue;
+                    if (!dic.Keys.Contains(card.HistoryPlace2.Player)) dic[card.HistoryPlace2.Player] = 0;
+                    dic[card.HistoryPlace2.Player]++;
+                }
+            }
+            else if (eventArgs.Cards.Any(c => c.HistoryPlace1.Player != null))
+            {
+                foreach (Card card in eventArgs.Cards)
+                {
+                    if (card.HistoryPlace1.Player == null) continue;
+                    if (!dic.Keys.Contains(card.HistoryPlace1.Player)) dic[card.HistoryPlace1.Player] = 0;
+                    dic[card.HistoryPlace1.Player]++;
+                }
+            }
+            foreach (Player p in dic.Keys)
+            {
+                if (dic[p] >= 2 && p != Owner)
+                    enSources.Add(p);
+            }
+            return enSources.Count > 0;
+        }
+
+        public void En(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
+        {
+            foreach (Player source in enSources)
+            {
+                int answer = 0;
+                Owner.AskForMultipleChoice(new MultipleChoicePrompt("EnYuan", source), OptionPrompt.YesNoChoices, out answer);
+                if (answer == 1)
+                {
+                    Owner[EnYuanEffect] = 0;
+                    NotifySkillUse();
+                    Game.CurrentGame.DrawCards(source, 1);
+                }
             }
         }
 
         public EnYuan()
         {
+            enSources = new List<Player>();
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) =>
-                {
-                    var arg = a as HealthChangedEventArgs;
-                    return arg.Delta > 0 && arg.Source != p && arg.Source != null;
-                },
-                (p, e, a) => { Game.CurrentGame.DrawCards(a.Source, 1); },
-                TriggerCondition.OwnerIsTarget
-            );
-            Triggers.Add(GameEvent.AfterHealthChanged, trigger);
+                EnVerifier,
+                En,
+                TriggerCondition.OwnerIsSource
+            ) { AskForConfirmation = false, IsAutoNotify = false };
+            Triggers.Add(GameEvent.CardsAcquired, trigger);
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => { return a.Source != null; },
-                Run,
+                Yuan,
                 TriggerCondition.OwnerIsTarget
-            );
+            ) { IsAutoNotify = false, AskForConfirmation = false };
             Triggers.Add(GameEvent.AfterDamageInflicted, trigger2);
-            IsEnforced = true;
+            IsAutoInvoked = null;
         }
-
+        List<Player> enSources;
+        private PlayerAttribute EnYuanEffect = PlayerAttribute.Register("EnYuanEffect");
     }
 }

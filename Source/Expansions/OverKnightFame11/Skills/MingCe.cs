@@ -35,16 +35,21 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
 
         protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
         {
-            if (Owner[MingCeUsed] == 1) return false;
+            if (Owner[MingCeUsed] == 1 || players.Count == 1 && Owner == players[0]) return false;
             // you can choose only 1 player as target, iff this target cannot SHA anyone
             // i.e. you need to STOP returning Success (return Partial instead) if we have chosen card and one player and this player can SHA anyone
             if (cards.Count == 1 && players.Count == 1)
             {
                 var pl = Game.CurrentGame.AlivePlayers;
-                if (pl.Any(test => test != players[0] && Game.CurrentGame.DistanceTo(players[0], test) <= players[0][Player.AttackRange] + 1)) return null;
+                if (pl.Any(test => test != players[0] && Game.CurrentGame.DistanceTo(players[0], test) <= players[0][Player.AttackRange] + 1 &&
+                    Game.CurrentGame.PlayerCanBeTargeted(players[0], new List<Player>() { test }, new CompositeCard() { Type = new Sha() }))) return null;
             }
             if (players.Count == 2)
             {
+                if (!Game.CurrentGame.PlayerCanBeTargeted(players[0], new List<Player>() { players[1] }, new CompositeCard() { Type = new Sha() }))
+                {
+                    return false;
+                }
                 if (Game.CurrentGame.DistanceTo(players[0], players[1]) > players[0][Player.AttackRange] + 1) return false;
             }
             return true;

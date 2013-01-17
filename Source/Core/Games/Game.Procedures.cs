@@ -458,7 +458,7 @@ namespace Sanguosha.Core.Games
 
         public void PlayerAcquiredCard(Player p, List<Card> cards)
         {
-            if (!cards.Any(cc => cc.Place.DeckType == DeckType.Hand || cc.Place.DeckType == DeckType.Equipment)) return;
+            if (!atomic && !cards.Any(cc => cc.Place.DeckType == DeckType.Hand || cc.Place.DeckType == DeckType.Equipment)) return;
             try
             {
                 GameEventArgs arg = new GameEventArgs();

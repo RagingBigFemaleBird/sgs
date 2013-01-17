@@ -74,7 +74,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             List<Card> toDiscard = new List<Card>();
             toDiscard.AddRange(notBasicCards);
             toDiscard.AddRange(tao);
-            Game.CurrentGame.HandleCardDiscard(null, toDiscard);
+            Game.CurrentGame.PlaceIntoDiscard(null, toDiscard);
             if (answer == 0)
             {
                 if (notBasicCards.Count == 0) Game.CurrentGame.HandleCardTransferToHand(null, ZhaoLieTarget, basicCards);

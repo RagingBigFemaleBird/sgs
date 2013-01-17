@@ -38,31 +38,6 @@ namespace Sanguosha.Expansions.StarSP.Skills
             }
         }
 
-        public class XueHenCardChoiceVerifier : ICardChoiceVerifier
-        {
-            public VerifierResult Verify(List<List<Card>> answer)
-            {
-                if (answer != null && answer[0].Count > count)
-                {
-                    return VerifierResult.Fail;
-                }
-                if (answer == null || answer[0] == null || answer[0].Count < count)
-                {
-                    return VerifierResult.Partial;
-                }
-                return VerifierResult.Success;
-            }
-            int count;
-            public XueHenCardChoiceVerifier(int count)
-            {
-                this.count = count;
-            }
-            public UiHelper Helper
-            {
-                get { return null; }
-            }
-        }
-
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             Owner[FenYong.FenYongStatus] = 0;
@@ -94,16 +69,13 @@ namespace Sanguosha.Expansions.StarSP.Skills
                     sourcePlace,
                     new List<string>() { "QiPaiDui" },
                     new List<int>() { choiceCount },
-                    new XueHenCardChoiceVerifier(choiceCount),
+                    new RequireCardsChoiceVerifier(choiceCount),
                     out choiceAnswer,
                     null,
                     CardChoiceCallback.GenericCardChoiceCallback))
                 {
                     choiceAnswer = new List<List<Card>>();
-                    choiceAnswer.Add(new List<Card>());
-                    choiceAnswer[0].AddRange(current.HandCards());
-                    choiceAnswer[0].AddRange(current.Equipments());
-                    choiceAnswer[0] = choiceAnswer[0].GetRange(0, choiceCount);
+                    choiceAnswer.Add(Game.CurrentGame.PickDefaultCardsFrom(new List<DeckPlace>() { new DeckPlace(current, DeckType.Hand), new DeckPlace(current, DeckType.Equipment) }, choiceCount));
                 }
                 Game.CurrentGame.HandleCardDiscard(current, choiceAnswer[0]);
             }

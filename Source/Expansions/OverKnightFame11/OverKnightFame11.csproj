@@ -77,6 +77,10 @@
       <Project>{850AB9CB-90A0-4625-87FA-1F7CE04A5404}</Project>
       <Name>Battle</Name>
     </ProjectReference>
+    <ProjectReference Include="..\StarSP\StarSP.csproj">
+      <Project>{919fe320-55c2-40ba-9e36-ec44059d7645}</Project>
+      <Name>StarSP</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="OverKnightFame11.Skills.xaml">
