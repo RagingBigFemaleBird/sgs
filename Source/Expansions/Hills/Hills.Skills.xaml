@@ -102,7 +102,6 @@
 
     <sys:String x:Key="Skill.RenJie.Name">忍戒</sys:String>
     <sys:String x:Key="Skill.RenJie.Description">锁定技，每当你受到一次伤害后或于弃牌阶段弃置手牌后，你获得等同于受到伤害或弃置手牌数量的“忍”标记。</sys:String>
-    <sys:String x:Key="Skill.RenJie.Usage">系统提示→点“确定”</sys:String>
     
     <sys:String x:Key="Skill.BaiYin.Name">拜印</sys:String>
     <sys:String x:Key="Skill.BaiYin.Description">觉醒技，回合开始阶段开始时，若你拥有4枚或更多的“忍”标记，你须减1点体力上限，并获得技能“极略”（你可以弃一枚“忍”标记发动下列一项技能——“鬼才”、“放逐”、“完杀”、“制衡”、“集智”）。</sys:String>
