@@ -23,7 +23,7 @@
 
     <sys:String x:Key="Skill.QiaoBian.Name">巧变</sys:String>
     <sys:String x:Key="Skill.QiaoBian.Description">你可以弃置一张手牌，跳过你的一个阶段（回合开始和回合结束阶段除外），若以此法跳过摸牌阶段，你获得其他至多两名角色各一张手牌；若以此法跳过出牌阶段，你可以将场上的一张牌移动到另一名角色区域里的相应位置。</sys:String>
-    <sys:String x:Key="Skill.QiaoBian.Usage">系统提示→点“确定”→选中一张手牌→点“确定”</sys:String>
+    <sys:String x:Key="Skill.QiaoBian.Usage" xml:space="preserve">系统提示（判定阶段）→选中一张手牌→点“确定”&#10;系统提示（摸牌阶段）→选中一张手牌→选中1~2名角色（可略过）→点“确定”&#10;系统提示（出牌阶段）→选中一张手牌→选中角色与获得牌的角色（可略过）→点“确定”&#10;系统提示（弃牌阶段）→选中一张手牌→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.TunTian.Name">屯田</sys:String>
     <sys:String x:Key="Skill.TunTian.Description">你的回合外，当你失去牌时，你可以进行一次判定，将非红桃结果的判定牌置于你的武将牌上，称为“田”；每有一张“田”，你计算的与其他角色的距离-1。</sys:String>
@@ -49,7 +49,7 @@
 
     <sys:String x:Key="Skill.FangQuan.Name">放权</sys:String>
     <sys:String x:Key="Skill.FangQuan.Description">你可以跳过你的出牌阶段，然后在回合结束时，你可以弃置一张手牌令一名其他角色进行一个额外的回合。</sys:String>
-    <sys:String x:Key="Skill.FangQuan.Usage"  xml:space="preserve">系统提示（出牌阶段）→点“确定”&#10;系统提示（回合结束时）→选中一张手牌→选中一名其他角色→点“确定”</sys:String>
+    <sys:String x:Key="Skill.FangQuan.Usage" xml:space="preserve">系统提示（出牌阶段）→点“确定”&#10;系统提示（回合结束时）→选中一张手牌→选中一名其他角色→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.RuoYu.Name">若愚</sys:String>
     <sys:String x:Key="Skill.RuoYu.Description">主公技，觉醒技，回合开始阶段开始时，若你当前的体力值是全场最少的（或之一），你须加1点体力上限，回复1点体力，并获得技能“激将”。</sys:String>
