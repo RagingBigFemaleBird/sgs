@@ -31,7 +31,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             }
         }
 
-        void loseMouDuan(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
+        void loseMouDuan(Player Owner)
         {
             if (Owner[WuMark] != 0)
             {
@@ -45,7 +45,23 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 Game.CurrentGame.PlayerLoseSkill(Owner, mdYingZi);
                 Game.CurrentGame.PlayerLoseSkill(Owner, mdKeJi);
             }
-            loseMouDuanTrigger.Owner = null;
+        }
+
+        public override Player Owner
+        {
+            get
+            {
+                return base.Owner;
+            }
+            set
+            {
+                Player original = base.Owner;
+                base.Owner = value;
+                if (base.Owner == null && original != null)
+                {
+                    loseMouDuan(original);
+                }
+            }
         }
 
         public MouDuan()
@@ -54,8 +70,6 @@ namespace Sanguosha.Expansions.StarSP.Skills
             mdQianXun = new QianXun();
             mdYingZi = new YingZi();
             mdKeJi = new KeJi();
-
-            loseMouDuanTrigger = new RegistLosingSkillTrigger(this, loseMouDuan);
 
             var trigger1 = new AutoNotifyPassiveSkillTrigger(
                 this,
@@ -82,8 +96,6 @@ namespace Sanguosha.Expansions.StarSP.Skills
                         Game.CurrentGame.PlayerAcquireSkill(p, mdYingZi);
                         Game.CurrentGame.PlayerAcquireSkill(p, mdKeJi);
                     }
-                    loseMouDuanTrigger.Owner = p;
-                    loseMouDuanTrigger.Run(e, a);
                 },
                 TriggerCondition.OwnerIsSource
                 ) { AskForConfirmation = false, IsAutoNotify = false };
@@ -128,7 +140,6 @@ namespace Sanguosha.Expansions.StarSP.Skills
             IsAutoInvoked = null;
         }
 
-        Trigger loseMouDuanTrigger;
         private ISkill mdJiAng;
         private ISkill mdQianXun;
         private ISkill mdYingZi;

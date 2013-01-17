@@ -83,7 +83,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             return;
         }
 
-        void LoseHuaShen(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
+        void LoseHuaShen(Player Owner)
         {
             Owner.Allegiance = Allegiance.Qun;
             Owner.IsMale = true;
@@ -94,16 +94,30 @@ namespace Sanguosha.Expansions.Hills.Skills
                 Game.CurrentGame.PlayerLoseSkill(Owner, acquiredSkill);
         }
 
+        public override Player Owner
+        {
+            get
+            {
+                return base.Owner;
+            }
+            set
+            {
+                Player original = base.Owner;
+                base.Owner = value;
+                if (base.Owner == null && original != null)
+                {
+                    LoseHuaShen(original);
+                }
+            }
+        }
+
         public HuaShen()
         {
             acquiredSkill = null;
-            Trigger loseHuaShenTrigger = new RegistLosingSkillTrigger(this, LoseHuaShen);
-
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) =>
                 {
-                    loseHuaShenTrigger.Run(e, a);
                     AcquireHeroCard(p);
                     AcquireHeroCard(p);
                     Run(p, e, a);
@@ -119,8 +133,6 @@ namespace Sanguosha.Expansions.Hills.Skills
             Triggers.Add(GameEvent.PlayerGameStartAction, trigger);
             Triggers.Add(GameEvent.PhaseProceedEvents[TurnPhase.BeforeStart], trigger2);
             Triggers.Add(GameEvent.PhaseEndEvents[TurnPhase.PostEnd], trigger2);
-
-            Triggers.Add(GameEvent.PlayerSkillSetChanged, loseHuaShenTrigger);
 
             IsAutoInvoked = false;
             ExtraCardsDeck = HuaShenDeck;

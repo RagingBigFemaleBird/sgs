@@ -76,11 +76,28 @@ namespace Sanguosha.Expansions.Wind.Skills
             }
         }
 
-        void LoseBuQu(Player player, GameEvent gameEvent, GameEventArgs eventArgs)
+        void LoseBuQu(Player player)
         {
             var nArgs = new HealthChangedEventArgs() { Source = null, Delta = 0 };
             nArgs.Targets.Add(player);
             Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, nArgs);
+        }
+
+        public override Player Owner
+        {
+            get
+            {
+                return base.Owner;
+            }
+            set
+            {
+                Player original = base.Owner;
+                base.Owner = value;
+                if (base.Owner == null && original != null)
+                {
+                    LoseBuQu(original);
+                }
+            }
         }
 
         public BuQu()
@@ -107,11 +124,6 @@ namespace Sanguosha.Expansions.Wind.Skills
                 TriggerCondition.OwnerIsTarget
             ) { Type = TriggerType.Skill };
             Triggers.Add(GameEvent.AfterHealthChanged, trigger);
-
-            Trigger tri = new RegistLosingSkillTrigger(this, LoseBuQu);
-            Triggers.Add(GameEvent.PlayerGameStartAction, tri);
-            Triggers.Add(GameEvent.PlayerSkillSetChanged, tri);
-
             ExtraCardsDeck = bq;
             IsAutoInvoked = true;
         }

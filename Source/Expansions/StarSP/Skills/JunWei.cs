@@ -144,7 +144,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             }
         }
 
-        void LoseJunWei(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
+        void LoseJunWei(Player Owner)
         {
             DiscardedTempCard();
         }
@@ -157,6 +157,23 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 {
                     List<Card> tmp = new List<Card>(Game.CurrentGame.Decks[pl, JunWeiDeck]);
                     Game.CurrentGame.HandleCardDiscard(pl, tmp);
+                }
+            }
+        }
+
+        public override Player Owner
+        {
+            get
+            {
+                return base.Owner;
+            }
+            set
+            {
+                Player original = base.Owner;
+                base.Owner = value;
+                if (base.Owner == null && original != null)
+                {
+                    LoseJunWei(original);
                 }
             }
         }
@@ -193,10 +210,6 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 TriggerCondition.OwnerIsTarget
             ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PlayerIsDead, trigger3);
-
-            Trigger tri = new RegistLosingSkillTrigger(this, LoseJunWei);
-            Triggers.Add(GameEvent.PlayerGameStartAction, tri);
-            Triggers.Add(GameEvent.PlayerSkillSetChanged, tri);
 
             IsAutoInvoked = null;
         }
