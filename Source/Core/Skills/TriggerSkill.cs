@@ -258,8 +258,6 @@ namespace Sanguosha.Core.Skills
 
     }
 
-
-
     public abstract class ArmorTriggerSkill : TriggerSkill, IEquipmentSkill
     {
         public Equipment ParentEquipment { get; set; }

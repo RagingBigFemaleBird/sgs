@@ -19,6 +19,23 @@ namespace Sanguosha.Expansions.Woods.Skills
     /// </summary>
     public class KuangBao : TriggerSkill
     {
+        public override Player Owner
+        {
+            get
+            {
+                return base.Owner;
+            }
+            set
+            {
+                Player original = base.Owner;
+                base.Owner = value;
+                if (base.Owner == null && original != null)
+                {
+                    original[BaoNuMark] = 0;
+                }
+            }
+        }
+
         public KuangBao()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
