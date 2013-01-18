@@ -11,91 +11,83 @@ using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.Cards;
 using System.Diagnostics;
 using Sanguosha.Expansions.Basic.Cards;
+using Sanguosha.Core.Utils;
 
 namespace Sanguosha.Expansions.OverKnightFame12.Skills
 {
     /// <summary>
-    /// 解烦-当有角色进入濒死状态时，你可对当前回合角色使用一张【杀】，此【杀】造成伤害时，你防止此伤害，视为对该濒死角色使用了一张【桃】。
+    /// 解烦-限定技，出牌阶段，你可以指定一名角色，攻击范围内含有该角色的所有角色须依次选择一项：弃置一张武器牌，或令该角色摸一张牌。
     /// </summary>
-    public class JieFan : TriggerSkill
+    public class JieFan : AutoVerifiedActiveSkill
     {
-        protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
+        public JieFan()
         {
-            var dying = eventArgs.Targets[0];
-            var shaTarget = Game.CurrentGame.CurrentPlayer;
-            ISkill skill;
-            List<Card> cards;
-            List<Player> players;
-            while (true)
-            {
-                if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("JieFan", shaTarget), new JieDaoShaRen.JieDaoShaRenVerifier(shaTarget),
-                    out skill, out cards, out players))
-                {
-                    NotifySkillUse();
-                    try
-                    {
-                        GameEventArgs args = new GameEventArgs();
-                        Owner[Sha.NumberOfShaUsed]--;
-                        args.Source = Owner;
-                        args.Targets = new List<Player>(players);
-                        args.Targets.Add(shaTarget);
-                        args.Skill = skill;
-                        args.Cards = cards;
-                        args.ReadonlyCard = new ReadOnlyCard(new Card() { Place = new DeckPlace(null, null) });
-                        args.ReadonlyCard[JieFanSha] = shaTarget.Id + 1;
-                        Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
-                    }
-                    catch (TriggerResultException e)
-                    {
-                        Trace.Assert(e.Status == TriggerResult.Retry);
-                        continue;
-                    }
-                }
-                break;
-            }
+            MaxCards = 0;
+            MaxPlayers = 1;
+            MinPlayers = 1;
+            IsSingleUse = true;
         }
-        private class JieFanTaoCardTransformSkill : CardTransformSkill
+
+        protected override bool VerifyCard(Player source, Card card)
         {
-            public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
+            return false;
+        }
+
+        protected override bool VerifyPlayer(Player source, Player player)
+        {
+            return true;
+        }
+
+        protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
+        {
+            return Owner[JieFanUsed] == 0;
+        }
+
+        class JieFanVerifier : CardsAndTargetsVerifier
+        {
+            public JieFanVerifier()
             {
-                Trace.Assert(cards == null || cards.Count == 0);
-                card = new CompositeCard();
-                card.Type = new Tao();
-                return VerifierResult.Success;
+                MaxCards = 1;
+                MinCards = 1;
+                MaxPlayers = 0;
+                Discarding = true;
             }
-            protected override void NotifyAction(Player source, List<Player> targets, CompositeCard cards)
+
+            protected override bool VerifyCard(Player source, Card card)
             {
+                return card.Type.IsCardCategory(CardCategory.Weapon);
             }
         }
 
-        static CardAttribute JieFanSha = CardAttribute.Register("JieFanSha");
-        public JieFan()
+        public override bool Commit(GameEventArgs arg)
         {
-            var trigger = new AutoNotifyPassiveSkillTrigger(
-                this,
-                (p, e, a) => { return Game.CurrentGame.PhasesOwner != p; },
-                Run,
-                TriggerCondition.Global
-            ) { AskForConfirmation = false, IsAutoNotify = false };
-            Triggers.Add(GameEvent.PlayerDying, trigger);
-            var trigger2 = new AutoNotifyPassiveSkillTrigger(
-                this,
-                (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard[JieFanSha] != 0; },
-                (p, e, a) =>
+            Owner[JieFanUsed] = 1;
+            GameDelays.Delay(GameDelayTypes.Awaken);
+
+            Player target = arg.Targets[0];
+            List<Player> players = new List<Player>();
+            foreach (Player p in Game.CurrentGame.AlivePlayers)
+            {
+                if (Game.CurrentGame.DistanceTo(p, target) <= p[Player.AttackRange] + 1)
+                    players.Add(p);
+            }
+            foreach (Player p in players)
+            {
+                ISkill skill;
+                List<Card> cards;
+                List<Player> nPlayers;
+                if (p.AskForCardUsage(new CardUsagePrompt("JieFan", target), new JieFanVerifier(), out skill, out cards, out nPlayers))
                 {
-                    Player target = Game.CurrentGame.Players[a.ReadonlyCard[JieFanSha] - 1];
-                    GameEventArgs args = new GameEventArgs();
-                    args.Source = Owner;
-                    args.Targets = new List<Player>() { target };
-                    args.Skill = new JieFanTaoCardTransformSkill();
-                    args.Cards = new List<Card>();
-                    Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
-                    throw new TriggerResultException(TriggerResult.End);
-                },
-                TriggerCondition.Global
-            ) { AskForConfirmation = false };
-            Triggers.Add(GameEvent.DamageCaused, trigger2);
-            IsAutoInvoked = null;
+                    Game.CurrentGame.HandleCardDiscard(p, cards);
+                }
+                else
+                {
+                    Game.CurrentGame.DrawCards(target, 1);
+                }
+            }
+            return true;
         }
+
+        private PlayerAttribute JieFanUsed = PlayerAttribute.Register("JieFanUsed");
     }
 }

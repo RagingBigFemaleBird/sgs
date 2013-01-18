@@ -20,7 +20,12 @@
     <sys:String x:Key="MultiChoice.Choice.JinNang">锦囊牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.ZhuangBei">装备牌</sys:String>    
     -->
-	<sys:String x:Key="Expansion.OverKnightFame12Expansion.Name">一将12</sys:String>
+    
+    <!-- 2将成名修订前武将技能
+    
+    <sys:String x:Key="CardUsage.Prompt.JieFan">你可以使用“解烦”对{0}使用一张【杀】</sys:String>
+    -->
+    <sys:String x:Key="Expansion.OverKnightFame12Expansion.Name">一将12</sys:String>
 
     <sys:String x:Key="MultiChoice.Prompt.JiangChi">请选择将驰增加或减少摸牌数，或点“取消”不发动技能</sys:String>
     <sys:String x:Key="MultiChoice.Choice.JiangChi1">多摸1张牌</sys:String>
@@ -34,10 +39,13 @@
 
     <sys:String x:Key="CardUsage.Prompt.MiJi">请选择一个秘计的目标</sys:String>
     
-    <sys:String x:Key="CardUsage.Prompt.JieFan">你可以使用“解烦”对{0}使用一张【杀】</sys:String>
-
     <sys:String x:Key="CardUsage.Prompt.ZhuiYi">请选择一个追忆的目标，或点“取消”不发动技能</sys:String>
 
     <sys:String x:Key="CardChoice.Prompt.AnXu">安恤 请选择一张手牌</sys:String>
     <sys:String x:Key="CardChoice.Prompt.AnXu.Others">安恤 请等待{0}的选择</sys:String>
+
+    <sys:String x:Key="CardChoice.Prompt.GongQi">弓骑 请选择{0}的一张牌</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.GongQi.Others">弓骑 请等待{0}选择{1}的牌</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.JieFan">请弃置一张武器牌或点“取消”让{0}摸一张牌</sys:String>
 </ResourceDictionary>

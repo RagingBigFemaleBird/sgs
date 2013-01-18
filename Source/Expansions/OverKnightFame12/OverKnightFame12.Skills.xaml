@@ -9,6 +9,16 @@
     <sys:String x:Key="Skill.RenDe.Description">出牌阶段，你可以将任意数量的手牌交给其他角色，若此阶段你给出的牌张数达到两张或更多时，你回复1点体力。</sys:String>
     <sys:String x:Key="Skill.RenDe.Usage">点"仁德"→选中数张手牌→选择目标→“确定”</sys:String>
     -->
+    <!-- 2将成名修订前武将技能
+    <sys:String x:Key="Skill.GongQi.Name">弓骑</sys:String>
+    <sys:String x:Key="Skill.GongQi.Description">你可以将一张装备牌当【杀】使用或打出；你以此法使用【杀】时无距离限制。</sys:String>
+    <sys:String x:Key="Skill.GongQi.Usage">点“弓骑”→选中一张装备牌→选择合理目标（可跳过）→点“确定”</sys:String>
+    <sys:String x:Key="Skill.GongQi.Prompt">请选择一张装备牌</sys:String>
+
+    <sys:String x:Key="Skill.JieFan.Name">解烦</sys:String>
+    <sys:String x:Key="Skill.JieFan.Description">你的回合外，当一名角色处于濒死状态时，你可以对当前正进行回合的角色使用一张【杀】（无距离限制），此【杀】造成伤害时，你防止此伤害，视为对该濒死角色使用一张【桃】。</sys:String>
+    <sys:String x:Key="Skill.JieFan.Usage">系统提示→点“确定”→选中一张【杀】→点“确定”</sys:String>
+    -->
     <sys:String x:Key="Hero.BuLianshi.Name">步练师</sys:String>
     <sys:String x:Key="Hero.CaoZhang.Name">曹彰</sys:String>
     <sys:String x:Key="Hero.ChengPu.Name">程普</sys:String>
@@ -49,13 +59,14 @@
     <sys:String x:Key="Skill.FuHun.Usage">系统提示（摸牌阶段）→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.GongQi.Name">弓骑</sys:String>
-    <sys:String x:Key="Skill.GongQi.Description">你可以将一张装备牌当【杀】使用或打出；你以此法使用【杀】时无距离限制。</sys:String>
-    <sys:String x:Key="Skill.GongQi.Usage">点“弓骑”→选中一张装备牌→选择合理目标（可跳过）→点“确定”</sys:String>
-    <sys:String x:Key="Skill.GongQi.Prompt">请选择一张装备牌</sys:String>
+    <sys:String x:Key="Skill.GongQi.Description">出牌阶段，你可以弃置一张牌，令你的攻击范围无限直到回合结束；若你以此法弃置的牌为装备牌，你可以弃置一名其他角色的一张牌。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.GongQi.Usage" xml:space="preserve">点“弓骑”→选中一张非装备牌→点“确定”&#10;点“弓骑”→选中一张装备牌→选择合理目标（可跳过）→点“确定”</sys:String>
+    <sys:String x:Key="Skill.GongQi.Prompt">请选择一张牌，若为装备牌则可选择一名其他角色</sys:String>
 
     <sys:String x:Key="Skill.JieFan.Name">解烦</sys:String>
-    <sys:String x:Key="Skill.JieFan.Description">你的回合外，当一名角色处于濒死状态时，你可以对当前正进行回合的角色使用一张【杀】（无距离限制），此【杀】造成伤害时，你防止此伤害，视为对该濒死角色使用一张【桃】。</sys:String>
-    <sys:String x:Key="Skill.JieFan.Usage">系统提示→点“确定”→选中一张【杀】→点“确定”</sys:String>
+    <sys:String x:Key="Skill.JieFan.Description">限定技，出牌阶段，你可以指定一名角色，攻击范围内含有该角色的所有角色须依次选择一项：弃置一张武器牌，或令该角色摸一张牌。</sys:String>
+    <sys:String x:Key="Skill.JieFan.Usage">点“解烦”→选择一个目标→点“确定”</sys:String>
+    <sys:String x:Key="Skill.JieFan.Prompt">请选择一个目标</sys:String>
 
     <sys:String x:Key="Skill.ShiYong.Name">恃勇</sys:String>
     <sys:String x:Key="Skill.ShiYong.Description">锁定技，每当你受到一次红色的【杀】或因【酒】生效而伤害+1的【杀】造成的伤害后，你减1点体力上限。</sys:String>

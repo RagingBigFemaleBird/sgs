@@ -18,7 +18,7 @@ namespace Sanguosha.Core.Utils
         Draw,
         ChangePlayer,
         PlayerAction,
-        XinZhan,
+        Awaken,
         RoleDistribute,
     }
     public class GameDelays
@@ -35,7 +35,7 @@ namespace Sanguosha.Core.Utils
             if (DelayCategory == GameDelayTypes.Draw) toDelay = 400;
             if (DelayCategory == GameDelayTypes.ChangePlayer) toDelay = 300;
             if (DelayCategory == GameDelayTypes.PlayerAction) toDelay = 500;
-            if (DelayCategory == GameDelayTypes.XinZhan) toDelay = 2550;
+            if (DelayCategory == GameDelayTypes.Awaken) toDelay = 2550;
             if (DelayCategory == GameDelayTypes.RoleDistribute) toDelay = 400;
             if (Game.CurrentGame.ReplayController != null) toDelay = (int)(toDelay / Game.CurrentGame.ReplayController.Speed);
             Thread.Sleep(toDelay);
