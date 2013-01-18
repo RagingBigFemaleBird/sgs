@@ -924,19 +924,11 @@ namespace Sanguosha.Core.Games
                 p.IsDead = true;
                 //弃置死亡玩家所有的牌和标记
                 Game.CurrentGame.SyncImmutableCardsAll(Game.CurrentGame.Decks[p, DeckType.Hand]);
-                CardsMovement move = new CardsMovement();
-                move.Cards = new List<Card>();
-                move.Cards.AddRange(Game.CurrentGame.Decks[p, DeckType.Hand]);
-                move.Cards.AddRange(Game.CurrentGame.Decks[p, DeckType.Equipment]);
-                move.Cards.AddRange(Game.CurrentGame.Decks[p, DeckType.DelayedTools]);
-                move.To = new DeckPlace(null, DeckType.Discard);
-                foreach (var setLog in move.Cards)
-                {
-                    setLog.Log = new ActionLog();
-                    setLog.Log.Source = p;
-                    setLog.Log.GameAction = GameAction.Discard;
-                }
-                Game.CurrentGame.MoveCards(move);
+                List<Card> toDiscarded = new List<Card>();
+                toDiscarded.AddRange(p.HandCards());
+                toDiscarded.AddRange(p.Equipments());
+                toDiscarded.AddRange(p.DelayedTools());
+                Game.CurrentGame.HandleCardDiscard(p, toDiscarded);
                 var makeACopy = new List<PlayerAttribute>(p.Attributes.Keys);
                 foreach (var kvp in makeACopy)
                 {
@@ -977,7 +969,7 @@ namespace Sanguosha.Core.Games
                 {
                     Trace.TraceInformation("Loyalist killl by ruler. GG");
                     Game.CurrentGame.SyncImmutableCardsAll(Game.CurrentGame.Decks[source, DeckType.Hand]);
-                    move = new CardsMovement();
+                    CardsMovement move = new CardsMovement();
                     move.Cards = new List<Card>();
                     foreach (Card c in Game.CurrentGame.Decks[source, DeckType.Hand])
                     {

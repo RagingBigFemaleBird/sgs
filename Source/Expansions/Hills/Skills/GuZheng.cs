@@ -16,31 +16,61 @@ using Sanguosha.Core.Exceptions;
 namespace Sanguosha.Expansions.Hills.Skills
 {
     /// <summary>
-    /// 固政-其他角色的弃牌阶段结束时，你可将此阶段中弃置的一张牌从弃牌堆返回该角色手牌，然后你可以获得弃牌堆里其余于此阶段中弃置的牌。
+    /// 固政-其他角色的弃牌阶段结束时，你可以将该角色于此阶段内弃置的一张牌从弃牌堆返回其手牌，若如此做，你可以获得弃牌堆里其余于此阶段内弃置的牌。
     /// </summary>
     public class GuZheng : TriggerSkill
     {
         List<Card> GuZhengCards;
+        static List<Card> belongToCurrent;
+        class GuZhengVerifier : ICardChoiceVerifier
+        {
+            public VerifierResult Verify(List<List<Card>> answer)
+            {
+                if ((answer.Count > 1) || (answer.Count > 0 && answer[0].Count > 1))
+                {
+                    return VerifierResult.Fail;
+                }
+                if (answer.Count == 1 && answer[0].Count == 1)
+                {
+                    if (!belongToCurrent.Contains(answer[0][0]))
+                    {
+                        return VerifierResult.Fail;
+                    }
+                }
+                if (answer.Count == 0 || answer[0].Count == 0)
+                {
+                    return VerifierResult.Partial;
+                }
+                return VerifierResult.Success;
+            }
+            public UiHelper Helper
+            {
+                get { return null; }
+            }
+        }
 
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            if (!AskForSkillUse())
-            {
-                GuZhengCards = new List<Card>();
-                return;
-            }
-            else
-            {
-                NotifySkillUse();
-            }
             var GuZhengDeck = new DeckType("GuZheng");
+            belongToCurrent = new List<Card>();
             foreach (Card c in new List<Card>(GuZhengCards))
             {
                 if (c.Place.DeckType != DeckType.Discard)
                 {
                     GuZhengCards.Remove(c);
                 }
+                else if (c.HistoryPlace1.Player == Game.CurrentGame.CurrentPlayer)
+                {
+                    belongToCurrent.Add(c);
+                }
             }
+            if (belongToCurrent.Count == 0 || !AskForSkillUse())
+            {
+                GuZhengCards = new List<Card>();
+                belongToCurrent = new List<Card>();
+                return;
+            }
+            NotifySkillUse();
             CardsMovement move = new CardsMovement();
             move.Cards = GuZhengCards;
             move.To = new DeckPlace(null, GuZhengDeck);
@@ -52,14 +82,14 @@ namespace Sanguosha.Expansions.Hills.Skills
                 new List<DeckPlace>() { new DeckPlace(null, GuZhengDeck) },
                 new List<string>() { "GuZhengFanHui" },
                 new List<int>() { 1 },
-                new RequireOneCardChoiceVerifier(),
+                new GuZhengVerifier(),
                 out answer,
                 options))
             {
                 Trace.TraceInformation("Invalid answer, choosing for you");
                 answer = new List<List<Card>>();
                 answer.Add(new List<Card>());
-                answer[0].Add(Game.CurrentGame.Decks[null, GuZhengDeck][0]);
+                answer[0].Add(belongToCurrent[0]);
             }
             move = new CardsMovement();
             move.Cards = new List<Card>(answer[0]);

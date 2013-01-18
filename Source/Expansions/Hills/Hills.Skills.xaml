@@ -76,7 +76,7 @@
     <sys:String x:Key="Skill.ZhiJian.Prompt">请选择一张手牌中的装备牌和一个目标</sys:String>
 
     <sys:String x:Key="Skill.GuZheng.Name">固政</sys:String>
-    <sys:String x:Key="Skill.GuZheng.Description">出牌阶段，你可以将手牌中的一张装备牌置于一名其他角色的装备区里，然后摸一张牌。</sys:String>
+    <sys:String x:Key="Skill.GuZheng.Description">其他角色的弃牌阶段结束时，你可以将该角色于此阶段内弃置的一张牌从弃牌堆返回其手牌，若如此做，你可以获得弃牌堆里其余于此阶段内弃置的牌。</sys:String>
     <sys:String x:Key="Skill.GuZheng.Usage">系统提示→选中1张牌→点窗口下方按钮</sys:String>
 
     <sys:String x:Key="Skill.HuaShen.Name">化身</sys:String>
