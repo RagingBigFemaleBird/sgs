@@ -66,5 +66,10 @@
 
     <sys:String x:Key="CardChoice.Prompt.XuanHuo">请选择{0}的2张卡牌</sys:String>
     <sys:String x:Key="CardChoice.Prompt.XuanHuo.Others">心战 请等待{0}选择{1}的两张卡牌</sys:String>
-    
+
+    <sys:String x:Key="MultiChoice.Prompt.JuJian">请选择一项“举荐”的效果</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.JuJianMoPai">摸两张牌</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.JuJianHuiXue">回复1点体力</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.JuJianChongZhi">翻至正面并重置</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.JuJian">你可以选择一张非基本牌和一个目标发动“举荐”</sys:String>
 </ResourceDictionary>

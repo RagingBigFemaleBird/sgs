@@ -18,6 +18,14 @@
     <sys:String x:Key="Skill.XuanHuo.Description">出牌阶段，你可以将一张红桃手牌交给一名其他角色，然后你获得该角色的一张牌并交给除该角色外的其他角色。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.XuanHuo.Usage">点“眩惑”→选中一张红桃手牌→选择目标→点“确定”→选择一张牌→选择目标→点“确定”</sys:String>
     <sys:String x:Key="Skill.XuanHuo.Prompt">请选择一张红桃手牌并选择一个目标</sys:String>
+    
+    <sys:String x:Key="Skill.WuYan.Name">无言</sys:String>
+    <sys:String x:Key="Skill.WuYan.Description">锁定技，你使用的非延时类锦囊牌对其他角色无效；其他角色使用的非延时类锦囊牌对你无效。</sys:String>
+
+    <sys:String x:Key="Skill.JuJian.Name">举荐</sys:String>
+    <sys:String x:Key="Skill.JuJian.Description">出牌阶段，你可以弃置至多三张牌，然后令一名其他角色摸等量的牌。若你以此法弃置三张同一类别的牌，你回复1点体力。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.JuJian.Usage">点“举荐”→选中至多三张牌→选择一名目标→点“确定”</sys:String>
+    <sys:String x:Key="Skill.JuJian.Prompt">请选择不超过三张牌和一名目标</sys:String>
     -->
     <sys:String x:Key="Hero.CaoZhi.Name">曹植</sys:String>
     <sys:String x:Key="Hero.ChenGong.Name">陈宫</sys:String>
@@ -91,12 +99,11 @@
     <sys:String x:Key="Skill.PoJun.Usage">系统提示→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.WuYan.Name">无言</sys:String>
-    <sys:String x:Key="Skill.WuYan.Description">锁定技，你使用的非延时类锦囊牌对其他角色无效；其他角色使用的非延时类锦囊牌对你无效。</sys:String>
+    <sys:String x:Key="Skill.WuYan.Description">锁定技，你防止你造成或受到的任何锦囊牌的伤害。</sys:String>
 
     <sys:String x:Key="Skill.JuJian.Name">举荐</sys:String>
-    <sys:String x:Key="Skill.JuJian.Description">出牌阶段，你可以弃置至多三张牌，然后令一名其他角色摸等量的牌。若你以此法弃置三张同一类别的牌，你回复1点体力。每阶段限一次。</sys:String>
-    <sys:String x:Key="Skill.JuJian.Usage">点“举荐”→选中至多三张牌→选择一名目标→点“确定”</sys:String>
-    <sys:String x:Key="Skill.JuJian.Prompt">请选择不超过三张牌和一名目标</sys:String>
+    <sys:String x:Key="Skill.JuJian.Description">回合结束阶段开始时，你可以弃置一张非基本牌，令一名其他角色选择一项：摸两张牌，或回复1点体力，或将其武将牌翻至正面朝上并重置之。</sys:String>
+    <sys:String x:Key="Skill.JuJian.Usage">系统提示→选中一张非基本牌→选择一名其他角色→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.YiZhong.Name">毅重</sys:String>
     <sys:String x:Key="Skill.YiZhong.Description">锁定技，若你的装备区没有防具牌，黑色的【杀】对你无效。</sys:String>
