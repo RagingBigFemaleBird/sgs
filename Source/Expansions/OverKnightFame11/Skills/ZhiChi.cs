@@ -61,7 +61,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => {return Game.CurrentGame.CurrentPlayer != Owner;},
+                (p, e, a) => {return Game.CurrentGame.PhasesOwner != Owner;},
                 (p, e, a) =>
                 {
                     Owner[ZhiChiStatus] = 1;

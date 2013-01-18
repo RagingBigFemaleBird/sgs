@@ -1416,14 +1416,14 @@ namespace Sanguosha.Core.Games
             var phase = CurrentPhase;
             var index = CurrentPhaseEventIndex;
             var player = CurrentPlayer;
-            var phasesOwner = PhasesOwner;
+            var owner = PhasesOwner;
             CurrentPhaseEventIndex = 0;
             CurrentPhase = TurnPhase.BeforeStart;
             Emit(GameEvent.DoPlayer, new GameEventArgs() { Source = p });
             CurrentPhase = phase;
             CurrentPhaseEventIndex = index;
             CurrentPlayer = player;
-            PhasesOwner = phasesOwner;
+            PhasesOwner = owner;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Sanguosha.Expansions.Basic.Skills
         {
             card = new CompositeCard();
             card.Type = new Tao();
-            if (Owner == Game.CurrentGame.CurrentPlayer)
+            if (Owner == Game.CurrentGame.PhasesOwner)
             {
                 return VerifierResult.Fail;
             }

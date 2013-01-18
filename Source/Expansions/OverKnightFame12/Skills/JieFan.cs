@@ -73,6 +73,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
+                (p, e, a) => { return Game.CurrentGame.PhasesOwner != p; },
                 Run,
                 TriggerCondition.Global
             ) { AskForConfirmation = false, IsAutoNotify = false };
@@ -81,16 +82,16 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                 this,
                 (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard[JieFanSha] != 0; },
                 (p, e, a) =>
-                    {
-                        Player target = Game.CurrentGame.Players[a.ReadonlyCard[JieFanSha] - 1];
-                        GameEventArgs args = new GameEventArgs();
-                        args.Source = Owner;
-                        args.Targets = new List<Player>() {target};
-                        args.Skill = new JieFanTaoCardTransformSkill();
-                        args.Cards = new List<Card>();
-                        Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
-                        throw new TriggerResultException(TriggerResult.End);
-                    },
+                {
+                    Player target = Game.CurrentGame.Players[a.ReadonlyCard[JieFanSha] - 1];
+                    GameEventArgs args = new GameEventArgs();
+                    args.Source = Owner;
+                    args.Targets = new List<Player>() { target };
+                    args.Skill = new JieFanTaoCardTransformSkill();
+                    args.Cards = new List<Card>();
+                    Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
+                    throw new TriggerResultException(TriggerResult.End);
+                },
                 TriggerCondition.Global
             ) { AskForConfirmation = false };
             Triggers.Add(GameEvent.DamageCaused, trigger2);
