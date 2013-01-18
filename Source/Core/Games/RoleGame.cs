@@ -787,7 +787,6 @@ namespace Sanguosha.Core.Games
                     return;
                 }
                 game.CurrentPlayer = currentPlayer;
-                game.PhasesOwner = currentPlayer;
                 Game.CurrentGame.Emit(GameEvent.PhaseBeforeStart, new GameEventArgs() { Source = currentPlayer });
                 while (true)
                 {
@@ -820,7 +819,6 @@ namespace Sanguosha.Core.Games
                         GameDelays.Delay(GameDelayTypes.ChangePlayer);
                     }
                 }
-                game.PhasesOwner = null;
                 Game.CurrentGame.Emit(GameEvent.PhasePostEnd, new GameEventArgs() { Source = currentPlayer });
             }
         }
@@ -923,33 +921,28 @@ namespace Sanguosha.Core.Games
 
                 Game.CurrentGame.Emit(GameEvent.PlayerIsDead, eventArgs);
                 p.IsDead = true;
-                if (CurrentGame.PhasesOwner == p)
+                //弃置死亡玩家所有的牌和标记
+                Game.CurrentGame.SyncImmutableCardsAll(Game.CurrentGame.Decks[p, DeckType.Hand]);
+                CardsMovement move = new CardsMovement();
+                move.Cards = new List<Card>();
+                move.Cards.AddRange(Game.CurrentGame.Decks[p, DeckType.Hand]);
+                move.Cards.AddRange(Game.CurrentGame.Decks[p, DeckType.Equipment]);
+                move.Cards.AddRange(Game.CurrentGame.Decks[p, DeckType.DelayedTools]);
+                move.To = new DeckPlace(null, DeckType.Discard);
+                foreach (var setLog in move.Cards)
                 {
-                    CurrentGame.PhasesOwner = null;
+                    setLog.Log = new ActionLog();
+                    setLog.Log.Source = p;
+                    setLog.Log.GameAction = GameAction.Discard;
                 }
+                Game.CurrentGame.MoveCards(move);
+                var makeACopy = new List<PlayerAttribute>(p.Attributes.Keys);
+                foreach (var kvp in makeACopy)
                 {
-                    //弃置死亡玩家所有的牌和标记
-                    Game.CurrentGame.SyncImmutableCardsAll(Game.CurrentGame.Decks[p, DeckType.Hand]);
-                    CardsMovement move = new CardsMovement();
-                    move.Cards = new List<Card>();
-                    move.Cards.AddRange(Game.CurrentGame.Decks[p, DeckType.Hand]);
-                    move.Cards.AddRange(Game.CurrentGame.Decks[p, DeckType.Equipment]);
-                    move.Cards.AddRange(Game.CurrentGame.Decks[p, DeckType.DelayedTools]);
-                    move.To = new DeckPlace(null, DeckType.Discard);
-                    foreach (var setLog in move.Cards)
-                    {
-                        setLog.Log = new ActionLog();
-                        setLog.Log.Source = p;
-                        setLog.Log.GameAction = GameAction.Discard;
-                    }
-                    Game.CurrentGame.MoveCards(move);
-                    var makeACopy = new List<PlayerAttribute>(p.Attributes.Keys);
-                    foreach (var kvp in makeACopy)
-                    {
-                        if (kvp.IsMark)
-                            p[kvp] = 0;
-                    }
+                    if (kvp.IsMark)
+                        p[kvp] = 0;
                 }
+
                 if (p.Hero != null)
                 {
                     foreach (ISkill s in p.Hero.Skills)
@@ -983,7 +976,7 @@ namespace Sanguosha.Core.Games
                 {
                     Trace.TraceInformation("Loyalist killl by ruler. GG");
                     Game.CurrentGame.SyncImmutableCardsAll(Game.CurrentGame.Decks[source, DeckType.Hand]);
-                    CardsMovement move = new CardsMovement();
+                    move = new CardsMovement();
                     move.Cards = new List<Card>();
                     foreach (Card c in Game.CurrentGame.Decks[source, DeckType.Hand])
                     {

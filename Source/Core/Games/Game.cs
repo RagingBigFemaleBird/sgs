@@ -918,12 +918,10 @@ namespace Sanguosha.Core.Games
         }
 
         //回合结束后，直到下个角色回合开始时这段时间里，不属于任何角色的回合
-        Player phasesOwner;
 
         public Player PhasesOwner
         {
-            get { return phasesOwner; }
-            set { phasesOwner = value; }
+            get { return currentPlayer.IsDead ? null : currentPlayer; }
         }
 
         TurnPhase currentPhase;
@@ -1416,14 +1414,12 @@ namespace Sanguosha.Core.Games
             var phase = CurrentPhase;
             var index = CurrentPhaseEventIndex;
             var player = CurrentPlayer;
-            var owner = PhasesOwner;
             CurrentPhaseEventIndex = 0;
             CurrentPhase = TurnPhase.BeforeStart;
             Emit(GameEvent.DoPlayer, new GameEventArgs() { Source = p });
             CurrentPhase = phase;
             CurrentPhaseEventIndex = index;
             CurrentPlayer = player;
-            PhasesOwner = owner;
         }
     }
 }
