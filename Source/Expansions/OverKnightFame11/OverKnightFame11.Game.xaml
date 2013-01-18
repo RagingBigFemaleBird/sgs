@@ -26,18 +26,19 @@
     <sys:String x:Key="CardUsage.Prompt.EnYuan">请交给{0}一张红桃牌或点“取消”失去1点体力</sys:String>
     
     <sys:String x:Key="CardUsage.Prompt.XuanHuo">请将该牌交给一名{0}以外的角色</sys:String>
-	-->
-    <sys:String x:Key="Expansion.OverKnightFame11Expansion.Name">一将11</sys:String>
-    <sys:String x:Key="MultiChoice.Prompt.LuoYing">是否发动落英获得【{0}】?</sys:String>
 
     <sys:String x:Key="MultiChoice.Prompt.XuanFeng">请选择一项“旋风”的效果</sys:String>
     <sys:String x:Key="MultiChoice.Choice.XuanFengChuSha">视为对一名角色使用一张【杀】</sys:String>
     <sys:String x:Key="MultiChoice.Choice.XuanFengShangHai">对距离1的一名角色造成1点伤害</sys:String>
     <sys:String x:Key="CardUsage.Prompt.XuanFeng1">请选择【杀】的目标</sys:String>
     <sys:String x:Key="CardUsage.Prompt.XuanFeng2">请选择受伤害的角色</sys:String>
-
+	-->
+    <sys:String x:Key="Expansion.OverKnightFame11Expansion.Name">一将11</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.LuoYing">是否发动落英获得【{0}】?</sys:String>
     <sys:String x:Key="CardChoice.Prompt.XinZhan">心战</sys:String>
     <sys:String x:Key="CardChoice.Prompt.XinZhan.Others">心战 请等待{0}的选择</sys:String>
+
+    <sys:String x:Key="CardSlot.Hint.HuoDe">获得</sys:String>
     
     <sys:String x:Key="CardUsage.Prompt.MingCe">请对{0}使用一张【杀】</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.MingCe">请选择一项“明策”的效果</sys:String>
@@ -56,20 +57,22 @@
     <sys:String x:Key="MultiChoice.Choice.ZiLiRecover">回复1点体力</sys:String>
     <sys:String x:Key="MultiChoice.Choice.ZiLiDraw">摸两张牌</sys:String>
 
-    <sys:String x:Key="CardSlot.Hint.HuoDe">获得</sys:String>
-
     <sys:String x:Key="CardUsage.Prompt.EnYuan">请交给{0}一张手牌或点“取消”失去1点体力</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.EnYuan">你可以发动技能恩怨让{0}摸1张牌</sys:String>
 
     <sys:String x:Key="CardUsage.Prompt.XuanHuo">你可以选择一名目标及其攻击范围入的一名角色（若有）发动眩惑</sys:String>
     <sys:String x:Key="CardUsage.Prompt.XuanHuoSha">请对{0}使用一张【杀】</sys:String>
 
-    <sys:String x:Key="CardChoice.Prompt.XuanHuo">请选择{0}的2张卡牌</sys:String>
-    <sys:String x:Key="CardChoice.Prompt.XuanHuo.Others">心战 请等待{0}选择{1}的两张卡牌</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.XuanHuo">眩惑 请选择{0}的2张卡牌</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.XuanHuo.Others">眩惑 请等待{0}选择{1}的两张卡牌</sys:String>
 
     <sys:String x:Key="MultiChoice.Prompt.JuJian">请选择一项“举荐”的效果</sys:String>
     <sys:String x:Key="MultiChoice.Choice.JuJianMoPai">摸两张牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.JuJianHuiXue">回复1点体力</sys:String>
     <sys:String x:Key="MultiChoice.Choice.JuJianChongZhi">翻至正面并重置</sys:String>
     <sys:String x:Key="CardUsage.Prompt.JuJian">你可以选择一张非基本牌和一个目标发动“举荐”</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.XuanFeng">你可以选择一至两个目标发动“旋风”</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.XuanFeng">旋风 请选择{0}的卡牌</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.XuanFeng.Others">旋风 请等待{0}选择{1}的两张卡牌</sys:String>
 </ResourceDictionary>

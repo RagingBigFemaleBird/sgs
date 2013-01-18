@@ -16,114 +16,84 @@ using Sanguosha.Core.Exceptions;
 namespace Sanguosha.Expansions.OverKnightFame11.Skills
 {
     /// <summary>
-    /// 旋风-每当你失去一次装备区里的牌时，你可以执行下列两项中的一项：1.视为对任意一名其他角色使用一张【杀】(此【杀】不计入每回合的使用限制)；2.对与你距离1以内的一名其他角色造成一点伤害。
+    /// 旋风-当你失去装备区里的牌时，或于弃牌阶段内弃置了两张或更多的手牌后，你可以依次弃置一至两名其他角色的共计两张牌。
     /// </summary>
     public class XuanFeng : TriggerSkill
     {
+        private PlayerAttribute XuanFengUsable = PlayerAttribute.Register("XuanFengUsable", true);
+        private PlayerAttribute XuanFengUsed = PlayerAttribute.Register("XuanFengUsed", true);
 
-        public class XuanFeng2Verifier : CardsAndTargetsVerifier
+        bool canTrigger(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            public XuanFeng2Verifier()
+            if (gameEvent == GameEvent.CardsLost)
             {
-                MinCards = 0;
-                MaxCards = 0;
-                MinPlayers = 1;
-                MaxPlayers = 1;
-            }
-            protected override bool VerifyPlayer(Player source, Player player)
-            {
-                return Game.CurrentGame.DistanceTo(source, player) <= 1;
-            }
-        }
-
-        public class XuanFeng1Verifier : CardsAndTargetsVerifier
-        {
-            public XuanFeng1Verifier()
-            {
-                MinCards = 0;
-                MaxCards = 0;
-                MinPlayers = 1;
-                MaxPlayers = 1;
-            }
-            protected override bool VerifyPlayer(Player source, Player player)
-            {
-                return source != player;
-            }
-        }
-
-        class XuanFengShaComposerSkill : CardTransformSkill
-        {
-            public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
-            {
-                card = new CompositeCard();
-                card.Type = new RegularSha();
-                return VerifierResult.Success;
-            }
-            protected override void NotifyAction(Player source, List<Player> targets, CompositeCard card)
-            {
-            }
-        }
-
-        void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
-        {
-            foreach (Card c in eventArgs.Cards)
-            {
-                if (c.HistoryPlace1.DeckType == DeckType.Equipment && c.HistoryPlace1.Player == Owner)
+                foreach (Card card in eventArgs.Cards)
                 {
-                    if (AskForSkillUse())
+                    if (card.HistoryPlace1.Player == Owner && card.HistoryPlace1.DeckType == DeckType.Equipment)
                     {
-                        NotifySkillUse(new List<Player>());
-                        int answer = 0;
-                        Owner.AskForMultipleChoice(new MultipleChoicePrompt("XuanFeng"), new List<OptionPrompt>() { new OptionPrompt("XuanFengChuSha"), new OptionPrompt("XuanFengShangHai") }, out answer);
-                        if (answer == 0)
-                        {
-                            ISkill skill;
-                            List<Card> cards;
-                            List<Player> players;
-                            if (Owner.AskForCardUsage(new CardUsagePrompt("XuanFeng1"), new XuanFeng1Verifier(),
-                                out skill, out cards, out players))
-                            {
-                                try
-                                {
-                                    GameEventArgs args = new GameEventArgs();
-                                    Owner[Sha.NumberOfShaUsed]--;
-                                    args.Source = Owner;
-                                    args.Targets = new List<Player>(players);
-                                    args.Skill = new XuanFengShaComposerSkill();
-                                    args.Cards = cards;
-                                    Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
-                                }
-                                catch (TriggerResultException e)
-                                {
-                                    Trace.Assert(e.Status == TriggerResult.Retry);
-                                    continue;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            ISkill skill;
-                            List<Card> cards;
-                            List<Player> players;
-                            if (Owner.AskForCardUsage(new CardUsagePrompt("XuanFeng2"), new XuanFeng2Verifier(), out skill, out cards, out players))
-                            {
-                                Game.CurrentGame.DoDamage(Owner, players[0], 1, DamageElement.None, null, null);
-                            }
-
-                        }
+                        return true;
                     }
                 }
+                return false;
+            }
+            else if (gameEvent == GameEvent.CardsEnteredDiscardDeck)
+            {
+                if (!(Game.CurrentGame.PhasesOwner == Owner && Game.CurrentGame.CurrentPhase == TurnPhase.Discard && Owner[XuanFengUsed] == 0))
+                {
+                    return false;
+                }
+                if (eventArgs.Cards != null)
+                {
+                    Owner[XuanFengUsable] += eventArgs.Cards.Count;
+                }
+                return Owner[XuanFengUsable] >= 2;
+            }
+            return true;
+        }
+
+        void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs, List<Card> cards, List<Player> players)
+        {
+            int count = 2 / players.Count;
+            List<Player> tempPlayers = new List<Player>(players);
+            Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, tempPlayers);
+            foreach (Player target in tempPlayers)
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    if (target.Equipments().Count + target.HandCards().Count == 0) break;
+                    Card theCard = Game.CurrentGame.SelectACardFrom(target, Owner, new CardChoicePrompt("XuanFeng", target, Owner), "QiPaiDui");
+                    Game.CurrentGame.HandleCardDiscard(target, new List<Card>() { theCard });
+                }
+            }
+        }
+
+        class XuanFengVerifier : CardsAndTargetsVerifier
+        {
+            public XuanFengVerifier()
+            {
+                MaxPlayers = 2;
+                MinPlayers = 1;
+                MaxCards = 0;
+            }
+
+            protected override bool VerifyPlayer(Player source, Player player)
+            {
+                return player != source && player.HandCards().Count + player.Equipments().Count > 0;
             }
         }
 
         public XuanFeng()
         {
-            var trigger = new RelayTrigger(
+            var trigger = new AutoNotifyUsagePassiveSkillTrigger(
+                this,
+                canTrigger,
                 Run,
-                TriggerCondition.OwnerIsSource
+                TriggerCondition.OwnerIsSource,
+                new XuanFengVerifier()
             );
             Triggers.Add(GameEvent.CardsLost, trigger);
-            IsAutoInvoked = true;
+            Triggers.Add(GameEvent.CardsEnteredDiscardDeck, trigger);
+            IsAutoInvoked = null;
         }
     }
 }

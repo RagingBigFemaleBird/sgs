@@ -26,6 +26,10 @@
     <sys:String x:Key="Skill.JuJian.Description">出牌阶段，你可以弃置至多三张牌，然后令一名其他角色摸等量的牌。若你以此法弃置三张同一类别的牌，你回复1点体力。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.JuJian.Usage">点“举荐”→选中至多三张牌→选择一名目标→点“确定”</sys:String>
     <sys:String x:Key="Skill.JuJian.Prompt">请选择不超过三张牌和一名目标</sys:String>
+    
+    <sys:String x:Key="Skill.XuanFeng.Name">旋风</sys:String>
+    <sys:String x:Key="Skill.XuanFeng.Description">当你失去一次装备区里的牌时，你可以选择一项：1. 视为对一名其他角色使用一张【杀】；你以此法使用【杀】时无距离限制且不计入出牌阶段内的使用次数限制。2. 对距离为1的一名角色造成1点伤害。</sys:String>
+    <sys:String x:Key="Skill.XuanFeng.Usage">系统提示→点“确定”→选择一项→选择合理目标→点“确定”</sys:String>
     -->
     <sys:String x:Key="Hero.CaoZhi.Name">曹植</sys:String>
     <sys:String x:Key="Hero.ChenGong.Name">陈宫</sys:String>
@@ -75,8 +79,8 @@
     <sys:String x:Key="Skill.JinJiu.Description">锁定技，你的【酒】均视为【杀】。</sys:String>
 
     <sys:String x:Key="Skill.XuanFeng.Name">旋风</sys:String>
-    <sys:String x:Key="Skill.XuanFeng.Description">当你失去一次装备区里的牌时，你可以选择一项：1. 视为对一名其他角色使用一张【杀】；你以此法使用【杀】时无距离限制且不计入出牌阶段内的使用次数限制。2. 对距离为1的一名角色造成1点伤害。</sys:String>
-    <sys:String x:Key="Skill.XuanFeng.Usage">系统提示→点“确定”→选择一项→选择合理目标→点“确定”</sys:String>
+    <sys:String x:Key="Skill.XuanFeng.Description">当你失去装备区里的牌时，或于弃牌阶段内弃置了两张或更多的手牌后，你可以依次弃置一至两名其他角色的共计两张牌。</sys:String>
+    <sys:String x:Key="Skill.XuanFeng.Usage">系统提示→选择一至两个目标→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.XinZhan.Name">心战</sys:String>
     <sys:String x:Key="Skill.XinZhan.Description">出牌阶段，若你的手牌数大于你的体力上限，你可以：观看牌堆顶的三张牌，然后亮出其中任意数量的红桃牌并获得之，其余以任意顺序置于牌堆顶。每阶段限一次。</sys:String>
