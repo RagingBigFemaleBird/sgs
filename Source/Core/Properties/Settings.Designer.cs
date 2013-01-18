@@ -46,5 +46,17 @@ namespace Sanguosha.Core.Properties {
                 this["LoadSequence"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsUsing386 {
+            get {
+                return ((bool)(this["IsUsing386"]));
+            }
+            set {
+                this["IsUsing386"] = value;
+            }
+        }
     }
 }

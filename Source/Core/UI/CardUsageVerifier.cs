@@ -155,6 +155,8 @@ namespace Sanguosha.Core.UI
         {
             VerifierResult initialResult = FastVerify(source, skill, cards, players);
 
+            if (Properties.Settings.Default.IsUsing386) return initialResult;
+
             if (skill != null)
             {
                 if (initialResult == VerifierResult.Success)

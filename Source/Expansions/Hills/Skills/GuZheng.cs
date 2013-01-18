@@ -45,7 +45,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             }
             public UiHelper Helper
             {
-                get { return null; }
+                get { return new UiHelper(); }
             }
         }
 
