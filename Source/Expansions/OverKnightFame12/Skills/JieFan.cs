@@ -80,7 +80,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                 {
                     Game.CurrentGame.HandleCardDiscard(p, cards);
                 }
-                else
+                else if (!target.IsDead)
                 {
                     Game.CurrentGame.DrawCards(target, 1);
                 }
