@@ -22,6 +22,7 @@ namespace Sanguosha.Expansions.Hills.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
+                (p, e, a) => { return Game.CurrentGame.PhasesOwner != null; },
                 (p, e, a) => { p[LianPoCount]++; },
                 TriggerCondition.OwnerIsSource
             ) { AskForConfirmation = false, IsAutoNotify = false };

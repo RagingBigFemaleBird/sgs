@@ -787,6 +787,7 @@ namespace Sanguosha.Core.Games
                     return;
                 }
                 game.CurrentPlayer = currentPlayer;
+                game.PhasesOwner = currentPlayer;
                 Game.CurrentGame.Emit(GameEvent.PhaseBeforeStart, new GameEventArgs() { Source = currentPlayer });
                 while (true)
                 {
@@ -819,7 +820,7 @@ namespace Sanguosha.Core.Games
                         GameDelays.Delay(GameDelayTypes.ChangePlayer);
                     }
                 }
-                game.CurrentPlayer = null;
+                game.PhasesOwner = null;
                 Game.CurrentGame.Emit(GameEvent.PhasePostEnd, new GameEventArgs() { Source = currentPlayer });
             }
         }
@@ -922,6 +923,10 @@ namespace Sanguosha.Core.Games
 
                 Game.CurrentGame.Emit(GameEvent.PlayerIsDead, eventArgs);
                 p.IsDead = true;
+                if (CurrentGame.PhasesOwner == p)
+                {
+                    CurrentGame.PhasesOwner = null;
+                }
                 {
                     //弃置死亡玩家所有的牌和标记
                     Game.CurrentGame.SyncImmutableCardsAll(Game.CurrentGame.Decks[p, DeckType.Hand]);

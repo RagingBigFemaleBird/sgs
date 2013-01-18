@@ -18,7 +18,7 @@ using Sanguosha.Core.Utils;
 
 namespace Sanguosha.Core.Games
 {
-    
+
     public class GameOverException : SgsException { }
 
     public class CardsMovement
@@ -84,10 +84,10 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        
+
         class EndOfDealingDeckException : SgsException { }
 
-        
+
         class GameAlreadyStartedException : SgsException { }
 
         public GameSettings Settings { get; set; }
@@ -96,7 +96,7 @@ namespace Sanguosha.Core.Games
 
         static Game()
         {
-            games = new Dictionary<Thread,Game>();
+            games = new Dictionary<Thread, Game>();
         }
 
         List<CardHandler> availableCards;
@@ -145,7 +145,7 @@ namespace Sanguosha.Core.Games
         public Network.Server GameServer { get; set; }
         public Network.Client GameClient { get; set; }
 
-        public ReplayController ReplayController 
+        public ReplayController ReplayController
         {
             get
             {
@@ -322,14 +322,14 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public bool IsClient 
+        public bool IsClient
         {
             get
             {
                 return GameClient != null;
             }
         }
-        
+
         public virtual void Run()
         {
             if (games.ContainsKey(Thread.CurrentThread))
@@ -350,7 +350,7 @@ namespace Sanguosha.Core.Games
                     GameServer.SendObject(i, i);
                     GameServer.Flush(i);
                 }
-                
+
             }
 
             availableCards = new List<CardHandler>();
@@ -415,12 +415,12 @@ namespace Sanguosha.Core.Games
 
             InitTriggers();
             try
-            {                
+            {
                 Emit(GameEvent.GameStart, new GameEventArgs());
             }
             catch (GameOverException)
             {
-                
+
             }
 #if !DEBUG
             catch (Exception e)
@@ -447,9 +447,9 @@ namespace Sanguosha.Core.Games
         public static Game CurrentGame
         {
             get { return games[Thread.CurrentThread]; }
-            set 
+            set
             {
-                games[Thread.CurrentThread] = value;                 
+                games[Thread.CurrentThread] = value;
             }
         }
 
@@ -499,7 +499,7 @@ namespace Sanguosha.Core.Games
                 return;
             }
             if (!triggers.ContainsKey(gameEvent))
-            {                
+            {
                 triggers[gameEvent] = new List<Trigger>();
             }
             triggers[gameEvent].Add(trigger);
@@ -694,7 +694,7 @@ namespace Sanguosha.Core.Games
         List<CardsMovement> atomicMoves;
         List<TriggerWithParam> atomicTriggers;
         List<TriggerWithParam> atomicTriggersBeforeMove;
-        
+
         public void EnterAtomicContext()
         {
             atomic = true;
@@ -835,7 +835,7 @@ namespace Sanguosha.Core.Games
         {
             List<CardsMovement> moves = new List<CardsMovement>();
             moves.Add(move);
-            MoveCards(moves, new List<bool>() {insertBefore});
+            MoveCards(moves, new List<bool>() { insertBefore });
         }
 
         public Card PeekCard(int i)
@@ -897,8 +897,9 @@ namespace Sanguosha.Core.Games
         public Player CurrentPlayer
         {
             get { return currentPlayer; }
-            set 
+            set
             {
+                Trace.Assert(value != null);
                 if (currentPlayer != null)
                 {
                     var temp = new Dictionary<PlayerAttribute, int>(currentPlayer.Attributes);
@@ -916,12 +917,21 @@ namespace Sanguosha.Core.Games
             }
         }
 
+        //回合结束后，直到下个角色回合开始时这段时间里，不属于任何角色的回合
+        Player phasesOwner;
+
+        public Player PhasesOwner
+        {
+            get { return phasesOwner; }
+            set { phasesOwner = value; }
+        }
+
         TurnPhase currentPhase;
 
         public TurnPhase CurrentPhase
         {
             get { return currentPhase; }
-            set 
+            set
             {
                 if (currentPhase == value) return;
                 currentPhase = value;
@@ -1149,7 +1159,7 @@ namespace Sanguosha.Core.Games
                 }
             }
         }
-        
+
         public void NotifyIntermediateJudgeResults(Player player, ActionLog log, JudgementResultSucceed intermDel)
         {
             Trace.Assert(Game.CurrentGame.Decks[player, DeckType.JudgeResult].Count > 0);
@@ -1167,7 +1177,7 @@ namespace Sanguosha.Core.Games
             if (skill != null)
             {
                 CompositeCard card;
-                CardTransformSkill s = (CardTransformSkill)skill;                
+                CardTransformSkill s = (CardTransformSkill)skill;
                 if (!s.Transform(cards, null, out card, targets))
                 {
                     result = null;
@@ -1254,7 +1264,7 @@ namespace Sanguosha.Core.Games
             }
             return true;
         }
-               
+
         Stack<Player> isDying;
 
         public Stack<Player> IsDying
@@ -1274,7 +1284,7 @@ namespace Sanguosha.Core.Games
                     Trace.TraceInformation("Player {0} dying", target.Id);
                     GameEventArgs args = new GameEventArgs();
                     args.Source = eventArgs.Source;
-                    args.Targets = new List<Player>() {target};
+                    args.Targets = new List<Player>() { target };
                     try
                     {
                         Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToDie, args);
@@ -1353,7 +1363,7 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        
+
         public class PinDianVerifier : ICardUsageVerifier
         {
             public VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
@@ -1406,12 +1416,14 @@ namespace Sanguosha.Core.Games
             var phase = CurrentPhase;
             var index = CurrentPhaseEventIndex;
             var player = CurrentPlayer;
+            var phasesOwner = PhasesOwner;
             CurrentPhaseEventIndex = 0;
             CurrentPhase = TurnPhase.BeforeStart;
             Emit(GameEvent.DoPlayer, new GameEventArgs() { Source = p });
             CurrentPhase = phase;
             CurrentPhaseEventIndex = index;
             CurrentPlayer = player;
+            PhasesOwner = phasesOwner;
         }
     }
 }
