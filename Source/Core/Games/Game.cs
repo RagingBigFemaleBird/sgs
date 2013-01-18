@@ -566,7 +566,7 @@ namespace Sanguosha.Core.Games
             var result = triggers.OrderBy((a) => { return a; }, new TriggerComparer(this));
             foreach (var t in result)
             {
-                if (t.trigger.Owner == null || !t.trigger.Owner.IsDead)
+                if (this.triggers[t.gameEvent].Contains(t.trigger) && (t.trigger.Owner == null || !t.trigger.Owner.IsDead))
                 {
                     t.trigger.Run(t.gameEvent, t.args);
                 }
