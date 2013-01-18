@@ -18,7 +18,7 @@
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="IsUsing386" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>
