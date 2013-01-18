@@ -921,7 +921,7 @@ namespace Sanguosha.Core.Games
 
         public Player PhasesOwner
         {
-            get { return currentPlayer.IsDead ? null : currentPlayer; }
+            get { if (currentPhase == TurnPhase.Inactive) return null; return currentPlayer.IsDead ? null : currentPlayer; }
         }
 
         TurnPhase currentPhase;
