@@ -33,6 +33,8 @@ namespace Sanguosha.Core.Network
         public int commId;
         public Game game;
         public bool disconnected;
+        volatile public ItemSender sender;
+        volatile public ItemReceiver receiver;
         public ServerHandler()
         {
             disconnected = false;
@@ -133,10 +135,11 @@ namespace Sanguosha.Core.Network
                 }
                 handlers[i].stream.ReadTimeout = Timeout.Infinite;
                 handlers[i].stream = new RecordTakingOutputStream(handlers[i].stream);
+                handlers[i].sender = new ItemSender(handlers[i].stream);
+                handlers[i].receiver = new ItemReceiver(handlers[i].stream);
                 handlers[i].threadServer = new Thread((ParameterizedThreadStart)((o) => 
                 {
                     ServerThread(handlers[(int)o]);
-                    handlers[(int)o].disconnected = true;
                 })) { IsBackground = true };
                 handlers[i].threadServer.Start(i);
                 handlers[i].threadClient = new Thread((ParameterizedThreadStart)((o) => 
@@ -192,31 +195,19 @@ namespace Sanguosha.Core.Network
                     }
                     stream.ReadTimeout = Timeout.Infinite;
                     int indexC = game.Settings.Accounts.IndexOf(theAccount);
-                    lock (handlers[indexC].queueIn)
-                    {
-                        lock (handlers[indexC].queueOut)
-                        {
-                            (handlers[indexC].stream as RecordTakingOutputStream).Flush();
-                            var newRCStream = new RecordTakingOutputStream(stream);
-                            (handlers[indexC].stream as RecordTakingOutputStream).DumpTo(newRCStream);
-                            handlers[indexC].disconnected = false;
-                            handlers[indexC].threadClient.Abort();
-                            handlers[indexC].threadServer.Abort();
-                            newRCStream.Flush();
-                            handlers[indexC].stream = newRCStream;
-                            handlers[indexC].threadServer = new Thread((ParameterizedThreadStart)((o) =>
-                            {
-                                ServerThread(handlers[(int)o]);
-                                handlers[(int)o].disconnected = true;
-                            })) { IsBackground = true };
-                            handlers[indexC].threadServer.Start(indexC);
-                            handlers[indexC].threadClient = new Thread((ParameterizedThreadStart)((o) =>
-                            {
-                                ClientThread(handlers[(int)o]);
-                            })) { IsBackground = true };
-                            handlers[indexC].threadClient.Start(indexC);
-                        }
-                    }
+                    Trace.Assert(indexC >= 0);
+                    lock (handlers[indexC].queueIn) lock (handlers[indexC].queueOut) lock (handlers[indexC].sender) lock (handlers[indexC].receiver)
+                                {
+                                    handlers[indexC].sender.Flush();
+                                    var newRCStream = new RecordTakingOutputStream(stream);
+                                    (handlers[indexC].stream as RecordTakingOutputStream).DumpTo(newRCStream);
+                                    handlers[indexC].disconnected = false;
+                                    newRCStream.Flush();
+                                    handlers[indexC].stream = newRCStream;
+                                    handlers[indexC].sender = new ItemSender(handlers[indexC].stream);
+                                    handlers[indexC].receiver = new ItemReceiver(handlers[indexC].stream);
+                                }
+
                 }
                 catch (Exception)
                 {
@@ -515,49 +506,55 @@ namespace Sanguosha.Core.Network
 
         private void ServerThread(ServerHandler handler)
         {
-            ItemReceiver r = new ItemReceiver(handler.stream);
             game.RegisterCurrentThread();
             while (true)
             {
                 object o;
-                do
+                lock (handler.receiver)
                 {
-                    o = r.Receive();
-                    if (o == null) return;
-                } while (HandleInterrupt(o));
-                lock (handler.queueIn)
-                {
-                    handler.queueIn.Enqueue(o);
+                    do
+                    {
+                        o = handler.receiver.Receive();
+                        if (o == null) handler.disconnected = true;
+                    } while (HandleInterrupt(o));
                 }
-                handler.semIn.Release(1);
+                if (o != null)
+                {
+                    lock (handler.queueIn)
+                    {
+                        handler.queueIn.Enqueue(o);
+                    }
+                    handler.semIn.Release(1);
+                }
             }
         }
 
         private void ClientThread(ServerHandler handler)
         {
-            ItemSender r = new ItemSender(handler.stream);
             game.RegisterCurrentThread();
             while (true)
             {
                 handler.semOut.WaitOne();
+                object o;
                 lock (handler.queueOut)
-                {                    
-                    object o;
-                
+                {
                     o = handler.queueOut.Dequeue();
+                }
+                lock (handler.sender)
+                {
                     if (o is FlushObject)
                     {
-                        r.Flush();
+                        handler.sender.Flush();
                     }
                     else if (o is TerminationObject)
                     {
-                        r.Flush();
+                        handler.sender.Flush();
                         return;
                     }
-                    else if (!r.Send(o))
+                    else if (!handler.sender.Send(o))
                     {
                         Trace.TraceError("Network failure @ send");
-                    }                
+                    }
                 }
             }
         }

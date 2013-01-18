@@ -13,6 +13,7 @@ namespace Sanguosha.Lobby.Server
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, InstanceContextMode = InstanceContextMode.Single)]
     public class LobbyServiceImpl : ILobbyService
     {
+        List<Account> accounts;
         Dictionary<int, Room> rooms;
         int newRoomId;
         int newAccountId;
@@ -50,19 +51,31 @@ namespace Sanguosha.Lobby.Server
             newRoomId = 1;
             newAccountId = 1;
             CheatEnabled = false;
+            accounts = new List<Account>();
         }
   
         void Channel_Faulted(object sender, EventArgs e)
         {
+            /*
             var connection = sender as IGameClient;
             var guid = loggedInChannelsToGuid[connection];
             _Logout(new LoginToken() { token = guid });
+             */
         }
 
-        public LoginStatus Login(int version, string username, out LoginToken token, out Account retAccount)
+        public LoginStatus Login(int version, string username, out LoginToken token, out Account retAccount, out string reconnectionString)
         {
-            token = new LoginToken();
-            token.token = System.Guid.NewGuid();
+            var disconnected = accounts.FirstOrDefault(ac => ac.UserName == username);
+            if (disconnected != null)
+            {
+                token = new LoginToken() { token = loggedInAccountToGuid[disconnected] };
+            }
+            else
+            {
+                token = new LoginToken();
+                token.token = System.Guid.NewGuid();
+            }
+            reconnectionString = null;
             if (version != Misc.ProtocolVersion)
             {
                 retAccount = null;
@@ -72,12 +85,31 @@ namespace Sanguosha.Lobby.Server
             var connection = OperationContext.Current.GetCallbackChannel<IGameClient>();
             OperationContext.Current.Channel.Faulted += new EventHandler(Channel_Faulted);
             OperationContext.Current.Channel.Closed += new EventHandler(Channel_Faulted);
-            Account account = new Account() { UserName = username, Id = newAccountId++ };
+            Account account = disconnected;
+            if (account == null)
+            {
+                account = new Account() { UserName = username, Id = newAccountId++ };
+                accounts.Add(account);
+            }
             retAccount = account;
+            if (disconnected != null)
+            {
+                loggedInGuidToAccount.Remove(token.token);
+                loggedInAccountToGuid.Remove(disconnected);
+                if (loggedInGuidToChannel.ContainsKey(token.token))
+                {
+                    loggedInChannelsToGuid.Remove(loggedInGuidToChannel[token.token]);
+                    loggedInGuidToChannel.Remove(token.token);
+                }
+            }
             loggedInGuidToAccount.Add(token.token, account);
             loggedInGuidToChannel.Add(token.token, connection);
             loggedInAccountToGuid.Add(account, token.token);
             loggedInChannelsToGuid.Add(connection, token.token);
+            if (disconnected != null && loggedInGuidToRoom.ContainsKey(token.token) && loggedInGuidToRoom[token.token].State == RoomState.Gaming)
+            {
+                reconnectionString = loggedInGuidToRoom[token.token].IpAddress.ToString() + ":" + loggedInGuidToRoom[token.token].IpPort;
+            }
             return LoginStatus.Success;
         }
 
@@ -348,6 +380,8 @@ namespace Sanguosha.Lobby.Server
                     }
                 }
                 GameService.StartGameService(HostingIp, gs, config, room.Id, _OnGameEnds, out portNumber);
+                room.IpAddress = HostingIp.ToString();
+                room.IpPort = portNumber;
                 _NotifyGameStart(loggedInGuidToRoom[token.token].Id, HostingIp, portNumber);
                 return RoomOperationResult.Success;
             }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -112,12 +113,15 @@ namespace Sanguosha.Lobby.Core
             set { ipAddress = value; }
         }
 
-        private string ipPort;
 
-        public string IpPort
+        private int ipPort;
+
+        public int IpPort
         {
             get { return ipPort; }
             set { ipPort = value; }
         }
+
+
     }
 }

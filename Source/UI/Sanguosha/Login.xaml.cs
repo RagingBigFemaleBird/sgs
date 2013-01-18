@@ -165,6 +165,7 @@ namespace Sanguosha.UI.Main
             busyIndicator.IsBusy = true;
             ILobbyService server = null;
             LoginToken token = new LoginToken();
+            string reconnect = null;
             string hostName = tab0HostName.Text;
             if (!hostName.Contains(":"))
             {
@@ -185,7 +186,7 @@ namespace Sanguosha.UI.Main
                     var channelFactory = new DuplexChannelFactory<ILobbyService>(lobbyModel, binding, endpoint);
                     server = channelFactory.CreateChannel();
                     Account ret;
-                    var stat = server.Login(Misc.ProtocolVersion, userName, out token, out ret);
+                    var stat = server.Login(Misc.ProtocolVersion, userName, out token, out ret, out reconnect);
                     if (stat == LoginStatus.Success)
                     {
                         LobbyViewModel.Instance.CurrentAccount = ret;
@@ -209,6 +210,7 @@ namespace Sanguosha.UI.Main
                     lobbyModel.Connection = server;
                     lobbyModel.LoginToken = token;
                     this.NavigationService.Navigate(lobby);
+                    if (reconnect != null) lobbyModel.NotifyGameStart(reconnect);
                     success = true;
                 }
                 if (!success)

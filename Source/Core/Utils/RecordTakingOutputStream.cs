@@ -90,7 +90,13 @@ namespace Sanguosha.Core.Utils
                 {
                 }
             }
-            OutputStream.Write(buffer, offset, count);
+            try
+            {
+                OutputStream.Write(buffer, offset, count);
+            }
+            catch (Exception)
+            {
+            }
         }
         
         public void DumpTo(Stream s)
