@@ -82,7 +82,7 @@ namespace Sanguosha.Expansions.SP.Skills
                 {
                     Card theCard = Game.CurrentGame.Decks[Owner, BiFaDeck][0];
                     Player ChenLin = theCard.HistoryPlace1.Player;
-                    Game.CurrentGame.SyncImmutableCard(Owner, theCard);
+                    Game.CurrentGame.SyncImmutableCardAll(theCard);
                     CardsMovement move = new CardsMovement();
                     move.Cards = new List<Card>() { theCard };
                     move.To = new DeckPlace(Owner, BiFaDeck);
@@ -94,8 +94,6 @@ namespace Sanguosha.Expansions.SP.Skills
                     List<Player>players;
                     if (!ChenLin.IsDead && Owner.AskForCardUsage(new CardUsagePrompt("BiFaGiveCard", ChenLin), new BiFaGiveCardVerifier(theCard), out skill, out cards, out players))
                     {
-                        Game.CurrentGame.SyncImmutableCardAll(theCard);
-                        Game.CurrentGame.SyncImmutableCardsAll(cards);
                         Game.CurrentGame.HandleCardTransferToHand(Owner, ChenLin, cards);
                         Game.CurrentGame.HandleCardTransferToHand(Owner, Owner, new List<Card>() { theCard });
                     }
