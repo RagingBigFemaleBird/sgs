@@ -22,14 +22,13 @@ namespace Sanguosha.Expansions.Fire.Skills
     {
         class DaWuVerifier : CardsAndTargetsVerifier
         {
-            List<Card> QiXingCards;
-            public DaWuVerifier(List<Card> qxCards)
+            public DaWuVerifier(int qxCount)
             {
-                QiXingCards = new List<Card>(qxCards);
-                MaxPlayers = qxCards.Count;
+                MaxPlayers = qxCount;
                 MinPlayers = 1;
-                MaxCards = qxCards.Count;
+                MaxCards = qxCount;
                 MinCards = 1;
+                Helper.OtherDecksUsed.Add(QiXing.QiXingDeck);
             }
 
             protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
@@ -42,12 +41,12 @@ namespace Sanguosha.Expansions.Fire.Skills
             }
             protected override bool VerifyCard(Player source, Card card)
             {
-                return QiXingCards.Contains(card);
+                return card.Place.DeckType == QiXing.QiXingDeck;
             }
 
         }
 
-        List<Player> dawuTargets;
+        static List<Player> dawuTargets;
         public static readonly PlayerAttribute DaWuMark = PlayerAttribute.Register("DaWu", false, true);
 
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
@@ -55,15 +54,8 @@ namespace Sanguosha.Expansions.Fire.Skills
             ISkill skill;
             List<Card> cards;
             List<Player> players;
-            List<Card> originalCards = new List<Card>(Game.CurrentGame.Decks[Owner, QiXing.QiXingDeck]);
             int qxCount = Game.CurrentGame.Decks[Owner, QiXing.QiXingDeck].Count;
-            // hack the cards to owner's hand. do not trigger anything
-            CardsMovement move = new CardsMovement();
-            move.Cards = new List<Card>(Game.CurrentGame.Decks[Owner, QiXing.QiXingDeck]);
-            move.To = new DeckPlace(Owner, DeckType.Hand);
-            move.Helper.IsFakedMove = true;
-            Game.CurrentGame.MoveCards(move);
-            if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("DaWu"), new DaWuVerifier(originalCards), out skill, out cards, out players))
+            if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("DaWu"), new DaWuVerifier(qxCount), out skill, out cards, out players))
             {
                 NotifySkillUse(players);
                 foreach (var mark in players)
@@ -71,12 +63,67 @@ namespace Sanguosha.Expansions.Fire.Skills
                     mark[DaWuMark] = 1;
                 }
                 dawuTargets = players;
-                foreach (Card cc in cards) originalCards.Remove(cc);
                 Game.CurrentGame.HandleCardDiscard(null, cards);
+                Trigger tri = new DaWuProtect();
+                Game.CurrentGame.RegisterTrigger(GameEvent.DamageComputingStarted, tri);
+                Game.CurrentGame.RegisterTrigger(GameEvent.PhaseBeginEvents[TurnPhase.Start], new DawuRemoval(Owner, tri));
             }
-            move.Cards = new List<Card>(originalCards);
-            move.To = new DeckPlace(Owner, QiXing.QiXingDeck);
-            Game.CurrentGame.MoveCards(move);
+        }
+
+        class DawuRemoval : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                while (!qixingOwner.IsDead)
+                {
+                    if (eventArgs.Source != qixingOwner)
+                    {
+                        return;
+                    }
+                    foreach (var mark in dawuTargets) { mark[DaWuMark] = 0; }
+                    dawuTargets.Clear();
+                    break;
+                }
+                Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseBeginEvents[TurnPhase.Start], this);
+                Game.CurrentGame.UnregisterTrigger(GameEvent.DamageComputingStarted, dawuProtect);
+            }
+            Player qixingOwner;
+            Trigger dawuProtect;
+            public DawuRemoval(Player p, Trigger trigger)
+            {
+                qixingOwner = p;
+                dawuProtect = trigger;
+            }
+        }
+
+        class DaWuProtect : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                var args = eventArgs as DamageEventArgs;
+                if (args.Element == DamageElement.Lightning || eventArgs.Targets[0][DaWuMark] == 0)
+                {
+                    return;
+                }
+                throw new TriggerResultException(TriggerResult.End);
+            }
+        }
+
+        class onDead : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                if (eventArgs.Targets[0] != Owner) return;
+                foreach (Player target in dawuTargets)
+                {
+                    target[DaWuMark] = 0;
+                }
+                Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerIsDead, this);
+            }
+            public onDead(Player p)
+            {
+                Owner = p;
+            }
         }
 
         public DaWu()
@@ -84,33 +131,21 @@ namespace Sanguosha.Expansions.Fire.Skills
             dawuTargets = new List<Player>();
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { foreach (var mark in dawuTargets) { mark[DaWuMark] = 0; } dawuTargets.Clear(); },
-                TriggerCondition.OwnerIsSource
-            ) { AskForConfirmation = false, IsAutoNotify = false };
-            var trigger2 = new AutoNotifyPassiveSkillTrigger(
-                this,
                 (p, e, a) => { return Game.CurrentGame.Decks[Owner, QiXing.QiXingDeck].Count > 0; },
                 Run,
                 TriggerCondition.OwnerIsSource
             ) { IsAutoNotify = false };
-            var trigger3 = new AutoNotifyPassiveSkillTrigger(
-                this,
-                (p, e, a) =>
-                {
-                    var args = a as DamageEventArgs;
-                    return (DamageElement)args.Element != DamageElement.Lightning && dawuTargets.Contains(args.Targets[0]);
-                },
-                (p, e, a) =>
-                {
-                    throw new TriggerResultException(TriggerResult.End);
-                },
-                TriggerCondition.Global
-            ) { AskForConfirmation = false };
-            Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Start], trigger);
-            Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger2);
-            Triggers.Add(GameEvent.DamageComputingStarted, trigger3);
-            IsAutoInvoked = false;
-        }
+            Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger);
 
+            var trigger2 = new AutoNotifyPassiveSkillTrigger(
+                this,
+                (p, e, a) => { Game.CurrentGame.RegisterTrigger(GameEvent.PlayerIsDead, new onDead(p)); },
+                TriggerCondition.OwnerIsSource
+            ) { AskForConfirmation = false, IsAutoNotify = false };
+            Triggers.Add(GameEvent.PlayerGameStartAction, trigger2);
+
+            IsAutoInvoked = null;
+            IsRulerOnly = true;
+        }
     }
 }

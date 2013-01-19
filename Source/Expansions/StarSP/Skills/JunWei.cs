@@ -139,6 +139,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                         answer.Add(new List<Card>());
                         answer[0].Add(target.Equipments().First());
                     }
+                    junweiTarget.Add(target);
                     Game.CurrentGame.HandleCardTransfer(target, target, JunWeiDeck, answer[0]);
                 }
             }
@@ -151,14 +152,12 @@ namespace Sanguosha.Expansions.StarSP.Skills
 
         void DiscardedTempCard()
         {
-            foreach (Player pl in Game.CurrentGame.AlivePlayers)
+            foreach (Player pl in junweiTarget)
             {
-                if (Game.CurrentGame.Decks[pl, JunWeiDeck].Count > 0)
-                {
-                    List<Card> tmp = new List<Card>(Game.CurrentGame.Decks[pl, JunWeiDeck]);
-                    Game.CurrentGame.HandleCardDiscard(pl, tmp);
-                }
+                List<Card> tmp = new List<Card>(Game.CurrentGame.Decks[pl, JunWeiDeck]);
+                Game.CurrentGame.HandleCardDiscard(pl, tmp);
             }
+            junweiTarget.Clear();
         }
 
         public override Player Owner
@@ -180,6 +179,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
 
         public JunWei()
         {
+            junweiTarget = new List<Player>();
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => { return Game.CurrentGame.Decks[p, YinLing.JinDeck].Count >= 3; },
@@ -193,6 +193,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 (p, e, a) => { return Game.CurrentGame.Decks[a.Source, JunWeiDeck].Count > 0; },
                 (p, e, a) =>
                 {
+                    junweiTarget.Remove(a.Source);
                     List<Card> cards = new List<Card>(Game.CurrentGame.Decks[a.Source, JunWeiDeck]);
                     cards.Reverse();
                     foreach (Card c in cards)
@@ -214,6 +215,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             IsAutoInvoked = null;
         }
 
+        List<Player> junweiTarget;
         public static PrivateDeckType JunWeiDeck = new PrivateDeckType("JunWei", true);
     }
 }

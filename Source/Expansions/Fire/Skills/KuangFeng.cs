@@ -22,24 +22,23 @@ namespace Sanguosha.Expansions.Fire.Skills
     {
         class KuangFengVerifier : CardsAndTargetsVerifier
         {
-            List<Card> QiXingCards;
-            public KuangFengVerifier(List<Card> qxCards)
+            public KuangFengVerifier()
             {
-                QiXingCards = new List<Card>(qxCards);
                 MaxPlayers = 1;
                 MinPlayers = 1;
                 MaxCards = 1;
                 MinCards = 1;
+                Helper.OtherDecksUsed.Add(QiXing.QiXingDeck);
             }
 
             protected override bool VerifyCard(Player source, Card card)
             {
-                return QiXingCards.Contains(card);
+                return card.Place.DeckType == QiXing.QiXingDeck;
             }
 
         }
 
-        Player kuangfengTarget;
+        static Player kuangfengTarget;
         public static readonly PlayerAttribute KuangFengMark = PlayerAttribute.Register("KuangFeng", false, true);
 
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
@@ -47,25 +46,69 @@ namespace Sanguosha.Expansions.Fire.Skills
             ISkill skill;
             List<Card> cards;
             List<Player> players;
-            List<Card> originalCards = new List<Card>(Game.CurrentGame.Decks[Owner, QiXing.QiXingDeck]);
-            int qxCount = Game.CurrentGame.Decks[Owner, QiXing.QiXingDeck].Count;
-            // hack the cards to owner's hand. do not trigger anything
-            CardsMovement move = new CardsMovement();
-            move.Cards = new List<Card>(Game.CurrentGame.Decks[Owner, QiXing.QiXingDeck]);
-            move.To = new DeckPlace(Owner, DeckType.Hand);
-            move.Helper.IsFakedMove = true;
-            Game.CurrentGame.MoveCards(move);
-            if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("KuangFeng"), new KuangFengVerifier(originalCards), out skill, out cards, out players))
+            if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("KuangFeng"), new KuangFengVerifier(), out skill, out cards, out players))
             {
                 NotifySkillUse(players);
                 kuangfengTarget = players[0];
                 kuangfengTarget[KuangFengMark] = 1;
-                originalCards.Remove(cards[0]);
                 Game.CurrentGame.HandleCardDiscard(null, cards);
+                Trigger tri = new KuangFengDamage();
+                Game.CurrentGame.RegisterTrigger(GameEvent.DamageComputingStarted, tri);
+                Game.CurrentGame.RegisterTrigger(GameEvent.PhaseBeginEvents[TurnPhase.Start], new KuangFengRemoval(Owner, tri));
             }
-            move.Cards = new List<Card>(originalCards);
-            move.To = new DeckPlace(Owner, QiXing.QiXingDeck);
-            Game.CurrentGame.MoveCards(move);
+        }
+
+        class KuangFengRemoval : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                while (!qixingOwner.IsDead)
+                {
+                    if (eventArgs.Source != qixingOwner)
+                    {
+                        return;
+                    }
+                    kuangfengTarget[KuangFengMark] = 0;
+                    kuangfengTarget = null;
+                    break;
+                }
+                Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseBeginEvents[TurnPhase.Start], this);
+                Game.CurrentGame.UnregisterTrigger(GameEvent.DamageComputingStarted, kuangfengDamage);
+            }
+            Player qixingOwner;
+            Trigger kuangfengDamage;
+            public KuangFengRemoval(Player p, Trigger trigger)
+            {
+                qixingOwner = p;
+                kuangfengDamage = trigger;
+            }
+        }
+
+        class KuangFengDamage : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                var args = eventArgs as DamageEventArgs;
+                if (args.Element != DamageElement.Fire || eventArgs.Targets[0][KuangFengMark] == 0)
+                {
+                    return;
+                }
+                args.Magnitude++;
+            }
+        }
+
+        class onDead : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                if (eventArgs.Targets[0] != Owner) return;
+                kuangfengTarget[KuangFengMark] = 0;
+                Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerIsDead, this);
+            }
+            public onDead(Player p)
+            {
+                Owner = p;
+            }
         }
 
         public KuangFeng()
@@ -73,33 +116,20 @@ namespace Sanguosha.Expansions.Fire.Skills
             kuangfengTarget = null;
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { if (kuangfengTarget != null) kuangfengTarget[KuangFengMark] = 0; kuangfengTarget = null; },
-                TriggerCondition.OwnerIsSource
-            ) { AskForConfirmation = false, IsAutoNotify = false };
-            var trigger2 = new AutoNotifyPassiveSkillTrigger(
-                this,
                 (p, e, a) => { return Game.CurrentGame.Decks[Owner, QiXing.QiXingDeck].Count > 0; },
                 Run,
                 TriggerCondition.OwnerIsSource
             ) { IsAutoNotify = false };
-            var trigger3 = new AutoNotifyPassiveSkillTrigger(
+            Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger);
+
+            var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) =>
-                {
-                    var args = a as DamageEventArgs;
-                    return (DamageElement)args.Element == DamageElement.Fire && kuangfengTarget == args.Targets[0];
-                },
-                (p, e, a) =>
-                {
-                    var args = a as DamageEventArgs;
-                    args.Magnitude++;
-                },
-                TriggerCondition.Global
-            ) { AskForConfirmation = false };
-            Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Start], trigger);
-            Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger2);
-            Triggers.Add(GameEvent.DamageComputingStarted, trigger3);
-            IsAutoInvoked = false;
+                (p, e, a) => { Game.CurrentGame.RegisterTrigger(GameEvent.PlayerIsDead, new onDead(p)); },
+                TriggerCondition.OwnerIsSource
+            ) { AskForConfirmation = false, IsAutoNotify = false };
+            Triggers.Add(GameEvent.PlayerGameStartAction, trigger2);
+
+            IsAutoInvoked = null;
         }
 
     }
