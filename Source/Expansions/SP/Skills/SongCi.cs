@@ -34,7 +34,7 @@ namespace Sanguosha.Expansions.SP.Skills
 
         protected override bool VerifyPlayer(Player source, Player player)
         {
-            return player.Health != player.HandCards().Count && source[SongCiTarget[player]] == 0;
+            return Math.Max(player.Health, 0) != player.HandCards().Count && source[SongCiTarget[player]] == 0;
         }
 
         protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
