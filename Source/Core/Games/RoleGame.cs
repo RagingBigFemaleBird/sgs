@@ -219,6 +219,7 @@ namespace Sanguosha.Core.Games
                         if (i < 0) i = 0;
                         return i;
                     }, 
+                    false,
                     false);
             }
 

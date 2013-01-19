@@ -1335,6 +1335,10 @@ namespace Sanguosha.Core.Games
                         return VerifierResult.Fail;
                     }
                 }
+                if (atOnce && cards.Count < toDiscard)
+                {
+                    return VerifierResult.Partial;
+                }
                 if (cards.Count > toDiscard)
                 {
                     return VerifierResult.Fail;
@@ -1354,10 +1358,12 @@ namespace Sanguosha.Core.Games
 
             int toDiscard;
             bool canDiscardEquip;
-            public PlayerForceDiscardVerifier(int n, bool equip)
+            bool atOnce;
+            public PlayerForceDiscardVerifier(int n, bool equip, bool once)
             {
                 toDiscard = n;
                 canDiscardEquip = equip;
+                atOnce = once;
             }
         }
 

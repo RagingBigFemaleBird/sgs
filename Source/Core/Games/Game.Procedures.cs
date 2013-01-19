@@ -556,7 +556,7 @@ namespace Sanguosha.Core.Games
         }
 
 
-        public void ForcePlayerDiscard(Player player, NumberOfCardsToForcePlayerDiscard numberOfCards, bool canDiscardEquipment)
+        public void ForcePlayerDiscard(Player player, NumberOfCardsToForcePlayerDiscard numberOfCards, bool canDiscardEquipment, bool atOnce = true)
         {
             if (player.IsDead) return;
             Trace.TraceInformation("Player {0} discard.", player);
@@ -580,7 +580,7 @@ namespace Sanguosha.Core.Games
                 ISkill skill;
                 List<Card> cards;
                 List<Player> players;
-                PlayerForceDiscardVerifier v = new PlayerForceDiscardVerifier(toDiscard, canDiscardEquipment);
+                PlayerForceDiscardVerifier v = new PlayerForceDiscardVerifier(toDiscard, canDiscardEquipment, atOnce);
                 cannotBeDiscarded = 0;
                 foreach (Card c in Decks[player, DeckType.Hand])
                 {
