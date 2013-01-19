@@ -100,6 +100,9 @@ namespace Sanguosha.Lobby.Core
 
         [OperationContract(IsOneWay = true)]
         void NotifyChat(Account account, string message);
+
+        [OperationContract]
+        bool Ping();
     }
 
     static class Helper

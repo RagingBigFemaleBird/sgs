@@ -389,6 +389,11 @@ namespace Sanguosha.UI.Controls
         {
             return _IsSuccess(Connection.Chat(LoginToken, msg));
         }
+
+        public bool Ping()
+        {
+            return true;
+        }
     }
 
     public delegate void ChatEventHandler(string userName, string msg);

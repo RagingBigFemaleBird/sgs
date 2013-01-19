@@ -56,11 +56,16 @@ namespace Sanguosha.Lobby.Server
   
         void Channel_Faulted(object sender, EventArgs e)
         {
-            /*
-            var connection = sender as IGameClient;
-            var guid = loggedInChannelsToGuid[connection];
-            _Logout(new LoginToken() { token = guid });
-             */
+            try
+            {
+                var connection = sender as IGameClient;
+                var guid = loggedInChannelsToGuid[connection];
+                if (loggedInGuidToRoom[guid].State == RoomState.Gaming) return;
+                _Logout(new LoginToken() { token = guid });
+            }
+            catch (Exception)
+            {
+            }
         }
 
         public LoginStatus Login(int version, string username, out LoginToken token, out Account retAccount, out string reconnectionString)
@@ -69,6 +74,19 @@ namespace Sanguosha.Lobby.Server
             if (disconnected != null)
             {
                 token = new LoginToken() { token = loggedInAccountToGuid[disconnected] };
+                var ping = loggedInGuidToChannel[token.token];
+                try
+                {
+                    if (ping.Ping())
+                    {
+                        reconnectionString = null;
+                        retAccount = null;
+                        return LoginStatus.InvalidUsernameAndPassword;
+                    }
+                }
+                catch (Exception)
+                {
+                }
             }
             else
             {
