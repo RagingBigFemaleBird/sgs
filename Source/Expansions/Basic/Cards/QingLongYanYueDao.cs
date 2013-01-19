@@ -35,7 +35,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     return;
                 }
-                while (true)
+                while (ParentEquipment.ParentCard.Place.DeckType == DeckType.Equipment)
                 {
                     if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("QingLongYanYueDao"),
                     new SingleCardUsageVerifier((c) => { return c.Type is Sha; }, true),

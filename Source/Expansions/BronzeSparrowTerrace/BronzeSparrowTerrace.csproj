@@ -46,6 +46,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Skills\FenXin.cs" />
     <Compile Include="Skills\JieYuan.cs" />
+    <Compile Include="Skills\MouKui.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.csproj">

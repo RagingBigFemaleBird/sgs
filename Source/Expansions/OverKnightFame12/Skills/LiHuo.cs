@@ -77,7 +77,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                         }
                     },
                     TriggerCondition.OwnerIsSource
-                ) { AskForConfirmation = false, IsAutoNotify = false };
+                ) { AskForConfirmation = false, IsAutoNotify = false, Priority = -1 };
 
                 Triggers.Add(Sha.PlayerShaTargetValidation, trigger);
             }

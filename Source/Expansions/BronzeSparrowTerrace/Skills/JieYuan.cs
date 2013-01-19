@@ -73,6 +73,6 @@ namespace Sanguosha.Expansions.BronzeSparrowTerrace.Skills
             IsAutoInvoked = null;
         }
 
-        private PlayerAttribute JieYuanEffect = PlayerAttribute.Register("JieYuanEffect");
+        private static PlayerAttribute JieYuanEffect = PlayerAttribute.Register("JieYuanEffect");
     }
 }

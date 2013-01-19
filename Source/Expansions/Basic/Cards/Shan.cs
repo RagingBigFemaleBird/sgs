@@ -54,7 +54,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             ICard card = eventArgs.Card;
             List<Player> sourceList = new List<Player>() { source };
             GameEventArgs args = new GameEventArgs();
-            Game.CurrentGame.Emit(PlayerShaTargetShanModifier, args);
+            Game.CurrentGame.Emit(PlayerShaTargetShanModifier, eventArgs);
             // this number is 0 for normal Sha/Shan. Lv Bu would like this to be 1
             int numberOfShanRequired = eventArgs.ReadonlyCard[ShaCancellationCount] = eventArgs.ReadonlyCard[CardAttribute.TargetRequireTwoResponses[dest]] + 1;
             bool cannotUseShan = (eventArgs.ReadonlyCard[CannotProvideShan[dest]] & 1) == 1;

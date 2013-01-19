@@ -11,13 +11,19 @@
     <sys:String x:Key="Skill.RenDe.Prompt">请选任意张手牌然后选择目标</sys:String>
     -->
 
+    <sys:String x:Key="Hero.FuWan.Name">伏完</sys:String>
+    <sys:String x:Key="Hero.LiuXie.Name">刘协</sys:String>
     <sys:String x:Key="Hero.LingJu.Name">灵雎</sys:String>
 
-    <sys:String x:Key="Skill.FenXin.Name">焚心</sys:String>
-    <sys:String x:Key="Skill.FenXin.Description">限定技，若你的身份不是主公，当你杀死一名非主公角色时，在其亮出身份牌前，你可以与其交换身份牌。</sys:String>
-    <sys:String x:Key="Skill.FenXin.Usage">系统提示→点“确定”</sys:String>
-
+    <sys:String x:Key="Skill.MouKui.Name">谋溃</sys:String>
+    <sys:String x:Key="Skill.MouKui.Description">当你使用【杀】指定一名角色为目标后，你可以选择一项：摸一张牌，或弃置其一张牌。若如此做，此【杀】被【闪】抵消时，该角色弃置你的一张牌。</sys:String>
+    <sys:String x:Key="Skill.MouKui.Usage">系统提示→选择一个效果</sys:String>
+    
     <sys:String x:Key="Skill.JieYuan.Name">竭缘</sys:String>
     <sys:String x:Key="Skill.JieYuan.Description">每当你对一名当前的体力值不比你少的其他角色造成伤害时，你可以弃置一张黑色手牌，令此伤害+1；每当你受到一名当前的体力值不比你少的其他角色对你造成的伤害时，你可以弃置一张红色手牌，令此伤害-1。</sys:String>
     <sys:String x:Key="Skill.JieYuan.Usage">系统提示→选一张手牌→点“确定”</sys:String>
+    
+    <sys:String x:Key="Skill.FenXin.Name">焚心</sys:String>
+    <sys:String x:Key="Skill.FenXin.Description">限定技，若你的身份不是主公，当你杀死一名非主公角色时，在其亮出身份牌前，你可以与其交换身份牌。</sys:String>
+    <sys:String x:Key="Skill.FenXin.Usage">系统提示→点“确定”</sys:String>
 </ResourceDictionary>

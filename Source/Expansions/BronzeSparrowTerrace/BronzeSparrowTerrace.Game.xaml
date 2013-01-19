@@ -21,5 +21,13 @@
     <sys:String x:Key="MultiChoice.Choice.ZhuangBei">装备牌</sys:String>
 	-->
     <sys:String x:Key="Expansion.BronzeSparrowTerraceExpansion.Name">铜雀台</sys:String>
+
+    <sys:String x:Key="MultiChoice.Prompt.MouKui">请选择一项“谋溃”的效果，或点“取消”不发动</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.MouKuiDrawCardOnly">你可以发动“谋溃”摸1张牌</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.MouKuiMoPai">摸1张牌</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.MouKuiQiZhi">弃置{0}的1张牌</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.MouKui">谋溃 请选择{0}的1张牌</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.MouKui.Others">谋溃 请等待{0}选择{1}的1张牌</sys:String>
+
     <sys:String x:Key="CardUsage.Prompt.JieYuan">你可以发动技能 竭缘</sys:String>
 </ResourceDictionary>

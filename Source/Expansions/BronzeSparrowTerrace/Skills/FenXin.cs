@@ -68,6 +68,6 @@ namespace Sanguosha.Expansions.BronzeSparrowTerrace.Skills
             IsSingleUse = true;
         }
 
-        private PlayerAttribute FenXinUsed = PlayerAttribute.Register("FenXinUsed");
+        private static PlayerAttribute FenXinUsed = PlayerAttribute.Register("FenXinUsed");
     }
 }

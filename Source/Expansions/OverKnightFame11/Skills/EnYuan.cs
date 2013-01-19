@@ -138,6 +138,6 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             IsAutoInvoked = null;
         }
         List<Player> enSources;
-        private PlayerAttribute EnYuanEffect = PlayerAttribute.Register("EnYuanEffect");
+        private static PlayerAttribute EnYuanEffect = PlayerAttribute.Register("EnYuanEffect");
     }
 }
