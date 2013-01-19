@@ -35,27 +35,27 @@ namespace Sanguosha.Expansions.SP.Skills
                 {
                     return VerifierResult.Fail;
                 }
-                if (cards == null || cards.Count == 0)
+                if (cards.Count == 1 && !cards[0].Type.IsCardCategory(CardCategory.Equipment))
                 {
-                    return VerifierResult.Partial;
+                    return VerifierResult.Fail;
                 }
-                if (players == null || players.Count == 0)
+                if (cards.Count > 1)
                 {
-                    return VerifierResult.Partial;
+                    return VerifierResult.Fail;
                 }
                 if (players.Count > 1)
                 {
                     return VerifierResult.Fail;
                 }
+                if (players == null || players.Count == 0)
+                {
+                    return VerifierResult.Partial;
+                }
+                if (cards == null || cards.Count == 0)
+                {
+                    return VerifierResult.Partial;
+                }
                 if (players[0].Equipments().Any(c => c.Type.IsCardCategory(cards[0].Type.Category)))
-                {
-                    return VerifierResult.Fail;
-                }
-                if (!cards[0].Type.IsCardCategory(CardCategory.Equipment))
-                {
-                    return VerifierResult.Fail;
-                }
-                if (cards.Count > 1)
                 {
                     return VerifierResult.Fail;
                 }

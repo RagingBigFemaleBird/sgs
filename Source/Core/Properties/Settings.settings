@@ -15,6 +15,7 @@
   &lt;string&gt;overknightfame12&lt;/string&gt;
   &lt;string&gt;sp&lt;/string&gt;
   &lt;string&gt;starsp&lt;/string&gt;
+  &lt;string&gt;bronzesparrowterrace&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="IsUsing386" Type="System.Boolean" Scope="User">

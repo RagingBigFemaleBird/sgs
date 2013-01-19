@@ -871,6 +871,8 @@ namespace Sanguosha.Core.Games
                 {
                     Trace.TraceInformation("Player {0} killed by Player {1}", p.Id, source.Id);
                 }
+                Game.CurrentGame.Emit(GameEvent.BeforeRevealRole, eventArgs);
+
                 Trace.Assert(Game.CurrentGame.Decks[p, role].Count == 1);
                 Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.Decks[p, role][0]);
                 Trace.TraceInformation("Player {0} is {1}", p.Id, (Game.CurrentGame.Decks[p, role][0].Type as RoleCardHandler).Role);
@@ -892,6 +894,7 @@ namespace Sanguosha.Core.Games
                         var winners = from pl in Game.CurrentGame.Players where pl.Role == Role.Rebel select pl;
                         Game.CurrentGame.NotificationProxy.NotifyGameOver(false, winners.ToList());
                     }
+                    p.IsDead = true;
                     throw new GameOverException();
                 }
 
@@ -917,6 +920,7 @@ namespace Sanguosha.Core.Games
                         RevealAllPlayersRoles();
                         var winners = from pl in Game.CurrentGame.Players where pl.Role == Role.Ruler || pl.Role == Role.Loyalist select pl;
                         Game.CurrentGame.NotificationProxy.NotifyGameOver(false, winners.ToList());
+                        p.IsDead = true;
                         throw new GameOverException();
                     }
                 }
