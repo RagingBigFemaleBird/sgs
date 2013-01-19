@@ -542,7 +542,7 @@ namespace Sanguosha.Core.Games
                     PlayerLostCard(from, cards);
                 }
                 return;
-            } 
+            }
             CardsMovement move = new CardsMovement();
             move.Cards = new List<Card>(cards);
             move.To = new DeckPlace(to, target);
@@ -595,6 +595,18 @@ namespace Sanguosha.Core.Games
                 {
                     SyncImmutableCardsAll(Decks[player, DeckType.Hand]);
                     ShowHandCards(player, Decks[player, DeckType.Hand]);
+                    if (Game.CurrentGame.IsClient)
+                    {
+                        //刷新所有客户端该玩家不可弃掉的牌的数目
+                        cannotBeDiscarded = 0;
+                        foreach (Card c in Decks[player, DeckType.Hand])
+                        {
+                            if (!PlayerCanDiscardCard(player, c))
+                            {
+                                cannotBeDiscarded++;
+                            }
+                        }
+                    }
                 }
                 int minimum;
                 if (!atOnce) minimum = 1;
@@ -604,22 +616,6 @@ namespace Sanguosha.Core.Games
                                            v, out skill, out cards, out players))
                 {
                     //玩家没有回应(default)
-                    //如果玩家有不可弃掉的牌(这个只有服务器知道） 则通知所有客户端该玩家手牌
-                    status = (cannotBeDiscarded == 0);
-                    SyncConfirmationStatus(ref status);
-                    if (!status)
-                    {
-                        SyncImmutableCardsAll(Decks[player, DeckType.Hand]);
-                    }
-                    cannotBeDiscarded = 0;
-                    foreach (Card c in Decks[player, DeckType.Hand])
-                    {
-                        if (!PlayerCanDiscardCard(player, c))
-                        {
-                            cannotBeDiscarded++;
-                        }
-                    }
-
                     Trace.TraceInformation("Invalid answer, choosing for you");
                     cards = new List<Card>();
                     int cardsDiscarded = 0;
@@ -791,7 +787,7 @@ namespace Sanguosha.Core.Games
             if (!delayedToolsExcluded) places.Add(new DeckPlace(from, DeckType.DelayedTools));
             List<List<Card>> answer;
 
-            if (!ask.AskForCardChoice(prompt, places, new List<string>() {resultdeckname}, new List<int>() {1}, new RequireOneCardChoiceVerifier(noReveal), out answer))
+            if (!ask.AskForCardChoice(prompt, places, new List<string>() { resultdeckname }, new List<int>() { 1 }, new RequireOneCardChoiceVerifier(noReveal), out answer))
             {
                 Trace.TraceInformation("Player {0} Invalid answer", ask);
                 answer = new List<List<Card>>();
