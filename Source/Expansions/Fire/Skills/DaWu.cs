@@ -145,7 +145,6 @@ namespace Sanguosha.Expansions.Fire.Skills
             Triggers.Add(GameEvent.PlayerGameStartAction, trigger2);
 
             IsAutoInvoked = null;
-            IsRulerOnly = true;
         }
     }
 }
