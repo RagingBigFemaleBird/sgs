@@ -1335,7 +1335,7 @@ namespace Sanguosha.Core.Games
                         return VerifierResult.Fail;
                     }
                 }
-                if (atOnce && cards.Count < toDiscard)
+                if (cards.Count < minimun)
                 {
                     return VerifierResult.Partial;
                 }
@@ -1358,12 +1358,12 @@ namespace Sanguosha.Core.Games
 
             int toDiscard;
             bool canDiscardEquip;
-            bool atOnce;
-            public PlayerForceDiscardVerifier(int n, bool equip, bool once)
+            int minimun;
+            public PlayerForceDiscardVerifier(int n, bool equip, int min)
             {
                 toDiscard = n;
                 canDiscardEquip = equip;
-                atOnce = once;
+                minimun = min;
             }
         }
 

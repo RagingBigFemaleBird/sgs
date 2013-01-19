@@ -580,7 +580,6 @@ namespace Sanguosha.Core.Games
                 ISkill skill;
                 List<Card> cards;
                 List<Player> players;
-                PlayerForceDiscardVerifier v = new PlayerForceDiscardVerifier(toDiscard, canDiscardEquipment, atOnce);
                 cannotBeDiscarded = 0;
                 foreach (Card c in Decks[player, DeckType.Hand])
                 {
@@ -597,7 +596,10 @@ namespace Sanguosha.Core.Games
                     SyncImmutableCardsAll(Decks[player, DeckType.Hand]);
                     ShowHandCards(player, Decks[player, DeckType.Hand]);
                 }
-
+                int minimum;
+                if (!atOnce) minimum = 1;
+                else minimum = status ? toDiscard : (canDiscardEquipment ? equipCardCount : 0) + handCardCount - cannotBeDiscarded;
+                PlayerForceDiscardVerifier v = new PlayerForceDiscardVerifier(toDiscard, canDiscardEquipment, minimum);
                 if (!proxy.AskForCardUsage(new Prompt(Prompt.DiscardPhasePrompt, toDiscard),
                                            v, out skill, out cards, out players))
                 {
