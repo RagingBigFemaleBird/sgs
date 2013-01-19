@@ -57,9 +57,7 @@ namespace Sanguosha.Expansions.SP.Skills
             protected override bool VerifyCard(Player source, Card card)
             {
                 if (card == theCard || card.Place.DeckType != DeckType.Hand) return false;
-                return card.Type.IsCardCategory(CardCategory.Basic) && theCard.Type.IsCardCategory(CardCategory.Basic) ||
-                    card.Type.IsCardCategory(CardCategory.Equipment) && theCard.Type.IsCardCategory(CardCategory.Equipment) ||
-                    card.Type.IsCardCategory(CardCategory.Tool) && theCard.Type.IsCardCategory(CardCategory.Tool);
+                return card.Type.BaseCategory() == theCard.Type.BaseCategory();
             }
         }
 
@@ -85,15 +83,21 @@ namespace Sanguosha.Expansions.SP.Skills
                     Card theCard = Game.CurrentGame.Decks[Owner, BiFaDeck][0];
                     Player ChenLin = theCard.HistoryPlace1.Player;
                     Game.CurrentGame.SyncImmutableCard(Owner, theCard);
+                    CardsMovement move = new CardsMovement();
+                    move.Cards = new List<Card>() { theCard };
+                    move.To = new DeckPlace(Owner, BiFaDeck);
+                    move.Helper = new MovementHelper();
+                    move.Helper.IsFakedMove = true;
+                    Game.CurrentGame.MoveCards(move);
                     ISkill skill;
                     List<Card>cards;
                     List<Player>players;
                     if (!ChenLin.IsDead && Owner.AskForCardUsage(new CardUsagePrompt("BiFaGiveCard", ChenLin), new BiFaGiveCardVerifier(theCard), out skill, out cards, out players))
                     {
                         Game.CurrentGame.SyncImmutableCardAll(theCard);
-                        Game.CurrentGame.HandleCardTransferToHand(Owner, Owner, new List<Card>() { theCard });
                         Game.CurrentGame.SyncImmutableCardsAll(cards);
                         Game.CurrentGame.HandleCardTransferToHand(Owner, ChenLin, cards);
+                        Game.CurrentGame.HandleCardTransferToHand(Owner, Owner, new List<Card>() { theCard });
                     }
                     else
                     {
@@ -124,7 +128,6 @@ namespace Sanguosha.Expansions.SP.Skills
             );
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger);
             IsAutoInvoked = null;
-            IsRulerOnly = true;
         }
 
         public static PrivateDeckType BiFaDeck = new PrivateDeckType("BiFa", false);

@@ -69,7 +69,8 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             Dictionary<Player, int> dic = new Dictionary<Player, int>();
             bool useHistoryPlace2 = false;
             if (eventArgs.Cards.All(c => c.HistoryPlace1.Player == null && c.HistoryPlace1.DeckType != DeckType.Compute && 
-                c.HistoryPlace1.DeckType != DeckType.Dealing && c.HistoryPlace1.DeckType != DeckType.Discard && c.HistoryPlace1.DeckType != DeckType.Heroes))
+                c.HistoryPlace1.DeckType != DeckType.Dealing && c.HistoryPlace1.DeckType != DeckType.Discard &&
+                c.HistoryPlace1.DeckType != DeckType.Heroes && !(c.HistoryPlace1.DeckType is PrivateDeckType)))
             {
                 useHistoryPlace2 = true;
             }
