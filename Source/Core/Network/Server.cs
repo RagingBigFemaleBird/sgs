@@ -510,6 +510,7 @@ namespace Sanguosha.Core.Network
             while (true)
             {
                 object o;
+                if (handler.disconnected) Thread.Sleep(1000);
                 lock (handler.receiver)
                 {
                     do
