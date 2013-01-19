@@ -687,6 +687,7 @@ namespace Sanguosha.Core.Games
             move.To = new DeckPlace(null, DeckType.Discard);
             move.Helper = new MovementHelper();
             MoveCards(move);
+            GameDelays.Delay(GameDelayTypes.CardTransfer);
             if (target != null)
             {
                 PlayerLostCard(target, list);

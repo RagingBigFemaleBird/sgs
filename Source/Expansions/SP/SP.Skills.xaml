@@ -22,6 +22,7 @@
     <sys:String x:Key="Hero.WeiJiaXu.Name">魏贾诩</sys:String>
     <sys:String x:Key="Hero.CaoHong.Name">曹洪</sys:String>
     <sys:String x:Key="Hero.GuanYinping.Name">关银屏</sys:String>
+    <sys:String x:Key="Hero.ChenLin.Name">陈琳</sys:String>
 
     
     <sys:String x:Key="Skill.DanLao.Name">啖酪</sys:String>
@@ -66,4 +67,12 @@
     <sys:String x:Key="Skill.WuJi.Name">武继</sys:String>
     <sys:String x:Key="Skill.WuJi.Description">觉醒技，回合结束阶段开始时，若本回合你已造成3点或更多伤害，你须加1点体力上限并回复1点体力，然后失去技能“虎啸”。</sys:String>
 
+    <sys:String x:Key="Skill.BiFa.Name">笔伐</sys:String>
+    <sys:String x:Key="Skill.BiFa.Description">回合结束阶段开始时，你可以将一张手牌移出游戏并指定一名其他角色。该角色的回合开始时，其观看你移出游戏的牌并选择一项：交给你一张与此牌同类型的手牌并获得此牌；或将此牌置入弃牌堆，然后失去1点体力。</sys:String>
+    <sys:String x:Key="Skill.BiFa.Usage">系统提示→选择一张手牌→选择一个目标→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.SongCi.Name">颂词</sys:String>
+    <sys:String x:Key="Skill.SongCi.Description">出牌阶段，你可以选择一项：令一名手牌数小于其体力值的角色摸两张牌；或令一名手牌数大于其体力值的角色弃置两张牌。此技能对每名角色只能使用一次。</sys:String>
+    <sys:String x:Key="Skill.SongCi.Usage">点“颂词”→选择一个目标→点“确定”</sys:String>
+    <sys:String x:Key="Skill.SongCi.Prompt">请选择一个目标</sys:String>
 </ResourceDictionary>

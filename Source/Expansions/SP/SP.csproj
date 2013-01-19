@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Skills\BiFa.cs" />
     <Compile Include="Skills\DanLao.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -51,6 +52,7 @@
     <Compile Include="Skills\JiLei.cs" />
     <Compile Include="Skills\ShenJi.cs" />
     <Compile Include="Skills\ShenWei.cs" />
+    <Compile Include="Skills\SongCi.cs" />
     <Compile Include="Skills\WeiDi.cs" />
     <Compile Include="Skills\WuJi.cs" />
     <Compile Include="Skills\XiuLuo.cs" />
