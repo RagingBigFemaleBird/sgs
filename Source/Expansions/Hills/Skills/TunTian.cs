@@ -12,6 +12,7 @@ using Sanguosha.Expansions.Basic.Cards;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Exceptions;
+using Sanguosha.Core.Utils;
 
 namespace Sanguosha.Expansions.Hills.Skills
 {
@@ -26,6 +27,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             protected override void GetJudgeCards(List<Card> list)
             {
                 if (list[0].Suit == SuitType.Heart) return;
+                GameDelays.Delay(GameDelayTypes.JudgeEnd);
                 CardsMovement move = new CardsMovement();
                 move.Cards = new List<Card>(list);
                 move.To = new DeckPlace(Owner, TianDeck);

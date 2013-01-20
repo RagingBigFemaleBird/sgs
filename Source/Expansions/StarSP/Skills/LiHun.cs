@@ -82,7 +82,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 }
                 while (true)
                 {
-                    if (Owner.HandCards().Count + Owner.Equipments().Count == 0)
+                    if (Owner.HandCards().Count + Owner.Equipments().Count == 0 || target.Health <= 0)
                         break;
                     int toGiveBack = target.Health;
                     List<Card> cards = new List<Card>();
