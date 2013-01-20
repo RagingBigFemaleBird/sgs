@@ -32,4 +32,6 @@
     <sys:String x:Key="CardUsage.Prompt.TianMing">你可以发动技能 天命</sys:String>
     <sys:String x:Key="CardUsage.Prompt.TianMingOther">天命 你可弃置{0}张牌，然后摸2张牌</sys:String>
     <sys:String x:Key="CardUsage.Prompt.TianMingOtherIsNaked">天命 你可以摸2张牌</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.MiZhao">请选择一名角色与 {0} 拼点</sys:String>
 </ResourceDictionary>

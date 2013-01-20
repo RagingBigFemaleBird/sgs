@@ -18,6 +18,23 @@ namespace Sanguosha.Expansions.BronzeSparrowTerrace.Skills
     /// </summary>
     public class MiZhao : AutoVerifiedActiveSkill
     {
+        class MiZhaoVerifier : CardsAndTargetsVerifier
+        {
+            Player target;
+            public MiZhaoVerifier(Player target)
+            {
+                this.target = target;
+                MaxCards = 0;
+                MaxPlayers = 1;
+                MinPlayers = 1;
+            }
+
+            protected override bool VerifyPlayer(Player source, Player player)
+            {
+                return player != target && player.HandCards().Count > 0;
+            }
+        }
+
         public MiZhao()
         {
             MaxPlayers = 1;
@@ -44,6 +61,42 @@ namespace Sanguosha.Expansions.BronzeSparrowTerrace.Skills
 
         public override bool Commit(GameEventArgs arg)
         {
+            Owner[MiZhaoUsed] = 1;
+            Game.CurrentGame.HandleCardTransferToHand(Owner, arg.Targets[0], arg.Cards);
+            List<Player> alivePlayers = Game.CurrentGame.AlivePlayers;
+            if (!alivePlayers.Any(p => p.HandCards().Count > 0 && p != arg.Targets[0])) return true;
+            ISkill skill;
+            List<Card> cards;
+            List<Player> players;
+            if (!Owner.AskForCardUsage(new CardUsagePrompt("MiZhao", arg.Targets[0]), new MiZhaoVerifier(arg.Targets[0]), out skill, out cards, out players))
+            {
+                players = new List<Player>();
+                foreach (Player p in alivePlayers)
+                {
+                    if (p.HandCards().Count > 0 && p != arg.Targets[0])
+                    {
+                        players.Add(p);
+                        break;
+                    }
+                }
+            }
+            Player pindianTarget = players[0];
+            Card card1, card2;
+            Game.CurrentGame.PinDianReturnCards(arg.Targets[0], pindianTarget, out card1, out card2, this);
+            Game.CurrentGame.EnterAtomicContext();
+            Game.CurrentGame.PlaceIntoDiscard(arg.Targets[0], new List<Card>() { card1 });
+            Game.CurrentGame.PlaceIntoDiscard(pindianTarget, new List<Card>() { card2 });
+            Game.CurrentGame.ExitAtomicContext();
+            if (card1.Rank == card2.Rank) return true;
+            Player winer, loser;
+            if (card1.Rank > card2.Rank) { winer = arg.Targets[0]; loser = pindianTarget; }
+            else { winer = pindianTarget; loser = arg.Targets[0]; }
+            if (!Game.CurrentGame.PlayerCanBeTargeted(winer, new List<Player>() { loser }, new CompositeCard() { Type = new Sha() })) return true;
+            GameEventArgs args = new GameEventArgs();
+            args.Source = winer;
+            args.Targets = new List<Player>() { loser };
+            args.Skill = new CardWrapper(winer, new RegularSha());
+            Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
             return true;
         }
 

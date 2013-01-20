@@ -54,9 +54,8 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 if (Owner.AskForCardUsage(new CardUsagePrompt("DaHe", arg.Targets[0]), new DaHeVerifier(), out skill, out cards, out players))
                 {
                     Game.CurrentGame.EnterAtomicContext();
-                    Game.CurrentGame.PlayerLostCard(Owner, new List<Card>() { card1 });
-                    Game.CurrentGame.PlayerLostCard(arg.Targets[0], new List<Card>() { card2 });
-                    Game.CurrentGame.HandleCardTransferToHand(Owner, players[0], new List<Card>() { card2 });
+                    Game.CurrentGame.HandleCardTransferToHand(arg.Targets[0], players[0], new List<Card>() { card2 });
+                    Game.CurrentGame.PlaceIntoDiscard(Owner, new List<Card>() { card1 });
                     Game.CurrentGame.ExitAtomicContext();
                     return true;
                 }
