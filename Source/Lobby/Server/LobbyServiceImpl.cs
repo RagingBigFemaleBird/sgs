@@ -380,6 +380,23 @@ namespace Sanguosha.Lobby.Server
             if (rooms.ContainsKey(roomId))
             {
                 rooms[roomId].State = RoomState.Waiting;
+                foreach (var seat in rooms[roomId].Seats)
+                {
+                    try
+                    {
+                        if (seat.Account != null && loggedInGuidToChannel[loggedInAccountToGuid[seat.Account]].Ping())
+                        {
+                            return;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+                foreach (var seat in rooms[roomId].Seats)
+                {
+                    if (seat.Account != null) _Logout(new LoginToken() { token = loggedInAccountToGuid[seat.Account] });
+                }
             }
         }
 
@@ -525,7 +542,13 @@ namespace Sanguosha.Lobby.Server
                         {
                             if (seat.Account != null)
                             {
-                                loggedInGuidToChannel[loggedInAccountToGuid[seat.Account]].NotifyChat(loggedInGuidToAccount[token.token], message);
+                                try
+                                {
+                                    loggedInGuidToChannel[loggedInAccountToGuid[seat.Account]].NotifyChat(loggedInGuidToAccount[token.token], message);
+                                }
+                                catch (Exception)
+                                {
+                                }
                             }
                         }
                     }
