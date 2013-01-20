@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Sanguosha.Lobby.Core;
 using System.Threading;
 using System.Net;
+using System.Diagnostics;
 
 namespace Sanguosha.Lobby.Server
 {
@@ -22,6 +23,7 @@ namespace Sanguosha.Lobby.Server
         Dictionary<IGameClient, Guid> loggedInChannelsToGuid;
         Dictionary<Guid, IGameClient> loggedInGuidToChannel;
         Dictionary<Guid, Room> loggedInGuidToRoom;
+        AccountContext accountContext;
 
         public IPAddress HostingIp { get; set; }
 
@@ -40,7 +42,7 @@ namespace Sanguosha.Lobby.Server
             return false;
         }
 
-        public LobbyServiceImpl()
+        public LobbyServiceImpl(bool noDatabase = true)
         {
             rooms = new Dictionary<int, Room>();
             loggedInGuidToAccount = new Dictionary<Guid, Account>();
@@ -52,6 +54,8 @@ namespace Sanguosha.Lobby.Server
             newAccountId = 1;
             CheatEnabled = false;
             accounts = new List<Account>();
+            if (noDatabase) accountContext = null;
+            else accountContext = new AccountContext();
         }
   
         void Channel_Faulted(object sender, EventArgs e)
@@ -108,6 +112,18 @@ namespace Sanguosha.Lobby.Server
             {
                 account = new Account() { UserName = username, Id = newAccountId++ };
                 accounts.Add(account);
+                if (accountContext != null)
+                {
+                    try
+                    {
+                        accountContext.Accounts.Add(account);
+                        accountContext.SaveChanges();
+                    }
+                    catch (Exception e)
+                    {
+                        Trace.TraceError(e.ToString());
+                    }
+                }
             }
             retAccount = account;
             if (disconnected != null)
