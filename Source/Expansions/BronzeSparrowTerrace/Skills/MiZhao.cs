@@ -81,21 +81,15 @@ namespace Sanguosha.Expansions.BronzeSparrowTerrace.Skills
                 }
             }
             Player pindianTarget = players[0];
-            Card card1, card2;
-            Game.CurrentGame.PinDianReturnCards(arg.Targets[0], pindianTarget, out card1, out card2, this);
-            Game.CurrentGame.EnterAtomicContext();
-            Game.CurrentGame.PlaceIntoDiscard(arg.Targets[0], new List<Card>() { card1 });
-            Game.CurrentGame.PlaceIntoDiscard(pindianTarget, new List<Card>() { card2 });
-            Game.CurrentGame.ExitAtomicContext();
-            if (card1.Rank == card2.Rank) return true;
-            Player winer, loser;
-            if (card1.Rank > card2.Rank) { winer = arg.Targets[0]; loser = pindianTarget; }
-            else { winer = pindianTarget; loser = arg.Targets[0]; }
-            if (!Game.CurrentGame.PlayerCanBeTargeted(winer, new List<Player>() { loser }, new CompositeCard() { Type = new Sha() })) return true;
+            var result = Game.CurrentGame.PinDian(arg.Targets[0], pindianTarget, this);
+            Player winner, loser;
+            if (result) { winner = arg.Targets[0]; loser = pindianTarget; }
+            else { winner = pindianTarget; loser = arg.Targets[0]; }
+            if (!Game.CurrentGame.PlayerCanBeTargeted(winner, new List<Player>() { loser }, new CompositeCard() { Type = new Sha() })) return true;
             GameEventArgs args = new GameEventArgs();
-            args.Source = winer;
+            args.Source = winner;
             args.Targets = new List<Player>() { loser };
-            args.Skill = new CardWrapper(winer, new RegularSha());
+            args.Skill = new CardWrapper(winner, new RegularSha());
             Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
             return true;
         }
