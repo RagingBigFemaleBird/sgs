@@ -101,7 +101,7 @@ namespace Sanguosha.Expansions.SP.Skills
                             nPlayers = new List<Player>();
                             nPlayers.Add(result.First());
                         }
-                        var Card = Game.CurrentGame.SelectACardFrom(nPlayers[0], owner, new CardChoicePrompt("YuanHu", nPlayers[0], owner), "YuanHu");
+                        var Card = Game.CurrentGame.SelectACardFrom(nPlayers[0], owner, new CardChoicePrompt("YuanHu", nPlayers[0], owner), "YuanHu", false, false);
                         Game.CurrentGame.HandleCardDiscard(nPlayers[0], new List<Card>() { Card });
                         break;
                     }

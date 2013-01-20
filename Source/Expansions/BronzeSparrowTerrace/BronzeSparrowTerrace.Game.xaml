@@ -29,6 +29,8 @@
     <sys:String x:Key="CardChoice.Prompt.MouKui">谋溃 请选择{0}的1张牌</sys:String>
     <sys:String x:Key="CardChoice.Prompt.MouKui.Others">谋溃 请等待{0}选择{1}的1张牌</sys:String>
 
+    <sys:String x:Key="CardUsage.Prompt.JieYuan">你可以发动技能 竭缘</sys:String>
+    
     <sys:String x:Key="CardUsage.Prompt.TianMing">你可以发动技能 天命</sys:String>
     <sys:String x:Key="CardUsage.Prompt.TianMingOther">天命 你可弃置{0}张牌，然后摸2张牌</sys:String>
     <sys:String x:Key="CardUsage.Prompt.TianMingOtherIsNaked">天命 你可以摸2张牌</sys:String>
