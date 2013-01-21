@@ -187,11 +187,13 @@ namespace Sanguosha.Core.Games
             log.SkillAction = skill;
             log.CardAction = handler;
             log.Source = player;
+            log.GameAction = GameAction.Judge;
             CardsMovement move = new CardsMovement();
             Card c;
             int initCount = decks[player, DeckType.JudgeResult].Count;
             SyncImmutableCardAll(PeekCard(0));
             c = DrawCard();
+            c.Log = log;
             move = new CardsMovement();
             move.Cards = new List<Card>();
             move.Cards.Add(c);
@@ -225,10 +227,7 @@ namespace Sanguosha.Core.Games
             {
                 uiCard.Log = new ActionLog();
             }
-            uiCard.Log.Source = player;
-            uiCard.Log.CardAction = handler;
-            uiCard.Log.SkillAction = skill;
-            uiCard.Log.GameAction = GameAction.Judge;
+            uiCard.Log = log;
             NotificationProxy.NotifyJudge(player, uiCard, log, succeed);
 
             if (decks[player, DeckType.JudgeResult].Count > initCount)

@@ -46,6 +46,15 @@ namespace Sanguosha.UI.Controls
             return name;
         }
 
+        public static string Translate(Card card)
+        {
+            if (card == null) return string.Empty;
+            string key = string.Format("Card.{0}.Name", card.Type.GetType().Name);
+            string name = Application.Current.TryFindResource(key) as string;
+            if (name == null) return string.Empty;
+            return name;
+        }
+
         public static string TranslateCardFootnote(ActionLog log)
         {
             string source = Translate(log.Source);
@@ -56,7 +65,7 @@ namespace Sanguosha.UI.Controls
                 dest = "对" + Translate(log.Targets[0]);
             }
             string skill = Translate(log.SkillAction);
-            switch(log.GameAction)
+            switch (log.GameAction)
             {
                 case GameAction.None:
                     return string.Concat(source, skill);
@@ -70,6 +79,13 @@ namespace Sanguosha.UI.Controls
                     return string.Concat(source, skill, "弃置");
                 case GameAction.Show:
                     return string.Concat(source, "展示");
+                case GameAction.Judge:
+                    {
+                        string card = Translate(log.CardAction as Card);
+                        return string.Concat(source, skill, card, "判定");
+                    }
+                case GameAction.ReplaceJudge:
+                    return string.Concat(source, skill, "改判");
             }
             return string.Empty;
         }
@@ -112,7 +128,7 @@ namespace Sanguosha.UI.Controls
             {
                 list.Add(new Run(string.Format("{0}张卡牌", cards.Count)));
             }
-            
+
             foreach (var card in cards)
             {
                 list.AddRange(RichTranslate(card));
@@ -162,7 +178,7 @@ namespace Sanguosha.UI.Controls
             list.Add(new Run(skillstr) { Foreground = YellowBrush });
             return list;
         }
-        
+
         public static string Translate(IList<Player> players)
         {
             if (players != null && players.Count > 0)
@@ -178,13 +194,13 @@ namespace Sanguosha.UI.Controls
             }
             return string.Empty;
         }
-        
+
         public static Paragraph RichTranslateMainLog(ActionLog log)
         {
             Paragraph paragraph = new Paragraph();
             string source = Translate(log.Source);
             string dests = Translate(log.Targets);
-            
+
             IList<Inline> skillInline = RichTranslate(log.SkillAction);
             string formatter = source;
             switch (log.GameAction)
@@ -234,7 +250,7 @@ namespace Sanguosha.UI.Controls
                                 paragraph.Inlines.Add(string.Format("{0}的武将技能", source));
                                 paragraph.Inlines.AddRange(RichTranslate(log.SkillAction));
                                 paragraph.Inlines.Add(string.Format("被触发"));
-                            }    
+                            }
                             if (dests != string.Empty)
                             {
                                 paragraph.Inlines.Add("，目标是" + dests);
@@ -258,7 +274,7 @@ namespace Sanguosha.UI.Controls
                     }
                     break;
                 case GameAction.Use:
-                    string toDests = (dests == string.Empty) ?  string.Empty : ("对" + dests);
+                    string toDests = (dests == string.Empty) ? string.Empty : ("对" + dests);
                     paragraph.Inlines.Add(string.Format("{0}{1}使用了", source, toDests));
                     paragraph.Inlines.AddRange(RichTranslate(log.CardAction));
                     break;
@@ -288,7 +304,7 @@ namespace Sanguosha.UI.Controls
             {
                 case GameAction.None:
                     if (log.SkillAction != null)
-                    {                        
+                    {
                         ISkill skill = log.SkillAction;
                         if (skill is ActiveSkill)
                         {
@@ -334,7 +350,7 @@ namespace Sanguosha.UI.Controls
                                 paragraph.Inlines.Add(string.Format("{0}的武将技能", source));
                                 paragraph.Inlines.AddRange(RichTranslate(log.SkillAction));
                                 paragraph.Inlines.Add(string.Format("被触发"));
-                            }                            
+                            }
                         }
                     }
                     break;
@@ -376,7 +392,7 @@ namespace Sanguosha.UI.Controls
                     paragraph.Inlines.Add("置入了弃牌堆");
                 }
             }
-                       
+
             if (dest.Player != null)
             {
                 bool added = true;
@@ -420,7 +436,7 @@ namespace Sanguosha.UI.Controls
                 if (added)
                 {
                     paragraph.Inlines.AddRange(cardsInline);
-                }                
+                }
             }
             return paragraph;
         }
@@ -445,7 +461,7 @@ namespace Sanguosha.UI.Controls
 
         public static string Translate(DamageElement element)
         {
-            switch(element)
+            switch (element)
             {
                 case DamageElement.None:
                     return string.Empty;
@@ -468,16 +484,16 @@ namespace Sanguosha.UI.Controls
                 sourceStr += "造成的";
             }
             string damageStr = string.Format("受到{0}{1}点{2}伤害，体力为{3}", sourceStr, magnitude, Translate(element), target.Health);
-            
+
             para.Inlines.Add(new Run(damageStr) { Foreground = RedBrush });
             return para;
         }
 
-        static Brush RedBrush =  new SolidColorBrush(new Color() { R = 204, G = 0, B = 0, A = 255 });
+        static Brush RedBrush = new SolidColorBrush(new Color() { R = 204, G = 0, B = 0, A = 255 });
         static Brush OrangeBrush = new SolidColorBrush(new Color() { R = 255, G = 102, B = 0, A = 255 });
         static Brush YellowBrush = new SolidColorBrush(Colors.Yellow);
         static Brush GreenBrush = new SolidColorBrush(new Color() { R = 0, G = 204, B = 0, A = 255 });
-        static Brush DarkGreenBrush = new SolidColorBrush(new Color() { R = 104, G = 135, B = 41, A = 255});
+        static Brush DarkGreenBrush = new SolidColorBrush(new Color() { R = 104, G = 135, B = 41, A = 255 });
 
         public static Paragraph RichTranslateDeath(Player p, Player by)
         {
@@ -486,7 +502,7 @@ namespace Sanguosha.UI.Controls
             if (by == p)
             {
                 para.Inlines.Add(deadPerson);
-                para.Inlines.Add(new Run("自杀"){ Foreground = RedBrush });
+                para.Inlines.Add(new Run("自杀") { Foreground = RedBrush });
                 return para;
             }
             else if (by != null)
@@ -524,7 +540,7 @@ namespace Sanguosha.UI.Controls
             string name = Application.Current.TryFindResource(answer) as string;
             if (name == null || name == string.Empty) return null;
             para.Inlines.Add(string.Format("{0}选择了", Translate(p)));
-            para.Inlines.Add(new Run(string.Format("“{0}”", name)) { Foreground = YellowBrush } );
+            para.Inlines.Add(new Run(string.Format("“{0}”", name)) { Foreground = YellowBrush });
             return para;
         }
 
@@ -576,7 +592,7 @@ namespace Sanguosha.UI.Controls
             {
                 para.Inlines.AddRange(RichTranslate(log.SkillAction));
             }
-            para.Inlines.Add(isSuccess ? "生效":"失效");
+            para.Inlines.Add(isSuccess ? "生效" : "失效");
             return para;
         }
 
@@ -642,9 +658,9 @@ namespace Sanguosha.UI.Controls
 
         static LogFormatter()
         {
-            _imageDict = new ResourceDictionary() 
+            _imageDict = new ResourceDictionary()
             {
-                Source = new Uri("pack://application:,,,/Resources;component/Images/System.xaml") 
+                Source = new Uri("pack://application:,,,/Resources;component/Images/System.xaml")
             };
         }
     }

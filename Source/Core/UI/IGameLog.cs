@@ -60,6 +60,7 @@ namespace Sanguosha.Core.UI
         PlaceIntoDiscard,
         Show,
         Judge,
+        ReplaceJudge
     }
 
     public class ActionLog : IGameLog

@@ -66,7 +66,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 {
                     NotifySkillUse();
                     player[RenJie.RenMark]--;
-                    ReplaceJudgementCard(player, eventArgs.Source, cards[0]);
+                    ReplaceJudgementCard(player, eventArgs.Source, cards[0], this);
                 }
             }
 

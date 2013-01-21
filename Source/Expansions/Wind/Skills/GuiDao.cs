@@ -31,6 +31,12 @@ namespace Sanguosha.Expansions.Wind.Skills
             Card c = Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult].Last();
             if (Game.CurrentGame.UiProxies[player].AskForCardUsage(new CardUsagePrompt("GuiDao", eventArgs.Source, c.Suit, c.Rank), new GuiDaoVerifier(), out skill, out cards, out players))
             {
+                NotifySkillUse();
+                Card theCard = cards[0];
+                theCard.Log = new ActionLog();
+                theCard.Log.Source = player;
+                theCard.Log.SkillAction = skill;
+                theCard.Log.GameAction = GameAction.ReplaceJudge;
                 Game.CurrentGame.EnterAtomicContext();
                 List<Card> toDiscard = new List<Card>() {Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult].Last()};
                 CardsMovement move = new CardsMovement();
