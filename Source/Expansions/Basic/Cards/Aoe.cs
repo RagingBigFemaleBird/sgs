@@ -97,9 +97,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 return VerifierResult.Fail;
             }
-            var temp = Game.CurrentGame.AlivePlayers;
-            temp.Remove(source);
-            if (!Game.CurrentGame.PlayerCanBeTargeted(source, temp, card)) return VerifierResult.Fail;
+            if (ActualTargets(source, targets, card).Count == 0) return VerifierResult.Fail;
             return VerifierResult.Success;
         }
 
