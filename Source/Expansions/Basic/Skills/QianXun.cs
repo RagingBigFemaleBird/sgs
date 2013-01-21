@@ -32,7 +32,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 (p, e, a) => { return (a.Card.Type is ShunShouQianYang) || (a.Card.Type is LeBuSiShu); },
                 OnPlayerCanBeTargeted,
                 TriggerCondition.OwnerIsTarget
-            );
+            ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.PlayerCanBeTargeted, trigger);
             IsEnforced = true;
         }

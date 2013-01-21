@@ -29,13 +29,13 @@ namespace Sanguosha.Expansions.Woods.Skills
             ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.PlayerCanUseCard, trigger);
 
-            var trigger2 = new AutoNotifyPassiveSkillTrigger(
+            var notify = new AutoNotifyPassiveSkillTrigger(
                  this,
                  (p, e, a) => { return Game.CurrentGame.CurrentPlayer == Owner; },
                  (p, e, a) => { },
                  TriggerCondition.Global
              );
-            Triggers.Add(GameEvent.PlayerIsAboutToDie, trigger2);
+            Triggers.Add(GameEvent.PlayerIsAboutToDie, notify);
             IsEnforced = true;
         }
 

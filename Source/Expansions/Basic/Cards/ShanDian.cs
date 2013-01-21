@@ -114,6 +114,10 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 return VerifierResult.Fail;
             }
+            if (!Game.CurrentGame.PlayerCanBeTargeted(source, new List<Player>() { source }, card))
+            {
+                return VerifierResult.Fail;
+            }
             if (targets == null || targets.Count == 0)
             {
                 return VerifierResult.Success;

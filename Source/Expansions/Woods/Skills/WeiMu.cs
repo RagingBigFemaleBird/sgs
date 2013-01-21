@@ -29,10 +29,22 @@ namespace Sanguosha.Expansions.Woods.Skills
                 },
                 (p, e, a) =>
                 {
+                    if (a.Card.Place.DeckType == DeckType.DelayedTools)
+                    {
+                        NotifySkillUse();
+                    }
                     throw new TriggerResultException(TriggerResult.Fail);
                 },
                 TriggerCondition.OwnerIsTarget
                 ));
+
+            var notify = new AutoNotifyPassiveSkillTrigger(
+                 this,
+                 (p, e, a) => { return a.ReadonlyCard.Type is Aoe && a.ReadonlyCard.SuitColor == SuitColorType.Black; },
+                 (p, e, a) => { },
+                 TriggerCondition.Global
+             );
+            Triggers.Add(GameEvent.PlayerUsedCard, notify);
             IsEnforced = true;
         }
 
