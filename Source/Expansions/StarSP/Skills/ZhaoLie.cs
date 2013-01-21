@@ -78,7 +78,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             {
                 c.Log = new ActionLog();
                 c.Log.SkillAction = this;
-                c.Log.GameAction = GameAction.Discard;
+                c.Log.GameAction = GameAction.PlaceIntoDiscard;
             }
             Game.CurrentGame.PlaceIntoDiscard(null, toDiscard);
             if (answer == 0)

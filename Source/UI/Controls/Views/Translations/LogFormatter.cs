@@ -390,7 +390,7 @@ namespace Sanguosha.UI.Controls
                 }
                 else if (source.Player == dest.Player)
                 {
-                    if (source.DeckType == DeckType.Hand && dest.DeckType == DeckType.Equipment)
+                    if (dest.DeckType == DeckType.Equipment)
                     {
                         paragraph.Inlines.Add(string.Format("{0}装备了", destStr));
                     }
