@@ -25,8 +25,8 @@
 
     <sys:String x:Key="Skill.MiZhao.Name">密诏</sys:String>
     <sys:String x:Key="Skill.MiZhao.Description">出牌阶段，你可以将所有手牌交给一名其他角色，令该角色与你选择的另一名角色拼点，视为点数大的角色对点数小的角色使用一张【杀】（无距离限制）。每阶段限一次。</sys:String>
-    <sys:String x:Key="Skill.MiZhao.Usage">点“密诏”→选中所有手牌→选择一名其他角色→点“确定”</sys:String>
-    <sys:String x:Key="Skill.MiZhao.Prompt">请选全部手牌然后选择目标</sys:String>
+    <sys:String x:Key="Skill.MiZhao.Usage">点“密诏”→选择一名其他角色→点“确定”</sys:String>
+    <sys:String x:Key="Skill.MiZhao.Prompt">请选择一个目标</sys:String>
 
     <sys:String x:Key="Skill.JieYuan.Name">竭缘</sys:String>
     <sys:String x:Key="Skill.JieYuan.Description">每当你对一名当前的体力值不比你少的其他角色造成伤害时，你可以弃置一张黑色手牌，令此伤害+1；每当你受到一名当前的体力值不比你少的其他角色对你造成的伤害时，你可以弃置一张红色手牌，令此伤害-1。</sys:String>

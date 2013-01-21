@@ -39,12 +39,13 @@ namespace Sanguosha.Expansions.BronzeSparrowTerrace.Skills
         {
             MaxPlayers = 1;
             MinPlayers = 1;
+            MaxCards = 0;
             Helper.NoCardReveal = true;
         }
 
         protected override bool VerifyPlayer(Player source, Player player)
         {
-            return true;
+            return player != source;
         }
 
         protected override bool VerifyCard(Player source, Card card)
@@ -55,14 +56,13 @@ namespace Sanguosha.Expansions.BronzeSparrowTerrace.Skills
         protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
         {
             if (source[MiZhaoUsed] != 0 || source.HandCards().Count == 0) return false;
-            if (cards != null && cards.Count < source.HandCards().Count) return null;
             return true;
         }
 
         public override bool Commit(GameEventArgs arg)
         {
             Owner[MiZhaoUsed] = 1;
-            Game.CurrentGame.HandleCardTransferToHand(Owner, arg.Targets[0], arg.Cards);
+            Game.CurrentGame.HandleCardTransferToHand(Owner, arg.Targets[0], Owner.HandCards());
             List<Player> alivePlayers = Game.CurrentGame.AlivePlayers;
             if (!alivePlayers.Any(p => p.HandCards().Count > 0 && p != arg.Targets[0])) return true;
             ISkill skill;
