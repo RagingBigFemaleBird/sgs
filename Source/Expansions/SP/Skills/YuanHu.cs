@@ -72,6 +72,7 @@ namespace Sanguosha.Expansions.SP.Skills
             public YuanHuChoiceOnePlayer(Player target)
             {
                 MaxPlayers = 1;
+                MinPlayers = 1;
                 MaxCards = 0;
                 this.target = target;
             }
@@ -79,7 +80,7 @@ namespace Sanguosha.Expansions.SP.Skills
             Player target;
             protected override bool VerifyPlayer(Player source, Player player)
             {
-                return Game.CurrentGame.DistanceTo(player, target) == 1;
+                return Game.CurrentGame.DistanceTo(target, player) == 1;
             }
         }
 
