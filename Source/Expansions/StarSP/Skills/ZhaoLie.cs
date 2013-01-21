@@ -74,6 +74,12 @@ namespace Sanguosha.Expansions.StarSP.Skills
             List<Card> toDiscard = new List<Card>();
             toDiscard.AddRange(notBasicCards);
             toDiscard.AddRange(tao);
+            foreach (Card c in toDiscard)
+            {
+                c.Log = new ActionLog();
+                c.Log.SkillAction = this;
+                c.Log.GameAction = GameAction.Discard;
+            }
             Game.CurrentGame.PlaceIntoDiscard(null, toDiscard);
             if (answer == 0)
             {
@@ -106,6 +112,10 @@ namespace Sanguosha.Expansions.StarSP.Skills
                    this,
                    (p, e, a) =>
                    {
+                       return Game.CurrentGame.AlivePlayers.Any(pl => Game.CurrentGame.DistanceTo(p, pl) <= p[Player.AttackRange] + 1 && pl != p);
+                   },
+                   (p, e, a) =>
+                   {
                        ZhaoLieUsed = false;
                        ISkill skill;
                        List<Card> cards;
@@ -127,7 +137,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                    (p, e, a) => { return ZhaoLieUsed && ZhaoLieTarget != null; },
                    ZhaoLieProcess,
                    TriggerCondition.OwnerIsSource
-               ) { AskForConfirmation = false, IsAutoNotify = false};
+               ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PhaseEndEvents[TurnPhase.Draw], trigger2);
 
             var trigger3 = new AutoNotifyPassiveSkillTrigger(

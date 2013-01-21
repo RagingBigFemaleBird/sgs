@@ -19,7 +19,7 @@ namespace Sanguosha.Expansions.BronzeSparrowTerrace.Skills
     {
         protected override int GenerateSpecialEffectHintIndex(Player source, List<Player> targets)
         {
-            return source[JieYuanEffect];
+            return JieYuanEffect;
         }
 
         class JieYuanVerifier : CardsAndTargetsVerifier
@@ -39,6 +39,7 @@ namespace Sanguosha.Expansions.BronzeSparrowTerrace.Skills
             }
         }
 
+        int JieYuanEffect;
         public JieYuan()
         {
             var trigger = new AutoNotifyUsagePassiveSkillTrigger(
@@ -46,7 +47,7 @@ namespace Sanguosha.Expansions.BronzeSparrowTerrace.Skills
                 (p, e, a) => { return p.Health <= a.Source.Health && p != a.Source; },
                 (p, e, a, c, pls) => 
                 {
-                    p[JieYuanEffect] = 1;
+                    JieYuanEffect = 0;
                     Game.CurrentGame.HandleCardDiscard(p, c); 
                     var damageArgs = a as DamageEventArgs; 
                     damageArgs.Magnitude--; 
@@ -61,7 +62,7 @@ namespace Sanguosha.Expansions.BronzeSparrowTerrace.Skills
                 (p, e, a) => { return p.Health <= a.Targets[0].Health && p != a.Targets[0]; },
                 (p, e, a, c, pls) =>
                 {
-                    p[JieYuanEffect] = 0;
+                    JieYuanEffect = 1;
                     Game.CurrentGame.HandleCardDiscard(p, c); 
                     var damageArgs = a as DamageEventArgs; 
                     damageArgs.Magnitude++; 
@@ -72,7 +73,5 @@ namespace Sanguosha.Expansions.BronzeSparrowTerrace.Skills
             Triggers.Add(GameEvent.DamageCaused, trigger2);
             IsAutoInvoked = null;
         }
-
-        private static PlayerAttribute JieYuanEffect = PlayerAttribute.Register("JieYuanEffect");
     }
 }
