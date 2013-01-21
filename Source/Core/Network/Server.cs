@@ -60,11 +60,11 @@ namespace Sanguosha.Core.Network
         {
         }
 
-        private int maxClients;
+        private int numberOfGamers;
 
         public int MaxClients
         {
-            get { return maxClients; }
+            get { return numberOfGamers; }
         }
 
         Game game;
@@ -80,7 +80,7 @@ namespace Sanguosha.Core.Network
             listener = new TcpListener(ep);
             listener.Start();
             ipPort = ((IPEndPoint)listener.LocalEndpoint).Port;
-            maxClients = capacity;
+            numberOfGamers = capacity;
             handlers = new ServerHandler[capacity];
             for (int i = 0; i < capacity; i++)
             {
@@ -98,7 +98,7 @@ namespace Sanguosha.Core.Network
             Trace.TraceInformation("Listener Started on {0} : {1}", ipAddress.ToString(), IpPort);
             int To = 6000;
             game.Settings.Accounts = new List<Account>();
-            for (int i = 0; i < maxClients; i++)
+            for (int i = 0; i < numberOfGamers; i++)
             {
                 handlers[i].game = game;
                 handlers[i].client = listener.AcceptTcpClient();
@@ -284,7 +284,7 @@ namespace Sanguosha.Core.Network
                     }
                     if (i.type == ItemType.CardRearrangement)
                     {
-                        for (int ec = 0; ec < maxClients; ec++)
+                        for (int ec = 0; ec < MaxClients; ec++)
                         {
                             SendInterruptedObject(ec, o);
                         }
@@ -299,7 +299,7 @@ namespace Sanguosha.Core.Network
         {
             var o = new CommandItem() { command = Command.Interrupt, type = ItemType.CardUsageResponded };
             o.data = new CardUsageResponded() { playerId = id };
-            for (int ec = 0; ec < maxClients; ec++)
+            for (int ec = 0; ec < MaxClients; ec++)
             {
                 SendInterruptedObject(ec, o);
             }

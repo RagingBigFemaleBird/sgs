@@ -762,7 +762,7 @@ namespace Sanguosha.Core.Games
             NotificationProxy.NotifyPinDianEnd(c1, c2);
         }
 
-        public bool PinDian(Player from, Player to, ISkill skill)
+        public bool? PinDian(Player from, Player to, ISkill skill)
         {
             Card card1, card2;
             PinDianReturnCards(from, to, out card1, out card2, skill);
@@ -772,7 +772,9 @@ namespace Sanguosha.Core.Games
             PlayerLostCard(from, new List<Card>() { card1 });
             PlayerLostCard(to, new List<Card>() { card2 });
             ExitAtomicContext();
-            return card1.Rank > card2.Rank;
+            if (card1.Rank > card2.Rank) return true;
+            if (card1.Rank < card2.Rank) return false;
+            return null;
         }
 
         public Card SelectACardFrom(Player from, Player ask, Prompt prompt, String resultdeckname, bool equipExcluded = false, bool delayedToolsExcluded = true, bool noReveal = false)

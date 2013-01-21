@@ -50,7 +50,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
         {
             Owner[XianZhenUsed] = 1;
             var result = Game.CurrentGame.PinDian(Owner, arg.Targets[0], this);
-            if (!result)
+            if (result != true)
             {
                 var trigger = new XianZhenPassiveLose(Owner);
                 Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanUseCard, trigger);

@@ -46,8 +46,8 @@ namespace Sanguosha.Expansions.StarSP.Skills
         public override bool Commit(GameEventArgs arg)
         {
             Owner[TanHuUsed] = 1;
-            bool isWin = Game.CurrentGame.PinDian(Owner, arg.Targets[0], this);
-            if (isWin) Owner[TanHuWin[arg.Targets[0]]] = 1;
+            var isWin = Game.CurrentGame.PinDian(Owner, arg.Targets[0], this);
+            if (isWin == true) Owner[TanHuWin[arg.Targets[0]]] = 1;
             return true;
         }
 

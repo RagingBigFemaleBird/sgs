@@ -83,7 +83,8 @@ namespace Sanguosha.Expansions.BronzeSparrowTerrace.Skills
             Player pindianTarget = players[0];
             var result = Game.CurrentGame.PinDian(arg.Targets[0], pindianTarget, this);
             Player winner, loser;
-            if (result) { winner = arg.Targets[0]; loser = pindianTarget; }
+            if (result == null) return true;
+            if (result == true) { winner = arg.Targets[0]; loser = pindianTarget; }
             else { winner = pindianTarget; loser = arg.Targets[0]; }
             if (!Game.CurrentGame.PlayerCanBeTargeted(winner, new List<Player>() { loser }, new CompositeCard() { Type = new Sha() })) return true;
             GameEventArgs args = new GameEventArgs();
