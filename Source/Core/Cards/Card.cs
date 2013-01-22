@@ -19,6 +19,7 @@ namespace Sanguosha.Core.Cards
         public static int UnknownCardId = -1;
         public static int UnknownHeroId = -2;
         public static int UnknownRoleId = -3;
+        public static int UnknownSPHeroId = -4;
 
         public bool RevealOnce { get; set; }
 

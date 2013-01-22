@@ -383,7 +383,7 @@ namespace Sanguosha.Core.Games
                     if (card.Type is Heroes.HeroCardHandler)
                     {
                         unknownCard.Type = new Heroes.UnknownHeroCardHandler();
-                        unknownCard.Id = Card.UnknownHeroId;
+                        unknownCard.Id = (card.Type as Heroes.HeroCardHandler).Hero.IsSpecialHero ? Card.UnknownSPHeroId : Card.UnknownHeroId;
                     }
                     else if (card.Type is RoleCardHandler)
                     {

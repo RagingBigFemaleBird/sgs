@@ -475,28 +475,17 @@ namespace Sanguosha.Core.Games
                     // We don't want hero cards
                     if (card.Type is HeroCardHandler)
                     {
+                        game.Decks[DeckType.Dealing].Remove(card);
                         bool isSPHero = false;
-                        if (!game.IsClient)
-                        {
-                            isSPHero = (card.Type as HeroCardHandler).Hero.IsSpecialHero;
-                            foreach (Player player in game.Players)
-                            {
-                                game.GameServer.SendObject(player.Id, isSPHero);
-                            }
-                        }
-                        else
-                        {
-                            isSPHero = (bool)game.GameClient.Receive();
-                        }
+                        if (!game.IsClient) isSPHero = (card.Type as HeroCardHandler).Hero.IsSpecialHero;
+                        else isSPHero = card.Id == Card.UnknownSPHeroId;
                         if (isSPHero)
                         {
-                            game.Decks[DeckType.Dealing].Remove(card);
                             game.Decks[DeckType.SpecialHeroes].Add(card);
                             card.Place = new DeckPlace(null, DeckType.SpecialHeroes);
                         }
                         else
                         {
-                            game.Decks[DeckType.Dealing].Remove(card);
                             game.Decks[DeckType.Heroes].Add(card);
                             card.Place = new DeckPlace(null, DeckType.Heroes);
                         }
@@ -796,6 +785,10 @@ namespace Sanguosha.Core.Games
                             out choice,
                             options))
                         {
+                            foreach (var sk in p.Hero.Skills)
+                            {
+                                sk.Owner = null;
+                            }
                             Hero hero = ((choice[0][0].Type as HeroCardHandler).Hero.Clone()) as Hero;
                             foreach (var skill in new List<ISkill>(hero.Skills))
                             {
