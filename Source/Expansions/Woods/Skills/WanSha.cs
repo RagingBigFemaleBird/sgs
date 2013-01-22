@@ -37,7 +37,6 @@ namespace Sanguosha.Expansions.Woods.Skills
              );
             Triggers.Add(GameEvent.PlayerIsAboutToDie, notify);
             IsEnforced = true;
-            IsRulerOnly = true;
         }
 
     }
