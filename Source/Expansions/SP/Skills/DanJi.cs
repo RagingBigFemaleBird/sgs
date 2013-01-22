@@ -29,7 +29,7 @@ namespace Sanguosha.Expansions.SP.Skills
                 (p, e, a) => {
                     bool caoCaoZhu = false;
                     foreach (Player pl in Game.CurrentGame.Players)
-                        if (pl.Role == Role.Ruler && pl.Hero.Name.Contains("CaoCao"))
+                        if (pl.Role == Role.Ruler && pl.Hero.Name == "CaoCao")
                         {
                             caoCaoZhu = true;
                             break;
