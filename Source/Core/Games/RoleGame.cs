@@ -751,14 +751,10 @@ namespace Sanguosha.Core.Games
                 {
                     pxy.Value.Freeze();
                 }
+
+                //Heroes Convert and handle god hero
                 var toCheck = new List<Player>(game.Players);
                 game.SortByOrderOfComputation(game.Players[rulerId], toCheck);
-                foreach (var p in toCheck)
-                {
-                    Game.CurrentGame.HandleGodHero(p);
-                }
-
-                //Heroes Convert
                 Dictionary<string, List<Card>> convertibleHeroes = new Dictionary<string, List<Card>>();
                 game.SyncImmutableCardsAll(game.Decks[DeckType.SpecialHeroes]);
                 foreach (Card card in game.Decks[DeckType.SpecialHeroes])
@@ -805,6 +801,7 @@ namespace Sanguosha.Core.Games
                         }
                         game.Decks[heroesConvert].Clear();
                     }
+                    Game.CurrentGame.HandleGodHero(p);
                 }
 
                 Shuffle(game.Decks[null, DeckType.Dealing]);
