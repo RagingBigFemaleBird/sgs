@@ -14,7 +14,6 @@ using System.Diagnostics;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    
     public class LifeSaver : CardHandler
     {
         public override CardCategory Category
@@ -85,58 +84,36 @@ namespace Sanguosha.Expansions.Basic.Cards
         public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
         {
             Player target = eventArgs.Targets[0];
-            if (Game.CurrentGame.IsDying.Contains(target)) return;
             if (target.Health > 0) return;
-            Game.CurrentGame.IsDying.Push(target);
-            target[Player.IsDying] = 1;
-            List<Player> toAsk = new List<Player>(Game.CurrentGame.AlivePlayers);
             LifeSaverVerifier v = new LifeSaverVerifier();
             v.DyingPlayer = target;
-            foreach (Player p in toAsk)
+            Player p = Game.CurrentGame.Players[eventArgs.ReadonlyCard[Game.Saver]];
+            if (!Game.CurrentGame.PlayerCanUseCard(p, new Card() { Type = new Tao() })) return;
+            if (p.IsDead) return;
+            while (true)
             {
-                if (p.IsDead) continue;
-                while (true)
+                ISkill skill;
+                List<Card> cards;
+                List<Player> players;
+                if (Game.CurrentGame.UiProxies[p].AskForCardUsage(new CardUsagePrompt("SaveALife", target, 1 - target.Health), v, out skill, out cards, out players))
                 {
-                    ISkill skill;
-                    List<Card> cards;
-                    List<Player> players;
-                    if (Game.CurrentGame.UiProxies[p].AskForCardUsage(new CardUsagePrompt("SaveALife", target, 1 - target.Health), v, out skill, out cards, out players))
+                    try
                     {
-                        try
-                        {
-                            GameEventArgs args = new GameEventArgs();
-                            args.Source = p;
-                            args.Skill = skill;
-                            args.Cards = cards;
-                            Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
-                        }
-                        catch (TriggerResultException e)
-                        {
-                            Trace.Assert(e.Status == TriggerResult.Retry);
-                            continue;
-                        }
-                        if (!Game.CurrentGame.IsDying.Contains(target))
-                        {
-                            target[Player.IsDying] = 0;
-                            return;
-                        }
-                        if (target.Health > 0)
-                        {
-                            Trace.Assert(target == Game.CurrentGame.IsDying.Pop());
-                            target[Player.IsDying] = 0;
-                            return;
-                        }
+                        GameEventArgs args = new GameEventArgs();
+                        args.Source = p;
+                        args.Skill = skill;
+                        args.Cards = cards;
+                        Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
                     }
-                    else
+                    catch (TriggerResultException e)
                     {
-                        break;
+                        Trace.Assert(e.Status == TriggerResult.Retry);
+                        continue;
                     }
+                    if (target.IsDead || target.Health > 0) break;
                 }
+                else break;
             }
-            Trace.TraceInformation("Player {0} dead", target.Id);
-            Trace.Assert(target == Game.CurrentGame.IsDying.Pop());
-            target[Player.IsDying] = 0;
-            Game.CurrentGame.Emit(GameEvent.GameProcessPlayerIsDead, eventArgs);
         }
     }
 }

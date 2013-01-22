@@ -30,7 +30,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return p[FuLiUsed] == 0; },
+                (p, e, a) => { return p[FuLiUsed] == 0 && a.ReadonlyCard[Game.Saver[p]] != 0; },
                 Run,
                 TriggerCondition.OwnerIsTarget
             );

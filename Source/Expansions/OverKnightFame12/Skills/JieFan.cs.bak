@@ -73,7 +73,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return Game.CurrentGame.PhasesOwner != p; },
+                (p, e, a) => { return Game.CurrentGame.PhasesOwner != p && a.ReadonlyCard[Game.Saver[p]] != 0; },
                 Run,
                 TriggerCondition.Global
             ) { AskForConfirmation = false, IsAutoNotify = false };

@@ -80,14 +80,12 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                 NotifySkillUse(eventArgs.Targets);
                 Card theCard = cards[0];
                 Game.CurrentGame.HandleCardDiscard(owner, new List<Card>() { theCard });
-                Game.CurrentGame.IsDying.Push(eventArgs.Targets[0]);
                 GameEventArgs args = new GameEventArgs();
                 args.Source = eventArgs.Targets[0];
                 args.Targets = new List<Player>() { eventArgs.Targets[0] };
                 args.Skill = new ChunLaoJiuCardTransformSkill();
                 args.Cards = new List<Card>();
                 Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
-                Game.CurrentGame.IsDying.Pop();
             }
         }
 
@@ -116,7 +114,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
 
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                     this,
-                    (p, e, a) => { return Game.CurrentGame.Decks[p, ChunDeck].Count != 0 && a.Targets[0].Health <= 0; },
+                    (p, e, a) => { return a.ReadonlyCard[Game.Saver[p]] != 0 && Game.CurrentGame.Decks[p, ChunDeck].Count != 0 && a.Targets[0].Health <= 0; },
                     SaveALife,
                     TriggerCondition.Global
                 ) { AskForConfirmation = false, IsAutoNotify = false };
