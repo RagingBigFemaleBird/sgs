@@ -46,7 +46,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 ReadOnlyCard rCard = new ReadOnlyCard(damageArgs.ReadonlyCard);
                 rCard[ShiChouDamage] = 1;
                 target[ShiChouTarget] ++;
-                Game.CurrentGame.DoDamage(damageArgs.Source, target, damageArgs.Magnitude, damageArgs.Element, damageArgs.Card, rCard);
+                Game.CurrentGame.DoDamage(damageArgs.Source, target, Owner, damageArgs.Magnitude, damageArgs.Element, damageArgs.Card, rCard);
                 throw new TriggerResultException(TriggerResult.End);
             }
 
