@@ -30,6 +30,10 @@ namespace Sanguosha.Core.Heroes
 
         public int MaxHealth { get; set; }
 
+        public String HeroConvertFrom { get; set; }
+
+        public bool IsSpecialHero { get { return HeroConvertFrom != string.Empty; } }
+
         public Hero(string name, bool isMale, Allegiance a, int health, List<ISkill> skills)
         {
             Allegiance = a;
@@ -37,6 +41,7 @@ namespace Sanguosha.Core.Heroes
             Name = name;
             MaxHealth = health;
             IsMale = isMale;
+            HeroConvertFrom = string.Empty;
         }
         public Hero(string name, bool isMale, Allegiance a, int health, params ISkill[] skills)
         {
@@ -45,13 +50,14 @@ namespace Sanguosha.Core.Heroes
             Name = name;
             MaxHealth = health;
             IsMale = isMale;
+            HeroConvertFrom = string.Empty;
         }
 
         public string Name { get; set; }
 
         public object Clone()
         {
-            var hero = new Hero(Name, IsMale, Allegiance, MaxHealth, new List<ISkill>());
+            var hero = new Hero(Name, IsMale, Allegiance, MaxHealth, new List<ISkill>()) { HeroConvertFrom = this.HeroConvertFrom };
             hero.Skills = new List<ISkill>();
             foreach (var s in Skills)
             {

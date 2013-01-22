@@ -76,6 +76,18 @@
       <Project>{850AB9CB-90A0-4625-87FA-1F7CE04A5404}</Project>
       <Name>Battle</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Fire\Fire.csproj">
+      <Project>{e1d27fb1-40b8-4768-a045-dd9772564ddd}</Project>
+      <Name>Fire</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hills\Hills.csproj">
+      <Project>{893e3214-c48d-493c-b09d-7a31756b72b9}</Project>
+      <Name>Hills</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Woods\Woods.csproj">
+      <Project>{6eb21e93-773a-4894-aa51-3128ccf649b7}</Project>
+      <Name>Woods</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="SP.Game.xaml">

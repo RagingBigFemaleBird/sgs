@@ -212,13 +212,13 @@ namespace Sanguosha.Core.Games
                 args.Source = eventArgs.Source;
                 args.AdjustmentAmount = 0;
                 Game.CurrentGame.Emit(GameEvent.PlayerHandCardCapacityAdjustment, args);
-                Game.CurrentGame.ForcePlayerDiscard(currentPlayer, 
-                    (p, d) => 
-                    { 
+                Game.CurrentGame.ForcePlayerDiscard(currentPlayer,
+                    (p, d) =>
+                    {
                         int i = Game.CurrentGame.Decks[p, DeckType.Hand].Count - Math.Max(0, p.Health) - args.AdjustmentAmount;
                         if (i < 0) i = 0;
                         return i;
-                    }, 
+                    },
                     false,
                     false);
             }
@@ -475,9 +475,32 @@ namespace Sanguosha.Core.Games
                     // We don't want hero cards
                     if (card.Type is HeroCardHandler)
                     {
-                        game.Decks[DeckType.Dealing].Remove(card);
-                        game.Decks[DeckType.Heroes].Add(card);
-                        card.Place = new DeckPlace(null, DeckType.Heroes);
+                        bool isSPHero = false;
+                        if (!game.IsClient)
+                        {
+                            isSPHero = (card.Type as HeroCardHandler).Hero.IsSpecialHero;
+                            foreach (Player player in game.Players)
+                            {
+                                game.GameServer.SendObject(player.Id, isSPHero);
+                            }
+                        }
+                        else
+                        {
+                            isSPHero = (bool)game.GameClient.Receive();
+                        }
+                        if (isSPHero)
+                        {
+                            game.Decks[DeckType.Dealing].Remove(card);
+                            game.Decks[DeckType.SpecialHeroes].Add(card);
+                            card.Place = new DeckPlace(null, DeckType.SpecialHeroes);
+                        }
+                        else
+                        {
+                            game.Decks[DeckType.Dealing].Remove(card);
+                            game.Decks[DeckType.Heroes].Add(card);
+                            card.Place = new DeckPlace(null, DeckType.Heroes);
+                        }
+
                     }
                     else if (card.Type is RoleCardHandler)
                     {
@@ -717,7 +740,7 @@ namespace Sanguosha.Core.Games
                     p.MaxHealth = p.Health = hero.MaxHealth;
                     p.IsMale = hero.IsMale ? true : false;
                     p.IsFemale = hero.IsMale ? false : true;
-                    
+
                 }
 
                 foreach (var card in toRemove)
@@ -746,10 +769,55 @@ namespace Sanguosha.Core.Games
                     Game.CurrentGame.HandleGodHero(p);
                 }
 
+                //Heroes Convert
+                Dictionary<string, List<Card>> convertibleHeroes = new Dictionary<string, List<Card>>();
+                game.SyncImmutableCardsAll(game.Decks[DeckType.SpecialHeroes]);
+                foreach (Card card in game.Decks[DeckType.SpecialHeroes])
+                {
+                    var hero = (card.Type as HeroCardHandler).Hero.HeroConvertFrom;
+                    if (!convertibleHeroes.Keys.Contains(hero)) convertibleHeroes[hero] = new List<Card>();
+                    convertibleHeroes[hero].Add(card);
+                }
+                foreach (var p in toCheck)
+                {
+                    if (convertibleHeroes.Keys.Contains(p.Hero.Name))
+                    {
+                        DeckType tempSpHeroes = new DeckType("tempSpHeroes");
+                        DeckPlace heroesConvert = new DeckPlace(p, tempSpHeroes);
+                        game.Decks[heroesConvert].AddRange(convertibleHeroes[p.Hero.Name]);
+                        List<List<Card>> choice;
+                        AdditionalCardChoiceOptions options = new AdditionalCardChoiceOptions();
+                        options.IsCancellable = true;
+                        if (p.AskForCardChoice(new CardChoicePrompt("HeroesConvert", p),
+                            new List<DeckPlace>() { heroesConvert },
+                            new List<string>() { "convert" },
+                            new List<int>() { 1 },
+                            new RequireOneCardChoiceVerifier(),
+                            out choice,
+                            options))
+                        {
+                            Hero hero = ((choice[0][0].Type as HeroCardHandler).Hero.Clone()) as Hero;
+                            foreach (var skill in new List<ISkill>(hero.Skills))
+                            {
+                                if (skill.IsRulerOnly && p.Role != Role.Ruler)
+                                {
+                                    hero.Skills.Remove(skill);
+                                }
+                            }
+                            p.Hero = hero;
+                            p.Allegiance = hero.Allegiance;
+                            p.MaxHealth = p.Health = hero.MaxHealth;
+                            p.IsMale = hero.IsMale ? true : false;
+                            p.IsFemale = hero.IsMale ? false : true;
+                        }
+                        game.Decks[heroesConvert].Clear();
+                    }
+                }
+
                 Shuffle(game.Decks[null, DeckType.Dealing]);
 
                 Player current = game.CurrentPlayer = game.Players[rulerId];
-                
+
                 StartGameDeal(game);
 
                 GameDelays.Delay(GameDelayTypes.GameStart);

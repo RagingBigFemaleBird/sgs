@@ -22,6 +22,7 @@ namespace Sanguosha.Core.Cards
             GuHuo = new DeckType("GuHuo");
             None = new DeckType("None");
             Heroes = new DeckType("Heroes");
+            SpecialHeroes = new DeckType("SpecialHeroes");
         }
 
         public DeckType(string name)
@@ -86,6 +87,7 @@ namespace Sanguosha.Core.Cards
         public static DeckType JudgeResult;
         public static DeckType GuHuo;
         public static DeckType Heroes;
+        public static DeckType SpecialHeroes;
 
         public override string ToString()
         {

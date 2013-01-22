@@ -34,6 +34,8 @@
     <system:String x:Key="CardUsage.Prompt.Discard">您需要弃掉{0}张卡牌，请选牌</system:String>
     <system:String x:Key="CardChoice.Prompt.RulerHeroChoice">您的身份是主公，请选择一名武将</system:String>
     <system:String x:Key="CardChoice.Prompt.RulerHeroChoice.Others">请等待主公选择武将</system:String>
+    <system:String x:Key="CardChoice.Prompt.HeroesConvert">武将替换</system:String>
+    <system:String x:Key="CardChoice.Prompt.HeroesConvert.Others">请等待{0}武将替换</system:String>
     <system:String x:Key="CardChoice.Prompt.HeroChoice">请选择一名武将</system:String>
     <system:String x:Key="CardChoice.Prompt.ShowCards">{0}的手牌 观看完请关闭窗口</system:String>    
     <system:String x:Key="MultiChoice.Prompt.ShowCards">观看完{0}展示的手牌后，请关闭窗口或点确定</system:String>
