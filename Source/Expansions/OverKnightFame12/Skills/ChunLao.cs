@@ -74,15 +74,15 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             ISkill skill;
             List<Card> cards;
             List<Player> players;
-            while (eventArgs.Targets[0].Health <= 0 && Game.CurrentGame.Decks[owner, ChunDeck].Count > 0 &&
+            while (eventArgs.Source.Health <= 0 && Game.CurrentGame.Decks[owner, ChunDeck].Count > 0 &&
                 owner.AskForCardUsage(new CardUsagePrompt("ChunLaoSave"), new  ChuLaoVerifier(), out skill, out cards, out players))
             {
                 NotifySkillUse(eventArgs.Targets);
                 Card theCard = cards[0];
                 Game.CurrentGame.HandleCardDiscard(owner, new List<Card>() { theCard });
                 GameEventArgs args = new GameEventArgs();
-                args.Source = eventArgs.Targets[0];
-                args.Targets = new List<Player>() { eventArgs.Targets[0] };
+                args.Source = eventArgs.Source;
+                args.Targets = new List<Player>() { eventArgs.Source };
                 args.Skill = new ChunLaoJiuCardTransformSkill();
                 args.Cards = new List<Card>();
                 Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
@@ -114,9 +114,9 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
 
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                     this,
-                    (p, e, a) => { return a.ReadonlyCard[Game.Saver[p]] != 0 && Game.CurrentGame.Decks[p, ChunDeck].Count != 0 && a.Targets[0].Health <= 0; },
+                    (p, e, a) => { return Game.CurrentGame.Decks[p, ChunDeck].Count != 0 && a.Source.Health <= 0; },
                     SaveALife,
-                    TriggerCondition.Global
+                    TriggerCondition.OwnerIsTarget
                 ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger1);
             Triggers.Add(GameEvent.PlayerDying, trigger2);

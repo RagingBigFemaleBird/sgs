@@ -38,7 +38,7 @@ namespace Sanguosha.Expansions.Fire.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return p[NiePanUsed] == 0 && a.ReadonlyCard[Game.Saver[p]] != 0; },
+                (p, e, a) => { return p[NiePanUsed] == 0; },
                 Run,
                 TriggerCondition.OwnerIsTarget
             );

@@ -1271,15 +1271,13 @@ namespace Sanguosha.Core.Games
             set { isDying = value; }
         }
 
-        public static CardAttribute Saver = CardAttribute.Register("Saver");
-
         public class PlayerHpChanged : Trigger
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 Trace.Assert(eventArgs.Targets.Count == 1);
                 Player target = eventArgs.Targets[0];
-                if (target.Health > 0) return;
+                if (target.Health > 0 || (eventArgs as HealthChangedEventArgs).Delta > 0) return;
 
                 Trace.TraceInformation("Player {0} dying", target.Id);
                 GameEventArgs args = new GameEventArgs();
@@ -1295,16 +1293,14 @@ namespace Sanguosha.Core.Games
                 }
                 if (target.Health > 0) return;
 
+                args.Source = target;
                 Game.CurrentGame.IsDying.Push(target);
                 target[Player.IsDying] = 1;
                 List<Player> toAsk = new List<Player>(Game.CurrentGame.AlivePlayers);
                 foreach (Player p in toAsk)
                 {
                     if (p.IsDead) continue;
-                    //skill used
-                    args.ReadonlyCard[Saver[p]] = 1;
-                    //game rule used
-                    args.ReadonlyCard[Saver] = p.Id;
+                    args.Targets = new List<Player>() { p };
                     try
                     {
                         Game.CurrentGame.Emit(GameEvent.PlayerDying, args);
@@ -1312,7 +1308,6 @@ namespace Sanguosha.Core.Games
                     catch (TriggerResultException)
                     {
                     }
-                    args.ReadonlyCard[Saver[p]] = 0;
                     if (target.IsDead || target.Health > 0)
                     {
                         Trace.Assert(target == Game.CurrentGame.IsDying.Pop());

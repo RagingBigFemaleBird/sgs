@@ -21,7 +21,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
     {
         protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            var dying = eventArgs.Targets[0];
+            var dying = eventArgs.Source;
             var shaTarget = Game.CurrentGame.CurrentPlayer;
             ISkill skill;
             List<Card> cards;
@@ -73,9 +73,9 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return Game.CurrentGame.PhasesOwner != p && a.ReadonlyCard[Game.Saver[p]] != 0; },
+                (p, e, a) => { return Game.CurrentGame.PhasesOwner != p; },
                 Run,
-                TriggerCondition.Global
+                TriggerCondition.OwnerIsTarget
             ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PlayerDying, trigger);
             var trigger2 = new AutoNotifyPassiveSkillTrigger(

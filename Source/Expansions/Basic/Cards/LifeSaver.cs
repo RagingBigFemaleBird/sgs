@@ -83,11 +83,11 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            Player target = eventArgs.Targets[0];
+            Player target = eventArgs.Source;
             if (target.Health > 0) return;
             LifeSaverVerifier v = new LifeSaverVerifier();
             v.DyingPlayer = target;
-            Player p = Game.CurrentGame.Players[eventArgs.ReadonlyCard[Game.Saver]];
+            Player p = eventArgs.Targets[0];
             if (!Game.CurrentGame.PlayerCanUseCard(p, new Card() { Type = new Tao() })) return;
             if (p.IsDead) return;
             while (true)
