@@ -27,16 +27,8 @@ namespace Sanguosha.Expansions.SP.Skills
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => {
-                    bool caoCaoZhu = false;
-                    foreach (Player pl in Game.CurrentGame.Players)
-                        if (pl.Role == Role.Ruler && pl.Hero.Name == "CaoCao")
-                        {
-                            caoCaoZhu = true;
-                            break;
-                        }
-                    return p[DanJiAwaken] == 0
-                        && Game.CurrentGame.Decks[p, DeckType.Hand].Count > p.Health
-                        && caoCaoZhu;
+                    bool rulerIsCaoCao = Game.CurrentGame.AlivePlayers.Any(pl => pl.Role == Role.Ruler && pl.Hero.Name.Contains("CaoCao"));
+                    return rulerIsCaoCao && p[DanJiAwaken] == 0 && Game.CurrentGame.Decks[p, DeckType.Hand].Count > p.Health;
                 },
                 (p, e, a) =>
                 {

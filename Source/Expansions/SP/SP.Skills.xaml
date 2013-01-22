@@ -15,6 +15,7 @@
     <sys:String x:Key="Hero.YuanShu.Name">袁术</sys:String>
     <sys:String x:Key="Hero.ShuSunShangxiang.Name">蜀孙尚香</sys:String>
     <sys:String x:Key="Hero.WeiPangDe.Name">魏庞德</sys:String>
+    <sys:String x:Key="Hero.WeiGuanYu.Name">魏关羽</sys:String>
     <sys:String x:Key="Hero.HuLaoLvBu.Name">神吕布-1</sys:String>
     <sys:String x:Key="Hero.HuLaoLvBu2.Name">神吕布-2</sys:String>
     <sys:String x:Key="Hero.WeiCaiWenji.Name">魏蔡文姬</sys:String>
