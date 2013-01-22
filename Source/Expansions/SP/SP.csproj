@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Skills\BiFa.cs" />
+    <Compile Include="Skills\DanJi.cs" />
     <Compile Include="Skills\DanLao.cs">
       <SubType>Code</SubType>
     </Compile>
