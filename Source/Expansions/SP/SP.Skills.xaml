@@ -38,9 +38,12 @@
 
     <sys:String x:Key="Skill.YongSi.Name">庸肆</sys:String>
     <sys:String x:Key="Skill.YongSi.Description">锁定技，摸牌阶段，你额外摸等同于现存势力数的牌；弃牌阶段开始时，你须弃置等同于现存势力数的牌。</sys:String>
-    
+
     <sys:String x:Key="Skill.WeiDi.Name">伪帝</sys:String>
     <sys:String x:Key="Skill.WeiDi.Description">锁定技，你拥有当前主公的主公技。</sys:String>
+
+    <sys:String x:Key="Skill.DanJi.Name">单骑</sys:String>
+    <sys:String x:Key="Skill.DanJi.Description">觉醒技，回合开始阶段开始时，若你的手牌数大于你当前的体力值，且主公为曹操，你须减1点体力上限并获得技能“马术”。</sys:String>
 
     <sys:String x:Key="Skill.XiuLuo.Name">修罗</sys:String>
     <sys:String x:Key="Skill.XiuLuo.Description">回合开始阶段开始时，你可以弃置与你判定区里一张牌相同花色的一张手牌，然后你弃置你判定区里的该牌。</sys:String>
