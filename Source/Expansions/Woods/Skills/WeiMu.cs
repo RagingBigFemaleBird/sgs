@@ -40,7 +40,7 @@ namespace Sanguosha.Expansions.Woods.Skills
 
             var notify = new AutoNotifyPassiveSkillTrigger(
                  this,
-                 (p, e, a) => { return a.ReadonlyCard.Type is Aoe && a.ReadonlyCard.SuitColor == SuitColorType.Black; },
+                 (p, e, a) => { return a.Source != p && a.ReadonlyCard.Type is Aoe && a.ReadonlyCard.SuitColor == SuitColorType.Black; },
                  (p, e, a) => { },
                  TriggerCondition.Global
              );

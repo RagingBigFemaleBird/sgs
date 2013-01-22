@@ -23,7 +23,7 @@ namespace Sanguosha.Expansions.Woods.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return Game.CurrentGame.CurrentPlayer == Owner && a.Source != Owner && Game.CurrentGame.IsDying.Last() != a.Source && a.Card.Type is Tao; },
+                (p, e, a) => { return Game.CurrentGame.CurrentPlayer == Owner && a.Source != Owner && Game.CurrentGame.IsDying.Count > 0 && Game.CurrentGame.IsDying.Last() != a.Source && a.Card.Type is Tao; },
                 (p, e, a) => { throw new TriggerResultException(TriggerResult.Fail); },
                 TriggerCondition.Global
             ) { IsAutoNotify = false };
@@ -37,6 +37,7 @@ namespace Sanguosha.Expansions.Woods.Skills
              );
             Triggers.Add(GameEvent.PlayerIsAboutToDie, notify);
             IsEnforced = true;
+            IsRulerOnly = true;
         }
 
     }
