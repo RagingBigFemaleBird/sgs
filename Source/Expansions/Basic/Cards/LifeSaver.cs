@@ -88,7 +88,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             LifeSaverVerifier v = new LifeSaverVerifier();
             v.DyingPlayer = target;
             Player p = eventArgs.Targets[0];
-            if (!Game.CurrentGame.PlayerCanUseCard(p, new Card() { Type = new Tao() })) return;
+            if (!Game.CurrentGame.PlayerCanUseCard(p, new Card() { Place = new DeckPlace(p, DeckType.None), Type = new Tao() })) return;
             if (p.IsDead) return;
             while (true)
             {
