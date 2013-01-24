@@ -15,23 +15,37 @@ using Sanguosha.Expansions.Basic.Cards;
 namespace Sanguosha.Expansions.OverKnightFame12.Skills
 {
     /// <summary>
-    /// 解烦-当有角色进入濒死状态时，你可对当前回合角色使用一张【杀】，此【杀】造成伤害时，你防止此伤害，视为对该濒死角色使用了一张【桃】。
+    /// 解烦-你的回合外，当一名角色处于濒死状态时，你可以对当前正进行回合的角色使用一张【杀】（无距离限制），此【杀】造成伤害时，你防止此伤害，视为对该濒死角色使用一张【桃】。
     /// </summary>
-    public class JieFan : TriggerSkill
+    public class JieFan : SaveLifeSkill
     {
-        protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
+        Dictionary<Player, bool> canUsedJieFan;
+        public JieFan()
         {
-            var dying = eventArgs.Source;
+            linkedPassiveSkill = new JieFanPassiveSkill();
+            (linkedPassiveSkill as JieFanPassiveSkill).ParentSkill = this;
+            Helper.HasNoConfirmation = true;
+            OwnerOnly = false;
+            canUsedJieFan = new Dictionary<Player, bool>();
+        }
+
+        protected override bool? SaveLifeVerify(Player source, List<Card> cards, List<Player> players)
+        {
+            return Game.CurrentGame.PhasesOwner != source && Game.CurrentGame.PhasesOwner != null && canUsedJieFan[Game.CurrentGame.IsDying.Last()] &&
+                Game.CurrentGame.PlayerCanBeTargeted(source, new List<Player>() { Game.CurrentGame.CurrentPlayer }, new Card() { Place = new DeckPlace(null, null), Type = new Sha() });
+        }
+        
+        public override bool Commit(GameEventArgs arg)
+        {
             var shaTarget = Game.CurrentGame.CurrentPlayer;
             ISkill skill;
             List<Card> cards;
             List<Player> players;
             while (true)
             {
-                if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("JieFan", shaTarget), new JieDaoShaRen.JieDaoShaRenVerifier(shaTarget),
+                if (Owner.AskForCardUsage(new CardUsagePrompt("JieFan", shaTarget), new JieDaoShaRen.JieDaoShaRenVerifier(shaTarget),
                     out skill, out cards, out players))
                 {
-                    NotifySkillUse();
                     try
                     {
                         GameEventArgs args = new GameEventArgs();
@@ -42,7 +56,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                         args.Skill = skill;
                         args.Cards = cards;
                         args.ReadonlyCard = new ReadOnlyCard(new Card() { Place = new DeckPlace(null, null) });
-                        args.ReadonlyCard[JieFanSha] = shaTarget.Id + 1;
+                        args.ReadonlyCard[JieFanSha] = 1;
                         Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
                     }
                     catch (TriggerResultException e)
@@ -51,51 +65,50 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                         continue;
                     }
                 }
+                else canUsedJieFan[Game.CurrentGame.IsDying.Last()] = false;
                 break;
             }
-        }
-        private class JieFanTaoCardTransformSkill : CardTransformSkill
-        {
-            public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
-            {
-                Trace.Assert(cards == null || cards.Count == 0);
-                card = new CompositeCard();
-                card.Type = new Tao();
-                return VerifierResult.Success;
-            }
-            protected override void NotifyAction(Player source, List<Player> targets, CompositeCard cards)
-            {
-            }
+            return true;
         }
 
         static CardAttribute JieFanSha = CardAttribute.Register("JieFanSha");
-        public JieFan()
+
+        class JieFanPassiveSkill : TriggerSkill
         {
-            var trigger = new AutoNotifyPassiveSkillTrigger(
-                this,
-                (p, e, a) => { return Game.CurrentGame.PhasesOwner != p; },
-                Run,
-                TriggerCondition.OwnerIsTarget
-            ) { AskForConfirmation = false, IsAutoNotify = false };
-            Triggers.Add(GameEvent.PlayerDying, trigger);
-            var trigger2 = new AutoNotifyPassiveSkillTrigger(
-                this,
-                (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard[JieFanSha] != 0; },
-                (p, e, a) =>
-                {
-                    Player target = Game.CurrentGame.Players[a.ReadonlyCard[JieFanSha] - 1];
-                    GameEventArgs args = new GameEventArgs();
-                    args.Source = Owner;
-                    args.Targets = new List<Player>() { target };
-                    args.Skill = new JieFanTaoCardTransformSkill();
-                    args.Cards = new List<Card>();
-                    Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
-                    throw new TriggerResultException(TriggerResult.End);
-                },
-                TriggerCondition.Global
-            ) { AskForConfirmation = false };
-            Triggers.Add(GameEvent.DamageCaused, trigger2);
-            IsAutoInvoked = null;
+            public JieFan ParentSkill { get; set; }
+            public JieFanPassiveSkill()
+            {
+                ParentSkill = null;
+                var trigger = new AutoNotifyPassiveSkillTrigger(
+                    this,
+                    (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard[JieFanSha] != 0; },
+                    (p, e, a) =>
+                    {
+                        Player target = null;
+                        if (Game.CurrentGame.IsDying.Count > 0) target = Game.CurrentGame.IsDying.Last();
+                        if (Game.CurrentGame.PlayerCanUseCard(Owner, new Card() { Place = new DeckPlace(Owner, DeckType.None), Type = new Tao() }) &&
+                            target != null && !target.IsDead && target.Health <= 0)
+                        {
+                            GameEventArgs args = new GameEventArgs();
+                            args.Source = Owner;
+                            args.Targets = new List<Player>() { target };
+                            args.Skill = new CardWrapper(Owner, new Tao());
+                            args.Cards = new List<Card>();
+                            Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
+                        }
+                        throw new TriggerResultException(TriggerResult.End);
+                    },
+                    TriggerCondition.Global
+                ) { AskForConfirmation = false, IsAutoNotify = false};
+                Triggers.Add(GameEvent.DamageCaused, trigger);
+
+                var trigger2 = new AutoNotifyPassiveSkillTrigger(
+                    this,
+                    (p, e, a) => { ParentSkill.canUsedJieFan[a.Targets[0]] = true; },
+                    TriggerCondition.Global
+                ) { AskForConfirmation = false };
+                Triggers.Add(GameEvent.PlayerIsAboutToDie, trigger2);
+            }
         }
     }
 }

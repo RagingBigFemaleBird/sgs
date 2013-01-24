@@ -99,7 +99,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                 }
             }
 
-            public ISkill ParentSkill;
+            public ISkill ParentSkill { get; set; }
             public ChunLaoPassiveSkill()
             {
                 ParentSkill = null;
