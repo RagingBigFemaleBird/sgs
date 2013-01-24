@@ -69,6 +69,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 MaxPlayers = 0;
                 MinPlayers = 0;
                 Discarding = false;
+                Helper.NoCardReveal = true;
             }
         }
 

@@ -101,7 +101,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                             sourcePlace,
                             new List<string>() { "HuoDe" },
                             new List<int>() { 2 },
-                            new RequireCardsChoiceVerifier(2),
+                            new RequireCardsChoiceVerifier(2, true),
                             out answer,
                             null,
                             CardChoiceCallback.GenericCardChoiceCallback))
