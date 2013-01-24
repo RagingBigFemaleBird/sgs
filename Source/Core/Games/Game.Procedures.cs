@@ -284,7 +284,7 @@ namespace Sanguosha.Core.Games
         public void LoseHealth(Player source, int magnitude)
         {
             if (source.IsDead) return;
-            var args = new HealthChangedEventArgs() { Source = source, Delta = -magnitude };
+            var args = new HealthChangedEventArgs() { Source = null, Delta = -magnitude };
             args.Targets.Add(source);
 
             Emit(GameEvent.BeforeHealthChanged, args);
@@ -308,9 +308,15 @@ namespace Sanguosha.Core.Games
         {
             if (source.IsDead) return;
             int result = source.MaxHealth - magnitude;
-            if (source.Health > result) source.Health = result;
+            bool trigger = false;
+            if (source.Health > result)
+            {
+                source.Health = result;
+                trigger = true;
+            }
             source.MaxHealth = result;
             if (source.MaxHealth <= 0) Emit(GameEvent.GameProcessPlayerIsDead, new GameEventArgs() { Source = null, Targets = new List<Player>() { source } });
+            if (trigger) Game.CurrentGame.Emit(Triggers.GameEvent.AfterHealthChanged, new HealthChangedEventArgs() { Source = null, Delta = 0, Targets = new List<Player>() { source } });
         }
 
         /// <summary>

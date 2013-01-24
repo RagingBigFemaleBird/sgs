@@ -33,7 +33,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
         public override bool Commit(GameEventArgs arg)
         {
             Owner[FuLiUsed] = 1;
-            Owner.Health = Game.CurrentGame.NumberOfAliveAllegiances;
+            Game.CurrentGame.RecoverHealth(Owner, Owner, Game.CurrentGame.NumberOfAliveAllegiances - Owner.Health);
             Owner.IsImprisoned = !Owner.IsImprisoned;
             return true;
         }

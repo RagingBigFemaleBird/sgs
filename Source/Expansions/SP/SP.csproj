@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Skills\BaoBian.cs" />
     <Compile Include="Skills\BiFa.cs" />
     <Compile Include="Skills\DanJi.cs" />
     <Compile Include="Skills\DanLao.cs">
@@ -84,6 +85,10 @@
     <ProjectReference Include="..\Hills\Hills.csproj">
       <Project>{893e3214-c48d-493c-b09d-7a31756b72b9}</Project>
       <Name>Hills</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Wind\Wind.csproj">
+      <Project>{7ef64814-44f4-40ea-91c4-feb67f279f3f}</Project>
+      <Name>Wind</Name>
     </ProjectReference>
     <ProjectReference Include="..\Woods\Woods.csproj">
       <Project>{6eb21e93-773a-4894-aa51-3128ccf649b7}</Project>

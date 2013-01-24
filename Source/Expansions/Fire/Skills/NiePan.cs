@@ -42,7 +42,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             Owner.IsImprisoned = false;
             Owner.IsIronShackled = false;
             Game.CurrentGame.DrawCards(Owner, 3);
-            Owner.Health = Math.Min(3, Owner.MaxHealth);
+            Game.CurrentGame.RecoverHealth(Owner, Owner, Math.Min(3, Owner.MaxHealth) - Owner.Health);
             return true;
         }
         public static PlayerAttribute NiePanUsed = PlayerAttribute.Register("NiePanUsed", false);

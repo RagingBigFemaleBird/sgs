@@ -24,6 +24,7 @@
     <sys:String x:Key="Hero.CaoHong.Name">曹洪</sys:String>
     <sys:String x:Key="Hero.GuanYinping.Name">关银屏</sys:String>
     <sys:String x:Key="Hero.ChenLin.Name">陈琳</sys:String>
+    <sys:String x:Key="Hero.XiahouBa.Name">夏侯霸</sys:String>
 
     
     <sys:String x:Key="Skill.DanLao.Name">啖酪</sys:String>
@@ -79,4 +80,7 @@
     <sys:String x:Key="Skill.SongCi.Description">出牌阶段，你可以选择一项：令一名手牌数小于其体力值的角色摸两张牌；或令一名手牌数大于其体力值的角色弃置两张牌。此技能对每名角色只能使用一次。</sys:String>
     <sys:String x:Key="Skill.SongCi.Usage">点“颂词”→选择一个目标→点“确定”</sys:String>
     <sys:String x:Key="Skill.SongCi.Prompt">请选择一个目标</sys:String>
+
+    <sys:String x:Key="Skill.BaoBian.Name">豹变</sys:String>
+    <sys:String x:Key="Skill.BaoBian.Description">锁定技，若你的体力值为3或更少，你视为拥用技能“挑衅”；若你的体力值为2或更少，你视为拥有技能“咆哮”；若你的体力值为1，你视为拥有技能“神速”。</sys:String>
 </ResourceDictionary>
