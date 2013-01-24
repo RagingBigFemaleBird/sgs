@@ -1283,7 +1283,6 @@ namespace Sanguosha.Core.Games
                 GameEventArgs args = new GameEventArgs();
                 args.Source = eventArgs.Source;
                 args.Targets = new List<Player>() { target };
-                args.ReadonlyCard = new ReadOnlyCard(new Card(){Place = new DeckPlace(null, null)});
                 try
                 {
                     Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToDie, args);
@@ -1293,31 +1292,19 @@ namespace Sanguosha.Core.Games
                 }
                 if (target.Health > 0) return;
 
-                args.Source = target;
                 Game.CurrentGame.IsDying.Push(target);
                 target[Player.IsDying] = 1;
-                List<Player> toAsk = new List<Player>(Game.CurrentGame.AlivePlayers);
-                foreach (Player p in toAsk)
+                try
                 {
-                    if (p.IsDead) continue;
-                    args.Targets = new List<Player>() { p };
-                    try
-                    {
-                        Game.CurrentGame.Emit(GameEvent.PlayerDying, args);
-                    }
-                    catch (TriggerResultException)
-                    {
-                    }
-                    if (target.IsDead || target.Health > 0)
-                    {
-                        Trace.Assert(target == Game.CurrentGame.IsDying.Pop());
-                        target[Player.IsDying] = 0;
-                        return;
-                    }
+                    Game.CurrentGame.Emit(GameEvent.PlayerDying, args);
                 }
-                Trace.TraceInformation("Player {0} dead", target.Id);
+                catch (TriggerResultException)
+                {
+                }
                 Trace.Assert(target == Game.CurrentGame.IsDying.Pop());
                 target[Player.IsDying] = 0;
+                if (target.IsDead || target.Health > 0) return;
+                Trace.TraceInformation("Player {0} dead", target.Id);
                 Game.CurrentGame.Emit(GameEvent.GameProcessPlayerIsDead, eventArgs);
             }
         }

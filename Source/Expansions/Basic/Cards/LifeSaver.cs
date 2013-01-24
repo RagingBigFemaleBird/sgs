@@ -61,7 +61,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     arg.Cards = cards;
                     return (skill as SaveLifeSkill).Validate(arg);
                 }
-                else  return VerifierResult.Fail;
+                else return VerifierResult.Fail;
             }
             else
             {
@@ -88,46 +88,48 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            Player target = eventArgs.Source;
+            Player target = eventArgs.Targets[0];
             if (target.Health > 0) return;
             LifeSaverVerifier v = new LifeSaverVerifier();
             v.DyingPlayer = target;
-            Player p = eventArgs.Targets[0];
-            if (p.IsDead) return;
-            while (true)
+            List<Player> toAsk = Game.CurrentGame.AlivePlayers;
+            foreach (Player p in toAsk)
             {
-                ISkill skill;
-                List<Card> cards;
-                List<Player> players;
-                if (Game.CurrentGame.UiProxies[p].AskForCardUsage(new CardUsagePrompt("SaveALife", target, 1 - target.Health), v, out skill, out cards, out players))
+                if (p.IsDead) continue;
+                while (!target.IsDead && target.Health <= 0)
                 {
-                    if (skill != null && skill is SaveLifeSkill)
+                    ISkill skill;
+                    List<Card> cards;
+                    List<Player> players;
+                    if (Game.CurrentGame.UiProxies[p].AskForCardUsage(new CardUsagePrompt("SaveALife", target, 1 - target.Health), v, out skill, out cards, out players))
                     {
-                        GameEventArgs arg = new GameEventArgs();
-                        arg.Source = p;
-                        arg.Targets = players;
-                        arg.Cards = cards;
-                        ((SaveLifeSkill)skill).NotifyAndCommit(arg);
-                    }
-                    else
-                    {
-                        try
+                        if (skill != null && skill is SaveLifeSkill)
                         {
-                            GameEventArgs args = new GameEventArgs();
-                            args.Source = p;
-                            args.Skill = skill;
-                            args.Cards = cards;
-                            Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
+                            GameEventArgs arg = new GameEventArgs();
+                            arg.Source = p;
+                            arg.Targets = players;
+                            arg.Cards = cards;
+                            ((SaveLifeSkill)skill).NotifyAndCommit(arg);
                         }
-                        catch (TriggerResultException e)
+                        else
                         {
-                            Trace.Assert(e.Status == TriggerResult.Retry);
-                            continue;
+                            try
+                            {
+                                GameEventArgs args = new GameEventArgs();
+                                args.Source = p;
+                                args.Skill = skill;
+                                args.Cards = cards;
+                                Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
+                            }
+                            catch (TriggerResultException e)
+                            {
+                                Trace.Assert(e.Status == TriggerResult.Retry);
+                                continue;
+                            }
                         }
                     }
-                    if (target.IsDead || target.Health > 0) break;
+                    else break;
                 }
-                else break;
             }
         }
     }
