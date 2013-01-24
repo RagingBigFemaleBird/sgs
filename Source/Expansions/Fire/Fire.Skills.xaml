@@ -34,7 +34,7 @@
 
     <sys:String x:Key="Skill.NiePan.Name">涅槃</sys:String>
     <sys:String x:Key="Skill.NiePan.Description">限定技，当你处于濒死状态时，你可以：弃置你区域里所有的牌，然后将你的武将牌翻至正面朝上并重置之，再摸三张牌且当前的体力值回复至3点。</sys:String>
-    <sys:String x:Key="Skill.NiePan.Usage">系统提示→点“确定”</sys:String>
+    <sys:String x:Key="Skill.NiePan.Usage">点“涅槃”</sys:String>
     <sys:String x:Key="Skill.NiePan.Transcript">凤凰涅槃，浴火重生</sys:String>
     <sys:Boolean x:Key="Skill.NiePan.DoFire">True</sys:Boolean>
     <Color x:Key="Skill.NiePan.ColorTone">#FFFF5560</Color>

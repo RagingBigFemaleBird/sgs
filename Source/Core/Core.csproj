@@ -98,6 +98,7 @@
     <Compile Include="Skills\IAdditionalTypedSkill.cs" />
     <Compile Include="Skills\RulerGivenSkill.cs" />
     <Compile Include="Skills\RulerGivenSkillContainerSkill.cs" />
+    <Compile Include="Skills\SaveLifeSkill.cs" />
     <Compile Include="Skills\TriggerSkill.cs" />
     <Compile Include="Triggers\GetJudgeCardTrigger.cs" />
     <Compile Include="Triggers\RelayTrigger.cs" />
