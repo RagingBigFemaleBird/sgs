@@ -56,7 +56,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 else if (skill is SaveLifeSkill)
                 {
                     GameEventArgs arg = new GameEventArgs();
-                    arg.Source = Game.CurrentGame.CurrentPlayer;
+                    arg.Source = skill.Owner;
                     arg.Targets = players;
                     arg.Cards = cards;
                     return (skill as SaveLifeSkill).Validate(arg);
