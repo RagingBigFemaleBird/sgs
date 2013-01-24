@@ -414,6 +414,13 @@ namespace Sanguosha.UI.Controls
                     {
                         paragraph.Inlines.Add(string.Format("{0}获得了自己的", destStr));
                     }
+                    else if (dest.DeckType is PrivateDeckType)
+                    {
+                        paragraph.Inlines.Add(string.Format("{0}将", destStr));
+                        paragraph.Inlines.AddRange(cardsInline);
+                        paragraph.Inlines.Add(string.Format("置于武将牌上"));
+                        added = false;
+                    }
                 }
                 else if (dest.DeckType == DeckType.Hand || dest.DeckType == DeckType.Equipment)
                 {
