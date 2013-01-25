@@ -56,6 +56,10 @@ namespace Sanguosha.UI.Controls
                 {
                     resKey = string.Format("Skill.{0}.Name", arg.GetType().Name);
                 }
+                else if (arg is CardHandler)
+                {
+                    resKey = string.Format("Card.{0}.Name", (arg as CardHandler).CardType);
+                }
 
                 string value;
                 if (resKey != null)

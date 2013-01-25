@@ -35,7 +35,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             {
                 return VerifierResult.Partial;
             }
-            if (!CardCategoryManager.IsCardCategory(AdditionalType.Category, CardCategory.ImmediateTool))
+            if (!CardCategoryManager.IsCardCategory(AdditionalType.Category, CardCategory.ImmediateTool) || AdditionalType is WuXieKeJi)
             {
                 return VerifierResult.Fail;
             }
@@ -53,6 +53,11 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             Owner[QiCeUsed] = 1;
             Game.CurrentGame.SyncImmutableCardsAll(Owner.HandCards());
             return true;
+        }
+
+        public override List<CardHandler> PossibleResults
+        {
+            get { return new List<CardHandler>(); }
         }
 
         public CardHandler AdditionalType { get; set; }

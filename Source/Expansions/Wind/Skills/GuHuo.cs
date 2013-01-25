@@ -56,6 +56,17 @@ namespace Sanguosha.Expansions.Wind.Skills
         public static readonly PlayerAttribute ZhiYiZhong = PlayerAttribute.Register("ZhiYi", false, false, true);
         public static readonly PlayerAttribute BuZhiYiZhong = PlayerAttribute.Register("BuZhiYi", false, false, true);
 
+        protected override void NotifyAction(Player source, List<Player> targets, CompositeCard card)
+        {
+            base.NotifyAction(source, targets, card);
+            foreach (Card c in card.Subcards)
+            {
+                c.Log.Source = source;
+                c.Log.Targets = targets;
+                c.Log.GameAction = GameAction.Use;
+            }
+        }
+
         protected override bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets)
         {
             int GuHuoOrder = Game.CurrentGame.Decks[null, DeckType.GuHuo].Count;
@@ -68,12 +79,12 @@ namespace Sanguosha.Expansions.Wind.Skills
             Game.CurrentGame.PlayerLostCard(Owner, move.Cards);
             var toProcess = new List<Player>(from p in Game.CurrentGame.AlivePlayers where p.Health > 0 select p);
             toProcess.Remove(Owner);
-            Game.CurrentGame.SortByOrderOfComputation(Owner, toProcess);
+            Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, toProcess);
             Dictionary<Player, int> believe = new Dictionary<Player,int>();
             foreach (var player in toProcess)
             {
                 int answer = 0;
-                Game.CurrentGame.UiProxies[player].AskForMultipleChoice(new MultipleChoicePrompt("GuHuo", Owner, AdditionalType.CardType), Prompt.YesNoChoices, out answer);
+                Game.CurrentGame.UiProxies[player].AskForMultipleChoice(new MultipleChoicePrompt("GuHuo", Owner, AdditionalType), Prompt.YesNoChoices, out answer);
                 believe.Add(player, 1 - answer);
                 player[ZhiYiZhong] = answer;
                 player[BuZhiYiZhong] = 1 - answer;
