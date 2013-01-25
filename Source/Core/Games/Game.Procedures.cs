@@ -116,11 +116,8 @@ namespace Sanguosha.Core.Games
             catch (TriggerResultException)
             {
             }
-            if (!damageArgs.Targets[0].IsDead)
-            {
-                Emit(GameEvent.AfterDamageCaused, damageArgs);
-                Emit(GameEvent.AfterDamageInflicted, damageArgs);
-            }
+            Emit(GameEvent.AfterDamageCaused, damageArgs);
+            Emit(GameEvent.AfterDamageInflicted, damageArgs);
             Emit(GameEvent.DamageComputingFinished, damageArgs);
             if (ironShackledDamage != 0)
             {
