@@ -11,6 +11,7 @@ using Sanguosha.Core.Skills;
 using Sanguosha.Expansions.Basic.Cards;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
+using Sanguosha.Core.Utils;
 
 namespace Sanguosha.Expansions.Basic.Skills
 {
@@ -107,6 +108,12 @@ namespace Sanguosha.Expansions.Basic.Skills
             args.Skill = new LiJianCardTransform();
             Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
             return true;
+        }
+
+        protected override void TargetsSplit(List<Player> targets, out List<Player> firstTargets, out List<Player> secondaryTargets)
+        {
+            firstTargets = new List<Player>(){targets[1]};
+            secondaryTargets = new List<Player>() { targets[0] };
         }
 
         private class LiJianCardTransform : CardTransformSkill

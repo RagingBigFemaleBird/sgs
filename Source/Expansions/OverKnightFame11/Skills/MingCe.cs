@@ -63,19 +63,6 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             MaxPlayers = 2;
         }
 
-        class MingCeShaComposerSkill : CardTransformSkill
-        {
-            public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
-            {
-                card = new CompositeCard();
-                card.Type = new RegularSha();
-                return VerifierResult.Success;
-            }
-            protected override void NotifyAction(Player source, List<Player> targets, CompositeCard card)
-            {
-            }
-        }
-
         // slightly modified from JieDaoShaRen
         public class MingCeShaVerifier : CardUsageVerifier
         {
@@ -102,7 +89,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 {
                     return VerifierResult.Fail;
                 }
-                return (new Sha()).Verify(source, new MingCeShaComposerSkill(), cards, newList);
+                return (new Sha()).Verify(source, new CardWrapper(source, new RegularSha()), cards, newList);
             }
 
             public override IList<CardHandler> AcceptableCardTypes
@@ -141,7 +128,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                     args.Source = arg.Targets[0];
                     args.Targets = new List<Player>(players);
                     args.Targets.Add(arg.Targets[1]);
-                    args.Skill = new MingCeShaComposerSkill();
+                    args.Skill = new CardWrapper(arg.Targets[0], new RegularSha());
                     args.Cards = cards;
                     Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
                 }

@@ -31,6 +31,7 @@ using Sanguosha.Expansions.Battle.Cards;
 using Xceed.Wpf.Toolkit;
 using System.Windows.Media.Effects;
 using System.Windows.Threading;
+using Sanguosha.Core.Utils;
 
 namespace Sanguosha.UI.Controls
 {
@@ -52,7 +53,7 @@ namespace Sanguosha.UI.Controls
         #endregion
 
         #region Constructors
-    
+
         static GameView()
         {
             // Layout:
@@ -95,15 +96,15 @@ namespace Sanguosha.UI.Controls
 
         public GameView()
         {
-            InitializeComponent();            
+            InitializeComponent();
             // Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = 120 });
             stackPanels = new List<StackPanel>() { stackPanel0, stackPanel1, stackPanel2, stackPanel3, stackPanel4, stackPanel5 };
-            radioLogs = new List<RadioButton>() { rbLog0, rbLog1, rbLog2, rbLog3, rbLog4, rbLog5, rbLog6, rbLog7, rbLog8, rbLog9, rbLog10 };            
+            radioLogs = new List<RadioButton>() { rbLog0, rbLog1, rbLog2, rbLog3, rbLog4, rbLog5, rbLog6, rbLog7, rbLog8, rbLog9, rbLog10 };
             profileBoxes = new ObservableCollection<PlayerView>();
             playersMap = new Dictionary<Player, PlayerViewBase>();
             mainPlayerPanel.ParentGameView = this;
             discardDeck.ParentCanvas = this.GlobalCanvas;
-            this.DataContextChanged +=  GameView_DataContextChanged;
+            this.DataContextChanged += GameView_DataContextChanged;
             this.SizeChanged += GameView_SizeChanged;
             _mainPlayerPropertyChangedHandler = mainPlayer_PropertyChanged;
             gameLogs = new GameLogs();
@@ -111,7 +112,7 @@ namespace Sanguosha.UI.Controls
             rtbLog.Document = gameLogs.GlobalLog;
             for (int i = 0; i < 10; i++)
             {
-                logDocs.Add(new FlowDocument());                
+                logDocs.Add(new FlowDocument());
             }
             for (int i = 0; i < 11; i++)
             {
@@ -134,7 +135,7 @@ namespace Sanguosha.UI.Controls
 
         void LobbyModel_OnChat(string userName, string msg)
         {
-            var player = GameModel.PlayerModels.FirstOrDefault(p => p.Account != null && p.Account.UserName == userName);            
+            var player = GameModel.PlayerModels.FirstOrDefault(p => p.Account != null && p.Account.UserName == userName);
             string heroName = string.Empty;
             if (player != null && player.Hero != null) heroName = LogFormatter.Translate(player.Hero);
             chatBox.Document.Blocks.Add(LogFormatter.RichTranslateChat(heroName, userName, msg));
@@ -176,7 +177,7 @@ namespace Sanguosha.UI.Controls
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             GameSoundPlayer.PlayBackgroundMusic(GameSoundLocator.GetBgm());
-        }        
+        }
 
         private void _Resize(Size size)
         {
@@ -263,7 +264,7 @@ namespace Sanguosha.UI.Controls
         {
             var view = sender as PlayerView;
             Trace.Assert(view != null);
-            
+
             GameModel.MainPlayerSeatNumber = GameModel.Game.Players.IndexOf(view.PlayerModel.Player);
         }
 
@@ -306,7 +307,7 @@ namespace Sanguosha.UI.Controls
                 _privateDeckChoiceWindow.WindowStartupLocation = Xceed.Wpf.Toolkit.WindowStartupLocation.Center;
                 string title = PromptFormatter.Format(new CardChoicePrompt("PrivateDeck", model.Player, model.CurrentPrivateDeck.TraslatedName));
                 _privateDeckChoiceWindow.Caption = title;
-                
+
                 var box = new PrivateDeckBox();
                 box.DataContext = model.CurrentPrivateDeck.Cards;
                 _privateDeckChoiceWindow.Content = box;
@@ -322,21 +323,21 @@ namespace Sanguosha.UI.Controls
         }
 
         private void GameView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {            
+        {
             profileBoxes.Clear();
             playersMap.Clear();
             GameViewModel model = GameModel;
             for (int i = 1; i < model.PlayerModels.Count; i++)
             {
                 _CreatePlayerInfoView(i);
-            }                        
+            }
             playersMap.Add(model.MainPlayerModel.Player, mainPlayerPanel);
             RearrangeSeats();
             _Resize(new Size(this.ActualWidth, this.ActualHeight));
             model.PropertyChanged += new PropertyChangedEventHandler(model_PropertyChanged);
             model.Game.PropertyChanged += new PropertyChangedEventHandler(_game_PropertyChanged);
             Trace.Assert(model.MainPlayerModel != null, "Main player must exist.");
-            
+
             var oldModel = e.OldValue as GameViewModel;
             if (oldModel != null)
             {
@@ -354,19 +355,19 @@ namespace Sanguosha.UI.Controls
                 if (i <= count)
                 {
                     rb.Visibility = Visibility.Visible;
-                    rb.IsEnabled = true;                    
+                    rb.IsEnabled = true;
                 }
                 else
                 {
                     rb.Visibility = Visibility.Hidden;
                     rb.IsEnabled = false;
-                }                
+                }
             }
             radioLogs[0].IsChecked = true;
             for (int i = 0; i < count; i++)
-            {                
-                model.PlayerModels[i].PropertyChanged += new PropertyChangedEventHandler(_player_PropertyChanged);                
-            }       
+            {
+                model.PlayerModels[i].PropertyChanged += new PropertyChangedEventHandler(_player_PropertyChanged);
+            }
         }
 
         ChildWindow cardChoiceWindow;
@@ -377,7 +378,7 @@ namespace Sanguosha.UI.Controls
                 PlayerViewModel model = sender as PlayerViewModel;
                 int count = GameModel.PlayerModels.Count;
                 if (e.PropertyName == "IsCardChoiceQuestionShown")
-                {                    
+                {
                     if (model.IsCardChoiceQuestionShown)
                     {
                         if (cardChoiceWindow != null)
@@ -389,7 +390,7 @@ namespace Sanguosha.UI.Controls
                         cardChoiceWindow.MaxWidth = 800;
                         cardChoiceWindow.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
                         cardChoiceWindow.CloseButtonVisibility = model.CardChoiceModel.CanClose ? Visibility.Visible : Visibility.Collapsed;
-                        cardChoiceWindow.Effect = new DropShadowEffect(){ BlurRadius = 10d };
+                        cardChoiceWindow.Effect = new DropShadowEffect() { BlurRadius = 10d };
                         cardChoiceWindow.Caption = model.CardChoiceModel.Prompt;
                         var box = CardChoiceBoxSelector.CreateBox(model.CardChoiceModel);
                         if (box is CardArrangeBox)
@@ -402,7 +403,7 @@ namespace Sanguosha.UI.Controls
                                     callback(new CardRearrangement(s1, s2, d1, d2));
                                 }
                             };
-                        }                        
+                        }
                         gridRoot.Children.Add(cardChoiceWindow);
                         cardChoiceWindow.WindowStartupLocation = Xceed.Wpf.Toolkit.WindowStartupLocation.Center;
                         cardChoiceWindow.Content = box;
@@ -413,8 +414,8 @@ namespace Sanguosha.UI.Controls
                         cardChoiceWindow.Close();
                         gridRoot.Children.Remove(cardChoiceWindow);
                         cardChoiceWindow = null;
-                    }    
-                }           
+                    }
+                }
                 else if (e.PropertyName == "Role")
                 {
                     int index;
@@ -439,7 +440,7 @@ namespace Sanguosha.UI.Controls
                     gameLogs.AppendPickHeroLog(model.Player, true);
                 }
             });
-        }       
+        }
 
         void model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
@@ -470,7 +471,7 @@ namespace Sanguosha.UI.Controls
 
             // First remove main player
             for (int j = 0; j < profileBoxes.Count; j++)
-            {                    
+            {
                 var playerView = profileBoxes[j];
                 if (playerView.PlayerModel == model.MainPlayerModel)
                 {
@@ -484,18 +485,18 @@ namespace Sanguosha.UI.Controls
                 var playerModel = model.PlayerModels[i];
                 bool found = false;
                 for (int j = 0; j < profileBoxes.Count; j++)
-                {                    
+                {
                     var playerView = profileBoxes[j];
                     if (playerModel == playerView.PlayerModel)
                     {
                         if (i - 1 < j)
-                        {                           
-                            profileBoxes.Move(j, i - 1);                            
-                        }                        
+                        {
+                            profileBoxes.Move(j, i - 1);
+                        }
                         playersMap[playerModel.Player] = playerView;
                         found = true;
                         break;
-                    }                    
+                    }
                 }
                 if (!found)
                 {
@@ -506,7 +507,7 @@ namespace Sanguosha.UI.Controls
             mainPlayerPanel.DataContext = model.MainPlayerModel;
             playersMap[model.MainPlayerModel.Player] = mainPlayerPanel;
         }
-        
+
         #endregion
 
         #region Public Functions
@@ -574,10 +575,10 @@ namespace Sanguosha.UI.Controls
                 }
                 else
                 {
-                    profileBoxes[i].FlowDirection = FlowDirection.LeftToRight;                    
+                    profileBoxes[i].FlowDirection = FlowDirection.LeftToRight;
                 }
             }
-        }        
+        }
 
         private void _AdjustSpacing(double hSpacing, double vSpacing)
         {
@@ -601,7 +602,7 @@ namespace Sanguosha.UI.Controls
                 }
             }
         }
-        
+
         private static int _minHSpacing = 0;
         private static int _minVSpacing = 2;
         #endregion
@@ -613,7 +614,7 @@ namespace Sanguosha.UI.Controls
             if (place.Player != null && place.DeckType != DeckType.JudgeResult)
             {
                 PlayerViewBase playerView = playersMap[place.Player];
-                return playerView;                
+                return playerView;
             }
             else
             {
@@ -636,15 +637,15 @@ namespace Sanguosha.UI.Controls
             {
                 var dest = playersMap[target];
                 Point dstPoint = dest.TranslatePoint(new Point(dest.ActualWidth / 2, dest.ActualHeight / 2), GlobalCanvas);
-                double distance = Math.Sqrt((srcPoint.X - dstPoint.X) * (srcPoint.X - dstPoint.X) + (srcPoint.Y - dstPoint.Y) * (srcPoint.Y - dstPoint.Y)); 
-                
+                double distance = Math.Sqrt((srcPoint.X - dstPoint.X) * (srcPoint.X - dstPoint.X) + (srcPoint.Y - dstPoint.Y) * (srcPoint.Y - dstPoint.Y));
+
                 Line line = new Line();
                 line.Stroke = Resources["indicatorLineBrush"] as Brush;
                 line.X1 = srcPoint.X;
                 line.X2 = dstPoint.X;
                 line.Y1 = srcPoint.Y;
                 line.Y2 = dstPoint.Y;
-                line.StrokeThickness = 1;                
+                line.StrokeThickness = 1;
                 lines.Add(line);
 
                 Line line2 = new Line();
@@ -680,7 +681,7 @@ namespace Sanguosha.UI.Controls
             lineUpGroup.Begin();
         }
 
-        
+
         #endregion
 
         #region INotificationProxy
@@ -790,6 +791,7 @@ namespace Sanguosha.UI.Controls
             {
                 Trace.Assert(log.Source != null);
                 PlayerViewBase player = playersMap[log.Source];
+                bool soundEffectPlayed = false;
                 if (log.SkillAction != null)
                 {
                     string key1 = string.Format("{0}.Animation", log.SkillAction.GetType().Name);
@@ -805,7 +807,7 @@ namespace Sanguosha.UI.Controls
                                 Point offset = new Point(0, 0);
                                 if (equipAnimationResources.Contains(key2))
                                 {
-                                    offset = (Point)equipAnimationResources[key2];                                    
+                                    offset = (Point)equipAnimationResources[key2];
                                 }
                                 player.PlayAnimation(animation, 0, offset);
                                 animPlayed = true;
@@ -828,20 +830,21 @@ namespace Sanguosha.UI.Controls
                         string s = LogFormatter.Translate(log.SkillAction);
                         if (s != string.Empty)
                         {
-                            
+
                             ZoomTextAnimation anim = new ZoomTextAnimation() { Text = s };
                             player.PlayAnimation(anim, 1, new Point(0, 0));
-                            animPlayed = true;                            
+                            animPlayed = true;
                         }
                     }
                     string soundKey = log.SkillAction.GetType().Name;
                     Uri uri = GameSoundLocator.GetSkillSound(soundKey, log.SpecialEffectHint);
                     GameSoundPlayer.PlaySoundEffect(uri);
+                    soundEffectPlayed = uri != null;
                 }
                 if (log.CardAction != null)
                 {
                     if (log.CardAction.Type is Shan)
-                    {                        
+                    {
                         player.PlayAnimation(new ShanAnimation(), 0, new Point(0, 0));
                     }
                     else if (log.CardAction.Type is RegularSha)
@@ -862,22 +865,15 @@ namespace Sanguosha.UI.Controls
                         foreach (var p in log.Targets)
                         {
                             playersMap[p].PlayIronShackleAnimation();
-                        }                        
+                        }
                     }
 
-                    bool? isMale = null;
-                    if (log.Source != null) isMale = !log.Source.IsFemale;
-                    Uri cardSoundUri = GameSoundLocator.GetCardSound(log.CardAction.Type.CardType, isMale);
-                    var card = log.CardAction as Card;
-                    if (card != null)
+                    if (!soundEffectPlayed)
                     {
-                        bool play = true;
-                        if (card.Log != null && card.Log.SkillAction is IEquipmentSkill)
-                        {
-                            Uri uri = GameSoundLocator.GetSkillSound(card.Log.SkillAction.GetType().Name);
-                            if (uri != null) play = false;
-                        }
-                        if (play) GameSoundPlayer.PlaySoundEffect(cardSoundUri);
+                        bool? isMale = null;
+                        if (log.Source != null) isMale = !log.Source.IsFemale;
+                        Uri cardSoundUri = GameSoundLocator.GetCardSound(log.CardAction.Type.CardType, isMale);
+                        GameSoundPlayer.PlaySoundEffect(cardSoundUri);
                     }
                 }
 
@@ -885,6 +881,15 @@ namespace Sanguosha.UI.Controls
                 {
                     _LineUp(log.Source, log.Targets);
                     foreach (var target in log.Targets)
+                    {
+                        target.IsTargeted = true;
+                    }
+                }
+
+                if (log.Targets.Count == 1 && log.SecondaryTargets != null && log.SecondaryTargets.Count > 0)
+                {
+                    _LineUp(log.Targets[0], log.SecondaryTargets);
+                    foreach (var target in log.SecondaryTargets)
                     {
                         target.IsTargeted = true;
                     }
@@ -1083,14 +1088,14 @@ namespace Sanguosha.UI.Controls
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 CardView cardView = discardDeck.Cards.FirstOrDefault(c => c.Card.Id == card.Id);
-                
+
                 if (cardView == null) return;
                 gameLogs.AppendJudgeResultLog(p, card, log, isSuccess, isFinalResult);
                 rtbLog.ScrollToEnd();
 
                 if (!isFinalResult || isSuccess == null) return;
                 _AppendKeyEventLog(LogFormatter.RichTranslateJudgeResultEffectiveness(p, log, isSuccess == true));
-                
+
                 if (isSuccess == true)
                 {
                     cardView.PlayAnimation(new TickAnimation(), new Point(0, 0));
@@ -1111,7 +1116,7 @@ namespace Sanguosha.UI.Controls
                 bool isFirstRow = true;
                 int i = 0;
                 int total = Game.CurrentGame.Decks[place].Count;
-                
+
                 foreach (var c in Game.CurrentGame.Decks[place])
                 {
                     if (isFirstRow && total > 4 && i >= total / 2) isFirstRow = false;
@@ -1121,7 +1126,7 @@ namespace Sanguosha.UI.Controls
                     card.OnSelectedChanged += new EventHandler(card_OnSelectedChanged);
                     i++;
                 }
-                
+
                 wuGuWindow.Show();
             });
         }
@@ -1162,18 +1167,18 @@ namespace Sanguosha.UI.Controls
         public void NotifyPinDianEnd(Card c1, Card c2)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
-            {                
+            {
                 pinDianBox.RevealResult(c1, c2);
             });
         }
-                
+
         public void NotifyGameOver(bool isDraw, List<Player> winners)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 Uri uri = GameSoundLocator.GetSystemSound("GameOver");
                 GameSoundPlayer.PlaySoundEffect(uri);
-                GameSoundPlayer.PlayBackgroundMusic(null);                
+                GameSoundPlayer.PlayBackgroundMusic(null);
                 List<Player> drawers;
                 List<Player> losers;
                 if (isDraw)
@@ -1229,7 +1234,7 @@ namespace Sanguosha.UI.Controls
                     model.Add(m);
                 }
                 gameResultBox.DataContext = model;
-                gameResultWindow.Content = gameResultBox;                
+                gameResultWindow.Content = gameResultBox;
                 gameResultWindow.Closed += (o, e) =>
                 {
                     var handler = OnGameCompleted;
@@ -1245,7 +1250,7 @@ namespace Sanguosha.UI.Controls
                     timer.Tick += (o, e) =>
                     {
                         gameResultWindow.Show();
-                        timer.Stop();                        
+                        timer.Stop();
                     };
                     timer.Interval = TimeSpan.FromSeconds(2);
                     timer.Start();
@@ -1260,7 +1265,7 @@ namespace Sanguosha.UI.Controls
 
         #region Private Decks
         public void DisplayPrivateDeck(Player player, PrivateDeckViewModel model)
-        {          
+        {
             var choiceModel = new CardChoiceViewModel();
             choiceModel.CanClose = true;
             choiceModel.Prompt = PromptFormatter.Format(new CardChoicePrompt("PrivateDeck", player, model.TraslatedName));
@@ -1272,6 +1277,6 @@ namespace Sanguosha.UI.Controls
             deckDisplayWindow.DataContext = choiceModel;
             deckDisplayWindow.Show();
         }
-        #endregion        
+        #endregion
     }
 }

@@ -211,10 +211,6 @@ namespace Sanguosha.Core.Games
             args.Cards = new List<Card>() { c };
             args.Skill = skill;
             args.Card = handler;
-            Emit(GameEvent.PlayerJudgeDone, args);
-            Trace.Assert(args.Source == player);
-            Trace.Assert(args.ReadonlyCard is ReadOnlyCard);
-
             bool? succeed = null;
             if (del != null)
             {
@@ -229,6 +225,9 @@ namespace Sanguosha.Core.Games
             }
             uiCard.Log = log;
             NotificationProxy.NotifyJudge(player, uiCard, log, succeed);
+            Emit(GameEvent.PlayerJudgeDone, args);
+            Trace.Assert(args.Source == player);
+            Trace.Assert(args.ReadonlyCard is ReadOnlyCard);
 
             if (decks[player, DeckType.JudgeResult].Count > initCount)
             {

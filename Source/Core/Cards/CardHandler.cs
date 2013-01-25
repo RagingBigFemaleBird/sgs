@@ -14,7 +14,7 @@ using Sanguosha.Core.Exceptions;
 
 namespace Sanguosha.Core.Cards
 {
-    
+
     public abstract class CardHandler : ICloneable
     {
         [NonSerialized]
@@ -23,10 +23,10 @@ namespace Sanguosha.Core.Cards
         List<Card> cardsOnHold;
         public virtual object Clone()
         {
-            return Activator.CreateInstance(this.GetType());            
+            return Activator.CreateInstance(this.GetType());
         }
 
-        public abstract CardCategory Category 
+        public abstract CardCategory Category
         {
             get;
         }
@@ -81,24 +81,24 @@ namespace Sanguosha.Core.Cards
 
         public void NotifyCardUse(Player source, List<Player> dests, List<Player> secondary, ICard card, GameAction action)
         {
-            List<Player> logTargets = ActualTargets(source, dests, card);
-            ActionLog log = new ActionLog();
-            log.Source = source;
-            log.Targets = logTargets;
-            log.SecondaryTargets = secondary;
-            log.SkillAction = null;
-            log.GameAction = action;
-            log.CardAction = card;
-            Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
             if (card is Card)
             {
                 Card terminalCard = card as Card;
-                if (terminalCard.Log == null)
-                {
-                    terminalCard.Log = new ActionLog();
-                }
+                if (terminalCard.Log == null) terminalCard.Log = new ActionLog();
+
+                List<Player> logTargets = ActualTargets(source, dests, card);
+                ActionLog log = new ActionLog();
+                log.Source = source;
+                log.Targets = logTargets;
+                log.SecondaryTargets = secondary;
+                log.SkillAction = terminalCard.Log.SkillAction;
+                log.GameAction = action;
+                log.CardAction = card;
+                Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
+
                 terminalCard.Log.Source = source;
                 terminalCard.Log.Targets = dests;
+                terminalCard.Log.SkillAction = log.SkillAction;
                 terminalCard.Log.SecondaryTargets = secondary;
                 terminalCard.Log.CardAction = card;
                 terminalCard.Log.GameAction = action;
@@ -138,7 +138,7 @@ namespace Sanguosha.Core.Cards
                 if (player.IsDead) continue;
                 GameEventArgs args = new GameEventArgs();
                 args.Source = source;
-                args.Targets = new List<Player>() {player};
+                args.Targets = new List<Player>() { player };
                 args.Card = card;
                 args.ReadonlyCard = readonlyCard;
                 try
@@ -261,7 +261,7 @@ namespace Sanguosha.Core.Cards
             return ret;
         }
 
-        protected abstract VerifierResult Verify(Player source, ICard card, List<Player> targets);        
+        protected abstract VerifierResult Verify(Player source, ICard card, List<Player> targets);
 
         /// <summary>
         /// 

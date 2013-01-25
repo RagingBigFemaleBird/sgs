@@ -34,6 +34,13 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected override void NotifyAction(Player source, List<Player> targets, CompositeCard card)
         {
+            ActionLog log = new ActionLog();
+            log.GameAction = GameAction.None;
+            log.CardAction = card;
+            log.Source = source;
+            log.Targets = card.Type.ActualTargets(source, targets, card);
+            log.SpecialEffectHint = GenerateSpecialEffectHintIndex(source, targets, card);
+            Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
         }
     }
 }

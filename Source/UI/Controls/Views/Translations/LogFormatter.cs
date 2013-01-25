@@ -102,18 +102,18 @@ namespace Sanguosha.UI.Controls
             return list;
         }
 
-        public static IList<Inline> RichTranslate(Card c)
+        public static IList<Inline> RichTranslate(Card c, bool useUiCard = true)
         {
             IList<Inline> list = new List<Inline>();
             if (c.Id < 0) return list;
             CardViewModel card = new CardViewModel() { Card = c };
-            string typeString = Application.Current.TryFindResource(string.Format("Card.{0}.Name", card.TypeString)) as string;
+            string typeString = Application.Current.TryFindResource(string.Format("Card.{0}.Name", useUiCard ? card.TypeString : c.Type.CardType)) as string;
             if (typeString != null)
             {
                 list.Add(new Run("【" + typeString) { Foreground = new SolidColorBrush(Colors.Yellow) });
                 Run run = new Run();
-                run.Foreground = Application.Current.Resources[string.Format("Card.Suit.{0}.SuitBrush", card.Suit)] as Brush;
-                run.Text = string.Format("{0}{1}", Application.Current.Resources[string.Format("Card.Suit.{0}.SuitText", card.Suit)], card.RankString);
+                run.Foreground = Application.Current.Resources[string.Format("Card.Suit.{0}.SuitBrush", useUiCard ? card.Suit : c.Suit)] as Brush;
+                run.Text = string.Format("{0}{1}", Application.Current.Resources[string.Format("Card.Suit.{0}.SuitText", useUiCard ? card.Suit : c.Suit)], card.RankString);
                 list.Add(run);
                 list.Add(new Run("】") { Foreground = new SolidColorBrush(Colors.Yellow) });
             }
@@ -157,12 +157,12 @@ namespace Sanguosha.UI.Controls
             return list;
         }
 
-        public static IList<Inline> RichTranslate(ICard card)
+        public static IList<Inline> RichTranslate(ICard card, bool useUiCard = true)
         {
             List<Inline> list = new List<Inline>();
             if (card is Card)
             {
-                list.AddRange(RichTranslate(card as Card));
+                list.AddRange(RichTranslate(card as Card, useUiCard));
             }
             else
             {
@@ -200,6 +200,7 @@ namespace Sanguosha.UI.Controls
             Paragraph paragraph = new Paragraph();
             string source = Translate(log.Source);
             string dests = Translate(log.Targets);
+            string secDests = Translate(log.SecondaryTargets);
 
             IList<Inline> skillInline = RichTranslate(log.SkillAction);
             string formatter = source;
@@ -225,6 +226,10 @@ namespace Sanguosha.UI.Controls
                                 if (dests != string.Empty)
                                 {
                                     paragraph.Inlines.Add("，目标是" + dests);
+                                }
+                                if (secDests != string.Empty)
+                                {
+                                    paragraph.Inlines.Add("，" + secDests);
                                 }
                             }
                         }
@@ -272,15 +277,23 @@ namespace Sanguosha.UI.Controls
                             }
                         }
                     }
+                    else if (log.CardAction is CompositeCard)
+                    {
+                        CompositeCard card = log.CardAction as CompositeCard;
+                        string todests = (dests == string.Empty) ? string.Empty : ("对" + dests);
+                        paragraph.Inlines.Add(string.Format("{0}{1}使用了", source, todests));
+                        paragraph.Inlines.AddRange(RichTranslate(log.CardAction.Type));
+                    }
                     break;
                 case GameAction.Use:
                     string toDests = (dests == string.Empty) ? string.Empty : ("对" + dests);
                     paragraph.Inlines.Add(string.Format("{0}{1}使用了", source, toDests));
-                    paragraph.Inlines.AddRange(RichTranslate(log.CardAction));
+                    paragraph.Inlines.AddRange(RichTranslate(log.CardAction, false));
+                    if (secDests != string.Empty) paragraph.Inlines.Add(string.Format("目标是" + secDests));
                     break;
                 case GameAction.Play:
                     paragraph.Inlines.Add(string.Format("{0}打出了", source));
-                    paragraph.Inlines.AddRange(RichTranslate(log.CardAction));
+                    paragraph.Inlines.AddRange(RichTranslate(log.CardAction, false));
                     break;
                 case GameAction.PlaceIntoDiscard:
                     // return string.Format("{0}{1}置入弃牌堆", source, skill);
@@ -420,6 +433,10 @@ namespace Sanguosha.UI.Controls
                         paragraph.Inlines.AddRange(cardsInline);
                         paragraph.Inlines.Add(string.Format("置于武将牌上"));
                         added = false;
+                    }
+                    else
+                    {
+                        paragraph.Inlines.Add(string.Format("{0}获得了", destStr));
                     }
                 }
                 else if (dest.DeckType == DeckType.Hand || dest.DeckType == DeckType.Equipment)
@@ -583,7 +600,7 @@ namespace Sanguosha.UI.Controls
                 para.Inlines.AddRange(RichTranslate(log.SkillAction));
             }
             para.Inlines.Add("判定结果为");
-            para.Inlines.AddRange(RichTranslate(card));
+            para.Inlines.AddRange(RichTranslate(card, false));
             return para;
         }
 

@@ -89,7 +89,7 @@ namespace Sanguosha.Core.Skills
             return 0;
         }
 
-        protected void TargetsSplit(List<Players.Player> targets, out List<Players.Player> firstTargets, out List<Players.Player> secondaryTargets)
+        protected virtual void TargetsSplit(List<Players.Player> targets, out List<Players.Player> firstTargets, out List<Players.Player> secondaryTargets)
         {
             if (targets == null)
             {

@@ -25,7 +25,18 @@ namespace Sanguosha.Expansions.Wind.Skills
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => { return (a.Card.Place.DeckType == DeckType.Hand || a.Card.Place.DeckType == DeckType.JudgeResult) && a.Card != null && a.Card.Suit == SuitType.Spade; },
-                (p, e, a) => { a.Card.Suit = SuitType.Heart; },
+                (p, e, a) => 
+                { 
+                    a.Card.Suit = SuitType.Heart;
+                    bool isJudgeCard = a.Card.Place.DeckType == DeckType.JudgeResult;
+                    if (a.Card is Card && !isJudgeCard)
+                    {
+                        Card c = a.Card as Card;
+                        if (c.Log == null) c.Log = new ActionLog();
+                        c.Log.SkillAction = this;
+                    }
+                    if (isJudgeCard) NotifySkillUse();
+                },
                 TriggerCondition.OwnerIsSource
             ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.EnforcedCardTransform, trigger);

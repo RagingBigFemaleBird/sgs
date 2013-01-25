@@ -20,6 +20,7 @@ namespace Sanguosha.Core.Utils
         PlayerAction,
         Awaken,
         RoleDistribute,
+        LineUp,
     }
     public class GameDelays
     {
@@ -37,6 +38,7 @@ namespace Sanguosha.Core.Utils
             if (DelayCategory == GameDelayTypes.PlayerAction) toDelay = 500;
             if (DelayCategory == GameDelayTypes.Awaken) toDelay = 2550;
             if (DelayCategory == GameDelayTypes.RoleDistribute) toDelay = 400;
+            if (DelayCategory == GameDelayTypes.LineUp) toDelay = 650;
             if (Game.CurrentGame.ReplayController != null) toDelay = (int)(toDelay / Game.CurrentGame.ReplayController.Speed);
             Thread.Sleep(toDelay);
         }
