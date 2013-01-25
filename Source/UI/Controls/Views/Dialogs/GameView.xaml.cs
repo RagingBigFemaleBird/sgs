@@ -31,7 +31,6 @@ using Sanguosha.Expansions.Battle.Cards;
 using Xceed.Wpf.Toolkit;
 using System.Windows.Media.Effects;
 using System.Windows.Threading;
-using Sanguosha.Core.Utils;
 
 namespace Sanguosha.UI.Controls
 {
@@ -791,7 +790,7 @@ namespace Sanguosha.UI.Controls
             {
                 Trace.Assert(log.Source != null);
                 PlayerViewBase player = playersMap[log.Source];
-                bool soundEffectPlayed = false;
+                bool soundPlayed = false;
                 if (log.SkillAction != null)
                 {
                     string key1 = string.Format("{0}.Animation", log.SkillAction.GetType().Name);
@@ -839,9 +838,17 @@ namespace Sanguosha.UI.Controls
                     string soundKey = log.SkillAction.GetType().Name;
                     Uri uri = GameSoundLocator.GetSkillSound(soundKey, log.SpecialEffectHint);
                     GameSoundPlayer.PlaySoundEffect(uri);
-                    soundEffectPlayed = uri != null;
+                    soundPlayed = uri != null;
                 }
-                if (log.CardAction != null)
+                else if (log.GameAction == GameAction.None)
+                {
+                    bool? isMale = null;
+                    if (log.Source != null) isMale = !log.Source.IsFemale;
+                    Uri cardSoundUri = GameSoundLocator.GetCardSound(log.CardAction.Type.CardType, isMale);
+                    GameSoundPlayer.PlaySoundEffect(cardSoundUri);
+                    soundPlayed = cardSoundUri != null;
+                }
+                if (log.CardAction != null && log.GameAction != GameAction.None)
                 {
                     if (log.CardAction.Type is Shan)
                     {
@@ -868,33 +875,42 @@ namespace Sanguosha.UI.Controls
                         }
                     }
 
-                    if (!soundEffectPlayed)
+                    bool? isMale = null;
+                    if (log.Source != null) isMale = !log.Source.IsFemale;
+                    Uri cardSoundUri = GameSoundLocator.GetCardSound(log.CardAction.Type.CardType, isMale);
+                    var card = log.CardAction as Card;
+                    if (card != null)
                     {
-                        bool? isMale = null;
-                        if (log.Source != null) isMale = !log.Source.IsFemale;
-                        Uri cardSoundUri = GameSoundLocator.GetCardSound(log.CardAction.Type.CardType, isMale);
-                        GameSoundPlayer.PlaySoundEffect(cardSoundUri);
+                        bool play = true;
+                        if (card.Log != null && card.Log.SkillAction is IEquipmentSkill)
+                        {
+                            Uri uri = GameSoundLocator.GetSkillSound(card.Log.SkillAction.GetType().Name);
+                            if (uri != null) play = false;
+                        }
+                        if (play && !soundPlayed) GameSoundPlayer.PlaySoundEffect(cardSoundUri);
                     }
                 }
 
-                if (log.Targets.Count > 0)
+                if (log.GameAction != GameAction.None || log.SkillAction != null)
                 {
-                    _LineUp(log.Source, log.Targets);
-                    foreach (var target in log.Targets)
+                    if (log.Targets.Count > 0)
                     {
-                        target.IsTargeted = true;
+                        _LineUp(log.Source, log.Targets);
+                        foreach (var target in log.Targets)
+                        {
+                            target.IsTargeted = true;
+                        }
+                    }
+
+                    if (log.Targets.Count == 1 && log.SecondaryTargets != null && log.SecondaryTargets.Count > 0)
+                    {
+                        _LineUp(log.Targets[0], log.SecondaryTargets);
+                        foreach (var target in log.SecondaryTargets)
+                        {
+                            target.IsTargeted = true;
+                        }
                     }
                 }
-
-                if (log.Targets.Count == 1 && log.SecondaryTargets != null && log.SecondaryTargets.Count > 0)
-                {
-                    _LineUp(log.Targets[0], log.SecondaryTargets);
-                    foreach (var target in log.SecondaryTargets)
-                    {
-                        target.IsTargeted = true;
-                    }
-                }
-
                 gameLogs.AppendLog(log);
                 rtbLog.ScrollToEnd();
 

@@ -113,7 +113,7 @@ namespace Sanguosha.Expansions.Basic.Skills
         protected override void TargetsSplit(List<Player> targets, out List<Player> firstTargets, out List<Player> secondaryTargets)
         {
             firstTargets = new List<Player>(){targets[1]};
-            secondaryTargets = new List<Player>() { targets[0] };
+            secondaryTargets = null;
         }
 
         private class LiJianCardTransform : CardTransformSkill

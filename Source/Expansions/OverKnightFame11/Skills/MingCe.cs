@@ -63,6 +63,13 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             MaxPlayers = 2;
         }
 
+        protected override void TargetsSplit(List<Player> targets, out List<Player> firstTargets, out List<Player> secondaryTargets)
+        {
+            firstTargets = new List<Player>() { targets[0]};
+            secondaryTargets = null;
+            if (targets.Count == 2) secondaryTargets = new List<Player>() { targets[1] };
+        }
+
         // slightly modified from JieDaoShaRen
         public class MingCeShaVerifier : CardUsageVerifier
         {

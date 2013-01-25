@@ -273,16 +273,9 @@ namespace Sanguosha.UI.Controls
                                 paragraph.Inlines.AddRange(RichTranslate(card.Subcards));
                                 paragraph.Inlines.Add("当作一张");
                                 paragraph.Inlines.AddRange(RichTranslate(card.Type));
-                                paragraph.Inlines.Add("打出");
+                                paragraph.Inlines.Add("使用");
                             }
                         }
-                    }
-                    else if (log.CardAction is CompositeCard)
-                    {
-                        CompositeCard card = log.CardAction as CompositeCard;
-                        string todests = (dests == string.Empty) ? string.Empty : ("对" + dests);
-                        paragraph.Inlines.Add(string.Format("{0}{1}使用了", source, todests));
-                        paragraph.Inlines.AddRange(RichTranslate(log.CardAction.Type));
                     }
                     break;
                 case GameAction.Use:

@@ -11,6 +11,7 @@ using Sanguosha.Core.Skills;
 using Sanguosha.Expansions.Basic.Cards;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
+using Sanguosha.Core.Utils;
 
 namespace Sanguosha.Expansions.Hills.Skills
 {
@@ -25,6 +26,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             move.Cards = new List<Card>(arg.Cards);
             move.To = new DeckPlace(arg.Targets[0], DeckType.Equipment);
             Game.CurrentGame.MoveCards(move);
+            GameDelays.Delay(GameDelayTypes.CardTransfer);
             Game.CurrentGame.PlayerLostCard(Owner, arg.Cards);
             Game.CurrentGame.PlayerAcquiredCard(arg.Targets[0], arg.Cards);
             Game.CurrentGame.DrawCards(Owner, 1);

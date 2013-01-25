@@ -81,24 +81,23 @@ namespace Sanguosha.Core.Cards
 
         public void NotifyCardUse(Player source, List<Player> dests, List<Player> secondary, ICard card, GameAction action)
         {
+            List<Player> logTargets = ActualTargets(source, dests, card);
+            ActionLog log = new ActionLog();
+            log.Source = source;
+            log.Targets = logTargets;
+            log.SecondaryTargets = secondary;
+            log.SkillAction = card is Card ? (card as Card).Log.SkillAction : null;
+            log.GameAction = action;
+            log.CardAction = card;
+            Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
+
             if (card is Card)
             {
                 Card terminalCard = card as Card;
                 if (terminalCard.Log == null) terminalCard.Log = new ActionLog();
 
-                List<Player> logTargets = ActualTargets(source, dests, card);
-                ActionLog log = new ActionLog();
-                log.Source = source;
-                log.Targets = logTargets;
-                log.SecondaryTargets = secondary;
-                log.SkillAction = terminalCard.Log.SkillAction;
-                log.GameAction = action;
-                log.CardAction = card;
-                Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
-
                 terminalCard.Log.Source = source;
                 terminalCard.Log.Targets = dests;
-                terminalCard.Log.SkillAction = log.SkillAction;
                 terminalCard.Log.SecondaryTargets = secondary;
                 terminalCard.Log.CardAction = card;
                 terminalCard.Log.GameAction = action;

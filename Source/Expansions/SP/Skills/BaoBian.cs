@@ -74,7 +74,7 @@ namespace Sanguosha.Expansions.SP.Skills
                 },
                 Run,
                 TriggerCondition.Global
-            ) { Priority = 10 };
+            ) { IsAutoNotify = false, Priority = 10 };
             Triggers.Add(GameEvent.AfterHealthChanged, trigger);
             Triggers.Add(GameEvent.PlayerGameStartAction, trigger);
 
@@ -87,7 +87,7 @@ namespace Sanguosha.Expansions.SP.Skills
                 },
                 Run,
                 TriggerCondition.OwnerIsSource
-            );
+            ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.PlayerSkillSetChanged, trigger2);
 
             IsEnforced = true;
