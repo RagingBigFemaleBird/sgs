@@ -49,6 +49,7 @@ namespace Sanguosha.Expansions.Fire.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
+                (p, e, a) => { return a.Targets[0].HandCards().Count + a.Targets[0].Equipments().Count > 0; },
                 Run,
                 TriggerCondition.OwnerIsSource
             ) { };
