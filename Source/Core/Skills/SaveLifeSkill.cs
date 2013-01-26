@@ -32,8 +32,8 @@ namespace Sanguosha.Core.Skills
 
         protected override bool? AdditionalVerify(Players.Player source, List<Card> cards, List<Players.Player> players)
         {
-            if (Game.CurrentGame.IsDying.Count == 0) return false;
-            if (OwnerOnly && Game.CurrentGame.IsDying.Last() != Owner) return false;
+            if (Game.CurrentGame.DyingPlayers.Count == 0) return false;
+            if (OwnerOnly && Game.CurrentGame.DyingPlayers.Last() != Owner) return false;
             return SaveLifeVerify(source, cards, players);
         }
 

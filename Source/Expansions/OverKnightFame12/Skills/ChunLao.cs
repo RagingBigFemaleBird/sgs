@@ -57,7 +57,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
         public override bool Commit(GameEventArgs arg)
         {
             Game.CurrentGame.HandleCardDiscard(Owner, arg.Cards);
-            Player target = Game.CurrentGame.IsDying.Last();
+            Player target = Game.CurrentGame.DyingPlayers.Last();
             GameEventArgs args = new GameEventArgs();
             args.Source = target;
             args.Targets.Add(target);

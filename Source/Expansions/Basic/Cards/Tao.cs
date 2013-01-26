@@ -31,9 +31,9 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         public override List<Player> ActualTargets(Player source, List<Player> targets, ICard card)
         {
-            if (Game.CurrentGame.IsDying.Count > 0)
+            if (Game.CurrentGame.DyingPlayers.Count > 0)
             {
-                return new List<Player>() { Game.CurrentGame.IsDying.First() };
+                return new List<Player>() { Game.CurrentGame.DyingPlayers.First() };
             }
             else
             {
@@ -43,16 +43,16 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
         {
-            if (Game.CurrentGame.IsDying.Count == 0 && targets != null && targets.Count >= 1)
+            if (Game.CurrentGame.DyingPlayers.Count == 0 && targets != null && targets.Count >= 1)
             {
                 return VerifierResult.Fail;
             }
-            if (Game.CurrentGame.IsDying.Count > 0 && (targets == null || targets.Count != 1))
+            if (Game.CurrentGame.DyingPlayers.Count > 0 && (targets == null || targets.Count != 1))
             {
                 return VerifierResult.Fail;
             }
             Player p;
-            if (Game.CurrentGame.IsDying.Count == 0)
+            if (Game.CurrentGame.DyingPlayers.Count == 0)
             {
                 p = source;
             }

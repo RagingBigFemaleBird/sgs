@@ -58,18 +58,18 @@ namespace Sanguosha.Expansions.Wind.Skills
                     }
                     death.Add(c.Rank, true);
                 }
-                if (Game.CurrentGame.IsDying.Contains(Owner))
+                if (Game.CurrentGame.DyingPlayers.Contains(Owner))
                 {
                     Stack<Player> backup = new Stack<Player>();
                     while (true)
                     {
-                        var t = Game.CurrentGame.IsDying.Pop();
+                        var t = Game.CurrentGame.DyingPlayers.Pop();
                         if (t == Owner) break;
                         backup.Push(t);
                     }
                     while (backup.Count > 0)
                     {
-                        Game.CurrentGame.IsDying.Push(backup.Pop());
+                        Game.CurrentGame.DyingPlayers.Push(backup.Pop());
                     }
                 }
                 throw new TriggerResultException(TriggerResult.End);

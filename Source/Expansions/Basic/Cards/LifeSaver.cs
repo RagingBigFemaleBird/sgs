@@ -86,12 +86,12 @@ namespace Sanguosha.Expansions.Basic.Cards
 
     public class PlayerDying : Trigger
     {
-        bool canUseTaoToSaveOther(Player player)
+        private bool _CanUseTaoToSaveOther(Player player)
         {
             return Game.CurrentGame.PlayerCanUseCard(player, new Card() { Place = new DeckPlace(player, DeckType.None), Type = new Tao()});
         }
 
-        bool canUseSaveLifeSkillToSaveOther(Player player)
+        private bool _CanUseSaveLifeSkillToSaveOther(Player player)
         {
             List<ISkill> allSkills = new List<ISkill>();
             if (player.Hero != null)
@@ -117,7 +117,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             foreach (Player p in toAsk)
             {
                 if (p.IsDead) continue;
-                if (!canUseTaoToSaveOther(p) && !canUseSaveLifeSkillToSaveOther(p) && p != target) continue;
+                if (!_CanUseTaoToSaveOther(p) && !_CanUseSaveLifeSkillToSaveOther(p) && p != target) continue;
                 while (!target.IsDead && target.Health <= 0)
                 {
                     ISkill skill;

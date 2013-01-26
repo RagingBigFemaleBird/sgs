@@ -20,7 +20,7 @@ namespace Sanguosha.Expansions.Battle.Cards
     {
         protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)
         {
-            if (Game.CurrentGame.IsDying.Count > 0)
+            if (Game.CurrentGame.DyingPlayers.Count > 0)
             {
                 Game.CurrentGame.RecoverHealth(source, dest, 1);
             }
@@ -33,15 +33,15 @@ namespace Sanguosha.Expansions.Battle.Cards
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
         {
-            if (Game.CurrentGame.IsDying.Count == 0 && targets != null && targets.Count >= 1)
+            if (Game.CurrentGame.DyingPlayers.Count == 0 && targets != null && targets.Count >= 1)
             {
                 return VerifierResult.Fail;
             }
-            if (Game.CurrentGame.IsDying.Count > 0 && (targets == null || targets.Count != 1))
+            if (Game.CurrentGame.DyingPlayers.Count > 0 && (targets == null || targets.Count != 1))
             {
                 return VerifierResult.Fail;
             }
-            if (Game.CurrentGame.IsDying.Count == 0)
+            if (Game.CurrentGame.DyingPlayers.Count == 0)
             {
                 if (source[JiuUsed] == 1)
                 {

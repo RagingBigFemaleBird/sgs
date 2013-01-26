@@ -1265,7 +1265,7 @@ namespace Sanguosha.Core.Games
 
         Stack<Player> isDying;
 
-        public Stack<Player> IsDying
+        public Stack<Player> DyingPlayers
         {
             get { return isDying; }
             set { isDying = value; }
@@ -1292,7 +1292,7 @@ namespace Sanguosha.Core.Games
                 }
                 if (target.Health > 0) return;
 
-                Game.CurrentGame.IsDying.Push(target);
+                Game.CurrentGame.DyingPlayers.Push(target);
                 target[Player.IsDying] = 1;
                 try
                 {
@@ -1301,7 +1301,7 @@ namespace Sanguosha.Core.Games
                 catch (TriggerResultException)
                 {
                 }
-                Trace.Assert(target == Game.CurrentGame.IsDying.Pop());
+                Trace.Assert(target == Game.CurrentGame.DyingPlayers.Pop());
                 target[Player.IsDying] = 0;
                 if (target.IsDead || target.Health > 0) return;
                 Trace.TraceInformation("Player {0} dead", target.Id);
