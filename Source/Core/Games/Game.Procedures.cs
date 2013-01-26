@@ -551,9 +551,9 @@ namespace Sanguosha.Core.Games
             move.Cards = new List<Card>(cards);
             move.To = new DeckPlace(to, target);
             move.Helper = new MovementHelper();
+            EnterAtomicContext();
             MoveCards(move);
             GameDelays.Delay(GameDelayTypes.CardTransfer);
-            EnterAtomicContext();
             PlayerLostCard(from, cards);
             PlayerAcquiredCard(to, cards);
             ExitAtomicContext();

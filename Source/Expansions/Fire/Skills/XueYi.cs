@@ -38,7 +38,7 @@ namespace Sanguosha.Expansions.Fire.Skills
                 this,
                 Run,
                 TriggerCondition.OwnerIsSource
-            ) {};
+            ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.PlayerHandCardCapacityAdjustment, trigger);
             IsEnforced = true;
             IsRulerOnly = true;

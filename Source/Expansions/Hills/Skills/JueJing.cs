@@ -32,9 +32,10 @@ namespace Sanguosha.Expansions.Hills.Skills
                 this,
                 Run,
                 TriggerCondition.OwnerIsSource
-            );
+            ) { IsAutoNotify = false };
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
+                (p, e, a) => { return p.LostHealth > 0; },
                 (p, e, a) => { p[Player.DealAdjustment] += (p.LostHealth); },
                 TriggerCondition.OwnerIsSource
             );
