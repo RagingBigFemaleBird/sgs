@@ -25,7 +25,13 @@ namespace Sanguosha.UI.Main
     {        
         public MainWindow()
         {            
-            InitializeComponent();            
+            InitializeComponent();
+            this.MainFrame.NavigationService.Navigated += NavigationService_Navigated;
+        }
+
+        void NavigationService_Navigated(object sender, NavigationEventArgs e)
+        {
+            this.MainFrame.NavigationService.RemoveBackEntry();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
