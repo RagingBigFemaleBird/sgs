@@ -26,6 +26,15 @@ namespace Sanguosha.Expansions.Wind.Skills
             card.Subcards = new List<Card>();
             card.Type = AdditionalType;
             card[TieSuoLianHuan.ProhibitReforging] = 1;
+            if (AdditionalType == null)
+            {
+                return VerifierResult.Partial;
+            }
+            if (!CardCategoryManager.IsCardCategory(AdditionalType.Category, CardCategory.Basic) &&
+                !CardCategoryManager.IsCardCategory(AdditionalType.Category, CardCategory.ImmediateTool))
+            {
+                return VerifierResult.Fail;
+            }
             if (cards == null || cards.Count == 0)
             {
                 return VerifierResult.Partial;
@@ -38,17 +47,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             {
                 return VerifierResult.Fail;
             }
-
-            if (AdditionalType == null)
-            {
-                return VerifierResult.Partial;
-            }
-            if (!CardCategoryManager.IsCardCategory(AdditionalType.Category, CardCategory.Basic) &&
-                !CardCategoryManager.IsCardCategory(AdditionalType.Category, CardCategory.ImmediateTool))
-            {
-                return VerifierResult.Fail;
-            }
-            
+                        
             card.Subcards.Add(cards[0]);
             return VerifierResult.Success;
         }
