@@ -17,6 +17,11 @@ namespace Sanguosha.Expansions.Hills.Skills
     /// </summary>
     public class LongHun : CardTransformSkill
     {
+        protected override int GenerateSpecialEffectHintIndex(Core.Players.Player source, List<Core.Players.Player> targets, CompositeCard card)
+        {
+            return (int)card.Subcards[0].Suit - 1;
+        }
+
         public override List<CardHandler> PossibleResults
         {
             get { return new List<CardHandler>() { new Tao(), new HuoSha(), new Shan(), new WuXieKeJi()}; }
