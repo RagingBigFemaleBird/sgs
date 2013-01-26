@@ -109,7 +109,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             }
         }
 
-        class onDead : Trigger
+        class DaWuOnDeath : Trigger
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
@@ -120,7 +120,7 @@ namespace Sanguosha.Expansions.Fire.Skills
                 }
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerIsDead, this);
             }
-            public onDead(Player p)
+            public DaWuOnDeath(Player p)
             {
                 Owner = p;
             }
@@ -139,7 +139,7 @@ namespace Sanguosha.Expansions.Fire.Skills
 
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { Game.CurrentGame.RegisterTrigger(GameEvent.PlayerIsDead, new onDead(p)); },
+                (p, e, a) => { Game.CurrentGame.RegisterTrigger(GameEvent.PlayerIsDead, new DaWuOnDeath(p)); },
                 TriggerCondition.OwnerIsSource
             ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PlayerGameStartAction, trigger2);
