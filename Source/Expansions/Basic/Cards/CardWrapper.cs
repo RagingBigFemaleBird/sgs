@@ -25,15 +25,18 @@ namespace Sanguosha.Expansions.Basic.Cards
         }
 
         CardHandler handler;
+        bool withoutNotify;
 
-        public CardWrapper(Player p, CardHandler h)
+        public CardWrapper(Player p, CardHandler h, bool Notify = true)
         {
             Owner = p;
             handler = h;
+            withoutNotify = !Notify;
         }
 
         protected override void NotifyAction(Player source, List<Player> targets, CompositeCard card)
         {
+            if (withoutNotify) return;
             ActionLog log = new ActionLog();
             log.GameAction = GameAction.None;
             log.CardAction = card;

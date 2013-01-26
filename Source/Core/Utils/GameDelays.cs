@@ -20,25 +20,32 @@ namespace Sanguosha.Core.Utils
         PlayerAction,
         Awaken,
         RoleDistribute,
-        LineUp,
+        BaGuaZhen,
     }
     public class GameDelays
     {
+        private static Dictionary<GameDelayTypes, int> _delays = new Dictionary<GameDelayTypes,int>();
+
+        static GameDelays()
+        {
+            _delays[GameDelayTypes.GameStart] = 1000;
+            _delays[GameDelayTypes.JunWei] = 380;
+            _delays[GameDelayTypes.TieSuoDamage] = 610;
+            _delays[GameDelayTypes.JudgeEnd] = 500;
+            _delays[GameDelayTypes.Discard] = 480;
+            _delays[GameDelayTypes.CardTransfer] = 700;
+            _delays[GameDelayTypes.Draw] = 400;
+            _delays[GameDelayTypes.ChangePlayer] = 300;
+            _delays[GameDelayTypes.PlayerAction] = 500;
+            _delays[GameDelayTypes.Awaken] = 2550;
+            _delays[GameDelayTypes.RoleDistribute] = 400;
+            _delays[GameDelayTypes.BaGuaZhen] = 2310;
+        }
+
         public static void Delay(GameDelayTypes DelayCategory)
         {
             int toDelay = 200;
-            if (DelayCategory == GameDelayTypes.GameStart) toDelay = 1000;
-            if (DelayCategory == GameDelayTypes.JunWei) toDelay = 380;
-            if (DelayCategory == GameDelayTypes.TieSuoDamage) toDelay = 610;
-            if (DelayCategory == GameDelayTypes.JudgeEnd) toDelay = 500;
-            if (DelayCategory == GameDelayTypes.Discard) toDelay = 480;
-            if (DelayCategory == GameDelayTypes.CardTransfer) toDelay = 700;
-            if (DelayCategory == GameDelayTypes.Draw) toDelay = 400;
-            if (DelayCategory == GameDelayTypes.ChangePlayer) toDelay = 300;
-            if (DelayCategory == GameDelayTypes.PlayerAction) toDelay = 500;
-            if (DelayCategory == GameDelayTypes.Awaken) toDelay = 2550;
-            if (DelayCategory == GameDelayTypes.RoleDistribute) toDelay = 400;
-            if (DelayCategory == GameDelayTypes.LineUp) toDelay = 650;
+            if (_delays.Keys.Contains(DelayCategory)) toDelay = _delays[DelayCategory];
             if (Game.CurrentGame.ReplayController != null) toDelay = (int)(toDelay / Game.CurrentGame.ReplayController.Speed);
             Thread.Sleep(toDelay);
         }

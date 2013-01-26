@@ -10,6 +10,7 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.Cards;
+using Sanguosha.Core.Utils;
 using System.Diagnostics;
 
 namespace Sanguosha.Expansions.Basic.Cards
@@ -34,6 +35,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     log.SkillAction = this;
                     log.GameAction = GameAction.None;
                     Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
+                    GameDelays.Delay(GameDelayTypes.BaGuaZhen);
                     throw new TriggerResultException(TriggerResult.Success);
                 }
             }

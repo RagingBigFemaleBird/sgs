@@ -105,7 +105,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             args.Source = arg.Targets[1];
             args.Targets = new List<Player>();
             args.Targets.Add(arg.Targets[0]);
-            args.Skill = new LiJianCardTransform();
+            args.Skill = new CardWrapper(Owner, new JueDou(), false);
             Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
             return true;
         }
@@ -114,21 +114,6 @@ namespace Sanguosha.Expansions.Basic.Skills
         {
             firstTargets = new List<Player>(){targets[1]};
             secondaryTargets = null;
-        }
-
-        private class LiJianCardTransform : CardTransformSkill
-        {
-            public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
-            {
-                Trace.Assert(cards == null || cards.Count == 0);
-                card = new CompositeCard();
-                card.Type = new JueDou();
-                card[WuXieKeJi.CannotBeCountered] = 1;
-                return VerifierResult.Success;
-            }
-            protected override void NotifyAction(Player source, List<Player> targets, CompositeCard cards)
-            {
-            }
         }
 
         public static PlayerAttribute LiJianUsed = PlayerAttribute.Register("LiJianUsed", true);

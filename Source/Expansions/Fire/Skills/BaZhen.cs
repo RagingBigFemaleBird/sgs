@@ -12,6 +12,7 @@ using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.Cards;
 using System.Diagnostics;
 using Sanguosha.Expansions.Basic.Cards;
+using Sanguosha.Core.Utils;
 
 namespace Sanguosha.Expansions.Fire.Skills
 {
@@ -36,6 +37,7 @@ namespace Sanguosha.Expansions.Fire.Skills
                     log.SkillAction = new BaGuaZhen().EquipmentSkill;
                     log.GameAction = GameAction.None;
                     Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
+                    GameDelays.Delay(GameDelayTypes.BaGuaZhen);
                     throw new TriggerResultException(TriggerResult.Success);
                 }
             }
