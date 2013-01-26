@@ -39,7 +39,7 @@ namespace Sanguosha.Core.Utils
             _delays[GameDelayTypes.PlayerAction] = 500;
             _delays[GameDelayTypes.Awaken] = 2550;
             _delays[GameDelayTypes.RoleDistribute] = 400;
-            _delays[GameDelayTypes.BaGuaZhen] = 2310;
+            _delays[GameDelayTypes.BaGuaZhen] = 2110;
         }
 
         public static void Delay(GameDelayTypes DelayCategory)

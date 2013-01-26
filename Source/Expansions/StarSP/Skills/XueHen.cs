@@ -23,7 +23,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
     {
         protected override int GenerateSpecialEffectHintIndex(Player source, List<Player> targets)
         {
-            return source[XueHenEffect];
+            return XueHenEffect;
         }
 
         class XueHenShaVerifier : CardsAndTargetsVerifier
@@ -36,6 +36,11 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 MinPlayers = 1;
                 Discarding = false;
             }
+
+            protected override bool VerifyPlayer(Player source, Player player)
+            {
+                return Game.CurrentGame.PlayerCanBeTargeted(source, new List<Player>() { player }, new Card() { Place = new DeckPlace(source, DeckType.None), Type = new Sha() });
+            }
         }
 
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
@@ -45,39 +50,46 @@ namespace Sanguosha.Expansions.StarSP.Skills
             Player current = Game.CurrentGame.CurrentPlayer;
             int choiceCount = Owner.LostHealth;
             int currentPlayerCardsCount = current.HandCards().Count + current.Equipments().Count();
-            List<OptionPrompt> prompts = new List<OptionPrompt>();
-            prompts.Add(new OptionPrompt("XueHenQiPai", current, choiceCount));
-            prompts.Add(new OptionPrompt("XueHenSha"));
-            Owner.AskForMultipleChoice(new MultipleChoicePrompt("XueHen"), prompts, out answer);
+            bool canUseSha = Game.CurrentGame.AlivePlayers.Any(p => Game.CurrentGame.PlayerCanBeTargeted(Owner, new List<Player>() { p }, new Card() { Place = new DeckPlace(Owner, DeckType.None), Type = new Sha() }));
+            if (canUseSha)
+            {
+                List<OptionPrompt> prompts = new List<OptionPrompt>();
+                prompts.Add(new OptionPrompt("XueHenQiPai", current, choiceCount));
+                prompts.Add(new OptionPrompt("XueHenSha"));
+                Owner.AskForMultipleChoice(new MultipleChoicePrompt("XueHen"), prompts, out answer);
+            }
             if (answer == 0)
             {
-                Owner[XueHenEffect] = 0;
+                XueHenEffect = 0;
                 NotifySkillUse();
+                if (currentPlayerCardsCount == 0) return;
+                List<Card> toDiscard = new List<Card>();
                 if (currentPlayerCardsCount <= choiceCount)
                 {
-                    List<Card> cards = new List<Card>();
-                    cards.AddRange(current.HandCards());
-                    cards.AddRange(current.Equipments());
-                    Game.CurrentGame.HandleCardDiscard(current, cards);
-                    return;
+                    toDiscard.AddRange(current.HandCards());
+                    toDiscard.AddRange(current.Equipments());
                 }
-                List<List<Card>> choiceAnswer;
-                List<DeckPlace> sourcePlace = new List<DeckPlace>();
-                sourcePlace.Add(new DeckPlace(current, DeckType.Hand));
-                sourcePlace.Add(new DeckPlace(current, DeckType.Equipment));
-                if (!Owner.AskForCardChoice(new CardChoicePrompt("XueHen", current, Owner),
-                    sourcePlace,
-                    new List<string>() { "QiPaiDui" },
-                    new List<int>() { choiceCount },
-                    new RequireCardsChoiceVerifier(choiceCount),
-                    out choiceAnswer,
-                    null,
-                    CardChoiceCallback.GenericCardChoiceCallback))
+                else
                 {
-                    choiceAnswer = new List<List<Card>>();
-                    choiceAnswer.Add(Game.CurrentGame.PickDefaultCardsFrom(new List<DeckPlace>() { new DeckPlace(current, DeckType.Hand), new DeckPlace(current, DeckType.Equipment) }, choiceCount));
+                    List<List<Card>> choiceAnswer;
+                    List<DeckPlace> sourcePlace = new List<DeckPlace>();
+                    sourcePlace.Add(new DeckPlace(current, DeckType.Hand));
+                    sourcePlace.Add(new DeckPlace(current, DeckType.Equipment));
+                    if (!Owner.AskForCardChoice(new CardChoicePrompt("XueHen", current, Owner),
+                        sourcePlace,
+                        new List<string>() { "QiPaiDui" },
+                        new List<int>() { choiceCount },
+                        new RequireCardsChoiceVerifier(choiceCount),
+                        out choiceAnswer,
+                        null,
+                        CardChoiceCallback.GenericCardChoiceCallback))
+                    {
+                        choiceAnswer = new List<List<Card>>();
+                        choiceAnswer.Add(Game.CurrentGame.PickDefaultCardsFrom(new List<DeckPlace>() { new DeckPlace(current, DeckType.Hand), new DeckPlace(current, DeckType.Equipment) }, choiceCount));
+                    }
+                    toDiscard = choiceAnswer[0];
                 }
-                Game.CurrentGame.HandleCardDiscard(current, choiceAnswer[0]);
+                Game.CurrentGame.HandleCardDiscard(current, toDiscard);
             }
             else
             {
@@ -90,13 +102,13 @@ namespace Sanguosha.Expansions.StarSP.Skills
                     List<Player> nPlayers = Game.CurrentGame.AlivePlayers;
                     players.Add(nPlayers[0]);
                 }
-                Owner[XueHenEffect] = 1;
+                XueHenEffect = 1;
                 NotifySkillUse(players);
                 GameEventArgs args = new GameEventArgs();
                 Owner[Sha.NumberOfShaUsed]--;
                 args.Source = Owner;
                 args.Targets = players;
-                args.Skill = new CardWrapper(Owner, new RegularSha());
+                args.Skill = new CardWrapper(Owner, new RegularSha(), false);
                 Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
             }
         }
@@ -112,6 +124,6 @@ namespace Sanguosha.Expansions.StarSP.Skills
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger);
             IsEnforced = true;
         }
-        private static readonly PlayerAttribute XueHenEffect = PlayerAttribute.Register("XueHenEffect");
+        int XueHenEffect;
     }
 }
