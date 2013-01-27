@@ -525,9 +525,9 @@ namespace Sanguosha.Core.Games
             {
                 move.Helper = helper;
             }
+            EnterAtomicContext();
             MoveCards(move);
             GameDelays.Delay(GameDelayTypes.CardTransfer);
-            EnterAtomicContext();
             PlayerLostCard(from, cards);
             PlayerAcquiredCard(to, cards);
             ExitAtomicContext();
