@@ -1292,7 +1292,10 @@ namespace Sanguosha.Core.Games
                 Trace.Assert(eventArgs.Targets.Count == 1);
                 Player target = eventArgs.Targets[0];
                 if (target.Health > 0 || (eventArgs as HealthChangedEventArgs).Delta > 0) return;
+                if (target[Player.SkipDeathComputation] != 0) { target[Player.SkipDeathComputation] = 0; return; }
 
+                Game.CurrentGame.DyingPlayers.Push(target);
+                target[Player.IsDying] = 1;
                 Trace.TraceInformation("Player {0} dying", target.Id);
                 GameEventArgs args = new GameEventArgs();
                 args.Source = eventArgs.Source;
@@ -1304,20 +1307,20 @@ namespace Sanguosha.Core.Games
                 catch (TriggerResultException)
                 {
                 }
-                if (target.Health > 0) return;
-
-                Game.CurrentGame.DyingPlayers.Push(target);
-                target[Player.IsDying] = 1;
-                try
+                if (target.Health <= 0)
                 {
-                    Game.CurrentGame.Emit(GameEvent.PlayerDying, args);
-                }
-                catch (TriggerResultException)
-                {
+                    try
+                    {
+                        Game.CurrentGame.Emit(GameEvent.PlayerDying, args);
+                    }
+                    catch (TriggerResultException)
+                    {
+                    }
                 }
                 Trace.Assert(target == Game.CurrentGame.DyingPlayers.Pop());
                 target[Player.IsDying] = 0;
                 if (target.IsDead || target.Health > 0) return;
+                if (target[Player.SkipDeathComputation] != 0) { target[Player.SkipDeathComputation] = 0; return; }
                 Trace.TraceInformation("Player {0} dead", target.Id);
                 Game.CurrentGame.Emit(GameEvent.GameProcessPlayerIsDead, eventArgs);
             }

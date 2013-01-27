@@ -21,9 +21,50 @@ namespace Sanguosha.Expansions.Wind.Skills
     {
         protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
+            HealthChangedEventArgs arg = eventArgs as HealthChangedEventArgs;
+            if (arg.Delta > 0)
+            {
+                if (Game.CurrentGame.Decks[Owner, bq].Count <= arg.Delta)
+                {
+                    Game.CurrentGame.HandleCardDiscard(Owner, Game.CurrentGame.Decks[Owner, bq]);
+                    return;
+                }
+                else
+                {
+                    List<List<Card>> answer;
+                    List<DeckPlace> sourceDecks = new List<DeckPlace>() { new DeckPlace(Owner, bq) };
+                    if (!Owner.AskForCardChoice(new CardChoicePrompt("BuQu"),
+                        sourceDecks,
+                        new List<string>() { "QiPaiDui" },
+                        new List<int>() { 1 },
+                        new RequireCardsChoiceVerifier(arg.Delta),
+                        out answer,
+                        null,
+                        CardChoiceCallback.GenericCardChoiceCallback))
+                    {
+                        answer = new List<List<Card>>();
+                        answer.Add(Game.CurrentGame.PickDefaultCardsFrom(sourceDecks, arg.Delta));
+                    }
+                    Game.CurrentGame.HandleCardDiscard(Owner, answer[0]);
+                }
+                if (!_useBuQu) return;
+                List<int> check = new List<int>();
+                foreach (var c in Game.CurrentGame.Decks[Owner, bq])
+                {
+                    if (!check.Contains(c.Rank)) check.Add(c.Rank);
+                }
+                if (check.Count == Game.CurrentGame.Decks[Owner, bq].Count && Game.CurrentGame.DyingPlayers.Contains(Owner))
+                {
+                    Owner[Player.SkipDeathComputation] = 1;
+                }
+                return;
+            }
+            if (!AskForSkillUse()) { Owner[Player.SkipDeathComputation] = 0; _useBuQu = false; return; }
+            _useBuQu = true;
             if (1 - Owner.Health > Game.CurrentGame.Decks[Owner, bq].Count)
             {
                 int toDraw = 1 - Owner.Health - Game.CurrentGame.Decks[Owner, bq].Count;
+                List<CardsMovement> moves = new List<CardsMovement>();
                 while (toDraw-- > 0)
                 {
                     Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.PeekCard(0));
@@ -31,22 +72,10 @@ namespace Sanguosha.Expansions.Wind.Skills
                     CardsMovement move = new CardsMovement();
                     move.Cards = new List<Card>() { c1 };
                     move.To = new DeckPlace(Owner, bq);
-                    Game.CurrentGame.MoveCards(move);
+                    moves.Add(move);
                 }
+                Game.CurrentGame.MoveCards(moves);
             }
-            else if (1 + Math.Max(0, -Owner.Health) < Game.CurrentGame.Decks[Owner, bq].Count)
-            {
-                int toDraw = Game.CurrentGame.Decks[Owner, bq].Count - Math.Max(0, -Owner.Health) - 1;
-                while (toDraw-- > 0)
-                {
-                    Card c1 = Game.CurrentGame.Decks[Owner, bq][Game.CurrentGame.Decks[Owner, bq].Count - 1];
-                    CardsMovement move = new CardsMovement();
-                    move.Cards = new List<Card>() { c1 };
-                    move.To = new DeckPlace(null, DeckType.Discard);
-                    Game.CurrentGame.MoveCards(move);
-                }
-            }
-            if (Owner.Health > 0) return;
             if (Owner.Health <= 0)
             {
                 Dictionary<int, bool> death = new Dictionary<int, bool>();
@@ -58,26 +87,14 @@ namespace Sanguosha.Expansions.Wind.Skills
                     }
                     death.Add(c.Rank, true);
                 }
-                if (Game.CurrentGame.DyingPlayers.Contains(Owner))
-                {
-                    Stack<Player> backup = new Stack<Player>();
-                    while (true)
-                    {
-                        var t = Game.CurrentGame.DyingPlayers.Pop();
-                        if (t == Owner) break;
-                        backup.Push(t);
-                    }
-                    while (backup.Count > 0)
-                    {
-                        Game.CurrentGame.DyingPlayers.Push(backup.Pop());
-                    }
-                }
-                throw new TriggerResultException(TriggerResult.End);
+                Owner[Player.SkipDeathComputation] = 1;
+                NotifySkillUse();
             }
         }
 
         void LoseBuQu(Player player)
         {
+            Game.CurrentGame.HandleCardDiscard(player, Game.CurrentGame.Decks[player, bq]);
             var nArgs = new HealthChangedEventArgs() { Source = null, Delta = 0 };
             nArgs.Targets.Add(player);
             Game.CurrentGame.Emit(GameEvent.AfterHealthChanged, nArgs);
@@ -102,31 +119,21 @@ namespace Sanguosha.Expansions.Wind.Skills
 
         public BuQu()
         {
+            _useBuQu = false;
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => 
+                (p, e, a) =>
                 {
-                    if (p.Health > 0 && Game.CurrentGame.Decks[Owner, bq].Count > 0)
-                    {
-                        int toDraw = Game.CurrentGame.Decks[Owner, bq].Count;
-                        while (toDraw-- > 0)
-                        {
-                            Card c1 = Game.CurrentGame.Decks[Owner, bq][Game.CurrentGame.Decks[Owner, bq].Count - 1];
-                            CardsMovement move = new CardsMovement();
-                            move.Cards = new List<Card>() { c1 };
-                            move.To = new DeckPlace(null, DeckType.Discard);
-                            Game.CurrentGame.MoveCards(move);
-                        }
-                    }
-                    return p.Health <= 0; 
+                    HealthChangedEventArgs arg = a as HealthChangedEventArgs;
+                    return p.Health <= 0 || arg.Delta > 0 && Game.CurrentGame.Decks[p, bq].Count > 0;
                 },
                 Run,
                 TriggerCondition.OwnerIsTarget
-            ) { Type = TriggerType.Skill };
+            ) { AskForConfirmation = false, IsAutoNotify = false, Type = TriggerType.Skill };
             Triggers.Add(GameEvent.AfterHealthChanged, trigger);
-            ExtraCardsDeck = bq;
             IsAutoInvoked = true;
         }
+        private bool _useBuQu;
         private static PrivateDeckType bq = new PrivateDeckType("BuQu", true);
     }
 }
