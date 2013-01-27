@@ -77,7 +77,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                         }
                     },
                     TriggerCondition.OwnerIsSource
-                ) { AskForConfirmation = false, IsAutoNotify = false, Priority = -1 };
+                ) { AskForConfirmation = false, IsAutoNotify = false, Priority = SkillPriority.LiHuo };
 
                 Triggers.Add(Sha.PlayerShaTargetValidation, trigger);
             }

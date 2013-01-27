@@ -46,7 +46,7 @@ namespace Sanguosha.Expansions.SP.Skills
                     }
                 },
                 TriggerCondition.OwnerIsSource
-            ) { IsAutoNotify = false, AskForConfirmation = false, Priority = -1 };
+            ) { IsAutoNotify = false, AskForConfirmation = false, Priority = SkillPriority.ShenJi };
             Triggers.Add(Sha.PlayerShaTargetValidation, trigger);
             IsAutoInvoked = null;
         }

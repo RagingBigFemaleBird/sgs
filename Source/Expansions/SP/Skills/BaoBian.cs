@@ -74,7 +74,7 @@ namespace Sanguosha.Expansions.SP.Skills
                 },
                 Run,
                 TriggerCondition.Global
-            ) { IsAutoNotify = false, Priority = 10 };
+            ) { IsAutoNotify = false, Priority = SkillPriority.BaoBian };
             Triggers.Add(GameEvent.AfterHealthChanged, trigger);
             Triggers.Add(GameEvent.PlayerGameStartAction, trigger);
 
