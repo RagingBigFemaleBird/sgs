@@ -82,7 +82,7 @@ namespace Sanguosha.Expansions.Basic.Skills
 
         public void OnPlayerIsCardTarget(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            if (!(eventArgs.ReadonlyCard.Type is Sha))
+            if (!(eventArgs.ReadonlyCard.Type is Sha) || Game.CurrentGame.AlivePlayers.Count <= 2)
             {
                 return;
             }
@@ -92,7 +92,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             if (Game.CurrentGame.UiProxies[owner].AskForCardUsage(new CardUsagePrompt("LiuLi"), new LiuLiVerifier(eventArgs.Source), out skill, out cards, out players))
             {
                 NotifySkillUse(players);
-                Game.CurrentGame.HandleCardDiscard(players[0], cards);
+                Game.CurrentGame.HandleCardDiscard(owner, cards);
                 eventArgs.Targets.Remove(owner);
                 eventArgs.Targets.Add(players[0]);
             }
