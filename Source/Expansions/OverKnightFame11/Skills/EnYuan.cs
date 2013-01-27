@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
     {
         protected override int GenerateSpecialEffectHintIndex(Player source, List<Player> targets)
         {
-            return source[EnYuanEffect];
+            return EnYuanEffect;
         }
 
         public class EnYuanVerifier : CardsAndTargetsVerifier
@@ -46,7 +46,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             {
                 if (!AskForSkillUse())
                     break;
-                Owner[EnYuanEffect] = 1;
+                EnYuanEffect = 1;
                 NotifySkillUse();
                 ISkill skill;
                 List<Card> cards;
@@ -81,7 +81,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             {
                 foreach (Card card in eventArgs.Cards)
                 {
-                    if (card.HistoryPlace2.Player == null) continue;
+                    if (card.HistoryPlace2.Player == null || card.Place.DeckType != DeckType.Hand && card.Place.DeckType != DeckType.Equipment) continue;
                     if (!dic.Keys.Contains(card.HistoryPlace2.Player)) dic[card.HistoryPlace2.Player] = 0;
                     dic[card.HistoryPlace2.Player]++;
                 }
@@ -90,7 +90,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             {
                 foreach (Card card in eventArgs.Cards)
                 {
-                    if (card.HistoryPlace1.Player == null) continue;
+                    if (card.HistoryPlace1.Player == null || card.Place.DeckType != DeckType.Hand && card.Place.DeckType != DeckType.Equipment) continue;
                     if (!dic.Keys.Contains(card.HistoryPlace1.Player)) dic[card.HistoryPlace1.Player] = 0;
                     dic[card.HistoryPlace1.Player]++;
                 }
@@ -111,7 +111,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 Owner.AskForMultipleChoice(new MultipleChoicePrompt("EnYuan", source), OptionPrompt.YesNoChoices, out answer);
                 if (answer == 1)
                 {
-                    Owner[EnYuanEffect] = 0;
+                    EnYuanEffect = 0;
                     NotifySkillUse();
                     Game.CurrentGame.DrawCards(source, 1);
                 }
@@ -138,6 +138,6 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             IsAutoInvoked = null;
         }
         List<Player> enSources;
-        private static PlayerAttribute EnYuanEffect = PlayerAttribute.Register("EnYuanEffect");
+        private int EnYuanEffect;
     }
 }

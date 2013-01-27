@@ -92,10 +92,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                 if (owner.AskForCardUsage(new CardUsagePrompt("ChunLao"), new ChunLaoStoreChunVerifier(), out skill, out cards, out players))
                 {
                     (ParentSkill as ChunLao).NotifyAction(owner, new List<Player>(), cards);
-                    CardsMovement move = new CardsMovement();
-                    move.Cards = cards;
-                    move.To = new DeckPlace(Owner, ChunDeck);
-                    Game.CurrentGame.MoveCards(move);
+                    Game.CurrentGame.HandleCardTransfer(owner, owner, ChunDeck, cards);
                 }
             }
 
