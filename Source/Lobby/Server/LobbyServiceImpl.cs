@@ -567,5 +567,20 @@ namespace Sanguosha.Lobby.Server
             }
             return RoomOperationResult.Auth;
         }
+
+
+        public RoomOperationResult Spectate(LoginToken token, int roomId)
+        {
+            if (VerifyClient(token))
+            {
+                if (loggedInGuidToRoom.ContainsKey(token.token)) { return RoomOperationResult.Invalid; }
+                var room = rooms[roomId];
+                if (room.State != RoomState.Gaming) return RoomOperationResult.Invalid;
+                var channel = loggedInGuidToChannel[token.token];
+                channel.NotifyGameStart(room.IpAddress + ":" + room.IpPort);
+                return RoomOperationResult.Success;
+            }
+            return RoomOperationResult.Auth;
+        }
     }
 }

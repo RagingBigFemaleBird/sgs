@@ -705,6 +705,7 @@ namespace Sanguosha.Core.Games
                         {
                             game.GameServer.SendObject(player.Id, idx);
                         }
+                        game.GameServer.SendObject(game.Players.Count, idx);
                     }
                     // you are client
                     else

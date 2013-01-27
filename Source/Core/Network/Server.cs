@@ -60,15 +60,16 @@ namespace Sanguosha.Core.Network
         {
         }
 
+        //The following invariant MUST hold: the first <numberOfGamers> handers are for gamers. The last one is for spectators.
         private int numberOfGamers;
 
         public int MaxClients
         {
-            get { return numberOfGamers; }
+            get { return numberOfGamers + 1; }
         }
 
         Game game;
-        ServerHandler[] handlers;
+        List<ServerHandler> handlers;
         /// <summary>
         /// Initialize and start the server.
         /// </summary>
@@ -81,10 +82,10 @@ namespace Sanguosha.Core.Network
             listener.Start();
             ipPort = ((IPEndPoint)listener.LocalEndpoint).Port;
             numberOfGamers = capacity;
-            handlers = new ServerHandler[capacity];
+            handlers = new List<ServerHandler>();
             for (int i = 0; i < capacity; i++)
             {
-                handlers[i] = new ServerHandler();
+                handlers.Add(new ServerHandler());
             }
             this.game = game;
             Trace.TraceInformation("Server initialized with capacity {0}", capacity);
@@ -148,6 +149,22 @@ namespace Sanguosha.Core.Network
                 })) { IsBackground = true };
                 handlers[i].threadClient.Start(i);
             }
+            var spectatorHandler = new ServerHandler();
+            spectatorHandler.game = game;
+            spectatorHandler.stream = new ReplaySplitterStream();
+            spectatorHandler.receiver = new ItemReceiver(spectatorHandler.stream);
+            spectatorHandler.sender = new ItemSender(spectatorHandler.stream);
+            spectatorHandler.threadServer = new Thread((ParameterizedThreadStart)((o) =>
+            {
+                ServerThread(handlers[(int)o]);
+            })) { IsBackground = true };
+            spectatorHandler.threadClient = new Thread((ParameterizedThreadStart)((o) =>
+            {
+                ClientThread(handlers[(int)o]);
+            })) { IsBackground = true };
+            handlers.Add(spectatorHandler);
+            spectatorHandler.threadServer.Start(handlers.Count - 1);
+            spectatorHandler.threadClient.Start(handlers.Count - 1);
             Trace.TraceInformation("Server ready");
             reconnectThread = new Thread(ReconnectionListener);
             reconnectThread.Start();
@@ -165,6 +182,7 @@ namespace Sanguosha.Core.Network
                     var client = listener.AcceptTcpClient();
                     Trace.TraceInformation("Client connected");
                     var stream = client.GetStream();
+                    bool spectatorJoining = false;
                     stream.ReadTimeout = 2000;
                     Account theAccount = null;
                     if (game.Configuration != null)
@@ -178,35 +196,51 @@ namespace Sanguosha.Core.Network
                         {
                             item = null;
                         }
-                        if (!(item is LoginToken) ||
-                         !game.Configuration.AccountIds.Any(id => id.token == ((LoginToken)item).token))
+                        if (!(item is LoginToken))
                         {
                             client.Close();
                             continue;
                         }
-                        int index;
-                        for (index = 0; index < game.Configuration.AccountIds.Count; index++)
+                        if (!game.Configuration.AccountIds.Any(id => id.token == ((LoginToken)item).token))
                         {
-                            if (game.Configuration.AccountIds[index].token == ((LoginToken)item).token)
+                            spectatorJoining = true;
+                        }
+                        else
+                        {
+                            int index;
+                            for (index = 0; index < game.Configuration.AccountIds.Count; index++)
                             {
-                                theAccount = game.Configuration.Accounts[index];
+                                if (game.Configuration.AccountIds[index].token == ((LoginToken)item).token)
+                                {
+                                    theAccount = game.Configuration.Accounts[index];
+                                }
                             }
                         }
                     }
                     stream.ReadTimeout = Timeout.Infinite;
                     int indexC = game.Settings.Accounts.IndexOf(theAccount);
+                    if (spectatorJoining) indexC = numberOfGamers;
                     Trace.Assert(indexC >= 0);
                     lock (handlers[indexC].queueIn) lock (handlers[indexC].queueOut) lock (handlers[indexC].sender) lock (handlers[indexC].receiver)
-                                {
-                                    handlers[indexC].sender.Flush();
-                                    var newRCStream = new RecordTakingOutputStream(stream);
-                                    (handlers[indexC].stream as RecordTakingOutputStream).DumpTo(newRCStream);
-                                    handlers[indexC].disconnected = false;
-                                    newRCStream.Flush();
-                                    handlers[indexC].stream = newRCStream;
-                                    handlers[indexC].sender = new ItemSender(handlers[indexC].stream);
-                                    handlers[indexC].receiver = new ItemReceiver(handlers[indexC].stream);
-                                }
+                    {
+                        handlers[indexC].sender.Flush();
+                        if (spectatorJoining)
+                        {
+                            ReplaySplitterStream rpstream = handlers[indexC].stream as ReplaySplitterStream;
+                            rpstream.DumpTo(stream);
+                            rpstream.AddStream(stream);
+                        }
+                        else
+                        {
+                            var newRCStream = new RecordTakingOutputStream(stream);
+                            (handlers[indexC].stream as RecordTakingOutputStream).DumpTo(newRCStream);
+                            handlers[indexC].disconnected = false;
+                            newRCStream.Flush();
+                            handlers[indexC].stream = newRCStream;
+                            handlers[indexC].sender = new ItemSender(handlers[indexC].stream);
+                            handlers[indexC].receiver = new ItemReceiver(handlers[indexC].stream);
+                        }
+                    }
 
                 }
                 catch (Exception)

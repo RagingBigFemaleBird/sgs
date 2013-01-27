@@ -111,7 +111,7 @@ namespace Sanguosha.Core.Network
                 item.id = -1;
             }
             // this is a card that the client knows. keep the id anyway
-            else if (card.Place.Player != null && card.Place.DeckType == DeckType.Hand && Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrt]].Contains(card.Place.Player))
+            else if (card.Place.Player != null && card.Place.DeckType == DeckType.Hand && wrt < Game.CurrentGame.Players.Count && Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrt]].Contains(card.Place.Player))
             {
             }
             else if (!card.RevealOnce)
@@ -153,7 +153,7 @@ namespace Sanguosha.Core.Network
         {
             DeckType deck = new DeckType(i.deckName);
             // you know this hand card. therefore the deserialization look up this card in particular
-            if (i.id >= 0 && i.playerId >= 0 && deck == DeckType.Hand && Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrt]].Contains(Game.CurrentGame.Players[i.playerId]))
+            if (i.id >= 0 && i.playerId >= 0 && deck == DeckType.Hand && wrt < Game.CurrentGame.Players.Count && Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrt]].Contains(Game.CurrentGame.Players[i.playerId]))
             {
                 foreach (Card c in Game.CurrentGame.Decks[Game.CurrentGame.Players[i.playerId], deck])
                 {

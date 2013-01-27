@@ -23,6 +23,7 @@ namespace Sanguosha.UI.Controls
             UpdateRoomCommand = new SimpleRelayCommand(o => UpdateRooms()) { CanExecuteStatus = true };
             EnterRoomCommand = new SimpleRelayCommand(o => EnterRoom()) { CanExecuteStatus = true };
             StartGameCommand = new SimpleRelayCommand(o => StartGame()) { CanExecuteStatus = false };
+            SpectateCommand = new SimpleRelayCommand(o => SpectateGame()) { CanExecuteStatus = true };
             ReadyCommand = new SimpleRelayCommand(o => PlayerReady()) { CanExecuteStatus = true };
             CancelReadyCommand = new SimpleRelayCommand(o => PlayerCancelReady()) { CanExecuteStatus = true};
         }
@@ -185,6 +186,7 @@ namespace Sanguosha.UI.Controls
         public ICommand CreateRoomCommand { get; set; }
         public ICommand EnterRoomCommand { get; set; }
         public SimpleRelayCommand StartGameCommand { get; set; }
+        public SimpleRelayCommand SpectateCommand { get; set; }
         public SimpleRelayCommand ReadyCommand { get; set; }
         public SimpleRelayCommand CancelReadyCommand { get; set; }        
         #endregion
@@ -294,6 +296,15 @@ namespace Sanguosha.UI.Controls
             if (_IsSuccess(_connection.StartGame(_loginToken)))
             {
                 CurrentRoom.State = RoomState.Gaming;
+                return true;
+            }
+            return false;
+        }
+
+        public bool SpectateGame()
+        {
+            if (_IsSuccess(_connection.Spectate(_loginToken, _currentRoom.Id)))
+            {
                 return true;
             }
             return false;

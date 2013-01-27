@@ -85,6 +85,9 @@ namespace Sanguosha.Lobby.Core
 
         [OperationContract]
         RoomOperationResult Chat(LoginToken token, string message);
+
+        [OperationContract]
+        RoomOperationResult Spectate(LoginToken token, int roomId);
     }
 
     public interface IGameClient
