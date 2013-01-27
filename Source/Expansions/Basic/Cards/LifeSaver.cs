@@ -93,18 +93,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         private bool _CanUseSaveLifeSkillToSaveOther(Player player)
         {
-            List<ISkill> allSkills = new List<ISkill>();
-            if (player.Hero != null)
-            {
-                allSkills.AddRange(player.Hero.Skills);
-            }
-            if (player.Hero2 != null)
-            {
-                allSkills.AddRange(player.Hero2.Skills);
-            }
-            allSkills.AddRange(player.AdditionalSkills);
-            allSkills.AddRange(player.AdditionalUndeletableSkills);
-            return allSkills.Any(sk => sk is SaveLifeSkill && ((SaveLifeSkill)sk).Validate(new GameEventArgs(){Source = player}) != VerifierResult.Fail);
+            return player.ActionableSkills.Any(sk => sk is SaveLifeSkill && ((SaveLifeSkill)sk).Validate(new GameEventArgs() { Source = player }) != VerifierResult.Fail);
         }
 
         public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
