@@ -184,7 +184,7 @@ namespace Sanguosha.Core.Games
                     if (player == null) GameServer.SendObject(GameServer.MaxClients - 1, card);
                     else GameServer.SendObject(player.Id, card);
                     if (player == null) GameServer.Flush(GameServer.MaxClients - 1);
-                    GameServer.Flush(player.Id);
+                    else GameServer.Flush(player.Id);
                 }
             }
         }
