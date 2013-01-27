@@ -436,9 +436,9 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public void PlayerLostCard(Player p, List<Card> cards)
+        public void PlayerLostCard(Player p, List<Card> cards, bool atomicAfterMove = false)
         {
-            if (atomic)
+            if (atomic && !atomicAfterMove)
             {
                 if (!cards.Any(cc => cc.Place.DeckType == DeckType.Hand || cc.Place.DeckType == DeckType.Equipment)) return;
             }
@@ -460,9 +460,9 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public void PlayerAcquiredCard(Player p, List<Card> cards)
+        public void PlayerAcquiredCard(Player p, List<Card> cards, bool atomicAfterMove = false)
         {
-            if (!atomic && !cards.Any(cc => cc.Place.DeckType == DeckType.Hand || cc.Place.DeckType == DeckType.Equipment)) return;
+            if ((!atomic || atomicAfterMove) && !cards.Any(cc => cc.Place.DeckType == DeckType.Hand || cc.Place.DeckType == DeckType.Equipment)) return;
             try
             {
                 GameEventArgs arg = new GameEventArgs();
@@ -525,11 +525,11 @@ namespace Sanguosha.Core.Games
             {
                 move.Helper = helper;
             }
-            EnterAtomicContext();
             MoveCards(move);
             GameDelays.Delay(GameDelayTypes.CardTransfer);
-            PlayerLostCard(from, cards);
-            PlayerAcquiredCard(to, cards);
+            EnterAtomicContext();
+            PlayerLostCard(from, cards, true);
+            PlayerAcquiredCard(to, cards, true);
             ExitAtomicContext();
         }
 
@@ -551,11 +551,11 @@ namespace Sanguosha.Core.Games
             move.Cards = new List<Card>(cards);
             move.To = new DeckPlace(to, target);
             move.Helper = new MovementHelper();
-            EnterAtomicContext();
             MoveCards(move);
             GameDelays.Delay(GameDelayTypes.CardTransfer);
-            PlayerLostCard(from, cards);
-            PlayerAcquiredCard(to, cards);
+            EnterAtomicContext();
+            PlayerLostCard(from, cards, true);
+            PlayerAcquiredCard(to, cards, true);
             ExitAtomicContext();
         }
 
