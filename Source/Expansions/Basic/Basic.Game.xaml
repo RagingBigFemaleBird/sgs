@@ -19,6 +19,7 @@
     <sys:String x:Key="CardUsage.Prompt.JieDaoShaRen">请对{0}使用【杀】或点“取消”交出武器</sys:String>
     <sys:String x:Key="CardUsage.Prompt.QingLongYanYueDao">是否发动【青龙偃月刀】追加一张【杀】？</sys:String>
     <sys:String x:Key="CardUsage.Prompt.GuanShiFu">请选择两张牌发动【贯石斧】强制命中或点“取消”</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.LiuLi">你可以发动技能 流离</sys:String>
     
     <sys:String x:Key="MultiChoice.Prompt.GangLie">{0}对你造成一点伤害，是否发动刚烈？</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.QiLinGong">请选择发动麒麟弓拆除的坐骑</sys:String>
