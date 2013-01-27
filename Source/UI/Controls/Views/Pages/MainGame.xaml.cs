@@ -110,7 +110,7 @@ namespace Sanguosha.UI.Controls
 #endif
             GameViewModel gameModel = new GameViewModel();
             gameModel.Game = _game;
-            gameModel.MainPlayerSeatNumber = NetworkClient.SelfId;
+            gameModel.MainPlayerSeatNumber = NetworkClient.SelfId >= _game.Players.Count ? 0 : NetworkClient.SelfId;
             gameView.DataContext = gameModel;
             _game.NotificationProxy = gameView;
             List<ClientNetworkUiProxy> inactive = new List<ClientNetworkUiProxy>();

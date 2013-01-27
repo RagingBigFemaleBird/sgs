@@ -53,7 +53,7 @@ namespace Sanguosha.UI.Controls
                     });
                     i++;
                 }
-                PlayerModels[0].IsPlayable = !IsReplay;
+                PlayerModels[0].IsPlayable = !IsReplay && !IsSpectating;
                 if (_game.ReplayController != null)
                 {
                     ReplayController = new ReplayControllerViewModel(_game.ReplayController);                    
@@ -83,7 +83,7 @@ namespace Sanguosha.UI.Controls
                     PlayerViewModel playerModel = PlayerModels[j];
                     if (gamePlayer == playerModel.Player)
                     {
-                        playerModel.IsPlayable = (i == 0) && !IsReplay;
+                        playerModel.IsPlayable = (i == 0) && !IsReplay && !IsSpectating;
                         if (j != i)
                         {
                             PlayerModels.Move(j, i);
@@ -169,6 +169,16 @@ namespace Sanguosha.UI.Controls
             {
                 if (_game == null) return false;
                 return _game.ReplayController != null;
+            }
+        }
+
+        public bool IsSpectating
+        {
+            get
+            {
+                if (_game == null) return false;
+                if (_game.GameClient == null) return false;
+                return _game.GameClient.SelfId >= _game.Players.Count;
             }
         }
     }
