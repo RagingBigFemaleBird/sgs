@@ -57,12 +57,11 @@ namespace Sanguosha.UI.Controls
             _lastSelectedPlayers = new List<Player>();
         }
 
-        public PlayerViewModel(Player player, GameViewModel game, bool isPlayable)
+        public PlayerViewModel(Player player, GameViewModel game)
             : this()
         {
             Player = player;
-            GameModel = game;
-            IsPlayable = isPlayable;
+            GameModel = game;            
         }
         #endregion
 
@@ -71,8 +70,18 @@ namespace Sanguosha.UI.Controls
 
         public bool IsPlayable
         {
-            get;
-            set;
+            get
+            {
+                return GameModel.IsPlayable && this == GameModel.MainPlayerModel;
+            }            
+        }
+
+        public bool CanSpectate
+        {
+            get
+            {
+                return !GameModel.IsPlayable;
+            }
         }
 
         // @todo: to be deprecated. use HostPlayer instead.

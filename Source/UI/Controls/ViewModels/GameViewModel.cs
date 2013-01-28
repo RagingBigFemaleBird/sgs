@@ -47,13 +47,12 @@ namespace Sanguosha.UI.Controls
                 foreach (var player in _game.Players)
                 {
                     Trace.Assert(_game.Settings.Accounts.Count == _game.Players.Count);
-                    PlayerModels.Add(new PlayerViewModel(player, this, false) 
+                    PlayerModels.Add(new PlayerViewModel(player, this) 
                     {
                         Account = _game.Settings.Accounts[i] 
                     });
                     i++;
                 }
-                PlayerModels[0].IsPlayable = !IsReplay && !IsSpectating;
                 if (_game.ReplayController != null)
                 {
                     ReplayController = new ReplayControllerViewModel(_game.ReplayController);                    
@@ -83,7 +82,6 @@ namespace Sanguosha.UI.Controls
                     PlayerViewModel playerModel = PlayerModels[j];
                     if (gamePlayer == playerModel.Player)
                     {
-                        playerModel.IsPlayable = (i == 0) && !IsReplay && !IsSpectating;
                         if (j != i)
                         {
                             PlayerModels.Move(j, i);
@@ -179,6 +177,14 @@ namespace Sanguosha.UI.Controls
                 if (_game == null) return false;
                 if (_game.GameClient == null) return false;
                 return _game.GameClient.SelfId >= _game.Players.Count;
+            }
+        }
+
+        public bool IsPlayable
+        {
+            get
+            {
+                return !IsReplay && !IsSpectating;
             }
         }
     }
