@@ -15,6 +15,21 @@ namespace Sanguosha.UI.Controls
 {
     public class PlayerViewBase : UserControl, IDeckContainer
     {
+        public PlayerViewBase()
+        {
+            this.DataContextChanged += PlayerViewBase_DataContextChanged;
+        }
+
+        void PlayerViewBase_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            UpdateCards();
+        }
+
+        protected virtual void UpdateCards()
+        {
+            
+        }
+
         #region Fields
         public PlayerViewModel PlayerModel
         {
@@ -125,6 +140,7 @@ namespace Sanguosha.UI.Controls
         #endregion
 
         #region CardMovement
+
         public void AddCards(DeckType deck, IList<CardView> cards, bool isFaked)
         {
             foreach (CardView card in cards)

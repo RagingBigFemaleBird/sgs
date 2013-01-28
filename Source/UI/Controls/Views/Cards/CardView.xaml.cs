@@ -366,22 +366,27 @@ namespace Sanguosha.UI.Controls
 
         #region Card Creation/Destruction Helpers
 
-        public static CardView CreateCard(Card card, int width = 93, int height = 130)
+        public static CardView CreateCard(Card card, Panel parent = null, int width = 93, int height = 130)
         {
-            return new CardView(new CardViewModel() { Card = card })
-            {                
+            var cardView = new CardView(new CardViewModel() { Card = card })
+            {
                 Width = width,
                 Height = height,
                 Opacity = 0d
             };
+            if (parent != null)
+            {
+                parent.Children.Add(cardView);
+            }
+            return cardView;
         }
 
-        public static IList<CardView> CreateCards(IList<Card> cards)
+        public static IList<CardView> CreateCards(IList<Card> cards, Panel parent = null)
         {
             List<CardView> cardViews = new List<CardView>();
             foreach (Card card in cards)
             {
-                cardViews.Add(CreateCard(card));
+                cardViews.Add(CreateCard(card, parent));
             }
             return cardViews;
         }

@@ -105,6 +105,7 @@ namespace Sanguosha.UI.Controls
                 _mainPlayerSeatNumber = value;
                 _RearrangeSeats();                
                 OnPropertyChanged("MainPlayerSeatNumber");
+                OnPropertyChanged("MainPlayerModel");
             }
         }
 

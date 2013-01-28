@@ -169,6 +169,28 @@ namespace Sanguosha.UI.Controls
 
         #region PlayerInfoViewBase Members
 
+        protected override void UpdateCards()
+        {
+            weaponArea.Children.Clear();
+            armorArea.Children.Clear();
+            horse1Area.Children.Clear();
+            horse2Area.Children.Clear();
+            delayedToolsDock.Children.Clear();
+
+            if (PlayerModel == null) return;
+            var player = PlayerModel.Player;
+            if (player == null) return;
+
+            foreach (var equip in player.Equipments())
+            {
+                AddEquipment(CardView.CreateCard(equip, ParentGameView.GlobalCanvas), true);
+            }
+            foreach (var dt in player.DelayedTools())
+            {
+                AddDelayedTool(CardView.CreateCard(dt, ParentGameView.GlobalCanvas), true);
+            }
+        }
+
         protected override void AddHandCards(IList<CardView> cards, bool isFaked)
         {
             if (isFaked)

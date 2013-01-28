@@ -64,11 +64,11 @@ namespace Sanguosha.UI.Controls
             }
             model = e.NewValue as PlayerViewModel;
             if (model != null)
-            {
+            {                
                 model.PropertyChanged += _OnPropertyChanged;
                 cbRoleBox.DataContext = model.PossibleRoles;
             }
-        }       
+        }
 
         void model_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -146,6 +146,30 @@ namespace Sanguosha.UI.Controls
         {
             PlayerViewModel model = DataContext as PlayerViewModel;
             model.IsSelected = false;
+        }
+
+        protected override void UpdateCards()
+        {
+            handCardArea.Cards.Clear();
+            weaponArea.Children.Clear();
+            armorArea.Children.Clear();
+            horse1Area.Children.Clear();
+            horse2Area.Children.Clear();
+            delayedToolsDock.Children.Clear();
+
+            if (PlayerModel == null) return;
+            var player = PlayerModel.Player;
+            if (player == null) return;
+
+            AddHandCards(CardView.CreateCards(player.HandCards(), ParentGameView.GlobalCanvas), true);
+            foreach (var equip in player.Equipments())
+            {
+                AddEquipment(CardView.CreateCard(equip, ParentGameView.GlobalCanvas), true);
+            }
+            foreach (var dt in player.DelayedTools())
+            {
+                AddDelayedTool(CardView.CreateCard(dt, ParentGameView.GlobalCanvas), true);
+            }
         }
 
         protected override void AddHandCards(IList<CardView> cards, bool isFaked)
