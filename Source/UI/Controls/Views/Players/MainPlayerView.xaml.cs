@@ -150,6 +150,12 @@ namespace Sanguosha.UI.Controls
 
         protected override void UpdateCards()
         {
+            var oldHandCards = handCardArea.Cards;
+            foreach (var card in oldHandCards)
+            {
+                card.Disappear(0);
+            }
+
             handCardArea.Cards.Clear();
             weaponArea.Children.Clear();
             armorArea.Children.Clear();

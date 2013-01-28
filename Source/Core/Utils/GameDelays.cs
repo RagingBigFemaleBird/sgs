@@ -16,7 +16,7 @@ namespace Sanguosha.Core.Utils
         Discard,
         CardTransfer,
         Draw,
-        ChangePlayer,
+        ChangePhase,
         PlayerAction,
         Awaken,
         RoleDistribute,
@@ -35,7 +35,7 @@ namespace Sanguosha.Core.Utils
             _delays[GameDelayTypes.Discard] = 480;
             _delays[GameDelayTypes.CardTransfer] = 700;
             _delays[GameDelayTypes.Draw] = 400;
-            _delays[GameDelayTypes.ChangePlayer] = 300;
+            _delays[GameDelayTypes.ChangePhase] = 50;
             _delays[GameDelayTypes.PlayerAction] = 500;
             _delays[GameDelayTypes.Awaken] = 2550;
             _delays[GameDelayTypes.RoleDistribute] = 400;

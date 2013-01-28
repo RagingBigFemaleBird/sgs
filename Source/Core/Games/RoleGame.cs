@@ -876,7 +876,7 @@ namespace Sanguosha.Core.Games
                         {
                             break;
                         }
-                        GameDelays.Delay(GameDelayTypes.ChangePlayer);
+                        GameDelays.Delay(GameDelayTypes.ChangePhase);
                     }
                 }
                 game.CurrentPhase = TurnPhase.Inactive;

@@ -246,7 +246,7 @@ namespace Sanguosha.UI.Controls
         {
             GameViewModel model = GameModel;
             var playerModel = model.PlayerModels[indexInGameModel];
-            var playerView = new PlayerView() { DataContext = playerModel, ParentGameView = this };
+            var playerView = new PlayerView() { ParentGameView = this, DataContext = playerModel };
             playerView.OnRequestSpectate += playerView_OnRequestSpectate;
             profileBoxes.Insert(indexInGameModel - 1, playerView);
             if (!playersMap.ContainsKey(playerModel.Player))
@@ -337,14 +337,6 @@ namespace Sanguosha.UI.Controls
             model.Game.PropertyChanged += new PropertyChangedEventHandler(_game_PropertyChanged);
             Trace.Assert(model.MainPlayerModel != null, "Main player must exist.");
 
-            var oldModel = e.OldValue as GameViewModel;
-            if (oldModel != null)
-            {
-                Trace.Assert(oldModel.MainPlayerModel != null, "Main player must exist.");
-                oldModel.PropertyChanged -= _mainPlayerPropertyChangedHandler;
-            }
-            model.MainPlayerModel.PropertyChanged += _mainPlayerPropertyChangedHandler;
-
             // Initialize game logs.
             gameLogs.Logs.Clear();
             int count = model.PlayerModels.Count;
@@ -363,6 +355,7 @@ namespace Sanguosha.UI.Controls
                 }
             }
             radioLogs[0].IsChecked = true;
+
             for (int i = 0; i < count; i++)
             {
                 model.PlayerModels[i].PropertyChanged += new PropertyChangedEventHandler(_player_PropertyChanged);
@@ -503,7 +496,13 @@ namespace Sanguosha.UI.Controls
                 }
             }
 
+            var oldMainPlayer = mainPlayerPanel.DataContext as PlayerViewModel;
+            if (oldMainPlayer != null)
+            {
+                oldMainPlayer.PropertyChanged -= _mainPlayerPropertyChangedHandler;
+            }
             mainPlayerPanel.DataContext = model.MainPlayerModel;
+            model.MainPlayerModel.PropertyChanged += _mainPlayerPropertyChangedHandler;
             playersMap[model.MainPlayerModel.Player] = mainPlayerPanel;
         }
 
