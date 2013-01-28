@@ -99,10 +99,9 @@ namespace Sanguosha.Expansions.SP.Skills
                     }
                     else
                     {
-                        Game.CurrentGame.SyncImmutableCardAll(theCard);
                         theCard.Log = new ActionLog();
                         theCard.Log.SkillAction = new BiFa();
-                        theCard.Log.GameAction = GameAction.Discard;
+                        theCard.Log.GameAction = GameAction.PlaceIntoDiscard;
                         Game.CurrentGame.PlaceIntoDiscard(null, new List<Card>() { theCard });
                         Game.CurrentGame.LoseHealth(Owner, 1);
                     }

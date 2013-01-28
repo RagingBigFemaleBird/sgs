@@ -33,7 +33,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                 {
                     List<List<Card>> answer;
                     List<DeckPlace> sourceDecks = new List<DeckPlace>() { new DeckPlace(Owner, bq) };
-                    if (!Owner.AskForCardChoice(new CardChoicePrompt("BuQu"),
+                    if (!Owner.AskForCardChoice(new CardChoicePrompt("BuQu", Owner),
                         sourceDecks,
                         new List<string>() { "QiPaiDui" },
                         new List<int>() { 1 },
@@ -64,17 +64,15 @@ namespace Sanguosha.Expansions.Wind.Skills
             if (1 - Owner.Health > Game.CurrentGame.Decks[Owner, bq].Count)
             {
                 int toDraw = 1 - Owner.Health - Game.CurrentGame.Decks[Owner, bq].Count;
-                List<CardsMovement> moves = new List<CardsMovement>();
+                CardsMovement move = new CardsMovement();
+                move.To = new DeckPlace(Owner, bq);
                 while (toDraw-- > 0)
                 {
                     Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.PeekCard(0));
                     Card c1 = Game.CurrentGame.DrawCard();
-                    CardsMovement move = new CardsMovement();
-                    move.Cards = new List<Card>() { c1 };
-                    move.To = new DeckPlace(Owner, bq);
-                    moves.Add(move);
+                    move.Cards.Add(c1);
                 }
-                Game.CurrentGame.MoveCards(moves);
+                Game.CurrentGame.MoveCards(move);
             }
             if (Owner.Health <= 0)
             {

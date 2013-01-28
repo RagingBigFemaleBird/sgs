@@ -93,7 +93,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     this,
                     Run,
                     TriggerCondition.OwnerIsSource
-                ) { IsAutoNotify = false, AskForConfirmation = false, Priority = Skills.SkillPriority.FangTianHuaJi};
+                ) { IsAutoNotify = false, AskForConfirmation = false, Type = TriggerType.Card};
                 Triggers.Add(GameEvent.PlayerUsedCard, trigger);
                 Triggers.Add(Sha.PlayerShaTargetValidation, trigger2);
             }

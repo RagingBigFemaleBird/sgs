@@ -108,6 +108,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             {
                 Owner = p;
                 this.target = target;
+                Type = TriggerType.Skill;
             }
         }
 

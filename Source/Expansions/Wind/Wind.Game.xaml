@@ -33,6 +33,9 @@
     
     <sys:String x:Key="CardChoice.Prompt.GongXin">攻心</sys:String>
     <sys:String x:Key="CardChoice.Prompt.GongXin.Others">攻心 请等待{0}的选择</sys:String>
+
+    <sys:String x:Key="CardChoice.Prompt.BuQu">不屈 请弃置不屈牌</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.BuQu.Others">不屈 请等待{0}的选择</sys:String>
     
     <sys:String x:Key="CardUsage.Prompt.WuHun">请选择“武魂”的目标</sys:String>
 
