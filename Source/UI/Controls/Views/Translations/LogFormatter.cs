@@ -273,8 +273,8 @@ namespace Sanguosha.UI.Controls
                                 paragraph.Inlines.AddRange(RichTranslate(card.Subcards));
                                 paragraph.Inlines.Add("当作一张");
                                 paragraph.Inlines.AddRange(RichTranslate(card.Type));
-                                paragraph.Inlines.Add("使用");
                             }
+                            if (dests != string.Empty) paragraph.Inlines.Add(string.Format("，目标是" + dests));
                         }
                     }
                     break;

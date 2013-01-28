@@ -773,8 +773,6 @@ namespace Sanguosha.Core.Games
             EnterAtomicContext();
             PlaceIntoDiscard(from, new List<Card>() { card1 });
             PlaceIntoDiscard(to, new List<Card>() { card2 });
-            PlayerLostCard(from, new List<Card>() { card1 });
-            PlayerLostCard(to, new List<Card>() { card2 });
             ExitAtomicContext();
             if (card1.Rank > card2.Rank) return true;
             if (card1.Rank < card2.Rank) return false;

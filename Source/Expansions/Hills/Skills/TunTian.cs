@@ -28,6 +28,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             {
                 if (list[0].Suit == SuitType.Heart) return;
                 GameDelays.Delay(GameDelayTypes.JudgeEnd);
+                GameDelays.Delay(GameDelayTypes.JudgeEnd);
                 CardsMovement move = new CardsMovement();
                 move.Cards = new List<Card>(list);
                 move.To = new DeckPlace(Owner, TianDeck);

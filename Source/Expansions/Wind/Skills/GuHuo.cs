@@ -57,12 +57,24 @@ namespace Sanguosha.Expansions.Wind.Skills
 
         protected override void NotifyAction(Player source, List<Player> targets, CompositeCard card)
         {
-            base.NotifyAction(source, targets, card);
-            foreach (Card c in card.Subcards)
+            ActionLog log = new ActionLog();
+            log.GameAction = GameAction.None;
+            log.CardAction = card;
+            log.SkillAction = this;
+            log.Source = source;
+            log.Targets = targets;
+            log.UseIndexLine = true;
+            log.SpecialEffectHint = GenerateSpecialEffectHintIndex(source, targets, card);
+            Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
+            if (card.Subcards != null)
             {
-                c.Log.Source = source;
-                c.Log.Targets = targets;
-                c.Log.GameAction = GameAction.Use;
+                foreach (Card c in card.Subcards)
+                {
+                    c.Log.SkillAction = this;
+                    c.Log.Source = source;
+                    c.Log.Targets = targets;
+                    c.Log.GameAction = GameAction.Use;
+                }
             }
         }
 

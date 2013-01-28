@@ -58,7 +58,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                 GameEventArgs args = new GameEventArgs();
                 args.Source = Owner;
                 args.Targets = players;
-                args.Skill = new CardWrapper(Owner, new RegularSha());
+                args.Skill = new CardWrapper(Owner, new RegularSha(), false);
                 args.Cards = new List<Card>();
                 Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
                 Game.CurrentGame.CurrentPhase++;
@@ -81,7 +81,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                 Owner[Sha.NumberOfShaUsed]--;
                 args.Source = Owner;
                 args.Targets = players;
-                args.Skill = new CardWrapper(Owner, new RegularSha());
+                args.Skill = new CardWrapper(Owner, new RegularSha(), false);
                 args.Cards = new List<Card>();
                 Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
                 Game.CurrentGame.CurrentPhase++;

@@ -894,7 +894,7 @@ namespace Sanguosha.UI.Controls
                     }
                 }
 
-                if (log.GameAction != GameAction.None || log.SkillAction != null && log.CardAction == null)
+                if (log.GameAction != GameAction.None || log.SkillAction != null && log.CardAction == null || log.UseIndexLine)
                 {
                     if (log.Targets.Count > 0)
                     {

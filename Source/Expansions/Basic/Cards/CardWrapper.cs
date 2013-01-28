@@ -41,7 +41,6 @@ namespace Sanguosha.Expansions.Basic.Cards
             log.GameAction = GameAction.None;
             log.CardAction = card;
             log.Source = source;
-            log.Targets = card.Type.ActualTargets(source, targets, card);
             log.SpecialEffectHint = GenerateSpecialEffectHintIndex(source, targets, card);
             Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
         }

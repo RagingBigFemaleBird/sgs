@@ -21,7 +21,6 @@ namespace Sanguosha.Expansions.Basic.Skills
     {
         public JiJiang()
         {
-            Helper.HasNoConfirmation = true;
             IsRulerOnly = true;
         }
         public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
@@ -126,5 +125,17 @@ namespace Sanguosha.Expansions.Basic.Skills
             get { return new List<CardHandler>() { new Sha() }; }
         }
 
+        protected override void NotifyAction(Player source, List<Player> targets, CompositeCard card)
+        {
+            ActionLog log = new ActionLog();
+            log.GameAction = GameAction.None;
+            log.CardAction = card;
+            log.SkillAction = this;
+            log.Source = source;
+            log.Targets = targets;
+            log.UseIndexLine = true;
+            log.SpecialEffectHint = GenerateSpecialEffectHintIndex(source, targets, card);
+            Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
+        }
     }
 }

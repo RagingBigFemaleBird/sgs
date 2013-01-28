@@ -82,5 +82,10 @@ namespace Sanguosha.Core.UI
         /// associated with the same skill.
         /// </summary>
         public int SpecialEffectHint { get; set; }
+
+        /// <summary>
+        /// 一些特别的，要使用到指示线的CardTransformSkill，如激将，蛊惑
+        /// </summary>
+        public bool UseIndexLine { get; set; }
     }
 }

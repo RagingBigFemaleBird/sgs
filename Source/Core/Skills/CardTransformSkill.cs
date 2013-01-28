@@ -114,7 +114,6 @@ namespace Sanguosha.Core.Skills
             log.CardAction = card;
             log.SkillAction = this;
             log.Source = source;
-            log.Targets = card.Type.ActualTargets(source, targets, card);
             log.SpecialEffectHint = GenerateSpecialEffectHintIndex(source, targets, card);
             Games.Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
             if (card.Subcards != null)
