@@ -21,6 +21,11 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
     /// </summary>
     public class FuHun : TriggerSkill
     {
+        protected override int GenerateSpecialEffectHintIndex(Player source, List<Player> targets)
+        {
+            return FuHunEffect;
+        }
+
         public class RemoveShengPao : Trigger
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
@@ -57,9 +62,14 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             }
             move.To = new DeckPlace(null, FuHunDeck);
             var result = from c in move.Cards select c.SuitColor;
+            bool success = result.Distinct().Count() == toDraw;
+            if (success) FuHunEffect = 0;
+            else FuHunEffect = 1;
+            NotifySkillUse();
             Game.CurrentGame.MoveCards(move);
+            Core.Utils.GameDelays.Delay(Core.Utils.GameDelayTypes.Draw);
             Game.CurrentGame.HandleCardTransferToHand(null, owner, Game.CurrentGame.Decks[null, FuHunDeck]);
-            if (result.Distinct().Count() == toDraw)
+            if (success)
             {
                 Trigger tri = new RemoveShengPao(owner, fhWuSheng, fhPaoXiao);
                 Game.CurrentGame.PlayerAcquireSkill(owner, fhWuSheng);
@@ -78,11 +88,12 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                 this,
                 Run,
                 TriggerCondition.OwnerIsSource
-            );
+            ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Draw], trigger);
             IsAutoInvoked = null;
         }
 
+        int FuHunEffect;
         ISkill fhWuSheng;
         ISkill fhPaoXiao;
     }
