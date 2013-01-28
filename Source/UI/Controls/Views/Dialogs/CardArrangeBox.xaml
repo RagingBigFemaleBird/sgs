@@ -20,13 +20,26 @@
     </UserControl.Resources>
     <Grid>
         <StackPanel>
-            <Grid>
+            <Grid Background="#3FFFFFFF">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0">
-                    <StackPanel x:Name="deckIcons"/>
+                    <ItemsControl x:Name="deckIcons">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Height="150">
+                                    <Image Grid.Column="0" VerticalAlignment="Center" Stretch="None" Source="{Binding DeckName, Converter={StaticResource deckNameToCardChoiceIconConverter}}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>                    
                 </Grid>
                 <Grid Grid.Column="1">
                     <StackPanel x:Name="_cardSlots" IsHitTestVisible="False" />

@@ -13,6 +13,43 @@
             <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
         </ResourceDictionary.MergedDictionaries>
 
+    <ControlTemplate x:Key="BlackWindowStyle" TargetType="{x:Type xctk:ChildWindow}">
+        <Grid x:Name="PART_Root">
+            <Grid x:Name="PART_WindowRoot" Background="#FF1D1C1B" Height="{TemplateBinding Height}" MinWidth="{TemplateBinding MinWidth}" MinHeight="{TemplateBinding MinHeight}" VerticalAlignment="Top" Width="{TemplateBinding Width}">
+                <Grid x:Name="WindowGrid">                	
+                    <Border x:Name="PART_DragWidget" VerticalAlignment="Top" Height="23" Background="#FF0E0D0C">
+	                    <local:OutlinedTextBlock x:Name="txtPrompt" HorizontalAlignment="Center" Text="{TemplateBinding Caption}" FontFamily="pack://application:,,,/Resources;component/Fonts/#STLiTi" Fill="#FFE4D5A0" VerticalAlignment="Center" FontSize="18"/>                            	                        
+                    </Border>
+                    <Button Margin="0,5,5,0" VerticalAlignment="Top" HorizontalAlignment="Right" x:Name="PART_CloseButton" IsTabStop="False" Style="{DynamicResource SimpleCloseButtonStyle}" Visibility="{TemplateBinding CloseButtonVisibility}" d:LayoutOverrides="Width" />
+                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              Margin="12,31,12,15" Name="grid1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                </Grid>
+                <Border Margin="1" BorderThickness="1" BorderBrush="#FFA6967A" />
+                <Image Source="{StaticResource Corner.0.Image}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1" Stretch="None" RenderTransformOrigin="0.5,0.5" />
+                <Image Source="{StaticResource Corner.0.Image}" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="1" Stretch="None" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <ScaleTransform ScaleX="-1"/>
+                    </Image.RenderTransform>
+                </Image>
+                <Image Source="{StaticResource Corner.0.Image}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="1" Stretch="None" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <ScaleTransform ScaleY="-1"/>
+                    </Image.RenderTransform>
+                </Image>
+                <Image Source="{StaticResource Corner.0.Image}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="1" Stretch="None" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <ScaleTransform ScaleX="-1" ScaleY="-1"/>
+                    </Image.RenderTransform>
+                </Image>
+            </Grid>            
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="WindowState" Value="Closed">
+                <Setter Property="Visibility" Value="Collapsed"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
     <ControlTemplate x:Key="DarkGreenWindowStyle" TargetType="{x:Type xctk:ChildWindow}">
         <Grid x:Name="PART_Root">
             <Grid.Resources>
@@ -35,16 +72,7 @@
                 <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             </Grid.Resources>
             <Border CornerRadius="2">
-                <Grid x:Name="PART_WindowRoot" HorizontalAlignment="Left" Height="{TemplateBinding Height}" MinWidth="{TemplateBinding MinWidth}" MinHeight="{TemplateBinding MinHeight}" VerticalAlignment="Top" Width="{TemplateBinding Width}">
-                    <Grid.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Grid.RenderTransform>
-
+                <Grid x:Name="PART_WindowRoot" Height="{TemplateBinding Height}" MinWidth="{TemplateBinding MinWidth}" MinHeight="{TemplateBinding MinHeight}" VerticalAlignment="Top" Width="{TemplateBinding Width}">
                     <Grid x:Name="WindowGrid">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="39"/>

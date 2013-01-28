@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Windows.Media.Animation;
 using Sanguosha.Core.Cards;
 using Sanguosha.Core.UI;
+using System.Collections.ObjectModel;
 
 namespace Sanguosha.UI.Controls
 {
@@ -115,18 +116,21 @@ namespace Sanguosha.UI.Controls
             _cardSlots.Width = _cardStacks.Width;
             _cardSlots.Height = _cardStacks.Height;
 
+            ObservableCollection<string> deckNames = new ObservableCollection<string>();
+
             // First, create layout.
             foreach (var line in model.CardStacks)
-            {
+            {       
+
                 CardStack slot = new CardStack() { ParentCanvas = _slotCanvas };
                 slot.MaxCardSpacing = _cardXSpacing;
-                slot.CardAlignment = HorizontalAlignment.Left;
+                slot.CardAlignment = HorizontalAlignment.Center;
                 slot.Height = 130d;
                 slot.Margin = new Thickness(1, 10, 1, 10);
 
                 if (isResultHorizontal && line.IsResultDeck)
                 {
-                    slot.HorizontalAlignment = HorizontalAlignment.Left;
+                    slot.HorizontalAlignment = HorizontalAlignment.Center;
                     slot.Width = line.Capacity * _cardXSpacing;
                     _resultSlotPanel.Children.Add(slot);
                 }
@@ -143,7 +147,7 @@ namespace Sanguosha.UI.Controls
                     var slots = new List<CardViewModel>();
                     for (int i = 0; i < line.Capacity; i++)
                     {
-                        
+
                         slots.Add(new CardSlotViewModel() { Hint = hint, Card = null });
                     }
                     slot.AddCards(slots);
@@ -152,10 +156,14 @@ namespace Sanguosha.UI.Controls
                         cardSlot.IsHitTestVisible = false;
                     }
                 }
+                else
+                {
+                    deckNames.Add(line.DeckName);
+                }
 
                 CardStack stack = new CardStack() { ParentCanvas = _canvas };
                 stack.MaxCardSpacing = _cardXSpacing;
-                stack.CardAlignment = HorizontalAlignment.Left;
+                stack.CardAlignment = HorizontalAlignment.Center;
                 stack.Height = 130d;
                 stack.Margin = new Thickness(1, 10, 1, 10);
                 stack.AddCards(line.Cards);
@@ -176,7 +184,7 @@ namespace Sanguosha.UI.Controls
 
                 if (isResultHorizontal && line.IsResultDeck)
                 {
-                    stack.HorizontalAlignment = HorizontalAlignment.Left;
+                    stack.HorizontalAlignment = HorizontalAlignment.Center;
                     stack.Width = line.Capacity * _cardXSpacing;
                     _resultPanel.Children.Add(stack);
                 }

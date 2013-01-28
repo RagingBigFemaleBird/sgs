@@ -237,7 +237,7 @@
             <local:ReplayControllerView DataContext="{Binding ReplayController}" />
          </Grid>
          <xctk:ChildWindow x:Name="deckDisplayWindow" 
-                  Template="{DynamicResource DarkGreenWindowStyle}"        
+                  Template="{DynamicResource BlackWindowStyle}"        
                   MaxWidth="600"
                   HorizontalContentAlignment="Center"
                   CloseButtonVisibility="{Binding CanClose, Converter={StaticResource boolToVisibilityConverter}}"
@@ -249,7 +249,7 @@
             <local:CardChoiceBox />
         </xctk:ChildWindow>
         <xctk:ChildWindow x:Name="wuGuWindow" 
-                  Template="{DynamicResource DarkGreenWindowStyle}"
+                  Template="{DynamicResource BlackWindowStyle}"
                   HorizontalContentAlignment="Center"
                   CloseButtonVisibility="{Binding CanClose, Converter={StaticResource boolToVisibilityConverter}}"
                   Caption="{Binding WuGuModel.Prompt}"
@@ -261,7 +261,7 @@
         </xctk:ChildWindow>
         <Grid>
             <xctk:ChildWindow x:Name="pinDianWindow" 
-                  Template="{DynamicResource DarkGreenWindowStyle}"        
+                  Template="{DynamicResource BlackWindowStyle}"        
                   MaxWidth="600"
                   HorizontalContentAlignment="Center"
                   CloseButtonVisibility="Collapsed"                  
@@ -271,7 +271,7 @@
                 </xctk:ChildWindow.Effect>
                 <local:PinDianBox x:Name="pinDianBox" />
             </xctk:ChildWindow>
-            <xctk:ChildWindow x:Name="gameResultWindow" Caption="战绩" Width="500" WindowStartupLocation="Center" Template="{DynamicResource ChildWindowControlTemplate1}">
+            <xctk:ChildWindow x:Name="gameResultWindow" Caption="战绩" Width="500" WindowStartupLocation="Center" Template="{DynamicResource ChildWindowControlTemplate1}" Margin="195,284,0,0">
                 <local:GameResultBox x:Name="gameResultBox" />
             </xctk:ChildWindow>
         </Grid>

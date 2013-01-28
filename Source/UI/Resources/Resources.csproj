@@ -561,6 +561,9 @@
     <Resource Include="Images\Replay\slow-hover.png" />
     <Resource Include="Images\Replay\slow-normal.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CornerAdorners\0.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /S /Y $(ProjectDir)*.* $(TargetDir)Resources\

@@ -363,4 +363,6 @@
 	<BitmapImage x:Key="Facial.22.Image">Facials/22.gif</BitmapImage>
 	<BitmapImage x:Key="Facial.23.Image">Facials/23.gif</BitmapImage>
 	<BitmapImage x:Key="Facial.24.Image">Facials/24.gif</BitmapImage>
+
+    <BitmapImage x:Key="Corner.0.Image">CornerAdorners/0.png</BitmapImage>
 </ResourceDictionary>

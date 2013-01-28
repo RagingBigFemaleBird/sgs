@@ -298,7 +298,7 @@ namespace Sanguosha.UI.Controls
                 }
 
                 _privateDeckChoiceWindow = new ChildWindow();
-                _privateDeckChoiceWindow.Template = Resources["DarkGreenWindowStyle"] as ControlTemplate;
+                _privateDeckChoiceWindow.Template = Resources["BlackWindowStyle"] as ControlTemplate;
                 _privateDeckChoiceWindow.MaxWidth = 800;
                 _privateDeckChoiceWindow.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
                 _privateDeckChoiceWindow.CloseButtonVisibility = Visibility.Collapsed;
@@ -378,7 +378,7 @@ namespace Sanguosha.UI.Controls
                             gridRoot.Children.Remove(cardChoiceWindow);
                         }
                         cardChoiceWindow = new ChildWindow();
-                        cardChoiceWindow.Template = Resources["DarkGreenWindowStyle"] as ControlTemplate;
+                        cardChoiceWindow.Template = Resources["BlackWindowStyle"] as ControlTemplate;
                         cardChoiceWindow.MaxWidth = 800;
                         cardChoiceWindow.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
                         cardChoiceWindow.CloseButtonVisibility = model.CardChoiceModel.CanClose ? Visibility.Visible : Visibility.Collapsed;
@@ -937,7 +937,7 @@ namespace Sanguosha.UI.Controls
                 }
 
                 _showHandCardsWindow = new ChildWindow();
-                _showHandCardsWindow.Template = Resources["DarkGreenWindowStyle"] as ControlTemplate;
+                _showHandCardsWindow.Template = Resources["BlackWindowStyle"] as ControlTemplate;
                 _showHandCardsWindow.MaxWidth = 800;
                 _showHandCardsWindow.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
                 _showHandCardsWindow.CloseButtonVisibility = Visibility.Visible;
