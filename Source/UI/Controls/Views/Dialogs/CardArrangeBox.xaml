@@ -20,7 +20,7 @@
     </UserControl.Resources>
     <Grid>
         <StackPanel>
-            <Grid Background="#3FFFFFFF">
+            <Grid Background="#0FFFFFFF">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto"/>
