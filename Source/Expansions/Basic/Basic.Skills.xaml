@@ -83,7 +83,6 @@
     <sys:String x:Key="Skill.JiJiang.Name">激将</sys:String>
     <sys:String x:Key="Skill.JiJiang.Description">主公技，当你需要使用或打出一张【杀】时，你可以令其他蜀势力角色打出一张【杀】（视为由你使用或打出）。</sys:String>
     <sys:String x:Key="Skill.JiJiang.Usage" xml:space="preserve">点“激将”→选择攻击距离内的目标→点“确定”&#10;响应出【杀】时→点“确定”</sys:String>
-    <sys:String x:Key="Skill.JiJiang.Prompt">请选1名目标</sys:String>
     
     <sys:String x:Key="Skill.WuSheng.Name">武圣</sys:String>
     <sys:String x:Key="Skill.WuSheng.Description">你可以将一张红色牌当【杀】使用或打出。</sys:String>

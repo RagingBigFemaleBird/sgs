@@ -75,6 +75,7 @@ namespace Sanguosha.Core.UI
                 proxy.TryAnswerForMultipleChoice(out answer);
                 aanswer.Add(p, answer);
             }
+            proxy.SimulateReplayDelay();
             if (players.Contains(proxy.HostPlayer))
             {
                 t.Abort();
@@ -88,7 +89,6 @@ namespace Sanguosha.Core.UI
                     otherProxy.Freeze();
                 }
             }
-
         }
 
         private void AskMCQUiThread()
@@ -132,6 +132,7 @@ namespace Sanguosha.Core.UI
                 acards.Add(p, tempCards);
                 aplayers.Add(p, tempPlayers);
             }
+            proxy.SimulateReplayDelay(); 
             if (players.Contains(proxy.HostPlayer))
             {
                 t.Abort();
@@ -165,6 +166,7 @@ namespace Sanguosha.Core.UI
                 skill = null;
             }
             t.Abort();
+            proxy.SimulateReplayDelay();
             foreach (var otherProxy in inactiveProxies)
             {
                otherProxy.Freeze();
