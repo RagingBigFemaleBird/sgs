@@ -738,6 +738,10 @@ namespace Sanguosha.UI.Controls
                         }
 
                         cards = deck.RemoveCards(stackCards.Key.DeckType, stackCards.Value);
+                        foreach (var card in cards)
+                        {
+                            card.CardModel.Update();
+                        }
                         cardsToAdd.AddRange(cards);
                     }
 

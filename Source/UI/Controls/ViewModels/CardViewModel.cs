@@ -31,39 +31,7 @@ namespace Sanguosha.UI.Controls
             {
                 if (_card == value) return;
                 _card = value;
-                if (_card != null)
-                {
-                    if (GameEngine.CardSet.Count > _card.Id && _card.Id >= 0)
-                    {
-                        _uiCard = GameEngine.CardSet[_card.Id];
-                    }
-                    else
-                    {
-                        _uiCard = new Card();
-                        _uiCard.Id = _card.Id;
-                        if (_uiCard.Id == Card.UnknownCardId)
-                        {
-                            _uiCard.Type = new UnknownCardHandler();
-                        }
-                        else if (_uiCard.Id == Card.UnknownHeroId)
-                        {
-                            _uiCard.Type = new UnknownHeroCardHandler();
-                        }
-                        else if (_uiCard.Id == Card.UnknownRoleId)
-                        {
-                            _uiCard.Type = new UnknownRoleCardHandler();
-                        }
-                    }
-                    if (_card.Log != null)
-                    {
-                        Footnote = LogFormatter.TranslateCardFootnote(_card.Log);
-                    }
-                }
-                else
-                {
-                    _uiCard = null;
-                }
-                OnPropertyChanged("Suit");
+                Update();
             }
         }
 
@@ -253,5 +221,52 @@ namespace Sanguosha.UI.Controls
         }
 
         #endregion
+
+        public void Update()
+        {
+            if (_card != null)
+            {
+                if (_uiCard != null && _uiCard.Id == _card.Id) return;
+                if (GameEngine.CardSet.Count > _card.Id && _card.Id >= 0)
+                {
+                    _uiCard = GameEngine.CardSet[_card.Id];
+                }
+                else
+                {
+                    _uiCard = new Card();
+                    _uiCard.Id = _card.Id;
+                    if (_uiCard.Id == Card.UnknownCardId)
+                    {
+                        _uiCard.Type = new UnknownCardHandler();
+                    }
+                    else if (_uiCard.Id == Card.UnknownHeroId)
+                    {
+                        _uiCard.Type = new UnknownHeroCardHandler();
+                    }
+                    else if (_uiCard.Id == Card.UnknownRoleId)
+                    {
+                        _uiCard.Type = new UnknownRoleCardHandler();
+                    }
+                }
+                if (_card.Log != null)
+                {
+                    Footnote = LogFormatter.TranslateCardFootnote(_card.Log);
+                }
+            }
+            else
+            {
+                if (_uiCard == null) return;
+                _uiCard = null;
+            }
+            OnPropertyChanged("Id");
+            OnPropertyChanged("Suit");
+            OnPropertyChanged("SuitColor");            
+            OnPropertyChanged("ActualTypeString");
+            OnPropertyChanged("RankString");
+            OnPropertyChanged("TypeString");
+            OnPropertyChanged("Category");
+            OnPropertyChanged("AttackRange");
+            OnPropertyChanged("HeroModel");
+        }
     }
 }
