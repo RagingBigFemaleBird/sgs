@@ -1139,7 +1139,7 @@ namespace Sanguosha.UI.Controls
 
                 foreach (var c in Game.CurrentGame.Decks[place])
                 {
-                    if (isFirstRow && total > 4 && i >= total / 2) isFirstRow = false;
+                    if (isFirstRow && total > 5 && i >= (total + 1) / 2) isFirstRow = false;
                     var card = new CardViewModel() { Card = c, IsSelectionMode = true, IsEnabled = true };
                     if (isFirstRow) GameModel.WuGuModel.Cards1.Add(card);
                     else GameModel.WuGuModel.Cards2.Add(card);
