@@ -1559,7 +1559,7 @@ namespace Sanguosha.UI.Controls
                 line.IsResultDeck = false;
                 int i = 0;
                 int numCards = Game.CurrentGame.Decks[deck].Count;
-                int maxColumns = Math.Max(numCards / 2 + 1, 5);
+                int maxColumns = Math.Max((numCards + 1) / 2, 5);
                 bool firstRow = true;
                 foreach (var card in Game.CurrentGame.Decks[deck])
                 {

@@ -35,7 +35,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Grid Height="150">
-                                    <Image Grid.Column="0" VerticalAlignment="Center" Stretch="None" Source="{Binding DeckName, Converter={StaticResource deckNameToCardChoiceIconConverter}}" />
+                                    <Image Grid.Column="0" VerticalAlignment="Center" Stretch="None" Source="{Binding Converter={StaticResource deckNameToCardChoiceIconConverter}}" />
                                 </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

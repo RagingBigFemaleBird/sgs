@@ -157,7 +157,6 @@
     <Compile Include="Views\Controls\ChatWidget.xaml.cs">
       <DependentUpon>ChatWidget.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Containers\FluidCardStack.cs" />
     <Compile Include="Views\Skills\HeroToolTipConverter.cs" />
     <Compile Include="Views\Cards\LargeDelayedToolView.xaml.cs">
       <DependentUpon>LargeDelayedToolView.xaml</DependentUpon>

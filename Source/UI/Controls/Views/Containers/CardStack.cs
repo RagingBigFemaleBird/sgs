@@ -197,7 +197,7 @@ namespace Sanguosha.UI.Controls
                     }
                     else
                     {
-                        leftSpace = rightSpace = Math.Max(0, Math.Min(MaxCardSpacing - step, _extraSpaceForHighlightedCard));
+                        leftSpace = rightSpace = Math.Max(0, Math.Min(MaxCardSpacingOnHighlighted - step, _extraSpaceForHighlightedCard));
                     }
 
                     if (leftSpace + rightSpace > 0)
@@ -356,6 +356,8 @@ namespace Sanguosha.UI.Controls
         public Canvas ParentCanvas { get; set; }
 
         public double MaxCardSpacing { get; set; }
+
+        public double MaxCardSpacingOnHighlighted { get; set; }
 
         public HorizontalAlignment CardAlignment { get; set; }
 

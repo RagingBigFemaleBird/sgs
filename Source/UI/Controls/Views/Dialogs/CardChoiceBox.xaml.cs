@@ -15,6 +15,7 @@ using System.Windows.Media.Animation;
 using System.Diagnostics;
 using System.Linq;
 using Sanguosha.Core.Cards;
+using System.Collections.ObjectModel;
 
 namespace Sanguosha.UI.Controls
 {
@@ -34,9 +35,95 @@ namespace Sanguosha.UI.Controls
             UpdateModel();
         }
 
+        private static double _cardXSpacing = 100;
+        private static double _cardYSpacing = 150;
+
+        private void card_MouseEnter(object sender, EventArgs args)
+        {
+            var currentCard = sender as CardView;
+            if (!currentCard.IsEnabled) return;
+            if (currentCard.CardModel != null)
+            {
+
+                CardChoiceViewModel model = DataContext as CardChoiceViewModel;
+                var allCards = from stack in model.CardStacks select stack.Cards;
+                foreach (var cards in allCards)
+                {
+                    foreach (var card in cards)
+                    {
+                        if (card == currentCard.CardModel)
+                        {
+                            if (currentCard.CardModel.IsEnabled)
+                            {
+                                currentCard.CardModel.IsFaded = false;
+                            }
+                        }
+                        else
+                        {
+                            card.IsFaded = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void card_MouseLeave(object sender, EventArgs args)
+        {
+            var currentCard = sender as CardView;
+
+            CardChoiceViewModel model = DataContext as CardChoiceViewModel;
+            var allCards = from stack in model.CardStacks select stack.Cards;
+            foreach (var cards in allCards)
+            {
+                foreach (var card in cards)
+                {
+                    card.IsFaded = !card.IsEnabled;
+                }
+            }
+
+        }
+
         private void UpdateModel()
         {
-            var model = DataContext as CardChoiceViewModel;
+            CardChoiceViewModel model = DataContext as CardChoiceViewModel;
+            if (model == null) return;
+
+            _cardStacks.Children.Clear();
+            _canvas.Children.Clear();
+
+            int maxCount = (from line in model.CardStacks
+                            select line.Cards.Count).Max();
+
+            _cardStacks.Width = Math.Min(maxCount * _cardXSpacing, 570);
+            _cardStacks.Height = model.CardStacks.Count * _cardYSpacing;
+
+            ObservableCollection<string> deckNames = new ObservableCollection<string>();
+
+            // First, create layout.
+            foreach (var line in model.CardStacks)
+            {
+                deckNames.Add(line.DeckName);
+
+                CardStack stack = new SingleRowCardStack() { ParentCanvas = _canvas };
+                stack.MaxCardSpacing = _cardXSpacing;
+                stack.MaxCardSpacingOnHighlighted = _cardXSpacing + 15;
+                stack.CardAlignment = HorizontalAlignment.Center;
+                stack.Height = 130d;
+                stack.Margin = new Thickness(1, 10, 1, 10);
+                stack.AddCards(line.Cards);
+                foreach (var card in stack.Cards)
+                {
+                    card.Cursor = Cursors.Hand;
+                    card.MouseEnter += card_MouseEnter;
+                    card.MouseLeave += card_MouseLeave;
+                }
+
+                stack.HorizontalAlignment = HorizontalAlignment.Stretch;
+                _cardStacks.Children.Add(stack);
+            }
+
+            deckIcons.ItemsSource = deckNames;
+
             if (model == null || model.DisplayOnly) return;
             Trace.Assert(model != null);
 
@@ -49,7 +136,7 @@ namespace Sanguosha.UI.Controls
                     {
                         card.IsEnabled = false;
                     }
-                    
+
                     card.OnSelectedChanged += (o, e) =>
                     {
                         var c = o as CardViewModel;
@@ -89,7 +176,7 @@ namespace Sanguosha.UI.Controls
                                 mc.CanExecuteStatus = false;
                             }
                         }
-                    };                    
+                    };
                 }
             }
 
