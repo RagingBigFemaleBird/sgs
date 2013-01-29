@@ -380,6 +380,7 @@ namespace Sanguosha.Core.Players
         public static PlayerAttribute DealAdjustment = PlayerAttribute.Register("DealAdjustment", true);
         public static PlayerAttribute IsDying = PlayerAttribute.Register("IsDying");
         public static PlayerAttribute SkipDeathComputation = PlayerAttribute.Register("SkipDyingComputation");
+        public static PlayerAttribute Awakened = PlayerAttribute.Register("Awakened", false, true);
         public static PlayerAttribute DisconnectedStatus = PlayerAttribute.Register("Disconnected", false, false, true);
     }
 }

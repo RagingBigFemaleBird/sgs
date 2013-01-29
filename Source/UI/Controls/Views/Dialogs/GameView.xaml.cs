@@ -818,6 +818,7 @@ namespace Sanguosha.UI.Controls
                     }
                     if (log.SkillAction.IsSingleUse || log.SkillAction.IsAwakening)
                     {
+                        if (log.SkillAction.IsAwakening) log.Source[Player.Awakened]++;
                         ExcitingSkillAnimation anim = new ExcitingSkillAnimation();
                         anim.SkillName = log.SkillAction.GetType().Name;
                         anim.HeroName = log.Source.Hero.Name;

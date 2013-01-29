@@ -8,7 +8,7 @@
     <DataTemplate x:Key="LargeMarkTemplate" DataType="{x:Type local:MarkViewModel}">
         <Grid Width="28" Height="28" Visibility="{Binding IsExisted, Converter={StaticResource boolToVisibilityConverter}}">
             <Image Stretch="Fill" Source="{res:ResourceKeyBinding Path=MarkName, StringFormat=Mark.\{0\}.Image.Large}" />
-            <ItemsControl ItemsSource="{Binding Digits}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="10">
+            <ItemsControl ItemsSource="{Binding Digits}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="15">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" />
@@ -19,13 +19,19 @@
                         <Image Stretch="None" Source="{res:ResourceKeyBinding StringFormat=Mark.Digit.\{0\}.Image}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
+                <ItemsControl.RenderTransform>
+                    <TransformGroup>
+                		<ScaleTransform ScaleX="0.9" ScaleY="0.9"></ScaleTransform>
+                		<TranslateTransform X="2"></TranslateTransform>
+                    </TransformGroup>
+                </ItemsControl.RenderTransform>
             </ItemsControl>
         </Grid>
     </DataTemplate>
     <DataTemplate x:Key="SmallMarkTemplate" DataType="{x:Type local:MarkViewModel}">
         <Grid Width="20" Height="20" Visibility="{Binding IsExisted, Converter={StaticResource boolToVisibilityConverter}}">
             <Image Stretch="Fill" Source="{res:ResourceKeyBinding Path=MarkName, StringFormat=Mark.\{0\}.Image.Small}" />
-            <ItemsControl ItemsSource="{Binding Digits}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="10">
+            <ItemsControl ItemsSource="{Binding Digits}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="15">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" />
@@ -36,6 +42,12 @@
                         <Image Stretch="None" Source="{res:ResourceKeyBinding StringFormat=Mark.Digit.\{0\}.Image}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
+                <ItemsControl.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
+                        <TranslateTransform X="3" Y="5"></TranslateTransform>
+                    </TransformGroup>
+                </ItemsControl.RenderTransform>
             </ItemsControl>
         </Grid>
     </DataTemplate>
