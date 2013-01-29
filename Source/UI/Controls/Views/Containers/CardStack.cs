@@ -18,13 +18,13 @@ namespace Sanguosha.UI.Controls
     {
         #region Constructors
         public CardStack()
-        {            
+        {
             CardAlignment = HorizontalAlignment.Center;
             IsCardConsumer = false;
             CardCapacity = int.MaxValue;
             _cards = new List<CardView>();
             this.SizeChanged += new SizeChangedEventHandler(CardStack_SizeChanged);
-            _rearrangeLock = new object();           
+            _rearrangeLock = new object();
         }
 
         void CardStack_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -104,7 +104,7 @@ namespace Sanguosha.UI.Controls
             if (_interactingCard != null && _cardInteraction == CardInteraction.Drag)
             {
                 InteractingCardIndex = ComputeDragCardNewIndex();
-                Trace.Assert(InteractingCardIndex >= 0 && InteractingCardIndex <= _cards.Count);                
+                Trace.Assert(InteractingCardIndex >= 0 && InteractingCardIndex <= _cards.Count);
                 tmpCards.Remove(_interactingCard);
                 tmpCards.Insert(InteractingCardIndex, _interactingCard);
             }
@@ -124,7 +124,7 @@ namespace Sanguosha.UI.Controls
         public void RearrangeCards(IList<CardView> cards)
         {
             lock (_rearrangeLock)
-            {                
+            {
                 int numCards = cards.Count();
                 if (_cardInteraction == CardInteraction.Drag && cards.Contains(_interactingCard))
                 {
@@ -141,14 +141,14 @@ namespace Sanguosha.UI.Controls
                 }
 
                 double totalWidth = this.ActualWidth;
-                
+
                 // Do not continue if the layout has not been updated yet.
                 if (totalWidth == 0) return;
-                                
+
                 double unQualifiedStep = (totalWidth - cardWidth) / (numCards - 1);
                 double step = Math.Max(0, Math.Min(MaxCardSpacing, unQualifiedStep));
-                
-                Point topLeft = this.TranslatePoint(new Point(0,0), ParentCanvas);
+
+                Point topLeft = this.TranslatePoint(new Point(0, 0), ParentCanvas);
                 double startX = topLeft.X;
                 if (CardAlignment == HorizontalAlignment.Center)
                 {
@@ -158,14 +158,14 @@ namespace Sanguosha.UI.Controls
                 {
                     startX += totalWidth - step * numCards;
                 }
-                
+
                 double y = topLeft.Y + ActualHeight / 2 - cardHeight / 2;
 
                 // First pass: get raw position of all cards;                                
-                double posX = startX;                
+                double posX = startX;
                 for (int i = 0; i < cards.Count; i++)
                 {
-                    if (cards[i] == _interactingCard  && _cardInteraction == CardInteraction.Drag) continue;
+                    if (cards[i] == _interactingCard && _cardInteraction == CardInteraction.Drag) continue;
                     cards[i].Position = new Point(posX, y);
                     posX += step;
                 }
@@ -178,11 +178,11 @@ namespace Sanguosha.UI.Controls
                 double leftSpace;
                 double rightSpace;
                 if (splitter >= 0 && cards.Count > 1)
-                {                    
+                {
                     Rect cardRect = new Rect(_interactingCard.Position, new Size(cardWidth, cardHeight));
-                    
+
                     if (_cardInteraction == CardInteraction.Drag)
-                    {                        
+                    {
                         double center = (cardRect.Left + cardRect.Right) / 2.0;
                         double center2;
                         if (splitter >= 1)
@@ -205,8 +205,8 @@ namespace Sanguosha.UI.Controls
                         if (CardAlignment != System.Windows.HorizontalAlignment.Center || step < cardWidth)
                         {
                             leftSpace = 0;
-                        }                         
- 
+                        }
+
                         // Rearrange left side of splitter
                         if (splitter > 0)
                         {
@@ -242,12 +242,12 @@ namespace Sanguosha.UI.Controls
                     if (!ParentCanvas.Children.Contains(card))
                     {
                         ParentCanvas.Children.Add(card);
-                    }                    
+                    }
                     card.SetValue(Canvas.ZIndexProperty, zindex + i);
                     card.Rebase();
                 }
             }
-        }        
+        }
 
         #endregion
 
@@ -309,7 +309,7 @@ namespace Sanguosha.UI.Controls
             {
                 foreach (var card in cards)
                 {
-                    card.CardModel.IsSelected = false;                    
+                    card.CardModel.IsSelected = false;
                     if (IsCardConsumer)
                     {
                         card.Disappear(_cardOpacityChangeAnimationDurationSeconds);
@@ -350,7 +350,7 @@ namespace Sanguosha.UI.Controls
         }
 
         #endregion
-        
+
         #region Fields
 
         public Canvas ParentCanvas { get; set; }
@@ -364,7 +364,7 @@ namespace Sanguosha.UI.Controls
         public int CardCapacity { get; set; }
 
         public bool KeepHorizontalOrder { get; set; }
-        
+
         private List<CardView> _cards;
         public IList<CardView> Cards
         {
@@ -379,6 +379,6 @@ namespace Sanguosha.UI.Controls
                 return new Rect(topLeft, new Size(ActualWidth, ActualHeight));
             }
         }
-        #endregion        
+        #endregion
     }
 }
