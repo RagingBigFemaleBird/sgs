@@ -29,8 +29,13 @@ namespace Sanguosha.Expansions.SP.Skills
                 (p, e, a) => { return a.Source == ruler; },
                 (p, e, a) =>
                 {
-                    SkillSetChangedEventArgs arg = a as SkillSetChangedEventArgs;
-                    if (arg.Skills.Any(sk => sk.IsRulerOnly))
+                    bool canInvoke = true;
+                    if (e == GameEvent.PlayerSkillSetChanged)
+                    {
+                        SkillSetChangedEventArgs arg = a as SkillSetChangedEventArgs;
+                        canInvoke = arg.Skills.Any(sk => sk.IsRulerOnly);
+                    }
+                    if (canInvoke)
                     {
                         UninstallSkills();
                         InstallSkills(p, ruler);
@@ -39,6 +44,7 @@ namespace Sanguosha.Expansions.SP.Skills
                 TriggerCondition.Global
             ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PlayerSkillSetChanged, trigger);
+            Triggers.Add(GameEvent.PlayerChangedHero, trigger);
 
             IsEnforced = true;
             ruler = null;

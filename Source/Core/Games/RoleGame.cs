@@ -782,16 +782,10 @@ namespace Sanguosha.Core.Games
                             out choice,
                             options))
                         {
-                            SkillSetChangedEventArgs args = new SkillSetChangedEventArgs();
-                            args.Source = p;
                             foreach (var sk in p.Hero.Skills)
                             {
                                 sk.Owner = null;
-                                args.Skills.Add(sk);
                             }
-                            args.IsLosingSkill = true;
-                            game.Emit(GameEvent.PlayerSkillSetChanged, args);
-                            args.Skills.Clear();
                             Hero hero = ((choice[0][0].Type as HeroCardHandler).Hero.Clone()) as Hero;
                             foreach (var skill in new List<ISkill>(hero.Skills))
                             {
@@ -799,15 +793,13 @@ namespace Sanguosha.Core.Games
                                 {
                                     hero.Skills.Remove(skill);
                                 }
-                                else args.Skills.Add(skill);
                             }
                             p.Hero = hero;
                             p.Allegiance = hero.Allegiance;
                             p.MaxHealth = p.Health = hero.MaxHealth;
                             p.IsMale = hero.IsMale ? true : false;
                             p.IsFemale = hero.IsMale ? false : true;
-                            args.IsLosingSkill = false;
-                            game.Emit(GameEvent.PlayerSkillSetChanged, args);
+                            game.Emit(GameEvent.PlayerChangedHero, new GameEventArgs() { Source = p });
                         }
                         game.Decks[heroesConvert].Clear();
                     }

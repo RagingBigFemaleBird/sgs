@@ -404,6 +404,11 @@ namespace Sanguosha.Core.Triggers
         public static readonly GameEvent PlayerChangedAllegiance = new GameEvent("PlayerChangedAllegiance");
 
         /// <summary>
+        /// 玩家改变武将
+        /// </summary>
+        public static readonly GameEvent PlayerChangedHero = new GameEvent("PlayerChangedHero");
+
+        /// <summary>
         /// 玩家手牌上限调整
         /// </summary>
         public static readonly GameEvent PlayerHandCardCapacityAdjustment = new GameEvent("PlayerHandCardCapacityAdjustment");
