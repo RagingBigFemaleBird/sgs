@@ -63,7 +63,7 @@
     <sys:String x:Key="Skill.MouDuan.Usage">系统提示→选择一张牌→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.ZhaoLie.Name">昭烈</sys:String>
-    <sys:String x:Key="Skill.ZhaoLie.Description">摸牌阶段摸牌时，你可以少摸一张牌并选择你攻击范围内的一名其他角色，然后亮出牌堆顶的三张牌，将其中的非基本牌和【桃】置入弃牌堆，该角色须选择一项：1、受到你的X点伤害，然后获得剩下的牌；2、依次弃置X张牌，然后你获得剩下的牌。（X为其中除【桃】外的基本牌的数量）。</sys:String>
+    <sys:String x:Key="Skill.ZhaoLie.Description">摸牌阶段摸牌时，你可以少摸一张牌并选择你攻击范围内的一名其他角色，然后亮出牌堆顶的三张牌，将其中的非基本牌和【桃】置入弃牌堆，该角色须选择一项：1、你对其造成X点伤害，然后他获得这些基本牌；1、他依次弃置X张牌，然后你获得这些基本牌。（X为其中非基本牌的数量）</sys:String>
     <sys:String x:Key="Skill.ZhaoLie.Usage">系统提示→选择一名角色→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.ShiChou.Name">誓仇</sys:String>
