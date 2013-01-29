@@ -39,7 +39,7 @@
     <sys:String x:Key="Skill.YanZheng.Prompt">请选择一张装备区内的牌</sys:String>
 
     <sys:String x:Key="Skill.ManJuan.Name">漫卷</sys:String>
-    <sys:String x:Key="Skill.ManJuan.Description">当你将获得一张手牌时，将该牌置入弃牌堆；若上述情况发生于你的回合内，你可将与该牌点数相同的一张牌置入手中。</sys:String>
+    <sys:String x:Key="Skill.ManJuan.Description">当你将获得一张牌时，将该牌置入弃牌堆；若上述情况发生于你的回合内，你可将与该牌点数相同的一张牌置入手中。</sys:String>
     <sys:String x:Key="Skill.ManJuan.Usage">系统提示→点“确定”→选择一张牌（可略过）</sys:String>
 
     <sys:String x:Key="Skill.ZuiXiang.Name">醉乡</sys:String>
