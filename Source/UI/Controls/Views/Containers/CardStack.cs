@@ -134,81 +134,117 @@ namespace Sanguosha.UI.Controls
                 Trace.Assert(ParentCanvas != null);
                 double cardHeight = (from c in cards select c.Height).Max();
                 double cardWidth = (from c in cards select c.Width).Max();
+
                 if (KeepHorizontalOrder)
                 {
                     cards = new List<CardView>(cards.OrderBy(c => c.Position.X));
                 }
 
-
-                int zindex = Panel.GetZIndex(this);                
-
                 double totalWidth = this.ActualWidth;
                 
                 // Do not continue if the layout has not been updated yet.
                 if (totalWidth == 0) return;
-
-                double extraSpace = Math.Min(MaxCardSpacing - (totalWidth - cardWidth) / (numCards - 1), _extraSpaceForHighlightedCard);
-                int highlightIndex = (_interactingCard == null) ? -1 : cards.IndexOf(_interactingCard);
-                bool doHighlight = (_cardInteraction != CardInteraction.None && highlightIndex >= 0 && highlightIndex != _cards.Count - 1);
-
-                double maxWidth = doHighlight ? Math.Max(0, totalWidth - extraSpace) : totalWidth;
-                double step = Math.Max(0, Math.Min(MaxCardSpacing, (maxWidth - cardWidth) / (numCards - 1)));
-
-                if (step == MaxCardSpacing) doHighlight = false;
-
+                                
+                double unQualifiedStep = (totalWidth - cardWidth) / (numCards - 1);
+                double step = Math.Max(0, Math.Min(MaxCardSpacing, unQualifiedStep));
+                
                 Point topLeft = this.TranslatePoint(new Point(0,0), ParentCanvas);
                 double startX = topLeft.X;
                 if (CardAlignment == HorizontalAlignment.Center)
                 {
                     startX += totalWidth / 2 - step * ((numCards - 1) / 2.0) - cardWidth / 2;
-                    if (doHighlight) startX -= _extraSpaceForHighlightedCard / 2;
                 }
                 else if (CardAlignment == HorizontalAlignment.Right)
                 {
-                    startX += maxWidth - step * numCards;
+                    startX += totalWidth - step * numCards;
                 }
+                
+                double y = topLeft.Y + ActualHeight / 2 - cardHeight / 2;
 
-                int i = 0;
-                double lastX = startX - step;
-                foreach (CardView card in cards)
+                // First pass: get raw position of all cards;                                
+                double posX = startX;                
+                for (int i = 0; i < cards.Count; i++)
+                {
+                    if (cards[i] == _interactingCard  && _cardInteraction == CardInteraction.Drag) continue;
+                    cards[i].Position = new Point(posX, y);
+                    posX += step;
+                }
+                posX -= step;
+
+                cards = new List<CardView>(cards.OrderBy(c => c.Position.X));
+                int splitter = cards.IndexOf(_interactingCard);
+
+                // Second pass: compute final position
+                double leftSpace;
+                double rightSpace;
+                if (splitter >= 0 && cards.Count > 1)
                 {                    
-                    if (card == _interactingCard && _cardInteraction == CardInteraction.Drag)
-                    {
-                        i++;
-                        Rect lastCardRect = new Rect(lastX, topLeft.Y + ActualHeight / 2 - cardHeight / 2, step, cardHeight);
-                        Rect cardRect = new Rect(card.Position, new Size(cardWidth, cardHeight));
-                        lastCardRect.Intersect(cardRect);
-                        double overlapX = lastCardRect.Size.Width;
-                        double overlapY = lastCardRect.Size.Height;
-                        if (overlapX < 0)
+                    Rect cardRect = new Rect(_interactingCard.Position, new Size(cardWidth, cardHeight));
+                    
+                    if (_cardInteraction == CardInteraction.Drag)
+                    {                        
+                        double center = (cardRect.Left + cardRect.Right) / 2.0;
+                        double center2;
+                        if (splitter >= 1)
                         {
-                            continue;
-                        }
-                        else if (overlapX < cardWidth / 2)
-                        {
-                            lastX += overlapX * overlapY / cardHeight;
+                            center2 = cards[splitter - 1].Position.X + cardWidth;
                         }
                         else
                         {
-                            lastX = Math.Max(startX - step, card.Position.X);
+                            center2 = cards[splitter + 1].Position.X;
                         }
-                        continue;
+                        leftSpace = rightSpace = cardWidth / 2 - Math.Abs(center - center2);
+                    }
+                    else
+                    {
+                        leftSpace = rightSpace = Math.Max(0, Math.Min(MaxCardSpacing - step, _extraSpaceForHighlightedCard));
                     }
 
-                    double newX = lastX + step;
-                    if (doHighlight && i == highlightIndex + 1)
+                    if (leftSpace + rightSpace > 0)
                     {
-                        newX = Math.Min(newX + _extraSpaceForHighlightedCard, lastX + MaxCardSpacing);
+                        if (CardAlignment != System.Windows.HorizontalAlignment.Center || step < cardWidth)
+                        {
+                            leftSpace = 0;
+                        }                         
+ 
+                        // Rearrange left side of splitter
+                        if (splitter > 0)
+                        {
+                            double leftMin = Math.Max(startX - leftSpace, topLeft.X);
+                            double leftMax = cards[splitter - 1].Position.X + cardWidth - leftSpace;
+                            step = splitter > 1 ? (leftMax - leftMin - cardWidth) / (splitter - 1) : 0;
+                            for (int i = 0; i < splitter; i++)
+                            {
+                                cards[i].Position = new Point(leftMin + step * i, y);
+                            }
+                        }
+
+                        // Rearrange right side of splitter
+                        if (splitter < cards.Count - 1)
+                        {
+                            double rightMin = cards[splitter + 1].Position.X + rightSpace;
+                            double rightMax = Math.Min(posX + cardWidth + rightSpace, topLeft.X + totalWidth);
+                            step = (cards.Count - splitter) > 2 ? (rightMax - rightMin - cardWidth) / (cards.Count - splitter - 2) : 0;
+
+                            for (int i = splitter + 1; i < cards.Count; i++)
+                            {
+                                cards[i].Position = new Point(rightMin + step * (i - splitter - 1), y);
+                            }
+                        }
                     }
-                    lastX = newX;
+                }
+
+                int zindex = Panel.GetZIndex(this);
+                for (int i = 0; i < cards.Count; i++)
+                {
+                    if (i == splitter && _cardInteraction == CardInteraction.Drag) continue;
+                    var card = cards[i];
                     if (!ParentCanvas.Children.Contains(card))
                     {
                         ParentCanvas.Children.Add(card);
-                    }
-                    card.Position = new Point(newX, topLeft.Y + ActualHeight / 2 - cardHeight / 2);
+                    }                    
                     card.SetValue(Canvas.ZIndexProperty, zindex + i);
                     card.Rebase();
-                    i++;
                 }
             }
         }        

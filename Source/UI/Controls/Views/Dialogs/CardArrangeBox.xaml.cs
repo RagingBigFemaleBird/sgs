@@ -200,6 +200,8 @@ namespace Sanguosha.UI.Controls
                 _allCardSlots.Add(slot);
             }
 
+            deckIcons.ItemsSource = deckNames;
+
             if (isResultHorizontal)
             {
                 _cardStacks.Children.Add(_resultPanel);
