@@ -202,7 +202,7 @@ namespace Sanguosha.UI.Controls
 
                     if (leftSpace + rightSpace > 0)
                     {
-                        if (CardAlignment != System.Windows.HorizontalAlignment.Center || step < cardWidth)
+                        if (CardAlignment != System.Windows.HorizontalAlignment.Center)
                         {
                             leftSpace = 0;
                         }
