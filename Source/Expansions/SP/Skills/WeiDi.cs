@@ -27,26 +27,13 @@ namespace Sanguosha.Expansions.SP.Skills
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => { return a.Source == ruler; },
-                (p, e, a) => 
+                (p, e, a) =>
                 {
-                    bool nothingChanged = true;
-                    foreach (var sk in a.Source.ActionableSkills)
-                    {
-                        if (sk.IsRulerOnly)
-                        {
-                            if (!theSkills.ContainsKey(sk))
-                                nothingChanged = false;
-                        }
-                    }
-                    foreach (var sk in theSkills)
-                    {
-                        if (!a.Source.ActionableSkills.Contains(sk.Key))
-                            nothingChanged = false;
-                    }
-                    if (!nothingChanged)
+                    SkillSetChangedEventArgs arg = a as SkillSetChangedEventArgs;
+                    if (arg.Skills.Any(sk => sk.IsRulerOnly))
                     {
                         UninstallSkills();
-                        InstallSkills(p);
+                        InstallSkills(p, ruler);
                     }
                 },
                 TriggerCondition.Global
@@ -65,7 +52,6 @@ namespace Sanguosha.Expansions.SP.Skills
 
         void InstallSkills(Player owner)
         {
-            theSkills = new Dictionary<ISkill, ISkill>();
             foreach (var p in Game.CurrentGame.AlivePlayers)
             {
                 if (p.Role == Role.Ruler)
@@ -80,6 +66,20 @@ namespace Sanguosha.Expansions.SP.Skills
                             theSkills.Add(sk, toAdd);
                         }
                     }
+                    break;
+                }
+            }
+        }
+
+        void InstallSkills(Player owner, Player ruler)
+        {
+            foreach (var sk in ruler.ActionableSkills)
+            {
+                if (sk.IsRulerOnly)
+                {
+                    var toAdd = Activator.CreateInstance(sk.GetType()) as ISkill;
+                    Game.CurrentGame.PlayerAcquireSkill(owner, toAdd, true);
+                    theSkills.Add(sk, toAdd);
                 }
             }
         }
@@ -96,6 +96,7 @@ namespace Sanguosha.Expansions.SP.Skills
         protected override void UninstallTriggers(Player owner)
         {
             UninstallSkills();
+            base.UninstallTriggers(owner);
         }
     }
 }
