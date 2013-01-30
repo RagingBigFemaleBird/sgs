@@ -47,6 +47,26 @@ namespace Sanguosha.UI.Controls
             this.MouseLeave += CardView_MouseLeave;
             _OnCardSelectedChangedHandler = new EventHandler(_OnCardSelectedChanged);
             OffsetOnSelect = true;
+
+            Storyboard disappear = Resources["sbDisappear"] as Storyboard;
+            disappear.Completed += new EventHandler((o, e2) =>
+            {
+                RenderTransform = null;
+                var panel = Parent as Panel;
+                if (panel != null)
+                {
+                    panel.Children.Remove(this);
+                }
+                BeginAnimation(Canvas.LeftProperty, null);
+                BeginAnimation(Canvas.TopProperty, null);
+                BeginAnimation(CardView.OpacityProperty, null);
+                Trace.Assert(Parent == null);
+                /*
+                if (_doDestroy)
+                {
+                    _cardViewPool.Push(this);
+                }*/
+            });
         }
 
         public CardView(CardViewModel card) : this()
@@ -200,40 +220,26 @@ namespace Sanguosha.UI.Controls
             {
                 Storyboard appear = Resources["sbAppear"] as Storyboard;
                 appear.SpeedRatio = 1 / duration;
-                appear.Begin();
+                appear.Begin(this, HandoffBehavior.Compose);
             }
         }
 
         public void Disappear(double duration, bool destroy = false)
         {
-            this.IsHitTestVisible = false;
+            this.IsHitTestVisible = false;            
             Panel panel = this.Parent as Panel;
             if (panel == null) return;
             else if (duration == 0) { panel.Children.Remove(this); }
             else
             {
                 Storyboard disappear = Resources["sbDisappear"] as Storyboard;
-                if (destroy)
-                {
-                    disappear.Completed += new EventHandler((o, e2) =>
-                    {
-                        RenderTransform = null;
-                        panel.Children.Remove(this);
-                        Trace.Assert(Parent == null);
-                        _cardViewPool.Push(this);
-                    });
-                }
-                else
-                {
-                    disappear.Completed += new EventHandler((o, e2) =>
-                    {                        
-                        panel.Children.Remove(this);                    
-                    });
-                }
+                _doDestroy = destroy;
                 disappear.SpeedRatio = 1 / duration;
-                disappear.Begin();
+                disappear.Begin(this, HandoffBehavior.Compose);
             }
         }
+
+        private bool _doDestroy = false;
 
 
         private static void OnOffsetPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -404,10 +410,10 @@ namespace Sanguosha.UI.Controls
             cardView.Width = width;
             cardView.Height = height;
             cardView.Opacity = 0d;
-            cardView.BeginAnimation(Canvas.LeftProperty, null);
-            cardView.BeginAnimation(Canvas.TopProperty, null);
+            cardView.Visibility = Visibility.Visible;
             cardView.DataContext = new CardViewModel() { Card = card };            
             cardView.IsHitTestVisible = true;
+            Trace.Assert(cardView.Parent == null);
 
             if (parent != null)
             {

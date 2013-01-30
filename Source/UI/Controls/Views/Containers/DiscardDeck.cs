@@ -191,7 +191,7 @@ namespace Sanguosha.UI.Controls
                     c => ((card.Id > 0 && c.Card.Id == card.Id) || (card.Id <= 0 && c.Card == card)));
                 var cardView = CardView.CreateCard(card);
                 if (oldCardView != null)
-                {
+                {                    
                     ParentCanvas.Children.Add(cardView);
                     cardView.SetCurrentPosition(oldCardView.Position);                   
                 }

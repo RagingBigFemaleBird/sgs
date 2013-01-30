@@ -247,7 +247,7 @@ namespace Sanguosha.UI.Controls
                     card.SetValue(Canvas.ZIndexProperty, zindex + i);
                     card.AddRebaseAnimation(sb, 0.4d);
                 }
-                sb.Begin();
+                sb.Begin(this, HandoffBehavior.Compose);
             }
         }
 
@@ -314,7 +314,7 @@ namespace Sanguosha.UI.Controls
                     card.CardModel.IsSelected = false;
                     if (IsCardConsumer)
                     {
-                        card.Disappear(_cardOpacityChangeAnimationDurationSeconds);
+                        card.Disappear(_cardOpacityChangeAnimationDurationSeconds, true);
                     }
                     else
                     {
