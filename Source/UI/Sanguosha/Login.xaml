@@ -18,8 +18,7 @@
         <ResourceDictionary.MergedDictionaries>
             <ResourceDictionary Source="pack://application:,,,/Controls;component/Common.xaml"/>
             <ResourceDictionary Source="pack://application:,,,/Resources;component/Lobby.xaml"/>
-            <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
-            <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
+            <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>            
         </ResourceDictionary.MergedDictionaries>
         <LinearGradientBrush x:Key="FiredTextBrush" EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FFF9BB51" Offset="1"/>

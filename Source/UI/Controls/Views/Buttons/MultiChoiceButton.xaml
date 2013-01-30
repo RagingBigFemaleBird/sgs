@@ -8,7 +8,7 @@
     xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
     mc:Ignorable="d">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/SystemImages.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     <local:MultiChoiceKeyConverter x:Key="multiChoiceKeyConverter" />
     <local:MultiChoiceButtonStyleConverter x:Key="multiChoiceButtonStyleConverter" />

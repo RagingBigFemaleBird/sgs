@@ -677,7 +677,7 @@ namespace Sanguosha.UI.Controls
         {
             _imageDict = new ResourceDictionary()
             {
-                Source = new Uri("pack://application:,,,/Resources;component/Images/System.xaml")
+                Source = new Uri("pack://application:,,,/Resources;component/Images/SystemImages.xaml")
             };
         }
     }

@@ -13,7 +13,7 @@ namespace Sanguosha.UI.Controls
     {
         static ResourceDictionary dict = new ResourceDictionary()
         {
-            Source = new Uri("pack://application:,,,/Resources;component/Images/System.xaml")
+            Source = new Uri("pack://application:,,,/Resources;component/Images/SystemImages.xaml")
         };
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

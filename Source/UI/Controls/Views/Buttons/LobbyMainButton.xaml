@@ -14,7 +14,6 @@
                 <ResourceDictionary Source="pack://application:,,,/Controls;component/Common.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/Lobby.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>        
 	</UserControl.Resources>

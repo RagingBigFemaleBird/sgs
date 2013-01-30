@@ -18,8 +18,7 @@
                 <ResourceDictionary Source="../Players/MarkView.xaml"/>
                 <ResourceDictionary Source="../Buttons/MultiChoiceButton.xaml"/>
                 <ResourceDictionary Source="../Dialogs/PromptBox.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>           
             </ResourceDictionary.MergedDictionaries>
             <local:SkillButtonTemplateSelector x:Key="skillButtonTemplateSelector" />
             <LinearGradientBrush x:Key="indicatorLineBrush" EndPoint="0.5,1" StartPoint="0.5,0">

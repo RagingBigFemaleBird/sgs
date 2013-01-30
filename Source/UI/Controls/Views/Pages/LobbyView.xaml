@@ -13,8 +13,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Controls;component/Common.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/Lobby.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/Lobby.xaml"/>                
             </ResourceDictionary.MergedDictionaries>
             <LinearGradientBrush x:Key="TextBoxBorder" EndPoint="0,20" MappingMode="Absolute" StartPoint="0,0">
                 <GradientStop Color="#ABADB3" Offset="0.05"/>

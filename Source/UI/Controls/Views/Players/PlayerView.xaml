@@ -22,8 +22,7 @@
                 <ResourceDictionary Source="../Skills/SkillButton.xaml"/>
                 <ResourceDictionary Source="../Skills/SkillToolTip.xaml"/>
                 <ResourceDictionary Source="../../Common.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>                
             </ResourceDictionary.MergedDictionaries>
             <Style x:Key="SmallTextBlockStyle" TargetType="{x:Type TextBlock}">
                 <Setter Property="TextWrapping" Value="NoWrap"/>

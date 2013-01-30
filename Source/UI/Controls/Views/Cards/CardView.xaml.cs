@@ -25,6 +25,15 @@ namespace Sanguosha.UI.Controls
     /// </summary>
     public partial class CardView : UserControl
     {
+        static CardView()
+        {
+            _cardViewPool = new Stack<CardView>();
+            for (int i = 0; i < 30; i++)
+            {
+                _cardViewPool.Push(new CardView());
+            }
+        }
+
         public CardView()
         {
             InitializeComponent();            
@@ -192,22 +201,37 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        public void Disappear(double duration)
+        public void Disappear(double duration, bool destroy = false)
         {
+            this.IsHitTestVisible = false;
             Panel panel = this.Parent as Panel;
             if (panel == null) return;
             else if (duration == 0) { panel.Children.Remove(this); }
             else
             {
                 Storyboard disappear = Resources["sbDisappear"] as Storyboard;
-                disappear.Completed += new EventHandler((o, e2) =>
+                if (destroy)
                 {
-                    panel.Children.Remove(this);
-                });
+                    disappear.Completed += new EventHandler((o, e2) =>
+                    {
+                        RenderTransform = null;
+                        panel.Children.Remove(this);
+                        Trace.Assert(Parent == null);
+                        _cardViewPool.Push(this);
+                    });
+                }
+                else
+                {
+                    disappear.Completed += new EventHandler((o, e2) =>
+                    {                        
+                        panel.Children.Remove(this);                    
+                    });
+                }
                 disappear.SpeedRatio = 1 / duration;
                 disappear.Begin();
             }
         }
+
 
         private static void OnOffsetPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -366,14 +390,22 @@ namespace Sanguosha.UI.Controls
 
         #region Card Creation/Destruction Helpers
 
+        static Stack<CardView> _cardViewPool;
+
         public static CardView CreateCard(Card card, Panel parent = null, int width = 93, int height = 130)
         {
-            var cardView = new CardView(new CardViewModel() { Card = card })
-            {
-                Width = width,
-                Height = height,
-                Opacity = 0d
-            };
+            if (_cardViewPool.Count == 0) _cardViewPool.Push(new CardView());
+
+            var cardView = _cardViewPool.Pop();
+
+            cardView.Width = width;
+            cardView.Height = height;
+            cardView.Opacity = 0d;
+            cardView.BeginAnimation(Canvas.LeftProperty, null);
+            cardView.BeginAnimation(Canvas.TopProperty, null);
+            cardView.DataContext = new CardViewModel() { Card = card };            
+            cardView.IsHitTestVisible = true;
+
             if (parent != null)
             {
                 parent.Children.Add(cardView);

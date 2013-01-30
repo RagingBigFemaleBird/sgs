@@ -12,8 +12,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Common.xaml"/>
                 <ResourceDictionary Source="../Buttons/MultiChoiceButton.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>                
             </ResourceDictionary.MergedDictionaries>
             <local:DeckNameToCardChoiceIconConverter x:Key="deckNameToCardChoiceIconConverter" />
         </ResourceDictionary>

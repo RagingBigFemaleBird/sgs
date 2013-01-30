@@ -10,8 +10,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Controls;component/Common.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>                
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>

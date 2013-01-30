@@ -18,8 +18,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Common.xaml"/>
                 <ResourceDictionary Source="../Buttons/CardButton.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>                
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>                
             </ResourceDictionary.MergedDictionaries>
             <Storyboard x:Key="sbPhaseChange">
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="imgPhase">

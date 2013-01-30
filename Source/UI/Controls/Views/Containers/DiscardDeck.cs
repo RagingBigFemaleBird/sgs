@@ -30,19 +30,20 @@ namespace Sanguosha.UI.Controls
         private static int _MaxVisibleCards = 10;
 
         private void _MakeDisappear(CardView card)
-        {
-            card.Disappear(0.5d);
+        {            
             card.SetValue(Canvas.ZIndexProperty, (int)card.GetValue(Canvas.ZIndexProperty) - 100);
             Cards.Remove(card);
+            card.Disappear(0.5d, true);
         }
 
         public void Clear()
         {
-            foreach (CardView card in Cards)
-            {
-                card.Disappear(0.5d);
-            }
+            var backup = new List<CardView>(Cards);
             Cards.Clear();
+            foreach (var card in backup)
+            {
+                card.Disappear(0.5d, true);
+            }            
         }
 
         private void MarkClearance(CardView card)

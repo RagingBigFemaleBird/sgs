@@ -15,7 +15,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <Image x:Name="Large" Source="{res:ImageBinding Path=ActualTypeString, StringFormat=Resources/Images/Cards/DelayedTools/\{0\}.png}"/>
+        <Image x:Name="Large" Source="{res:ImageBinding Path=ActualTypeString, StringFormat=Resources/Images/Cards/DelayedTools/{0}.png,ResourceKeyFormat=Card.{0}.Image.DelayedTools.Large}"/>
     </Grid>
     <UserControl.ToolTip>
         <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top" ContentTemplateSelector="{StaticResource cardToolTipTemplateSelector}"/>

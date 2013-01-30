@@ -12,7 +12,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Buttons/CardButton.xaml"/>
                 <ResourceDictionary Source="../Skills/SkillToolTip.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/SystemImages.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>

@@ -325,7 +325,7 @@ namespace Sanguosha.UI.Controls
 
             if (isFaked)
             {
-                card.Disappear(0d);
+                card.Disappear(0d, true);
             }
             else
             {
@@ -333,7 +333,7 @@ namespace Sanguosha.UI.Controls
                                                        ParentGameView.GlobalCanvas);
                 dest.Offset(-card.Width / 2, -card.Height / 2);
                 card.Position = dest;
-                card.Disappear(0.5d);
+                card.Disappear(0.5d, true);
                 card.Rebase();
             }
 
@@ -415,7 +415,7 @@ namespace Sanguosha.UI.Controls
 
             if (isFaked)
             {
-                card.Disappear(0d);
+                card.Disappear(0d, true);
             }
             else
             {
@@ -423,7 +423,7 @@ namespace Sanguosha.UI.Controls
                                                                        ParentGameView.GlobalCanvas);
                 dest.Offset(-card.Width / 2, -card.Height / 2);
                 card.Position = dest;
-                card.Disappear(0.5d);
+                card.Disappear(0.5d, true);
                 card.Rebase();
             }
 
@@ -475,7 +475,7 @@ namespace Sanguosha.UI.Controls
         {
             if (isFaked)
             {
-                card.Disappear(0d);
+                card.Disappear(0d, true);
                 return;
             }
 
@@ -507,7 +507,7 @@ namespace Sanguosha.UI.Controls
             if (anim != null) storyboard.Children.Add(anim);
             storyboard.AccelerationRatio = 0.4d;
             storyboard.Begin();
-            card.Disappear(1.2d);
+            card.Disappear(1.2d, true);
             
         }
 

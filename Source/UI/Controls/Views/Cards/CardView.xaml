@@ -15,7 +15,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Common.xaml"/>
+                <ResourceDictionary Source="../../Common.xaml"/>                
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
                 <ResourceDictionary Source="CardToolTip.xaml"/>
             </ResourceDictionary.MergedDictionaries>
@@ -125,7 +125,7 @@
                 <!--Hint is used to display a CardView as a card slot-->
                 <TextBlock Text="{Binding Hint, Mode=OneWay}" Foreground="#FFA79D75" FontFamily="SimSun" FontSize="14" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 <TextBlock Text="{Binding TypeString}" Foreground="Yellow" FontFamily="SimSun"/>
-                <Image Source="{res:ImageBinding Path=TypeString, StringFormat=Resources/Images/Cards/Normal/\{0\}.jpg, ResourceKeyFormat=Card.\{0\}.Image.Normal}"/>
+                <Image Source="{res:ImageBinding Path=TypeString, StringFormat=Resources/Images/Cards/Normal/{0}.jpg, ResourceKeyFormat=Card.{0}.Image.Normal}"/>
                 <TextBlock x:Name="tbRank" Text="{Binding RankString}"
                        Margin="9,5"
                        HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold"

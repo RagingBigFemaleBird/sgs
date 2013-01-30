@@ -11,7 +11,7 @@
     xmlns:Sanguosha_UI_Animations="clr-namespace:Sanguosha.UI.Animations;assembly=Animations"
     mc:Ignorable="d">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>        
         <ResourceDictionary Source="../Cards/CardToolTip.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     <local:SuitColorToColorConverter x:Key="suitColorToColorConverter" />

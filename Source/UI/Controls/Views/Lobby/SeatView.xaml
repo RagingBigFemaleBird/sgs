@@ -12,8 +12,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Controls;component/Common.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/System.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>                
             </ResourceDictionary.MergedDictionaries>           
             <Style x:Key="winProgressBarStyle" TargetType="{x:Type ProgressBar}">
                 <Setter Property="Foreground" Value="#01D328"/>                
