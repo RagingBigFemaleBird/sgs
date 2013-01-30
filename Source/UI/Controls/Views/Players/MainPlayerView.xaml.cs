@@ -503,8 +503,7 @@ namespace Sanguosha.UI.Controls
             storyboard.Children.Add(rotateAnim);
             storyboard.Children.Add(scaleXAnim);
             storyboard.Children.Add(scaleYAnim);
-            var anim = card.GetRebaseAnimation(0.8d);
-            if (anim != null) storyboard.Children.Add(anim);
+            card.AddRebaseAnimation(storyboard, 0.8d);            
             storyboard.AccelerationRatio = 0.4d;
             storyboard.Begin();
             card.Disappear(1.2d, true);

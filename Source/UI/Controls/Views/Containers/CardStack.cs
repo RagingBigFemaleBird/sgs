@@ -234,6 +234,7 @@ namespace Sanguosha.UI.Controls
                     }
                 }
 
+                Storyboard sb = new Storyboard();
                 int zindex = Panel.GetZIndex(this);
                 for (int i = 0; i < cards.Count; i++)
                 {
@@ -244,8 +245,9 @@ namespace Sanguosha.UI.Controls
                         ParentCanvas.Children.Add(card);
                     }
                     card.SetValue(Canvas.ZIndexProperty, zindex + i);
-                    card.Rebase();
+                    card.AddRebaseAnimation(sb, 0.4d);
                 }
+                sb.Begin();
             }
         }
 
@@ -338,6 +340,11 @@ namespace Sanguosha.UI.Controls
             {
                 foreach (var card in cards)
                 {
+                    if (card == _interactingCard)
+                    {
+                        _interactingCard = null;
+                        _cardInteraction = CardInteraction.None;
+                    }
                     UnRegisterCardEvents(card);
                 }
                 var nonexisted = from c in cards

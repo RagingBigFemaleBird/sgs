@@ -28,7 +28,32 @@ namespace Sanguosha.UI.Resources
                 return null;
             }
 
+            if (ResourceKeyFormat != null)
+            {
+                resourceKey = string.Format(ResourceKeyFormat, resourceKey);
+            }
+
+            if (ResourceKeyConverter != null)
+            {
+                resourceKey = ResourceKeyConverter.Convert(resourceKey, targetType, ConverterParameter, culture);
+            }
+
+            if (resourceKey == null) return null;
+
+            var resource = element.TryFindResource(resourceKey);
+
+            if (resource != null)
+            {             
+                if (CropRect == null) return resource;
+                else if (resource is BitmapSource)
+                {
+                    BitmapSource bitmap = resource as BitmapSource;
+                    return new CroppedBitmap(bitmap, CropRect);
+                }
+            }
+
             string fileName = null;
+            resourceKey = values[1];
 
             if (StringFormat != null)
             {
@@ -69,37 +94,9 @@ namespace Sanguosha.UI.Resources
                 {
                     Trace.TraceWarning("Image not in expected size: {0}", fileName);
                 }
-
             }
 
-            if (ResourceKeyFormat != null)
-            {
-                resourceKey = string.Format(ResourceKeyFormat, resourceKey);
-            }
-
-            if (ResourceKeyConverter != null)
-            {
-                resourceKey = ResourceKeyConverter.Convert(resourceKey, targetType, ConverterParameter, culture);
-            }
-
-            if (resourceKey == null) return null;
-
-            var resource = element.TryFindResource(resourceKey);
-
-            if (resource == null)
-            {
-                Trace.TraceWarning("Resource not found: {0} or\n{1}", resourceKey, fileName);
-            }
-            else
-            {
-                if (CropRect == null) return resource;
-                else if (resource is BitmapSource)
-                {
-                    BitmapSource bitmap = resource as BitmapSource;
-                    return new CroppedBitmap(bitmap, CropRect);
-                }
-            }
-
+            Trace.TraceWarning("Resource not found: {0} or {1}\n", resourceKey, fileName);
             return null;
         }
 

@@ -145,10 +145,12 @@ namespace Sanguosha.UI.Controls
             SetValue(Canvas.TopProperty, p.Y);
         }
 
-        public Storyboard GetRebaseAnimation(double transitionInSeconds = 0.4d)
+        public void AddRebaseAnimation(Storyboard storyboard, double transitionInSeconds = 0.4d)
         {
-            if (Position == null) return null;
-            if (Parent == null || !(Parent is Canvas)) return null;
+            if (Position == null) return;
+            if (Parent == null || !(Parent is Canvas)) return;
+
+            Trace.Assert(storyboard != null);
 
             double destX = Position.X;
             double destY = Position.Y;
@@ -160,12 +162,13 @@ namespace Sanguosha.UI.Controls
             {
                 SetValue(Canvas.LeftProperty, destX);
                 SetValue(Canvas.TopProperty, destY);
-                return null;
+                return;
             }
 
             var _daMoveX = new DoubleAnimation();
             var _daMoveY = new DoubleAnimation();
-            var _moveAnimation = new Storyboard();
+
+            var _moveAnimation = storyboard;
 
             Storyboard.SetTarget(_daMoveX, this);
             Storyboard.SetTargetProperty(_daMoveX, new PropertyPath(Canvas.LeftProperty));
@@ -177,8 +180,7 @@ namespace Sanguosha.UI.Controls
             _daMoveY.To = destY;
             _daMoveX.Duration = TimeSpan.FromSeconds(transitionInSeconds);
             _daMoveY.Duration = TimeSpan.FromSeconds(transitionInSeconds);
-            _moveAnimation.Duration = TimeSpan.FromSeconds(transitionInSeconds);            
-            return _moveAnimation;
+            _moveAnimation.Duration = TimeSpan.FromSeconds(transitionInSeconds);
         }
 
         /// <summary>
@@ -186,7 +188,8 @@ namespace Sanguosha.UI.Controls
         /// </summary>
         public void Rebase(double transitionInSeconds = 0.4d)
         {
-            var anim = GetRebaseAnimation(transitionInSeconds);
+            var anim = new Storyboard();
+            AddRebaseAnimation(anim, transitionInSeconds);
             if (anim != null) anim.Begin(this, HandoffBehavior.Compose);
         }
 

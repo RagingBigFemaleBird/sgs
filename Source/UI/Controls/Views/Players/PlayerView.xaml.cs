@@ -451,8 +451,7 @@ namespace Sanguosha.UI.Controls
             Storyboard storyboard = new Storyboard();
             storyboard.Children.Add(scaleXAnim);            
             storyboard.Children.Add(scaleYAnim);
-            var anim = card.GetRebaseAnimation(0.5d);
-            if (anim != null) storyboard.Children.Add(anim);
+            card.AddRebaseAnimation(storyboard, 0.5d);            
             storyboard.AccelerationRatio = 0.4d;
             storyboard.Begin();
             card.Disappear(0.5d, true);            
