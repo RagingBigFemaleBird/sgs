@@ -22,15 +22,13 @@ namespace Sanguosha.Expansions.Woods.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => 
+                (p, e, a) => { return a.Targets[0] != p; },
+                (p, e, a) =>
                 {
-                    if (a.Targets[0] != p)
-                    {
-                        List<Card> toGet = new List<Card>();
-                        toGet.AddRange(a.Targets[0].Equipments());
-                        toGet.AddRange(a.Targets[0].HandCards());
-                        Game.CurrentGame.HandleCardTransferToHand(null, p, toGet);
-                    }
+                    List<Card> toGet = new List<Card>();
+                    toGet.AddRange(a.Targets[0].Equipments());
+                    toGet.AddRange(a.Targets[0].HandCards());
+                    Game.CurrentGame.HandleCardTransferToHand(null, p, toGet);
                 },
                 TriggerCondition.Global
             );

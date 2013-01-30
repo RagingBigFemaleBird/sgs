@@ -526,7 +526,7 @@ namespace Sanguosha.Core.Games
                 move.Helper = helper;
             }
             MoveCards(move);
-            GameDelays.Delay(GameDelayTypes.CardTransfer);
+            if (!atomic) GameDelays.Delay(GameDelayTypes.CardTransfer);
             EnterAtomicContext();
             PlayerLostCard(from, cards, true);
             PlayerAcquiredCard(to, cards, true);
