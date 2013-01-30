@@ -61,11 +61,12 @@ namespace Sanguosha.UI.Controls
                 BeginAnimation(Canvas.TopProperty, null);
                 BeginAnimation(CardView.OpacityProperty, null);
                 Trace.Assert(Parent == null);
-                /*
+                
                 if (_doDestroy)
                 {
+                    Trace.Assert(!_cardViewPool.Contains(this));
                     _cardViewPool.Push(this);
-                }*/
+                }
             });
         }
 
@@ -412,7 +413,7 @@ namespace Sanguosha.UI.Controls
             cardView.Opacity = 0d;
             cardView.Visibility = Visibility.Visible;
             cardView.DataContext = new CardViewModel() { Card = card };            
-            cardView.IsHitTestVisible = true;
+            cardView.IsHitTestVisible = true;            
             Trace.Assert(cardView.Parent == null);
 
             if (parent != null)
@@ -424,7 +425,7 @@ namespace Sanguosha.UI.Controls
 
         public static IList<CardView> CreateCards(IList<Card> cards, Panel parent = null)
         {
-            List<CardView> cardViews = new List<CardView>();
+            List<CardView> cardViews = new List<CardView>();            
             foreach (Card card in cards)
             {
                 cardViews.Add(CreateCard(card, parent));

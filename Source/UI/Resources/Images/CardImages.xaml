@@ -102,7 +102,7 @@
     <BitmapImage x:Key="Card.ShenSiMayi.Image.Normal">Cards/Normal/ShenSiMayi.jpg</BitmapImage>
     <BitmapImage x:Key="Card.ShenZhaoYun.Image.Normal">Cards/Normal/ShenZhaoYun.jpg</BitmapImage>
     <BitmapImage x:Key="Card.ShenZhouYu.Image.Normal">Cards/Normal/ShenZhouYu.jpg</BitmapImage>
-    <BitmapImage x:Key="Card.ShenZhuGeLiang.Image.Normal">Cards/Normal/ShenZhuGeLiang.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.ShenZhugeLiang.Image.Normal">Cards/Normal/ShenZhugeLiang.jpg</BitmapImage>
     <BitmapImage x:Key="Card.ShunShouQianYang.Image.Normal">Cards/Normal/ShunShouQianYang.jpg</BitmapImage>
     <BitmapImage x:Key="Card.ShuSunShangxiang.Image.Normal">Cards/Normal/ShuSunShangxiang.jpg</BitmapImage>
     <BitmapImage x:Key="Card.SiMaYi.Image.Normal">Cards/Normal/SiMaYi.jpg</BitmapImage>
@@ -114,7 +114,7 @@
     <BitmapImage x:Key="Card.SPLvMeng.Image.Normal">Cards/Normal/SPLvMeng.jpg</BitmapImage>
     <BitmapImage x:Key="Card.SPMoonSpear.Image.Normal">Cards/Normal/SPMoonSpear.jpg</BitmapImage>
     <BitmapImage x:Key="Card.SPPangTong.Image.Normal">Cards/Normal/SPPangTong.jpg</BitmapImage>
-    <BitmapImage x:Key="Card.SPXiaHoudun.Image.Normal">Cards/Normal/SPXiaHoudun.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.SPXiahouDun.Image.Normal">Cards/Normal/SPXiahouDun.jpg</BitmapImage>
     <BitmapImage x:Key="Card.SPZhangFei.Image.Normal">Cards/Normal/SPZhangFei.jpg</BitmapImage>
     <BitmapImage x:Key="Card.SPZhaoYun.Image.Normal">Cards/Normal/SPZhaoYun.jpg</BitmapImage>
     <BitmapImage x:Key="Card.SuJiang.Image.Normal">Cards/Normal/SuJiang.jpg</BitmapImage>
@@ -145,8 +145,8 @@
     <BitmapImage x:Key="Card.WuGuotai.Image.Normal">Cards/Normal/WuGuotai.jpg</BitmapImage>
     <BitmapImage x:Key="Card.WuXieKeJi.Image.Normal">Cards/Normal/WuXieKeJi.jpg</BitmapImage>
     <BitmapImage x:Key="Card.WuZhongShengYou.Image.Normal">Cards/Normal/WuZhongShengYou.jpg</BitmapImage>
-    <BitmapImage x:Key="Card.XiaHoudun.Image.Normal">Cards/Normal/XiaHoudun.jpg</BitmapImage>
-    <BitmapImage x:Key="Card.XiaHouyuan.Image.Normal">Cards/Normal/XiaHouyuan.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.XiahouDun.Image.Normal">Cards/Normal/XiahouDun.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.XiahouYuan.Image.Normal">Cards/Normal/XiahouYuan.jpg</BitmapImage>
     <BitmapImage x:Key="Card.XiaoQiao.Image.Normal">Cards/Normal/XiaoQiao.jpg</BitmapImage>
     <BitmapImage x:Key="Card.XuChu.Image.Normal">Cards/Normal/XuChu.jpg</BitmapImage>
     <BitmapImage x:Key="Card.XuHuang.Image.Normal">Cards/Normal/XuHuang.jpg</BitmapImage>
@@ -192,4 +192,52 @@
     <BitmapImage x:Key="Card.ShanDian.Image.DelayedTools.Small">Cards/DelayedTools/ShanDian2.png</BitmapImage>
     <BitmapImage x:Key="Card.YanXiaoPai.Image.DelayedTools.Large">Cards/DelayedTools/YanXiaoPai.png</BitmapImage>
     <BitmapImage x:Key="Card.YanXiaoPai.Image.DelayedTools.Small">Cards/DelayedTools/YanXiaoPai2.png</BitmapImage>
+
+    <BitmapImage x:Key="Card.BaGuaZhen.Image.BigEquip">Cards/BigEquip/BaGuaZhen.png</BitmapImage>
+    <BitmapImage x:Key="Card.BaiYinShiZi.Image.BigEquip">Cards/BigEquip/BaiYinShiZi.png</BitmapImage>
+    <BitmapImage x:Key="Card.ChiTu.Image.BigEquip">Cards/BigEquip/ChiTu.png</BitmapImage>
+    <BitmapImage x:Key="Card.CiXiongShuangGuJian.Image.BigEquip">Cards/BigEquip/CiXiongShuangGuJian.png</BitmapImage>
+    <BitmapImage x:Key="Card.DaYuan.Image.BigEquip">Cards/BigEquip/DaYuan.png</BitmapImage>
+    <BitmapImage x:Key="Card.DiLu.Image.BigEquip">Cards/BigEquip/DiLu.png</BitmapImage>
+    <BitmapImage x:Key="Card.FangTianHuaJi.Image.BigEquip">Cards/BigEquip/FangTianHuaJi.png</BitmapImage>
+    <BitmapImage x:Key="Card.GuanShiFu.Image.BigEquip">Cards/BigEquip/GuanShiFu.png</BitmapImage>
+    <BitmapImage x:Key="Card.GuDingDao.Image.BigEquip">Cards/BigEquip/GuDingDao.png</BitmapImage>
+    <BitmapImage x:Key="Card.HanBingJian.Image.BigEquip">Cards/BigEquip/HanBingJian.png</BitmapImage>
+    <BitmapImage x:Key="Card.HuaLiu.Image.BigEquip">Cards/BigEquip/HuaLiu.png</BitmapImage>
+    <BitmapImage x:Key="Card.JueYing.Image.BigEquip">Cards/BigEquip/JueYing.png</BitmapImage>
+    <BitmapImage x:Key="Card.QiLinGong.Image.BigEquip">Cards/BigEquip/QiLinGong.png</BitmapImage>
+    <BitmapImage x:Key="Card.QingGangJian.Image.BigEquip">Cards/BigEquip/QingGangJian.png</BitmapImage>
+    <BitmapImage x:Key="Card.QingLongYanYueDao.Image.BigEquip">Cards/BigEquip/QingLongYanYueDao.png</BitmapImage>
+    <BitmapImage x:Key="Card.RenWangDun.Image.BigEquip">Cards/BigEquip/RenWangDun.png</BitmapImage>
+    <BitmapImage x:Key="Card.TengJia.Image.BigEquip">Cards/BigEquip/TengJia.png</BitmapImage>
+    <BitmapImage x:Key="Card.ZhangBaSheMao.Image.BigEquip">Cards/BigEquip/ZhangBaSheMao.png</BitmapImage>
+    <BitmapImage x:Key="Card.ZhuaHuangFeiDian.Image.BigEquip">Cards/BigEquip/ZhuaHuangFeiDian.png</BitmapImage>
+    <BitmapImage x:Key="Card.ZhuGeLianNu.Image.BigEquip">Cards/BigEquip/ZhuGeLianNu.png</BitmapImage>
+    <BitmapImage x:Key="Card.ZhuQueYuShan.Image.BigEquip">Cards/BigEquip/ZhuQueYuShan.png</BitmapImage>
+    <BitmapImage x:Key="Card.ZiXing.Image.BigEquip">Cards/BigEquip/ZiXing.png</BitmapImage>
+
+
+    <BitmapImage x:Key="Card.BaGuaZhen.Image.SmallEquip">Cards/SmallEquip/BaGuaZhen.png</BitmapImage>
+    <BitmapImage x:Key="Card.BaiYinShiZi.Image.SmallEquip">Cards/SmallEquip/BaiYinShiZi.png</BitmapImage>
+    <BitmapImage x:Key="Card.ChiTu.Image.SmallEquip">Cards/SmallEquip/ChiTu.png</BitmapImage>
+    <BitmapImage x:Key="Card.CiXiongShuangGuJian.Image.SmallEquip">Cards/SmallEquip/CiXiongShuangGuJian.png</BitmapImage>
+    <BitmapImage x:Key="Card.DaYuan.Image.SmallEquip">Cards/SmallEquip/DaYuan.png</BitmapImage>
+    <BitmapImage x:Key="Card.DiLu.Image.SmallEquip">Cards/SmallEquip/DiLu.png</BitmapImage>
+    <BitmapImage x:Key="Card.FangTianHuaJi.Image.SmallEquip">Cards/SmallEquip/FangTianHuaJi.png</BitmapImage>
+    <BitmapImage x:Key="Card.GuanShiFu.Image.SmallEquip">Cards/SmallEquip/GuanShiFu.png</BitmapImage>
+    <BitmapImage x:Key="Card.GuDingDao.Image.SmallEquip">Cards/SmallEquip/GuDingDao.png</BitmapImage>
+    <BitmapImage x:Key="Card.HanBingJian.Image.SmallEquip">Cards/SmallEquip/HanBingJian.png</BitmapImage>
+    <BitmapImage x:Key="Card.HuaLiu.Image.SmallEquip">Cards/SmallEquip/HuaLiu.png</BitmapImage>
+    <BitmapImage x:Key="Card.JueYing.Image.SmallEquip">Cards/SmallEquip/JueYing.png</BitmapImage>
+    <BitmapImage x:Key="Card.QiLinGong.Image.SmallEquip">Cards/SmallEquip/QiLinGong.png</BitmapImage>
+    <BitmapImage x:Key="Card.QingGangJian.Image.SmallEquip">Cards/SmallEquip/QingGangJian.png</BitmapImage>
+    <BitmapImage x:Key="Card.QingLongYanYueDao.Image.SmallEquip">Cards/SmallEquip/QingLongYanYueDao.png</BitmapImage>
+    <BitmapImage x:Key="Card.RenWangDun.Image.SmallEquip">Cards/SmallEquip/RenWangDun.png</BitmapImage>
+    <BitmapImage x:Key="Card.TengJia.Image.SmallEquip">Cards/SmallEquip/TengJia.png</BitmapImage>
+    <BitmapImage x:Key="Card.ZhangBaSheMao.Image.SmallEquip">Cards/SmallEquip/ZhangBaSheMao.png</BitmapImage>
+    <BitmapImage x:Key="Card.ZhuaHuangFeiDian.Image.SmallEquip">Cards/SmallEquip/ZhuaHuangFeiDian.png</BitmapImage>
+    <BitmapImage x:Key="Card.ZhuGeLianNu.Image.SmallEquip">Cards/SmallEquip/ZhuGeLianNu.png</BitmapImage>
+    <BitmapImage x:Key="Card.ZhuQueYuShan.Image.SmallEquip">Cards/SmallEquip/ZhuQueYuShan.png</BitmapImage>
+    <BitmapImage x:Key="Card.ZiXing.Image.SmallEquip">Cards/SmallEquip/ZiXing.png</BitmapImage>
+
 </ResourceDictionary>
