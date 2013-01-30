@@ -200,8 +200,8 @@ namespace Sanguosha.UI.Controls
                     remaining.Add(cardView);
                 }
                 result.Add(cardView);
-            }
-            RemoveCards(remaining);
+            }            
+            RemoveCards(remaining);            
             return result;
         }
     }

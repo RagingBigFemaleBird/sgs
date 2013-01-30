@@ -24,7 +24,6 @@ namespace Sanguosha.UI.Controls
             CardCapacity = int.MaxValue;
             _cards = new List<CardView>();
             this.SizeChanged += new SizeChangedEventHandler(CardStack_SizeChanged);
-            _rearrangeLock = new object();
         }
 
         void CardStack_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -72,27 +71,24 @@ namespace Sanguosha.UI.Controls
         protected int ComputeDragCardNewIndex()
         {
             Trace.Assert(InteractingCard != null);
-            lock (_rearrangeLock)
+            double right = InteractingCard.Position.X + InteractingCard.Width;
+            int i = 0;
+            bool skipOne = false;
+            for (; i < Cards.Count; i++)
             {
-                double right = InteractingCard.Position.X + InteractingCard.Width;
-                int i = 0;
-                bool skipOne = false;
-                for (; i < Cards.Count; i++)
+                var card = Cards[i];
+                if (card == InteractingCard)
                 {
-                    var card = Cards[i];
-                    if (card == InteractingCard)
-                    {
-                        skipOne = true;
-                        continue;
-                    }
-                    if (right <= card.Position.X + card.Width)
-                    {
-                        break;
-                    }
+                    skipOne = true;
+                    continue;
                 }
-                if (skipOne) i--;
-                return i;
+                if (right <= card.Position.X + card.Width)
+                {
+                    break;
+                }
             }
+            if (skipOne) i--;
+            return i;
         }
         #endregion
 
@@ -113,8 +109,6 @@ namespace Sanguosha.UI.Controls
 
         private static double _extraSpaceForHighlightedCard = 30d;
 
-        protected static object _rearrangeLock;
-
         /// <summary>
         /// Arrange children cards in this stack.
         /// </summary>
@@ -123,130 +117,129 @@ namespace Sanguosha.UI.Controls
         /// </remarks>
         public void RearrangeCards(IList<CardView> cards)
         {
-            lock (_rearrangeLock)
+            int numCards = cards.Count();
+            if (_cardInteraction == CardInteraction.Drag && cards.Contains(_interactingCard))
             {
-                int numCards = cards.Count();
-                if (_cardInteraction == CardInteraction.Drag && cards.Contains(_interactingCard))
-                {
-                    numCards--;
-                }
-                if (numCards == 0) return;
-                Trace.Assert(ParentCanvas != null);
-                double cardHeight = (from c in cards select c.Height).Max();
-                double cardWidth = (from c in cards select c.Width).Max();
+                numCards--;
+            }
+            if (numCards == 0) return;
+            Trace.Assert(ParentCanvas != null);
+            double cardHeight = (from c in cards select c.Height).Max();
+            double cardWidth = (from c in cards select c.Width).Max();
 
-                if (KeepHorizontalOrder)
-                {
-                    cards = new List<CardView>(cards.OrderBy(c => c.Position.X));
-                }
-
-                double totalWidth = this.ActualWidth;
-
-                // Do not continue if the layout has not been updated yet.
-                if (totalWidth == 0) return;
-
-                double unQualifiedStep = (totalWidth - cardWidth) / (numCards - 1);
-                double step = Math.Max(0, Math.Min(MaxCardSpacing, unQualifiedStep));
-
-                Point topLeft = this.TranslatePoint(new Point(0, 0), ParentCanvas);
-                double startX = topLeft.X;
-                if (CardAlignment == HorizontalAlignment.Center)
-                {
-                    startX += totalWidth / 2 - step * ((numCards - 1) / 2.0) - cardWidth / 2;
-                }
-                else if (CardAlignment == HorizontalAlignment.Right)
-                {
-                    startX += totalWidth - step * numCards;
-                }
-
-                double y = topLeft.Y + ActualHeight / 2 - cardHeight / 2;
-
-                // First pass: get raw position of all cards;                                
-                double posX = startX;
-                for (int i = 0; i < cards.Count; i++)
-                {
-                    if (cards[i] == _interactingCard && _cardInteraction == CardInteraction.Drag) continue;
-                    cards[i].Position = new Point(posX, y);
-                    posX += step;
-                }
-                posX -= step;
-
+            if (KeepHorizontalOrder)
+            {
                 cards = new List<CardView>(cards.OrderBy(c => c.Position.X));
-                int splitter = cards.IndexOf(_interactingCard);
+            }
 
-                // Second pass: compute final position
-                double leftSpace;
-                double rightSpace;
-                if (splitter >= 0 && cards.Count > 1)
+            double totalWidth = this.ActualWidth;
+
+            // Do not continue if the layout has not been updated yet.
+            if (totalWidth == 0) return;
+
+            double unQualifiedStep = (totalWidth - cardWidth) / (numCards - 1);
+            double step = Math.Max(0, Math.Min(MaxCardSpacing, unQualifiedStep));
+
+            Point topLeft = this.TranslatePoint(new Point(0, 0), ParentCanvas);
+            double startX = topLeft.X;
+            if (CardAlignment == HorizontalAlignment.Center)
+            {
+                startX += totalWidth / 2 - step * ((numCards - 1) / 2.0) - cardWidth / 2;
+            }
+            else if (CardAlignment == HorizontalAlignment.Right)
+            {
+                startX += totalWidth - step * numCards;
+            }
+
+            double y = topLeft.Y + ActualHeight / 2 - cardHeight / 2;
+
+            // First pass: get raw position of all cards;                                
+            double posX = startX;
+            for (int i = 0; i < cards.Count; i++)
+            {
+                if (cards[i] == _interactingCard && _cardInteraction == CardInteraction.Drag) continue;
+                cards[i].Position = new Point(posX, y);
+                posX += step;
+            }
+            posX -= step;
+
+            cards = new List<CardView>(cards.OrderBy(c => c.Position.X));
+            int splitter = cards.IndexOf(_interactingCard);
+
+            // Second pass: compute final position
+            double leftSpace;
+            double rightSpace;
+            if (splitter >= 0 && cards.Count > 1)
+            {
+                Rect cardRect = new Rect(_interactingCard.Position, new Size(cardWidth, cardHeight));
+
+                if (_cardInteraction == CardInteraction.Drag)
                 {
-                    Rect cardRect = new Rect(_interactingCard.Position, new Size(cardWidth, cardHeight));
-
-                    if (_cardInteraction == CardInteraction.Drag)
+                    double center = (cardRect.Left + cardRect.Right) / 2.0;
+                    double center2;
+                    if (splitter >= 1)
                     {
-                        double center = (cardRect.Left + cardRect.Right) / 2.0;
-                        double center2;
-                        if (splitter >= 1)
-                        {
-                            center2 = cards[splitter - 1].Position.X + cardWidth;
-                        }
-                        else
-                        {
-                            center2 = cards[splitter + 1].Position.X;
-                        }
-                        leftSpace = rightSpace = cardWidth / 2 - Math.Abs(center - center2);
+                        center2 = cards[splitter - 1].Position.X + cardWidth;
                     }
                     else
                     {
-                        leftSpace = rightSpace = Math.Max(0, Math.Min(MaxCardSpacingOnHighlighted - step, _extraSpaceForHighlightedCard));
+                        center2 = cards[splitter + 1].Position.X;
+                    }
+                    leftSpace = rightSpace = cardWidth / 2 - Math.Abs(center - center2);
+                }
+                else
+                {
+                    leftSpace = rightSpace = Math.Max(0, Math.Min(MaxCardSpacingOnHighlighted - step, _extraSpaceForHighlightedCard));
+                }
+
+                if (leftSpace + rightSpace > 0)
+                {
+                    if (CardAlignment != System.Windows.HorizontalAlignment.Center)
+                    {
+                        leftSpace = 0;
                     }
 
-                    if (leftSpace + rightSpace > 0)
+                    // Rearrange left side of splitter
+                    if (splitter > 0)
                     {
-                        if (CardAlignment != System.Windows.HorizontalAlignment.Center)
+                        double leftMin = Math.Max(startX - leftSpace, topLeft.X);
+                        double leftMax = cards[splitter - 1].Position.X + cardWidth - leftSpace;
+                        step = splitter > 1 ? (leftMax - leftMin - cardWidth) / (splitter - 1) : 0;
+                        for (int i = 0; i < splitter; i++)
                         {
-                            leftSpace = 0;
+                            cards[i].Position = new Point(leftMin + step * i, y);
                         }
+                    }
 
-                        // Rearrange left side of splitter
-                        if (splitter > 0)
+                    // Rearrange right side of splitter
+                    if (splitter < cards.Count - 1)
+                    {
+                        double rightMin = cards[splitter + 1].Position.X + rightSpace;
+                        double rightMax = Math.Min(posX + cardWidth + rightSpace, topLeft.X + totalWidth);
+                        step = (cards.Count - splitter) > 2 ? (rightMax - rightMin - cardWidth) / (cards.Count - splitter - 2) : 0;
+
+                        for (int i = splitter + 1; i < cards.Count; i++)
                         {
-                            double leftMin = Math.Max(startX - leftSpace, topLeft.X);
-                            double leftMax = cards[splitter - 1].Position.X + cardWidth - leftSpace;
-                            step = splitter > 1 ? (leftMax - leftMin - cardWidth) / (splitter - 1) : 0;
-                            for (int i = 0; i < splitter; i++)
-                            {
-                                cards[i].Position = new Point(leftMin + step * i, y);
-                            }
-                        }
-
-                        // Rearrange right side of splitter
-                        if (splitter < cards.Count - 1)
-                        {
-                            double rightMin = cards[splitter + 1].Position.X + rightSpace;
-                            double rightMax = Math.Min(posX + cardWidth + rightSpace, topLeft.X + totalWidth);
-                            step = (cards.Count - splitter) > 2 ? (rightMax - rightMin - cardWidth) / (cards.Count - splitter - 2) : 0;
-
-                            for (int i = splitter + 1; i < cards.Count; i++)
-                            {
-                                cards[i].Position = new Point(rightMin + step * (i - splitter - 1), y);
-                            }
+                            cards[i].Position = new Point(rightMin + step * (i - splitter - 1), y);
                         }
                     }
                 }
-                                
-                int zindex = Panel.GetZIndex(this);
-                for (int i = 0; i < cards.Count; i++)
-                {
-                    if (i == splitter && _cardInteraction == CardInteraction.Drag) continue;
-                    var card = cards[i];
-                    if (!ParentCanvas.Children.Contains(card))
-                    {
-                        ParentCanvas.Children.Add(card);
-                    }
-                    card.SetValue(Canvas.ZIndexProperty, zindex + i);
-                    card.Rebase();
-                }                
             }
+
+            Storyboard sb = new Storyboard();
+            int zindex = Panel.GetZIndex(this);
+            for (int i = 0; i < cards.Count; i++)
+            {
+                if (i == splitter && _cardInteraction == CardInteraction.Drag) continue;
+                var card = cards[i];
+                if (!ParentCanvas.Children.Contains(card))
+                {
+                    ParentCanvas.Children.Add(card);
+                }
+                card.SetValue(Canvas.ZIndexProperty, zindex + i);
+                card.AddRebaseAnimation(sb, 0.4d);
+            }
+            sb.Begin(this, HandoffBehavior.Compose);
         }
 
         #endregion
@@ -305,50 +298,51 @@ namespace Sanguosha.UI.Controls
 
         public virtual void AddCards(IList<CardView> cards)
         {
-            lock (_cards)
+            foreach (var card in cards)
             {
-                foreach (var card in cards)
-                {
-                    card.CardModel.IsSelected = false;
-                    if (IsCardConsumer)
-                    {
-                        card.Disappear(_cardOpacityChangeAnimationDurationSeconds, true);
-                    }
-                    else
-                    {
-                        card.Appear(_cardOpacityChangeAnimationDurationSeconds);
-                        _cards.Add(card);
-                        RegisterCardEvents(card);
-                    }
-                }
+                card.CardModel.IsSelected = false;
                 if (IsCardConsumer)
                 {
-                    RearrangeCards(cards);
+                    card.Disappear(_cardOpacityChangeAnimationDurationSeconds, true);
                 }
                 else
                 {
-                    RearrangeCards(_cards);
+                    card.Appear(_cardOpacityChangeAnimationDurationSeconds);
+                    _cards.Add(card);
+                    RegisterCardEvents(card);
                 }
+            }
+            if (IsCardConsumer)
+            {
+                RearrangeCards(cards);
+            }
+            else
+            {
+                RearrangeCards(_cards);
             }
         }
 
         public void RemoveCards(IList<CardView> cards)
         {
-            lock (_cards)
+            foreach (var card in cards)
             {
-                foreach (var card in cards)
+                if (card == _interactingCard)
                 {
-                    if (card == _interactingCard)
-                    {
-                        _interactingCard = null;
-                        _cardInteraction = CardInteraction.None;
-                    }
-                    UnRegisterCardEvents(card);
+                    _interactingCard = null;
+                    _cardInteraction = CardInteraction.None;
                 }
-                var nonexisted = from c in cards
-                                 where !_cards.Contains(c)
-                                 select c;
-                RearrangeCards(new List<CardView>(nonexisted));
+                UnRegisterCardEvents(card);
+            }
+            var nonexisted = new List<CardView>(
+                                from c in cards
+                                where !_cards.Contains(c)
+                                select c);
+            var space = MaxCardSpacing;
+            MaxCardSpacing = 30;
+            RearrangeCards(nonexisted);
+            MaxCardSpacing = space;
+            if (nonexisted.Count != cards.Count)
+            {
                 _cards = new List<CardView>(_cards.Except(cards));
                 RearrangeCards(_cards);
             }

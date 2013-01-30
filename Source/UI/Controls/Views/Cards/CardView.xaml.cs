@@ -60,6 +60,8 @@ namespace Sanguosha.UI.Controls
                 BeginAnimation(Canvas.LeftProperty, null);
                 BeginAnimation(Canvas.TopProperty, null);
                 BeginAnimation(CardView.OpacityProperty, null);
+                SetValue(Canvas.LeftProperty, double.NaN);
+                SetValue(Canvas.TopProperty, double.NaN);
                 Trace.Assert(Parent == null);
                 
                 if (_doDestroy)
