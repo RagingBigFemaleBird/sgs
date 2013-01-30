@@ -233,8 +233,7 @@ namespace Sanguosha.UI.Controls
                         }
                     }
                 }
-
-                Storyboard sb = new Storyboard();
+                                
                 int zindex = Panel.GetZIndex(this);
                 for (int i = 0; i < cards.Count; i++)
                 {
@@ -245,9 +244,8 @@ namespace Sanguosha.UI.Controls
                         ParentCanvas.Children.Add(card);
                     }
                     card.SetValue(Canvas.ZIndexProperty, zindex + i);
-                    card.AddRebaseAnimation(sb, 0.4d);
-                }
-                sb.Begin(this, HandoffBehavior.Compose);
+                    card.Rebase();
+                }                
             }
         }
 

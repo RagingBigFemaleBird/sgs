@@ -270,7 +270,7 @@
                 </xctk:ChildWindow.Effect>
                 <local:PinDianBox x:Name="pinDianBox" />
             </xctk:ChildWindow>
-            <xctk:ChildWindow x:Name="gameResultWindow" Caption="战绩" Width="500" WindowStartupLocation="Center" Template="{DynamicResource ChildWindowControlTemplate1}" Margin="195,284,0,0">
+            <xctk:ChildWindow x:Name="gameResultWindow" Caption="战绩" Width="500" WindowStartupLocation="Center" Template="{DynamicResource ChildWindowControlTemplate1}">
                 <local:GameResultBox x:Name="gameResultBox" />
             </xctk:ChildWindow>
         </Grid>
