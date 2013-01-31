@@ -233,9 +233,14 @@ namespace Sanguosha.Core.Network
                         else
                         {
                             var newRCStream = new RecordTakingOutputStream(stream);
+                            var tempSender = new ItemSender(newRCStream);
+                            tempSender.Send(new CommandItem() { command = Command.Detach, type = ItemType.Int, data = 0 });
+                            tempSender.Flush();
                             (handlers[indexC].stream as RecordTakingOutputStream).DumpTo(newRCStream);
                             handlers[indexC].disconnected = false;
                             newRCStream.Flush();
+                            tempSender.Send(new CommandItem() { command = Command.Attach, type = ItemType.Int, data = 0 });
+                            tempSender.Flush();
                             handlers[indexC].stream = newRCStream;
                             handlers[indexC].sender = new ItemSender(handlers[indexC].stream);
                             handlers[indexC].receiver = new ItemReceiver(handlers[indexC].stream);

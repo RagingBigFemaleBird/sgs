@@ -17,6 +17,8 @@ namespace Sanguosha.Core.Network
         QaId,
         GameStart,
         Interrupt,
+        Detach,
+        Attach,
     }
 
     public enum ItemType

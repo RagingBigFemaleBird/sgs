@@ -641,7 +641,46 @@ namespace Sanguosha.Core.Games
 
         public IGlobalUiProxy GlobalProxy { get; set; }
 
-        public INotificationProxy NotificationProxy { get; set; }
+        private int isUiDetached;
+
+        public int IsUiDetached
+        {
+            get { return isUiDetached; }
+            set 
+            {
+                isUiDetached = value;
+                if (notificationProxy == null) return;
+                if (isUiDetached == 0)
+                {
+                    foreach (var pair in uiProxies)
+                    {
+                        ClientNetworkUiProxy proxy = pair.Value as ClientNetworkUiProxy;
+                        if (proxy != null) proxy.Suppressed = false;
+                    }
+                    notificationProxy.NotifyUiAttached();
+                }
+                if (isUiDetached > 0)
+                {
+                    foreach (var pair in uiProxies)
+                    {
+                        ClientNetworkUiProxy proxy = pair.Value as ClientNetworkUiProxy;
+                        if (proxy != null) proxy.Suppressed = true;
+                    }
+                    notificationProxy.NotifyUiDetached();
+                }
+            }
+        }
+
+        private static INotificationProxy dummyProxy = new DummyNotificationProxy();
+
+        private INotificationProxy notificationProxy;
+
+        public INotificationProxy NotificationProxy
+        {
+            get { if (IsUiDetached != 0) return dummyProxy; return notificationProxy; }
+            set { notificationProxy = value; }
+        }
+
 
         /// <summary>
         /// Card usage handler for a given card's type name.

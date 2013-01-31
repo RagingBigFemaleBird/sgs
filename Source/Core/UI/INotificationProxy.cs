@@ -36,6 +36,8 @@ namespace Sanguosha.Core.UI
         void NotifyLogEvent(Prompt prompt);
         void NotifyShowCardsStart(Player p, List<Card> cards);
         void NotifyShowCardsEnd();
+        void NotifyUiAttached();
+        void NotifyUiDetached();
     }
 
     public class DummyNotificationProxy : INotificationProxy
@@ -127,6 +129,15 @@ namespace Sanguosha.Core.UI
         }
 
         public void NotifyShowCardsEnd()
+        {
+        }
+
+
+        public void NotifyUiAttached()
+        {
+        }
+
+        public void NotifyUiDetached()
         {
         }
     }
