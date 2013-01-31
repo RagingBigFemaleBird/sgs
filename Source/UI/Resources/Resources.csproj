@@ -95,7 +95,6 @@
     <Resource Include="Images\Cards\BigEquip\DaYuan.png" />
     <Resource Include="Images\Cards\BigEquip\DiLu.png" />
     <Resource Include="Images\Cards\BigEquip\FangTianHuaJi.png" />
-    <Resource Include="Images\Cards\BigEquip\glassMask.png" />
     <Resource Include="Images\Cards\BigEquip\GuanShiFu.png" />
     <Resource Include="Images\Cards\BigEquip\GuDingDao.png" />
     <Resource Include="Images\Cards\BigEquip\HanBingJian.png" />
@@ -758,6 +757,9 @@
   <ItemGroup>
     <Resource Include="Images\Cards\DelayedTools\YanXiaoPai.png" />
     <Resource Include="Images\Cards\DelayedTools\YanXiaoPai2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cards\BigEquip\glassBg.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
