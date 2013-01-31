@@ -95,6 +95,7 @@
     <Resource Include="Images\Cards\BigEquip\DaYuan.png" />
     <Resource Include="Images\Cards\BigEquip\DiLu.png" />
     <Resource Include="Images\Cards\BigEquip\FangTianHuaJi.png" />
+    <Resource Include="Images\Cards\BigEquip\glassMask.png" />
     <Resource Include="Images\Cards\BigEquip\GuanShiFu.png" />
     <Resource Include="Images\Cards\BigEquip\GuDingDao.png" />
     <Resource Include="Images\Cards\BigEquip\HanBingJian.png" />

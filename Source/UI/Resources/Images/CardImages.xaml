@@ -117,8 +117,6 @@
     <BitmapImage x:Key="Card.SPXiahouDun.Image.Normal">Cards/Normal/SPXiahouDun.jpg</BitmapImage>
     <BitmapImage x:Key="Card.SPZhangFei.Image.Normal">Cards/Normal/SPZhangFei.jpg</BitmapImage>
     <BitmapImage x:Key="Card.SPZhaoYun.Image.Normal">Cards/Normal/SPZhaoYun.jpg</BitmapImage>
-    <BitmapImage x:Key="Card.SuJiang.Image.Normal">Cards/Normal/SuJiang.jpg</BitmapImage>
-    <BitmapImage x:Key="Card.SuJiangF.Image.Normal">Cards/Normal/SuJiangF.jpg</BitmapImage>
     <BitmapImage x:Key="Card.SunCe.Image.Normal">Cards/Normal/SunCe.jpg</BitmapImage>
     <BitmapImage x:Key="Card.SunJian.Image.Normal">Cards/Normal/SunJian.jpg</BitmapImage>
     <BitmapImage x:Key="Card.SunQuan.Image.Normal">Cards/Normal/SunQuan.jpg</BitmapImage>

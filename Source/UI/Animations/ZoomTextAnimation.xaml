@@ -12,21 +12,41 @@
 		<Storyboard x:Key="mainAnimation">
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:ZoomBlurEffect.BlurAmount)" Storyboard.TargetName="grid">
 				<EasingDoubleKeyFrame KeyTime="0" Value="1"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="0">
 					<EasingDoubleKeyFrame.EasingFunction>
 						<BackEase EasingMode="EaseOut" Amplitude="0.2"/>
 					</EasingDoubleKeyFrame.EasingFunction>
 				</EasingDoubleKeyFrame>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="grid">
-				<EasingDoubleKeyFrame KeyTime="0:0:1.7" Value="0.5"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.7" Value="1"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:2" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="grid">
+				<EasingDoubleKeyFrame KeyTime="0" Value="4"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.7" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:2" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="grid">
+				<EasingDoubleKeyFrame KeyTime="0" Value="4"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.7" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:2" Value="1"/>
 			</DoubleAnimationUsingKeyFrames>
 		</Storyboard>
 	</UserControl.Resources>
 
 	<Grid x:Name="LayoutRoot">
-		<Grid x:Name="grid" RenderTransformOrigin="0.5,0.5">			
+		<Grid x:Name="grid" RenderTransformOrigin="0.5,0.5">
+			<Grid.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</Grid.RenderTransform>			
 			<Grid.Effect>
 				<Sanguosha_UI_Effects:ZoomBlurEffect/>
 			</Grid.Effect>

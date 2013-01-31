@@ -134,7 +134,7 @@
                         </VisualStateManager.CustomVisualStateManager>
                         <Grid x:Name="grid" Width="161" Height="37" Canvas.Left="0">
                             <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="147" Height="26">
-                                <Border x:Name="border" Margin="-3" Background="#FF7F8178" Visibility="Visible">
+                                <Border x:Name="border" Margin="-3" Background="#FF7F8178" Visibility="Visible" CornerRadius="2">
                                     <Border.Effect>
                                         <BlurEffect/>
                                     </Border.Effect>
@@ -150,9 +150,10 @@
                                     <Image Source="{res:ResourceKeyBinding Path=Suit, StringFormat=Card.Suit.\{0\}.Image.Normal}" Width="12" Height="14"/>
                                 </StackPanel>
                                 <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            </Grid>
+                            	<Image Height="25" Source="/Resources;component/Images/Cards/BigEquip/glassMask.png" Stretch="Fill" Width="142"/>
+							</Grid>
                             <local:BigEquipBorder x:Name="bigEquipBorder" WrapAround="true" FramesPerSecond="20" d:IsHidden="True"/>
-                        </Grid>
+                        </Grid>						
                     </Canvas>
                 </ControlTemplate>
             </Setter.Value>

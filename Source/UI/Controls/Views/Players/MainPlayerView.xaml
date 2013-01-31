@@ -304,7 +304,7 @@
             <Grid x:Name="weaponArea" Margin="2,8,142,0" Height="37" Width="161"  VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" />
             <Grid x:Name="armorArea" Margin="2,39,142,0" Height="37" Width="161"  VerticalAlignment="Top" />
             <Grid x:Name="horse1Area" Margin="2,72,142,0" Height="37" Width="161"  VerticalAlignment="Top" />           
-            <Grid x:Name="horse2Area" Margin="2,104,142,0" Height="37" Width="161"  VerticalAlignment="Top" />
+            <Grid x:Name="horse2Area" Margin="2,104,142,0" Height="37" Width="161"  VerticalAlignment="Top" />            
         </Grid>
         <Grid Grid.Row="1" Grid.Column="1">
             <Grid.Background>
