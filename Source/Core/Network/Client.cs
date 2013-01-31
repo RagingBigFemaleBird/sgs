@@ -128,6 +128,16 @@ namespace Sanguosha.Core.Network
             if (o is CommandItem)
             {
                 CommandItem item = (CommandItem)o;
+                if (item.command == Command.Attach)
+                {
+                    Game.CurrentGame.IsUiDetached++;
+                    return Receive();
+                }
+                if (item.command == Command.Detach)
+                {
+                    Game.CurrentGame.IsUiDetached--;
+                    return Receive();
+                }
                 if (item.command == Command.Interrupt)
                 {
                     if (item.type == ItemType.CardRearrangement)

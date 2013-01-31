@@ -1298,5 +1298,16 @@ namespace Sanguosha.UI.Controls
             deckDisplayWindow.Show();
         }
         #endregion
+
+
+        public void NotifyUiAttached()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void NotifyUiDetached()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

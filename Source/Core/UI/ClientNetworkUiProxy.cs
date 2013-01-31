@@ -31,6 +31,7 @@ namespace Sanguosha.Core.UI
         IUiProxy proxy;
         Client client;
         bool active;
+        public bool Suppressed { get; set; }
         public ClientNetworkUiProxy(IUiProxy p, Client c, bool a)
         {
             proxy = p;
@@ -53,10 +54,11 @@ namespace Sanguosha.Core.UI
             List<Player> players;
             if (!active)
             {
+                if (Suppressed) return;
                 proxy.AskForCardUsage(prompt, verifier, out skill, out cards, out players);
                 return;
             }
-            if (!proxy.AskForCardUsage(prompt, verifier, out skill, out cards, out players))
+            if (Suppressed || !proxy.AskForCardUsage(prompt, verifier, out skill, out cards, out players))
             {
                 Trace.TraceInformation("Invalid answer");
                 client.AnswerNext();
@@ -277,10 +279,11 @@ namespace Sanguosha.Core.UI
             int answer;
             if (!active)
             {
+                if (Suppressed) return;
                 proxy.AskForMultipleChoice(prompt, questions, out answer);
                 return;
             }
-            if (!proxy.AskForMultipleChoice(prompt, questions, out answer))
+            if (Suppressed || !proxy.AskForMultipleChoice(prompt, questions, out answer))
             {
                 Trace.TraceInformation("Invalid answer");
                 client.AnswerNext();
@@ -299,10 +302,11 @@ namespace Sanguosha.Core.UI
             List<List<Card>> answer;
             if (!active)
             {
+                if (Suppressed) return;
                 proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, out answer, options, callback);
                 return;
             }
-            if (!proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, out answer, options, callback) ||
+            if (Suppressed || !proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, out answer, options, callback) ||
                 answer == null)
             {
                 Trace.TraceInformation("Invalid answer");

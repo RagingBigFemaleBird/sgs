@@ -68,6 +68,7 @@ namespace Sanguosha.Core.UI
                 t = new Thread(AskMCQUiThread) { IsBackground = true };
                 t.Start();
             }
+            proxy.SimulateReplayDelay();
             aanswer = new Dictionary<Player, int>();
             foreach (var p in players)
             {
@@ -75,7 +76,6 @@ namespace Sanguosha.Core.UI
                 proxy.TryAnswerForMultipleChoice(out answer);
                 aanswer.Add(p, answer);
             }
-            proxy.SimulateReplayDelay();
             if (players.Contains(proxy.HostPlayer))
             {
                 t.Abort();
@@ -114,6 +114,7 @@ namespace Sanguosha.Core.UI
                 t = new Thread(AskUiThread) { IsBackground = true };
                 t.Start();
             }
+            proxy.SimulateReplayDelay();
             askill = new Dictionary<Player, ISkill>();
             acards = new Dictionary<Player, List<Card>>();
             aplayers = new Dictionary<Player, List<Player>>();
@@ -132,7 +133,6 @@ namespace Sanguosha.Core.UI
                 acards.Add(p, tempCards);
                 aplayers.Add(p, tempPlayers);
             }
-            proxy.SimulateReplayDelay(); 
             if (players.Contains(proxy.HostPlayer))
             {
                 t.Abort();
@@ -159,6 +159,7 @@ namespace Sanguosha.Core.UI
             }
             Thread t = new Thread(AskUiThread) { IsBackground = true };
             t.Start();
+            proxy.SimulateReplayDelay();
             if (!proxy.TryAnswerForCardUsage(prompt, verifier, out skill, out cards, out players))
             {
                 cards = new List<Card>();
@@ -166,7 +167,6 @@ namespace Sanguosha.Core.UI
                 skill = null;
             }
             t.Abort();
-            proxy.SimulateReplayDelay();
             foreach (var otherProxy in inactiveProxies)
             {
                otherProxy.Freeze();

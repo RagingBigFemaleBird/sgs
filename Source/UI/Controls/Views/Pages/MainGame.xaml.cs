@@ -85,6 +85,7 @@ namespace Sanguosha.UI.Controls
             Trace.WriteLine("Log starting");
 #endif
             _game = new RoleGame();
+            _game.RegisterCurrentThread();
             _game.Settings = NetworkClient.Receive() as GameSettings;
             Trace.Assert(_game.Settings != null);
             NetworkClient.SelfId = (int)NetworkClient.Receive();
@@ -137,6 +138,7 @@ namespace Sanguosha.UI.Controls
             }            
 #if NETWORKING
             _game.GlobalProxy = new GlobalClientUiProxy(_game, activeClientProxy, inactive);
+            _game.IsUiDetached = _game.IsUiDetached;
 #endif
         }
 
