@@ -159,7 +159,6 @@
     <Resource Include="Images\Lobby\Seat\photo0.gif" />
     <Resource Include="Images\Lobby\Seat\quit.png" />
     <Resource Include="Images\MainPlayerInfoView\imprisoned.png" />
-    <Resource Include="Images\MainPlayerInfoView\leftBg.jpg" />
     <Resource Include="Images\PlayerInfoView\decoration1.png" />
     <Resource Include="Images\PlayerInfoView\decoration2.png" />
     <Resource Include="Images\PlayerInfoView\dragon.png" />
@@ -238,9 +237,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\MainPlayerInfoView\rightBg.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\MainPlayerInfoView\middleBg.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\MainPlayerInfoView\platter.png" />
@@ -760,6 +756,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Cards\BigEquip\glassBg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MainPlayerInfoView\leftBg.png" />
+    <Resource Include="Images\MainPlayerInfoView\middleBg.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

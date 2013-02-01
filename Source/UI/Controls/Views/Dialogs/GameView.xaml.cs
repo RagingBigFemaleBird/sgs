@@ -1302,12 +1302,12 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyUiAttached()
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         public void NotifyUiDetached()
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
     }
 }

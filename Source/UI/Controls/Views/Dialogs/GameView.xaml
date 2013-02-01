@@ -84,8 +84,15 @@
             <RowDefinition />
             <RowDefinition Height="148" />
         </Grid.RowDefinitions>
-
-        <Image x:Name="tableBg" Source="{DynamicResource Game.Table.Background}" Stretch="Fill" />
+        
+        <Image x:Name="tableBg" Source="{DynamicResource Game.Table.Background}" Grid.RowSpan="2" Stretch="Fill" >
+            <Image.Effect>
+                <BlurEffect Radius="10"/>
+            </Image.Effect>
+        </Image>
+        <Border ClipToBounds="True" Margin="0,0,0,-1">
+            <Image x:Name="tableBg2" Source="{DynamicResource Game.Table.Background}" Margin="0,0,0,-148" Stretch="Fill" />
+        </Border>
         <local:NonClipGrid x:Name="gridTable" Margin="0,0,0,30">
             <local:NonClipGrid.ColumnDefinitions>
                 <ColumnDefinition Width="190"/>
