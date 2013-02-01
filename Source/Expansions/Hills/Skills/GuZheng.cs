@@ -111,6 +111,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 Game.CurrentGame.PlayerAcquiredCard(Owner, cardsToAcquire);
             }
             GuZhengCards = new List<Card>();
+            Core.Utils.GameDelays.Delay(Core.Utils.GameDelayTypes.CardTransfer);
         }
 
         public GuZheng()
