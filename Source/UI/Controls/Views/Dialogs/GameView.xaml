@@ -90,7 +90,7 @@
                 <BlurEffect Radius="4"/>
             </Image.Effect>
         </Image>
-        <Border ClipToBounds="True" Margin="0,0,0,-1">
+        <Border ClipToBounds="True">
             <Image x:Name="tableBg2" Source="{DynamicResource Game.Table.Background}" Margin="0,0,0,-148" Stretch="Fill" />
         </Border>
         <local:NonClipGrid x:Name="gridTable" Margin="0,0,0,30">
