@@ -166,8 +166,7 @@ namespace Sanguosha.UI.Controls
             if (PlayerModel == null) return;
             var player = PlayerModel.Player;
             if (player == null) return;
-
-            AddHandCards(CardView.CreateCards(player.HandCards(), ParentGameView.GlobalCanvas), true);
+                        
             foreach (var equip in player.Equipments())
             {
                 AddEquipment(CardView.CreateCard(equip, ParentGameView.GlobalCanvas), true);
@@ -176,6 +175,8 @@ namespace Sanguosha.UI.Controls
             {
                 AddDelayedTool(CardView.CreateCard(dt, ParentGameView.GlobalCanvas), true);
             }
+            // Add hand cards last because adding equipment may result in layout change of hand card area.
+            AddHandCards(CardView.CreateCards(player.HandCards(), ParentGameView.GlobalCanvas), true);
         }
 
         protected override void AddHandCards(IList<CardView> cards, bool isFaked)
@@ -275,6 +276,15 @@ namespace Sanguosha.UI.Controls
             handCardArea.RearrangeCards();
         }
 
+        private bool IsEquipmentDockEmpty
+        {
+            get
+            {
+                Panel[] targets = { weaponArea, armorArea, horse1Area, horse2Area };
+                return targets.Max(t => t.Children.Count) == 0;
+            }
+        }
+
         protected override void AddEquipment(CardView card, bool isFaked)
         {
             Equipment equip = card.Card.Type as Equipment;
@@ -315,6 +325,12 @@ namespace Sanguosha.UI.Controls
             button.Width = targetArea.Width;
             button.Height = targetArea.Height;
             button.Opacity = 0;
+
+            if (IsEquipmentDockEmpty)
+            {
+                equipmentArea.Visibility = Visibility.Visible;
+                handCardArea.RearrangeCards();
+            }
 
             if (targetArea.Children.Count != 0)
             {
@@ -391,6 +407,12 @@ namespace Sanguosha.UI.Controls
             if (!isCopy)
             {
                 targetArea.Children.Clear();
+            }
+
+            if (IsEquipmentDockEmpty)
+            {
+                equipmentArea.Visibility = Visibility.Collapsed;
+                handCardArea.RearrangeCards();
             }
 
             CardView result = CardView.CreateCard(card);
