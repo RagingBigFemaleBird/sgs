@@ -35,7 +35,7 @@
     <BitmapImage x:Key="Card.GongSunZan.Image.Normal">Cards/Normal/GongSunZan.jpg</BitmapImage>
     <BitmapImage x:Key="Card.GuanShiFu.Image.Normal">Cards/Normal/GuanShiFu.jpg</BitmapImage>
     <BitmapImage x:Key="Card.GuanXingZhangBao.Image.Normal">Cards/Normal/GuanXingZhangBao.jpg</BitmapImage>
-    <BitmapImage x:Key="Card.GuanYinPing.Image.Normal">Cards/Normal/GuanYinPing.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.GuanYinping.Image.Normal">Cards/Normal/GuanYinping.jpg</BitmapImage>
     <BitmapImage x:Key="Card.GuanYu.Image.Normal">Cards/Normal/GuanYu.jpg</BitmapImage>
     <BitmapImage x:Key="Card.GuDingDao.Image.Normal">Cards/Normal/GuDingDao.jpg</BitmapImage>
     <BitmapImage x:Key="Card.GuoHeChaiQiao.Image.Normal">Cards/Normal/GuoHeChaiQiao.jpg</BitmapImage>
