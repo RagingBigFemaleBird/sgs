@@ -642,6 +642,7 @@ namespace Sanguosha.Core.Games
         public IGlobalUiProxy GlobalProxy { get; set; }
 
         private int isUiDetached;
+        private int lastUiState;
 
         public int IsUiDetached
         {
@@ -650,6 +651,8 @@ namespace Sanguosha.Core.Games
             {
                 isUiDetached = value;
                 if (notificationProxy == null) return;
+                if ((lastUiState == 0) ^ (isUiDetached == 0)) return;
+                lastUiState = isUiDetached;
                 if (isUiDetached == 0)
                 {
                     foreach (var pair in uiProxies)
