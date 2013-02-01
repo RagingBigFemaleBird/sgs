@@ -324,8 +324,8 @@
                 <TextBlock Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding HandCardCount}" TextAlignment="Center" FontFamily="Arial" Foreground="Black"/>
             </Border>
 			<Button x:Name="btnOk" Command="{Binding SubmitAnswerCommand}" Height="70" Style="{DynamicResource OkButtonStyle}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="70" Margin="0,0.671,36.351,0"/>
-			<Button Height="69" Margin="0,0,36.5,0.503" Command="{Binding CancelAnswerCommand}" Style="{DynamicResource CancelButtonStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="70"/>
-			<Button Command="{Binding AbortAnswerCommand}" Style="{DynamicResource DiscardButtonStyle}" Height="75" Margin="0,36.665,11.336,36.334" HorizontalAlignment="Right" Width="35"/>
+			<Button Height="69" Margin="0,0,36.5,0.628" Command="{Binding CancelAnswerCommand}" Style="{DynamicResource CancelButtonStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="70"/>
+			<Button Command="{Binding AbortAnswerCommand}" Style="{DynamicResource DiscardButtonStyle}" Height="75" Margin="0,37.664,11.336,35.335" HorizontalAlignment="Right" Width="35"/>
             <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="31" Height="31" Margin="0,0,12.003,1.5">
                 <local:ImageButton x:Name="trustButton"
                                NormalImage="pack://application:,,,/Resources;component/Images/Buttons/trust/normal1.png"
