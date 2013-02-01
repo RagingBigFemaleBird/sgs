@@ -318,14 +318,14 @@
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-            	<Image Source="{DynamicResource MainPlayerInfoView.Background.Platter}" Grid.Column="1" Margin="-6.5,0,0,0"/>
+				<Image Source="{DynamicResource MainPlayerInfoView.Background.Platter}" Grid.Column="1"/>
             </Grid>
             <Border HorizontalAlignment="Right" Height="17" Width="16" VerticalAlignment="Bottom" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22" Margin="0,0,94,3.5" d:LayoutOverrides="GridBox">
                 <TextBlock Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding HandCardCount}" TextAlignment="Center" FontFamily="Arial" Foreground="Black"/>
             </Border>
-            	<Button x:Name="btnOk" Command="{Binding SubmitAnswerCommand}" Height="70" Style="{DynamicResource OkButtonStyle}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="70" Margin="0,0.671,36.351,0" Grid.Column="1" RenderTransformOrigin="0.5,0.5" d:LayoutOverrides="VerticalAlignment" />
-				<Button Height="69" Margin="0,0,36.5,1.503" Command="{Binding CancelAnswerCommand}" Style="{DynamicResource CancelButtonStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="70" Grid.Column="1" RenderTransformOrigin="0.5,0.5"/>
-            	<Button Command="{Binding AbortAnswerCommand}" Style="{DynamicResource DiscardButtonStyle}" Height="75" Margin="0,36.665,11.336,36.334" Grid.Column="1" HorizontalAlignment="Right" Width="35" d:LayoutOverrides="VerticalMargin"/>
+			<Button x:Name="btnOk" Command="{Binding SubmitAnswerCommand}" Height="70" Style="{DynamicResource OkButtonStyle}" VerticalAlignment="Top" HorizontalAlignment="Right" Width="70" Margin="0,0.671,36.351,0"/>
+			<Button Height="69" Margin="0,0,36.5,1.503" Command="{Binding CancelAnswerCommand}" Style="{DynamicResource CancelButtonStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="70"/>
+			<Button Command="{Binding AbortAnswerCommand}" Style="{DynamicResource DiscardButtonStyle}" Height="75" Margin="0,36.665,11.336,36.334" HorizontalAlignment="Right" Width="35"/>
             <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="28" Height="28" Margin="0,0,13.671,3.668">
                 <local:ImageButton x:Name="trustButton"
                                NormalImage="pack://application:,,,/Resources;component/Images/Buttons/trust/normal1.png"
