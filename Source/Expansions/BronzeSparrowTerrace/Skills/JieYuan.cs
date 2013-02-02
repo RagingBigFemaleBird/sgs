@@ -45,16 +45,17 @@ namespace Sanguosha.Expansions.BronzeSparrowTerrace.Skills
             var trigger = new AutoNotifyUsagePassiveSkillTrigger(
                 this,
                 (p, e, a) => { return p.Health <= a.Source.Health && p != a.Source; },
-                (p, e, a, c, pls) => 
+                (p, e, a, c, pls) =>
                 {
                     JieYuanEffect = 0;
-                    Game.CurrentGame.HandleCardDiscard(p, c); 
-                    var damageArgs = a as DamageEventArgs; 
-                    damageArgs.Magnitude--; 
+                    NotifySkillUse();
+                    Game.CurrentGame.HandleCardDiscard(p, c);
+                    var damageArgs = a as DamageEventArgs;
+                    damageArgs.Magnitude--;
                 },
                 TriggerCondition.OwnerIsTarget,
                 new JieYuanVerifier(true)
-            );
+            ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.DamageInflicted, trigger);
 
             var trigger2 = new AutoNotifyUsagePassiveSkillTrigger(
@@ -63,13 +64,14 @@ namespace Sanguosha.Expansions.BronzeSparrowTerrace.Skills
                 (p, e, a, c, pls) =>
                 {
                     JieYuanEffect = 1;
-                    Game.CurrentGame.HandleCardDiscard(p, c); 
-                    var damageArgs = a as DamageEventArgs; 
-                    damageArgs.Magnitude++; 
+                    NotifySkillUse();
+                    Game.CurrentGame.HandleCardDiscard(p, c);
+                    var damageArgs = a as DamageEventArgs;
+                    damageArgs.Magnitude++;
                 },
                 TriggerCondition.OwnerIsSource,
                 new JieYuanVerifier(false)
-            );
+            ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.DamageCaused, trigger2);
             IsAutoInvoked = null;
         }
