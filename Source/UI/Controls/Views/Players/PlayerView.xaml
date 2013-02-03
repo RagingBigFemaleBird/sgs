@@ -274,102 +274,98 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="27"/>
                     <RowDefinition/>
-                    <RowDefinition Height="61"/>
+                    <RowDefinition Height="71"/>
                 </Grid.RowDefinitions>
+				<Border x:Name="Top" Grid.Row="0">
+					<Border.Background>
+						<ImageBrush ImageSource="{DynamicResource PlayerInfoView.Background.Top}" TileMode="Tile"/>
+					</Border.Background>
+				</Border>
+				<Border x:Name="Bottom" Grid.Row="2">
+					<Border.Background>
+						<ImageBrush ImageSource="{DynamicResource PlayerInfoView.Background.Bottom}" TileMode="Tile"/>
+					</Border.Background>
+                    <Image Source="{DynamicResource PlayerInfoView.Dragon}" Stretch="Fill" VerticalAlignment="Center" Width="64" Height="56"/>
+				</Border>
                 <local:CardStack x:Name="privateCardArea" IsCardConsumer="true" CardAlignment="Center" MaxCardSpacing="30" Grid.RowSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-30,0,0,0"  Height="130" Width="179" IsHitTestVisible="false" />
                 <local:CardStack x:Name="handCardArea" IsCardConsumer="true" CardAlignment="Center" MaxCardSpacing="30" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="130" Width="279" IsHitTestVisible="false" />
-                <Rectangle Fill="Black" Grid.RowSpan="2" />
-                <Image Source="{DynamicResource PlayerInfoView.Decoration.TopLeft}" Width="64" HorizontalAlignment="Left" Margin="-10,-7,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
-                <Path Data="M0,0H124" HorizontalAlignment="Center" Margin="0,13,0,0" Stretch="Fill" VerticalAlignment="Top" Width="124">
-                    <Path.Stroke>
-                        <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
-                            <GradientStop Color="Black" Offset="0"/>
-                            <GradientStop Color="#FF726E67" Offset="0.3"/>
-                            <GradientStop Color="#FF706E66" Offset="0.5"/>
-                            <GradientStop Color="#FF726E67" Offset="0.7"/>
-                            <GradientStop Color="Black" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Path.Stroke>
-                </Path>
-                <Path Data="M0,0H124" HorizontalAlignment="Center" Margin="0,14,0,0" Stretch="Fill" VerticalAlignment="Top" Width="124">
-                    <Path.Stroke>
-                        <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
-                            <GradientStop Color="Black" Offset="0"/>
-                            <GradientStop Color="#FF515049" Offset="0.5"/>
-                            <GradientStop Color="Black" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Path.Stroke>
-                </Path>
-                <Border Margin="2,0,2,4" Grid.Row="1" BorderBrush="#FF79786B" CornerRadius="1" BorderThickness="1" ClipToBounds="True">
+                <Border Margin="5,0,6,0" Grid.Row="1" CornerRadius="1" ClipToBounds="True">
                     <Grid>                       
-                        <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=28\,46\,220\,132, Path=HeroName, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/Full/\{0\}.png}">
-                        	<Image.Effect>
-                        		<Sanguosha_UI_Effects:RippleTransitionEffect x:Name="impersonateEffect" Progress="100"/>
-                        	</Image.Effect>
-                        </Image>
+                        <Rectangle Fill="Black"/>                       
+                    	<Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=28\,46\,220\,132, Path=HeroName, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/Full/\{0\}.png}">
+                    		<Image.Effect>
+                    			<Sanguosha_UI_Effects:RippleTransitionEffect x:Name="impersonateEffect" Progress="100"/>
+                    		</Image.Effect>
+                    	</Image>
                     	<Rectangle Visibility="{Binding IsDrank, Converter={StaticResource boolToVisibilityConverter}}" >
-							<Rectangle.Fill>
-								<RadialGradientBrush>
-									<GradientStop Color="#00FF0000" Offset="1"/>							
-									<GradientStop Color="#4C640000" Offset="0.558"/>
-									<GradientStop Color="#4CFF0000"/>
-								</RadialGradientBrush>
-							</Rectangle.Fill>
-						</Rectangle>
-						<Image Margin="0" Source="/Resources;component/Images/PlayerInfoView/imprisoned.png" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}"/>
-                        <Border x:Name="IsTargetedGlow" Visibility="{Binding IsTargeted, Converter={StaticResource boolToVisibilityConverter}}" BorderBrush="Red" BorderThickness="5" >
-                            <Border.Effect>
-                                <BlurEffect Radius="10" />
-                            </Border.Effect>
-                        </Border>
-                        <Image Source="{res:ResourceKeyBinding Path=SelectedTimes, StringFormat=Selection.Digit.{0}}" 
-                               VerticalAlignment="Center" HorizontalAlignment="Center"
-                               Visibility="{Binding IsSelectionRepeatable, Converter={StaticResource boolToVisibilityConverter}}"
-                               IsHitTestVisible="False" />
-						<StackPanel>
-						<ItemsControl ItemsSource="{Binding Path=StatusMarks, Mode=OneWay}" Margin="22, 0, 0, 0">
-							<ItemsControl.ItemsPanel>
-								<ItemsPanelTemplate>
-									<WrapPanel HorizontalAlignment="Left" />
-								</ItemsPanelTemplate>
-							</ItemsControl.ItemsPanel>
-							<ItemsControl.ItemTemplate>
-								<DataTemplate>
-									<Border Visibility="{Binding IsExisted, Converter={StaticResource boolToVisibilityConverter}}" BorderThickness="2" BorderBrush="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.{0}.Brush}" >
-										<TextBlock FontFamily="SimHei" FontSize="12" Foreground="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.{0}.Brush}" Text="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.{0}.Name}" />
-										<Border.Effect>
-											<DropShadowEffect Color="Black" ShadowDepth="0" />
-										</Border.Effect>
-									</Border>
-								</DataTemplate>	
-							</ItemsControl.ItemTemplate>
-						</ItemsControl>
-						<ItemsControl ItemsSource="{Binding Path=PrivateDecks, Mode=OneWay}" Margin="22, 0, 0, 0">
-							<ItemsControl.ItemsPanel>
-								<ItemsPanelTemplate>
-									<WrapPanel HorizontalAlignment="Left" />
-								</ItemsPanelTemplate>
-							</ItemsControl.ItemsPanel>
-							<ItemsControl.ItemTemplate>
-								<DataTemplate>
-									<Button Style="{DynamicResource DefaultButtonStyleBrown}" Click="btnPrivateDeck_Click" >
-										<TextBlock Foreground="#FFEEE4C1" FontFamily="SimSun" Margin="5, 1" Text="{Binding Path=DisplayText, Mode=OneWay}" />											
-									</Button>
-								</DataTemplate>	
-							</ItemsControl.ItemTemplate>
-						</ItemsControl>
-						</StackPanel>
-                        <local:HealthBar x:Name="healthBar" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                                         Height="14" Margin="0,0,3,0" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}"/>
-                    	<Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,0">
+                    		<Rectangle.Fill>
+                    			<RadialGradientBrush>
+                    				<GradientStop Color="#00FF0000" Offset="1"/>							
+                    				<GradientStop Color="#4C640000" Offset="0.558"/>
+                    				<GradientStop Color="#4CFF0000"/>
+                    			</RadialGradientBrush>
+                    		</Rectangle.Fill>
+                    	</Rectangle>
+                    	<Image Margin="0" Source="/Resources;component/Images/PlayerInfoView/imprisoned.png" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}"/>
+                    	<Border x:Name="IsTargetedGlow" Visibility="{Binding IsTargeted, Converter={StaticResource boolToVisibilityConverter}}" BorderBrush="Red" BorderThickness="5" >
+                    		<Border.Effect>
+                    			<BlurEffect Radius="10" />
+                    		</Border.Effect>
+                    	</Border>
+                    	<Image Source="{res:ResourceKeyBinding Path=SelectedTimes, StringFormat=Selection.Digit.\{0\}}" 
+                    		VerticalAlignment="Center" HorizontalAlignment="Center"
+                    		Visibility="{Binding IsSelectionRepeatable, Converter={StaticResource boolToVisibilityConverter}}"
+                    		IsHitTestVisible="False" />
+                    	<StackPanel>
+                    		<ItemsControl ItemsSource="{Binding StatusMarks, Mode=OneWay}" Margin="22, 0, 0, 0">
+                    			<ItemsControl.ItemsPanel>
+                    				<ItemsPanelTemplate>
+                    					<WrapPanel HorizontalAlignment="Left" />
+                    				</ItemsPanelTemplate>
+                    			</ItemsControl.ItemsPanel>
+                    			<ItemsControl.ItemTemplate>
+                    				<DataTemplate>
+                    					<Border Visibility="{Binding IsExisted, Converter={StaticResource boolToVisibilityConverter}}" BorderThickness="2" BorderBrush="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.\{0\}.Brush}" >
+                    						<Border.Effect>
+                    							<DropShadowEffect Color="Black" ShadowDepth="0" />
+                    						</Border.Effect>
+                    						<TextBlock FontFamily="SimHei" FontSize="12" Foreground="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.\{0\}.Brush}" Text="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.\{0\}.Name}" />
+                    					</Border>
+                    				</DataTemplate>	
+                    			</ItemsControl.ItemTemplate>
+                    		</ItemsControl>
+                    		<ItemsControl ItemsSource="{Binding PrivateDecks, Mode=OneWay}" Margin="22, 0, 0, 0">
+                    			<ItemsControl.ItemsPanel>
+                    				<ItemsPanelTemplate>
+                    					<WrapPanel HorizontalAlignment="Left" />
+                    				</ItemsPanelTemplate>
+                    			</ItemsControl.ItemsPanel>
+                    			<ItemsControl.ItemTemplate>
+                    				<DataTemplate>
+                    					<Button Style="{DynamicResource DefaultButtonStyleBrown}" Click="btnPrivateDeck_Click" >
+                    						<TextBlock Foreground="#FFEEE4C1" FontFamily="SimSun" Margin="5, 1" Text="{Binding DisplayText, Mode=OneWay}" />											
+                    					</Button>
+                    				</DataTemplate>	
+                    			</ItemsControl.ItemTemplate>
+                    		</ItemsControl>
+                    	</StackPanel>
+                    	<local:HealthBar x:Name="healthBar" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                    		Height="14" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}"/>
+                    	<Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,0" Height="0">
                     		<Grid.Background>
                     			<ImageBrush ImageSource="{DynamicResource PlayerInfoView.AcquiredSkill.Background}"/>
                     		</Grid.Background>
-                                <local:OutlinedTextBlock Text="{res:ResourceKeyBinding Path=ImpersonatedSkill, StringFormat=Skill.{0}.Name}" FontSize="21" Fill="White" FontFamily="/Resources;component/Fonts/#LiSu" Margin="5,1" Stroke="Blue" StrokeThickness="3"/>
-						</Grid>
-                        <Image Height="30" Margin="20,0,21,7" Source="/Resources;component/Images/Game/saveMe.png" IsHitTestVisible="False" Visibility="{Binding IsDying, Converter={StaticResource boolToVisibilityConverter}}" Stretch="Fill" VerticalAlignment="Bottom"/>
+                    		<local:OutlinedTextBlock Text="{res:ResourceKeyBinding Path=ImpersonatedSkill, StringFormat=Skill.\{0\}.Name}" FontSize="21" Fill="White" FontFamily="/Resources;component/Fonts/#LiSu" Margin="5,1" Stroke="Blue" StrokeThickness="3"/>
+                    	</Grid>
+                    	<Image Height="30" Margin="20,0,21,7" Source="/Resources;component/Images/Game/saveMe.png" IsHitTestVisible="False" Visibility="{Binding IsDying, Converter={StaticResource boolToVisibilityConverter}}" Stretch="Fill" VerticalAlignment="Bottom"/>
 					</Grid>
                 </Border>
+				<Border x:Name="Middle" Grid.Row="1">
+					<Border.Background>
+						<ImageBrush ImageSource="{DynamicResource PlayerInfoView.Background.Middle}" TileMode="Tile"/>
+					</Border.Background>
+				</Border>
+                <Image Source="{DynamicResource PlayerInfoView.Decoration.TopLeft}" Width="64" HorizontalAlignment="Left" Margin="-8.75,-5.25,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
                 <Image x:Name="allegianceMask" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Mask}" HorizontalAlignment="Left" Grid.RowSpan="2" Width="38" Stretch="Fill" Margin="-3.335,4.333,0,0.667" ClipToBounds="True" Height="119" VerticalAlignment="Top"/>
                 <Image x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" />
                 <local:RoleBox x:Name="cbRoleBox" HorizontalAlignment="Right" Width="25" Height="26"/>
@@ -406,24 +402,23 @@
                 </ItemsControl>
 
                 <TextBlock x:Name="userLevelText" Text="Lv.0" HorizontalAlignment="Center" Margin="0,2,0,0" Style="{DynamicResource SmallTextBlockStyle}"/>
-                    <TextBlock x:Name="userNameText" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="{Binding Account.UserName, Mode=OneWay}" Margin="0,5,0,0" Style="{DynamicResource SmallTextBlockStyle}" Foreground="White" FontSize="13.333"/>
-                <Border Grid.Row="1" HorizontalAlignment="Left" Height="17" Width="16" VerticalAlignment="Bottom" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22">
+                    <TextBlock x:Name="userNameText" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="{Binding Account.UserName, Mode=OneWay}" Margin="0,5,0,0" Style="{DynamicResource SmallTextBlockStyle}" Foreground="Black" FontSize="12"/>
+                <Border Grid.Row="1" HorizontalAlignment="Left" Height="17" Width="16" VerticalAlignment="Bottom" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22" Margin="0,0,0,-3.5">
                     <TextBlock x:Name="handCardNum" Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding HandCardCount}" TextAlignment="Center" FontFamily="Arial" Foreground="Black"/>
                 </Border>                
-                <Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="3" Stretch="Fill" Margin="1,2,0,0" Width="13" Height="13" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="3" Stretch="Fill" Margin="1,16,0,0" Width="13" Height="13" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="3" Stretch="Fill" Margin="1,30,0,0" Width="13" Height="13" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="3" Stretch="Fill" Margin="1,44,0,0" Width="13" Height="13" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <Border Grid.Row="2" Margin="15,1,2,0" BorderThickness="1" BorderBrush="Black" Background="#59FFFFFF">
+                <Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="2" Stretch="Fill" Margin="3.25,8.25,0,0" Width="15" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" d:LayoutOverrides="GridBox"/>
+                <Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="2" Stretch="Fill" Margin="3.25,22.25,0,0" Width="15" HorizontalAlignment="Left" d:LayoutOverrides="GridBox" Height="16" VerticalAlignment="Top"/>
+                <Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="2" Stretch="Fill" Margin="3.25,36.25,0,0" Width="15" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" d:LayoutOverrides="GridBox"/>
+                <Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="2" Stretch="Fill" Margin="3.25,50.25,0,0" Width="15" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" d:LayoutOverrides="GridBox"/>
+                <Border Grid.Row="2" Margin="15,9.5,2,-8.5">
                     <Grid>
-                        <Image Source="{DynamicResource PlayerInfoView.Dragon}" HorizontalAlignment="Center" Stretch="Fill" VerticalAlignment="Center" Width="49" Height="45" />
                         <Canvas x:Name="weaponArea" Margin="-15,0,0,0" Height="13" Width="140"  VerticalAlignment="Top" HorizontalAlignment="Left" />
                         <Canvas x:Name="armorArea" Margin="-15,14,0,0" Height="13" Width="140"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
                         <Canvas x:Name="horse1Area" Margin="-15,28,0,0" Height="13" Width="140"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
                         <Canvas x:Name="horse2Area" Margin="-15,42,0,0" Height="13" Width="140"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
                     </Grid>
                 </Border>
-                <Grid Grid.Row="2" Height="22" VerticalAlignment="Top" Margin="-15,-15,-15,0">
+                <Grid Grid.Row="2" Height="22" VerticalAlignment="Top" Margin="-15,-8.5,-15,0" d:LayoutOverrides="VerticalAlignment">
                     <Grid.ToolTip>
                         <ToolTip Content="{DynamicResource State.TieSuoLianHuan.Description}" ContentTemplate="{DynamicResource ToolTipTextTemplate}" />
                     </Grid.ToolTip>
@@ -438,7 +433,7 @@
                     </Button>
                 </Grid>
             </Grid>
-            <Image Source="{DynamicResource PlayerInfoView.Decoration.BottomRight}" Width="64" HorizontalAlignment="Right" Margin="-10,-50,0,0" Grid.RowSpan="2" VerticalAlignment="Bottom" IsHitTestVisible="False" />			
+            <Image Source="{DynamicResource PlayerInfoView.Decoration.BottomRight}" Width="64" HorizontalAlignment="Right" Margin="0,0,1.25,3.25" VerticalAlignment="Bottom" IsHitTestVisible="False" />			
             <Image x:Name="imgPhase" Visibility="{Binding IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}" Source="{res:ResourceKeyBinding Path=CurrentPhase, StringFormat=Phases.\{0\}.Small}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120" IsHitTestVisible="False" />
             <StackPanel x:Name="delayedToolsDock"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="-12,0,15,0" >
                 <i:Interaction.Behaviors>
