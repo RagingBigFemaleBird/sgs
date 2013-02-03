@@ -24,6 +24,22 @@
                 <ResourceDictionary Source="../../Common.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>                
             </ResourceDictionary.MergedDictionaries>
+            <DrawingBrush x:Key="GlowOpacityMask">
+                <DrawingBrush.Drawing>
+                    <GeometryDrawing>
+                        <GeometryDrawing.Pen>
+                            <Pen Thickness="1">
+                                <Pen.Brush>
+                                    <SolidColorBrush Color="Black"/>
+                                </Pen.Brush>
+                            </Pen>
+                        </GeometryDrawing.Pen>
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry Rect="0,0,25,25"/>
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingBrush.Drawing>
+            </DrawingBrush>
             <Style x:Key="SmallTextBlockStyle" TargetType="{x:Type TextBlock}">
                 <Setter Property="TextWrapping" Value="NoWrap"/>
                 <Setter Property="TextTrimming" Value="None"/>
@@ -230,26 +246,21 @@
         <Grid x:Name="grid" Grid.Column="0">            
             <Grid.Effect>
                 <Sanguosha_UI_Effects:MonochromeEffect Strength="0"/>
-            </Grid.Effect>            
-            <Border x:Name="isPlayingGlow" Visibility="{Binding IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}"  Background="#FF27D317">
+            </Grid.Effect>
+                <Border OpacityMask="{StaticResource GlowOpacityMask}" x:Name="isPlayingGlow" Visibility="{Binding IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}"  Background="#FF27D317">
                 <Border.Effect>
                     <BlurEffect Radius="10"/>
                 </Border.Effect>
             </Border>
-            <Border x:Name="isSelectedGlow" Visibility="{Binding IsSelected, Converter={StaticResource boolToVisibilityConverter}}"  Background="#FFFF6B00">
+                <Border OpacityMask="{StaticResource GlowOpacityMask}" x:Name="isSelectedGlow" Visibility="{Binding IsSelected, Converter={StaticResource boolToVisibilityConverter}}"  Background="#FFFF6B00">
                 <Border.Effect>
                     <BlurEffect Radius="10"/>
                 </Border.Effect>
             </Border>
-            <Border x:Name="IsResponsingGlow" Visibility="{Binding IsResponsing, Converter={StaticResource boolToVisibilityConverter}}"  Background="Red">
+                <Border OpacityMask="{StaticResource GlowOpacityMask}" x:Name="IsResponsingGlow" Visibility="{Binding IsResponsing, Converter={StaticResource boolToVisibilityConverter}}"  Background="Red">
                 <Border.Effect>
                     <BlurEffect Radius="10" />
                 </Border.Effect>
-            </Border>
-            <Border Margin="5" CornerRadius="3" BorderBrush="Black" BorderThickness="1">
-                <Border.Background>
-                    <ImageBrush ImageSource="{DynamicResource PlayerInfoView.Background}" TileMode="Tile"/>
-                </Border.Background>
             </Border>
             <Border Margin="6" CornerRadius="3" Opacity="0.2" Background="Transparent">
                 <Border.BorderBrush>

@@ -4,7 +4,9 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="HealthBar/HealthBar.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    <BitmapImage x:Key="PlayerInfoView.Background">PlayerInfoView/profileBg.png</BitmapImage>
+    <BitmapImage x:Key="PlayerInfoView.Background.Top">PlayerInfoView/topBg.png</BitmapImage>
+    <BitmapImage x:Key="PlayerInfoView.Background.Middle">PlayerInfoView/middleBg.png</BitmapImage>
+    <BitmapImage x:Key="PlayerInfoView.Background.Bottom">PlayerInfoView/bottomBg.png</BitmapImage>
     <BitmapImage x:Key="PlayerInfoView.EquipmentSquare">PlayerInfoView/smallSquare.png</BitmapImage>
     <BitmapImage x:Key="PlayerInfoView.Dragon">PlayerInfoView/dragon.png</BitmapImage>
     <BitmapImage x:Key="PlayerInfoView.Decoration.TopLeft">PlayerInfoView/decoration1.png</BitmapImage>
