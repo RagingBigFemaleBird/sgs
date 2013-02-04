@@ -25,7 +25,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             MaxPlayers = 1;
             MinPlayers = 1;
             MaxCards = 0;
-            linkedPassiveSkill = new TanHuPassiveSkill();
+            LinkedPassiveSkill = new TanHuPassiveSkill();
         }
 
         protected override bool VerifyPlayer(Player source, Player player)

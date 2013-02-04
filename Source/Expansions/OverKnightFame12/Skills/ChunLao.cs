@@ -33,8 +33,8 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             MaxPlayers = 0;
             Helper.OtherDecksUsed.Add(ChunDeck);
             Discarding = true;
-            linkedPassiveSkill = new ChunLaoPassiveSkill();
-            (linkedPassiveSkill as ChunLaoPassiveSkill).ParentSkill = this;
+            LinkedPassiveSkill = new ChunLaoPassiveSkill();
+            (LinkedPassiveSkill as ChunLaoPassiveSkill).ParentSkill = this;
             OwnerOnly = false;
             ExtraCardsDeck = ChunDeck;
         }

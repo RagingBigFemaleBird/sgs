@@ -47,7 +47,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             if (card1.Rank > card2.Rank)
             {
                 win = true;
-                (linkedPassiveSkill as DaHePassive).DaHePlayer = arg.Targets[0];
+                (LinkedPassiveSkill as DaHePassive).DaHePlayer = arg.Targets[0];
                 ISkill skill;
                 List<Card> cards;
                 List<Player> players;
@@ -79,8 +79,8 @@ namespace Sanguosha.Expansions.StarSP.Skills
             MaxCards = 0;
             MinPlayers = 1;
             MaxPlayers = 1;
-            linkedPassiveSkill = new DaHePassive();
-            (linkedPassiveSkill as DaHePassive).DaHePlayer = null;
+            LinkedPassiveSkill = new DaHePassive();
+            (LinkedPassiveSkill as DaHePassive).DaHePlayer = null;
         }
 
         protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)

@@ -19,7 +19,7 @@ namespace Sanguosha.Core.Skills
 
         public ActiveSkill()
         {
-            linkedPassiveSkill = null;
+            LinkedPassiveSkill = null;
             ExtraCardsDeck = null;
             Helper = new UiHelper();
         }
@@ -45,8 +45,7 @@ namespace Sanguosha.Core.Skills
             return Commit(arg);
         }
 
-        public PassiveSkill LinkedPassiveSkill { get { return linkedPassiveSkill; } }
-        protected PassiveSkill linkedPassiveSkill;
+        public PassiveSkill LinkedPassiveSkill { get; protected set; }
         Players.Player owner;
         public virtual Players.Player Owner
         {
@@ -55,9 +54,9 @@ namespace Sanguosha.Core.Skills
             {
                 if (owner == value) return;
                 owner = value;
-                if (linkedPassiveSkill != null)
+                if (LinkedPassiveSkill != null)
                 {
-                    linkedPassiveSkill.Owner = value;
+                    LinkedPassiveSkill.Owner = value;
                 }
             }
         }
