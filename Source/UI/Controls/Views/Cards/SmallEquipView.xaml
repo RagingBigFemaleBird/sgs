@@ -16,8 +16,8 @@
             <local:SuitColorToColorConverter x:Key="suitColorToColorConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
-        <Image HorizontalAlignment="Left" VerticalAlignment="Center" Source="{res:ImageBinding Path=TypeString, StringFormat=Resources/Images/Cards/SmallEquip/{0}.png, ResourceKeyFormat=Card.{0}.Image.SmallEquip}"/>
+    <Grid SnapsToDevicePixels="True">
+        <Image Width="148" Height="15" HorizontalAlignment="Left" VerticalAlignment="Center" Source="{res:ImageBinding Path=TypeString, StringFormat=Resources/Images/Cards/SmallEquip/{0}.png, ResourceKeyFormat=Card.{0}.Image.SmallEquip}"/>
         <TextBlock Text="{Binding RankString}" FontSize="11" FontWeight="Bold" Margin="105,-2,1,0"
                    VerticalAlignment="Center" HorizontalAlignment="Left"
                    Foreground="{Binding SuitColor, Converter={StaticResource suitColorToColorConverter}}">

@@ -61,7 +61,7 @@ namespace Sanguosha.UI.Controls
             : this()
         {
             Player = player;
-            GameModel = game;            
+            GameModel = game;
         }
         #endregion
 
@@ -73,7 +73,7 @@ namespace Sanguosha.UI.Controls
             get
             {
                 return GameModel.IsPlayable && this == GameModel.MainPlayerModel;
-            }            
+            }
         }
 
         public bool CanSpectate
@@ -1456,6 +1456,22 @@ namespace Sanguosha.UI.Controls
                     CurrentPromptString = PromptFormatter.Format(prompt);
                 }
 
+                if (prompt.Values.Count != 0 && prompt.Values[0] is TriggerSkill)
+                {
+                    var triggerSkill = (prompt.Values[0] as TriggerSkill);
+                    if (prompt.ResourceKey == Prompt.CardUsagePromptsPrefix + triggerSkill.GetType().Name)
+                    {
+                        foreach (var skill in SkillCommands)
+                        {
+                            if (skill.Skill is CardTransformSkill && (skill.Skill as CardTransformSkill).LinkedPassiveSkill != triggerSkill) continue;
+                            if (skill.Skill is ActiveSkill && (skill.Skill as ActiveSkill).LinkedPassiveSkill != triggerSkill) continue;
+                            if (skill.Skill != triggerSkill) continue;
+                            skill.IsHighlighted = true;
+                            break;
+                        }
+                    }
+                }
+
                 if (verifier != null && verifier.Helper != null &&
                     verifier.Helper.OtherDecksUsed != null && verifier.Helper.OtherDecksUsed.Count != 0)
                 {
@@ -1623,7 +1639,7 @@ namespace Sanguosha.UI.Controls
                         ChoiceIndex = i
                     };
                     choiceModel.MultiChoiceCommands.Add(command);
-                }                
+                }
             }
             else
             {
