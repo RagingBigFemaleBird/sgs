@@ -31,7 +31,14 @@ namespace Sanguosha.Expansions.Hills.Skills
                     int minHp = int.MaxValue;
                     foreach (var pl in Game.CurrentGame.AlivePlayers) if (pl.Health < minHp) minHp = pl.Health;
                     return p[RuoYuAwakened] == 0 && p.Health == minHp; },
-                (p, e, a) => { p[RuoYuAwakened] = 1; p.MaxHealth++; Game.CurrentGame.RecoverHealth(p, p, 1); Game.CurrentGame.PlayerAcquireSkill(p, new JiJiang()); },
+                (p, e, a) => 
+                { 
+                    p[RuoYuAwakened] = 1; 
+                    p.MaxHealth++; 
+                    Game.CurrentGame.RecoverHealth(p, p, 1); 
+                    Game.CurrentGame.PlayerAcquireSkill(p, new JiJiang()); 
+                    Core.Utils.GameDelays.Delay(Core.Utils.GameDelayTypes.Awaken);
+                },
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Start], trigger);

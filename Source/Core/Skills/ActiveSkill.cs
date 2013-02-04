@@ -45,6 +45,7 @@ namespace Sanguosha.Core.Skills
             return Commit(arg);
         }
 
+        public PassiveSkill LinkedPassiveSkill { get { return linkedPassiveSkill; } }
         protected PassiveSkill linkedPassiveSkill;
         Players.Player owner;
         public virtual Players.Player Owner

@@ -30,7 +30,7 @@ namespace Sanguosha.Expansions.Woods.Skills
 
         public DuanLiang()
         {
-            LinkedPassiveSkill = new DuanLiangPassive();
+            linkedPassiveSkill = new DuanLiangPassive();
         }
 
         public class DuanLiangPassive : TriggerSkill

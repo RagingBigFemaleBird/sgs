@@ -26,7 +26,7 @@ namespace Sanguosha.Core.Skills
 
         public CardTransformSkill()
         {
-            LinkedPassiveSkill = null;
+            linkedPassiveSkill = null;
             ExtraCardsDeck = null;
             Helper = new UiHelper();
         }
@@ -82,7 +82,8 @@ namespace Sanguosha.Core.Skills
         /// <remarks>
         /// 断粮和疬火同时拥有卡牌转换技和被动技成分，故设置此成员变量
         /// </remarks>
-        protected PassiveSkill LinkedPassiveSkill { get; set; }
+        public PassiveSkill LinkedPassiveSkill { get { return linkedPassiveSkill; } }
+        protected PassiveSkill linkedPassiveSkill { get; set; }
 
         Players.Player owner;
         public virtual Players.Player Owner
@@ -92,9 +93,9 @@ namespace Sanguosha.Core.Skills
             {
                 if (owner == value) return;
                 owner = value;
-                if (LinkedPassiveSkill != null)
+                if (linkedPassiveSkill != null)
                 {
-                    LinkedPassiveSkill.Owner = value;
+                    linkedPassiveSkill.Owner = value;
                 }
             }
         }

@@ -46,7 +46,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
         public JiuShi()
         {
             Helper.HasNoConfirmation = true;
-            LinkedPassiveSkill = new JiuShiPassive();
+            linkedPassiveSkill = new JiuShiPassive();
         }
 
         public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
