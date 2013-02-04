@@ -27,17 +27,23 @@ namespace Sanguosha.Expansions.Basic.Skills
             {
                 if (askDel())
                 {
+                    this.skill.NotifySkillUse();
                     return true;
                 }
                 return false;
             }
             _AskTianDuDelegate askDel;
-            public AlwaysGetJudgeCardTrigger(Player owner, _AskTianDuDelegate del) : base(owner, null, null, true) { askDel = del; }
+            TriggerSkill skill;
+            public AlwaysGetJudgeCardTrigger(Player owner, _AskTianDuDelegate del, TriggerSkill skill) : base(owner, null, null, true) 
+            { 
+                askDel = del;
+                this.skill = skill;
+            }
         }
 
         public TianDu()
         {
-            Triggers.Add(GameEvent.PlayerJudgeDone, new AlwaysGetJudgeCardTrigger(Owner, AskForSkillUse) { Priority = int.MinValue });
+            Triggers.Add(GameEvent.PlayerJudgeDone, new AlwaysGetJudgeCardTrigger(Owner, AskForSkillUse, this) { Priority = int.MinValue });
             IsAutoInvoked = true;
         }
     }
