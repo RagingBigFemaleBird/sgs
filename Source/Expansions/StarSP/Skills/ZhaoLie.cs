@@ -108,28 +108,21 @@ namespace Sanguosha.Expansions.StarSP.Skills
         bool ZhaoLieUsed = false;
         public ZhaoLie()
         {
-            var trigger = new AutoNotifyPassiveSkillTrigger(
+            var trigger = new AutoNotifyUsagePassiveSkillTrigger(
                    this,
                    (p, e, a) =>
                    {
                        return Game.CurrentGame.AlivePlayers.Any(pl => Game.CurrentGame.DistanceTo(p, pl) <= p[Player.AttackRange] + 1 && pl != p);
                    },
-                   (p, e, a) =>
+                   (p, e, a, c, pls) =>
                    {
-                       ZhaoLieUsed = false;
-                       ISkill skill;
-                       List<Card> cards;
-                       List<Player> players;
-                       if (p.AskForCardUsage(new CardUsagePrompt("ZhaoLie"), new ZhaoLieVerifier(), out skill, out cards, out players))
-                       {
-                           NotifySkillUse(players);
-                           p[Player.DealAdjustment]--;
-                           ZhaoLieTarget = players[0];
-                           ZhaoLieUsed = true;
-                       }
+                       p[Player.DealAdjustment]--;
+                       ZhaoLieTarget = pls[0];
+                       ZhaoLieUsed = true;
                    },
-                   TriggerCondition.OwnerIsSource
-               ) { AskForConfirmation = false, IsAutoNotify = false };
+                   TriggerCondition.OwnerIsSource,
+                   new ZhaoLieVerifier()
+               ) { AskForConfirmation = false };
             Triggers.Add(GameEvent.PhaseProceedEvents[TurnPhase.Draw], trigger);
 
             var trigger2 = new AutoNotifyPassiveSkillTrigger(

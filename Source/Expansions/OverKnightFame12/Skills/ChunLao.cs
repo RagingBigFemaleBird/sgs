@@ -84,27 +84,22 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                 }
             }
 
-            public void StoreChun(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
+            public void StoreChun(Player owner, GameEvent gameEvent, GameEventArgs eventArgs, List<Card> cards, List<Player> players)
             {
-                ISkill skill;
-                List<Card> cards;
-                List<Player> players;
-                if (owner.AskForCardUsage(new CardUsagePrompt("ChunLao"), new ChunLaoStoreChunVerifier(), out skill, out cards, out players))
-                {
-                    (ParentSkill as ChunLao).NotifyAction(owner, new List<Player>(), cards);
-                    Game.CurrentGame.HandleCardTransfer(owner, owner, ChunDeck, cards);
-                }
+                (ParentSkill as ChunLao).NotifyAction(owner, new List<Player>(), cards);
+                Game.CurrentGame.HandleCardTransfer(owner, owner, ChunDeck, cards);
             }
 
             public ISkill ParentSkill { get; set; }
             public ChunLaoPassiveSkill()
             {
                 ParentSkill = null;
-                var trigger1 = new AutoNotifyPassiveSkillTrigger(
+                var trigger1 = new AutoNotifyUsagePassiveSkillTrigger(
                         this,
                         (p, e, a) => { return Game.CurrentGame.Decks[p, ChunDeck].Count == 0; },
                         StoreChun,
-                        TriggerCondition.OwnerIsSource
+                        TriggerCondition.OwnerIsSource,
+                        new ChunLaoStoreChunVerifier()
                     ) { AskForConfirmation = false, IsAutoNotify = false };
                 Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger1);
             }

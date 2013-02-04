@@ -1465,7 +1465,7 @@ namespace Sanguosha.UI.Controls
                         {
                             if (skill.Skill is CardTransformSkill && (skill.Skill as CardTransformSkill).LinkedPassiveSkill != triggerSkill) continue;
                             if (skill.Skill is ActiveSkill && (skill.Skill as ActiveSkill).LinkedPassiveSkill != triggerSkill) continue;
-                            if (skill.Skill != triggerSkill) continue;
+                            if (skill.Skill is TriggerSkill && skill.Skill != triggerSkill) continue;
                             skill.IsHighlighted = true;
                             break;
                         }

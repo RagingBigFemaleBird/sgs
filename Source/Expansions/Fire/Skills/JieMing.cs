@@ -49,7 +49,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             int damage = args.Magnitude;
             while (damage-- > 0)
             {
-                if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("JieMing"), new JieMingVerifier(), out skill, out cards, out players))
+                if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("JieMing", this), new JieMingVerifier(), out skill, out cards, out players))
                 {
                     NotifySkillUse(players);
                     Game.CurrentGame.DrawCards(players[0], Math.Min(5, players[0].MaxHealth - Game.CurrentGame.Decks[players[0], DeckType.Hand].Count));
