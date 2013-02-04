@@ -33,7 +33,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             }
             protected override bool VerifyPlayer(Player source, Player player)
             {
-                return source != player && player.Allegiance == Allegiance.Shu && source[ShiChouTarget[player]] == 0;
+                return source != player && player.Allegiance == Allegiance.Shu && source[ShiChouSource[player]] == 0;
             }
         }
 
@@ -45,7 +45,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 DamageEventArgs damageArgs = eventArgs as DamageEventArgs;
                 ReadOnlyCard rCard = new ReadOnlyCard(damageArgs.ReadonlyCard);
                 rCard[ShiChouDamage] = 1;
-                target[ShiChouTarget] ++;
+                target[ShiChouTarget[Owner]] ++;
                 Game.CurrentGame.DoDamage(damageArgs.Source, target, Owner, damageArgs.Magnitude, damageArgs.Element, damageArgs.Card, rCard);
                 throw new TriggerResultException(TriggerResult.End);
             }
@@ -62,17 +62,19 @@ namespace Sanguosha.Expansions.StarSP.Skills
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                if (Owner[ShiChouTarget] == 0 || !eventArgs.Targets.Contains(Owner) || eventArgs.ReadonlyCard[ShiChouDamage] == 0)
+                if (Owner[ShiChouTarget[source]] == 0 || !eventArgs.Targets.Contains(Owner) || eventArgs.ReadonlyCard[ShiChouDamage] == 0)
                 {
                     return;
                 }
-                Owner[ShiChouTarget]--;
+                Owner[ShiChouTarget[source]]--;
                 Game.CurrentGame.DrawCards(Owner, (eventArgs as DamageEventArgs).Magnitude);
             }
 
-            public ShiChouDrawCards(Player target)
+            Player source;
+            public ShiChouDrawCards(Player target, Player ShiChouSource)
             {
                 Owner = target;
+                source = ShiChouSource;
             }
         }
 
@@ -81,7 +83,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 if (!eventArgs.Targets.Contains(Owner)) return ;
-                Owner[ShiChouTarget[source]] = 0;
+                Owner[ShiChouSource[source]] = 0;
                 Owner[ShiChouStatus] = 0;
                 Game.CurrentGame.UnregisterTrigger(GameEvent.DamageInflicted, protectTrigger);
                 Game.CurrentGame.UnregisterTrigger(GameEvent.DamageComputingFinished, drawCardsTrigger);
@@ -111,19 +113,20 @@ namespace Sanguosha.Expansions.StarSP.Skills
             ISkill skill;
             List<Card> cards;
             List<Player> players;
-            if (Owner.AskForCardUsage(new CardUsagePrompt("ShiChou"), new ShiChouVerifier(), out skill, out cards, out players))
+            if (Owner.AskForCardUsage(new CardUsagePrompt("ShiChou", this), new ShiChouVerifier(), out skill, out cards, out players))
             {
                 NotifySkillUse(players);
                 Owner[ShiChouUsed] = 1;
-                players[0][ShiChouTarget[Owner]] = 1;
+                players[0][ShiChouSource[Owner]] = 1;
                 Game.CurrentGame.HandleCardTransferToHand(Owner, players[0], cards);
                 players[0][ShiChouStatus] = 1;
                 Trigger tri1 = new ShiChouProtect(Owner, players[0]);
-                Trigger tri2 = new ShiChouDrawCards(players[0]);
+                Trigger tri2 = new ShiChouDrawCards(players[0], Owner);
                 Trigger tri3 = new ShiChouRemoval(players[0], Owner, tri1, tri2);
                 Game.CurrentGame.RegisterTrigger(GameEvent.DamageInflicted, tri1);
                 Game.CurrentGame.RegisterTrigger(GameEvent.DamageComputingFinished, tri2);
                 Game.CurrentGame.RegisterTrigger(GameEvent.PlayerIsAboutToDie, tri3);
+                Core.Utils.GameDelays.Delay(Core.Utils.GameDelayTypes.Awaken);
             }
         }
 
@@ -143,6 +146,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
 
         private static CardAttribute ShiChouDamage = CardAttribute.Register("ShiChouDamage");
         private static PlayerAttribute ShiChouUsed = PlayerAttribute.Register("ShiChouUsed");
+        private static PlayerAttribute ShiChouSource = PlayerAttribute.Register("ShiChouSource");
         private static PlayerAttribute ShiChouTarget = PlayerAttribute.Register("ShiChouTarget");
         private static PlayerAttribute ShiChouStatus = PlayerAttribute.Register("ShiChou", false, false, true);
     }
