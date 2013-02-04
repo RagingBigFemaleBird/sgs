@@ -99,13 +99,13 @@
     <BitmapImage x:Key="Card.ShenGuanYu.Image.Normal">Cards/Normal/ShenGuanYu.jpg</BitmapImage>
     <BitmapImage x:Key="Card.ShenLvBu.Image.Normal">Cards/Normal/ShenLvBu.jpg</BitmapImage>
     <BitmapImage x:Key="Card.ShenLvMeng.Image.Normal">Cards/Normal/ShenLvMeng.jpg</BitmapImage>
-    <BitmapImage x:Key="Card.ShenSimayi.Image.Normal">Cards/Normal/ShenSimayi.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.ShenSimaYi.Image.Normal">Cards/Normal/ShenSimaYi.jpg</BitmapImage>
     <BitmapImage x:Key="Card.ShenZhaoYun.Image.Normal">Cards/Normal/ShenZhaoYun.jpg</BitmapImage>
     <BitmapImage x:Key="Card.ShenZhouYu.Image.Normal">Cards/Normal/ShenZhouYu.jpg</BitmapImage>
     <BitmapImage x:Key="Card.ShenZhugeLiang.Image.Normal">Cards/Normal/ShenZhugeLiang.jpg</BitmapImage>
     <BitmapImage x:Key="Card.ShunShouQianYang.Image.Normal">Cards/Normal/ShunShouQianYang.jpg</BitmapImage>
     <BitmapImage x:Key="Card.ShuSunShangxiang.Image.Normal">Cards/Normal/ShuSunShangxiang.jpg</BitmapImage>
-    <BitmapImage x:Key="Card.SiMaYi.Image.Normal">Cards/Normal/SiMaYi.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.SimaYi.Image.Normal">Cards/Normal/SimaYi.jpg</BitmapImage>
     <BitmapImage x:Key="Card.SPCaoRen.Image.Normal">Cards/Normal/SPCaoRen.jpg</BitmapImage>
     <BitmapImage x:Key="Card.SPDaQiao.Image.Normal">Cards/Normal/SPDaQiao.jpg</BitmapImage>
     <BitmapImage x:Key="Card.SPDiaoChan.Image.Normal">Cards/Normal/SPDiaoChan.jpg</BitmapImage>
