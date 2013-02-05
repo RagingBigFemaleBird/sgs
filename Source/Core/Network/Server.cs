@@ -91,6 +91,11 @@ namespace Sanguosha.Core.Network
             Trace.TraceInformation("Server initialized with capacity {0}", capacity);
         }
 
+        public bool IsDisconnected(int id)
+        {
+            return handlers[id].disconnected;
+        }
+
         /// <summary>
         /// Ready the server. Block if require more clients to connect.
         /// </summary>

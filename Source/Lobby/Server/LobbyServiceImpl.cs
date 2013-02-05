@@ -72,9 +72,42 @@ namespace Sanguosha.Lobby.Server
             }
         }
 
-        public LoginStatus Login(int version, string username, out LoginToken token, out Account retAccount, out string reconnectionString)
+        private bool Authenticate(string username, string hash)
+        {
+            if (accountContext == null) return true;
+            var result = from a in accountContext.Accounts where a.UserName.Equals(username) select a;
+            if (result.Count() == 0) return false;
+            return true;
+        }
+
+        private Account GetAccount(string username, string hash)
+        {
+            if (accountContext == null)
+            {
+                return new Account() { UserName = username, Id = newAccountId++ };
+            }
+            var result = from a in accountContext.Accounts where a.UserName.Equals(username) select a;
+            if (result.Count() == 0)
+            {
+                var account = new Account() { UserName = username, Id = newAccountId++ };
+                accountContext.Accounts.Add(account);
+                accountContext.SaveChanges();
+                return account;
+            }
+            return result.First();
+        }
+
+        public LoginStatus Login(int version, string username, string hash, out LoginToken token, out Account retAccount, out string reconnectionString)
         {
             var disconnected = accounts.FirstOrDefault(ac => ac.UserName == username);
+            if (!Authenticate(username, hash))
+            {
+                reconnectionString = null;
+                retAccount = null;
+                token = new LoginToken();
+                token.token = System.Guid.NewGuid();
+                return LoginStatus.InvalidUsernameAndPassword;
+            }
             if (disconnected != null)
             {
                 token = new LoginToken() { token = loggedInAccountToGuid[disconnected] };
@@ -110,20 +143,8 @@ namespace Sanguosha.Lobby.Server
             Account account = disconnected;
             if (account == null)
             {
-                account = new Account() { UserName = username, Id = newAccountId++ };
+                account = GetAccount(username, hash);
                 accounts.Add(account);
-                if (accountContext != null)
-                {
-                    try
-                    {
-                        accountContext.Accounts.Add(account);
-                        accountContext.SaveChanges();
-                    }
-                    catch (Exception e)
-                    {
-                        Trace.TraceError(e.ToString());
-                    }
-                }
             }
             retAccount = account;
             if (disconnected != null)
@@ -386,17 +407,15 @@ namespace Sanguosha.Lobby.Server
                     {
                         if (seat.Account != null && loggedInGuidToChannel[loggedInAccountToGuid[seat.Account]].Ping())
                         {
-                            return;
+                            continue;
                         }
                     }
                     catch (Exception)
                     {
                     }
-                }
-                foreach (var seat in rooms[roomId].Seats)
-                {
                     if (seat.Account != null) _Logout(new LoginToken() { token = loggedInAccountToGuid[seat.Account] });
                 }
+                if (accountContext != null) accountContext.SaveChanges();
             }
         }
 

@@ -920,6 +920,28 @@ namespace Sanguosha.Core.Games
                     }
                 }
             }
+
+            private void TallyGameResult(List<Player> winners)
+            {
+                foreach (Player p in Game.CurrentGame.Players)
+                {
+                    int idx = Game.CurrentGame.Players.IndexOf(p);
+                    if (Game.CurrentGame.GameServer != null && Game.CurrentGame.GameServer.IsDisconnected(idx))
+                    {
+                        Game.CurrentGame.Settings.Accounts[idx].Quits++;
+                        continue;
+                    }
+                    if (winners.Contains(p))
+                    {
+                        Game.CurrentGame.Settings.Accounts[idx].Wins++;
+                    }
+                    else
+                    {
+                        Game.CurrentGame.Settings.Accounts[idx].Losses++;
+                    }
+                }
+            }
+
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 Player p = eventArgs.Targets[0];
@@ -948,12 +970,14 @@ namespace Sanguosha.Core.Games
                         RevealAllPlayersRoles();
                         var winners = from pl in Game.CurrentGame.Players where pl.Role == Role.Defector select pl;
                         Game.CurrentGame.NotificationProxy.NotifyGameOver(false, winners.ToList());
+                        TallyGameResult(new List<Player>(winners));
                     }
                     else
                     {
                         RevealAllPlayersRoles();
                         var winners = from pl in Game.CurrentGame.Players where pl.Role == Role.Rebel select pl;
                         Game.CurrentGame.NotificationProxy.NotifyGameOver(false, winners.ToList());
+                        TallyGameResult(new List<Player>(winners));
                     }
                     p.IsDead = true;
                     throw new GameOverException();
@@ -981,6 +1005,7 @@ namespace Sanguosha.Core.Games
                         RevealAllPlayersRoles();
                         var winners = from pl in Game.CurrentGame.Players where pl.Role == Role.Ruler || pl.Role == Role.Loyalist select pl;
                         Game.CurrentGame.NotificationProxy.NotifyGameOver(false, winners.ToList());
+                        TallyGameResult(new List<Player>(winners));
                         p.IsDead = true;
                         throw new GameOverException();
                     }

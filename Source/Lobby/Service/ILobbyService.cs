@@ -45,7 +45,7 @@ namespace Sanguosha.Lobby.Core
     public interface ILobbyService
     {
         [OperationContract(IsInitiating = true)]
-        LoginStatus Login(int version, string username, out LoginToken token, out Account retAccount, out string reconnectionString);
+        LoginStatus Login(int version, string username, string hash, out LoginToken token, out Account retAccount, out string reconnectionString);
 
         [OperationContract(IsInitiating = false)]
         void Logout(LoginToken token);
