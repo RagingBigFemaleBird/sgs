@@ -86,6 +86,8 @@ namespace Sanguosha.UI.Controls
                     }
                 case GameAction.ReplaceJudge:
                     return string.Concat(source, skill, "改判");
+                case GameAction.Reforge:
+                    return string.Concat(source, skill, "重铸");
             }
             return string.Empty;
         }
@@ -577,6 +579,15 @@ namespace Sanguosha.UI.Controls
             para.Inlines.Add(Translate(player));
             para.Inlines.Add(cards.Count == 1 ? "展示了一张手牌" : "展示了手牌");
             para.Inlines.AddRange(RichTranslate(cards));
+            return para;
+        }
+
+        internal static Paragraph RichTranslateReforgeCard(Player player, ICard card)
+        {
+            Paragraph para = new Paragraph();
+            para.Inlines.Add(Translate(player));
+            para.Inlines.Add("重铸了");
+            para.Inlines.AddRange(card is CompositeCard ? RichTranslate((card as CompositeCard).Subcards) : RichTranslate(card));
             return para;
         }
 

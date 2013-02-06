@@ -28,9 +28,6 @@ namespace Sanguosha.Expansions.Battle.Cards
         {
             var source = handlerArgs.Source;
             var dests = handlerArgs.Targets;
-            var readonlyCard = handlerArgs.ReadonlyCard;
-            var inResponseTo = handlerArgs.InResponseTo;
-            var card = handlerArgs.Card;
             if (dests == null || dests.Count == 0)
             {
                 Game.CurrentGame.DrawCards(source, 1);
@@ -47,6 +44,32 @@ namespace Sanguosha.Expansions.Battle.Cards
                 return true;
             }
             return false;
+        }
+
+        public override void TagAndNotify(Player source, List<Player> dests, ICard card, GameAction action = GameAction.Use)
+        {
+            if (this.IsReforging(source, null, null, dests))
+            {
+                if (card is CompositeCard)
+                {
+                    foreach (Card c in (card as CompositeCard).Subcards)
+                    {
+                        c.Log.Source = source;
+                        c.Log.GameAction = GameAction.Reforge;
+                    }
+
+                }
+                else
+                {
+                    var c = card as Card;
+                    Trace.Assert(card != null);
+                    c.Log.Source = source;
+                    c.Log.GameAction = GameAction.Reforge;
+                }
+                Game.CurrentGame.NotificationProxy.NotifyReforge(source, card);
+                return;
+            }
+            base.TagAndNotify(source, dests, card, action);
         }
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)

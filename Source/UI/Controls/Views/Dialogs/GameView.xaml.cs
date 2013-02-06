@@ -1074,6 +1074,16 @@ namespace Sanguosha.UI.Controls
             });
         }
 
+        public void NotifyReforge(Player p, ICard card)
+        {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                Uri uri = GameSoundLocator.GetSystemSound("Reforge");
+                GameSoundPlayer.PlaySoundEffect(uri);
+                gameLogs.AppendReforgeLog(p, card);
+            });
+        }
+
         public void NotifyShowCard(Player p, Card card)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()

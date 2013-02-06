@@ -25,6 +25,7 @@ namespace Sanguosha.Core.UI
         void NotifyActionComplete();
         void NotifyLoseHealth(Player player, int p);
         void NotifyRecoverHealth(Player player, int p);
+        void NotifyReforge(Player p, ICard card);
         void NotifyShowCard(Player p, Card card);
         void NotifyCardChoiceCallback(CardRearrangement o);
         void NotifyImpersonation(Player p, Hero h, ISkill s);
@@ -75,6 +76,10 @@ namespace Sanguosha.Core.UI
         }
 
         public void NotifyRecoverHealth(Player player, int p)
+        {
+        }
+
+        public void NotifyReforge(Player p, ICard card)
         {
         }
 

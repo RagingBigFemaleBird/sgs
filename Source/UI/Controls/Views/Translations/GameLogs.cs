@@ -80,11 +80,11 @@ namespace Sanguosha.UI.Controls
             var docs = (from pair in Logs
                         where (source.Player == pair.Key || dest.Player == pair.Key)
                         select pair.Value).Concat(new List<FlowDocument>() { GlobalLog });
-            
+
             foreach (var doc in docs)
             {
                 var paragraph = LogFormatter.RichTranslateCardMove(cards, source, dest, reason);
-                
+
                 if (paragraph.Inlines.Count > 0)
                 {
                     doc.Blocks.Add(paragraph);
@@ -109,11 +109,11 @@ namespace Sanguosha.UI.Controls
                 rect1.Width = 210;
                 rect1.Height = 1;
                 rect1.Fill = new SolidColorBrush(Colors.Black);
-                
+
                 var rect2 = new Rectangle();
                 rect2.Width = 210;
                 rect2.Height = 1;
-                rect2.Fill = new SolidColorBrush(new Color(){ R = 77, G=74, B = 66, A = 255 });
+                rect2.Fill = new SolidColorBrush(new Color() { R = 77, G = 74, B = 66, A = 255 });
 
                 para.Inlines.Add(rect1);
                 para.Inlines.Add(rect2);
@@ -199,6 +199,19 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        internal void AppendReforgeLog(Player p, ICard card)
+        {
+            List<FlowDocument> docs = new List<FlowDocument>() { Logs[p], GlobalLog };
+            Paragraph para = LogFormatter.RichTranslateReforgeCard(p, card);
+            if (para != null)
+            {
+                foreach (var doc in docs)
+                {
+                    doc.Blocks.Add(para);
+                }
+            }
+        }
+
         internal void AppendJudgeResultLog(Player p, Card card, ActionLog log, bool? isSuccess, bool isFinalResult)
         {
             List<FlowDocument> docs = new List<FlowDocument>() { Logs[p], GlobalLog };
@@ -232,7 +245,7 @@ namespace Sanguosha.UI.Controls
                 {
                     doc.Blocks.Add(para);
                 }
-            }            
+            }
         }
     }
 }
