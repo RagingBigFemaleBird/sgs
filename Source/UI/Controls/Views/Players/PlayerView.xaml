@@ -270,6 +270,7 @@
                         </LinearGradientBrush>
                     </Border.BorderBrush>
                 </Border>
+				
                 <Grid x:Name="mainArea" Margin="7" MouseLeftButtonDown="mainArea_MouseLeftButtonDown" MouseRightButtonDown="mainArea_MouseRightButtonDown">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="27"/>
@@ -281,6 +282,11 @@
                             <ImageBrush ImageSource="{DynamicResource PlayerInfoView.Background.Top}" TileMode="Tile"/>
                         </Border.Background>
                     </Border>
+					<Border x:Name="Middle" Grid.Row="1">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{DynamicResource PlayerInfoView.Background.Middle}"/>
+                        </Border.Background>
+                    </Border>
                     <Border x:Name="Bottom" Grid.Row="2">
                         <Border.Background>
                             <ImageBrush ImageSource="{DynamicResource PlayerInfoView.Background.Bottom}" TileMode="Tile"/>
@@ -289,9 +295,17 @@
                     </Border>
                     <local:CardStack x:Name="privateCardArea" IsCardConsumer="true" CardAlignment="Center" MaxCardSpacing="30" Grid.RowSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-30,0,0,0"  Height="130" Width="179" IsHitTestVisible="false" />
                     <local:CardStack x:Name="handCardArea" IsCardConsumer="true" CardAlignment="Center" MaxCardSpacing="30" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="130" Width="279" IsHitTestVisible="false" />
-                    <Border Margin="5,0,6,0" Grid.Row="1" CornerRadius="1" ClipToBounds="True">
-                        <Grid>
-                            <Rectangle Fill="Black"/>
+                    <Border Margin="5,0,6,0" Grid.Row="1" CornerRadius="1" ClipToBounds="True" BorderThickness="1">
+                    	<Border.BorderBrush>
+                    		<LinearGradientBrush EndPoint="1,1.8" StartPoint="0,0">
+                    			<GradientStop Color="#E5323232" Offset="0"/>
+                    			<GradientStop Color="#E5323232" Offset="1"/>
+                    			<GradientStop Color="#FFDEDEDE" Offset="0.439"/>
+                    			<GradientStop Color="#E63C3C3C" Offset="0.26"/>
+                    			<GradientStop Color="#E84A4A4A" Offset="0.618"/>
+                    		</LinearGradientBrush>
+                    	</Border.BorderBrush>                        
+						<Grid Margin="1" >
                             <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=28\,46\,220\,132, Path=HeroName, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/Full/\{0\}.png}">
                                 <Image.Effect>
                                     <Sanguosha_UI_Effects:RippleTransitionEffect x:Name="impersonateEffect" Progress="100"/>
@@ -360,12 +374,7 @@
                             <Image Height="30" Margin="20,0,21,7" Source="/Resources;component/Images/Game/saveMe.png" IsHitTestVisible="False" Visibility="{Binding IsDying, Converter={StaticResource boolToVisibilityConverter}}" Stretch="Fill" VerticalAlignment="Bottom"/>
                         </Grid>
                     </Border>
-                    <Border x:Name="Middle" Grid.Row="1">
-                        <Border.Background>
-                            <ImageBrush ImageSource="{DynamicResource PlayerInfoView.Background.Middle}" TileMode="Tile"/>
-                        </Border.Background>
-                    </Border>
-                    <Image SnapsToDevicePixels="True" Source="{DynamicResource PlayerInfoView.Decoration.TopLeft}" Width="64" HorizontalAlignment="Left" Margin="-8.75,-5.25,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
+                    <Image SnapsToDevicePixels="True" Source="{DynamicResource PlayerInfoView.Decoration.TopLeft}" Width="64" HorizontalAlignment="Left" Margin="-8.75,-5.25,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Visibility="Hidden"/>
                     <Image SnapsToDevicePixels="True" x:Name="allegianceMask" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Mask}" HorizontalAlignment="Left" Grid.RowSpan="2" Width="38" Stretch="Fill" Margin="-3.335,4.333,0,0.667" ClipToBounds="True" Height="119" VerticalAlignment="Top"/>
                     <Image SnapsToDevicePixels="True" x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" />
                     <local:RoleBox x:Name="cbRoleBox" HorizontalAlignment="Right" Width="25" Height="26"/>
@@ -400,9 +409,11 @@
                             <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0"/>
                         </ItemsControl.Effect>
                     </ItemsControl>
-
-                    <TextBlock x:Name="userLevelText" Text="Lv.0" HorizontalAlignment="Center" Margin="0,0,0,2" Style="{DynamicResource SmallTextBlockStyle}"/>
-                    <TextBlock x:Name="userNameText" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="{Binding Account.UserName, Mode=OneWay}" Margin="0,0,0,2" Style="{DynamicResource SmallTextBlockStyle}" Foreground="Black" FontSize="12"/>
+                    <TextBlock x:Name="userNameText" VerticalAlignment="Bottom" Text="{Binding Account.UserName, Mode=OneWay}" Margin="32.117,0,25,4" Foreground="White" FontSize="14" FontFamily="SimHei" Height="17.97" FontWeight="Bold" TextAlignment="Center">
+                    	<TextBlock.Effect>
+                    		<DropShadowEffect ShadowDepth="0"/>              	
+						</TextBlock.Effect>
+					</TextBlock>
                     <Border Grid.Row="1" HorizontalAlignment="Left" Height="17" Width="16" VerticalAlignment="Bottom" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22" Margin="0,0,0,-3.5">
                         <TextBlock x:Name="handCardNum" Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding HandCardCount}" TextAlignment="Center" FontFamily="Arial" Foreground="Black"/>
                     </Border>

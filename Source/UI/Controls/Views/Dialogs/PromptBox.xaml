@@ -17,7 +17,7 @@
             <Grid x:Name="PART_WindowRoot" Background="#FF1D1C1B" Height="{TemplateBinding Height}" MinWidth="{TemplateBinding MinWidth}" MinHeight="{TemplateBinding MinHeight}" VerticalAlignment="Top" Width="{TemplateBinding Width}">
                 <Grid x:Name="WindowGrid">                	
                     <Border x:Name="PART_DragWidget" VerticalAlignment="Top" Height="23" Background="#FF0E0D0C">
-	                    <local:OutlinedTextBlock x:Name="txtPrompt" HorizontalAlignment="Center" Text="{TemplateBinding Caption}" FontFamily="pack://application:,,,/Resources;component/Fonts/#STLiTi" Fill="#FFE4D5A0" VerticalAlignment="Center" FontSize="18"/>                            	                        
+                        <local:OutlinedTextBlock x:Name="txtPrompt" HorizontalAlignment="Center" Text="{TemplateBinding Caption}" FontFamily="pack://application:,,,/Resources;component/Fonts/#STLiTi" Fill="#FFE4D5A0" VerticalAlignment="Center" FontSize="18"/>                            	                        
                     </Border>
                     <Button Margin="0,5,5,0" VerticalAlignment="Top" HorizontalAlignment="Right" x:Name="PART_CloseButton" IsTabStop="False" Style="{DynamicResource SimpleCloseButtonStyle}" Visibility="{TemplateBinding CloseButtonVisibility}" d:LayoutOverrides="Width" />
                     <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
