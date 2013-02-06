@@ -86,6 +86,6 @@ namespace Sanguosha.Core.UI
         /// <summary>
         /// 一些特别的，要使用到指示线的CardTransformSkill，如激将，蛊惑
         /// </summary>
-        public bool UseIndexLine { get; set; }
+        public bool ShowCueLine { get; set; }
     }
 }

@@ -127,7 +127,76 @@ namespace Sanguosha.UI.Controls
                 pinDianWindow.Close();
             };
             chatEventHandler = new ChatEventHandler(LobbyModel_OnChat);
-            LobbyViewModel.Instance.OnChat += chatEventHandler;
+            LobbyViewModel.Instance.OnChat += chatEventHandler;            
+        }
+
+        Dictionary<KeyValuePair<Player, Player>, Line> _cueLines;
+        Dictionary<KeyValuePair<Player, Player>, DoubleAnimation> _lineUpAnimations;
+        // Dictionary<KeyValuePair<Player, Player>, Line> _cueLineGlows;
+
+        private void _CreateCueLines()
+        {
+            if (_cueLines != null)
+            {
+                foreach (var line in _cueLines.Values)
+                {
+                    GlobalCanvas.Children.Remove(line);
+                }
+            }
+
+            _cueLines = new Dictionary<KeyValuePair<Player,Player>,Line>();
+            _lineUpAnimations = new Dictionary<KeyValuePair<Player, Player>, DoubleAnimation>();
+            foreach (var source in playersMap.Keys)
+            {
+                foreach (var target in playersMap.Keys)
+                {
+                    if (source == target) continue;
+                    var key = new KeyValuePair<Player, Player>(source, target);
+                    Line line = new Line();
+                    line.StrokeDashCap = PenLineCap.Triangle;
+                    line.StrokeThickness = 3;
+                    line.Stroke = Resources["indicatorLineBrush"] as Brush;
+                    /* line2.Stroke = Resources["indicatorLineGlowBrush"] as Brush; */
+                    _cueLines.Add(key, line);
+                    
+                    DoubleAnimation animation = new DoubleAnimation();
+                    animation.Duration = _lineUpDuration;
+                    Storyboard.SetTarget(animation, line);
+                    Storyboard.SetTargetProperty(animation, new PropertyPath(Line.StrokeDashOffsetProperty));
+                    _lineUpAnimations.Add(key, animation);
+
+                    GlobalCanvas.Children.Add(line);
+                }
+            }            
+        }
+
+        private void _ResizeCueLines()
+        {
+            gridRoot.UpdateLayout();
+            foreach (var source in playersMap.Keys)
+            {
+                foreach (var target in playersMap.Keys)
+                {
+                    if (source == target) continue;
+                    var key = new KeyValuePair<Player, Player>(source, target);
+                    Line line = _cueLines[key];                    
+                    var src = playersMap[source];
+                    var dst = playersMap[target];                    
+                    var srcPoint = src.TranslatePoint(new Point(src.ActualWidth / 2, src.ActualHeight / 2), GlobalCanvas);                    
+                    var dstPoint = dst.TranslatePoint(new Point(dst.ActualWidth / 2, dst.ActualHeight / 2), GlobalCanvas);
+                    line.X1 = srcPoint.X;
+                    line.X2 = dstPoint.X;
+                    line.Y1 = srcPoint.Y;
+                    line.Y2 = dstPoint.Y;
+                    double distance = Math.Sqrt((srcPoint.X - dstPoint.X) * (srcPoint.X - dstPoint.X) + (srcPoint.Y - dstPoint.Y) * (srcPoint.Y - dstPoint.Y));
+                    line.StrokeDashArray = new DoubleCollection() { distance * 2.0, 10000d };
+                    line.StrokeDashOffset = distance * 2;
+
+                    var animation = _lineUpAnimations[key];
+                    animation.From = distance * 2.0;
+                    animation.To = -distance;
+                }
+            }
         }
 
         private ChatEventHandler chatEventHandler;
@@ -213,7 +282,7 @@ namespace Sanguosha.UI.Controls
             foreach (var box in profileBoxes)
             {
                 box.Width = width;
-                box.Height = height;
+                box.Height = height;                
             }
 
             _AdjustSpacing(hSpacing, vSpacing);
@@ -240,6 +309,7 @@ namespace Sanguosha.UI.Controls
                 playerView.UpdateCardAreas();
             }
             discardDeck.RearrangeCards();
+            _ResizeCueLines();
         }
 
         private void _CreatePlayerInfoView(int indexInGameModel)
@@ -332,7 +402,8 @@ namespace Sanguosha.UI.Controls
             }
             playersMap.Add(model.MainPlayerModel.Player, mainPlayerPanel);
             RearrangeSeats();
-            _Resize(new Size(this.ActualWidth, this.ActualHeight));
+            _CreateCueLines();
+            
             model.PropertyChanged += new PropertyChangedEventHandler(model_PropertyChanged);
             model.Game.PropertyChanged += new PropertyChangedEventHandler(_game_PropertyChanged);
             Trace.Assert(model.MainPlayerModel != null, "Main player must exist.");
@@ -360,6 +431,7 @@ namespace Sanguosha.UI.Controls
             {
                 model.PlayerModels[i].PropertyChanged += new PropertyChangedEventHandler(_player_PropertyChanged);
             }
+            _Resize(new Size(this.ActualWidth, this.ActualHeight));
         }
 
         ChildWindow cardChoiceWindow;
@@ -627,54 +699,14 @@ namespace Sanguosha.UI.Controls
 
         private void _LineUp(Player source, IList<Player> targets)
         {
-            Storyboard lineUpGroup = new Storyboard();
-            List<Line> lines = new List<Line>();
-            var src = playersMap[source];
-            Point srcPoint = src.TranslatePoint(new Point(src.ActualWidth / 2, src.ActualHeight / 2), GlobalCanvas);
+            Storyboard lineUpGroup = new Storyboard();            
             foreach (var target in targets)
             {
-                var dest = playersMap[target];
-                Point dstPoint = dest.TranslatePoint(new Point(dest.ActualWidth / 2, dest.ActualHeight / 2), GlobalCanvas);
-                double distance = Math.Sqrt((srcPoint.X - dstPoint.X) * (srcPoint.X - dstPoint.X) + (srcPoint.Y - dstPoint.Y) * (srcPoint.Y - dstPoint.Y));
-
-                Line line = new Line();
-                line.Stroke = Resources["indicatorLineBrush"] as Brush;
-                line.X1 = srcPoint.X;
-                line.X2 = dstPoint.X;
-                line.Y1 = srcPoint.Y;
-                line.Y2 = dstPoint.Y;
-                line.StrokeThickness = 1;
-                lines.Add(line);
-
-                Line line2 = new Line();
-                line2.Stroke = Resources["indicatorLineGlowBrush"] as Brush;
-                line2.X1 = srcPoint.X;
-                line2.X2 = dstPoint.X;
-                line2.Y1 = srcPoint.Y;
-                line2.Y2 = dstPoint.Y;
-                line2.StrokeThickness = 3;
-                lines.Add(line2);
-            }
-
-            foreach (var line in lines)
-            {
-                double distance = Math.Sqrt((line.X2 - line.X1) * (line.X2 - line.X1) + (line.Y2 - line.Y1) * (line.Y2 - line.Y1));
-                line.StrokeDashArray = new DoubleCollection() { distance * 2.0, 10000d };
-                line.StrokeDashOffset = distance;
-                line.StrokeDashCap = PenLineCap.Triangle;
-
-                DoubleAnimation animation = new DoubleAnimation(distance * 2.0, -distance, _lineUpDuration);
-                Storyboard.SetTarget(animation, line);
-                Storyboard.SetTargetProperty(animation, new PropertyPath(Line.StrokeDashOffsetProperty));
+                if (source == target) continue;
+                var key = new KeyValuePair<Player, Player>(source, target);
+                var animation = _lineUpAnimations[key];                
                 lineUpGroup.Children.Add(animation);
-                GlobalCanvas.Children.Add(line);
-                animation.Completed += (o, e) =>
-                {
-                    var da = (o as AnimationClock).Timeline;
-                    Line l = Storyboard.GetTarget(da) as Line;
-                    GlobalCanvas.Children.Remove(l);
-                };
-            }
+            }            
             lineUpGroup.AccelerationRatio = 0.6;
             lineUpGroup.Begin();
         }
@@ -895,7 +927,7 @@ namespace Sanguosha.UI.Controls
                     }
                 }
 
-                if (log.GameAction != GameAction.None || log.SkillAction != null && log.CardAction == null || log.UseIndexLine)
+                if (log.GameAction != GameAction.None || log.SkillAction != null && log.CardAction == null || log.ShowCueLine)
                 {
                     if (log.Targets.Count > 0)
                     {

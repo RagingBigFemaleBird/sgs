@@ -133,7 +133,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             log.SkillAction = this;
             log.Source = source;
             log.Targets = targets;
-            log.UseIndexLine = true;
+            log.ShowCueLine = true;
             log.SpecialEffectHint = GenerateSpecialEffectHintIndex(source, targets, card);
             Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
         }
