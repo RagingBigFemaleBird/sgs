@@ -365,8 +365,8 @@
                             </StackPanel>
                             <local:HealthBar x:Name="healthBar" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                     		Height="14" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}"/>
-                            <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,0" Height="0">
-                                <Grid.Background>
+                            <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,0">
+                            	<Grid.Background>
                                     <ImageBrush ImageSource="{DynamicResource PlayerInfoView.AcquiredSkill.Background}"/>
                                 </Grid.Background>
                                 <local:OutlinedTextBlock Text="{res:ResourceKeyBinding Path=ImpersonatedSkill, StringFormat=Skill.\{0\}.Name}" FontSize="21" Fill="White" FontFamily="/Resources;component/Fonts/#LiSu" Margin="5,1" Stroke="Blue" StrokeThickness="3"/>
