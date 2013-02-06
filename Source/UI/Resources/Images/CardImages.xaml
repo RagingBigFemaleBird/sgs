@@ -143,6 +143,7 @@
     <BitmapImage x:Key="Card.WuGuotai.Image.Normal">Cards/Normal/WuGuotai.jpg</BitmapImage>
     <BitmapImage x:Key="Card.WuXieKeJi.Image.Normal">Cards/Normal/WuXieKeJi.jpg</BitmapImage>
     <BitmapImage x:Key="Card.WuZhongShengYou.Image.Normal">Cards/Normal/WuZhongShengYou.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.XiahouBa.Image.Normal">Cards/Normal/XiahouBa.jpg</BitmapImage>
     <BitmapImage x:Key="Card.XiahouDun.Image.Normal">Cards/Normal/XiahouDun.jpg</BitmapImage>
     <BitmapImage x:Key="Card.XiahouYuan.Image.Normal">Cards/Normal/XiahouYuan.jpg</BitmapImage>
     <BitmapImage x:Key="Card.XiaoQiao.Image.Normal">Cards/Normal/XiaoQiao.jpg</BitmapImage>

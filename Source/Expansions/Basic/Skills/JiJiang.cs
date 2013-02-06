@@ -19,6 +19,12 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     public class JiJiang : CardTransformSkill
     {
+        protected override int GenerateSpecialEffectHintIndex(Player source, List<Player> targets, CompositeCard card)
+        {
+            if (source.Hero.Name == "LiuShan" || source.Hero2 != null && source.Hero2.Name == "LiuShan") return 1;
+            return 0;
+        }
+
         public JiJiang()
         {
             IsRulerOnly = true;

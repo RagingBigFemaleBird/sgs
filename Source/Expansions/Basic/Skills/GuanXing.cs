@@ -20,6 +20,12 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     public class GuanXing : TriggerSkill
     {
+        protected override int GenerateSpecialEffectHintIndex(Player source, List<Player> targets)
+        {
+            if ((source.Hero.Name == "JiangWei" || source.Hero2 != null && source.Hero2.Name == "JiangWei")) return 1;
+            return 0;
+        }
+
         class GuanXingVerifier : ICardChoiceVerifier
         {
             public VerifierResult Verify(List<List<Card>> answer)

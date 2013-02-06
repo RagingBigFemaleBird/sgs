@@ -22,6 +22,11 @@ namespace Sanguosha.Expansions.Basic.Skills
     {
         public static PlayerAttribute KeJiFailed = PlayerAttribute.Register("KeJiFailed", true);
 
+        protected override int GenerateSpecialEffectHintIndex(Player source, List<Player> targets)
+        {
+            if (Owner.Hero.Name == "SPLvMeng" || (Owner.Hero2 != null && Owner.Hero2.Name == "SPLvMeng")) return 1;
+            return 0;
+        }
 
         public KeJi()
         {

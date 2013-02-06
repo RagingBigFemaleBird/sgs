@@ -20,6 +20,12 @@ namespace Sanguosha.Expansions.Hills.Skills
     /// </summary>
     public class JiAng : TriggerSkill
     {
+        protected override int GenerateSpecialEffectHintIndex(Player source, List<Player> targets)
+        {
+            if (Owner.Hero.Name == "SPLvMeng" || (Owner.Hero2 != null && Owner.Hero2.Name == "SPLvMeng")) return 1;
+            return 0;
+        }
+
         public JiAng()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
