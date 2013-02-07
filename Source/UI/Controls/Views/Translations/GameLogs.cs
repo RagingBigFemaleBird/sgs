@@ -202,10 +202,27 @@ namespace Sanguosha.UI.Controls
         internal void AppendReforgeLog(Player p, ICard card)
         {
             List<FlowDocument> docs = new List<FlowDocument>() { Logs[p], GlobalLog };
-            Paragraph para = LogFormatter.RichTranslateReforgeCard(p, card);
-            if (para != null)
+            foreach (var doc in docs)
             {
-                foreach (var doc in docs)
+                Paragraph para = LogFormatter.RichTranslateReforgeCard(p, card);
+                if (para != null)
+                {
+                    doc.Blocks.Add(para);
+                }
+            }
+        }
+
+        public void AppendCustomLog(List<Player> players, Prompt custom)
+        {
+            var docs = (from pair in Logs
+                        where players.Contains(pair.Key)
+                        select pair.Value).Concat(new List<FlowDocument>() { GlobalLog });
+
+            foreach (var doc in docs)
+            {
+                Paragraph para = new Paragraph();
+                para.Inlines.AddRange(LogFormatter.TranslateCustomLog(custom));
+                if (para != null)
                 {
                     doc.Blocks.Add(para);
                 }

@@ -42,6 +42,14 @@ namespace Sanguosha.Core.UI
         }
     }
 
+    public class CustomLog : Prompt
+    {
+        public CustomLog(string key, params object[] args)
+            : base(CustomLogPrefix + key, args)
+        {
+        }
+    }
+
     public class Prompt
     {
         public Prompt()
@@ -83,6 +91,10 @@ namespace Sanguosha.Core.UI
 
         #region Card Choice Prompts
         public static readonly string CardChoicePromptsPrefix = "CardChoice.Prompt.";
+        #endregion
+
+        #region Custom Log
+        public static readonly string CustomLogPrefix = "CustomLog.";
         #endregion
 
         #region Multiple Choice Constants

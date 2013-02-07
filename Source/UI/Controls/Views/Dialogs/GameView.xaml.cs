@@ -127,7 +127,7 @@ namespace Sanguosha.UI.Controls
                 pinDianWindow.Close();
             };
             chatEventHandler = new ChatEventHandler(LobbyModel_OnChat);
-            LobbyViewModel.Instance.OnChat += chatEventHandler;            
+            LobbyViewModel.Instance.OnChat += chatEventHandler;
         }
 
         Dictionary<KeyValuePair<Player, Player>, Line> _cueLines;
@@ -144,7 +144,7 @@ namespace Sanguosha.UI.Controls
                 }
             }
 
-            _cueLines = new Dictionary<KeyValuePair<Player,Player>,Line>();
+            _cueLines = new Dictionary<KeyValuePair<Player, Player>, Line>();
             _lineUpAnimations = new Dictionary<KeyValuePair<Player, Player>, DoubleAnimation>();
             foreach (var source in playersMap.Keys)
             {
@@ -158,7 +158,7 @@ namespace Sanguosha.UI.Controls
                     line.Stroke = Resources["indicatorLineBrush"] as Brush;
                     /* line2.Stroke = Resources["indicatorLineGlowBrush"] as Brush; */
                     _cueLines.Add(key, line);
-                    
+
                     DoubleAnimation animation = new DoubleAnimation();
                     animation.Duration = _lineUpDuration;
                     Storyboard.SetTarget(animation, line);
@@ -167,7 +167,7 @@ namespace Sanguosha.UI.Controls
 
                     GlobalCanvas.Children.Add(line);
                 }
-            }            
+            }
         }
 
         private void _ResizeCueLines()
@@ -179,10 +179,10 @@ namespace Sanguosha.UI.Controls
                 {
                     if (source == target) continue;
                     var key = new KeyValuePair<Player, Player>(source, target);
-                    Line line = _cueLines[key];                    
+                    Line line = _cueLines[key];
                     var src = playersMap[source];
-                    var dst = playersMap[target];                    
-                    var srcPoint = src.TranslatePoint(new Point(src.ActualWidth / 2, src.ActualHeight / 2), GlobalCanvas);                    
+                    var dst = playersMap[target];
+                    var srcPoint = src.TranslatePoint(new Point(src.ActualWidth / 2, src.ActualHeight / 2), GlobalCanvas);
                     var dstPoint = dst.TranslatePoint(new Point(dst.ActualWidth / 2, dst.ActualHeight / 2), GlobalCanvas);
                     line.X1 = srcPoint.X;
                     line.X2 = dstPoint.X;
@@ -282,7 +282,7 @@ namespace Sanguosha.UI.Controls
             foreach (var box in profileBoxes)
             {
                 box.Width = width;
-                box.Height = height;                
+                box.Height = height;
             }
 
             _AdjustSpacing(hSpacing, vSpacing);
@@ -403,7 +403,7 @@ namespace Sanguosha.UI.Controls
             playersMap.Add(model.MainPlayerModel.Player, mainPlayerPanel);
             RearrangeSeats();
             _CreateCueLines();
-            
+
             model.PropertyChanged += new PropertyChangedEventHandler(model_PropertyChanged);
             model.Game.PropertyChanged += new PropertyChangedEventHandler(_game_PropertyChanged);
             Trace.Assert(model.MainPlayerModel != null, "Main player must exist.");
@@ -699,14 +699,14 @@ namespace Sanguosha.UI.Controls
 
         private void _LineUp(Player source, IList<Player> targets)
         {
-            Storyboard lineUpGroup = new Storyboard();            
+            Storyboard lineUpGroup = new Storyboard();
             foreach (var target in targets)
             {
                 if (source == target) continue;
                 var key = new KeyValuePair<Player, Player>(source, target);
-                var animation = _lineUpAnimations[key];                
+                var animation = _lineUpAnimations[key];
                 lineUpGroup.Children.Add(animation);
-            }            
+            }
             lineUpGroup.AccelerationRatio = 0.6;
             lineUpGroup.Begin();
         }
@@ -1019,6 +1019,13 @@ namespace Sanguosha.UI.Controls
             keyEventLog.AddLog(doc);
         }
 
+        private void _AppendKeyEventLog(Prompt custom)
+        {
+            Paragraph para = new Paragraph();
+            para.Inlines.AddRange(LogFormatter.TranslateCustomLog(custom));
+            _AppendKeyEventLog(para);
+        }
+
         private void _AppendKeyEventLog(ActionLog log)
         {
             _AppendKeyEventLog(LogFormatter.RichTranslateKeyLog(log));
@@ -1084,6 +1091,17 @@ namespace Sanguosha.UI.Controls
                 Uri uri = GameSoundLocator.GetSystemSound("Reforge");
                 GameSoundPlayer.PlaySoundEffect(uri);
                 gameLogs.AppendReforgeLog(p, card);
+                rtbLog.ScrollToEnd();
+            });
+        }
+
+        public void NotifyCustomLog(Prompt custom, List<Player> players = null, bool isKeyEvent = true)
+        {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                gameLogs.AppendCustomLog(players == null ? Game.CurrentGame.Players : players, custom);
+                rtbLog.ScrollToEnd();
+                if (isKeyEvent) _AppendKeyEventLog(custom);
             });
         }
 

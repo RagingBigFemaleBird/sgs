@@ -42,6 +42,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                     {
                         sk.Owner = null;
                     }
+                    Game.CurrentGame.NotificationProxy.NotifyCustomLog(new CustomLog("DuanChang", a.Source), new List<Player>() { a.Source, Owner});
                     Game.CurrentGame.Emit(GameEvent.PlayerSkillSetChanged, args);
                     a.Source[DuanChangStatus] = 1;
                 },

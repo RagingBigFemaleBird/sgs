@@ -55,6 +55,31 @@ namespace Sanguosha.UI.Controls
             return name;
         }
 
+        public static IList<Inline> TranslateCustomLog(Prompt custom)
+        {
+            string format = Application.Current.TryFindResource(custom.ResourceKey) as string;
+            if (format == null)
+            {
+                return new List<Inline>() { new Run(custom.ResourceKey) };
+            }
+            List<string> values = new List<string>();
+            foreach (object arg in custom.Values)
+            {
+                string value = null;
+                if (arg is Player) value = Translate(arg as Player);
+                else if (arg is Card) value = Translate(arg as Card);
+                else if (arg is ISkill) value = Translate(arg as ISkill);
+
+                if (value == null)
+                {
+                    value = arg.ToString();
+                }
+                values.Add(value);
+            }
+            format = string.Format(format, values.ToArray());
+            return new List<Inline>() { new Run(format) };
+        }
+
         public static string TranslateCardFootnote(ActionLog log)
         {
             string source = Translate(log.Source);
