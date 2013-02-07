@@ -227,7 +227,7 @@ namespace Sanguosha.Core.Players
                 if (hero2 == value) return;
                 string oldName = hero2 == null ? string.Empty : hero2.Name;
                 SetHero(ref hero2, value);
-                if (hero2.Name != oldName) OnPropertyChanged("Hero");
+                if (hero2.Name != oldName) OnPropertyChanged("Hero2");
             }
         }
 
