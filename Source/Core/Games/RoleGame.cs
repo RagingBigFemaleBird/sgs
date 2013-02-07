@@ -1109,35 +1109,6 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        private class OnPlayerLoseSkills : Trigger
-        {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                SkillSetChangedEventArgs args = eventArgs as SkillSetChangedEventArgs;
-                Trace.Assert(args != null);
-                if (!args.IsLosingSkill) return;
-                foreach (var sk in args.Skills)
-                {
-                    if (sk.ExtraCardsDeck != null && Game.CurrentGame.Decks[args.Source, sk.ExtraCardsDeck].Count > 0)
-                    {
-                        List<Card> toDiscard = new List<Card>(Game.CurrentGame.Decks[args.Source, sk.ExtraCardsDeck]);
-                        if (toDiscard.Any(c => c.Type.IsCardCategory(CardCategory.Hero)))
-                        {
-                            //HuaShenDeck
-                            CardsMovement move = new CardsMovement();
-                            move.Cards = toDiscard;
-                            move.To = new DeckPlace(null, DeckType.Heroes);
-                            Game.CurrentGame.MoveCards(move);
-                        }
-                        else
-                        {
-                            Game.CurrentGame.HandleCardDiscard(args.Source, toDiscard);
-                        }
-                    }
-                }
-            }
-        }
-
         protected override void InitTriggers()
         {
             RegisterTrigger(GameEvent.DoPlayer, new DoPlayerTrigger());
@@ -1152,7 +1123,7 @@ namespace Sanguosha.Core.Games
             RegisterTrigger(GameEvent.GameProcessPlayerIsDead, new PlayerIsDead() { Priority = int.MinValue });
             RegisterTrigger(GameEvent.CardUsageBeforeEffected, new DeadManStopper() { Priority = int.MaxValue });
             RegisterTrigger(GameEvent.CardUsageBeforeEffected, new DeadManStopper() { Priority = int.MinValue });
-            RegisterTrigger(GameEvent.PlayerSkillSetChanged, new OnPlayerLoseSkills() { Priority = -1 });
+            RegisterTrigger(GameEvent.PlayerSkillSetChanged, cleanupSquad);
         }
     }
 

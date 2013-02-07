@@ -436,16 +436,29 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public void PlayerLostCard(Player p, List<Card> cards, bool atomicAfterMove = false)
+        public void PlayerLostCard(Player p, List<Card> cards)
         {
-            if (atomic && !atomicAfterMove)
+            bool found = false;
+            foreach (var cc in cards)
             {
-                if (!cards.Any(cc => cc.Place.DeckType == DeckType.Hand || cc.Place.DeckType == DeckType.Equipment)) return;
+                if (cc.Place.Player == p)
+                {
+                    if (cc.Place.DeckType == DeckType.Hand || cc.Place.DeckType == DeckType.Equipment)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                else if (cc.HistoryPlace1.Player == p)
+                {
+                    if (cc.HistoryPlace1.DeckType == DeckType.Hand || cc.HistoryPlace1.DeckType == DeckType.Equipment)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
             }
-            else
-            {
-                if (!cards.Any(cc => cc.HistoryPlace1.DeckType == DeckType.Hand || cc.HistoryPlace1.DeckType == DeckType.Equipment)) return;
-            }
+            if (!found) return;
             try
             {
                 GameEventArgs arg = new GameEventArgs();
@@ -460,9 +473,8 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public void PlayerAcquiredCard(Player p, List<Card> cards, bool atomicAfterMove = false)
+        public void PlayerAcquiredCard(Player p, List<Card> cards)
         {
-            if ((!atomic || atomicAfterMove) && !cards.Any(cc => cc.Place.DeckType == DeckType.Hand || cc.Place.DeckType == DeckType.Equipment)) return;
             try
             {
                 GameEventArgs arg = new GameEventArgs();
@@ -528,8 +540,8 @@ namespace Sanguosha.Core.Games
             MoveCards(move);
             if (!atomic) GameDelays.Delay(GameDelayTypes.CardTransfer);
             EnterAtomicContext();
-            PlayerLostCard(from, cards, true);
-            PlayerAcquiredCard(to, cards, true);
+            PlayerLostCard(from, cards);
+            PlayerAcquiredCard(to, cards);
             ExitAtomicContext();
         }
 
@@ -554,8 +566,8 @@ namespace Sanguosha.Core.Games
             MoveCards(move);
             GameDelays.Delay(GameDelayTypes.CardTransfer);
             EnterAtomicContext();
-            PlayerLostCard(from, cards, true);
-            PlayerAcquiredCard(to, cards, true);
+            PlayerLostCard(from, cards);
+            PlayerAcquiredCard(to, cards);
             ExitAtomicContext();
         }
 
@@ -850,5 +862,14 @@ namespace Sanguosha.Core.Games
             return result;
         }
 
+        public void RegisterSkillCleanup(ISkill skill, DeckType deck)
+        {
+            cleanupSquad.CalldownCleanupCrew(skill, deck);
+        }
+
+        public void RegisterMarkCleanup(ISkill skill, PlayerAttribute attr)
+        {
+            cleanupSquad.CalldownCleanupCrew(skill, attr);
+        }
     }
 }

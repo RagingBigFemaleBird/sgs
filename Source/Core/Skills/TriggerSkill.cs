@@ -19,6 +19,8 @@ namespace Sanguosha.Core.Skills
         public TriggerSkill()
         {
             Triggers = new Dictionary<GameEvent, Trigger>();
+            DeckCleanup = new List<DeckType>();
+            AttributeCleanup = new List<PlayerAttribute>();
         }
 
         public void NotifySkillUse(List<Player> targets)
@@ -235,6 +237,8 @@ namespace Sanguosha.Core.Skills
                 pair.Value.Owner = owner;
                 Game.CurrentGame.RegisterTrigger(pair.Key, pair.Value);
             }
+            foreach (var dk in DeckCleanup) Game.CurrentGame.RegisterSkillCleanup(this, dk);
+            foreach (var att in AttributeCleanup) Game.CurrentGame.RegisterMarkCleanup(this, att);
             _isTriggerInstalled = true;
         }
 
@@ -249,6 +253,9 @@ namespace Sanguosha.Core.Skills
                 Game.CurrentGame.UnregisterTrigger(pair.Key, pair.Value);
             }
         }
+
+        protected List<DeckType> DeckCleanup { get; private set; }
+        protected List<PlayerAttribute> AttributeCleanup { get; private set; }
 
         protected IDictionary<GameEvent, Trigger> Triggers
         {

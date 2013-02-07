@@ -27,7 +27,6 @@ namespace Sanguosha.Core.Skills
         public CardTransformSkill()
         {
             LinkedPassiveSkill = null;
-            ExtraCardsDeck = null;
             Helper = new UiHelper();
         }
 
@@ -101,7 +100,6 @@ namespace Sanguosha.Core.Skills
 
         public virtual List<CardHandler> PossibleResults { get { return null; } }
 
-        public DeckType ExtraCardsDeck { get; protected set; }
         public bool IsRulerOnly { get; protected set; }
         public bool IsSingleUse { get; protected set; }
         public bool IsAwakening { get; protected set; }

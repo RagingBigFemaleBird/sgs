@@ -138,7 +138,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             Triggers.Add(GameEvent.PhasePostEnd, trigger2);
 
             IsAutoInvoked = false;
-            ExtraCardsDeck = HuaShenDeck;
+            DeckCleanup.Add(HuaShenDeck);
         }
     }
 }

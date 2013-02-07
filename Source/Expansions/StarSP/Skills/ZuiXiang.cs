@@ -138,7 +138,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             Triggers.Add(GameEvent.PlayerCanUseCard, trigger2);
             Triggers.Add(GameEvent.CardUsageTargetValidating, trigger3);
             IsSingleUse = true;
-            ExtraCardsDeck = zxDeck;
+            DeckCleanup.Add(zxDeck);
         }
     }
 }

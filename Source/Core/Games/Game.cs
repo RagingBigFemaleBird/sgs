@@ -130,6 +130,8 @@ namespace Sanguosha.Core.Games
             isDying = new Stack<Player>();
             handCardVisibility = new Dictionary<Player, List<Player>>();
             Settings = new GameSettings();
+            cleanupSquad = new CleanupSquad();
+            cleanupSquad.Priority = -1;
         }
 
         public void LoadExpansion(Expansion expansion)
@@ -141,6 +143,8 @@ namespace Sanguosha.Core.Games
                 triggersToRegister.AddRange(expansion.TriggerRegistration);
             }
         }
+
+        protected CleanupSquad cleanupSquad;
 
         public Network.Server GameServer { get; set; }
         public Network.Client GameClient { get; set; }

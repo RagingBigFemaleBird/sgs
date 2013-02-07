@@ -36,7 +36,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             LinkedPassiveSkill = new ChunLaoPassiveSkill();
             (LinkedPassiveSkill as ChunLaoPassiveSkill).ParentSkill = this;
             OwnerOnly = false;
-            ExtraCardsDeck = ChunDeck;
+            DeckCleanup.Add(ChunDeck);
         }
 
         protected override bool VerifyCard(Player source, Card card)

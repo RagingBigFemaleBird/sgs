@@ -33,11 +33,6 @@ namespace Sanguosha.Core.Skills
             set { owner = value; }
         }
 
-        public DeckType ExtraCardsDeck
-        {
-            get { return null; }
-        }
-
         public bool IsRulerOnly
         {
             get { return false; }

@@ -6,6 +6,8 @@ using System.Text;
 using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Cards;
 using Sanguosha.Core.UI;
+using Sanguosha.Core.Players;
+using Sanguosha.Core.Games;
 
 namespace Sanguosha.Core.Skills
 {
@@ -20,8 +22,9 @@ namespace Sanguosha.Core.Skills
         public ActiveSkill()
         {
             LinkedPassiveSkill = null;
-            ExtraCardsDeck = null;
             Helper = new UiHelper();
+            DeckCleanup = new List<DeckType>();
+            AttributeCleanup = new List<PlayerAttribute>();
         }
 
         /// <summary>
@@ -57,6 +60,11 @@ namespace Sanguosha.Core.Skills
                 if (LinkedPassiveSkill != null)
                 {
                     LinkedPassiveSkill.Owner = value;
+                }
+                if (owner != null)
+                {
+                    foreach (var dk in DeckCleanup) Game.CurrentGame.RegisterSkillCleanup(this, dk);
+                    foreach (var att in AttributeCleanup) Game.CurrentGame.RegisterMarkCleanup(this, att);
                 }
             }
         }
@@ -110,7 +118,9 @@ namespace Sanguosha.Core.Skills
             return skill;
         }
 
-        public DeckType ExtraCardsDeck { get; protected set; }
+        protected List<DeckType> DeckCleanup { get; private set; }
+        protected List<PlayerAttribute> AttributeCleanup { get; private set; }
+
         public bool IsRulerOnly { get; protected set; }
         public bool IsSingleUse { get; protected set; }
         public bool IsAwakening { get; protected set; }

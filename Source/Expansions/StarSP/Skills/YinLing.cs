@@ -27,7 +27,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             MaxPlayers = 1;
             MinPlayers = 1;
             Discarding = true;
-            ExtraCardsDeck = JinDeck;
+            DeckCleanup.Add(JinDeck);
         }
 
         protected override bool VerifyPlayer(Player source, Player player)
