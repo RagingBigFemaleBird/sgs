@@ -40,6 +40,10 @@ namespace Sanguosha.Expansions.Wind.Skills
             {
                 return VerifierResult.Fail;
             }
+            if (arg.Targets.Count > 0 && arg.Targets[0].HandCards().Count == 0)
+            {
+                return VerifierResult.Fail;
+            }
             if (arg.Targets == null || arg.Targets.Count == 0)
             {
                 return VerifierResult.Partial;
