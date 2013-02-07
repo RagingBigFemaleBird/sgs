@@ -77,6 +77,6 @@
     <sys:String x:Key="Skill.GongXin.Name">攻心</sys:String>
     <sys:String x:Key="Skill.GongXin.Description">出牌阶段，你可以观看一名其他角色的手牌，并可以展示其中一张红桃牌，然后将之弃置或置于牌堆顶。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.GongXin.Usage">点“攻心”→选择目标→点“确定”</sys:String>
-    <sys:String x:Key="Skill.GongXin.Prompt">请选择一张目标</sys:String>
+    <sys:String x:Key="Skill.GongXin.Prompt">请选择一个目标</sys:String>
 
 </ResourceDictionary>
