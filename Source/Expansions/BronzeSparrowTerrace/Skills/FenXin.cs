@@ -20,7 +20,6 @@ namespace Sanguosha.Expansions.BronzeSparrowTerrace.Skills
     {
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            GameDelays.Delay(GameDelayTypes.Awaken);
             Owner[FenXinUsed] = 1;
             Player target = eventArgs.Targets[0];
             DeckType RoleDeck = new DeckType("Role");

@@ -821,6 +821,7 @@ namespace Sanguosha.UI.Controls
 
         public void NotifySkillUse(ActionLog log)
         {
+            bool _playAwakeningAnimation = false;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 Trace.Assert(log.Source != null);
@@ -850,6 +851,7 @@ namespace Sanguosha.UI.Controls
                     }
                     if (log.SkillAction.IsSingleUse || log.SkillAction.IsAwakening)
                     {
+                        _playAwakeningAnimation = true;
                         if (log.SkillAction.IsAwakening) log.Source[Player.Awakened]++;
                         ExcitingSkillAnimation anim = new ExcitingSkillAnimation();
                         anim.SkillName = log.SkillAction.GetType().Name;
@@ -952,6 +954,7 @@ namespace Sanguosha.UI.Controls
 
                 _AppendKeyEventLog(log);
             });
+            if (_playAwakeningAnimation) Core.Utils.GameDelays.Delay(Core.Utils.GameDelayTypes.Awaken);
         }
 
         public void NotifyLogEvent(Prompt prompt)

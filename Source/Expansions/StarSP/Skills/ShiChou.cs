@@ -126,7 +126,6 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 Game.CurrentGame.RegisterTrigger(GameEvent.DamageInflicted, tri1);
                 Game.CurrentGame.RegisterTrigger(GameEvent.DamageComputingFinished, tri2);
                 Game.CurrentGame.RegisterTrigger(GameEvent.PlayerIsAboutToDie, tri3);
-                Core.Utils.GameDelays.Delay(Core.Utils.GameDelayTypes.Awaken);
             }
         }
 

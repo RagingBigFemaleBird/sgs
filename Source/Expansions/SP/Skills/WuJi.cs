@@ -61,7 +61,6 @@ namespace Sanguosha.Expansions.SP.Skills
             );
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger2);
             IsAwakening = true;
-            IsRulerOnly = true;
         }
     }
 }

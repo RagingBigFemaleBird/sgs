@@ -37,7 +37,6 @@ namespace Sanguosha.Expansions.Hills.Skills
                     p.MaxHealth++; 
                     Game.CurrentGame.RecoverHealth(p, p, 1); 
                     Game.CurrentGame.PlayerAcquireSkill(p, new JiJiang()); 
-                    Core.Utils.GameDelays.Delay(Core.Utils.GameDelayTypes.Awaken);
                 },
                 TriggerCondition.OwnerIsSource
             );

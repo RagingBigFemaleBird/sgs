@@ -62,8 +62,6 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
         public override bool Commit(GameEventArgs arg)
         {
             Owner[JieFanUsed] = 1;
-            GameDelays.Delay(GameDelayTypes.Awaken);
-
             Player target = arg.Targets[0];
             List<Player> players = new List<Player>();
             foreach (Player p in Game.CurrentGame.AlivePlayers)
