@@ -102,7 +102,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 if (eventArgs.Targets[0] != Owner) return;
-                kuangfengTarget[KuangFengMark] = 0;
+                if (kuangfengTarget != null) kuangfengTarget[KuangFengMark] = 0;
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerIsDead, this);
             }
             public KuangFengOnDeath(Player p)
