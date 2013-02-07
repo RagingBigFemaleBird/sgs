@@ -765,6 +765,9 @@
     <Resource Include="Images\PlayerInfoView\middleBg.png" />
     <Resource Include="Images\PlayerInfoView\topBg.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cards\Normal\XiahouBa.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if not exist $(TargetDir)\Resources\Texts mkdir  $(TargetDir)\Resources\Texts
