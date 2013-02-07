@@ -50,7 +50,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             ISkill skill;
             List<Card> cards;
             List<Player> players;
-            if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("ShenSu1"), new OneTargetNoSelfVerifier(),
+            if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("ShenSu1", this), new OneTargetNoSelfVerifier(),
                 out skill, out cards, out players))
             {
                 NotifySkillUse(players);
@@ -72,7 +72,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             ISkill skill;
             List<Card> cards;
             List<Player> players;
-            if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("ShenSu2"), new ShenSuStage2Verifier(),
+            if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("ShenSu2", this), new ShenSuStage2Verifier(),
                 out skill, out cards, out players))
             {
                 NotifySkillUse(players);

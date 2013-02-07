@@ -28,7 +28,6 @@ namespace Sanguosha.Expansions.Hills.Skills
                 (p, e, a) => { return a.Source != null; },
                 (p, e, a) =>
                 {
-                    var h = a.Source.Hero;
                     foreach (ISkill sk in new List<ISkill>(a.Source.AdditionalSkills))
                     {
                         Game.CurrentGame.PlayerLoseSkill(a.Source, sk);
@@ -37,14 +36,13 @@ namespace Sanguosha.Expansions.Hills.Skills
                     SkillSetChangedEventArgs args = new SkillSetChangedEventArgs();
                     args.Source = a.Source;
                     args.IsLosingSkill = true;
-                    foreach (var sk in a.Source.Hero.Skills)
+                    args.Skills = new List<ISkill>(a.Source.Hero.Skills);
+                    a.Source.Hero.Skills = new List<ISkill>();
+                    foreach (var sk in args.Skills)
                     {
                         sk.Owner = null;
-                        args.Skills.Clear();
-                        args.Skills.Add(sk);
-                        Game.CurrentGame.Emit(GameEvent.PlayerSkillSetChanged, args);
                     }
-                    a.Source.Hero = new Hero(h.Name, h.IsMale, h.Allegiance, h.MaxHealth, new List<ISkill>());
+                    Game.CurrentGame.Emit(GameEvent.PlayerSkillSetChanged, args);
                     a.Source[DuanChangStatus] = 1;
                 },
                 TriggerCondition.OwnerIsTarget

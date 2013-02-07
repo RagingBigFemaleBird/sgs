@@ -189,7 +189,12 @@ namespace Sanguosha.Core.Players
         }
 
         private void SetHero(ref Hero hero, Hero value)
-        {            
+        {
+            if (hero != null)
+            {
+                PropertyChangedEventHandler handler = PropertyChanged;
+                hero.PropertyChanged -= handler;
+            }
             hero = value;
             if (hero != null)
             {
@@ -198,7 +203,8 @@ namespace Sanguosha.Core.Players
                     skill.Owner = this;
                 }
                 Trace.Assert(hero.Owner == null);
-                hero.Owner = this;                
+                hero.Owner = this;          
+                hero.PropertyChanged += PropertyChanged;
             }
             OnPropertyChanged("Skills");
         }
@@ -211,9 +217,8 @@ namespace Sanguosha.Core.Players
             set 
             {
                 if (hero == value) return;
-                string oldName = hero == null ? string.Empty : hero.Name;
                 SetHero(ref hero, value);
-                if (hero.Name != oldName) OnPropertyChanged("Hero");
+                OnPropertyChanged("Hero");
             }
         }
 
@@ -225,9 +230,8 @@ namespace Sanguosha.Core.Players
             set
             {
                 if (hero2 == value) return;
-                string oldName = hero2 == null ? string.Empty : hero2.Name;
                 SetHero(ref hero2, value);
-                if (hero2.Name != oldName) OnPropertyChanged("Hero2");
+                OnPropertyChanged("Hero2");
             }
         }
 

@@ -5,6 +5,7 @@ using System.Text;
 
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.Players;
+using System.ComponentModel;
 
 namespace Sanguosha.Core.Heroes
 {
@@ -22,7 +23,16 @@ namespace Sanguosha.Core.Heroes
     {
         public Allegiance Allegiance { get; set; }
 
-        public List<ISkill> Skills { get; set; }
+        List<ISkill> _skills;
+        public List<ISkill> Skills
+        {
+            get { return _skills; }
+            set 
+            { 
+                _skills = value;
+                OnPropertyChanged("Skills");
+            }
+        }
 
         public Player Owner { get; set; }
 
@@ -65,5 +75,18 @@ namespace Sanguosha.Core.Heroes
             }
             return hero;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        // Create the OnPropertyChanged method to raise the event 
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
     }
 }

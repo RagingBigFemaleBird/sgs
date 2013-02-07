@@ -1459,16 +1459,13 @@ namespace Sanguosha.UI.Controls
                 if (prompt.Values.Count != 0 && prompt.Values[0] is TriggerSkill)
                 {
                     var triggerSkill = (prompt.Values[0] as TriggerSkill);
-                    if (prompt.ResourceKey == Prompt.CardUsagePromptsPrefix + triggerSkill.GetType().Name)
+                    foreach (var skill in SkillCommands)
                     {
-                        foreach (var skill in SkillCommands)
-                        {
-                            if (skill.Skill is CardTransformSkill && (skill.Skill as CardTransformSkill).LinkedPassiveSkill != triggerSkill) continue;
-                            if (skill.Skill is ActiveSkill && (skill.Skill as ActiveSkill).LinkedPassiveSkill != triggerSkill) continue;
-                            if (skill.Skill is TriggerSkill && skill.Skill != triggerSkill) continue;
-                            skill.IsHighlighted = true;
-                            break;
-                        }
+                        if (skill.Skill is CardTransformSkill && (skill.Skill as CardTransformSkill).LinkedPassiveSkill != triggerSkill) continue;
+                        if (skill.Skill is ActiveSkill && (skill.Skill as ActiveSkill).LinkedPassiveSkill != triggerSkill) continue;
+                        if (skill.Skill is TriggerSkill && skill.Skill != triggerSkill) continue;
+                        skill.IsHighlighted = true;
+                        break;
                     }
                 }
 

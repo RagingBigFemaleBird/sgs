@@ -35,10 +35,12 @@ namespace Sanguosha.Expansions.SP.Skills
                 (p, e, a) => { return p[WuJiCount] >= 3 && p[WuJiAwaken] == 0; },
                 (p, e, a) =>
                 {
-                    var h = a.Source.Hero;
-                    List<ISkill> skills = new List<ISkill>();
+                    p[WuJiAwaken]++;
+                    p.MaxHealth++;
+                    Game.CurrentGame.RecoverHealth(p, p, 1);
                     ISkill huxiao = null;
-                    foreach (var sk in h.Skills)
+                    List<ISkill> skills = new List<ISkill>();
+                    foreach (var sk in p.Hero.Skills)
                     {
                         if (sk is HuXiao)
                         {
@@ -48,10 +50,7 @@ namespace Sanguosha.Expansions.SP.Skills
                         else skills.Add(sk);
                     }
                     Trace.Assert(huxiao != null);
-                    p[WuJiAwaken]++;
-                    p.MaxHealth++;
-                    Game.CurrentGame.RecoverHealth(p, p, 1);
-                    a.Source.Hero = new Hero(h.Name, h.IsMale, h.Allegiance, h.MaxHealth, skills);
+                    p.Hero.Skills = skills;
                     SkillSetChangedEventArgs args = new SkillSetChangedEventArgs();
                     args.Source = a.Source;
                     args.Skills.Add(huxiao);
@@ -62,6 +61,7 @@ namespace Sanguosha.Expansions.SP.Skills
             );
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger2);
             IsAwakening = true;
+            IsRulerOnly = true;
         }
     }
 }
