@@ -926,6 +926,7 @@ namespace Sanguosha.Core.Games
                 foreach (Player p in Game.CurrentGame.Players)
                 {
                     int idx = Game.CurrentGame.Players.IndexOf(p);
+                    Game.CurrentGame.Settings.Accounts[idx].TotalGames++;
                     if (Game.CurrentGame.GameServer != null && Game.CurrentGame.GameServer.IsDisconnected(idx))
                     {
                         Game.CurrentGame.Settings.Accounts[idx].Quits++;
