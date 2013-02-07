@@ -211,8 +211,9 @@ namespace Sanguosha.Core.Players
             set 
             {
                 if (hero == value) return;
+                string oldName = hero == null ? string.Empty : hero.Name;
                 SetHero(ref hero, value);
-                OnPropertyChanged("Hero");
+                if (hero.Name != oldName) OnPropertyChanged("Hero");
             }
         }
 
@@ -224,8 +225,9 @@ namespace Sanguosha.Core.Players
             set
             {
                 if (hero2 == value) return;
+                string oldName = hero2 == null ? string.Empty : hero2.Name;
                 SetHero(ref hero2, value);
-                OnPropertyChanged("Hero2");
+                if (hero2.Name != oldName) OnPropertyChanged("Hero");
             }
         }
 
