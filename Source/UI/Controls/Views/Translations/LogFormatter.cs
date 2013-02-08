@@ -69,7 +69,7 @@ namespace Sanguosha.UI.Controls
                 if (arg is Player) value = Translate(arg as Player);
                 else if (arg is Card) value = Translate(arg as Card);
                 else if (arg is ISkill) value = Translate(arg as ISkill);
-
+                else if (arg is Prompt) value = PromptFormatter.Format(arg as Prompt);
                 if (value == null)
                 {
                     value = arg.ToString();

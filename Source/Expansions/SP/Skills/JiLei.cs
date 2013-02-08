@@ -42,6 +42,7 @@ namespace Sanguosha.Expansions.SP.Skills
                     Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanPlayCard, trigger);
                     JiLeiRemoval trigger2 = new JiLeiRemoval(eventArgs.Source, trigger);
                     Game.CurrentGame.RegisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], trigger2);
+                    Game.CurrentGame.NotificationProxy.NotifyCustomLog(new CustomLog("JiLei", eventArgs.Source, JiLeiQuestion[answer]), new List<Player>() { Owner, eventArgs.Source });
                 }
             }
         }
@@ -104,6 +105,7 @@ namespace Sanguosha.Expansions.SP.Skills
                     return;
                 }
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerCanUseCard, theTrigger);
+                Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerCanPlayCard, theTrigger);
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerCanDiscardCard, theTrigger);
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], this);
                 eventArgs.Source[JiLeiInEffect] = 0;

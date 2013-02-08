@@ -13,14 +13,16 @@ namespace Sanguosha.Core.UI
 
     public class CardUsagePrompt : Prompt
     {
-        public CardUsagePrompt(string key, params object[] args) : base(CardUsagePromptsPrefix + key, args)
+        public CardUsagePrompt(string key, params object[] args)
+            : base(CardUsagePromptsPrefix + key, args)
         {
         }
     }
 
     public class CardChoicePrompt : Prompt
     {
-        public CardChoicePrompt(string key, params object[] args) : base(CardChoicePromptsPrefix + key, args)
+        public CardChoicePrompt(string key, params object[] args)
+            : base(CardChoicePromptsPrefix + key, args)
         {
         }
     }
@@ -36,7 +38,7 @@ namespace Sanguosha.Core.UI
     public class OptionPrompt : Prompt
     {
         public OptionPrompt(string key, params object[] args)
-            :base(MultipleChoiceOptionPrefix + key, args)
+            : base(MultipleChoiceOptionPrefix + key, args)
         {
 
         }
@@ -50,6 +52,14 @@ namespace Sanguosha.Core.UI
         }
     }
 
+    public class CustomLogArg : Prompt
+    {
+        public CustomLogArg(string key, params object[] args)
+            : base(CustomLogArgPrefix + key, args)
+        {
+        }
+    }
+
     public class Prompt
     {
         public Prompt()
@@ -59,7 +69,8 @@ namespace Sanguosha.Core.UI
 
         List<object> _values;
 
-        public Prompt(string resourceKey, params object[] args) : this()
+        public Prompt(string resourceKey, params object[] args)
+            : this()
         {
             ResourceKey = resourceKey;
             _values.AddRange(args);
@@ -95,6 +106,7 @@ namespace Sanguosha.Core.UI
 
         #region Custom Log
         public static readonly string CustomLogPrefix = "CustomLog.";
+        public static readonly string CustomLogArgPrefix = "CustomLog.Arg.";
         #endregion
 
         #region Multiple Choice Constants

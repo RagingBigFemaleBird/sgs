@@ -25,6 +25,12 @@
     <sys:String x:Key="MultiChoice.Choice.JiBen">基本牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.JinNang">锦囊牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.ZhuangBei">装备牌</sys:String>
+    <sys:String x:Key="CustomLog.JiLei">{0}被鸡助了{1}</sys:String>
+    <sys:String x:Key="Status.JiLei.Name">鸡助</sys:String>
+    <LinearGradientBrush x:Key="Status.JiLei.Brush" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FFA0A0A0" Offset="0"/>
+        <GradientStop Color="#FFDEDEDE" Offset="1"/>
+    </LinearGradientBrush>
 
     <sys:String x:Key="CardChoice.Prompt.YuanHu">请选择{0}的一张牌</sys:String>
     <sys:String x:Key="CardChoice.Prompt.YuanHu.Others">援护 请等待{0}选择{1}的一张牌</sys:String>
