@@ -21,7 +21,7 @@ namespace Sanguosha.Expansions.Fire.Skills
     {
         public override VerifierResult Validate(GameEventArgs arg)
         {
-            if (Owner[QuHuUsed] != 0)
+            if (Owner[QuHuUsed] != 0 || Owner.HandCards().Count == 0)
             {
                 return VerifierResult.Fail;
             }

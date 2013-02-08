@@ -88,7 +88,7 @@
 
     <sys:String x:Key="Skill.JunWei.Name">军威</sys:String>
     <sys:String x:Key="Skill.JunWei.Description">回合结束阶段开始时，若“锦”的数量达到3或更多，你可以弃置三张“锦”，并选择一名角色，该角色须选择一项：1、展示一张【闪】，然后交给一名由你指定的角色；2、失去1点体力，然后令你将其装备区内的一张牌移出游戏，该角色的回合结束后，将移除游戏的牌置入其装备区。</sys:String>
-    <sys:String x:Key="Skill.JunWei.Usage">系统提示→点“确定”→选择三张“锦”→选择两名角色→点“确定”</sys:String>
+    <sys:String x:Key="Skill.JunWei.Usage">系统提示→点“确定”→选择三张“锦”→选择一名角色→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.FenYong.Name">愤勇</sys:String>
     <sys:String x:Key="Skill.FenYong.Description">当你受到一次伤害后，你可以竖置你的体力牌；当你受到的伤害结算开始时，若你的体力牌为竖置状态，防止此伤害。</sys:String>
