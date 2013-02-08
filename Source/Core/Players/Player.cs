@@ -426,7 +426,7 @@ namespace Sanguosha.Core.Players
             }
         }
 
-        public bool LoseHeroSkill(ISkill skill)
+        public ISkill LoseHeroSkill(ISkill skill)
         {
             Trace.Assert(Hero != null);
             ISkill sk = Hero.LoseSkill(skill);
@@ -438,12 +438,11 @@ namespace Sanguosha.Core.Players
                 arg.IsLosingSkill = true;
                 arg.Skills.Add(sk);
                 Game.CurrentGame.Emit(GameEvent.PlayerSkillSetChanged, arg);
-                return true;
             }
-            return false;
+            return sk;
         }
 
-        public bool LoseHeroSkill(string skillName)
+        public ISkill LoseHeroSkill(string skillName)
         {
             Trace.Assert(Hero != null);
             ISkill skill = Hero.LoseSkill(skillName);
@@ -455,9 +454,8 @@ namespace Sanguosha.Core.Players
                 arg.IsLosingSkill = true;
                 arg.Skills.Add(skill);
                 Game.CurrentGame.Emit(GameEvent.PlayerSkillSetChanged, arg);
-                return true;
             }
-            return false;
+            return skill;
         }
 
         public static PlayerAttribute RangeMinus = PlayerAttribute.Register("RangeMinus", false);
