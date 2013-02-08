@@ -51,6 +51,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     move.Cards.Add(c);
                     move.To = new DeckPlace(next, DeckType.DelayedTools);
                     Game.CurrentGame.MoveCards(move);
+                    Core.Utils.GameDelays.Delay(Core.Utils.GameDelayTypes.CardTransfer);
                     return true;
                 }
             }

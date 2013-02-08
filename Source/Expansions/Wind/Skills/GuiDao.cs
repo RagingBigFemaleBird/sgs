@@ -35,7 +35,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                 Card theCard = cards[0];
                 theCard.Log = new ActionLog();
                 theCard.Log.Source = player;
-                theCard.Log.SkillAction = skill;
+                theCard.Log.SkillAction = this;
                 theCard.Log.GameAction = GameAction.ReplaceJudge;
                 Game.CurrentGame.EnterAtomicContext();
                 List<Card> toDiscard = new List<Card>() {Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult].Last()};
