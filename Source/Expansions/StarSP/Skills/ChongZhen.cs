@@ -25,19 +25,19 @@ namespace Sanguosha.Expansions.StarSP.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard[LongDan.CanShuaLiuMang] == 1; },
+                (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard[LongDan.CanShuaLiuMang] == 1 && a.Targets.Any(pl => pl.HandCards().Count > 0); },
                 (p, e, a) =>
+                {
+                    if (a.Targets != null)
                     {
-                        if (a.Targets != null)
+                        foreach (var target in a.Targets)
                         {
-                            foreach (var target in a.Targets)
-                            {
-                                if (target.HandCards().Count == 0) continue;
-                                var result = Game.CurrentGame.SelectACardFrom(target, p, new Prompt("ChongZhen"), "ChongZhen", true, true, true);
-                                Game.CurrentGame.HandleCardTransferToHand(target, p, new List<Card>() { result });
-                            }
+                            if (target.HandCards().Count == 0) continue;
+                            var result = Game.CurrentGame.SelectACardFrom(target, p, new CardChoicePrompt("ChongZhen", target, p), "ChongZhen", true, true, true);
+                            Game.CurrentGame.HandleCardTransferToHand(target, p, new List<Card>() { result });
                         }
-                    },
+                    }
+                },
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.PlayerPlayedCard, trigger);
