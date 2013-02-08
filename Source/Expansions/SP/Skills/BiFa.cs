@@ -90,15 +90,17 @@ namespace Sanguosha.Expansions.SP.Skills
                     move.Helper.IsFakedMove = true;
                     Game.CurrentGame.MoveCards(move);
                     ISkill skill;
-                    List<Card>cards;
-                    List<Player>players;
+                    List<Card> cards;
+                    List<Player> players;
                     if (!ChenLin.IsDead && Owner.AskForCardUsage(new CardUsagePrompt("BiFaGiveCard", ChenLin), new BiFaGiveCardVerifier(theCard), out skill, out cards, out players))
                     {
+                        Game.CurrentGame.NotificationProxy.NotifyCustomLog(new CustomLog("BiFa", Owner, CustomLogArg.Fail), new List<Player>() { Owner });
                         Game.CurrentGame.HandleCardTransferToHand(Owner, ChenLin, cards);
                         Game.CurrentGame.HandleCardTransferToHand(Owner, Owner, new List<Card>() { theCard });
                     }
                     else
                     {
+                        Game.CurrentGame.NotificationProxy.NotifyCustomLog(new CustomLog("BiFa", Owner, CustomLogArg.Success), new List<Player>() { Owner });
                         theCard.Log = new ActionLog();
                         theCard.Log.SkillAction = new BiFa();
                         theCard.Log.GameAction = GameAction.PlaceIntoDiscard;

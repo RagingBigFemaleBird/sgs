@@ -50,4 +50,7 @@
     <sys:String x:Key="CardSlot.Hint.PaiDuiDing">置于牌堆顶</sys:String>
     <sys:String x:Key="CardSlot.Hint.PaiDuiDi">置于牌堆底</sys:String>
     <sys:String x:Key="CardSlot.Hint.QiPaiDui">置于弃牌堆</sys:String>
+    
+    <sys:String x:Key="CustomLog.Arg.Success">生效</sys:String>
+    <sys:String x:Key="CustomLog.Arg.Fail">失效</sys:String>
 </ResourceDictionary>

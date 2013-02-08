@@ -107,6 +107,8 @@ namespace Sanguosha.Core.UI
         #region Custom Log
         public static readonly string CustomLogPrefix = "CustomLog.";
         public static readonly string CustomLogArgPrefix = "CustomLog.Arg.";
+        public static readonly CustomLogArg Success = new CustomLogArg("Success");
+        public static readonly CustomLogArg Fail = new CustomLogArg("Fail");
         #endregion
 
         #region Multiple Choice Constants
