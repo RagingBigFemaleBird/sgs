@@ -9,6 +9,7 @@ using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Heroes;
+using Sanguosha.Core.UI;
 
 namespace Sanguosha.Expansions.SP.Skills
 {
@@ -38,29 +39,14 @@ namespace Sanguosha.Expansions.SP.Skills
                     p[WuJiAwaken]++;
                     p.MaxHealth++;
                     Game.CurrentGame.RecoverHealth(p, p, 1);
-                    ISkill huxiao = null;
-                    List<ISkill> skills = new List<ISkill>();
-                    foreach (var sk in p.Hero.Skills)
-                    {
-                        if (sk is HuXiao)
-                        {
-                            sk.Owner = null;
-                            huxiao = sk;
-                        }
-                        else skills.Add(sk);
-                    }
-                    Trace.Assert(huxiao != null);
-                    p.Hero.Skills = skills;
-                    SkillSetChangedEventArgs args = new SkillSetChangedEventArgs();
-                    args.Source = a.Source;
-                    args.Skills.Add(huxiao);
-                    args.IsLosingSkill = true;
-                    Game.CurrentGame.Emit(GameEvent.PlayerSkillSetChanged, args);
+                    Trace.Assert(p.LoseHeroSkill("HuXiao"));
+                    Game.CurrentGame.NotificationProxy.NotifyCustomLog(new CustomLog("WuJi", Owner), new List<Player>() { Owner });
                 },
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger2);
             IsAwakening = true;
+            IsRulerOnly = true;
         }
     }
 }

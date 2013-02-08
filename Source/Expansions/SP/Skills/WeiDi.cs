@@ -68,7 +68,7 @@ namespace Sanguosha.Expansions.SP.Skills
                         if (sk.IsRulerOnly)
                         {
                             var toAdd = Activator.CreateInstance(sk.GetType()) as ISkill;
-                            Game.CurrentGame.PlayerAcquireSkill(owner, toAdd, true);
+                            Game.CurrentGame.PlayerAcquireAdditionalSkill(owner, toAdd, true);
                             theSkills.Add(sk, toAdd);
                         }
                     }
@@ -84,7 +84,7 @@ namespace Sanguosha.Expansions.SP.Skills
                 if (sk.IsRulerOnly)
                 {
                     var toAdd = Activator.CreateInstance(sk.GetType()) as ISkill;
-                    Game.CurrentGame.PlayerAcquireSkill(owner, toAdd, true);
+                    Game.CurrentGame.PlayerAcquireAdditionalSkill(owner, toAdd, true);
                     theSkills.Add(sk, toAdd);
                 }
             }
@@ -94,7 +94,7 @@ namespace Sanguosha.Expansions.SP.Skills
         {
             foreach (var skill in theSkills)
             {
-                Game.CurrentGame.PlayerLoseSkill(Owner, skill.Value, true);
+                Game.CurrentGame.PlayerLoseAdditionalSkill(Owner, skill.Value, true);
             }
             theSkills.Clear();
         }

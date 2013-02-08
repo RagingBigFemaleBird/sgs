@@ -34,7 +34,7 @@ namespace Sanguosha.Expansions.SP.Skills
                 {
                     foreach (var skill in skills.Values)
                     {
-                        Game.CurrentGame.PlayerLoseSkill(original, skill);
+                        Game.CurrentGame.PlayerLoseAdditionalSkill(original, skill);
                     }
                 }
             }
@@ -48,11 +48,11 @@ namespace Sanguosha.Expansions.SP.Skills
                 if (Owner.Health <= health && !Owner.AdditionalSkills.Contains(skills[health]))
                 {
                     getSkills = true;
-                    Game.CurrentGame.PlayerAcquireSkill(Owner, skills[health]);
+                    Game.CurrentGame.PlayerAcquireAdditionalSkill(Owner, skills[health]);
                 }
-                if (Owner.Health > health) Game.CurrentGame.PlayerLoseSkill(Owner, skills[health]);
+                if (Owner.Health > health) Game.CurrentGame.PlayerLoseAdditionalSkill(Owner, skills[health]);
             }
-            if (Owner.Health < 1) Game.CurrentGame.PlayerLoseSkill(Owner, bbShenSu);
+            if (Owner.Health < 1) Game.CurrentGame.PlayerLoseAdditionalSkill(Owner, bbShenSu);
             if (getSkills) NotifySkillUse();
         }
 

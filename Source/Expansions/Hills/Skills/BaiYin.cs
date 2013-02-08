@@ -31,11 +31,11 @@ namespace Sanguosha.Expansions.Hills.Skills
                 {
                     p[BaiYinAwaken] = 1;
                     Game.CurrentGame.LoseMaxHealth(p, 1);
-                    Game.CurrentGame.PlayerAcquireSkill(p, new JiLveFangZhu());
-                    Game.CurrentGame.PlayerAcquireSkill(p, new JiLveGuiCai());
-                    Game.CurrentGame.PlayerAcquireSkill(p, new JiLveJiZhi());
-                    Game.CurrentGame.PlayerAcquireSkill(p, new JiLveWanSha());
-                    Game.CurrentGame.PlayerAcquireSkill(p, new JiLveZhiHeng());
+                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, new JiLveFangZhu());
+                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, new JiLveGuiCai());
+                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, new JiLveJiZhi());
+                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, new JiLveWanSha());
+                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, new JiLveZhiHeng());
                 },
                 TriggerCondition.OwnerIsSource
             );
@@ -165,7 +165,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 arg.Source[BaiYinWanShaUsed] = 1;
                 arg.Source[WanShaStatus] = 1;
                 ISkill skill = new WanSha();
-                Game.CurrentGame.PlayerAcquireSkill(arg.Source, skill);
+                Game.CurrentGame.PlayerAcquireAdditionalSkill(arg.Source, skill);
                 Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, new WanShaRemoval(arg.Source, skill));
                 return true;
             }

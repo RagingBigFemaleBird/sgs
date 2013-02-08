@@ -88,5 +88,37 @@ namespace Sanguosha.Core.Heroes
             }
         }
 
+        public ISkill LoseSkill(string skillName)
+        {
+            foreach (var sk in Skills)
+            {
+                if (sk.GetType().Name == skillName)
+                {
+                    return LoseSkill(sk);
+                }
+            }
+            return null;
+        }
+
+        public ISkill LoseSkill(ISkill skill)
+        {
+            if (!Skills.Contains(skill)) return null;
+            Skills.Remove(skill);
+            OnPropertyChanged("Skills");
+            skill.Owner = null;
+            return skill;
+        }
+
+        public void LoseAllSkills()
+        {
+            if (Skills.Count == 0) return;
+            List<ISkill> backup = new List<ISkill>(Skills);
+            Skills.Clear();
+            OnPropertyChanged("Skills");
+            foreach (var sk in backup)
+            {
+                sk.Owner = null;
+            }
+        }
     }
 }

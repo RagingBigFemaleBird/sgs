@@ -28,7 +28,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                 {
                     return;
                 }
-                Game.CurrentGame.PlayerLoseSkill(Owner, WqWuShuang);
+                Game.CurrentGame.PlayerLoseAdditionalSkill(Owner, WqWuShuang);
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], this);
             }
 
@@ -92,7 +92,7 @@ namespace Sanguosha.Expansions.Woods.Skills
             if (Owner[WuQianUsed] == 0)
             {
                 Owner[WuQianUsed] = 1;
-                Game.CurrentGame.PlayerAcquireSkill(Owner, WqWuShuang);
+                Game.CurrentGame.PlayerAcquireAdditionalSkill(Owner, WqWuShuang);
                 Game.CurrentGame.RegisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], new WuShuangRemoval(Owner));
                 Game.CurrentGame.RegisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], new ArmorFailureRemoval(Owner));
             }

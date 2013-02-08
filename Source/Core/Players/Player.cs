@@ -10,6 +10,7 @@ using Sanguosha.Core.Heroes;
 using Sanguosha.Core.Games;
 using System.Collections.ObjectModel;
 using Sanguosha.Lobby.Core;
+using Sanguosha.Core.Triggers;
 
 namespace Sanguosha.Core.Players
 {   
@@ -379,7 +380,86 @@ namespace Sanguosha.Core.Players
             get { return isTargeted; }
             set { isTargeted = value; OnPropertyChanged("IsTargeted"); }
         }
-        
+
+        public void LoseAllHeroSkills(bool isHero1)
+        {
+            Hero h = null;
+            if (isHero1)
+            {
+                Trace.Assert(Hero != null);
+                h = Hero;
+            }
+            else
+            {
+                Trace.Assert(Hero2 != null);
+                h = Hero2;
+            }
+            List<ISkill> skills = new List<ISkill>(h.Skills);
+            h.LoseAllSkills();
+            if (skills.Count > 0)
+            {
+                SkillSetChangedEventArgs arg = new SkillSetChangedEventArgs();
+                arg.Source = this;
+                arg.IsLosingSkill = true;
+                arg.Skills = skills;
+                Game.CurrentGame.Emit(GameEvent.PlayerSkillSetChanged, arg);
+            }
+        }
+
+        public void LoseAllHerosSkills()
+        {
+            Trace.Assert(Hero != null);
+            List<ISkill> skills = new List<ISkill>(Hero.Skills);
+            Hero.LoseAllSkills();
+            if (Hero2 != null)
+            {
+                skills.AddRange(Hero2.Skills);
+                Hero2.LoseAllSkills();
+            }
+            if (skills.Count > 0)
+            {
+                SkillSetChangedEventArgs arg = new SkillSetChangedEventArgs();
+                arg.Source = this;
+                arg.IsLosingSkill = true;
+                arg.Skills = skills;
+                Game.CurrentGame.Emit(GameEvent.PlayerSkillSetChanged, arg);
+            }
+        }
+
+        public bool LoseHeroSkill(ISkill skill)
+        {
+            Trace.Assert(Hero != null);
+            ISkill sk = Hero.LoseSkill(skill);
+            if (sk == null && Hero2 != null) sk = Hero2.LoseSkill(skill);
+            if (sk != null)
+            {
+                SkillSetChangedEventArgs arg = new SkillSetChangedEventArgs();
+                arg.Source = this;
+                arg.IsLosingSkill = true;
+                arg.Skills.Add(sk);
+                Game.CurrentGame.Emit(GameEvent.PlayerSkillSetChanged, arg);
+                return true;
+            }
+            return false;
+        }
+
+        public bool LoseHeroSkill(string skillName)
+        {
+            Trace.Assert(Hero != null);
+            ISkill skill = Hero.LoseSkill(skillName);
+            if (skill == null && Hero2 != null) skill = Hero2.LoseSkill(skillName);
+            if (skill != null)
+            {
+                SkillSetChangedEventArgs arg = new SkillSetChangedEventArgs();
+                arg.Source = this;
+                arg.IsLosingSkill = true;
+                arg.Skills.Add(skill);
+                Game.CurrentGame.Emit(GameEvent.PlayerSkillSetChanged, arg);
+                return true;
+            }
+            return false;
+        }
+
         public static PlayerAttribute RangeMinus = PlayerAttribute.Register("RangeMinus", false);
         public static PlayerAttribute RangePlus = PlayerAttribute.Register("RangePlus", false);
         public static PlayerAttribute AttackRange = PlayerAttribute.Register("AttackRange", false);

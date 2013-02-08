@@ -143,7 +143,7 @@ namespace Sanguosha.Core.Games
             DoDamage(source, dest, dest, magnitude, elemental, card, readonlyCard);
         }
 
-        public void PlayerAcquireSkill(Player p, ISkill skill, bool undeletable = false)
+        public void PlayerAcquireAdditionalSkill(Player p, ISkill skill, bool undeletable = false)
         {
             if (p.IsDead) return;
             p.AcquireAdditionalSkill(skill, undeletable);
@@ -155,7 +155,7 @@ namespace Sanguosha.Core.Games
             _ResetCards(p);
         }
 
-        public void PlayerLoseSkill(Player p, ISkill skill, bool undeletable = false)
+        public void PlayerLoseAdditionalSkill(Player p, ISkill skill, bool undeletable = false)
         {
             if (!undeletable && !p.AdditionalSkills.Contains(skill)) return;
             p.LoseAdditionalSkill(skill, undeletable);

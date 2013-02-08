@@ -42,7 +42,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                     {
                         Game.CurrentGame.DrawCards(Owner, 2);
                     }
-                    Game.CurrentGame.PlayerAcquireSkill(Owner, new PaiYi()); 
+                    Game.CurrentGame.PlayerAcquireAdditionalSkill(Owner, new PaiYi()); 
                 },
                 TriggerCondition.OwnerIsSource
             );

@@ -80,9 +80,9 @@ namespace Sanguosha.Expansions.Hills.Skills
             Game.CurrentGame.NotificationProxy.NotifyImpersonation(Owner, handler.Hero, acquiredSkill);
             Game.CurrentGame.HandleGodHero(Owner);
             Game.CurrentGame.Emit(GameEvent.PlayerChangedAllegiance, new GameEventArgs() { Source = Owner });
-            Game.CurrentGame.PlayerAcquireSkill(Owner, acquiredSkill);
+            Game.CurrentGame.PlayerAcquireAdditionalSkill(Owner, acquiredSkill);
             if (tempSkill != null)
-                Game.CurrentGame.PlayerLoseSkill(Owner, tempSkill);
+                Game.CurrentGame.PlayerLoseAdditionalSkill(Owner, tempSkill);
             return;
         }
 
@@ -94,7 +94,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             Game.CurrentGame.NotificationProxy.NotifyImpersonation(Owner, null, null);
             Game.CurrentGame.Emit(GameEvent.PlayerChangedAllegiance, new GameEventArgs() { Source = Owner });
             if (acquiredSkill != null && Owner.AdditionalSkills.Contains(acquiredSkill))
-                Game.CurrentGame.PlayerLoseSkill(Owner, acquiredSkill);
+                Game.CurrentGame.PlayerLoseAdditionalSkill(Owner, acquiredSkill);
         }
 
         public override Player Owner

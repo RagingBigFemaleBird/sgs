@@ -36,14 +36,14 @@ namespace Sanguosha.Expansions.StarSP.Skills
             if (Owner[WuMark] != 0)
             {
                 Owner[WuMark] = 0;
-                Game.CurrentGame.PlayerLoseSkill(Owner, mdJiAng);
-                Game.CurrentGame.PlayerLoseSkill(Owner, mdQianXun);
+                Game.CurrentGame.PlayerLoseAdditionalSkill(Owner, mdJiAng);
+                Game.CurrentGame.PlayerLoseAdditionalSkill(Owner, mdQianXun);
             }
             else
             {
                 Owner[WenMark] = 0;
-                Game.CurrentGame.PlayerLoseSkill(Owner, mdYingZi);
-                Game.CurrentGame.PlayerLoseSkill(Owner, mdKeJi);
+                Game.CurrentGame.PlayerLoseAdditionalSkill(Owner, mdYingZi);
+                Game.CurrentGame.PlayerLoseAdditionalSkill(Owner, mdKeJi);
             }
         }
 
@@ -87,14 +87,14 @@ namespace Sanguosha.Expansions.StarSP.Skills
                     if (p.HandCards().Count > 2)
                     {
                         p[WuMark] = 1;
-                        Game.CurrentGame.PlayerAcquireSkill(p, mdJiAng);
-                        Game.CurrentGame.PlayerAcquireSkill(p, mdQianXun);
+                        Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdJiAng);
+                        Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdQianXun);
                     }
                     else
                     {
                         p[WenMark] = 1;
-                        Game.CurrentGame.PlayerAcquireSkill(p, mdYingZi);
-                        Game.CurrentGame.PlayerAcquireSkill(p, mdKeJi);
+                        Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdYingZi);
+                        Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdKeJi);
                     }
                 },
                 TriggerCondition.OwnerIsSource
@@ -109,10 +109,10 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 {
                     p[WuMark] = 0;
                     p[WenMark] = 1;
-                    Game.CurrentGame.PlayerLoseSkill(p, mdJiAng);
-                    Game.CurrentGame.PlayerLoseSkill(p, mdQianXun);
-                    Game.CurrentGame.PlayerAcquireSkill(p, mdYingZi);
-                    Game.CurrentGame.PlayerAcquireSkill(p, mdKeJi);
+                    Game.CurrentGame.PlayerLoseAdditionalSkill(p, mdJiAng);
+                    Game.CurrentGame.PlayerLoseAdditionalSkill(p, mdQianXun);
+                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdYingZi);
+                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdKeJi);
                 },
                 TriggerCondition.OwnerIsSource
                 ) { AskForConfirmation = false };
@@ -127,10 +127,10 @@ namespace Sanguosha.Expansions.StarSP.Skills
                     if (p.HandCards().Count <= 2) return;
                     p[WuMark] = 1;
                     p[WenMark] = 0;
-                    Game.CurrentGame.PlayerLoseSkill(p, mdYingZi);
-                    Game.CurrentGame.PlayerLoseSkill(p, mdKeJi);
-                    Game.CurrentGame.PlayerAcquireSkill(p, mdJiAng);
-                    Game.CurrentGame.PlayerAcquireSkill(p, mdQianXun);
+                    Game.CurrentGame.PlayerLoseAdditionalSkill(p, mdYingZi);
+                    Game.CurrentGame.PlayerLoseAdditionalSkill(p, mdKeJi);
+                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdJiAng);
+                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdQianXun);
                 },
                 TriggerCondition.Global,
                 new MouDuanVerifier()

@@ -150,7 +150,7 @@ namespace Sanguosha.Core.Games
                                         {
                                             if (sk.GetType().Name == cs.SkillName)
                                             {
-                                                Game.CurrentGame.PlayerAcquireSkill(currentPlayer, sk.Clone() as ISkill);
+                                                Game.CurrentGame.PlayerAcquireAdditionalSkill(currentPlayer, sk.Clone() as ISkill);
                                                 found = true;
                                                 break;
                                             }

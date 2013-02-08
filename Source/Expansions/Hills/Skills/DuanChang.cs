@@ -28,22 +28,11 @@ namespace Sanguosha.Expansions.Hills.Skills
                 (p, e, a) => { return a.Source != null; },
                 (p, e, a) =>
                 {
+                    a.Source.LoseAllHerosSkills();
                     foreach (ISkill sk in new List<ISkill>(a.Source.AdditionalSkills))
                     {
-                        Game.CurrentGame.PlayerLoseSkill(a.Source, sk);
+                        Game.CurrentGame.PlayerLoseAdditionalSkill(a.Source, sk);
                     }
-
-                    SkillSetChangedEventArgs args = new SkillSetChangedEventArgs();
-                    args.Source = a.Source;
-                    args.IsLosingSkill = true;
-                    args.Skills = new List<ISkill>(a.Source.Hero.Skills);
-                    a.Source.Hero.Skills = new List<ISkill>();
-                    foreach (var sk in args.Skills)
-                    {
-                        sk.Owner = null;
-                    }
-                    Game.CurrentGame.NotificationProxy.NotifyCustomLog(new CustomLog("DuanChang", a.Source), new List<Player>() { a.Source, Owner});
-                    Game.CurrentGame.Emit(GameEvent.PlayerSkillSetChanged, args);
                     a.Source[DuanChangStatus] = 1;
                 },
                 TriggerCondition.OwnerIsTarget
