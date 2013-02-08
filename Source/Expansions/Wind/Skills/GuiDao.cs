@@ -21,7 +21,7 @@ namespace Sanguosha.Expansions.Wind.Skills
     {
         public void OnJudgeBegin(Player player, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            if (Game.CurrentGame.Decks[player, DeckType.Hand].Count == 0)
+            if (player.HandCards().Count == 0 && !player.Equipments().Any(card => card.SuitColor == SuitColorType.Black))
             {
                 return;
             }

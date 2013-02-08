@@ -26,7 +26,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 this,
                 (p, e, a) =>
                 {
-                    return (a.Source == p && e == GameEvent.DamageCaused || a.Targets[0] == p && e == GameEvent.DamageInflicted) && a.ReadonlyCard.Type.IsCardCategory(CardCategory.Tool);
+                    return (a.Source == p && e == GameEvent.DamageCaused || a.Targets[0] == p && e == GameEvent.DamageInflicted) && a.ReadonlyCard.Type != null && a.ReadonlyCard.Type.IsCardCategory(CardCategory.Tool);
                 },
                 (p, e, a) => { throw new TriggerResultException(TriggerResult.End); },
                 TriggerCondition.Global
