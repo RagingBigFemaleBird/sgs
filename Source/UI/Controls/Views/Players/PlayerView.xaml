@@ -295,7 +295,7 @@
                     </Border>
                     <local:CardStack x:Name="privateCardArea" IsCardConsumer="true" CardAlignment="Center" MaxCardSpacing="30" Grid.RowSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-30,0,0,0"  Height="130" Width="179" IsHitTestVisible="false" />
                     <local:CardStack x:Name="handCardArea" IsCardConsumer="true" CardAlignment="Center" MaxCardSpacing="30" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="130" Width="279" IsHitTestVisible="false" />
-                    <Border Margin="5,0,6,0" Grid.Row="1" CornerRadius="1" ClipToBounds="True" BorderThickness="1">
+                    <Border Margin="5,0,6,-10" Grid.Row="1" CornerRadius="1" ClipToBounds="True" BorderThickness="1">
                     	<Border.BorderBrush>
                     		<LinearGradientBrush EndPoint="1,1.8" StartPoint="0,0">
                     			<GradientStop Color="#E5323232" Offset="0"/>
@@ -414,7 +414,7 @@
                     		<DropShadowEffect ShadowDepth="0"/>              	
 						</TextBlock.Effect>
 					</TextBlock>
-                    <Border Grid.Row="1" HorizontalAlignment="Left" Height="17" Width="16" VerticalAlignment="Bottom" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22" Margin="0,0,0,-3.5">
+                    <Border Grid.Row="1" HorizontalAlignment="Left" Height="17" Width="16" VerticalAlignment="Bottom" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22" Margin="5,0,0,-4">
                         <TextBlock x:Name="handCardNum" Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding HandCardCount}" TextAlignment="Center" FontFamily="Arial" Foreground="Black"/>
                     </Border>
                     <Image SnapsToDevicePixels="True" Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="2" Stretch="Fill" Margin="3.25,9.249,0,0" Width="15" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" d:LayoutOverrides="GridBox"/>
@@ -433,7 +433,7 @@
                         <Grid.ToolTip>
                             <ToolTip Content="{DynamicResource State.TieSuoLianHuan.Description}" ContentTemplate="{DynamicResource ToolTipTextTemplate}" />
                         </Grid.ToolTip>
-                        <Image Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}"/>
+                        <Image Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}" Margin="2,3,-2,-3"/>
                         <anim:TieSuoAnimation2 x:Name="tieSuoAnimation2" FramesPerSecond="15" Stretch="Fill" IsHitTestVisible="False"/>
                     </Grid>
                     <Grid x:Name="gridSpectate" HorizontalAlignment="Left" Height="24" Margin="16.664,0,0,-0.666" Grid.Row="1" Width="24" VerticalAlignment="Bottom" Visibility="{Binding CanSpectate, Mode=OneWay,Converter={StaticResource boolToVisibilityConverter}}">
