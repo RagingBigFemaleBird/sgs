@@ -134,7 +134,7 @@ namespace Sanguosha.Expansions.Fire.Skills
 
         class TianYiPassiveSkill : TriggerSkill
         {
-            public bool TianYiResult;
+            public bool TianYiResult { get; set; }
             public TianYiPassiveSkill()
             {
                 TianYiResult = false;
