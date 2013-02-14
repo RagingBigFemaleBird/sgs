@@ -20,6 +20,11 @@ namespace Sanguosha.Expansions.Fire.Skills
     /// </summary>
     public class TianYi : ActiveSkill
     {
+        public TianYi()
+        {
+            LinkedPassiveSkill = new TianYiPassiveSkill();
+        }
+
         public override VerifierResult Validate(GameEventArgs arg)
         {
             if (Owner[TianYiUsed] != 0)
@@ -44,39 +49,6 @@ namespace Sanguosha.Expansions.Fire.Skills
                 return VerifierResult.Fail;
             }
             return VerifierResult.Success;
-        }
-
-        public class TianYiWinTrigger : Trigger
-        {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                ShaEventArgs args = (ShaEventArgs)eventArgs;
-                Trace.Assert(args != null);
-                if (args.Source != Owner)
-                {
-                    return;
-                }
-                if (args.TargetApproval[0])
-                {
-                    for (int i = 1; i < args.TargetApproval.Count; i++)
-                    {
-                        if (!args.TargetApproval[i])
-                        {
-                            args.TargetApproval[i] = true;
-                            break;
-                        }
-                    }
-                }
-                for (int i = 0; i < args.RangeApproval.Count; i++)
-                {
-                    args.RangeApproval[i] = true;
-                }
-            }
-
-            public TianYiWinTrigger(Player p)
-            {
-                Owner = p;
-            }
         }
 
         public class TianYiLoseTrigger : Trigger
@@ -107,23 +79,14 @@ namespace Sanguosha.Expansions.Fire.Skills
                 {
                     return;
                 }
-                if (winTrigger != null)
-                {
-                    Game.CurrentGame.UnregisterTrigger(Sha.PlayerShaTargetValidation, winTrigger);
-                }
-                if (loseTrigger != null)
-                {
-                    Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerCanUseCard, loseTrigger);
-                }
-                Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], this);
+                Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerCanUseCard, loseTrigger);
+                Game.CurrentGame.UnregisterTrigger(GameEvent.PhasePostEnd, this);
             }
 
-            Trigger winTrigger;
             Trigger loseTrigger;
-            public TianYiRemoval(Player p, Trigger win, Trigger lose)
+            public TianYiRemoval(Player p, Trigger lose)
             {
                 Owner = p;
-                winTrigger = win;
                 loseTrigger = lose;
             }
         }
@@ -132,23 +95,78 @@ namespace Sanguosha.Expansions.Fire.Skills
         {
             Owner[TianYiUsed] = 1;
             var result = Game.CurrentGame.PinDian(Owner, arg.Targets[0], this);
+            TianYiPassiveSkill _tyTriggerSkill = LinkedPassiveSkill as TianYiPassiveSkill;
             if (result == true)
             {
+                _tyTriggerSkill.TianYiResult = true;
                 Owner[Sha.AdditionalShaUsable]++;
-                var trig = new TianYiWinTrigger(Owner);
-                Game.CurrentGame.RegisterTrigger(Sha.PlayerShaTargetValidation, trig);
-                Game.CurrentGame.RegisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], new TianYiRemoval(Owner, trig, null));
             }
             else
             {
-                var trig = new TianYiLoseTrigger(Owner);
-                Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanUseCard, trig);
-                Game.CurrentGame.RegisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], new TianYiRemoval(Owner, null, trig));
+                _tyTriggerSkill.TianYiResult = false;
+                var loseTrigger = new TianYiLoseTrigger(Owner);
+                Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanUseCard, loseTrigger);
+                Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, new TianYiRemoval(Owner, loseTrigger));
             }
             return true;
         }
 
-        private static PlayerAttribute TianYiUsed = PlayerAttribute.Register("TianYiUsed", true);
+        public override Player Owner
+        {
+            get
+            {
+                return base.Owner;
+            }
+            set
+            {
+                if (base.Owner == value) return;
+                var backup = base.Owner;
+                base.Owner = value;
+                if (backup != null)
+                {
+                    if ((LinkedPassiveSkill as TianYiPassiveSkill).TianYiResult)
+                    {
+                        backup[Sha.AdditionalShaUsable]--;
+                    }
+                }
+            }
+        }
 
+        class TianYiPassiveSkill : TriggerSkill
+        {
+            public bool TianYiResult;
+            public TianYiPassiveSkill()
+            {
+                TianYiResult = false;
+                var winTrigger = new AutoNotifyPassiveSkillTrigger(
+                    this,
+                    (p, e, a) => { return p[TianYiUsed] == 1 && TianYiResult; },
+                    (p, e, a) =>
+                    {
+                        ShaEventArgs args = (ShaEventArgs)a;
+                        Trace.Assert(args != null);
+                        if (args.TargetApproval[0])
+                        {
+                            for (int i = 1; i < args.TargetApproval.Count; i++)
+                            {
+                                if (!args.TargetApproval[i])
+                                {
+                                    args.TargetApproval[i] = true;
+                                    break;
+                                }
+                            }
+                        }
+                        for (int i = 0; i < args.RangeApproval.Count; i++)
+                        {
+                            args.RangeApproval[i] = true;
+                        }
+                    },
+                    TriggerCondition.OwnerIsSource
+                );
+                Triggers.Add(Sha.PlayerShaTargetValidation, winTrigger);
+            }
+        }
+
+        private static PlayerAttribute TianYiUsed = PlayerAttribute.Register("TianYiUsed", true);
     }
 }
