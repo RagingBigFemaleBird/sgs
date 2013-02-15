@@ -153,7 +153,6 @@ namespace Sanguosha.Expansions.SP.Skills
                ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger);
             IsAutoInvoked = null;
-            IsRulerOnly = true;
         }
     }
 }
