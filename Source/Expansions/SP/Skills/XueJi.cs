@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Cards;
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
+using Sanguosha.Expansions.Basic.Cards;
 using System.Diagnostics;
 
 namespace Sanguosha.Expansions.SP.Skills
@@ -43,8 +45,17 @@ namespace Sanguosha.Expansions.SP.Skills
 
         protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
         {
+            if (players != null && players.Count > 0 && (cards == null || cards.Count == 0)) return false;
             if (source[XueJiUsed] != 0 || source.LostHealth == 0) return false;
             if (players != null && source.LostHealth < players.Count) return false;
+            var temp = new Sha();
+            temp.HoldInTemp(cards);
+            if (players.Any(p => Game.CurrentGame.DistanceTo(source, p) > source[Player.AttackRange] + 1))
+            {
+                temp.ReleaseHoldInTemp();
+                return false;
+            }
+            temp.ReleaseHoldInTemp();
             return true;
         }
 
@@ -55,7 +66,7 @@ namespace Sanguosha.Expansions.SP.Skills
 
         protected override bool VerifyPlayer(Player source, Player player)
         {
-            return source != player && Game.CurrentGame.DistanceTo(source, player) <= source[Player.AttackRange] + 1;
+            return true;
         }
     }
 }
