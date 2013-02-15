@@ -84,54 +84,76 @@ namespace Sanguosha.Expansions.SP.Skills
             }
         }
 
-        void Run(Player owner, GameEvent gameEvent, GameEventArgs eventArgs, List<Card> cards, List<Player> players)
+        void Run(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            Card theCard = cards[0];
-            Game.CurrentGame.HandleCardTransfer(owner, players[0], DeckType.Equipment, cards);
-            switch (theCard.Type.Category)
+            ISkill skill;
+            List<Card> cards;
+            List<Player> players;
+            if (owner.AskForCardUsage(new CardUsagePrompt("YuanHu", this), new YuanHuVerifier(), out skill, out cards, out players))
             {
-                case CardCategory.Weapon:
-                    {
-                        var result = from player in Game.CurrentGame.AlivePlayers where player != players[0] && Game.CurrentGame.DistanceTo(players[0], player) == 1 select player;
-                        if (result.Count() == 0) break;
-                        ISkill skill;
-                        List<Card> nCards;
-                        List<Player> nPlayers;
-                        if (!owner.AskForCardUsage(new CardUsagePrompt("YuanHuQiZhi"), new YuanHuChoiceOnePlayer(players[0]), out skill, out nCards, out nPlayers))
+                CardCategory type = cards[0].Type.Category;
+                YuanHuEffect = effectMap[type];
+                NotifySkillUse(players);
+                Game.CurrentGame.HandleCardTransfer(owner, players[0], DeckType.Equipment, cards);
+                switch (type)
+                {
+                    case CardCategory.Weapon:
                         {
-                            nPlayers = new List<Player>();
-                            nPlayers.Add(result.First());
+                            var result = from player in Game.CurrentGame.AlivePlayers where player != players[0] && Game.CurrentGame.DistanceTo(players[0], player) == 1 select player;
+                            if (result.Count() == 0) break;
+                            List<Card> nCards;
+                            List<Player> nPlayers;
+                            if (!owner.AskForCardUsage(new CardUsagePrompt("YuanHuQiZhi"), new YuanHuChoiceOnePlayer(players[0]), out skill, out nCards, out nPlayers))
+                            {
+                                nPlayers = new List<Player>();
+                                nPlayers.Add(result.First());
+                            }
+                            var Card = Game.CurrentGame.SelectACardFrom(nPlayers[0], owner, new CardChoicePrompt("YuanHu", nPlayers[0], owner), "YuanHu", false, false);
+                            Game.CurrentGame.HandleCardDiscard(nPlayers[0], new List<Card>() { Card });
+                            break;
                         }
-                        var Card = Game.CurrentGame.SelectACardFrom(nPlayers[0], owner, new CardChoicePrompt("YuanHu", nPlayers[0], owner), "YuanHu", false, false);
-                        Game.CurrentGame.HandleCardDiscard(nPlayers[0], new List<Card>() { Card });
+                    case CardCategory.Armor:
+                        {
+                            Game.CurrentGame.DrawCards(players[0], 1);
+                            break;
+                        }
+                    case CardCategory.DefensiveHorse:
+                    case CardCategory.OffensiveHorse:
+                        {
+                            Game.CurrentGame.RecoverHealth(owner, players[0], 1);
+                            break;
+                        }
+                    default:
                         break;
-                    }
-                case CardCategory.Armor:
-                    {
-                        Game.CurrentGame.DrawCards(players[0], 1);
-                        break;
-                    }
-                case CardCategory.DefensiveHorse:
-                case CardCategory.OffensiveHorse:
-                    {
-                        Game.CurrentGame.RecoverHealth(owner, players[0], 1);
-                        break;
-                    }
-                default:
-                    break;
+                }
             }
         }
 
+        static Dictionary<CardCategory, int> effectMap = new Dictionary<CardCategory, int>() { 
+        { CardCategory.Weapon, 0}, 
+        { CardCategory.Armor, 1} ,
+        { CardCategory.DefensiveHorse, 2},
+        { CardCategory.OffensiveHorse, 2}
+        };
+
+        protected override int GenerateSpecialEffectHintIndex(Player source, List<Player> targets)
+        {
+            if (targets[0].Hero.Name.Contains("CaoCao") || (targets[0].Hero2 != null && targets[0].Hero2.Name.Contains("CaoCao"))) return 3;
+            if (targets[0] == source) return 4;
+            return YuanHuEffect;
+        }
+
+        public int YuanHuEffect { get; set; }
         public YuanHu()
         {
-            var trigger = new AutoNotifyUsagePassiveSkillTrigger(
+            var trigger = new AutoNotifyPassiveSkillTrigger(
                    this,
                    Run,
-                   TriggerCondition.OwnerIsSource,
-                   new YuanHuVerifier()
-               );
+                   TriggerCondition.OwnerIsSource
+               ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger);
             IsAutoInvoked = null;
+            IsRulerOnly = true;
         }
     }
 }
