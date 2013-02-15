@@ -27,7 +27,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => { return p[BaiYinAwaken] == 0 && p[RenJie.RenMark] >= 4; },
-                (p, e, a) => 
+                (p, e, a) =>
                 {
                     p[BaiYinAwaken] = 1;
                     Game.CurrentGame.LoseMaxHealth(p, 1);
@@ -90,7 +90,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 Triggers.Clear();
                 var trigger = new AutoNotifyUsagePassiveSkillTrigger(
                     this,
-                    (p, e, a) => {return p[RenJie.RenMark] > 0;},
+                    (p, e, a) => { return p[RenJie.RenMark] > 0; },
                     Wrapper,
                     TriggerCondition.OwnerIsTarget,
                     new FangZhuVerifier()
@@ -106,9 +106,9 @@ namespace Sanguosha.Expansions.Hills.Skills
             {
                 Triggers.Add(GameEvent.PlayerUsedCard, new AutoNotifyPassiveSkillTrigger(this,
                     (p, e, a) => { return p[RenJie.RenMark] > 0 && CardCategoryManager.IsCardCategory(a.Card.Type.Category, CardCategory.ImmediateTool); },
-                    (p, e, a) => { p[RenJie.RenMark]--;  Game.CurrentGame.DrawCards(p, 1); },
+                    (p, e, a) => { p[RenJie.RenMark]--; Game.CurrentGame.DrawCards(p, 1); },
                     TriggerCondition.OwnerIsSource
-                ));
+                ) { Type = TriggerType.Skill });
             }
         }
 

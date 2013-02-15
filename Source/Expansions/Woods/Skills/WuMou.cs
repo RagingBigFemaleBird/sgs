@@ -24,7 +24,7 @@ namespace Sanguosha.Expansions.Woods.Skills
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => { return CardCategoryManager.IsCardCategory(a.Card.Type.Category, CardCategory.ImmediateTool); },
-                (p, e, a) => 
+                (p, e, a) =>
                 {
                     if (Owner[KuangBao.BaoNuMark] == 0)
                     {
@@ -39,7 +39,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                             out answer);
                         if (answer == 0)
                         {
-                            Owner[KuangBao.BaoNuMark] --;
+                            Owner[KuangBao.BaoNuMark]--;
                         }
                         else
                         {
@@ -48,7 +48,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                     }
                 },
                 TriggerCondition.OwnerIsSource
-            );
+            ) { Type = TriggerType.Skill };
             Triggers.Add(GameEvent.PlayerUsedCard, trigger);
             IsEnforced = true;
         }

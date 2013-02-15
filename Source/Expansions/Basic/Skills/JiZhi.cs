@@ -26,7 +26,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 (p, e, a) => { return CardCategoryManager.IsCardCategory(a.Card.Type.Category, CardCategory.ImmediateTool); },
                 (p, e, a) => { Game.CurrentGame.DrawCards(p, 1); },
                 TriggerCondition.OwnerIsSource
-            ));
+            ) { Type = TriggerType.Skill });
             IsAutoInvoked = true;
         }
     }

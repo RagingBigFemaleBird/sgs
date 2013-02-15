@@ -17,7 +17,7 @@ namespace Sanguosha.Expansions.Basic.Cards
     
     public class WuGuFengDeng : CardHandler
     {
-        Dictionary<Card, Card> fakeMapping;
+        public Dictionary<Card, Card> FakeMapping { get; set; }
         public class WuGuCardChoiceVerifier : ICardChoiceVerifier
         {
             bool noCardReveal;
@@ -59,7 +59,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     new List<DeckPlace>() { new DeckPlace(null, wuguFakeDeck) },
                     new List<string>() { "WuGu" },
                     new List<int>() { 1 },
-                    new WuGuCardChoiceVerifier(fakeMapping),
+                    new WuGuCardChoiceVerifier(FakeMapping),
                     out answer,
                     new AdditionalCardChoiceOptions() { IsWuGu = true }))
             {
@@ -70,47 +70,23 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
             else
             {
-                if (!fakeMapping.ContainsKey(answer[0][0]) || fakeMapping[answer[0][0]] == null)
+                if (!FakeMapping.ContainsKey(answer[0][0]) || FakeMapping[answer[0][0]] == null)
                 {
                     answer[0] = new List<Card>() { Game.CurrentGame.Decks[null, wuguDeck][0] };
                 }
                 var theCard = answer[0][0];
-                answer[0] = new List<Card>() { fakeMapping[theCard] };
-                fakeMapping[theCard] = null;
+                answer[0] = new List<Card>() { FakeMapping[theCard] };
+                FakeMapping[theCard] = null;
             }
             Game.CurrentGame.HandleCardTransferToHand(null, dest, answer[0], new MovementHelper() { IsWuGu = true });
         }
 
         public override void Process(GameEventArgs handlerArgs)
         {
-            var source = handlerArgs.Source;
-            var dests = handlerArgs.Targets;
-            var readonlyCard = handlerArgs.ReadonlyCard;
-            var inResponseTo = handlerArgs.InResponseTo;
-            var card = handlerArgs.Card;
+            base.Process(handlerArgs);
             DeckType wuguDeck = new DeckType("WuGu");
             DeckType wuguFakeDeck = new DeckType("WuGuFake");
             CardsMovement move = new CardsMovement();
-            move.Cards = new List<Card>();
-            for (int i = 0; i < dests.Count; i++)
-            {
-                Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.PeekCard(0));
-                Card c = Game.CurrentGame.DrawCard();
-                move.Cards.Add(c);
-            }
-            move.To = new DeckPlace(null, wuguDeck);
-            Game.CurrentGame.MoveCards(move);
-            fakeMapping = new Dictionary<Card, Card>();
-            Game.CurrentGame.Decks[null, wuguFakeDeck].Clear();
-            foreach (var c in Game.CurrentGame.Decks[null, wuguDeck])
-            {
-                var faked = new Card(c);
-                faked.Place = new DeckPlace(null, wuguFakeDeck);
-                Game.CurrentGame.Decks[null, wuguFakeDeck].Add(faked);
-                fakeMapping.Add(faked, c);
-            }
-            Game.CurrentGame.NotificationProxy.NotifyWuGuStart(new CardChoicePrompt("WuGuFengDeng.Init"), new DeckPlace(null, wuguFakeDeck));
-            base.Process(handlerArgs);
             Game.CurrentGame.NotificationProxy.NotifyWuGuEnd();
             Game.CurrentGame.Decks[null, wuguFakeDeck].Clear();
             if (Game.CurrentGame.Decks[null, wuguDeck].Count > 0)
@@ -140,6 +116,43 @@ namespace Sanguosha.Expansions.Basic.Cards
         {
             var z = new List<Player>(Game.CurrentGame.AlivePlayers);
             return z;
+        }
+    }
+
+    class WuGuFengDengTrigger : Trigger
+    {
+        public WuGuFengDengTrigger()
+        {
+            Type = TriggerType.Card;
+        }
+        public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+        {
+            var card = eventArgs.Card;
+            if (!(card.Type is WuGuFengDeng)) return;
+            var wugu = card.Type as WuGuFengDeng;
+            var dests = eventArgs.Targets;
+            DeckType wuguDeck = new DeckType("WuGu");
+            DeckType wuguFakeDeck = new DeckType("WuGuFake");
+            CardsMovement move = new CardsMovement();
+            move.Cards = new List<Card>();
+            for (int i = 0; i < dests.Count; i++)
+            {
+                Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.PeekCard(0));
+                Card c = Game.CurrentGame.DrawCard();
+                move.Cards.Add(c);
+            }
+            move.To = new DeckPlace(null, wuguDeck);
+            Game.CurrentGame.MoveCards(move);
+            wugu.FakeMapping = new Dictionary<Card, Card>();
+            Game.CurrentGame.Decks[null, wuguFakeDeck].Clear();
+            foreach (var c in Game.CurrentGame.Decks[null, wuguDeck])
+            {
+                var faked = new Card(c);
+                faked.Place = new DeckPlace(null, wuguFakeDeck);
+                Game.CurrentGame.Decks[null, wuguFakeDeck].Add(faked);
+                wugu.FakeMapping.Add(faked, c);
+            }
+            Game.CurrentGame.NotificationProxy.NotifyWuGuStart(new CardChoicePrompt("WuGuFengDeng.Init"), new DeckPlace(null, wuguFakeDeck));
         }
     }
 }
