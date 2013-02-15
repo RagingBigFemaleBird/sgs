@@ -91,7 +91,11 @@ namespace Sanguosha.Expansions.SP.Skills
                 set
                 {
                     if (Owner == value) return;
-                    if (Owner != null) IntBaoBian(Owner);
+                    if (Owner != null)
+                    {
+                        bbPaoXiao.Owner = null;
+                        bbShenSu.Owner = null;
+                    }
                     base.Owner = value;
                     if (Owner != null) IntBaoBian(Owner);
                 }
