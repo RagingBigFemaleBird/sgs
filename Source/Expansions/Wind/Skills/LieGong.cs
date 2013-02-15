@@ -17,8 +17,8 @@ namespace Sanguosha.Expansions.Wind.Skills
 {
     /// <summary>
     /// 烈弓-出牌阶段，当你使用【杀】指定一名角色为目标后，以下两种情况，你可以令此【杀】不可被【闪】响应：
-　　///   1.目标角色的手牌数大于或等于你的体力值。
-　　///   2.目标角色的手牌数小于或等于你的攻击范围。
+    ///   1.目标角色的手牌数大于或等于你的体力值。
+    ///   2.目标角色的手牌数小于或等于你的攻击范围。
     /// </summary>
     public class LieGong : TriggerSkill
     {
@@ -27,8 +27,8 @@ namespace Sanguosha.Expansions.Wind.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return (a.ReadonlyCard.Type is Sha); },
-                (p, e, a) => 
+                (p, e, a) => { return (a.ReadonlyCard.Type is Sha) && Game.CurrentGame.PhasesOwner == p && Game.CurrentGame.CurrentPhase == TurnPhase.Play; },
+                (p, e, a) =>
                 {
                     int i = 0;
                     foreach (var target in a.Targets)
