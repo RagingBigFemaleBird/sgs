@@ -7,8 +7,8 @@
     <ProjectGuid>{FBE66AFE-CA51-45FF-9546-E16C17527BAA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sanguosha.Expansions.BronzeSparrowTerrace</RootNamespace>
-    <AssemblyName>BronzeSparrowTerrace</AssemblyName>
+    <RootNamespace>Sanguosha.Expansions.Assassin</RootNamespace>
+    <AssemblyName>Assassin</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BronzeSparrowTerraceExpansion.cs" />
+    <Compile Include="Assassin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Skills\FenXin.cs" />
     <Compile Include="Skills\JieYuan.cs" />
@@ -61,12 +61,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="BronzeSparrowTerrace.Game.xaml">
+    <None Include="Assassin.Game.xaml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="BronzeSparrowTerrace.Skills.xaml">
+    <None Include="Assassin.Skills.xaml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>

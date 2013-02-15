@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Input;
 using Sanguosha.UI.Animations;
 using Sanguosha.Core.Games;
+using System.Threading;
 
 namespace Sanguosha.UI.Controls
 {
@@ -104,6 +105,14 @@ namespace Sanguosha.UI.Controls
         protected virtual CardView RemoveRoleCard(Card card)
         {
             return null;
+        }
+
+        public void PlayAnimationAsync(AnimationBase animation, int playCenter, Point offset)
+        {
+            Application.Current.Dispatcher.BeginInvoke((ThreadStart)delegate()
+            {
+                PlayAnimation(animation, playCenter, offset);
+            });
         }
 
         public virtual void PlayAnimation(AnimationBase animation, int playCenter, Point offset)

@@ -10,7 +10,7 @@ using System.Threading;
 namespace Sanguosha.UI.Controls
 {
     public class GameSoundPlayer
-    {        
+    {
         private static MediaPlayer _bgmPlayer;
         private static List<MediaPlayer> _effectPlayers;
 
@@ -74,9 +74,9 @@ namespace Sanguosha.UI.Controls
         }
 
         private static Uri currentBgm;
-        
+
         public static void PlayBackgroundMusic(Uri uri)
-        {            
+        {
             if (_bgmPlayer == null) _bgmPlayer = new MediaPlayer();
             if (uri == null)
             {
@@ -87,7 +87,7 @@ namespace Sanguosha.UI.Controls
             _bgmPlayer.Open(uri);
             if (!_isMute) _bgmPlayer.Play();
             _bgmPlayer.MediaEnded += new EventHandler(_bgmPlayer_MediaEnded);
-            
+
         }
 
         static void _bgmPlayer_MediaEnded(object sender, EventArgs e)
@@ -98,15 +98,19 @@ namespace Sanguosha.UI.Controls
 
         public static void PlaySoundEffect(Uri uri)
         {
-            if (uri == null || _isMute) return;
-            if (_effectPlayers == null)
+            Application.Current.Dispatcher.BeginInvoke((ThreadStart)delegate()
             {
-                _effectPlayers = new List<MediaPlayer>();
-                PoolSize = 3;
-            }
-            _effectPlayers[_lastGrabbedPlayer].Open(uri);
-            _effectPlayers[_lastGrabbedPlayer].Play();
-            _lastGrabbedPlayer = (_lastGrabbedPlayer + 1) % PoolSize;
+                if (uri == null || _isMute) return;
+                if (_effectPlayers == null)
+                {
+                    _effectPlayers = new List<MediaPlayer>();
+                    PoolSize = 3;
+                }
+                _effectPlayers[_lastGrabbedPlayer].Open(uri);
+                _effectPlayers[_lastGrabbedPlayer].Play();
+                _lastGrabbedPlayer = (_lastGrabbedPlayer + 1) % PoolSize;
+            });
+
         }
     }
 }

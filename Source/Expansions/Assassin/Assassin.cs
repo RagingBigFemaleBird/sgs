@@ -8,13 +8,13 @@ using Sanguosha.Core.UI;
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Heroes;
-using Sanguosha.Expansions.BronzeSparrowTerrace.Skills;
+using Sanguosha.Expansions.Assassin.Skills;
 
-namespace Sanguosha.Expansions.BronzeSparrowTerrace
+namespace Sanguosha.Expansions.Assassin
 {
-    public class BronzeSparrowTerraceExpansion : Expansion
+    public class AssassinExpansion : Expansion
     {
-        public BronzeSparrowTerraceExpansion()
+        public AssassinExpansion()
         {
             CardSet = new List<Card>();
 

@@ -699,16 +699,20 @@ namespace Sanguosha.UI.Controls
 
         private void _LineUp(Player source, IList<Player> targets)
         {
-            Storyboard lineUpGroup = new Storyboard();
-            foreach (var target in targets)
+
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                if (source == target) continue;
-                var key = new KeyValuePair<Player, Player>(source, target);
-                var animation = _lineUpAnimations[key];
-                lineUpGroup.Children.Add(animation);
-            }
-            lineUpGroup.AccelerationRatio = 0.6;
-            lineUpGroup.Begin();
+                Storyboard lineUpGroup = new Storyboard();
+                foreach (var target in targets)
+                {
+                    if (source == target) continue;
+                    var key = new KeyValuePair<Player, Player>(source, target);
+                    var animation = _lineUpAnimations[key];
+                    lineUpGroup.Children.Add(animation);
+                }
+                lineUpGroup.AccelerationRatio = 0.6;
+                lineUpGroup.Begin();
+            });
         }
 
 
@@ -822,37 +826,42 @@ namespace Sanguosha.UI.Controls
         public void NotifySkillUse(ActionLog log)
         {
             bool _playAwakeningAnimation = false;
-            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+
+            Trace.Assert(log.Source != null);
+            PlayerViewBase player = playersMap[log.Source];
+            bool soundPlayed = false;
+            if (log.SkillAction != null)
             {
-                Trace.Assert(log.Source != null);
-                PlayerViewBase player = playersMap[log.Source];
-                bool soundPlayed = false;
-                if (log.SkillAction != null)
+                string key1 = string.Format("{0}.Animation", log.SkillAction.GetType().Name);
+                string key2 = key1 + ".Offset";
+                bool animPlayed = false;
+                lock (equipAnimationResources)
                 {
-                    string key1 = string.Format("{0}.Animation", log.SkillAction.GetType().Name);
-                    string key2 = key1 + ".Offset";
-                    bool animPlayed = false;
-                    lock (equipAnimationResources)
+                    if (equipAnimationResources.Contains(key1))
                     {
-                        if (equipAnimationResources.Contains(key1))
+                        AnimationBase animation = null;
+                        Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
                         {
-                            AnimationBase animation = equipAnimationResources[key1] as AnimationBase;
-                            if (animation != null && animation.Parent == null)
+                            animation = equipAnimationResources[key1] as AnimationBase;
+                        });                        
+                        if (animation != null && animation.Parent == null)
+                        {
+                            Point offset = new Point(0, 0);
+                            if (equipAnimationResources.Contains(key2))
                             {
-                                Point offset = new Point(0, 0);
-                                if (equipAnimationResources.Contains(key2))
-                                {
-                                    offset = (Point)equipAnimationResources[key2];
-                                }
-                                player.PlayAnimation(animation, 0, offset);
-                                animPlayed = true;
+                                offset = (Point)equipAnimationResources[key2];
                             }
+                            player.PlayAnimationAsync(animation, 0, offset);
+                            animPlayed = true;
                         }
                     }
-                    if (log.SkillAction.IsSingleUse || log.SkillAction.IsAwakening)
+                }
+                if (log.SkillAction.IsSingleUse || log.SkillAction.IsAwakening)
+                {
+                    _playAwakeningAnimation = true;
+                    if (log.SkillAction.IsAwakening) log.Source[Player.Awakened]++;
+                    Application.Current.Dispatcher.BeginInvoke((ThreadStart)delegate()
                     {
-                        _playAwakeningAnimation = true;
-                        if (log.SkillAction.IsAwakening) log.Source[Player.Awakened]++;
                         ExcitingSkillAnimation anim = new ExcitingSkillAnimation();
                         anim.SkillName = log.SkillAction.GetType().Name;
                         anim.HeroName = log.Source.Hero.Name;
@@ -860,41 +869,48 @@ namespace Sanguosha.UI.Controls
                         anim.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
                         anim.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
                         anim.Start();
+                    });
+                    animPlayed = true;
+                }
+                if (!animPlayed && player != mainPlayerPanel)
+                {
+                    string s = LogFormatter.Translate(log.SkillAction);
+                    if (s != string.Empty)
+                    {
+                        ZoomTextAnimation anim = null;
+                        Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+                        {
+                            anim = new ZoomTextAnimation() { Text = s };
+                        });
+                        Trace.Assert(anim != null);
+                        player.PlayAnimationAsync(anim, 1, new Point(0, 0));
                         animPlayed = true;
                     }
-                    if (!animPlayed && player != mainPlayerPanel)
-                    {
-                        string s = LogFormatter.Translate(log.SkillAction);
-                        if (s != string.Empty)
-                        {
-
-                            ZoomTextAnimation anim = new ZoomTextAnimation() { Text = s };
-                            player.PlayAnimation(anim, 1, new Point(0, 0));
-                            animPlayed = true;
-                        }
-                    }
-                    string soundKey = log.SkillAction.GetType().Name;
-                    Uri uri = GameSoundLocator.GetSkillSound(soundKey, log.SpecialEffectHint);
-                    GameSoundPlayer.PlaySoundEffect(uri);
-                    soundPlayed = uri != null;
                 }
-                else if (log.GameAction == GameAction.None)
+                string soundKey = log.SkillAction.GetType().Name;
+                Uri uri = GameSoundLocator.GetSkillSound(soundKey, log.SpecialEffectHint);
+                GameSoundPlayer.PlaySoundEffect(uri);
+                soundPlayed = uri != null;
+            }
+            else if (log.GameAction == GameAction.None)
+            {
+                bool? isMale = null;
+                if (log.Source != null) isMale = !log.Source.IsFemale;
+                Uri cardSoundUri = GameSoundLocator.GetCardSound(log.CardAction.Type.CardType, isMale);
+                GameSoundPlayer.PlaySoundEffect(cardSoundUri);
+                soundPlayed = cardSoundUri != null;
+            }
+            if (log.CardAction != null && log.GameAction != GameAction.None)
+            {
+                if (log.CardAction.Type is Shan)
                 {
-                    bool? isMale = null;
-                    if (log.Source != null) isMale = !log.Source.IsFemale;
-                    Uri cardSoundUri = GameSoundLocator.GetCardSound(log.CardAction.Type.CardType, isMale);
-                    GameSoundPlayer.PlaySoundEffect(cardSoundUri);
-                    soundPlayed = cardSoundUri != null;
+                    player.PlayAnimationAsync(new ShanAnimation(), 0, new Point(0, 0));
                 }
-                if (log.CardAction != null && log.GameAction != GameAction.None)
+                else if (log.CardAction.Type is RegularSha)
                 {
-                    if (log.CardAction.Type is Shan)
+                    AnimationBase sha = null;
+                    Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
                     {
-                        player.PlayAnimation(new ShanAnimation(), 0, new Point(0, 0));
-                    }
-                    else if (log.CardAction.Type is RegularSha)
-                    {
-                        AnimationBase sha;
                         if (log.CardAction.SuitColor == SuitColorType.Red)
                         {
                             sha = new ShaAnimation();
@@ -903,62 +919,85 @@ namespace Sanguosha.UI.Controls
                         {
                             sha = new ShaAnimation2();
                         }
-                        player.PlayAnimation(sha, 0, new Point(0, 0));
-                    }
-                    else if (log.CardAction.Type is TieSuoLianHuan)
+                    });
+                    Trace.Assert(sha != null);
+                    player.PlayAnimationAsync(sha, 0, new Point(0, 0));
+                }
+                else if (log.CardAction.Type is TieSuoLianHuan)
+                {
+                    foreach (var p in log.Targets)
                     {
-                        foreach (var p in log.Targets)
+                        Application.Current.Dispatcher.BeginInvoke((ThreadStart)delegate()
                         {
                             playersMap[p].PlayIronShackleAnimation();
-                        }
-                    }
-
-                    bool? isMale = null;
-                    if (log.Source != null) isMale = !log.Source.IsFemale;
-                    Uri cardSoundUri = GameSoundLocator.GetCardSound(log.CardAction.Type.CardType, isMale);
-                    var card = log.CardAction as Card;
-                    if (card != null)
-                    {
-                        bool play = true;
-                        if (card.Log != null && card.Log.SkillAction is IEquipmentSkill)
-                        {
-                            Uri uri = GameSoundLocator.GetSkillSound(card.Log.SkillAction.GetType().Name);
-                            if (uri != null) play = false;
-                        }
-                        if (play && !soundPlayed) GameSoundPlayer.PlaySoundEffect(cardSoundUri);
+                        });
                     }
                 }
 
-                if (log.GameAction != GameAction.None || log.SkillAction != null && log.CardAction == null || log.ShowCueLine)
+                bool? isMale = null;
+                if (log.Source != null) isMale = !log.Source.IsFemale;
+                Uri cardSoundUri = GameSoundLocator.GetCardSound(log.CardAction.Type.CardType, isMale);
+                var card = log.CardAction as Card;
+                if (card != null)
                 {
-                    if (log.Targets.Count > 0)
+                    bool play = true;
+                    if (card.Log != null && card.Log.SkillAction is IEquipmentSkill)
                     {
-                        _LineUp(log.Source, log.Targets);
-                        foreach (var target in log.Targets)
-                        {
-                            target.IsTargeted = true;
-                        }
+                        Uri uri = GameSoundLocator.GetSkillSound(card.Log.SkillAction.GetType().Name);
+                        if (uri != null) play = false;
                     }
+                    if (play && !soundPlayed) GameSoundPlayer.PlaySoundEffect(cardSoundUri);
+                }
+            }
 
-                    if (log.Targets.Count == 1 && log.SecondaryTargets != null && log.SecondaryTargets.Count > 0)
+            if (log.GameAction != GameAction.None || log.SkillAction != null && log.CardAction == null || log.ShowCueLine)
+            {
+                if (log.Targets.Count > 0)
+                {
+                    _LineUp(log.Source, log.Targets);
+                    foreach (var target in log.Targets)
                     {
-                        _LineUp(log.Targets[0], log.SecondaryTargets);
-                        foreach (var target in log.SecondaryTargets)
-                        {
-                            target.IsTargeted = true;
-                        }
+                        target.IsTargeted = true;
                     }
                 }
+
+                if (log.Targets.Count == 1 && log.SecondaryTargets != null && log.SecondaryTargets.Count > 0)
+                {
+                    _LineUp(log.Targets[0], log.SecondaryTargets);
+                    foreach (var target in log.SecondaryTargets)
+                    {
+                        target.IsTargeted = true;
+                    }
+                }
+            }
+
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
                 gameLogs.AppendLog(log);
                 rtbLog.ScrollToEnd();
+            });
 
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
                 _AppendKeyEventLog(log);
             });
+
+            // @todo: shouldn't put delays here because server will not delay on GameView.
             if (_playAwakeningAnimation) Core.Utils.GameDelays.Delay(Core.Utils.GameDelayTypes.Awaken);
         }
 
         public void NotifyLogEvent(Prompt prompt)
         {
+        }
+
+        public void NotifyUiAttached()
+        {
+            // throw new NotImplementedException();
+        }
+
+        public void NotifyUiDetached()
+        {
+            // throw new NotImplementedException();
         }
 
         private ChildWindow _showHandCardsWindow;
@@ -1159,9 +1198,10 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyGameStart()
         {
+            GameSoundPlayer.PlaySoundEffect(GameSoundLocator.GetSystemSound("GameStart"));
+
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                GameSoundPlayer.PlaySoundEffect(GameSoundLocator.GetSystemSound("GameStart"));
                 PlayAnimation(new GameStartAnimation());
             });
         }
@@ -1362,15 +1402,5 @@ namespace Sanguosha.UI.Controls
         }
         #endregion
 
-
-        public void NotifyUiAttached()
-        {
-            // throw new NotImplementedException();
-        }
-
-        public void NotifyUiDetached()
-        {
-            // throw new NotImplementedException();
-        }
     }
 }

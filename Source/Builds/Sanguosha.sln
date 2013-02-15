@@ -45,7 +45,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "..\Lobby\Server\S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "..\Lobby\Service\Core.csproj", "{7DE81BE7-26D1-4954-9037-B7184C1DF9BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BronzeSparrowTerrace", "..\Expansions\BronzeSparrowTerrace\BronzeSparrowTerrace.csproj", "{FBE66AFE-CA51-45FF-9546-E16C17527BAA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assassin", "..\Expansions\Assassin\Assassin.csproj", "{FBE66AFE-CA51-45FF-9546-E16C17527BAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -270,5 +270,8 @@ Global
 		{2CFB7F48-6D2E-4F60-9B9C-6C41F9518817} = {B167E0B3-7CBF-487A-941F-CDCD5D6AABDC}
 		{E1C2FDD7-66F5-4F69-8270-36D0726390FB} = {E3851951-07A2-4757-9DD0-5645CE5E97D5}
 		{7DE81BE7-26D1-4954-9037-B7184C1DF9BD} = {E3851951-07A2-4757-9DD0-5645CE5E97D5}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal
