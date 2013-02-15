@@ -83,4 +83,6 @@
 
     <sys:String x:Key="Skill.BaoBian.Name">豹变</sys:String>
     <sys:String x:Key="Skill.BaoBian.Description">锁定技，若你的体力值为3或更少，你视为拥用技能“挑衅”；若你的体力值为2或更少，你视为拥有技能“咆哮”；若你的体力值为1，你视为拥有技能“神速”。</sys:String>
+    <sys:String x:Key="Skill.BaoBian.Usage" xml:space="preserve">挑衅：点“豹变”→选择一个目标→点“确定”&#10;神速：&#10;系统提示（判定阶段）→选择目标→点“确定”&#10;系统提示（出牌阶段）→选中装备牌→选择目标→点“确定”</sys:String>
+    <sys:String x:Key="Skill.BaoBian.Prompt">请选择一个目标</sys:String>
 </ResourceDictionary>

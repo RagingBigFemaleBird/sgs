@@ -129,6 +129,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         {
             var card = eventArgs.Card;
             if (!(card.Type is WuGuFengDeng)) return;
+            Core.Utils.GameDelays.Delay(Core.Utils.GameDelayTypes.CardTransfer);
             var wugu = card.Type as WuGuFengDeng;
             var dests = eventArgs.Targets;
             DeckType wuguDeck = new DeckType("WuGu");
