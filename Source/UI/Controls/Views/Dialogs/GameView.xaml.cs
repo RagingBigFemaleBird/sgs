@@ -914,7 +914,13 @@ namespace Sanguosha.UI.Controls
             {
                 if (log.CardAction.Type is Shan)
                 {
-                    player.PlayAnimationAsync(new ShanAnimation(), 0, new Point(0, 0));
+                    AnimationBase shan = null;
+                    Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+                    {
+                        shan = new ShanAnimation();
+                    });
+                    Trace.Assert(shan != null);
+                    player.PlayAnimationAsync(shan, 0, new Point(0, 0));
                 }
                 else if (log.CardAction.Type is RegularSha)
                 {
