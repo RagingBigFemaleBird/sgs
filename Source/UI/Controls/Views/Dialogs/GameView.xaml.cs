@@ -722,84 +722,94 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyCardMovement(List<CardsMovement> moves)
         {
-            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            bool doWeaponSound = false;
+            bool doArmorSound = false;
+            bool doHorseSound = false;
+            foreach (CardsMovement move in moves)
             {
-                bool doWeaponSound = false;
-                bool doArmorSound = false;
-                bool doHorseSound = false;
-                foreach (CardsMovement move in moves)
+                if (move.Helper.IsWuGu)
                 {
-                    if (move.Helper.IsWuGu)
-                    {
-                        Trace.Assert(GameModel.WuGuModel != null);
-                        Trace.Assert(move.Cards.Count == 1);
-                        Trace.Assert(move.To.Player != null);
-                        Trace.Assert(move.Cards[0].Id != -1);
+                    Trace.Assert(GameModel.WuGuModel != null);
+                    Trace.Assert(move.Cards.Count == 1);
+                    Trace.Assert(move.To.Player != null);
+                    Trace.Assert(move.Cards[0].Id != -1);
 
-                        var cardModel = GameModel.WuGuModel.Cards.FirstOrDefault(c => c.Card.Id == move.Cards[0].Id);
-                        Trace.Assert(cardModel != null);
-                        cardModel.IsEnabled = false;
-                        cardModel.Footnote = LogFormatter.Translate(move.To.Player);
-                        cardModel.IsFootnoteVisible = true;
+                    var cardModel = GameModel.WuGuModel.Cards.FirstOrDefault(c => c.Card.Id == move.Cards[0].Id);
+                    Trace.Assert(cardModel != null);
+                    cardModel.IsEnabled = false;
+                    cardModel.Footnote = LogFormatter.Translate(move.To.Player);
+                    cardModel.IsFootnoteVisible = true;
+                }
+
+                var cardsToAdd = new List<CardView>();
+                var cardsRemoved = new Dictionary<DeckPlace, List<Card>>();
+
+                foreach (Card card in move.Cards)
+                {
+                    var place = card.PlaceOverride ?? card.Place;
+                    card.PlaceOverride = null;
+                    if (!cardsRemoved.ContainsKey(place))
+                    {
+                        cardsRemoved.Add(place, new List<Card>());
                     }
-
-                    var cardsToAdd = new List<CardView>();
-                    var cardsRemoved = new Dictionary<DeckPlace, List<Card>>();
-
-                    foreach (Card card in move.Cards)
+                    cardsRemoved[place].Add(card);
+                    if (move.To.DeckType == DeckType.Equipment)
                     {
-                        var place = card.PlaceOverride ?? card.Place;
-                        card.PlaceOverride = null;
-                        if (!cardsRemoved.ContainsKey(place))
-                        {
-                            cardsRemoved.Add(place, new List<Card>());
-                        }
-                        cardsRemoved[place].Add(card);
-                        if (move.To.DeckType == DeckType.Equipment)
-                        {
-                            if (card.Type is Weapon) doWeaponSound = true;
-                            else if (card.Type is Armor) doArmorSound = true;
-                            else if (card.Type is DefensiveHorse || card.Type is OffensiveHorse) doHorseSound = true;
-                        }
+                        if (card.Type is Weapon) doWeaponSound = true;
+                        else if (card.Type is Armor) doArmorSound = true;
+                        else if (card.Type is DefensiveHorse || card.Type is OffensiveHorse) doHorseSound = true;
                     }
-                    foreach (var stackCards in cardsRemoved)
+                }
+                foreach (var stackCards in cardsRemoved)
+                {
+                    IDeckContainer deck = _GetMovementDeck(stackCards.Key);
+                    IList<CardView> cards = null;
+                    Trace.Assert(move.Helper != null);
+                    if (!move.Helper.IsFakedMove)
                     {
-                        IDeckContainer deck = _GetMovementDeck(stackCards.Key);
-                        IList<CardView> cards;
-                        Trace.Assert(move.Helper != null);
-                        if (!move.Helper.IsFakedMove)
+                        Application.Current.Dispatcher.BeginInvoke((ThreadStart)delegate()
                         {
                             gameLogs.AppendCardMoveLog(stackCards.Value, stackCards.Key, move.To);
-                        }
-
+                        });
+                    }
+                    Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+                    {
                         cards = deck.RemoveCards(stackCards.Key.DeckType, stackCards.Value);
-                        foreach (var card in cards)
+                    });
+                    Trace.Assert(cards != null);
+                    foreach (var card in cards)
+                    {
+                        Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
                         {
                             card.CardModel.Update();
-                        }
-                        cardsToAdd.AddRange(cards);
+                        });
                     }
-
+                    cardsToAdd.AddRange(cards);
+                }
+                Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+                {
                     _GetMovementDeck(move.To).AddCards(move.To.DeckType, cardsToAdd, move.Helper.IsFakedMove);
-                }
+                });
+            }
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
                 rtbLog.ScrollToEnd();
-                if (doWeaponSound)
-                {
-                    Uri uri = GameSoundLocator.GetSystemSound("Weapon");
-                    GameSoundPlayer.PlaySoundEffect(uri);
-                }
-                if (doArmorSound)
-                {
-                    Uri uri = GameSoundLocator.GetSystemSound("Armor");
-                    GameSoundPlayer.PlaySoundEffect(uri);
-                }
-                if (doHorseSound)
-                {
-                    Uri uri = GameSoundLocator.GetSystemSound("Horse");
-                    GameSoundPlayer.PlaySoundEffect(uri);
-                }
-
-            }, System.Windows.Threading.DispatcherPriority.Send);
+            });
+            if (doWeaponSound)
+            {
+                Uri uri = GameSoundLocator.GetSystemSound("Weapon");
+                GameSoundPlayer.PlaySoundEffect(uri);
+            }
+            if (doArmorSound)
+            {
+                Uri uri = GameSoundLocator.GetSystemSound("Armor");
+                GameSoundPlayer.PlaySoundEffect(uri);
+            }
+            if (doHorseSound)
+            {
+                Uri uri = GameSoundLocator.GetSystemSound("Horse");
+                GameSoundPlayer.PlaySoundEffect(uri);
+            }
         }
 
         public void NotifyDamage(Player source, Player target, int magnitude, DamageElement element)
@@ -843,7 +853,7 @@ namespace Sanguosha.UI.Controls
                         Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
                         {
                             animation = equipAnimationResources[key1] as AnimationBase;
-                        });                        
+                        });
                         if (animation != null && animation.Parent == null)
                         {
                             Point offset = new Point(0, 0);
