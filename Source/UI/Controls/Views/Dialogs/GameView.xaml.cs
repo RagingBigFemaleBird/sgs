@@ -729,15 +729,19 @@ namespace Sanguosha.UI.Controls
             {
                 if (move.Helper.IsWuGu)
                 {
-                    Trace.Assert(move.Cards.Count == 1);
-                    Trace.Assert(move.To.Player != null);
-                    Trace.Assert(move.Cards[0].Id != -1);
+                    Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+                    {
+                        Trace.Assert(GameModel.WuGuModel != null);
+                        Trace.Assert(move.Cards.Count == 1);
+                        Trace.Assert(move.To.Player != null);
+                        Trace.Assert(move.Cards[0].Id != -1);
 
-                    var cardModel = GameModel.WuGuModel.Cards.FirstOrDefault(c => c.Card.Id == move.Cards[0].Id);
-                    Trace.Assert(cardModel != null);
-                    cardModel.IsEnabled = false;
-                    cardModel.Footnote = LogFormatter.Translate(move.To.Player);
-                    cardModel.IsFootnoteVisible = true;
+                        var cardModel = GameModel.WuGuModel.Cards.FirstOrDefault(c => c.Card.Id == move.Cards[0].Id);
+                        Trace.Assert(cardModel != null);
+                        cardModel.IsEnabled = false;
+                        cardModel.Footnote = LogFormatter.Translate(move.To.Player);
+                        cardModel.IsFootnoteVisible = true;
+                    });
                 }
 
                 var cardsToAdd = new List<CardView>();
