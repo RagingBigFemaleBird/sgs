@@ -54,7 +54,7 @@ namespace Sanguosha.Core.Skills
         public bool IsEnforced { get; protected set; }
 
         bool? isAutoInvoked;
-        public virtual bool? IsAutoInvoked 
+        public bool? IsAutoInvoked 
         {
             get
             {

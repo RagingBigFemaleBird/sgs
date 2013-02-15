@@ -76,10 +76,7 @@
             </Storyboard>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid x:Name="grid" RenderTransformOrigin="0.5,0.5">
-        <Grid.CacheMode>
-            <BitmapCache EnableClearType="True" />
-        </Grid.CacheMode>
+    <Grid x:Name="grid" RenderTransformOrigin="0.5,0.5">        
     	<Grid.RenderTransform>
     		<TransformGroup>
     			<ScaleTransform/>
