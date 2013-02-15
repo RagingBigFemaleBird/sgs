@@ -729,7 +729,6 @@ namespace Sanguosha.UI.Controls
             {
                 if (move.Helper.IsWuGu)
                 {
-                    Trace.Assert(GameModel.WuGuModel != null);
                     Trace.Assert(move.Cards.Count == 1);
                     Trace.Assert(move.To.Player != null);
                     Trace.Assert(move.Cards[0].Id != -1);
