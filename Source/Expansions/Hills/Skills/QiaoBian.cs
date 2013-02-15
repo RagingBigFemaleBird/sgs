@@ -102,7 +102,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 List<List<Card>> answer;
                 var places = new List<DeckPlace>() { new DeckPlace(p, DeckType.Hand) };
                 if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("QiaoBian", Owner), places,
-                    new List<string>() { "QiaoBian" }, new List<int>() { 1 }, new RequireOneCardChoiceVerifier(), out answer))
+                    new List<string>() { "QiaoBian" }, new List<int>() { 1 }, new RequireOneCardChoiceVerifier(true), out answer))
                 {
                     answer = new List<List<Card>>();
                     answer.Add(Game.CurrentGame.PickDefaultCardsFrom(places));
