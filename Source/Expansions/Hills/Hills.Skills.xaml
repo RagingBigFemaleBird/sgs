@@ -44,7 +44,8 @@
 
     <sys:String x:Key="Skill.ZhiJi.Name">志继</sys:String>
     <sys:String x:Key="Skill.ZhiJi.Description">觉醒技，回合开始阶段开始时，若你没有手牌，你须选择一项：回复1点体力，或摸两张牌。然后你减1点体力上限，获得技能“观星”。</sys:String>
-
+    <sys:String x:Key="Skill.ZhiJi.Transcript">今虽穷极，然先帝之志，丞相之托，维岂敢忘！</sys:String>
+    
     <sys:String x:Key="Skill.XiangLe.Name">享乐</sys:String>
     <sys:String x:Key="Skill.XiangLe.Description">锁定技，当其他角色使用【杀】指定你为目标时，需弃置一张基本牌，否则此【杀】对你无效。</sys:String>
 
@@ -62,7 +63,7 @@
 
     <sys:String x:Key="Skill.HunZi.Name">魂姿</sys:String>
     <sys:String x:Key="Skill.HunZi.Description">觉醒技，回合开始阶段开始时，若你当前的体力值为1，你须减1点体力上限，并获得技能“英姿”和“英魂”。</sys:String>
-    <sys:String x:Key="Skill.HunZi.Transcript">父亲在上，魂佑江东，公瑾在旁，智定天下</sys:String>
+    <sys:String x:Key="Skill.HunZi.Transcript">愿承父志，与公瑾共谋天下！</sys:String>
 
     <sys:String x:Key="Skill.ZhiBa.Name">制霸</sys:String>
     <sys:String x:Key="Skill.ZhiBa.Description">主公技，其他吴势力角色可以在他们各自的出牌阶段与你拼点（“魂姿”发动后，你可以拒绝此拼点），若该角色没赢，你可以获得双方拼点的牌。每阶段限一次。</sys:String>
