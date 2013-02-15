@@ -131,7 +131,7 @@ namespace Sanguosha.UI.Controls
         }
 
         Dictionary<KeyValuePair<Player, Player>, Line> _cueLines;
-        Dictionary<KeyValuePair<Player, Player>, DoubleAnimation> _lineUpAnimations;
+        Dictionary<KeyValuePair<Player, Player>, Timeline> _lineUpAnimations;
         // Dictionary<KeyValuePair<Player, Player>, Line> _cueLineGlows;
 
         private void _CreateCueLines()
@@ -145,7 +145,7 @@ namespace Sanguosha.UI.Controls
             }
 
             _cueLines = new Dictionary<KeyValuePair<Player, Player>, Line>();
-            _lineUpAnimations = new Dictionary<KeyValuePair<Player, Player>, DoubleAnimation>();
+            _lineUpAnimations = new Dictionary<KeyValuePair<Player, Player>, Timeline>();
             foreach (var source in playersMap.Keys)
             {
                 foreach (var target in playersMap.Keys)
@@ -154,17 +154,32 @@ namespace Sanguosha.UI.Controls
                     var key = new KeyValuePair<Player, Player>(source, target);
                     Line line = new Line();
                     line.StrokeDashCap = PenLineCap.Triangle;
-                    line.StrokeThickness = 3;
+                    line.StrokeThickness = 1;
                     line.Stroke = Resources["indicatorLineBrush"] as Brush;
+                    line.Effect = new DropShadowEffect() { ShadowDepth = 0, BlurRadius = 3, Color = Colors.White };
+                    line.Visibility = Visibility.Collapsed;
                     /* line2.Stroke = Resources["indicatorLineGlowBrush"] as Brush; */
                     _cueLines.Add(key, line);
 
-                    DoubleAnimation animation = new DoubleAnimation();
+                    var anim1 = new DoubleAnimation();
+                    anim1.Duration = _lineUpDuration;
+                    Storyboard.SetTarget(anim1, line);
+                    Storyboard.SetTargetProperty(anim1, new PropertyPath(Line.StrokeDashOffsetProperty));
+                    var anim2 = new ObjectAnimationUsingKeyFrames();
+                    anim2.Duration = _lineUpDuration;
+                    anim2.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Visible, KeyTime.FromPercent(0)));
+                    anim2.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Collapsed, KeyTime.FromPercent(1)));
+                    Storyboard.SetTarget(anim2, line);
+                    Storyboard.SetTargetProperty(anim2, new PropertyPath(Line.VisibilityProperty));                    
+                    
+                    Storyboard animation = new Storyboard();
+                    animation.FillBehavior = FillBehavior.Stop;                   
+                    animation.Children.Add(anim1);
+                    animation.Children.Add(anim2);
                     animation.Duration = _lineUpDuration;
-                    Storyboard.SetTarget(animation, line);
-                    Storyboard.SetTargetProperty(animation, new PropertyPath(Line.StrokeDashOffsetProperty));
-                    _lineUpAnimations.Add(key, animation);
 
+                    _lineUpAnimations.Add(key, animation);
+                    
                     GlobalCanvas.Children.Add(line);
                 }
             }
@@ -192,7 +207,7 @@ namespace Sanguosha.UI.Controls
                     line.StrokeDashArray = new DoubleCollection() { distance * 2.0, 10000d };
                     line.StrokeDashOffset = distance * 2;
 
-                    var animation = _lineUpAnimations[key];
+                    var animation = (_lineUpAnimations[key] as Storyboard).Children[0] as DoubleAnimation;
                     animation.From = distance * 2.0;
                     animation.To = -distance;
                 }
