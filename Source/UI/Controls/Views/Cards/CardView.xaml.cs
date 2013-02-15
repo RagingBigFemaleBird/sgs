@@ -28,7 +28,7 @@ namespace Sanguosha.UI.Controls
         static CardView()
         {
             _cardViewPool = new Stack<CardView>();
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 40; i++)
             {
                 _cardViewPool.Push(new CardView());
             }
