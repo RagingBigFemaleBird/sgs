@@ -777,6 +777,9 @@
     <Resource Include="Images\Buttons\skill\enforced\normal-middle.png" />
     <Resource Include="Images\Buttons\skill\enforced\normal-right.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cards\Rank\Ranks.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if not exist $(TargetDir)\Resources\Texts mkdir  $(TargetDir)\Resources\Texts

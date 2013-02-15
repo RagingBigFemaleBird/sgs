@@ -784,7 +784,7 @@ namespace Sanguosha.UI.Controls
                     {
                         Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
                         {
-                            card.CardModel.Update();
+                            card.Update();
                         });
                     }
                     cardsToAdd.AddRange(cards);

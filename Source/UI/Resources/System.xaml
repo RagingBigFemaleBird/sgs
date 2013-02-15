@@ -10,10 +10,6 @@
         <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/CardImages.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/SystemImages.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-    <BitmapImage x:Key="Card.Suit.Heart.Image.Normal">Images/Cards/Suit/heart.png</BitmapImage>
-    <BitmapImage x:Key="Card.Suit.Spade.Image.Normal">Images/Cards/Suit/spade.png</BitmapImage>
-    <BitmapImage x:Key="Card.Suit.Club.Image.Normal">Images/Cards/Suit/club.png</BitmapImage>
-    <BitmapImage x:Key="Card.Suit.Diamond.Image.Normal">Images/Cards/Suit/diamond.png</BitmapImage>
     <SolidColorBrush x:Key="TabControlNormalBorderBrush" Color="#8C8E94"/>
     <Style x:Key="LoginTabControlStyle" TargetType="{x:Type TabControl}">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>

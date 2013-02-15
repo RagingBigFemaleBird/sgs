@@ -45,6 +45,7 @@ namespace Sanguosha.UI.Controls
             this.MouseLeftButtonUp += CardView_MouseLeftButtonUp;
             this.MouseEnter += CardView_MouseEnter;
             this.MouseLeave += CardView_MouseLeave;
+            _OnCardPropertyChangedHandler = new PropertyChangedEventHandler(_OnCardPropertyChanged);
             _OnCardSelectedChangedHandler = new EventHandler(_OnCardSelectedChanged);
             OffsetOnSelect = true;
 
@@ -105,26 +106,88 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        void _Repaint()
+        {
+            var card = CardModel;
+            if (card == null) return;
+            if (card is CardSlotViewModel)
+            {
+                tbHint.Text = (card as CardSlotViewModel).Hint;
+            }
+            else
+            {
+                tbTypeString.Text = CardModel.TypeString;
+                string key = string.Format("Card.{0}.Image.Normal", card.TypeString);
+
+                if (Resources.Contains(key))
+                {
+                    imgCardType.Source = Resources[key] as ImageSource;
+                }
+                else
+                {
+                    imgCardType.Source = null;
+                }
+
+                if (card.Suit != SuitType.None)
+                {
+                    imgSuit.Source = Resources[string.Format("Card.Suit.{0}.Image.Normal", card.Suit)] as ImageSource;
+                }
+                else
+                {
+                    imgSuit.Source = null;
+                }
+
+                if (card.Card.Rank > 0 && card.Card.Rank <= 13)
+                {
+                    imgRankString.Source = Resources[string.Format("Card.Rank.{0}.{1}.Image.Normal", card.SuitColor, card.RankString)] as ImageSource;                    
+                }
+                else
+                {
+                    imgRankString.Source = null;
+                }
+            }
+        }
+
         void CardView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            toolTip.Content = DataContext;
+            // toolTip.Content = DataContext;
 
             var oldModel = e.OldValue as CardViewModel;
             if (oldModel != null)
             {
                 oldModel.OnSelectedChanged -= _OnCardSelectedChangedHandler;
+                oldModel.PropertyChanged -= _OnCardPropertyChangedHandler;
             }
 
             CardViewModel model = DataContext as CardViewModel;
             if (model != null)
             {
                 model.OnSelectedChanged += _OnCardSelectedChangedHandler;
+                model.PropertyChanged += _OnCardPropertyChangedHandler;
             }
+            _Repaint();
         }
 
         public bool OffsetOnSelect { get; set; }
 
         private EventHandler _OnCardSelectedChangedHandler;
+        private PropertyChangedEventHandler _OnCardPropertyChangedHandler;
+
+        private void _OnCardPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (CardModel == null) return;
+            if (e.PropertyName == "IsFaded")
+            {
+                if (CardModel.IsFaded)
+                {
+                    (Resources["sbFade"] as Storyboard).Begin();
+                }
+                else
+                {
+                    (Resources["sbUnfade"] as Storyboard).Begin();
+                }
+            }
+        }
 
         private void _OnCardSelectedChanged(object sender, EventArgs args)
         {
@@ -453,5 +516,14 @@ namespace Sanguosha.UI.Controls
             animation.Start();
         }
         #endregion
+
+        public void Update()
+        {
+            if (CardModel != null)
+            {
+                CardModel.Update();
+            }
+            _Repaint();
+        }
     }
 }
