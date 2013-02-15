@@ -31,7 +31,8 @@
 
     <sys:String x:Key="Skill.ZaoXian.Name">凿险</sys:String>
     <sys:String x:Key="Skill.ZaoXian.Description">觉醒技，回合开始阶段开始时，若“田”的数量达到3或更多，你须减1点体力上限，并获得技能“急袭”（你可以将一张“田”当【顺手牵羊】使用）。</sys:String>
-
+    <sys:String x:Key="Skill.ZaoXian.Transcript">孤注一掷，胜败在此一举！</sys:String>
+    
     <sys:String x:Key="Skill.JiXi.Name">急袭</sys:String>
     <sys:String x:Key="Skill.JiXi.Description">你可以将一张“田”当【顺手牵羊】使用</sys:String>
     <sys:String x:Key="Skill.JiXi.Usage">点“急袭”→选择1张田→选择一名顺手牵羊的目标→点“确定”</sys:String>

@@ -68,6 +68,7 @@
     <sys:String x:Key="Skill.JieFan.Description">限定技，出牌阶段，你可以指定一名角色，攻击范围内含有该角色的所有角色须依次选择一项：弃置一张武器牌，或令该角色摸一张牌。</sys:String>
     <sys:String x:Key="Skill.JieFan.Usage">点“解烦”→选择一个目标→点“确定”</sys:String>
     <sys:String x:Key="Skill.JieFan.Prompt">请选择一个目标</sys:String>
+    <sys:String x:Key="Skill.JieFan.Transcript">解烦军至，此危自解！</sys:String>
 
     <sys:String x:Key="Skill.ShiYong.Name">恃勇</sys:String>
     <sys:String x:Key="Skill.ShiYong.Description">锁定技，每当你受到一次红色的【杀】或因【酒】生效而伤害+1的【杀】造成的伤害后，你减1点体力上限。</sys:String>
