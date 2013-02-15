@@ -22,13 +22,8 @@ namespace Sanguosha.Expansions.Hills.Skills
     {
         public override bool Commit(GameEventArgs arg)
         {
-            CardsMovement move = new CardsMovement();
-            move.Cards = new List<Card>(arg.Cards);
-            move.To = new DeckPlace(arg.Targets[0], DeckType.Equipment);
-            Game.CurrentGame.MoveCards(move);
-            GameDelays.Delay(GameDelayTypes.CardTransfer);
-            Game.CurrentGame.PlayerLostCard(Owner, arg.Cards);
-            Game.CurrentGame.PlayerAcquiredCard(arg.Targets[0], arg.Cards);
+            var theCard = arg.Cards[0];
+            (theCard.Type as Equipment).Install(arg.Targets[0], theCard, Owner);
             Game.CurrentGame.DrawCards(Owner, 1);
             return true;
         }

@@ -61,7 +61,7 @@ namespace Sanguosha.Core.Cards
         /// </summary>
         /// <param name="p"></param>
         /// <param name="card"></param>
-        public void Install(Player p, Card card)
+        public void Install(Player p, Card card, Player installedBy)
         {
             ParentCard = card;
             CardsMovement attachMove = new CardsMovement();
@@ -75,17 +75,24 @@ namespace Sanguosha.Core.Cards
                     Equipment e = (Equipment)c.Type;
                     Trace.Assert(e != null);
                     Game.CurrentGame.EnterAtomicContext();
-                    Game.CurrentGame.PlayerLostCard(p, new List<Card>() { card });
-                    Game.CurrentGame.HandleCardDiscard(p, new List<Card> () {c});
+                    if (installedBy != null) Game.CurrentGame.PlayerLostCard(installedBy, new List<Card>() { card });
+                    if (installedBy != p) Game.CurrentGame.PlayerAcquiredCard(p, new List<Card>() { card });
+                    Game.CurrentGame.HandleCardDiscard(p, new List<Card>() { c });
                     Game.CurrentGame.MoveCards(attachMove);
                     Game.CurrentGame.ExitAtomicContext();
                     return;
                 }
             }
-           
+
             Game.CurrentGame.MoveCards(attachMove);
-            Game.CurrentGame.PlayerLostCard(p, new List<Card>() {card});
+            if (installedBy != null) Game.CurrentGame.PlayerLostCard(installedBy, new List<Card>() { card });
+            if (installedBy != p) Game.CurrentGame.PlayerAcquiredCard(p, new List<Card>() { card });
             return;
+        }
+
+        public void Install(Player p, Card card)
+        {
+            Install(p, card, p);
         }
 
         public override void Process(GameEventArgs handlerArgs)

@@ -198,7 +198,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                     cards.Reverse();
                     foreach (Card c in cards)
                     {
-                        (c.Type as Equipment).Install(a.Source, c);
+                        (c.Type as Equipment).Install(a.Source, c, null);
                     }
                 },
                 TriggerCondition.Global
