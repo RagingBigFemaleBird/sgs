@@ -241,6 +241,7 @@ namespace Sanguosha.Core.UI
             {
                 return;
             }
+            Game.CurrentGame.Decks[proxy.HostPlayer, temp].Clear();
             Game.CurrentGame.Decks[proxy.HostPlayer, temp].AddRange(restDraw[proxy.HostPlayer]);
             List<DeckPlace> sourceDecks = new List<DeckPlace>();
             sourceDecks.Add(new DeckPlace(proxy.HostPlayer, temp));

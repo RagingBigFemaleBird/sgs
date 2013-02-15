@@ -370,6 +370,7 @@ namespace Sanguosha.Core.UI
                 para.places = new List<DeckPlace>() { new DeckPlace(player, temp) };
                 para.options = null;
                 para.resultMax = new List<int> { 1 };
+                Game.CurrentGame.Decks[player, temp].Clear();
                 Game.CurrentGame.Decks[player, temp].AddRange(restDraw[player]);
                 Thread t = new Thread(
                     (ParameterizedThreadStart)
