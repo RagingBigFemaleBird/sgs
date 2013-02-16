@@ -26,7 +26,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             Game.CurrentGame.RegisterTrigger(GameEvent.PlayerJudgeDone, new GetJudgeCardTrigger(Owner, this, null) { Priority = int.MinValue });
             var result = Game.CurrentGame.Judge(Owner, this, null);
             ISkill skill = new ShuangXiongCardTransformSkill(result.SuitColor);
-            Game.CurrentGame.PlayerAcquireAdditionalSkill(Owner, skill, true);
+            Game.CurrentGame.PlayerAcquireAdditionalSkill(Owner, skill, HeroTag, true);
             Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, new TriggerRemoval(Owner, skill));
             Game.CurrentGame.CurrentPhaseEventIndex++;
             throw new TriggerResultException(TriggerResult.End);

@@ -35,8 +35,8 @@ namespace Sanguosha.Expansions.Hills.Skills
                 { 
                     p[RuoYuAwakened] = 1; 
                     p.MaxHealth++; 
-                    Game.CurrentGame.RecoverHealth(p, p, 1); 
-                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, new JiJiang()); 
+                    Game.CurrentGame.RecoverHealth(p, p, 1);
+                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, new JiJiang(), HeroTag); 
                 },
                 TriggerCondition.OwnerIsSource
             );

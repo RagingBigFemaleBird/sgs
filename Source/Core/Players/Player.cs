@@ -268,9 +268,10 @@ namespace Sanguosha.Core.Players
         }
 
 
-        public void AcquireAdditionalSkill(ISkill skill, bool undeletable = false)
+        public void AcquireAdditionalSkill(ISkill skill, Hero tag, bool undeletable = false)
         {
             skill.Owner = this;
+            skill.HeroTag = tag;
             if (undeletable)
             {
                 additionalUndeletableSkills.Add(skill);
@@ -285,6 +286,7 @@ namespace Sanguosha.Core.Players
         public void LoseAdditionalSkill(ISkill skill, bool undeletable = false)
         {
             skill.Owner = null;
+            skill.HeroTag = null;
             if (undeletable)
             {
                 Trace.Assert(additionalUndeletableSkills.Contains(skill));

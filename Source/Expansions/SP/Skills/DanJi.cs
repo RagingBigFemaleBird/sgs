@@ -34,7 +34,7 @@ namespace Sanguosha.Expansions.SP.Skills
                 {
                     p[DanJiAwaken] = 1;
                     Game.CurrentGame.LoseMaxHealth(p, 1);
-                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, new MaShu());
+                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, new MaShu(), HeroTag);
                 },
                 TriggerCondition.OwnerIsSource
             );

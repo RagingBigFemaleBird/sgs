@@ -72,8 +72,8 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             if (success)
             {
                 Trigger tri = new RemoveShengPao(owner, fhWuSheng, fhPaoXiao);
-                Game.CurrentGame.PlayerAcquireAdditionalSkill(owner, fhWuSheng);
-                Game.CurrentGame.PlayerAcquireAdditionalSkill(owner, fhPaoXiao);
+                Game.CurrentGame.PlayerAcquireAdditionalSkill(owner, fhWuSheng, HeroTag);
+                Game.CurrentGame.PlayerAcquireAdditionalSkill(owner, fhPaoXiao, HeroTag);
                 Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, tri);
             }
             Game.CurrentGame.CurrentPhaseEventIndex++;

@@ -27,7 +27,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => { return p[ZaoXianAwakened] == 0 && Game.CurrentGame.Decks[p, TunTian.TianDeck].Count >= 3; },
-                (p, e, a) => { p[ZaoXianAwakened] = 1; Game.CurrentGame.LoseMaxHealth(p, 1); Game.CurrentGame.PlayerAcquireAdditionalSkill(p, new JiXi()); },
+                (p, e, a) => { p[ZaoXianAwakened] = 1; Game.CurrentGame.LoseMaxHealth(p, 1); Game.CurrentGame.PlayerAcquireAdditionalSkill(p, new JiXi(), HeroTag); },
                 TriggerCondition.OwnerIsSource
             );
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Start], trigger);

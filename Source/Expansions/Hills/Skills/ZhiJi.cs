@@ -41,7 +41,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                         Game.CurrentGame.DrawCards(p, 2);
                     }
                     Game.CurrentGame.LoseMaxHealth(p, 1);
-                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, new GuanXing());
+                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, new GuanXing(), HeroTag);
                 },
                 TriggerCondition.OwnerIsSource
             );

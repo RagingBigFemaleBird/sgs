@@ -68,7 +68,7 @@ namespace Sanguosha.Expansions.SP.Skills
                         if (sk.IsRulerOnly)
                         {
                             var toAdd = Activator.CreateInstance(sk.GetType()) as ISkill;
-                            Game.CurrentGame.PlayerAcquireAdditionalSkill(owner, toAdd, true);
+                            Game.CurrentGame.PlayerAcquireAdditionalSkill(owner, toAdd, HeroTag, true);
                             theSkills.Add(sk, toAdd);
                         }
                     }
@@ -84,7 +84,7 @@ namespace Sanguosha.Expansions.SP.Skills
                 if (sk.IsRulerOnly)
                 {
                     var toAdd = Activator.CreateInstance(sk.GetType()) as ISkill;
-                    Game.CurrentGame.PlayerAcquireAdditionalSkill(owner, toAdd, true);
+                    Game.CurrentGame.PlayerAcquireAdditionalSkill(owner, toAdd, HeroTag, true);
                     theSkills.Add(sk, toAdd);
                 }
             }

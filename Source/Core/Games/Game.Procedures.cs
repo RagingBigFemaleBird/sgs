@@ -13,6 +13,7 @@ using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.UI;
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.Utils;
+using Sanguosha.Core.Heroes;
 
 
 namespace Sanguosha.Core.Games
@@ -143,10 +144,10 @@ namespace Sanguosha.Core.Games
             DoDamage(source, dest, dest, magnitude, elemental, card, readonlyCard);
         }
 
-        public void PlayerAcquireAdditionalSkill(Player p, ISkill skill, bool undeletable = false)
+        public void PlayerAcquireAdditionalSkill(Player p, ISkill skill, Hero tag, bool undeletable = false)
         {
             if (p.IsDead) return;
-            p.AcquireAdditionalSkill(skill, undeletable);
+            p.AcquireAdditionalSkill(skill, tag, undeletable);
             SkillSetChangedEventArgs args = new SkillSetChangedEventArgs();
             args.Source = p;
             args.Skills.Add(skill);

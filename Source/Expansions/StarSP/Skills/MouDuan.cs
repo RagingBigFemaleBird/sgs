@@ -87,14 +87,14 @@ namespace Sanguosha.Expansions.StarSP.Skills
                     if (p.HandCards().Count > 2)
                     {
                         p[WuMark] = 1;
-                        Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdJiAng);
-                        Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdQianXun);
+                        Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdJiAng, HeroTag);
+                        Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdQianXun, HeroTag);
                     }
                     else
                     {
                         p[WenMark] = 1;
-                        Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdYingZi);
-                        Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdKeJi);
+                        Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdYingZi, HeroTag);
+                        Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdKeJi, HeroTag);
                     }
                 },
                 TriggerCondition.OwnerIsSource
@@ -111,8 +111,8 @@ namespace Sanguosha.Expansions.StarSP.Skills
                     p[WenMark] = 1;
                     Game.CurrentGame.PlayerLoseAdditionalSkill(p, mdJiAng);
                     Game.CurrentGame.PlayerLoseAdditionalSkill(p, mdQianXun);
-                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdYingZi);
-                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdKeJi);
+                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdYingZi, HeroTag);
+                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdKeJi, HeroTag);
                 },
                 TriggerCondition.OwnerIsSource
                 ) { AskForConfirmation = false };
@@ -129,8 +129,8 @@ namespace Sanguosha.Expansions.StarSP.Skills
                     p[WenMark] = 0;
                     Game.CurrentGame.PlayerLoseAdditionalSkill(p, mdYingZi);
                     Game.CurrentGame.PlayerLoseAdditionalSkill(p, mdKeJi);
-                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdJiAng);
-                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdQianXun);
+                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdJiAng, HeroTag);
+                    Game.CurrentGame.PlayerAcquireAdditionalSkill(p, mdQianXun, HeroTag);
                 },
                 TriggerCondition.Global,
                 new MouDuanVerifier()

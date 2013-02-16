@@ -80,7 +80,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             Game.CurrentGame.NotificationProxy.NotifyImpersonation(Owner, handler.Hero, acquiredSkill);
             Game.CurrentGame.HandleGodHero(Owner);
             Game.CurrentGame.Emit(GameEvent.PlayerChangedAllegiance, new GameEventArgs() { Source = Owner });
-            Game.CurrentGame.PlayerAcquireAdditionalSkill(Owner, acquiredSkill);
+            Game.CurrentGame.PlayerAcquireAdditionalSkill(Owner, acquiredSkill, HeroTag);
             if (tempSkill != null)
                 Game.CurrentGame.PlayerLoseAdditionalSkill(Owner, tempSkill);
             return;
