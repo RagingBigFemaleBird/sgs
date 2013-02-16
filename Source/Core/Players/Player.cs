@@ -384,19 +384,9 @@ namespace Sanguosha.Core.Players
             set { isTargeted = value; OnPropertyChanged("IsTargeted"); }
         }
 
-        public void LoseAllHeroSkills(bool isHero1)
+        public void LoseAllHeroSkills(Hero h)
         {
-            Hero h = null;
-            if (isHero1)
-            {
-                Trace.Assert(Hero != null);
-                h = Hero;
-            }
-            else
-            {
-                Trace.Assert(Hero2 != null);
-                h = Hero2;
-            }
+            Trace.Assert(h.Owner == this);
             List<ISkill> skills = new List<ISkill>(h.Skills);
             h.LoseAllSkills();
             if (skills.Count > 0)
@@ -429,11 +419,10 @@ namespace Sanguosha.Core.Players
             }
         }
 
-        public ISkill LoseHeroSkill(ISkill skill)
+        public ISkill LoseHeroSkill(ISkill skill, Hero heroTag)
         {
-            Trace.Assert(Hero != null);
-            ISkill sk = Hero.LoseSkill(skill);
-            if (sk == null && Hero2 != null) sk = Hero2.LoseSkill(skill);
+            Trace.Assert(heroTag != null && heroTag.Owner == this);
+            ISkill sk = heroTag.LoseSkill(skill);
             if (sk != null)
             {
                 SkillSetChangedEventArgs arg = new SkillSetChangedEventArgs();
@@ -445,11 +434,10 @@ namespace Sanguosha.Core.Players
             return sk;
         }
 
-        public ISkill LoseHeroSkill(string skillName)
+        public ISkill LoseHeroSkill(string skillName, Hero heroTag)
         {
-            Trace.Assert(Hero != null);
-            ISkill skill = Hero.LoseSkill(skillName);
-            if (skill == null && Hero2 != null) skill = Hero2.LoseSkill(skillName);
+            Trace.Assert(heroTag != null && heroTag.Owner == this);
+            ISkill skill = heroTag.LoseSkill(skillName);
             if (skill != null)
             {
                 SkillSetChangedEventArgs arg = new SkillSetChangedEventArgs();
