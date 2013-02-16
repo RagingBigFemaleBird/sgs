@@ -106,6 +106,7 @@ namespace Sanguosha.Core.Heroes
             Skills.Remove(skill);
             OnPropertyChanged("Skills");
             skill.Owner = null;
+            skill.HeroTag = null;
             return skill;
         }
 
@@ -118,6 +119,7 @@ namespace Sanguosha.Core.Heroes
             foreach (var sk in backup)
             {
                 sk.Owner = null;
+                sk.HeroTag = null;
             }
         }
     }
