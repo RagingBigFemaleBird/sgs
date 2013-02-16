@@ -406,13 +406,12 @@
             <TextBlock Height="17" Text="{Binding Account.UserName, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="SimSun" Foreground="White" FontSize="13.333" TextAlignment="Center" LineStackingStrategy="BlockLineHeight" LineHeight="16" Background="#7F585858" IsHitTestVisible="False" Margin="0.5,5,0,0" HorizontalAlignment="Left" Width="134">                
             </TextBlock>
             
-            <Image x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="29" Margin="7,7,0,0" IsHitTestVisible="False" />
+            <Image x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.{0}.Icon}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="29" Margin="7,7,0,0" IsHitTestVisible="False" />
 
             <ItemsControl ItemsSource="{Binding HeroNameChars}"
-                          UseLayoutRounding="False"
                           HorizontalAlignment="Left"
                           Margin="11,36,0,62"
-                          Width="20" IsHitTestVisible="False" d:LayoutOverrides="VerticalAlignment, GridBox">
+                          Width="20" IsHitTestVisible="False">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Columns="1"/>

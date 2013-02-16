@@ -188,7 +188,14 @@ namespace Sanguosha.UI.Controls
             this.formattedText.MaxTextHeight = availableSize.Height;
 
             // return the desired size 
-            return new Size(this.formattedText.Width, this.formattedText.Height);
+            if (this.UseLayoutRounding)
+            {
+                return new Size(Math.Ceiling(this.formattedText.Width), Math.Ceiling(this.formattedText.Height));
+            }
+            else
+            {
+                return new Size(this.formattedText.Width, this.formattedText.Height);
+            }
         }
 
         protected override Size ArrangeOverride(Size finalSize)
