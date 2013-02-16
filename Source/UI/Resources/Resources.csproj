@@ -150,6 +150,7 @@
     <Resource Include="Images\Game\infoPlaneFooter.png" />
     <Resource Include="Images\Game\infoPlaneHeader.png" />
     <Resource Include="Images\Game\infoPlaneSplitter.png" />
+    <Resource Include="Images\Game\progressBarIndicator.png" />
     <Resource Include="Images\Game\saveMe.png" />
     <Resource Include="Images\Lobby\buttonDock.png" />
     <Resource Include="Images\Lobby\notch.png" />

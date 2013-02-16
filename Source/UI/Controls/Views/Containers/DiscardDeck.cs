@@ -91,8 +91,26 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        private void FilterExistingCards(IList<CardView> cards)
+        {            
+            int total = Cards.Count;
+            for (int i = 0; i < total; i++)
+            {
+                var card = Cards[i];
+                if (!cards.Any(c2 => card.CardModel.Card == c2.CardModel.Card))
+                {
+                    continue;
+                }
+                card.Disappear(0d, true);
+                Cards.RemoveAt(i);
+                i--;
+                total--;
+            }
+        }
+
         public override void AppendCards(IList<CardView> cards)
         {
+            FilterExistingCards(cards);
             foreach (var card in cards)
             {
                 card.CardModel.IsFootnoteVisible = true;
@@ -106,6 +124,7 @@ namespace Sanguosha.UI.Controls
 
         public override void AddCards(IList<CardView> cards)
         {
+            FilterExistingCards(cards);
             foreach (var card in cards)
             {
                 card.CardModel.IsFootnoteVisible = true;

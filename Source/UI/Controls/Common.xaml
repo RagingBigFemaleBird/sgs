@@ -42,7 +42,7 @@
                                     <GradientStop Color="#FFDD0000" Offset="0.875"/>
                                 </LinearGradientBrush>
                             </Border.Background>
-                        </Border>
+                        </Border>                        
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="Value" Value="0">

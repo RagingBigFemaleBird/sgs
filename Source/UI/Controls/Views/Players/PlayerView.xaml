@@ -195,10 +195,7 @@
             <BeginStoryboard x:Name="HideSpectateButton_BeginStoryboard" Storyboard="{StaticResource HideSpectateButton}"/>
         </EventTrigger>
     </local:PlayerViewBase.Triggers>
-    <Grid x:Name="LayoutRoot">
-        <Grid.CacheMode>
-            <BitmapCache />
-        </Grid.CacheMode>
+    <Grid x:Name="LayoutRoot">        
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="20"/>
@@ -275,7 +272,10 @@
                 </Border>
 				
                 <Grid x:Name="mainArea" Margin="7" MouseLeftButtonDown="mainArea_MouseLeftButtonDown" MouseRightButtonDown="mainArea_MouseRightButtonDown">
-                    <Grid.RowDefinitions>
+                    <Grid.CacheMode>
+                        <BitmapCache EnableClearType="True" RenderAtScale="2" SnapsToDevicePixels="True" />
+                    </Grid.CacheMode>
+					<Grid.RowDefinitions>
                         <RowDefinition Height="27"/>
                         <RowDefinition/>
                         <RowDefinition Height="74.667"/>

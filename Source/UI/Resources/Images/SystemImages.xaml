@@ -166,6 +166,7 @@
     <BitmapImage x:Key="Login.Button.Spectate.Down">Buttons/lobbySpectate/down.png</BitmapImage>
     <BitmapImage x:Key="Login.Button.Spectate.Disabled">Buttons/lobbySpectate/disabled.png</BitmapImage>
     
+	<BitmapImage x:Key="Game.ProgressBar.Indicator">Game/progressBarIndicator.png</BitmapImage>
     <BitmapImage x:Key="Game.InfoPanel.Header">Game/infoPlaneHeader.png</BitmapImage>
     <BitmapImage x:Key="Game.InfoPanel.Body">Game/infoPlaneBody.png</BitmapImage>
     <BitmapImage x:Key="Game.InfoPanel.Footer">Game/infoPlaneFooter.png</BitmapImage>

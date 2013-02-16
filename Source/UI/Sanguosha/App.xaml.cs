@@ -7,6 +7,7 @@ using System.Windows;
 using Sanguosha.Core.Games;
 using System.IO;
 using System.Reflection;
+using System.Windows.Media;
 
 namespace Sanguosha.UI.Main
 {
@@ -15,5 +16,9 @@ namespace Sanguosha.UI.Main
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);            
+        }
     }
 }

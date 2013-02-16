@@ -369,7 +369,7 @@ namespace Sanguosha.UI.Controls
         private List<CardView> _cards;
         public IList<CardView> Cards
         {
-            get { return _cards; }
+            get { return _cards; }           
         }
 
         public Rect BoundingBox

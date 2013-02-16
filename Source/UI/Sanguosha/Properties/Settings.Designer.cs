@@ -46,5 +46,17 @@ namespace Sanguosha.UI.Main.Properties {
                 this["LastUserName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnableHardwareAcceleration {
+            get {
+                return ((bool)(this["EnableHardwareAcceleration"]));
+            }
+            set {
+                this["EnableHardwareAcceleration"] = value;
+            }
+        }
     }
 }
