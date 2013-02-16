@@ -409,6 +409,7 @@
             <Image x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="29" Margin="7,7,0,0" IsHitTestVisible="False" />
 
             <ItemsControl ItemsSource="{Binding HeroNameChars}"
+                          UseLayoutRounding="False"
                           HorizontalAlignment="Left"
                           Margin="11,36,0,62"
                           Width="20" IsHitTestVisible="False" d:LayoutOverrides="VerticalAlignment, GridBox">

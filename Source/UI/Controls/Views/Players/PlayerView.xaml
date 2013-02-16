@@ -383,6 +383,7 @@
                     <local:RoleBox x:Name="cbRoleBox" HorizontalAlignment="Right" Width="25" Height="26"/>
 
                     <ItemsControl ItemsSource="{Binding HeroNameChars}" Grid.Row="1"
+                              UseLayoutRounding="False"
                               HorizontalAlignment="Left"                              
                               Margin="2,0,0,30"
                               Width="20"
