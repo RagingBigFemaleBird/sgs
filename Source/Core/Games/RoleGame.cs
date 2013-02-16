@@ -629,7 +629,8 @@ namespace Sanguosha.Core.Games
                     }
                 }
                 List<Card> rulerDraw = new List<Card>();
-                for (int rc = 0; rc < 12; rc++)
+                int toDraw = 12 + (Game.CurrentGame.Settings.DualHeroMode ? 3 : 0);
+                for (int rc = 0; rc < toDraw; rc++)
                 {
                     game.SyncImmutableCardAll(game.Decks[DeckType.Heroes][rc]);
                     rulerDraw.Add(game.Decks[DeckType.Heroes][rc]);
@@ -644,16 +645,28 @@ namespace Sanguosha.Core.Games
                 List<string> resultDeckNames = new List<string>();
                 resultDeckNames.Add("HeroChoice");
                 List<int> resultDeckMaximums = new List<int>();
-                resultDeckMaximums.Add(1);
+                resultDeckMaximums.Add(Game.CurrentGame.Settings.DualHeroMode ? 2 : 1);
                 List<List<Card>> answer;
                 if (!game.UiProxies[game.Players[rulerId]].AskForCardChoice(new CardChoicePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new AlwaysTrueChoiceVerifier(), out answer))
                 {
                     answer = new List<List<Card>>();
                     answer.Add(new List<Card>());
                     answer[0].Add(game.Decks[DeckType.Heroes][0]);
+                    if (Game.CurrentGame.Settings.DualHeroMode)
+                    {
+                        answer[0].Add(game.Decks[DeckType.Heroes][1]);
+                    }
                 }
                 game.SyncImmutableCardAll(answer[0][0]);
+                if (Game.CurrentGame.Settings.DualHeroMode)
+                {
+                    game.SyncImmutableCardAll(answer[0][1]);
+                }
                 game.Decks[DeckType.Heroes].Remove(answer[0][0]);
+                if (Game.CurrentGame.Settings.DualHeroMode)
+                {
+                    game.Decks[DeckType.Heroes].Remove(answer[0][1]);
+                }
 
                 HeroCardHandler h = (HeroCardHandler)answer[0][0].Type;
                 Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, rulerId);
@@ -662,42 +675,17 @@ namespace Sanguosha.Core.Games
                 Game.CurrentGame.Players[rulerId].MaxHealth = Game.CurrentGame.Players[rulerId].Health = ((game.Players.Count > 4) ? h.Hero.MaxHealth + 1 : h.Hero.MaxHealth);
                 Game.CurrentGame.Players[rulerId].IsMale = h.Hero.IsMale ? true : false;
                 Game.CurrentGame.Players[rulerId].IsFemale = h.Hero.IsMale ? false : true;
-
                 if (Game.CurrentGame.Settings.DualHeroMode)
                 {
-                    Shuffle(game.Decks[DeckType.Heroes]);
-                    rulerDraw = new List<Card>();
-                    for (int rc = 0; rc < 3; rc++)
-                    {
-                        game.SyncImmutableCardAll(game.Decks[DeckType.Heroes][rc]);
-                        rulerDraw.Add(game.Decks[DeckType.Heroes][rc]);
-                    }
-                    game.SyncImmutableCards(game.Players[rulerId], rulerDraw);
-                    game.Decks[null, tempHero].Clear();
-                    game.Decks[null, tempHero].AddRange(rulerDraw);
-                    Trace.TraceInformation("Ruler is {0}", rulerId);
-                    sourceDecks = new List<DeckPlace>();
-                    sourceDecks.Add(new DeckPlace(null, tempHero));
-                    resultDeckNames = new List<string>();
-                    resultDeckNames.Add("HeroChoice");
-                    resultDeckMaximums = new List<int>();
-                    resultDeckMaximums.Add(1);
-                    if (!game.UiProxies[game.Players[rulerId]].AskForCardChoice(new CardChoicePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new AlwaysTrueChoiceVerifier(), out answer))
-                    {
-                        answer = new List<List<Card>>();
-                        answer.Add(new List<Card>());
-                        answer[0].Add(game.Decks[DeckType.Heroes][0]);
-                    }
-                    game.SyncImmutableCardAll(answer[0][0]);
-                    game.Decks[DeckType.Heroes].Remove(answer[0][0]);
-
-                    h = (HeroCardHandler)answer[0][0].Type;
+                    h = (HeroCardHandler)answer[0][1].Type;
                     Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, rulerId);
                     Game.CurrentGame.Players[rulerId].Hero2 = h.Hero;
                     int aveHp = (Game.CurrentGame.Players[rulerId].Hero.MaxHealth + Game.CurrentGame.Players[rulerId].Hero2.MaxHealth) / 2;
-                    Game.CurrentGame.Players[rulerId].MaxHealth = Game.CurrentGame.Players[rulerId].Health = ((game.Players.Count > 4) ?  aveHp + 1 : aveHp);
+                    Game.CurrentGame.Players[rulerId].MaxHealth = Game.CurrentGame.Players[rulerId].Health = ((game.Players.Count > 4) ? aveHp + 1 : aveHp);
                 }
 
+
+                toDraw = 3 + (Game.CurrentGame.Settings.DualHeroMode ? 3 : 0);
                 Shuffle(game.Decks[DeckType.Heroes]);
                 Dictionary<Player, List<Card>> restDraw = new Dictionary<Player, List<Card>>();
                 List<Player> players = new List<Player>(game.Players);
@@ -706,7 +694,7 @@ namespace Sanguosha.Core.Games
                 foreach (Player p in players)
                 {
                     restDraw.Add(p, new List<Card>());
-                    for (int n = 0; n < 3; n++)
+                    for (int n = 0; n < toDraw; n++)
                     {
                         game.SyncImmutableCard(p, game.Decks[DeckType.Heroes][idx]);
                         restDraw[p].Add(game.Decks[DeckType.Heroes][idx]);
@@ -714,116 +702,26 @@ namespace Sanguosha.Core.Games
                     }
                 }
 
-                var heroSelection = new Dictionary<Player, Card>();
-                game.GlobalProxy.AskForHeroChoice(restDraw, heroSelection);
+                var heroSelection = new Dictionary<Player, List<Card>>();
+                game.GlobalProxy.AskForHeroChoice(restDraw, heroSelection, Game.CurrentGame.Settings.DualHeroMode ? 2 : 1);
 
                 bool notUsed = true;
                 game.SyncConfirmationStatus(ref notUsed);
 
                 List<Card> toRemove = new List<Card>();
-                foreach (Player p in players)
+                for (int repeat = 0; repeat < 2; repeat++)
                 {
-                    Card c;
-                    //only server has the result
-                    if (!game.IsClient)
-                    {
-                        idx = 0;
-                        if (heroSelection.ContainsKey(p))
-                        {
-                            c = heroSelection[p];
-                            idx = restDraw[p].IndexOf(c);
-                        }
-                        else
-                        {
-                            c = restDraw[p][0];
-                        }
-                        foreach (Player player in game.Players)
-                        {
-                            game.GameServer.SendObject(player.Id, idx);
-                        }
-                        game.GameServer.SendObject(game.Players.Count, idx);
-                    }
-                    // you are client
-                    else
-                    {
-                        idx = (int)game.GameClient.Receive();
-                        c = restDraw[p][idx];
-                    }
-                    game.SyncImmutableCardAll(c);
-                    toRemove.Add(c);
-                    h = (HeroCardHandler)c.Type;
-                    Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, p.Id);
-                    var hero = h.Hero.Clone() as Hero;
-                    foreach (var skill in new List<ISkill>(hero.Skills))
-                    {
-                        if (skill.IsRulerOnly)
-                        {
-                            hero.Skills.Remove(skill);
-                        }
-                    }
-                    p.Hero = hero;
-                    p.Allegiance = hero.Allegiance;
-                    p.MaxHealth = p.Health = hero.MaxHealth;
-                    p.IsMale = hero.IsMale ? true : false;
-                    p.IsFemale = hero.IsMale ? false : true;
-
-                }
-
-                foreach (var card in toRemove)
-                {
-                    game.Decks[DeckType.Heroes].Remove(card);
-                }
-
-                if (game.IsClient)
-                {
-                    foreach (var card in game.Decks[DeckType.Heroes])
-                    {
-                        card.Type = new UnknownHeroCardHandler();
-                        card.Id = Card.UnknownHeroId;
-                    }
-                }
-                Shuffle(game.Decks[DeckType.Heroes]);
-
-                foreach (var pxy in game.UiProxies)
-                {
-                    pxy.Value.Freeze();
-                }
-
-                if (Game.CurrentGame.Settings.DualHeroMode)
-                {
-                    Shuffle(game.Decks[DeckType.Heroes]);
-                    restDraw = new Dictionary<Player, List<Card>>();
-                    players = new List<Player>(game.Players);
-                    players.Remove(game.Players[rulerId]);
-                    idx = 0;
-                    foreach (Player p in players)
-                    {
-                        restDraw.Add(p, new List<Card>());
-                        for (int n = 0; n < 3; n++)
-                        {
-                            game.SyncImmutableCard(p, game.Decks[DeckType.Heroes][idx]);
-                            restDraw[p].Add(game.Decks[DeckType.Heroes][idx]);
-                            idx++;
-                        }
-                    }
-
-                    heroSelection = new Dictionary<Player, Card>();
-                    game.GlobalProxy.AskForHeroChoice(restDraw, heroSelection);
-
-                    notUsed = true;
-                    game.SyncConfirmationStatus(ref notUsed);
-
-                    toRemove = new List<Card>();
+                    if (repeat == 1 && !Game.CurrentGame.Settings.DualHeroMode) break;
                     foreach (Player p in players)
                     {
                         Card c;
                         //only server has the result
                         if (!game.IsClient)
                         {
-                            idx = 0;
+                            idx = repeat;
                             if (heroSelection.ContainsKey(p))
                             {
-                                c = heroSelection[p];
+                                c = heroSelection[p][repeat];
                                 idx = restDraw[p].IndexOf(c);
                             }
                             else
@@ -854,31 +752,43 @@ namespace Sanguosha.Core.Games
                                 hero.Skills.Remove(skill);
                             }
                         }
-                        p.Hero2 = hero;
-                        int aveHp = (p.Hero.MaxHealth + p.Hero2.MaxHealth) / 2;
-                        p.MaxHealth = p.Health = aveHp;
-                    }
-
-                    foreach (var card in toRemove)
-                    {
-                        game.Decks[DeckType.Heroes].Remove(card);
-                    }
-
-                    if (game.IsClient)
-                    {
-                        foreach (var card in game.Decks[DeckType.Heroes])
+                        if (repeat == 1) p.Hero2 = hero;
+                        else p.Hero = hero;
+                        if (repeat == 0) p.Allegiance = hero.Allegiance;
+                        if (repeat == 0)
                         {
-                            card.Type = new UnknownHeroCardHandler();
-                            card.Id = Card.UnknownHeroId;
+                            p.MaxHealth = p.Health = hero.MaxHealth;
+                            p.IsMale = hero.IsMale ? true : false;
+                            p.IsFemale = hero.IsMale ? false : true;
                         }
-                    }
-                    Shuffle(game.Decks[DeckType.Heroes]);
+                        if (repeat == 1)
+                        {
+                            int aveHp = (p.Hero2.MaxHealth + p.Hero.MaxHealth) / 2;
+                            p.MaxHealth = p.Health = aveHp;
+                        }
 
-                    foreach (var pxy in game.UiProxies)
-                    {
-                        pxy.Value.Freeze();
                     }
                 }
+                foreach (var card in toRemove)
+                {
+                    game.Decks[DeckType.Heroes].Remove(card);
+                }
+
+                if (game.IsClient)
+                {
+                    foreach (var card in game.Decks[DeckType.Heroes])
+                    {
+                        card.Type = new UnknownHeroCardHandler();
+                        card.Id = Card.UnknownHeroId;
+                    }
+                }
+                Shuffle(game.Decks[DeckType.Heroes]);
+
+                foreach (var pxy in game.UiProxies)
+                {
+                    pxy.Value.Freeze();
+                }
+
                 //Heroes Convert and handle god hero
                 var toCheck = new List<Player>(game.Players);
                 game.SortByOrderOfComputation(game.Players[rulerId], toCheck);

@@ -347,9 +347,9 @@ namespace Sanguosha.Core.UI
 
         public int TimeOutSeconds { get; set; }
 
-        Dictionary<Player, Card> answerHero;
+        Dictionary<Player, List<Card>> answerHero;
 
-        public void AskForHeroChoice(Dictionary<Player, List<Card>> restDraw, Dictionary<Player, Card> heroSelection)
+        public void AskForHeroChoice(Dictionary<Player, List<Card>> restDraw, Dictionary<Player, List<Card>> heroSelection, int numberOfHeroes)
         {
             proxyListener = new Dictionary<Player, Thread>();
             semAccess = new Semaphore(1, 1);
@@ -369,7 +369,7 @@ namespace Sanguosha.Core.UI
                 para.player = player;
                 para.places = new List<DeckPlace>() { new DeckPlace(player, temp) };
                 para.options = null;
-                para.resultMax = new List<int> { 1 };
+                para.resultMax = new List<int> { numberOfHeroes };
                 Game.CurrentGame.Decks[player, temp].Clear();
                 Game.CurrentGame.Decks[player, temp].AddRange(restDraw[player]);
                 Thread t = new Thread(
@@ -400,9 +400,9 @@ namespace Sanguosha.Core.UI
             if (para.proxy.TryAskForCardChoice(para.places, para.resultMax, new AlwaysTrueChoiceVerifier(), out answer, para.options, null))
             {
                 semAccess.WaitOne();
-                if (answer != null && answer.Count != 0 && answer[0] != null && answer[0].Count != 0)
+                if (answer != null && answer.Count != 0 && answer[0] != null && answer[0].Count == para.resultMax[0])
                 {
-                    answerHero.Add(para.player, answer[0][0]);
+                    answerHero.Add(para.player, answer[0]);
                 }
                 semAccess.Release();
             }
