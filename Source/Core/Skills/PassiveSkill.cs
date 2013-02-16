@@ -9,6 +9,7 @@ using Sanguosha.Core.UI;
 using Sanguosha.Core.Games;
 using System.Diagnostics;
 using Sanguosha.Core.Players;
+using Sanguosha.Core.Heroes;
 
 namespace Sanguosha.Core.Skills
 {
@@ -52,6 +53,8 @@ namespace Sanguosha.Core.Skills
         public bool IsSingleUse { get; protected set; }
         public bool IsAwakening { get; protected set; }
         public bool IsEnforced { get; protected set; }
+
+        public Hero HeroTag { get; set; }
 
         bool? isAutoInvoked;
         public bool? IsAutoInvoked 

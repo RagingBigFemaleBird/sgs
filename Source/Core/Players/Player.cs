@@ -202,6 +202,7 @@ namespace Sanguosha.Core.Players
                 foreach (ISkill skill in hero.Skills)
                 {
                     skill.Owner = this;
+                    skill.HeroTag = hero;
                 }
                 Trace.Assert(hero.Owner == null);
                 hero.Owner = this;          

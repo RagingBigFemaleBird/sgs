@@ -8,6 +8,7 @@ using Sanguosha.Core.Cards;
 using Sanguosha.Core.UI;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Games;
+using Sanguosha.Core.Heroes;
 
 namespace Sanguosha.Core.Skills
 {
@@ -68,6 +69,8 @@ namespace Sanguosha.Core.Skills
                 }
             }
         }
+
+        public Hero HeroTag { get; set; }
 
         public void NotifyAction(Players.Player source, List<Players.Player> targets, List<Card> cards)
         {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Sanguosha.Core.UI;
+using Sanguosha.Core.Heroes;
 
 namespace Sanguosha.Core.Skills
 {
@@ -65,6 +66,7 @@ namespace Sanguosha.Core.Skills
 
         [NonSerialized]
         UiHelper helper;
+        public Hero HeroTag { get; set; }
 
         public UiHelper Helper
         {

@@ -9,6 +9,7 @@ using Sanguosha.Core.Cards;
 using Sanguosha.Core.UI;
 using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.Players;
+using Sanguosha.Core.Heroes;
 
 namespace Sanguosha.Core.Skills
 {
@@ -82,6 +83,7 @@ namespace Sanguosha.Core.Skills
         /// 断粮和疬火同时拥有卡牌转换技和被动技成分，故设置此成员变量
         /// </remarks>
         public PassiveSkill LinkedPassiveSkill { get; protected set; }
+        public Hero HeroTag { get; set; }
 
         Players.Player owner;
         public virtual Players.Player Owner
