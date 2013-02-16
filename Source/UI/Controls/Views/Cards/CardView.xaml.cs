@@ -145,6 +145,16 @@ namespace Sanguosha.UI.Controls
                 {
                     imgRankString.Source = null;
                 }
+
+                fadeMask.BeginAnimation(Border.OpacityProperty, null);
+                if (card.IsFaded)
+                {                    
+                    fadeMask.Opacity = 1d;
+                }
+                else
+                {                    
+                    fadeMask.Opacity = 0d;
+                }
             }
         }
 
