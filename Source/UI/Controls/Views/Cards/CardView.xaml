@@ -132,7 +132,7 @@
                 <Image x:Name="imgSuit" Width="14" Height="14" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5.666,19.334,0,0"/>
             </Grid>
         </Viewbox>
-        <!--TextBlock x:Name="tbFootnote2" Style="{DynamicResource footNoteStyle}" Foreground="Black" RenderTransformOrigin="0.5,0.5" >
+        <TextBlock x:Name="tbFootnote2" Style="{DynamicResource footNoteStyle}" Foreground="Black" RenderTransformOrigin="0.5,0.5" >
             <TextBlock.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -173,6 +173,7 @@
             </TextBlock.RenderTransform>
         </TextBlock>
         <TextBlock x:Name="tbFootnote5" Style="{DynamicResource footNoteStyle}" Foreground="White" />
+    <!--
         <Border x:Name="fadeMask" Background="#64000000" Opacity="0">
             <i:Interaction.Behaviors>
                 <ei:DataStateBehavior Value="true" TrueState="Faded" FalseState="Unfaded" Binding="{Binding IsFaded}"/>

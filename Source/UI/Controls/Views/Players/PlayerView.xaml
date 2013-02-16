@@ -196,6 +196,9 @@
         </EventTrigger>
     </local:PlayerViewBase.Triggers>
     <Grid x:Name="LayoutRoot">
+        <Grid.CacheMode>
+            <BitmapCache />
+        </Grid.CacheMode>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="20"/>

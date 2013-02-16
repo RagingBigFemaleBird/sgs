@@ -150,7 +150,7 @@ namespace Sanguosha.UI.Controls
 
         void CardView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            // toolTip.Content = DataContext;
+            toolTip.Content = DataContext;
 
             var oldModel = e.OldValue as CardViewModel;
             if (oldModel != null)
