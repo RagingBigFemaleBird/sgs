@@ -17,6 +17,13 @@ namespace Sanguosha.UI.Controls
             cardEndDragHandler = new EventHandler(card_OnDragEnd);
             cardMouseEnterHandler = new MouseEventHandler(card_MouseEnter);
             cardMouseLeaveHandler = new MouseEventHandler(card_MouseLeave);
+            IsDraggingHandled = true;
+        }
+
+        public bool IsDraggingHandled
+        {
+            get;
+            set;
         }
 
         private MouseEventHandler cardMouseLeaveHandler;
@@ -93,6 +100,7 @@ namespace Sanguosha.UI.Controls
 
         void card_OnDragEndUnlock()
         {
+            if (!IsDraggingHandled) return;
             Trace.TraceInformation("DragEnd");
             int newPos = InteractingCardIndex;
             CardStatus = CardInteraction.None;            
@@ -113,6 +121,7 @@ namespace Sanguosha.UI.Controls
         public event HandCardMovedHandler OnHandCardMoved;
         void card_OnDragEnd(object sender, EventArgs e)
         {
+            if (!IsDraggingHandled) return;
             if (CardStatus == CardInteraction.Drag)
             {
                 lock (Cards)
@@ -125,6 +134,7 @@ namespace Sanguosha.UI.Controls
 
         void card_OnDragging(object sender, EventArgs e)
         {
+            if (!IsDraggingHandled) return;
             if (CardStatus == CardInteraction.Drag)
             {
                 lock (Cards)
@@ -136,6 +146,7 @@ namespace Sanguosha.UI.Controls
 
         void card_OnDragBegin(object sender, EventArgs e)
         {
+            if (!IsDraggingHandled) return;
             if (CardStatus == CardInteraction.MouseMove)
             {
                 lock (Cards)

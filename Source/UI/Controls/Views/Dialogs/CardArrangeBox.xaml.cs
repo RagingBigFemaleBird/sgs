@@ -161,8 +161,10 @@ namespace Sanguosha.UI.Controls
                     deckNames.Add(line.DeckName);
                 }
 
-                CardStack stack = new CardStack() { ParentCanvas = _canvas };
+                var stack = new SingleRowCardStack() { ParentCanvas = _canvas };
+                stack.IsDraggingHandled = false;
                 stack.MaxCardSpacing = _cardXSpacing;
+                stack.MaxCardSpacingOnHighlighted = _cardXSpacing;
                 stack.CardAlignment = HorizontalAlignment.Left;
                 stack.Height = 130d;
                 stack.Margin = new Thickness(1, 10, 1, 10);
