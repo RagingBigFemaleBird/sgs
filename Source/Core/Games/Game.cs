@@ -440,12 +440,6 @@ namespace Sanguosha.Core.Games
             {
 
             }
-#if !DEBUG
-            catch (Exception e)
-            {
-                Trace.TraceError(e.StackTrace);
-            }
-#endif
             if (GameServer != null)
             {
                 GameServer.Stop();

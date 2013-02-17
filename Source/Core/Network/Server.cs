@@ -160,6 +160,7 @@ namespace Sanguosha.Core.Network
             spectatorHandler.receiver = new ItemReceiver(spectatorHandler.stream);
             spectatorHandler.sender = new ItemSender(spectatorHandler.stream);
             spectatorHandler.disconnected = true;
+            spectatorHandler.threadServer = null;
             spectatorHandler.threadClient = new Thread((ParameterizedThreadStart)((o) =>
             {
                 ClientThread(handlers[(int)o]);
@@ -538,7 +539,7 @@ namespace Sanguosha.Core.Network
             {
                 SendObject(i, new TerminationObject());
                 handlers[i].threadClient.Join();
-                handlers[i].threadServer.Abort();
+                if (handlers[i].threadServer != null) handlers[i].threadServer.Abort();
             }
             listener.Stop();
             reconnectThread.Abort();
