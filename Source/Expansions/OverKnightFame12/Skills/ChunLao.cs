@@ -87,7 +87,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             public void StoreChun(Player owner, GameEvent gameEvent, GameEventArgs eventArgs, List<Card> cards, List<Player> players)
             {
                 (ParentSkill as ChunLao).NotifyAction(owner, new List<Player>(), cards);
-                Game.CurrentGame.HandleCardTransfer(owner, owner, ChunDeck, cards);
+                Game.CurrentGame.HandleCardTransfer(owner, owner, ChunDeck, cards, HeroTag);
             }
 
             public ISkill ParentSkill { get; set; }

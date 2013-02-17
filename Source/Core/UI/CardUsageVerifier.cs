@@ -26,7 +26,7 @@ namespace Sanguosha.Core.UI
             get { return isPlayerRepeatable; }
             set { isPlayerRepeatable = value; }
         }
-        
+
         private bool isActionStage;
 
         /// <summary>

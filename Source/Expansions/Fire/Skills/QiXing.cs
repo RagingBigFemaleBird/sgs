@@ -56,6 +56,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             move.Cards = new List<Card>(additionalCards);
             move.To = new DeckPlace(Owner, DeckType.Hand);
             move.Helper.IsFakedMove = true;
+            move.Helper.PrivateDeckHeroTag = HeroTag;
             Game.CurrentGame.MoveCards(move);
             if (!Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("QiXing", 7), new QiXingVerifier(7), out skill, out cards, out players))
             {
@@ -65,6 +66,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             move.Cards = new List<Card>(cards);
             move.To = new DeckPlace(Owner, QiXingDeck);
             move.Helper.IsFakedMove = true;
+            move.Helper.PrivateDeckHeroTag = HeroTag;
             Game.CurrentGame.MoveCards(move);
         }
 
@@ -79,6 +81,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             move.Cards = new List<Card>(Game.CurrentGame.Decks[Owner, QiXingDeck]);
             move.To = new DeckPlace(Owner, DeckType.Hand);
             move.Helper.IsFakedMove = true;
+            move.Helper.PrivateDeckHeroTag = HeroTag;
             Game.CurrentGame.MoveCards(move);
             if (!Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("QiXing", qxCount), new QiXingVerifier(qxCount), out skill, out cards, out players))
             {
@@ -88,6 +91,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             move.Cards = new List<Card>(cards);
             move.To = new DeckPlace(Owner, QiXingDeck);
             move.Helper.IsFakedMove = true;
+            move.Helper.PrivateDeckHeroTag = HeroTag;
             Game.CurrentGame.MoveCards(move);
         }
 

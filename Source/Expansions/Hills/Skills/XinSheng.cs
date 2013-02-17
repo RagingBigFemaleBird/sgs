@@ -34,7 +34,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             {
                 if (AskForSkillUse())
                 {
-                    HuaShen.AcquireHeroCard(Owner);
+                    HuaShen.AcquireHeroCard(Owner, HeroTag);
                 }
                 else
                     break;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sanguosha.Core.Heroes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,6 +33,14 @@ namespace Sanguosha.Core.UI
         {
             get { return isWuGu; }
             set { isWuGu = value; }
+        }
+
+        private Hero privateDeckHeroTag;
+
+        public Hero PrivateDeckHeroTag
+        {
+            get { return privateDeckHeroTag; }
+            set { privateDeckHeroTag = value; }
         }
     }
 }
