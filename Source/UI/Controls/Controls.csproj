@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ExpressionBlendVersion>4.0.20901.0</ExpressionBlendVersion>
+    <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{87F9F9C1-37B0-4725-8EB7-4A07560F7AD6}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -73,6 +73,7 @@
     <Compile Include="ViewModels\SeatViewModel.cs" />
     <Compile Include="ViewModels\WuGuChoiceViewModel.cs" />
     <Compile Include="Views\BaseControls\BoolToDoubleConverter.cs" />
+    <Compile Include="Views\BaseControls\ObjectToInvisibilityConverter.cs" />
     <Compile Include="Views\BaseControls\ObjectToVisibilityConverter.cs" />
     <Compile Include="Views\BaseControls\FlowDocumentExtensions.cs" />
     <Compile Include="Views\Buttons\ImageButton.cs" />
@@ -395,6 +396,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Views\Players\diaochan.png" />
+    <Resource Include="Views\Players\guanyu.png" />
     <Resource Include="Views\Resources\CardSelectionBox\leftMiddle.png" />
     <Resource Include="Views\Resources\CardSelectionBox\middle.png" />
     <Resource Include="Views\Resources\CardSelectionBox\promptLeft.png" />

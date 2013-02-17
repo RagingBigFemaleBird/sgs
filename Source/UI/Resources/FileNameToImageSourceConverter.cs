@@ -80,7 +80,7 @@ namespace Sanguosha.UI.Resources
                         else if (image is BitmapSource)
                         {
                             BitmapSource bitmap = image as BitmapSource;
-                            return new CroppedBitmap(bitmap, CropRect);
+                            return new CroppedBitmap(bitmap, CropRect);                            
                         }
                     }
                 }

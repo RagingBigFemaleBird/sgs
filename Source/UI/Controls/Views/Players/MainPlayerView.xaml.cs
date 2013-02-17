@@ -126,7 +126,10 @@ namespace Sanguosha.UI.Controls
                 converter.ResourceKeyFormat = "Hero.{0}.Image";
                 converter.CropRect = new Int32Rect(71, 28, 145, 145);
                 ImageSource source = converter.Convert(new object[] { this, hero.ImpersonatedHeroName }, typeof(ImageSource), null, null) as ImageSource;
-                impersonateEffect.Texture2 = new ImageBrush(source);
+                if (isPrimaryHero)
+                    impersonateEffect.Texture2 = new ImageBrush(source);
+                else
+                    impersonateEffect1.Texture2 = new ImageBrush(source);
                 sb.Begin();
             }
             else

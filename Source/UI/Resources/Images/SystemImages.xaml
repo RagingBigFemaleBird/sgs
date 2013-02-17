@@ -13,6 +13,8 @@
     <sys:Double x:Key="PlayerInfoView.WidthHeightRatio">0.8</sys:Double>
     <BitmapImage x:Key="PlayerInfoView.HealthBar.Background">PlayerInfoView/healthBarBg.png</BitmapImage>
     <BitmapImage x:Key="PlayerInfoView.AcquiredSkill.Background">PlayerInfoView/huashenSkillBg.png</BitmapImage>
+    <BitmapImage x:Key="PlayerInfoView.SecondaryHeroMask">PlayerInfoView/secondaryHeroMask.png</BitmapImage>
+    <BitmapImage x:Key="PlayerInfoView.HeroSeparator">PlayerInfoView/heroSeparator.png</BitmapImage>
     
     <BitmapImage x:Key="MainPlayerInfoView.Background.Left">MainPlayerInfoView/leftBg.png</BitmapImage>
     <BitmapImage x:Key="MainPlayerInfoView.Background.Middle">MainPlayerInfoView/middleBg.png</BitmapImage>

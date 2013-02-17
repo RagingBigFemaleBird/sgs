@@ -111,15 +111,43 @@ namespace Sanguosha.UI.Controls
             var hero = isPrimaryHero ? PlayerModel.Hero1Model : PlayerModel.Hero2Model;
 
             Trace.Assert(hero != null);
-
-            Storyboard sb = (Resources["sbStartImpersonate"] as Storyboard);
+                        
+            Storyboard sb;
+            if (PlayerModel.Hero2 == null)
+            {
+                sb = (Resources["sbStartImpersonate"] as Storyboard);
+            }
+            else if (isPrimaryHero)
+            {
+                sb = (Resources["sbStartImpersonate1"] as Storyboard);
+            }
+            else
+            {
+                sb = (Resources["sbStartImpersonate2"] as Storyboard);
+            }
             if (!string.IsNullOrEmpty(hero.ImpersonatedHeroName))
             {
                 converter.StringFormat = "Resources/Images/Heroes/Full/{0}.png";
                 converter.ResourceKeyFormat = "Hero.{0}.Image";
-                converter.CropRect = new Int32Rect(28,46,220,132);
+                Effects.RippleTransitionEffect effect;
+                if (PlayerModel.Hero2 == null)
+                {
+                    converter.CropRect = new Int32Rect(28, 46, 220, 132);
+                    effect = impersonateEffect;
+                }
+                else if (isPrimaryHero)
+                {
+                    converter.CropRect = new Int32Rect(60, 30, 208, 125);
+                    effect = impersonateEffect1;
+                }
+                else
+                {
+                    converter.CropRect = new Int32Rect(63, 20, 126, 178);
+                    effect = impersonateEffect2;
+                }
+                
                 ImageSource source = converter.Convert(new object[] { this, hero.ImpersonatedHeroName }, typeof(ImageSource), null, null) as ImageSource;
-                impersonateEffect.Texture2 = new ImageBrush(source);
+                effect.Texture2 = new ImageBrush(source);
                 sb.Begin();
             }
             else

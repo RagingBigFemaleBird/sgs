@@ -23,6 +23,7 @@
                 <ResourceDictionary Source="../Skills/SkillToolTip.xaml"/>
                 <ResourceDictionary Source="../../Common.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
+				<ResourceDictionary Source="pack://application:,,,/Resources;component/Images/CardImages.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <DrawingBrush x:Key="GlowOpacityMask">
                 <DrawingBrush.Drawing>
@@ -175,7 +176,23 @@
                     <EasingDoubleKeyFrame KeyTime="0:0:6" Value="100"/>
                 </DoubleAnimationUsingKeyFrames>
             </Storyboard>
-            <Storyboard x:Key="ShowSpectateButton">
+            <Storyboard x:Key="sbStartImpersonate1" RepeatBehavior="Forever" AutoReverse="True">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:RippleTransitionEffect.Progress)" Storyboard.TargetName="heroPhoto1">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="100"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:5" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:6" Value="100"/>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="sbStartImpersonate2" RepeatBehavior="Forever" AutoReverse="True">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:RippleTransitionEffect.Progress)" Storyboard.TargetName="heroPhoto2">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="100"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:5" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:6" Value="100"/>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+			<Storyboard x:Key="ShowSpectateButton">
                 <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnSpectate">
                     <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
                 </ObjectAnimationUsingKeyFrames>
@@ -299,12 +316,36 @@
                                 </LinearGradientBrush>
                             </Border.BorderBrush>
                         </Border>
-                        <Grid Margin="1">
-                            <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=28\,46\,220\,132, Path=Hero1Model.Name, ResourceKeyFormat=Hero.{0}.Image, StringFormat=Resources/Images/Heroes/Full/{0}.png}">
+                        <Grid Margin="1">                        	
+                            <Image x:Name="heroPhoto" Visibility="{Binding Hero2, Converter={StaticResource objectToInvisibilityConverter}}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=28\,46\,220\,132, Path=Hero1Model.Name, ResourceKeyFormat=Hero.{0}.Image, StringFormat=Resources/Images/Heroes/Full/{0}.png}">
                                 <Image.Effect>
                                     <Sanguosha_UI_Effects:RippleTransitionEffect x:Name="impersonateEffect" Progress="100"/>
                                 </Image.Effect>
-                            </Image>
+                            </Image>							
+							<Grid x:Name="gridDualHero" Visibility="{Binding Hero2, Converter={StaticResource objectToVisibilityConverter}}">
+								<Image x:Name="heroPhoto1" Grid.ColumnSpan="2" Stretch="UniformToFill" HorizontalAlignment="Left" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=60\,30\,208\,125, Path=Hero1Model.Name, ResourceKeyFormat=Hero.{0}.Image, StringFormat=Resources/Images/Heroes/Full/{0}.png}">
+									<Image.Effect>
+		                            	<Sanguosha_UI_Effects:RippleTransitionEffect x:Name="impersonateEffect1" Progress="100"/>
+		                        	</Image.Effect>
+	                            </Image>
+								<Grid Background="#01000000">
+									<Grid.OpacityMask>
+										<ImageBrush ImageSource="{StaticResource PlayerInfoView.SecondaryHeroMask}" Stretch="Fill" />
+									</Grid.OpacityMask>									
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="0.6*"/>
+										<ColumnDefinition Width="0.4*"/>
+									</Grid.ColumnDefinitions>									
+									<Viewbox HorizontalAlignment="Right" Grid.Column="1" Stretch="UniformToFill">
+										<Image x:Name="heroPhoto2" Source="{res:ImageBinding CropRect=63\,20\,126\,178, Path=Hero2Model.Name, ResourceKeyFormat=Hero.{0}.Image, StringFormat=Resources/Images/Heroes/Full/{0}.png}">
+					                       	<Image.Effect>
+					                           	<Sanguosha_UI_Effects:RippleTransitionEffect x:Name="impersonateEffect2" Progress="100"/>
+					                       	</Image.Effect>
+										</Image>
+									</Viewbox>								
+								</Grid>
+								<Image Source="{StaticResource PlayerInfoView.HeroSeparator}" Stretch="Fill"/>
+							</Grid>
                             <Rectangle Visibility="{Binding IsDrank, Converter={StaticResource boolToVisibilityConverter}}" >
                                 <Rectangle.Fill>
                                     <RadialGradientBrush>
@@ -314,11 +355,11 @@
                                     </RadialGradientBrush>
                                 </Rectangle.Fill>
                             </Rectangle>
-                            <Image Margin="0" Source="/Resources;component/Images/PlayerInfoView/imprisoned.png" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}"/>
+                            <Image Margin="0" Source="/Resources;component/Images/PlayerInfoView/imprisoned.png" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}" />
                             <Border x:Name="IsTargetedGlow" Visibility="{Binding IsTargeted, Converter={StaticResource boolToVisibilityConverter}}" BorderBrush="Red" BorderThickness="5" >
                                 <Border.Effect>
                                     <BlurEffect Radius="10" />
-                                </Border.Effect>
+                                </Border.Effect>                            	
                             </Border>
                             <Image Source="{res:ResourceKeyBinding Path=SelectedTimes, StringFormat=Selection.Digit.\{0\}}" 
                     		VerticalAlignment="Center" HorizontalAlignment="Center"
@@ -378,8 +419,18 @@
                     </Grid>
 
                     <!--Image Source="{DynamicResource PlayerInfoView.Decoration.TopLeft}" Width="64" HorizontalAlignment="Left" Margin="-8.75,-5.25,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Visibility="Hidden"/-->
-                    <Image x:Name="allegianceMask" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Mask}" HorizontalAlignment="Left" Grid.RowSpan="2" Width="38" Stretch="Fill" Margin="-3.335,4.333,0,0.667" ClipToBounds="True" Height="119" VerticalAlignment="Top"/>
-                    <Image x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" />
+                    <Image x:Name="allegianceMask" Source="{res:ResourceKeyBinding Path=Hero1Model.Allegiance, StringFormat=Allegiance.\{0\}.Mask}" HorizontalAlignment="Left" Grid.RowSpan="2" Width="38" Stretch="Fill" Margin="-3,4,0,0" ClipToBounds="True" Height="119" VerticalAlignment="Top"/>
+                    <Image x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Hero1Model.Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" />
+					<Image x:Name="allegianceMask2" Visibility="{Binding Hero2,Converter={StaticResource objectToVisibilityConverter}}" Source="{res:ResourceKeyBinding Path=Hero2Model.Allegiance, StringFormat=Allegiance.\{0\}.Mask}" HorizontalAlignment="Right" Grid.RowSpan="2" Width="38" Stretch="Fill" Margin="0,4,-3,0" ClipToBounds="True" Height="119" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+						<Image.RenderTransform>
+							<TransformGroup>
+								<ScaleTransform ScaleX="-1"/>
+								<SkewTransform/>
+								<RotateTransform/>
+								<TranslateTransform/>
+							</TransformGroup>
+						</Image.RenderTransform>
+					</Image>                    
                     <local:RoleBox x:Name="cbRoleBox" HorizontalAlignment="Right" Width="25" Height="26"/>
 
                     <ItemsControl x:Name="heroNameArea" ItemsSource="{Binding Hero1Model.NameChars}" Grid.Row="1"
@@ -387,7 +438,7 @@
                               Margin="2,0,0,30"
                               Width="20"
                               VerticalAlignment="Top"
-                              MaxHeight="50">
+                              MaxHeight="55">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <UniformGrid Columns="1"/>
@@ -412,6 +463,39 @@
                             <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0"/>
                         </ItemsControl.Effect>
                     </ItemsControl>
+					
+					<ItemsControl x:Name="heroNameArea2" ItemsSource="{Binding Hero2Model.NameChars}" Grid.Row="1"
+                              HorizontalAlignment="Right"                              
+                              Margin="0,0,2,30"
+                              Width="20"
+                              VerticalAlignment="Top"
+                              MaxHeight="55"
+							  Visibility="{Binding Hero2,Converter={StaticResource objectToVisibilityConverter}}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="1"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Viewbox Margin="0, -2, 0, -2" Stretch="Fill" StretchDirection="DownOnly">
+                                    <local:OutlinedTextBlock TextWrapping="NoWrap"
+                                                         Fill="White"
+                                                         Stroke="Black"
+                                                         StrokeThickness="1"
+                                                         FontWeight="Bold"
+                                                         Text="{Binding DataContext, RelativeSource={RelativeSource Self}}" 
+                                                         FontFamily="pack://application:,,,/Resources;component/Fonts/#LiSu" FontSize="18.667" 
+                                                         VerticalAlignment="Center" TextAlignment="Center"
+                                                         TextTrimming="None"/>
+                                </Viewbox>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.Effect>
+                            <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0"/>
+                        </ItemsControl.Effect>
+                    </ItemsControl>
+					
                     <TextBlock x:Name="userNameText" VerticalAlignment="Bottom" Text="{Binding Account.UserName, Mode=OneWay}" Margin="32.117,0,25,4" Foreground="White" FontSize="14" FontFamily="SimHei" Height="17.97" FontWeight="Bold" TextAlignment="Center">
                         <TextBlock.Effect>
                             <DropShadowEffect ShadowDepth="0"/>

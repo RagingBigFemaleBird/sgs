@@ -785,6 +785,10 @@
   <ItemGroup>
     <Resource Include="Images\MainPlayerInfoView\blackBg.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PlayerInfoView\heroSeparator.png" />
+    <Resource Include="Images\PlayerInfoView\secondaryHeroMask.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if not exist $(TargetDir)\Resources\Texts mkdir  $(TargetDir)\Resources\Texts
