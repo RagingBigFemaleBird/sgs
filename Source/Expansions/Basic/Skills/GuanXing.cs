@@ -69,7 +69,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             }
             public UiHelper Helper
             {
-                get { return null; }
+                get { return new UiHelper() { ExtraTimeOutSeconds = 15 }; }
             }
         }
 
@@ -98,16 +98,16 @@ namespace Sanguosha.Expansions.Basic.Skills
                     new List<string>() { "PaiDuiDing", "PaiDuiDi" },
                     new List<int>() { toDraw, toDraw },
                     new GuanXingVerifier(Game.CurrentGame.Decks[null, GuanXingDeck]),
-                    out answer, 
+                    out answer,
                     options,
                     CardChoiceCallback.GenericCardChoiceCallback))
             {
-                Game.CurrentGame.NotificationProxy.NotifyLogEvent(new Prompt(Prompt.LogEventPrefix + "GuanXing", Owner, Game.CurrentGame.Decks[null, GuanXingDeck].Count, 0));
-                Game.CurrentGame.InsertBeforeDeal(null, Game.CurrentGame.Decks[null, GuanXingDeck], new MovementHelper(){IsFakedMove = true});
+                Game.CurrentGame.NotificationProxy.NotifyLogEvent(new LogEvent("GuanXing", Owner, Game.CurrentGame.Decks[null, GuanXingDeck].Count, 0), new List<Player>() { Owner }, false);
+                Game.CurrentGame.InsertBeforeDeal(null, Game.CurrentGame.Decks[null, GuanXingDeck], new MovementHelper() { IsFakedMove = true });
             }
             else
             {
-                Game.CurrentGame.NotificationProxy.NotifyLogEvent(new Prompt(Prompt.LogEventPrefix + "GuanXing", Owner, answer[0].Count, answer[1].Count));
+                Game.CurrentGame.NotificationProxy.NotifyLogEvent(new LogEvent("GuanXing", Owner, answer[0].Count, answer[1].Count), new List<Player>() { Owner }, false);
                 Game.CurrentGame.InsertBeforeDeal(null, answer[0], new MovementHelper() { IsFakedMove = true });
                 Game.CurrentGame.InsertAfterDeal(null, answer[1], new MovementHelper() { IsFakedMove = true });
             }

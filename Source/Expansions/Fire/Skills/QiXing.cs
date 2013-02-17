@@ -29,12 +29,14 @@ namespace Sanguosha.Expansions.Fire.Skills
                 MaxCards = QiXingCount;
                 MinCards = QiXingCount;
                 Helper.NoCardReveal = true;
+                Helper.ExtraTimeOutSeconds = 15;
             }
 
             protected override bool VerifyCard(Player source, Card card)
             {
                 return card.Place.DeckType == DeckType.Hand;
             }
+
         }
 
         void GameStart(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)

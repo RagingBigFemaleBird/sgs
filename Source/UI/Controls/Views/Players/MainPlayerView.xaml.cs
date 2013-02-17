@@ -119,7 +119,7 @@ namespace Sanguosha.UI.Controls
 
             Trace.Assert(hero != null);
 
-            Storyboard sb = (Resources["sbStartImpersonate"] as Storyboard);
+            Storyboard sb = (Resources[isPrimaryHero ? "sbStartImpersonate" : "sbStartImpersonate2"] as Storyboard);
             if (!string.IsNullOrEmpty(hero.ImpersonatedHeroName))
             {
                 converter.StringFormat = "Resources/Images/Heroes/Full/{0}.png";

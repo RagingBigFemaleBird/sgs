@@ -41,6 +41,7 @@
     <sys:String x:Key="CardChoice.Prompt.HanBing">寒冰剑</sys:String>
     <sys:String x:Key="CardChoice.Prompt.GuanXing">观星 请拖动卡牌以调整其在排堆中的位置</sys:String>
     <sys:String x:Key="CardChoice.Prompt.GuanXing.Others">观星 {0}正在排列卡牌</sys:String>
+    <sys:String x:Key="LogEvent.GuanXing">{0}的观星结果：{1}上{2}下</sys:String>
     <sys:String x:Key="MultiChoice.Choice.Heart">红桃</sys:String>
     <sys:String x:Key="MultiChoice.Choice.Diamond">方片</sys:String>
     <sys:String x:Key="MultiChoice.Choice.Spade">黑桃</sys:String>
@@ -52,6 +53,6 @@
     <sys:String x:Key="CardSlot.Hint.PaiDuiDi">置于牌堆底</sys:String>
     <sys:String x:Key="CardSlot.Hint.QiPaiDui">置于弃牌堆</sys:String>
     
-    <sys:String x:Key="CustomLog.Arg.Success">生效</sys:String>
-    <sys:String x:Key="CustomLog.Arg.Fail">失效</sys:String>
+    <sys:String x:Key="LogEvent.Arg.Success">生效</sys:String>
+    <sys:String x:Key="LogEvent.Arg.Fail">失效</sys:String>
 </ResourceDictionary>

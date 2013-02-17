@@ -41,7 +41,7 @@ namespace Sanguosha.Expansions.SP.Skills
                     Game.CurrentGame.RecoverHealth(p, p, 1);
                     ISkill huxiao = p.LoseHeroSkill("HuXiao", HeroTag);
                     Trace.Assert(huxiao != null);
-                    Game.CurrentGame.NotificationProxy.NotifyCustomLog(new CustomLog("WuJi", Owner, huxiao), new List<Player>() { Owner });
+                    Game.CurrentGame.NotificationProxy.NotifyLogEvent(new LogEvent("WuJi", Owner, huxiao), new List<Player>() { Owner });
                 },
                 TriggerCondition.OwnerIsSource
             );

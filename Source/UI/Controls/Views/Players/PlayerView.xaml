@@ -211,7 +211,7 @@
         </ItemsControl>
         <Grid x:Name="LeftGrid" FlowDirection="LeftToRight">
             <Grid.ToolTip>
-                <ToolTip x:Name="toolTip" Content="{Binding}" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
+                <ToolTip x:Name="toolTip" Content="{Binding Hero1Model}" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
             </Grid.ToolTip>
             <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
             <VisualStateManager.CustomVisualStateManager>
@@ -299,7 +299,7 @@
                                 </LinearGradientBrush>
                             </Border.BorderBrush>
                         </Border>
-                        <Grid Margin="1" >
+                        <Grid Margin="1">
                             <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=28\,46\,220\,132, Path=Hero1Model.Name, ResourceKeyFormat=Hero.{0}.Image, StringFormat=Resources/Images/Heroes/Full/{0}.png}">
                                 <Image.Effect>
                                     <Sanguosha_UI_Effects:RippleTransitionEffect x:Name="impersonateEffect" Progress="100"/>
@@ -359,10 +359,13 @@
                             </StackPanel>
                             <local:HealthBar x:Name="healthBar" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                     		Height="14" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}"/>
-                            <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,0" Visibility="{Binding ImpersonatedSkill, Converter={StaticResource objectToVisibilityConverter}}">
+                            <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,0" Visibility="{Binding Hero1Model.ImpersonatedSkill, Converter={StaticResource objectToVisibilityConverter}}">
                                 <Grid.Background>
                                     <ImageBrush ImageSource="{DynamicResource PlayerInfoView.AcquiredSkill.Background}"/>
                                 </Grid.Background>
+								<Grid.ToolTip>
+									<ToolTip Content="{Binding SkillName}" ContentTemplate="{StaticResource SkillToolTipTemplate}" />
+								</Grid.ToolTip>
                                 <local:OutlinedTextBlock Text="{res:ResourceKeyBinding Path=ImpersonatedSkill, StringFormat=Skill.{0}.Name}" FontSize="21" Fill="White" FontFamily="/Resources;component/Fonts/#LiSu" Margin="5,1" Stroke="Blue" StrokeThickness="3"/>
                             </Grid>
                             <Image Height="30" Margin="20,0,21,7" Source="/Resources;component/Images/Game/saveMe.png" IsHitTestVisible="False" Visibility="{Binding IsDying, Converter={StaticResource boolToVisibilityConverter}}" Stretch="Fill" VerticalAlignment="Bottom"/>
@@ -414,8 +417,8 @@
                             <DropShadowEffect ShadowDepth="0"/>
                         </TextBlock.Effect>
                     </TextBlock>
-                    <Border x:Name="handcardNumArea" Grid.Row="1" HorizontalAlignment="Left" Height="17" Width="16" VerticalAlignment="Bottom" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22" Margin="5,0,0,-4">
-                        <TextBlock x:Name="handCardNum" Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding HandCardCount}" TextAlignment="Center" FontFamily="Arial" Foreground="Black"/>
+                    <Border x:Name="handcardNumArea" Grid.Row="1" HorizontalAlignment="Left" Height="17" Width="16" VerticalAlignment="Bottom" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22" Margin="5,0,0,0">
+                        <TextBlock x:Name="handCardNum" TextWrapping="Wrap" Text="{Binding HandCardCount}" TextAlignment="Center" FontFamily="Arial" Foreground="Black"/>
                     </Border>
 
                     <Grid x:Name="equipArea" Grid.Row="2">
@@ -436,7 +439,7 @@
                         <Image Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}"/>
                         <anim:TieSuoAnimation2 x:Name="tieSuoAnimation2" FramesPerSecond="15" Stretch="Fill" IsHitTestVisible="False"/>
                     </Grid>
-                    <Grid x:Name="gridSpectate" HorizontalAlignment="Left" Height="24" Margin="16.664,0,0,-8.003" Grid.Row="1" Width="24" VerticalAlignment="Bottom" Visibility="{Binding CanSpectate, Mode=OneWay,Converter={StaticResource boolToVisibilityConverter}}">
+                    <Grid x:Name="gridSpectate" HorizontalAlignment="Right" Height="24" Margin="0,0,105,-3" Grid.Row="1" Width="24" VerticalAlignment="Bottom" Visibility="{Binding CanSpectate, Mode=OneWay,Converter={StaticResource boolToVisibilityConverter}}">
                         <Button x:Name="btnSpectate" Content="Button" Style="{DynamicResource SpectateButton}" Visibility="Hidden" Click="btnSpectate_Click">
                             <Button.Clip>
                                 <RectangleGeometry Rect="0, 5, 25, 15"/>

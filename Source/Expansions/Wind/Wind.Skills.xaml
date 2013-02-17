@@ -18,9 +18,7 @@
     <sys:String x:Key="Skill.ShenSu.Name">神速</sys:String>
     <sys:String x:Key="Skill.ShenSu.Description" xml:space="preserve">你可以选择一至两项：&#10;1.跳过你的判定阶段和摸牌阶段。&#10;2.跳过你的出牌阶段并弃置一张装备牌。&#10;你每选择一项，视为对一名其他角色使用一张【杀】（无距离限制）。</sys:String>
     <sys:String x:Key="Skill.ShenSu.Usage" xml:space="preserve">系统提示（判定阶段）→选择目标→点“确定”&#10;系统提示（出牌阶段）→选中装备牌→选择目标→点“确定”</sys:String>
-    <sys:String x:Key="Skill.ShenSu.Prompt.1">请选择一名目标</sys:String>
-    <sys:String x:Key="Skill.ShenSu.Prompt.2">请选择一张装备牌和一名目标</sys:String>
-
+    
     <sys:String x:Key="Skill.JuShou.Name">据守</sys:String>
     <sys:String x:Key="Skill.JuShou.Description">回合结束阶段开始时，你可以摸三张牌，然后将你的武将牌翻面。</sys:String>
     <sys:String x:Key="Skill.JuShou.Usage">系统提示→点“确定”</sys:String>

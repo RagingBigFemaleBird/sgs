@@ -12,7 +12,7 @@ namespace Sanguosha.UI.Controls
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (string.IsNullOrEmpty(value as string))
+            if (value == null || (value is string && (value as string) == string.Empty))
             {
                 return Visibility.Collapsed;
             }

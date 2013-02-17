@@ -34,15 +34,13 @@ namespace Sanguosha.UI.Controls
             }
             set
             {
-                if (_hero == value) return;
-
-                if (value == null || Name != value.Name) OnPropertyChanged("Name");
-                if (value == null || IsMale != value.IsMale) OnPropertyChanged("IsMale");
-                if (value == null || Allegiance != value.Allegiance) OnPropertyChanged("Allegiance");
-                if (value == null || MaxHealth != value.MaxHealth) OnPropertyChanged("MaxHealth");
-                
+                if (_hero == value) return;                
                 _hero = value;
                 _UpdateHeroInfo();
+                OnPropertyChanged("Name");
+                OnPropertyChanged("IsMale");
+                OnPropertyChanged("Allegiance");
+                OnPropertyChanged("MaxHealth");
             }
         }
 
@@ -161,6 +159,15 @@ namespace Sanguosha.UI.Controls
         {
             get;
             set;
+        }
+
+        internal void UpdateSkillNames()
+        {
+            SkillNames.Clear();
+            foreach (var skill in SkillCommands)
+            {
+                SkillNames.Add(skill.Skill.GetType().Name);
+            }
         }
     }
 }

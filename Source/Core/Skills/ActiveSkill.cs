@@ -72,7 +72,7 @@ namespace Sanguosha.Core.Skills
 
         public Hero HeroTag { get; set; }
 
-        public void NotifyAction(Players.Player source, List<Players.Player> targets, List<Card> cards)
+        public virtual void NotifyAction(Players.Player source, List<Players.Player> targets, List<Card> cards)
         {
             ActionLog log = new ActionLog();
             log.GameAction = GameAction.None;

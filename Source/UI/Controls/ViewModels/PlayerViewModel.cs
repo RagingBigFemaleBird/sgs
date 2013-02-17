@@ -208,6 +208,9 @@ namespace Sanguosha.UI.Controls
                     ActiveSkillCommands.Add(command);
                 }
             }
+
+            Hero1Model.UpdateSkillNames();
+            Hero2Model.UpdateSkillNames();
         }
 
         private void _OnPlayerPropertyChanged(object o, PropertyChangedEventArgs e)
@@ -231,7 +234,7 @@ namespace Sanguosha.UI.Controls
             {
                 Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
                 {
-                    Hero2Model.Hero = Hero;
+                    Hero2Model.Hero = Hero2;
                     OnPropertyChanged("Hero2");
                 });
             }

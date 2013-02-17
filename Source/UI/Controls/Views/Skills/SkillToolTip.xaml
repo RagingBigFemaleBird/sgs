@@ -41,16 +41,16 @@
             <RichTextBox FontFamily="SimSun" FontSize="12"  Foreground="#FFE4D5A0" Background="Transparent" BorderThickness="0" Width="330">
                 <FlowDocument>
                     <Paragraph LineHeight="18">
-                        <Run Text="{Binding Path=Hero.Name, Mode=OneWay, Converter={StaticResource heroToolTipConverter}, ConverterParameter=Name}"
+                        <Run Text="{Binding Path=Name, Mode=OneWay, Converter={StaticResource heroToolTipConverter}, ConverterParameter=Name}"
                              Foreground="Yellow" FontSize ="14" FontWeight="Bold"/>
                         <Run Text=" " />
-                        <Run Text="{Binding Path=Hero.Allegiance, Mode=OneWay, Converter={StaticResource heroToolTipConverter}, ConverterParameter=Allegiance}"/>
+                        <Run Text="{Binding Path=Allegiance, Mode=OneWay, Converter={StaticResource heroToolTipConverter}, ConverterParameter=Allegiance}"/>
                         <Run Text=" 体力"/>
-                        <Run Text="{Binding Path=Hero.MaxHealth, Mode=OneWay}"/>                           
+                        <Run Text="{Binding Path=MaxHealth, Mode=OneWay}"/>                           
                     </Paragraph>
                 </FlowDocument>
             </RichTextBox>
-            <ItemsControl ItemsSource="{Binding HeroSkillNames, Mode=OneTime}" ItemTemplate="{StaticResource SkillToolTipTemplate2}">
+            <ItemsControl ItemsSource="{Binding SkillNames, Mode=OneTime}" ItemTemplate="{StaticResource SkillToolTipTemplate2}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel />

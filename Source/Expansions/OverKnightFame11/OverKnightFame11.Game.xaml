@@ -37,6 +37,7 @@
     <sys:String x:Key="MultiChoice.Prompt.LuoYing">是否发动落英获得【{0}】?</sys:String>
     <sys:String x:Key="CardChoice.Prompt.XinZhan">心战</sys:String>
     <sys:String x:Key="CardChoice.Prompt.XinZhan.Others">心战 请等待{0}的选择</sys:String>
+    <sys:String x:Key="LogEvent.XinZhan">{0}使用心战排序了牌堆项的{1}张牌</sys:String>
 
     <sys:String x:Key="CardSlot.Hint.HuoDe">获得</sys:String>
     

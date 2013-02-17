@@ -243,6 +243,14 @@
                     <EasingDoubleKeyFrame KeyTime="0:0:6" Value="100"/>
                 </DoubleAnimationUsingKeyFrames>
             </Storyboard>
+		    <Storyboard x:Key="sbStartImpersonate2" RepeatBehavior="Forever" AutoReverse="True">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:RippleTransitionEffect.Progress)" Storyboard.TargetName="heroPhoto2">
+                    <EasingDoubleKeyFrame KeyTime="0" Value="100"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:5" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:6" Value="100"/>
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
             <Storyboard x:Key="sbDeathTransition">
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:MonochromeEffect.Strength)" Storyboard.TargetName="playerInfoArea">
                     <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
@@ -465,11 +473,11 @@
                 </ItemsControl>
                         
                 <ItemsControl Grid.Row="1" x:Name="skillButtonDock" HorizontalAlignment="Left"
-                    VerticalAlignment="Bottom" Width="134" ItemsSource="{Binding DockedSkillCommands}"
+                    VerticalAlignment="Bottom" ItemsSource="{Binding Hero1Model.SkillCommands}"
                     ItemTemplateSelector="{StaticResource skillButtonTemplateSelector}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <local:SkillButtonDock />
+                            <local:SkillButtonDock  ButtonsPerRow="2"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
@@ -478,7 +486,7 @@
                                Visibility="{Binding IsSelectionRepeatable, Converter={StaticResource boolToVisibilityConverter}}"
                                IsHitTestVisible="False" />
                 
-                <Grid Margin="-10,10.331,0,0" Height="22" VerticalAlignment="Top" Width="148" HorizontalAlignment="Left">
+                <Grid Margin="-10,10,0,0" Height="22" VerticalAlignment="Top" Width="148" HorizontalAlignment="Left">
                 <Grid.ToolTip>
                     <ToolTip Content="{DynamicResource State.TieSuoLianHuan.Description}" ContentTemplate="{DynamicResource ToolTipTextTemplate}" />                        
                 </Grid.ToolTip> 
@@ -502,7 +510,7 @@
                 								<Paragraph LineHeight="18"><Run Text="{Binding Name, ConverterParameter=Name, Converter={StaticResource heroToolTipConverter}, Mode=OneWay}" Foreground="Yellow" FontSize ="14" FontWeight="Bold"/><Run Text=" "/><Run Text=" " /><Run Text=" "/><Run Text="{Binding Allegiance, ConverterParameter=Allegiance, Converter={StaticResource heroToolTipConverter}, Mode=OneWay}"/><Run Text=" "/><Run Text=" 体力"/><Run Text=" "/><Run Text="{Binding MaxHealth, Mode=OneWay}"/></Paragraph>
                 							</FlowDocument>
                 						</RichTextBox>
-                						<ItemsControl ItemsSource="{Binding Hero2SkillNames, Mode=OneTime}" ItemTemplate="{StaticResource SkillToolTipTemplate2}">
+                						<ItemsControl ItemsSource="{Binding SkillNames, Mode=OneTime}" ItemTemplate="{StaticResource SkillToolTipTemplate2}">
                 							<ItemsControl.ItemsPanel>
                 								<ItemsPanelTemplate>
                 									<StackPanel />
@@ -533,7 +541,7 @@
                 				</RadialGradientBrush>
                 			</Rectangle.Fill>
                 		</Rectangle>
-                		<Image Source="imprisoned.png" Stretch="Fill" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}"/>
+                		<Image Source="/Resources;component/Images/MainPlayerInfoView/imprisoned.png" Stretch="Fill" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}"/>
                 		<Image x:Name="allegianceIcon2" Source="{res:ResourceKeyBinding Path=Hero2Model.Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="29" Margin="7,7,0,0" IsHitTestVisible="False" />
                 		<ItemsControl ItemsSource="{Binding Hero2Model.HeroNameChars}"
                 			HorizontalAlignment="Left"
@@ -563,7 +571,7 @@
                 				<DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0"/>
                 			</ItemsControl.Effect>
                 		</ItemsControl>
-                		<Image Height="30" Margin="8,26,27,0" Source="saveMe.png" Stretch="Fill" VerticalAlignment="Top" Visibility="{Binding IsDying, Converter={StaticResource boolToVisibilityConverter}}"/>
+                		<Image Height="30" Margin="8,26,27,0" Source="/Resources;component/Images/Game/saveMe.png" Stretch="Fill" VerticalAlignment="Top" Visibility="{Binding IsDying, Converter={StaticResource boolToVisibilityConverter}}"/>
                 	</Grid>
                 	<Border x:Name="IsTargetedGlow2" Visibility="{Binding IsTargeted, Converter={StaticResource boolToVisibilityConverter}}" ClipToBounds="True" BorderBrush="Red" BorderThickness="5" >
                 		<Border.Effect>
@@ -593,11 +601,11 @@
                 	</ItemsControl-->
                         
                 	<ItemsControl Grid.Row="1" x:Name="skillButtonDock2" HorizontalAlignment="Left"
-                		VerticalAlignment="Bottom" Width="134" ItemsSource="{Binding Hero2Model.SkillCommands2}"
+                		VerticalAlignment="Bottom" ItemsSource="{Binding Hero2Model.SkillCommands}"
                 		ItemTemplateSelector="{StaticResource skillButtonTemplateSelector}">
                 		<ItemsControl.ItemsPanel>
                 			<ItemsPanelTemplate>
-                				<local:SkillButtonDock />
+                				<local:SkillButtonDock  ButtonsPerRow="2"/>
                 			</ItemsPanelTemplate>
                 		</ItemsControl.ItemsPanel>
                 	</ItemsControl>
@@ -606,13 +614,13 @@
                 		Visibility="{Binding IsSelectionRepeatable, Converter={StaticResource boolToVisibilityConverter}}"
                 		IsHitTestVisible="False" />
                 
-                	<!--Grid Margin="-10,10.331,0,0" Height="22" VerticalAlignment="Top" Width="148" HorizontalAlignment="Left">
+                	<Grid Margin="-10,10,0,0" Height="22" VerticalAlignment="Top" Width="148" HorizontalAlignment="Left">
                 		<Grid.ToolTip>
                 			<ToolTip Content="{DynamicResource State.TieSuoLianHuan.Description}" ContentTemplate="{DynamicResource ToolTipTextTemplate}" />                        
                 		</Grid.ToolTip> 
-                		<Image Source="IronShackled.png" Stretch="Fill" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}" />
-                		<anim:TieSuoAnimation2 x:Name="tieSuoAnimation1" FramesPerSecond="15" Stretch="Fill"/>				
-                	</Grid-->
+                		<Image Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}" />
+                		<!--anim:TieSuoAnimation2 x:Name="tieSuoAnimation1" FramesPerSecond="15" Stretch="Fill"/-->
+                	</Grid>
                 </Grid>
 				<local:VHealthBar x:Name="healthBar" HorizontalAlignment="Right" Width="25" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}" IsHitTestVisible="False" Margin="0,4,0,10" />
         </StackPanel>

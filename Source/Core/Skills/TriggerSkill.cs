@@ -139,6 +139,7 @@ namespace Sanguosha.Core.Skills
                         Skill.NotifySkillUse(players);
                     }
                     Execute(Owner, gameEvent, eventArgs, cards, players);
+                    Game.CurrentGame.NotificationProxy.NotifyActionComplete();
                 }
             }
 
@@ -210,6 +211,7 @@ namespace Sanguosha.Core.Skills
                         Skill.NotifySkillUse(new List<Player>());
                     }
                     InnerTrigger.Execute(Owner, gameEvent, eventArgs);
+                    Game.CurrentGame.NotificationProxy.NotifyActionComplete();
                 }
             }
 

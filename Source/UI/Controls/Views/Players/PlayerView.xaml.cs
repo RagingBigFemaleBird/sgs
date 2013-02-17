@@ -208,7 +208,7 @@ namespace Sanguosha.UI.Controls
             {
                 foreach (var card in cards)
                 {
-                    card.Disappear(0.7d, true);
+                    card.Disappear(1.0d, true);
                 }
                 handCardArea.RearrangeCards(cards);
             }

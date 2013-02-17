@@ -34,6 +34,9 @@
     <sys:String x:Key="CardChoice.Prompt.GongXin">攻心</sys:String>
     <sys:String x:Key="CardChoice.Prompt.GongXin.Others">攻心 请等待{0}的选择</sys:String>
 
+    <sys:String x:Key="CustomLog.GongXin1">{0}将{1}的{2}置于牌堆顶</sys:String>
+    <sys:String x:Key="CustomLog.GongXin2">{0}将{1}的{2}置于弃牌堆</sys:String>
+
     <sys:String x:Key="CardChoice.Prompt.BuQu">不屈 请弃置不屈牌</sys:String>
     <sys:String x:Key="CardChoice.Prompt.BuQu.Others">不屈 请等待{0}的选择</sys:String>
     

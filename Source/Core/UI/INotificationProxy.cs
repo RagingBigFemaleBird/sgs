@@ -26,7 +26,7 @@ namespace Sanguosha.Core.UI
         void NotifyLoseHealth(Player player, int p);
         void NotifyRecoverHealth(Player player, int p);
         void NotifyReforge(Player p, ICard card);
-        void NotifyCustomLog(Prompt custom, List<Player> players = null, bool isKeyEvent = true);
+        void NotifyLogEvent(Prompt custom, List<Player> players = null, bool isKeyEvent = true);
         void NotifyShowCard(Player p, Card card);
         void NotifyCardChoiceCallback(CardRearrangement o);
         void NotifyImpersonation(Player p, Hero impersonator, Hero impersonatedHero, ISkill acquiredSkill);
@@ -35,7 +35,6 @@ namespace Sanguosha.Core.UI
         void NotifyPinDianStart(Player from, Player to, ISkill skill);
         void NotifyMultipleCardUsageResponded(Player player);
         void NotifyPinDianEnd(Card c1, Card c2);
-        void NotifyLogEvent(Prompt prompt);
         void NotifyShowCardsStart(Player p, List<Card> cards);
         void NotifyShowCardsEnd();
         void NotifyUiAttached();
@@ -84,7 +83,7 @@ namespace Sanguosha.Core.UI
         {
         }
 
-        public void NotifyCustomLog(Prompt custom, List<Player> players = null, bool isKeyEvent = true)
+        public void NotifyLogEvent(Prompt custom, List<Player> players = null, bool isKeyEvent = true)
         {
         }
 
@@ -123,12 +122,7 @@ namespace Sanguosha.Core.UI
         public void NotifyPinDianEnd(Card c1, Card c2)
         {
         }
-
-        public void NotifyLogEvent(Prompt prompt)
-        {
-        }
-
-
+        
         public void NotifyCardChoiceCallback(CardRearrangement o)
         {
         }

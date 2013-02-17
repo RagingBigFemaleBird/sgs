@@ -6,8 +6,19 @@ namespace Sanguosha.UI.Controls
 {
     public class SkillButtonDock : WrapPanel
     {
+        public SkillButtonDock()
+        {
+            ButtonsPerRow = 2;
+        }
+
         private static int buttonHeight = 26;
-        private static int dockWidth = 134;
+        private static int dockWidth = 122;
+        
+        public int ButtonsPerRow
+        {
+            get;
+            set;
+        }
 
         protected override Size MeasureOverride(Size constraint)
         {
@@ -17,17 +28,21 @@ namespace Sanguosha.UI.Controls
             {
                 return new Size(dockWidth, 0);
             }
-
-            int rows = (numButtons - 1) / 3 + 1;
-            int rowH = (int)Math.Min(buttonHeight, constraint.Height / rows);
-            int rowW = (int)Math.Min(dockWidth, constraint.Width);
+            
+            int rows = (numButtons - 1) / ButtonsPerRow + 1;
+            double rowH = (int)Math.Min(buttonHeight, constraint.Height / rows);
+            double rowW = constraint.Width;
+            if (constraint.Width == double.PositiveInfinity)
+            {
+                rowW = dockWidth;
+            }
 
             int[] btnNum = new int[rows + 1];
             int remainingBtns = numButtons;
             for (int i = 0; i < rows; i++)
             {
-                btnNum[i] = Math.Min(3, remainingBtns);
-                remainingBtns -= 3;
+                btnNum[i] = Math.Min(ButtonsPerRow, remainingBtns);
+                remainingBtns -= ButtonsPerRow;
             }
 
             // If the buttons in rows are 3, 1, then balance them to 2, 2
@@ -45,7 +60,7 @@ namespace Sanguosha.UI.Controls
                 btnNum[1] = 1;
                 rows = 2;
             }
-
+            
             return new Size(rowW, rows * rowH);
         }
 
@@ -58,16 +73,20 @@ namespace Sanguosha.UI.Controls
                 return new Size(0, 0);
             }
 
-            int rows = (numButtons - 1) / 3 + 1;
+            int rows = (numButtons - 1) / ButtonsPerRow + 1;
             int rowH = (int)Math.Min(buttonHeight, finalSize.Height / rows);
-            int rowW = (int)Math.Min(dockWidth, finalSize.Width);
+            double rowW = finalSize.Width;
+            if (rowW == double.PositiveInfinity)
+            {
+                rowW = dockWidth;
+            }
 
             int[] btnNum = new int[rows + 1];
             int remainingBtns = numButtons;
             for (int i = 0; i < rows; i++)
             {
-                btnNum[i] = Math.Min(3, remainingBtns);
-                remainingBtns -= 3;
+                btnNum[i] = Math.Min(ButtonsPerRow, remainingBtns);
+                remainingBtns -= ButtonsPerRow;
             }
 
             // If the buttons in rows are 3, 1, then balance them to 2, 2

@@ -55,29 +55,51 @@ namespace Sanguosha.UI.Controls
             return name;
         }
 
-        public static IList<Inline> TranslateCustomLog(Prompt custom)
+        public static List<Inline> Format(string format, List<IList<Inline>> args)
+        {
+            if (args == null || args.Count == 0) return new List<Inline>() { new Run(format) };
+
+            List<Inline> result = new List<Inline>();
+            string separator = "|";
+            List<string> separators = new List<string>();
+
+            int i = 0;
+            for (i = 0; i < args.Count; i++) separators.Add(separator);
+            string temp = string.Format(format, separators.ToArray());
+
+            i = 0;
+            foreach (string s in temp.Split(separator.ToCharArray()))
+            {
+                if (s != string.Empty) result.Add(new Run(s));
+                if (i < args.Count) result.AddRange(args[i]);
+                i++;
+            }
+            return result;
+        }
+
+        public static IList<Inline> TranslateLogEvent(Prompt custom)
         {
             string format = Application.Current.TryFindResource(custom.ResourceKey) as string;
             if (format == null)
             {
                 return new List<Inline>() { new Run(custom.ResourceKey) };
             }
-            List<string> values = new List<string>();
+            List<IList<Inline>> values = new List<IList<Inline>>();
             foreach (object arg in custom.Values)
             {
-                string value = null;
-                if (arg is Player) value = Translate(arg as Player);
-                else if (arg is Card) value = Translate(arg as Card);
-                else if (arg is ISkill) value = Translate(arg as ISkill);
-                else if (arg is Prompt) value = PromptFormatter.Format(arg as Prompt);
-                if (value == null)
+                IList<Inline> value = new List<Inline>();
+                if (arg is Player) value.Add(new Run(Translate(arg as Player)));
+                else if (arg is Card) value = RichTranslate(arg as Card);
+                else if (arg is ISkill) value = RichTranslate(arg as ISkill);
+                else if (arg is CardHandler) value = RichTranslate(arg as CardHandler);
+                else if (arg is Prompt) value.Add(new Run(PromptFormatter.Format(arg as Prompt)));
+                if (value.Count == 0)
                 {
-                    value = arg.ToString();
+                    value.Add(new Run(arg.ToString()));
                 }
                 values.Add(value);
             }
-            format = string.Format(format, values.ToArray());
-            return new List<Inline>() { new Run(format) };
+            return Format(format, values);
         }
 
         public static string TranslateCardFootnote(ActionLog log)
