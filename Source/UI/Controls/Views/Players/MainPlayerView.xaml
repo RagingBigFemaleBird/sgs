@@ -423,7 +423,7 @@
                 </Rectangle>
 				<TextBlock Height="17" Text="{Binding Account.UserName, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="SimSun" Foreground="White" FontSize="13.333" TextAlignment="Center" LineStackingStrategy="BlockLineHeight" LineHeight="16" Background="#7F585858" IsHitTestVisible="False" />
                 <Image Source="/Resources;component/Images/MainPlayerInfoView/imprisoned.png" Stretch="Fill" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}"/>
-                                <Image x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Hero1Model.Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="29" Margin="7,7,0,0" IsHitTestVisible="False" />
+                                <Image x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="29" Margin="7,7,0,0" IsHitTestVisible="False" />
 				<ItemsControl ItemsSource="{Binding Hero1Model.NameChars}"
                 	HorizontalAlignment="Left"
                 	Margin="11,36,0,48"

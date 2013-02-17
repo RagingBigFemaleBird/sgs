@@ -396,8 +396,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Views\Players\diaochan.png" />
-    <Resource Include="Views\Players\guanyu.png" />
     <Resource Include="Views\Resources\CardSelectionBox\leftMiddle.png" />
     <Resource Include="Views\Resources\CardSelectionBox\middle.png" />
     <Resource Include="Views\Resources\CardSelectionBox\promptLeft.png" />

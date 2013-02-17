@@ -19,7 +19,6 @@ namespace Sanguosha.Lobby.Server
         public delegate void GameEndCallback(int roomId);
         public static void StartGameService(IPAddress IP, GameSettings setting, AccountConfiguration config, int roomId, GameEndCallback callback, out int portNumber)
         {
-            setting.DualHeroMode = true;
             int totalNumberOfPlayers = setting.TotalPlayers;
             int timeOutSeconds = setting.TimeOutSeconds;
 #if DEBUG

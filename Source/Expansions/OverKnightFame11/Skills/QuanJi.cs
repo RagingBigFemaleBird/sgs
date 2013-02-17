@@ -55,7 +55,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                     cards = new List<Card>();
                     cards.Add(Owner.HandCards().First());
                 }
-                Game.CurrentGame.HandleCardTransfer(Owner, Owner, QuanDeck, cards);
+                Game.CurrentGame.HandleCardTransfer(Owner, Owner, QuanDeck, cards, HeroTag);
             }
         }
 

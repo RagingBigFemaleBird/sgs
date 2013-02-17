@@ -11,11 +11,7 @@ namespace Sanguosha.Lobby.Core
     public enum RoomType
     {
         [EnumMember]
-        RoleOneDefector,
-        [EnumMember]
-        RoleNoDefector,
-        [EnumMember]
-        RoleTwoDefectors,
+        Role,
     }
 
     [DataContract(Name = "RoomType")]
@@ -35,6 +31,14 @@ namespace Sanguosha.Lobby.Core
         {
             seats = new List<Seat>();
             TimeOutSeconds = 15;
+        }
+
+        bool dualHeroMode;
+
+        public bool DualHeroMode
+        {
+            get { return dualHeroMode; }
+            set { dualHeroMode = value; }
         }
 
         private int id;

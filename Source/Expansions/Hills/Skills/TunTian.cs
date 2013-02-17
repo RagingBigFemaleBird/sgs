@@ -13,6 +13,7 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Exceptions;
 using Sanguosha.Core.Utils;
+using Sanguosha.Core.Heroes;
 
 namespace Sanguosha.Expansions.Hills.Skills
 {
@@ -24,6 +25,7 @@ namespace Sanguosha.Expansions.Hills.Skills
         public static PrivateDeckType TianDeck = new PrivateDeckType("Tian", true);
         public class TunTianGetJudgeCardTrigger : GetJudgeCardTrigger
         {
+            Hero tag;
             protected override void GetJudgeCards(List<Card> list)
             {
                 if (list[0].Suit == SuitType.Heart) return;
@@ -32,14 +34,15 @@ namespace Sanguosha.Expansions.Hills.Skills
                 CardsMovement move = new CardsMovement();
                 move.Cards = new List<Card>(list);
                 move.To = new DeckPlace(Owner, TianDeck);
+                move.Helper.PrivateDeckHeroTag = tag;
                 Game.CurrentGame.MoveCards(move);
             }
-            public TunTianGetJudgeCardTrigger(Player p, ISkill s, ICard c) : base(p, s, c) { }
+            public TunTianGetJudgeCardTrigger(Player p, ISkill s, ICard c, Hero tag) : base(p, s, c) { this.tag = tag; }
         }
 
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerJudgeDone, new TunTianGetJudgeCardTrigger(Owner, this, null) { Priority = int.MinValue });
+            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerJudgeDone, new TunTianGetJudgeCardTrigger(Owner, this, null, HeroTag) { Priority = int.MinValue });
             Game.CurrentGame.Judge(Owner, this, null, (judgeResultCard) => { return judgeResultCard.Suit != SuitType.Heart; });
         }
 

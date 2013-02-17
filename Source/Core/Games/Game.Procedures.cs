@@ -546,7 +546,7 @@ namespace Sanguosha.Core.Games
             ExitAtomicContext();
         }
 
-        public void HandleCardTransfer(Player from, Player to, DeckType target, List<Card> cards)
+        public void HandleCardTransfer(Player from, Player to, DeckType target, List<Card> cards, Hero tag = null)
         {
             if (to.IsDead)
             {
@@ -564,6 +564,7 @@ namespace Sanguosha.Core.Games
             move.Cards = new List<Card>(cards);
             move.To = new DeckPlace(to, target);
             move.Helper = new MovementHelper();
+            move.Helper.PrivateDeckHeroTag = tag;
             MoveCards(move);
             GameDelays.Delay(GameDelayTypes.CardTransfer);
             EnterAtomicContext();

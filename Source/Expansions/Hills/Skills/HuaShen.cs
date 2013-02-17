@@ -29,13 +29,14 @@ namespace Sanguosha.Expansions.Hills.Skills
 
         static PrivateDeckType HuaShenDeck = new PrivateDeckType("HuaShen");
 
-        public static void AcquireHeroCard(Player player)
+        public static void AcquireHeroCard(Player player, Hero tag)
         {
             Card card = Game.CurrentGame.Decks[DeckType.Heroes][0];
             Game.CurrentGame.SyncImmutableCard(player, card);
             CardsMovement move = new CardsMovement();
             move.Cards = new List<Card>() { card };
             move.To = new DeckPlace(player, HuaShenDeck);
+            move.Helper.PrivateDeckHeroTag = tag;
             Game.CurrentGame.MoveCards(move);
         }
 
@@ -121,8 +122,8 @@ namespace Sanguosha.Expansions.Hills.Skills
                 this,
                 (p, e, a) =>
                 {
-                    AcquireHeroCard(p);
-                    AcquireHeroCard(p);
+                    AcquireHeroCard(p, HeroTag);
+                    AcquireHeroCard(p, HeroTag);
                     Run(p, e, a);
                 },
                 TriggerCondition.OwnerIsSource

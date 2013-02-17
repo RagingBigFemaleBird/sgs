@@ -28,7 +28,7 @@ namespace Sanguosha.Core.UI
             throw new NotImplementedException();
         }
 
-        public void AskForHeroChoice(Dictionary<Player, List<Card>> restDraw, Dictionary<Player, List<Card>> heroSelection, int numberOfHeroes)
+        public void AskForHeroChoice(Dictionary<Player, List<Card>> restDraw, Dictionary<Player, List<Card>> heroSelection, int numberOfHeroes, ICardChoiceVerifier verifier)
         {
             throw new NotImplementedException();
         }

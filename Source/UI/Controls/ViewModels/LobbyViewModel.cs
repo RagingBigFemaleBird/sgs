@@ -249,7 +249,7 @@ namespace Sanguosha.UI.Controls
         /// </summary>
         public void CreateRoom()
         {
-            var room = _connection.CreateRoom(_loginToken);
+            var room = _connection.CreateRoom(_loginToken, false);
             if (room != null)
             {
                 CurrentRoom = new RoomViewModel() { Room = room };

@@ -204,7 +204,7 @@ namespace Sanguosha.Lobby.Server
             return null;
         }
 
-        public Room CreateRoom(LoginToken token, string password = null)
+        public Room CreateRoom(LoginToken token, bool dualHeroMode, int numberOfDefectors = 1, string password = null)
         {
             if (VerifyClient(token))
             {
@@ -226,6 +226,8 @@ namespace Sanguosha.Lobby.Server
                 room.Seats[0].State = SeatState.Host;
                 room.Id = newRoomId;
                 room.OwnerId = 0;
+                room.Type = RoomType.Role;
+                room.DualHeroMode = dualHeroMode;
                 rooms.Add(newRoomId, room);
                 if (loggedInGuidToRoom.ContainsKey(token.token))
                 {
@@ -437,7 +439,7 @@ namespace Sanguosha.Lobby.Server
                 {
                     if (unready.State == SeatState.GuestReady) unready.State = SeatState.GuestTaken;
                 }
-                var gs = new GameSettings() { TimeOutSeconds = room.TimeOutSeconds, TotalPlayers = total, CheatEnabled = CheatEnabled };
+                var gs = new GameSettings() { TimeOutSeconds = room.TimeOutSeconds, TotalPlayers = total, CheatEnabled = CheatEnabled, DualHeroMode = room.DualHeroMode };
                 var config = new AccountConfiguration();
                 config.AccountIds = new List<LoginToken>();
                 config.Accounts = new List<Account>();
