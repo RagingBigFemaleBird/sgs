@@ -349,7 +349,7 @@ namespace Sanguosha.Core.UI
 
         Dictionary<Player, List<Card>> answerHero;
 
-        public void AskForHeroChoice(Dictionary<Player, List<Card>> restDraw, Dictionary<Player, List<Card>> heroSelection, int numberOfHeroes)
+        public void AskForHeroChoice(Dictionary<Player, List<Card>> restDraw, Dictionary<Player, List<Card>> heroSelection, int numberOfHeroes, ICardChoiceVerifier verifier)
         {
             proxyListener = new Dictionary<Player, Thread>();
             semAccess = new Semaphore(1, 1);
@@ -365,7 +365,7 @@ namespace Sanguosha.Core.UI
                 }
                 ChoiceListenerThreadParameters para = new ChoiceListenerThreadParameters();
                 para.proxy = proxy[player];
-                para.verifier = null;
+                para.verifier = verifier;
                 para.player = player;
                 para.places = new List<DeckPlace>() { new DeckPlace(player, temp) };
                 para.options = null;
@@ -397,7 +397,7 @@ namespace Sanguosha.Core.UI
         {
             game.RegisterCurrentThread();
             List<List<Card>> answer;
-            if (para.proxy.TryAskForCardChoice(para.places, para.resultMax, new AlwaysTrueChoiceVerifier(), out answer, para.options, null))
+            if (para.proxy.TryAskForCardChoice(para.places, para.resultMax, para.verifier, out answer, para.options, null))
             {
                 semAccess.WaitOne();
                 if (answer != null && answer.Count != 0 && answer[0] != null && answer[0].Count == para.resultMax[0])

@@ -718,7 +718,7 @@ namespace Sanguosha.Core.Games
                 }
 
                 var heroSelection = new Dictionary<Player, List<Card>>();
-                game.GlobalProxy.AskForHeroChoice(restDraw, heroSelection, Game.CurrentGame.Settings.DualHeroMode ? 2 : 1);
+                game.GlobalProxy.AskForHeroChoice(restDraw, heroSelection, Game.CurrentGame.Settings.DualHeroMode ? 2 : 1, new RequireCardsChoiceVerifier(Game.CurrentGame.Settings.DualHeroMode ? 2 : 1));
 
                 bool notUsed = true;
                 game.SyncConfirmationStatus(ref notUsed);
