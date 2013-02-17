@@ -159,6 +159,7 @@ namespace Sanguosha.Core.Network
             spectatorHandler.stream = new ReplaySplitterStream();
             spectatorHandler.receiver = new ItemReceiver(spectatorHandler.stream);
             spectatorHandler.sender = new ItemSender(spectatorHandler.stream);
+            spectatorHandler.disconnected = true;
             spectatorHandler.threadClient = new Thread((ParameterizedThreadStart)((o) =>
             {
                 ClientThread(handlers[(int)o]);
