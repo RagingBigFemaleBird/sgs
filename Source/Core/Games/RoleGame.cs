@@ -626,6 +626,7 @@ namespace Sanguosha.Core.Games
                 }
 
                 GameDelays.Delay(GameDelayTypes.RoleDistribute);
+                if (!game.IsClient) GameDelays.Delay(GameDelayTypes.ServerSideCompensation);
 
                 //hero allocation
                 Shuffle(game.Decks[DeckType.Heroes]);
