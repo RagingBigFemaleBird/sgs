@@ -202,7 +202,11 @@ namespace Sanguosha.UI.Controls
             }
             else
             {
-                handCardArea.AddCards(cards);
+                foreach (var card in cards)
+                {
+                    card.Disappear(0.7d, true);
+                }
+                handCardArea.RearrangeCards(cards);
             }
         }
 

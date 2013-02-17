@@ -134,6 +134,8 @@ namespace Sanguosha.UI.Controls
         Dictionary<KeyValuePair<Player, Player>, Timeline> _lineUpAnimations;
         // Dictionary<KeyValuePair<Player, Player>, Line> _cueLineGlows;
 
+        private static int _cueLineZIndex = 100000;
+
         private void _CreateCueLines()
         {
             if (_cueLines != null)
@@ -158,6 +160,7 @@ namespace Sanguosha.UI.Controls
                     line.Stroke = Resources["indicatorLineBrush"] as Brush;
                     line.Effect = new DropShadowEffect() { ShadowDepth = 0, BlurRadius = 3, Color = Colors.White };
                     line.Visibility = Visibility.Collapsed;
+                    line.SetValue(Canvas.ZIndexProperty, _cueLineZIndex);
                     /* line2.Stroke = Resources["indicatorLineGlowBrush"] as Brush; */
                     _cueLines.Add(key, line);
 

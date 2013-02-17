@@ -239,6 +239,7 @@ namespace Sanguosha.UI.Controls
                 card.SetValue(Canvas.ZIndexProperty, zindex + i);
                 card.AddRebaseAnimation(sb, 0.4d);
             }
+            sb.DecelerationRatio = 0.1d;
             sb.Begin(this, HandoffBehavior.Compose);
         }
 
@@ -294,7 +295,7 @@ namespace Sanguosha.UI.Controls
             RearrangeCards();
         }
 
-        private static double _cardOpacityChangeAnimationDurationSeconds = 0.5d;
+        private double _cardOpacityChangeAnimationDurationSeconds = 0.5d;
 
         public virtual void AddCards(IList<CardView> cards)
         {
