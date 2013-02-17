@@ -89,6 +89,14 @@ namespace Sanguosha.Core.UI
             get { return otherDecksUsed; }
             set { otherDecksUsed = value; }
         }
+
+        private int extraTimeOutSeconds;
+
+        public int ExtraTimeOutSeconds
+        {
+            get { return extraTimeOutSeconds; }
+            set { extraTimeOutSeconds = value; }
+        }
     }
 
     public interface ICardUsageVerifier

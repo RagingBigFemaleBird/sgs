@@ -56,9 +56,10 @@ namespace Sanguosha.Core.UI
             cards = null;
             skill = null;
             players = null;
-            Trace.TraceInformation("Asking Card Usage to {0}, timeout {1}.", HostPlayer.Id, TimeOutSeconds);
+            int timeOut = TimeOutSeconds + (verifier.Helper != null ? verifier.Helper.ExtraTimeOutSeconds : 0);
+            Trace.TraceInformation("Asking Card Usage to {0}, timeout {1}.", HostPlayer.Id, timeOut);
             int? count;
-            if (!server.ExpectNext(clientId, TimeOutSeconds))
+            if (!server.ExpectNext(clientId, timeOut))
             {
                 return false;
             }
@@ -228,9 +229,10 @@ namespace Sanguosha.Core.UI
         public bool TryAskForCardChoice(List<DeckPlace> sourceDecks, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, AdditionalCardChoiceOptions options, CardChoiceRearrangeCallback callback)
         {
             answer = null;
-            Trace.TraceInformation("Asking Card Choice to {0}, timeout {1}.", HostPlayer.Id, TimeOutSeconds);
+            int timeOut = TimeOutSeconds + (verifier.Helper != null ? verifier.Helper.ExtraTimeOutSeconds : 0);
+            Trace.TraceInformation("Asking Card Choice to {0}, timeout {1}.", HostPlayer.Id, timeOut);
             int? count;
-            if (!server.ExpectNext(clientId, TimeOutSeconds))
+            if (!server.ExpectNext(clientId, timeOut))
             {
                 return false;
             }

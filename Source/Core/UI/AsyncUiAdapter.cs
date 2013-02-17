@@ -69,11 +69,12 @@ namespace Sanguosha.Core.UI
         public bool AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             answerPending = new Semaphore(0, 1);
-            proxy.AskForCardUsage(prompt, verifier, TimeOutSeconds);
+            int timeOut = TimeOutSeconds + (verifier.Helper != null ? verifier.Helper.ExtraTimeOutSeconds : 0);
+            proxy.AskForCardUsage(prompt, verifier, timeOut);
             skill = null;
             cards = null;
             players = null;
-            if (answerPending.WaitOne(TimeOutSeconds * 1000))
+            if (answerPending.WaitOne(timeOut * 1000))
             {
                 skill = answerSkill;
                 cards = answerCards;
@@ -87,9 +88,10 @@ namespace Sanguosha.Core.UI
         public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, AdditionalCardChoiceOptions options, CardChoiceRearrangeCallback callback)
         {
             answerPending = new Semaphore(0, 1);
-            proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, TimeOutSeconds, options, callback);
+            int timeOut = TimeOutSeconds + (verifier.Helper != null ? verifier.Helper.ExtraTimeOutSeconds : 0);
+            proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, timeOut, options, callback);
             answer = null;
-            if (answerPending.WaitOne(TimeOutSeconds * 1000))
+            if (answerPending.WaitOne(timeOut * 1000))
             {
                 answer = answerCardsOfCards;                
             }
