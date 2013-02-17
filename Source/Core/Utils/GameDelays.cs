@@ -11,7 +11,7 @@ namespace Sanguosha.Core.Utils
     {
         GameStart = 1,
         JunWei,
-        TieSuoDamage,
+        Damage,
         JudgeEnd,
         Discard,
         CardTransfer,
@@ -30,7 +30,7 @@ namespace Sanguosha.Core.Utils
         {
             _delays[GameDelayTypes.GameStart] = 1000;
             _delays[GameDelayTypes.JunWei] = 380;
-            _delays[GameDelayTypes.TieSuoDamage] = 610;
+            _delays[GameDelayTypes.Damage] = 610;
             _delays[GameDelayTypes.JudgeEnd] = 500;
             _delays[GameDelayTypes.Discard] = 480;
             _delays[GameDelayTypes.CardTransfer] = 700;

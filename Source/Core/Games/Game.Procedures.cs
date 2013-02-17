@@ -109,6 +109,7 @@ namespace Sanguosha.Core.Games
             damageArgs.Targets[0].Health -= damageArgs.Magnitude;
             Trace.TraceInformation("Player {0} Lose {1} hp, @ {2} hp", damageArgs.Targets[0].Id, damageArgs.Magnitude, damageArgs.Targets[0].Health);
             NotificationProxy.NotifyDamage(source, damageArgs.Targets[0], damageArgs.Magnitude, damageArgs.Element);
+            GameDelays.Delay(GameDelayTypes.Damage);
 
             try
             {
@@ -128,7 +129,6 @@ namespace Sanguosha.Core.Games
                 {
                     if (p.IsIronShackled)
                     {
-                        GameDelays.Delay(GameDelayTypes.TieSuoDamage);
                         readonlyCard[IsIronShackleDamage] = 1;
                         DoDamage(damageArgs.Source, p, originalTarget, ironShackledDamage, ironShackledDamageElement, card, readonlyCard);
                     }

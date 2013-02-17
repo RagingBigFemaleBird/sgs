@@ -22,13 +22,8 @@ namespace Sanguosha.Expansions.SP.Skills
             List<Card> cards = arg.Cards;
             Game.CurrentGame.HandleCardDiscard(Owner, cards);
             Game.CurrentGame.SortByOrderOfComputation(Owner, arg.Targets);
-            foreach (var p in arg.Targets)
-                Game.CurrentGame.DoDamage(arg.Source, p, 1, DamageElement.None, null, null);
-            foreach (var p in arg.Targets)
-            {
-                if (p.IsDead) continue;
-                Game.CurrentGame.DrawCards(p, 1);
-            }
+            foreach (var p in arg.Targets) Game.CurrentGame.DoDamage(arg.Source, p, 1, DamageElement.None, null, null);
+            foreach (var p in arg.Targets) Game.CurrentGame.DrawCards(p, 1);
             return true;
         }
 
@@ -45,8 +40,8 @@ namespace Sanguosha.Expansions.SP.Skills
 
         protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
         {
-            if (players != null && players.Count > 0 && (cards == null || cards.Count == 0)) return false;
             if (source[XueJiUsed] != 0 || source.LostHealth == 0) return false;
+            if (players != null && players.Count > 0 && (cards == null || cards.Count == 0)) return false;
             if (players != null && source.LostHealth < players.Count) return false;
             var temp = new Sha();
             temp.HoldInTemp(cards);
@@ -66,7 +61,7 @@ namespace Sanguosha.Expansions.SP.Skills
 
         protected override bool VerifyPlayer(Player source, Player player)
         {
-            return true;
+            return player != source;
         }
     }
 }
