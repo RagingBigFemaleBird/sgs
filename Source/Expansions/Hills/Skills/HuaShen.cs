@@ -77,7 +77,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             Owner.Allegiance = handler.Hero.Allegiance;
             Owner.IsMale = handler.Hero.IsMale;
             Owner.IsFemale = !handler.Hero.IsMale;
-            Game.CurrentGame.NotificationProxy.NotifyImpersonation(Owner, handler.Hero, acquiredSkill);
+            Game.CurrentGame.NotificationProxy.NotifyImpersonation(Owner, HeroTag, handler.Hero, acquiredSkill);
             Game.CurrentGame.HandleGodHero(Owner);
             Game.CurrentGame.Emit(GameEvent.PlayerChangedAllegiance, new GameEventArgs() { Source = Owner });
             Game.CurrentGame.PlayerAcquireAdditionalSkill(Owner, acquiredSkill, HeroTag);
@@ -91,7 +91,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             Owner.Allegiance = Allegiance.Qun;
             Owner.IsMale = true;
             Owner.IsFemale = !Owner.IsMale;
-            Game.CurrentGame.NotificationProxy.NotifyImpersonation(Owner, null, null);
+            Game.CurrentGame.NotificationProxy.NotifyImpersonation(Owner, HeroTag, null, null);
             Game.CurrentGame.Emit(GameEvent.PlayerChangedAllegiance, new GameEventArgs() { Source = Owner });
             if (acquiredSkill != null && Owner.AdditionalSkills.Contains(acquiredSkill))
                 Game.CurrentGame.PlayerLoseAdditionalSkill(Owner, acquiredSkill);

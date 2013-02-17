@@ -27,13 +27,14 @@ namespace Sanguosha.UI.Controls
         #region Constructors
         public PlayerViewModel()
         {
+            Hero1Model = new HeroViewModel();
+            Hero2Model = new HeroViewModel();
+
             IsSelectionMode = false;
             AutoInvokeSkillCommands = new ObservableCollection<SkillCommand>();
             ActiveSkillCommands = new ObservableCollection<SkillCommand>();
-            DockedSkillCommands = new ObservableCollection<SkillCommand>();
             RulerGivenSkillCommands = new ObservableCollection<SkillCommand>();
-            HeroSkillNames = new ObservableCollection<string>();
-            heroNameChars = new ObservableCollection<string>();
+
             PrivateDecks = new ObservableCollection<PrivateDeckViewModel>();
 
             MultiChoiceCommands = new ObservableCollection<ICommand>();
@@ -177,7 +178,9 @@ namespace Sanguosha.UI.Controls
                     }
                     else
                     {
-                        DockedSkillCommands.Add(command);
+                        var hero = GetHeroModel(skill.HeroTag);
+                        Trace.Assert(hero != null);
+                        hero.SkillCommands.Add(command);
                     }
 
                 }
@@ -188,7 +191,8 @@ namespace Sanguosha.UI.Controls
                 if (!_player.Skills.Any(s => skillCommand.Skill == s))
                 {
                     AutoInvokeSkillCommands.Remove(skillCommand);
-                    DockedSkillCommands.Remove(skillCommand);
+                    if (Hero1Model != null) Hero1Model.SkillCommands.Remove(skillCommand);
+                    if (Hero2Model != null) Hero2Model.SkillCommands.Remove(skillCommand);
                     RulerGivenSkillCommands.Remove(skillCommand);
                 }
             }
@@ -206,36 +210,6 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        private void _UpdateHeroInfo()
-        {
-            HeroSkillNames.Clear();
-            heroNameChars.Clear();
-
-            if (Hero != null)
-            {
-                string name = Application.Current.TryFindResource(string.Format("Hero.{0}.Name", Hero.Name)) as string;
-                if (name != null)
-                {
-                    foreach (var heroChar in name)
-                    {
-                        if (heroNameChars.Count > 0 && (char.IsUpper(heroChar) || char.IsLower(heroChar)) &&
-                            (char.IsUpper(heroNameChars.Last().Last()) || char.IsUpper(heroNameChars.Last().Last())))
-                        {
-                            heroNameChars[heroNameChars.Count - 1] += heroChar;
-                        }
-                        else
-                        {
-                            heroNameChars.Add(heroChar.ToString());
-                        }
-                    }
-                }
-                foreach (var skill in Hero.Skills)
-                {
-                    HeroSkillNames.Add(skill.GetType().Name);
-                }
-            }
-        }
-
         private void _OnPlayerPropertyChanged(object o, PropertyChangedEventArgs e)
         {
             string name = e.PropertyName;
@@ -247,16 +221,19 @@ namespace Sanguosha.UI.Controls
             }
             else if (name == "Hero")
             {
-                if (Application.Current.Dispatcher.CheckAccess())
+                Application.Current.Dispatcher.Invoke((ThreadStart)delegate() 
                 {
-                    _UpdateHeroInfo();
-                }
-                else
-                {
-                    Application.Current.Dispatcher.Invoke((ThreadStart)_UpdateHeroInfo);
+                    Hero1Model.Hero = Hero;
                     OnPropertyChanged("Hero");
-                    OnPropertyChanged("HeroName");
-                }
+                });
+            }
+            else if (name == "Hero2")
+            {
+                Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+                {
+                    Hero2Model.Hero = Hero;
+                    OnPropertyChanged("Hero2");
+                });
             }
             else if (name == "Skills")
             {
@@ -575,6 +552,18 @@ namespace Sanguosha.UI.Controls
 
         #region Derived Player Properties
 
+        public HeroViewModel Hero1Model
+        {
+            get;
+            set;
+        }
+
+        public HeroViewModel Hero2Model
+        {
+            get;
+            set;
+        }
+
         public ObservableCollection<MarkViewModel> Marks
         {
             get;
@@ -599,10 +588,15 @@ namespace Sanguosha.UI.Controls
             private set;
         }
 
-        public ObservableCollection<SkillCommand> DockedSkillCommands
+        public IEnumerable<SkillCommand> DockedSkillCommands
         {
-            get;
-            private set;
+            get
+            {
+                IEnumerable<SkillCommand> result = new List<SkillCommand>();
+                if (Hero1Model != null) result = result.Concat(Hero1Model.SkillCommands);
+                if (Hero2Model != null) result = result.Concat(Hero2Model.SkillCommands);
+                return result;
+            }
         }
 
         public ObservableCollection<SkillCommand> ActiveSkillCommands
@@ -641,47 +635,6 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        private string _impersonatedHeroName;
-        public string ImpersonatedHeroName
-        {
-            get
-            {
-                return _impersonatedHeroName;
-            }
-            set
-            {
-                if (_impersonatedHeroName == value) return;
-                _impersonatedHeroName = value;
-                OnPropertyChanged("ImpersonatedHeroName");
-            }
-        }
-
-        private string _impersonatedSkill;
-
-        public string ImpersonatedSkill
-        {
-            get
-            {
-                return _impersonatedSkill;
-            }
-            set
-            {
-                if (_impersonatedSkill == value) return;
-                _impersonatedSkill = value;
-                OnPropertyChanged("ImpersonatedSkill");
-            }
-        }
-
-        /// <summary>
-        /// Returns the skill names of the primary hero.
-        /// </summary>
-        /// <remarks>For displaying tooltip purposes.</remarks>
-        public ObservableCollection<string> HeroSkillNames
-        {
-            get;
-            private set;
-        }
-
         private PrivateDeckViewModel _currentPrivateDeck;
 
         public PrivateDeckViewModel CurrentPrivateDeck
@@ -695,30 +648,6 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        public string HeroName
-        {
-            get
-            {
-                if (_player == null || _player.Hero == null)
-                {
-                    return string.Empty;
-                }
-                else
-                {
-                    return (_player.Hero.Name);
-                }
-            }
-        }
-
-        ObservableCollection<string> heroNameChars;
-
-        public ObservableCollection<string> HeroNameChars
-        {
-            get
-            {
-                return heroNameChars;
-            }
-        }
 
         private static List<Role> roleGameRoles = new List<Role>() { Role.Loyalist, Role.Defector, Role.Rebel };
 
@@ -1945,6 +1874,13 @@ namespace Sanguosha.UI.Controls
             {
                 ExecuteMultiChoiceCommand(0);
             }
+        }
+
+        internal HeroViewModel GetHeroModel(Hero hero)
+        {
+            if (Hero == hero) return Hero1Model;
+            else if (Hero2 == hero) return Hero2Model;
+            else return null;
         }
     }
 }

@@ -327,5 +327,10 @@ namespace Sanguosha.UI.Controls
             return ClipToBounds ? base.GetLayoutClip(layoutSlotSize) : null;
         }
 
+
+        public virtual void UpdateImpersonateStatus(bool isPrimaryHero)
+        {
+            
+        }
     }
 }

@@ -109,25 +109,29 @@ namespace Sanguosha.UI.Controls
                 Uri uri = GameSoundLocator.GetSystemSound("IronShackled");
                 GameSoundPlayer.PlaySoundEffect(uri);
             }
-            else if (e.PropertyName == "ImpersonatedHeroName")
+        }
+
+        public override void UpdateImpersonateStatus(bool isPrimaryHero)
+        {
+            Sanguosha.UI.Resources.FileNameToImageSourceConverter converter = new UI.Resources.FileNameToImageSourceConverter();
+
+            var hero = isPrimaryHero ? PlayerModel.Hero1Model : PlayerModel.Hero2Model;
+
+            Trace.Assert(hero != null);
+
+            Storyboard sb = (Resources["sbStartImpersonate"] as Storyboard);
+            if (!string.IsNullOrEmpty(hero.ImpersonatedHeroName))
             {
-                Sanguosha.UI.Resources.FileNameToImageSourceConverter converter = new UI.Resources.FileNameToImageSourceConverter();
-                
                 converter.StringFormat = "Resources/Images/Heroes/Full/{0}.png";
                 converter.ResourceKeyFormat = "Hero.{0}.Image";
-                converter.CropRect = new Int32Rect(71,28,145,145);
-                ImageSource source = converter.Convert(new object[]{ this, model.ImpersonatedHeroName }, typeof(ImageSource), null, null) as ImageSource;
+                converter.CropRect = new Int32Rect(71, 28, 145, 145);
+                ImageSource source = converter.Convert(new object[] { this, hero.ImpersonatedHeroName }, typeof(ImageSource), null, null) as ImageSource;
                 impersonateEffect.Texture2 = new ImageBrush(source);
-
-                Storyboard sb = (Resources["sbStartImpersonate"] as Storyboard);
-                if (!string.IsNullOrEmpty(model.ImpersonatedHeroName))
-                {
-                    sb.Begin();
-                }
-                else
-                {
-                    sb.Stop();
-                }
+                sb.Begin();
+            }
+            else
+            {
+                sb.Stop();
             }
         }
 

@@ -31,6 +31,7 @@ using Sanguosha.Expansions.Battle.Cards;
 using Xceed.Wpf.Toolkit;
 using System.Windows.Media.Effects;
 using System.Windows.Threading;
+using Sanguosha.Core.Heroes;
 
 namespace Sanguosha.UI.Controls
 {
@@ -529,6 +530,7 @@ namespace Sanguosha.UI.Controls
             if (e.PropertyName == "MainPlayerSeatNumber")
             {
                 RearrangeSeats();
+                _ResizeCueLines();
             }
         }
 
@@ -1215,21 +1217,24 @@ namespace Sanguosha.UI.Controls
             });
         }
 
-        public void NotifyImpersonation(Player p, Core.Heroes.Hero h, ISkill s)
+        public void NotifyImpersonation(Player p, Hero impersonator, Hero impersonatedHero, ISkill acquiredSkill)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                var model = playersMap[p].PlayerModel;
-                if (h == null)
+                var view = playersMap[p]; 
+                var model = view.PlayerModel.GetHeroModel(impersonator);
+                Trace.Assert(model != null);
+                if (impersonatedHero == null)
                 {
                     model.ImpersonatedHeroName = string.Empty;
                     model.ImpersonatedSkill = string.Empty;
                 }
                 else
                 {
-                    model.ImpersonatedHeroName = h.Name;
-                    model.ImpersonatedSkill = s.GetType().Name;
+                    model.ImpersonatedHeroName = impersonatedHero.Name;
+                    model.ImpersonatedSkill = acquiredSkill.GetType().Name;
                 }
+                view.UpdateImpersonateStatus(model == view.PlayerModel.Hero1Model);
             });
         }
 

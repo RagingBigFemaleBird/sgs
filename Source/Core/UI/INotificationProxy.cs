@@ -29,7 +29,7 @@ namespace Sanguosha.Core.UI
         void NotifyCustomLog(Prompt custom, List<Player> players = null, bool isKeyEvent = true);
         void NotifyShowCard(Player p, Card card);
         void NotifyCardChoiceCallback(CardRearrangement o);
-        void NotifyImpersonation(Player p, Hero h, ISkill s);
+        void NotifyImpersonation(Player p, Hero impersonator, Hero impersonatedHero, ISkill acquiredSkill);
         void NotifyWuGuStart(Prompt prompt, DeckPlace place);
         void NotifyWuGuEnd();
         void NotifyPinDianStart(Player from, Player to, ISkill skill);
@@ -92,7 +92,7 @@ namespace Sanguosha.Core.UI
         {
         }
 
-        public void NotifyImpersonation(Player p, Hero h, ISkill s)
+        public void NotifyImpersonation(Player p, Hero impersonator, Hero impersonatedHero, ISkill acquiredSkill)
         {
         }
 
