@@ -22,6 +22,21 @@ namespace Sanguosha.Core.Games
         public int NumberOfRebels { get; set; }
         public int NumberOfDefectors { get; set; }
 
+        public virtual int GetMaxHealth(Player p)
+        {
+            int maxHealth = 0;
+            if (p.Role == Role.Ruler && Game.CurrentGame.Players.Count > 4) maxHealth += 1;
+            if (Game.CurrentGame.Settings.DualHeroMode && p.Hero2 != null)
+            {
+                maxHealth += (p.Hero.MaxHealth + p.Hero2.MaxHealth) / 2;
+            }
+            else
+            {
+                maxHealth += p.Hero.MaxHealth;
+            }
+            return maxHealth;
+        }
+
         public class PlayerActionTrigger : Trigger
         {
             private class PlayerActionStageVerifier : CardUsageVerifier
@@ -672,17 +687,17 @@ namespace Sanguosha.Core.Games
                 Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, rulerId);
                 Game.CurrentGame.Players[rulerId].Hero = h.Hero;
                 Game.CurrentGame.Players[rulerId].Allegiance = h.Hero.Allegiance;
-                Game.CurrentGame.Players[rulerId].MaxHealth = Game.CurrentGame.Players[rulerId].Health = ((game.Players.Count > 4) ? h.Hero.MaxHealth + 1 : h.Hero.MaxHealth);
                 Game.CurrentGame.Players[rulerId].IsMale = h.Hero.IsMale ? true : false;
                 Game.CurrentGame.Players[rulerId].IsFemale = h.Hero.IsMale ? false : true;
                 if (Game.CurrentGame.Settings.DualHeroMode)
                 {
                     h = (HeroCardHandler)answer[0][1].Type;
-                    Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, rulerId);
-                    Game.CurrentGame.Players[rulerId].Hero2 = h.Hero;
-                    int aveHp = (Game.CurrentGame.Players[rulerId].Hero.MaxHealth + Game.CurrentGame.Players[rulerId].Hero2.MaxHealth) / 2;
-                    Game.CurrentGame.Players[rulerId].MaxHealth = Game.CurrentGame.Players[rulerId].Health = ((game.Players.Count > 4) ? aveHp + 1 : aveHp);
+                    var hero2 = h.Hero.Clone() as Hero;
+                    foreach (var sk in new List<ISkill>(hero2.Skills)) if (sk.IsRulerOnly) hero2.Skills.Remove(sk);
+                    Trace.TraceInformation("Assign {0} to player {1}", hero2.Name, rulerId);
+                    Game.CurrentGame.Players[rulerId].Hero2 = hero2;
                 }
+                Game.CurrentGame.Players[rulerId].MaxHealth = Game.CurrentGame.Players[rulerId].Health = (game as RoleGame).GetMaxHealth(Game.CurrentGame.Players[rulerId]);
 
 
                 toDraw = 3 + (Game.CurrentGame.Settings.DualHeroMode ? 3 : 0);
@@ -802,43 +817,54 @@ namespace Sanguosha.Core.Games
                 }
                 foreach (var p in toCheck)
                 {
-                    if (convertibleHeroes.Keys.Contains(p.Hero.Name))
+                    bool changeHero = false;
+                    for (int heroIndex = 0; heroIndex < 2; heroIndex++)
                     {
-                        DeckType tempSpHeroes = new DeckType("tempSpHeroes");
-                        DeckPlace heroesConvert = new DeckPlace(p, tempSpHeroes);
-                        game.Decks[heroesConvert].AddRange(convertibleHeroes[p.Hero.Name]);
-                        List<List<Card>> choice;
-                        AdditionalCardChoiceOptions options = new AdditionalCardChoiceOptions();
-                        options.IsCancellable = true;
-                        if (p.AskForCardChoice(new CardChoicePrompt("HeroesConvert", p),
-                            new List<DeckPlace>() { heroesConvert },
-                            new List<string>() { "convert" },
-                            new List<int>() { 1 },
-                            new RequireOneCardChoiceVerifier(),
-                            out choice,
-                            options))
+                        if (heroIndex == 1 && !Game.CurrentGame.Settings.DualHeroMode) break;
+                        Hero playerHero = heroIndex == 0 ? p.Hero : p.Hero2;
+                        if (convertibleHeroes.Keys.Contains(playerHero.Name))
                         {
-                            foreach (var sk in p.Hero.Skills)
+                            DeckType tempSpHeroes = new DeckType("tempSpHeroes");
+                            DeckPlace heroesConvert = new DeckPlace(p, tempSpHeroes);
+                            game.Decks[heroesConvert].AddRange(convertibleHeroes[playerHero.Name]);
+                            List<List<Card>> choice;
+                            AdditionalCardChoiceOptions options = new AdditionalCardChoiceOptions();
+                            options.IsCancellable = true;
+                            if (p.AskForCardChoice(new CardChoicePrompt("HeroesConvert", p),
+                                new List<DeckPlace>() { heroesConvert },
+                                new List<string>() { "convert" },
+                                new List<int>() { 1 },
+                                new RequireOneCardChoiceVerifier(),
+                                out choice,
+                                options))
                             {
-                                sk.Owner = null;
-                            }
-                            Hero hero = ((choice[0][0].Type as HeroCardHandler).Hero.Clone()) as Hero;
-                            foreach (var skill in new List<ISkill>(hero.Skills))
-                            {
-                                if (skill.IsRulerOnly && p.Role != Role.Ruler)
+                                foreach (var sk in playerHero.Skills)
                                 {
-                                    hero.Skills.Remove(skill);
+                                    sk.Owner = null;
                                 }
+                                Hero hero = ((choice[0][0].Type as HeroCardHandler).Hero.Clone()) as Hero;
+                                foreach (var skill in new List<ISkill>(hero.Skills))
+                                {
+                                    if (skill.IsRulerOnly && (p.Role != Role.Ruler || heroIndex == 1))
+                                    {
+                                        hero.Skills.Remove(skill);
+                                    }
+                                }
+                                if (heroIndex == 0)
+                                {
+                                    p.Hero = hero;
+                                    p.Allegiance = hero.Allegiance;
+                                    p.IsMale = hero.IsMale ? true : false;
+                                    p.IsFemale = hero.IsMale ? false : true;
+                                }
+                                else p.Hero2 = hero;
+                                changeHero = true;
+                                game.Emit(GameEvent.PlayerChangedHero, new GameEventArgs() { Source = p });
                             }
-                            p.Hero = hero;
-                            p.Allegiance = hero.Allegiance;
-                            p.MaxHealth = p.Health = hero.MaxHealth;
-                            p.IsMale = hero.IsMale ? true : false;
-                            p.IsFemale = hero.IsMale ? false : true;
-                            game.Emit(GameEvent.PlayerChangedHero, new GameEventArgs() { Source = p });
+                            game.Decks[heroesConvert].Clear();
                         }
-                        game.Decks[heroesConvert].Clear();
                     }
+                    if (changeHero) p.MaxHealth = p.Health = (game as RoleGame).GetMaxHealth(p);
                     Game.CurrentGame.HandleGodHero(p);
                 }
 
