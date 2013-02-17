@@ -32,6 +32,7 @@ namespace Sanguosha.Core.Skills
             log.Targets = targets;
             log.SpecialEffectHint = GenerateSpecialEffectHintIndex(Owner, targets);
             Games.Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
+            if (IsSingleUse || IsAwakening) Core.Utils.GameDelays.Delay(Utils.GameDelayTypes.Awaken);
         }
 
         protected virtual int GenerateSpecialEffectHintIndex(Player source, List<Player> targets)
@@ -137,7 +138,6 @@ namespace Sanguosha.Core.Skills
                     if (IsAutoNotify)
                     {
                         Skill.NotifySkillUse(players);
-                        if (Skill.IsSingleUse || Skill.IsAwakening) Core.Utils.GameDelays.Delay(Utils.GameDelayTypes.Awaken);
                     }
                     Execute(Owner, gameEvent, eventArgs, cards, players);
                     Game.CurrentGame.NotificationProxy.NotifyActionComplete();
@@ -210,7 +210,6 @@ namespace Sanguosha.Core.Skills
                     if (IsAutoNotify)
                     {
                         Skill.NotifySkillUse(new List<Player>());
-                        if (Skill.IsSingleUse || Skill.IsAwakening) Core.Utils.GameDelays.Delay(Utils.GameDelayTypes.Awaken);
                     }
                     InnerTrigger.Execute(Owner, gameEvent, eventArgs);
                     Game.CurrentGame.NotificationProxy.NotifyActionComplete();
