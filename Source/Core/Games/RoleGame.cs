@@ -662,7 +662,7 @@ namespace Sanguosha.Core.Games
                 List<int> resultDeckMaximums = new List<int>();
                 resultDeckMaximums.Add(Game.CurrentGame.Settings.DualHeroMode ? 2 : 1);
                 List<List<Card>> answer;
-                if (!game.UiProxies[game.Players[rulerId]].AskForCardChoice(new CardChoicePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new AlwaysTrueChoiceVerifier(), out answer))
+                if (!game.UiProxies[game.Players[rulerId]].AskForCardChoice(new CardChoicePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new RequireCardsChoiceVerifier(2), out answer))
                 {
                     answer = new List<List<Card>>();
                     answer.Add(new List<Card>());
@@ -741,7 +741,7 @@ namespace Sanguosha.Core.Games
                             }
                             else
                             {
-                                c = restDraw[p][0];
+                                c = restDraw[p][idx];
                             }
                             foreach (Player player in game.Players)
                             {

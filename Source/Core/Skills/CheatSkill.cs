@@ -21,6 +21,7 @@ namespace Sanguosha.Core.Skills
         public CheatSkill()
         {
             Helper = new UiHelper();
+            HeroTag = null;
         }
         public CheatType CheatType { get; set; }
         public int CardId { get; set; }

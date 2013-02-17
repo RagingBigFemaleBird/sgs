@@ -50,7 +50,7 @@ namespace Sanguosha.Core.Utils
 
         public override int Read(byte[] buffer, int offset, int count)
         {
-            throw new NotImplementedException();
+            return 0;
         }
 
         public override long Seek(long offset, SeekOrigin origin)

@@ -127,7 +127,7 @@ namespace Sanguosha.Core.Network
                 else if (o is SkillItem)
                 {
                     QueueSkill((SkillItem)o);
-                }                
+                }
                 else if (o.GetType().IsValueType)
                 {
                     QueueValueType(o);

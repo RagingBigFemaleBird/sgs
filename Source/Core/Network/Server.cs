@@ -159,16 +159,11 @@ namespace Sanguosha.Core.Network
             spectatorHandler.stream = new ReplaySplitterStream();
             spectatorHandler.receiver = new ItemReceiver(spectatorHandler.stream);
             spectatorHandler.sender = new ItemSender(spectatorHandler.stream);
-            spectatorHandler.threadServer = new Thread((ParameterizedThreadStart)((o) =>
-            {
-                ServerThread(handlers[(int)o]);
-            })) { IsBackground = true };
             spectatorHandler.threadClient = new Thread((ParameterizedThreadStart)((o) =>
             {
                 ClientThread(handlers[(int)o]);
             })) { IsBackground = true };
             handlers.Add(spectatorHandler);
-            spectatorHandler.threadServer.Start(handlers.Count - 1);
             spectatorHandler.threadClient.Start(handlers.Count - 1);
             Trace.TraceInformation("Server ready");
             reconnectThread = new Thread(ReconnectionListener);
