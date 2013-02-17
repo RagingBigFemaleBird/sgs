@@ -839,6 +839,7 @@ namespace Sanguosha.Core.Games
             Dictionary<Player, int> answers;
             GlobalProxy.AskForMultipleChoice(new MultipleChoicePrompt("ShowCards", p), new List<OptionPrompt>() { OptionPrompt.YesChoice }, AlivePlayers, out answers);
             NotificationProxy.NotifyShowCardsEnd();
+            foreach (Card c in cards) Game.CurrentGame.HideHandCard(c);
         }
 
         public List<Card> PickDefaultCardsFrom(List<DeckPlace> places, int n = 1)
