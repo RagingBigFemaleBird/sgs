@@ -71,12 +71,12 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                     options,
                     CardChoiceCallback.GenericCardChoiceCallback))
             {
-                Game.CurrentGame.NotificationProxy.NotifyLogEvent(new Prompt(Prompt.LogEventPrefix + "XinZhan", Owner, Game.CurrentGame.Decks[null, XinZhanDeck].Count));
+                Game.CurrentGame.NotificationProxy.NotifyLogEvent(new LogEvent("XinZhan", Owner, Game.CurrentGame.Decks[null, XinZhanDeck].Count), new List<Player>() { Owner }, false);
                 Game.CurrentGame.InsertBeforeDeal(null, Game.CurrentGame.Decks[null, XinZhanDeck], new MovementHelper() { IsFakedMove = true });
             }
             else
             {
-                Game.CurrentGame.NotificationProxy.NotifyLogEvent(new Prompt(Prompt.LogEventPrefix + "XinZhan", Owner, answer[0].Count));
+                Game.CurrentGame.NotificationProxy.NotifyLogEvent(new LogEvent("XinZhan", Owner, answer[0].Count), new List<Player>() { Owner }, false);
                 Game.CurrentGame.InsertBeforeDeal(null, answer[0], new MovementHelper() { IsFakedMove = true });
                 Game.CurrentGame.HandleCardTransferToHand(null, Owner, answer[1]);
             }

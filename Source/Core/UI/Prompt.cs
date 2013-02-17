@@ -44,18 +44,18 @@ namespace Sanguosha.Core.UI
         }
     }
 
-    public class CustomLog : Prompt
+    public class LogEvent : Prompt
     {
-        public CustomLog(string key, params object[] args)
-            : base(CustomLogPrefix + key, args)
+        public LogEvent(string key, params object[] args)
+            : base(LogEventPrefix + key, args)
         {
         }
     }
 
-    public class CustomLogArg : Prompt
+    public class LogEventArg : Prompt
     {
-        public CustomLogArg(string key, params object[] args)
-            : base(CustomLogArgPrefix + key, args)
+        public LogEventArg(string key, params object[] args)
+            : base(LogEventArgPrefix + key, args)
         {
         }
     }
@@ -104,15 +104,14 @@ namespace Sanguosha.Core.UI
         public static readonly string CardChoicePromptsPrefix = "CardChoice.Prompt.";
         #endregion
 
-        #region Custom Log
-        public static readonly string CustomLogPrefix = "CustomLog.";
-        public static readonly string CustomLogArgPrefix = "CustomLog.Arg.";
-        public static readonly CustomLogArg Success = new CustomLogArg("Success");
-        public static readonly CustomLogArg Fail = new CustomLogArg("Fail");
+        #region Log Event
+        public static readonly string LogEventPrefix = "LogEvent.";
+        public static readonly string LogEventArgPrefix = "LogEvent.Arg.";
+        public static readonly LogEventArg Success = new LogEventArg("Success");
+        public static readonly LogEventArg Fail = new LogEventArg("Fail");
         #endregion
 
         #region Multiple Choice Constants
-        public static readonly string LogEventPrefix = "LogEvent.";
         public static readonly string MultipleChoicePromptPrefix = "MultiChoice.Prompt.";
         public static readonly string MultipleChoiceOptionPrefix = "MultiChoice.Choice.";
         public static readonly string NonPlaybleAppendix = ".Others";

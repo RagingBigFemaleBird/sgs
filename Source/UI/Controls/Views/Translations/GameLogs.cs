@@ -212,7 +212,7 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        public void AppendCustomLog(List<Player> players, Prompt custom)
+        public void AppendLogEvent(List<Player> players, Prompt custom)
         {
             var docs = (from pair in Logs
                         where players.Contains(pair.Key)
@@ -221,7 +221,7 @@ namespace Sanguosha.UI.Controls
             foreach (var doc in docs)
             {
                 Paragraph para = new Paragraph();
-                para.Inlines.AddRange(LogFormatter.TranslateCustomLog(custom));
+                para.Inlines.AddRange(LogFormatter.TranslateLogEvent(custom));
                 if (para != null)
                 {
                     doc.Blocks.Add(para);

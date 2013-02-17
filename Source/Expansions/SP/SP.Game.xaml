@@ -25,7 +25,7 @@
     <sys:String x:Key="MultiChoice.Choice.JiBen">基本牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.JinNang">锦囊牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.ZhuangBei">装备牌</sys:String>
-    <sys:String x:Key="CustomLog.JiLei">{0}被鸡助了{1}</sys:String>
+    <sys:String x:Key="LogEvent.JiLei">{0}被鸡助了{1}</sys:String>
     <sys:String x:Key="Status.JiLei.Name">鸡助</sys:String>
     <LinearGradientBrush x:Key="Status.JiLei.Brush" EndPoint="0.5,1" StartPoint="0.5,0">
         <GradientStop Color="#FFA0A0A0" Offset="0"/>
@@ -46,7 +46,7 @@
     <sys:String x:Key="Deck.BiFa.Name">笔伐</sys:String>
     <sys:String x:Key="CardUsage.Prompt.BiFa">你可以使用 笔伐</sys:String>
     <sys:String x:Key="CardUsage.Prompt.BiFaGiveCard">请交给 {0} 一张同类型手牌</sys:String>
-    <sys:String x:Key="CustomLog.BiFa">{0}的笔伐{1}</sys:String>
+    <sys:String x:Key="LogEvent.BiFa">{0}的笔伐{1}</sys:String>
 
-    <sys:String x:Key="CustomLog.WuJi">{0}失去了技能{1}</sys:String>
+    <sys:String x:Key="LogEvent.WuJi">{0}失去了技能{1}</sys:String>
 </ResourceDictionary>

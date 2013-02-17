@@ -77,7 +77,7 @@ namespace Sanguosha.UI.Controls
             return result;
         }
 
-        public static IList<Inline> TranslateCustomLog(Prompt custom)
+        public static IList<Inline> TranslateLogEvent(Prompt custom)
         {
             string format = Application.Current.TryFindResource(custom.ResourceKey) as string;
             if (format == null)

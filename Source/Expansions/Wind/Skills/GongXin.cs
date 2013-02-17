@@ -73,14 +73,14 @@ namespace Sanguosha.Expansions.Wind.Skills
                 {
                     var theCard = answer[0][0];
                     Game.CurrentGame.SyncCardAll(ref theCard);
-                    Game.CurrentGame.NotificationProxy.NotifyCustomLog(new CustomLog("GongXin1", Owner, target, theCard));
+                    Game.CurrentGame.NotificationProxy.NotifyLogEvent(new LogEvent("GongXin1", Owner, target, theCard), new List<Player>() { Owner, target });
                     Game.CurrentGame.InsertBeforeDeal(target, new List<Card>() { theCard });
                 }
                 else if (answer[1] != null && answer[1].Count > 0)
                 {
                     var theCard = answer[1][0];
                     Game.CurrentGame.SyncCardAll(ref theCard);
-                    Game.CurrentGame.NotificationProxy.NotifyCustomLog(new CustomLog("GongXin2", Owner, target, theCard));
+                    Game.CurrentGame.NotificationProxy.NotifyLogEvent(new LogEvent("GongXin2", Owner, target, theCard), new List<Player>() { Owner, target });
                     Game.CurrentGame.PlaceIntoDiscard(target, new List<Card>() { theCard });
                 }
             }

@@ -1023,10 +1023,6 @@ namespace Sanguosha.UI.Controls
             if (_playAwakeningAnimation) Core.Utils.GameDelays.Delay(Core.Utils.GameDelayTypes.Awaken);
         }
 
-        public void NotifyLogEvent(Prompt prompt)
-        {
-        }
-
         public void NotifyUiAttached()
         {
             // throw new NotImplementedException();
@@ -1098,7 +1094,7 @@ namespace Sanguosha.UI.Controls
         private void _AppendKeyEventLog(Prompt custom)
         {
             Paragraph para = new Paragraph();
-            para.Inlines.AddRange(LogFormatter.TranslateCustomLog(custom));
+            para.Inlines.AddRange(LogFormatter.TranslateLogEvent(custom));
             _AppendKeyEventLog(para);
         }
 
@@ -1171,11 +1167,11 @@ namespace Sanguosha.UI.Controls
             });
         }
 
-        public void NotifyCustomLog(Prompt custom, List<Player> players = null, bool isKeyEvent = true)
+        public void NotifyLogEvent(Prompt custom, List<Player> players = null, bool isKeyEvent = true)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                gameLogs.AppendCustomLog(players == null ? Game.CurrentGame.Players : players, custom);
+                gameLogs.AppendLogEvent(players == null ? Game.CurrentGame.Players : players, custom);
                 rtbLog.ScrollToEnd();
                 if (isKeyEvent) _AppendKeyEventLog(custom);
             });
