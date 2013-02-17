@@ -644,6 +644,7 @@ namespace Sanguosha.Core.Games
                         }
                     }
                 }
+                int numHeroes = Game.CurrentGame.Settings.DualHeroMode ? 2 : 1;
                 List<Card> rulerDraw = new List<Card>();
                 int toDraw = 12 + (Game.CurrentGame.Settings.DualHeroMode ? 3 : 0);
                 for (int rc = 0; rc < toDraw; rc++)
@@ -661,9 +662,9 @@ namespace Sanguosha.Core.Games
                 List<string> resultDeckNames = new List<string>();
                 resultDeckNames.Add("HeroChoice");
                 List<int> resultDeckMaximums = new List<int>();
-                resultDeckMaximums.Add(Game.CurrentGame.Settings.DualHeroMode ? 2 : 1);
+                resultDeckMaximums.Add(numHeroes);
                 List<List<Card>> answer;
-                if (!game.UiProxies[game.Players[rulerId]].AskForCardChoice(new CardChoicePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new RequireCardsChoiceVerifier(2), out answer))
+                if (!game.UiProxies[game.Players[rulerId]].AskForCardChoice(new CardChoicePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new RequireCardsChoiceVerifier(numHeroes), out answer))
                 {
                     answer = new List<List<Card>>();
                     answer.Add(new List<Card>());
@@ -694,7 +695,6 @@ namespace Sanguosha.Core.Games
                 {
                     h = (HeroCardHandler)answer[0][1].Type;
                     var hero2 = h.Hero.Clone() as Hero;
-                    foreach (var sk in new List<ISkill>(hero2.Skills)) if (sk.IsRulerOnly) hero2.Skills.Remove(sk);
                     Trace.TraceInformation("Assign {0} to player {1}", hero2.Name, rulerId);
                     Game.CurrentGame.Players[rulerId].Hero2 = hero2;
                 }
@@ -719,7 +719,7 @@ namespace Sanguosha.Core.Games
                 }
 
                 var heroSelection = new Dictionary<Player, List<Card>>();
-                game.GlobalProxy.AskForHeroChoice(restDraw, heroSelection, Game.CurrentGame.Settings.DualHeroMode ? 2 : 1, new RequireCardsChoiceVerifier(Game.CurrentGame.Settings.DualHeroMode ? 2 : 1));
+                game.GlobalProxy.AskForHeroChoice(restDraw, heroSelection, numHeroes, new RequireCardsChoiceVerifier(numHeroes));
 
                 bool notUsed = true;
                 game.SyncConfirmationStatus(ref notUsed);

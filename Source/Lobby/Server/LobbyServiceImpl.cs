@@ -439,7 +439,7 @@ namespace Sanguosha.Lobby.Server
                 {
                     if (unready.State == SeatState.GuestReady) unready.State = SeatState.GuestTaken;
                 }
-                var gs = new GameSettings() { TimeOutSeconds = room.TimeOutSeconds, TotalPlayers = total, CheatEnabled = CheatEnabled, DualHeroMode = room.DualHeroMode };
+                var gs = new GameSettings() { TimeOutSeconds = room.TimeOutSeconds, TotalPlayers = total, CheatEnabled = CheatEnabled, DualHeroMode = !room.DualHeroMode };
                 var config = new AccountConfiguration();
                 config.AccountIds = new List<LoginToken>();
                 config.Accounts = new List<Account>();

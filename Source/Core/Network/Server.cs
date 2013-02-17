@@ -167,7 +167,7 @@ namespace Sanguosha.Core.Network
             handlers.Add(spectatorHandler);
             spectatorHandler.threadClient.Start(handlers.Count - 1);
             Trace.TraceInformation("Server ready");
-            reconnectThread = new Thread(ReconnectionListener);
+            reconnectThread = new Thread(ReconnectionListener) { IsBackground = true };
             reconnectThread.Start();
         }
         
