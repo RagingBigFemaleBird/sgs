@@ -279,11 +279,17 @@
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
                             <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
                         </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask2">
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+                        </DoubleAnimationUsingKeyFrames>
                     </Storyboard>
                 </VisualState>
                 <VisualState x:Name="UnFaded">
                     <Storyboard>
                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask">
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="fadeMask2">
                             <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
                         </DoubleAnimationUsingKeyFrames>
                     </Storyboard>
@@ -530,11 +536,7 @@
                 				<System:Boolean>True</System:Boolean>
                 			</ToolTipService.ShowOnDisabled>
                 		</Image>
-                		<Border x:Name="fadeMask2" Background="#64000000" Opacity="0" IsHitTestVisible="False">
-                			<i:Interaction.Behaviors>
-                				<ei:DataStateBehavior TrueState="Faded" FalseState="UnFaded" Value="true" Binding="{Binding IsFaded}"/>
-                			</i:Interaction.Behaviors>
-                		</Border>
+                		<Border x:Name="fadeMask2" Background="#64000000" Opacity="0" IsHitTestVisible="False" />
                 		<Rectangle x:Name="drankMask2" Visibility="{Binding IsDrank, Converter={StaticResource boolToVisibilityConverter}}" >
                 			<Rectangle.Fill>
                 				<RadialGradientBrush>
@@ -546,7 +548,7 @@
                 		</Rectangle>
                 		<Image Source="/Resources;component/Images/MainPlayerInfoView/imprisoned.png" Stretch="Fill" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}"/>
                 		<Image x:Name="allegianceIcon2" Source="{res:ResourceKeyBinding Path=Hero2Model.Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="29" Margin="7,7,0,0" IsHitTestVisible="False" />
-                		<ItemsControl ItemsSource="{Binding Hero2Model.HeroNameChars}"
+                		<ItemsControl ItemsSource="{Binding Hero2Model.NameChars}"
                 			HorizontalAlignment="Left"
                 			Margin="11,36,0,48"
                 			Width="20" IsHitTestVisible="False">
