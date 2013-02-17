@@ -357,7 +357,10 @@
             
         </Grid>
         <local:SingleRowCardStack x:Name="privateCardArea" IsCardConsumer="True" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-140,0,8" Grid.ColumnSpan="2" Height="132" Width="200"  MaxCardSpacing="97" MaxCardSpacingOnHighlighted="97" CardAlignment="Center" />
-        <StackPanel x:Name="playerInfoArea" Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Background="Black">
+        <StackPanel x:Name="playerInfoArea" Orientation="Horizontal" Grid.Row="1" Grid.Column="2">
+			<StackPanel.Background>
+        		<ImageBrush ImageSource="{StaticResource MainPlayerInfoView.Background.Black}" Stretch="UniformToFill"/>
+        	</StackPanel.Background>
             <StackPanel.Effect>
                 <Sanguosha_UI_Effects:MonochromeEffect Strength="0"/>
             </StackPanel.Effect>

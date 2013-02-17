@@ -18,7 +18,7 @@
                 <ResourceDictionary Source="../Players/MarkView.xaml"/>
                 <ResourceDictionary Source="../Buttons/MultiChoiceButton.xaml"/>
                 <ResourceDictionary Source="../Dialogs/PromptBox.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>           
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <local:SkillButtonTemplateSelector x:Key="skillButtonTemplateSelector" />
             <LinearGradientBrush x:Key="indicatorLineBrush" EndPoint="0.5,1" StartPoint="0.5,0">
@@ -84,7 +84,7 @@
             <RowDefinition />
             <RowDefinition Height="148" />
         </Grid.RowDefinitions>
-        
+
         <Image x:Name="tableBg" Source="{DynamicResource Game.Table.Background}" Grid.RowSpan="2" Grid.ColumnSpan="2" Stretch="Fill" >
             <Image.Effect>
                 <BlurEffect Radius="4"/>
@@ -111,7 +111,7 @@
             <StackPanel x:Name="stackPanel4" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <StackPanel x:Name="stackPanel5" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" />
             <local:KeyEventNotifierView x:Name="keyEventLog"  Grid.Row="1" Grid.Column="1" IsHitTestVisible="False" Margin="5" />
-        </local:NonClipGrid>        
+        </local:NonClipGrid>
         <StackPanel x:Name="spPrompt"
                         HorizontalAlignment="Center"  VerticalAlignment="Bottom"
                         Margin="100, 0, 100, 0">
@@ -132,10 +132,10 @@
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate>                        
+                    <DataTemplate>
                         <Button Margin="20, 0, 20, 0" Style="{Binding ChoiceKey, Converter={StaticResource multiChoiceButtonStyleConverter}, Mode=OneWay}" DataContext="{Binding}" Command="{Binding}" HorizontalAlignment="Center" Width="auto">
-                                <local:OutlinedTextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Width="Auto" Text="{Binding Path=ChoiceKey, Mode=OneWay, Converter={StaticResource multiChoiceKeyConverter}}" FontFamily="SimHei" Fill="White" FontWeight="Bold" Stroke="Black" TextWrapping="NoWrap"/>
-                        </Button>                        
+                            <local:OutlinedTextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Width="Auto" Text="{Binding Path=ChoiceKey, Mode=OneWay, Converter={StaticResource multiChoiceKeyConverter}}" FontFamily="SimHei" Fill="White" FontWeight="Bold" Stroke="Black" TextWrapping="NoWrap"/>
+                        </Button>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
@@ -168,7 +168,7 @@
         </StackPanel>
         <local:MainPlayerView x:Name="mainPlayerPanel" VerticalAlignment="Bottom" Grid.Row="1" Grid.ColumnSpan="2"/>
         <Grid x:Name="infoPanel" Grid.Column="1">
-            <Grid x:Name="infoPanelBg" Background="#0B0B08">
+            <Grid x:Name="infoPanelBg">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="103"/>
@@ -180,7 +180,7 @@
                         <Border.Background>
                             <ImageBrush ImageSource="{DynamicResource Game.InfoPanel.Body}" Stretch="Fill"/>
                         </Border.Background>
-                    	<Image Source="{DynamicResource Game.InfoPanel.Splitter}" VerticalAlignment="Top" Margin="2,205,2,0"/>
+                        <Image Source="{DynamicResource Game.InfoPanel.Splitter}" VerticalAlignment="Top" Margin="2,205,2,0"/>
                     </Border>
                     <Image Source="{DynamicResource Game.InfoPanel.Footer}" Grid.Row="2"/>
                 </Grid>
@@ -236,13 +236,13 @@
                 <local:ChatWidget Grid.Row="2" Height="18" VerticalAlignment="Top" Margin="5,0"/>
             </Grid>
         </Grid>
-        
+
         <Canvas x:Name="gameGlobalCanvas" Grid.RowSpan="2" Grid.ColumnSpan="2" />
         <local:NonClipGrid x:Name="animationCenter" />
         <Grid Visibility="{Binding IsReplay, Converter={StaticResource boolToVisibilityConverter}}"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="197" Height="31">
             <local:ReplayControllerView DataContext="{Binding ReplayController}" />
-         </Grid>
-         <xctk:ChildWindow x:Name="deckDisplayWindow" 
+        </Grid>
+        <xctk:ChildWindow x:Name="deckDisplayWindow" 
                   Template="{DynamicResource BlackWindowStyle}"        
                   MaxWidth="600"
                   HorizontalContentAlignment="Center"

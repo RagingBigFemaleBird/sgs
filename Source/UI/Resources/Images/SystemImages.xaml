@@ -17,6 +17,7 @@
     <BitmapImage x:Key="MainPlayerInfoView.Background.Left">MainPlayerInfoView/leftBg.png</BitmapImage>
     <BitmapImage x:Key="MainPlayerInfoView.Background.Middle">MainPlayerInfoView/middleBg.png</BitmapImage>
     <BitmapImage x:Key="MainPlayerInfoView.Background.Right">MainPlayerInfoView/rightBg.png</BitmapImage>
+    <BitmapImage x:Key="MainPlayerInfoView.Background.Black">MainPlayerInfoView/blackBg.png</BitmapImage>
     <BitmapImage x:Key="MainPlayerInfoView.Background.Platter">MainPlayerInfoView/platter.png</BitmapImage>
     <BitmapImage x:Key="MainPlayerInfoView.Button.Ok.Up">Buttons/confirm/normal.png</BitmapImage>
     <BitmapImage x:Key="MainPlayerInfoView.Button.Ok.Hover">Buttons/confirm/hover.png</BitmapImage>
