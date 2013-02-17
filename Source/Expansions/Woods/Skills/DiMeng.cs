@@ -35,16 +35,19 @@ namespace Sanguosha.Expansions.Woods.Skills
             cards = new List<Card>(Game.CurrentGame.Decks[src1, DeckType.Hand]);
             move.Cards = new List<Card>(cards);
             move.To = new DeckPlace(src1, DiMengDeck);
+            move.Helper.IsFakedMove = true;
             Game.CurrentGame.MoveCards(move);
             Game.CurrentGame.PlayerLostCard(src1, cards);
 
             cards = new List<Card>(Game.CurrentGame.Decks[src2, DeckType.Hand]);
             move.Cards = new List<Card>(cards);
             move.To = new DeckPlace(src2, DiMengDeck);
+            move.Helper.IsFakedMove = true;
             Game.CurrentGame.MoveCards(move);
             Game.CurrentGame.PlayerLostCard(src2, cards);
             Game.CurrentGame.ExitAtomicContext();
 
+            move.Helper.IsFakedMove = false;
             Game.CurrentGame.SyncImmutableCards(src1, Game.CurrentGame.Decks[src2, DiMengDeck]);
             Game.CurrentGame.SyncImmutableCards(src2, Game.CurrentGame.Decks[src1, DiMengDeck]);
             Game.CurrentGame.EnterAtomicContext();
