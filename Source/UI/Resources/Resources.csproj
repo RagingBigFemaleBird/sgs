@@ -763,11 +763,6 @@
     <Resource Include="Images\MainPlayerInfoView\middleBg.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\PlayerInfoView\bottomBg.png" />
-    <Resource Include="Images\PlayerInfoView\middleBg.png" />
-    <Resource Include="Images\PlayerInfoView\topBg.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Cards\Normal\XiahouBa.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -780,6 +775,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Cards\Rank\Ranks.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PlayerInfoView\bg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PlayerInfoView\bg-fade.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

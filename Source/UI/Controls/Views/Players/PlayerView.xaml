@@ -98,15 +98,15 @@
                     <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
                 </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="image">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="deathIcon">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="3"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
                 </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="image">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="deathIcon">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="3"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
                 </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="deathIcon">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
                 </DoubleAnimationUsingKeyFrames>
@@ -218,7 +218,7 @@
                 <ei:ExtendedVisualStateManager/>
             </VisualStateManager.CustomVisualStateManager>
             <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="FadedStates" ei:ExtendedVisualStateManager.UseFluidLayout="True">
+                <VisualStateGroup x:Name="FadedStates" ei:ExtendedVisualStateManager.UseFluidLayout="False">
                     <VisualStateGroup.Transitions>
                         <VisualTransition GeneratedDuration="0:0:0.2"/>
                     </VisualStateGroup.Transitions>
@@ -227,12 +227,24 @@
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="fadeMask">
                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
                             </ObjectAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="bg">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                            </ObjectAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="bgFade">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
                         </Storyboard>
                     </VisualState>
                     <VisualState x:Name="Unfaded">
                         <Storyboard>
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="fadeMask">
                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                            </ObjectAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="bgFade">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                            </ObjectAnimationUsingKeyFrames>
+							<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="bg">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
                             </ObjectAnimationUsingKeyFrames>
                         </Storyboard>
                     </VisualState>
@@ -262,15 +274,6 @@
                         <BlurEffect Radius="10" />
                     </Border.Effect>
                 </Border>
-                <Border Margin="6" CornerRadius="3" Opacity="0.2" Background="Transparent">
-                    <Border.BorderBrush>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#FF707070" Offset="0"/>
-                            <GradientStop Color="Black" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Border.BorderBrush>
-                </Border>
-				
                 <Grid x:Name="mainArea" Margin="7" MouseLeftButtonDown="mainArea_MouseLeftButtonDown" MouseRightButtonDown="mainArea_MouseRightButtonDown">
                     <Grid.CacheMode>
                         <BitmapCache EnableClearType="True" RenderAtScale="2" SnapsToDevicePixels="True" />
@@ -278,38 +281,26 @@
 					<Grid.RowDefinitions>
                         <RowDefinition Height="27"/>
                         <RowDefinition/>
-                        <RowDefinition Height="74.667"/>
+                        <RowDefinition Height="66"/>
                     </Grid.RowDefinitions>
-                    <Border x:Name="Top" Grid.Row="0">
-                        <Border.Background>
-                            <ImageBrush ImageSource="{DynamicResource PlayerInfoView.Background.Top}" TileMode="Tile"/>
-                        </Border.Background>
-                    </Border>
-					<Border x:Name="Middle" Grid.Row="1">
-                        <Border.Background>
-                            <ImageBrush ImageSource="{DynamicResource PlayerInfoView.Background.Middle}"/>
-                        </Border.Background>
-                    </Border>
-                    <Border x:Name="Bottom" Grid.Row="2">
-                        <Border.Background>
-                            <ImageBrush ImageSource="{DynamicResource PlayerInfoView.Background.Bottom}" TileMode="Tile"/>
-                        </Border.Background>
-                        <Image Source="{DynamicResource PlayerInfoView.Dragon}" Stretch="Fill" VerticalAlignment="Center" Width="64" Height="56"/>
-                    </Border>
-                    <local:CardStack x:Name="privateCardArea" IsCardConsumer="true" CardAlignment="Center" MaxCardSpacing="30" Grid.RowSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-30,0,0,0"  Height="130" Width="179" IsHitTestVisible="false" />
+                   	<Image x:Name="bg" Margin="0,0,-2,0" Stretch="Fill" Grid.RowSpan="3" Source="{StaticResource PlayerInfoView.Background}" />
+                    <Image x:Name="bgFade" Margin="0,0,-2,0" Stretch="Fill" Grid.RowSpan="3" Source="{StaticResource PlayerInfoView.Background.Faded}" Visibility="Collapsed" />
+					<local:CardStack x:Name="privateCardArea" IsCardConsumer="true" CardAlignment="Center" MaxCardSpacing="30" Grid.RowSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-30,0,0,0"  Height="130" Width="179" IsHitTestVisible="false" />
                     <local:CardStack x:Name="handCardArea" IsCardConsumer="true" CardAlignment="Center" MaxCardSpacing="30" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="130" Width="279" IsHitTestVisible="false" />
-                    <Border Margin="5,0,6,-10" Grid.Row="1" CornerRadius="1" ClipToBounds="True" BorderThickness="1">
-                    	<Border.BorderBrush>
-                    		<LinearGradientBrush EndPoint="1,1.8" StartPoint="0,0">
-                    			<GradientStop Color="#E5323232" Offset="0"/>
-                    			<GradientStop Color="#E5323232" Offset="1"/>
-                    			<GradientStop Color="#FFDEDEDE" Offset="0.439"/>
-                    			<GradientStop Color="#E63C3C3C" Offset="0.26"/>
-                    			<GradientStop Color="#E84A4A4A" Offset="0.618"/>
-                    		</LinearGradientBrush>
-                    	</Border.BorderBrush>                        
+                    <Grid x:Name="heroArea" Margin="5,0,6,0" Grid.Row="1">
+                   		<Border CornerRadius="1" ClipToBounds="True" BorderThickness="1">
+	                    	<Border.BorderBrush>
+	                    		<LinearGradientBrush EndPoint="1,1.8" StartPoint="0,0">
+	                    			<GradientStop Color="#E5323232" Offset="0"/>
+	                    			<GradientStop Color="#E5323232" Offset="1"/>
+	                    			<GradientStop Color="#FFDEDEDE" Offset="0.439"/>
+	                    			<GradientStop Color="#E63C3C3C" Offset="0.26"/>
+	                    			<GradientStop Color="#E84A4A4A" Offset="0.618"/>
+	                    		</LinearGradientBrush>
+	                    	</Border.BorderBrush>
+						</Border>
 						<Grid Margin="1" >
-                            <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=28\,46\,220\,132, Path=HeroName, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/Full/\{0\}.png}">
+                            <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=28\,46\,220\,132, Path=HeroName, ResourceKeyFormat=Hero.{0}.Image, StringFormat=Resources/Images/Heroes/Full/{0}.png}">
                                 <Image.Effect>
                                     <Sanguosha_UI_Effects:RippleTransitionEffect x:Name="impersonateEffect" Progress="100"/>
                                 </Image.Effect>
@@ -375,14 +366,20 @@
                                 <local:OutlinedTextBlock Text="{res:ResourceKeyBinding Path=ImpersonatedSkill, StringFormat=Skill.{0}.Name}" FontSize="21" Fill="White" FontFamily="/Resources;component/Fonts/#LiSu" Margin="5,1" Stroke="Blue" StrokeThickness="3"/>
                             </Grid>
                             <Image Height="30" Margin="20,0,21,7" Source="/Resources;component/Images/Game/saveMe.png" IsHitTestVisible="False" Visibility="{Binding IsDying, Converter={StaticResource boolToVisibilityConverter}}" Stretch="Fill" VerticalAlignment="Bottom"/>
+                            <Border x:Name="fadeMask" Background="#64000000" Visibility="Hidden" IsHitTestVisible="False">
+                            	<i:Interaction.Behaviors>
+                            		<ei:DataStateBehavior Value="true" TrueState="Faded" FalseState="Unfaded" Binding="{Binding IsFaded}"/>
+                            	</i:Interaction.Behaviors>
+                            </Border>
                         </Grid>
-                    </Border>
-                    <Image Source="{DynamicResource PlayerInfoView.Decoration.TopLeft}" Width="64" HorizontalAlignment="Left" Margin="-8.75,-5.25,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Visibility="Hidden"/>
+					</Grid>
+					                        
+                    <!--Image Source="{DynamicResource PlayerInfoView.Decoration.TopLeft}" Width="64" HorizontalAlignment="Left" Margin="-8.75,-5.25,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Visibility="Hidden"/-->
                     <Image x:Name="allegianceMask" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Mask}" HorizontalAlignment="Left" Grid.RowSpan="2" Width="38" Stretch="Fill" Margin="-3.335,4.333,0,0.667" ClipToBounds="True" Height="119" VerticalAlignment="Top"/>
                     <Image x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" />
                     <local:RoleBox x:Name="cbRoleBox" HorizontalAlignment="Right" Width="25" Height="26"/>
 
-                    <ItemsControl ItemsSource="{Binding HeroNameChars}" Grid.Row="1"
+                    <ItemsControl x:Name="heroNameArea" ItemsSource="{Binding HeroNameChars}" Grid.Row="1"
                               HorizontalAlignment="Left"                              
                               Margin="2,0,0,30"
                               Width="20"
@@ -417,29 +414,29 @@
                     		<DropShadowEffect ShadowDepth="0"/>              	
 						</TextBlock.Effect>
 					</TextBlock>
-                    <Border Grid.Row="1" HorizontalAlignment="Left" Height="17" Width="16" VerticalAlignment="Bottom" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22" Margin="5,0,0,-4">
+                    <Border x:Name="handcardNumArea" Grid.Row="1" HorizontalAlignment="Left" Height="17" Width="16" VerticalAlignment="Bottom" Background="#FFF4E5B5" BorderThickness="1" BorderBrush="#FF332D22" Margin="5,0,0,-4">
                         <TextBlock x:Name="handCardNum" Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding HandCardCount}" TextAlignment="Center" FontFamily="Arial" Foreground="Black"/>
                     </Border>
-                    <Image SnapsToDevicePixels="True" Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="2" Stretch="Fill" Margin="3.25,9.249,0,0" Width="15" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" d:LayoutOverrides="GridBox"/>
-                    <Image SnapsToDevicePixels="True" Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="2" Stretch="Fill" Margin="3.25,24.248,0,0" Width="15" HorizontalAlignment="Left" d:LayoutOverrides="GridBox" Height="16" VerticalAlignment="Top"/>
-                    <Image SnapsToDevicePixels="True" Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="2" Stretch="Fill" Margin="3.25,39.247,0,0" Width="15" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" d:LayoutOverrides="GridBox"/>
-                    <Image SnapsToDevicePixels="True" Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="2" Stretch="Fill" Margin="3.25,54.246,0,0" Width="15" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" d:LayoutOverrides="GridBox"/>
-                    <Border SnapsToDevicePixels="True" Grid.Row="2" Margin="18.33,9.167,-1.33,-8.167">
-                        <Grid Margin="-0.667,0,0.667,0">
-                            <Canvas x:Name="weaponArea" Margin="-15,0,0,0" Height="15" Width="140"  VerticalAlignment="Top" HorizontalAlignment="Left" />
-                            <Canvas x:Name="armorArea" Margin="-15,15,0,0" Height="15" Width="140"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                            <Canvas x:Name="horse1Area" Margin="-15,30,0,0" Height="15" Width="140"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                            <Canvas x:Name="horse2Area" Margin="-15,45,0,0" Height="15" Width="140"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                        </Grid>
-                    </Border>
-                    <Grid Grid.Row="2" Height="22" VerticalAlignment="Top" Margin="-14.333,-7.166,-15.667,0" d:LayoutOverrides="VerticalAlignment">
+
+                    <Grid x:Name="equipArea" Grid.Row="2">
+                    	<Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="2" Stretch="Fill" Margin="3,0,0,0" Width="15" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" d:LayoutOverrides="GridBox"/>
+                    	<Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="2" Stretch="Fill" Margin="3,15,0,0" Width="15" HorizontalAlignment="Left" d:LayoutOverrides="GridBox" Height="16" VerticalAlignment="Top"/>
+                    	<Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="2" Stretch="Fill" Margin="3,30,0,0" Width="15" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" d:LayoutOverrides="GridBox"/>
+                    	<Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="2" Stretch="Fill" Margin="3,45,0,0" Width="15" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" d:LayoutOverrides="GridBox"/>
+                        <Image Source="{DynamicResource PlayerInfoView.Dragon}" Stretch="Fill" VerticalAlignment="Center" Width="64" Height="56"/>
+						<Canvas x:Name="weaponArea" Margin="3,0,5,0" Height="15" Width="140" VerticalAlignment="Top" />
+                        <Canvas x:Name="armorArea" Margin="3,15,5,0" Height="15" Width="140" VerticalAlignment="Top" />
+                        <Canvas x:Name="horse1Area" Margin="3,30,5,0" Height="15" Width="140"  VerticalAlignment="Top" />
+                        <Canvas x:Name="horse2Area" Margin="3,45,5,0" Height="15" Width="140"  VerticalAlignment="Top" />
+                    </Grid>
+                    <Grid x:Name="ironShackleArea" Grid.Row="2" Height="22" VerticalAlignment="Top" Margin="-14.333,-7.166,-15.667,0" d:LayoutOverrides="VerticalAlignment">
                         <Grid.ToolTip>
                             <ToolTip Content="{DynamicResource State.TieSuoLianHuan.Description}" ContentTemplate="{DynamicResource ToolTipTextTemplate}" />
                         </Grid.ToolTip>
                         <Image Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}"/>
                         <anim:TieSuoAnimation2 x:Name="tieSuoAnimation2" FramesPerSecond="15" Stretch="Fill" IsHitTestVisible="False"/>
                     </Grid>
-                    <Grid x:Name="gridSpectate" HorizontalAlignment="Left" Height="24" Margin="16.664,0,0,-0.666" Grid.Row="1" Width="24" VerticalAlignment="Bottom" Visibility="{Binding CanSpectate, Mode=OneWay,Converter={StaticResource boolToVisibilityConverter}}">
+                    <Grid x:Name="gridSpectate" HorizontalAlignment="Left" Height="24" Margin="16.664,0,0,-8.003" Grid.Row="1" Width="24" VerticalAlignment="Bottom" Visibility="{Binding CanSpectate, Mode=OneWay,Converter={StaticResource boolToVisibilityConverter}}">
                         <Button x:Name="btnSpectate" Content="Button" Style="{DynamicResource SpectateButton}" Visibility="Hidden" Click="btnSpectate_Click">
                             <Button.Clip>
                                 <RectangleGeometry Rect="0, 5, 25, 15"/>
@@ -447,7 +444,7 @@
                         </Button>
                     </Grid>
                 </Grid>
-                <Image Source="{DynamicResource PlayerInfoView.Decoration.BottomRight}" Width="64" HorizontalAlignment="Right" Margin="0,0,1.25,3.25" VerticalAlignment="Bottom" IsHitTestVisible="False" />
+                <Image x:Name="decoration" Source="{DynamicResource PlayerInfoView.Decoration.BottomRight}" Width="64" HorizontalAlignment="Right" Margin="0,0,1.25,3.25" VerticalAlignment="Bottom" IsHitTestVisible="False" />
                 <Image x:Name="imgPhase" Visibility="{Binding IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}" Source="{res:ResourceKeyBinding Path=CurrentPhase, StringFormat=Phases.\{0\}.Small}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120" IsHitTestVisible="False" />
                 <StackPanel x:Name="delayedToolsDock"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="-12,0,15,0" >
                     <i:Interaction.Behaviors>
@@ -458,16 +455,11 @@
                         </ei:FluidMoveBehavior>
                     </i:Interaction.Behaviors>
                 </StackPanel>
-                <Border x:Name="fadeMask" Background="#64000000" Margin="6" Visibility="Hidden" IsHitTestVisible="False">
-                    <i:Interaction.Behaviors>
-                        <ei:DataStateBehavior Value="true" TrueState="Faded" FalseState="Unfaded" Binding="{Binding IsFaded}"/>
-                    </i:Interaction.Behaviors>
-                </Border>
                 <Canvas x:Name="animationCenter2" Margin="0,0,0,20" VerticalAlignment="Bottom" HorizontalAlignment="Center" IsHitTestVisible="False" />
                 <Canvas x:Name="animationCenter1" Margin="0,80,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" IsHitTestVisible="False" />
                 <anim:TieSuoAnimation x:Name="tieSuoAnimation" FramesPerSecond="15" IsHitTestVisible="False" Height="180" Width="202" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,20"/>
             </Grid>
-            <Image x:Name="image" Source="{res:ImageBinding Path=Role, ResourceKeyFormat=Death.Role.\{0\}.Image, StringFormat=Resources/Images/Death/\{0\}.png}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False" Opacity="0">
+            <Image x:Name="deathIcon" Source="{res:ImageBinding Path=Role, ResourceKeyFormat=Death.Role.\{0\}.Image, StringFormat=Resources/Images/Death/\{0\}.png}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False" Opacity="0">
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
