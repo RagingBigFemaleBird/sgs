@@ -217,10 +217,17 @@ namespace Sanguosha.UI.Controls
                     PlayerModel.PrivateDecks.Add(deckModel);
                 }
                 foreach (var card in cards)
-                {                    
+                {
                     deckModel.Cards.Add(card.CardModel);
                 }
                 AddPrivateCards(cards, isFaked);
+            }
+            else
+            {
+                foreach (var card in cards)
+                {
+                    card.Disappear(0.5d);
+                }
             }
         }
 
@@ -298,6 +305,10 @@ namespace Sanguosha.UI.Controls
                     }
                 }
                 cardsToRemove.AddRange(RemovePrivateCards(cards));
+            }
+            else
+            {
+                cardsToRemove.AddRange(RemoveHandCards(cards, isCopy));
             }
 
             foreach (var card in cardsToRemove)
