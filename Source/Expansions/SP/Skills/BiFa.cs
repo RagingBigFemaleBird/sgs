@@ -70,7 +70,8 @@ namespace Sanguosha.Expansions.SP.Skills
             move.Helper.IsFakedMove = true;
             Game.CurrentGame.MoveCards(move);
             Game.CurrentGame.PlayerLostCard(Owner, cards);
-            Game.CurrentGame.RegisterTrigger(GameEvent.PhaseBeginEvents[TurnPhase.Start], new BiFaTrigger(players[0]));
+            Game.CurrentGame.RegisterTrigger(GameEvent.PhaseBeginEvents[TurnPhase.Start], new BiFaTrigger(players[0], this));
+            Core.Utils.GameDelays.Delay(Core.Utils.GameDelayTypes.CardTransfer);
         }
 
         class BiFaTrigger : Trigger
@@ -89,20 +90,31 @@ namespace Sanguosha.Expansions.SP.Skills
                     move.Helper = new MovementHelper();
                     move.Helper.IsFakedMove = true;
                     Game.CurrentGame.MoveCards(move);
+
+                    ActionLog log = new ActionLog();
+                    log.GameAction = GameAction.None;
+                    log.SkillAction = bifa;
+                    log.Source = ChenLin;
+                    log.SkillSoundOnly = true;
+
                     ISkill skill;
                     List<Card> cards;
                     List<Player> players;
                     if (!ChenLin.IsDead && Owner.AskForCardUsage(new CardUsagePrompt("BiFaGiveCard", ChenLin), new BiFaGiveCardVerifier(theCard), out skill, out cards, out players))
                     {
-                        Game.CurrentGame.NotificationProxy.NotifyLogEvent(new LogEvent("BiFa", Owner, LogEventArg.Fail), new List<Player>() { Owner });
+                        log.SpecialEffectHint = 2;
+                        Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
+                        Game.CurrentGame.NotificationProxy.NotifyLogEvent(new LogEvent("BiFa", Owner, bifa, LogEventArg.Fail), new List<Player>() { Owner });
                         Game.CurrentGame.HandleCardTransferToHand(Owner, ChenLin, cards);
                         Game.CurrentGame.HandleCardTransferToHand(Owner, Owner, new List<Card>() { theCard });
                     }
                     else
                     {
-                        Game.CurrentGame.NotificationProxy.NotifyLogEvent(new LogEvent("BiFa", Owner, LogEventArg.Success), new List<Player>() { Owner });
+                        log.SpecialEffectHint = 1;
+                        Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
+                        Game.CurrentGame.NotificationProxy.NotifyLogEvent(new LogEvent("BiFa", Owner, bifa, LogEventArg.Success), new List<Player>() { Owner });
                         theCard.Log = new ActionLog();
-                        theCard.Log.SkillAction = new BiFa();
+                        theCard.Log.SkillAction = bifa;
                         theCard.Log.GameAction = GameAction.PlaceIntoDiscard;
                         Game.CurrentGame.PlaceIntoDiscard(null, new List<Card>() { theCard });
                         Game.CurrentGame.LoseHealth(Owner, 1);
@@ -110,9 +122,11 @@ namespace Sanguosha.Expansions.SP.Skills
                 }
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseBeginEvents[TurnPhase.Start], this);
             }
-            public BiFaTrigger(Player p)
+            ISkill bifa;
+            public BiFaTrigger(Player p, ISkill skill)
             {
                 Owner = p;
+                bifa = skill;
                 Priority = int.MaxValue;
             }
         }

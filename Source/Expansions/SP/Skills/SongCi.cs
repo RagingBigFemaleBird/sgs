@@ -27,6 +27,12 @@ namespace Sanguosha.Expansions.SP.Skills
             MaxPlayers = 1;
         }
 
+        protected override int GenerateSpecialEffectHintIndex(Player source, List<Player> targets, List<Card> cards)
+        {
+            if (targets[0].HandCards().Count > Math.Max(targets[0].Health, 0)) return 1;
+            return 0;
+        }
+
         protected override bool VerifyCard(Player source, Card card)
         {
             return false;

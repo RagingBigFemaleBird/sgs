@@ -88,5 +88,10 @@ namespace Sanguosha.Core.UI
         /// 一些特别的，要使用到指示线的CardTransformSkill，如激将，蛊惑
         /// </summary>
         public bool ShowCueLine { get; set; }
+
+        /// <summary>
+        /// 只播放技能音效，不显示log
+        /// </summary>
+        public bool SkillSoundOnly { get; set; }
     }
 }

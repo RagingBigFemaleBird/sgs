@@ -103,18 +103,44 @@ namespace Sanguosha.Expansions.StarSP.Skills
                             cards = cards.GetRange(0, target.Health);
                         }
                     }
-                    new LiHun().NotifyAction(Owner, new List<Player>(), new List<Card>());
+
+                    lihun.NotifyAction(Owner, new List<Player>(), new List<Card>());
+                    Game.CurrentGame.NotificationProxy.NotifyLogEvent(new LogEvent("LiHun", lihun, Owner, target, cards.Count), new List<Player>() { Owner, target });
                     Game.CurrentGame.HandleCardTransferToHand(Owner, target, cards);
                     break;
                 }
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.Play], this);
             }
             Player target;
-            public LiHunGiveBack(Player diaochan, Player target)
+            LiHun lihun;
+            public LiHunGiveBack(Player diaochan, Player target, LiHun skill)
             {
                 Owner = diaochan;
                 this.target = target;
+                lihun = skill;
             }
+        }
+
+        public override void NotifyAction(Player source, List<Player> targets, List<Card> cards)
+        {
+            ActionLog log = new ActionLog();
+            log.GameAction = GameAction.None;
+            log.CardAction = null;
+            log.SkillAction = this;
+            log.Source = source;
+            log.Targets = targets;
+            foreach (Card c in cards)
+            {
+                if (c.Log == null)
+                {
+                    c.Log = new ActionLog();
+                }
+                c.Log.SkillAction = this;
+            }
+            int index = GenerateSpecialEffectHintIndex(source, targets, cards);
+            log.SpecialEffectHint = index;
+            log.SkillSoundOnly = index == 1 ? true : false;
+            Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
         }
 
         public override bool Commit(GameEventArgs arg)
@@ -123,7 +149,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             Game.CurrentGame.HandleCardDiscard(Owner, arg.Cards);
             Owner.IsImprisoned = !Owner.IsImprisoned;
             Game.CurrentGame.HandleCardTransferToHand(arg.Targets[0], Owner, arg.Targets[0].HandCards());
-            Game.CurrentGame.RegisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.Play], new LiHunGiveBack(Owner, arg.Targets[0]));
+            Game.CurrentGame.RegisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.Play], new LiHunGiveBack(Owner, arg.Targets[0], this));
             return true;
         }
 

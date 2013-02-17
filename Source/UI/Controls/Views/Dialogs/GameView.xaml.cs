@@ -856,8 +856,6 @@ namespace Sanguosha.UI.Controls
 
         public void NotifySkillUse(ActionLog log)
         {
-            bool _playAwakeningAnimation = false;
-
             Trace.Assert(log.Source != null);
             PlayerViewBase player = playersMap[log.Source];
             bool soundPlayed = false;
@@ -889,7 +887,6 @@ namespace Sanguosha.UI.Controls
                 }
                 if (log.SkillAction.IsSingleUse || log.SkillAction.IsAwakening)
                 {
-                    _playAwakeningAnimation = true;
                     if (log.SkillAction.IsAwakening) log.Source[Player.Awakened]++;
                     Application.Current.Dispatcher.BeginInvoke((ThreadStart)delegate()
                     {
@@ -1008,19 +1005,19 @@ namespace Sanguosha.UI.Controls
                 }
             }
 
-            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            if (!log.SkillSoundOnly)
             {
-                gameLogs.AppendLog(log);
-                rtbLog.ScrollToEnd();
-            });
+                Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+                {
+                    gameLogs.AppendLog(log);
+                    rtbLog.ScrollToEnd();
+                });
 
-            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
-            {
-                _AppendKeyEventLog(log);
-            });
-
-            // @todo: shouldn't put delays here because server will not delay on GameView.
-            if (_playAwakeningAnimation) Core.Utils.GameDelays.Delay(Core.Utils.GameDelayTypes.Awaken);
+                Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+                {
+                    _AppendKeyEventLog(log);
+                });
+            }
         }
 
         public void NotifyUiAttached()

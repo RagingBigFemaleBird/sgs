@@ -46,7 +46,7 @@
     <sys:String x:Key="Deck.BiFa.Name">笔伐</sys:String>
     <sys:String x:Key="CardUsage.Prompt.BiFa">你可以使用 笔伐</sys:String>
     <sys:String x:Key="CardUsage.Prompt.BiFaGiveCard">请交给 {0} 一张同类型手牌</sys:String>
-    <sys:String x:Key="LogEvent.BiFa">{0}的笔伐{1}</sys:String>
+    <sys:String x:Key="LogEvent.BiFa">{0}的{1}{2}</sys:String>
 
     <sys:String x:Key="LogEvent.WuJi">{0}失去了技能{1}</sys:String>
 </ResourceDictionary>
