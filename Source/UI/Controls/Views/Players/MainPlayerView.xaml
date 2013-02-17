@@ -368,7 +368,7 @@
                     <RowDefinition Height="auto" MinHeight="26" />
                 </Grid.RowDefinitions>
 				<Grid Grid.RowSpan="2" Height="122" VerticalAlignment="Top">
-            	<Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=71\,28\,145\,145, Path=Hero1Model.Name, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/Full/\{0\}.png}">
+            	<Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=71\,28\,145\,145, Path=Hero1Model.Name, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/Full/\{0\}.png}" MouseLeftButtonDown="HeroPhoto_MouseLeftButtonDown" MouseRightButtonDown="HeroPhoto_MouseRightButtonDown">
                     <Image.ToolTip>
                         <ToolTip x:Name="toolTip" Placement="Top" >
                             <StackPanel DataContext="{Binding Hero1Model}" >
@@ -501,7 +501,7 @@
                 		<RowDefinition Height="auto" MinHeight="26" />
                 	</Grid.RowDefinitions>
                 	<Grid Grid.RowSpan="2" Height="122" VerticalAlignment="Top">
-                		<Image x:Name="heroPhoto2" DataContext="{Binding Hero2Model}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=71\,28\,145\,145, Path=Name, ResourceKeyFormat=Hero.{0}.Image, StringFormat=Resources/Images/Heroes/Full/{0}.png}">
+                		<Image x:Name="heroPhoto2" DataContext="{Binding Hero2Model}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=71\,28\,145\,145, Path=Name, ResourceKeyFormat=Hero.{0}.Image, StringFormat=Resources/Images/Heroes/Full/{0}.png}" MouseLeftButtonDown="HeroPhoto_MouseLeftButtonDown" MouseRightButtonDown="HeroPhoto_MouseRightButtonDown">
                 			<Image.ToolTip>
                 				<ToolTip x:Name="toolTip2" Placement="Top" >
                 					<StackPanel>

@@ -140,13 +140,13 @@ namespace Sanguosha.UI.Controls
             tieSuoAnimation.Start();
         }
 
-        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void HeroPhoto_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             PlayerViewModel model = DataContext as PlayerViewModel;
             model.SelectOnce();
         }
 
-        private void Border_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private void HeroPhoto_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             PlayerViewModel model = DataContext as PlayerViewModel;
             model.IsSelected = false;
