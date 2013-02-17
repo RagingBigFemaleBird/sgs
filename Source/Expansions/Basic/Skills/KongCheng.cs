@@ -24,6 +24,7 @@ namespace Sanguosha.Expansions.Basic.Skills
         {
             var notifier = new AutoNotifyPassiveSkillTrigger(
                 this,
+                (p, e, a) => { return a.Cards.Any(c => c.HistoryPlace1.DeckType == DeckType.Hand); },
                 (p, e, a) => { },
                 TriggerCondition.OwnerIsSource | TriggerCondition.SourceHasNoHandCards
             );

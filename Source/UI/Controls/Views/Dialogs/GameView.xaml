@@ -168,7 +168,7 @@
         </StackPanel>
         <local:MainPlayerView x:Name="mainPlayerPanel" VerticalAlignment="Bottom" Grid.Row="1" Grid.ColumnSpan="2"/>
         <Grid x:Name="infoPanel" Grid.Column="1">
-            <Grid x:Name="infoPanelBg" Background="#FFA79865">
+            <Grid x:Name="infoPanelBg" Background="#0B0B08">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="103"/>
@@ -178,9 +178,9 @@
                     <Image Source="{DynamicResource Game.InfoPanel.Header}" />
                     <Border Grid.Row="1">
                         <Border.Background>
-                            <ImageBrush ImageSource="{DynamicResource Game.InfoPanel.Body}" Viewport="0,0,308,149" ViewportUnits="Absolute" TileMode="FlipY" Stretch="UniformToFill"/>
+                            <ImageBrush ImageSource="{DynamicResource Game.InfoPanel.Body}" Stretch="Fill"/>
                         </Border.Background>
-                        <Image Source="{DynamicResource Game.InfoPanel.Splitter}" VerticalAlignment="Top" Margin="2,205,2,0"/>
+                    	<Image Source="{DynamicResource Game.InfoPanel.Splitter}" VerticalAlignment="Top" Margin="2,205,2,0"/>
                     </Border>
                     <Image Source="{DynamicResource Game.InfoPanel.Footer}" Grid.Row="2"/>
                 </Grid>

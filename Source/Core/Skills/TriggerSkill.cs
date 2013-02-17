@@ -32,6 +32,7 @@ namespace Sanguosha.Core.Skills
             log.Targets = targets;
             log.SpecialEffectHint = GenerateSpecialEffectHintIndex(Owner, targets);
             Games.Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
+            if (IsSingleUse || IsAwakening) Core.Utils.GameDelays.Delay(Utils.GameDelayTypes.Awaken);
         }
 
         protected virtual int GenerateSpecialEffectHintIndex(Player source, List<Player> targets)

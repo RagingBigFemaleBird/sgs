@@ -27,6 +27,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             {
                 if (AskForSkillUse())
                 {
+                    NotifySkillUse(new List<Player>() { target });
                     var card = Game.CurrentGame.Judge(Owner, this, null, (judgeResultCard) => { return judgeResultCard.SuitColor == SuitColorType.Red; });
                     if (card.SuitColor == SuitColorType.Red)
                     {
