@@ -137,6 +137,7 @@ namespace Sanguosha.Core.Skills
                     if (IsAutoNotify)
                     {
                         Skill.NotifySkillUse(players);
+                        if (Skill.IsSingleUse || Skill.IsAwakening) Core.Utils.GameDelays.Delay(Utils.GameDelayTypes.Awaken);
                     }
                     Execute(Owner, gameEvent, eventArgs, cards, players);
                     Game.CurrentGame.NotificationProxy.NotifyActionComplete();
@@ -209,6 +210,7 @@ namespace Sanguosha.Core.Skills
                     if (IsAutoNotify)
                     {
                         Skill.NotifySkillUse(new List<Player>());
+                        if (Skill.IsSingleUse || Skill.IsAwakening) Core.Utils.GameDelays.Delay(Utils.GameDelayTypes.Awaken);
                     }
                     InnerTrigger.Execute(Owner, gameEvent, eventArgs);
                     Game.CurrentGame.NotificationProxy.NotifyActionComplete();

@@ -78,6 +78,7 @@ namespace Sanguosha.Core.Network
             sender = new ItemSender(Stream.Null);
             commId = 0;
             ReplayController = new Utils.ReplayController();
+            ReplayController.EvenDelays = true;
         }
 
         private Stream replayStream;
