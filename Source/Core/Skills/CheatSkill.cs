@@ -27,7 +27,7 @@ namespace Sanguosha.Core.Skills
         public int CardId { get; set; }
         public string SkillName { get; set; }
         [NonSerialized]
-        public Players.Player owner;
+        private Players.Player owner;
 
         public Players.Player Owner
         {
@@ -67,7 +67,15 @@ namespace Sanguosha.Core.Skills
 
         [NonSerialized]
         UiHelper helper;
-        public Hero HeroTag { get; set; }
+
+        [NonSerialized]
+        private Hero heroTag;
+
+        public Hero HeroTag
+        {
+            get { return heroTag; }
+            set { heroTag = value; }
+        }
 
         public UiHelper Helper
         {
