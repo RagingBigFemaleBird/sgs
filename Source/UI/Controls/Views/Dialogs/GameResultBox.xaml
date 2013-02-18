@@ -9,6 +9,7 @@
     mc:Ignorable="d"
     x:Class="Sanguosha.UI.Controls.GameResultBox"
     x:Name="UserControl"
+    UseLayoutRounding="True"
     d:DesignWidth="640" d:DesignHeight="480">
 
     <UserControl.Resources>		

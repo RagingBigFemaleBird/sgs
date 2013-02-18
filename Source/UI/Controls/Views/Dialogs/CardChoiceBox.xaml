@@ -8,6 +8,7 @@
     xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
     mc:Ignorable="d"	
 	x:Name="UserControl"
+    UseLayoutRounding="True"
     d:DesignHeight="145" d:DesignWidth="168">
     <UserControl.Resources>
         <ResourceDictionary>

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              xmlns:local="clr-namespace:Sanguosha.UI.Controls"
+             UseLayoutRounding="True"
              d:DesignHeight="152" d:DesignWidth="300">
     <Grid>
         <local:SingleRowCardStack x:Name="cardStack" Height="132" Margin="0,20,0,0" MaxCardSpacing="97" CardAlignment="Center" />

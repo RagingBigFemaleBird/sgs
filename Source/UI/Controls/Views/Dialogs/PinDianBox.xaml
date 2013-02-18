@@ -6,7 +6,8 @@
 	xmlns:local="clr-namespace:Sanguosha.UI.Controls"
 	mc:Ignorable="d"
 	x:Class="Sanguosha.UI.Controls.PinDianBox"
-	x:Name="UserControl">
+	x:Name="UserControl"
+    UseLayoutRounding="True">
     <local:NonClipGrid >        
 	    <StackPanel Orientation="Horizontal">
 		    <local:CardView x:Name="cardLeft"/>

@@ -9,6 +9,7 @@
     mc:Ignorable="d"
     x:Class="Sanguosha.UI.Controls.CardSetView"
     x:Name="UserControl"
+    UseLayoutRounding="True"
     Width="450" Height="500">
     
     <UserControl.Resources>
