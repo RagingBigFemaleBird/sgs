@@ -434,8 +434,8 @@
                     </Grid>
 
                     <!--Image Source="{DynamicResource PlayerInfoView.Decoration.TopLeft}" Width="64" HorizontalAlignment="Left" Margin="-8.75,-5.25,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Visibility="Hidden"/-->
-                    <Image x:Name="allegianceMask" IsHitTestVisible="False" Source="{res:ResourceKeyBinding Path=Hero1Model.Allegiance, StringFormat=Allegiance.\{0\}.Mask}" HorizontalAlignment="Left" Grid.RowSpan="2" Width="38" Stretch="Fill" Margin="-3,4,0,0" ClipToBounds="True" Height="119" VerticalAlignment="Top"/>
-                    <Image x:Name="allegianceIcon" IsHitTestVisible="False" Source="{res:ResourceKeyBinding Path=Hero1Model.Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" />
+                    <Image x:Name="allegianceMask" IsHitTestVisible="False" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Mask}" HorizontalAlignment="Left" Grid.RowSpan="2" Width="38" Stretch="Fill" Margin="-3,4,0,0" ClipToBounds="True" Height="119" VerticalAlignment="Top"/>
+                    <Image x:Name="allegianceIcon" IsHitTestVisible="False" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" />
                     <Image x:Name="allegianceMask2" IsHitTestVisible="False" Visibility="{Binding Hero2,Converter={StaticResource objectToVisibilityConverter}}" Source="{res:ResourceKeyBinding Path=Hero2Model.Allegiance, StringFormat=Allegiance.\{0\}.Mask}" HorizontalAlignment="Right" Grid.RowSpan="2" Width="38" Stretch="Fill" Margin="0,4,-3,0" ClipToBounds="True" Height="119" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
                         <Image.RenderTransform>
                             <TransformGroup>
