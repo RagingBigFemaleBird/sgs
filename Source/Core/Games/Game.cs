@@ -438,7 +438,27 @@ namespace Sanguosha.Core.Games
             }
             catch (GameOverException)
             {
-
+                var keys = new List<Thread>(from t in games.Keys where games[t] == this select t);
+                foreach (var t in keys)
+                {
+                    games.Remove(t);
+                }
+            }
+            catch (Exception e)
+            {
+                var keys = new List<Thread>(from t in games.Keys where games[t] == this select t);
+                foreach (var t in keys)
+                {
+                    games.Remove(t);
+                }
+#if TRACE
+                while (e.InnerException != null)
+                {
+                    e = e.InnerException;
+                }
+                Trace.TraceError(e.StackTrace);
+                Trace.Assert(false, e.StackTrace);
+#endif
             }
             if (GameServer != null)
             {
@@ -478,7 +498,6 @@ namespace Sanguosha.Core.Games
             }
             games.Add(Thread.CurrentThread, this);
         }
-
 
         List<Card> originalCardSet;
 
