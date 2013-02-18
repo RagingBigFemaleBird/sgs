@@ -45,7 +45,7 @@ namespace Sanguosha.Expansions.Assassin.Skills
         {
             var trigger = new AutoNotifyUsagePassiveSkillTrigger(
                 this,
-                (p, e, a) => { return p.Health <= a.Source.Health && p != a.Source; },
+                (p, e, a) => { return a.Source != null && p.Health <= a.Source.Health && p != a.Source; },
                 (p, e, a, c, pls) =>
                 {
                     JieYuanEffect = 0;
