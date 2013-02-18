@@ -123,6 +123,7 @@
     <BitmapImage x:Key="Card.QingGangJian.Image.Normal">Cards/Normal/QingGangJian.jpg</BitmapImage>
     <BitmapImage x:Key="Card.QingLongYanYueDao.Image.Normal">Cards/Normal/QingLongYanYueDao.jpg</BitmapImage>
     <BitmapImage x:Key="Card.QunDiaoChan.Image.Normal">Cards/Normal/QunDiaoChan.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.QunLingJu.Image.Normal">Cards/Normal/QunLingJu.jpg</BitmapImage>
     <BitmapImage x:Key="Card.QunMaChao.Image.Normal">Cards/Normal/QunMaChao.jpg</BitmapImage>
     <BitmapImage x:Key="Card.Rebel.Image.Normal">Cards/Normal/Rebel.jpg</BitmapImage>
     <BitmapImage x:Key="Card.RegularSha.Image.Normal">Cards/Normal/RegularSha.jpg</BitmapImage>

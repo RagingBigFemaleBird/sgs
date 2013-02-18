@@ -72,6 +72,10 @@
       <Project>{31B92003-B490-4EAF-8F8E-F9B020F9B03B}</Project>
       <Name>Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Assassin\Assassin.csproj">
+      <Project>{fbe66afe-ca51-45ff-9546-e16c17527baa}</Project>
+      <Name>Assassin</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Basic\Basic.csproj">
       <Project>{5E948FAB-938B-4E4C-BDA1-1740339273EA}</Project>
       <Name>Basic</Name>
