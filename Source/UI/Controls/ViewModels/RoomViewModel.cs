@@ -53,7 +53,11 @@ namespace Sanguosha.UI.Controls
 
         public string ModeString
         {
-            get { return "RoleGame"; }
+            get 
+            {
+                if (Room.DualHeroMode) return "DualHeroRoleGame";
+                else return "SingleHeroRoleGame"; 
+            }
         }
 
         private int _timeOutSeconds;

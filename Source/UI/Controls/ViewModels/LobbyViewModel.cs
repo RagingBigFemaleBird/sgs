@@ -19,7 +19,8 @@ namespace Sanguosha.UI.Controls
         {
             _chatCache = new List<KeyValuePair<string, string>>();
             Rooms = new ObservableCollection<RoomViewModel>();
-            CreateRoomCommand = new SimpleRelayCommand(o => CreateRoom()) { CanExecuteStatus = true };
+            CreateSingleHeroRoomCommand = new SimpleRelayCommand(o => CreateSingleHeroRoom()) { CanExecuteStatus = true };
+            CreateDualHeroRoomCommand = new SimpleRelayCommand(o => CreateDualHeroRoom()) { CanExecuteStatus = true };
             UpdateRoomCommand = new SimpleRelayCommand(o => UpdateRooms()) { CanExecuteStatus = true };
             EnterRoomCommand = new SimpleRelayCommand(o => EnterRoom()) { CanExecuteStatus = true };
             StartGameCommand = new SimpleRelayCommand(o => StartGame()) { CanExecuteStatus = false };
@@ -183,7 +184,8 @@ namespace Sanguosha.UI.Controls
 
         #region Commands
         public ICommand UpdateRoomCommand { get; set; }
-        public ICommand CreateRoomCommand { get; set; }
+        public ICommand CreateSingleHeroRoomCommand { get; set; }
+        public ICommand CreateDualHeroRoomCommand { get; set; }
         public ICommand EnterRoomCommand { get; set; }
         public SimpleRelayCommand StartGameCommand { get; set; }
         public SimpleRelayCommand SpectateCommand { get; set; }
@@ -244,12 +246,22 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public void CreateSingleHeroRoom()
+        {
+            CreateRoom(false);
+        }
+
+        public void CreateDualHeroRoom()
+        {
+            CreateRoom(true);
+        }
+
         /// <summary>
         /// Creates and enters a new room.
         /// </summary>
-        public void CreateRoom()
+        public void CreateRoom(bool DualHeroMode)
         {
-            var room = _connection.CreateRoom(_loginToken, false);
+            var room = _connection.CreateRoom(_loginToken, DualHeroMode);
             if (room != null)
             {
                 CurrentRoom = new RoomViewModel() { Room = room };
