@@ -31,6 +31,7 @@ namespace Sanguosha.UI.Controls
         {
             IsDropDown = false;
             var command = DataContext as GuHuoSkillCommand;
+            command.GuHuoChoice = null;
         }
 
         void btnSkill_Checked(object sender, RoutedEventArgs e)
@@ -46,7 +47,8 @@ namespace Sanguosha.UI.Controls
 
         // Using a DependencyProperty as the backing store for IsDropDown.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsDropDownProperty =
-            DependencyProperty.Register("IsDropDown", typeof(bool), typeof(GuHuoSkillButton), new UIPropertyMetadata(false, new PropertyChangedCallback(DropDownChanged)));
+            DependencyProperty.Register("IsDropDown", typeof(bool), typeof(GuHuoSkillButton),
+            new UIPropertyMetadata(false, new PropertyChangedCallback(DropDownChanged)));
 
         public static void DropDownChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -59,7 +61,7 @@ namespace Sanguosha.UI.Controls
 
         private void btnGuHuoType_Click(object sender, RoutedEventArgs e)
         {
-            IsDropDown = false;
+            IsDropDown = false;            
         }
         
     }

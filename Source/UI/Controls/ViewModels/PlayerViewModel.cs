@@ -1089,8 +1089,11 @@ namespace Sanguosha.UI.Controls
             var skill = sender as SkillCommand;
             if (skill.IsSelected)
             {
-                Trace.Assert(skill != _lastSelectedCommand);
-                if (_lastSelectedCommand != null)
+                if (skill == _lastSelectedCommand)
+                {
+                    Trace.Assert(skill is GuHuoSkillCommand);                    
+                }
+                else if (_lastSelectedCommand != null)
                 {
                     _cleaningUp = true;
                     _lastSelectedCommand.IsSelected = false;
@@ -1103,7 +1106,7 @@ namespace Sanguosha.UI.Controls
             }
             else
             {
-                Trace.Assert(_lastSelectedCommand == skill);
+                Trace.Assert(_lastSelectedCommand == skill);               
 
                 foreach (EquipCommand equipCmd in EquipCommands)
                 {
@@ -1123,6 +1126,7 @@ namespace Sanguosha.UI.Controls
 
                 _lastSelectedCommand = null;
             }
+            
             if (!_cleaningUp && currentUsageVerifier != null)
             {
                 _UpdateCardUsageStatus();
@@ -1243,10 +1247,6 @@ namespace Sanguosha.UI.Controls
                                     }
                                 }
                             }
-                        }
-                        else if (skillCommand.IsSelected && !skillCommand.IsSelected)
-                        {
-                            cmdGuhuo.GuHuoChoice = null;
                         }
                     }
                 }

@@ -16,7 +16,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-	
+
     <Grid>
         <ToggleButton x:Name="btnSkill" Style="{StaticResource SkillButtonStyle}" IsEnabled="{Binding IsEnabled}" IsChecked="{Binding IsSelected}" ToolTipService.ShowOnDisabled="True">
             <ToggleButton.ToolTip>
@@ -25,25 +25,25 @@
             <Grid>
                 <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="Black" Stroke="Black" StrokeThickness="3" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="/Resources;component/Fonts/#KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify">
                     <local:OutlinedTextBlock.Effect>
-                            <BlurEffect />
-                        </local:OutlinedTextBlock.Effect>
-                    </local:OutlinedTextBlock>
+                        <BlurEffect />
+                    </local:OutlinedTextBlock.Effect>
+                </local:OutlinedTextBlock>
                 <local:OutlinedTextBlock TextWrapping="NoWrap" Fill="White" Stroke="White" StrokeThickness="1" FontWeight="Bold" Text="{res:ResourceKeyBinding Path=SkillName, StringFormat=Skill.\{0\}.Name}" FontFamily="/Resources;component/Fonts/#KaiTi" FontSize="14" VerticalAlignment="Center" TextAlignment="Justify"/>
-                </Grid>
-            </ToggleButton>
+            </Grid>
+        </ToggleButton>
         <Popup x:Name="popupChoices" PopupAnimation="Fade" Placement="Top" AllowsTransparency="True">
             <ItemsControl x:Name="GuHuoBox" ItemsSource="{Binding GuHuoTypes}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="3" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Button Style="{DynamicResource GuHuoButtonStyle}" Command="{Binding DataContext.GuHuoCommand, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:GuHuoSkillButton}}}" CommandParameter="{Binding}" Click="btnGuHuoType_Click"/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Popup>
-        </Grid>    
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="3" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Style="{DynamicResource GuHuoButtonStyle}" Command="{Binding DataContext.GuHuoCommand, RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:GuHuoSkillButton}}}" CommandParameter="{Binding}" Click="btnGuHuoType_Click"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Popup>
+    </Grid>
 </UserControl>
