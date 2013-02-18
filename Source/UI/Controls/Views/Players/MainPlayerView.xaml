@@ -391,7 +391,7 @@
                             <ei:DataStateBehavior TrueState="Faded" FalseState="UnFaded" Value="true" Binding="{Binding IsFaded}"/>
                         </i:Interaction.Behaviors>
                     </Border>
-                    <Rectangle x:Name="drankMask" Visibility="{Binding IsDrank, Converter={StaticResource boolToVisibilityConverter}}" >
+                    <Rectangle x:Name="drankMask" IsHitTestVisible="False" Visibility="{Binding IsDrank, Converter={StaticResource boolToVisibilityConverter}}" >
                         <Rectangle.Fill>
                             <RadialGradientBrush>
                                 <GradientStop Color="#00FF0000" Offset="1"/>
@@ -501,7 +501,7 @@
                         </ToolTipService.ShowOnDisabled>
                     </Image>
                     <Border x:Name="fadeMask2" Background="#64000000" Opacity="0" IsHitTestVisible="False" />
-                    <Rectangle x:Name="drankMask2" Visibility="{Binding IsDrank, Converter={StaticResource boolToVisibilityConverter}}" >
+                    <Rectangle x:Name="drankMask2" IsHitTestVisible="False" Visibility="{Binding IsDrank, Converter={StaticResource boolToVisibilityConverter}}" >
                         <Rectangle.Fill>
                             <RadialGradientBrush>
                                 <GradientStop Color="#00FF0000" Offset="1"/>
