@@ -100,12 +100,14 @@ namespace Sanguosha.UI.Controls
         public event EventHandler ResultShown;
 
         void anim_Completed(object sender, EventArgs e)
-        {
+        {            
             var handler = ResultShown;
             if (handler != null)
             {
                 handler(this, e);
             }
+            cardLeft.DataContext = null;
+            cardRight.DataContext = null;
         }
 	}
 }

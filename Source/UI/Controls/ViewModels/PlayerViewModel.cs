@@ -798,7 +798,18 @@ namespace Sanguosha.UI.Controls
             // Card usage question
             lock (verifierLock)
             {
-                _ResetAll();
+                var guHuoSkill = skill as IAdditionalTypedSkill;
+                if (guHuoSkill != null)
+                {
+                    // Reset all will also clear the GuHuoChoice recorded. So restore it after resetting the buttons.
+                    var backup = guHuoSkill.AdditionalType;
+                    _ResetAll();
+                    guHuoSkill.AdditionalType = backup;
+                }
+                else
+                {
+                    _ResetAll();
+                }
                 if (currentUsageVerifier != null)
                 {
                     currentUsageVerifier = null;
@@ -1048,7 +1059,7 @@ namespace Sanguosha.UI.Controls
             }
 
             foreach (var skillCommand in ActiveSkillCommands)
-            {                
+            {
                 skillCommand.IsSelected = false;
                 skillCommand.OnSelectedChanged -= _onSkillCommandSelectedHandler;
                 skillCommand.IsEnabled = false;
@@ -1091,7 +1102,7 @@ namespace Sanguosha.UI.Controls
             {
                 if (skill == _lastSelectedCommand)
                 {
-                    Trace.Assert(skill is GuHuoSkillCommand);                    
+                    Trace.Assert(skill is GuHuoSkillCommand);
                 }
                 else if (_lastSelectedCommand != null)
                 {
@@ -1106,27 +1117,32 @@ namespace Sanguosha.UI.Controls
             }
             else
             {
-                Trace.Assert(_lastSelectedCommand == skill);               
-
-                foreach (EquipCommand equipCmd in EquipCommands)
+                if (skill != _lastSelectedCommand)
                 {
-                    equipCmd.IsSelected = false;
+                    Trace.Assert(skill is GuHuoSkillCommand);
                 }
-
-                foreach (CardViewModel card in HandCards)
+                else
                 {
-                    card.IsSelected = false;
-                }
+                    foreach (EquipCommand equipCmd in EquipCommands)
+                    {
+                        equipCmd.IsSelected = false;
+                    }
 
-                foreach (var playerModel in _game.PlayerModels)
-                {
-                    playerModel.IsSelected = false;
-                }
-                _lastSelectedPlayers.Clear();
+                    foreach (CardViewModel card in HandCards)
+                    {
+                        card.IsSelected = false;
+                    }
 
-                _lastSelectedCommand = null;
+                    foreach (var playerModel in _game.PlayerModels)
+                    {
+                        playerModel.IsSelected = false;
+                    }
+
+                    _lastSelectedPlayers.Clear();
+                    _lastSelectedCommand = null;
+                }
             }
-            
+
             if (!_cleaningUp && currentUsageVerifier != null)
             {
                 _UpdateCardUsageStatus();

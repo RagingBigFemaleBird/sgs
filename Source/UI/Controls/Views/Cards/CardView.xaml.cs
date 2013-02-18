@@ -109,10 +109,20 @@ namespace Sanguosha.UI.Controls
         void _Repaint()
         {
             var card = CardModel;
-            if (card == null) return;
-            if (card is CardSlotViewModel)
+            if (card == null)
+            {
+                tbHint.Text = string.Empty;
+                imgCardType.Visibility = Visibility.Collapsed;
+                imgSuit.Visibility = Visibility.Collapsed;
+                imgRankString.Visibility = Visibility.Collapsed;
+                return;
+            }
+            else if (card is CardSlotViewModel)
             {
                 tbHint.Text = (card as CardSlotViewModel).Hint;
+                imgCardType.Visibility = Visibility.Collapsed;
+                imgSuit.Visibility = Visibility.Collapsed;
+                imgRankString.Visibility = Visibility.Collapsed;
             }
             else
             {
@@ -145,16 +155,18 @@ namespace Sanguosha.UI.Controls
                 {
                     imgRankString.Source = null;
                 }
-
-                fadeMask.BeginAnimation(Border.OpacityProperty, null);
-                if (card.IsFaded)
-                {                    
-                    fadeMask.Opacity = 1d;
-                }
-                else
-                {                    
-                    fadeMask.Opacity = 0d;
-                }
+                imgCardType.Visibility = Visibility.Visible;
+                imgSuit.Visibility = Visibility.Visible;
+                imgRankString.Visibility = Visibility.Visible;
+            }
+            fadeMask.BeginAnimation(Border.OpacityProperty, null);
+            if (card.IsFaded)
+            {
+                fadeMask.Opacity = 1d;
+            }
+            else
+            {
+                fadeMask.Opacity = 0d;
             }
         }
 
