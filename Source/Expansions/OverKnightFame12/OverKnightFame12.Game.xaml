@@ -32,8 +32,8 @@
     <sys:String x:Key="MultiChoice.Choice.JiangChi2">少摸1张牌</sys:String>
 
     <sys:String x:Key="Deck.Chun.Name">醇</sys:String>
-    <sys:String x:Key="CardUsage.Prompt.ChunLaoPassiveSkill">请选择发动“醇醪”的杀</sys:String>
-    <sys:String x:Key="CardUsage.Prompt.ChunLaoSave">你可以置弃一张醇发动“醇醪”</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.ChunLaoPassiveSkill">请选择一张【杀】当作“醇”，或点“取消”</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.ChunLaoSave">请选择一张“醇”，视为{0}使用了一张【酒】，或点“取消”</sys:String>
 
     <sys:String x:Key="MultiChoice.Prompt.ZhenLie">你的判定结果是{0}{1}，是否发动贞烈改判？</sys:String>
 
