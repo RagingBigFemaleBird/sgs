@@ -62,7 +62,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     this,
                     (p, e, a) =>
                     {
-                        return (a.Card != null) && (a.Card.Type is Sha) && (Game.CurrentGame.Decks[a.Targets[0], DeckType.Hand].Count > 0 || Game.CurrentGame.Decks[a.Targets[0], DeckType.Equipment].Count > 0);
+                        return (a.ReadonlyCard != null) && (a.ReadonlyCard.Type is Sha) && (a as DamageEventArgs).OriginalTarget == a.Targets[0] && a.Targets[0].HandCards().Count + a.Targets[0].Equipments().Count > 0;
                     },
                     Run,
                     TriggerCondition.OwnerIsSource

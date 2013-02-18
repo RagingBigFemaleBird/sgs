@@ -1119,7 +1119,7 @@ namespace Sanguosha.Core.Games
                         Game.CurrentGame.DrawCards(source, 3);
                     }
                 }
-                if (p.Role == Role.Loyalist && source.Role == Role.Ruler)
+                if (p.Role == Role.Loyalist && source != null && source.Role == Role.Ruler)
                 {
                     Trace.TraceInformation("Loyalist killl by ruler. GG");
                     Game.CurrentGame.SyncImmutableCardsAll(Game.CurrentGame.Decks[source, DeckType.Hand]);
