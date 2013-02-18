@@ -54,7 +54,7 @@ namespace Sanguosha.Lobby.Core
         IEnumerable<Room> GetRooms(LoginToken token, bool notReadyRoomsOnly);
 
         [OperationContract]
-        Room CreateRoom(LoginToken token, bool DualHeroMode, int NumberOfDefectors = 1, string password = null);
+        Room CreateRoom(LoginToken token, bool DualHeroMode, int optionalHeros, int NumberOfDefectors = 1, string password = null);
 
         [OperationContract]
         RoomOperationResult EnterRoom(LoginToken token, int roomId, bool spectate, string password, out Room room);

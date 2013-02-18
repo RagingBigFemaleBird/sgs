@@ -35,14 +35,16 @@ namespace Sanguosha.UI.Controls
         public Room Room
         {
             get { return _room; }
-            set 
+            set
             {
                 if (_room == value) return;
                 _room = value;
                 if (value == null) return;
                 Id = value.Id;
                 State = value.State;
+                OptionalHeros = value.OptionalHeros;
                 TimeOutSeconds = value.TimeOutSeconds;
+                DualHeroMode = value.DualHeroMode;
                 ClearSeats();
                 foreach (var seat in value.Seats)
                 {
@@ -51,12 +53,20 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        bool dualHeroMode;
+
+        public bool DualHeroMode
+        {
+            get { return dualHeroMode; }
+            set { dualHeroMode = value; }
+        }
+
         public string ModeString
         {
-            get 
+            get
             {
-                if (Room.DualHeroMode) return "DualHeroRoleGame";
-                else return "SingleHeroRoleGame"; 
+                if (DualHeroMode) return "DualHeroRoleGame";
+                else return "SingleHeroRoleGame";
             }
         }
 
@@ -65,7 +75,7 @@ namespace Sanguosha.UI.Controls
         public int TimeOutSeconds
         {
             get { return _timeOutSeconds; }
-            set 
+            set
             {
                 if (_timeOutSeconds == value) return;
                 _timeOutSeconds = value;
@@ -83,10 +93,18 @@ namespace Sanguosha.UI.Controls
 
         public string OpenSeatString
         {
-            get 
+            get
             {
-                return string.Format("{0}/{1}", OpenSeatCount, Seats.Count); 
+                return string.Format("{0}/{1}", OpenSeatCount, Seats.Count);
             }
+        }
+
+        int optionalHeros;
+
+        public int OptionalHeros
+        {
+            set { optionalHeros = value; }
+            get { return optionalHeros; }
         }
 
         private RoomState _state;
@@ -94,7 +112,7 @@ namespace Sanguosha.UI.Controls
         public RoomState State
         {
             get { return _state; }
-            set 
+            set
             {
                 if (_state == value) return;
                 _state = value;

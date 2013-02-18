@@ -261,7 +261,7 @@ namespace Sanguosha.UI.Controls
         /// </summary>
         public void CreateRoom(bool DualHeroMode)
         {
-            var room = _connection.CreateRoom(_loginToken, DualHeroMode);
+            var room = _connection.CreateRoom(_loginToken, DualHeroMode, 4);
             if (room != null)
             {
                 CurrentRoom = new RoomViewModel() { Room = room };

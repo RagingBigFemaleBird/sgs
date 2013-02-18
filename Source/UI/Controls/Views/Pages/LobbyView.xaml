@@ -128,6 +128,7 @@
                             <DataGridTextColumn Header="房号" Binding="{Binding Id}" Width="50" />
                             <DataGridTextColumn Header="模式" Binding="{res:ResourceKeyBinding Path=ModeString, StringFormat=GameMode.{0}.Name}" Width="100" />
                             <DataGridTextColumn Header="时间" Binding="{Binding TimeOutSeconds}"  Width="50" />
+                            <DataGridTextColumn Header="选将" Binding="{Binding OptionalHeros}" Width="50" />
                             <DataGridTextColumn Header="人数" Binding="{Binding OpenSeatString}" Width="60" />
                             <DataGridTemplateColumn Header="状态" SortMemberPath="State" Width="70" >
                                 <DataGridTemplateColumn.CellTemplate>

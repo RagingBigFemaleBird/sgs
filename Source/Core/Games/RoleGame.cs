@@ -700,8 +700,8 @@ namespace Sanguosha.Core.Games
                 }
                 Game.CurrentGame.Players[rulerId].MaxHealth = Game.CurrentGame.Players[rulerId].Health = (game as RoleGame).GetMaxHealth(Game.CurrentGame.Players[rulerId]);
 
-
-                toDraw = 3 + (Game.CurrentGame.Settings.DualHeroMode ? 3 : 0);
+                int optionalHeros = game.Settings.OptionalHeros;
+                toDraw = optionalHeros + (Game.CurrentGame.Settings.DualHeroMode ? Math.Max(6 - optionalHeros, 0) : 0);
                 Shuffle(game.Decks[DeckType.Heroes]);
                 Dictionary<Player, List<Card>> restDraw = new Dictionary<Player, List<Card>>();
                 List<Player> players = new List<Player>(game.Players);

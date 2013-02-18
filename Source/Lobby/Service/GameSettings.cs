@@ -14,5 +14,6 @@ namespace Sanguosha.Lobby.Core
         public int NumberOfDefectors { get; set; }
         public List<Account> Accounts;
         public bool DualHeroMode { get; set; }
+        public int OptionalHeros { get; set; }
     }
 }

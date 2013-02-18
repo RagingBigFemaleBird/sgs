@@ -41,6 +41,14 @@ namespace Sanguosha.Lobby.Core
             set { dualHeroMode = value; }
         }
 
+        int optionalHeros;
+
+        public int OptionalHeros
+        {
+            get { return optionalHeros; }
+            set { optionalHeros = value; }
+        }
+
         private int id;
 
         public int Id
