@@ -42,7 +42,7 @@ namespace Sanguosha.Core.Utils
             _delays[GameDelayTypes.Awaken] = 2550;
             _delays[GameDelayTypes.RoleDistribute] = 400;
             _delays[GameDelayTypes.BaGuaZhen] = 2110;
-            _delays[GameDelayTypes.ServerSideCompensation] = 3000;
+            _delays[GameDelayTypes.ServerSideCompensation] = 4500;
             _delays[GameDelayTypes.GameBeforeStart] = 1200;
         }
 
