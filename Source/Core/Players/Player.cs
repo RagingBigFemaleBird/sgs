@@ -201,8 +201,8 @@ namespace Sanguosha.Core.Players
             {
                 foreach (ISkill skill in hero.Skills)
                 {
-                    skill.Owner = this;
                     skill.HeroTag = hero;
+                    skill.Owner = this;
                 }
                 Trace.Assert(hero.Owner == null);
                 hero.Owner = this;          
@@ -270,8 +270,8 @@ namespace Sanguosha.Core.Players
 
         public void AcquireAdditionalSkill(ISkill skill, Hero tag, bool undeletable = false)
         {
-            skill.Owner = this;
             skill.HeroTag = tag;
+            skill.Owner = this;
             if (undeletable)
             {
                 additionalUndeletableSkills.Add(skill);
@@ -285,8 +285,8 @@ namespace Sanguosha.Core.Players
 
         public void LoseAdditionalSkill(ISkill skill, bool undeletable = false)
         {
-            skill.Owner = null;
             skill.HeroTag = null;
+            skill.Owner = null;
             if (undeletable)
             {
                 Trace.Assert(additionalUndeletableSkills.Contains(skill));

@@ -105,8 +105,8 @@ namespace Sanguosha.Core.Heroes
             if (!Skills.Contains(skill)) return null;
             Skills.Remove(skill);
             OnPropertyChanged("Skills");
-            skill.Owner = null;
             skill.HeroTag = null;
+            skill.Owner = null;
             return skill;
         }
 

@@ -9,6 +9,7 @@ using Sanguosha.Core.UI;
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
+using Sanguosha.Core.Exceptions;
 
 namespace Sanguosha.Expansions.Assassin.Skills
 {
@@ -52,6 +53,7 @@ namespace Sanguosha.Expansions.Assassin.Skills
                     Game.CurrentGame.HandleCardDiscard(p, c);
                     var damageArgs = a as DamageEventArgs;
                     damageArgs.Magnitude--;
+                    if (damageArgs.Magnitude == 0) throw new TriggerResultException(TriggerResult.End);
                 },
                 TriggerCondition.OwnerIsTarget,
                 new JieYuanVerifier(true)
