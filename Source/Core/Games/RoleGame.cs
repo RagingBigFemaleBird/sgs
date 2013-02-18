@@ -875,7 +875,8 @@ namespace Sanguosha.Core.Games
 
                 GameDelays.Delay(GameDelayTypes.GameBeforeStart);
                 StartGameDeal(game);
-                
+                GameDelays.Delay(GameDelayTypes.GameBeforeStart);
+
                 Game.CurrentGame.NotificationProxy.NotifyGameStart();
                 GameDelays.Delay(GameDelayTypes.GameStart);
                 GameDelays.Delay(GameDelayTypes.GameStart);
