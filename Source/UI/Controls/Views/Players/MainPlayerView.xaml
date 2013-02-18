@@ -13,13 +13,13 @@
              mc:Ignorable="d"
              Height="170"
              d:DesignWidth="900">
-    <local:PlayerViewBase.Resources>        
+    <local:PlayerViewBase.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Common.xaml"/>
                 <ResourceDictionary Source="../Buttons/CardButton.xaml"/>
-				<ResourceDictionary Source="../Skills/SkillToolTip.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>                
+                <ResourceDictionary Source="../Skills/SkillToolTip.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/System.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <Storyboard x:Key="sbPhaseChange">
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="imgPhase">
@@ -243,7 +243,7 @@
                     <EasingDoubleKeyFrame KeyTime="0:0:6" Value="100"/>
                 </DoubleAnimationUsingKeyFrames>
             </Storyboard>
-		    <Storyboard x:Key="sbStartImpersonate2" RepeatBehavior="Forever" AutoReverse="True">
+            <Storyboard x:Key="sbStartImpersonate2" RepeatBehavior="Forever" AutoReverse="True">
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Effect).(Sanguosha_UI_Effects:RippleTransitionEffect.Progress)" Storyboard.TargetName="heroPhoto2">
                     <EasingDoubleKeyFrame KeyTime="0" Value="100"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
@@ -270,7 +270,7 @@
                 </DoubleAnimationUsingKeyFrames>
             </Storyboard>
         </ResourceDictionary>
-    </local:PlayerViewBase.Resources>	
+    </local:PlayerViewBase.Resources>
     <Grid>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="FadeStates">
@@ -297,7 +297,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
-            <RowDefinition Height="22"/>  	
+            <RowDefinition Height="22"/>
             <RowDefinition Height="148" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -319,12 +319,12 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="1*" />
-             </Grid.ColumnDefinitions>
+            </Grid.ColumnDefinitions>
             <Grid x:Name="equipmentArea" Grid.Row="1" Width="173" Visibility="Collapsed">
                 <Grid x:Name="weaponArea" Margin="2,8,2,0" Height="37" Width="161"  VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment" />
                 <Grid x:Name="armorArea" Margin="2,39,2,0" Height="37" Width="161"  VerticalAlignment="Top" />
-                <Grid x:Name="horse1Area" Margin="2,72,2,0" Height="37" Width="161"  VerticalAlignment="Top" />           
-                <Grid x:Name="horse2Area" Margin="2,104,2,0" Height="37" Width="161"  VerticalAlignment="Top" />            
+                <Grid x:Name="horse1Area" Margin="2,72,2,0" Height="37" Width="161"  VerticalAlignment="Top" />
+                <Grid x:Name="horse2Area" Margin="2,104,2,0" Height="37" Width="161"  VerticalAlignment="Top" />
             </Grid>
             <local:SingleRowCardStack x:Name="handCardArea" Grid.Column="1"  VerticalAlignment="Bottom" Margin="0,0,100,8" Height="132" MaxCardSpacing="97" MaxCardSpacingOnHighlighted="97" CardAlignment="Center" />
         </Grid>
@@ -360,62 +360,62 @@
                     </TransformGroup>
                 </Image.RenderTransform>
             </Image>
-            
+
         </Grid>
         <local:SingleRowCardStack x:Name="privateCardArea" IsCardConsumer="True" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-140,0,8" Grid.ColumnSpan="2" Height="132" Width="200"  MaxCardSpacing="97" MaxCardSpacingOnHighlighted="97" CardAlignment="Center" />
         <StackPanel x:Name="playerInfoArea" Orientation="Horizontal" Grid.Row="1" Grid.Column="2">
-			<StackPanel.Background>
-        		<ImageBrush ImageSource="{StaticResource MainPlayerInfoView.Background.Black}" Stretch="UniformToFill"/>
-        	</StackPanel.Background>
+            <StackPanel.Background>
+                <ImageBrush ImageSource="{StaticResource MainPlayerInfoView.Background.Black}" Stretch="UniformToFill"/>
+            </StackPanel.Background>
             <StackPanel.Effect>
                 <Sanguosha_UI_Effects:MonochromeEffect Strength="0"/>
             </StackPanel.Effect>
-			
+
             <Grid x:Name="hero1Area" Margin="0.5,2,0,0" HorizontalAlignment="Left" Width="122">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height="auto" MinHeight="26" />
                 </Grid.RowDefinitions>
-				<Grid Grid.RowSpan="2" Height="122" VerticalAlignment="Top">
-            	<Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=71\,28\,145\,145, Path=Hero1Model.Name, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/Full/\{0\}.png}" MouseLeftButtonDown="HeroPhoto_MouseLeftButtonDown" MouseRightButtonDown="HeroPhoto_MouseRightButtonDown">
+                <Grid Grid.RowSpan="2" Height="122" VerticalAlignment="Top">
+                    <Image x:Name="heroPhoto" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=71\,28\,145\,145, Path=Hero1Model.Name, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/Full/\{0\}.png}" MouseLeftButtonDown="HeroPhoto_MouseLeftButtonDown" MouseRightButtonDown="HeroPhoto_MouseRightButtonDown">
                         <Image.ToolTip>
                             <ToolTip x:Name="heroTip" Content="{Binding Hero1Model}" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
                         </Image.ToolTip>
                         <Image.Effect>
-                        <Sanguosha_UI_Effects:RippleTransitionEffect x:Name="impersonateEffect" Progress="100"/>
-                    </Image.Effect>
-                    <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
-                </Image>
-				<Border x:Name="fadeMask" Background="#64000000" Opacity="0" IsHitTestVisible="False">
-	                <i:Interaction.Behaviors>
-	                    <ei:DataStateBehavior TrueState="Faded" FalseState="UnFaded" Value="true" Binding="{Binding IsFaded}"/>
-	                </i:Interaction.Behaviors>
-	            </Border>
-                <Rectangle x:Name="drankMask" Visibility="{Binding IsDrank, Converter={StaticResource boolToVisibilityConverter}}" >
-                    <Rectangle.Fill>
-                        <RadialGradientBrush>
-                            <GradientStop Color="#00FF0000" Offset="1"/>							
-                            <GradientStop Color="#4C640000" Offset="0.558"/>
-                            <GradientStop Color="#4CFF0000"/>
-                        </RadialGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
-				<TextBlock Height="17" Margin="0,2" Text="{Binding Account.UserName, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="SimSun" Foreground="White" FontSize="13.333" TextAlignment="Center" LineStackingStrategy="BlockLineHeight" LineHeight="16" Background="#7F585858" IsHitTestVisible="False" />
-                <Image Source="/Resources;component/Images/MainPlayerInfoView/imprisoned.png" Stretch="Fill" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}"/>
-                                <Image x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="29" Margin="7,7,0,0" IsHitTestVisible="False" />
-				<ItemsControl ItemsSource="{Binding Hero1Model.NameChars}"
+                            <Sanguosha_UI_Effects:RippleTransitionEffect x:Name="impersonateEffect" Progress="100"/>
+                        </Image.Effect>
+                        <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
+                    </Image>
+                    <Border x:Name="fadeMask" Background="#64000000" Opacity="0" IsHitTestVisible="False">
+                        <i:Interaction.Behaviors>
+                            <ei:DataStateBehavior TrueState="Faded" FalseState="UnFaded" Value="true" Binding="{Binding IsFaded}"/>
+                        </i:Interaction.Behaviors>
+                    </Border>
+                    <Rectangle x:Name="drankMask" Visibility="{Binding IsDrank, Converter={StaticResource boolToVisibilityConverter}}" >
+                        <Rectangle.Fill>
+                            <RadialGradientBrush>
+                                <GradientStop Color="#00FF0000" Offset="1"/>
+                                <GradientStop Color="#4C640000" Offset="0.558"/>
+                                <GradientStop Color="#4CFF0000"/>
+                            </RadialGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <TextBlock Height="17" Margin="0,2" Text="{Binding Account.UserName, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="SimSun" Foreground="White" FontSize="13.333" TextAlignment="Center" LineStackingStrategy="BlockLineHeight" LineHeight="16" Background="#7F585858" IsHitTestVisible="False" />
+                    <Image Source="/Resources;component/Images/MainPlayerInfoView/imprisoned.png" Stretch="Fill" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}"/>
+                    <Image x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="29" Margin="7,7,0,0" IsHitTestVisible="False" />
+                    <ItemsControl ItemsSource="{Binding Hero1Model.NameChars}"
                 	HorizontalAlignment="Left"
                 	Margin="11,36,0,48"
                 	Width="20" IsHitTestVisible="False">
-                	<ItemsControl.ItemsPanel>
-                		<ItemsPanelTemplate>
-                			<UniformGrid Columns="1"/>
-                		</ItemsPanelTemplate>
-                	</ItemsControl.ItemsPanel>
-                	<ItemsControl.ItemTemplate>
-                		<DataTemplate>
-                			<Viewbox Margin="0, -2, 0, -2" Stretch="Fill" StretchDirection="DownOnly">
-                				<local:OutlinedTextBlock TextWrapping="NoWrap"
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="1"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Viewbox Margin="0, -2, 0, -2" Stretch="Fill" StretchDirection="DownOnly">
+                                    <local:OutlinedTextBlock TextWrapping="NoWrap"
                 					Fill="White"
                 					Stroke="Black"
                 					StrokeThickness="1"
@@ -424,15 +424,15 @@
                 					FontFamily="/Resources;component/Fonts/#LiSu" FontSize="18.667" 
                 					VerticalAlignment="Center" TextAlignment="Center"
                 					TextTrimming="None"/>
-                			</Viewbox>
-                		</DataTemplate>
-                	</ItemsControl.ItemTemplate>
-                	<ItemsControl.Effect>
-                		<DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0"/>
-                	</ItemsControl.Effect>
-                </ItemsControl>
-				<Image Height="30" Margin="8,26,27,0" Source="/Resources;component/Images/Game/saveMe.png" Stretch="Fill" VerticalAlignment="Top" Visibility="{Binding IsDying, Converter={StaticResource boolToVisibilityConverter}}"/>
-				</Grid>
+                                </Viewbox>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.Effect>
+                            <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0"/>
+                        </ItemsControl.Effect>
+                    </ItemsControl>
+                    <Image Height="30" Margin="8,26,27,0" Source="/Resources;component/Images/Game/saveMe.png" Stretch="Fill" VerticalAlignment="Top" Visibility="{Binding IsDying, Converter={StaticResource boolToVisibilityConverter}}"/>
+                </Grid>
                 <Border x:Name="IsTargetedGlow" Visibility="{Binding IsTargeted, Converter={StaticResource boolToVisibilityConverter}}" ClipToBounds="True" BorderBrush="Red" BorderThickness="5" >
                     <Border.Effect>
                         <BlurEffect Radius="10" />
@@ -444,7 +444,7 @@
                     </Border.Effect>
                 </Border>
                 <Image Source="{DynamicResource MainPlayerInfoView.Background.Right}" VerticalAlignment="Top" IsHitTestVisible="False" Width="122" Height="122" Stretch="Fill" Grid.RowSpan="2"/>
-                
+
                 <ItemsControl ItemsSource="{Binding Path=PrivateDecks, Mode=OneWay}" Margin="25, 25, 0, 0">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -454,12 +454,12 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Button Style="{DynamicResource DefaultButtonStyleBrown}" Click="btnPrivateDeck_Click" >
-                                <TextBlock Foreground="#FFEEE4C1" FontFamily="SimSun" Margin="5, 1" Text="{Binding Path=DisplayText, Mode=OneWay}" />											
+                                <TextBlock Foreground="#FFEEE4C1" FontFamily="SimSun" Margin="5, 1" Text="{Binding Path=DisplayText, Mode=OneWay}" />
                             </Button>
-                        </DataTemplate>	
+                        </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                        
+
                 <ItemsControl Grid.Row="1" x:Name="skillButtonDock" HorizontalAlignment="Left"
                     VerticalAlignment="Bottom" ItemsSource="{Binding Hero1Model.SkillCommands}"
                     ItemTemplateSelector="{StaticResource skillButtonTemplateSelector}">
@@ -473,58 +473,58 @@
                                VerticalAlignment="Center" HorizontalAlignment="Center"
                                Visibility="{Binding IsSelectionRepeatable, Converter={StaticResource boolToVisibilityConverter}}"
                                IsHitTestVisible="False" />
-                
+
                 <Grid Margin="-10,10,0,0" Height="22" VerticalAlignment="Top" Width="148" HorizontalAlignment="Left">
-                <Grid.ToolTip>
-                    <ToolTip Content="{DynamicResource State.TieSuoLianHuan.Description}" ContentTemplate="{DynamicResource ToolTipTextTemplate}" />                        
-                </Grid.ToolTip> 
-                <Image Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}" />
-                <anim:TieSuoAnimation2 x:Name="tieSuoAnimation2" FramesPerSecond="15" Stretch="Fill"/>				
-            	</Grid>
-				<Canvas x:Name="animationCenter1" HorizontalAlignment="Left" Height="16" Margin="63,69,0,0" VerticalAlignment="Top" Width="18" IsHitTestVisible="False"/> 
-				</Grid>            
-                <Grid x:Name="hero2Area" Margin="0.5,2,0,0" HorizontalAlignment="Left" Width="122" Visibility="{Binding Hero2, Converter={StaticResource objectToVisibilityConverter}}">
-                	<Grid.RowDefinitions>
-                		<RowDefinition />
-                		<RowDefinition Height="auto" MinHeight="26" />
-                	</Grid.RowDefinitions>
-                	<Grid Grid.RowSpan="2" Height="122" VerticalAlignment="Top">
-                		<Image x:Name="heroPhoto2" DataContext="{Binding Hero2Model}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=71\,28\,145\,145, Path=Name, ResourceKeyFormat=Hero.{0}.Image, StringFormat=Resources/Images/Heroes/Full/{0}.png}" MouseLeftButtonDown="HeroPhoto_MouseLeftButtonDown" MouseRightButtonDown="HeroPhoto_MouseRightButtonDown">
-                            <Image.ToolTip>
-                                <ToolTip x:Name="hero2Tip" Content="{Binding}" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
-                            </Image.ToolTip>
-                            <Image.Effect>
-                				<Sanguosha_UI_Effects:RippleTransitionEffect x:Name="impersonateEffect1" Progress="100"/>
-                			</Image.Effect>
-                			<ToolTipService.ShowOnDisabled>
-                				<System:Boolean>True</System:Boolean>
-                			</ToolTipService.ShowOnDisabled>
-                		</Image>
-                		<Border x:Name="fadeMask2" Background="#64000000" Opacity="0" IsHitTestVisible="False" />
-                		<Rectangle x:Name="drankMask2" Visibility="{Binding IsDrank, Converter={StaticResource boolToVisibilityConverter}}" >
-                			<Rectangle.Fill>
-                				<RadialGradientBrush>
-                					<GradientStop Color="#00FF0000" Offset="1"/>							
-                					<GradientStop Color="#4C640000" Offset="0.558"/>
-                					<GradientStop Color="#4CFF0000"/>
-                				</RadialGradientBrush>
-                			</Rectangle.Fill>
-                		</Rectangle>
-                		<Image Source="/Resources;component/Images/MainPlayerInfoView/imprisoned.png" Stretch="Fill" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}"/>
-                		<Image x:Name="allegianceIcon2" Source="{res:ResourceKeyBinding Path=Hero2Model.Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="29" Margin="7,7,0,0" IsHitTestVisible="False" />
-                		<ItemsControl ItemsSource="{Binding Hero2Model.NameChars}"
+                    <Grid.ToolTip>
+                        <ToolTip Content="{DynamicResource State.TieSuoLianHuan.Description}" ContentTemplate="{DynamicResource ToolTipTextTemplate}" />
+                    </Grid.ToolTip>
+                    <Image Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}" />
+                    <anim:TieSuoAnimation2 x:Name="tieSuoAnimation2" FramesPerSecond="15" Stretch="Fill"/>
+                </Grid>
+                <Canvas x:Name="animationCenter1" HorizontalAlignment="Left" Height="16" Margin="63,69,0,0" VerticalAlignment="Top" Width="18" IsHitTestVisible="False"/>
+            </Grid>
+            <Grid x:Name="hero2Area" Margin="0.5,2,0,0" HorizontalAlignment="Left" Width="122" Visibility="{Binding Hero2, Converter={StaticResource objectToVisibilityConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="auto" MinHeight="26" />
+                </Grid.RowDefinitions>
+                <Grid Grid.RowSpan="2" Height="122" VerticalAlignment="Top">
+                    <Image x:Name="heroPhoto2" DataContext="{Binding Hero2Model}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=71\,28\,145\,145, Path=Name, ResourceKeyFormat=Hero.{0}.Image, StringFormat=Resources/Images/Heroes/Full/{0}.png}" MouseLeftButtonDown="HeroPhoto_MouseLeftButtonDown" MouseRightButtonDown="HeroPhoto_MouseRightButtonDown">
+                        <Image.ToolTip>
+                            <ToolTip x:Name="hero2Tip" Content="{Binding}" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
+                        </Image.ToolTip>
+                        <Image.Effect>
+                            <Sanguosha_UI_Effects:RippleTransitionEffect x:Name="impersonateEffect1" Progress="100"/>
+                        </Image.Effect>
+                        <ToolTipService.ShowOnDisabled>
+                            <System:Boolean>True</System:Boolean>
+                        </ToolTipService.ShowOnDisabled>
+                    </Image>
+                    <Border x:Name="fadeMask2" Background="#64000000" Opacity="0" IsHitTestVisible="False" />
+                    <Rectangle x:Name="drankMask2" Visibility="{Binding IsDrank, Converter={StaticResource boolToVisibilityConverter}}" >
+                        <Rectangle.Fill>
+                            <RadialGradientBrush>
+                                <GradientStop Color="#00FF0000" Offset="1"/>
+                                <GradientStop Color="#4C640000" Offset="0.558"/>
+                                <GradientStop Color="#4CFF0000"/>
+                            </RadialGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Image Source="/Resources;component/Images/MainPlayerInfoView/imprisoned.png" Stretch="Fill" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}"/>
+                    <Image x:Name="allegianceIcon2" Source="{res:ResourceKeyBinding Path=Hero2Model.Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="29" Margin="7,7,0,0" IsHitTestVisible="False" />
+                    <ItemsControl ItemsSource="{Binding Hero2Model.NameChars}"
                 			HorizontalAlignment="Left"
                 			Margin="11,36,0,48"
                 			Width="20" IsHitTestVisible="False">
-                			<ItemsControl.ItemsPanel>
-                				<ItemsPanelTemplate>
-                					<UniformGrid Columns="1"/>
-                				</ItemsPanelTemplate>
-                			</ItemsControl.ItemsPanel>
-                			<ItemsControl.ItemTemplate>
-                				<DataTemplate>
-                					<Viewbox Margin="0, -2, 0, -2" Stretch="Fill" StretchDirection="DownOnly">
-                						<local:OutlinedTextBlock TextWrapping="NoWrap"
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="1"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Viewbox Margin="0, -2, 0, -2" Stretch="Fill" StretchDirection="DownOnly">
+                                    <local:OutlinedTextBlock TextWrapping="NoWrap"
                 							Fill="White"
                 							Stroke="Black"
                 							StrokeThickness="1"
@@ -533,28 +533,28 @@
                 							FontFamily="/Resources;component/Fonts/#LiSu" FontSize="18.667" 
                 							VerticalAlignment="Center" TextAlignment="Center"
                 							TextTrimming="None"/>
-                					</Viewbox>
-                				</DataTemplate>
-                			</ItemsControl.ItemTemplate>
-                			<ItemsControl.Effect>
-                				<DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0"/>
-                			</ItemsControl.Effect>
-                		</ItemsControl>
-                		<Image Height="30" Margin="8,26,27,0" Source="/Resources;component/Images/Game/saveMe.png" Stretch="Fill" VerticalAlignment="Top" Visibility="{Binding IsDying, Converter={StaticResource boolToVisibilityConverter}}"/>
-                	</Grid>
-                	<Border x:Name="IsTargetedGlow2" Visibility="{Binding IsTargeted, Converter={StaticResource boolToVisibilityConverter}}" ClipToBounds="True" BorderBrush="Red" BorderThickness="5" >
-                		<Border.Effect>
-                			<BlurEffect Radius="10" />
-                		</Border.Effect>
-                	</Border>
-                	<Border x:Name="IsSelectedGlow2" Visibility="{Binding IsSelected, Converter={StaticResource boolToVisibilityConverter}}" ClipToBounds="True" BorderBrush="#FFFF6B00" BorderThickness="5" >
-                		<Border.Effect>
-                			<BlurEffect Radius="10" />
-                		</Border.Effect>
-                	</Border>
-                	<Image Source="{DynamicResource MainPlayerInfoView.Background.Right}" VerticalAlignment="Top" IsHitTestVisible="False" Width="122" Height="122" Stretch="Fill" Grid.RowSpan="2"/>
-                
-                	<!--ItemsControl ItemsSource="{Binding PrivateDecks, Mode=OneWay}" Margin="25, 25, 0, 0">
+                                </Viewbox>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.Effect>
+                            <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0"/>
+                        </ItemsControl.Effect>
+                    </ItemsControl>
+                    <Image Height="30" Margin="8,26,27,0" Source="/Resources;component/Images/Game/saveMe.png" Stretch="Fill" VerticalAlignment="Top" Visibility="{Binding IsDying, Converter={StaticResource boolToVisibilityConverter}}"/>
+                </Grid>
+                <Border x:Name="IsTargetedGlow2" Visibility="{Binding IsTargeted, Converter={StaticResource boolToVisibilityConverter}}" ClipToBounds="True" BorderBrush="Red" BorderThickness="5" >
+                    <Border.Effect>
+                        <BlurEffect Radius="10" />
+                    </Border.Effect>
+                </Border>
+                <Border x:Name="IsSelectedGlow2" Visibility="{Binding IsSelected, Converter={StaticResource boolToVisibilityConverter}}" ClipToBounds="True" BorderBrush="#FFFF6B00" BorderThickness="5" >
+                    <Border.Effect>
+                        <BlurEffect Radius="10" />
+                    </Border.Effect>
+                </Border>
+                <Image Source="{DynamicResource MainPlayerInfoView.Background.Right}" VerticalAlignment="Top" IsHitTestVisible="False" Width="122" Height="122" Stretch="Fill" Grid.RowSpan="2"/>
+
+                <!--ItemsControl ItemsSource="{Binding PrivateDecks, Mode=OneWay}" Margin="25, 25, 0, 0">
                 		<ItemsControl.ItemsPanel>
                 			<ItemsPanelTemplate>
                 				<WrapPanel HorizontalAlignment="Left" />
@@ -568,30 +568,30 @@
                 			</DataTemplate>	
                 		</ItemsControl.ItemTemplate>
                 	</ItemsControl-->
-                        
-                	<ItemsControl Grid.Row="1" x:Name="skillButtonDock2" HorizontalAlignment="Left"
+
+                <ItemsControl Grid.Row="1" x:Name="skillButtonDock2" HorizontalAlignment="Left"
                 		VerticalAlignment="Bottom" ItemsSource="{Binding Hero2Model.SkillCommands}"
                 		ItemTemplateSelector="{StaticResource skillButtonTemplateSelector}">
-                		<ItemsControl.ItemsPanel>
-                			<ItemsPanelTemplate>
-                				<local:SkillButtonDock  ButtonsPerRow="2"/>
-                			</ItemsPanelTemplate>
-                		</ItemsControl.ItemsPanel>
-                	</ItemsControl>
-                	<Image Source="{res:ResourceKeyBinding Path=SelectedTimes, StringFormat=Selection.Digit.\{0\}}" 
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <local:SkillButtonDock  ButtonsPerRow="2"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+                <Image Source="{res:ResourceKeyBinding Path=SelectedTimes, StringFormat=Selection.Digit.\{0\}}" 
                 		VerticalAlignment="Center" HorizontalAlignment="Center"
                 		Visibility="{Binding IsSelectionRepeatable, Converter={StaticResource boolToVisibilityConverter}}"
                 		IsHitTestVisible="False" />
-                
-                	<Grid Margin="-10,10,0,0" Height="22" VerticalAlignment="Top" Width="148" HorizontalAlignment="Left">
-                		<Grid.ToolTip>
-                			<ToolTip Content="{DynamicResource State.TieSuoLianHuan.Description}" ContentTemplate="{DynamicResource ToolTipTextTemplate}" />                        
-                		</Grid.ToolTip> 
-                		<Image Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}" />
-                		<!--anim:TieSuoAnimation2 x:Name="tieSuoAnimation1" FramesPerSecond="15" Stretch="Fill"/-->
-                	</Grid>
+
+                <Grid Margin="-10,10,0,0" Height="22" VerticalAlignment="Top" Width="148" HorizontalAlignment="Left">
+                    <Grid.ToolTip>
+                        <ToolTip Content="{DynamicResource State.TieSuoLianHuan.Description}" ContentTemplate="{DynamicResource ToolTipTextTemplate}" />
+                    </Grid.ToolTip>
+                    <Image Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}" />
+                    <!--anim:TieSuoAnimation2 x:Name="tieSuoAnimation1" FramesPerSecond="15" Stretch="Fill"/-->
                 </Grid>
-				<local:VHealthBar x:Name="healthBar" HorizontalAlignment="Right" Width="25" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}" IsHitTestVisible="False" Margin="0,4,0,10" />
+            </Grid>
+            <local:VHealthBar x:Name="healthBar" HorizontalAlignment="Right" Width="25" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}" IsHitTestVisible="False" Margin="0,4,0,10" />
         </StackPanel>
         <StackPanel Grid.Row="2" Height="29" Orientation="Horizontal" HorizontalAlignment="Left" Margin="200,-20,0,0" x:Name="delayedToolsDock" VerticalAlignment="Top" Grid.ColumnSpan="2" >
             <i:Interaction.Behaviors>

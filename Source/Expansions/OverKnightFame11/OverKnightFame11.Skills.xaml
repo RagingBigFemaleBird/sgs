@@ -43,8 +43,8 @@
     <sys:String x:Key="Hero.YuJin.Name">于禁</sys:String>
     <sys:String x:Key="Hero.ZhangChunhua.Name">张春华</sys:String>
     <sys:String x:Key="Hero.ZhongHui.Name">钟会</sys:String>
-    
-    
+
+
     <sys:String x:Key="Skill.LuoYing.Name">落英</sys:String>
     <sys:String x:Key="Skill.LuoYing.Description">当其他角色的一张梅花牌因弃置或判定而置入弃牌堆时，你可以获得之。</sys:String>
     <sys:String x:Key="Skill.LuoYing.Usage">系统提示→点“确定”</sys:String>
@@ -61,7 +61,7 @@
 
     <sys:String x:Key="Skill.ZhiChi.Name">智迟</sys:String>
     <sys:String x:Key="Skill.ZhiChi.Description">锁定技，你的回合外，每当你受到一次伤害后，【杀】或非延时类锦囊牌对你无效，直到回合结束。</sys:String>
-    
+
     <sys:String x:Key="Skill.EnYuan.Name">恩怨</sys:String>
     <sys:String x:Key="Skill.EnYuan.Description">你每次获得一名其他角色两张或更多的牌时，可以令其摸一张牌；每当你受到1点伤害后，你可以令伤害来源选择一项：交给你一张手牌，或失去1点体力。</sys:String>
     <sys:String x:Key="Skill.EnYuan.Usage">系统提示→点“确定”</sys:String>
@@ -88,7 +88,7 @@
 
     <sys:String x:Key="Skill.HuiLei.Name">挥泪</sys:String>
     <sys:String x:Key="Skill.HuiLei.Description">锁定技，当你被其他角色杀死时，该角色弃置其所有的牌。</sys:String>
-    
+
     <sys:String x:Key="Skill.GanLu.Name">甘露</sys:String>
     <sys:String x:Key="Skill.GanLu.Description">出牌阶段，你可以交换两名角色装备区里的牌，以此法交换的装备数差不能超过X（X为你已损失体力值）。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.GanLu.Usage">点“甘露”→选择两名角色→点“确定”</sys:String>
@@ -130,5 +130,5 @@
     <sys:String x:Key="Skill.PaiYi.Name">排异</sys:String>
     <sys:String x:Key="Skill.PaiYi.Description">出牌阶段，你可以将一张“权”置入弃牌堆，令一名角色摸两张牌，然后若该角色的手牌数大于你的手牌数，你对其造成1点伤害。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.PaiYi.Usage">点“排异”→选择1张权→选择一名目标→点“确定”</sys:String>
-    
+
 </ResourceDictionary>

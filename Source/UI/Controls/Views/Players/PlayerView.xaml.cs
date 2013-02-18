@@ -29,7 +29,7 @@ namespace Sanguosha.UI.Controls
         {
             InitializeComponent();
             this.DataContextChanged += new DependencyPropertyChangedEventHandler(PlayerInfoView_DataContextChanged);
-            _OnPropertyChanged = new PropertyChangedEventHandler(model_PropertyChanged);            
+            _OnPropertyChanged = new PropertyChangedEventHandler(model_PropertyChanged);
         }
 
         public static void PlayerView_FlowDirectionChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -56,7 +56,7 @@ namespace Sanguosha.UI.Controls
                 model.PropertyChanged += _OnPropertyChanged;
                 cbRoleBox.DataContext = model.PossibleRoles;
             }
-        }       
+        }
 
         void model_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -111,7 +111,7 @@ namespace Sanguosha.UI.Controls
             var hero = isPrimaryHero ? PlayerModel.Hero1Model : PlayerModel.Hero2Model;
 
             Trace.Assert(hero != null);
-                        
+
             Storyboard sb;
             if (PlayerModel.Hero2 == null)
             {
@@ -145,7 +145,7 @@ namespace Sanguosha.UI.Controls
                     converter.CropRect = new Int32Rect(63, 20, 126, 178);
                     effect = impersonateEffect2;
                 }
-                
+
                 ImageSource source = converter.Convert(new object[] { this, hero.ImpersonatedHeroName }, typeof(ImageSource), null, null) as ImageSource;
                 effect.Texture2 = new ImageBrush(source);
                 sb.Begin();
@@ -186,7 +186,7 @@ namespace Sanguosha.UI.Controls
             PlayerViewModel model = DataContext as PlayerViewModel;
             model.IsSelected = false;
         }
-        
+
         private void btnSpectate_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             // TODO: Add event handler implementation here.
@@ -195,8 +195,8 @@ namespace Sanguosha.UI.Controls
             {
                 handler(this, new EventArgs());
             }
-        }        
-        
+        }
+
         public event EventHandler OnRequestSpectate;
 
         #region PlayerInfoViewBase Members
@@ -362,7 +362,7 @@ namespace Sanguosha.UI.Controls
 
             SmallEquipView equipLabel = new SmallEquipView();
             equipLabel.DataContext = card.CardModel;
-            
+
             Canvas targetArea = null;
             switch (equip.Category)
             {
@@ -471,7 +471,7 @@ namespace Sanguosha.UI.Controls
             }
 
             card.Position = ComputeCardCenterPos(card, cbRoleBox);
-            
+
             ScaleTransform scale = new ScaleTransform();
             var transformGroup = new TransformGroup();
             transformGroup.Children.Add(scale);
@@ -485,12 +485,12 @@ namespace Sanguosha.UI.Controls
             Storyboard.SetTargetProperty(scaleXAnim, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"));
             Storyboard.SetTargetProperty(scaleYAnim, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"));
             Storyboard storyboard = new Storyboard();
-            storyboard.Children.Add(scaleXAnim);            
+            storyboard.Children.Add(scaleXAnim);
             storyboard.Children.Add(scaleYAnim);
-            card.AddRebaseAnimation(storyboard, 0.5d);            
+            card.AddRebaseAnimation(storyboard, 0.5d);
             storyboard.AccelerationRatio = 0.4d;
             storyboard.Begin();
-            card.Disappear(0.5d, true);            
+            card.Disappear(0.5d, true);
         }
 
         protected override CardView RemoveRoleCard(Card card)
