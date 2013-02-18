@@ -194,8 +194,6 @@
     <BitmapImage x:Key="Allegiance.Wu.Mask">Allegiances/wu2.png</BitmapImage>
     <BitmapImage x:Key="Allegiance.Qun.Icon">Allegiances/qun.png</BitmapImage>
     <BitmapImage x:Key="Allegiance.Qun.Mask">Allegiances/qun2.png</BitmapImage>
-    <BitmapImage x:Key="Allegiance.God.Icon">Allegiances/god.png</BitmapImage>
-    <BitmapImage x:Key="Allegiance.God.Mask">Allegiances/god2.png</BitmapImage>
     <BitmapImage x:Key="Phases.Inactive.Small">blank.png</BitmapImage>
     <BitmapImage x:Key="Phases.Start.Small">Phases/Small/1.png</BitmapImage>
     <BitmapImage x:Key="Phases.Judge.Small">Phases/Small/2.png</BitmapImage>

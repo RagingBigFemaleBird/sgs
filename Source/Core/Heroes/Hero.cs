@@ -21,7 +21,18 @@ namespace Sanguosha.Core.Heroes
 
     public class Hero : ICloneable
     {
-        public Allegiance Allegiance { get; set; }
+        private Allegiance allegiance;
+
+        public Allegiance Allegiance
+        {
+            get { return allegiance; }
+            set 
+            {
+                if (allegiance == value) return;
+                allegiance = value;
+                OnPropertyChanged("Allegiance");
+            }
+        }
 
         List<ISkill> _skills;
         public List<ISkill> Skills

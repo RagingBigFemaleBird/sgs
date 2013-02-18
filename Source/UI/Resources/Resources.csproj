@@ -225,13 +225,9 @@
     <Resource Include="Images\Roles\rebel.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Allegiances\god2.png" />
     <Resource Include="Images\Allegiances\qun2.png" />
     <Resource Include="Images\Allegiances\shu2.png" />
     <Resource Include="Images\Allegiances\wu2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Allegiances\god.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\HealthBar\numbers.png" />

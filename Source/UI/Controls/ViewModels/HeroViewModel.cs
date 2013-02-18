@@ -6,6 +6,7 @@ using System.Text;
 using Sanguosha.Core.Heroes;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.ComponentModel;
 
 namespace Sanguosha.UI.Controls
 {
@@ -25,6 +26,24 @@ namespace Sanguosha.UI.Controls
             Hero = hero;
         }
 
+        private PropertyChangedEventHandler _PropertyChanged;
+
+        private void _OnHeroPropertyChanged(object o, PropertyChangedEventArgs e)
+        {
+            string name = e.PropertyName;
+            if (name == "Allegiance")
+            {
+                OnPropertyChanged("Allegiance");
+            }
+            else if (name == "Skills")
+            {
+            }
+            else
+            {
+                throw new NotImplementedException(string.Format("HeroViewModel didn't expect change on property {0}", name));
+            }
+        }
+
         private Hero _hero;
         public Hero Hero
         {
@@ -34,8 +53,15 @@ namespace Sanguosha.UI.Controls
             }
             set
             {
-                if (_hero == value) return;                
+                if (_hero == value) return;
+                if (_hero != null)
+                {
+                    PropertyChangedEventHandler handler = _PropertyChanged;
+                    _hero.PropertyChanged -= handler;
+                }
                 _hero = value;
+                _PropertyChanged = _OnHeroPropertyChanged;
+                _hero.PropertyChanged += _PropertyChanged;
                 _UpdateHeroInfo();
                 OnPropertyChanged("Name");
                 OnPropertyChanged("IsMale");
