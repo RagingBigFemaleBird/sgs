@@ -336,6 +336,7 @@ namespace Sanguosha.UI.Controls
             if (IsEquipmentDockEmpty)
             {
                 equipmentArea.Visibility = Visibility.Visible;
+                this.UpdateLayout();
                 handCardArea.RearrangeCards();
             }
 

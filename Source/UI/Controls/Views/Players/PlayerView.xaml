@@ -227,10 +227,6 @@
             </ItemsControl.ItemsPanel>
         </ItemsControl>
         <Grid x:Name="LeftGrid" FlowDirection="LeftToRight">
-            <Grid.ToolTip>
-                <ToolTip x:Name="toolTip" Content="{Binding Hero1Model}" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
-            </Grid.ToolTip>
-            <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
             <VisualStateManager.CustomVisualStateManager>
                 <ei:ExtendedVisualStateManager/>
             </VisualStateManager.CustomVisualStateManager>
@@ -292,7 +288,8 @@
                     </Border.Effect>
                 </Border>
                 <Grid x:Name="mainArea" Margin="7" MouseLeftButtonDown="mainArea_MouseLeftButtonDown" MouseRightButtonDown="mainArea_MouseRightButtonDown">
-                    <Grid.CacheMode>
+                    <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
+					<Grid.CacheMode>
                         <BitmapCache EnableClearType="True" RenderAtScale="2" SnapsToDevicePixels="True" />
                     </Grid.CacheMode>
                     <Grid.RowDefinitions>
@@ -300,12 +297,12 @@
                         <RowDefinition/>
                         <RowDefinition Height="66"/>
                     </Grid.RowDefinitions>
-                    <Image x:Name="bg" Margin="0,0,-2,0" Stretch="Fill" Grid.RowSpan="3" Source="{StaticResource PlayerInfoView.Background}" />
-                    <Image x:Name="bgFade" Margin="0,0,-2,0" Stretch="Fill" Grid.RowSpan="3" Source="{StaticResource PlayerInfoView.Background.Faded}" Visibility="Collapsed" />
+                    <Image x:Name="bg" Margin="0,0,-2,0" Stretch="Fill" Grid.RowSpan="3" Source="{StaticResource PlayerInfoView.Background}" IsHitTestVisible="False" />
+                    <Image x:Name="bgFade" Margin="0,0,-2,0" Stretch="Fill" Grid.RowSpan="3" Source="{StaticResource PlayerInfoView.Background.Faded}" Visibility="Collapsed" IsHitTestVisible="False" />
                     <local:CardStack x:Name="privateCardArea" IsCardConsumer="true" CardAlignment="Center" MaxCardSpacing="30" Grid.RowSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-30,0,0,0"  Height="130" Width="179" IsHitTestVisible="false" />
                     <local:CardStack x:Name="handCardArea" IsCardConsumer="true" CardAlignment="Center" MaxCardSpacing="30" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="130" Width="279" IsHitTestVisible="false" />
-                    <Grid x:Name="heroArea" Margin="5,0,6,0" Grid.Row="1">
-                        <Border CornerRadius="1" ClipToBounds="True" BorderThickness="1">
+                    <Grid x:Name="heroArea" Margin="5,0,6,0" Grid.Row="1" IsHitTestVisible="True">
+                        <Border CornerRadius="1" ClipToBounds="True" BorderThickness="1" IsHitTestVisible="False">
                             <Border.BorderBrush>
                                 <LinearGradientBrush EndPoint="1,1.8" StartPoint="0,0">
                                     <GradientStop Color="#E5323232" Offset="0"/>
@@ -321,32 +318,41 @@
                                 <Image.Effect>
                                     <Sanguosha_UI_Effects:RippleTransitionEffect x:Name="impersonateEffect" Progress="100"/>
                                 </Image.Effect>
-                            </Image>							
-							<Grid x:Name="gridDualHero" Visibility="{Binding Hero2, Converter={StaticResource objectToVisibilityConverter}}">
-								<Image x:Name="heroPhoto1" Grid.ColumnSpan="2" Stretch="UniformToFill" HorizontalAlignment="Left" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=60\,30\,208\,125, Path=Hero1Model.Name, ResourceKeyFormat=Hero.{0}.Image, StringFormat=Resources/Images/Heroes/Full/{0}.png}">
+								<Image.ToolTip>
+					                <ToolTip x:Name="heroTip" Content="{Binding Hero1Model}" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
+					            </Image.ToolTip>
+					        </Image>
+                            <Grid x:Name="gridDualHero" Visibility="{Binding Hero2, Converter={StaticResource objectToVisibilityConverter}}">
+                                <Image x:Name="heroPhoto1" Grid.ColumnSpan="2" Stretch="UniformToFill" HorizontalAlignment="Left" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=60\,30\,208\,125, Path=Hero1Model.Name, ResourceKeyFormat=Hero.{0}.Image, StringFormat=Resources/Images/Heroes/Full/{0}.png}">
 									<Image.Effect>
 		                            	<Sanguosha_UI_Effects:RippleTransitionEffect x:Name="impersonateEffect1" Progress="100"/>
 		                        	</Image.Effect>
 	                            </Image>
-								<Grid Background="#01000000">
+								<Grid Background="Transparent">
 									<Grid.OpacityMask>
 										<ImageBrush ImageSource="{StaticResource PlayerInfoView.SecondaryHeroMask}" Stretch="Fill" />
 									</Grid.OpacityMask>									
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="0.6*"/>
 										<ColumnDefinition Width="0.4*"/>
-									</Grid.ColumnDefinitions>									
-									<Viewbox HorizontalAlignment="Right" Grid.Column="1" Stretch="UniformToFill">
+									</Grid.ColumnDefinitions>
+                                    <Viewbox HorizontalAlignment="Right" Grid.Column="1" Stretch="UniformToFill">
 										<Image x:Name="heroPhoto2" Source="{res:ImageBinding CropRect=63\,20\,126\,178, Path=Hero2Model.Name, ResourceKeyFormat=Hero.{0}.Image, StringFormat=Resources/Images/Heroes/Full/{0}.png}">
 					                       	<Image.Effect>
 					                           	<Sanguosha_UI_Effects:RippleTransitionEffect x:Name="impersonateEffect2" Progress="100"/>
-					                       	</Image.Effect>
+					                       	</Image.Effect>											
 										</Image>
-									</Viewbox>								
-								</Grid>
-								<Image Source="{StaticResource PlayerInfoView.HeroSeparator}" Stretch="Fill"/>
+										<Viewbox.ToolTip>
+								        	<ToolTip x:Name="hero2Tip" Content="{Binding Hero2Model}" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
+								        </Viewbox.ToolTip>
+									</Viewbox>
+                                    <Grid.ToolTip>
+                                        <ToolTip x:Name="hero1Tip" Content="{Binding Hero1Model}" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
+                                    </Grid.ToolTip>
+                                </Grid>
+								<Image Source="{StaticResource PlayerInfoView.HeroSeparator}" Stretch="Fill" IsHitTestVisible="False"/>
 							</Grid>
-                            <Rectangle Visibility="{Binding IsDrank, Converter={StaticResource boolToVisibilityConverter}}" >
+                            <Rectangle Visibility="{Binding IsDrank, Converter={StaticResource boolToVisibilityConverter}}" IsHitTestVisible="False" >
                                 <Rectangle.Fill>
                                     <RadialGradientBrush>
                                         <GradientStop Color="#00FF0000" Offset="1"/>
@@ -355,16 +361,16 @@
                                     </RadialGradientBrush>
                                 </Rectangle.Fill>
                             </Rectangle>
-                            <Image Margin="0" Source="/Resources;component/Images/PlayerInfoView/imprisoned.png" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}" />
-                            <Border x:Name="IsTargetedGlow" Visibility="{Binding IsTargeted, Converter={StaticResource boolToVisibilityConverter}}" BorderBrush="Red" BorderThickness="5" >
+                            <Image Margin="0" IsHitTestVisible="False" Source="/Resources;component/Images/PlayerInfoView/imprisoned.png" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsImprisoned, Converter={StaticResource boolToVisibilityConverter}}" />
+                            <Border x:Name="IsTargetedGlow" IsHitTestVisible="False" Visibility="{Binding IsTargeted, Converter={StaticResource boolToVisibilityConverter}}" BorderBrush="Red" BorderThickness="5" >
                                 <Border.Effect>
                                     <BlurEffect Radius="10" />
                                 </Border.Effect>                            	
                             </Border>
                             <Image Source="{res:ResourceKeyBinding Path=SelectedTimes, StringFormat=Selection.Digit.\{0\}}" 
-                    		VerticalAlignment="Center" HorizontalAlignment="Center"
-                    		Visibility="{Binding IsSelectionRepeatable, Converter={StaticResource boolToVisibilityConverter}}"
-                    		IsHitTestVisible="False" />
+                    		       VerticalAlignment="Center" HorizontalAlignment="Center"
+                    		       Visibility="{Binding IsSelectionRepeatable, Converter={StaticResource boolToVisibilityConverter}}"
+                    		       IsHitTestVisible="False" />
                             <StackPanel>
                                 <ItemsControl ItemsSource="{Binding StatusMarks, Mode=OneWay}" Margin="22, 0, 0, 0">
                                     <ItemsControl.ItemsPanel>
@@ -399,8 +405,17 @@
                                 </ItemsControl>
                             </StackPanel>
                             <local:HealthBar x:Name="healthBar" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                    		Height="14" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}"/>
+                    		                 IsHitTestVisible="False" Height="14" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}"/>
                             <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,0" Visibility="{Binding Hero1Model.ImpersonatedSkill, Converter={StaticResource objectToVisibilityConverter}}">
+                                <Grid.Background>
+                                    <ImageBrush ImageSource="{DynamicResource PlayerInfoView.AcquiredSkill.Background}"/>
+                                </Grid.Background>
+								<Grid.ToolTip>
+									<ToolTip Content="{Binding SkillName}" ContentTemplate="{StaticResource SkillToolTipTemplate}" />
+								</Grid.ToolTip>
+                                <local:OutlinedTextBlock Text="{res:ResourceKeyBinding Path=ImpersonatedSkill, StringFormat=Skill.{0}.Name}" FontSize="21" Fill="White" FontFamily="/Resources;component/Fonts/#LiSu" Margin="5,1" Stroke="Blue" StrokeThickness="3"/>
+                            </Grid>
+							<Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,16" Visibility="{Binding Hero2Model.ImpersonatedSkill, Converter={StaticResource objectToVisibilityConverter}}">
                                 <Grid.Background>
                                     <ImageBrush ImageSource="{DynamicResource PlayerInfoView.AcquiredSkill.Background}"/>
                                 </Grid.Background>
@@ -419,9 +434,9 @@
                     </Grid>
 
                     <!--Image Source="{DynamicResource PlayerInfoView.Decoration.TopLeft}" Width="64" HorizontalAlignment="Left" Margin="-8.75,-5.25,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Visibility="Hidden"/-->
-                    <Image x:Name="allegianceMask" Source="{res:ResourceKeyBinding Path=Hero1Model.Allegiance, StringFormat=Allegiance.\{0\}.Mask}" HorizontalAlignment="Left" Grid.RowSpan="2" Width="38" Stretch="Fill" Margin="-3,4,0,0" ClipToBounds="True" Height="119" VerticalAlignment="Top"/>
-                    <Image x:Name="allegianceIcon" Source="{res:ResourceKeyBinding Path=Hero1Model.Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" />
-					<Image x:Name="allegianceMask2" Visibility="{Binding Hero2,Converter={StaticResource objectToVisibilityConverter}}" Source="{res:ResourceKeyBinding Path=Hero2Model.Allegiance, StringFormat=Allegiance.\{0\}.Mask}" HorizontalAlignment="Right" Grid.RowSpan="2" Width="38" Stretch="Fill" Margin="0,4,-3,0" ClipToBounds="True" Height="119" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+                    <Image x:Name="allegianceMask" IsHitTestVisible="False" Source="{res:ResourceKeyBinding Path=Hero1Model.Allegiance, StringFormat=Allegiance.\{0\}.Mask}" HorizontalAlignment="Left" Grid.RowSpan="2" Width="38" Stretch="Fill" Margin="-3,4,0,0" ClipToBounds="True" Height="119" VerticalAlignment="Top"/>
+                    <Image x:Name="allegianceIcon" IsHitTestVisible="False" Source="{res:ResourceKeyBinding Path=Hero1Model.Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" />
+					<Image x:Name="allegianceMask2" IsHitTestVisible="False" Visibility="{Binding Hero2,Converter={StaticResource objectToVisibilityConverter}}" Source="{res:ResourceKeyBinding Path=Hero2Model.Allegiance, StringFormat=Allegiance.\{0\}.Mask}" HorizontalAlignment="Right" Grid.RowSpan="2" Width="38" Stretch="Fill" Margin="0,4,-3,0" ClipToBounds="True" Height="119" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
 						<Image.RenderTransform>
 							<TransformGroup>
 								<ScaleTransform ScaleX="-1"/>
@@ -437,6 +452,7 @@
                               HorizontalAlignment="Left"                              
                               Margin="2,0,0,30"
                               Width="20"
+							  IsHitTestVisible="False"
                               VerticalAlignment="Top"
                               MaxHeight="55">
                         <ItemsControl.ItemsPanel>
@@ -468,6 +484,7 @@
                               HorizontalAlignment="Right"                              
                               Margin="0,0,2,30"
                               Width="20"
+							  IsHitTestVisible="False"
                               VerticalAlignment="Top"
                               MaxHeight="55"
 							  Visibility="{Binding Hero2,Converter={StaticResource objectToVisibilityConverter}}">
