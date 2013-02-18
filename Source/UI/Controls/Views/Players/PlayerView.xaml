@@ -287,7 +287,7 @@
                         <BlurEffect Radius="10" />
                     </Border.Effect>
                 </Border>
-                <Grid x:Name="mainArea" Margin="7" MouseLeftButtonDown="mainArea_MouseLeftButtonDown" MouseRightButtonDown="mainArea_MouseRightButtonDown">
+                <Grid x:Name="mainArea" Margin="7" Background="Transparent" MouseLeftButtonDown="mainArea_MouseLeftButtonDown" MouseRightButtonDown="mainArea_MouseRightButtonDown">
                     <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
                     <Grid.CacheMode>
                         <BitmapCache EnableClearType="True" RenderAtScale="2" SnapsToDevicePixels="True" />
