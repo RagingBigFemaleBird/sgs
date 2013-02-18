@@ -66,6 +66,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                 int toDraw = 1 - Owner.Health - Game.CurrentGame.Decks[Owner, bq].Count;
                 CardsMovement move = new CardsMovement();
                 move.To = new DeckPlace(Owner, bq);
+                move.Helper.PrivateDeckHeroTag = HeroTag;
                 while (toDraw-- > 0)
                 {
                     Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.PeekCard(0));

@@ -140,7 +140,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                         answer[0].Add(target.Equipments().First());
                     }
                     junweiTarget.Add(target);
-                    Game.CurrentGame.HandleCardTransfer(target, target, JunWeiDeck, answer[0], HeroTag);
+                    Game.CurrentGame.HandleCardTransfer(target, target, JunWeiDeck, answer[0]);
                 }
             }
         }

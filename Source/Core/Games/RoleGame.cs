@@ -873,10 +873,9 @@ namespace Sanguosha.Core.Games
 
                 Player current = game.CurrentPlayer = game.Players[rulerId];
 
+                GameDelays.Delay(GameDelayTypes.GameBeforeStart);
                 StartGameDeal(game);
-
-                GameDelays.Delay(GameDelayTypes.GameStart);
-
+                
                 Game.CurrentGame.NotificationProxy.NotifyGameStart();
                 GameDelays.Delay(GameDelayTypes.GameStart);
                 GameDelays.Delay(GameDelayTypes.GameStart);

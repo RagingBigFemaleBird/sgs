@@ -50,6 +50,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
         public override bool Commit(GameEventArgs arg)
         {
             Game.CurrentGame.HandleCardDiscard(Owner, arg.Cards);
+            if (arg.Targets[0].HandCards().Count + arg.Targets[0].Equipments().Count == 0) return true;
             List<DeckPlace> souceDeck = new List<DeckPlace>();
             souceDeck.Add(new DeckPlace(arg.Targets[0], DeckType.Hand));
             souceDeck.Add(new DeckPlace(arg.Targets[0], DeckType.Equipment));
@@ -61,7 +62,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 answer = new List<List<Card>>();
                 answer.Add(new List<Card>() { arg.Targets[0].HandCards().Concat(arg.Targets[0].Equipments()).First() });
             }
-            Game.CurrentGame.HandleCardTransfer(arg.Targets[0], Owner, JinDeck, answer[0]);
+            Game.CurrentGame.HandleCardTransfer(arg.Targets[0], Owner, JinDeck, answer[0], HeroTag);
             return true;
         }
 
