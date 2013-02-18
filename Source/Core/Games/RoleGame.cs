@@ -410,7 +410,7 @@ namespace Sanguosha.Core.Games
         {
             List<CardsMovement> moves = new List<CardsMovement>();
             // Deal everyone 4 cards
-            foreach (Player player in game.Players)
+            foreach (Player player in game.AlivePlayers)
             {
                 CardsMovement move = new CardsMovement();
                 move.Cards = new List<Card>();
