@@ -789,10 +789,11 @@ namespace Sanguosha.Core.Games
             }
             var moves = atomicMoves;
             var triggers = atomicTriggers;
+            var btriggers = atomicTriggersBeforeMove;
             atomic = false;
-            EmitTriggers(atomicTriggersBeforeMove);
-            MoveCards(atomicMoves);
-            EmitTriggers(atomicTriggers);
+            EmitTriggers(btriggers);
+            MoveCards(moves);
+            EmitTriggers(btriggers);
         }
 
         private void AddAtomicMoves(List<CardsMovement> moves)
