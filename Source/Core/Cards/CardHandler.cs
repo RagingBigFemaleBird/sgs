@@ -131,7 +131,7 @@ namespace Sanguosha.Core.Cards
             var readonlyCard = handlerArgs.ReadonlyCard;
             var inResponseTo = handlerArgs.InResponseTo;
             var card = handlerArgs.Card;
-            Game.CurrentGame.SortByOrderOfComputation(source, dests);
+            Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, dests);
             foreach (var player in dests)
             {
                 if (player.IsDead) continue;
