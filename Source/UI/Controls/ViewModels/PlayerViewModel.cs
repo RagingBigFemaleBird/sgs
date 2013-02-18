@@ -49,6 +49,7 @@ namespace Sanguosha.UI.Controls
 
             _possibleRoles = new ObservableCollection<Role>();
             _updateCardUsageStatusHandler = (o, e) => { _UpdateCardUsageStatus(); };
+            _onSkillCommandSelectedHandler = _OnSkillCommandSelected;
             IsCardChoiceQuestionShown = false;
 
             Marks = new ObservableCollection<MarkViewModel>();
@@ -224,7 +225,7 @@ namespace Sanguosha.UI.Controls
             }
             else if (name == "Hero")
             {
-                Application.Current.Dispatcher.Invoke((ThreadStart)delegate() 
+                Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
                 {
                     Hero1Model.Hero = Hero;
                     OnPropertyChanged("Hero");
@@ -959,6 +960,7 @@ namespace Sanguosha.UI.Controls
 
         #region IASyncUiProxy Helpers
         ICardUsageVerifier currentUsageVerifier;
+
         SkillCommand _GetSelectedSkillCommand(out bool isEquipSkill)
         {
             foreach (var skillCommand in ActiveSkillCommands)
@@ -1046,8 +1048,9 @@ namespace Sanguosha.UI.Controls
             }
 
             foreach (var skillCommand in ActiveSkillCommands)
-            {
+            {                
                 skillCommand.IsSelected = false;
+                skillCommand.OnSelectedChanged -= _onSkillCommandSelectedHandler;
                 skillCommand.IsEnabled = false;
             }
 
@@ -1077,8 +1080,62 @@ namespace Sanguosha.UI.Controls
             TimeOutSeconds = 0;
         }
 
+        private EventHandler _onSkillCommandSelectedHandler;
+
+        SkillCommand _lastSelectedCommand;
+        bool _cleaningUp;
+        private void _OnSkillCommandSelected(object sender, EventArgs args)
+        {
+            var skill = sender as SkillCommand;
+            if (skill.IsSelected)
+            {
+                Trace.Assert(skill != _lastSelectedCommand);
+                if (_lastSelectedCommand != null)
+                {
+                    _cleaningUp = true;
+                    _lastSelectedCommand.IsSelected = false;
+                    _cleaningUp = false;
+                    Trace.Assert(_lastSelectedCommand == null);
+                }
+
+                _lastSelectedCommand = skill;
+
+            }
+            else
+            {
+                Trace.Assert(_lastSelectedCommand == skill);
+
+                foreach (EquipCommand equipCmd in EquipCommands)
+                {
+                    equipCmd.IsSelected = false;
+                }
+
+                foreach (CardViewModel card in HandCards)
+                {
+                    card.IsSelected = false;
+                }
+
+                foreach (var playerModel in _game.PlayerModels)
+                {
+                    playerModel.IsSelected = false;
+                }
+                _lastSelectedPlayers.Clear();
+
+                _lastSelectedCommand = null;
+            }
+            if (!_cleaningUp && currentUsageVerifier != null)
+            {
+                _UpdateCardUsageStatus();
+            }
+        }
+
         private void _UpdateCardUsageStatus()
         {
+            if (currentUsageVerifier == null)
+            {
+                return;
+            }
+
             List<Card> cards = _GetSelectedNonEquipCards();
             List<Player> players = _GetSelectedPlayers();
             ISkill skill = null;
@@ -1091,6 +1148,7 @@ namespace Sanguosha.UI.Controls
                 {
                     return;
                 }
+
                 if (currentUsageVerifier.Helper.IsActionStage)
                 {
                     cancelCardUsageCommand.CanExecuteStatus = (cards.Count != 0 || players.Count != 0 || command != null);
@@ -1234,9 +1292,10 @@ namespace Sanguosha.UI.Controls
                     {
                         playerModel.IsSelected = false;
                     }
+                    players.Clear();
                     _lastSelectedPlayers.Clear();
-
                 }
+
                 else if (status == VerifierResult.Partial)
                 {
                     submitCardUsageCommand.CanExecuteStatus = false;
@@ -1359,6 +1418,8 @@ namespace Sanguosha.UI.Controls
         }
 
         private EventHandler _updateCardUsageStatusHandler;
+
+
         #endregion
 
         #region IAsyncUiProxy
@@ -1466,7 +1527,7 @@ namespace Sanguosha.UI.Controls
                     {
                         (skillCommand as GuHuoSkillCommand).GuHuoChoice = null;
                     }
-                    skillCommand.OnSelectedChanged += _updateCardUsageStatusHandler;
+                    skillCommand.OnSelectedChanged += _onSkillCommandSelectedHandler;
                 }
 
                 // @todo: update this.
