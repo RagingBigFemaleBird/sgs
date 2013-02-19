@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Sanguosha.Core.Players;
+using System.Diagnostics;
 
 namespace Sanguosha.Core.Cards
 {
@@ -87,6 +88,27 @@ namespace Sanguosha.Core.Cards
         {
             get { return gameDecks; }
             set { gameDecks = value; }
+        }
+
+        public List<DeckType> GetPlayerPrivateDecks(Player player)
+        {
+            List<DeckType> list = new List<DeckType>();
+            Trace.Assert(player != null);
+            if (!GameDecks.Keys.Contains(player)) return list;
+
+            var result = from kvp in GameDecks[player] where kvp.Key is PrivateDeckType select kvp.Key;
+            list.AddRange(result);
+            return list;
+        }
+
+        public List<Card> GetPlayerPrivateCards(Player player)
+        {
+            var result = new List<Card>();
+            foreach (var deckType in GetPlayerPrivateDecks(player))
+            {
+                result.AddRange(this[player, deckType]);
+            }
+            return result;
         }
     }
 }

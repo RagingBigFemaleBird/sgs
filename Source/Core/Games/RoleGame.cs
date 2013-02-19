@@ -1084,6 +1084,7 @@ namespace Sanguosha.Core.Games
                 toDiscarded.AddRange(p.HandCards());
                 toDiscarded.AddRange(p.Equipments());
                 toDiscarded.AddRange(p.DelayedTools());
+                toDiscarded.AddRange(Game.CurrentGame.Decks.GetPlayerPrivateCards(p));
                 Game.CurrentGame.HandleCardDiscard(p, toDiscarded);
                 var makeACopy = new List<PlayerAttribute>(p.Attributes.Keys);
                 foreach (var kvp in makeACopy)
@@ -1127,18 +1128,28 @@ namespace Sanguosha.Core.Games
                     Game.CurrentGame.SyncImmutableCardsAll(Game.CurrentGame.Decks[source, DeckType.Hand]);
                     CardsMovement move = new CardsMovement();
                     move.Cards = new List<Card>();
+                    bool showHandCards = false;
                     foreach (Card c in Game.CurrentGame.Decks[source, DeckType.Hand])
                     {
                         if (Game.CurrentGame.PlayerCanDiscardCard(source, c))
                         {
                             move.Cards.Add(c);
                         }
+                        else showHandCards = true;
                     }
-                    move.Cards.AddRange(Game.CurrentGame.Decks[source, DeckType.Equipment]);
-                    move.Cards.AddRange(Game.CurrentGame.Decks[source, DeckType.DelayedTools]);
+                    if (showHandCards)
+                    {
+                        Game.CurrentGame.ShowHandCards(p, p.HandCards());
+                        Game.CurrentGame.SyncImmutableCardsAll(move.Cards);
+                    }
+                    List<Card> cards = new List<Card>();
+                    cards.AddRange(move.Cards);
+                    cards.AddRange(Game.CurrentGame.Decks[source, DeckType.Equipment]);
+                    move.Cards = new List<Card>(cards);
                     move.To = new DeckPlace(null, DeckType.Discard);
                     move.Helper = new MovementHelper();
                     Game.CurrentGame.MoveCards(move);
+                    Game.CurrentGame.PlayerLostCard(p, cards);
                 }
             }
         }
