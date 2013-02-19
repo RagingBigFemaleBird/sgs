@@ -44,7 +44,17 @@ namespace Sanguosha.UI.Controls
         {
             InitializeComponent();
             cbRoles.SelectedItem = Role.Unknown;
+            this.Unloaded += RoleBox_Unloaded;
             this.DataContextChanged += new DependencyPropertyChangedEventHandler(RoleBox_DataContextChanged);
+        }
+
+        void RoleBox_Unloaded(object sender, RoutedEventArgs e)
+        {
+            ObservableCollection<Role> roles = DataContext as ObservableCollection<Role>;
+            if (roles != null)
+            {
+                roles.CollectionChanged -= _rolesChangedHandler;
+            };
         }
 
         private void _UpdateRoles()
@@ -83,16 +93,23 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        private NotifyCollectionChangedEventHandler _rolesChangedHandler;
+
         void RoleBox_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            var oldRoles = e.OldValue as ObservableCollection<Role>;
+            if (oldRoles != null)
+            {
+                oldRoles.CollectionChanged -= _rolesChangedHandler;
+            }
             ObservableCollection<Role> roles = DataContext as ObservableCollection<Role>;
             if (roles != null)
             {
-                roles.CollectionChanged += (o, n) => { _UpdateRoles(); };
+                _rolesChangedHandler = (o, n) => { _UpdateRoles(); };
+                roles.CollectionChanged += _rolesChangedHandler;
                 _UpdateRoles();
             }
         }
-
          
         private void cbRoles_DropDownOpened(object sender, EventArgs e)
         {

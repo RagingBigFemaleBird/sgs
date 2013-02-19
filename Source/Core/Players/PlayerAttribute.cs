@@ -15,7 +15,6 @@ namespace Sanguosha.Core.Players
             AutoReset = autoReset;
             IsMark = isAMark;
             IsStatus = isStatus;
-            internalAttributes = new Dictionary<object, PlayerAttribute>();
         }
 
         private string name;
@@ -52,20 +51,20 @@ namespace Sanguosha.Core.Players
 
         static Dictionary<string, PlayerAttribute> _attributeNames;
 
-        private Dictionary<object, PlayerAttribute> internalAttributes;
         private object internalKey = null;
 
-        public PlayerAttribute this[object key]
+        public PlayerAttribute this[Player key]
         {
             get
             {
-                if (!internalAttributes.ContainsKey(key))
+                if (key == null) return this;
+                if (!key.AssociatedPlayerAttributes.ContainsKey(this))
                 {
                     var attribute = new PlayerAttribute(this.Name, this.autoReset, this.isMark, this.isStatus);
                     attribute.internalKey = key;
-                    internalAttributes.Add(key, attribute);
+                    key.AssociatedPlayerAttributes.Add(this, attribute);
                 }
-                return internalAttributes[key];
+                return key.AssociatedPlayerAttributes[this];
             }
         }
 

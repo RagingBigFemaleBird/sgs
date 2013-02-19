@@ -11,6 +11,7 @@ using Sanguosha.Core.Games;
 using System.Collections.ObjectModel;
 using Sanguosha.Lobby.Core;
 using Sanguosha.Core.Triggers;
+using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Core.Players
 {   
@@ -29,6 +30,8 @@ namespace Sanguosha.Core.Players
             equipmentSkills = new List<ISkill>();
             additionalSkills = new List<ISkill>();
             additionalUndeletableSkills = new List<ISkill>();
+            AssociatedPlayerAttributes = new Dictionary<PlayerAttribute, PlayerAttribute>();
+            AssociatedCardAttributes = new Dictionary<CardAttribute, CardAttribute>();
         }
 
         int id;
@@ -447,6 +450,18 @@ namespace Sanguosha.Core.Players
                 Game.CurrentGame.Emit(GameEvent.PlayerSkillSetChanged, arg);
             }
             return skill;
+        }
+
+        internal IDictionary<PlayerAttribute, PlayerAttribute> AssociatedPlayerAttributes
+        {
+            get;
+            private set;
+        }
+
+        internal IDictionary<CardAttribute, CardAttribute> AssociatedCardAttributes
+        {
+            get;
+            private set;
         }
 
         public static PlayerAttribute RangeMinus = PlayerAttribute.Register("RangeMinus", false);

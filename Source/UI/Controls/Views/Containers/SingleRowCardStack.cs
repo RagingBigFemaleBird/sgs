@@ -18,6 +18,21 @@ namespace Sanguosha.UI.Controls
             cardMouseEnterHandler = new MouseEventHandler(card_MouseEnter);
             cardMouseLeaveHandler = new MouseEventHandler(card_MouseLeave);
             IsDraggingHandled = true;
+            registeredCards = new HashSet<CardView>();
+            this.Unloaded += SingleRowCardStack_Unloaded;
+        }
+
+        void SingleRowCardStack_Unloaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            foreach (var card in registeredCards)
+            {
+                card.OnDragBegin -= cardBeginDragHandler;
+                card.OnDragging -= cardDraggingHandler;
+                card.OnDragEnd -= cardEndDragHandler;
+                card.MouseEnter -= cardMouseEnterHandler;
+                card.MouseLeave -= cardMouseLeaveHandler;
+            }
+            registeredCards.Clear();
         }
 
         public bool IsDraggingHandled
@@ -32,6 +47,8 @@ namespace Sanguosha.UI.Controls
         private EventHandler cardDraggingHandler;
         private EventHandler cardEndDragHandler;
 
+        HashSet<CardView> registeredCards;
+
         protected override void RegisterCardEvents(CardView card)
         {
             card.OnDragBegin += cardBeginDragHandler;
@@ -39,9 +56,10 @@ namespace Sanguosha.UI.Controls
             card.OnDragEnd += cardEndDragHandler;
             card.MouseEnter += cardMouseEnterHandler;
             card.MouseLeave += cardMouseLeaveHandler;
+            registeredCards.Add(card);
         }
 
-        protected override void UnRegisterCardEvents(CardView card)
+        protected override void UnregisterCardEvents(CardView card)
         {
             if (card == InteractingCard)
             {
@@ -59,6 +77,7 @@ namespace Sanguosha.UI.Controls
             card.OnDragEnd -= cardEndDragHandler;
             card.MouseEnter -= cardMouseEnterHandler;
             card.MouseLeave -= cardMouseLeaveHandler;
+            registeredCards.Remove(card);
         }
 
         #region Drag and Drop, Highlighting

@@ -50,7 +50,7 @@ namespace Sanguosha.UI.Controls
             _OnCardPropertyChangedHandler = new PropertyChangedEventHandler(_OnCardPropertyChanged);
             _OnCardSelectedChangedHandler = new EventHandler(_OnCardSelectedChanged);
             OffsetOnSelect = true;
-
+            Unloaded += CardView_Unloaded;
             Storyboard disappear = Resources["sbDisappear"] as Storyboard;
             disappear.Completed += new EventHandler((o, e2) =>
             {
@@ -76,6 +76,16 @@ namespace Sanguosha.UI.Controls
                     }
                 }
             });
+        }
+
+        void CardView_Unloaded(object sender, RoutedEventArgs e)
+        {
+            var oldModel = CardModel;
+            if (oldModel != null)
+            {
+                oldModel.OnSelectedChanged -= _OnCardSelectedChangedHandler;
+                oldModel.PropertyChanged -= _OnCardPropertyChangedHandler;
+            }
         }
 
         public CardView(CardViewModel card) : this()
@@ -523,6 +533,11 @@ namespace Sanguosha.UI.Controls
                 cardViews.Add(CreateCard(card, parent));
             }
             return cardViews;
+        }
+
+        public static void ClearCache()
+        {
+            _cardViewPool.Clear();
         }
         #endregion
 

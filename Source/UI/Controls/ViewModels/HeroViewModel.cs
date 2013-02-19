@@ -56,17 +56,19 @@ namespace Sanguosha.UI.Controls
                 if (_hero == value) return;
                 if (_hero != null)
                 {
-                    PropertyChangedEventHandler handler = _PropertyChanged;
-                    _hero.PropertyChanged -= handler;
+                    _hero.PropertyChanged -= _PropertyChanged;
                 }
                 _hero = value;
-                _PropertyChanged = _OnHeroPropertyChanged;
-                _hero.PropertyChanged += _PropertyChanged;
-                _UpdateHeroInfo();
-                OnPropertyChanged("Name");
-                OnPropertyChanged("IsMale");
-                OnPropertyChanged("Allegiance");
-                OnPropertyChanged("MaxHealth");
+                if (_hero != null)
+                {
+                    _PropertyChanged = _OnHeroPropertyChanged;
+                    _hero.PropertyChanged += _PropertyChanged;
+                    _UpdateHeroInfo();
+                    OnPropertyChanged("Name");
+                    OnPropertyChanged("IsMale");
+                    OnPropertyChanged("Allegiance");
+                    OnPropertyChanged("MaxHealth");
+                }
             }
         }
 

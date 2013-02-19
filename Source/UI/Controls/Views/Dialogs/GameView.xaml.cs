@@ -269,6 +269,24 @@ namespace Sanguosha.UI.Controls
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
             LobbyViewModel.Instance.OnChat -= chatEventHandler;
+            CardView.ClearCache();
+            if (GameModel != null)
+            {
+                var model = GameModel;
+                foreach (var playerModel in GameModel.PlayerModels)
+                {
+                    playerModel.Player = null;
+                }
+                model.PropertyChanged -= _propertyChangedHandler;
+                model.Game.PropertyChanged -= _gamePropertyChangedHandler;
+                foreach (var playerModel in model.PlayerModels)
+                {
+                    playerModel.PropertyChanged -= _playerPropertyChangedHandler;
+                }
+                model.MainPlayerModel.PropertyChanged -= _mainPlayerPropertyChangedHandler;
+                GameModel.Game = null;
+            }
+            this.DataContext = null;
             
         }        
 
@@ -427,18 +445,22 @@ namespace Sanguosha.UI.Controls
             if (e.OldValue != null)
             {
                 GameViewModel oldModel = e.OldValue as GameViewModel;
-                if (oldModel == null) return;
+                if (oldModel == null || oldModel.Game == null) return;
                 oldModel.PropertyChanged -= _propertyChangedHandler;
                 oldModel.Game.PropertyChanged -= _gamePropertyChangedHandler;
                 foreach (var playerModel in oldModel.PlayerModels)
                 {
                     playerModel.PropertyChanged -= _playerPropertyChangedHandler;
                 }
+                oldModel.MainPlayerModel.PropertyChanged -= _mainPlayerPropertyChangedHandler;
             }
 
             profileBoxes.Clear();
             playersMap.Clear();
             GameViewModel model = GameModel;
+
+            if (model == null) return;
+
             for (int i = 1; i < model.PlayerModels.Count; i++)
             {
                 _CreatePlayerInfoView(i);
@@ -483,9 +505,10 @@ namespace Sanguosha.UI.Controls
         ChildWindow cardChoiceWindow;
         void _player_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            PlayerViewModel model = sender as PlayerViewModel;
+            if (model == null || model.Player == null) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
-            {
-                PlayerViewModel model = sender as PlayerViewModel;
+            {                
                 int count = GameModel.PlayerModels.Count;
                 if (e.PropertyName == "IsCardChoiceQuestionShown")
                 {
@@ -521,6 +544,7 @@ namespace Sanguosha.UI.Controls
                     }
                     else if (cardChoiceWindow != null)
                     {
+                        cardChoiceWindow.Content = null;
                         cardChoiceWindow.Close();
                         gridRoot.Children.Remove(cardChoiceWindow);
                         cardChoiceWindow = null;

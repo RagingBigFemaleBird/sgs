@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 using Sanguosha.Core.Exceptions;
+using Sanguosha.Core.Players;
 
 namespace Sanguosha.Core.Cards
 {
@@ -16,7 +17,6 @@ namespace Sanguosha.Core.Cards
         private CardAttribute(string attrName)
         {
             Name = attrName;
-            internalAttributes = new Dictionary<object, CardAttribute>();
         }
         
         private string name;
@@ -29,20 +29,20 @@ namespace Sanguosha.Core.Cards
 
         static Dictionary<string, CardAttribute> _attributeNames;
 
-        private Dictionary<object, CardAttribute> internalAttributes;
         private object internalKey = null;
 
-        public CardAttribute this[object key]
+        public CardAttribute this[Player key]
         {
             get
             {
-                if (!internalAttributes.ContainsKey(key))
+                if (key == null) return this;
+                if (!key.AssociatedCardAttributes.ContainsKey(this))
                 {
                     var attribute = new CardAttribute(this.Name);
                     attribute.internalKey = key;
-                    internalAttributes.Add(key, attribute);
+                    key.AssociatedCardAttributes.Add(this, attribute);
                 }
-                return internalAttributes[key];
+                return key.AssociatedCardAttributes[this];
             }
         }
 

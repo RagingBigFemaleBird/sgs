@@ -95,12 +95,14 @@ namespace Sanguosha.UI.Controls
                 if (_player == value) return;
                 if (_player != null)
                 {
-                    PropertyChangedEventHandler handler = _PropertyChanged;
-                    _player.PropertyChanged -= handler;
+                    _player.PropertyChanged -= _PropertyChanged;
                 }
                 _player = value;
-                _PropertyChanged = _OnPlayerPropertyChanged;
-                _player.PropertyChanged += _PropertyChanged;
+                if (_player != null)
+                {
+                    _PropertyChanged = _OnPlayerPropertyChanged;
+                    _player.PropertyChanged += _PropertyChanged;
+                }
                 var properties = typeof(Player).GetProperties();
                 foreach (var property in properties)
                 {
@@ -148,6 +150,8 @@ namespace Sanguosha.UI.Controls
             // SkillCommands.Clear();
             ActiveSkillCommands.Clear();
             AutoInvokeSkillCommands.Clear();
+
+            if (_player == null) return;
 
             var backup = new List<SkillCommand>(DockedSkillCommands);
             backup.AddRange(RulerGivenSkillCommands);
@@ -273,6 +277,15 @@ namespace Sanguosha.UI.Controls
 
         private void _UpdateAttributes()
         {
+            if (_player == null)
+            {
+                IsDrank = false;
+                IsDying = false;
+                StatusMarks.Clear();
+                Marks.Clear();
+                return;
+            }
+
             foreach (var attribute in _player.Attributes.Keys)
             {
                 if (attribute == Sanguosha.Expansions.Battle.Cards.Jiu.Drank)
@@ -465,6 +478,7 @@ namespace Sanguosha.UI.Controls
         {
             get
             {
+                if (_player == null) return null;
                 return _player.Hero;
             }
         }
@@ -473,6 +487,7 @@ namespace Sanguosha.UI.Controls
         {
             get
             {
+                if (_player == null) return null;
                 return _player.Hero2;
             }
         }
@@ -481,6 +496,7 @@ namespace Sanguosha.UI.Controls
         {
             get
             {
+                if (_player == null) return -1;
                 return _player.Id;
             }
         }
@@ -489,6 +505,7 @@ namespace Sanguosha.UI.Controls
         {
             get
             {
+                if (_player == null) return false;
                 return _player.IsFemale;
             }
         }
@@ -497,13 +514,14 @@ namespace Sanguosha.UI.Controls
         {
             get
             {
+                if (_player == null) return false;
                 return _player.IsMale;
             }
         }
 
-        public bool IsIronShackled { get { return _player.IsIronShackled; } }
+        public bool IsIronShackled { get { if (_player == null) return false; return _player.IsIronShackled; } }
 
-        public bool IsImprisoned { get { return _player.IsImprisoned; } }
+        public bool IsImprisoned { get { return _player != null && _player.IsImprisoned; } }
 
         private bool _isDrank;
 
@@ -518,7 +536,7 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        public bool IsTargeted { get { return _player.IsTargeted; } }
+        public bool IsTargeted { get { return _player != null && _player.IsTargeted; } }
 
         public bool IsCurrentPlayer
         {
@@ -548,7 +566,7 @@ namespace Sanguosha.UI.Controls
         {
             get
             {
-                return _player.IsDead;
+                return _player != null && _player.IsDead;
             }
         }
 
@@ -661,7 +679,7 @@ namespace Sanguosha.UI.Controls
         {
             _possibleRoles.Clear();
             _possibleRoles.Add(Role.Unknown);
-            if (GameModel != null)
+            if (GameModel != null && _player != null)
             {
                 if (GameModel.Game is RoleGame)
                 {

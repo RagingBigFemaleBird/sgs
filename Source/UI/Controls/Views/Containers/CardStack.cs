@@ -251,7 +251,7 @@ namespace Sanguosha.UI.Controls
         {
         }
 
-        protected virtual void UnRegisterCardEvents(CardView card)
+        protected virtual void UnregisterCardEvents(CardView card)
         {
         }
 
@@ -332,7 +332,7 @@ namespace Sanguosha.UI.Controls
                     _interactingCard = null;
                     _cardInteraction = CardInteraction.None;
                 }
-                UnRegisterCardEvents(card);
+                UnregisterCardEvents(card);
             }
             var nonexisted = new List<CardView>(
                                 from c in cards
