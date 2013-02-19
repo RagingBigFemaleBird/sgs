@@ -573,6 +573,10 @@ namespace Sanguosha.UI.Controls
                 {
                     gameLogs.AppendPickHeroLog(model.Player, true);
                 }
+                else if (e.PropertyName == "Hero2")
+                {
+                    gameLogs.AppendPickHeroLog(model.Player, false);
+                }
             });
         }
 
