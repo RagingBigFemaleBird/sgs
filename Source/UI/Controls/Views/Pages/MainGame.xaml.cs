@@ -38,12 +38,16 @@ namespace Sanguosha.UI.Controls
             this.InitializeComponent();
             ctrlGetCard.OnCardSelected += new CardSelectedHandler(ctrlGetCard_OnCardSelected);
             ctrlGetSkill.OnSkillNameSelected += new SkillNameSelectedHandler(ctrlGetSkill_OnSkillNameSelected);
-            gameView.OnGameCompleted += new EventHandler(gameView_OnGameCompleted);
+            gameEndEventHandler = gameView_OnGameCompleted;
+            gameView.OnGameCompleted += gameEndEventHandler;
             // Insert code required on object creation below this point.
         }
 
+        EventHandler gameEndEventHandler;
+
         void gameView_OnGameCompleted(object sender, EventArgs e)
         {
+            gameView.OnGameCompleted -= gameEndEventHandler;
             this.NavigationService.Navigate(LobbyView.Instance);
             LobbyView.Instance.Reload();
         }

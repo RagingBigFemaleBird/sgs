@@ -266,6 +266,11 @@ namespace Sanguosha.UI.Controls
             GameSoundPlayer.PlayBackgroundMusic(GameSoundLocator.GetBgm());
         }
 
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            LobbyViewModel.Instance.OnChat -= chatEventHandler;
+        }        
+
         private void _Resize(Size size)
         {
             if (profileBoxes.Count == 0)
@@ -1330,6 +1335,9 @@ namespace Sanguosha.UI.Controls
             });
         }
 
+        private EventHandler _showGameResultWindowHandler;
+        private EventHandler _closeGameResultWindowHandler;
+        
         public void NotifyGameOver(bool isDraw, List<Player> winners)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
@@ -1362,7 +1370,6 @@ namespace Sanguosha.UI.Controls
                 else delayWindow = false;
                 LobbyViewModel.Instance.OnChat -= chatEventHandler;
 
-
                 ObservableCollection<GameResultViewModel> model = new ObservableCollection<GameResultViewModel>();
                 foreach (Player player in winners.Concat(losers).Concat(drawers))
                 {
@@ -1393,23 +1400,29 @@ namespace Sanguosha.UI.Controls
                 }
                 gameResultBox.DataContext = model;
                 gameResultWindow.Content = gameResultBox;
-                gameResultWindow.Closed += (o, e) =>
+
+                _closeGameResultWindowHandler = (o, e) =>
                 {
                     var handler = OnGameCompleted;
                     if (handler != null)
                     {
                         handler(this, new EventArgs());
                     }
+                    gameResultWindow.Closed -= _closeGameResultWindowHandler;
                 };
+                gameResultWindow.Closed += _closeGameResultWindowHandler;
 
                 if (delayWindow)
                 {
                     DispatcherTimer timer = new DispatcherTimer();
-                    timer.Tick += (o, e) =>
+                    _showGameResultWindowHandler = (o, e) =>
                     {
                         gameResultWindow.Show();
                         timer.Stop();
+                        timer.Tick -= _showGameResultWindowHandler;
                     };
+
+                    timer.Tick += _showGameResultWindowHandler;
                     timer.Interval = TimeSpan.FromSeconds(2);
                     timer.Start();
                 }

@@ -10,7 +10,9 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              x:Class="Sanguosha.UI.Controls.GameView"
-             d:DesignHeight="747" d:DesignWidth="1076" Width="Auto" Height="Auto" mc:Ignorable="d" Loaded="UserControl_Loaded">
+             d:DesignHeight="747" d:DesignWidth="1076" Width="Auto" Height="Auto" mc:Ignorable="d"
+             Loaded="UserControl_Loaded"
+             Unloaded="UserControl_Unloaded">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

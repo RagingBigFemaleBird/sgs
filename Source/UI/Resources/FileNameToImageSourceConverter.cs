@@ -48,7 +48,9 @@ namespace Sanguosha.UI.Resources
                 else if (resource is BitmapSource)
                 {
                     BitmapSource bitmap = resource as BitmapSource;
-                    return new CroppedBitmap(bitmap, CropRect);
+                    var result = new CroppedBitmap(bitmap, CropRect);
+                    result.Freeze();
+                    return result;
                 }
             }
 
@@ -80,7 +82,9 @@ namespace Sanguosha.UI.Resources
                         else if (image is BitmapSource)
                         {
                             BitmapSource bitmap = image as BitmapSource;
-                            return new CroppedBitmap(bitmap, CropRect);                            
+                            var result = new CroppedBitmap(bitmap, CropRect);
+                            result.Freeze();
+                            return result;
                         }
                     }
                 }
