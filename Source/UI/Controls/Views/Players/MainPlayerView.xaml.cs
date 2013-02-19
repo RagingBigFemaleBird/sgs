@@ -258,8 +258,7 @@ namespace Sanguosha.UI.Controls
                         {
                             cardsToRemove.Add(cardView);
                             cardView.CardModel.IsSelected = false;
-                            cardView.DragDirection = DragDirection.None;
-                            PlayerModel.HandCards.Remove(viewModel);                            
+                            cardView.DragDirection = DragDirection.None;                            
                         }
                         found = true;
                         break;

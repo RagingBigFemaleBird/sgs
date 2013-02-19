@@ -157,13 +157,16 @@ namespace Sanguosha.UI.Controls
                 card.CardModel.IsEnabled = false;                
             }
             if (deck == DeckType.Hand)
-            {
-                AddHandCards(cards, isFaked);                
+            {                
                 foreach (var card in cards)
-                {
+                {                    
                     PlayerModel.HandCards.Add(card.CardModel);
                 }
                 PlayerModel.HandCardCount += cards.Count;
+                if (!ViewModelBase.IsDetached)
+                {
+                    AddHandCards(cards, isFaked);
+                }
             }
             else if (deck == DeckType.Equipment)
             {
@@ -190,21 +193,30 @@ namespace Sanguosha.UI.Controls
                                 break;
                         }
                     }
-                    AddEquipment(card, isFaked);
+                    if (!ViewModelBase.IsDetached)
+                    {
+                        AddEquipment(card, isFaked);
+                    }
                 }
             }
             else if (deck == DeckType.DelayedTools)
             {
-                foreach (var card in cards)
+                if (!ViewModelBase.IsDetached)
                 {
-                    AddDelayedTool(card, isFaked);
+                    foreach (var card in cards)
+                    {
+                        AddDelayedTool(card, isFaked);
+                    }
                 }
             }
             else if (deck == RoleGame.RoleDeckType)
             {
-                foreach (var card in cards)
+                if (!ViewModelBase.IsDetached)
                 {
-                    AddRoleCard(card, isFaked);
+                    foreach (var card in cards)
+                    {
+                        AddRoleCard(card, isFaked);
+                    }
                 }
             }
             else if (deck is PrivateDeckType)
@@ -220,13 +232,19 @@ namespace Sanguosha.UI.Controls
                 {
                     deckModel.Cards.Add(card.CardModel);
                 }
-                AddPrivateCards(cards, isFaked);
+                if (!ViewModelBase.IsDetached)
+                {
+                    AddPrivateCards(cards, isFaked);
+                }
             }
             else
             {
-                foreach (var card in cards)
+                if (!ViewModelBase.IsDetached)
                 {
-                    card.Disappear(0.5d);
+                    foreach (var card in cards)
+                    {
+                        card.Disappear(0.5d);
+                    }
                 }
             }
         }
@@ -236,9 +254,23 @@ namespace Sanguosha.UI.Controls
             List<CardView> cardsToRemove = new List<CardView>();
             if (deck == DeckType.Hand)
             {
-                cardsToRemove.AddRange(RemoveHandCards(cards, isCopy));
+                if (!ViewModelBase.IsDetached)
+                {
+                    cardsToRemove.AddRange(RemoveHandCards(cards, isCopy));
+                }
                 if (!isCopy)
                 {
+                    foreach (var card in cards)
+                    {
+                        var backup = new List<CardViewModel>(PlayerModel.HandCards);
+                        foreach (var cardModel in backup)
+                        {
+                            if (cardModel.Card == card)
+                            {                                
+                                PlayerModel.HandCards.Remove(cardModel);
+                            }
+                        }
+                    }           
                     PlayerModel.HandCardCount -= cardsToRemove.Count;
                 }
             }
@@ -266,24 +298,33 @@ namespace Sanguosha.UI.Controls
                                 break;
                         }
                     }
-                    CardView cardView = RemoveEquipment(card, isCopy);
-                    cardsToRemove.Add(cardView);
+                    if (!ViewModelBase.IsDetached)
+                    {
+                        CardView cardView = RemoveEquipment(card, isCopy);
+                        cardsToRemove.Add(cardView);
+                    }
                 }
             }
             else if (deck == DeckType.DelayedTools)
             {
-                foreach (var card in cards)
+                if (!ViewModelBase.IsDetached)
                 {
-                    CardView cardView = RemoveDelayedTool(card, isCopy);
-                    cardsToRemove.Add(cardView);
+                    foreach (var card in cards)
+                    {
+                        CardView cardView = RemoveDelayedTool(card, isCopy);
+                        cardsToRemove.Add(cardView);
+                    }
                 }
             }
             else if (deck == RoleGame.RoleDeckType)
             {
-                foreach (var card in cards)
+                if (!ViewModelBase.IsDetached)
                 {
-                    CardView cardView = RemoveRoleCard(card);
-                    cardsToRemove.Add(cardView);
+                    foreach (var card in cards)
+                    {
+                        CardView cardView = RemoveRoleCard(card);
+                        cardsToRemove.Add(cardView);
+                    }
                 }
             }
             else if (deck is PrivateDeckType)
@@ -304,16 +345,25 @@ namespace Sanguosha.UI.Controls
                         PlayerModel.PrivateDecks.Remove(deckModel);
                     }
                 }
-                cardsToRemove.AddRange(RemovePrivateCards(cards));
+                if (!ViewModelBase.IsDetached)
+                {
+                    cardsToRemove.AddRange(RemovePrivateCards(cards));
+                }
             }
             else
             {
-                cardsToRemove.AddRange(RemoveHandCards(cards, isCopy));
+                if (!ViewModelBase.IsDetached)
+                {
+                    cardsToRemove.AddRange(RemoveHandCards(cards, isCopy));
+                }
             }
 
-            foreach (var card in cardsToRemove)
+            if (!ViewModelBase.IsDetached)
             {
-                card.CardModel.IsSelectionMode = false;
+                foreach (var card in cardsToRemove)
+                {
+                    card.CardModel.IsSelectionMode = false;
+                }
             }
 
             return cardsToRemove;

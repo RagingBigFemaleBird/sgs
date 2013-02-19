@@ -128,7 +128,7 @@ namespace Sanguosha.UI.Controls
                 pinDianWindow.Close();
             };
             chatEventHandler = new ChatEventHandler(LobbyModel_OnChat);
-            LobbyViewModel.Instance.OnChat += chatEventHandler;
+            LobbyViewModel.Instance.OnChat += chatEventHandler;            
         }
 
         Dictionary<KeyValuePair<Player, Player>, Line> _cueLines;
@@ -334,6 +334,8 @@ namespace Sanguosha.UI.Controls
             }
             discardDeck.RearrangeCards();
             _ResizeCueLines();
+            InvalidateMeasure();
+            InvalidateArrange();            
         }
 
         private void _CreatePlayerInfoView(int indexInGameModel)
@@ -818,7 +820,7 @@ namespace Sanguosha.UI.Controls
                 {
                     _GetMovementDeck(move.To).AddCards(move.To.DeckType, cardsToAdd, move.Helper.IsFakedMove);
                 });
-            }
+            }            
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 rtbLog.ScrollToEnd();
@@ -1029,12 +1031,13 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyUiAttached()
         {
-            // throw new NotImplementedException();
+            ViewModelBase.AttachAll();
+ 
         }
 
         public void NotifyUiDetached()
         {
-            // throw new NotImplementedException();
+            ViewModelBase.DetachAll(); 
         }
 
         private ChildWindow _showHandCardsWindow;

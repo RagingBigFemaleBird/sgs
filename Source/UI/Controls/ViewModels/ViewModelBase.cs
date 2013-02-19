@@ -80,8 +80,8 @@ namespace Sanguosha.UI.Controls
         /// <param name="propertyName">The property that has a new value.</param>
         protected virtual void OnPropertyChanged(string propertyName)
         {
+            if (_isDetached) return;
             this.VerifyPropertyName(propertyName);
-
             PropertyChangedEventHandler handler = this.PropertyChanged;
             if (handler != null)
             {
@@ -133,5 +133,23 @@ namespace Sanguosha.UI.Controls
 #endif
 
         #endregion // IDisposable Members
+
+        private static bool _isDetached = false;
+
+        public static bool IsDetached
+        {
+            get { return ViewModelBase._isDetached; }
+            set { ViewModelBase._isDetached = value; }
+        }
+
+        public static void DetachAll()
+        {
+            _isDetached = true;            
+        }
+
+        public static void AttachAll()
+        {
+            _isDetached = false;            
+        }
     }
 }
