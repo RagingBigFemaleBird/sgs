@@ -32,6 +32,14 @@ namespace Sanguosha.UI.Controls
             this.DataContextChanged += new DependencyPropertyChangedEventHandler(PlayerInfoView_DataContextChanged);
             _OnPropertyChanged = new PropertyChangedEventHandler(model_PropertyChanged);
             handCardArea.OnHandCardMoved += handCardArea_OnHandCardMoved;
+            this.Unloaded += MainPlayerView_Unloaded;
+        }
+
+        void MainPlayerView_Unloaded(object sender, RoutedEventArgs e)
+        {
+            playerInfoArea.Effect = null;
+            heroPhoto.Effect = null;
+            heroPhoto2.Effect = null;
         }
 
         void handCardArea_OnHandCardMoved(int oldPlace, int newPlace)

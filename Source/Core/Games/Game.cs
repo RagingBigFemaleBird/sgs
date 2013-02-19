@@ -443,6 +443,7 @@ namespace Sanguosha.Core.Games
                 {
                     games.Remove(t);
                 }
+                this.NotificationProxy = null;
             }
             catch (Exception e)
             {
@@ -451,6 +452,7 @@ namespace Sanguosha.Core.Games
                 {
                     games.Remove(t);
                 }
+                this.NotificationProxy = null;
 #if TRACE
                 while (e.InnerException != null)
                 {
