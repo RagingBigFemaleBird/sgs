@@ -9,7 +9,7 @@
     <local:GuanShiAnimation x:Key="GuanShiFuSkill.Animation" />
     <local:QingLongAnimation x:Key="QingLongYanYueSkill.Animation" />
     <local:BaiYinAnimation x:Key="BaiYinShiZiSkill.Animation" />
-    <local:GuDingAnimation x:Key="GuDianDaoSkill.Animation" />
+    <local:GuDingAnimation x:Key="GuDingDaoSkill.Animation" />
     <local:RenWangAnimation x:Key="RenWangDunSkill.Animation" />
     <local:ZhuQueAnimation x:Key="ZhuQueYuShanSkill.Animation" />
     <local:QingGangAnimation x:Key="QingGangJianSkill.Animation" />
