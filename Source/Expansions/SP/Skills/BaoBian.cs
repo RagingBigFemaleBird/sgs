@@ -105,11 +105,12 @@ namespace Sanguosha.Expansions.SP.Skills
             bbTiaoXin = null;
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return a.Targets[0] == p; },
-                (p, e, a) => { Refresh(p); },
-                TriggerCondition.Global
-            ) { IsAutoNotify = false };
+                    (p, e, a) => { if (e == GameEvent.AfterHealthChanged) return a.Targets[0] == p; return a.Source == p; },
+                    (p, e, a) => { Refresh(p); },
+                    TriggerCondition.Global
+                ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.AfterHealthChanged, trigger);
+            Triggers.Add(GameEvent.PlayerGameStartAction, trigger);
             IsEnforced = true;
         }
     }
