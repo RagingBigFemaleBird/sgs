@@ -25,10 +25,12 @@ namespace Sanguosha.UI.Controls
     /// </summary>
     public partial class CardView : UserControl
     {
+        private static int CardViewPoolSize = 50;
+
         static CardView()
         {
             _cardViewPool = new Stack<CardView>();
-            for (int i = 0; i < 40; i++)
+            for (int i = 0; i < CardViewPoolSize; i++)
             {
                 _cardViewPool.Push(new CardView());
             }
@@ -68,7 +70,10 @@ namespace Sanguosha.UI.Controls
                 if (_doDestroy)
                 {
                     Trace.Assert(!_cardViewPool.Contains(this));
-                    _cardViewPool.Push(this);
+                    if (_cardViewPool.Count < CardViewPoolSize)
+                    {
+                        _cardViewPool.Push(this);
+                    }
                 }
             });
         }

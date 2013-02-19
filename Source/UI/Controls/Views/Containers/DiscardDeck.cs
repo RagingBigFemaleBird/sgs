@@ -16,13 +16,22 @@ namespace Sanguosha.UI.Controls
         DispatcherTimer _cleanUpCounter;
         int _currentTime;
 
+        private EventHandler _cleanUpHandler;
+
         public DiscardDeck()
         {
             _cleanUpCounter = new DispatcherTimer();
             _cleanUpCounter.Interval = TimeSpan.FromSeconds(1.0);
-            _cleanUpCounter.Tick += _cleanUpCounter_Elapsed;
+            _cleanUpHandler = _cleanUpCounter_Elapsed;
+            _cleanUpCounter.Tick += _cleanUpHandler;
             _cleanUpCounter.Start();
             _currentTime = 0;
+            this.Unloaded += DiscardDeck_Unloaded;
+        }
+
+        void DiscardDeck_Unloaded(object sender, RoutedEventArgs e)
+        {
+            _cleanUpCounter.Tick -= _cleanUpHandler;
         }
 
         private static int _ClearanceTimeAllowance = 5;

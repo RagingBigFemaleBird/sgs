@@ -26,16 +26,25 @@ namespace Sanguosha.UI.Controls
         DispatcherTimer _cleanUpCounter;
         int _currentTime;
 
+        private EventHandler _cleanUpHandler;
+
         public KeyEventNotifierView()
         {
             this.InitializeComponent();
             _timeStamps = new List<int>();
             _cleanUpCounter = new DispatcherTimer(DispatcherPriority.ContextIdle);
             _cleanUpCounter.Interval = TimeSpan.FromSeconds(1.0);
-            _cleanUpCounter.Tick += _cleanUpCounter_Elapsed;
+            _cleanUpHandler = _cleanUpCounter_Elapsed;
+            _cleanUpCounter.Tick += _cleanUpHandler;
             _cleanUpCounter.Start();
             _currentTime = 0;
             _disappearing = new List<bool>();
+            this.Unloaded += KeyEventNotifierView_Unloaded;
+        }
+
+        void KeyEventNotifierView_Unloaded(object sender, RoutedEventArgs e)
+        {
+            _cleanUpCounter.Tick -= _cleanUpHandler;
         }
 
         static int _cleanUpElapsedTimeThreshold = 3;
