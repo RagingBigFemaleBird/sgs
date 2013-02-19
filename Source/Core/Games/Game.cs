@@ -793,7 +793,7 @@ namespace Sanguosha.Core.Games
             atomic = false;
             EmitTriggers(btriggers);
             MoveCards(moves);
-            EmitTriggers(btriggers);
+            EmitTriggers(triggers);
         }
 
         private void AddAtomicMoves(List<CardsMovement> moves)
