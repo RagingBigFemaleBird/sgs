@@ -63,10 +63,14 @@ namespace Sanguosha.Expansions.Basic.Skills
             List<Player> players;
             if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("TuXi"), new TuXiVerifier(), out skill, out cards, out players))
             {
+                Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, players);
                 NotifySkillUse(players);
-                Game.CurrentGame.EnterAtomicContext();
+                StagingDeckType TuXiDeck = new StagingDeckType("TiXi");
+                CardsMovement move = new CardsMovement();
+                move.Helper.IsFakedMove = true;
                 foreach (Player p in players)
                 {
+                    if (p.HandCards().Count == 0) continue;
                     List<List<Card>> answer;
                     if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("TuXi"), new List<DeckPlace>() { new DeckPlace(p, DeckType.Hand) },
                         new List<string>() { "TuXi" }, new List<int>() { 1 }, new RequireOneCardChoiceVerifier(true), out answer))
@@ -75,10 +79,23 @@ namespace Sanguosha.Expansions.Basic.Skills
                         answer.Add(new List<Card>());
                         answer[0].Add(Game.CurrentGame.Decks[p, DeckType.Hand][0]);
                     }
-                    Game.CurrentGame.HandleCardTransferToHand(p, Owner, answer[0]);
+                    move.Cards = answer[0];
+                    move.To = new DeckPlace(p, TuXiDeck);
+                    Game.CurrentGame.MoveCards(move);
+                    Game.CurrentGame.PlayerLostCard(p, answer[0]);
                 }
-                Game.CurrentGame.ExitAtomicContext();
+                move.Cards.Clear();
+                move.Helper.IsFakedMove = false;
+                move.To = new DeckPlace(Owner, DeckType.Hand);
+                foreach (Player p in players)
+                {
+                    move.Cards.AddRange(Game.CurrentGame.Decks[p, TuXiDeck]);
+                }
+                cards = new List<Card>(move.Cards);
+                Game.CurrentGame.MoveCards(move);
+                Game.CurrentGame.PlayerAcquiredCard(Owner, cards);
                 Game.CurrentGame.CurrentPhaseEventIndex++;
+                Game.CurrentGame.NotificationProxy.NotifyActionComplete();
                 throw new TriggerResultException(TriggerResult.End);
             }
         }

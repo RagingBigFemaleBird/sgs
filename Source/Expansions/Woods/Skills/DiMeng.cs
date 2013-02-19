@@ -29,20 +29,19 @@ namespace Sanguosha.Expansions.Woods.Skills
             }
             Player src1 = arg.Targets[0];
             Player src2 = arg.Targets[1];
-            DeckType DiMengDeck = new DeckType("DiMeng");
+            StagingDeckType DiMengDeck = new StagingDeckType("DiMeng");
             Game.CurrentGame.EnterAtomicContext();
             CardsMovement move = new CardsMovement();
+            move.Helper.IsFakedMove = true;
             cards = new List<Card>(Game.CurrentGame.Decks[src1, DeckType.Hand]);
             move.Cards = new List<Card>(cards);
             move.To = new DeckPlace(src1, DiMengDeck);
-            move.Helper.IsFakedMove = true;
             Game.CurrentGame.MoveCards(move);
             Game.CurrentGame.PlayerLostCard(src1, cards);
 
             cards = new List<Card>(Game.CurrentGame.Decks[src2, DeckType.Hand]);
             move.Cards = new List<Card>(cards);
             move.To = new DeckPlace(src2, DiMengDeck);
-            move.Helper.IsFakedMove = true;
             Game.CurrentGame.MoveCards(move);
             Game.CurrentGame.PlayerLostCard(src2, cards);
             Game.CurrentGame.ExitAtomicContext();

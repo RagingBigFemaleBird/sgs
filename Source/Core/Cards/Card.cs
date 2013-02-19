@@ -93,11 +93,11 @@ namespace Sanguosha.Core.Cards
             get
             {
                 if (Place.DeckType == DeckType.Hand ||
-                    Place.DeckType == DeckType.Equipment)
+                    Place.DeckType == DeckType.Equipment || Place.DeckType is StagingDeckType)
                 {
                     return Place.Player;
                 }
-                else 
+                else
                 {
                     return null;
                 }
@@ -106,7 +106,7 @@ namespace Sanguosha.Core.Cards
 
         public int Id { get; set; }
 
-        public SuitType Suit {get; set;}
+        public SuitType Suit { get; set; }
 
         public SuitColorType SuitColor
         {
@@ -129,7 +129,7 @@ namespace Sanguosha.Core.Cards
             }
         }
 
-        public int Rank {get; set;}
+        public int Rank { get; set; }
 
         public CardHandler Type { get; set; }
 
@@ -187,5 +187,5 @@ namespace Sanguosha.Core.Cards
 
         public DeckPlace PlaceOverride { get; set; }
         #endregion
-    }    
+    }
 }

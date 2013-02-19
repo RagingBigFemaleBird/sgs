@@ -806,6 +806,7 @@ namespace Sanguosha.Core.Games
                 CardsMovement newM = new CardsMovement();
                 newM.Cards = m.Cards;
                 newM.To = new DeckPlace(m.To.Player, m.To.DeckType);
+                newM.Helper = new MovementHelper(m.Helper);
                 atomicMoves.Add(newM);
                 i++;
             }

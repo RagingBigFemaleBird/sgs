@@ -72,6 +72,7 @@
     <Compile Include="Cards\SingleCardDiscardVerifier.cs" />
     <Compile Include="Cards\SingleCardUsageVerifier.cs" />
     <Compile Include="Cards\ReadOnlyCard.cs" />
+    <Compile Include="Cards\StagingDeckType.cs" />
     <Compile Include="Cards\UnknownCardHandler.cs" />
     <Compile Include="Cards\Weapon.cs" />
     <Compile Include="Exceptions\DuplicateAttributeKeyException.cs" />

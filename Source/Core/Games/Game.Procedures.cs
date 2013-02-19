@@ -444,7 +444,7 @@ namespace Sanguosha.Core.Games
             {
                 if (cc.Place.Player == p)
                 {
-                    if (cc.Place.DeckType == DeckType.Hand || cc.Place.DeckType == DeckType.Equipment)
+                    if (cc.Place.DeckType == DeckType.Hand || cc.Place.DeckType == DeckType.Equipment || cc.Place.DeckType is StagingDeckType)
                     {
                         found = true;
                         break;
@@ -566,10 +566,11 @@ namespace Sanguosha.Core.Games
             move.Helper = new MovementHelper();
             move.Helper.PrivateDeckHeroTag = tag;
             MoveCards(move);
+            bool triggerAcquiredCard = target == DeckType.Hand || target == DeckType.Equipment;
             GameDelays.Delay(GameDelayTypes.CardTransfer);
             EnterAtomicContext();
             PlayerLostCard(from, cards);
-            PlayerAcquiredCard(to, cards);
+            if (triggerAcquiredCard) PlayerAcquiredCard(to, cards);
             ExitAtomicContext();
         }
 

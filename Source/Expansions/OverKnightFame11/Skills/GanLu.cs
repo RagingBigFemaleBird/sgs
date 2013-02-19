@@ -23,33 +23,35 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
         {
             Owner[GanLuUsed] = 1;
             List<Card> cards;
+            Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, arg.Targets);
             Player src1 = arg.Targets[0];
             Player src2 = arg.Targets[1];
-            DeckType GanLuDeck1 = new DeckType("GanLu1");
-            DeckType GanLuDeck2 = new DeckType("GanLu2");
+            StagingDeckType GanLuDeck = new StagingDeckType("GanLu");
             Game.CurrentGame.EnterAtomicContext();
             CardsMovement move = new CardsMovement();
+            move.Helper.IsFakedMove = true;
             cards = new List<Card>(src1.Equipments());
             move.Cards = new List<Card>(cards);
-            move.To = new DeckPlace(null, GanLuDeck1);
+            move.To = new DeckPlace(src1, GanLuDeck);
             Game.CurrentGame.MoveCards(move);
             Game.CurrentGame.PlayerLostCard(src1, cards);
 
             cards = new List<Card>(src2.Equipments());
             move.Cards = new List<Card>(cards);
-            move.To = new DeckPlace(null, GanLuDeck2);
+            move.To = new DeckPlace(src2, GanLuDeck);
             Game.CurrentGame.MoveCards(move);
             Game.CurrentGame.PlayerLostCard(src2, cards);
             Game.CurrentGame.ExitAtomicContext();
 
             Game.CurrentGame.EnterAtomicContext();
-            cards = new List<Card>(Game.CurrentGame.Decks[null, GanLuDeck2]);
+            move.Helper.IsFakedMove = false;
+            cards = new List<Card>(Game.CurrentGame.Decks[src2, GanLuDeck]);
             move.Cards = new List<Card>(cards);
             move.To = new DeckPlace(src1, DeckType.Equipment);
             Game.CurrentGame.MoveCards(move);
             Game.CurrentGame.PlayerAcquiredCard(src1, cards);
 
-            cards = new List<Card>(Game.CurrentGame.Decks[null, GanLuDeck1]);
+            cards = new List<Card>(Game.CurrentGame.Decks[src1, GanLuDeck]);
             move.Cards = new List<Card>(cards);
             move.To = new DeckPlace(src2, DeckType.Equipment);
             Game.CurrentGame.MoveCards(move);

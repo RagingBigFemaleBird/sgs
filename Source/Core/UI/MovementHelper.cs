@@ -42,5 +42,17 @@ namespace Sanguosha.Core.UI
             get { return privateDeckHeroTag; }
             set { privateDeckHeroTag = value; }
         }
+
+        public MovementHelper()
+        {
+        }
+
+        public MovementHelper(MovementHelper helper)
+        {
+            IsFakedMove = helper.IsFakedMove;
+            WindowId = helper.WindowId;
+            IsWuGu = helper.IsWuGu;
+            PrivateDeckHeroTag = helper.PrivateDeckHeroTag;
+        }
     }
 }

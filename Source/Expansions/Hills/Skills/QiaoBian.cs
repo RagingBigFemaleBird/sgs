@@ -112,6 +112,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             Game.CurrentGame.ExitAtomicContext();
             Game.CurrentGame.CurrentPhase++;
             Game.CurrentGame.CurrentPhaseEventIndex = 2;
+            Game.CurrentGame.NotificationProxy.NotifyActionComplete();
             throw new TriggerResultException(TriggerResult.End);
         }
 

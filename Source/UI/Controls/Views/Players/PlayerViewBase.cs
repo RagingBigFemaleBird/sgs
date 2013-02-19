@@ -243,7 +243,7 @@ namespace Sanguosha.UI.Controls
                 {
                     foreach (var card in cards)
                     {
-                        card.Disappear(0.5d);
+                        card.Disappear(isFaked ? 0d : 0.5d);
                     }
                 }
             }

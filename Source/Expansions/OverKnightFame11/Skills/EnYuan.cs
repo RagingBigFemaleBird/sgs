@@ -62,42 +62,28 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             }
         }
 
+        bool CardOriginalOwnerCheck(Card card)
+        {
+            return card.HistoryPlace1.Player != null && (card.HistoryPlace1.DeckType == DeckType.Hand || card.HistoryPlace1.DeckType == DeckType.Equipment || card.HistoryPlace1.DeckType is StagingDeckType);
+        }
+
         bool EnVerifier(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             enSources.Clear();
-            if (eventArgs.Cards.All(c => c.HistoryPlace1.Player == null && (c.HistoryPlace2 == null || c.HistoryPlace2.Player == null))) return false;
-            if (eventArgs.Cards.All(c => c.HistoryPlace1.DeckType == DeckType.Compute || c.HistoryPlace1.DeckType == DeckType.Dealing ||
-                c.HistoryPlace1.DeckType == DeckType.Discard || c.HistoryPlace1.DeckType == DeckType.Heroes || c.HistoryPlace1.DeckType is PrivateDeckType))
+            var result = from card in eventArgs.Cards where CardOriginalOwnerCheck(card) && (card.Place.DeckType == DeckType.Hand || card.Place.DeckType == DeckType.Equipment) && card.Place.Player != Owner select card;
+            if (result.Count() == 0)
             {
                 return false;
             }
             Dictionary<Player, int> dic = new Dictionary<Player, int>();
-            bool useHistoryPlace2 = false;
-            if (eventArgs.Cards.All(c => c.HistoryPlace1.Player == null))
+            foreach (Card card in result)
             {
-                useHistoryPlace2 = true;
-            }
-            if (useHistoryPlace2)
-            {
-                foreach (Card card in eventArgs.Cards)
-                {
-                    if (card.HistoryPlace2.Player == null || card.Place.DeckType != DeckType.Hand && card.Place.DeckType != DeckType.Equipment) continue;
-                    if (!dic.Keys.Contains(card.HistoryPlace2.Player)) dic[card.HistoryPlace2.Player] = 0;
-                    dic[card.HistoryPlace2.Player]++;
-                }
-            }
-            else if (eventArgs.Cards.Any(c => c.HistoryPlace1.Player != null))
-            {
-                foreach (Card card in eventArgs.Cards)
-                {
-                    if (card.HistoryPlace1.Player == null || card.Place.DeckType != DeckType.Hand && card.Place.DeckType != DeckType.Equipment) continue;
-                    if (!dic.Keys.Contains(card.HistoryPlace1.Player)) dic[card.HistoryPlace1.Player] = 0;
-                    dic[card.HistoryPlace1.Player]++;
-                }
+                if (!dic.Keys.Contains(card.HistoryPlace1.Player)) dic[card.HistoryPlace1.Player] = 0;
+                dic[card.HistoryPlace1.Player]++;
             }
             foreach (Player p in dic.Keys)
             {
-                if (dic[p] >= 2 && p != Owner)
+                if (dic[p] >= 2)
                     enSources.Add(p);
             }
             return enSources.Count > 0;
