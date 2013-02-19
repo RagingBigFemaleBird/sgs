@@ -35,6 +35,13 @@ namespace Sanguosha.UI.Controls
             this.Unloaded += MainPlayerView_Unloaded;
         }
 
+        private Canvas animationCenter2;
+
+        internal void SetAnimationCenter(Canvas canvas)
+        {
+            animationCenter2 = canvas;
+        }
+
         void MainPlayerView_Unloaded(object sender, RoutedEventArgs e)
         {
             playerInfoArea.Effect = null;
@@ -562,7 +569,7 @@ namespace Sanguosha.UI.Controls
             Canvas canvas;
             if (playCenter == 1) canvas = animationCenter1;
             else canvas = animationCenter2;
-
+            if (canvas == null) return;
             animation.SetValue(Canvas.LeftProperty, -animation.Width / 2 + offset.X);
             animation.SetValue(Canvas.TopProperty, -animation.Height / 2 + offset.Y);
             canvas.Children.Add(animation);

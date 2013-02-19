@@ -603,7 +603,6 @@
             </i:Interaction.Behaviors>
         </StackPanel>
         <local:RoleBox x:Name="cbRoleBox" Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Right" Width="25" Margin="0,4.333,2.003,0" Height="26" VerticalAlignment="Top" />
-        <Canvas x:Name="animationCenter2" HorizontalAlignment="Center" Margin="0" Grid.ColumnSpan="2" VerticalAlignment="Top"/>
         <anim:TieSuoAnimation x:Name="tieSuoAnimation" VerticalAlignment="Top" HorizontalAlignment="Center" Grid.ColumnSpan="2" Margin="0,-40,0,0" IsHitTestVisible="False" FramesPerSecond="15" Height="180" Width="202"/>
     </Grid>
 </local:PlayerViewBase>

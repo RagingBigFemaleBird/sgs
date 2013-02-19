@@ -127,6 +127,7 @@ namespace Sanguosha.UI.Controls
             {
                 pinDianWindow.Close();
             };
+            mainPlayerPanel.SetAnimationCenter(mainPlayerAnimationCenter);
             chatEventHandler = new ChatEventHandler(LobbyModel_OnChat);
             LobbyViewModel.Instance.OnChat += chatEventHandler;            
         }
