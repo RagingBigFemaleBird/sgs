@@ -95,7 +95,7 @@ namespace Sanguosha.Expansions.SP.Skills
                     bbTiaoXin = null;
                 }
                 base.Owner = value;
-                if (Owner != null) Refresh(Owner);
+                if (Owner != null && Owner.MaxHealth > 0) Refresh(Owner);
             }
         }
         public BaoBian()
@@ -105,12 +105,10 @@ namespace Sanguosha.Expansions.SP.Skills
             bbTiaoXin = null;
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                    (p, e, a) => { if (e == GameEvent.AfterHealthChanged) return a.Targets[0] == p; return a.Source == p; },
                     (p, e, a) => { Refresh(p); },
-                    TriggerCondition.Global
+                    TriggerCondition.OwnerIsTarget
                 ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.AfterHealthChanged, trigger);
-            Triggers.Add(GameEvent.PlayerGameStartAction, trigger);
             IsEnforced = true;
         }
     }
