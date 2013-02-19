@@ -439,27 +439,6 @@ namespace Sanguosha.Core.Games
 
         public void PlayerLostCard(Player p, List<Card> cards)
         {
-            bool found = false;
-            foreach (var cc in cards)
-            {
-                if (cc.Place.Player == p)
-                {
-                    if (cc.Place.DeckType == DeckType.Hand || cc.Place.DeckType == DeckType.Equipment || cc.Place.DeckType is StagingDeckType)
-                    {
-                        found = true;
-                        break;
-                    }
-                }
-                else if (cc.HistoryPlace1.Player == p)
-                {
-                    if (cc.HistoryPlace1.DeckType == DeckType.Hand || cc.HistoryPlace1.DeckType == DeckType.Equipment)
-                    {
-                        found = true;
-                        break;
-                    }
-                }
-            }
-            if (!found) return;
             try
             {
                 GameEventArgs arg = new GameEventArgs();

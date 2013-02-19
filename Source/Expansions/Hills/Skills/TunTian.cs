@@ -42,8 +42,12 @@ namespace Sanguosha.Expansions.Hills.Skills
 
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerJudgeDone, new TunTianGetJudgeCardTrigger(Owner, this, null, HeroTag) { Priority = int.MinValue });
-            Game.CurrentGame.Judge(Owner, this, null, (judgeResultCard) => { return judgeResultCard.Suit != SuitType.Heart; });
+            if (eventArgs.Cards.Any(cd => cd.HistoryPlace1.DeckType == DeckType.Hand || cd.HistoryPlace1.DeckType == DeckType.Equipment))
+            {
+                NotifySkillUse();
+                Game.CurrentGame.RegisterTrigger(GameEvent.PlayerJudgeDone, new TunTianGetJudgeCardTrigger(Owner, this, null, HeroTag) { Priority = int.MinValue });
+                Game.CurrentGame.Judge(Owner, this, null, (judgeResultCard) => { return judgeResultCard.Suit != SuitType.Heart; });
+            }
         }
 
         public TunTian()
@@ -53,7 +57,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 (p, e, a) => { return Game.CurrentGame.PhasesOwner != p; },
                 Run,
                 TriggerCondition.OwnerIsSource
-            );
+            ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.CardsLost, trigger);
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
