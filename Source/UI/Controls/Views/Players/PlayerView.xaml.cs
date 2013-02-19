@@ -30,6 +30,15 @@ namespace Sanguosha.UI.Controls
             InitializeComponent();
             this.DataContextChanged += new DependencyPropertyChangedEventHandler(PlayerInfoView_DataContextChanged);
             _OnPropertyChanged = new PropertyChangedEventHandler(model_PropertyChanged);
+            Unloaded += PlayerView_Unloaded;
+        }
+
+        void PlayerView_Unloaded(object sender, RoutedEventArgs e)
+        {
+            grid.Effect = null;
+            heroPhoto.Effect = null;
+            heroPhoto2.Effect = null;
+            this.DataContext = null;
         }
 
         public static void PlayerView_FlowDirectionChanged(object sender, DependencyPropertyChangedEventArgs e)

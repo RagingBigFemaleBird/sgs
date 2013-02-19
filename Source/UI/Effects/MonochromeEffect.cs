@@ -44,34 +44,18 @@ using UIPropertyMetadata = System.Windows.PropertyMetadata ;
         public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(MonochromeEffect), 0);
 
         #endregion
-
-        #region Member Data
-
-        /// <summary>
-        /// The shader instance.
-        /// </summary>
-        private static PixelShader pixelShader;
-
-        #endregion
-
+                
         #region Constructors
-
-        /// <summary>
-        /// Creates an instance of the shader from the included pixel shader.
-        /// </summary>
-        static MonochromeEffect()
-        {
-            pixelShader = new PixelShader();
-            pixelShader.UriSource = Global.MakePackUri("ShaderSource/Monochrome.ps");
-        }
-
+        
         /// <summary>
         /// Creates an instance and updates the shader's variables to the default values.
         /// </summary>
         public MonochromeEffect()
         {
-            this.PixelShader = pixelShader;
-                        
+            var pixelShader = new PixelShader();
+            pixelShader.UriSource = Global.MakePackUri("ShaderSource/Monochrome.ps");
+            this.PixelShader = pixelShader;            
+            
             UpdateShaderValue(InputProperty);
             UpdateShaderValue(FilterColorProperty);
             UpdateShaderValue(StrengthProperty);

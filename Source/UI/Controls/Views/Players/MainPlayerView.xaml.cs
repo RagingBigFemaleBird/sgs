@@ -40,6 +40,7 @@ namespace Sanguosha.UI.Controls
             playerInfoArea.Effect = null;
             heroPhoto.Effect = null;
             heroPhoto2.Effect = null;
+            this.DataContext = null;
         }
 
         void handCardArea_OnHandCardMoved(int oldPlace, int newPlace)

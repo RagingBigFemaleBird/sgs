@@ -269,6 +269,7 @@ namespace Sanguosha.UI.Controls
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
             LobbyViewModel.Instance.OnChat -= chatEventHandler;
+            
         }        
 
         private void _Resize(Size size)
@@ -417,8 +418,24 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        private PropertyChangedEventHandler _propertyChangedHandler;
+        private PropertyChangedEventHandler _gamePropertyChangedHandler;
+        private PropertyChangedEventHandler _playerPropertyChangedHandler;
+
         private void GameView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            if (e.OldValue != null)
+            {
+                GameViewModel oldModel = e.OldValue as GameViewModel;
+                if (oldModel == null) return;
+                oldModel.PropertyChanged -= _propertyChangedHandler;
+                oldModel.Game.PropertyChanged -= _gamePropertyChangedHandler;
+                foreach (var playerModel in oldModel.PlayerModels)
+                {
+                    playerModel.PropertyChanged -= _playerPropertyChangedHandler;
+                }
+            }
+
             profileBoxes.Clear();
             playersMap.Clear();
             GameViewModel model = GameModel;
@@ -430,8 +447,11 @@ namespace Sanguosha.UI.Controls
             RearrangeSeats();
             _CreateCueLines();
 
-            model.PropertyChanged += new PropertyChangedEventHandler(model_PropertyChanged);
-            model.Game.PropertyChanged += new PropertyChangedEventHandler(_game_PropertyChanged);
+            _propertyChangedHandler = new PropertyChangedEventHandler(model_PropertyChanged);
+            _gamePropertyChangedHandler = new PropertyChangedEventHandler(_game_PropertyChanged);
+            _playerPropertyChangedHandler = new PropertyChangedEventHandler(_player_PropertyChanged);
+            model.PropertyChanged += _propertyChangedHandler;
+            model.Game.PropertyChanged += _gamePropertyChangedHandler;
             Trace.Assert(model.MainPlayerModel != null, "Main player must exist.");
 
             // Initialize game logs.
@@ -455,7 +475,7 @@ namespace Sanguosha.UI.Controls
 
             for (int i = 0; i < count; i++)
             {
-                model.PlayerModels[i].PropertyChanged += new PropertyChangedEventHandler(_player_PropertyChanged);
+                model.PlayerModels[i].PropertyChanged += _playerPropertyChangedHandler;
             }
             _Resize(new Size(this.ActualWidth, this.ActualHeight));
         }

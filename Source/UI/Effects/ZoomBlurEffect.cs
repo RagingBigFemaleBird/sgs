@@ -35,31 +35,15 @@ namespace Sanguosha.UI.Effects
 
         #endregion
 
-        #region Member Data
-
-        /// <summary>
-        /// A refernce to the pixel shader used.
-        /// </summary>
-        private static PixelShader pixelShader;
-
-        #endregion
-
         #region Constructors
-
-        /// <summary>
-        /// Creates an instance of the shader from the included pixel shader.
-        /// </summary>
-        static ZoomBlurEffect()
-        {
-            pixelShader = new PixelShader();
-            pixelShader.UriSource = Global.MakePackUri("ShaderSource/ZoomBlur.ps");
-        }
-
+                
         /// <summary>
         /// Creates an instance and updates the shader's variables to the default values.
         /// </summary>
         public ZoomBlurEffect()
         {
+            var pixelShader = new PixelShader();
+            pixelShader.UriSource = Global.MakePackUri("ShaderSource/ZoomBlur.ps");
             this.PixelShader = pixelShader;
             UpdateShaderValue(InputProperty);
             UpdateShaderValue(CenterProperty);

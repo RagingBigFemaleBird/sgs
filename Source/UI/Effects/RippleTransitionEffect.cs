@@ -12,19 +12,13 @@ namespace Sanguosha.UI.Effects
     /// <summary>An effect that blends between partial desaturation and a two-color ramp.</summary>
     public class RippleTransitionEffect : ShaderEffect
     {
-        static PixelShader pixelShader;
-
-        static RippleTransitionEffect()
-        {
-            pixelShader = new PixelShader();
-            pixelShader.UriSource = Global.MakePackUri("ShaderSource/RippleTransition.ps");            
-        }
-
         public static readonly DependencyProperty InputProperty = ShaderEffect.RegisterPixelShaderSamplerProperty("Input", typeof(RippleTransitionEffect), 0);
         public static readonly DependencyProperty Texture2Property = ShaderEffect.RegisterPixelShaderSamplerProperty("Texture2", typeof(RippleTransitionEffect), 1);
         public static readonly DependencyProperty ProgressProperty = DependencyProperty.Register("Progress", typeof(double), typeof(RippleTransitionEffect), new UIPropertyMetadata(((double)(30D)), PixelShaderConstantCallback(0)));
         public RippleTransitionEffect()
         {
+            var pixelShader = new PixelShader();
+            pixelShader.UriSource = Global.MakePackUri("ShaderSource/RippleTransition.ps");
             this.PixelShader = pixelShader;
 
             this.UpdateShaderValue(InputProperty);
