@@ -48,5 +48,11 @@
     <sys:String x:Key="CardUsage.Prompt.BiFaGiveCard">请交给 {0} 一张同类型手牌</sys:String>
     <sys:String x:Key="LogEvent.BiFa">{0}的{1}{2}</sys:String>
 
+    <sys:String x:Key="Status.SongCi.Name">已颂词</sys:String>
+    <LinearGradientBrush x:Key="Status.SongCi.Brush" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FFA0A0A0" Offset="0"/>
+        <GradientStop Color="#FFDEDEDE" Offset="1"/>
+    </LinearGradientBrush>
+
     <sys:String x:Key="LogEvent.WuJi">{0}失去了技能{1}</sys:String>
 </ResourceDictionary>
