@@ -854,5 +854,7 @@ namespace Sanguosha.Core.Games
         {
             cleanupSquad.CalldownCleanupCrew(skill, attr);
         }
+
+        public ISkill LastAction { get; set; }
     }
 }

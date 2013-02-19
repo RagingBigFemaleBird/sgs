@@ -184,6 +184,7 @@ namespace Sanguosha.Core.Games
                             arg.Cards = cards;
                             ((ActiveSkill)skill).NotifyAndCommit(arg);
                             Game.CurrentGame.NotificationProxy.NotifyActionComplete();
+                            Game.CurrentGame.LastAction = skill;
                             continue;
                         }
                         CompositeCard c;
@@ -204,6 +205,7 @@ namespace Sanguosha.Core.Games
                     {
                     }
                     Game.CurrentGame.NotificationProxy.NotifyActionComplete();
+                    Game.CurrentGame.LastAction = skill;
                 }
             }
         }
