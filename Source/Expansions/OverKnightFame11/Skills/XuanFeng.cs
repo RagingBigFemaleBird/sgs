@@ -9,6 +9,7 @@ using Sanguosha.Core.Cards;
 using Sanguosha.Core.UI;
 using Sanguosha.Core.Skills;
 using Sanguosha.Expansions.Basic.Cards;
+using Sanguosha.Expansions.Basic.Skills;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Exceptions;
@@ -90,7 +91,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 Run,
                 TriggerCondition.OwnerIsSource,
                 new XuanFengVerifier()
-            );
+            ) { Priority = SkillPriority.XiaoJi };
             Triggers.Add(GameEvent.CardsLost, trigger);
             Triggers.Add(GameEvent.CardsEnteredDiscardDeck, trigger);
             IsAutoInvoked = null;

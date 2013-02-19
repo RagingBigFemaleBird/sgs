@@ -23,7 +23,6 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
         {
             Owner[GanLuUsed] = 1;
             List<Card> cards;
-            Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, arg.Targets);
             Player src1 = arg.Targets[0];
             Player src2 = arg.Targets[1];
             StagingDeckType GanLuDeck = new StagingDeckType("GanLu");
