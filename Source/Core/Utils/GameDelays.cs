@@ -22,7 +22,8 @@ namespace Sanguosha.Core.Utils
         RoleDistribute,
         BaGuaZhen,
         ServerSideCompensation,
-        GameBeforeStart
+        GameBeforeStart,
+        HanBingJian,
     }
     public class GameDelays
     {
@@ -44,6 +45,7 @@ namespace Sanguosha.Core.Utils
             _delays[GameDelayTypes.BaGuaZhen] = 2110;
             _delays[GameDelayTypes.ServerSideCompensation] = 4500;
             _delays[GameDelayTypes.GameBeforeStart] = 1200;
+            _delays[GameDelayTypes.HanBingJian] = 2000;
         }
 
         public static void Delay(GameDelayTypes DelayCategory)

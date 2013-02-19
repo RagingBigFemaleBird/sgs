@@ -626,6 +626,8 @@ namespace Sanguosha.Core.Games
                 }
 
                 GameDelays.Delay(GameDelayTypes.RoleDistribute);
+
+                game.NotificationProxy.NotifyLogEvent(new LogEvent("HerosInitialization"), new List<Player>());
                 if (!game.IsClient) GameDelays.Delay(GameDelayTypes.ServerSideCompensation);
 
                 //hero allocation

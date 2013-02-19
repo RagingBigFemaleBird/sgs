@@ -29,6 +29,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             public Equipment ParentEquipment { get; set; }
             protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
             {
+                Core.Utils.GameDelays.Delay(Core.Utils.GameDelayTypes.HanBingJian);
                 Player dest = eventArgs.Targets[0];
                 for (int i = 0; i < 2 && Game.CurrentGame.Decks[dest, DeckType.Hand].Concat(Game.CurrentGame.Decks[dest, DeckType.Equipment]).Count() > 0; i++)
                 {
