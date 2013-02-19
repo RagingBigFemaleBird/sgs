@@ -21,7 +21,7 @@ namespace Sanguosha.Expansions.Hills.Skills
     public class GuZheng : TriggerSkill
     {
         List<Card> GuZhengCards;
-        static List<Card> belongToCurrent;
+        List<Card> belongToCurrent;
         class GuZhengVerifier : ICardChoiceVerifier
         {
             public VerifierResult Verify(List<List<Card>> answer)
@@ -46,6 +46,11 @@ namespace Sanguosha.Expansions.Hills.Skills
             public UiHelper Helper
             {
                 get { return new UiHelper(); }
+            }
+            List<Card> belongToCurrent;
+            public GuZhengVerifier(List<Card> belongTo)
+            {
+                belongToCurrent = belongTo;
             }
         }
 
@@ -82,7 +87,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 new List<DeckPlace>() { new DeckPlace(null, GuZhengDeck) },
                 new List<string>() { "GuZhengFanHui" },
                 new List<int>() { 1 },
-                new GuZhengVerifier(),
+                new GuZhengVerifier(belongToCurrent),
                 out answer,
                 options))
             {

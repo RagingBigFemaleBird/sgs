@@ -46,7 +46,7 @@ namespace Sanguosha.Expansions.Fire.Skills
 
         }
 
-        static List<Player> dawuTargets;
+        List<Player> dawuTargets;
         public static readonly PlayerAttribute DaWuMark = PlayerAttribute.Register("DaWu", false, true);
 
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
@@ -66,7 +66,7 @@ namespace Sanguosha.Expansions.Fire.Skills
                 Game.CurrentGame.HandleCardDiscard(null, cards);
                 Trigger tri = new DaWuProtect();
                 Game.CurrentGame.RegisterTrigger(GameEvent.DamageComputingStarted, tri);
-                Game.CurrentGame.RegisterTrigger(GameEvent.PhaseBeginEvents[TurnPhase.Start], new DawuRemoval(Owner, tri));
+                Game.CurrentGame.RegisterTrigger(GameEvent.PhaseBeginEvents[TurnPhase.Start], new DawuRemoval(Owner, tri, dawuTargets));
             }
         }
 
@@ -89,10 +89,12 @@ namespace Sanguosha.Expansions.Fire.Skills
             }
             Player qixingOwner;
             Trigger dawuProtect;
-            public DawuRemoval(Player p, Trigger trigger)
+            List<Player> dawuTargets;
+            public DawuRemoval(Player p, Trigger trigger, List<Player> dawuTargets)
             {
                 qixingOwner = p;
                 dawuProtect = trigger;
+                this.dawuTargets = dawuTargets;
             }
         }
 
@@ -120,9 +122,11 @@ namespace Sanguosha.Expansions.Fire.Skills
                 }
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerIsDead, this);
             }
-            public DaWuOnDeath(Player p)
+            List<Player> dawuTargets;
+            public DaWuOnDeath(Player p, List<Player> dawuTargets)
             {
                 Owner = p;
+                this.dawuTargets = dawuTargets;
             }
         }
 
@@ -139,7 +143,7 @@ namespace Sanguosha.Expansions.Fire.Skills
 
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { Game.CurrentGame.RegisterTrigger(GameEvent.PlayerIsDead, new DaWuOnDeath(p)); },
+                (p, e, a) => { Game.CurrentGame.RegisterTrigger(GameEvent.PlayerIsDead, new DaWuOnDeath(p, dawuTargets)); },
                 TriggerCondition.OwnerIsSource
             ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PlayerGameStartAction, trigger2);
