@@ -110,6 +110,12 @@ namespace Sanguosha.Expansions.SP.Skills
                 ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.AfterHealthChanged, trigger);
             IsEnforced = true;
-        }
+            var trigger2 = new AutoNotifyPassiveSkillTrigger(
+                this,
+                    (p, e, a) => { Refresh(p); },
+                    TriggerCondition.OwnerIsSource
+                ) { IsAutoNotify = false };
+            Triggers.Add(GameEvent.PlayerGameStartAction, trigger2);
+         }
     }
 }
