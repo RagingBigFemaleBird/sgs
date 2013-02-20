@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Sanguosha.UI.Controls"
                     xmlns:anim="clr-namespace:Sanguosha.UI.Animations;assembly=Animations"
+                    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
                     xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
     <local:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
@@ -1119,5 +1120,159 @@
                 <Setter Property="Template" Value="{StaticResource ComboBoxEditableTemplate}"/>
             </Trigger>
         </Style.Triggers>
+    </Style>
+    <Style x:Key="BusyIndicatorStyle1" TargetType="{x:Type xctk:BusyIndicator}">
+        <Setter Property="BusyContent" Value="Please wait..."/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Foreground" Value="#E4D5A0"/>
+        <Setter Property="FontFamily" Value="SimSun" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="OverlayStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type Rectangle}">
+                    <Setter Property="Fill" Value="Gray"/>
+                    <Setter Property="Opacity" Value="0.5"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ProgressBarStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type ProgressBar}">
+                    <Setter Property="IsIndeterminate" Value="True"/>
+                    <Setter Property="Height" Value="15"/>
+                    <Setter Property="Margin" Value="8,0,8,8"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="DisplayAfter" Value="0:0:0.1"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type xctk:BusyIndicator}">
+                    <ControlTemplate.Resources>
+                        <Style TargetType="{x:Type Ellipse}">
+                            <Setter Property="Stroke" Value="#FFC54800" />
+                            <Setter Property="Fill">
+                                <Setter.Value>
+                                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                                        <GradientStop Color="White" Offset="0"/>
+                                        <GradientStop Color="#FFFFD223" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                        <Storyboard x:Key="rotateCircles" RepeatBehavior="Forever">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="viewbox">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="360"/>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="VisibilityStates">
+                                <VisualState x:Name="Hidden">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="busycontent">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Collapsed</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="overlay">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Collapsed</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Visible">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="busycontent">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="overlay">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="BusyStatusStates">
+                                <VisualState x:Name="Idle">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.IsEnabled)" Storyboard.TargetName="content">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="True"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Busy">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.IsEnabled)" Storyboard.TargetName="content">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="True" />                                                
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <ContentControl x:Name="content" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Focusable="False" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" IsTabStop="False" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <Rectangle x:Name="overlay" Style="{TemplateBinding OverlayStyle}" />
+                        <Border x:Name="busycontent" MinHeight="80" CornerRadius="3" Margin="1" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#FF3D3A2C" BorderBrush="#FF64614E" BorderThickness="1">
+                            <Grid MinWidth="150" Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Viewbox x:Name="viewbox" RenderTransformOrigin="0.5,0.5">
+                                    <Viewbox.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform/>
+                                            <SkewTransform/>
+                                            <RotateTransform/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </Viewbox.RenderTransform>
+                                    <Grid Width="50" Height="50">
+                                        <Ellipse HorizontalAlignment="Stretch" Height="9" Margin="21.34,6.32,19.66,0" VerticalAlignment="Top" Width="Auto" Opacity="0.2" />
+                                        <Ellipse HorizontalAlignment="Right" Height="9" Margin="0,10.989,10.322,0" VerticalAlignment="Top" Width="9" Opacity="0.4" />
+                                        <Ellipse HorizontalAlignment="Right" Height="Auto" Margin="0,20.327,5.653,20.673" VerticalAlignment="Stretch" Width="9" Opacity="0.6" />
+                                        <Ellipse HorizontalAlignment="Right" Height="9" Margin="0,0,10.322,10.668" VerticalAlignment="Bottom" Width="9" Opacity="0.8" />
+                                        <Ellipse HorizontalAlignment="Stretch" Height="9" Margin="21.34,0,19.66,6.666" VerticalAlignment="Bottom" Width="Auto" />
+                                    </Grid>
+                                </Viewbox>
+                                <ContentPresenter VerticalAlignment="Center" Grid.Column="1" ContentTemplate="{TemplateBinding BusyContentTemplate}" Content="{TemplateBinding BusyContent}" Margin="8">
+                                </ContentPresenter>
+
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="FrameworkElement.Loaded"/>
+                        <Trigger Property="Visibility" Value="Visible" SourceName="busycontent">
+                            <Trigger.ExitActions>
+                                <StopStoryboard BeginStoryboardName="rotateCircles_BeginStoryboard"/>
+                            </Trigger.ExitActions>
+                            <Trigger.EnterActions>
+                                <BeginStoryboard x:Name="rotateCircles_BeginStoryboard" Storyboard="{StaticResource rotateCircles}"/>
+                            </Trigger.EnterActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>
