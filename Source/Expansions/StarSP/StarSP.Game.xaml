@@ -35,7 +35,7 @@
     <sys:String x:Key="MultiChoice.Prompt.XueHen">请选择一项“雪恨”的效果</sys:String>
     <sys:String x:Key="MultiChoice.Choice.XueHenQiPai">弃置{0}{1}张牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.XueHenSha">视为使用一张【杀】</sys:String>
-    <sys:String x:Key="CardUsage.Prompt.XueHen">请选择一个目标使用【杀】</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.XueHen">请选择目标使用使用一张【杀】 可以发动技能(若有)</sys:String>
     <sys:String x:Key="CardChoice.Prompt.XueHen">雪恨 请选择{0}的牌</sys:String>
     <sys:String x:Key="CardChoice.Prompt.XueHen.Others">雪恨 请等待{0}选择{1}的牌</sys:String>
 

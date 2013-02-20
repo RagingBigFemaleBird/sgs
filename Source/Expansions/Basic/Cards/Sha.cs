@@ -129,10 +129,10 @@ namespace Sanguosha.Expansions.Basic.Cards
         /// <summary>
         /// 某玩家对某玩家视为使用一张虚拟的杀，能被技能转化，影响选择的目标，如疠火，朱雀羽扇
         /// </summary>
-        public static void UseDummyShaTo(Player source, Player target, CardHandler shaType, Prompt prompt)
+        public static void UseDummyShaTo(Player source, Player target, CardHandler shaType, Prompt prompt, CardAttribute helper = null, bool notifyShaSound = true)
         {
             CompositeCard sha = new CompositeCard() { Type = shaType };
-            var v1 = new DummyShaVerifier(target, shaType);
+            var v1 = new DummyShaVerifier(target, shaType, helper);
             ISkill skill;
             List<Card> cards;
             List<Player> players;
@@ -140,8 +140,8 @@ namespace Sanguosha.Expansions.Basic.Cards
             GameEventArgs args = new GameEventArgs();
             args.Source = source;
             args.Targets = new List<Player>(players);
-            args.Targets.Add(target);
-            args.Skill = skill == null ? new CardWrapper(source, shaType) : skill;
+            if (target != null) args.Targets.Add(target);
+            args.Skill = skill == null ? new CardWrapper(source, shaType, notifyShaSound) : skill;
             args.Cards = cards;
             CompositeCard card = null;
             if (skill != null)
@@ -153,6 +153,17 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
             //在触发 CommitActionToTargets 的时候，只有在这里，args.Card才会被赋值，且为CompositeCard
             args.Card = card;
+            if (args.Targets.Count == 0)
+            {
+                foreach (Player p in Game.CurrentGame.AlivePlayers)
+                {
+                    if (p != source && v1.FastVerify(source, skill, cards, new List<Player>() { p }) != VerifierResult.Fail)
+                    {
+                        args.Targets.Add(p);
+                        break;
+                    }
+                }
+            }
             try
             {
                 Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);

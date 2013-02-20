@@ -41,6 +41,7 @@ namespace Sanguosha.Core.Cards
             deckBackup = new Dictionary<DeckPlace, List<Card>>();
             foreach (Card c in cards)
             {
+                if (c.Place.DeckType == DeckType.None) continue;
                 Trace.Assert(c.Type != null);
                 if ((c.Type is Equipment) && c.Place.DeckType == DeckType.Equipment)
                 {
@@ -63,6 +64,7 @@ namespace Sanguosha.Core.Cards
         {
             foreach (Card c in cardsOnHold)
             {
+                if (c.Place.DeckType == DeckType.None) continue;
                 Trace.Assert(c.Type != null);
                 if ((c.Type is Equipment) && c.Place.DeckType == DeckType.Equipment)
                 {

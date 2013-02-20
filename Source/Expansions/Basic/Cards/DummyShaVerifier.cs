@@ -11,7 +11,7 @@ using Sanguosha.Expansions.Basic.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    class DummyShaVerifier : CardUsageVerifier
+    public class DummyShaVerifier : CardUsageVerifier
     {
         public override VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> players)
         {
@@ -29,13 +29,16 @@ namespace Sanguosha.Expansions.Basic.Cards
                 players = new List<Player>();
             }
             List<Player> newList = new List<Player>(players);
-            if (!newList.Contains(target))
+            if (target != null)
             {
-                newList.Add(target);
-            }
-            else
-            {
-                return VerifierResult.Fail;
+                if (!newList.Contains(target))
+                {
+                    newList.Add(target);
+                }
+                else
+                {
+                    return VerifierResult.Fail;
+                }
             }
             if (cards != null && cards.Count > 0)
             {
@@ -49,13 +52,15 @@ namespace Sanguosha.Expansions.Basic.Cards
                 {
                     return VerifierResult.Fail;
                 }
-                return sha.Type.Verify(source, skill, dummyCards, newList);
+                if (helper != null) sha[helper] = 1;
+                return new Sha().VerifyCore(source, sha, newList);
             }
             else if (skill != null)
             {
                 return VerifierResult.Fail;
             }
-            return sha.Type.Verify(source, new CardWrapper(source, new RegularSha()), cards, newList);
+            if (helper != null) sha[helper] = 1;
+            return new Sha().VerifyCore(source, sha, newList);
         }
 
         public override IList<CardHandler> AcceptableCardTypes
@@ -66,11 +71,13 @@ namespace Sanguosha.Expansions.Basic.Cards
         Player target;
         CardHandler type;
         List<Card> dummyCards;
+        CardAttribute helper;
 
-        public DummyShaVerifier(Player t, CardHandler shaType)
+        public DummyShaVerifier(Player t, CardHandler shaType, CardAttribute helper = null)
         {
             target = t;
             type = shaType;
+            this.helper = helper;
             dummyCards = new List<Card>() { new Card() { Type = shaType, Place = new DeckPlace(null, DeckType.None) } };
         }
     }

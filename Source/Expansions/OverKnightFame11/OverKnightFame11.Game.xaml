@@ -41,7 +41,7 @@
 
     <sys:String x:Key="CardSlot.Hint.HuoDe">获得</sys:String>
     
-    <sys:String x:Key="CardUsage.Prompt.MingCe">请对{0}使用一张【杀】</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.MingCe">你可对{0}视为使用一张【杀】 可发动技能(若有)</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.MingCe">请选择一项“明策”的效果</sys:String>
     <sys:String x:Key="MultiChoice.Choice.MingCeSha">对{0}使用一张【杀】</sys:String>
     <sys:String x:Key="MultiChoice.Choice.MingCeMoPai">摸一张牌</sys:String>

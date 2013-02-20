@@ -87,11 +87,8 @@ namespace Sanguosha.Expansions.Assassin.Skills
             if (result == true) { winner = arg.Targets[0]; loser = pindianTarget; }
             else { winner = pindianTarget; loser = arg.Targets[0]; }
             if (!Game.CurrentGame.PlayerCanBeTargeted(winner, new List<Player>() { loser }, new CompositeCard() { Type = new Sha() })) return true;
-            GameEventArgs args = new GameEventArgs();
-            args.Source = winner;
-            args.Targets = new List<Player>() { loser };
-            args.Skill = new CardWrapper(winner, new RegularSha());
-            Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
+            winner[Sha.NumberOfShaUsed]--;
+            Sha.UseDummyShaTo(winner, loser, new RegularSha(), new CardUsagePrompt("MingCe", loser));
             return true;
         }
 

@@ -1197,6 +1197,38 @@ namespace Sanguosha.UI.Controls
                     skill = command.Skill;
                 }
 
+                // are we really able to use this equip as command?
+                if (isEquipCommand)
+                {
+                    Trace.Assert(skill != null);
+                    if (currentUsageVerifier.Verify(HostPlayer, skill, cards, new List<Player>()) == VerifierResult.Fail)
+                    {
+                        //nope, not really
+                        isEquipCommand = false;
+                        skill = null;
+                    }
+                }
+
+                string prompt = null;
+                if (skill != null)
+                {
+                    prompt = Application.Current.TryFindResource(string.Format("Skill.{0}.Prompt", skill.GetType().Name)) as string;
+                }
+                if (prompt == null)
+                {
+                    prompt = PromptFormatter.Format(CurrentPrompt);
+                }
+                CurrentPromptString = prompt;
+
+                if (!isEquipCommand)
+                {
+                    foreach (var equipCommand in EquipCommands)
+                    {
+                        if (equipCommand.IsSelected)
+                            cards.Add(equipCommand.Card);
+                    }
+                }
+
                 var sc = new List<SkillCommand>(ActiveSkillCommands);
 
                 // Handle skill down            
@@ -1259,7 +1291,7 @@ namespace Sanguosha.UI.Controls
                     }
                     else
                     {
-                        skillCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
+                        skillCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, skillCommand.Skill, cards, new List<Player>()) != VerifierResult.Fail);
                     }
 
                     // Handler GuHuo, QiCe
@@ -1284,39 +1316,7 @@ namespace Sanguosha.UI.Controls
                         }
                     }
                 }
-
-                // are we really able to use this equip as command?
-                if (isEquipCommand)
-                {
-                    Trace.Assert(skill != null);
-                    if (currentUsageVerifier.Verify(HostPlayer, skill, new List<Card>(), new List<Player>()) == VerifierResult.Fail)
-                    {
-                        //nope, not really
-                        isEquipCommand = false;
-                        skill = null;
-                    }
-                }
-
-                string prompt = null;
-                if (skill != null)
-                {
-                    prompt = Application.Current.TryFindResource(string.Format("Skill.{0}.Prompt", skill.GetType().Name)) as string;
-                }
-                if (prompt == null)
-                {
-                    prompt = PromptFormatter.Format(CurrentPrompt);
-                }
-                CurrentPromptString = prompt;
-
-                if (!isEquipCommand)
-                {
-                    foreach (var equipCommand in EquipCommands)
-                    {
-                        if (equipCommand.IsSelected)
-                            cards.Add(equipCommand.Card);
-                    }
-                }
-
+                
                 var status = currentUsageVerifier.Verify(HostPlayer, skill, cards, players);
 
                 if (status == VerifierResult.Fail)
