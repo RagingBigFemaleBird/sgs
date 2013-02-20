@@ -26,7 +26,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             return card.Suit == SuitType.Club;
         }
 
-        protected override void NotifyAction(Core.Players.Player source, List<Core.Players.Player> targets, CompositeCard card)
+        public override void NotifyAction(Core.Players.Player source, List<Core.Players.Player> targets, CompositeCard card)
         {
             if (card.Type.IsReforging(source, this, card.Subcards, targets))
             {

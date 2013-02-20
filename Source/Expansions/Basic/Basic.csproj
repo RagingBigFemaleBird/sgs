@@ -54,6 +54,7 @@
     <Compile Include="Cards\BaGuaZhen.cs" />
     <Compile Include="Cards\CardWrapper.cs" />
     <Compile Include="Cards\CiXiongShuangGuJian.cs" />
+    <Compile Include="Cards\DummyShaVerifier.cs" />
     <Compile Include="Cards\FangTianHuaJi.cs" />
     <Compile Include="Cards\GuanShiFu.cs" />
     <Compile Include="Cards\GuoHeChaiQiao.cs" />

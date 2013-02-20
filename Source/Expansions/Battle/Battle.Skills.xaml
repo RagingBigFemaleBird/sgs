@@ -7,6 +7,6 @@
     <sys:String x:Key="Skill.TenJiaSkill.Name">藤甲</sys:String>
     <sys:String x:Key="Skill.GuDingDaoSkill.Name">古锭刀</sys:String>
     <sys:String x:Key="Skill.ZhuQueYuShanSkill.Name">朱雀羽扇</sys:String>
-    <sys:String x:Key="Skill.ZhuQueYuShanShaSkill.Name">朱雀羽扇</sys:String>
+    <sys:String x:Key="Skill.ZhuQueYuShanTransform.Name">朱雀羽扇</sys:String>
 
 </ResourceDictionary>

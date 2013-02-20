@@ -121,7 +121,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 return VerifierResult.Success;
             }
 
-            protected override void NotifyAction(Player source, List<Player> targets, CompositeCard card)
+            public override void NotifyAction(Player source, List<Player> targets, CompositeCard card)
             {
             }
         }

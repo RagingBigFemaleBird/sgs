@@ -34,7 +34,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             withoutNotify = !Notify;
         }
 
-        protected override void NotifyAction(Player source, List<Player> targets, CompositeCard card)
+        public override void NotifyAction(Player source, List<Player> targets, CompositeCard card)
         {
             if (withoutNotify) return;
             ActionLog log = new ActionLog();

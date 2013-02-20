@@ -65,51 +65,9 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
 
         protected override void TargetsSplit(List<Player> targets, out List<Player> firstTargets, out List<Player> secondaryTargets)
         {
-            firstTargets = new List<Player>() { targets[0]};
+            firstTargets = new List<Player>() { targets[0] };
             secondaryTargets = null;
             if (targets.Count == 2) secondaryTargets = new List<Player>() { targets[1] };
-        }
-
-        // slightly modified from JieDaoShaRen
-        public class MingCeShaVerifier : CardUsageVerifier
-        {
-            public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
-            {
-                if (players != null && players.Any(p => p.IsDead))
-                {
-                    return VerifierResult.Fail;
-                }
-                if (players == null)
-                {
-                    players = new List<Player>();
-                }
-                List<Player> newList = new List<Player>(players);
-                if (!newList.Contains(target))
-                {
-                    newList.Add(target);
-                }
-                else
-                {
-                    return VerifierResult.Fail;
-                }
-                if (cards != null && cards.Count > 0)
-                {
-                    return VerifierResult.Fail;
-                }
-                return (new Sha()).Verify(source, new CardWrapper(source, new RegularSha()), cards, newList);
-            }
-
-            public override IList<CardHandler> AcceptableCardTypes
-            {
-                get { return null; }
-            }
-
-            Player target;
-
-            public MingCeShaVerifier(Player t)
-            {
-                target = t;
-            }
         }
 
         public override bool Commit(GameEventArgs arg)
@@ -121,29 +79,11 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 Game.CurrentGame.DrawCards(arg.Targets[0], 1);
                 return true;
             }
-            ISkill skill;
-            List<Card> cards;
-            List<Player> players;
             int answer = 0;
             arg.Targets[0].AskForMultipleChoice(new MultipleChoicePrompt("MingCe"), new List<OptionPrompt>() { new OptionPrompt("MingCeSha", arg.Targets[1]), new OptionPrompt("MingCeMoPai") }, out answer);
             if (answer == 0)
             {
-                arg.Targets[0].AskForCardUsage(new CardUsagePrompt("MingCe", arg.Targets[1]), new MingCeShaVerifier(arg.Targets[1]), out skill, out cards, out players);
-                try
-                {
-                    GameEventArgs args = new GameEventArgs();
-                    args.Source = arg.Targets[0];
-                    args.Targets = new List<Player>(players);
-                    args.Targets.Add(arg.Targets[1]);
-                    args.Skill = new CardWrapper(arg.Targets[0], new RegularSha());
-                    args.Cards = cards;
-                    Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
-                }
-                catch (TriggerResultException)
-                {
-                    // This must NOT happen if you are not asking user to provide the card
-                    Trace.Assert(false);
-                }
+                Sha.UseDummyShaTo(arg.Targets[0], arg.Targets[1], new RegularSha(), new CardUsagePrompt("MingCe", arg.Targets[1]));
             }
             else
             {

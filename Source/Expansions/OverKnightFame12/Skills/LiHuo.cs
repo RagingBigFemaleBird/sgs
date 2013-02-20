@@ -35,10 +35,6 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             {
                 return VerifierResult.Fail;
             }
-            if (cards[0].Owner != Owner || cards[0].Place.DeckType != DeckType.Hand)
-            {
-                return VerifierResult.Fail;
-            }
             if (cards[0].Type is RegularSha)
             {
                 card = new CompositeCard();

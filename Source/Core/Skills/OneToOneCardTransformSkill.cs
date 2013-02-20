@@ -23,7 +23,7 @@ namespace Sanguosha.Core.Skills
             {
                 return VerifierResult.Fail;
             }
-            if (cards[0].Owner != Owner && !(Helper.OtherDecksUsed.Count != 0 && Helper.OtherDecksUsed.Contains(cards[0].Place.DeckType)) )
+            if (cards[0].Place.DeckType != DeckType.None && cards[0].Owner != Owner && !(Helper.OtherDecksUsed.Count != 0 && Helper.OtherDecksUsed.Contains(cards[0].Place.DeckType)) )
             {
                 return VerifierResult.Fail;
             }

@@ -291,7 +291,15 @@ namespace Sanguosha.Core.Games
                 {
                     CompositeCard card;
                     CardTransformSkill s = (CardTransformSkill)eventArgs.Skill;
-                    if (!s.Transform(eventArgs.Cards, null, out card, eventArgs.Targets))
+                    if (eventArgs.Card is CompositeCard)
+                    {
+                        //仅在 Sha.UseDummyShaTo 里，eventArgs.Card才会被赋值且为CompositeCard
+                        //表示 该DummySha的Verifier里被skill所转化
+                        //参看 Sha.UseDummyShaTo
+                        card = eventArgs.Card as CompositeCard;
+                        s.NotifyAction(eventArgs.Source, eventArgs.Targets, card);
+                    }
+                    else if (!s.Transform(eventArgs.Cards, null, out card, eventArgs.Targets))
                     {
                         throw new TriggerResultException(TriggerResult.Retry);
                     }

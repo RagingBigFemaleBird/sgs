@@ -136,7 +136,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             get { return new List<CardHandler>() { new Sha() }; }
         }
 
-        protected override void NotifyAction(Player source, List<Player> targets, CompositeCard card)
+        public override void NotifyAction(Player source, List<Player> targets, CompositeCard card)
         {
             ActionLog log = new ActionLog();
             log.GameAction = GameAction.None;
