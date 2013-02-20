@@ -109,6 +109,12 @@ namespace Sanguosha.UI.Animations
             Visibility = Visibility.Hidden;
             Frames = new List<ImageSource>();
             FramesPerSecond = 30;
+            Unloaded += FrameBasedAnimation_Unloaded;
+        }
+
+        void FrameBasedAnimation_Unloaded(object sender, RoutedEventArgs e)
+        {
+            IsActive = false;
         }
 
         private void CompositionTarget_Rendering(object sender, System.EventArgs e)
@@ -154,7 +160,7 @@ namespace Sanguosha.UI.Animations
         public void Stop()
         {
             IsActive = false;
-            Visibility = Visibility.Hidden;
+            Visibility = Visibility.Collapsed;
             EventHandler handler = Completed;
             if (handler != null)
             {

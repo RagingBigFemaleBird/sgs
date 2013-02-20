@@ -105,8 +105,7 @@ namespace Sanguosha.UI.Controls
             mainPlayerPanel.ParentGameView = this;
             discardDeck.ParentCanvas = this.GlobalCanvas;
             this.DataContextChanged += GameView_DataContextChanged;
-            this.SizeChanged += GameView_SizeChanged;
-            _mainPlayerPropertyChangedHandler = mainPlayer_PropertyChanged;
+            this.SizeChanged += GameView_SizeChanged;            
             gameLogs = new GameLogs();
             logDocs = new List<FlowDocument>() { gameLogs.GlobalLog };
             rtbLog.Document = gameLogs.GlobalLog;
@@ -278,13 +277,13 @@ namespace Sanguosha.UI.Controls
                 {
                     playerModel.Player = null;
                 }
-                model.PropertyChanged -= _propertyChangedHandler;
-                model.Game.PropertyChanged -= _gamePropertyChangedHandler;
+                model.PropertyChanged -= model_PropertyChanged;
+                model.Game.PropertyChanged -= _game_PropertyChanged;
                 foreach (var playerModel in model.PlayerModels)
                 {
-                    playerModel.PropertyChanged -= _playerPropertyChangedHandler;
+                    playerModel.PropertyChanged -= _player_PropertyChanged;
                 }
-                model.MainPlayerModel.PropertyChanged -= _mainPlayerPropertyChangedHandler;
+                model.MainPlayerModel.PropertyChanged -= mainPlayer_PropertyChanged;
                 GameModel.Game = null;
             }
             this.DataContext = null;
@@ -382,9 +381,7 @@ namespace Sanguosha.UI.Controls
 
             GameModel.MainPlayerSeatNumber = GameModel.Game.Players.IndexOf(view.PlayerModel.Player);
         }
-
-        private PropertyChangedEventHandler _mainPlayerPropertyChangedHandler;
-
+        
         private void mainPlayer_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             PlayerViewModel model = sender as PlayerViewModel;
@@ -436,24 +433,20 @@ namespace Sanguosha.UI.Controls
                 _privateDeckChoiceWindow = null;
             }
         }
-
-        private PropertyChangedEventHandler _propertyChangedHandler;
-        private PropertyChangedEventHandler _gamePropertyChangedHandler;
-        private PropertyChangedEventHandler _playerPropertyChangedHandler;
-
+        
         private void GameView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (e.OldValue != null)
             {
                 GameViewModel oldModel = e.OldValue as GameViewModel;
                 if (oldModel == null || oldModel.Game == null) return;
-                oldModel.PropertyChanged -= _propertyChangedHandler;
-                oldModel.Game.PropertyChanged -= _gamePropertyChangedHandler;
+                oldModel.PropertyChanged -= model_PropertyChanged;
+                oldModel.Game.PropertyChanged -= _game_PropertyChanged;
                 foreach (var playerModel in oldModel.PlayerModels)
                 {
-                    playerModel.PropertyChanged -= _playerPropertyChangedHandler;
+                    playerModel.PropertyChanged -= _player_PropertyChanged;
                 }
-                oldModel.MainPlayerModel.PropertyChanged -= _mainPlayerPropertyChangedHandler;
+                oldModel.MainPlayerModel.PropertyChanged -= mainPlayer_PropertyChanged;
             }
 
             profileBoxes.Clear();
@@ -469,12 +462,9 @@ namespace Sanguosha.UI.Controls
             playersMap.Add(model.MainPlayerModel.Player, mainPlayerPanel);
             RearrangeSeats();
             _CreateCueLines();
-
-            _propertyChangedHandler = new PropertyChangedEventHandler(model_PropertyChanged);
-            _gamePropertyChangedHandler = new PropertyChangedEventHandler(_game_PropertyChanged);
-            _playerPropertyChangedHandler = new PropertyChangedEventHandler(_player_PropertyChanged);
-            model.PropertyChanged += _propertyChangedHandler;
-            model.Game.PropertyChanged += _gamePropertyChangedHandler;
+            
+            model.PropertyChanged += model_PropertyChanged;
+            model.Game.PropertyChanged += _game_PropertyChanged;
             Trace.Assert(model.MainPlayerModel != null, "Main player must exist.");
 
             // Initialize game logs.
@@ -498,7 +488,7 @@ namespace Sanguosha.UI.Controls
 
             for (int i = 0; i < count; i++)
             {
-                model.PlayerModels[i].PropertyChanged += _playerPropertyChangedHandler;
+                model.PlayerModels[i].PropertyChanged += _player_PropertyChanged;
             }
             _Resize(new Size(this.ActualWidth, this.ActualHeight));
         }
@@ -647,10 +637,10 @@ namespace Sanguosha.UI.Controls
             var oldMainPlayer = mainPlayerPanel.DataContext as PlayerViewModel;
             if (oldMainPlayer != null)
             {
-                oldMainPlayer.PropertyChanged -= _mainPlayerPropertyChangedHandler;
+                oldMainPlayer.PropertyChanged -= mainPlayer_PropertyChanged;
             }
             mainPlayerPanel.DataContext = model.MainPlayerModel;
-            model.MainPlayerModel.PropertyChanged += _mainPlayerPropertyChangedHandler;
+            model.MainPlayerModel.PropertyChanged += mainPlayer_PropertyChanged;
             playersMap[model.MainPlayerModel.Player] = mainPlayerPanel;
         }
 
