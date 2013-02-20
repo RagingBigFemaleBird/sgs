@@ -60,24 +60,31 @@ namespace Sanguosha.Expansions.Hills.Skills
                 (p, e, a, cards, players) =>
                 {
                     Game.CurrentGame.HandleCardDiscard(a.Source, cards);
-
-                    var saveP = Game.CurrentGame.CurrentPlayer;
-                    var savePh = Game.CurrentGame.CurrentPhase;
-                    var savePhI = Game.CurrentGame.CurrentPhaseEventIndex;
-                    GameEventArgs args = new GameEventArgs();
-                    args.Source = players[0];
-                    Game.CurrentGame.CurrentPhaseEventIndex = 0;
-                    Game.CurrentGame.CurrentPhase = TurnPhase.BeforeStart;
-                    Game.CurrentGame.Emit(GameEvent.DoPlayer, args);
-                    Game.CurrentGame.CurrentPlayer = saveP;
-                    Game.CurrentGame.CurrentPhase = savePh;
-                    Game.CurrentGame.CurrentPhaseEventIndex = savePhI;
+                    Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, new FangQuanTrigger(Owner, players[0]));
                 },
                 TriggerCondition.OwnerIsSource,
                 new FangQuanVerifier()
             ) { AskForConfirmation = false };
             Triggers.Add(GameEvent.PhaseOutEvents[TurnPhase.Draw], trigger);
             Triggers.Add(GameEvent.PhaseProceedEvents[TurnPhase.End], trigger2);
+        }
+
+        class FangQuanTrigger : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                if (eventArgs.Source != Owner) return;
+                Game.CurrentGame.UnregisterTrigger(GameEvent.PhasePostEnd, this);
+                Game.CurrentGame.DoPlayer(target);
+            }
+
+            Player target;
+            public FangQuanTrigger(Player p, Player target)
+            {
+                Owner = p;
+                this.target = target;
+                Priority = int.MinValue;
+            }
         }
     }
 }

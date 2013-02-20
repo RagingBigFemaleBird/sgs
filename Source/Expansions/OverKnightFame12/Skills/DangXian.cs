@@ -30,8 +30,8 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                     var savePh = Game.CurrentGame.CurrentPhase;
                     var savePhI = Game.CurrentGame.CurrentPhaseEventIndex;
 
-                    Game.CurrentGame.CurrentPhaseEventIndex = 3;
-                    Game.CurrentGame.CurrentPhase = TurnPhase.Draw;
+                    Game.CurrentGame.CurrentPhaseEventIndex = 0;
+                    Game.CurrentGame.CurrentPhase = TurnPhase.Play;
                     do
                     {
                         Player currentPlayer = Game.CurrentGame.CurrentPlayer;
@@ -53,7 +53,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                         }
 
                         Game.CurrentGame.CurrentPhaseEventIndex++;
-                        if (Game.CurrentGame.CurrentPhaseEventIndex >= Game.PhaseEvents.Length || currentPlayer.IsDead)
+                        if (Game.CurrentGame.CurrentPhaseEventIndex >= Game.PhaseEvents.Length - 1 || currentPlayer.IsDead)
                         {
                             Game.CurrentGame.CurrentPhaseEventIndex = 0;
                             Game.CurrentGame.CurrentPhase++;
