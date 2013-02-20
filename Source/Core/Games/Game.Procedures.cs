@@ -399,6 +399,7 @@ namespace Sanguosha.Core.Games
                 PlayerPlayedCard(p, targets, result);
                 PlayerDiscardedCard(p, backup, DiscardReason.Play);
             }
+            Game.CurrentGame.LastAction = skill;
             return true;
         }
 
