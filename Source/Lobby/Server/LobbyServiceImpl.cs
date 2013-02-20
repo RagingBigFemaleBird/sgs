@@ -42,7 +42,7 @@ namespace Sanguosha.Lobby.Server
             return false;
         }
 
-        public LobbyServiceImpl(bool noDatabase = true)
+        public LobbyServiceImpl(bool noDatabase = false)
         {
             rooms = new Dictionary<int, Room>();
             loggedInGuidToAccount = new Dictionary<Guid, Account>();
@@ -56,6 +56,8 @@ namespace Sanguosha.Lobby.Server
             accounts = new List<Account>();
             if (noDatabase) accountContext = null;
             else accountContext = new AccountContext();
+            //Do this if stupid localdb complains:
+            // accountContext.Database.Delete();
         }
   
         void Channel_Faulted(object sender, EventArgs e)
@@ -102,6 +104,11 @@ namespace Sanguosha.Lobby.Server
             var disconnected = accounts.FirstOrDefault(ac => ac.UserName == username);
             if (!Authenticate(username, hash))
             {
+                if (accountContext != null)
+                {
+                    accountContext.Accounts.Add(new Account() { UserName = username });
+                    accountContext.SaveChanges();
+                }
                 reconnectionString = null;
                 retAccount = null;
                 token = new LoginToken();

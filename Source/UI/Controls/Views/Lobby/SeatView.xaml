@@ -174,8 +174,8 @@
                         </Border.Effect>	
                     </Border>
                 </Border>
-                <ProgressBar Style="{DynamicResource winProgressBarStyle}" Value="46" />
-                <ProgressBar Value="20" Style="{DynamicResource quitProgressBarStyle}" />
+                <ProgressBar Style="{DynamicResource winProgressBarStyle}" Value="{Binding Account.Wins}" />
+                <ProgressBar Value="{Binding Account.Quits}" Style="{DynamicResource quitProgressBarStyle}" />
                 <Border Background="#FF2F363E" CornerRadius="0,0,8,8" ClipToBounds="True" BorderThickness="1,0,1,1" Margin="12.5,0,0,-8.501" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="34.5">
                     <Border.BorderBrush>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -183,7 +183,7 @@
                             <GradientStop Color="Black"/>
                         </LinearGradientBrush>
                     </Border.BorderBrush>
-                    <TextBlock Text="46%" FontFamily="Arial" Foreground="Lime" FontSize="9" HorizontalAlignment="Center" Margin="0,0,0,0" />
+                    <TextBlock Text="{Binding Account.Wins}" FontFamily="Arial" Foreground="Lime" FontSize="9" HorizontalAlignment="Center" Margin="0,0,0,0" />
                 </Border>
                 <Border Background="#FF2F363E" CornerRadius="0,0,8,8" ClipToBounds="True" BorderThickness="1,0,1,1" Margin="0,0,12,-8.501" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="34.5">
                     <Border.BorderBrush>
@@ -192,7 +192,7 @@
                             <GradientStop Color="Black"/>
                         </LinearGradientBrush>
                     </Border.BorderBrush>
-                    <TextBlock Text="20%" FontFamily="Arial" Foreground="Red" FontSize="9" HorizontalAlignment="Center" Margin="0,0,0,0" />
+                    <TextBlock Text="{Binding Account.Quits}" FontFamily="Arial" Foreground="Red" FontSize="9" HorizontalAlignment="Center" Margin="0,0,0,0" />
                 </Border>						
             </Grid>
             <RichTextBox Margin="86,7,8,34" FontSize="15" FontFamily="/Resources;component/Fonts/#KaiTi" Background="Transparent" Foreground="White" BorderBrush="#FFC7B564" IsHitTestVisible="False">
