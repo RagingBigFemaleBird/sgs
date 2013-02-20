@@ -9,6 +9,7 @@
         <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/CardImages.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/SystemImages.xaml"/>
     </ResourceDictionary.MergedDictionaries>
+    <FontFamily x:Key="Fonts.STLiTi">Fonts/#STLiTi</FontFamily>
     <SolidColorBrush x:Key="TabControlNormalBorderBrush" Color="#8C8E94"/>
     <Style x:Key="LoginTabControlStyle" TargetType="{x:Type TabControl}">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>

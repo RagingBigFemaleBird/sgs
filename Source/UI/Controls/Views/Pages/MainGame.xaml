@@ -9,6 +9,13 @@
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="800"
       Title="MainGame" Loaded="Page_Loaded" UseLayoutRounding="True">
+	<Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Common.xaml"/>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
@@ -41,10 +48,10 @@
                 </MenuItem.Header>     	
             </MenuItem>
         </Menu>
-        <xctk:ChildWindow Grid.RowSpan="2" x:Name="windowGetCard" Caption="获取卡牌" WindowStartupLocation="Center" Template="{DynamicResource StoneWindowStyle}">
+        <xctk:ChildWindow Grid.RowSpan="2" x:Name="windowGetCard" Caption="获取卡牌" WindowStartupLocation="Center" Template="{StaticResource StoneWindowStyle}">
             <Controls:CardSetView x:Name="ctrlGetCard"/>
         </xctk:ChildWindow>
-        <xctk:ChildWindow Grid.RowSpan="2" x:Name="windowGetSkill" Caption="获取技能" WindowStartupLocation="Center" Template="{DynamicResource StoneWindowStyle}">
+        <xctk:ChildWindow Grid.RowSpan="2" x:Name="windowGetSkill" Caption="获取技能" WindowStartupLocation="Center" Template="{StaticResource StoneWindowStyle}">
             <Controls:HeroSetView x:Name="ctrlGetSkill"/>
         </xctk:ChildWindow>
         
