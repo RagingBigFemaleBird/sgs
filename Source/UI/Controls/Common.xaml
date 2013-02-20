@@ -1216,14 +1216,22 @@
                                 <VisualState x:Name="Idle">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.IsEnabled)" Storyboard.TargetName="content">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="True"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <sys:Boolean>True</sys:Boolean>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Busy">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames BeginTime="0" Duration="0:0:0.001" Storyboard.TargetProperty="(UIElement.IsEnabled)" Storyboard.TargetName="content">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="True" />                                                
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <sys:Boolean>True</sys:Boolean>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>

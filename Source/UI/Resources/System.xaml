@@ -87,7 +87,7 @@
         <GradientStop Color="#EBEBEB" Offset="0.5"/>
         <GradientStop Color="#DDDDDD" Offset="0.5"/>
         <GradientStop Color="#CDCDCD" Offset="1"/>
-    </LinearGradientBrush>    
+    </LinearGradientBrush>
     <SolidColorBrush x:Key="TabItemHotBorderBrush" Color="#3C7FB1"/>
     <SolidColorBrush x:Key="TabItemDisabledBackground" Color="#F4F4F4"/>
     <SolidColorBrush x:Key="TabItemDisabledBorderBrush" Color="#FFC9C7BA"/>
@@ -106,7 +106,7 @@
                             <GradientStop Color="#FFB29478" Offset="0"/>
                             <GradientStop Color="#FF4C3D2F" Offset="1"/>
                         </LinearGradientBrush>
-                        <SolidColorBrush x:Key="TabItemSelectedBackground" Color="#FF4C3D2F"/>			
+                        <SolidColorBrush x:Key="TabItemSelectedBackground" Color="#FF4C3D2F"/>
                     </ControlTemplate.Resources>
                     <Grid SnapsToDevicePixels="true">
                         <Border x:Name="Bd" 
@@ -115,7 +115,7 @@
                             Background="{TemplateBinding Background}"								
                             Padding="{TemplateBinding Padding}">
                             <ContentPresenter x:Name="Content" ContentSource="Header" HorizontalAlignment="Center" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
-                        </Border>						
+                        </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
@@ -125,7 +125,7 @@
                             <Setter Property="Panel.ZIndex" Value="1"/>
                             <Setter Property="Background" TargetName="Bd" Value="{StaticResource TabItemSelectedBackground}"/>
                             <Setter Property="BorderBrush" TargetName="Bd" Value="#FFA59579"/>
-                        </Trigger>    					
+                        </Trigger>
                         <Trigger Property="TabStripPlacement" Value="Bottom">
                             <Setter Property="BorderThickness" TargetName="Bd" Value="1,0,1,1"/>
                         </Trigger>
@@ -152,7 +152,7 @@
                             <Setter Property="Margin" TargetName="Content" Value="0,1,0,0"/>
                         </MultiTrigger>
                         <MultiTrigger>
-                            <MultiTrigger.Conditions>    							
+                            <MultiTrigger.Conditions>
                                 <Condition Property="TabStripPlacement" Value="Left"/>
                             </MultiTrigger.Conditions>
                             <Setter Property="Margin" Value="0,1,-3,1"/>
@@ -175,9 +175,9 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="Background" Value="#D060513C"/>    	
+        <Setter Property="Background" Value="#D060513C"/>
     </Style>
-    
+
     <Style x:Key="BlackTextBoxStyle" BasedOn="{x:Null}" TargetType="{x:Type TextBox}">
         <Setter Property="Foreground" Value="#FFE4D5A0"/>
         <Setter Property="Background">
@@ -186,7 +186,7 @@
                     <GradientStop Color="#FF1F1F1E" Offset="0"/>
                     <GradientStop Color="#FF35322D" Offset="0.35"/>
                     <GradientStop Color="#FF1F1F1E" Offset="1"/>
-                    <GradientStop Color="#FF35322D" Offset="0.65"/>					
+                    <GradientStop Color="#FF35322D" Offset="0.65"/>
                 </LinearGradientBrush>
             </Setter.Value>
         </Setter>
@@ -196,14 +196,14 @@
         <Setter Property="AllowDrop" Value="true"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
-        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>		
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
                     <Border BorderThickness="1" BorderBrush="#FF444036">
-                    <Microsoft_Windows_Themes:ListBoxChrome x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" RenderMouseOver="{TemplateBinding IsMouseOver}" RenderFocused="{TemplateBinding IsKeyboardFocusWithin}" SnapsToDevicePixels="true">
-                        <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                    </Microsoft_Windows_Themes:ListBoxChrome>
+                        <Microsoft_Windows_Themes:ListBoxChrome x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" RenderMouseOver="{TemplateBinding IsMouseOver}" RenderFocused="{TemplateBinding IsKeyboardFocusWithin}" SnapsToDevicePixels="true">
+                            <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Microsoft_Windows_Themes:ListBoxChrome>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="false">
@@ -231,10 +231,10 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="33"/>
                             <ColumnDefinition />
-                            <ColumnDefinition Width="63"/>			
+                            <ColumnDefinition Width="63"/>
                         </Grid.ColumnDefinitions>
                         <Grid.Effect>
-                            <DropShadowEffect Direction="270" BlurRadius="5" Opacity="0.4" Color="#7F6C6C6C" />			
+                            <DropShadowEffect Direction="270" BlurRadius="5" Opacity="0.4" Color="#7F6C6C6C" />
                         </Grid.Effect>
                         <Image Source="Images/System/menu-left.png" Stretch="Fill"/>
                         <Image Grid.Column="2" Source="Images/System/menu-right.png" Stretch="Fill"/>
@@ -326,7 +326,7 @@
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
-                                <VisualState x:Name="Disabled">                                    
+                                <VisualState x:Name="Disabled">
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
@@ -341,7 +341,7 @@
                                         <GradientStop Color="#FF2D1A12" Offset="0.855"/>
                                     </LinearGradientBrush>
                                 </Border.Background>
-                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>								
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             </Border>
                         </Border>
                     </Border>
@@ -426,7 +426,7 @@
                                         <GradientStop Color="#FF42452D" Offset="0.509"/>
                                     </LinearGradientBrush>
                                 </Border.Background>
-                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>								
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             </Border>
                         </Border>
                     </Border>
@@ -480,7 +480,7 @@
                         </VisualStateManager.VisualStateGroups>
                         <Border BorderBrush="Black" BorderThickness="1" CornerRadius="2">
                             <Border x:Name="border" CornerRadius="2" BorderThickness="1,1,0,0" BorderBrush="#FF868A72" Background="#FF242A21">
-                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>								
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             </Border>
                         </Border>
                     </Border>
@@ -539,7 +539,7 @@
                         </VisualStateManager.VisualStateGroups>
                         <Border BorderBrush="Black" BorderThickness="1" CornerRadius="2">
                             <Border x:Name="border" CornerRadius="2" BorderThickness="1,1,0,0" BorderBrush="#FF7C544C" Background="#FF57271D">
-                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>								
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             </Border>
                         </Border>
                     </Border>
@@ -558,7 +558,7 @@
                 <DropShadowEffect ShadowDepth="0" BlurRadius="6"/>
             </Setter.Value>
         </Setter>
-        <Setter Property="FontWeight" Value="ExtraBlack"/>		
+        <Setter Property="FontWeight" Value="ExtraBlack"/>
     </Style>
     <LinearGradientBrush x:Key="MenuItemSelectionFill" EndPoint="0,1" StartPoint="0,0">
         <GradientStop Color="#34C5EBFF" Offset="0"/>
@@ -592,7 +592,7 @@
                 </Border>
             </Border>
         </Grid>
-        <ControlTemplate.Triggers>            
+        <ControlTemplate.Triggers>
             <Trigger Property="IsChecked" Value="true">
                 <Setter Property="BorderBrush" TargetName="border" Value="#FF525150"/>
                 <Setter Property="Background" TargetName="border">
@@ -648,48 +648,48 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
     <ControlTemplate x:Key="{ComponentResourceKey ResourceId=TopLevelItemTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
-        <ContentPresenter ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>									
+        <ContentPresenter ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
     </ControlTemplate>
     <LinearGradientBrush x:Key="MenuItemPressedFill" EndPoint="0,1" StartPoint="0,0">
         <GradientStop Color="#28717070" Offset="0"/>
         <GradientStop Color="#50717070" Offset="0.75"/>
         <GradientStop Color="#90717070" Offset="1"/>
     </LinearGradientBrush>
-    <Geometry x:Key="UpArrow">M 0,4 L 3.5,0 L 7,4 Z</Geometry>    
-    <Geometry x:Key="DownArrow">M 0,0 L 3.5,4 L 7,0 Z</Geometry>   
- 
+    <Geometry x:Key="UpArrow">M 0,4 L 3.5,0 L 7,4 Z</Geometry>
+    <Geometry x:Key="DownArrow">M 0,0 L 3.5,4 L 7,0 Z</Geometry>
+
     <ControlTemplate x:Key="{ComponentResourceKey ResourceId=TopLevelHeaderTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
         <Grid>
             <Border CornerRadius="2" BorderThickness="1">
-                        <Border.BorderBrush>
-                            <LinearGradientBrush EndPoint="0.1,1" StartPoint="0,0">
-                                <GradientStop Color="#FF8B8572" Offset="0.513"/>
-                                <GradientStop Color="#FFF6F5F2"/>
-                                <GradientStop Color="#FFCAC6B6" Offset="0.448"/>
-                                <GradientStop Color="#FF777056" Offset="1"/>
+                <Border.BorderBrush>
+                    <LinearGradientBrush EndPoint="0.1,1" StartPoint="0,0">
+                        <GradientStop Color="#FF8B8572" Offset="0.513"/>
+                        <GradientStop Color="#FFF6F5F2"/>
+                        <GradientStop Color="#FFCAC6B6" Offset="0.448"/>
+                        <GradientStop Color="#FF777056" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+                <Border BorderBrush="Black" BorderThickness="1" CornerRadius="2">
+                    <Border x:Name="border" CornerRadius="2" BorderThickness="1,1,0,0" BorderBrush="#FF868A72">
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF6E7352" Offset="0"/>
+                                <GradientStop Color="#FF424338" Offset="1"/>
+                                <GradientStop Color="#FF4B4F32" Offset="0.418"/>
+                                <GradientStop Color="#FF42452D" Offset="0.509"/>
                             </LinearGradientBrush>
-                        </Border.BorderBrush>
-                        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="2">
-                            <Border x:Name="border" CornerRadius="2" BorderThickness="1,1,0,0" BorderBrush="#FF868A72">
-                                <Border.Background>
-                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                        <GradientStop Color="#FF6E7352" Offset="0"/>
-                                        <GradientStop Color="#FF424338" Offset="1"/>
-                                        <GradientStop Color="#FF4B4F32" Offset="0.418"/>
-                                        <GradientStop Color="#FF42452D" Offset="0.509"/>
-                                    </LinearGradientBrush>
-                                </Border.Background>
-                                <StackPanel Orientation="Horizontal">								
-                                <ContentPresenter ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>								
-                                <Path Data="{StaticResource DownArrow}" Fill="White" VerticalAlignment="Center" Margin="3,0,3,0"/>
-                                </StackPanel>
-                            </Border>
-                        </Border>
+                        </Border.Background>
+                        <StackPanel Orientation="Horizontal">
+                            <ContentPresenter ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <Path Data="{StaticResource DownArrow}" Fill="White" VerticalAlignment="Center" Margin="3,0,3,0"/>
+                        </StackPanel>
+                    </Border>
                 </Border>
+            </Border>
             <Popup x:Name="PART_Popup" AllowsTransparency="true" Focusable="false" HorizontalOffset="-2" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" Placement="Bottom" VerticalOffset="-1">
                 <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Cycle" Grid.IsSharedSizeScope="true" Margin="2" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" KeyboardNavigation.TabNavigation="Cycle" />
             </Popup>
-            </Grid>
+        </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsSuspendingPopupAnimation" Value="true">
                 <Setter Property="PopupAnimation" TargetName="PART_Popup" Value="None"/>
@@ -703,7 +703,7 @@
                             <GradientStop Color="#FF424338" Offset="1"/>
                             <GradientStop Color="#FF4B4F32" Offset="0.418"/>
                             <GradientStop Color="#FF42452D" Offset="0.509"/>
-                        </LinearGradientBrush>			
+                        </LinearGradientBrush>
                     </Setter.Value>
                 </Setter>
             </Trigger>
@@ -716,7 +716,7 @@
                             <GradientStop Color="#FFA4AF8E" Offset="1"/>
                             <GradientStop Color="#FFA4AF8E" Offset="0.418"/>
                             <GradientStop Color="#FF848B5D" Offset="0.509"/>
-                        </LinearGradientBrush>			
+                        </LinearGradientBrush>
                     </Setter.Value>
                 </Setter>
             </Trigger>
@@ -729,7 +729,7 @@
                             <GradientStop Color="#FFA4AF8E" Offset="1"/>
                             <GradientStop Color="#FFA4AF8E" Offset="0.418"/>
                             <GradientStop Color="#FF848B5D" Offset="0.509"/>
-                        </LinearGradientBrush>			
+                        </LinearGradientBrush>
                     </Setter.Value>
                 </Setter>
             </Trigger>
@@ -743,46 +743,46 @@
                             <GradientStop Color="#FF002A27" Offset="1"/>
                             <GradientStop Color="#FF242638" Offset="0.418"/>
                             <GradientStop Color="#FF282A32" Offset="0.509"/>
-                        </LinearGradientBrush>			
+                        </LinearGradientBrush>
                     </Setter.Value>
                 </Setter>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
-    
+
     <Geometry x:Key="RightArrow">M 0,0 L 4,3.5 L 0,7 Z</Geometry>
     <ControlTemplate x:Key="{ComponentResourceKey ResourceId=SubmenuHeaderTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
         <Grid>
             <Border CornerRadius="2" BorderThickness="1">
-                        <Border.BorderBrush>
-                            <LinearGradientBrush EndPoint="0.02,1" StartPoint="0,0">
-                                <GradientStop Color="#FF8B8572" Offset="0.513"/>
-                                <GradientStop Color="#FFF6F5F2"/>
-                                <GradientStop Color="#FFCAC6B6" Offset="0.448"/>
-                                <GradientStop Color="#FF777056" Offset="1"/>
+                <Border.BorderBrush>
+                    <LinearGradientBrush EndPoint="0.02,1" StartPoint="0,0">
+                        <GradientStop Color="#FF8B8572" Offset="0.513"/>
+                        <GradientStop Color="#FFF6F5F2"/>
+                        <GradientStop Color="#FFCAC6B6" Offset="0.448"/>
+                        <GradientStop Color="#FF777056" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+                <Border BorderBrush="Black" BorderThickness="1" CornerRadius="2">
+                    <Border x:Name="border" CornerRadius="2" BorderThickness="1,1,0,0" BorderBrush="#FF868A72">
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF6E7352" Offset="0"/>
+                                <GradientStop Color="#FF424338" Offset="1"/>
+                                <GradientStop Color="#FF4B4F32" Offset="0.418"/>
+                                <GradientStop Color="#FF42452D" Offset="0.509"/>
                             </LinearGradientBrush>
-                        </Border.BorderBrush>
-                        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="2">
-                            <Border x:Name="border" CornerRadius="2" BorderThickness="1,1,0,0" BorderBrush="#FF868A72">
-                                <Border.Background>
-                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                        <GradientStop Color="#FF6E7352" Offset="0"/>
-                                        <GradientStop Color="#FF424338" Offset="1"/>
-                                        <GradientStop Color="#FF4B4F32" Offset="0.418"/>
-                                        <GradientStop Color="#FF42452D" Offset="0.509"/>
-                                    </LinearGradientBrush>
-                                </Border.Background>
-                                <StackPanel Orientation="Horizontal">
-                                    <ContentPresenter ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>								
-                                    <Path Data="{StaticResource RightArrow}" Fill="White" Margin="3,0,0,0" VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </Border>
-                        </Border>
+                        </Border.Background>
+                        <StackPanel Orientation="Horizontal">
+                            <ContentPresenter ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <Path Data="{StaticResource RightArrow}" Fill="White" Margin="3,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
                 </Border>
+            </Border>
             <Popup x:Name="PART_Popup" AllowsTransparency="true" Focusable="false" HorizontalOffset="-2" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" Placement="Right" VerticalOffset="-3">
                 <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Cycle" Grid.IsSharedSizeScope="true" Margin="2" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" KeyboardNavigation.TabNavigation="Cycle" />
             </Popup>
-            </Grid>
+        </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="IsSuspendingPopupAnimation" Value="true">
                 <Setter Property="PopupAnimation" TargetName="PART_Popup" Value="None"/>
@@ -796,7 +796,7 @@
                             <GradientStop Color="#FF424338" Offset="1"/>
                             <GradientStop Color="#FF4B4F32" Offset="0.418"/>
                             <GradientStop Color="#FF42452D" Offset="0.509"/>
-                        </LinearGradientBrush>			
+                        </LinearGradientBrush>
                     </Setter.Value>
                 </Setter>
             </Trigger>
@@ -809,7 +809,7 @@
                             <GradientStop Color="#FFA4AF8E" Offset="1"/>
                             <GradientStop Color="#FFA4AF8E" Offset="0.418"/>
                             <GradientStop Color="#FF848B5D" Offset="0.509"/>
-                        </LinearGradientBrush>			
+                        </LinearGradientBrush>
                     </Setter.Value>
                 </Setter>
             </Trigger>
@@ -822,7 +822,7 @@
                             <GradientStop Color="#FFA4AF8E" Offset="1"/>
                             <GradientStop Color="#FFA4AF8E" Offset="0.418"/>
                             <GradientStop Color="#FF848B5D" Offset="0.509"/>
-                        </LinearGradientBrush>			
+                        </LinearGradientBrush>
                     </Setter.Value>
                 </Setter>
             </Trigger>
@@ -836,11 +836,11 @@
                             <GradientStop Color="#FF002A27" Offset="1"/>
                             <GradientStop Color="#FF242638" Offset="0.418"/>
                             <GradientStop Color="#FF282A32" Offset="0.509"/>
-                        </LinearGradientBrush>			
+                        </LinearGradientBrush>
                     </Setter.Value>
                 </Setter>
             </Trigger>
-        </ControlTemplate.Triggers>		
+        </ControlTemplate.Triggers>
     </ControlTemplate>
     <Style x:Key="MenuItemStyle1" TargetType="{x:Type MenuItem}">
         <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
@@ -896,7 +896,7 @@
                                     <GradientStop Color="#FF7B643E" Offset="0.085"/>
                                     <GradientStop Color="#FF624D34" Offset="0.846"/>
                                     <GradientStop Color="#FF6E583B" Offset="0.756"/>
-                                </LinearGradientBrush>								
+                                </LinearGradientBrush>
                             </Border.Background>
                             <ContentPresenter Margin="5,3" HorizontalAlignment="Center" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center">
                                 <ContentPresenter.Effect>
@@ -923,7 +923,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridColumnHeadersPresenter}">
-                    <Grid>                    	
+                    <Grid>
                         <DataGridColumnHeader x:Name="PART_FillerColumnHeader" Style="{StaticResource DataGridColumnHeaderStyle1}" IsHitTestVisible="False"/>
                         <Grid>
                             <ItemsPresenter/>
@@ -969,7 +969,7 @@
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Unfocused_Selected">
-                                   <Storyboard>
+                                    <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="glow">
                                             <EasingColorKeyFrame KeyTime="0" Value="#FF1459E0"/>
                                         </ColorAnimationUsingKeyFrames>
@@ -1054,7 +1054,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-        
+
     <Style x:Key="SimpleCloseButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="Padding" Value="3"/>
@@ -1084,14 +1084,14 @@
                                             <EasingColorKeyFrame KeyTime="0" Value="#FFF4F0E4"/>
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
-                                </VisualState>								
+                                </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="path">
                                             <EasingDoubleKeyFrame KeyTime="0" Value="0.667"/>
                                         </DoubleAnimationUsingKeyFrames>
                                     </Storyboard>
-                                </VisualState>									
+                                </VisualState>
                                 <VisualState x:Name="Disabled"/>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
@@ -1114,7 +1114,7 @@
                                     </TransformGroup>
                                 </Path.RenderTransform>
                             </Path>
-                        </Border>                                
+                        </Border>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -1154,7 +1154,7 @@
                         <Image Source="{DynamicResource Menu.Button.Mute.Up}" />
                         <Image x:Name="image1" Source="{DynamicResource Menu.Button.Mute.Down}" Visibility="Collapsed" />
                         <Image x:Name="image" Source="{DynamicResource Menu.Button.Mute.Hover}" Visibility="Collapsed"  />
-                        <Image x:Name="image2" Source="{DynamicResource Menu.Button.Mute.Disabled}" Visibility="Collapsed" />						
+                        <Image x:Name="image2" Source="{DynamicResource Menu.Button.Mute.Disabled}" Visibility="Collapsed" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsFocused" Value="True"/>
@@ -1201,7 +1201,7 @@
                         <Image Source="{DynamicResource Menu.Button.Sound.Up}" />
                         <Image x:Name="image1" Source="{DynamicResource Menu.Button.Sound.Down}" Visibility="Collapsed" />
                         <Image x:Name="image" Source="{DynamicResource Menu.Button.Sound.Hover}" Visibility="Collapsed"  />
-                        <Image x:Name="image2" Source="{DynamicResource Menu.Button.Sound.Disabled}" Visibility="Collapsed" />						
+                        <Image x:Name="image2" Source="{DynamicResource Menu.Button.Sound.Disabled}" Visibility="Collapsed" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsFocused" Value="True"/>
@@ -1237,7 +1237,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-<Style x:Key="DataGridStyle1" TargetType="{x:Type DataGrid}">
+    <Style x:Key="DataGridStyle1" TargetType="{x:Type DataGrid}">
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
@@ -1268,7 +1268,8 @@
                                             <RowDefinition Height="*"/>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
-                                        <Button Command="{x:Static DataGrid.SelectAllCommand}" Focusable="false" Style="{DynamicResource {ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}}" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.All}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>                                          <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter" Grid.Column="1" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Column}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                        <Button Command="{x:Static DataGrid.SelectAllCommand}" Focusable="false" Style="{DynamicResource {ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}}" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.All}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                        <DataGridColumnHeadersPresenter x:Name="PART_ColumnHeadersPresenter" Grid.Column="1" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Column}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
 
                                         <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" Grid.ColumnSpan="2" Grid.Row="1"/>
                                         <ScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="2" Maximum="{TemplateBinding ScrollableHeight}" Orientation="Vertical" Grid.Row="1" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}"/>
@@ -1294,5 +1295,5 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
 </ResourceDictionary>
