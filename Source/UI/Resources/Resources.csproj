@@ -170,7 +170,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Resource Include="Images\System\cornerAdorner.png" />
     <Resource Include="Images\System\Dropdown-hover.png" />
     <Resource Include="Images\System\Dropdown-normal.png" />
     <Resource Include="Images\System\Tick.png" />
@@ -787,6 +786,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Cards\Normal\QunLingJu.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CornerAdorners\1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
