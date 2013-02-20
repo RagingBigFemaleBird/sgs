@@ -104,6 +104,7 @@ namespace Sanguosha.UI.Controls
                     LobbyViewModel.Instance.OnChat -= chatEventHandler;
                     MainGame game = new MainGame();
                     game.NetworkClient = client;
+                    this.DataContext = null;
                     this.NavigationService.Navigate(game);
                     return;
                 }
