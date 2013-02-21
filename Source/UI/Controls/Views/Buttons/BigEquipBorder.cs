@@ -20,13 +20,7 @@ namespace Sanguosha.UI.Controls
         }
 
         public BigEquipBorder()
-        {
-            this.Loaded += new System.Windows.RoutedEventHandler(BigEquipBorder_Loaded);
-        }
-
-        void BigEquipBorder_Loaded(object sender, System.Windows.RoutedEventArgs e)
-        {
-            IsActive = true;
+        {        
         }
 
         public override List<ImageSource> Frames

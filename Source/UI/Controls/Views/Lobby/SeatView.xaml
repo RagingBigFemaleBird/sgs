@@ -174,8 +174,8 @@
                         </Border.Effect>	
                     </Border>
                 </Border>
-                <ProgressBar Style="{DynamicResource winProgressBarStyle}" Value="{Binding Account.Wins}" />
-                <ProgressBar Value="{Binding Account.Quits}" Style="{DynamicResource quitProgressBarStyle}" />
+                <ProgressBar Style="{DynamicResource winProgressBarStyle}" Value="{Binding WinRatePercent}" />
+                <ProgressBar Value="{Binding QuitRatePercent}" Style="{DynamicResource quitProgressBarStyle}" />
                 <Border Background="#FF2F363E" CornerRadius="0,0,8,8" ClipToBounds="True" BorderThickness="1,0,1,1" Margin="12.5,0,0,-8.501" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="34.5">
                     <Border.BorderBrush>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

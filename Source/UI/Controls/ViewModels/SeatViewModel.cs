@@ -114,6 +114,24 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public double WinRatePercent
+        {
+            get
+            {                
+                if (Account == null || Account.TotalGames == 0) return 0;
+                return Account.Wins * 100 / Account.TotalGames;                
+            }
+        }
+
+        public double QuitRatePercent
+        {
+            get
+            {
+                if (Account == null || Account.TotalGames == 0) return 0;
+                return Account.Quits * 100 / Account.TotalGames;                
+            }
+        }
+
         public string WinRate 
         {
             get 

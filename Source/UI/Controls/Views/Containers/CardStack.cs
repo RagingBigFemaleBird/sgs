@@ -286,11 +286,19 @@ namespace Sanguosha.UI.Controls
             rightMost.Y = this.TranslatePoint(new Point(0, this.ActualHeight / 2 - cards[0].Height / 2), canvas).Y;
             foreach (var card in cards)
             {
-                card.CardModel.IsFaded = false;
-                card.SetCurrentPosition(rightMost);
-                rightMost.X += card.ActualWidth;
-                card.Appear(0.3d);
-                Cards.Add(card);
+                if (IsCardConsumer)
+                {
+                    card.Disappear(_cardOpacityChangeAnimationDurationSeconds, true);
+                }
+                else
+                {
+                    card.CardModel.IsFaded = false;
+                    card.SetCurrentPosition(rightMost);
+                    rightMost.X += card.ActualWidth;
+                    card.Appear(0.3d);
+                    Cards.Add(card);
+                    RegisterCardEvents(card);
+                }
             }
             RearrangeCards();
         }
