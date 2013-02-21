@@ -60,7 +60,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                                                       v1, out skill, out cards, out p))
                 {
                     Trace.TraceInformation("Player {0} Invalid answer", dest);
-                    Game.CurrentGame.DoDamage(source, dest, 1, DamageElement.None, card, readonlyCard);
+                    Game.CurrentGame.DoDamage(source.IsDead ? null : source, dest, 1, DamageElement.None, card, readonlyCard);
                 }
                 else
                 {
@@ -83,7 +83,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             var backup = new List<Player>(targets);
             foreach (var t in backup)
             {
-                if (!Game.CurrentGame.PlayerCanBeTargeted(source, new List<Player>() {t}, card))
+                if (!Game.CurrentGame.PlayerCanBeTargeted(source, new List<Player>() { t }, card))
                 {
                     targets.Remove(t);
                 }
