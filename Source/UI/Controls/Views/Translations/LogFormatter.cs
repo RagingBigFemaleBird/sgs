@@ -178,6 +178,11 @@ namespace Sanguosha.UI.Controls
                 list.Add(new Run(string.Format("{0}张卡牌", cards.Count)));
             }
 
+            if (cards.Any(c => c.Id < 0) && cards.Any(c => c.Id > 0))
+            {
+                list.Add(new Run("，其中有"));
+            }
+
             foreach (var card in cards)
             {
                 list.AddRange(RichTranslate(card));
@@ -494,6 +499,12 @@ namespace Sanguosha.UI.Controls
                     {
                         List<Player> players = new List<Player>(owners);
                         paragraph.Inlines.Add(string.Format("{0}获得了{1}的", destStr, Translate(players)));
+                        if (dest.DeckType == DeckType.Equipment)
+                        {
+                            paragraph.Inlines.AddRange(cardsInline);
+                            paragraph.Inlines.Add(string.Format("并装备上"));
+                            added = false;
+                        }
                     }
                 }
                 else

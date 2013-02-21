@@ -69,7 +69,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             }
             public UiHelper Helper
             {
-                get { return new UiHelper() { ExtraTimeOutSeconds = 15 }; }
+                get { return new UiHelper() { ExtraTimeOutSeconds = 15, ShowToAll = true }; }
             }
         }
 

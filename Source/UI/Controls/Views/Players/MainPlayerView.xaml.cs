@@ -310,7 +310,6 @@ namespace Sanguosha.UI.Controls
 
         protected override void AddEquipment(CardView card, bool isFaked)
         {
-            isFaked = true;
             Equipment equip = card.Card.Type as Equipment;
 
             if (equip == null)

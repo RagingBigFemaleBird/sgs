@@ -58,7 +58,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             }
             public UiHelper Helper
             {
-                get { return null; }
+                get { return new UiHelper() { ShowToAll = true }; }
             }
         }
 
@@ -116,6 +116,6 @@ namespace Sanguosha.Expansions.Wind.Skills
             );
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Draw], trigger);
         }
- 
+
     }
 }

@@ -76,6 +76,10 @@ namespace Sanguosha.Expansions.Hills.Skills
                 return;
             }
             NotifySkillUse();
+            foreach (var c in GuZhengCards)
+            {
+                c.Log.SkillAction = this;
+            }
             CardsMovement move = new CardsMovement();
             move.Cards = GuZhengCards;
             move.To = new DeckPlace(null, GuZhengDeck);
@@ -83,7 +87,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             List<List<Card>> answer;
             var options = new AdditionalCardChoiceOptions() { Options = new List<OptionPrompt>() { new OptionPrompt("GuZhengHuoDe"), new OptionPrompt("GuZhengBuHuoDe") } };
             if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(
-                new CardChoicePrompt("GuZheng", Owner, Game.CurrentGame.CurrentPlayer),
+                new CardChoicePrompt("GuZheng", Game.CurrentGame.CurrentPlayer),
                 new List<DeckPlace>() { new DeckPlace(null, GuZhengDeck) },
                 new List<string>() { "GuZhengFanHui" },
                 new List<int>() { 1 },

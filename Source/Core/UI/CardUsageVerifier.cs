@@ -97,6 +97,15 @@ namespace Sanguosha.Core.UI
             get { return extraTimeOutSeconds; }
             set { extraTimeOutSeconds = value; }
         }
+
+        private bool showToAll;
+
+        public bool ShowToAll
+        {
+            get { return showToAll; }
+            set { showToAll = value; }
+        }
+
     }
 
     public interface ICardUsageVerifier

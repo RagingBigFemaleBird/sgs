@@ -92,7 +92,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                         return VerifierResult.Fail;
                 return VerifierResult.Success;
             }
-            static UiHelper helper = new UiHelper() { AdditionalFineGrainedCardChoiceRevealPolicy = new List<bool>() { false, true } };
+            static UiHelper helper = new UiHelper() { AdditionalFineGrainedCardChoiceRevealPolicy = new List<bool>() { false, true }, ShowToAll = true };
             public UiHelper Helper
             {
                 get { return helper; }

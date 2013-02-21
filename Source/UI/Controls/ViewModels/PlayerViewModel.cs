@@ -1316,7 +1316,7 @@ namespace Sanguosha.UI.Controls
                         }
                     }
                 }
-                
+
                 var status = currentUsageVerifier.Verify(HostPlayer, skill, cards, players);
 
                 if (status == VerifierResult.Fail)
@@ -1744,6 +1744,12 @@ namespace Sanguosha.UI.Controls
                                      AdditionalCardChoiceOptions options,
                                      CardChoiceRearrangeCallback callback)
         {
+            if (!IsPlayable && (verifier.Helper == null ||!verifier.Helper.ShowToAll))
+            {
+                TimeOutSeconds = timeOutSeconds;
+                CardChoiceAnsweredEvent(null);
+                return;
+            }
             Trace.Assert(resultDeckMaximums.Count == resultDeckNames.Count);
 
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()

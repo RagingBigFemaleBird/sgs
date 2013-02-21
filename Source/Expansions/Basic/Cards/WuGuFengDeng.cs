@@ -46,7 +46,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
             public UiHelper Helper
             {
-                get { return new UiHelper() { RevealCards = !noCardReveal }; }
+                get { return new UiHelper() { RevealCards = !noCardReveal, ShowToAll = true}; }
             }
         }
 

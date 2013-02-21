@@ -11,10 +11,12 @@ namespace Sanguosha.Core.UI
     {
         bool noCardReveal;
         int count;
-        public RequireCardsChoiceVerifier(int count, bool noreveal = false)
+        bool showToall;
+        public RequireCardsChoiceVerifier(int count, bool noreveal = false, bool showToAll = false)
         {
             noCardReveal = noreveal;
             this.count = count;
+            this.showToall = showToAll;
         }
         public VerifierResult Verify(List<List<Card>> answer)
         {
@@ -30,7 +32,7 @@ namespace Sanguosha.Core.UI
         }
         public UiHelper Helper
         {
-            get { return new UiHelper() { RevealCards = !noCardReveal }; }
+            get { return new UiHelper() { RevealCards = !noCardReveal, ShowToAll = showToall }; }
         }
     }
 }

@@ -10,9 +10,11 @@ namespace Sanguosha.Core.UI
     public class RequireOneCardChoiceVerifier : ICardChoiceVerifier
     {
         bool noCardReveal;
-        public RequireOneCardChoiceVerifier(bool noreveal = false)
+        bool showToall;
+        public RequireOneCardChoiceVerifier(bool noreveal = false, bool showToAll = false)
         {
             noCardReveal = noreveal;
+            this.showToall = showToAll;
         }
 
         public VerifierResult Verify(List<List<Card>> answer)
@@ -29,7 +31,7 @@ namespace Sanguosha.Core.UI
         }
         public UiHelper Helper
         {
-            get { return new UiHelper() { RevealCards = !noCardReveal }; }
+            get { return new UiHelper() { RevealCards = !noCardReveal, ShowToAll = showToall }; }
         }
     }
 }
