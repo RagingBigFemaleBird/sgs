@@ -36,15 +36,16 @@ namespace Sanguosha.Expansions.Wind.Skills
                 {
                     if (cards == null || cards.Count == 0)
                     {
-                        if (skill != null)
-                        {
-                            return VerifierResult.Fail;
-                        }
                         if (players != null && players.Count > 0)
                         {
                             return VerifierResult.Fail;
                         }
                         return VerifierResult.Partial;
+                    }
+
+                    if (skill is IEquipmentSkill)
+                    {
+                        return VerifierResult.Fail;
                     }
 
                     if (!cards[0].Type.IsCardCategory(CardCategory.Equipment))

@@ -1201,7 +1201,7 @@ namespace Sanguosha.UI.Controls
                 if (isEquipCommand)
                 {
                     Trace.Assert(skill != null);
-                    if (currentUsageVerifier.Verify(HostPlayer, skill, cards, new List<Player>()) == VerifierResult.Fail)
+                    if (currentUsageVerifier.Verify(HostPlayer, skill, new List<Card>(), new List<Player>()) == VerifierResult.Fail)
                     {
                         //nope, not really
                         isEquipCommand = false;
@@ -1291,7 +1291,7 @@ namespace Sanguosha.UI.Controls
                     }
                     else
                     {
-                        skillCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, skillCommand.Skill, cards, new List<Player>()) != VerifierResult.Fail);
+                        skillCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
                     }
 
                     // Handler GuHuo, QiCe

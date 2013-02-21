@@ -50,7 +50,9 @@ namespace Sanguosha.Expansions.StarSP.Skills
             Player current = Game.CurrentGame.CurrentPlayer;
             int choiceCount = Owner.LostHealth;
             int currentPlayerCardsCount = current.HandCards().Count + current.Equipments().Count();
-            bool canUseSha = Game.CurrentGame.AlivePlayers.Any(p => Game.CurrentGame.PlayerCanBeTargeted(Owner, new List<Player>() { p }, new Card() { Place = new DeckPlace(Owner, DeckType.None), Type = new Sha() }));
+            List<Player> shaCheck = Game.CurrentGame.AlivePlayers;
+            shaCheck.Remove(Owner);
+            bool canUseSha = Game.CurrentGame.PlayerCanBeTargeted(Owner, shaCheck, new Card() { Place = new DeckPlace(Owner, DeckType.None), Type = new Sha() });
             if (canUseSha)
             {
                 List<OptionPrompt> prompts = new List<OptionPrompt>();

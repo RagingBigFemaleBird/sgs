@@ -8,6 +8,7 @@ using Sanguosha.Core.Players;
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.Cards;
 using Sanguosha.Expansions.Basic.Cards;
+using Sanguosha.Core.Games;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
@@ -28,12 +29,17 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 players = new List<Player>();
             }
+            CompositeCard sha = new CompositeCard() { Type = type };
+            if (!Game.CurrentGame.PlayerCanBeTargeted(source, players, sha))
+            {
+                return VerifierResult.Fail;
+            }
             List<Player> newList = new List<Player>(players);
             if (target != null)
             {
                 if (!newList.Contains(target))
                 {
-                    newList.Add(target);
+                    newList.Insert(0, target);
                 }
                 else
                 {
@@ -44,7 +50,6 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 return VerifierResult.Fail;
             }
-            CompositeCard sha = new CompositeCard() { Type = type };
             if (skill is CardTransformSkill)
             {
                 CardTransformSkill sk = skill as CardTransformSkill;

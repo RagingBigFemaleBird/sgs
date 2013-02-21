@@ -176,7 +176,6 @@ namespace Sanguosha.Expansions.Basic.Cards
         }
     }
 
-
     public class ShaEventArgs : GameEventArgs
     {
         List<bool> rangeApproval;

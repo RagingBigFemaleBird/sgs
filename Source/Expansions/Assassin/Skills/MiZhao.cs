@@ -41,6 +41,7 @@ namespace Sanguosha.Expansions.Assassin.Skills
             MinPlayers = 1;
             MaxCards = 0;
             Helper.NoCardReveal = true;
+            LinkedPassiveSkill = new MiZhaoPassiveSkill();
         }
 
         protected override bool VerifyPlayer(Player source, Player player)
@@ -88,10 +89,29 @@ namespace Sanguosha.Expansions.Assassin.Skills
             else { winner = pindianTarget; loser = arg.Targets[0]; }
             if (!Game.CurrentGame.PlayerCanBeTargeted(winner, new List<Player>() { loser }, new CompositeCard() { Type = new Sha() })) return true;
             winner[Sha.NumberOfShaUsed]--;
-            Sha.UseDummyShaTo(winner, loser, new RegularSha(), new CardUsagePrompt("MingCe", loser));
+            Sha.UseDummyShaTo(winner, loser, new RegularSha(), new CardUsagePrompt("MingCe", loser), MiZhaoSha);
             return true;
         }
 
         private static PlayerAttribute MiZhaoUsed = PlayerAttribute.Register("MiZhaoUsed", true);
+        public static CardAttribute MiZhaoSha = CardAttribute.Register("MiZhaoSha");
+
+        class MiZhaoPassiveSkill : TriggerSkill
+        {
+            public MiZhaoPassiveSkill()
+            {
+                var trigger = new AutoNotifyPassiveSkillTrigger(
+                    this,
+                    (p, e, a) => { return a.Card[MiZhaoSha] != 0; },
+                    (p, e, a) =>
+                    {
+                        ShaEventArgs args = a as ShaEventArgs;
+                        args.RangeApproval[0] = true;
+                    },
+                    TriggerCondition.Global
+                ) { AskForConfirmation = false, IsAutoNotify = false };
+                Triggers.Add(Sha.PlayerShaTargetValidation, trigger);
+            }
+        }
     }
 }
