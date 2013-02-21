@@ -438,13 +438,17 @@ namespace Sanguosha.Core.Games
             }
             catch (GameOverException)
             {
+/*
                 var keys = new List<Thread>(from t in games.Keys where games[t] == this select t);
                 foreach (var t in keys)
                 {
                     games.Remove(t);
                 }
+*/
                 this.NotificationProxy = null;
+
             }
+/*
             catch (Exception e)
             {
                 var keys = new List<Thread>(from t in games.Keys where games[t] == this select t);
@@ -462,6 +466,7 @@ namespace Sanguosha.Core.Games
                 Trace.Assert(false, e.StackTrace);
 #endif
             }
+*/
             if (GameServer != null)
             {
                 GameServer.Stop();
