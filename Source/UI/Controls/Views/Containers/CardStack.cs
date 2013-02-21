@@ -239,7 +239,7 @@ namespace Sanguosha.UI.Controls
                 card.SetValue(Canvas.ZIndexProperty, zindex + i);
                 card.AddRebaseAnimation(sb, 0.4d);
             }
-            sb.DecelerationRatio = 0.1d;
+            sb.DecelerationRatio = 0.6d;
             sb.Begin(this, HandoffBehavior.Compose);
         }
 

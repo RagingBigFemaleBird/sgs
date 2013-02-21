@@ -231,7 +231,7 @@
                 <ei:ExtendedVisualStateManager/>
             </VisualStateManager.CustomVisualStateManager>
             <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="FadedStates" ei:ExtendedVisualStateManager.UseFluidLayout="True">
+                <VisualStateGroup x:Name="FadedStates" ei:ExtendedVisualStateManager.UseFluidLayout="False">
                     <VisualStateGroup.Transitions>
                         <VisualTransition GeneratedDuration="0:0:0.2"/>
                     </VisualStateGroup.Transitions>
