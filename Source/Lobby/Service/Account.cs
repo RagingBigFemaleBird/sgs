@@ -8,11 +8,11 @@
     {
         public int Id { get; set; }
         public string UserName { get; set; }
-        public long Credits { get; set; }
-        public long Wins { get; set; }
-        public long Losses { get; set; }
-        public long Quits { get; set; }
-        public long TotalGames { get; set; }
+        public int Credits { get; set; }
+        public int Wins { get; set; }
+        public int Losses { get; set; }
+        public int Quits { get; set; }
+        public int TotalGames { get; set; }        
         public string DisplayedName { get; set; }
     }
 }

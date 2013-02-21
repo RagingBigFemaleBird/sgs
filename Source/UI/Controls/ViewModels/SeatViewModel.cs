@@ -114,6 +114,28 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public string WinRate 
+        {
+            get 
+            {
+                double result;
+                if (Account == null || Account.TotalGames == 0) result = 0; 
+                else result = (double)Account.Wins / Account.TotalGames;
+                return result.ToString("P1");
+            }
+        }
+
+        public string QuitRate 
+        {
+            get
+            {
+                double result;
+                if (Account == null || Account.TotalGames == 0) result = 0;
+                else result = (double)Account.Quits / Account.TotalGames;
+                return result.ToString("P1");
+            }
+        }
+
         #region Commands
         public ICommand ExitCommand
         {
