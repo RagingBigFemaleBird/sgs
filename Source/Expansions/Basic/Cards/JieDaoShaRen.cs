@@ -177,11 +177,12 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
             if (targets.Count == 2)
             {
-                if (!Game.CurrentGame.PlayerCanBeTargeted(targets[0], new List<Player>() { targets[1] }, new CompositeCard() { Type = new Sha() }))
+                CompositeCard sha = new CompositeCard() { Type = new Sha() };
+                if (!Game.CurrentGame.PlayerCanBeTargeted(targets[0], new List<Player>() { targets[1] }, sha))
                 {
                     return VerifierResult.Fail;
                 }
-                if ((new Sha()).VerifyCore(targets[0], new CompositeCard() { Type = new Sha() },
+                if ((new Sha()).VerifyCore(targets[0], sha,
                      new List<Player>() { targets[1] }) != VerifierResult.Success)
                 {
                     return VerifierResult.Fail;
