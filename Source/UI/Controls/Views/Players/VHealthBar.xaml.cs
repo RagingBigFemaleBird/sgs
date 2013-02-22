@@ -70,7 +70,7 @@ namespace Sanguosha.UI.Controls
 
             foreach (var animation in animations)
             {
-                animation.Completed += new EventHandler(animation_Completed);
+                animation.Completed += animation_Completed;
                 canvasRoot.Children.Add(animation);
                 animation.Start();
             }
@@ -78,7 +78,9 @@ namespace Sanguosha.UI.Controls
 
         void animation_Completed(object sender, EventArgs e)
         {
-            canvasRoot.Children.Remove(sender as UIElement);
+            var anim = sender as FrameBasedAnimation;
+            anim.Stop();
+            canvasRoot.Children.Remove(anim);
         }
         
 

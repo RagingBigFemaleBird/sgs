@@ -20,7 +20,16 @@ namespace Sanguosha.UI.Controls
         }
 
         public BigEquipBorder()
+        {            
+        }
+
+        protected override void OnPropertyChanged(System.Windows.DependencyPropertyChangedEventArgs e)
         {
+            base.OnPropertyChanged(e);
+            if (e.Property == BigEquipBorder.VisibilityProperty)
+            {
+                IsActive = (Visibility == System.Windows.Visibility.Visible);
+            }
         }
 
         public override List<ImageSource> Frames

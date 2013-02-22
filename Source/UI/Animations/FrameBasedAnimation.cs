@@ -169,7 +169,7 @@ namespace Sanguosha.UI.Animations
         public void Stop()
         {
             IsActive = false;
-            Visibility = Visibility.Collapsed;
+            Visibility = Visibility.Hidden;
             EventHandler handler = Completed;
             if (handler != null)
             {

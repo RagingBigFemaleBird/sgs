@@ -94,15 +94,9 @@
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
-                            <VisualStateGroup x:Name="CheckStates" ei:ExtendedVisualStateManager.UseFluidLayout="True">
-                                <VisualStateGroup.Transitions>
-                                    <VisualTransition GeneratedDuration="0:0:0.3"/>
-                                </VisualStateGroup.Transitions>
+                            <VisualStateGroup x:Name="CheckStates">                                
                                 <VisualState x:Name="Checked">
-                                    <Storyboard>
-                                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(Sanguosha_UI_Animations:FrameBasedAnimation.IsActive)" Storyboard.TargetName="bigEquipBorder">
-                                            <DiscreteBooleanKeyFrame KeyTime="0" Value="True"/>
-                                        </BooleanAnimationUsingKeyFrames>
+                                    <Storyboard>                                        
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="bigEquipBorder">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
                                         </ObjectAnimationUsingKeyFrames>
@@ -112,10 +106,7 @@
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="bigEquipBorder">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="(Sanguosha_UI_Animations:FrameBasedAnimation.IsActive)" Storyboard.TargetName="bigEquipBorder">
-                                            <DiscreteBooleanKeyFrame KeyTime="0" Value="False"/>
-                                        </BooleanAnimationUsingKeyFrames>
+                                        </ObjectAnimationUsingKeyFrames>                                        
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Indeterminate"/>
