@@ -431,7 +431,7 @@ namespace Sanguosha.Core.Games
                 }
                 moves.Add(move);
             }
-            game.MoveCards(moves, null);
+            game.MoveCards(moves, null, GameDelayTypes.GameBeforeStart);
         }
 
         public static DeckType RoleDeckType = new DeckType("Role");
@@ -613,9 +613,7 @@ namespace Sanguosha.Core.Games
                     moves.Add(move);
                     i++;
                 }
-                game.MoveCards(moves, null);
-
-                GameDelays.Delay(GameDelayTypes.GameStart);
+                game.MoveCards(moves, null, GameDelayTypes.GameStart);
 
                 i = 0;
                 foreach (Player player in game.Players)
@@ -885,7 +883,6 @@ namespace Sanguosha.Core.Games
 
                 GameDelays.Delay(GameDelayTypes.GameBeforeStart);
                 StartGameDeal(game);
-                GameDelays.Delay(GameDelayTypes.GameBeforeStart);
 
                 Game.CurrentGame.NotificationProxy.NotifyGameStart();
                 GameDelays.Delay(GameDelayTypes.GameStart);

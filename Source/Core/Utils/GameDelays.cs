@@ -35,7 +35,7 @@ namespace Sanguosha.Core.Utils
             _delays[GameDelayTypes.Damage] = 610;
             _delays[GameDelayTypes.JudgeEnd] = 500;
             _delays[GameDelayTypes.Discard] = 480;
-            _delays[GameDelayTypes.CardTransfer] = 550;
+            _delays[GameDelayTypes.CardTransfer] = 470;
             _delays[GameDelayTypes.Draw] = 400;
             _delays[GameDelayTypes.ChangePhase] = 50;
             _delays[GameDelayTypes.PlayerAction] = 600;

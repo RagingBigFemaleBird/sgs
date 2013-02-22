@@ -101,6 +101,11 @@ namespace Sanguosha.Expansions.Wind.Skills
             }
 
             Game.CurrentGame.HandleCardTransferToHand(null, Owner, answer[0]);
+            foreach (var c in Game.CurrentGame.Decks[null, shelieDeck])
+            {
+                c.Log.SkillAction = this;
+                c.Log.GameAction = GameAction.PlaceIntoDiscard;
+            }
             Game.CurrentGame.PlaceIntoDiscard(null, new List<Card>(Game.CurrentGame.Decks[null, shelieDeck]));
             Game.CurrentGame.CurrentPhaseEventIndex++;
             throw new TriggerResultException(TriggerResult.End);
