@@ -235,8 +235,8 @@ namespace Sanguosha.Core.Games
                 c = decks[player, DeckType.JudgeResult].Last();
                 move = new CardsMovement();
                 move.Cards = new List<Card>();
-                List<Card> backup = new List<Card>(move.Cards);
                 move.Cards.Add(c);
+                List<Card> backup = new List<Card>(move.Cards);
                 move.To = new DeckPlace(null, DeckType.Discard);
                 move.Helper = new MovementHelper();
                 PlayerAboutToDiscardCard(player, move.Cards, DiscardReason.Judge);
@@ -386,7 +386,7 @@ namespace Sanguosha.Core.Games
             {
                 PlayerAboutToDiscardCard(isDoingAFavor, m.Cards, DiscardReason.Play);
                 MoveCards(m);
-                PlayerLostCard(p, backup);
+                PlayerLostCard(p, m.Cards);
                 PlayerPlayedCard(isDoingAFavor, targets, result);
                 PlayerPlayedCard(p, targets, result);
                 PlayerDiscardedCard(isDoingAFavor, backup, DiscardReason.Play);
@@ -395,7 +395,7 @@ namespace Sanguosha.Core.Games
             {
                 PlayerAboutToDiscardCard(p, m.Cards, DiscardReason.Play);
                 MoveCards(m);
-                PlayerLostCard(p, backup);
+                PlayerLostCard(p, m.Cards);
                 PlayerPlayedCard(p, targets, result);
                 PlayerDiscardedCard(p, backup, DiscardReason.Play);
             }
@@ -492,7 +492,7 @@ namespace Sanguosha.Core.Games
                 GameDelays.Delay(GameDelayTypes.Discard);
             if (p != null)
             {
-                PlayerLostCard(p, backup);
+                PlayerLostCard(p, move.Cards);
                 PlayerDiscardedCard(p, backup, reason);
             }
         }
