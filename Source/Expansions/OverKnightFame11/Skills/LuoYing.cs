@@ -66,7 +66,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                     c.Log.SkillAction = this;
                     CardsMovement temp = new CardsMovement();
                     temp.Cards.Add(c);
-                    temp.To = new DeckPlace(null, DeckType.Discard);
+                    temp.To = new DeckPlace(null, new DeckType("LuoYing"));
                     c.PlaceOverride = new DeckPlace(null, DeckType.Discard);
                     Game.CurrentGame.NotificationProxy.NotifyCardMovement(new List<CardsMovement>() { temp });
                     c.Log = new ActionLog();

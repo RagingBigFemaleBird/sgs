@@ -199,7 +199,7 @@ namespace Sanguosha.Core.Games
             move.Cards = new List<Card>();
             move.Cards.Add(c);
             move.To = new DeckPlace(player, DeckType.JudgeResult);
-            MoveCards(move);
+            MoveCards(move, false, GameDelayTypes.None);
             GameEventArgs args = new GameEventArgs();
             args.Source = player;
             if (triggers.ContainsKey(GameEvent.PlayerJudgeBegin) && triggers[GameEvent.PlayerJudgeBegin].Count > 0)
@@ -240,7 +240,7 @@ namespace Sanguosha.Core.Games
                 move.To = new DeckPlace(null, DeckType.Discard);
                 move.Helper = new MovementHelper();
                 PlayerAboutToDiscardCard(player, move.Cards, DiscardReason.Judge);
-                MoveCards(move);
+                MoveCards(move, false, GameDelayTypes.None);
                 PlayerDiscardedCard(player, backup, DiscardReason.Judge);
             }
             GameDelays.Delay(GameDelayTypes.JudgeEnd);
@@ -293,6 +293,7 @@ namespace Sanguosha.Core.Games
             args.Targets[0].Health += args.Delta;
             Trace.TraceInformation("Player {0} lose {1} hp, @ {2} hp", args.Targets[0].Id, -args.Delta, args.Targets[0].Health);
             NotificationProxy.NotifyLoseHealth(args.Targets[0], -args.Delta);
+            GameDelays.Delay(GameDelayTypes.Damage);
 
             try
             {
@@ -385,7 +386,7 @@ namespace Sanguosha.Core.Games
             if (isDoingAFavor != p)
             {
                 PlayerAboutToDiscardCard(isDoingAFavor, m.Cards, DiscardReason.Play);
-                MoveCards(m);
+                MoveCards(m, false, GameDelayTypes.PlayerAction);
                 PlayerLostCard(p, m.Cards);
                 PlayerPlayedCard(isDoingAFavor, targets, result);
                 PlayerPlayedCard(p, targets, result);
@@ -394,7 +395,7 @@ namespace Sanguosha.Core.Games
             else
             {
                 PlayerAboutToDiscardCard(p, m.Cards, DiscardReason.Play);
-                MoveCards(m);
+                MoveCards(m, false, GameDelayTypes.PlayerAction);
                 PlayerLostCard(p, m.Cards);
                 PlayerPlayedCard(p, targets, result);
                 PlayerDiscardedCard(p, backup, DiscardReason.Play);
@@ -487,9 +488,7 @@ namespace Sanguosha.Core.Games
             List<Card> backup = new List<Card>(move.Cards);
             move.To = new DeckPlace(null, DeckType.Discard);
             PlayerAboutToDiscardCard(p, move.Cards, reason);
-            MoveCards(move);
-            if (!atomic)
-                GameDelays.Delay(GameDelayTypes.Discard);
+            MoveCards(move, false, GameDelayTypes.Discard);
             if (p != null)
             {
                 PlayerLostCard(p, move.Cards);
@@ -519,7 +518,6 @@ namespace Sanguosha.Core.Games
                 move.Helper = helper;
             }
             MoveCards(move);
-            if (!atomic) GameDelays.Delay(GameDelayTypes.CardTransfer);
             EnterAtomicContext();
             PlayerLostCard(from, cards);
             PlayerAcquiredCard(to, cards);
@@ -547,7 +545,6 @@ namespace Sanguosha.Core.Games
             move.Helper.PrivateDeckHeroTag = tag;
             MoveCards(move);
             bool triggerAcquiredCard = target == DeckType.Hand || target == DeckType.Equipment;
-            GameDelays.Delay(GameDelayTypes.CardTransfer);
             EnterAtomicContext();
             PlayerLostCard(from, cards);
             if (triggerAcquiredCard) PlayerAcquiredCard(to, cards);
@@ -653,7 +650,7 @@ namespace Sanguosha.Core.Games
             {
                 move.Helper = helper;
             }
-            MoveCards(move, true);
+            MoveCards(move, true, GameDelayTypes.None);
             if (target != null)
             {
                 PlayerLostCard(target, list);
@@ -670,7 +667,7 @@ namespace Sanguosha.Core.Games
             {
                 move.Helper = helper;
             }
-            MoveCards(move);
+            MoveCards(move, false, GameDelayTypes.None);
             if (target != null)
             {
                 PlayerLostCard(target, list);
@@ -684,7 +681,6 @@ namespace Sanguosha.Core.Games
             move.To = new DeckPlace(null, DeckType.Discard);
             move.Helper = new MovementHelper();
             MoveCards(move);
-            GameDelays.Delay(GameDelayTypes.CardTransfer);
             if (target != null)
             {
                 PlayerLostCard(target, list);

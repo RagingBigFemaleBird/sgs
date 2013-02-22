@@ -822,7 +822,7 @@ namespace Sanguosha.Core.Games
         ///YOU ARE NOT ALLOWED TO TRIGGER ANY EVENT ANYWHERE INSIDE THIS FUNCTION!!!!!
         ///你不可以在这个函数中触发任何事件!!!!!
         ///</remarks>
-        public void MoveCards(List<CardsMovement> moves, List<bool> insertBefore = null)
+        public void MoveCards(List<CardsMovement> moves, List<bool> insertBefore = null, GameDelayTypes delay = GameDelayTypes.CardTransfer)
         {
             if (atomic)
             {
@@ -913,13 +913,14 @@ namespace Sanguosha.Core.Games
                 }
                 i++;
             }
+            GameDelays.Delay(delay);
         }
 
-        public void MoveCards(CardsMovement move, bool insertBefore = false)
+        public void MoveCards(CardsMovement move, bool insertBefore = false, GameDelayTypes delay = GameDelayTypes.CardTransfer)
         {
             List<CardsMovement> moves = new List<CardsMovement>();
             moves.Add(move);
-            MoveCards(moves, new List<bool>() { insertBefore });
+            MoveCards(moves, new List<bool>() { insertBefore }, delay);
         }
 
         public Card PeekCard(int i)
@@ -971,8 +972,7 @@ namespace Sanguosha.Core.Games
             CardsMovement move = new CardsMovement();
             move.Cards = cardsDrawn;
             move.To = new DeckPlace(player, DeckType.Hand);
-            MoveCards(move);
-            GameDelays.Delay(GameDelayTypes.Draw);
+            MoveCards(move, false, GameDelayTypes.Draw);
             PlayerAcquiredCard(player, cardsDrawn);
         }
 

@@ -181,7 +181,7 @@ namespace Sanguosha.UI.Controls
 
             // Do not show cards that move from compute area to discard area
             // or from judge result area to discard aresa
-            if (from != DeckType.Compute && from != DeckType.JudgeResult && from != DeckType.Dealing)
+            if (from != DeckType.Compute && (from != DeckType.JudgeResult || from == DeckType.JudgeResult && deck != DeckType.Discard) && from != DeckType.Dealing)
             {
                 AddCards(cards);
                 // Card just entered compute area should hold until they enter discard area.

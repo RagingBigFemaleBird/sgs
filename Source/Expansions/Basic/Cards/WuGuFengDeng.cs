@@ -94,7 +94,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 move = new CardsMovement();
                 move.Cards = new List<Card>(Game.CurrentGame.Decks[null, wuguDeck]);
                 move.To = new DeckPlace(null, DeckType.Discard);
-                Game.CurrentGame.MoveCards(move);
+                Game.CurrentGame.MoveCards(move, false, Core.Utils.GameDelayTypes.Draw);
             }
         }
 
@@ -129,7 +129,6 @@ namespace Sanguosha.Expansions.Basic.Cards
         {
             var card = eventArgs.Card;
             if (!(card.Type is WuGuFengDeng)) return;
-            Core.Utils.GameDelays.Delay(Core.Utils.GameDelayTypes.CardTransfer);
             var wugu = card.Type as WuGuFengDeng;
             var dests = eventArgs.Targets;
             DeckType wuguDeck = new DeckType("WuGu");
@@ -143,7 +142,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 move.Cards.Add(c);
             }
             move.To = new DeckPlace(null, wuguDeck);
-            Game.CurrentGame.MoveCards(move);
+            Game.CurrentGame.MoveCards(move, false, Core.Utils.GameDelayTypes.None);
             wugu.FakeMapping = new Dictionary<Card, Card>();
             Game.CurrentGame.Decks[null, wuguFakeDeck].Clear();
             foreach (var c in Game.CurrentGame.Decks[null, wuguDeck])

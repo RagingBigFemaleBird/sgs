@@ -9,8 +9,8 @@ namespace Sanguosha.Core.Utils
 {
     public enum GameDelayTypes
     {
-        GameStart = 1,
-        JunWei,
+        None = 1,
+        GameStart,
         Damage,
         JudgeEnd,
         Discard,
@@ -32,14 +32,13 @@ namespace Sanguosha.Core.Utils
         static GameDelays()
         {
             _delays[GameDelayTypes.GameStart] = 1000;
-            _delays[GameDelayTypes.JunWei] = 380;
             _delays[GameDelayTypes.Damage] = 610;
             _delays[GameDelayTypes.JudgeEnd] = 500;
             _delays[GameDelayTypes.Discard] = 480;
-            _delays[GameDelayTypes.CardTransfer] = 700;
+            _delays[GameDelayTypes.CardTransfer] = 550;
             _delays[GameDelayTypes.Draw] = 400;
             _delays[GameDelayTypes.ChangePhase] = 50;
-            _delays[GameDelayTypes.PlayerAction] = 500;
+            _delays[GameDelayTypes.PlayerAction] = 600;
             _delays[GameDelayTypes.Awaken] = 2550;
             _delays[GameDelayTypes.RoleDistribute] = 400;
             _delays[GameDelayTypes.BaGuaZhen] = 2110;
@@ -50,6 +49,10 @@ namespace Sanguosha.Core.Utils
 
         public static void Delay(GameDelayTypes DelayCategory)
         {
+            if (DelayCategory == GameDelayTypes.None)
+            {
+                return;
+            }
             int toDelay = 200;
             if (_delays.Keys.Contains(DelayCategory)) toDelay = _delays[DelayCategory];
             if (Game.CurrentGame.ReplayController != null) toDelay = (int)(toDelay / Game.CurrentGame.ReplayController.Speed);

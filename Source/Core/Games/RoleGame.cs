@@ -344,7 +344,7 @@ namespace Sanguosha.Core.Games
                     }
                 }
                 bool runTrigger = !c.Type.IsReforging(eventArgs.Source, eventArgs.Skill, m.Cards, eventArgs.Targets);
-                Game.CurrentGame.MoveCards(m);
+                Game.CurrentGame.MoveCards(m, false, GameDelayTypes.PlayerAction);
                 if (isDoingAFavor != eventArgs.Source)
                 {
                     Game.CurrentGame.PlayerPlayedCard(isDoingAFavor, new List<Player>() { eventArgs.Source }, c);
@@ -386,8 +386,6 @@ namespace Sanguosha.Core.Games
                     }
                 }
 
-                GameDelays.Delay(GameDelayTypes.PlayerAction);
-
                 c.Type.Process(arg);
 
                 if (runTrigger)
@@ -408,7 +406,7 @@ namespace Sanguosha.Core.Games
                     m.To = new DeckPlace(null, DeckType.Discard);
                     m.Helper = new MovementHelper();
                     Game.CurrentGame.PlayerAboutToDiscardCard(savedSource, m.Cards, DiscardReason.Use);
-                    Game.CurrentGame.MoveCards(m);
+                    Game.CurrentGame.MoveCards(m, false, GameDelayTypes.None);
                     Game.CurrentGame.PlayerDiscardedCard(savedSource, m.Cards, DiscardReason.Use);
                 }
                 Trace.Assert(Game.CurrentGame.Decks[DeckType.Compute].Count == 0);

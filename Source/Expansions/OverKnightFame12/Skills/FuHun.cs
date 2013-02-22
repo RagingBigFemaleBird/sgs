@@ -66,8 +66,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             if (success) FuHunEffect = 0;
             else FuHunEffect = 1;
             NotifySkillUse();
-            Game.CurrentGame.MoveCards(move);
-            Core.Utils.GameDelays.Delay(Core.Utils.GameDelayTypes.Draw);
+            Game.CurrentGame.MoveCards(move, false, Core.Utils.GameDelayTypes.Draw);
             Game.CurrentGame.HandleCardTransferToHand(null, owner, Game.CurrentGame.Decks[null, FuHunDeck]);
             if (success)
             {

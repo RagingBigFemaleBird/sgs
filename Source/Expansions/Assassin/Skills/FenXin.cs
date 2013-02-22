@@ -40,7 +40,6 @@ namespace Sanguosha.Expansions.Assassin.Skills
             moves.Add(move2);
 
             Game.CurrentGame.MoveCards(moves);
-            GameDelays.Delay(GameDelayTypes.CardTransfer);
 
             var role = role2.Type as RoleCardHandler;
             if (role != null)

@@ -71,7 +71,6 @@ namespace Sanguosha.Expansions.SP.Skills
             Game.CurrentGame.MoveCards(move);
             Game.CurrentGame.PlayerLostCard(Owner, cards);
             Game.CurrentGame.RegisterTrigger(GameEvent.PhaseBeginEvents[TurnPhase.Start], new BiFaTrigger(players[0], this));
-            Core.Utils.GameDelays.Delay(Core.Utils.GameDelayTypes.CardTransfer);
         }
 
         class BiFaTrigger : Trigger
