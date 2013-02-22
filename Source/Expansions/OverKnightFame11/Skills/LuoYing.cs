@@ -37,11 +37,11 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 CardsMovement temp = new CardsMovement();
                 temp.Cards = new List<Card>(cardsToProcess);
                 temp.To = new DeckPlace(null, DeckType.Discard);
-                Game.CurrentGame.NotificationProxy.NotifyCardMovement(new List<CardsMovement>() { temp });
                 foreach (Card cc in cardsToProcess)
                 {
                     cc.PlaceOverride = new DeckPlace(null, DeckType.Discard);
                 }
+                Game.CurrentGame.NotificationProxy.NotifyCardMovement(new List<CardsMovement>() { temp });
             }
             foreach (var c in cardsToProcess)
             {

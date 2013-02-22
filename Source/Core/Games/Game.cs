@@ -215,7 +215,7 @@ namespace Sanguosha.Core.Games
                 Card card = cards[i];
                 if (card.Place.DeckType == DeckType.Equipment || card.Place.DeckType == DeckType.DelayedTools)
                 {
-                    return;
+                    continue;
                 }
                 if (GameClient != null)
                 {
