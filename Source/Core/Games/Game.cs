@@ -868,6 +868,7 @@ namespace Sanguosha.Core.Games
                         e.RegisterTriggers(move.To.Player);
                     }
                     decks[card.Place].Remove(card);
+                    card.IsLastHandCard = card.Place.DeckType == DeckType.Hand && decks[card.Place].Count == 0;
                     if (insertBefore != null && insertBefore[i])
                     {
                         decks[move.To].Insert(0, card);

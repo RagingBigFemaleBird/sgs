@@ -14,7 +14,7 @@ using Sanguosha.Core.Cards;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    
+
     public class FangTianHuaJi : Weapon
     {
         public FangTianHuaJi()
@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             EquipmentSkill = new FangTianHuaJiSkill() { ParentEquipment = this };
         }
 
-        
+
         class FangTianHuaJiSkill : TriggerSkill, IEquipmentSkill
         {
             public Equipment ParentEquipment { get; set; }
@@ -84,7 +84,16 @@ namespace Sanguosha.Expansions.Basic.Cards
                     this,
                     (p, e, a) =>
                     {
-                        return a.Source != null && Game.CurrentGame.Decks[a.Source, DeckType.Hand].Count == 0 && a.Targets.Count > 1 && a.Card.Type is Sha;
+                        bool isLastHandCard = false;
+                        Card c = a.Card as Card;
+                        if (c != null) isLastHandCard = c.IsLastHandCard;
+                        else
+                        {
+                            CompositeCard cc = a.Card as CompositeCard;
+                            Trace.Assert(cc != null);
+                            isLastHandCard = cc.Subcards.All(card => card.HistoryPlace1.DeckType == DeckType.Hand) && cc.Subcards.Any(card => card.IsLastHandCard);
+                        }
+                        return a.Targets.Count > 1 && isLastHandCard && a.Card.Type is Sha;
                     },
                     (p, e, a) => { },
                     TriggerCondition.OwnerIsSource
