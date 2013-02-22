@@ -31,13 +31,12 @@ namespace Sanguosha.Expansions.Fire.Skills
                 if (c.SuitColor == SuitColorType.Red)
                 {
                     eventArgs.Cards = new List<Card>();
-                    eventArgs.Skill = new CardWrapper(Owner, new Shan());
+                    eventArgs.Skill = new CardWrapper(Owner, new Shan(), false);
                     ActionLog log = new ActionLog();
                     log.Source = Owner;
                     log.SkillAction = new BaGuaZhen().EquipmentSkill;
                     log.GameAction = GameAction.None;
                     Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
-                    GameDelays.Delay(GameDelayTypes.BaGuaZhen);
                     throw new TriggerResultException(TriggerResult.Success);
                 }
             }

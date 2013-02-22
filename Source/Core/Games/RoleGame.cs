@@ -324,9 +324,15 @@ namespace Sanguosha.Core.Games
                 computeBackup = new List<Card>(Game.CurrentGame.Decks[DeckType.Compute]);
                 Game.CurrentGame.Decks[DeckType.Compute].Clear();
                 CardsMovement m = new CardsMovement();
+                Player isDoingAFavor = eventArgs.Source;
                 if (c is CompositeCard)
                 {
                     m.Cards = new List<Card>(((CompositeCard)c).Subcards);
+                    if (c.Owner != null && c.Owner != eventArgs.Source)
+                    {
+                        Trace.TraceInformation("Acting on behalf of others");
+                        isDoingAFavor = c.Owner;
+                    }
                 }
                 else
                 {
@@ -334,7 +340,6 @@ namespace Sanguosha.Core.Games
                 }
                 m.To = new DeckPlace(null, DeckType.Compute);
                 m.Helper = new MovementHelper();
-                Player isDoingAFavor = eventArgs.Source;
                 foreach (var checkFavor in m.Cards)
                 {
                     if (checkFavor.Owner != null && checkFavor.Owner != eventArgs.Source)

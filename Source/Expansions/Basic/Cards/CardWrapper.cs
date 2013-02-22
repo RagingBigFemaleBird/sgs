@@ -21,6 +21,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             card = new CompositeCard();
             card.Type = handler;
             card.Subcards = new List<Card>(cards);
+            card.Owner = Owner;
             return VerifierResult.Success;
         }
 
