@@ -446,6 +446,7 @@ namespace Sanguosha.Core.Games
                 }
 */
                 this.NotificationProxy = null;
+                this.uiProxies = null;
 
             }
 /*

@@ -66,15 +66,11 @@ namespace Sanguosha.Expansions.Fire.Skills
 
         class ShuangXiongCardTransformSkill : OneToOneCardTransformSkill
         {
-            public ShuangXiongCardTransformSkill()
-            {
-                HandCardOnly = true;
-            }
-
             SuitColorType color;
             public ShuangXiongCardTransformSkill(SuitColorType color)
             {
                 this.color = color;
+                HandCardOnly = true;
             }
 
             public override bool VerifyInput(Card card, object arg)
