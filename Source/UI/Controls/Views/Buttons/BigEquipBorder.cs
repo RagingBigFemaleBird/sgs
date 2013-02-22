@@ -20,7 +20,7 @@ namespace Sanguosha.UI.Controls
         }
 
         public BigEquipBorder()
-        {        
+        {
         }
 
         public override List<ImageSource> Frames

@@ -16,16 +16,8 @@
     </ResourceDictionary.MergedDictionaries>
     <local:SuitColorToColorConverter x:Key="suitColorToColorConverter" />
     <Style x:Key="BigEquipToggleButton" TargetType="{x:Type ToggleButton}">
-        <Setter Property="IsEnabled">
-            <Setter.Value>
-                <Binding Path="IsEnabled" />
-            </Setter.Value>
-        </Setter>
-        <Setter Property="IsChecked">
-            <Setter.Value>
-                <Binding Path="IsSelected" />
-            </Setter.Value>
-        </Setter>
+        <Setter Property="IsEnabled" Value="{Binding IsEnabled}" />            
+        <Setter Property="IsChecked" Value="{Binding IsSelected}" />            
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
