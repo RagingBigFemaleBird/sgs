@@ -161,6 +161,7 @@ namespace Sanguosha.UI.Animations
 
         public void Start()
         {
+            if (IsActive) return;
             Visibility = Visibility.Visible;
             Resume();
             ActiveFrameIndex = 0;
@@ -168,6 +169,7 @@ namespace Sanguosha.UI.Animations
 
         public void Stop()
         {
+            if (!IsActive) return;
             IsActive = false;
             Visibility = Visibility.Hidden;
             EventHandler handler = Completed;
