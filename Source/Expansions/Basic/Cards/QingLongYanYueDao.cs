@@ -14,7 +14,7 @@ using System.Diagnostics;
 
 namespace Sanguosha.Expansions.Basic.Cards
 {
-    
+
     public class QingLongYanYueDao : Weapon
     {
         public QingLongYanYueDao()
@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             EquipmentSkill = new QingLongYanYueSkill() { ParentEquipment = this };
         }
 
-        
+
         public class QingLongYanYueSkill : TriggerSkill, IEquipmentSkill
         {
             public Equipment ParentEquipment { get; set; }
@@ -44,12 +44,13 @@ namespace Sanguosha.Expansions.Basic.Cards
                         try
                         {
                             Owner[Sha.NumberOfShaUsed]--;
-                            NotifySkillUse(new List<Player>());
                             GameEventArgs args = new GameEventArgs();
                             args.Source = eventArgs.Source;
                             args.Targets = eventArgs.Targets;
                             args.Skill = skill;
                             args.Cards = cards;
+                            args.ReadonlyCard = new ReadOnlyCard(new Card() { Place = new DeckPlace(null, null) });
+                            args.ReadonlyCard[QingLongSha] = 1;
                             Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
                         }
                         catch (TriggerResultException e)
@@ -69,7 +70,17 @@ namespace Sanguosha.Expansions.Basic.Cards
                     TriggerCondition.OwnerIsSource
                 ) { IsAutoNotify = false, AskForConfirmation = false };
                 Triggers.Add(ShaCancelling.PlayerShaTargetDodged, trigger);
+
+                var notify = new AutoNotifyPassiveSkillTrigger(
+                    this,
+                    (p, e, a) => { return a.ReadonlyCard[QingLongSha] == 1; },
+                    (p, e, a) => { },
+                    TriggerCondition.OwnerIsSource
+                ) { AskForConfirmation = false };
+                Triggers.Add(GameEvent.PlayerUsedCard, notify);
             }
+
+            private static CardAttribute QingLongSha = CardAttribute.Register("QingLongSha");
         }
 
         public override int AttackRange
