@@ -43,13 +43,13 @@ namespace Sanguosha.Core.UI
             set { privateDeckHeroTag = value; }
         }
 
-        private bool iaAlwaysShowLog;
+        private bool alwaysShowLog;
 
         //show card move log even faked move.  e.g.落英
-        public bool IsAlwaysShowLog
+        public bool AlwaysShowLog
         {
-            get { return iaAlwaysShowLog; }
-            set { iaAlwaysShowLog = value; }
+            get { return alwaysShowLog; }
+            set { alwaysShowLog = value; }
         }
 
         public MovementHelper()
@@ -62,7 +62,7 @@ namespace Sanguosha.Core.UI
             WindowId = helper.WindowId;
             IsWuGu = helper.IsWuGu;
             PrivateDeckHeroTag = helper.PrivateDeckHeroTag;
-            IsAlwaysShowLog = helper.IsAlwaysShowLog;
+            AlwaysShowLog = helper.AlwaysShowLog;
         }
     }
 }

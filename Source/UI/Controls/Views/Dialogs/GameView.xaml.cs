@@ -834,7 +834,7 @@ namespace Sanguosha.UI.Controls
                     IDeckContainer deck = _GetMovementDeck(stackCards.Key);
                     IList<CardView> cards = null;
                     Trace.Assert(move.Helper != null);
-                    if (!move.Helper.IsFakedMove || move.Helper.IsAlwaysShowLog)
+                    if (!move.Helper.IsFakedMove || move.Helper.AlwaysShowLog)
                     {
                         Application.Current.Dispatcher.BeginInvoke((ThreadStart)delegate()
                         {

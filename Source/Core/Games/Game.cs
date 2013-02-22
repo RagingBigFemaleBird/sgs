@@ -438,13 +438,13 @@ namespace Sanguosha.Core.Games
             }
             catch (GameOverException)
             {
-/*
+
                 var keys = new List<Thread>(from t in games.Keys where games[t] == this select t);
                 foreach (var t in keys)
                 {
                     games.Remove(t);
                 }
-*/
+
                 this.NotificationProxy = null;
                 this.uiProxies = null;
 
@@ -868,7 +868,7 @@ namespace Sanguosha.Core.Games
                         e.RegisterTriggers(move.To.Player);
                     }
                     decks[card.Place].Remove(card);
-                    card.IsLastHandCard = card.Place.DeckType == DeckType.Hand && decks[card.Place].Count == 0;
+                    int isLastHandCard = (card.Place.DeckType == DeckType.Hand && decks[card.Place].Count == 0) ? 1 : 0;
                     if (insertBefore != null && insertBefore[i])
                     {
                         decks[move.To].Insert(0, card);
@@ -901,6 +901,7 @@ namespace Sanguosha.Core.Games
                         _ResetCard(card);
                         if (card.Attributes != null) card.Attributes.Clear();
                     }
+                    card[Card.IsLastHandCard] = isLastHandCard;
 
                     if (IsClient && (move.To.DeckType == DeckType.Hand && GameClient.SelfId != move.To.Player.Id))
                     {

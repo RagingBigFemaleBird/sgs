@@ -86,12 +86,12 @@ namespace Sanguosha.Expansions.Basic.Cards
                     {
                         bool isLastHandCard = false;
                         Card c = a.Card as Card;
-                        if (c != null) isLastHandCard = c.IsLastHandCard;
+                        if (c != null) isLastHandCard = c[Card.IsLastHandCard] == 1;
                         else
                         {
                             CompositeCard cc = a.Card as CompositeCard;
                             Trace.Assert(cc != null);
-                            isLastHandCard = cc.Subcards.All(card => card.HistoryPlace1.DeckType == DeckType.Hand) && cc.Subcards.Any(card => card.IsLastHandCard);
+                            isLastHandCard = cc.Subcards.All(card => card.HistoryPlace1.DeckType == DeckType.Hand) && cc.Subcards.Any(card => card[Card.IsLastHandCard] == 1);
                         }
                         return a.Targets.Count > 1 && isLastHandCard && a.Card.Type is Sha;
                     },

@@ -81,7 +81,6 @@ namespace Sanguosha.Core.Cards
         public DeckPlace HistoryPlace2 { get; set; }
         public DeckPlace HistoryPlace1 { get; set; }
         public DeckPlace Place { get; set; }
-        public bool IsLastHandCard { get; set; } 
 
         /// <summary>
         /// Computational owner of the card.
@@ -176,6 +175,8 @@ namespace Sanguosha.Core.Cards
                 attributes[key] = value;
             }
         }
+
+        public static CardAttribute IsLastHandCard = CardAttribute.Register("IsLastHandCard");
 
         #region UI Related
         UI.ActionLog log;

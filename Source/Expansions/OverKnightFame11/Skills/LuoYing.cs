@@ -70,7 +70,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                     c.PlaceOverride = new DeckPlace(null, DeckType.Discard);
                     Game.CurrentGame.NotificationProxy.NotifyCardMovement(new List<CardsMovement>() { temp });
                     c.Log = new ActionLog();
-                    Game.CurrentGame.HandleCardTransferToHand(c.Owner, Owner, new List<Card>() { c }, new MovementHelper() { IsFakedMove = true, IsAlwaysShowLog = true });
+                    Game.CurrentGame.HandleCardTransferToHand(c.Owner, Owner, new List<Card>() { c }, new MovementHelper() { IsFakedMove = true, AlwaysShowLog = true });
                     eventArgs.Cards.Remove(c);
                 }
             }

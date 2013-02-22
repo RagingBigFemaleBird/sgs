@@ -204,7 +204,7 @@ namespace Sanguosha.UI.Controls
 
         protected override void AddHandCards(IList<CardView> cards, bool isFaked)
         {
-            isFaked = true;
+//            isFaked = true;
             foreach (var card in cards)
             {
                 card.DragDirection = DragDirection.Horizontal;
