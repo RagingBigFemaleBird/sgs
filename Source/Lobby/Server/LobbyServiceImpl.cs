@@ -56,8 +56,6 @@ namespace Sanguosha.Lobby.Server
             accounts = new List<Account>();
             if (noDatabase) accountContext = null;
             else accountContext = new AccountContext();
-            //Do this if stupid localdb complains:
-            // accountContext.Database.Delete();
         }
   
         void Channel_Faulted(object sender, EventArgs e)
@@ -104,11 +102,6 @@ namespace Sanguosha.Lobby.Server
             var disconnected = accounts.FirstOrDefault(ac => ac.UserName == username);
             if (!Authenticate(username, hash))
             {
-                if (accountContext != null)
-                {
-                    accountContext.Accounts.Add(new Account() { UserName = username });
-                    accountContext.SaveChanges();
-                }
                 reconnectionString = null;
                 retAccount = null;
                 token = new LoginToken();
@@ -614,13 +607,27 @@ namespace Sanguosha.Lobby.Server
 
         public static void WipeDatabase()
         {
-            throw new NotImplementedException();
+            AccountContext ctx;
+            ctx = new AccountContext();
+            ctx.Database.Delete();
         }
 
 
         public LoginStatus CreateAccount(string userName, string p)
         {
-            throw new NotImplementedException();
+            if (accountContext == null)
+            {
+                return LoginStatus.Success;
+            }
+
+            var result = from a in accountContext.Accounts where a.UserName.Equals(userName) select a;
+            if (result.Count() != 0)
+            {
+                return LoginStatus.InvalidUsernameAndPassword;
+            }
+            accountContext.Accounts.Add(new Account() { UserName = userName });
+            accountContext.SaveChanges();
+            return LoginStatus.Success;
         }
     }
 }

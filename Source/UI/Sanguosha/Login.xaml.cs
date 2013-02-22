@@ -249,8 +249,6 @@ namespace Sanguosha.UI.Main
             busyIndicator.BusyContent = Resources["Busy.ConnectServer"];
             busyIndicator.IsBusy = true;
             ILobbyService server = null;
-            LoginToken token = new LoginToken();
-            string reconnect = null;
             string hostName = tab0HostName.Text;
             if (!hostName.Contains(":"))
             {
@@ -281,7 +279,6 @@ namespace Sanguosha.UI.Main
             worker.RunWorkerCompleted += (o, ea) =>
             {
                 busyIndicator.IsBusy = false;
-                bool success = false;
                 switch((LoginStatus)ea.Result)
                 {
                     case LoginStatus.Success:
@@ -328,13 +325,14 @@ namespace Sanguosha.UI.Main
 
             //client.Start(isReplay, FileStream = file.open(...))
             BackgroundWorker worker = new BackgroundWorker();
+            bool noDatabase = !(tab1EnableDb.IsChecked == true);
 
             worker.DoWork += (o, ea) =>
             {
                 try
                 {
                     ea.Result = false;
-                    gameService = new LobbyServiceImpl(!(tab1EnableDb.IsChecked == true));
+                    gameService = new LobbyServiceImpl(noDatabase);
                     gameService.HostingIp = serverIp;
 
                     host = new ServiceHost(gameService);
