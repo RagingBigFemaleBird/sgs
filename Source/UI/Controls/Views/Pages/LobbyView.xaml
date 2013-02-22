@@ -275,6 +275,54 @@
                 </MenuItem.Header>
             </MenuItem>
         </Menu>
-        <xctk:BusyIndicator Grid.RowSpan="2" x:Name="busyIndicator" Style="{DynamicResource BusyIndicatorStyle1}" Margin="0" Grid.Row="1" Grid.ColumnSpan="2" />
+		<xctk:ChildWindow x:Name="createRoomWindow" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2" WindowStartupLocation="Center" Caption="创建房间" Template="{StaticResource StoneWindowStyle2}" >
+			<Grid>
+				<Grid.Resources>
+					<Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
+						<Setter Property="Foreground" Value="#FFE4D5A0" />	
+						<Setter Property="TextAlignment" Value="Right" />				
+						<Setter Property="FontFamily" Value="SimSun" />
+						<Setter Property="TextWrapping" Value="NoWrap"/>
+						<Setter Property="TextTrimming" Value="None"/>
+					</Style>
+					<Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource ComboBoxStyle1}" />
+					<Style x:Key="{x:Type CheckBox}" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource CheckBoxStyle1}" />
+				</Grid.Resources>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition Width="20" />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="30" />
+					<RowDefinition Height="30" />
+					<RowDefinition Height="30" />
+					<RowDefinition Height="30" />
+					<RowDefinition Height="30" />
+				</Grid.RowDefinitions>
+				<TextBlock Text="游戏模式" VerticalAlignment="Center" />
+				<ComboBox Grid.Column="2" Height="20" VerticalAlignment="Center" Margin="0,0,10,0" />
+				<TextBlock Text="双将" Grid.Row="1" VerticalAlignment="Center"/>
+				<CheckBox Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"/>
+				<TextBlock Text="双内奸" Grid.Row="2" VerticalAlignment="Center" />
+				<CheckBox Grid.Row="2" Grid.Column="2" VerticalAlignment="Center"/>
+				<TextBlock Text="卡牌扩展" Grid.Row="3" VerticalAlignment="Center"/>
+				<UniformGrid Columns="4" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center">
+					<CheckBox Content="Ex" IsChecked="True" IsEnabled="False" Margin="0,0,10,0" />
+					<CheckBox Content="军" IsChecked="True" IsEnabled="False" Margin="0,0,10,0" />
+				</UniformGrid>
+				<TextBlock Text="武将扩展" Grid.Row="4" VerticalAlignment="Top"/>
+				<UniformGrid Columns="4" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center">
+					<CheckBox Content="风" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
+					<CheckBox Content="火" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
+					<CheckBox Content="林" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
+					<CheckBox Content="山" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
+					<CheckBox Content="神" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
+					<CheckBox Content="SP" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
+					<CheckBox Content="将" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
+				</UniformGrid>
+			</Grid>
+		</xctk:ChildWindow>
+        <xctk:BusyIndicator Grid.RowSpan="2" x:Name="busyIndicator" Style="{DynamicResource BusyIndicatorStyle1}" Margin="0" Grid.Row="1" Grid.ColumnSpan="2" d:IsHidden="True" />
     </Grid>
 </Page>

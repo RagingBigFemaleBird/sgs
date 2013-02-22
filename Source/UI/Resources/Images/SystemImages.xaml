@@ -371,5 +371,6 @@
 
     <BitmapImage x:Key="Corner.0.Image">CornerAdorners/0.png</BitmapImage>
     <BitmapImage x:Key="Corner.1.Image">CornerAdorners/1.png</BitmapImage>
+	<BitmapImage x:Key="Corner.2.Image">CornerAdorners/2.png</BitmapImage>
     <BitmapImage x:Key="Window.Background.Default">System/WindowBg.jpg</BitmapImage>
 </ResourceDictionary>
