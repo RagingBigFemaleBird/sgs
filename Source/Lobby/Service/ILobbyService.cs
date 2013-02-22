@@ -88,6 +88,9 @@ namespace Sanguosha.Lobby.Core
 
         [OperationContract]
         RoomOperationResult Spectate(LoginToken token, int roomId);
+
+        [OperationContract]
+        LoginStatus CreateAccount(string userName, string p);
     }
 
     public interface IGameClient

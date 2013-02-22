@@ -328,6 +328,26 @@
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Disabled">
+                                	<Storyboard>
+                                		<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" Storyboard.TargetName="border">
+                                			<EasingColorKeyFrame KeyTime="0" Value="#FF838382"/>
+                                		</ColorAnimationUsingKeyFrames>
+                                		<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="border">
+                                			<EasingColorKeyFrame KeyTime="0" Value="#FF818181"/>
+                                		</ColorAnimationUsingKeyFrames>
+                                		<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="border">
+                                			<EasingColorKeyFrame KeyTime="0" Value="#FF232323"/>
+                                		</ColorAnimationUsingKeyFrames>
+                                		<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[4].(GradientStop.Color)" Storyboard.TargetName="border">
+                                			<EasingColorKeyFrame KeyTime="0" Value="#FF313131"/>
+                                		</ColorAnimationUsingKeyFrames>
+                                		<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[3].(GradientStop.Color)" Storyboard.TargetName="border">
+                                			<EasingColorKeyFrame KeyTime="0" Value="#FF434040"/>
+                                		</ColorAnimationUsingKeyFrames>
+                                		<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[2].(GradientStop.Color)" Storyboard.TargetName="border">
+                                			<EasingColorKeyFrame KeyTime="0" Value="#FF646463"/>
+                                		</ColorAnimationUsingKeyFrames>
+                                	</Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>

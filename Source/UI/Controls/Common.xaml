@@ -841,6 +841,7 @@
         </Setter>
     </Style>
     <Style x:Key="CheckBoxStyle1" TargetType="{x:Type CheckBox}">
+    	<Setter Property="FontFamily" Value="SimSun"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="Background" Value="{StaticResource CheckBoxFillNormal}"/>
         <Setter Property="BorderBrush" Value="{StaticResource CheckBoxStroke}"/>

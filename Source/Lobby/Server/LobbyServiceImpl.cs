@@ -611,5 +611,16 @@ namespace Sanguosha.Lobby.Server
             }
             return RoomOperationResult.Auth;
         }
+
+        public static void WipeDatabase()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public LoginStatus CreateAccount(string userName, string p)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

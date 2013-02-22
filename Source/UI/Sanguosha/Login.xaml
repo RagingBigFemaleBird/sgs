@@ -179,6 +179,7 @@
                         <TextBox x:Name="tab0UserName" Margin="151,83.846,73,0" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
                         <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Margin="42,135,0,133" TextWrapping="Wrap" Width="111" Text="密码：" FontSize="20"/>
                         <TextBox Margin="151,129.846,73,0" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
+                        <Button x:Name="btnRegister" Content="用以上信息注册新账号" Margin="160,0,164,69.14" VerticalAlignment="Bottom" Style="{DynamicResource DefaultButtonStyleBrown}"/>
                     </Grid>
                 </TabItem>
                 <TabItem Style="{DynamicResource LoginTabItemStyle}">
@@ -201,6 +202,8 @@
                         </ComboBox>
                         <ComboBox x:Name="tab1IpAddresses" Foreground="#FFE5DCBF" Height="25" Margin="85,94.4,88,0" VerticalAlignment="Top" Style="{DynamicResource ComboBoxStyle1}"/>
                         <TextBox x:Name="tab1Port" Foreground="#FFE5DCBF" CaretBrush="#FF514E45" BorderBrush="#FF514E45" Background="#FF161413" Height="25" Width="150" HorizontalAlignment="Left" Margin="86,0,0,115.5" VerticalAlignment="Bottom" />
+                        <CheckBox x:Name="tab1EnableDb" IsChecked="True" Content="启用数据库" Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Margin="21.5,0,0,66.64" VerticalAlignment="Bottom" Style="{DynamicResource CheckBoxStyle1}" Height="21.96" Width="84.5"/>
+                        <Button x:Name="tab1ClearDb" IsEnabled="{Binding IsChecked, ElementName=tab1EnableDb}" Content="清空数据库" Margin="161,0,0,67.496" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" Style="{DynamicResource DefaultButtonStyleBrown}" Click="tab1ClearDb_Click"/>
                     </Grid>
                 </TabItem>
                 <TabItem Style="{DynamicResource LoginTabItemStyle}">
@@ -208,7 +211,7 @@
                         <TextBlock Foreground="#FFDFCF93" Margin="5,10" Text="单机游戏" Width="20" TextWrapping="Wrap" FontSize="18" LineStackingStrategy="BlockLineHeight" LineHeight="14" /> 
                     </TabItem.Header>
                     <Grid>
-                        <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="暂时没有选项，请直接点开始" FontSize="20" />
+                        <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="暂时不支持单机模式，请期待下一版本" FontSize="20" />
                     </Grid>
                 </TabItem>
             </TabControl>
@@ -231,6 +234,6 @@
             </Button>			
             <Button x:Name="btnReplay" Content="录像" Style="{DynamicResource DefaultButtonStyle1}" Height="20" Padding="8,0,8,0" Click="btnReplay_Click" />
         </StackPanel>
-        <xctk:BusyIndicator Grid.RowSpan="2" x:Name="busyIndicator" Style="{DynamicResource BusyIndicatorStyle1}" Margin="0" Grid.Row="1" />
+        <xctk:BusyIndicator Grid.RowSpan="2" x:Name="busyIndicator" Style="{DynamicResource BusyIndicatorStyle1}" Margin="0" Grid.Row="1" d:IsHidden="True" />
     </Grid>
 </Page>

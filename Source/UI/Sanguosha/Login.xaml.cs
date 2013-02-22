@@ -233,6 +233,75 @@ namespace Sanguosha.UI.Main
             worker.RunWorkerAsync();
         }
 
+        private void _createAccount()
+        {
+            string userName = tab0UserName.Text;
+            Properties.Settings.Default.LastHostName = tab0HostName.Text;
+            Properties.Settings.Default.LastUserName = tab0UserName.Text;            
+            Properties.Settings.Default.Save();
+#if !DEBUG
+            if (string.IsNullOrEmpty(userName))
+            {
+                _Warn("Please provide a username");
+                return;
+            }
+#endif
+            busyIndicator.BusyContent = Resources["Busy.ConnectServer"];
+            busyIndicator.IsBusy = true;
+            ILobbyService server = null;
+            LoginToken token = new LoginToken();
+            string reconnect = null;
+            string hostName = tab0HostName.Text;
+            if (!hostName.Contains(":"))
+            {
+                hostName = hostName + ":" + DefaultLobbyPort;
+            }
+
+            BackgroundWorker worker = new BackgroundWorker();
+
+            worker.DoWork += (o, ea) =>
+            {
+                try
+                {
+                    ea.Result = LoginStatus.UnknownFailure;
+                    var binding = new NetTcpBinding();
+                    binding.Security.Mode = SecurityMode.None;
+                    var endpoint = new EndpointAddress(string.Format("net.tcp://{0}/GameService", hostName));
+                    var channelFactory = new DuplexChannelFactory<ILobbyService>(LobbyViewModel.Instance, binding, endpoint);
+                    server = channelFactory.CreateChannel();                    
+                    var stat = server.CreateAccount(userName, "");
+                    ea.Result = stat;
+                }
+                catch (Exception e)
+                {
+                    string s = e.StackTrace;
+                }
+            };
+
+            worker.RunWorkerCompleted += (o, ea) =>
+            {
+                busyIndicator.IsBusy = false;
+                bool success = false;
+                switch((LoginStatus)ea.Result)
+                {
+                    case LoginStatus.Success:
+                        MessageBox.Show("Account created successfully");
+                        break;
+                    case LoginStatus.OutdatedVersion:                    
+                        MessageBox.Show("Outdated version. Please update.");
+                        break;                    
+                    case LoginStatus.InvalidUsernameAndPassword:
+                        MessageBox.Show("Invalid Username and Password.");
+                        break;
+                    default: 
+                        MessageBox.Show("Failed to launch client.");
+                        break;
+                }
+            };
+
+            worker.RunWorkerAsync();
+        }
+
         private void _Warn(string message)
         {
             MessageBox.Show(message, "Error");
@@ -265,7 +334,7 @@ namespace Sanguosha.UI.Main
                 try
                 {
                     ea.Result = false;
-                    gameService = new LobbyServiceImpl();
+                    gameService = new LobbyServiceImpl(!(tab1EnableDb.IsChecked == true));
                     gameService.HostingIp = serverIp;
 
                     host = new ServiceHost(gameService);
@@ -402,6 +471,16 @@ namespace Sanguosha.UI.Main
         private void tab1Adaptors_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _ListIpAddresses();
+        }
+
+        private void tab1ClearDb_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            LobbyServiceImpl.WipeDatabase();
+        }
+
+        private void btnRegister_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+        	// TODO: Add event handler implementation here.
         }
         #endregion
     }
