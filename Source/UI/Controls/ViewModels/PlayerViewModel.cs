@@ -1744,7 +1744,7 @@ namespace Sanguosha.UI.Controls
                                      AdditionalCardChoiceOptions options,
                                      CardChoiceRearrangeCallback callback)
         {
-            if (!IsPlayable && (verifier.Helper == null ||!verifier.Helper.ShowToAll))
+            if (this != GameModel.MainPlayerModel && (verifier.Helper == null || !verifier.Helper.ShowToAll))
             {
                 TimeOutSeconds = timeOutSeconds;
                 CardChoiceAnsweredEvent(null);
