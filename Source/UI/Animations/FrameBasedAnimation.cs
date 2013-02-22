@@ -123,10 +123,7 @@ namespace Sanguosha.UI.Animations
 
         void FrameBasedAnimation_Unloaded(object sender, RoutedEventArgs e)
         {
-            if (IsActive)
-            {
-                CompositionTarget.Rendering -= CompositionTarget_Rendering;
-            }
+            CompositionTarget.Rendering -= CompositionTarget_Rendering;            
         }
 
         private void CompositionTarget_Rendering(object sender, System.EventArgs e)
