@@ -473,6 +473,7 @@ namespace Sanguosha.Core.Games
 
         public void HandleCardDiscard(Player p, List<Card> cards, DiscardReason reason = DiscardReason.Discard)
         {
+            cards = new List<Card>(cards);
             CardsMovement move = new CardsMovement();
             move.Cards = new List<Card>(cards);
             foreach (Card c in cards)
@@ -498,6 +499,7 @@ namespace Sanguosha.Core.Games
 
         public void HandleCardTransferToHand(Player from, Player to, List<Card> cards, MovementHelper helper = null)
         {
+            cards = new List<Card>(cards);
             if (to.IsDead)
             {
                 if (cards.Any(cd => cd.Place.DeckType != DeckType.Hand && cd.Place.DeckType != DeckType.Equipment && cd.Place.DeckType != DeckType.DelayedTools))
@@ -526,6 +528,7 @@ namespace Sanguosha.Core.Games
 
         public void HandleCardTransfer(Player from, Player to, DeckType target, List<Card> cards, Hero tag = null)
         {
+            cards = new List<Card>(cards);
             if (to.IsDead)
             {
                 if (cards.Any(cd => cd.Place.DeckType != DeckType.Hand && cd.Place.DeckType != DeckType.Equipment && cd.Place.DeckType != DeckType.DelayedTools))

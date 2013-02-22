@@ -49,7 +49,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 return VerifierResult.Fail;
             }
             List<Card> cards = arg.Cards;
-            if (cards == null && cards.Count == 0)
+            if (cards == null || cards.Count == 0)
             {
                 return VerifierResult.Partial;
             }
