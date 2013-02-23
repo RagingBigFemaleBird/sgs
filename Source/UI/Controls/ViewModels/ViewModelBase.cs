@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Windows.Threading;
 using System.Threading;
 using System.Windows;
+using System.Collections.Generic;
 
 namespace Sanguosha.UI.Controls
 {
@@ -17,7 +18,7 @@ namespace Sanguosha.UI.Controls
         #region Constructor
 
         protected ViewModelBase()
-        {
+        {            
         }
 
         #endregion // Constructor
@@ -74,28 +75,59 @@ namespace Sanguosha.UI.Controls
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private HashSet<string> _queuedChangedProperties;
+        private static HashSet<ViewModelBase> _queuedChangedViewModelBases = new HashSet<ViewModelBase>();
+
+        private void _UpdateAll()
+        {
+            Trace.Assert(!ViewModelBase.IsDetached);
+            if (_queuedChangedProperties == null) return;
+            foreach (var prop in _queuedChangedProperties)
+            {
+                OnPropertyChanged(prop);
+            }
+            _queuedChangedProperties.Clear();
+        }
+
         /// <summary>
         /// Raises this object's PropertyChanged event.
         /// </summary>
         /// <param name="propertyName">The property that has a new value.</param>
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            if (_isDetached) return;
             this.VerifyPropertyName(propertyName);
-            PropertyChangedEventHandler handler = this.PropertyChanged;
-            if (handler != null)
+            if (_isDetached)
             {
-                if (Application.Current.Dispatcher.CheckAccess())
+                if (_queuedChangedProperties == null)
                 {
-                    var e = new PropertyChangedEventArgs(propertyName);
-                    handler(this, e);
+                    _queuedChangedProperties = new HashSet<string>();
                 }
-                else
+                if (!_queuedChangedProperties.Contains(propertyName))
                 {
-                    Application.Current.Dispatcher.BeginInvoke((ThreadStart)delegate()
+                    _queuedChangedProperties.Add(propertyName);
+                }
+                if (!_queuedChangedViewModelBases.Contains(this))
+                {
+                    _queuedChangedViewModelBases.Add(this);
+                }
+            }
+            else
+            {
+                PropertyChangedEventHandler handler = this.PropertyChanged;
+                if (handler != null)
+                {
+                    if (Application.Current.Dispatcher.CheckAccess())
                     {
-                        handler(this, new PropertyChangedEventArgs(propertyName));
-                    });
+                        var e = new PropertyChangedEventArgs(propertyName);
+                        handler(this, e);
+                    }
+                    else
+                    {
+                        Application.Current.Dispatcher.BeginInvoke((ThreadStart)delegate()
+                        {
+                            handler(this, new PropertyChangedEventArgs(propertyName));
+                        });
+                    }
                 }
             }
         }        
@@ -149,7 +181,12 @@ namespace Sanguosha.UI.Controls
 
         public static void AttachAll()
         {
-            _isDetached = false;            
+            _isDetached = false;
+            foreach (var vmb in _queuedChangedViewModelBases)
+            {
+                vmb._UpdateAll();
+            }
+            _queuedChangedViewModelBases.Clear();
         }
     }
 }

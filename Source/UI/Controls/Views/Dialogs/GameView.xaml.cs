@@ -784,6 +784,29 @@ namespace Sanguosha.UI.Controls
 
         #endregion
 
+        #region Private Functions
+        private void _AppendKeyEventLog(Paragraph log)
+        {
+            var doc = new FlowDocument();
+            var para = log;
+            if (para.Inlines.Count == 0) return;
+            doc.Blocks.Add(para);
+            keyEventLog.AddLog(doc);
+        }
+
+        private void _AppendKeyEventLog(Prompt custom)
+        {
+            Paragraph para = new Paragraph();
+            para.Inlines.AddRange(LogFormatter.TranslateLogEvent(custom));
+            _AppendKeyEventLog(para);
+        }
+
+        private void _AppendKeyEventLog(ActionLog log)
+        {
+            _AppendKeyEventLog(LogFormatter.RichTranslateKeyLog(log));
+        }
+        #endregion
+
         #region INotificationProxy
 
         public void NotifyCardMovement(List<CardsMovement> moves)
@@ -829,6 +852,7 @@ namespace Sanguosha.UI.Controls
                         else if (card.Type is DefensiveHorse || card.Type is OffensiveHorse) doHorseSound = true;
                     }
                 }
+
                 foreach (var stackCards in cardsRemoved)
                 {
                     IDeckContainer deck = _GetMovementDeck(stackCards.Key);
@@ -855,11 +879,13 @@ namespace Sanguosha.UI.Controls
                     }
                     cardsToAdd.AddRange(cards);
                 }
+
                 Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
                 {
                     _GetMovementDeck(move.To).AddCards(move.To.DeckType, cardsToAdd, move.Helper.IsFakedMove);
                 });
-            }            
+            }
+            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 rtbLog.ScrollToEnd();
@@ -883,6 +909,7 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyDamage(Player source, Player target, int magnitude, DamageElement element)
         {
+            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 foreach (var profile in playersMap.Values)
@@ -904,6 +931,7 @@ namespace Sanguosha.UI.Controls
 
         public void NotifySkillUse(ActionLog log)
         {
+            if (ViewModelBase.IsDetached) return;
             Trace.Assert(log.Source != null);
             PlayerViewBase player = playersMap[log.Source];
             bool soundPlayed = false;
@@ -1070,8 +1098,7 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyUiAttached()
         {
-            ViewModelBase.AttachAll();
- 
+            ViewModelBase.AttachAll(); 
         }
 
         public void NotifyUiDetached()
@@ -1083,6 +1110,7 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyShowCardsStart(Player p, List<Card> cards)
         {
+            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 if (_showHandCardsWindow != null)
@@ -1120,6 +1148,7 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyShowCardsEnd()
         {
+            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 if (_showHandCardsWindow == null) return;
@@ -1128,30 +1157,9 @@ namespace Sanguosha.UI.Controls
             });
         }
 
-        private void _AppendKeyEventLog(Paragraph log)
-        {
-            var doc = new FlowDocument();
-            var para = log;
-            if (para.Inlines.Count == 0) return;
-            doc.Blocks.Add(para);
-            keyEventLog.AddLog(doc);
-        }
-
-        private void _AppendKeyEventLog(Prompt custom)
-        {
-            Paragraph para = new Paragraph();
-            para.Inlines.AddRange(LogFormatter.TranslateLogEvent(custom));
-            _AppendKeyEventLog(para);
-        }
-
-        private void _AppendKeyEventLog(ActionLog log)
-        {
-            _AppendKeyEventLog(LogFormatter.RichTranslateKeyLog(log));
-        }
-
-
         public void NotifyMultipleChoiceResult(Player p, OptionPrompt answer)
         {
+            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 gameLogs.AppendMultipleChoiceLog(p, PromptFormatter.Format(answer));
@@ -1160,6 +1168,7 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyDeath(Player p, Player by)
         {
+            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 var uri = GameSoundLocator.GetDeathSound(p.Hero.Name);
@@ -1170,6 +1179,7 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyActionComplete()
         {
+            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 foreach (var player in GameModel.PlayerModels)
@@ -1182,6 +1192,7 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyLoseHealth(Player player, int delta)
         {
+            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 gameLogs.AppendLoseHealthLog(player, delta);
@@ -1193,6 +1204,7 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyRecoverHealth(Player player, int delta)
         {
+            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 gameLogs.AppendRecoverHealthLog(player, delta);
@@ -1204,6 +1216,7 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyReforge(Player p, ICard card)
         {
+            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 Uri uri = GameSoundLocator.GetSystemSound("Reforge");
@@ -1215,6 +1228,7 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyLogEvent(Prompt custom, List<Player> players = null, bool isKeyEvent = true)
         {
+            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 gameLogs.AppendLogEvent(players == null ? Game.CurrentGame.Players : players, custom);
@@ -1225,6 +1239,7 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyShowCard(Player p, Card card)
         {
+            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 if (p == null)
@@ -1248,6 +1263,7 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyCardChoiceCallback(CardRearrangement arrange)
         {
+            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 if (cardChoiceWindow == null) return;
@@ -1258,7 +1274,7 @@ namespace Sanguosha.UI.Controls
         }
 
         public void NotifyImpersonation(Player p, Hero impersonator, Hero impersonatedHero, ISkill acquiredSkill)
-        {
+        {            
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 var view = playersMap[p]; 
@@ -1273,13 +1289,14 @@ namespace Sanguosha.UI.Controls
                 {
                     model.ImpersonatedHeroName = impersonatedHero.Name;
                     model.ImpersonatedSkill = acquiredSkill.GetType().Name;
-                }
+                }                
                 view.UpdateImpersonateStatus(model == view.PlayerModel.Hero1Model);
             });
         }
 
         public void NotifyGameStart()
         {
+            if (ViewModelBase.IsDetached) return;
             GameSoundPlayer.PlaySoundEffect(GameSoundLocator.GetSystemSound("GameStart"));
 
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
@@ -1290,6 +1307,7 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyJudge(Player p, Card card, ActionLog log, bool? isSuccess, bool isFinalResult)
         {
+            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 CardView cardView = discardDeck.Cards.FirstOrDefault(c => c.Card.Id == card.Id);
@@ -1314,6 +1332,7 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyWuGuStart(Prompt prompt, DeckPlace place)
         {
+            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 GameModel.WuGuModel = new WuGuChoiceViewModel();
@@ -1338,13 +1357,15 @@ namespace Sanguosha.UI.Controls
 
         void card_OnSelectedChanged(object sender, EventArgs e)
         {
+            if (ViewModelBase.IsDetached) return;
             GameModel.CurrentActivePlayer.AnswerWuGuChoice((sender as CardViewModel).Card);
         }
 
         public void NotifyWuGuEnd()
         {
+            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
-            {
+            {                
                 wuGuWindow.Close();
                 GameModel.WuGuModel = null;
             });
@@ -1353,6 +1374,7 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyPinDianStart(Player from, Player to, ISkill reason)
         {
+            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 pinDianWindow.Caption = PromptFormatter.Format(new Prompt("Window.PinDian.Prompt", reason));
@@ -1363,6 +1385,7 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyMultipleCardUsageResponded(Player player)
         {
+            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 pinDianBox.OnPinDianCardPlayed(player);
@@ -1371,6 +1394,7 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyPinDianEnd(Card c1, Card c2)
         {
+            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 pinDianBox.RevealResult(c1, c2);
