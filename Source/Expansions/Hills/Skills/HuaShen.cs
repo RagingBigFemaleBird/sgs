@@ -75,12 +75,15 @@ namespace Sanguosha.Expansions.Hills.Skills
             int skanswer;
             Game.CurrentGame.UiProxies[Owner].AskForMultipleChoice(new MultipleChoicePrompt("HuaShen"), hsOptions, out skanswer);
             acquiredSkill = skills[skanswer];
-            Owner.Allegiance = handler.Hero.Allegiance;
-            Owner.IsMale = handler.Hero.IsMale;
-            Owner.IsFemale = !handler.Hero.IsMale;
             Game.CurrentGame.NotificationProxy.NotifyImpersonation(Owner, HeroTag, handler.Hero, acquiredSkill);
-            Game.CurrentGame.HandleGodHero(Owner);
-            Game.CurrentGame.Emit(GameEvent.PlayerChangedAllegiance, new GameEventArgs() { Source = Owner });
+            if (Game.CurrentGame.IsMainHero(HeroTag, Owner))
+            {
+                Owner.Allegiance = handler.Hero.Allegiance;
+                Owner.IsMale = handler.Hero.IsMale;
+                Owner.IsFemale = !handler.Hero.IsMale;
+                Game.CurrentGame.HandleGodHero(Owner);
+                Game.CurrentGame.Emit(GameEvent.PlayerChangedAllegiance, new GameEventArgs() { Source = Owner });
+            }
             Game.CurrentGame.PlayerAcquireAdditionalSkill(Owner, acquiredSkill, HeroTag);
             if (tempSkill != null)
                 Game.CurrentGame.PlayerLoseAdditionalSkill(Owner, tempSkill);

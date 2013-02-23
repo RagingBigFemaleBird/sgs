@@ -855,6 +855,11 @@ namespace Sanguosha.Core.Games
             cleanupSquad.CalldownCleanupCrew(skill, attr);
         }
 
+        public bool IsMainHero(Hero h, Player p)
+        {
+            return h == p.Hero;
+        }
+
         public ISkill LastAction { get; set; }
     }
 }
