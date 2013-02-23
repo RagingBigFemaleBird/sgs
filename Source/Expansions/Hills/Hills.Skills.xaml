@@ -23,7 +23,7 @@
 
     <sys:String x:Key="Skill.QiaoBian.Name">巧变</sys:String>
     <sys:String x:Key="Skill.QiaoBian.Description">你可以弃置一张手牌，跳过你的一个阶段（回合开始和回合结束阶段除外），若以此法跳过摸牌阶段，你获得其他至多两名角色各一张手牌；若以此法跳过出牌阶段，你可以将场上的一张牌移动到另一名角色区域里的相应位置。</sys:String>
-    <sys:String x:Key="Skill.QiaoBian.Usage" xml:space="preserve">系统提示（判定阶段）→选中一张手牌→点“确定”&#10;系统提示（摸牌阶段）→选中一张手牌→选中1~2名角色（可略过）→点“确定”&#10;系统提示（出牌阶段）→选中一张手牌→选中角色与获得牌的角色（可略过）→点“确定”&#10;系统提示（弃牌阶段）→选中一张手牌→点“确定”</sys:String>
+    <sys:String x:Key="Skill.QiaoBian.Usage" xml:space="preserve">系统提示（判定阶段）→选中一张手牌→点“确定”&#10;系统提示（摸牌阶段）→选中一张手牌→点“确定”→选中1~2名角色（可略过）→点“确定”&#10;系统提示（出牌阶段）→选中一张手牌→点“确定”→选中角色与获得牌的角色（可略过）→点“确定”&#10;系统提示（弃牌阶段）→选中一张手牌→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.TunTian.Name">屯田</sys:String>
     <sys:String x:Key="Skill.TunTian.Description">你的回合外，当你失去牌时，你可以进行一次判定，将非红桃结果的判定牌置于你的武将牌上，称为“田”；每有一张“田”，你计算的与其他角色的距离-1。</sys:String>

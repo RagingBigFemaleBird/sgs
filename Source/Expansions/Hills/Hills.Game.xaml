@@ -37,6 +37,12 @@
 
     <sys:String x:Key="CardChoice.Prompt.QiaoBian">巧变</sys:String>
     <sys:String x:Key="CardChoice.Prompt.QiaoBian.Others">巧变 请等待{0}的选择</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.QiaoBian.1">你可以发动“巧变”跳过判定阶段</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.QiaoBian.2">你可以发动“巧变”跳过摸牌阶段</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.QiaoBian.3">你可以发动“巧变”跳过出牌阶段</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.QiaoBian.4">你可以发动“巧变”跳过弃牌阶段</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.QiaoBianDraw">你可以获得1-2名角色的手牌</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.QiaoBianMove">你可以将场上的一张牌移动到另一名角色区域里</sys:String>
 
     <sys:String x:Key="CardChoice.Prompt.GuZheng">固政 请选择一张牌返回给{0}</sys:String>
     <sys:String x:Key="CardChoice.Prompt.GuZheng.Others">请等待{0}为{1}固政</sys:String>
