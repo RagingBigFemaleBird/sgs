@@ -101,15 +101,16 @@ namespace Sanguosha.UI.Controls
                 Background = new SolidColorBrush(Colors.Transparent),
                 BorderThickness = new Thickness(0d),                
                 Width = width,
-                Effect = new DropShadowEffect() { Color = Colors.Black, BlurRadius = 3, ShadowDepth = 0 },                
+                Effect = new DropShadowEffect() { Color = Colors.Black, BlurRadius = 3, ShadowDepth = 0 },
+                Margin = new Thickness(5, 3, 6, 3)
             };
             
             Border border = new Border()
             {
-                CornerRadius = new CornerRadius(3d),
+                CornerRadius = new CornerRadius(6d),
                 Child = rtb,
-                Width = width,
-                Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x3D, 0x3A, 0x2C)),
+                Width = width,                
+                Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x30, 0x2F, 0x1A)),
                 BorderThickness = new Thickness(1d),
                 Opacity = 0d,
                 HorizontalAlignment = System.Windows.HorizontalAlignment.Center
