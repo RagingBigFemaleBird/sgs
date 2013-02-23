@@ -210,7 +210,7 @@ namespace Sanguosha.UI.Controls
 
         #region PlayerInfoViewBase Members
 
-        protected override void UpdateCards()
+        internal override void UpdateCards()
         {
             weaponArea.Children.Clear();
             armorArea.Children.Clear();

@@ -171,7 +171,7 @@ namespace Sanguosha.UI.Controls
             model.IsSelected = false;
         }
 
-        protected override void UpdateCards()
+        internal override void UpdateCards()
         {
             var oldHandCards = handCardArea.Cards;
             foreach (var card in oldHandCards)
