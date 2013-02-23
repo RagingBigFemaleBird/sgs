@@ -105,7 +105,7 @@ namespace Sanguosha.UI.Controls
             mainPlayerPanel.ParentGameView = this;
             discardDeck.ParentCanvas = this.GlobalCanvas;
             this.DataContextChanged += GameView_DataContextChanged;
-            this.SizeChanged += GameView_SizeChanged;            
+            this.SizeChanged += GameView_SizeChanged;
             gameLogs = new GameLogs();
             logDocs = new List<FlowDocument>() { gameLogs.GlobalLog };
             rtbLog.Document = gameLogs.GlobalLog;
@@ -128,7 +128,7 @@ namespace Sanguosha.UI.Controls
             };
             mainPlayerPanel.SetAnimationCenter(mainPlayerAnimationCenter);
             chatEventHandler = new ChatEventHandler(LobbyModel_OnChat);
-            LobbyViewModel.Instance.OnChat += chatEventHandler;            
+            LobbyViewModel.Instance.OnChat += chatEventHandler;
         }
 
         Dictionary<KeyValuePair<Player, Player>, Line> _cueLines;
@@ -174,16 +174,16 @@ namespace Sanguosha.UI.Controls
                     anim2.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Visible, KeyTime.FromPercent(0)));
                     anim2.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Collapsed, KeyTime.FromPercent(1)));
                     Storyboard.SetTarget(anim2, line);
-                    Storyboard.SetTargetProperty(anim2, new PropertyPath(Line.VisibilityProperty));                    
-                    
+                    Storyboard.SetTargetProperty(anim2, new PropertyPath(Line.VisibilityProperty));
+
                     Storyboard animation = new Storyboard();
-                    animation.FillBehavior = FillBehavior.Stop;                   
+                    animation.FillBehavior = FillBehavior.Stop;
                     animation.Children.Add(anim1);
                     animation.Children.Add(anim2);
                     animation.Duration = _lineUpDuration;
 
                     _lineUpAnimations.Add(key, animation);
-                    
+
                     GlobalCanvas.Children.Add(line);
                 }
             }
@@ -287,8 +287,8 @@ namespace Sanguosha.UI.Controls
                 GameModel.Game = null;
             }
             this.DataContext = null;
-            
-        }        
+
+        }
 
         private void _Resize(Size size)
         {
@@ -354,7 +354,7 @@ namespace Sanguosha.UI.Controls
             discardDeck.RearrangeCards();
             _ResizeCueLines();
             InvalidateMeasure();
-            InvalidateArrange();            
+            InvalidateArrange();
         }
 
         private void _CreatePlayerInfoView(int indexInGameModel)
@@ -381,7 +381,7 @@ namespace Sanguosha.UI.Controls
 
             GameModel.MainPlayerSeatNumber = GameModel.Game.Players.IndexOf(view.PlayerModel.Player);
         }
-        
+
         private void mainPlayer_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             PlayerViewModel model = sender as PlayerViewModel;
@@ -433,7 +433,7 @@ namespace Sanguosha.UI.Controls
                 _privateDeckChoiceWindow = null;
             }
         }
-        
+
         private void GameView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (e.OldValue != null)
@@ -462,7 +462,7 @@ namespace Sanguosha.UI.Controls
             playersMap.Add(model.MainPlayerModel.Player, mainPlayerPanel);
             RearrangeSeats();
             _CreateCueLines();
-            
+
             model.PropertyChanged += model_PropertyChanged;
             model.Game.PropertyChanged += _game_PropertyChanged;
             Trace.Assert(model.MainPlayerModel != null, "Main player must exist.");
@@ -499,7 +499,7 @@ namespace Sanguosha.UI.Controls
             PlayerViewModel model = sender as PlayerViewModel;
             if (model == null || model.Player == null) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
-            {                
+            {
                 int count = GameModel.PlayerModels.Count;
                 if (e.PropertyName == "IsCardChoiceQuestionShown")
                 {
@@ -1115,16 +1115,19 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyUiAttached()
         {
-            ViewModelBase.AttachAll();
-            foreach (var player in playersMap.Values)
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                player.UpdateCards();
-            }
+                ViewModelBase.AttachAll();
+                foreach (var player in playersMap.Values)
+                {
+                    player.UpdateCards();
+                }
+            });
         }
 
         public void NotifyUiDetached()
         {
-            ViewModelBase.DetachAll(); 
+            ViewModelBase.DetachAll();
         }
 
         private ChildWindow _showHandCardsWindow;
@@ -1295,10 +1298,10 @@ namespace Sanguosha.UI.Controls
         }
 
         public void NotifyImpersonation(Player p, Hero impersonator, Hero impersonatedHero, ISkill acquiredSkill)
-        {            
+        {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                var view = playersMap[p]; 
+                var view = playersMap[p];
                 var model = view.PlayerModel.GetHeroModel(impersonator);
                 Trace.Assert(model != null);
                 if (impersonatedHero == null)
@@ -1310,7 +1313,7 @@ namespace Sanguosha.UI.Controls
                 {
                     model.ImpersonatedHeroName = impersonatedHero.Name;
                     model.ImpersonatedSkill = acquiredSkill.GetType().Name;
-                }                
+                }
                 view.UpdateImpersonateStatus(model == view.PlayerModel.Hero1Model);
             });
         }
@@ -1386,7 +1389,7 @@ namespace Sanguosha.UI.Controls
         {
             if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
-            {                
+            {
                 wuGuWindow.Close();
                 GameModel.WuGuModel = null;
             });
@@ -1424,7 +1427,7 @@ namespace Sanguosha.UI.Controls
 
         private EventHandler _showGameResultWindowHandler;
         private EventHandler _closeGameResultWindowHandler;
-        
+
         public void NotifyGameOver(bool isDraw, List<Player> winners)
         {
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
