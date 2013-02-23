@@ -177,16 +177,30 @@ namespace Sanguosha.UI.Controls
             private set;
         }
 
+        private string _impersonatedHeroName;
+
         public string ImpersonatedHeroName
         {
-            get;
-            set;
+            get { return _impersonatedHeroName; }
+            set 
+            {
+                if (_impersonatedHeroName == value) return;
+                _impersonatedHeroName = value;
+                OnPropertyChanged("ImpersonatedHeroName");
+            }
         }
+
+        private string _impersonatedSkill;
 
         public string ImpersonatedSkill
         {
-            get;
-            set;
+            get { return _impersonatedSkill; }
+            set
+            {
+                if (_impersonatedSkill == value) return;
+                _impersonatedSkill = value;
+                OnPropertyChanged("ImpersonatedSkill");
+            }
         }
 
         internal void UpdateSkillNames()

@@ -411,18 +411,18 @@
                                     <ImageBrush ImageSource="{DynamicResource PlayerInfoView.AcquiredSkill.Background}"/>
                                 </Grid.Background>
                                 <Grid.ToolTip>
-                                    <ToolTip Content="{Binding SkillName}" ContentTemplate="{StaticResource SkillToolTipTemplate}" />
+                                    <ToolTip Content="{Binding Hero1Model.ImpersonatedSkill}" ContentTemplate="{StaticResource SkillToolTipTemplate}" />
                                 </Grid.ToolTip>
-                                <local:OutlinedTextBlock Text="{res:ResourceKeyBinding Path=ImpersonatedSkill, StringFormat=Skill.{0}.Name}" FontSize="21" Fill="White" FontFamily="/Resources;component/Fonts/#LiSu" Margin="5,1" Stroke="Blue" StrokeThickness="3"/>
+                                <local:OutlinedTextBlock Text="{res:ResourceKeyBinding Path=Hero1Model.ImpersonatedSkill, StringFormat=Skill.{0}.Name}" FontSize="21" Fill="White" FontFamily="/Resources;component/Fonts/#LiSu" Margin="5,1" Stroke="Blue" StrokeThickness="3"/>
                             </Grid>
                             <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,16" Visibility="{Binding Hero2Model.ImpersonatedSkill, Converter={StaticResource objectToVisibilityConverter}}">
                                 <Grid.Background>
                                     <ImageBrush ImageSource="{DynamicResource PlayerInfoView.AcquiredSkill.Background}"/>
                                 </Grid.Background>
                                 <Grid.ToolTip>
-                                    <ToolTip Content="{Binding SkillName}" ContentTemplate="{StaticResource SkillToolTipTemplate}" />
+                                    <ToolTip Content="{Binding Hero2Model.ImpersonatedSkill}" ContentTemplate="{StaticResource SkillToolTipTemplate}" />
                                 </Grid.ToolTip>
-                                <local:OutlinedTextBlock Text="{res:ResourceKeyBinding Path=ImpersonatedSkill, StringFormat=Skill.{0}.Name}" FontSize="21" Fill="White" FontFamily="/Resources;component/Fonts/#LiSu" Margin="5,1" Stroke="Blue" StrokeThickness="3"/>
+                                <local:OutlinedTextBlock Text="{res:ResourceKeyBinding Path=Hero2Model.ImpersonatedSkill, StringFormat=Skill.{0}.Name}" FontSize="21" Fill="White" FontFamily="/Resources;component/Fonts/#LiSu" Margin="5,1" Stroke="Blue" StrokeThickness="3"/>
                             </Grid>
                             <Image Height="30" Margin="20,0,21,7" Source="/Resources;component/Images/Game/saveMe.png" IsHitTestVisible="False" Visibility="{Binding IsDying, Converter={StaticResource boolToVisibilityConverter}}" Stretch="Fill" VerticalAlignment="Bottom"/>
                             <Border x:Name="fadeMask" Background="#64000000" Visibility="Hidden" IsHitTestVisible="False">
