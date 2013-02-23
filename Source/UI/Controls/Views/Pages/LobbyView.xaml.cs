@@ -200,6 +200,7 @@ namespace Sanguosha.UI.Controls
         public void Reload()
         {
             LobbyModel.OnChat += chatEventHandler;
+            busyIndicator.IsBusy = false;
             LobbyViewModel.Instance.UpdateRooms();
         }
     }

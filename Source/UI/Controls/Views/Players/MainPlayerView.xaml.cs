@@ -185,21 +185,27 @@ namespace Sanguosha.UI.Controls
             horse1Area.Children.Clear();
             horse2Area.Children.Clear();
             delayedToolsDock.Children.Clear();
+            PlayerModel.HandCardCount = 0;
 
             if (PlayerModel == null) return;
             var player = PlayerModel.Player;
             if (player == null) return;
-                        
-            foreach (var equip in player.Equipments())
+
+            EquipCommand[] commands = { PlayerModel.WeaponCommand, PlayerModel.ArmorCommand,
+                                        PlayerModel.DefensiveHorseCommand, PlayerModel.OffensiveHorseCommand };
+            foreach (var equip in commands)
             {
-                AddEquipment(CardView.CreateCard(equip, ParentGameView.GlobalCanvas), true);
+                if (equip != null)
+                {
+                    AddEquipment(CardView.CreateCard(equip, ParentGameView.GlobalCanvas), true);
+                }
             }
             foreach (var dt in player.DelayedTools())
             {
                 AddDelayedTool(CardView.CreateCard(dt, ParentGameView.GlobalCanvas), true);
             }
             // Add hand cards last because adding equipment may result in layout change of hand card area.
-            AddHandCards(CardView.CreateCards(player.HandCards(), ParentGameView.GlobalCanvas), true);
+            AddHandCards(CardView.CreateCards(PlayerModel.HandCards, ParentGameView.GlobalCanvas), true);
         }
 
         protected override void AddHandCards(IList<CardView> cards, bool isFaked)

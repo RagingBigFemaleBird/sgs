@@ -506,6 +506,11 @@ namespace Sanguosha.UI.Controls
 
         public static CardView CreateCard(Card card, Panel parent = null, int width = 93, int height = 130)
         {
+            return CreateCard(new CardViewModel() { Card = card }, parent, width, height);
+        }
+
+        public static CardView CreateCard(CardViewModel card, Panel parent = null, int width = 93, int height = 130)
+        {
             if (_cardViewPool.Count == 0) _cardViewPool.Push(new CardView());
 
             var cardView = _cardViewPool.Pop();
@@ -514,8 +519,8 @@ namespace Sanguosha.UI.Controls
             cardView.Height = height;
             cardView.Opacity = 0d;
             cardView.Visibility = Visibility.Visible;
-            cardView.DataContext = new CardViewModel() { Card = card };            
-            cardView.IsHitTestVisible = true;            
+            cardView.DataContext = card;
+            cardView.IsHitTestVisible = true;
             Trace.Assert(cardView.Parent == null);
 
             if (parent != null)
@@ -523,6 +528,16 @@ namespace Sanguosha.UI.Controls
                 parent.Children.Add(cardView);
             }
             return cardView;
+        }
+
+        public static IList<CardView> CreateCards(IList<CardViewModel> cards, Panel parent = null)
+        {
+            List<CardView> cardViews = new List<CardView>();
+            foreach (var card in cards)
+            {
+                cardViews.Add(CreateCard(card, parent));
+            }
+            return cardViews;
         }
 
         public static IList<CardView> CreateCards(IList<Card> cards, Panel parent = null)
