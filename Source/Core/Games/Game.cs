@@ -350,12 +350,12 @@ namespace Sanguosha.Core.Games
 
         public virtual void Run()
         {
-            if (games.ContainsKey(Thread.CurrentThread))
+            if (!games.ContainsKey(Thread.CurrentThread))
             {
-                throw new GameAlreadyStartedException();
+                /*throw new GameAlreadyStartedException();
             }
             else
-            {
+            {*/
                 games.Add(Thread.CurrentThread, this);
             }
             if (GameServer != null)

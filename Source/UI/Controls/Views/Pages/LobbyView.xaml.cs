@@ -86,7 +86,35 @@ namespace Sanguosha.UI.Controls
                     ea.Result = false;
                     client.Start(null, LobbyModel.LoginToken);
                     client.RecordStream = FileRotator.CreateFile("./Replays", "SGSREPLAY", ".sgs", 10);
-                    ea.Result = true;
+                    
+                    MainGame game = null;
+
+                    Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+                    {
+                        try
+                        {
+                            game = new MainGame();
+                            game.NetworkClient = client;
+                            if (NavigationService != null)
+                            {
+                                MainGame.BackwardNavigationService = this.NavigationService;
+                            }
+                            else
+                            {
+                                ViewModelBase.IsDetached = true;
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            game = null;
+                        }
+                    });
+
+                    if (game != null)
+                    {
+                        game.Start();
+                        ea.Result = true;
+                    }
                 }
                 catch (Exception e)
                 {
@@ -96,28 +124,17 @@ namespace Sanguosha.UI.Controls
             };
 
             worker.RunWorkerCompleted += (o, ea) =>
-            {
-                busyIndicator.IsBusy = false;
+            {                
                 if ((bool)ea.Result)
                 {
                     chatBox.Document.Blocks.Clear();
-                    LobbyViewModel.Instance.OnChat -= chatEventHandler;
-                    var game = new MainGame();
-                    game.NetworkClient = client;
-                    this.DataContext = null;
-                    if (NavigationService != null)
-                    {
-                        NavigationService.Navigate(game);
-                    }
-                    else
-                    {
-                        ViewModelBase.IsDetached = true;
-                        game.Start();
-                    }
+                    LobbyViewModel.Instance.OnChat -= chatEventHandler;                    
+                    this.DataContext = null;                            
                     return;
                 }
                 else
                 {
+                    busyIndicator.IsBusy = false;
                     MessageBox.Show("Failed to create connection for " + LobbyModel.GameServerConnectionString);
                     Trace.Assert(false);
                 }

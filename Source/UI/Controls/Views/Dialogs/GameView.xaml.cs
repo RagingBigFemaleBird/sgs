@@ -293,7 +293,7 @@ namespace Sanguosha.UI.Controls
 
         private void _Resize(Size size)
         {
-            if (ViewModelBase.IsDetached) return;
+            if (!(size.Width > 0 && size.Height > 0)) return;
             if (profileBoxes.Count == 0)
             {
                 return;

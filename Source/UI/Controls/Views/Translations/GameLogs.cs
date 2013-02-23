@@ -53,6 +53,8 @@ namespace Sanguosha.UI.Controls
 
         public void AppendPickHeroLog(Player player, bool isPrimaryHero)
         {
+            if (!Logs.ContainsKey(player)) return;
+            
             if (isPrimaryHero && player.Hero == null) return;
             else if (!isPrimaryHero && player.Hero2 == null) return;
 
@@ -124,6 +126,7 @@ namespace Sanguosha.UI.Controls
 
         public void AppendDamageLog(Player source, Player target, int magnitude, DamageElement element)
         {
+            if (!Logs.ContainsKey(target)) return;
             Trace.Assert(target != null);
             List<FlowDocument> docs = new List<FlowDocument>() { Logs[target], GlobalLog };
             if (source != null) docs.Add(Logs[source]);
@@ -139,6 +142,7 @@ namespace Sanguosha.UI.Controls
 
         public void AppendDeathLog(Player p, Player by)
         {
+            if (!Logs.ContainsKey(p)) return;
             List<FlowDocument> docs = new List<FlowDocument>() { Logs[p], GlobalLog };
             if (by != null) docs.Add(Logs[by]);
             foreach (var doc in docs)
@@ -158,6 +162,7 @@ namespace Sanguosha.UI.Controls
 
         internal void AppendMultipleChoiceLog(Player p, string answer)
         {
+            if (!Logs.ContainsKey(p)) return;
             List<FlowDocument> docs = new List<FlowDocument>() { Logs[p], GlobalLog };
             foreach (var doc in docs)
             {
@@ -175,6 +180,7 @@ namespace Sanguosha.UI.Controls
 
         internal void AppendLoseHealthLog(Player player, int delta)
         {
+            if (!Logs.ContainsKey(player)) return;
             List<FlowDocument> docs = new List<FlowDocument>() { Logs[player], GlobalLog };
             foreach (var doc in docs)
             {
@@ -188,6 +194,7 @@ namespace Sanguosha.UI.Controls
 
         internal void AppendShowCardsLog(Player p, IList<Card> cards)
         {
+            if (!Logs.ContainsKey(p)) return;
             List<FlowDocument> docs = new List<FlowDocument>() { Logs[p], GlobalLog };
             foreach (var doc in docs)
             {
@@ -201,6 +208,7 @@ namespace Sanguosha.UI.Controls
 
         internal void AppendReforgeLog(Player p, ICard card)
         {
+            if (!Logs.ContainsKey(p)) return;
             List<FlowDocument> docs = new List<FlowDocument>() { Logs[p], GlobalLog };
             foreach (var doc in docs)
             {

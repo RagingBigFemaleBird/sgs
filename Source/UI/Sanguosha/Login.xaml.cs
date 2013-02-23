@@ -196,10 +196,9 @@ namespace Sanguosha.UI.Main
                         {
                             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
                             {
-                                MainGame.ReconnectionNavigationService = this.NavigationService;
+                                MainGame.BackwardNavigationService = this.NavigationService;
                                 busyIndicator.BusyContent = Resources["Busy.Reconnecting"];
-                            });
-                            lobbyModel.NotifyGameStart(reconnect);
+                            });                            
                         }
                     }                    
                     ea.Result = stat;
@@ -227,6 +226,7 @@ namespace Sanguosha.UI.Main
                     }
                     else
                     {
+                        lobbyModel.NotifyGameStart(reconnect);
                         busyIndicator.IsBusy = true;
                     }
 

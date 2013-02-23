@@ -25,6 +25,7 @@ using System.Collections.ObjectModel;
 using Sanguosha.Core.Cards;
 using Sanguosha.Lobby.Core;
 using Sanguosha.Core.Utils;
+using System.ComponentModel;
 
 namespace Sanguosha.UI.Controls
 {
@@ -47,14 +48,14 @@ namespace Sanguosha.UI.Controls
         void gameView_OnUiAttached(object sender, EventArgs e)
         {
             gameView.OnUiAttached -= gameView_OnUiAttached;
-            if (ReconnectionNavigationService != null)
+            if (BackwardNavigationService != null)
             {
-                ReconnectionNavigationService.Navigate(this);
-                ReconnectionNavigationService = null;
+                BackwardNavigationService.Navigate(this);
+                BackwardNavigationService = null;
             }
         }
 
-        public static NavigationService ReconnectionNavigationService
+        public static NavigationService BackwardNavigationService
         {
             get;
             set;
@@ -133,7 +134,7 @@ namespace Sanguosha.UI.Controls
             GameViewModel gameModel = new GameViewModel();
             gameModel.Game = _game;
             gameModel.MainPlayerSeatNumber = NetworkClient.SelfId >= _game.Players.Count ? 0 : NetworkClient.SelfId;
-            gameView.DataContext = gameModel;
+            
             _game.NotificationProxy = gameView;
             List<ClientNetworkUiProxy> inactive = new List<ClientNetworkUiProxy>();
             for (int i = 0; i < _game.Players.Count; i++)
@@ -161,6 +162,17 @@ namespace Sanguosha.UI.Controls
             _game.GlobalProxy = new GlobalClientUiProxy(_game, activeClientProxy, inactive);
             _game.IsUiDetached = _game.IsUiDetached;
 #endif
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                _game.RegisterCurrentThread();
+                gameView.DataContext = gameModel;
+                if (BackwardNavigationService != null)
+                {
+                    BackwardNavigationService.Navigate(this);
+                    BackwardNavigationService = null;
+                }
+            });
+            _game.Run();            
         }
 
         private Game _game;
@@ -169,14 +181,12 @@ namespace Sanguosha.UI.Controls
 
         public void Start()
         {
-            InitGame();
-            gameThread = new Thread(_game.Run) { IsBackground = true };
-            gameThread.Start();
+            gameThread = new Thread(InitGame) { IsBackground = true };
+            gameThread.Start();            
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            Start();
         }
 
         private void btnGetCard_Click(object sender, RoutedEventArgs e)
