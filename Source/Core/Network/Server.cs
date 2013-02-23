@@ -229,7 +229,13 @@ namespace Sanguosha.Core.Network
                         if (spectatorJoining)
                         {
                             ReplaySplitterStream rpstream = handlers[indexC].stream as ReplaySplitterStream;
+                            var tempSender = new ItemSender(stream);
+                            tempSender.Send(new CommandItem() { command = Command.Detach, type = ItemType.Int, data = 0 });
+                            tempSender.Flush();
                             rpstream.DumpTo(stream);
+                            stream.Flush();
+                            tempSender.Send(new CommandItem() { command = Command.Attach, type = ItemType.Int, data = 0 });
+                            tempSender.Flush();
                             rpstream.AddStream(stream);
                         }
                         else
