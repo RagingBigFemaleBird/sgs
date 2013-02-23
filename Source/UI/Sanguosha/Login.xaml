@@ -12,7 +12,7 @@
       mc:Ignorable="d" 
       xmlns:sys="clr-namespace:System;assembly=mscorlib"
       d:DesignHeight="768" d:DesignWidth="1024"
-      Title="Login">
+      Title="Login" UseLayoutRounding="True">
     <Page.Resources>
     <ResourceDictionary>    	
         <ResourceDictionary.MergedDictionaries>

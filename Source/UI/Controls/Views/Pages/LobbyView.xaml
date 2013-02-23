@@ -299,6 +299,9 @@
 					<RowDefinition Height="30" />
 					<RowDefinition Height="30" />
 					<RowDefinition Height="30" />
+					<RowDefinition Height="30" />
+					<RowDefinition Height="30" />
+					<RowDefinition Height="30" />
 				</Grid.RowDefinitions>
 				<TextBlock Text="游戏模式" VerticalAlignment="Center" />
 				<ComboBox Grid.Column="2" Height="20" VerticalAlignment="Center" Margin="0,0,10,0" />
@@ -306,13 +309,17 @@
 				<CheckBox Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"/>
 				<TextBlock Text="双内奸" Grid.Row="2" VerticalAlignment="Center" />
 				<CheckBox Grid.Row="2" Grid.Column="2" VerticalAlignment="Center"/>
-				<TextBlock Text="卡牌扩展" Grid.Row="3" VerticalAlignment="Center"/>
-				<UniformGrid Columns="4" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center">
+				<TextBlock Text="选将数" Grid.Row="3" VerticalAlignment="Center"/>
+				<ComboBox Grid.Row="3" Grid.Column="2" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left" Width="40" />
+				<TextBlock Text="出牌时间" Grid.Row="4" VerticalAlignment="Center"/>
+				<ComboBox Grid.Row="4" Grid.Column="2" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left" Width="40" />
+				<TextBlock Text="卡牌扩展" Grid.Row="5" VerticalAlignment="Center"/>
+				<UniformGrid Columns="4" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center">
 					<CheckBox Content="Ex" IsChecked="True" IsEnabled="False" Margin="0,0,10,0" />
 					<CheckBox Content="军" IsChecked="True" IsEnabled="False" Margin="0,0,10,0" />
 				</UniformGrid>
-				<TextBlock Text="武将扩展" Grid.Row="4" VerticalAlignment="Top"/>
-				<UniformGrid Columns="4" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center">
+				<TextBlock Text="武将扩展" Grid.Row="6" VerticalAlignment="Top"/>
+				<UniformGrid Columns="4" Grid.Row="6" Grid.Column="2" VerticalAlignment="Center">
 					<CheckBox Content="风" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
 					<CheckBox Content="火" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
 					<CheckBox Content="林" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
@@ -321,6 +328,10 @@
 					<CheckBox Content="SP" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
 					<CheckBox Content="将" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
 				</UniformGrid>
+				<StackPanel Grid.Row="7" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Orientation="Horizontal">
+				<Button Content="确定" Margin="3,0" Width="45" Height="22" Style="{DynamicResource DefaultButtonStyleBrown}"/>
+				<Button Content="取消" Margin="20,0" Width="45" Height="22" Style="{DynamicResource DefaultButtonStyle1}"/>
+				</StackPanel>
 			</Grid>
 		</xctk:ChildWindow>
         <xctk:BusyIndicator Grid.RowSpan="2" x:Name="busyIndicator" Style="{DynamicResource BusyIndicatorStyle1}" Margin="0" Grid.Row="1" Grid.ColumnSpan="2" d:IsHidden="True" />
