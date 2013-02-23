@@ -102,7 +102,8 @@ namespace Sanguosha.UI.Controls
                 BorderThickness = new Thickness(0d),                
                 Width = width,
                 Effect = new DropShadowEffect() { Color = Colors.Black, BlurRadius = 3, ShadowDepth = 0 },
-                Margin = new Thickness(5, 3, 6, 3)
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Center,
+                Margin = new Thickness(5, 3, 5, 3)
             };
             
             Border border = new Border()
