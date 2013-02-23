@@ -582,6 +582,7 @@ namespace Sanguosha.UI.Controls
 
         void _game_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 string name = e.PropertyName;

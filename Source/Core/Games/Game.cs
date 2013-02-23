@@ -676,7 +676,7 @@ namespace Sanguosha.Core.Games
             {
                 isUiDetached = value;
                 if (notificationProxy == null) return;
-                if ((lastUiState == 0) ^ (isUiDetached == 0)) return;
+                if (!((lastUiState == 0) ^ (isUiDetached == 0))) return;
                 lastUiState = isUiDetached;
                 if (isUiDetached == 0)
                 {
@@ -699,13 +699,11 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        private static INotificationProxy dummyProxy = new DummyNotificationProxy();
-
         private INotificationProxy notificationProxy;
 
         public INotificationProxy NotificationProxy
         {
-            get { if (IsUiDetached != 0) return dummyProxy; return notificationProxy; }
+            get { return notificationProxy; }
             set { notificationProxy = value; }
         }
 

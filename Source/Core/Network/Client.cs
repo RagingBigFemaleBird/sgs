@@ -131,12 +131,12 @@ namespace Sanguosha.Core.Network
                 CommandItem item = (CommandItem)o;
                 if (item.command == Command.Attach)
                 {
-                    Game.CurrentGame.IsUiDetached++;
+                    Game.CurrentGame.IsUiDetached--;
                     return Receive();
                 }
                 if (item.command == Command.Detach)
                 {
-                    Game.CurrentGame.IsUiDetached--;
+                    Game.CurrentGame.IsUiDetached++;
                     return Receive();
                 }
                 if (item.command == Command.Interrupt)
