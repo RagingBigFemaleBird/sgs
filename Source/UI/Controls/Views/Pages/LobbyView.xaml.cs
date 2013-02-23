@@ -111,6 +111,7 @@ namespace Sanguosha.UI.Controls
                     }
                     else
                     {
+                        ViewModelBase.IsDetached = true;
                         game.Start();
                     }
                     return;
