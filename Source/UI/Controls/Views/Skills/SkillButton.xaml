@@ -196,35 +196,17 @@
                                 </Image.Effect>
                             </Image>
                         </Canvas>
-                        
-                        <Viewbox x:Name="viewboxLock" Opacity="0" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
-                            <Viewbox.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform/>
-                                    <SkewTransform/>
-                                    <RotateTransform/>
-                                    <TranslateTransform/>
-                                </TransformGroup>
-                            </Viewbox.RenderTransform>
-                            <StackPanel Orientation="Horizontal" Height="64">			
-                                <Image Height="48" Source="../Resources/SkillButton/lock/locked.png" Stretch="Fill" />
-                                <local:OutlinedTextBlock Height="64" FontSize="55" Text="锁定发动" VerticalAlignment="Center" FontFamily="pack://application:,,,/Resources;component/Fonts/#STLiTi" Stroke="Transparent" Fill="#FFFD9700" />
-                            </StackPanel>		
-                        </Viewbox>
-                        <Viewbox x:Name="viewboxUnlock" Opacity="0" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
-                            <Viewbox.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform/>
-                                    <SkewTransform/>
-                                    <RotateTransform/>
-                                    <TranslateTransform/>
-                                </TransformGroup>
-                            </Viewbox.RenderTransform>
-                            <StackPanel Orientation="Horizontal" Height="64">			
-                                <Image Height="48" Source="../Resources/SkillButton/lock/unlocked.png" Stretch="Fill" />
-                                <local:OutlinedTextBlock Height="64" FontSize="55" Text="解除锁定" VerticalAlignment="Center" FontFamily="pack://application:,,,/Resources;component/Fonts/#STLiTi" Stroke="Transparent" Fill="#FFFD9700" />
-                            </StackPanel>		
-                        </Viewbox>
+
+                        <Image Height="48" Source="../Resources/SkillButton/lock/locked.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="imgLock" Opacity="0" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
+                            <Image.RenderTransform>
+                                <ScaleTransform/>                                
+                            </Image.RenderTransform>
+                        </Image>
+                        <Image Height="48" Source="../Resources/SkillButton/lock/Unlocked.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="imgUnlock" Opacity="0" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
+                            <Image.RenderTransform>
+                                <ScaleTransform/>
+                            </Image.RenderTransform>
+                        </Image>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <MultiDataTrigger>
@@ -235,17 +217,17 @@
                             <MultiDataTrigger.EnterActions>								
                                 <BeginStoryboard>
                                     <Storyboard>                                		
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="viewboxLock">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="imgLock">
                                             <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
                                             <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1"/>
                                             <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1"/>
                                             <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0" />												
                                         </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="viewboxLock">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" Storyboard.TargetName="imgLock">
                                             <EasingDoubleKeyFrame KeyTime="0" Value="4"/>
                                             <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1"/>
                                         </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="viewboxLock">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" Storyboard.TargetName="imgLock">
                                             <EasingDoubleKeyFrame KeyTime="0" Value="4"/>
                                             <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1"/>
                                         </DoubleAnimationUsingKeyFrames>
@@ -261,17 +243,17 @@
                             <MultiDataTrigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="viewboxUnlock">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="imgUnlock">
                                             <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
                                             <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
                                             <EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1"/>
                                             <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0"/>
                                         </DoubleAnimationUsingKeyFrames>									
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="viewboxUnlock">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" Storyboard.TargetName="imgUnlock">
                                             <EasingDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
                                             <EasingDoubleKeyFrame KeyTime="0:0:1" Value="4"/>
                                         </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="viewboxUnlock">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" Storyboard.TargetName="imgUnlock">
                                             <EasingDoubleKeyFrame KeyTime="0:0:0" Value="1"/>
                                             <EasingDoubleKeyFrame KeyTime="0:0:1" Value="4"/>
                                         </DoubleAnimationUsingKeyFrames>

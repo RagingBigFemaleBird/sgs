@@ -40,7 +40,24 @@ namespace Sanguosha.UI.Controls
             ctrlGetSkill.OnSkillNameSelected += new SkillNameSelectedHandler(ctrlGetSkill_OnSkillNameSelected);
             gameEndEventHandler = gameView_OnGameCompleted;
             gameView.OnGameCompleted += gameEndEventHandler;
+            gameView.OnUiAttached += gameView_OnUiAttached;
             // Insert code required on object creation below this point.
+        }
+
+        void gameView_OnUiAttached(object sender, EventArgs e)
+        {
+            gameView.OnUiAttached -= gameView_OnUiAttached;
+            if (ReconnectionNavigationService != null)
+            {
+                ReconnectionNavigationService.Navigate(this);
+                ReconnectionNavigationService = null;
+            }
+        }
+
+        public static NavigationService ReconnectionNavigationService
+        {
+            get;
+            set;
         }
 
         EventHandler gameEndEventHandler;

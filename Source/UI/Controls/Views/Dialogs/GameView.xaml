@@ -17,6 +17,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Common.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources;component/Lobby.xaml"/>
                 <ResourceDictionary Source="../Players/MarkView.xaml"/>
                 <ResourceDictionary Source="../Buttons/MultiChoiceButton.xaml"/>
                 <ResourceDictionary Source="../Dialogs/PromptBox.xaml"/>
@@ -284,5 +285,6 @@
                 <local:GameResultBox x:Name="gameResultBox" />
             </xctk:ChildWindow>
         </Grid>
+        <xctk:BusyIndicator x:Name="busyIndicator" Style="{DynamicResource BusyIndicatorStyle1}" Margin="0" Grid.RowSpan="2" Grid.ColumnSpan="2" d:IsHidden="True" />
     </Grid>
 </UserControl>

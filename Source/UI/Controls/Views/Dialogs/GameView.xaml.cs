@@ -257,6 +257,7 @@ namespace Sanguosha.UI.Controls
 
         #region Events
         public event EventHandler OnGameCompleted;
+        public event EventHandler OnUiAttached;
         #endregion
 
         #region Private Functions
@@ -1122,11 +1123,22 @@ namespace Sanguosha.UI.Controls
                 {
                     player.UpdateCards();
                 }
-            });
+                busyIndicator.IsBusy = false;
+                var handler = OnUiAttached;
+                if (handler != null)
+                {
+                    handler(this, new EventArgs());
+                }
+            });            
         }
 
         public void NotifyUiDetached()
         {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                busyIndicator.BusyContent = Resources["Busy.Reconnecting"];
+                busyIndicator.IsBusy = true;
+            });
             ViewModelBase.DetachAll();
         }
 

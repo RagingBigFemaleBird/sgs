@@ -25,6 +25,7 @@ using System.Net.NetworkInformation;
 using System.Net;
 using System.Net.Security;
 using Sanguosha.Core.Utils;
+using System.Diagnostics;
 
 namespace Sanguosha.UI.Main
 {
@@ -190,7 +191,17 @@ namespace Sanguosha.UI.Main
                     if (stat == LoginStatus.Success)
                     {
                         LobbyViewModel.Instance.CurrentAccount = ret;
-                    }
+                        
+                        if (reconnect != null)
+                        {
+                            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+                            {
+                                MainGame.ReconnectionNavigationService = this.NavigationService;
+                                busyIndicator.BusyContent = Resources["Busy.Reconnecting"];
+                            });
+                            lobbyModel.NotifyGameStart(reconnect);
+                        }
+                    }                    
                     ea.Result = stat;
                 }
                 catch (Exception e)
@@ -209,8 +220,16 @@ namespace Sanguosha.UI.Main
                     var lobbyModel = LobbyViewModel.Instance;
                     lobbyModel.Connection = server;
                     lobbyModel.LoginToken = token;
-                    this.NavigationService.Navigate(lobby);
-                    if (reconnect != null) lobbyModel.NotifyGameStart(reconnect);
+
+                    if (reconnect == null)
+                    {
+                        this.NavigationService.Navigate(lobby);
+                    }
+                    else
+                    {
+                        busyIndicator.IsBusy = true;
+                    }
+
                     success = true;
                 }
                 if (!success)

@@ -102,10 +102,13 @@ namespace Sanguosha.UI.Controls
                 {
                     chatBox.Document.Blocks.Clear();
                     LobbyViewModel.Instance.OnChat -= chatEventHandler;
-                    MainGame game = new MainGame();
+                    var game = new MainGame();
                     game.NetworkClient = client;
                     this.DataContext = null;
-                    this.NavigationService.Navigate(game);
+                    if (NavigationService != null)
+                    {
+                        NavigationService.Navigate(game);
+                    }
                     return;
                 }
                 else
