@@ -100,7 +100,7 @@ namespace Sanguosha.UI.Controls
             var docs = Logs.Values.Concat(new List<FlowDocument>() { GlobalLog });
             foreach (var doc in docs)
             {
-                if (doc.Blocks.Last().Name == _separatorMagic)
+                if (doc.Blocks.Count() != 0 && doc.Blocks.Last().Name == _separatorMagic)
                 {
                     continue;
                 }
