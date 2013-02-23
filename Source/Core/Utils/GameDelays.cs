@@ -48,6 +48,7 @@ namespace Sanguosha.Core.Utils
 
         public static void Delay(GameDelayTypes DelayCategory)
         {
+            if (Game.CurrentGame.IsUiDetached != 0) return;
             if (DelayCategory == GameDelayTypes.None)
             {
                 return;
