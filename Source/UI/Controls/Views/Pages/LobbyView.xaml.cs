@@ -109,6 +109,10 @@ namespace Sanguosha.UI.Controls
                     {
                         NavigationService.Navigate(game);
                     }
+                    else
+                    {
+                        game.Start();
+                    }
                     return;
                 }
                 else

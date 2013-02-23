@@ -167,11 +167,16 @@ namespace Sanguosha.UI.Controls
         
         Thread gameThread;
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        public void Start()
         {
             InitGame();
             gameThread = new Thread(_game.Run) { IsBackground = true };
             gameThread.Start();
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            Start();
         }
 
         private void btnGetCard_Click(object sender, RoutedEventArgs e)
