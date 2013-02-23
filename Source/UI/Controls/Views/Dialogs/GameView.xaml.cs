@@ -859,7 +859,7 @@ namespace Sanguosha.UI.Controls
                     IDeckContainer deck = _GetMovementDeck(stackCards.Key);
                     IList<CardView> cards = null;
                     Trace.Assert(move.Helper != null);
-                    if (!move.Helper.IsFakedMove || move.Helper.AlwaysShowLog)
+                    if (!ViewModelBase.IsDetached && (!move.Helper.IsFakedMove || move.Helper.AlwaysShowLog))
                     {
                         Application.Current.Dispatcher.BeginInvoke((ThreadStart)delegate()
                         {
@@ -871,12 +871,28 @@ namespace Sanguosha.UI.Controls
                         cards = deck.RemoveCards(stackCards.Key.DeckType, stackCards.Value);
                     });
                     Trace.Assert(cards != null);
-                    foreach (var card in cards)
+                    if (ViewModelBase.IsDetached)
                     {
                         Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
                         {
-                            card.Update();
+                            foreach (var card in cards)
+                            {
+                                if (card.CardModel != null)
+                                {
+                                    card.CardModel.Update();
+                                }
+                            }
                         });
+                    }
+                    else
+                    {
+                        foreach (var card in cards)
+                        {
+                            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+                            {
+                                card.Update();
+                            });
+                        }
                     }
                     cardsToAdd.AddRange(cards);
                 }
@@ -1099,7 +1115,11 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyUiAttached()
         {
-            ViewModelBase.AttachAll(); 
+            ViewModelBase.AttachAll();
+            foreach (var player in playersMap.Values)
+            {
+                player.UpdateCards();
+            }
         }
 
         public void NotifyUiDetached()

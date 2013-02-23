@@ -26,7 +26,7 @@ namespace Sanguosha.UI.Controls
             UpdateCards();
         }
 
-        protected virtual void UpdateCards()
+        internal virtual void UpdateCards()
         {
             
         }
