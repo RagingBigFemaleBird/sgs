@@ -197,12 +197,12 @@
                             </Image>
                         </Canvas>
 
-                        <Image Height="48" Source="../Resources/SkillButton/lock/locked.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="imgLock" Opacity="0" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
+                        <Image Source="../Resources/SkillButton/lock/locked.png" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="imgLock" Opacity="0" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
                             <Image.RenderTransform>
                                 <ScaleTransform/>                                
                             </Image.RenderTransform>
                         </Image>
-                        <Image Height="48" Source="../Resources/SkillButton/lock/Unlocked.png" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="imgUnlock" Opacity="0" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
+                        <Image Source="../Resources/SkillButton/lock/Unlocked.png" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="imgUnlock" Opacity="0" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
                             <Image.RenderTransform>
                                 <ScaleTransform/>
                             </Image.RenderTransform>
@@ -219,17 +219,17 @@
                                     <Storyboard>                                		
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="imgLock">
                                             <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                                            <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1"/>
-                                            <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1"/>
-                                            <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0" />												
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1.2" Value="1"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:1.5" Value="0" />												
                                         </DoubleAnimationUsingKeyFrames>
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" Storyboard.TargetName="imgLock">
                                             <EasingDoubleKeyFrame KeyTime="0" Value="4"/>
-                                            <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="1.2"/>
                                         </DoubleAnimationUsingKeyFrames>
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" Storyboard.TargetName="imgLock">
                                             <EasingDoubleKeyFrame KeyTime="0" Value="4"/>
-                                            <EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="1.2"/>
                                         </DoubleAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </BeginStoryboard>
