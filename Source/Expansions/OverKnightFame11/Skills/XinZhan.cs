@@ -44,8 +44,6 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
 
         public override bool Commit(GameEventArgs arg)
         {
-            Game.CurrentGame.NotificationProxy.NotifyExcitingSkill(new ActionLog() { SkillAction = this });
-            GameDelays.Delay(GameDelayTypes.Awaken);
             Owner[XinZhanUsed] = 1;
             DeckType XinZhanDeck = new DeckType("XinZhan");
             CardsMovement move = new CardsMovement();
