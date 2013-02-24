@@ -211,7 +211,6 @@ namespace Sanguosha.UI.Main
 
             worker.RunWorkerCompleted += (o, ea) =>
             {
-                busyIndicator.IsBusy = false;
                 bool success = false;
                 if ((LoginStatus)ea.Result == LoginStatus.Success)
                 {
@@ -223,6 +222,7 @@ namespace Sanguosha.UI.Main
                     if (reconnect == null)
                     {
                         this.NavigationService.Navigate(lobby);
+                        busyIndicator.IsBusy = false;
                     }
                     else
                     {
@@ -246,6 +246,7 @@ namespace Sanguosha.UI.Main
                     {
                         MessageBox.Show("Failed to launch client");
                     }
+                    busyIndicator.IsBusy = false;
                 }
             };
 
