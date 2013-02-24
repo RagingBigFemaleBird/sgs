@@ -429,8 +429,10 @@ namespace Sanguosha.UI.Main
                 return;
             }
             if (game != null)
-            {            
-                this.NavigationService.Navigate(game);
+            {
+                MainGame.BackwardNavigationService = this.NavigationService;
+                game.Start();
+                // this.NavigationService.Navigate(game);
             }
 
         }
