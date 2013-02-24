@@ -42,9 +42,7 @@ namespace Sanguosha.UI.Controls
                 if (value == null) return;
                 Id = value.Id;
                 State = value.State;
-                OptionalHeros = value.OptionalHeros;
-                TimeOutSeconds = value.TimeOutSeconds;
-                DualHeroMode = value.DualHeroMode;
+                Settings = value.Settings;
                 ClearSeats();
                 foreach (var seat in value.Seats)
                 {
@@ -53,37 +51,38 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        bool dualHeroMode;
+        RoomSettings _settings;
 
-        public bool DualHeroMode
+        public RoomSettings Settings 
         {
-            get { return dualHeroMode; }
-            set { dualHeroMode = value; }
+            get
+            {
+                return _settings;
+            }
+            set
+            {
+                _settings = value;
+                OnPropertyChanged("Settings");
+            }
         }
 
         public string ModeString
         {
             get
             {
-                if (DualHeroMode) return "DualHeroRoleGame";
-                else return "SingleHeroRoleGame";
+                if (Settings.IsDualHeroMode && Settings.NumberOfDefectors == 2) return "DualHeroDualDefectorRoleGame";
+                else if (Settings.IsDualHeroMode && Settings.NumberOfDefectors == 1) return "DualHeroSingleDefectorRoleGame";
+                else if (!Settings.IsDualHeroMode && Settings.NumberOfDefectors == 2) return "SingleHeroDualDefectorRoleGame";
+                else if (!Settings.IsDualHeroMode && Settings.NumberOfDefectors == 1) return "SingleHeroSingleDefectorRoleGame";
+                else
+                {
+                    Trace.Assert(false, "Unknown game mode");
+                    return "SingleHeroSingleDefectorRoleGame";
+                }
             }
         }
 
-        private int _timeOutSeconds;
-
-        public int TimeOutSeconds
-        {
-            get { return _timeOutSeconds; }
-            set
-            {
-                if (_timeOutSeconds == value) return;
-                _timeOutSeconds = value;
-                OnPropertyChanged("TimeOutSeconds");
-            }
-        }
-
-        public int OpenSeatCount
+        public int EmptySeatCount
         {
             get
             {
@@ -91,11 +90,19 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public int OpenSeatCount
+        {
+            get
+            {
+                return Seats.Count(p => p.State != SeatState.Closed);
+            }
+        }
+
         public string OpenSeatString
         {
             get
             {
-                return string.Format("{0}/{1}", OpenSeatCount, Seats.Count);
+                return string.Format("{0}/{1}", EmptySeatCount, OpenSeatCount);
             }
         }
 

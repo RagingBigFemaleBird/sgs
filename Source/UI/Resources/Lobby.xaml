@@ -1,8 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="GameMode.SingleHeroRoleGame.Name">身份单内单将</sys:String>
-    <sys:String x:Key="GameMode.DualHeroRoleGame.Name">身份单内双将</sys:String>
+    <sys:String x:Key="GameMode.SingleHeroSingleDefectorRoleGame.Name">单将单内身份场</sys:String>
+    <sys:String x:Key="GameMode.SingleHeroDualDefectorRoleGame.Name">单将双内身份场</sys:String>
+    <sys:String x:Key="GameMode.DualHeroSingleDefectorRoleGame.Name">双将单内身份场</sys:String>
+    <sys:String x:Key="GameMode.DualHeroDualDefectorRoleGame.Name">双将双内身份场</sys:String>
     <sys:String x:Key="RoomState.Gaming.Name">游戏中</sys:String>
     <sys:String x:Key="RoomState.Waiting.Name">等待中</sys:String>
     <sys:String x:Key="Busy.LaunchServer">正在启动服务器，请稍后。。。</sys:String>
@@ -15,30 +17,30 @@
     <sys:String x:Key="Lobby.Event.SelfKicked">你被房主请出了房间</sys:String>
     <SolidColorBrush x:Key="RoomState.Gaming.Color" Color="#FFE4D5A0" />
     <SolidColorBrush x:Key="RoomState.Waiting.Color" Color="Red" /> 
-	
-	<sys:String x:Key="Facial.0.Hint">微笑</sys:String>
-	<sys:String x:Key="Facial.1.Hint">撇嘴</sys:String>
-	<sys:String x:Key="Facial.2.Hint">色</sys:String>
-	<sys:String x:Key="Facial.3.Hint">无视</sys:String>
-	<sys:String x:Key="Facial.4.Hint">酷</sys:String>
-	<sys:String x:Key="Facial.5.Hint">撅嘴</sys:String>
-	<sys:String x:Key="Facial.6.Hint">无聊</sys:String>
-	<sys:String x:Key="Facial.7.Hint">卖萌</sys:String>
-	<sys:String x:Key="Facial.8.Hint">怒</sys:String>
-	<sys:String x:Key="Facial.9.Hint">晕</sys:String>
-	<sys:String x:Key="Facial.10.Hint">坏笑</sys:String>	
-	<sys:String x:Key="Facial.11.Hint">惊讶</sys:String>
-	<sys:String x:Key="Facial.12.Hint">难过</sys:String>
-	<sys:String x:Key="Facial.13.Hint">猪头</sys:String>
-	<sys:String x:Key="Facial.14.Hint">叹气</sys:String>
-	<sys:String x:Key="Facial.15.Hint">困</sys:String>
-	<sys:String x:Key="Facial.16.Hint">偷笑</sys:String>
-	<sys:String x:Key="Facial.17.Hint">汗</sys:String>
-	<sys:String x:Key="Facial.18.Hint">大笑</sys:String>
-	<sys:String x:Key="Facial.19.Hint">衰</sys:String>
-	<sys:String x:Key="Facial.20.Hint">闪电</sys:String>
-	<sys:String x:Key="Facial.21.Hint">红心</sys:String>
-	<sys:String x:Key="Facial.22.Hint">地雷</sys:String>
-	<sys:String x:Key="Facial.23.Hint">高手</sys:String>
-	<sys:String x:Key="Facial.24.Hint">OK</sys:String>
+    
+    <sys:String x:Key="Facial.0.Hint">微笑</sys:String>
+    <sys:String x:Key="Facial.1.Hint">撇嘴</sys:String>
+    <sys:String x:Key="Facial.2.Hint">色</sys:String>
+    <sys:String x:Key="Facial.3.Hint">无视</sys:String>
+    <sys:String x:Key="Facial.4.Hint">酷</sys:String>
+    <sys:String x:Key="Facial.5.Hint">撅嘴</sys:String>
+    <sys:String x:Key="Facial.6.Hint">无聊</sys:String>
+    <sys:String x:Key="Facial.7.Hint">卖萌</sys:String>
+    <sys:String x:Key="Facial.8.Hint">怒</sys:String>
+    <sys:String x:Key="Facial.9.Hint">晕</sys:String>
+    <sys:String x:Key="Facial.10.Hint">坏笑</sys:String>	
+    <sys:String x:Key="Facial.11.Hint">惊讶</sys:String>
+    <sys:String x:Key="Facial.12.Hint">难过</sys:String>
+    <sys:String x:Key="Facial.13.Hint">猪头</sys:String>
+    <sys:String x:Key="Facial.14.Hint">叹气</sys:String>
+    <sys:String x:Key="Facial.15.Hint">困</sys:String>
+    <sys:String x:Key="Facial.16.Hint">偷笑</sys:String>
+    <sys:String x:Key="Facial.17.Hint">汗</sys:String>
+    <sys:String x:Key="Facial.18.Hint">大笑</sys:String>
+    <sys:String x:Key="Facial.19.Hint">衰</sys:String>
+    <sys:String x:Key="Facial.20.Hint">闪电</sys:String>
+    <sys:String x:Key="Facial.21.Hint">红心</sys:String>
+    <sys:String x:Key="Facial.22.Hint">地雷</sys:String>
+    <sys:String x:Key="Facial.23.Hint">高手</sys:String>
+    <sys:String x:Key="Facial.24.Hint">OK</sys:String>
 </ResourceDictionary>

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Sanguosha.UI.Controls"
-             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"      
              xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="1024" Loaded="Page_Loaded" UseLayoutRounding="True">
@@ -127,8 +127,8 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="房号" Binding="{Binding Id}" Width="50" />
                             <DataGridTextColumn Header="模式" Binding="{res:ResourceKeyBinding Path=ModeString, StringFormat=GameMode.{0}.Name}" Width="100" />
-                            <DataGridTextColumn Header="时间" Binding="{Binding TimeOutSeconds}"  Width="50" />
-                            <DataGridTextColumn Header="选将" Binding="{Binding OptionalHeros}" Width="50" />
+                            <DataGridTextColumn Header="时间" Binding="{Binding Settings.TimeOutSeconds, StringFormat=\{0\}秒}"  Width="50" />
+                            <DataGridTextColumn Header="选将" Binding="{Binding Settings.NumHeroPicks}" Width="50" />
                             <DataGridTextColumn Header="人数" Binding="{Binding OpenSeatString}" Width="60" />
                             <DataGridTemplateColumn Header="状态" SortMemberPath="State" Width="70" >
                                 <DataGridTemplateColumn.CellTemplate>
@@ -218,8 +218,8 @@
             <Grid x:Name="roomNavigationPanel" VerticalAlignment="Top" Height="25" Margin="0,2,0,0">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
                     <Button Content="刷新列表" Command="{Binding UpdateRoomCommand}" Margin="3,0" Width="63" Style="{DynamicResource DefaultButtonStyle1}"/>
-                    <Button Content="创建单将房间" Command="{Binding CreateSingleHeroRoomCommand}" Margin="3,0" Width="88" Style="{DynamicResource DefaultButtonStyleBrown}"/>
-                    <Button Content="创建双将房间" Command="{Binding CreateDualHeroRoomCommand}" Margin="3,0" Width="88" Style="{DynamicResource DefaultButtonStyleBrown}"/>
+                    <Button x:Name="btnCreateSingleHeroRoom" Click="btnCreateSingleHeroRoom_Click" Content="创建单将房间" Margin="3,0" Width="88" Style="{DynamicResource DefaultButtonStyleBrown}"/>
+                    <Button x:Name="btnCreateDualHeroRoom" Click="btnCreateDualHeroRoom_Click" Content="创建双将房间" Margin="3,0" Width="88" Style="{DynamicResource DefaultButtonStyleBrown}"/>
                 </StackPanel>
             </Grid>
             <Border Grid.Row="1" Margin="0,34,0,0" BorderThickness="1" CornerRadius="3" BorderBrush="Black" >
@@ -227,11 +227,11 @@
                     <Border BorderThickness="1" CornerRadius="3" BorderBrush="Black" Background="#FF4A3B2D" Margin="0,0,-1,0" >
                         <Grid>
                             <RichTextBox x:Name="chatBox" Margin="0,0,0,18.687" Background="Transparent" Style="{DynamicResource RichTextBoxStyle}" Foreground="#FFDCDBBD" FontFamily="SimSun" FontSize="13.333" BorderBrush="Transparent" IsReadOnly="True" IsReadOnlyCaretVisible="True" VerticalScrollBarVisibility="Auto" >
-                            	<RichTextBox.Resources>
-						            <Style TargetType="{x:Type Paragraph}">
-						                <Setter Property="Margin" Value="0,5"/>
-						            </Style>
-						        </RichTextBox.Resources>
+                                <RichTextBox.Resources>
+                                    <Style TargetType="{x:Type Paragraph}">
+                                        <Setter Property="Margin" Value="0,5"/>
+                                    </Style>
+                                </RichTextBox.Resources>
                                 <FlowDocument />
                             </RichTextBox>
                             <local:ChatWidget Background="#FF191919" VerticalAlignment="Bottom" Height="19" Margin="0,0,0,0"/>
@@ -275,65 +275,81 @@
                 </MenuItem.Header>
             </MenuItem>
         </Menu>
-		<xctk:ChildWindow x:Name="createRoomWindow" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2" WindowStartupLocation="Center" Caption="创建房间" Template="{StaticResource StoneWindowStyle2}" >
-			<Grid>
-				<Grid.Resources>
-					<Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
-						<Setter Property="Foreground" Value="#FFE4D5A0" />	
-						<Setter Property="TextAlignment" Value="Right" />				
-						<Setter Property="FontFamily" Value="SimSun" />
-						<Setter Property="TextWrapping" Value="NoWrap"/>
-						<Setter Property="TextTrimming" Value="None"/>
-					</Style>
-					<Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource ComboBoxStyle1}" />
-					<Style x:Key="{x:Type CheckBox}" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource CheckBoxStyle1}" />
-				</Grid.Resources>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition />
-					<ColumnDefinition Width="20" />
-					<ColumnDefinition />
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="30" />
-					<RowDefinition Height="30" />
-					<RowDefinition Height="30" />
-					<RowDefinition Height="30" />
-					<RowDefinition Height="30" />
-					<RowDefinition Height="30" />
-					<RowDefinition Height="30" />
-					<RowDefinition Height="30" />
-				</Grid.RowDefinitions>
-				<TextBlock Text="游戏模式" VerticalAlignment="Center" />
-				<ComboBox Grid.Column="2" Height="20" VerticalAlignment="Center" Margin="0,0,10,0" />
-				<TextBlock Text="双将" Grid.Row="1" VerticalAlignment="Center"/>
-				<CheckBox Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"/>
-				<TextBlock Text="双内奸" Grid.Row="2" VerticalAlignment="Center" />
-				<CheckBox Grid.Row="2" Grid.Column="2" VerticalAlignment="Center"/>
-				<TextBlock Text="选将数" Grid.Row="3" VerticalAlignment="Center"/>
-				<ComboBox Grid.Row="3" Grid.Column="2" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left" Width="40" />
-				<TextBlock Text="出牌时间" Grid.Row="4" VerticalAlignment="Center"/>
-				<ComboBox Grid.Row="4" Grid.Column="2" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left" Width="40" />
-				<TextBlock Text="卡牌扩展" Grid.Row="5" VerticalAlignment="Center"/>
-				<UniformGrid Columns="4" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center">
-					<CheckBox Content="Ex" IsChecked="True" IsEnabled="False" Margin="0,0,10,0" />
-					<CheckBox Content="军" IsChecked="True" IsEnabled="False" Margin="0,0,10,0" />
-				</UniformGrid>
-				<TextBlock Text="武将扩展" Grid.Row="6" VerticalAlignment="Top"/>
-				<UniformGrid Columns="4" Grid.Row="6" Grid.Column="2" VerticalAlignment="Center">
-					<CheckBox Content="风" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
-					<CheckBox Content="火" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
-					<CheckBox Content="林" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
-					<CheckBox Content="山" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
-					<CheckBox Content="神" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
-					<CheckBox Content="SP" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
-					<CheckBox Content="将" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
-				</UniformGrid>
-				<StackPanel Grid.Row="7" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Orientation="Horizontal">
-				<Button Content="确定" Margin="3,0" Width="45" Height="22" Style="{DynamicResource DefaultButtonStyleBrown}"/>
-				<Button Content="取消" Margin="20,0" Width="45" Height="22" Style="{DynamicResource DefaultButtonStyle1}"/>
-				</StackPanel>
-			</Grid>
-		</xctk:ChildWindow>
-        <xctk:BusyIndicator Grid.RowSpan="2" x:Name="busyIndicator" Style="{DynamicResource BusyIndicatorStyle1}" Margin="0" Grid.Row="1" Grid.ColumnSpan="2" d:IsHidden="True" />
+        <xctk:ChildWindow x:Name="createRoomWindow" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2" WindowStartupLocation="Center" Caption="创建房间" Template="{StaticResource StoneWindowStyle2}" >
+            <Grid>
+                <Grid.Resources>
+                    <Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
+                        <Setter Property="Foreground" Value="#FFE4D5A0" />	
+                        <Setter Property="TextAlignment" Value="Right" />				
+                        <Setter Property="FontFamily" Value="SimSun" />
+                        <Setter Property="TextWrapping" Value="NoWrap"/>
+                        <Setter Property="TextTrimming" Value="None"/>
+                    </Style>
+                    <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource ComboBoxStyle1}">
+                        <Setter Property="Foreground" Value="#FFE5DCBF"/>
+                        <Setter Property="FontFamily" Value="SimSun"/>
+                        <Setter Property="Height" Value="23" />
+                    </Style>
+                    <Style x:Key="{x:Type CheckBox}" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource CheckBoxStyle1}" />
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="游戏模式" VerticalAlignment="Center" />
+                <ComboBox IsEnabled="False" Grid.Column="2" VerticalAlignment="Center" Margin="0,0,10,0" SelectedIndex="0">
+                    <ComboBoxItem Content="8人身份场" IsSelected="False" Foreground="White" />
+                </ComboBox>
+                <TextBlock Text="双将" Grid.Row="1" VerticalAlignment="Center"/>
+                <CheckBox x:Name="cbDualHero" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"/>
+                <TextBlock Text="双内奸" Grid.Row="2" VerticalAlignment="Center" />
+                <CheckBox x:Name="cbDualDefector" Grid.Row="2" Grid.Column="2" VerticalAlignment="Center"/>
+                <TextBlock Text="选将数" Grid.Row="3" VerticalAlignment="Center"/>
+                <ComboBox x:Name="cbHeroPickCount" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Width="40" SelectedIndex="1">
+                    <ComboBoxItem Content="3" />
+                    <ComboBoxItem Content="4" />
+                    <ComboBoxItem Content="5" />
+                    <ComboBoxItem Content="6" />
+                </ComboBox>
+                <TextBlock Text="出牌时间" Grid.Row="4" VerticalAlignment="Center"/>
+                <ComboBox x:Name="cbTimeOutSeconds" Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" SelectedIndex="1">
+                    <ComboBoxItem Content="10 秒" />
+                    <ComboBoxItem Content="15 秒" />
+                    <ComboBoxItem Content="20 秒" />
+                    <ComboBoxItem Content="30 秒" />
+                </ComboBox>
+                <TextBlock Text="卡牌扩展" Grid.Row="5" VerticalAlignment="Center"/>
+                <UniformGrid Columns="4" Grid.Row="5" Grid.Column="2" VerticalAlignment="Center">
+                    <CheckBox Content="Ex" IsChecked="True" IsEnabled="False" Margin="0,0,10,0" />
+                    <CheckBox Content="军" IsChecked="True" IsEnabled="False" Margin="0,0,10,0" />
+                </UniformGrid>
+                <TextBlock Text="武将扩展" Grid.Row="6" VerticalAlignment="Top"/>
+                <UniformGrid Columns="4" Grid.Row="6" Grid.Column="2" VerticalAlignment="Center">
+                    <CheckBox Content="风" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
+                    <CheckBox Content="火" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
+                    <CheckBox Content="林" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
+                    <CheckBox Content="山" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
+                    <CheckBox Content="神" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
+                    <CheckBox Content="SP" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
+                    <CheckBox Content="将" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
+                </UniformGrid>
+                <StackPanel Grid.Row="7" Grid.ColumnSpan="3"  HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal">
+                    <Button Content="确定" Margin="3,0" Width="45" Height="22" Style="{DynamicResource DefaultButtonStyleBrown}" Click="btnCreateRoomConfirm_Click" />
+                    <Button Content="取消" Margin="20,0" Width="45" Height="22" Style="{DynamicResource DefaultButtonStyle1}" Click="btnCreateRoomCancel_Click" />
+                </StackPanel>
+                <xctk:BusyIndicator Grid.RowSpan="8" x:Name="busyIndicator" Style="{DynamicResource BusyIndicatorStyle1}" Margin="7,-33,-686,-407" Grid.ColumnSpan="3" d:IsHidden="True" />
+            </Grid>
+        </xctk:ChildWindow>
     </Grid>
 </Page>

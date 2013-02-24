@@ -124,7 +124,7 @@ namespace Sanguosha.Core.Network
                         item = null;
                     }
                     if (!(item is LoginToken) ||
-                     !game.Configuration.AccountIds.Any(id => id.token == ((LoginToken)item).token))
+                     !game.Configuration.AccountIds.Any(id => id.TokenString == ((LoginToken)item).TokenString))
                     {
                         handlers[i].client.Close();
                         i--; 
@@ -133,7 +133,7 @@ namespace Sanguosha.Core.Network
                     int index;
                     for (index = 0; index < game.Configuration.AccountIds.Count; index++)
                     {
-                        if (game.Configuration.AccountIds[index].token == ((LoginToken)item).token)
+                        if (game.Configuration.AccountIds[index].TokenString == ((LoginToken)item).TokenString)
                         {
                             game.Settings.Accounts.Add(game.Configuration.Accounts[index]);
                         }
@@ -203,7 +203,7 @@ namespace Sanguosha.Core.Network
                             client.Close();
                             continue;
                         }
-                        if (!game.Configuration.AccountIds.Any(id => id.token == ((LoginToken)item).token))
+                        if (!game.Configuration.AccountIds.Any(id => id.TokenString == ((LoginToken)item).TokenString))
                         {
                             spectatorJoining = true;
                         }
@@ -212,7 +212,7 @@ namespace Sanguosha.Core.Network
                             int index;
                             for (index = 0; index < game.Configuration.AccountIds.Count; index++)
                             {
-                                if (game.Configuration.AccountIds[index].token == ((LoginToken)item).token)
+                                if (game.Configuration.AccountIds[index].TokenString == ((LoginToken)item).TokenString)
                                 {
                                     theAccount = game.Configuration.Accounts[index];
                                 }

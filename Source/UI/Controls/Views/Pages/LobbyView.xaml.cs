@@ -203,6 +203,36 @@ namespace Sanguosha.UI.Controls
             busyIndicator.IsBusy = false;
             LobbyViewModel.Instance.UpdateRooms();
         }
+
+        private void btnCreateRoomConfirm_Click(object sender, RoutedEventArgs e)
+        {
+            RoomSettings settings = new RoomSettings();
+            settings.IsDualHeroMode = cbDualHero.IsChecked == true;
+            settings.NumberOfDefectors = cbDualDefector.IsChecked == true ? 2 : 1;
+            int[] options1 = { 3, 4, 5, 6 };
+            settings.NumHeroPicks = options1[cbHeroPickCount.SelectedIndex];
+            int[] options2 = { 10, 15, 20, 30 };
+            settings.TimeOutSeconds = options2[cbHeroPickCount.SelectedIndex];
+            LobbyModel.CreateRoom(settings);
+            createRoomWindow.Close();
+        }
+
+        private void btnCreateRoomCancel_Click(object sender, RoutedEventArgs e)
+        {
+            createRoomWindow.Close();
+        }
+
+        private void btnCreateDualHeroRoom_Click(object sender, RoutedEventArgs e)
+        {
+            cbDualHero.IsChecked = true;
+            createRoomWindow.Show();
+        }
+
+        private void btnCreateSingleHeroRoom_Click(object sender, RoutedEventArgs e)
+        {
+            cbDualHero.IsChecked = false;
+            createRoomWindow.Show();
+        }
     }
 
     public class RoomButtonVisibilityConverter : IMultiValueConverter

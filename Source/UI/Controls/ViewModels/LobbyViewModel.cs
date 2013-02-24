@@ -19,8 +19,6 @@ namespace Sanguosha.UI.Controls
         {
             _chatCache = new List<KeyValuePair<string, string>>();
             Rooms = new ObservableCollection<RoomViewModel>();
-            CreateSingleHeroRoomCommand = new SimpleRelayCommand(o => CreateSingleHeroRoom()) { CanExecuteStatus = true };
-            CreateDualHeroRoomCommand = new SimpleRelayCommand(o => CreateDualHeroRoom()) { CanExecuteStatus = true };
             UpdateRoomCommand = new SimpleRelayCommand(o => UpdateRooms()) { CanExecuteStatus = true };
             EnterRoomCommand = new SimpleRelayCommand(o => EnterRoom()) { CanExecuteStatus = true };
             StartGameCommand = new SimpleRelayCommand(o => StartGame()) { CanExecuteStatus = false };
@@ -246,22 +244,12 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        public void CreateSingleHeroRoom()
-        {
-            CreateRoom(false);
-        }
-
-        public void CreateDualHeroRoom()
-        {
-            CreateRoom(true);
-        }
-
         /// <summary>
         /// Creates and enters a new room.
         /// </summary>
-        public void CreateRoom(bool DualHeroMode)
+        public void CreateRoom(RoomSettings settings)
         {
-            var room = _connection.CreateRoom(_loginToken, DualHeroMode, 4);
+            var room = _connection.CreateRoom(_loginToken, settings);
             if (room != null)
             {
                 CurrentRoom = new RoomViewModel() { Room = room };

@@ -20,7 +20,7 @@ namespace Sanguosha.Lobby.Core
     [Serializable]
     public struct LoginToken
     {
-        public Guid token;
+        public Guid TokenString { get; set; }
     }
 
     [DataContract(Name = "RoomOperationResult")]
@@ -40,6 +40,15 @@ namespace Sanguosha.Lobby.Core
         Invalid = -5,
     }
 
+    [Serializable]
+    public struct RoomSettings
+    {
+        public int TimeOutSeconds { get; set; }
+        public int NumberOfDefectors { get; set; }
+        public bool IsDualHeroMode { get; set; }
+        public int NumHeroPicks { get; set; }
+    }
+
     [ServiceKnownType("GetKnownTypes", typeof(Helper))]
     [ServiceContract(Namespace = "", CallbackContract = typeof(IGameClient), SessionMode = SessionMode.Required)]
     public interface ILobbyService
@@ -54,7 +63,7 @@ namespace Sanguosha.Lobby.Core
         IEnumerable<Room> GetRooms(LoginToken token, bool notReadyRoomsOnly);
 
         [OperationContract]
-        Room CreateRoom(LoginToken token, bool DualHeroMode, int optionalHeros, int NumberOfDefectors = 1, string password = null);
+        Room CreateRoom(LoginToken token, RoomSettings settings, string password = null);
 
         [OperationContract]
         RoomOperationResult EnterRoom(LoginToken token, int roomId, bool spectate, string password, out Room room);
