@@ -217,9 +217,8 @@
         <Grid Grid.Row="2">
             <Grid x:Name="roomNavigationPanel" VerticalAlignment="Top" Height="25" Margin="0,2,0,0">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
-                    <Button Content="刷新列表" Command="{Binding UpdateRoomCommand}" Margin="3,0" Width="63" Style="{DynamicResource DefaultButtonStyle1}"/>
-                    <Button x:Name="btnCreateSingleHeroRoom" Click="btnCreateSingleHeroRoom_Click" Content="创建单将房间" Margin="3,0" Width="88" Style="{DynamicResource DefaultButtonStyleBrown}"/>
-                    <Button x:Name="btnCreateDualHeroRoom" Click="btnCreateDualHeroRoom_Click" Content="创建双将房间" Margin="3,0" Width="88" Style="{DynamicResource DefaultButtonStyleBrown}"/>
+                    <Button Content="刷新列表" Command="{Binding UpdateRoomCommand}" Margin="3,0" Width="65" Style="{DynamicResource DefaultButtonStyle1}"/>
+                    <Button x:Name="btnCreateRoom" Click="btnCreateRoom_Click" Content="创建房间" Margin="3,0" Width="65" Style="{DynamicResource DefaultButtonStyleBrown}"/>
                 </StackPanel>
             </Grid>
             <Border Grid.Row="1" Margin="0,34,0,0" BorderThickness="1" CornerRadius="3" BorderBrush="Black" >

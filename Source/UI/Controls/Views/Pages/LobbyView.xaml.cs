@@ -222,13 +222,7 @@ namespace Sanguosha.UI.Controls
             createRoomWindow.Close();
         }
 
-        private void btnCreateDualHeroRoom_Click(object sender, RoutedEventArgs e)
-        {
-            cbDualHero.IsChecked = true;
-            createRoomWindow.Show();
-        }
-
-        private void btnCreateSingleHeroRoom_Click(object sender, RoutedEventArgs e)
+        private void btnCreateRoom_Click(object sender, RoutedEventArgs e)
         {
             cbDualHero.IsChecked = false;
             createRoomWindow.Show();
