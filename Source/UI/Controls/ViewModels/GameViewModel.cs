@@ -42,7 +42,6 @@ namespace Sanguosha.UI.Controls
                 if (_game == value) return;
                 _game = value;
                 if (_game == null) return;
-                _game.RegisterCurrentThread();
                 PlayerModels.Clear();
                 int i = 0;
                 foreach (var player in _game.Players)

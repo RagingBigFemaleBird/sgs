@@ -484,12 +484,20 @@ namespace Sanguosha.Core.Games
         /// </summary>
         protected abstract void InitTriggers();
 
+        /// <summary>
+        /// Speed up current game access for client process
+        /// </summary>
+        public static Game CurrentGameOverride
+        {
+            get;
+            set;
+        }
+
         public static Game CurrentGame
         {
-            get { return games[Thread.CurrentThread]; }
-            set
+            get 
             {
-                games[Thread.CurrentThread] = value;
+                return CurrentGameOverride ?? games[Thread.CurrentThread]; 
             }
         }
 

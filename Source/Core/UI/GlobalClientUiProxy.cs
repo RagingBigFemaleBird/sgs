@@ -93,7 +93,6 @@ namespace Sanguosha.Core.UI
 
         private void AskMCQUiThread()
         {
-            game.RegisterCurrentThread();
             proxy.TryAskForMultipleChoice(prompt, questions);
         }
 
@@ -203,7 +202,6 @@ namespace Sanguosha.Core.UI
 
         private void AskUiThread()
         {
-            game.RegisterCurrentThread();
             if (proxy.HostPlayer.IsDead) return;
             bool found = true;
             if (verifier.AcceptableCardTypes != null && verifier.AcceptableCardTypes.Count > 0)
