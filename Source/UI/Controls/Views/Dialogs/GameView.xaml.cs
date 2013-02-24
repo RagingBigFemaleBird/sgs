@@ -821,11 +821,12 @@ namespace Sanguosha.UI.Controls
             bool doHorseSound = false;
             foreach (CardsMovement move in moves)
             {
-                // WuGuModel can be null if we missed NotifyWuGuStart during reconnection.
-                if (move.Helper.IsWuGu && GameModel.WuGuModel != null)
+                if (move.Helper.IsWuGu)
                 {
                     Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
                     {
+                        // WuGuModel can be null if we missed NotifyWuGuStart during reconnection.
+                        if (GameModel.WuGuModel == null) return;
                         Trace.Assert(GameModel.WuGuModel != null);
                         Trace.Assert(move.Cards.Count == 1);
                         Trace.Assert(move.To.Player != null);
