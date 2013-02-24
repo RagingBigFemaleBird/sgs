@@ -925,6 +925,7 @@ namespace Sanguosha.Core.Games
 
         public void MoveCards(CardsMovement move, bool insertBefore = false, GameDelayTypes delay = GameDelayTypes.CardTransfer)
         {
+            if (move.Cards.Count == 0) return;
             List<CardsMovement> moves = new List<CardsMovement>();
             moves.Add(move);
             MoveCards(moves, new List<bool>() { insertBefore }, delay);

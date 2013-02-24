@@ -88,7 +88,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             }
             move.To = new DeckPlace(null, GuanXingDeck);
             move.Helper.IsFakedMove = true;
-            Game.CurrentGame.MoveCards(move);
+            Game.CurrentGame.MoveCards(move, false, Core.Utils.GameDelayTypes.None);
             List<List<Card>> answer;
             AdditionalCardChoiceOptions options = new AdditionalCardChoiceOptions();
             options.Rearrangeable = new List<bool>() { true, true };
