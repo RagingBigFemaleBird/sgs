@@ -85,6 +85,7 @@
     <sys:String x:Key="Skill.XinZhan.Name">心战</sys:String>
     <sys:String x:Key="Skill.XinZhan.Description">出牌阶段，若你的手牌数大于你的体力上限，你可以：观看牌堆顶的三张牌，然后亮出其中任意数量的红桃牌并获得之，其余以任意顺序置于牌堆顶。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.XinZhan.Usage">点“心战”</sys:String>
+    <sys:String x:Key="Skill.XinZhan.Transcript">吾通晓兵法，世人皆知。</sys:String>
 
     <sys:String x:Key="Skill.HuiLei.Name">挥泪</sys:String>
     <sys:String x:Key="Skill.HuiLei.Description">锁定技，当你被其他角色杀死时，该角色弃置其所有的牌。</sys:String>

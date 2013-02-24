@@ -53,7 +53,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 new List<DeckPlace>() { new DeckPlace(Owner, HuaShenDeck) },
                 new List<string>() { "HuaShen" },
                 new List<int>() { 1 },
-                new RequireOneCardChoiceVerifier(),
+                new RequireOneCardChoiceVerifier(false, true),
                 out answer))
             {
                 Trace.TraceInformation("Invalid answer, choosing for you");

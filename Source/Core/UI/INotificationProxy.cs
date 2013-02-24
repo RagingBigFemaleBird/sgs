@@ -39,6 +39,7 @@ namespace Sanguosha.Core.UI
         void NotifyShowCardsEnd();
         void NotifyUiAttached();
         void NotifyUiDetached();
+        void NotifyExcitingSkill(ActionLog log);
     }
 
     public class DummyNotificationProxy : INotificationProxy
@@ -142,6 +143,10 @@ namespace Sanguosha.Core.UI
         }
 
         public void NotifyUiDetached()
+        {
+        }
+
+        public void NotifyExcitingSkill(ActionLog log)
         {
         }
     }

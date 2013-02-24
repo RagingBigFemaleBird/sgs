@@ -934,6 +934,20 @@ namespace Sanguosha.UI.Controls
 
         private static ResourceDictionary equipAnimationResources = new ResourceDictionary() { Source = new Uri("pack://application:,,,/Animations;component/EquipmentAnimations.xaml") };
 
+        public void NotifyExcitingSkill(ActionLog log)
+        {
+            Application.Current.Dispatcher.BeginInvoke((ThreadStart)delegate()
+            {
+                ExcitingSkillAnimation anim = new ExcitingSkillAnimation();
+                anim.SkillName = log.SkillAction.GetType().Name;
+                anim.HeroName = log.SkillAction.HeroTag.Name;
+                gridRoot.Children.Add(anim);
+                anim.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
+                anim.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
+                anim.Start();
+            });
+        }
+
         public void NotifySkillUse(ActionLog log)
         {
             if (ViewModelBase.IsDetached) return;
@@ -969,16 +983,7 @@ namespace Sanguosha.UI.Controls
                 if (log.SkillAction.IsSingleUse || log.SkillAction.IsAwakening)
                 {
                     if (log.SkillAction.IsAwakening) log.Source[Player.Awakened]++;
-                    Application.Current.Dispatcher.BeginInvoke((ThreadStart)delegate()
-                    {
-                        ExcitingSkillAnimation anim = new ExcitingSkillAnimation();
-                        anim.SkillName = log.SkillAction.GetType().Name;
-                        anim.HeroName = log.SkillAction.HeroTag.Name;
-                        gridRoot.Children.Add(anim);
-                        anim.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
-                        anim.VerticalAlignment = System.Windows.VerticalAlignment.Stretch;
-                        anim.Start();
-                    });
+                    NotifyExcitingSkill(log);
                     animPlayed = true;
                 }
                 if (!animPlayed && player != mainPlayerPanel)
@@ -1116,7 +1121,7 @@ namespace Sanguosha.UI.Controls
                 {
                     handler(this, new EventArgs());
                 }
-            });            
+            });
         }
 
         public void NotifyUiDetached()

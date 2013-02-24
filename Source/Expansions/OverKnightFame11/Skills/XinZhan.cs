@@ -26,7 +26,6 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
         public XinZhan()
         {
             Helper.HasNoConfirmation = true;
-            IsSingleUse = true;
         }
         private static int choiceCount = 3;
         private static PlayerAttribute XinZhanUsed = PlayerAttribute.Register("XinZhanUsed", true);
@@ -36,7 +35,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             {
                 return VerifierResult.Fail;
             }
-            if(Owner.HandCards().Count() <= Owner.MaxHealth)
+            if (Owner.HandCards().Count() <= Owner.MaxHealth)
             {
                 return VerifierResult.Fail;
             }
@@ -45,6 +44,8 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
 
         public override bool Commit(GameEventArgs arg)
         {
+            Game.CurrentGame.NotificationProxy.NotifyExcitingSkill(new ActionLog() { SkillAction = this });
+            GameDelays.Delay(GameDelayTypes.Awaken);
             Owner[XinZhanUsed] = 1;
             DeckType XinZhanDeck = new DeckType("XinZhan");
             CardsMovement move = new CardsMovement();
@@ -63,9 +64,9 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             options.Rearrangeable = new List<bool>() { true, false };
             options.DefaultResult = new List<List<Card>>() { new List<Card>(Game.CurrentGame.Decks[null, XinZhanDeck]), new List<Card>() };
             if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("XinZhan", Owner),
-                    new List<DeckPlace>() {},
+                    new List<DeckPlace>() { },
                     new List<string>() { "PaiDuiDing", "HuoDe" },
-                    new List<int>() {choiceCount, choiceCount},
+                    new List<int>() { choiceCount, choiceCount },
                     new XinZhanVerifier(),
                     out answer,
                     options,
