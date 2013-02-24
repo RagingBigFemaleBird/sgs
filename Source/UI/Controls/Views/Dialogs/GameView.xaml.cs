@@ -814,6 +814,8 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyCardMovement(List<CardsMovement> moves)
         {
+            if (ViewModelBase.IsDetached) return;
+
             bool doWeaponSound = false;
             bool doArmorSound = false;
             bool doHorseSound = false;
@@ -861,7 +863,7 @@ namespace Sanguosha.UI.Controls
                     IDeckContainer deck = _GetMovementDeck(stackCards.Key);
                     IList<CardView> cards = null;
                     Trace.Assert(move.Helper != null);
-                    if (!ViewModelBase.IsDetached && (!move.Helper.IsFakedMove || move.Helper.AlwaysShowLog))
+                    if (!move.Helper.IsFakedMove || move.Helper.AlwaysShowLog)
                     {
                         Application.Current.Dispatcher.BeginInvoke((ThreadStart)delegate()
                         {
@@ -873,28 +875,12 @@ namespace Sanguosha.UI.Controls
                         cards = deck.RemoveCards(stackCards.Key.DeckType, stackCards.Value);
                     });
                     Trace.Assert(cards != null);
-                    if (ViewModelBase.IsDetached)
+                    foreach (var card in cards)
                     {
                         Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
                         {
-                            foreach (var card in cards)
-                            {
-                                if (card.CardModel != null)
-                                {
-                                    card.CardModel.Update();
-                                }
-                            }
+                            card.Update();
                         });
-                    }
-                    else
-                    {
-                        foreach (var card in cards)
-                        {
-                            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
-                            {
-                                card.Update();
-                            });
-                        }
                     }
                     cardsToAdd.AddRange(cards);
                 }
@@ -904,7 +890,6 @@ namespace Sanguosha.UI.Controls
                     _GetMovementDeck(move.To).AddCards(move.To.DeckType, cardsToAdd, move.Helper.IsFakedMove);
                 });
             }
-            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 rtbLog.ScrollToEnd();

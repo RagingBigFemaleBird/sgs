@@ -185,7 +185,9 @@ namespace Sanguosha.UI.Controls
             horse1Area.Children.Clear();
             horse2Area.Children.Clear();
             delayedToolsDock.Children.Clear();
-            PlayerModel.HandCardCount = 0;
+            equipmentArea.Visibility = System.Windows.Visibility.Collapsed;
+
+            base.UpdateCards();        
 
             if (PlayerModel == null) return;
             var player = PlayerModel.Player;

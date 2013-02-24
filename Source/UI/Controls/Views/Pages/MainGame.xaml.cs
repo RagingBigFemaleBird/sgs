@@ -166,7 +166,7 @@ namespace Sanguosha.UI.Controls
             {
                 _game.RegisterCurrentThread();
                 gameView.DataContext = gameModel;
-                if (BackwardNavigationService != null)
+                if (BackwardNavigationService != null && !ViewModelBase.IsDetached)
                 {
                     BackwardNavigationService.Navigate(this);
                     BackwardNavigationService = null;
