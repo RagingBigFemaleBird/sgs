@@ -152,6 +152,7 @@ namespace Sanguosha.UI.Main
         private void _startClient()
         {
             string userName = tab0UserName.Text;
+            string passwd = tab0Password.Text;
             Properties.Settings.Default.LastHostName = tab0HostName.Text;
             Properties.Settings.Default.LastUserName = tab0UserName.Text;
             Properties.Settings.Default.Save();
@@ -187,7 +188,7 @@ namespace Sanguosha.UI.Main
                     var channelFactory = new DuplexChannelFactory<ILobbyService>(lobbyModel, binding, endpoint);
                     server = channelFactory.CreateChannel();
                     Account ret;
-                    var stat = server.Login(Misc.ProtocolVersion, userName, "", out token, out ret, out reconnect);
+                    var stat = server.Login(Misc.ProtocolVersion, userName, passwd, out token, out ret, out reconnect);
                     if (stat == LoginStatus.Success)
                     {
                         LobbyViewModel.Instance.CurrentAccount = ret;
@@ -256,6 +257,7 @@ namespace Sanguosha.UI.Main
         private void _createAccount()
         {
             string userName = tab0UserName.Text;
+            string passwd = tab0Password.Text;
             Properties.Settings.Default.LastHostName = tab0HostName.Text;
             Properties.Settings.Default.LastUserName = tab0UserName.Text;            
             Properties.Settings.Default.Save();
@@ -287,7 +289,7 @@ namespace Sanguosha.UI.Main
                     var endpoint = new EndpointAddress(string.Format("net.tcp://{0}/GameService", hostName));
                     var channelFactory = new DuplexChannelFactory<ILobbyService>(LobbyViewModel.Instance, binding, endpoint);
                     server = channelFactory.CreateChannel();                    
-                    var stat = server.CreateAccount(userName, "");
+                    var stat = server.CreateAccount(userName, passwd);
                     ea.Result = stat;
                 }
                 catch (Exception e)

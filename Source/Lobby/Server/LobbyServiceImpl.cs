@@ -17,7 +17,6 @@ namespace Sanguosha.Lobby.Server
         List<Account> accounts;
         Dictionary<int, Room> rooms;
         int newRoomId;
-        int newAccountId;
         Dictionary<Account, Guid> loggedInAccountToGuid;
         Dictionary<Guid, Account> loggedInGuidToAccount;
         Dictionary<IGameClient, Guid> loggedInChannelsToGuid;
@@ -51,7 +50,6 @@ namespace Sanguosha.Lobby.Server
             loggedInChannelsToGuid = new Dictionary<IGameClient, Guid>();
             loggedInGuidToRoom = new Dictionary<Guid, Room>();
             newRoomId = 1;
-            newAccountId = 1;
             CheatEnabled = false;
             accounts = new List<Account>();
             if (noDatabase) accountContext = null;
@@ -77,6 +75,7 @@ namespace Sanguosha.Lobby.Server
             if (accountContext == null) return true;
             var result = from a in accountContext.Accounts where a.UserName.Equals(username) select a;
             if (result.Count() == 0) return false;
+            if (!result.First().Password.Equals(hash)) return false;
             return true;
         }
 
@@ -84,12 +83,12 @@ namespace Sanguosha.Lobby.Server
         {
             if (accountContext == null)
             {
-                return new Account() { UserName = username, Id = newAccountId++ };
+                return new Account() { UserName = username };
             }
             var result = from a in accountContext.Accounts where a.UserName.Equals(username) select a;
             if (result.Count() == 0)
             {
-                var account = new Account() { UserName = username, Id = newAccountId++ };
+                var account = new Account() { UserName = username };
                 accountContext.Accounts.Add(account);
                 accountContext.SaveChanges();
                 return account;
@@ -631,7 +630,7 @@ namespace Sanguosha.Lobby.Server
             {
                 return LoginStatus.InvalidUsernameAndPassword;
             }
-            accountContext.Accounts.Add(new Account() { UserName = userName });
+            accountContext.Accounts.Add(new Account() { UserName = userName, Password = p });
             accountContext.SaveChanges();
             return LoginStatus.Success;
         }

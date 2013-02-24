@@ -104,7 +104,7 @@ namespace Sanguosha.UI.Controls
                                                                                  s.State != SeatState.Host &&
                                                                                  s.State != SeatState.GuestReady))
                                                         && _currentRoom.Seats.Count(s => s.Account != null) >= 2;
-                    CurrentSeat = CurrentRoom.Seats.FirstOrDefault(s => s.Account != null && s.Account.Id == CurrentAccount.Id);
+                    CurrentSeat = CurrentRoom.Seats.FirstOrDefault(s => s.Account != null && s.Account.UserName == CurrentAccount.UserName);
                 }
                 else
                 {

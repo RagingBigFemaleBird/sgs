@@ -178,7 +178,7 @@
                         <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="42,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" Text="用户名：" FontSize="20" />
                         <TextBox x:Name="tab0UserName" Margin="151,83.846,73,0" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
                         <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Margin="42,135,0,133" TextWrapping="Wrap" Width="111" Text="密码：" FontSize="20"/>
-                        <TextBox Margin="151,129.846,73,0" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
+                        <TextBox x:Name="tab0Password" Margin="151,129.846,73,0" VerticalAlignment="Top" Style="{DynamicResource BlackTextBoxStyle}"/>
                         <Button x:Name="btnRegister" Content="用以上信息注册新账号" Margin="160,0,164,69.14" VerticalAlignment="Bottom" Style="{DynamicResource DefaultButtonStyleBrown}" Click="btnRegister_Click"/>
                     </Grid>
                 </TabItem>
