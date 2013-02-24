@@ -18,30 +18,32 @@ namespace Sanguosha.Expansions.Wind.Skills
     /// <summary>
     /// 红颜-锁定技，你的黑桃牌均视为红桃牌。
     /// </summary>
-    public class HongYan : TriggerSkill
+    public class HongYan : EnforcedCardTransformSkill
     {
         public HongYan()
         {
-            var trigger = new AutoNotifyPassiveSkillTrigger(
-                this,
-                (p, e, a) => { return (a.Card.Place.DeckType == DeckType.Hand || a.Card.Place.DeckType == DeckType.JudgeResult) && a.Card != null && a.Card.Suit == SuitType.Spade; },
-                (p, e, a) => 
-                { 
-                    a.Card.Suit = SuitType.Heart;
-                    bool isJudgeCard = a.Card.Place.DeckType == DeckType.JudgeResult;
-                    if (a.Card is Card && !isJudgeCard)
-                    {
-                        Card c = a.Card as Card;
-                        if (c.Log == null) c.Log = new ActionLog();
-                        c.Log.SkillAction = this;
-                    }
-                    if (isJudgeCard) NotifySkillUse();
-                },
-                TriggerCondition.OwnerIsSource
-            ) { IsAutoNotify = false };
-            Triggers.Add(GameEvent.EnforcedCardTransform, trigger);
-            IsEnforced = true;
+            Decks.Add(DeckType.Hand);
+            Decks.Add(DeckType.JudgeResult);
         }
 
+        protected override bool CardVerifier(ICard card)
+        {
+            return card.Suit == SuitType.Spade;
+        }
+
+        protected override void TransfromAction(Player Owner, ICard card)
+        {
+            card.Suit = SuitType.Heart;
+            if (card.Place.DeckType == DeckType.JudgeResult)
+            {
+                NotifySkillUse();
+                Game.CurrentGame.NotificationProxy.NotifyLogEvent(
+                    new LogEvent("EnforcedCardTransform", Owner, Game.CurrentGame.OriginalCardSet[(card as Card).Id], card),
+                    new List<Player> { Owner },
+                    true,
+                    false
+                );
+            }
+        }
     }
 }

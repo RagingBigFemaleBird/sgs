@@ -19,27 +19,21 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
     /// <summary>
     /// 禁酒-锁定技，你的【酒】均视为【杀】。
     /// </summary>
-    public class JinJiu : TriggerSkill
+    public class JinJiu : EnforcedCardTransformSkill
     {
+        protected override bool CardVerifier(ICard card)
+        {
+            return card.Type is Jiu;
+        }
+
+        protected override void TransfromAction(Player Owner, ICard card)
+        {
+            card.Type = new RegularSha();
+        }
+
         public JinJiu()
         {
-            var trigger = new AutoNotifyPassiveSkillTrigger(
-                this,
-                (p, e, a) => {return a.Card.Place.DeckType == DeckType.Hand && a.Card != null && a.Card.Type is Jiu; },
-                (p, e, a) => 
-                {
-                    a.Card.Type = new RegularSha();
-                    if (a.Card is Card)
-                    {
-                        Card c = a.Card as Card;
-                        if (c.Log == null) c.Log = new ActionLog();
-                        c.Log.SkillAction = this;
-                    }
-                },
-                TriggerCondition.OwnerIsSource
-            ) { IsAutoNotify = false };
-            Triggers.Add(GameEvent.EnforcedCardTransform, trigger);
-            IsEnforced = true;
+            Decks.Add(DeckType.Hand);
         }
     }
 }

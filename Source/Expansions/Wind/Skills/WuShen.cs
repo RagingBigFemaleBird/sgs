@@ -18,7 +18,7 @@ namespace Sanguosha.Expansions.Wind.Skills
     /// <summary>
     /// 武神-锁定技，你的红桃手牌均视为【杀】，你使用红桃【杀】时无距离限制。
     /// </summary>
-    public class WuShen : TriggerSkill
+    public class WuShen : EnforcedCardTransformSkill
     {
         class WuShenShaTrigger : Trigger
         {
@@ -41,28 +41,20 @@ namespace Sanguosha.Expansions.Wind.Skills
             }
         }
 
+        protected override bool CardVerifier(ICard card)
+        {
+            return card.Suit == SuitType.Heart;
+        }
+
+        protected override void TransfromAction(Player Owner, ICard card)
+        {
+            card.Type = new RegularSha();
+        }
 
         public WuShen()
         {
-            var trigger = new AutoNotifyPassiveSkillTrigger(
-                this,
-                (p, e, a) => { return a.Card.Place.DeckType == DeckType.Hand && a.Card != null && a.Card.Suit == SuitType.Heart; },
-                (p, e, a) => 
-                {
-                    a.Card.Type = new RegularSha();
-                    if (a.Card is Card)
-                    {
-                        Card c = a.Card as Card;
-                        if (c.Log == null) c.Log = new ActionLog();
-                        c.Log.SkillAction = this;
-                    }
-                },
-                TriggerCondition.OwnerIsSource
-            ) { IsAutoNotify = false };
-            Triggers.Add(GameEvent.EnforcedCardTransform, trigger);
+            Decks.Add(DeckType.Hand);
             Triggers.Add(Sha.PlayerShaTargetValidation, new WuShenShaTrigger());
-            IsEnforced = true;
         }
-
     }
 }

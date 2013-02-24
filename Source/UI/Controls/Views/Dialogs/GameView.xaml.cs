@@ -797,10 +797,10 @@ namespace Sanguosha.UI.Controls
             keyEventLog.AddLog(doc);
         }
 
-        private void _AppendKeyEventLog(Prompt custom)
+        private void _AppendKeyEventLog(Prompt custom, bool useUICard = true)
         {
             Paragraph para = new Paragraph();
-            para.Inlines.AddRange(LogFormatter.TranslateLogEvent(custom));
+            para.Inlines.AddRange(LogFormatter.TranslateLogEvent(custom, useUICard));
             _AppendKeyEventLog(para);
         }
 
@@ -1249,14 +1249,14 @@ namespace Sanguosha.UI.Controls
             });
         }
 
-        public void NotifyLogEvent(Prompt custom, List<Player> players = null, bool isKeyEvent = true)
+        public void NotifyLogEvent(Prompt custom, List<Player> players = null, bool isKeyEvent = true, bool useUICard = true)
         {
             if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                gameLogs.AppendLogEvent(players == null ? Game.CurrentGame.Players : players, custom);
+                gameLogs.AppendLogEvent(players == null ? Game.CurrentGame.Players : players, custom, useUICard);
                 rtbLog.ScrollToEnd();
-                if (isKeyEvent) _AppendKeyEventLog(custom);
+                if (isKeyEvent) _AppendKeyEventLog(custom, useUICard);
             });
         }
 

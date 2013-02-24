@@ -32,9 +32,9 @@ namespace Sanguosha.Expansions.Woods.Skills
             var notify = new AutoNotifyPassiveSkillTrigger(
                  this,
                  (p, e, a) => { return Game.CurrentGame.CurrentPlayer == Owner; },
-                 (p, e, a) => { },
+                 (p, e, a) => { NotifySkillUse(a.Targets); },
                  TriggerCondition.Global
-             );
+             ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.PlayerIsAboutToDie, notify);
             IsEnforced = true;
         }

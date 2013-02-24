@@ -77,7 +77,7 @@ namespace Sanguosha.UI.Controls
             return result;
         }
 
-        public static IList<Inline> TranslateLogEvent(Prompt custom)
+        public static IList<Inline> TranslateLogEvent(Prompt custom, bool useUICard = true)
         {
             string format = Application.Current.TryFindResource(custom.ResourceKey) as string;
             if (format == null)
@@ -89,7 +89,7 @@ namespace Sanguosha.UI.Controls
             {
                 IList<Inline> value = new List<Inline>();
                 if (arg is Player) value.Add(new Run(Translate(arg as Player)));
-                else if (arg is Card) value = RichTranslate(arg as Card);
+                else if (arg is Card) value = RichTranslate(arg as Card, useUICard);
                 else if (arg is ISkill) value = RichTranslate(arg as ISkill);
                 else if (arg is CardHandler) value = RichTranslate(arg as CardHandler);
                 else if (arg is Prompt) value.Add(new Run(PromptFormatter.Format(arg as Prompt)));

@@ -220,7 +220,7 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        public void AppendLogEvent(List<Player> players, Prompt custom)
+        public void AppendLogEvent(List<Player> players, Prompt custom, bool useUICard = true)
         {
             var docs = (from pair in Logs
                         where players.Contains(pair.Key)
@@ -229,7 +229,7 @@ namespace Sanguosha.UI.Controls
             foreach (var doc in docs)
             {
                 Paragraph para = new Paragraph();
-                para.Inlines.AddRange(LogFormatter.TranslateLogEvent(custom));
+                para.Inlines.AddRange(LogFormatter.TranslateLogEvent(custom, useUICard));
                 if (para != null)
                 {
                     doc.Blocks.Add(para);

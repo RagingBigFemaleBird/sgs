@@ -97,6 +97,7 @@
     <Compile Include="Skills\AutoVerifiedActiveSkill.cs" />
     <Compile Include="Skills\CheatSkill.cs" />
     <Compile Include="Skills\CleanupSquad.cs" />
+    <Compile Include="Skills\EnforcedCardTransformSkill.cs" />
     <Compile Include="Skills\IAdditionalTypedSkill.cs" />
     <Compile Include="Skills\RulerGivenSkill.cs" />
     <Compile Include="Skills\RulerGivenSkillContainerSkill.cs" />

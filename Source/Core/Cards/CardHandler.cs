@@ -88,7 +88,6 @@ namespace Sanguosha.Core.Cards
             log.Source = source;
             log.Targets = logTargets;
             log.SecondaryTargets = secondary;
-            log.SkillAction = card is Card ? (card as Card).Log.SkillAction : null;
             log.GameAction = action;
             log.CardAction = card;
             Game.CurrentGame.NotificationProxy.NotifySkillUse(log);

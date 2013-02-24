@@ -212,7 +212,7 @@ namespace Sanguosha.UI.Controls
             int[] options1 = { 3, 4, 5, 6 };
             settings.NumHeroPicks = options1[cbHeroPickCount.SelectedIndex];
             int[] options2 = { 10, 15, 20, 30 };
-            settings.TimeOutSeconds = options2[cbHeroPickCount.SelectedIndex];
+            settings.TimeOutSeconds = options2[cbTimeOutSeconds.SelectedIndex];
             LobbyModel.CreateRoom(settings);
             createRoomWindow.Close();
         }
