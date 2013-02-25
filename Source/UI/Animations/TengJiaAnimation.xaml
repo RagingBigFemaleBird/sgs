@@ -6,6 +6,146 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Sanguosha.UI.Animations"
              mc:Ignorable="d" 
-             Width="300" Height="300">
-	
+             Width="200" Height="200">
+	<local:AnimationBase.Resources>
+		<Storyboard x:Key="mainAnimation">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[0].(GradientStop.Offset)" Storyboard.TargetName="tengJiaBaseAnimation">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0.121"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.233" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[1].(GradientStop.Offset)" Storyboard.TargetName="tengJiaBaseAnimation">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0.095"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.233" Value="0.987"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="0.987"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="0.987"/>
+			</DoubleAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.367" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.4" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image1">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.4" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.467" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image2">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.467" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.533" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="burnAnimation">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.7" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:1.167" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:1.433" Value="{x:Static Visibility.Visible}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="burnAnimation">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0.413"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.167" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.433" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="burnAnimation">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0.409"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.167" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.433" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="burnAnimation">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1.5"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.167" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.433" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="burnAnimation">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="18"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.7" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.167" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.433" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="burnAnimation">
+				<EasingDoubleKeyFrame KeyTime="0:0:1.167" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.433" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="tengJiaBaseAnimation">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[1].(SkewTransform.AngleX)" Storyboard.TargetName="tengJiaBaseAnimation">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="-20"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[1].(SkewTransform.AngleY)" Storyboard.TargetName="tengJiaBaseAnimation">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="-50"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="tengJiaBaseAnimation">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="1.145"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="tengJiaBaseAnimation">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="1.261"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="tengJiaBaseAnimation">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="0.182"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="tengJiaBaseAnimation">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="tengJiaBaseAnimation">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+	</local:AnimationBase.Resources>
+	<local:AnimationBase.Triggers>
+		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
+			<BeginStoryboard Storyboard="{StaticResource mainAnimation}"/>
+		</EventTrigger>
+	</local:AnimationBase.Triggers>
+	<Grid>
+		<local:TengJiaBaseAnimation x:Name="tengJiaBaseAnimation" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="60,50" RenderTransformOrigin="0.5,0.5">
+			<local:TengJiaBaseAnimation.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</local:TengJiaBaseAnimation.RenderTransform>
+			<local:TengJiaBaseAnimation.OpacityMask>
+				<RadialGradientBrush>
+					<GradientStop Color="#00000000" Offset="0.121"/>
+					<GradientStop Color="White" Offset="0.095"/>
+				</RadialGradientBrush>
+			</local:TengJiaBaseAnimation.OpacityMask>
+		</local:TengJiaBaseAnimation>
+		<local:BurnAnimation x:Name="burnAnimation" HorizontalAlignment="Stretch" Margin="13,-33,32,57" VerticalAlignment="Stretch" Visibility="Hidden" RenderTransformOrigin="0.5,0.5">
+			<local:BurnAnimation.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</local:BurnAnimation.RenderTransform>
+		</local:BurnAnimation>
+		<Image x:Name="image" Source="TengJiaAnimation/hit1.png" Stretch="Fill" Margin="63,54,77,59" Visibility="Hidden">
+			<Image.Effect>
+				<DropShadowEffect ShadowDepth="1" BlurRadius="10" Color="Red"/>
+			</Image.Effect>
+		</Image>
+		<Image x:Name="image1" Source="TengJiaAnimation/hit2.png" Stretch="Fill" Margin="63,54,77,59" Visibility="Hidden">
+			<Image.Effect>
+				<DropShadowEffect BlurRadius="10" ShadowDepth="0" Color="Red"/>
+			</Image.Effect>
+		</Image>
+		<Image x:Name="image2" Source="TengJiaAnimation/hit3.png" Stretch="Fill" Margin="63,54,77,59" Visibility="Hidden">
+			<Image.Effect>
+				<DropShadowEffect BlurRadius="10" Color="Red" ShadowDepth="0"/>
+			</Image.Effect>
+		</Image></Grid>
 </local:AnimationBase>

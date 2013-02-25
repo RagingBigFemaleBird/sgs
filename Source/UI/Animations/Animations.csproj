@@ -59,6 +59,9 @@
     <Compile Include="BaGuaAnimation.xaml.cs">
       <DependentUpon>BaGuaAnimation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BurnAnimation.xaml.cs">
+      <DependentUpon>BurnAnimation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CiXiongAnimation.xaml.cs">
       <DependentUpon>CiXiongAnimation.xaml</DependentUpon>
     </Compile>
@@ -88,6 +91,12 @@
     </Compile>
     <Compile Include="TaoAnimation.xaml.cs">
       <DependentUpon>TaoAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TengJiaBaseAnimation.xaml.cs">
+      <DependentUpon>TengJiaBaseAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TengJiaShield.xaml.cs">
+      <DependentUpon>TengJiaShield.xaml</DependentUpon>
     </Compile>
     <Compile Include="WinDecorationAnimation.xaml.cs">
       <DependentUpon>WinDecorationAnimation.xaml</DependentUpon>
@@ -245,6 +254,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="BurnAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="CiXiongAnimation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -282,6 +295,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="TaoAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TengJiaBaseAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TengJiaShield.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -452,6 +473,9 @@
     <Resource Include="CiXiongAnimation\7.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="TengJiaAnimation\hit1.png" />
+    <Resource Include="TengJiaAnimation\hit2.png" />
+    <Resource Include="TengJiaAnimation\hit3.png" />
     <Resource Include="ZhangBaAnimation\Ball.png" />
     <Resource Include="ZhangBaAnimation\1.png" />
     <Resource Include="ZhangBaAnimation\2.png" />

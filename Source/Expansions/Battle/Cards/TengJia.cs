@@ -29,7 +29,16 @@ namespace Sanguosha.Expansions.Battle.Cards
                     (p, e, a) => { throw new TriggerResultException(TriggerResult.End); },
                     TriggerCondition.OwnerIsTarget
                 );
-                var trigger2 = new AutoNotifyPassiveSkillTrigger(
+                Triggers.Add(GameEvent.CardUsageTargetValidating, trigger);
+                IsEnforced = true;
+            }
+        }
+
+        public class TengJiaHurtSkill : ArmorTriggerSkill
+        {
+            public TengJiaHurtSkill()
+            {
+                var trigger = new AutoNotifyPassiveSkillTrigger(
                     this,
                     (p, e, a) =>
                     {
@@ -43,15 +52,26 @@ namespace Sanguosha.Expansions.Battle.Cards
                     },
                     TriggerCondition.OwnerIsTarget
                 );
-                Triggers.Add(GameEvent.CardUsageTargetValidating, trigger);
-                Triggers.Add(GameEvent.DamageInflicted, trigger2);
+                Triggers.Add(GameEvent.DamageInflicted, trigger);
                 IsEnforced = true;
             }
         }
 
+        TengJiaHurtSkill hurtTrigger;
         public TengJia()
         {
             EquipmentSkill = new TengJiaSkill() { ParentEquipment = this };
+            hurtTrigger = new TengJiaHurtSkill() { ParentEquipment = this };
+        }
+
+        protected override void RegisterEquipmentTriggers(Player p)
+        {
+            hurtTrigger.Owner = p;
+        }
+
+        protected override void UnregisterEquipmentTriggers(Player p)
+        {
+            hurtTrigger.Owner = null;
         }
 
     }

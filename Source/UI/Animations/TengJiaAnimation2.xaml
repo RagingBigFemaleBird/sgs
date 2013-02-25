@@ -6,6 +6,111 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Sanguosha.UI.Animations"
              mc:Ignorable="d" 
-             Width="300" Height="300">
-	
+             Width="200" Height="200">
+	<local:AnimationBase.Resources>
+		<Storyboard x:Key="mainAnimation">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="tengJiaBaseAnimation">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0.325"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.333" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.633" Value="1.2"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.4" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.7" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="tengJiaBaseAnimation">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0.325"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.333" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.6" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.633" Value="1.2"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.4" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.7" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="tengJiaBaseAnimation">
+				<EasingDoubleKeyFrame KeyTime="0" Value="0.4"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.333" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.633" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.8" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.4" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.7" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.533" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image1">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.533" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.6" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image2">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.6" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.667" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="tengJiaShield">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.733" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.933" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:1.267" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:1.533" Value="{x:Static Visibility.Visible}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="tengJiaShield">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.733" Value="0.265"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.933" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.267" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.533" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="tengJiaShield">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.733" Value="0.265"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.933" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.267" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.533" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="tengJiaShield">
+				<EasingDoubleKeyFrame KeyTime="0:0:1.267" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.533" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+	</local:AnimationBase.Resources>
+	<local:AnimationBase.Triggers>
+		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
+			<BeginStoryboard Storyboard="{StaticResource mainAnimation}"/>
+		</EventTrigger>
+	</local:AnimationBase.Triggers>
+	<Grid>
+		<local:TengJiaBaseAnimation x:Name="tengJiaBaseAnimation" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="60,50" RenderTransformOrigin="0.5,0.5">
+			<local:TengJiaBaseAnimation.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</local:TengJiaBaseAnimation.RenderTransform>
+		</local:TengJiaBaseAnimation>
+		<local:TengJiaShield x:Name="tengJiaShield" HorizontalAlignment="Stretch" Margin="33,32,34,32" VerticalAlignment="Stretch" Visibility="Hidden" RenderTransformOrigin="0.5,0.5">
+			<local:TengJiaShield.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</local:TengJiaShield.RenderTransform>
+		</local:TengJiaShield>
+		<Image x:Name="image" Source="TengJiaAnimation/hit1.png" Stretch="Fill" Margin="64,52,76,61" Visibility="Hidden">
+			<Image.Effect>
+				<DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="#FF00E2FF"/>
+			</Image.Effect>
+		</Image>
+		<Image x:Name="image1" Source="TengJiaAnimation/hit2.png" Stretch="Fill" Margin="64,52,76,61" Visibility="Hidden">
+			<Image.Effect>
+				<DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="#FF00E2FF"/>
+			</Image.Effect>
+		</Image>
+		<Image x:Name="image2" Source="TengJiaAnimation/hit3.png" Stretch="Fill" Margin="64,52,76,61" Visibility="Hidden">
+			<Image.Effect>
+				<DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="#FF00E2FF"/>
+			</Image.Effect>
+		</Image>
+	</Grid>
 </local:AnimationBase>

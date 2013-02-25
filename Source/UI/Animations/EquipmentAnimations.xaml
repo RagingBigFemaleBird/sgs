@@ -18,4 +18,6 @@
     <local:LianNuAnimation x:Key="ZhuGeLianNuSkill.Animation" />
     <local:FangTianAnimation x:Key="FangTianHuaJiSkill.Animation" />
     <local:QiLinAnimation x:Key="QiLinGongSkill.Animation" />
+    <local:TengJiaAnimation x:Key="TengJiaHurtSkill.Animation" />
+    <local:TengJiaAnimation2 x:Key="TengJiaSkill.Animation" />
 </ResourceDictionary>
