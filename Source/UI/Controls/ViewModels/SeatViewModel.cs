@@ -154,6 +154,27 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public int Level
+        {
+            get
+            {
+                int result;
+                if (Account == null) result = 0;
+                else
+                {
+                    result = 0;
+                    int exp = Account.Experience;
+                    while (exp > 10 * result)
+                    {
+                        exp -= 10 * result;
+                        result++;
+                    }
+                }
+                return result;
+            }
+        }
+
+
         #region Commands
         public ICommand ExitCommand
         {

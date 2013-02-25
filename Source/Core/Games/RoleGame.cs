@@ -1009,10 +1009,13 @@ namespace Sanguosha.Core.Games
                     if (winners.Contains(p))
                     {
                         Game.CurrentGame.Settings.Accounts[idx].Wins++;
+                        Game.CurrentGame.Settings.Accounts[idx].Experience += 5;
+                        if (p.Role == Role.Defector) Game.CurrentGame.Settings.Accounts[idx].Experience += 50;
                     }
                     else
                     {
                         Game.CurrentGame.Settings.Accounts[idx].Losses++;
+                        Game.CurrentGame.Settings.Accounts[idx].Experience -= 1;
                     }
                 }
             }
