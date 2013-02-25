@@ -67,10 +67,10 @@
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image1">
 				<EasingDoubleKeyFrame KeyTime="0:0:0.067" Value="0"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.133" Value="1"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.233" Value="0.8"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.146" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.227" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.266" Value="0.8"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.467" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image2">
 				<EasingDoubleKeyFrame KeyTime="0:0:0.133" Value="1"/>
@@ -94,16 +94,16 @@
 				<EasingDoubleKeyFrame KeyTime="0:0:1.167" Value="1"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="image1">
-				<EasingDoubleKeyFrame KeyTime="0:0:0.133" Value="2.303"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="4.5"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.233" Value="4.5"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="4.5"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.146" Value="2.303"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.227" Value="4.5"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.266" Value="4.5"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.467" Value="4.5"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="image1">
-				<EasingDoubleKeyFrame KeyTime="0:0:0.133" Value="2.303"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="4.5"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.233" Value="4.5"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="4.5"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.146" Value="2.303"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.227" Value="4.5"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.266" Value="4.5"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.467" Value="4.5"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image">
 				<EasingDoubleKeyFrame KeyTime="0:0:0.133" Value="0"/>
@@ -174,13 +174,13 @@
 			</ObjectAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="image1">
 				<EasingDoubleKeyFrame KeyTime="0:0:0.067" Value="0"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.133" Value="0"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.146" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.227" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="image1">
 				<EasingDoubleKeyFrame KeyTime="0:0:0.067" Value="0"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.133" Value="0"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.146" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.227" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
 			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image2">
 				<DiscreteObjectKeyFrame KeyTime="0:0:0.133" Value="{x:Static Visibility.Visible}"/>
