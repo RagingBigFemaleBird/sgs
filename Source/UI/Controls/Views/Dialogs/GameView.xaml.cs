@@ -1473,22 +1473,23 @@ namespace Sanguosha.UI.Controls
                     if (winners.Contains(player))
                     {
                         m.Result = GameResult.Win;
-                        // @todo : fix this.
-                        m.GainedExperience = "+15";
+                        // @todo : need to refactor this to sync it with Game.cs
+                        if (player.Role == Role.Defector)
+                            m.GainedExperience = "+55";
+                        else
+                            m.GainedExperience = "+5";
                         m.GainedTechPoints = "+0";
                     }
                     else if (losers.Contains(player))
                     {
-                        m.Result = GameResult.Lose;
-                        // @todo : fix this.
-                        m.GainedExperience = "-3";
+                        m.Result = GameResult.Lose;                        
+                        m.GainedExperience = "-1";
                         m.GainedTechPoints = "+0";
                     }
                     else if (drawers.Contains(player))
                     {
-                        m.Result = GameResult.Draw;
-                        // @todo : fix this.
-                        m.GainedExperience = "+3";
+                        m.Result = GameResult.Draw;                        
+                        m.GainedExperience = "+0";
                         m.GainedTechPoints = "+0";
                     }
                     model.Add(m);
