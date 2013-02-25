@@ -173,12 +173,13 @@
 				<DiscreteObjectKeyFrame KeyTime="0:0:0.266" Value="{x:Static Visibility.Hidden}"/>
 				<DiscreteObjectKeyFrame KeyTime="0:0:0.267" Value="{x:Static Visibility.Visible}"/>
 				<DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:1.167" Value="{x:Static Visibility.Hidden}"/>
 			</ObjectAnimationUsingKeyFrames>
 			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="leiShaThunderAnimation">
 				<DiscreteObjectKeyFrame KeyTime="0:0:0.133" Value="{x:Static Visibility.Visible}"/>
 				<DiscreteObjectKeyFrame KeyTime="0:0:0.233" Value="{x:Static Visibility.Visible}"/>
 				<DiscreteObjectKeyFrame KeyTime="0:0:0.266" Value="{x:Static Visibility.Hidden}"/>
-				<DiscreteObjectKeyFrame KeyTime="0:0:0.267" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.267" Value="{x:Static Visibility.Hidden}"/>
 			</ObjectAnimationUsingKeyFrames>
 		</Storyboard>
 	</local:AnimationBase.Resources>

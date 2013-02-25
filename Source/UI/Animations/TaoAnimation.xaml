@@ -23,7 +23,7 @@
 				<DiscreteObjectKeyFrame KeyTime="0:0:0.133" Value="{x:Static Visibility.Visible}"/>
 				<DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="{x:Static Visibility.Visible}"/>
 				<DiscreteObjectKeyFrame KeyTime="0:0:0.867" Value="{x:Static Visibility.Visible}"/>
-				<DiscreteObjectKeyFrame KeyTime="0:0:1.1" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:1.1" Value="{x:Static Visibility.Hidden}"/>
 			</ObjectAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="image1">
 				<EasingDoubleKeyFrame KeyTime="0:0:0.133" Value="1.797"/>
@@ -46,12 +46,12 @@
 			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image3">
 				<DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="{x:Static Visibility.Visible}"/>
 				<DiscreteObjectKeyFrame KeyTime="0:0:0.733" Value="{x:Static Visibility.Visible}"/>
-				<DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Hidden}"/>
 			</ObjectAnimationUsingKeyFrames>
 			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image2">
 				<DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="{x:Static Visibility.Visible}"/>
 				<DiscreteObjectKeyFrame KeyTime="0:0:0.733" Value="{x:Static Visibility.Visible}"/>
-				<DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Hidden}"/>
 			</ObjectAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="image3">
 				<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0.425"/>
@@ -93,7 +93,7 @@
 
 	<Grid x:Name="LayoutRoot">
 		<Image x:Name="image" Margin="-35" Source="TaoAnimation/foreground.png" Stretch="Fill" Opacity="0"/>
-		<Image x:Name="image3" Margin="-35" Source="TaoAnimation/largeBg.png" Stretch="Fill" Visibility="Hidden" RenderTransformOrigin="0.5,0.5">
+		<Image x:Name="image3" Margin="-35" Source="TaoAnimation/largeBg.png" Stretch="Fill" Visibility="Hidden" RenderTransformOrigin="0.5,0.5" Opacity="0">
 			<Image.RenderTransform>
 				<TransformGroup>
 					<ScaleTransform/>
@@ -103,7 +103,7 @@
 				</TransformGroup>
 			</Image.RenderTransform>
 		</Image>
-		<Image x:Name="image2" Margin="-35" Source="TaoAnimation/smallBg.png" Stretch="Fill" Visibility="Hidden" RenderTransformOrigin="0.5,0.5">
+		<Image x:Name="image2" Margin="-35" Source="TaoAnimation/smallBg.png" Stretch="Fill" Visibility="Hidden" RenderTransformOrigin="0.5,0.5" Opacity="0">
 			<Image.RenderTransform>
 				<TransformGroup>
 					<ScaleTransform/>
