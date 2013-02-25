@@ -242,7 +242,7 @@
 
         <Canvas x:Name="gameGlobalCanvas" Grid.RowSpan="2" Grid.ColumnSpan="2" />
         <local:NonClipGrid x:Name="animationCenter" />
-		<Canvas x:Name="mainPlayerAnimationCenter" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,150" Grid.RowSpan="2" Height="1" Width="1"/>
+		<Canvas x:Name="mainPlayerAnimationCenter" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,45" Height="1" Width="1"/>
         <Grid Visibility="{Binding IsReplay, Converter={StaticResource boolToVisibilityConverter}}"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="197" Height="31">
             <local:ReplayControllerView DataContext="{Binding ReplayController}" />
         </Grid>

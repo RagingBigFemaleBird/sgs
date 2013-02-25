@@ -934,6 +934,7 @@ namespace Sanguosha.UI.Controls
         }
 
         private static ResourceDictionary equipAnimationResources = new ResourceDictionary() { Source = new Uri("pack://application:,,,/Animations;component/EquipmentAnimations.xaml") };
+        private static ResourceDictionary baseCardAnimationResources = new ResourceDictionary() { Source = new Uri("pack://application:,,,/Animations;component/BaseCardAnimations.xaml") };
 
         public void NotifySkillUse(ActionLog log)
         {
@@ -1012,34 +1013,7 @@ namespace Sanguosha.UI.Controls
             }
             if (log.CardAction != null && log.GameAction != GameAction.None)
             {
-                if (log.CardAction.Type is Shan)
-                {
-                    AnimationBase shan = null;
-                    Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
-                    {
-                        shan = new ShanAnimation();
-                    });
-                    Trace.Assert(shan != null);
-                    player.PlayAnimationAsync(shan, 0, new Point(0, 0));
-                }
-                else if (log.CardAction.Type is RegularSha)
-                {
-                    AnimationBase sha = null;
-                    Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
-                    {
-                        if (log.CardAction.SuitColor == SuitColorType.Red)
-                        {
-                            sha = new ShaAnimation();
-                        }
-                        else
-                        {
-                            sha = new ShaAnimation2();
-                        }
-                    });
-                    Trace.Assert(sha != null);
-                    player.PlayAnimationAsync(sha, 0, new Point(0, 0));
-                }
-                else if (log.CardAction.Type is TieSuoLianHuan)
+                if (log.CardAction.Type is TieSuoLianHuan)
                 {
                     foreach (var p in log.Targets)
                     {
@@ -1047,6 +1021,37 @@ namespace Sanguosha.UI.Controls
                         {
                             playersMap[p].PlayIronShackleAnimation();
                         });
+                    }
+                }
+                else
+                {
+                    ICard c = log.CardAction;
+                    string key1;
+                    key1 = string.Format("{0}.{1}.Animation", c.Type.GetType().Name, c.SuitColor == SuitColorType.Red ? "Red" : "Black");
+                    if (!baseCardAnimationResources.Contains(key1))
+                    {
+                        key1 = string.Format("{0}.Animation", c.Type.GetType().Name);
+                    }
+                    string key2 = key1 + ".Offset";
+                    lock (baseCardAnimationResources)
+                    {
+                        if (baseCardAnimationResources.Contains(key1))
+                        {
+                            AnimationBase animation = null;
+                            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+                            {
+                                animation = baseCardAnimationResources[key1] as AnimationBase;
+                            });
+                            if (animation != null && animation.Parent == null)
+                            {
+                                Point offset = new Point(0, 0);
+                                if (baseCardAnimationResources.Contains(key2))
+                                {
+                                    offset = (Point)baseCardAnimationResources[key2];
+                                }
+                                player.PlayAnimationAsync(animation, 0, offset);
+                            }
+                        }
                     }
                 }
 

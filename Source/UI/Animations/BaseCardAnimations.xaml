@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Sanguosha.UI.Animations">
+    <local:ShaAnimation x:Key="RegularSha.Red.Animation" />
+    <local:ShaAnimation2 x:Key="RegularSha.Black.Animation" />
+    <local:ShanAnimation x:Key="Shan.Animation" />
+    <local:LeiShaAnimation x:Key="LeiSha.Animation" />
+    <Point x:Key="LeiSha.Animation.Offset" X="0" Y="10"/>
+    <local:JiuAnimation x:Key="Jiu.Animation" />
+    <local:TaoAnimation x:Key="Tao.Animation" />
+</ResourceDictionary>

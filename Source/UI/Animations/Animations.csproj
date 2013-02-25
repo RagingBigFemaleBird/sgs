@@ -16,7 +16,7 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <Utf8Output>true</Utf8Output>
-    <ExpressionBlendVersion>4.0.20901.0</ExpressionBlendVersion>
+    <ExpressionBlendVersion>4.0.20621.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -67,6 +67,18 @@
     </Compile>
     <Compile Include="GameStartAnimation.xaml.cs">
       <DependentUpon>GameStartAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="JiuAnimation.xaml.cs">
+      <DependentUpon>JiuAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LeiShaAnimation.xaml.cs">
+      <DependentUpon>LeiShaAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LeiShaThunderAnimation.xaml.cs">
+      <DependentUpon>LeiShaThunderAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TaoAnimation.xaml.cs">
+      <DependentUpon>TaoAnimation.xaml</DependentUpon>
     </Compile>
     <Compile Include="WinDecorationAnimation.xaml.cs">
       <DependentUpon>WinDecorationAnimation.xaml</DependentUpon>
@@ -220,6 +232,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="BaseCardAnimations.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CiXiongAnimation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -229,6 +245,22 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="GameStartAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="JiuAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LeiShaAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LeiShaThunderAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TaoAnimation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
