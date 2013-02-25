@@ -203,4 +203,5 @@
     <sys:String x:Key="Skill.QiLinGongSkill.Name">麒麟弓</sys:String>
     <sys:String x:Key="Skill.GuanShiFuSkill.Name">贯石斧</sys:String>
     <sys:String x:Key="Skill.QingLongYanYueDaoSkill.Name">青龙偃月刀</sys:String>
+    <sys:String x:Key="Skill.ZhangBaSheMaoTransform.Name">丈八蛇矛</sys:String>
 </ResourceDictionary>

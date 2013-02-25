@@ -162,7 +162,7 @@ namespace Sanguosha.Expansions.Fire.Skills
                         }
                     },
                     TriggerCondition.OwnerIsSource
-                );
+                ) { AskForConfirmation = false, IsAutoNotify = false};
                 Triggers.Add(Sha.PlayerShaTargetValidation, winTrigger);
             }
         }
