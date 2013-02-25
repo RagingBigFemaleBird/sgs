@@ -8,4 +8,5 @@
     <Point x:Key="LeiSha.Animation.Offset" X="0" Y="10"/>
     <local:JiuAnimation x:Key="Jiu.Animation" />
     <local:TaoAnimation x:Key="Tao.Animation" />
+    <local:HuoShaAnimation x:Key="HuoSha.Animation" />
 </ResourceDictionary>

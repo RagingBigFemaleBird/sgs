@@ -68,6 +68,15 @@
     <Compile Include="GameStartAnimation.xaml.cs">
       <DependentUpon>GameStartAnimation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="HuoShaAnimation.xaml.cs">
+      <DependentUpon>HuoShaAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HuoShaBaseAnimation.xaml.cs">
+      <DependentUpon>HuoShaBaseAnimation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HuoShaFireAnimation.xaml.cs">
+      <DependentUpon>HuoShaFireAnimation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="JiuAnimation.xaml.cs">
       <DependentUpon>JiuAnimation.xaml</DependentUpon>
     </Compile>
@@ -245,6 +254,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="GameStartAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="HuoShaAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="HuoShaBaseAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="HuoShaFireAnimation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -1,0 +1,34 @@
+﻿<local:AnimationBase
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	x:Class="Sanguosha.UI.Animations.HuoShaBaseAnimation"
+	xmlns:local="clr-namespace:Sanguosha.UI.Animations"
+	x:Name="UserControl"
+	Width="240" Height="240">
+	<local:AnimationBase.Resources>
+		<Storyboard x:Key="mainAnimation" RepeatBehavior="1x">
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="huoShaFireAnimation">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.167" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image">
+				<EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.467" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+	</local:AnimationBase.Resources>
+	<local:AnimationBase.Triggers>
+		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
+			<BeginStoryboard Storyboard="{StaticResource mainAnimation}"/>
+		</EventTrigger>
+	</local:AnimationBase.Triggers>
+
+	<Grid x:Name="LayoutRoot">
+		<Image x:Name="image" Margin="72,66,1,70" Source="HuoShaAnimation/background.png" Stretch="Fill" Opacity="0"/>
+		<local:HuoShaFireAnimation x:Name="huoShaFireAnimation" HorizontalAlignment="Stretch" Margin="41,-33,-50,62" VerticalAlignment="Stretch"/>
+		<Image Margin="58,59" Source="HuoShaAnimation/foreground.png" Stretch="Fill"/>
+	</Grid>
+</local:AnimationBase>

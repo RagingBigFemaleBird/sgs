@@ -1,0 +1,43 @@
+﻿<local:AnimationBase
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:local="clr-namespace:Sanguosha.UI.Animations"
+	mc:Ignorable="d"
+	x:Class="Sanguosha.UI.Animations.HuoShaFireAnimation"
+	x:Name="UserControl"
+	Width="249" Height="211">
+	<local:AnimationBase.Resources>
+		<Storyboard x:Key="mainAnimation" RepeatBehavior="Forever">
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image">
+				<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.067" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image1">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.067" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.133" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image2">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.133" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image3">
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="0:0:0.267" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+		</Storyboard>
+	</local:AnimationBase.Resources>
+	<local:AnimationBase.Triggers>
+		<EventTrigger RoutedEvent="FrameworkElement.Loaded">
+			<BeginStoryboard Storyboard="{StaticResource mainAnimation}"/>
+		</EventTrigger>
+	</local:AnimationBase.Triggers>
+
+	<Grid x:Name="LayoutRoot">
+		<Image x:Name="image" Margin="0,35,0,6" Source="HuoShaAnimation/fire0.png" Stretch="Fill"/>
+		<Image x:Name="image1" Margin="50,-16,-11,18" Source="HuoShaAnimation/fire1.png" Stretch="Fill" Visibility="Hidden"/>
+		<Image x:Name="image2" Margin="50,25,-23,18" Source="HuoShaAnimation/fire2.png" Stretch="Fill" Visibility="Hidden"/>
+		<Image x:Name="image3" Margin="47,-18,8,18" Source="HuoShaAnimation/fire3.png" Stretch="Fill" Visibility="Hidden"/>
+	</Grid>
+</local:AnimationBase>
