@@ -11,15 +11,17 @@
 		<Storyboard x:Key="mainAnimation">
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[0].(GradientStop.Offset)" Storyboard.TargetName="tengJiaBaseAnimation">
 				<EasingDoubleKeyFrame KeyTime="0" Value="0.121"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.233" Value="1"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="1"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.033" Value="0.121"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.261" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.85" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.602" Value="1"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.OpacityMask).(GradientBrush.GradientStops)[1].(GradientStop.Offset)" Storyboard.TargetName="tengJiaBaseAnimation">
 				<EasingDoubleKeyFrame KeyTime="0" Value="0.095"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.233" Value="0.987"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="0.987"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="0.987"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.033" Value="0.095"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.261" Value="0.987"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.85" Value="0.987"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.602" Value="0.987"/>
 			</DoubleAnimationUsingKeyFrames>
 			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image">
 				<DiscreteObjectKeyFrame KeyTime="0:0:0.367" Value="{x:Static Visibility.Visible}"/>
@@ -68,44 +70,62 @@
 				<EasingDoubleKeyFrame KeyTime="0:0:1.433" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="tengJiaBaseAnimation">
-				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="1"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.033" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.85" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.602" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[1].(SkewTransform.AngleX)" Storyboard.TargetName="tengJiaBaseAnimation">
-				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="0"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="-20"/>
+				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.033" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.85" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.602" Value="-20"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:1.7" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[1].(SkewTransform.AngleY)" Storyboard.TargetName="tengJiaBaseAnimation">
-				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="0"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="-50"/>
+				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.033" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.85" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.602" Value="-50"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:1.7" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="tengJiaBaseAnimation">
-				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="1"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="1.145"/>
+				<EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.033" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.85" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.602" Value="1.145"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:1.7" Value="1"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="tengJiaBaseAnimation">
-				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="0"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="1.261"/>
+				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.033" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.85" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.602" Value="1.261"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:1.7" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="tengJiaBaseAnimation">
-				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="1"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="0.182"/>
+				<EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.033" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.85" Value="1"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.602" Value="0.182"/>
 				<EasingDoubleKeyFrame KeyTime="0:0:1.7" Value="1"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="tengJiaBaseAnimation">
-				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="0"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.033" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.85" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.602" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
 			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="tengJiaBaseAnimation">
-				<EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="0"/>
-				<EasingDoubleKeyFrame KeyTime="0:0:1.6" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.033" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:0.85" Value="0"/>
+				<EasingDoubleKeyFrame KeyTime="0:0:1.602" Value="0"/>
 			</DoubleAnimationUsingKeyFrames>
 			<PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="tengJiaBaseAnimation">
-				<EasingPointKeyFrame KeyTime="0:0:1.6" Value="0.5,0.5"/>
+				<EasingPointKeyFrame KeyTime="0" Value="0.5,0.5"/>
+				<EasingPointKeyFrame KeyTime="0:0:0.033" Value="0.5,0.5"/>
+				<EasingPointKeyFrame KeyTime="0:0:1.602" Value="0.5,0.5"/>
 				<EasingPointKeyFrame KeyTime="0:0:1.7" Value="0.5,0.5"/>
 			</PointAnimationUsingKeyFrames>
 		</Storyboard>
