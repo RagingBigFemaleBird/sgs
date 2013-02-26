@@ -282,7 +282,16 @@
                 <local:PinDianBox x:Name="pinDianBox" />
             </xctk:ChildWindow>
             <xctk:ChildWindow x:Name="gameResultWindow" Caption="战绩" Width="500" WindowStartupLocation="Center" Template="{DynamicResource StoneWindowStyle}">
-                <local:GameResultBox x:Name="gameResultBox" />
+                <Grid>
+                	<Grid.RowDefinitions>
+                    	<RowDefinition/>
+                    	<RowDefinition Height="30" />
+					</Grid.RowDefinitions>
+					<local:GameResultBox x:Name="gameResultBox" Grid.Row="0" />
+					<StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal">
+                    	<Button Content="确定" Margin="3,0" Width="45" Height="22" Style="{DynamicResource DefaultButtonStyleBrown}" Click="btnCloseResultBox_Click"/>
+                	</StackPanel>
+				</Grid>
             </xctk:ChildWindow>
         </Grid>
         <xctk:BusyIndicator x:Name="busyIndicator" Style="{DynamicResource BusyIndicatorStyle1}" Margin="0" Grid.RowSpan="2" Grid.ColumnSpan="2" d:IsHidden="True" />

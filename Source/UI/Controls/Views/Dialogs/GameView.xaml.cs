@@ -1495,7 +1495,6 @@ namespace Sanguosha.UI.Controls
                     model.Add(m);
                 }
                 gameResultBox.DataContext = model;
-                gameResultWindow.Content = gameResultBox;
 
                 _closeGameResultWindowHandler = (o, e) =>
                 {
@@ -1527,6 +1526,11 @@ namespace Sanguosha.UI.Controls
                     gameResultWindow.Show();
                 }
             });
+        }
+		
+        private void btnCloseResultBox_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            gameResultWindow.Close();
         }
         #endregion
 
