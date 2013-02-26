@@ -28,7 +28,6 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                 MinPlayers = 0;
                 MaxPlayers = 0;
                 Discarding = false;
-                Helper.NoCardReveal = true;
             }
             protected override bool VerifyCard(Player source, Card card)
             {
@@ -87,6 +86,6 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             DeckCleanup.Add(QuanDeck);
         }
 
-        public static PrivateDeckType QuanDeck = new PrivateDeckType("Quan", false);
+        public static PrivateDeckType QuanDeck = new PrivateDeckType("Quan", true);
     }
 }
