@@ -413,5 +413,9 @@ namespace Sanguosha.Core.UI
             }
         }
 
+        public void Abort()
+        {
+            // throw new NotImplementedException();
+        }
     }
 }

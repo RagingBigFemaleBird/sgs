@@ -215,7 +215,8 @@ namespace Sanguosha.UI.Main
                 bool success = false;
                 if ((LoginStatus)ea.Result == LoginStatus.Success)
                 {
-                    LobbyView lobby = LobbyView.Instance;
+                    LobbyView lobby = LobbyView.Instance;                    
+                    LobbyView.Instance.OnNavigateBack += lobby_OnNavigateBack;
                     var lobbyModel = LobbyViewModel.Instance;
                     lobbyModel.Connection = server;
                     lobbyModel.LoginToken = token;
@@ -422,6 +423,7 @@ namespace Sanguosha.UI.Main
             {
                 client = new Client();                
                 game = new MainGame();
+                game.OnNavigateBack += game_OnNavigateBack;
                 client.StartReplay(File.Open(fileName, FileMode.Open));
                 game.NetworkClient = client;
             }
@@ -436,7 +438,20 @@ namespace Sanguosha.UI.Main
                 game.Start();
                 // this.NavigationService.Navigate(game);
             }
+        }
 
+        private static void game_OnNavigateBack(object sender, NavigationService service)
+        {
+            MainGame game = sender as MainGame;
+            if (game != null) game.OnNavigateBack -= game_OnNavigateBack;
+            service.Navigate(new Login());            
+        }
+        
+        private static void lobby_OnNavigateBack(object sender, NavigationService service)
+        {
+            LobbyView lobby = sender as LobbyView;
+            if (lobby != null) lobby.OnNavigateBack -= lobby_OnNavigateBack;
+            service.Navigate(new Login());
         }
 
         #region Network Related

@@ -94,6 +94,10 @@ namespace Sanguosha.UI.Controls
                         try
                         {
                             game = new MainGame();
+                            game.OnNavigateBack += (oo, s) =>
+                            {
+                                s.Navigate(this);
+                            };
                             game.NetworkClient = client;
                             if (NavigationService != null)
                             {
@@ -226,6 +230,18 @@ namespace Sanguosha.UI.Controls
         {
             cbDualHero.IsChecked = false;
             createRoomWindow.Show();
+        }
+
+        public event NavigationEventHandler OnNavigateBack;
+
+        private void btnGoback_Click(object sender, RoutedEventArgs e)
+        {
+            LobbyViewModel.Instance.Logout();
+            var handle = OnNavigateBack;
+            if (handle != null)
+            {
+                handle(this, NavigationService);
+            }
         }
     }
 

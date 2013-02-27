@@ -38,5 +38,10 @@ namespace Sanguosha.Core.UI
         {
             throw new NotImplementedException();
         }
+
+
+        public void Abort()
+        {            
+        }
     }
 }

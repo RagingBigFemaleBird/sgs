@@ -104,6 +104,7 @@ namespace Sanguosha.Core.UI
             }
             client.Flush();
         }
+
         public bool TryAnswerForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             skill = null;

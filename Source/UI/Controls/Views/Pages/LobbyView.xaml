@@ -270,7 +270,7 @@
             </MenuItem>
             <MenuItem Padding="0" Style="{DynamicResource MenuItemStyle1}" Height="20">
                 <MenuItem.Header>
-                    <Button x:Name="btnGoback" Content="返回" Style="{DynamicResource DefaultButtonStyleRed}" Height="20" Padding="2,0,4,0" Margin="0,0,0,0" />
+                    <Button x:Name="btnGoback" Content="返回" Style="{DynamicResource DefaultButtonStyleRed}" Height="20" Padding="2,0,4,0" Margin="0,0,0,0" Click="btnGoback_Click" />
                 </MenuItem.Header>
             </MenuItem>
         </Menu>

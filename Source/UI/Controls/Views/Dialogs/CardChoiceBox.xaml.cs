@@ -91,6 +91,11 @@ namespace Sanguosha.UI.Controls
             _cardStacks.Children.Clear();
             _canvas.Children.Clear();
 
+            if (model.CardStacks.Count == 0)
+            {
+                return;
+            }
+
             int maxCount = (from line in model.CardStacks
                             select line.Cards.Count).Max();
 

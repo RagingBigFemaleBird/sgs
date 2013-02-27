@@ -51,22 +51,31 @@ namespace Sanguosha.Core.UI
             inactiveProxies = inactive;
         }
 
+        Thread pendingUiThread;
+
+        public void Abort()
+        {
+            if (pendingUiThread != null)
+            {
+                pendingUiThread.Abort();
+            }
+        }
+
         public void AskForMultipleChoice(Prompt prompt, List<OptionPrompt> questions, List<Player> players, out Dictionary<Player, int> aanswer)
         {
             this.prompt = prompt;
             this.questions = questions;
-            foreach (var z in inactiveProxies)
+            foreach (var inactiveProxy in inactiveProxies)
             {
-                if (players.Contains(z.HostPlayer))
+                if (players.Contains(inactiveProxy.HostPlayer))
                 {
-                    z.TryAskForMultipleChoice(prompt, questions);
+                    inactiveProxy.TryAskForMultipleChoice(prompt, questions);
                 }
-            }
-            Thread t = null;
+            }            
             if (players.Contains(proxy.HostPlayer))
             {
-                t = new Thread(AskMCQUiThread) { IsBackground = true };
-                t.Start();
+                pendingUiThread = new Thread(AskMCQUiThread) { IsBackground = true };
+                pendingUiThread.Start();
             }
             proxy.SimulateReplayDelay();
             aanswer = new Dictionary<Player, int>();
@@ -78,10 +87,11 @@ namespace Sanguosha.Core.UI
             }
             if (players.Contains(proxy.HostPlayer))
             {
-                t.Abort();
+                pendingUiThread.Abort();                
                 proxy.Freeze();
                 proxy.NextQuestion();
             }
+            pendingUiThread = null;
             foreach (var otherProxy in inactiveProxies)
             {
                 if (players.Contains(otherProxy.HostPlayer))
@@ -100,18 +110,18 @@ namespace Sanguosha.Core.UI
         {
             this.prompt = prompt;
             this.verifier = verifier;
-            foreach (var z in inactiveProxies)
+            foreach (var inactiveProxy in inactiveProxies)
             {
-                if (players.Contains(z.HostPlayer))
+                if (players.Contains(inactiveProxy.HostPlayer))
                 {
-                    z.TryAskForCardUsage(new CardUsagePrompt(""), new NullVerifier());
+                    inactiveProxy.TryAskForCardUsage(new CardUsagePrompt(""), new NullVerifier());
                 }
             }
-            Thread t = null;
+            pendingUiThread = new Thread(AskUiThread) { IsBackground = true };
             if (players.Contains(proxy.HostPlayer))
             {
-                t = new Thread(AskUiThread) { IsBackground = true };
-                t.Start();
+                pendingUiThread = new Thread(AskUiThread) { IsBackground = true };
+                pendingUiThread.Start();
             }
             proxy.SimulateReplayDelay();
             askill = new Dictionary<Player, ISkill>();
@@ -134,10 +144,11 @@ namespace Sanguosha.Core.UI
             }
             if (players.Contains(proxy.HostPlayer))
             {
-                t.Abort();
+                pendingUiThread.Abort();
                 proxy.Freeze();
                 proxy.NextQuestion();
             }
+            pendingUiThread = null;
             foreach (var otherProxy in inactiveProxies)
             {
                 if (players.Contains(otherProxy.HostPlayer))
@@ -152,12 +163,12 @@ namespace Sanguosha.Core.UI
         {
             this.prompt = prompt;
             this.verifier = verifier;
-            foreach (var z in inactiveProxies)
+            foreach (var inactiveProxy in inactiveProxies)
             {
-                z.TryAskForCardUsage(new CardUsagePrompt(""), new NullVerifier());
+                inactiveProxy.TryAskForCardUsage(new CardUsagePrompt(""), new NullVerifier());
             }
-            Thread t = new Thread(AskUiThread) { IsBackground = true };
-            t.Start();
+            pendingUiThread = new Thread(AskUiThread) { IsBackground = true };
+            pendingUiThread.Start();
             proxy.SimulateReplayDelay();
             if (!proxy.TryAnswerForCardUsage(prompt, verifier, out skill, out cards, out players))
             {
@@ -165,14 +176,15 @@ namespace Sanguosha.Core.UI
                 players = new List<Player>();
                 skill = null;
             }
-            t.Abort();
+            pendingUiThread.Abort();
+            pendingUiThread = null;
             foreach (var otherProxy in inactiveProxies)
             {
                otherProxy.Freeze();
             }
             proxy.Freeze();
             proxy.NextQuestion();
-            //try to determine who used this
+            // try to determine who used this
             respondingPlayer = null;
             if (cards != null && cards.Count > 0)
             {

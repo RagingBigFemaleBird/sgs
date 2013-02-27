@@ -405,6 +405,12 @@ namespace Sanguosha.UI.Controls
         {
             return true;
         }
+
+        public void Logout()
+        {
+            Connection.Logout(LoginToken);
+            LoginToken = new LoginToken();
+        }
     }
 
     public delegate void ChatEventHandler(string userName, string msg);

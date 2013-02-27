@@ -348,8 +348,20 @@ namespace Sanguosha.Core.Games
             }
         }
 
+        public void Abort()
+        {
+            if (mainThread == null) return;
+            Trace.Assert(mainThread != Thread.CurrentThread);            
+            if (GlobalProxy != null) GlobalProxy.Abort();
+            mainThread.Abort();
+            mainThread = null;
+        }
+
+        Thread mainThread;
+
         public virtual void Run()
         {
+            mainThread = Thread.CurrentThread;
             if (!games.ContainsKey(Thread.CurrentThread))
             {
                 /*throw new GameAlreadyStartedException();
@@ -447,8 +459,8 @@ namespace Sanguosha.Core.Games
 
                 this.NotificationProxy = null;
                 this.uiProxies = null;
-
             }
+            mainThread = null;
 /*
             catch (Exception e)
             {

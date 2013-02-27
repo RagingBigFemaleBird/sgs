@@ -29,6 +29,9 @@ using System.ComponentModel;
 
 namespace Sanguosha.UI.Controls
 {
+
+    public delegate void NavigationEventHandler(object sender, NavigationService service);
+
     /// <summary>
     /// Interaction logic for MainGame.xaml
     /// </summary>
@@ -244,6 +247,21 @@ namespace Sanguosha.UI.Controls
             soundButton.Visibility = Visibility.Collapsed;
             muteButton.Visibility = Visibility.Visible;
             GameSoundPlayer.IsMute = true;
+        }
+
+        public event NavigationEventHandler OnNavigateBack;
+
+        private void btnGoBack_Click(object sender, RoutedEventArgs e)
+        {
+            if (_game != null)
+            {
+                _game.Abort();
+            }
+            var handle = OnNavigateBack;
+            if (handle != null)
+            {
+                handle(this, NavigationService);
+            }
         }
 
     }
