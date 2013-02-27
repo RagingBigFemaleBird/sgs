@@ -10,5 +10,6 @@ namespace Sanguosha.Lobby.Core
     {
         public List<LoginToken> AccountIds { get; set; }
         public List<Account> Accounts { get; set; }
+        public List<bool> isDead { get; set; }
     }
 }

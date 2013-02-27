@@ -997,14 +997,20 @@ namespace Sanguosha.Core.Games
 
             private void TallyGameResult(List<Player> winners)
             {
+                if (Game.CurrentGame.GameServer == null) return;
                 foreach (Player p in Game.CurrentGame.Players)
                 {
                     int idx = Game.CurrentGame.Players.IndexOf(p);
                     Game.CurrentGame.Settings.Accounts[idx].TotalGames++;
-                    if (Game.CurrentGame.GameServer != null && Game.CurrentGame.GameServer.IsDisconnected(idx))
+                    if (Game.CurrentGame.GameServer.IsDisconnected(idx))
                     {
-                        Game.CurrentGame.Settings.Accounts[idx].Quits++;
-                        continue;
+                        var account = Game.CurrentGame.Settings.Accounts[idx];
+                        var sidx = Game.CurrentGame.Configuration.Accounts.IndexOf(account);
+                        if (!Game.CurrentGame.Configuration.isDead[sidx])
+                        {
+                            Game.CurrentGame.Settings.Accounts[idx].Quits++;
+                            continue;
+                        }
                     }
                     if (winners.Contains(p))
                     {
@@ -1018,6 +1024,17 @@ namespace Sanguosha.Core.Games
                         Game.CurrentGame.Settings.Accounts[idx].Experience -= 1;
                     }
                 }
+            }
+
+            private void ReleaseIntoLobby(Player p)
+            {
+                if (Game.CurrentGame.GameServer == null) return;
+                if (Game.CurrentGame.Settings == null) return;
+                if (Game.CurrentGame.Configuration == null) return;
+                var idx = Game.CurrentGame.Players.IndexOf(p);
+                var account = Game.CurrentGame.Settings.Accounts[idx];
+                idx = Game.CurrentGame.Configuration.Accounts.IndexOf(account);
+                Game.CurrentGame.Configuration.isDead[idx] = true;
             }
 
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
@@ -1060,6 +1077,8 @@ namespace Sanguosha.Core.Games
                     p.IsDead = true;
                     throw new GameOverException();
                 }
+
+                ReleaseIntoLobby(p);
 
                 if (p.Role == Role.Rebel || p.Role == Role.Defector)
                 {

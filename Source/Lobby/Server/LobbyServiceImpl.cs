@@ -22,6 +22,7 @@ namespace Sanguosha.Lobby.Server
         Dictionary<IGameClient, Guid> loggedInChannelsToGuid;
         Dictionary<Guid, IGameClient> loggedInGuidToChannel;
         Dictionary<Guid, Room> loggedInGuidToRoom;
+        Dictionary<Room, AccountConfiguration> gamingInfo;
         AccountContext accountContext;
 
         public IPAddress HostingIp { get; set; }
@@ -49,6 +50,7 @@ namespace Sanguosha.Lobby.Server
             loggedInAccountToGuid = new Dictionary<Account, Guid>();
             loggedInChannelsToGuid = new Dictionary<IGameClient, Guid>();
             loggedInGuidToRoom = new Dictionary<Guid, Room>();
+            gamingInfo = new Dictionary<Room, AccountConfiguration>();
             newRoomId = 1;
             CheatEnabled = false;
             accounts = new List<Account>();
@@ -160,9 +162,17 @@ namespace Sanguosha.Lobby.Server
             loggedInGuidToChannel.Add(token.TokenString, connection);
             loggedInAccountToGuid.Add(account, token.TokenString);
             loggedInChannelsToGuid.Add(connection, token.TokenString);
-            if (disconnected != null && loggedInGuidToRoom.ContainsKey(token.TokenString) && loggedInGuidToRoom[token.TokenString].State == RoomState.Gaming)
+            if (disconnected != null && loggedInGuidToRoom.ContainsKey(token.TokenString))
             {
-                reconnectionString = loggedInGuidToRoom[token.TokenString].IpAddress.ToString() + ":" + loggedInGuidToRoom[token.TokenString].IpPort;
+                if (loggedInGuidToRoom[token.TokenString].State == RoomState.Gaming
+                    && gamingInfo.ContainsKey(loggedInGuidToRoom[token.TokenString]) && !gamingInfo[loggedInGuidToRoom[token.TokenString]].isDead[gamingInfo[loggedInGuidToRoom[token.TokenString]].Accounts.IndexOf(account)])
+                {
+                    reconnectionString = loggedInGuidToRoom[token.TokenString].IpAddress.ToString() + ":" + loggedInGuidToRoom[token.TokenString].IpPort;
+                }
+                else
+                {
+                    loggedInGuidToRoom.Remove(token.TokenString);
+                }
             }
             return LoginStatus.Success;
         }
@@ -398,11 +408,17 @@ namespace Sanguosha.Lobby.Server
 
         private void _OnGameEnds(int roomId)
         {
+            if (accountContext != null) accountContext.SaveChanges();
             if (rooms.ContainsKey(roomId))
             {
                 rooms[roomId].State = RoomState.Waiting;
                 foreach (var seat in rooms[roomId].Seats)
                 {
+                    if (seat.Account != null && loggedInGuidToRoom[loggedInAccountToGuid[seat.Account]] != rooms[roomId])
+                    {
+                        seat.Account = null;
+                        seat.State = SeatState.Empty;
+                    }
                     try
                     {
                         if (seat.Account != null && loggedInGuidToChannel[loggedInAccountToGuid[seat.Account]].Ping())
@@ -413,10 +429,11 @@ namespace Sanguosha.Lobby.Server
                     catch (Exception)
                     {
                     }
+
                     if (seat.Account != null) _Logout(new LoginToken() { TokenString = loggedInAccountToGuid[seat.Account] });
                 }
-                if (accountContext != null) accountContext.SaveChanges();
             }
+            NotifyRoomLayoutChanged(roomId);
         }
 
         public RoomOperationResult StartGame(LoginToken token)
@@ -449,12 +466,16 @@ namespace Sanguosha.Lobby.Server
                 var config = new AccountConfiguration();
                 config.AccountIds = new List<LoginToken>();
                 config.Accounts = new List<Account>();
+                config.isDead = new List<bool>();
+                if (gamingInfo.ContainsKey(room)) gamingInfo.Remove(room);
+                gamingInfo.Add(room, config);
                 foreach (var addconfig in room.Seats)
                 {
                     if (addconfig.Account != null)
                     {
                         config.AccountIds.Add(new LoginToken() { TokenString = loggedInAccountToGuid[addconfig.Account] });
                         config.Accounts.Add(addconfig.Account);
+                        config.isDead.Add(false);
                     }
                 }
                 GameService.StartGameService(HostingIp, gs, config, room.Id, _OnGameEnds, out portNumber);
