@@ -185,6 +185,10 @@ namespace Sanguosha.Lobby.Server
             {
                 _ExitRoom(token);
             }
+            accounts.Remove(loggedInGuidToAccount[token.TokenString]);
+            loggedInAccountToGuid.Remove(loggedInGuidToAccount[token.TokenString]);
+            loggedInChannelsToGuid.Remove(loggedInGuidToChannel[token.TokenString]);
+            loggedInGuidToChannel.Remove(token.TokenString);
             loggedInGuidToAccount.Remove(token.TokenString);
         }
 
