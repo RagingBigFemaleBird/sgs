@@ -45,6 +45,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                     break;
 
                 Game.CurrentGame.DrawCards(Owner, 1);
+                if (Owner.HandCards().Count == 0) continue;
 
                 ISkill skill;
                 List<Card> cards;
