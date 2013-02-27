@@ -343,7 +343,7 @@ namespace Sanguosha.UI.Controls
                 {
                     Rooms.Add(new RoomViewModel() { Room = room });
                 }
-                if (CurrentRoom.Id == id)
+                if (CurrentRoom != null && CurrentRoom.Id == id)
                 {
                     CurrentRoom = new RoomViewModel() { Room = room };                    
                 }

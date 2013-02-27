@@ -97,6 +97,7 @@ namespace Sanguosha.UI.Controls
                             game.OnNavigateBack += (oo, s) =>
                             {
                                 s.Navigate(this);
+                                this.Reload();
                             };
                             game.NetworkClient = client;
                             if (NavigationService != null)
