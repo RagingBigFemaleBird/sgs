@@ -129,8 +129,8 @@ namespace Sanguosha.Core.Heroes
             OnPropertyChanged("Skills");
             foreach (var sk in backup)
             {
-                sk.Owner = null;
                 sk.HeroTag = null;
+                sk.Owner = null;
             }
         }
     }
