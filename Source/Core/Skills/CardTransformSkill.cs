@@ -95,6 +95,7 @@ namespace Sanguosha.Core.Skills
                 owner = value;
                 if (LinkedPassiveSkill != null)
                 {
+                    LinkedPassiveSkill.HeroTag = HeroTag;
                     LinkedPassiveSkill.Owner = value;
                 }
             }
