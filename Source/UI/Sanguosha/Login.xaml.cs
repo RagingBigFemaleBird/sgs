@@ -152,7 +152,7 @@ namespace Sanguosha.UI.Main
         private void _startClient()
         {
             string userName = tab0UserName.Text;
-            string passwd = tab0Password.Text;
+            string passwd = tab0Password.Password;
             Properties.Settings.Default.LastHostName = tab0HostName.Text;
             Properties.Settings.Default.LastUserName = tab0UserName.Text;
             Properties.Settings.Default.Save();
@@ -258,7 +258,7 @@ namespace Sanguosha.UI.Main
         private void _createAccount()
         {
             string userName = tab0UserName.Text;
-            string passwd = tab0Password.Text;
+            string passwd = tab0Password.Password;
             Properties.Settings.Default.LastHostName = tab0HostName.Text;
             Properties.Settings.Default.LastUserName = tab0UserName.Text;            
             Properties.Settings.Default.Save();
