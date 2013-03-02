@@ -262,6 +262,11 @@ namespace Sanguosha.UI.Controls
 
         #region Private Functions
 
+        private void _UpdateRemainingCards()
+        {
+            numRemainingCard.Text = Game.CurrentGame.Decks[DeckType.Dealing].Count().ToString();
+        }
+
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             GameSoundPlayer.PlayBackgroundMusic(GameSoundLocator.GetBgm());
@@ -895,6 +900,7 @@ namespace Sanguosha.UI.Controls
             }
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
+                _UpdateRemainingCards();
                 rtbLog.ScrollToEnd();
             });
             if (doWeaponSound)
@@ -1123,6 +1129,7 @@ namespace Sanguosha.UI.Controls
                 {
                     handler(this, new EventArgs());
                 }
+                _UpdateRemainingCards();
             });
         }
 
@@ -1331,6 +1338,7 @@ namespace Sanguosha.UI.Controls
 
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
+                numRemainingCard.Text = Game.CurrentGame.Decks[DeckType.Dealing].Count().ToString();
                 PlayAnimation(new GameStartAnimation());
             });
         }
