@@ -92,11 +92,14 @@ namespace Sanguosha.Expansions.Hills.Skills
 
         void LoseHuaShen(Player Owner)
         {
-            Owner.Allegiance = Allegiance.Qun;
-            Owner.IsMale = true;
-            Owner.IsFemale = !Owner.IsMale;
-            Game.CurrentGame.NotificationProxy.NotifyImpersonation(Owner, HeroTag, null, null);
-            Game.CurrentGame.Emit(GameEvent.PlayerChangedAllegiance, new GameEventArgs() { Source = Owner });
+            if (Game.CurrentGame.IsMainHero(HeroTag, Owner))
+            {
+                Owner.Allegiance = Allegiance.Qun;
+                Owner.IsMale = true;
+                Owner.IsFemale = !Owner.IsMale;
+                Game.CurrentGame.NotificationProxy.NotifyImpersonation(Owner, HeroTag, null, null);
+                Game.CurrentGame.Emit(GameEvent.PlayerChangedAllegiance, new GameEventArgs() { Source = Owner });
+            }
             if (acquiredSkill != null && Owner.AdditionalSkills.Contains(acquiredSkill))
                 Game.CurrentGame.PlayerLoseAdditionalSkill(Owner, acquiredSkill);
         }
