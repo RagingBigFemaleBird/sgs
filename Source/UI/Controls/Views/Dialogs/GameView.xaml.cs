@@ -382,6 +382,7 @@ namespace Sanguosha.UI.Controls
             Trace.Assert(view != null);
 
             GameModel.MainPlayerSeatNumber = GameModel.Game.Players.IndexOf(view.PlayerModel.Player);
+            _Resize(this.RenderSize);
         }
 
         private void mainPlayer_PropertyChanged(object sender, PropertyChangedEventArgs e)
