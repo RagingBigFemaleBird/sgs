@@ -35,10 +35,6 @@ namespace Sanguosha.UI.Controls
 
         void PlayerView_Unloaded(object sender, RoutedEventArgs e)
         {
-            grid.Effect = null;
-            heroPhoto.Effect = null;
-            heroPhoto2.Effect = null;
-            this.DataContext = null;
         }
 
         public static void PlayerView_FlowDirectionChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -58,7 +54,7 @@ namespace Sanguosha.UI.Controls
             if (model != null)
             {
                 model.PropertyChanged -= _OnPropertyChanged;
-            }
+            }            
             model = e.NewValue as PlayerViewModel;
             if (model != null)
             {
