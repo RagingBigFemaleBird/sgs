@@ -270,7 +270,7 @@
             <ProgressBar x:Name="progressBar" Style="{StaticResource TimedProgressBarStyle}" Grid.Column="0" Grid.Row="2" Margin="5,0" />
             <Grid x:Name="grid" Grid.Column="0">
                 <Grid.Effect>
-                    <Sanguosha_UI_Effects:MonochromeEffect Strength="0"/>
+                    <Sanguosha_UI_Effects:MonochromeEffect x:Name="deathEffect" Strength="0"/>
                 </Grid.Effect>
                 <Border OpacityMask="{StaticResource GlowOpacityMask}" x:Name="isPlayingGlow" Visibility="{Binding IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}"  Background="#FF27D317">
                     <Border.Effect>

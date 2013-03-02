@@ -23,7 +23,7 @@ namespace Sanguosha.UI.Controls
 
         void PlayerViewBase_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            UpdateCards();
+            Update();
         }
 
         internal virtual void UpdateCards()
@@ -422,6 +422,10 @@ namespace Sanguosha.UI.Controls
         public virtual void UpdateImpersonateStatus(bool isPrimaryHero)
         {
 
+        }
+
+        public virtual void Update()
+        {           
         }
     }
 }

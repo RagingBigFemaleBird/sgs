@@ -256,15 +256,15 @@
                     <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
                 </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="image">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="deathIcon">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="3"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
                 </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="image">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="deathIcon">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="3"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
                 </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image">
+                <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="deathIcon">
                     <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
                     <EasingDoubleKeyFrame KeyTime="0:0:1" Value="1"/>
                 </DoubleAnimationUsingKeyFrames>
@@ -350,7 +350,7 @@
                                DisabledImage="pack://application:,,,/Resources;component/Images/Buttons/trust/disabled2.png"
                                Visibility="Hidden" Click="untrustButton_Click" />
             </Grid>
-            <Image x:Name="image" Source="{res:ImageBinding Path=Role, ResourceKeyFormat=Death.Role.\{0\}.Image, StringFormat=Resources/Images/Death/\{0\}.png}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False" Opacity="0" Margin="-154,0,95,0">
+            <Image x:Name="deathIcon" Source="{res:ImageBinding Path=Role, ResourceKeyFormat=Death.Role.\{0\}.Image, StringFormat=Resources/Images/Death/\{0\}.png}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False" Opacity="0" Margin="-154,0,95,0">
                 <Image.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -368,7 +368,7 @@
                 <ImageBrush ImageSource="{StaticResource MainPlayerInfoView.Background.Black}" Stretch="UniformToFill"/>
             </StackPanel.Background>
             <StackPanel.Effect>
-                <Sanguosha_UI_Effects:MonochromeEffect Strength="0"/>
+                <Sanguosha_UI_Effects:MonochromeEffect x:Name="deathEffect" Strength="0"/>
             </StackPanel.Effect>
 
             <Grid x:Name="hero1Area" Margin="0.5,2,0,0" HorizontalAlignment="Left" Width="122">

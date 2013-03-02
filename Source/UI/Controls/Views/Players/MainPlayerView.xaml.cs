@@ -167,6 +167,16 @@ namespace Sanguosha.UI.Controls
             model.IsSelected = false;
         }
 
+        public override void Update()
+        {
+            // Update death status
+            deathIcon.Opacity = PlayerModel.IsDead ? 1.0d : 0.0d;
+            deathEffect.Strength = PlayerModel.IsDead ? 1.0d : 0.0d;
+
+            // Update cards
+            UpdateCards();
+        }
+
         internal override void UpdateCards()
         {
             var oldHandCards = handCardArea.Cards;

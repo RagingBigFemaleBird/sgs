@@ -1114,7 +1114,7 @@ namespace Sanguosha.UI.Controls
                 ViewModelBase.AttachAll();
                 foreach (var player in playersMap.Values)
                 {
-                    player.UpdateCards();
+                    player.Update();
                 }
                 busyIndicator.IsBusy = false;
                 var handler = OnUiAttached;
