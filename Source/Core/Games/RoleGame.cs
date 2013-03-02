@@ -407,7 +407,7 @@ namespace Sanguosha.Core.Games
 
                 if (Game.CurrentGame.Decks[DeckType.Compute].Count > 0)
                 {
-                    m.Cards = Game.CurrentGame.Decks[DeckType.Compute];
+                    m.Cards = new List<Card>(Game.CurrentGame.Decks[DeckType.Compute]);
                     m.To = new DeckPlace(null, DeckType.Discard);
                     m.Helper = new MovementHelper();
                     Game.CurrentGame.PlayerAboutToDiscardCard(savedSource, m.Cards, DiscardReason.Use);

@@ -26,7 +26,7 @@ namespace Sanguosha.Expansions.SP.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return a.Source == ruler; },
+                (p, e, a) => { return a.Source == ruler && a.Source != Owner; },
                 (p, e, a) =>
                 {
                     bool canInvoke = true;
@@ -60,7 +60,7 @@ namespace Sanguosha.Expansions.SP.Skills
         {
             foreach (var p in Game.CurrentGame.AlivePlayers)
             {
-                if (p.Role == Role.Ruler)
+                if (p.Role == Role.Ruler && p != owner)
                 {
                     ruler = p;
                     foreach (var sk in p.ActionableSkills)
