@@ -88,13 +88,6 @@ namespace Sanguosha.Lobby.Server
                 return new Account() { UserName = username };
             }
             var result = from a in accountContext.Accounts where a.UserName.Equals(username) select a;
-            if (result.Count() == 0)
-            {
-                var account = new Account() { UserName = username };
-                accountContext.Accounts.Add(account);
-                accountContext.SaveChanges();
-                return account;
-            }
             return result.First();
         }
 
@@ -183,7 +176,7 @@ namespace Sanguosha.Lobby.Server
             Console.WriteLine("{0} logged out", loggedInGuidToAccount[token.TokenString].UserName);
             if (loggedInGuidToRoom.ContainsKey(token.TokenString))
             {
-                _ExitRoom(token);
+                if (_ExitRoom(token) != RoomOperationResult.Success) return;
             }
             accounts.Remove(loggedInGuidToAccount[token.TokenString]);
             loggedInAccountToGuid.Remove(loggedInGuidToAccount[token.TokenString]);
@@ -299,6 +292,11 @@ namespace Sanguosha.Lobby.Server
                 {
                     if (seat.Account == loggedInGuidToAccount[token.TokenString])
                     {
+                        if (loggedInGuidToRoom[token.TokenString].State == RoomState.Gaming
+                            && gamingInfo.ContainsKey(loggedInGuidToRoom[token.TokenString]) && !gamingInfo[loggedInGuidToRoom[token.TokenString]].isDead[gamingInfo[loggedInGuidToRoom[token.TokenString]].Accounts.IndexOf(seat.Account)])
+                        {
+                            return RoomOperationResult.Locked;
+                        }
                         bool findAnotherHost = false;
                         if (seat.State == SeatState.Host)
                         {

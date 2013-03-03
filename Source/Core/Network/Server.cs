@@ -222,7 +222,11 @@ namespace Sanguosha.Core.Network
                     stream.ReadTimeout = Timeout.Infinite;
                     int indexC = game.Settings.Accounts.IndexOf(theAccount);
                     if (spectatorJoining) indexC = numberOfGamers;
-                    Trace.Assert(indexC >= 0);
+                    if (indexC < 0)
+                    {
+                        client.Close();
+                        continue;
+                    }
                     lock (handlers[indexC].queueIn) lock (handlers[indexC].queueOut) lock (handlers[indexC].sender) lock (handlers[indexC].receiver)
                     {
                         handlers[indexC].sender.Flush();
