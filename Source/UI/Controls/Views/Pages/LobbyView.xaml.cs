@@ -133,8 +133,7 @@ namespace Sanguosha.UI.Controls
                 if ((bool)ea.Result)
                 {
                     chatBox.Document.Blocks.Clear();
-                    LobbyViewModel.Instance.OnChat -= chatEventHandler;                    
-                    this.DataContext = null;                            
+                    LobbyViewModel.Instance.OnChat -= chatEventHandler;                                             
                     return;
                 }
                 else

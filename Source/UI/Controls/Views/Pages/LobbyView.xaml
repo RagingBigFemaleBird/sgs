@@ -346,9 +346,9 @@
                 <StackPanel Grid.Row="7" Grid.ColumnSpan="3"  HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal">
                     <Button Content="确定" Margin="3,0" Width="45" Height="22" Style="{DynamicResource DefaultButtonStyleBrown}" Click="btnCreateRoomConfirm_Click" />
                     <Button Content="取消" Margin="20,0" Width="45" Height="22" Style="{DynamicResource DefaultButtonStyle1}" Click="btnCreateRoomCancel_Click" />
-                </StackPanel>
-                <xctk:BusyIndicator Grid.RowSpan="8" x:Name="busyIndicator" Style="{DynamicResource BusyIndicatorStyle1}" Margin="7,-33,-686,-407" Grid.ColumnSpan="3" d:IsHidden="True" />
+                </StackPanel>                
             </Grid>
         </xctk:ChildWindow>
+        <xctk:BusyIndicator Grid.RowSpan="3" x:Name="busyIndicator" Style="{DynamicResource BusyIndicatorStyle1}" Grid.ColumnSpan="2" d:IsHidden="True" />
     </Grid>
 </Page>
