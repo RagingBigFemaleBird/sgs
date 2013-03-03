@@ -73,6 +73,7 @@
     <Compile Include="ViewModels\SeatViewModel.cs" />
     <Compile Include="ViewModels\WuGuChoiceViewModel.cs" />
     <Compile Include="Views\BaseControls\BoolToDoubleConverter.cs" />
+    <Compile Include="Views\BaseControls\BoolToInvisibilityConverter.cs" />
     <Compile Include="Views\BaseControls\ObjectToInvisibilityConverter.cs" />
     <Compile Include="Views\BaseControls\ObjectToVisibilityConverter.cs" />
     <Compile Include="Views\BaseControls\FlowDocumentExtensions.cs" />

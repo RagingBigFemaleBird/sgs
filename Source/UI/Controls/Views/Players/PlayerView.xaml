@@ -230,39 +230,6 @@
             <VisualStateManager.CustomVisualStateManager>
                 <ei:ExtendedVisualStateManager/>
             </VisualStateManager.CustomVisualStateManager>
-            <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="FadedStates" ei:ExtendedVisualStateManager.UseFluidLayout="True">
-                    <VisualStateGroup.Transitions>
-                        <VisualTransition GeneratedDuration="0:0:0.2"/>
-                    </VisualStateGroup.Transitions>
-                    <VisualState x:Name="Faded">
-                        <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="fadeMask">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="bgFade">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="bg">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </VisualState>
-                    <VisualState x:Name="Unfaded">
-                        <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="fadeMask">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="bgFade">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="bg">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition Height="12"/>
@@ -297,8 +264,8 @@
                         <RowDefinition/>
                         <RowDefinition Height="66"/>
                     </Grid.RowDefinitions>
-                    <Image x:Name="bg" Margin="0,0,-2,0" Stretch="Fill" Grid.RowSpan="3" Source="{StaticResource PlayerInfoView.Background}" IsHitTestVisible="False" />
-                    <Image x:Name="bgFade" Margin="0,0,-2,0" Stretch="Fill" Grid.RowSpan="3" Source="{StaticResource PlayerInfoView.Background.Faded}" Visibility="Hidden"  IsHitTestVisible="False" />
+                    <Image x:Name="bg" Margin="0,0,-2,0" Stretch="Fill" Grid.RowSpan="3" Source="{StaticResource PlayerInfoView.Background}" IsHitTestVisible="False" Visibility="{Binding IsFaded, Converter={StaticResource boolToInvisibilityConverter}}" />
+                    <Image x:Name="bgFade" Margin="0,0,-2,0" Stretch="Fill" Grid.RowSpan="3" Source="{StaticResource PlayerInfoView.Background.Faded}" Visibility="{Binding IsFaded, Converter={StaticResource boolToVisibilityConverter}}"  IsHitTestVisible="False" />
                     <local:CardStack x:Name="privateCardArea" IsCardConsumer="true" CardAlignment="Center" MaxCardSpacing="30" Grid.RowSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-30,0,0,0"  Height="130" Width="179" IsHitTestVisible="false" />
                     <local:CardStack x:Name="handCardArea" IsCardConsumer="true" CardAlignment="Center" MaxCardSpacing="30" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="130" Width="279" IsHitTestVisible="false" />
                     <Grid x:Name="heroArea" Margin="5,0,6,0" Grid.Row="1" IsHitTestVisible="True">
@@ -425,11 +392,7 @@
                                 <local:OutlinedTextBlock Text="{res:ResourceKeyBinding Path=Hero2Model.ImpersonatedSkill, StringFormat=Skill.{0}.Name}" FontSize="21" Fill="White" FontFamily="/Resources;component/Fonts/#LiSu" Margin="5,1" Stroke="Blue" StrokeThickness="3"/>
                             </Grid>
                             <Image Height="30" Margin="20,0,21,7" Source="/Resources;component/Images/Game/saveMe.png" IsHitTestVisible="False" Visibility="{Binding IsDying, Converter={StaticResource boolToVisibilityConverter}}" Stretch="Fill" VerticalAlignment="Bottom"/>
-                            <Border x:Name="fadeMask" Background="#64000000" Visibility="Hidden" IsHitTestVisible="False">
-                                <i:Interaction.Behaviors>
-                                    <ei:DataStateBehavior Value="true" TrueState="Faded" FalseState="Unfaded" Binding="{Binding IsFaded}"/>
-                                </i:Interaction.Behaviors>
-                            </Border>
+                            <Border x:Name="fadeMask" Background="#64000000" IsHitTestVisible="False" Visibility="{Binding IsFaded, Converter={StaticResource boolToVisibilityConverter}}" />
                         </Grid>
                     </Grid>
 

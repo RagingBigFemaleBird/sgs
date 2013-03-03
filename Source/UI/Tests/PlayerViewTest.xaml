@@ -1,0 +1,23 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:Sanguosha.UI.Controls;assembly=Controls" x:Class="Tests.PlayerViewTest"
+        Title="PlayerViewTest" Height="500" Width="800">
+    <Grid>
+        <StackPanel>
+            <UniformGrid Columns="4" Rows="2" x:Name="gridPlayers">
+                <Controls:PlayerView x:Name="playerView1"/>
+                <Controls:PlayerView x:Name="playerView2"/>
+                <Controls:PlayerView x:Name="playerView3"/>
+                <Controls:PlayerView x:Name="playerView4"/>
+                <Controls:PlayerView x:Name="playerView5"/>
+                <Controls:PlayerView x:Name="playerView6"/>
+                <Controls:PlayerView x:Name="playerView7"/>
+                <Controls:PlayerView x:Name="playerView8"/>
+            </UniformGrid>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Fade/Unfade" Click="Button_Click_1" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

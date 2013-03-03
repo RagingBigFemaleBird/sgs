@@ -23,7 +23,10 @@ namespace Sanguosha.UI.Controls
 
         void PlayerViewBase_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            Update();
+            if (Game.CurrentGame != null)
+            {
+                Update();
+            }
         }
 
         internal virtual void UpdateCards()

@@ -1,0 +1,10 @@
+﻿<Window x:Class="Tests.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <UniformGrid>
+            <Button Content="PlayerView Test" Click="Button_Click_1" />
+        </UniformGrid>
+    </Grid>
+</Window>

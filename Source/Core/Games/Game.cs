@@ -509,7 +509,7 @@ namespace Sanguosha.Core.Games
         {
             get 
             {
-                return CurrentGameOverride ?? games[Thread.CurrentThread]; 
+                return CurrentGameOverride ?? (games.ContainsKey(Thread.CurrentThread) ? games[Thread.CurrentThread] : null); 
             }
         }
 

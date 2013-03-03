@@ -74,7 +74,7 @@ namespace Sanguosha.UI.Controls
         {
             get
             {
-                return GameModel.IsPlayable && this == GameModel.MainPlayerModel;
+                return GameModel != null && GameModel.IsPlayable && this == GameModel.MainPlayerModel;
             }
         }
 
@@ -82,7 +82,7 @@ namespace Sanguosha.UI.Controls
         {
             get
             {
-                return !GameModel.IsPlayable;
+                return GameModel != null && !GameModel.IsPlayable;
             }
         }
 

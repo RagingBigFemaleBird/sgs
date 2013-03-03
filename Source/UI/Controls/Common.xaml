@@ -6,6 +6,7 @@
                     xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
     <local:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
+    <local:BoolToInvisibilityConverter x:Key="boolToInvisibilityConverter" />
     <local:BoolToDoubleConverter x:Key="boolToDoubleConverter" />
     <local:ObjectToVisibilityConverter x:Key="objectToVisibilityConverter" />
     <local:ObjectToInvisibilityConverter x:Key="objectToInvisibilityConverter" />
