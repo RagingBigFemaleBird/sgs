@@ -55,7 +55,6 @@ namespace Sanguosha.UI.Controls
             Marks = new ObservableCollection<MarkViewModel>();
             StatusMarks = new ObservableCollection<MarkViewModel>();
             HandCards = new ObservableCollection<CardViewModel>();
-            verifierLock = new object();
             _lastSelectedPlayers = new List<Player>();
         }
 
@@ -814,25 +813,22 @@ namespace Sanguosha.UI.Controls
             }
 
             // Card usage question
-            lock (verifierLock)
+            var guHuoSkill = skill as IAdditionalTypedSkill;
+            if (guHuoSkill != null)
             {
-                var guHuoSkill = skill as IAdditionalTypedSkill;
-                if (guHuoSkill != null)
-                {
-                    // Reset all will also clear the GuHuoChoice recorded. So restore it after resetting the buttons.
-                    var backup = guHuoSkill.AdditionalType;
-                    _ResetAll();
-                    guHuoSkill.AdditionalType = backup;
-                }
-                else
-                {
-                    _ResetAll();
-                }
-                if (currentUsageVerifier != null)
-                {
-                    currentUsageVerifier = null;
-                    CardUsageAnsweredEvent(skill, cards, players);
-                }
+                // Reset all will also clear the GuHuoChoice recorded. So restore it after resetting the buttons.
+                var backup = guHuoSkill.AdditionalType;
+                _ResetAll();
+                guHuoSkill.AdditionalType = backup;
+            }
+            else
+            {
+                _ResetAll();
+            }
+            if (currentUsageVerifier != null)
+            {
+                currentUsageVerifier = null;
+                CardUsageAnsweredEvent(skill, cards, players);
             }
         }
 
@@ -842,13 +838,10 @@ namespace Sanguosha.UI.Controls
         private SimpleRelayCommand cancelCardUsageCommand;
         public void CancelCardUsageCommand(object parameter)
         {
-            lock (verifierLock)
-            {
-                Trace.Assert(currentUsageVerifier != null);
-                CardUsageAnsweredEvent(null, null, null);
-                currentUsageVerifier = null;
-                _ResetAll();
-            }
+            Trace.Assert(currentUsageVerifier != null);
+            CardUsageAnsweredEvent(null, null, null);
+            currentUsageVerifier = null;
+            _ResetAll();
         }
         #endregion
 
@@ -856,17 +849,14 @@ namespace Sanguosha.UI.Controls
         private SimpleRelayCommand abortCardUsageCommand;
         public void AbortCardUsageCommand(object parameter)
         {
-            lock (verifierLock)
+            if (currentUsageVerifier == null)
             {
-                if (currentUsageVerifier == null)
-                {
-                    return;
-                }
-                Trace.Assert(currentUsageVerifier != null);
-                CardUsageAnsweredEvent(null, null, null);
-                currentUsageVerifier = null;
-                _ResetAll();
+                return;
             }
+            Trace.Assert(currentUsageVerifier != null);
+            CardUsageAnsweredEvent(null, null, null);
+            currentUsageVerifier = null;
+            _ResetAll();
         }
         #endregion
 
@@ -880,12 +870,9 @@ namespace Sanguosha.UI.Controls
 
         public void ExecuteMultiChoiceCommand(object parameter)
         {
-            lock (verifierLock)
-            {
-                Trace.Assert(currentUsageVerifier == null);
-                _ResetAll();
-                IsMultiChoiceQuestionShown = false;
-            }
+            Trace.Assert(currentUsageVerifier == null);
+            _ResetAll();
+            IsMultiChoiceQuestionShown = false;
             MultipleChoiceAnsweredEvent((int)parameter);
         }
         #endregion
@@ -894,32 +881,27 @@ namespace Sanguosha.UI.Controls
         private AdditionalCardChoiceOptions _currentChoiceOptions;
         public void ExecuteCardChoiceCommand(object parameter)
         {
-            lock (verifierLock)
+
+            Trace.Assert(currentUsageVerifier == null);
+            var model = CardChoiceModel;
+            Trace.Assert(model != null);
+            if (_currentChoiceOptions != null)
             {
-                Trace.Assert(currentUsageVerifier == null);
-                var model = CardChoiceModel;
-                Trace.Assert(model != null);
-                if (_currentChoiceOptions != null)
-                {
-                    _currentChoiceOptions.OptionResult = (int)parameter;
-                }
-                CardChoiceAnsweredEvent(model.Answer);
-                CardChoiceModel.TimeOutSeconds = 0;
-                IsCardChoiceQuestionShown = false;
+                _currentChoiceOptions.OptionResult = (int)parameter;
             }
+            CardChoiceAnsweredEvent(model.Answer);
+            CardChoiceModel.TimeOutSeconds = 0;
+            IsCardChoiceQuestionShown = false;
         }
 
         public void CancelCardChoiceCommand(object parameter)
         {
-            lock (verifierLock)
-            {
-                Trace.Assert(currentUsageVerifier == null);
-                var model = CardChoiceModel;
-                Trace.Assert(model != null);
-                CardChoiceAnsweredEvent(null);
-                CardChoiceModel.TimeOutSeconds = 0;
-                IsCardChoiceQuestionShown = false;
-            }
+            Trace.Assert(currentUsageVerifier == null);
+            var model = CardChoiceModel;
+            Trace.Assert(model != null);
+            CardChoiceAnsweredEvent(null);
+            CardChoiceModel.TimeOutSeconds = 0;
+            IsCardChoiceQuestionShown = false;
         }
         #endregion
 
@@ -1180,275 +1162,266 @@ namespace Sanguosha.UI.Controls
             bool isEquipCommand;
             SkillCommand command = _GetSelectedSkillCommand(out isEquipCommand);
 
-            lock (verifierLock)
+            if (currentUsageVerifier == null)
             {
-                if (currentUsageVerifier == null)
-                {
-                    return;
-                }
+                return;
+            }
 
-                if (currentUsageVerifier.Helper.IsActionStage)
-                {
-                    cancelCardUsageCommand.CanExecuteStatus = (cards.Count != 0 || players.Count != 0 || command != null);
-                }
+            if (currentUsageVerifier.Helper.IsActionStage)
+            {
+                cancelCardUsageCommand.CanExecuteStatus = (cards.Count != 0 || players.Count != 0 || command != null);
+            }
 
-                if (command != null)
-                {
-                    skill = command.Skill;
-                }
+            if (command != null)
+            {
+                skill = command.Skill;
+            }
 
-                // are we really able to use this equip as command?
-                if (isEquipCommand)
+            // are we really able to use this equip as command?
+            if (isEquipCommand)
+            {
+                Trace.Assert(skill != null);
+                if (currentUsageVerifier.Verify(HostPlayer, skill, new List<Card>(), new List<Player>()) == VerifierResult.Fail)
                 {
-                    Trace.Assert(skill != null);
-                    if (currentUsageVerifier.Verify(HostPlayer, skill, new List<Card>(), new List<Player>()) == VerifierResult.Fail)
+                    //nope, not really
+                    isEquipCommand = false;
+                    skill = null;
+                }
+            }
+
+            string prompt = null;
+            if (skill != null)
+            {
+                prompt = Application.Current.TryFindResource(string.Format("Skill.{0}.Prompt", skill.GetType().Name)) as string;
+            }
+            if (prompt == null)
+            {
+                prompt = PromptFormatter.Format(CurrentPrompt);
+            }
+            CurrentPromptString = prompt;
+
+            if (!isEquipCommand)
+            {
+                foreach (var equipCommand in EquipCommands)
+                {
+                    if (equipCommand.IsSelected)
+                        cards.Add(equipCommand.Card);
+                }
+            }
+
+            var sc = new List<SkillCommand>(ActiveSkillCommands);
+
+            // Handle skill down            
+            foreach (var skillCommand in sc)
+            {
+                // Handle kurou, luanwu and yeyan
+                if (skillCommand.Skill != null && skillCommand.IsSelected)
+                {
+                    var helper = skillCommand.Skill.Helper;
+
+                    // Handle KuRou, LuanWu
+                    if (helper.HasNoConfirmation)
                     {
-                        //nope, not really
-                        isEquipCommand = false;
-                        skill = null;
+                        SubmitAnswerCommand.Execute(null);
+                        return;
                     }
-                }
 
-                string prompt = null;
-                if (skill != null)
-                {
-                    prompt = Application.Current.TryFindResource(string.Format("Skill.{0}.Prompt", skill.GetType().Name)) as string;
-                }
-                if (prompt == null)
-                {
-                    prompt = PromptFormatter.Format(CurrentPrompt);
-                }
-                CurrentPromptString = prompt;
-
-                if (!isEquipCommand)
-                {
-                    foreach (var equipCommand in EquipCommands)
+                    // Handle YeYan
+                    foreach (var player in _game.PlayerModels)
                     {
-                        if (equipCommand.IsSelected)
-                            cards.Add(equipCommand.Card);
+                        if (player.IsSelectionRepeatable == helper.IsPlayerRepeatable)
+                        {
+                            break;
+                        }
+                        player.IsSelectionRepeatable = helper.IsPlayerRepeatable;
                     }
-                }
 
-                var sc = new List<SkillCommand>(ActiveSkillCommands);
-
-                // Handle skill down            
-                foreach (var skillCommand in sc)
-                {
-                    // Handle kurou, luanwu and yeyan
-                    if (skillCommand.Skill != null && skillCommand.IsSelected)
+                    // Handle JiXi, PaiYi
+                    if (helper.OtherDecksUsed.Count > 0)
                     {
-                        var helper = skillCommand.Skill.Helper;
-
-                        // Handle KuRou, LuanWu
-                        if (helper.HasNoConfirmation)
+                        if (helper.OtherDecksUsed.Count != 1)
                         {
-                            SubmitAnswerCommand.Execute(null);
-                            return;
+                            throw new NotImplementedException("Currently using more than one private decks is not supported");
                         }
-
-                        // Handle YeYan
-                        foreach (var player in _game.PlayerModels)
+                        var deck = helper.OtherDecksUsed[0];
+                        var deckModel = PrivateDecks.FirstOrDefault(d => d.Name == deck.Name);
+                        Trace.Assert(deckModel != null);
+                        if (deckModel != CurrentPrivateDeck)
                         {
-                            if (player.IsSelectionRepeatable == helper.IsPlayerRepeatable)
+                            if (CurrentPrivateDeck != null)
                             {
-                                break;
-                            }
-                            player.IsSelectionRepeatable = helper.IsPlayerRepeatable;
-                        }
-
-                        // Handle JiXi, PaiYi
-                        if (helper.OtherDecksUsed.Count > 0)
-                        {
-                            if (helper.OtherDecksUsed.Count != 1)
-                            {
-                                throw new NotImplementedException("Currently using more than one private decks is not supported");
-                            }
-                            var deck = helper.OtherDecksUsed[0];
-                            var deckModel = PrivateDecks.FirstOrDefault(d => d.Name == deck.Name);
-                            Trace.Assert(deckModel != null);
-                            if (deckModel != CurrentPrivateDeck)
-                            {
-                                if (CurrentPrivateDeck != null)
+                                foreach (var card in CurrentPrivateDeck.Cards)
                                 {
-                                    foreach (var card in CurrentPrivateDeck.Cards)
-                                    {
-                                        card.IsSelectionMode = false;
-                                        card.OnSelectedChanged -= _updateCardUsageStatusHandler;
-                                    }
+                                    card.IsSelectionMode = false;
+                                    card.OnSelectedChanged -= _updateCardUsageStatusHandler;
                                 }
-                                foreach (var card in deckModel.Cards)
-                                {
-                                    card.IsSelectionMode = true;
-                                    card.OnSelectedChanged += _updateCardUsageStatusHandler;
-                                }
-                                CurrentPrivateDeck = deckModel;
                             }
-                        }
-                        else
-                        {
-                            CurrentPrivateDeck = null;
+                            foreach (var card in deckModel.Cards)
+                            {
+                                card.IsSelectionMode = true;
+                                card.OnSelectedChanged += _updateCardUsageStatusHandler;
+                            }
+                            CurrentPrivateDeck = deckModel;
                         }
                     }
                     else
                     {
-                        skillCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
+                        CurrentPrivateDeck = null;
                     }
+                }
+                else
+                {
+                    skillCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
+                }
 
-                    // Handler GuHuo, QiCe
-                    GuHuoSkillCommand cmdGuhuo = skillCommand as GuHuoSkillCommand;
-                    if (cmdGuhuo != null)
+                // Handler GuHuo, QiCe
+                GuHuoSkillCommand cmdGuhuo = skillCommand as GuHuoSkillCommand;
+                if (cmdGuhuo != null)
+                {
+                    if (skillCommand.IsEnabled)
                     {
-                        if (skillCommand.IsEnabled)
+                        if (cmdGuhuo.GuHuoTypes.Count == 0 && cmdGuhuo.GuHuoChoice == null)
                         {
-                            if (cmdGuhuo.GuHuoTypes.Count == 0 && cmdGuhuo.GuHuoChoice == null)
+                            var trySkill = Activator.CreateInstance(cmdGuhuo.Skill.GetType()) as IAdditionalTypedSkill;
+                            trySkill.Owner = cmdGuhuo.Skill.Owner;
+                            foreach (var c in Game.CurrentGame.AvailableCards)
                             {
-                                var trySkill = Activator.CreateInstance(cmdGuhuo.Skill.GetType()) as IAdditionalTypedSkill;
-                                trySkill.Owner = cmdGuhuo.Skill.Owner;
-                                foreach (var c in Game.CurrentGame.AvailableCards)
+                                trySkill.AdditionalType = c;
+                                if (currentUsageVerifier.Verify(HostPlayer, trySkill, new List<Card>(), new List<Player>()) != VerifierResult.Fail)
                                 {
-                                    trySkill.AdditionalType = c;
-                                    if (currentUsageVerifier.Verify(HostPlayer, trySkill, new List<Card>(), new List<Player>()) != VerifierResult.Fail)
-                                    {
-                                        cmdGuhuo.GuHuoTypes.Add(c);
-                                    }
+                                    cmdGuhuo.GuHuoTypes.Add(c);
                                 }
                             }
                         }
                     }
                 }
+            }
 
-                var status = currentUsageVerifier.Verify(HostPlayer, skill, cards, players);
+            var status = currentUsageVerifier.Verify(HostPlayer, skill, cards, players);
 
-                if (status == VerifierResult.Fail)
+            if (status == VerifierResult.Fail)
+            {
+                submitCardUsageCommand.CanExecuteStatus = false;
+                foreach (var playerModel in _game.PlayerModels)
                 {
-                    submitCardUsageCommand.CanExecuteStatus = false;
-                    foreach (var playerModel in _game.PlayerModels)
+                    playerModel.IsSelected = false;
+                }
+                players.Clear();
+                _lastSelectedPlayers.Clear();
+            }
+
+            else if (status == VerifierResult.Partial)
+            {
+                submitCardUsageCommand.CanExecuteStatus = false;
+            }
+            else if (status == VerifierResult.Success)
+            {
+                submitCardUsageCommand.CanExecuteStatus = true;
+            }
+
+            if (skill == null || (skill is CardTransformSkill) || (skill is ActiveSkill))
+            {
+                List<Card> attempt = new List<Card>(cards);
+
+                var cardsToTry = CurrentPrivateDeck == null ? HandCards : HandCards.Concat(CurrentPrivateDeck.Cards);
+
+                foreach (var card in cardsToTry)
+                {
+                    if (card.IsSelected)
                     {
-                        playerModel.IsSelected = false;
+                        continue;
                     }
-                    players.Clear();
-                    _lastSelectedPlayers.Clear();
+                    attempt.Add(card.Card);
+                    bool disabled = (currentUsageVerifier.Verify(HostPlayer, skill, attempt, players) == VerifierResult.Fail);
+                    card.IsEnabled = !disabled;
+                    attempt.Remove(card.Card);
                 }
 
-                else if (status == VerifierResult.Partial)
+                foreach (var equipCommand in EquipCommands)
                 {
-                    submitCardUsageCommand.CanExecuteStatus = false;
-                }
-                else if (status == VerifierResult.Success)
-                {
-                    submitCardUsageCommand.CanExecuteStatus = true;
-                }
-
-                if (skill == null || (skill is CardTransformSkill) || (skill is ActiveSkill))
-                {
-                    List<Card> attempt = new List<Card>(cards);
-
-                    var cardsToTry = CurrentPrivateDeck == null ? HandCards : HandCards.Concat(CurrentPrivateDeck.Cards);
-
-                    foreach (var card in cardsToTry)
+                    bool enabledAsSkill = false;
+                    if (skill == null && equipCommand.SkillCommand.Skill != null && (equipCommand.SkillCommand.Skill is CardTransformSkill || equipCommand.SkillCommand.Skill is ActiveSkill))
                     {
-                        if (card.IsSelected)
-                        {
-                            continue;
-                        }
-                        attempt.Add(card.Card);
+                        enabledAsSkill = (currentUsageVerifier.Verify(HostPlayer, equipCommand.SkillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
+                    }
+                    if (!equipCommand.IsSelected)
+                    {
+                        attempt.Add(equipCommand.Card);
                         bool disabled = (currentUsageVerifier.Verify(HostPlayer, skill, attempt, players) == VerifierResult.Fail);
-                        card.IsEnabled = !disabled;
-                        attempt.Remove(card.Card);
+                        equipCommand.IsEnabled = (!disabled) | enabledAsSkill;
                     }
-
-                    foreach (var equipCommand in EquipCommands)
-                    {
-                        bool enabledAsSkill = false;
-                        if (skill == null && equipCommand.SkillCommand.Skill != null && (equipCommand.SkillCommand.Skill is CardTransformSkill || equipCommand.SkillCommand.Skill is ActiveSkill))
-                        {
-                            enabledAsSkill = (currentUsageVerifier.Verify(HostPlayer, equipCommand.SkillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
-                        }
-                        if (!equipCommand.IsSelected)
-                        {
-                            attempt.Add(equipCommand.Card);
-                            bool disabled = (currentUsageVerifier.Verify(HostPlayer, skill, attempt, players) == VerifierResult.Fail);
-                            equipCommand.IsEnabled = (!disabled) | enabledAsSkill;
-                        }
-                        attempt.Remove(equipCommand.Card);
-                    }
+                    attempt.Remove(equipCommand.Card);
                 }
+            }
 
-                // Invalidate target selection
-                List<Player> attempt2 = new List<Player>(players);
-                int validCount = 0;
-                bool[] enabledMap = new bool[_game.PlayerModels.Count];
-                int i = 0;
-                foreach (var playerModel in _game.PlayerModels)
+            // Invalidate target selection
+            List<Player> attempt2 = new List<Player>(players);
+            int validCount = 0;
+            bool[] enabledMap = new bool[_game.PlayerModels.Count];
+            int i = 0;
+            foreach (var playerModel in _game.PlayerModels)
+            {
+                enabledMap[i] = false;
+                if (playerModel.IsSelected && !playerModel.IsSelectionRepeatable)
                 {
-                    enabledMap[i] = false;
-                    if (playerModel.IsSelected && !playerModel.IsSelectionRepeatable)
-                    {
-                        i++;
-                        continue;
-                    }
-                    attempt2.Add(playerModel.Player);
-                    bool disabled = (currentUsageVerifier.Verify(HostPlayer, skill, cards, attempt2) == VerifierResult.Fail);
-                    if (!disabled)
-                    {
-                        validCount++;
-                        enabledMap[i] = true;
-                    }
-                    attempt2.RemoveAt(attempt2.Count - 1);
                     i++;
-
+                    continue;
                 }
-                i = 0;
-
-                bool allowSelection = (cards.Count != 0 || validCount != 0 || skill != null);
-                foreach (var playerModel in _game.PlayerModels)
+                attempt2.Add(playerModel.Player);
+                bool disabled = (currentUsageVerifier.Verify(HostPlayer, skill, cards, attempt2) == VerifierResult.Fail);
+                if (!disabled)
                 {
-                    if (playerModel.IsSelected && !playerModel.IsSelectionRepeatable)
-                    {
-                        i++;
-                        continue;
-                    }
-
-                    playerModel.IsSelectionMode = allowSelection;
-                    if (allowSelection)
-                    {
-                        if (playerModel.IsSelected)
-                        {
-                            playerModel.CanBeSelectedMore = enabledMap[i];
-                        }
-                        else
-                        {
-                            playerModel.IsEnabled = enabledMap[i];
-                        }
-                    }
-                    i++;
+                    validCount++;
+                    enabledMap[i] = true;
                 }
+                attempt2.RemoveAt(attempt2.Count - 1);
+                i++;
+
+            }
+            i = 0;
+
+            bool allowSelection = (cards.Count != 0 || validCount != 0 || skill != null);
+            foreach (var playerModel in _game.PlayerModels)
+            {
+                if (playerModel.IsSelected && !playerModel.IsSelectionRepeatable)
+                {
+                    i++;
+                    continue;
+                }
+
+                playerModel.IsSelectionMode = allowSelection;
+                if (allowSelection)
+                {
+                    if (playerModel.IsSelected)
+                    {
+                        playerModel.CanBeSelectedMore = enabledMap[i];
+                    }
+                    else
+                    {
+                        playerModel.IsEnabled = enabledMap[i];
+                    }
+                }
+                i++;
             }
         }
 
         private void _AbortCardChoice()
         {
-            lock (verifierLock)
-            {
-                CardChoiceModel.TimeOutSeconds = 0;
-                IsCardChoiceQuestionShown = false;
-                CurrentPrompt = null;
-                CurrentPromptString = string.Empty;
-            }
+            CardChoiceModel.TimeOutSeconds = 0;
+            IsCardChoiceQuestionShown = false;
+            CurrentPrompt = null;
+            CurrentPromptString = string.Empty;
         }
 
         private void _AbortMultipleChoice()
         {
-            lock (verifierLock)
-            {
-                SubmitAnswerCommand = DisabledCommand;
-                CancelAnswerCommand = DisabledCommand;
-                AbortAnswerCommand = DisabledCommand;
-                MultiChoiceCommands.Clear();
-                CurrentPromptString = string.Empty;
-                CurrentPrompt = null;
-                _currentMultiChoices = null;
-            }
+            SubmitAnswerCommand = DisabledCommand;
+            CancelAnswerCommand = DisabledCommand;
+            AbortAnswerCommand = DisabledCommand;
+            MultiChoiceCommands.Clear();
+            CurrentPromptString = string.Empty;
+            CurrentPrompt = null;
+            _currentMultiChoices = null;
         }
 
         private EventHandler _updateCardUsageStatusHandler;
@@ -1475,14 +1448,11 @@ namespace Sanguosha.UI.Controls
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 GameModel.CurrentActivePlayer = this;
-                lock (verifierLock)
-                {
-                    TimeOutSeconds = timeOutSeconds;
-                    currentUsageVerifier = verifier;
-                    Trace.Assert(currentUsageVerifier != null);
-                    CurrentPrompt = prompt;
-                    CurrentPromptString = PromptFormatter.Format(prompt);
-                }
+                TimeOutSeconds = timeOutSeconds;
+                currentUsageVerifier = verifier;
+                Trace.Assert(currentUsageVerifier != null);
+                CurrentPrompt = prompt;
+                CurrentPromptString = PromptFormatter.Format(prompt);
 
                 if (prompt.Values.Count != 0 && prompt.Values[0] is TriggerSkill)
                 {
@@ -1756,41 +1726,38 @@ namespace Sanguosha.UI.Controls
 
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                lock (verifierLock)
+                GameModel.CurrentActivePlayer = this;
+                if (!IsPlayable)
                 {
-                    GameModel.CurrentActivePlayer = this;
+                    Trace.Assert(currentUsageVerifier == null);
+                    TimeOutSeconds = timeOutSeconds;
+                    CardChoiceAnsweredEvent(null);
+                    prompt.ResourceKey = prompt.ResourceKey + Prompt.NonPlaybleAppendix;
+                    prompt.Values.Insert(0, Player);
+                }
+                if (options != null && options.IsWuGu)
+                {
+                    Trace.Assert(GameModel.WuGuModel != null);
+                    TimeOutSeconds = timeOutSeconds;
+                    GameModel.WuGuModel.IsEnabled = IsPlayable;
+                    GameModel.WuGuModel.Prompt = PromptFormatter.Format(prompt);
+                }
+                else
+                {
+                    _currentChoiceOptions = options;
+                    _ConstructCardChoiceModel(sourceDecks, resultDeckNames, resultDeckMaximums, options, verifier, timeOutSeconds, callback);
+                    CardChoiceModel.Prompt = PromptFormatter.Format(prompt);
                     if (!IsPlayable)
                     {
-                        Trace.Assert(currentUsageVerifier == null);
-                        TimeOutSeconds = timeOutSeconds;
-                        CardChoiceAnsweredEvent(null);
-                        prompt.ResourceKey = prompt.ResourceKey + Prompt.NonPlaybleAppendix;
+                        CardChoiceModel.DisplayOnly = true;
                         prompt.Values.Insert(0, Player);
-                    }
-                    if (options != null && options.IsWuGu)
-                    {
-                        Trace.Assert(GameModel.WuGuModel != null);
-                        TimeOutSeconds = timeOutSeconds;
-                        GameModel.WuGuModel.IsEnabled = IsPlayable;
-                        GameModel.WuGuModel.Prompt = PromptFormatter.Format(prompt);
+                        CurrentCardChoiceRearrangeCallback = null;
                     }
                     else
                     {
-                        _currentChoiceOptions = options;
-                        _ConstructCardChoiceModel(sourceDecks, resultDeckNames, resultDeckMaximums, options, verifier, timeOutSeconds, callback);
-                        CardChoiceModel.Prompt = PromptFormatter.Format(prompt);
-                        if (!IsPlayable)
-                        {
-                            CardChoiceModel.DisplayOnly = true;
-                            prompt.Values.Insert(0, Player);
-                            CurrentCardChoiceRearrangeCallback = null;
-                        }
-                        else
-                        {
-                            CurrentCardChoiceRearrangeCallback = callback;
-                        }
-                        IsCardChoiceQuestionShown = true;
+                        CurrentCardChoiceRearrangeCallback = callback;
                     }
+                    IsCardChoiceQuestionShown = true;
                 }
             });
         }
@@ -1867,29 +1834,23 @@ namespace Sanguosha.UI.Controls
                         MultiChoiceCommands.Add(command);
                     }
                 }
-                lock (verifierLock)
-                {
-                    IsMultiChoiceQuestionShown = true;
-                    TimeOutSeconds = timeOutSeconds;
-                }
+                IsMultiChoiceQuestionShown = true;
+                TimeOutSeconds = timeOutSeconds;
             });
         }
 
         void triggerSkill_OnSelectedChanged(object sender, EventArgs e)
         {
-            lock (verifierLock)
+            var command = (sender as SkillCommand);
+            if (command.IsAutoInvokeSkill &&
+                command.IsSelected &&
+                IsMultiChoiceQuestionShown &&
+                CurrentPrompt.ResourceKey == Prompt.MultipleChoicePromptPrefix + Prompt.SkillUseYewNoPrompt &&
+                CurrentPrompt.Values[0] == command.Skill)
             {
-                var command = (sender as SkillCommand);
-                if (command.IsAutoInvokeSkill &&
-                    command.IsSelected &&
-                    IsMultiChoiceQuestionShown &&
-                    CurrentPrompt.ResourceKey == Prompt.MultipleChoicePromptPrefix + Prompt.SkillUseYewNoPrompt &&
-                    CurrentPrompt.Values[0] == command.Skill)
-                {
-                    int answer = _currentMultiChoices.IndexOf(Prompt.YesChoice);
-                    Trace.Assert(answer != -1);
-                    MultipleChoiceAnsweredEvent(answer);
-                }
+                int answer = _currentMultiChoices.IndexOf(Prompt.YesChoice);
+                Trace.Assert(answer != -1);
+                MultipleChoiceAnsweredEvent(answer);
             }
         }
 
@@ -1904,73 +1865,60 @@ namespace Sanguosha.UI.Controls
             if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                lock (verifierLock)
+                _ResetAll();
+
+                foreach (var skillCommand in SkillCommands)
                 {
-                    _ResetAll();
+                    if (skillCommand is GuHuoSkillCommand)
+                    {
+                        (skillCommand as GuHuoSkillCommand).GuHuoTypes.Clear();
+                    }
+                    skillCommand.IsHighlighted = false;
+                }
 
-                    foreach (var skillCommand in SkillCommands)
-                    {
-                        if (skillCommand is GuHuoSkillCommand)
-                        {
-                            (skillCommand as GuHuoSkillCommand).GuHuoTypes.Clear();
-                        }
-                        skillCommand.IsHighlighted = false;
-                    }
-
-                    if (currentUsageVerifier != null)
-                    {
-                        currentUsageVerifier = null;
-                    }
-                    else if (IsCardChoiceQuestionShown)
-                    {
-                        _AbortCardChoice();
-                    }
-                    else if (IsMultiChoiceQuestionShown)
-                    {
-                        _AbortMultipleChoice();
-                    }
+                if (currentUsageVerifier != null)
+                {
+                    currentUsageVerifier = null;
+                }
+                else if (IsCardChoiceQuestionShown)
+                {
+                    _AbortCardChoice();
+                }
+                else if (IsMultiChoiceQuestionShown)
+                {
+                    _AbortMultipleChoice();
                 }
             });
         }
         #endregion
 
-        #region Private Members
-        private object verifierLock;
-        #endregion
-
         #region Cheats
         public bool CheatGetCard(Card card)
         {
-            lock (verifierLock)
+            if (currentUsageVerifier == null)
             {
-                if (currentUsageVerifier == null)
-                {
-                    return false;
-                }
-                _ResetAll();
-                if (currentUsageVerifier != null)
-                {
-                    currentUsageVerifier = null;
-                    CardUsageAnsweredEvent(new CheatSkill() { CheatType = CheatType.Card, CardId = card.Id }, new List<Card>(), new List<Player>());
-                }
+                return false;
+            }
+            _ResetAll();
+            if (currentUsageVerifier != null)
+            {
+                currentUsageVerifier = null;
+                CardUsageAnsweredEvent(new CheatSkill() { CheatType = CheatType.Card, CardId = card.Id }, new List<Card>(), new List<Player>());
             }
             return true;
         }
 
         public bool CheatGetSkill(string skillName)
         {
-            lock (verifierLock)
+            if (currentUsageVerifier == null)
             {
-                if (currentUsageVerifier == null)
-                {
-                    return false;
-                }
-                _ResetAll();
-                if (currentUsageVerifier != null)
-                {
-                    currentUsageVerifier = null;
-                    CardUsageAnsweredEvent(new CheatSkill() { CheatType = CheatType.Skill, SkillName = skillName }, new List<Card>(), new List<Player>());
-                }
+                return false;
+            }
+            _ResetAll();
+            if (currentUsageVerifier != null)
+            {
+                currentUsageVerifier = null;
+                CardUsageAnsweredEvent(new CheatSkill() { CheatType = CheatType.Skill, SkillName = skillName }, new List<Card>(), new List<Player>());
             }
             return true;
         }
