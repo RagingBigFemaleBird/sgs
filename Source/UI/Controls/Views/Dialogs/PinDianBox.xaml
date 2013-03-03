@@ -14,6 +14,6 @@
 		    <Rectangle Width="10" />
 		    <local:CardView x:Name="cardRight"/>
 	    </StackPanel>
-        <Canvas x:Name="animationCenter" />
+        <Canvas x:Name="animationCenter" Width="98" HorizontalAlignment="Left"/>
     </local:NonClipGrid>
 </UserControl>
