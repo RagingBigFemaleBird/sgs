@@ -57,6 +57,9 @@
     <sys:String x:Key="LogEvent.HerosInitialization">正在初始化武将，请稍候...</sys:String>
     <sys:String x:Key="LogEvent.EnforcedCardTransform">{0}将{1}视为{2}</sys:String>
     <sys:String x:Key="LogEvent.SkipPhase">{0}跳过了{1}阶段</sys:String>
+    <sys:String x:Key="LogEvent.PinDianStart">{0}对{1}发起拼点</sys:String>
+    <sys:String x:Key="LogEvent.PinDianCard">{0}的拼点牌：{1}</sys:String>
+    <sys:String x:Key="LogEvent.PinDianResult">{0}对{1}拼点：{2}</sys:String>
     
     <sys:String x:Key="LogEvent.Arg.Success">生效</sys:String>
     <sys:String x:Key="LogEvent.Arg.Fail">失效</sys:String>
@@ -66,4 +69,6 @@
     <sys:String x:Key="LogEvent.Arg.Phase.4">出牌</sys:String>
     <sys:String x:Key="LogEvent.Arg.Phase.5">弃牌</sys:String>
     <sys:String x:Key="LogEvent.Arg.Phase.6">回合结束</sys:String>
+    <sys:String x:Key="LogEvent.Arg.Win">赢</sys:String>
+    <sys:String x:Key="LogEvent.Arg.notWin">没赢</sys:String>
 </ResourceDictionary>

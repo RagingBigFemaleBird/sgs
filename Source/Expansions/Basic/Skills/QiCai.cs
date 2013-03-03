@@ -27,7 +27,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 (p, e, a) => { return CardCategoryManager.IsCardCategory(a.Card.Type.Category, CardCategory.Tool); },
                 (p, e, a) => { (a as AdjustmentEventArgs).AdjustmentAmount += 500; },
                 TriggerCondition.OwnerIsSource
-            );
+            ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.CardRangeModifier, trigger);
             IsEnforced = true;
         }

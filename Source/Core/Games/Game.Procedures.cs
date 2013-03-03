@@ -730,6 +730,7 @@ namespace Sanguosha.Core.Games
 
         public void PinDianReturnCards(Player from, Player to, out Card c1, out Card c2, ISkill skill)
         {
+            NotificationProxy.NotifyLogEvent(new LogEvent("PinDianStart", from, to), new List<Player>() { from, to }, false);
             NotificationProxy.NotifyPinDianStart(from, to, skill);
             Dictionary<Player, ISkill> aSkill;
             Dictionary<Player, List<Card>> aCards;
@@ -758,6 +759,9 @@ namespace Sanguosha.Core.Games
             c1 = card1;
             c2 = card2;
             NotificationProxy.NotifyPinDianEnd(c1, c2);
+            NotificationProxy.NotifyLogEvent(new LogEvent("PinDianCard", from, c1), new List<Player>() { from, to }, false, false);
+            NotificationProxy.NotifyLogEvent(new LogEvent("PinDianCard", to, c2), new List<Player>() { from, to }, false, false);
+            NotificationProxy.NotifyLogEvent(new LogEvent("PinDianResult", from, to, new LogEventArg(c1.Rank > c2.Rank ? "Win" : "notWin")), new List<Player>() { from, to }, false);
         }
 
         public bool? PinDian(Player from, Player to, ISkill skill)
