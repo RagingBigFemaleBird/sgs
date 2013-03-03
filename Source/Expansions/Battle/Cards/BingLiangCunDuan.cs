@@ -38,9 +38,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                 ReadOnlyCard result = Game.CurrentGame.Judge(p, null, c, (judgeResultCard) => { return judgeResultCard.Suit != SuitType.Club; });
                 if (result.Suit != SuitType.Club)
                 {
-                    var theTrigger = new BingLiangCunDuanTrigger() { Priority = int.MaxValue, Type = TriggerType.Skill };
-                    theTrigger.Owner = p;
-                    Game.CurrentGame.RegisterTrigger(GameEvent.PhaseOutEvents[TurnPhase.Judge], theTrigger);
+                    Game.CurrentGame.PhasesSkiped.Add(TurnPhase.Draw);
                 }
                 break;
             }
@@ -91,20 +89,6 @@ namespace Sanguosha.Expansions.Battle.Cards
                 return VerifierResult.Fail;
             }
             return VerifierResult.Success;
-        }
-
-        private class BingLiangCunDuanTrigger : Trigger
-        {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                if (Owner == eventArgs.Source)
-                {
-                    Game.CurrentGame.CurrentPhase++;
-                    Game.CurrentGame.CurrentPhaseEventIndex = 2;
-                    Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseOutEvents[TurnPhase.Judge], this);
-                    throw new TriggerResultException(TriggerResult.End);
-                }
-            }
         }
     }
 }

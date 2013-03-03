@@ -38,9 +38,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 ReadOnlyCard result = Game.CurrentGame.Judge(p, null, c, (judgeResultCard) => { return judgeResultCard.Suit != SuitType.Heart; });
                 if (result.Suit != SuitType.Heart)
                 {
-                    var theTrigger = new LeBuSiShuTrigger() { Priority = int.MaxValue, Type = TriggerType.Skill };
-                    theTrigger.Owner = p;
-                    Game.CurrentGame.RegisterTrigger(GameEvent.PhaseOutEvents[TurnPhase.Draw], theTrigger);
+                    Game.CurrentGame.PhasesSkiped.Add(TurnPhase.Play);
                 }
                 break;
             }
@@ -80,20 +78,6 @@ namespace Sanguosha.Expansions.Basic.Cards
                 return VerifierResult.Partial;
             }
             return VerifierResult.Success;
-        }
-
-        public class LeBuSiShuTrigger : Trigger
-        {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                if (Owner == eventArgs.Source)
-                {
-                    Game.CurrentGame.CurrentPhase++;
-                    Game.CurrentGame.CurrentPhaseEventIndex = 2;
-                    Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseOutEvents[TurnPhase.Draw], this);
-                    throw new TriggerResultException(TriggerResult.End);
-                }
-            }
         }
     }
 }

@@ -923,9 +923,18 @@ namespace Sanguosha.Core.Games
                     return;
                 }
                 game.CurrentPlayer = currentPlayer;
+                game.PhasesSkiped.Clear();
                 Game.CurrentGame.Emit(GameEvent.PhaseBeforeStart, new GameEventArgs() { Source = currentPlayer });
                 while (true)
                 {
+                    if (game.PhasesSkiped.Contains(game.CurrentPhase) && game.CurrentPhaseEventIndex < Game.PhaseEvents.Length - 1)
+                    {
+                        game.CurrentPhaseEventIndex = Game.PhaseEvents.Length - 1;
+                        Game.CurrentGame.NotificationProxy.NotifyLogEvent(new LogEvent("SkipPhase", currentPlayer, new LogEventArg(string.Format("Phase.{0}", (int)game.CurrentPhase))),
+                                                                          new List<Player>() { currentPlayer },
+                                                                          false);
+                        continue;
+                    }
                     GameEventArgs args = new GameEventArgs() { Source = currentPlayer };
                     Trace.TraceInformation("Main game loop running {0}:{1}", currentPlayer.Id, game.CurrentPhase);
                     try
@@ -948,7 +957,7 @@ namespace Sanguosha.Core.Games
                     {
                         game.CurrentPhaseEventIndex = 0;
                         game.CurrentPhase++;
-                        if ((int)game.CurrentPhase >= Enum.GetValues(typeof(TurnPhase)).Length || (int)game.CurrentPhase < 0 || currentPlayer.IsDead)
+                        if ((int)game.CurrentPhase >= Enum.GetValues(typeof(TurnPhase)).Length - 2 || (int)game.CurrentPhase < 0 || currentPlayer.IsDead)
                         {
                             break;
                         }

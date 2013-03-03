@@ -132,6 +132,7 @@ namespace Sanguosha.Core.Games
             Settings = new GameSettings();
             cleanupSquad = new CleanupSquad();
             cleanupSquad.Priority = -1;
+            PhasesSkiped = new List<TurnPhase>();
         }
 
         public void LoadExpansion(Expansion expansion)

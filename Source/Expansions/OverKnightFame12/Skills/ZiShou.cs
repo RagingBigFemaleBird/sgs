@@ -29,9 +29,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                 (p, e, a) =>
                 {
                     p[Player.DealAdjustment] += p.LostHealth;
-                    var theTrigger = new LeBuSiShu.LeBuSiShuTrigger() { Priority = int.MaxValue };
-                    theTrigger.Owner = p;
-                    Game.CurrentGame.RegisterTrigger(GameEvent.PhaseOutEvents[TurnPhase.Draw], theTrigger);
+                    Game.CurrentGame.PhasesSkiped.Add(TurnPhase.Play);
                 },
                 TriggerCondition.OwnerIsSource
             );

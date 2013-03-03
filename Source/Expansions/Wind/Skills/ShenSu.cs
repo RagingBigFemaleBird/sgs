@@ -112,9 +112,12 @@ namespace Sanguosha.Expansions.Wind.Skills
                     args.Card = card;
                 }
                 Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
-                Game.CurrentGame.CurrentPhase++;
-                if (shensu1) Game.CurrentGame.CurrentPhase++;
-                Game.CurrentGame.CurrentPhaseEventIndex = 2;
+                if (shensu1)
+                {
+                    Game.CurrentGame.PhasesSkiped.Add(TurnPhase.Judge);
+                    Game.CurrentGame.PhasesSkiped.Add(TurnPhase.Draw);
+                }
+                else Game.CurrentGame.PhasesSkiped.Add(TurnPhase.Play);
             }
         }
 
@@ -124,6 +127,14 @@ namespace Sanguosha.Expansions.Wind.Skills
             verifier = new Basic.Cards.DummyShaVerifier(null, new RegularSha(), ShenSuSha);
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
+                (p, e, a) =>
+                {
+                    if (e == GameEvent.PhaseOutEvents[TurnPhase.Start])
+                    {
+                        return !Game.CurrentGame.PhasesSkiped.Contains(TurnPhase.Judge) || !Game.CurrentGame.PhasesSkiped.Contains(TurnPhase.Draw);
+                    }
+                    else return !Game.CurrentGame.PhasesSkiped.Contains(TurnPhase.Play);
+                },
                 Run,
                 TriggerCondition.OwnerIsSource
             ) { AskForConfirmation = false, IsAutoNotify = false };

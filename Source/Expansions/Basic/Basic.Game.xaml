@@ -56,7 +56,14 @@
 
     <sys:String x:Key="LogEvent.HerosInitialization">正在初始化武将，请稍候...</sys:String>
     <sys:String x:Key="LogEvent.EnforcedCardTransform">{0}将{1}视为{2}</sys:String>
+    <sys:String x:Key="LogEvent.SkipPhase">{0}跳过了{1}阶段</sys:String>
     
     <sys:String x:Key="LogEvent.Arg.Success">生效</sys:String>
     <sys:String x:Key="LogEvent.Arg.Fail">失效</sys:String>
+    <sys:String x:Key="LogEvent.Arg.Phase.1">回合开始</sys:String>
+    <sys:String x:Key="LogEvent.Arg.Phase.2">判定</sys:String>
+    <sys:String x:Key="LogEvent.Arg.Phase.3">摸牌</sys:String>
+    <sys:String x:Key="LogEvent.Arg.Phase.4">出牌</sys:String>
+    <sys:String x:Key="LogEvent.Arg.Phase.5">弃牌</sys:String>
+    <sys:String x:Key="LogEvent.Arg.Phase.6">回合结束</sys:String>
 </ResourceDictionary>

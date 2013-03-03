@@ -863,5 +863,7 @@ namespace Sanguosha.Core.Games
         }
 
         public ISkill LastAction { get; set; }
+
+        public List<TurnPhase> PhasesSkiped { get; set; }
     }
 }
