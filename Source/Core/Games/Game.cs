@@ -1407,7 +1407,8 @@ namespace Sanguosha.Core.Games
                     {
                     }
                 }
-                Trace.Assert(target == Game.CurrentGame.DyingPlayers.Pop());
+                Player temp = Game.CurrentGame.DyingPlayers.Pop();
+                Trace.Assert(temp == target);
                 target[Player.IsDying] = 0;
                 if (target.IsDead || target.Health > 0) return;
                 if (target[Player.SkipDeathComputation] != 0) { target[Player.SkipDeathComputation] = 0; return; }
