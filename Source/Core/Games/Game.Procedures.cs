@@ -765,6 +765,8 @@ namespace Sanguosha.Core.Games
             Card card1, card2;
             PinDianReturnCards(from, to, out card1, out card2, skill);
             EnterAtomicContext();
+            card1.Log.Source = from;
+            card2.Log.Source = to;
             PlaceIntoDiscard(from, new List<Card>() { card1 });
             PlaceIntoDiscard(to, new List<Card>() { card2 });
             ExitAtomicContext();
