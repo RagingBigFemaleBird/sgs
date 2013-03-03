@@ -114,10 +114,10 @@ namespace Sanguosha.Expansions.Wind.Skills
                 Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
                 if (shensu1)
                 {
-                    Game.CurrentGame.PhasesSkiped.Add(TurnPhase.Judge);
-                    Game.CurrentGame.PhasesSkiped.Add(TurnPhase.Draw);
+                    Game.CurrentGame.PhasesSkipped.Add(TurnPhase.Judge);
+                    Game.CurrentGame.PhasesSkipped.Add(TurnPhase.Draw);
                 }
-                else Game.CurrentGame.PhasesSkiped.Add(TurnPhase.Play);
+                else Game.CurrentGame.PhasesSkipped.Add(TurnPhase.Play);
             }
         }
 
@@ -131,9 +131,9 @@ namespace Sanguosha.Expansions.Wind.Skills
                 {
                     if (e == GameEvent.PhaseOutEvents[TurnPhase.Start])
                     {
-                        return !Game.CurrentGame.PhasesSkiped.Contains(TurnPhase.Judge) || !Game.CurrentGame.PhasesSkiped.Contains(TurnPhase.Draw);
+                        return !Game.CurrentGame.PhasesSkipped.Contains(TurnPhase.Judge) || !Game.CurrentGame.PhasesSkipped.Contains(TurnPhase.Draw);
                     }
-                    else return !Game.CurrentGame.PhasesSkiped.Contains(TurnPhase.Play);
+                    else return !Game.CurrentGame.PhasesSkipped.Contains(TurnPhase.Play);
                 },
                 Run,
                 TriggerCondition.OwnerIsSource

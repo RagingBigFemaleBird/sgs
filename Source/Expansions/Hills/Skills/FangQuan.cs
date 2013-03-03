@@ -47,12 +47,12 @@ namespace Sanguosha.Expansions.Hills.Skills
                 this,
                 (p, e, a) =>
                 {
-                    return !Game.CurrentGame.PhasesSkiped.Contains(TurnPhase.Play);
+                    return !Game.CurrentGame.PhasesSkipped.Contains(TurnPhase.Play);
                 },
                 (p, e, a) =>
                 {
                     p[FangQuanUsed] = 1;
-                    Game.CurrentGame.PhasesSkiped.Add(TurnPhase.Play);
+                    Game.CurrentGame.PhasesSkipped.Add(TurnPhase.Play);
                 },
                 TriggerCondition.OwnerIsSource
             );

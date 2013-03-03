@@ -497,6 +497,9 @@
         </Setter>
     </Style>
     <Style x:Key="DefaultButtonStyleDark" TargetType="{x:Type Button}">
+        <Setter Property="FontFamily" Value="SimSun"/>
+        <Setter Property="FontSize" Value="13.333"/>
+        <Setter Property="Foreground" Value="#FFEFEDE4"/>
         <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}"/>
         <Setter Property="Background" Value="{StaticResource ButtonNormalBackground}"/>
         <Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}"/>
@@ -905,6 +908,9 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
     <Style x:Key="MenuItemStyle1" TargetType="{x:Type MenuItem}">
+        <Setter Property="FontFamily" Value="SimSun"/>
+        <Setter Property="FontSize" Value="13.333"/>
+        <Setter Property="Foreground" Value="#FFEFEDE4"/>
         <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
         <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
         <Setter Property="Background" Value="Transparent"/>

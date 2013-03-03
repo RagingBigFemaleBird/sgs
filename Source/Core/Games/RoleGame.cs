@@ -923,11 +923,11 @@ namespace Sanguosha.Core.Games
                     return;
                 }
                 game.CurrentPlayer = currentPlayer;
-                game.PhasesSkiped.Clear();
+                game.PhasesSkipped.Clear();
                 Game.CurrentGame.Emit(GameEvent.PhaseBeforeStart, new GameEventArgs() { Source = currentPlayer });
                 while (true)
                 {
-                    if (game.PhasesSkiped.Contains(game.CurrentPhase) && game.CurrentPhaseEventIndex < Game.PhaseEvents.Length - 1)
+                    if (game.PhasesSkipped.Contains(game.CurrentPhase) && game.CurrentPhaseEventIndex < Game.PhaseEvents.Length - 1)
                     {
                         game.CurrentPhaseEventIndex = Game.PhaseEvents.Length - 1;
                         Game.CurrentGame.NotificationProxy.NotifyLogEvent(new LogEvent("SkipPhase", currentPlayer, new LogEventArg(string.Format("Phase.{0}", (int)game.CurrentPhase))),

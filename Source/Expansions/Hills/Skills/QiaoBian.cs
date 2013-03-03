@@ -262,18 +262,18 @@ namespace Sanguosha.Expansions.Hills.Skills
                     {
                         NotifySkillUse(players);
                         Game.CurrentGame.HandleCardDiscard(p, cards);
-                        if (Game.CurrentGame.CurrentPhase == TurnPhase.Judge && !Game.CurrentGame.PhasesSkiped.Contains(TurnPhase.Draw))
+                        if (Game.CurrentGame.CurrentPhase == TurnPhase.Judge && !Game.CurrentGame.PhasesSkipped.Contains(TurnPhase.Draw))
                         {
-                            Game.CurrentGame.PhasesSkiped.Add(TurnPhase.Draw);
+                            Game.CurrentGame.PhasesSkipped.Add(TurnPhase.Draw);
                             if (p.AskForCardUsage(new CardUsagePrompt("QiaoBianDraw"), new DrawVerifier(), out skill, out cards, out players))
                             {
                                 Draw(p, e, a, cards, players);
                             }
 
                         }
-                        else if (Game.CurrentGame.CurrentPhase == TurnPhase.Draw && !Game.CurrentGame.PhasesSkiped.Contains(TurnPhase.Play))
+                        else if (Game.CurrentGame.CurrentPhase == TurnPhase.Draw && !Game.CurrentGame.PhasesSkipped.Contains(TurnPhase.Play))
                         {
-                            Game.CurrentGame.PhasesSkiped.Add(TurnPhase.Play);
+                            Game.CurrentGame.PhasesSkipped.Add(TurnPhase.Play);
                             if (p.AskForCardUsage(new CardUsagePrompt("QiaoBianMove"), new MoveVerifier(), out skill, out cards, out players))
                             {
                                 Move(p, e, a, cards, players);

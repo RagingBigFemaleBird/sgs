@@ -29,7 +29,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                 (p, e, a) =>
                 {
                     p[Player.DealAdjustment] += p.LostHealth;
-                    Game.CurrentGame.PhasesSkiped.Add(TurnPhase.Play);
+                    Game.CurrentGame.PhasesSkipped.Add(TurnPhase.Play);
                 },
                 TriggerCondition.OwnerIsSource
             );

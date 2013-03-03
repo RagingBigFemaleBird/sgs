@@ -38,7 +38,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 ReadOnlyCard result = Game.CurrentGame.Judge(p, null, c, (judgeResultCard) => { return judgeResultCard.Suit != SuitType.Heart; });
                 if (result.Suit != SuitType.Heart)
                 {
-                    Game.CurrentGame.PhasesSkiped.Add(TurnPhase.Play);
+                    Game.CurrentGame.PhasesSkipped.Add(TurnPhase.Play);
                 }
                 break;
             }

@@ -38,7 +38,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                 ReadOnlyCard result = Game.CurrentGame.Judge(p, null, c, (judgeResultCard) => { return judgeResultCard.Suit != SuitType.Club; });
                 if (result.Suit != SuitType.Club)
                 {
-                    Game.CurrentGame.PhasesSkiped.Add(TurnPhase.Draw);
+                    Game.CurrentGame.PhasesSkipped.Add(TurnPhase.Draw);
                 }
                 break;
             }
