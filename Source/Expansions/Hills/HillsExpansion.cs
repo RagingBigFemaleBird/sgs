@@ -16,8 +16,6 @@ namespace Hills
     {
         public HillsExpansion()
         {
-            CardSet = new List<Card>();
-
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhangHe", true, Allegiance.Wei, 4, new QiaoBian()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("DengAi", true, Allegiance.Wei, 4, new TunTian(), new ZaoXian()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("JiangWei", true, Allegiance.Shu, 4, new TiaoXin(), new ZhiJi()))));

@@ -17,8 +17,6 @@ namespace Sanguosha.Expansions.Woods
     {
         public WoodsExpansion()
         {
-            CardSet = new List<Card>();
-
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("XuHuang", true, Allegiance.Wei, 4, new DuanLiang()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("CaoPi", true, Allegiance.Wei, 3, new XingShang(), new FangZhu(), new SongWei()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("MengHuo", true, Allegiance.Shu, 4, new HuoShou(), new ZaiQi()))));

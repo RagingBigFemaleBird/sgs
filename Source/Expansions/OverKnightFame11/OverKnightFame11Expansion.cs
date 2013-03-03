@@ -16,8 +16,6 @@ namespace Sanguosha.Expansions.OverKnightFame11
     {
         public OverKnightFame11Expansion()
         {
-            CardSet = new List<Card>();
-
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("CaoZhi", true, Allegiance.Wei, 3, new LuoYing(), new JiuShi()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ChenGong", true, Allegiance.Qun, 3, new MingCe(), new ZhiChi()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("FaZheng", true, Allegiance.Shu, 3, new EnYuan(), new XuanHuo()))));

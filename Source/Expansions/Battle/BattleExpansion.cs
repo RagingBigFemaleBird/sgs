@@ -18,7 +18,6 @@ namespace Sanguosha.Expansions.Battle
     {
         public BattleExpansion()
         {
-            CardSet = new List<Card>();
             CardSet.Add(new Card(SuitType.Spade, 1, new GuDingDao()));
             CardSet.Add(new Card(SuitType.Heart, 1, new WuXieKeJi()));
             CardSet.Add(new Card(SuitType.Club, 1, new BaiYinShiZi()));

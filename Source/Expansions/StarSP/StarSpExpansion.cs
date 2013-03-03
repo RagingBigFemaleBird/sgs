@@ -17,8 +17,6 @@ namespace Sanguosha.Expansions.StarSP
     {
         public StarSpExpansion()
         {
-            CardSet = new List<Card>();
-
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SPZhaoYun", true, Allegiance.Qun, 3, new LongDan(), new ChongZhen()) { HeroConvertFrom = "ZhaoYun"})));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SPDiaoChan", false, Allegiance.Qun, 3, new LiHun(), new BiYue()) { HeroConvertFrom = "DiaoChan" })));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SPCaoRen", true, Allegiance.Wei, 4, new KuiWei(), new YanZheng()) { HeroConvertFrom = "CaoRen" })));

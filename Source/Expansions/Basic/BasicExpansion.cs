@@ -18,8 +18,6 @@ namespace Sanguosha.Expansions.Basic
     {
         public BasicExpansion()
         {
-            CardSet = new List<Card>();
-
             CardSet.Add(new Card(SuitType.Spade, 1, new JueDou()));
             CardSet.Add(new Card(SuitType.Spade, 1, new ShanDian()));
             CardSet.Add(new Card(SuitType.Heart, 1, new WanJianQiFa()));

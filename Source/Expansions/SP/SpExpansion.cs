@@ -22,8 +22,6 @@ namespace Sanguosha.Expansions.SP
     {
         public SpExpansion()
         {
-            CardSet = new List<Card>();
-
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("YangXiu", true, Allegiance.Wei, 3, new DanLao(), new JiLei()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("QunDiaoChan", false, Allegiance.Qun, 3, new LiJian(), new BiYue()) { HeroConvertFrom = "DiaoChan" })));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("GongsunZan", true, Allegiance.Qun, 4, new YiCong()))));

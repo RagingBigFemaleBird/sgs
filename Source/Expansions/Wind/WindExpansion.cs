@@ -17,8 +17,6 @@ namespace Sanguosha.Expansions.Wind
     {
         public WindExpansion()
         {
-            CardSet = new List<Card>();
-
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("XiahouYuan", true, Allegiance.Wei, 4, new ShenSu()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("CaoRen", true, Allegiance.Wei, 4, new JuShou()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HuangZhong", true, Allegiance.Shu, 4, new LieGong()))));

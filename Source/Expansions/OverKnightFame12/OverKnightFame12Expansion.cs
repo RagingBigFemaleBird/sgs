@@ -17,8 +17,6 @@ namespace OverKnightFame12
     {
         public OverKnightFame12Expansion()
         {
-            CardSet = new List<Card>();
-
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("BuLianshi", false, Allegiance.Wu, 3, new AnXu(), new ZhuiYi()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("CaoZhang", true, Allegiance.Wei, 4, new JiangChi()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ChengPu", true, Allegiance.Wu, 4, new LiHuo(), new ChunLao()))));
