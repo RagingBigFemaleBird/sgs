@@ -48,4 +48,17 @@
     <sys:String x:Key="CardChoice.Prompt.GongQi.Others">弓骑 请等待{0}选择{1}的牌</sys:String>
 
     <sys:String x:Key="CardUsage.Prompt.JieFan">请弃置一张武器牌或点“取消”让{0}摸一张牌</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.QianXi">请选择一个潜袭的目标</sys:String>
+    
+    <sys:String x:Key="Status.QianXiBlack.Name">潜袭</sys:String>
+    <LinearGradientBrush x:Key="Status.QianXiBlack.Brush" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FFA0A0A0" Offset="0"/>
+        <GradientStop Color="#FFDEDEDE" Offset="1"/>
+    </LinearGradientBrush>
+    <sys:String x:Key="Status.QianXiRed.Name">潜袭</sys:String>
+    <LinearGradientBrush x:Key="Status.QianXiRed.Brush" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="Red" Offset="0"/>
+        <GradientStop Color="#FFDEDEDE" Offset="1"/>
+    </LinearGradientBrush>
 </ResourceDictionary>
