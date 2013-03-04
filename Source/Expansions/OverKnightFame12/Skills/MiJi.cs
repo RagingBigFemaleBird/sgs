@@ -45,6 +45,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
         {
             int drawCount = Owner.LostHealth;
             Game.CurrentGame.DrawCards(Owner, drawCount);
+            drawCount = Math.Min(Owner.HandCards().Count, drawCount);
             while (drawCount > 0)
             {
                 ISkill skill;
