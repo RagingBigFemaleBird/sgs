@@ -367,13 +367,16 @@ namespace Sanguosha.UI.Main
                     binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.None;
                     binding.Security.Transport.ProtectionLevel = ProtectionLevel.None;
                     binding.Security.Message.ClientCredentialType = MessageCredentialType.None;
+                    binding.MaxBufferPoolSize = Misc.MaxBugReportSize;
+                    binding.MaxBufferSize = Misc.MaxBugReportSize;
+                    binding.MaxReceivedMessageSize = Misc.MaxBugReportSize;
 
                     host.AddServiceEndpoint(typeof(ILobbyService), binding, string.Format("net.tcp://{0}:{1}/GameService", serverIp, portNumber));
 
                     host.Open();
                     ea.Result = true;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                 }
             };
@@ -423,7 +426,8 @@ namespace Sanguosha.UI.Main
                 Stream stream = File.Open(fileName, FileMode.Open);
                 byte[] bytes = new byte[4];
                 stream.Read(bytes, 0, 4);
-                stream.Seek(BitConverter.ToInt32(bytes, 0), SeekOrigin.Current);
+                int length = BitConverter.ToInt32(bytes, 0);
+                stream.Seek(length, SeekOrigin.Current);
                 client.StartReplay(stream);
                 game.NetworkClient = client;
             }
@@ -540,7 +544,7 @@ namespace Sanguosha.UI.Main
             UnicodeEncoding uniEncoding = new UnicodeEncoding();
             if (s != null && s.Length > Misc.MaxBugReportSize) s = null;
             byte[] messageBytes = uniEncoding.GetBytes(message);
-            byte[] intBytes = BitConverter.GetBytes(messageBytes.Length);
+            byte[] intBytes = BitConverter.GetBytes(messageBytes.Length + 4);
             upload.Write(intBytes, 0, intBytes.Length);
             upload.Write(messageBytes, 0, messageBytes.Length);
             if (s != null)
@@ -549,6 +553,7 @@ namespace Sanguosha.UI.Main
                 s.Flush();
             }
             upload.Flush();
+            upload.Seek(0, SeekOrigin.Begin);
             service.SubmitBugReport(upload);
         }
 

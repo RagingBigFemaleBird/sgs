@@ -94,8 +94,8 @@ namespace wyDay.Controls
             Height = textRect.Height;
 
             //set the width for single line label
-            if (!m_Multiline)
-                Width = textRect.Width;
+            // if (!m_Multiline)
+            //     Width = textRect.Width;
         }
 
         protected override void OnPaint(PaintEventArgs e)
