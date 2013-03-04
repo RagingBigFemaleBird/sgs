@@ -17,83 +17,97 @@ using Sanguosha.Core.Exceptions;
 namespace Sanguosha.Expansions.OverKnightFame12.Skills
 {
     /// <summary>
-    /// 父魂-摸牌阶段开始时，你可以放弃摸牌，改为从牌堆顶亮出两张牌并获得之，若亮出的牌颜色不同，你获得技能“武圣”、“咆哮”，直到回合结束。
+    /// 父魂-你可以将两张手牌当【杀】使用；出牌阶段，若你以此法使用的【杀】造成了伤害，你获得技能“武圣”、“咆哮”，直到回合结束。
     /// </summary>
-    public class FuHun : TriggerSkill
+    public class FuHun : CardTransformSkill
     {
-        protected override int GenerateSpecialEffectHintIndex(Player source, List<Player> targets)
-        {
-            return FuHunEffect;
-        }
-
-        public class RemoveShengPao : Trigger
-        {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                if (eventArgs.Source != Owner) return;
-                Game.CurrentGame.PlayerLoseAdditionalSkill(Owner, fhWuSheng);
-                Game.CurrentGame.PlayerLoseAdditionalSkill(Owner, fhPaoXiao);
-                Game.CurrentGame.UnregisterTrigger(GameEvent.PhasePostEnd, this);
-            }
-            public RemoveShengPao(Player p, ISkill s1, ISkill s2)
-            {
-                Owner = p;
-                fhWuSheng = s1;
-                fhPaoXiao = s2;
-            }
-            ISkill fhWuSheng;
-            ISkill fhPaoXiao;
-        }
-
-        void Run(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
-        {
-            DeckType FuHunDeck = new DeckType("FuHun");
-            CardsMovement move = new CardsMovement();
-            move.Cards = new List<Card>();
-            int toDraw = 2;
-            for (int i = 0; i < toDraw; i++)
-            {
-                Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.PeekCard(0));
-                Card c = Game.CurrentGame.DrawCard();
-                c.Log.SkillAction = this;
-                c.Log.Source = owner;
-                move.Cards.Add(c);
-                Game.CurrentGame.NotificationProxy.NotifyShowCard(null, c);
-            }
-            move.To = new DeckPlace(null, FuHunDeck);
-            var result = from c in move.Cards select c.SuitColor;
-            bool success = result.Distinct().Count() == toDraw;
-            if (success) FuHunEffect = 0;
-            else FuHunEffect = 1;
-            NotifySkillUse();
-            Game.CurrentGame.MoveCards(move, false, Core.Utils.GameDelayTypes.Draw);
-            Game.CurrentGame.HandleCardTransferToHand(null, owner, Game.CurrentGame.Decks[null, FuHunDeck]);
-            if (success)
-            {
-                Trigger tri = new RemoveShengPao(owner, fhWuSheng, fhPaoXiao);
-                Game.CurrentGame.PlayerAcquireAdditionalSkill(owner, fhWuSheng, HeroTag);
-                Game.CurrentGame.PlayerAcquireAdditionalSkill(owner, fhPaoXiao, HeroTag);
-                Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, tri);
-            }
-            Game.CurrentGame.CurrentPhaseEventIndex++;
-            throw new TriggerResultException(TriggerResult.End);
-        }
-
         public FuHun()
         {
-            fhWuSheng = new WuSheng();
-            fhPaoXiao = new PaoXiao();
-            var trigger = new AutoNotifyPassiveSkillTrigger(
-                this,
-                Run,
-                TriggerCondition.OwnerIsSource
-            ) { IsAutoNotify = false };
-            Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Draw], trigger);
-            IsAutoInvoked = null;
+            LinkedPassiveSkill = new FuHunPassiveSkill();
         }
 
-        int FuHunEffect;
-        ISkill fhWuSheng;
-        ISkill fhPaoXiao;
+        public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
+        {
+            card = null;
+            if (cards != null && (cards.Count > 2 || cards.Any(c => c.Place.DeckType != DeckType.Hand)))
+            {
+                return VerifierResult.Fail;
+            }
+            if (cards == null || cards.Count < 2)
+            {
+                return VerifierResult.Partial;
+            }
+            card = new CompositeCard(cards);
+            card.Type = new RegularSha();
+            card.Owner = Owner;
+            card[FuHunSha] = 1;
+            return VerifierResult.Success;
+        }
+
+        public override List<CardHandler> PossibleResults
+        {
+            get
+            {
+                return new List<CardHandler>() { new RegularSha() };
+            }
+        }
+
+        class FuHunPassiveSkill : TriggerSkill
+        {
+            public class RemoveShengPao : Trigger
+            {
+                public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+                {
+                    if (eventArgs.Source != Owner) return;
+                    fuhun.fhPaoXiao = null;
+                    fuhun.fhWuSheng = null;
+                    Game.CurrentGame.PlayerLoseAdditionalSkill(Owner, fhWuSheng);
+                    Game.CurrentGame.PlayerLoseAdditionalSkill(Owner, fhPaoXiao);
+                    Game.CurrentGame.UnregisterTrigger(GameEvent.PhasePostEnd, this);
+                }
+
+                FuHunPassiveSkill fuhun;
+                public RemoveShengPao(Player p, FuHunPassiveSkill fuhun, ISkill s1, ISkill s2)
+                {
+                    Owner = p;
+                    fhWuSheng = s1;
+                    fhPaoXiao = s2;
+                    this.fuhun = fuhun;
+                }
+                ISkill fhWuSheng;
+                ISkill fhPaoXiao;
+            }
+
+            ISkill fhWuSheng;
+            ISkill fhPaoXiao;
+            public FuHunPassiveSkill()
+            {
+                var trigger = new AutoNotifyPassiveSkillTrigger(
+                    this,
+                    (p, e, a) => { return fhWuSheng == null && a.ReadonlyCard != null && a.ReadonlyCard[FuHunSha] == 1 && Game.CurrentGame.PhasesOwner == p && Game.CurrentGame.CurrentPhase == TurnPhase.Play; },
+                    (p, e, a) =>
+                    {
+                        fhWuSheng = new WuSheng();
+                        fhPaoXiao = new PaoXiao();
+                        Trigger tri = new RemoveShengPao(p, this, fhWuSheng, fhPaoXiao);
+                        Game.CurrentGame.PlayerAcquireAdditionalSkill(p, fhWuSheng, HeroTag);
+                        Game.CurrentGame.PlayerAcquireAdditionalSkill(p, fhPaoXiao, HeroTag);
+                        Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, tri);
+                    },
+                    TriggerCondition.OwnerIsSource
+                ) { AskForConfirmation = false };
+                Triggers.Add(GameEvent.AfterDamageCaused, trigger);
+
+                var trigger2 = new AutoNotifyPassiveSkillTrigger(
+                    this,
+                    (p, e, a) => { return a.Card[FuHunSha] == 1; },
+                    (p, e, a) => { throw new TriggerResultException(TriggerResult.Fail); },
+                    TriggerCondition.OwnerIsSource
+                ) { AskForConfirmation = false, IsAutoNotify = false };
+                Triggers.Add(GameEvent.PlayerCanPlayCard, trigger2);
+            }
+        }
+
+        private static CardAttribute FuHunSha = CardAttribute.Register("FuHunSha");
     }
 }

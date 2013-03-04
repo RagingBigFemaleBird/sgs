@@ -18,6 +18,10 @@
     <sys:String x:Key="Skill.JieFan.Name">解烦</sys:String>
     <sys:String x:Key="Skill.JieFan.Description">你的回合外，当一名角色处于濒死状态时，你可以对当前正进行回合的角色使用一张【杀】（无距离限制），此【杀】造成伤害时，你防止此伤害，视为对该濒死角色使用一张【桃】。</sys:String>
     <sys:String x:Key="Skill.JieFan.Usage">系统提示→点“确定”→选中一张【杀】→点“确定”</sys:String>
+    
+    <sys:String x:Key="Skill.FuHun.Name">父魂</sys:String>
+    <sys:String x:Key="Skill.FuHun.Description">摸牌阶段开始时，你可以放弃摸牌，改为从牌堆顶亮出两张牌并获得之，若亮出的牌颜色不同，你获得技能“武圣”、“咆哮”，直到回合结束。</sys:String>
+    <sys:String x:Key="Skill.FuHun.Usage">系统提示（摸牌阶段）→点“确定”</sys:String>
     -->
     <sys:String x:Key="Hero.BuLianshi.Name">步练师</sys:String>
     <sys:String x:Key="Hero.CaoZhang.Name">曹彰</sys:String>
@@ -56,8 +60,9 @@
     <sys:String x:Key="Skill.ChunLao.Prompt">请选择一张【杀】置于武将牌上当作“醇”，或点“取消”</sys:String>
 
     <sys:String x:Key="Skill.FuHun.Name">父魂</sys:String>
-    <sys:String x:Key="Skill.FuHun.Description">摸牌阶段开始时，你可以放弃摸牌，改为从牌堆顶亮出两张牌并获得之，若亮出的牌颜色不同，你获得技能“武圣”、“咆哮”，直到回合结束。</sys:String>
-    <sys:String x:Key="Skill.FuHun.Usage">系统提示（摸牌阶段）→点“确定”</sys:String>
+    <sys:String x:Key="Skill.FuHun.Description">你可以将两张手牌当【杀】使用；出牌阶段，若你以此法使用的【杀】造成了伤害，你获得技能“武圣”、“咆哮”，直到回合结束。</sys:String>
+    <sys:String x:Key="Skill.FuHun.Prompt">请选择两张牌以及杀的目标</sys:String>
+    <sys:String x:Key="Skill.FuHunPassiveSkill.Name">父魂</sys:String>
 
     <sys:String x:Key="Skill.GongQi.Name">弓骑</sys:String>
     <sys:String x:Key="Skill.GongQi.Description">出牌阶段，你可以弃置一张牌，令你的攻击范围无限直到回合结束；若你以此法弃置的牌为装备牌，你可以弃置一名其他角色的一张牌。每阶段限一次。</sys:String>
