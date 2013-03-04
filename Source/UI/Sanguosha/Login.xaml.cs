@@ -234,21 +234,16 @@ namespace Sanguosha.UI.Main
                     success = true;
                 }
                 if (!success)
-                {
-                    if ((LoginStatus)ea.Result == LoginStatus.OutdatedVersion)
-                    {
-                        MessageBox.Show("Outdated version. Please update");
-                        busyIndicator.BusyContent = Resources["Busy.Updating"];
-                    }
-                    else if ((LoginStatus)ea.Result == LoginStatus.InvalidUsernameAndPassword)
+                {                    
+                    if ((LoginStatus)ea.Result == LoginStatus.InvalidUsernameAndPassword)
                     {
                         MessageBox.Show("Invalid Username and Password");
                         busyIndicator.IsBusy = false;
                     }
                     else
                     {
-                        MessageBox.Show("Failed to launch client");
-                        busyIndicator.IsBusy = false;
+                        // MessageBox.Show("Outdated version. Please update");
+                        busyIndicator.BusyContent = Resources["Busy.Updating"];
                     }                    
                 }
             };
@@ -443,6 +438,11 @@ namespace Sanguosha.UI.Main
                 game.Start();
                 // this.NavigationService.Navigate(game);
             }
+        }
+
+        private void btnSubmitBug_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
 
         private static void game_OnNavigateBack(object sender, NavigationService service)

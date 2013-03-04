@@ -7,7 +7,7 @@ namespace Sanguosha.Lobby.Core
 {
     public class Misc
     {
-        public static int ProtocolVersion = 16;
+        public static int ProtocolVersion = 17;
         public static int MaxChatLength = 160;
     }
 }

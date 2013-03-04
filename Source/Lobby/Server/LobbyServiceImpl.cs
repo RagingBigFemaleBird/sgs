@@ -664,14 +664,18 @@ namespace Sanguosha.Lobby.Server
         {
             try
             {
+                message = (message ?? string.Empty).Substring(0, 1000);
                 Stream file = FileRotator.CreateFile("./Reports", "crashdmp", ".rpt", 1000);                                                
                 UnicodeEncoding uniEncoding = new UnicodeEncoding();
                 byte[] messageBytes = uniEncoding.GetBytes(message);
                 byte[] intBytes = BitConverter.GetBytes(messageBytes.Length);
                 file.Write(intBytes, 0, intBytes.Length);
                 file.Write(messageBytes, 0, messageBytes.Length);
-                s.CopyTo(file);
-                s.Close();
+                if (s != null)
+                {
+                    s.CopyTo(file);
+                    s.Close();
+                }
             }
             catch (Exception)
             {
