@@ -238,16 +238,18 @@ namespace Sanguosha.UI.Main
                     if ((LoginStatus)ea.Result == LoginStatus.OutdatedVersion)
                     {
                         MessageBox.Show("Outdated version. Please update");
+                        busyIndicator.BusyContent = Resources["Busy.Updating"];
                     }
                     else if ((LoginStatus)ea.Result == LoginStatus.InvalidUsernameAndPassword)
                     {
                         MessageBox.Show("Invalid Username and Password");
+                        busyIndicator.IsBusy = false;
                     }
                     else
                     {
                         MessageBox.Show("Failed to launch client");
-                    }
-                    busyIndicator.IsBusy = false;
+                        busyIndicator.IsBusy = false;
+                    }                    
                 }
             };
 
