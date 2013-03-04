@@ -576,6 +576,10 @@ namespace Sanguosha.UI.Controls
                 {
                     gameLogs.AppendPickHeroLog(model.Player, false);
                 }
+                else if (e.PropertyName == "IsImprisoned")
+                {
+                    gameLogs.AppendImprisonedLog(model.Player);
+                }
             });
         }
 
@@ -1491,13 +1495,13 @@ namespace Sanguosha.UI.Controls
                     }
                     else if (losers.Contains(player))
                     {
-                        m.Result = GameResult.Lose;                        
+                        m.Result = GameResult.Lose;
                         m.GainedExperience = "-1";
                         m.GainedTechPoints = "+0";
                     }
                     else if (drawers.Contains(player))
                     {
-                        m.Result = GameResult.Draw;                        
+                        m.Result = GameResult.Draw;
                         m.GainedExperience = "+0";
                         m.GainedTechPoints = "+0";
                     }
@@ -1536,7 +1540,7 @@ namespace Sanguosha.UI.Controls
                 }
             });
         }
-		
+
         private void btnCloseResultBox_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             gameResultWindow.Close();

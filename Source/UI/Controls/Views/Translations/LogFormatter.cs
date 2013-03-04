@@ -519,6 +519,16 @@ namespace Sanguosha.UI.Controls
             return paragraph;
         }
 
+        public static Paragraph RichTranslateImprisoned(Player player)
+        {
+            Paragraph para = new Paragraph();
+            para.Inlines.Add(Translate(player));
+            para.Inlines.Add(new Run(string.Format("将武将牌翻面，现在是")) { Foreground = OrangeBrush });
+            para.Inlines.Add(player.IsImprisoned ? "反面" : "正面");
+            para.Inlines.Add(new Run("朝上") { Foreground = OrangeBrush });
+            return para;
+        }
+
         public static Paragraph RichTranslatePickHero(Player player, bool isPrimaryHero)
         {
             Paragraph para = new Paragraph();

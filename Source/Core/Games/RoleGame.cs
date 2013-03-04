@@ -920,6 +920,7 @@ namespace Sanguosha.Core.Games
                 if (currentPlayer.IsImprisoned)
                 {
                     currentPlayer.IsImprisoned = false;
+                    GameDelays.Delay(GameDelayTypes.Imprisoned);
                     return;
                 }
                 game.CurrentPlayer = currentPlayer;

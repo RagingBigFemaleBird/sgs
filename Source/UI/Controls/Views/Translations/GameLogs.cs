@@ -51,6 +51,21 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public void AppendImprisonedLog(Player player)
+        {
+            if (!Logs.ContainsKey(player)) return;
+
+            List<FlowDocument> docs = new List<FlowDocument>() { Logs[player], GlobalLog };
+            foreach (var doc in docs)
+            {
+                Paragraph para = LogFormatter.RichTranslateImprisoned(player);
+                if (para != null)
+                {
+                    doc.Blocks.Add(para);
+                }
+            }
+        }
+
         public void AppendPickHeroLog(Player player, bool isPrimaryHero)
         {
             if (!Logs.ContainsKey(player)) return;
