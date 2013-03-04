@@ -9,6 +9,7 @@ using System.ServiceModel;
 using System.Windows;
 using System.Threading;
 using System.Diagnostics;
+using System.IO;
 
 namespace Sanguosha.UI.Controls
 {
@@ -410,6 +411,18 @@ namespace Sanguosha.UI.Controls
         {
             Connection.Logout(LoginToken);
             LoginToken = new LoginToken();
+        }
+
+        public void SubmitBugReport(Stream s, string message)
+        {
+            Stream upload = new MemoryStream();
+            UnicodeEncoding uniEncoding = new UnicodeEncoding();
+            byte[] messageBytes = uniEncoding.GetBytes(message);
+            byte[] intBytes = BitConverter.GetBytes(messageBytes.Length);
+            upload.Write(intBytes, 0, intBytes.Length);
+            upload.Write(messageBytes, 0, messageBytes.Length);
+            s.CopyTo(upload);
+            Connection.SubmitBugReport(upload);
         }
     }
 

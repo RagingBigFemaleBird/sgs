@@ -373,7 +373,7 @@ namespace Sanguosha.UI.Main
                     host.Open();
                     ea.Result = true;
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                 }
             };

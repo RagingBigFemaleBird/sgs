@@ -103,7 +103,7 @@ namespace Sanguosha.Lobby.Core
         LoginStatus CreateAccount(string userName, string p);
 
         [OperationContract]
-        void SubmitBugReport(Stream s, string message);
+        void SubmitBugReport(Stream s);
     }
 
     public interface IGameClient

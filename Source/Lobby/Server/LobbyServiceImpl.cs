@@ -660,17 +660,11 @@ namespace Sanguosha.Lobby.Server
             return LoginStatus.Success;
         }
 
-        public void SubmitBugReport(System.IO.Stream s, string message)
+        public void SubmitBugReport(System.IO.Stream s)
         {
             try
             {
-                message = (message ?? string.Empty).Substring(0, 1000);
                 Stream file = FileRotator.CreateFile("./Reports", "crashdmp", ".rpt", 1000);                                                
-                UnicodeEncoding uniEncoding = new UnicodeEncoding();
-                byte[] messageBytes = uniEncoding.GetBytes(message);
-                byte[] intBytes = BitConverter.GetBytes(messageBytes.Length);
-                file.Write(intBytes, 0, intBytes.Length);
-                file.Write(messageBytes, 0, messageBytes.Length);
                 if (s != null)
                 {
                     s.CopyTo(file);
