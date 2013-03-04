@@ -662,6 +662,8 @@ namespace Sanguosha.Lobby.Server
 
         public void SubmitBugReport(System.IO.Stream s)
         {
+            if (s == null) return;
+            if (s.Length > 2097152) return;
             try
             {
                 Stream file = FileRotator.CreateFile("./Reports", "crashdmp", ".rpt", 1000);                                                

@@ -417,11 +417,14 @@ namespace Sanguosha.UI.Controls
         {
             Stream upload = new MemoryStream();
             UnicodeEncoding uniEncoding = new UnicodeEncoding();
+            if (s.Length > 2097152) return;
             byte[] messageBytes = uniEncoding.GetBytes(message);
             byte[] intBytes = BitConverter.GetBytes(messageBytes.Length);
             upload.Write(intBytes, 0, intBytes.Length);
             upload.Write(messageBytes, 0, messageBytes.Length);
             s.CopyTo(upload);
+            s.Flush();
+            upload.Flush();
             Connection.SubmitBugReport(upload);
         }
     }
