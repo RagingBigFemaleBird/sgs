@@ -74,7 +74,7 @@ namespace Sanguosha.UI.Main
         internal static bool PreloadCompleted
         {
             get { return _preloadCompleted; }
-            set 
+            set
             {
                 _preloadCompleted = value;
             }
@@ -85,10 +85,10 @@ namespace Sanguosha.UI.Main
         internal bool StartButtonEnabled
         {
             get { return _startButtonEnabled; }
-            set 
+            set
             {
                 _startButtonEnabled = value;
-                _UpdateStartButton(); 
+                _UpdateStartButton();
             }
         }
 
@@ -112,7 +112,7 @@ namespace Sanguosha.UI.Main
         private void _Load()
         {
             _LoadResources(ResourcesFolder);
-            
+
             GameEngine.LoadExpansions(ExpansionFolder);
 
         }
@@ -133,7 +133,7 @@ namespace Sanguosha.UI.Main
             }
             tab0UserName.Text = Properties.Settings.Default.LastUserName;
             tab0HostName.Text = Properties.Settings.Default.LastHostName;
-            tab1Port.Text = DefaultLobbyPort.ToString();            
+            tab1Port.Text = DefaultLobbyPort.ToString();
         }
 
         private void startButton_Click(object sender, RoutedEventArgs e)
@@ -191,16 +191,16 @@ namespace Sanguosha.UI.Main
                     if (stat == LoginStatus.Success)
                     {
                         LobbyViewModel.Instance.CurrentAccount = ret;
-                        
+
                         if (reconnect != null)
                         {
                             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
                             {
                                 MainGame.BackwardNavigationService = this.NavigationService;
                                 busyIndicator.BusyContent = Resources["Busy.Reconnecting"];
-                            });                            
+                            });
                         }
-                    }                    
+                    }
                     ea.Result = stat;
                 }
                 catch (Exception e)
@@ -214,7 +214,7 @@ namespace Sanguosha.UI.Main
                 bool success = false;
                 if ((LoginStatus)ea.Result == LoginStatus.Success)
                 {
-                    LobbyView lobby = LobbyView.Instance;                    
+                    LobbyView lobby = LobbyView.Instance;
                     LobbyView.Instance.OnNavigateBack += lobby_OnNavigateBack;
                     var lobbyModel = LobbyViewModel.Instance;
                     lobbyModel.Connection = server;
@@ -234,7 +234,7 @@ namespace Sanguosha.UI.Main
                     success = true;
                 }
                 if (!success)
-                {                    
+                {
                     if ((LoginStatus)ea.Result == LoginStatus.InvalidUsernameAndPassword)
                     {
                         MessageBox.Show("Invalid Username and Password");
@@ -244,7 +244,7 @@ namespace Sanguosha.UI.Main
                     {
                         // MessageBox.Show("Outdated version. Please update");
                         busyIndicator.BusyContent = Resources["Busy.Updating"];
-                    }                    
+                    }
                 }
             };
 
@@ -256,7 +256,7 @@ namespace Sanguosha.UI.Main
             string userName = tab0UserName.Text;
             string passwd = tab0Password.Password;
             Properties.Settings.Default.LastHostName = tab0HostName.Text;
-            Properties.Settings.Default.LastUserName = tab0UserName.Text;            
+            Properties.Settings.Default.LastUserName = tab0UserName.Text;
             Properties.Settings.Default.Save();
 #if !DEBUG
             if (string.IsNullOrEmpty(userName))
@@ -285,7 +285,7 @@ namespace Sanguosha.UI.Main
                     binding.Security.Mode = SecurityMode.None;
                     var endpoint = new EndpointAddress(string.Format("net.tcp://{0}/GameService", hostName));
                     var channelFactory = new DuplexChannelFactory<ILobbyService>(LobbyViewModel.Instance, binding, endpoint);
-                    server = channelFactory.CreateChannel();                    
+                    server = channelFactory.CreateChannel();
                     var stat = server.CreateAccount(userName, passwd);
                     ea.Result = stat;
                 }
@@ -298,18 +298,18 @@ namespace Sanguosha.UI.Main
             worker.RunWorkerCompleted += (o, ea) =>
             {
                 busyIndicator.IsBusy = false;
-                switch((LoginStatus)ea.Result)
+                switch ((LoginStatus)ea.Result)
                 {
                     case LoginStatus.Success:
                         MessageBox.Show("Account created successfully");
                         break;
-                    case LoginStatus.OutdatedVersion:                    
+                    case LoginStatus.OutdatedVersion:
                         MessageBox.Show("Outdated version. Please update.");
-                        break;                    
+                        break;
                     case LoginStatus.InvalidUsernameAndPassword:
                         MessageBox.Show("Invalid Username and Password.");
                         break;
-                    default: 
+                    default:
                         MessageBox.Show("Failed to launch client.");
                         break;
                 }
@@ -324,7 +324,7 @@ namespace Sanguosha.UI.Main
         }
 
         private void _startServer()
-        {            
+        {
             LobbyServiceImpl gameService = null;
             ServiceHost host = null;
             IPAddress serverIp = tab1IpAddresses.SelectedItem as IPAddress;
@@ -412,7 +412,7 @@ namespace Sanguosha.UI.Main
             if (result != true) return;
 
             string fileName = dlg.FileName;
-            
+
             Client client;
             MainGame game = null;
             try
@@ -440,18 +440,13 @@ namespace Sanguosha.UI.Main
             }
         }
 
-        private void btnSubmitBug_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
         private static void game_OnNavigateBack(object sender, NavigationService service)
         {
             MainGame game = sender as MainGame;
             if (game != null) game.OnNavigateBack -= game_OnNavigateBack;
-            service.Navigate(new Login());            
+            service.Navigate(new Login());
         }
-        
+
         private static void lobby_OnNavigateBack(object sender, NavigationService service)
         {
             LobbyView lobby = sender as LobbyView;
@@ -488,7 +483,7 @@ namespace Sanguosha.UI.Main
                 tab1IpAddresses.Items.Add(ip.Address);
             }
         }
-        
+
         private void tab1ShowAllAdaptor_Checked(object sender, RoutedEventArgs e)
         {
             _ListAdaptors();
@@ -523,6 +518,94 @@ namespace Sanguosha.UI.Main
         private void btnRegister_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             _createAccount();
+        }
+        #endregion
+
+        #region Bug Report UI
+        private void btnSubmitBug_Click(object sender, RoutedEventArgs e)
+        {
+            tbBuggyReplayFileName.Clear();
+            tbBugMessage.Clear();
+            submitBugWindow.Show();
+        }
+
+        private void btnSubmitBugCancel_Click(object sender, RoutedEventArgs e)
+        {
+            submitBugWindow.Close();
+        }
+
+        private void SubmitBugReport(ILobbyService service, Stream s, string message)
+        {
+            Stream upload = new MemoryStream();
+            UnicodeEncoding uniEncoding = new UnicodeEncoding();
+            if (s != null && s.Length > Misc.MaxBugReportSize) s = null;
+            byte[] messageBytes = uniEncoding.GetBytes(message);
+            byte[] intBytes = BitConverter.GetBytes(messageBytes.Length);
+            upload.Write(intBytes, 0, intBytes.Length);
+            upload.Write(messageBytes, 0, messageBytes.Length);
+            if (s != null)
+            {
+                s.CopyTo(upload);
+                s.Flush();
+            }
+            upload.Flush();
+            service.SubmitBugReport(upload);
+        }
+
+        private void btnSubmitBugConfirm_Click(object sender, RoutedEventArgs e)
+        {
+            FileStream fs = null;
+            try
+            {
+                fs = new FileStream(tbBuggyReplayFileName.Text, FileMode.Open);
+            }
+            catch (Exception)
+            {
+            }
+            if (fs != null && fs.Length > Misc.MaxBugReportSize - Misc.MaxBugMessgeSize - 1000)
+            {
+                fs = null;
+            }
+
+            string hostName = tab0HostName.Text;
+            if (!hostName.Contains(":"))
+            {
+                hostName = hostName + ":" + DefaultLobbyPort;
+            }
+
+            try
+            {
+
+                var binding = new NetTcpBinding();
+                binding.Security.Mode = SecurityMode.None;
+                var endpoint = new EndpointAddress(string.Format("net.tcp://{0}/GameService", hostName));
+                var channelFactory = new DuplexChannelFactory<ILobbyService>(LobbyViewModel.Instance, binding, endpoint);
+                var server = channelFactory.CreateChannel();
+                SubmitBugReport(server, fs, tbBugMessage.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Cannot contact bug collection server! Error: " + ex.StackTrace);
+            }
+
+        }
+
+        private void btnPickReplayFile_Click(object sender, RoutedEventArgs e)
+        {
+            if (!Directory.Exists("./Replays"))
+            {
+                Directory.CreateDirectory("./Replays");
+            }
+
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.InitialDirectory = Directory.GetCurrentDirectory() + "\\Replays";
+            dlg.DefaultExt = ".sgs"; // Default file extension
+            dlg.Filter = "Replay File (.sgs)|*.sgs|All Files (*.*)|*.*"; // Filter files by extension
+
+            bool? result = dlg.ShowDialog();
+            if (result == false) return;
+
+            tbBuggyReplayFileName.Text = dlg.FileName;
         }
         #endregion
     }

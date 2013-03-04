@@ -232,9 +232,45 @@
             <Button Style="{DynamicResource DefaultButtonStyleDark}" Height="20" Padding="1,0,2,0" Margin="0,0,0,0">
                 <Image Height="14" Source="/Resources;component/Images/System/btnSettings.png" Stretch="Fill" Width="16"/>	        	
             </Button>
-            <!-- x:Name="btnSubmitBug" Content="Bug提交" Style="{DynamicResource DefaultButtonStyle1}" Height="20" Padding="8,0,8,0" Click="btnSubmitBug_Click" /-->
+            <Button x:Name="btnSubmitBug" Content="Bug提交" Style="{DynamicResource DefaultButtonStyle1}" Height="20" Padding="8,0,8,0" Click="btnSubmitBug_Click" />
             <Button x:Name="btnReplay" Content="录像" Style="{DynamicResource DefaultButtonStyle1}" Height="20" Padding="8,0,8,0" Click="btnReplay_Click" />
         </StackPanel>
+		<xctk:ChildWindow x:Name="submitBugWindow" Caption="Bug提交" WindowStartupLocation="Center" Template="{DynamicResource StoneWindowStyle}" Height="258" Grid.Row="1"  Grid.RowSpan="2" Width="455">
+			<Grid>			
+				<Grid.Resources>
+                    <Style x:Key="{x:Type TextBlock}" TargetType="{x:Type TextBlock}">
+                        <Setter Property="Foreground" Value="#FFE4D5A0" />	
+                        <Setter Property="TextAlignment" Value="Right" />				
+                        <Setter Property="FontFamily" Value="SimSun" />
+                        <Setter Property="TextWrapping" Value="NoWrap"/>
+                        <Setter Property="TextTrimming" Value="None"/>
+                    </Style>
+                    <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource ComboBoxStyle1}">
+                        <Setter Property="Foreground" Value="#FFE5DCBF"/>
+                        <Setter Property="FontFamily" Value="SimSun"/>
+                        <Setter Property="Height" Value="23" />
+                    </Style>
+                    <Style x:Key="{x:Type CheckBox}" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource CheckBoxStyle1}" />
+                </Grid.Resources>	
+				<Grid.RowDefinitions>
+					<RowDefinition Height="20"/>
+					<RowDefinition Height="20"/>
+					<RowDefinition Height="1*"/>
+					<RowDefinition Height="20"/>
+				</Grid.RowDefinitions>
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Text="录像文件：" VerticalAlignment="Center"/>
+					<TextBox x:Name="tbBuggyReplayFileName" Width="350"/>
+					<Button x:Name="btnPickReplayFile" Width="25" Click="btnPickReplayFile_Click">...</Button>
+				</StackPanel>
+				<TextBlock Text="问题说明(限255字)：" VerticalAlignment="Center" Grid.Row="1" HorizontalAlignment="Left"/>
+				<TextBox x:Name="tbBugMessage" Grid.Row="2" Margin="0, 5" MaxLength="255"/>
+				<StackPanel HorizontalAlignment="Center" Grid.Row="3" Orientation="Horizontal">
+					<Button x:Name="btnSubmitBugConfirm" Style="{StaticResource DefaultButtonStyleBrown}" Margin="10,0" Click="btnSubmitBugConfirm_Click">提交</Button>
+					<Button x:Name="btnSubmitBugCancel" Style="{StaticResource DefaultButtonStyle1}" Margin="10,0" Click="btnSubmitBugCancel_Click">取消</Button>
+				</StackPanel>
+			</Grid>
+		</xctk:ChildWindow>
         <xctk:BusyIndicator Grid.RowSpan="2" x:Name="busyIndicator" Style="{DynamicResource BusyIndicatorStyle1}" Margin="0" Grid.Row="1" d:IsHidden="True" />
     </Grid>
 </Page>
