@@ -66,5 +66,28 @@ namespace Sanguosha.Core.Utils
             return fs;
         }
 
+
+        public static string GetLatestFileName(string pathName, string fileName, string extension)
+        {
+            if (!Directory.Exists(pathName))
+            {
+                Directory.CreateDirectory(pathName);
+            }
+            var filePaths = Directory.EnumerateFiles(pathName);
+
+            try
+            {
+                var suspects = from filePath in filePaths
+                               where Path.GetFileName(filePath).ToLower().StartsWith(fileName.ToLower()) &&
+                                     filePath.ToLower().EndsWith(extension.ToLower())
+                               orderby File.GetCreationTime(filePath)
+                               select filePath;
+                return Path.GetFullPath(suspects.Last());
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
     }
 }

@@ -253,7 +253,7 @@
                     <Style x:Key="{x:Type CheckBox}" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource CheckBoxStyle1}" />
                 </Grid.Resources>	
 				<Grid.RowDefinitions>
-					<RowDefinition Height="20"/>
+					<RowDefinition Height="22"/>
 					<RowDefinition Height="20"/>
 					<RowDefinition Height="1*"/>
 					<RowDefinition Height="20"/>

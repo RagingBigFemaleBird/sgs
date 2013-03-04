@@ -524,7 +524,7 @@ namespace Sanguosha.UI.Main
         #region Bug Report UI
         private void btnSubmitBug_Click(object sender, RoutedEventArgs e)
         {
-            tbBuggyReplayFileName.Clear();
+            tbBuggyReplayFileName.Text = FileRotator.GetLatestFileName("./Replays", string.Empty, ".sgs");
             tbBugMessage.Clear();
             submitBugWindow.Show();
         }
@@ -575,19 +575,19 @@ namespace Sanguosha.UI.Main
 
             try
             {
-
                 var binding = new NetTcpBinding();
                 binding.Security.Mode = SecurityMode.None;
                 var endpoint = new EndpointAddress(string.Format("net.tcp://{0}/GameService", hostName));
                 var channelFactory = new DuplexChannelFactory<ILobbyService>(LobbyViewModel.Instance, binding, endpoint);
                 var server = channelFactory.CreateChannel();
                 SubmitBugReport(server, fs, tbBugMessage.Text);
+                MessageBox.Show("Bug reported! Thanks for your participation.");      
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Cannot contact bug collection server! Error: " + ex.StackTrace);
+                MessageBox.Show("Cannot contact bug collection server! Error: " + ex.StackTrace);                
             }
-
+            submitBugWindow.Close();
         }
 
         private void btnPickReplayFile_Click(object sender, RoutedEventArgs e)
