@@ -5,6 +5,7 @@ Source/Sanguosha/obj
 *.cache
 *.user
 Bin
+History
 Source/Libraries
 Source/UI/Animations/obj
 Source/UI/Controls/obj
