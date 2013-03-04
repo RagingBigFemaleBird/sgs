@@ -15,49 +15,50 @@ using Sanguosha.Core.Exceptions;
 namespace Sanguosha.Expansions.OverKnightFame12.Skills
 {
     /// <summary>
-    /// 秘计-回合开始/结束阶段开始时，若你已受伤，你可以进行一次判定，若判定结果为黑色，你观看牌堆顶的X张牌（X为你已损失的体力值），然后将这些牌交给一名角色。
+    /// 秘计-回合结束阶段开始时，若你已受伤，你可以摸至多X张牌（X为你已损失的体力值），然后将相同数量的手牌以任意方式交给任意数量的其他角色。
     /// </summary>
     public class MiJi : TriggerSkill
     {
         class MiJiVerifier : CardsAndTargetsVerifier
         {
-            public MiJiVerifier()
+            public MiJiVerifier(int count)
             {
                 MaxPlayers = 1;
                 MinPlayers = 1;
-                MaxCards = 0;
-                MinCards = 0;
+                MaxCards = count;
+                MinCards = 1;
                 Helper.NoCardReveal = true;
+            }
+
+            protected override bool VerifyPlayer(Player source, Player player)
+            {
+                return source != player;
+            }
+
+            protected override bool VerifyCard(Player source, Card card)
+            {
+                return card.Place.DeckType == DeckType.Hand;
             }
         }
 
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            var card = Game.CurrentGame.Judge(Owner, this, null, (judgeResultCard) => { return judgeResultCard.SuitColor == SuitColorType.Black; });
-            if (card.SuitColor == SuitColorType.Black)
+            int drawCount = Owner.LostHealth;
+            Game.CurrentGame.DrawCards(Owner, drawCount);
+            while (drawCount > 0)
             {
                 ISkill skill;
                 List<Card> cards;
                 List<Player> players;
-                int toDraw = Owner.LostHealth;
-                List<Card> remainingCards = new List<Card>();
-                CardsMovement move = new CardsMovement();
-                for (int i = 0; i < toDraw; i++)
+                if (Owner.AskForCardUsage(new CardUsagePrompt("MiJi", drawCount), new MiJiVerifier(drawCount), out skill, out cards, out players))
                 {
-                    Game.CurrentGame.SyncImmutableCard(Owner, Game.CurrentGame.PeekCard(0));
-                    Card c = Game.CurrentGame.DrawCard();
-                    move.Cards.Add(c);
-                    remainingCards.Add(c);
+                    drawCount -= cards.Count;
+                    Game.CurrentGame.HandleCardTransferToHand(Owner, players[0], cards);
                 }
-                move.To = new DeckPlace(Owner, DeckType.Hand);
-                move.Helper.IsFakedMove = true;
-                Game.CurrentGame.MoveCards(move);
-                if (!Owner.AskForCardUsage(new CardUsagePrompt("MiJi"), new MiJiVerifier(), out skill, out cards, out players))
+                else
                 {
-                    players = new List<Player>() { Owner };
+                    drawCount = 0;
                 }
-                Game.CurrentGame.InsertBeforeDeal(null, remainingCards, new MovementHelper() { IsFakedMove = true });
-                Game.CurrentGame.DrawCards(players[0], toDraw);
             }
         }
 
@@ -68,8 +69,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                    (p, e, a) => { return p.LostHealth > 0; },
                    Run,
                    TriggerCondition.OwnerIsSource
-               );
-            Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Start], trigger);
+            );
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger);
         }
     }

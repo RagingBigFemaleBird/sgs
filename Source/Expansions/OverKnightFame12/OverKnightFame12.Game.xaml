@@ -24,6 +24,10 @@
     <!-- 2将成名修订前武将技能
     
     <sys:String x:Key="CardUsage.Prompt.JieFan">你可以使用“解烦”对{0}使用一张【杀】</sys:String>
+
+    <sys:String x:Key="MultiChoice.Prompt.ZhenLie">你的判定结果是{0}{1}，是否发动贞烈改判？</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.MiJi">请选择一个秘计的目标</sys:String>
     -->
     <sys:String x:Key="Expansion.OverKnightFame12Expansion.Name">一将12</sys:String>
 
@@ -34,10 +38,6 @@
     <sys:String x:Key="Deck.Chun.Name">醇</sys:String>
     <sys:String x:Key="CardUsage.Prompt.ChunLaoPassiveSkill">请选择一张【杀】当作“醇”，或点“取消”</sys:String>
     <sys:String x:Key="CardUsage.Prompt.ChunLaoSave">请选择一张“醇”，视为{0}使用了一张【酒】，或点“取消”</sys:String>
-
-    <sys:String x:Key="MultiChoice.Prompt.ZhenLie">你的判定结果是{0}{1}，是否发动贞烈改判？</sys:String>
-
-    <sys:String x:Key="CardUsage.Prompt.MiJi">请选择一个秘计的目标</sys:String>
     
     <sys:String x:Key="CardUsage.Prompt.ZhuiYi">请选择一个追忆的目标，或点“取消”不发动技能</sys:String>
 
@@ -64,4 +64,6 @@
 
     <sys:String x:Key="CardChoice.Prompt.ZhenLie">贞烈 请选择{0}的一张牌</sys:String>
     <sys:String x:Key="CardChoice.Prompt.ZhenLie.Others">贞烈 请等待{0}选择{1}的牌</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.MiJi">秘计 请把{0}张手牌以任意数量交给任意角色，点“取消”交给自己</sys:String>
 </ResourceDictionary>

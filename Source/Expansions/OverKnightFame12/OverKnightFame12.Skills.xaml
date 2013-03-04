@@ -109,8 +109,8 @@
     <sys:String x:Key="Skill.ZhenLie.Usage">系统提示→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.MiJi.Name">秘计</sys:String>
-    <sys:String x:Key="Skill.MiJi.Description">回合开始/结束阶段开始时，若你已受伤，你可以进行一次判定，若判定结果为黑色，你观看牌堆顶的X张牌（X为你已损失的体力值），然后将这些牌交给一名角色。</sys:String>
-    <sys:String x:Key="Skill.MiJi.Usage">系统提示→点“确定”→选择一名目标→点“确定”</sys:String>
+    <sys:String x:Key="Skill.MiJi.Description">回合结束阶段开始时，若你已受伤，你可以摸至多X张牌（X为你已损失的体力值），然后将相同数量的手牌以任意方式交给任意数量的其他角色。</sys:String>
+    <sys:String x:Key="Skill.MiJi.Usage">系统提示→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.QiCe.Name">奇策</sys:String>
     <sys:String x:Key="Skill.QiCe.Description">出牌阶段，你可以将所有手牌当任意一张非延时类锦囊牌使用。每阶段限一次。</sys:String>
