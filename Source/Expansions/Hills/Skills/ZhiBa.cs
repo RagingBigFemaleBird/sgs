@@ -37,7 +37,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             {
                 return VerifierResult.Fail;
             }
-            if (Game.CurrentGame.Decks[Master, DeckType.Hand].Count == 0)
+            if (Game.CurrentGame.Decks[Master, DeckType.Hand].Count == 0 || Owner.HandCards().Count == 0)
             {
                 return VerifierResult.Fail;
             }
