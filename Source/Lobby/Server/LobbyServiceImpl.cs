@@ -664,7 +664,12 @@ namespace Sanguosha.Lobby.Server
         {
             try
             {
-                Stream file = FileRotator.CreateFile("./bugreport", "bugreport", ".report", 1000);
+                Stream file = FileRotator.CreateFile("./Reports", "crashdmp", ".rpt", 1000);                                                
+                UnicodeEncoding uniEncoding = new UnicodeEncoding();
+                byte[] messageBytes = uniEncoding.GetBytes(message);
+                byte[] intBytes = BitConverter.GetBytes(messageBytes.Length);
+                file.Write(intBytes, 0, intBytes.Length);
+                file.Write(messageBytes, 0, messageBytes.Length);
                 s.CopyTo(file);
                 s.Close();
             }

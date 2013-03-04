@@ -412,7 +412,7 @@ namespace Sanguosha.UI.Main
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.InitialDirectory = Directory.GetCurrentDirectory() + "\\Replays";
             dlg.DefaultExt = ".sgs"; // Default file extension
-            dlg.Filter = "Replay File (.sgs)|*.sgs|All Files (*.*)|*.*"; // Filter files by extension
+            dlg.Filter = "Replay File (.sgs)|*.sgs|Crash Report File (.rpt)|*.rpt|All Files (*.*)|*.*"; // Filter files by extension
             bool? result = dlg.ShowDialog();
             if (result != true) return;
 
@@ -422,10 +422,14 @@ namespace Sanguosha.UI.Main
             MainGame game = null;
             try
             {
-                client = new Client();                
+                client = new Client();
                 game = new MainGame();
                 game.OnNavigateBack += game_OnNavigateBack;
-                client.StartReplay(File.Open(fileName, FileMode.Open));
+                Stream stream = File.Open(fileName, FileMode.Open);
+                byte[] bytes = new byte[4];
+                stream.Read(bytes, 0, 4);
+                stream.Seek(BitConverter.ToInt32(bytes, 0), SeekOrigin.Current);
+                client.StartReplay(stream);
                 game.NetworkClient = client;
             }
             catch (Exception)
