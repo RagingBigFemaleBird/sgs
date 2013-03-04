@@ -59,23 +59,19 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                 public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
                 {
                     if (eventArgs.Source != Owner) return;
+                    Game.CurrentGame.PlayerLoseAdditionalSkill(Owner, fuhun.fhPaoXiao);
+                    Game.CurrentGame.PlayerLoseAdditionalSkill(Owner, fuhun.fhWuSheng);
                     fuhun.fhPaoXiao = null;
                     fuhun.fhWuSheng = null;
-                    Game.CurrentGame.PlayerLoseAdditionalSkill(Owner, fhWuSheng);
-                    Game.CurrentGame.PlayerLoseAdditionalSkill(Owner, fhPaoXiao);
                     Game.CurrentGame.UnregisterTrigger(GameEvent.PhasePostEnd, this);
                 }
 
                 FuHunPassiveSkill fuhun;
-                public RemoveShengPao(Player p, FuHunPassiveSkill fuhun, ISkill s1, ISkill s2)
+                public RemoveShengPao(Player p, FuHunPassiveSkill fuhun)
                 {
                     Owner = p;
-                    fhWuSheng = s1;
-                    fhPaoXiao = s2;
                     this.fuhun = fuhun;
                 }
-                ISkill fhWuSheng;
-                ISkill fhPaoXiao;
             }
 
             ISkill fhWuSheng;
@@ -89,7 +85,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                     {
                         fhWuSheng = new WuSheng();
                         fhPaoXiao = new PaoXiao();
-                        Trigger tri = new RemoveShengPao(p, this, fhWuSheng, fhPaoXiao);
+                        Trigger tri = new RemoveShengPao(p, this);
                         Game.CurrentGame.PlayerAcquireAdditionalSkill(p, fhWuSheng, HeroTag);
                         Game.CurrentGame.PlayerAcquireAdditionalSkill(p, fhPaoXiao, HeroTag);
                         Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, tri);
