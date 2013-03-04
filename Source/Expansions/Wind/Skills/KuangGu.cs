@@ -20,32 +20,47 @@ namespace Sanguosha.Expansions.Wind.Skills
     /// </summary>
     public class KuangGu : TriggerSkill
     {
-        void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
+        class KuangGuRecover : Trigger
         {
-            (eventArgs as DamageEventArgs).ReadonlyCard[KuangGuUsable] = 0;
-            int recover = (eventArgs as DamageEventArgs).Magnitude;
-            while (recover-- > 0)
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                Game.CurrentGame.RecoverHealth(Owner, Owner, 1);
+                if (Owner != eventArgs.Source || eventArgs.ReadonlyCard[KuangGuUsable] == 0)
+                {
+                    return;
+                }
+                eventArgs.ReadonlyCard[KuangGuUsable] = 0;
+                if (Owner.LostHealth > 0)
+                {
+                    ActionLog log = new ActionLog();
+                    log.GameAction = GameAction.None;
+                    log.SkillAction = skill;
+                    log.Source = Owner;
+                    Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
+                    int recover = (eventArgs as DamageEventArgs).Magnitude;
+                    while (recover-- > 0)
+                    {
+                        Game.CurrentGame.RecoverHealth(Owner, Owner, 1);
+                    }
+                }
+                Game.CurrentGame.UnregisterTrigger(GameEvent.AfterDamageCaused, this);
+            }
+
+            KuangGu skill;
+            public KuangGuRecover(Player player, KuangGu sk)
+            {
+                Owner = player;
+                skill = sk;
             }
         }
-
         public KuangGu()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return p.LostHealth > 0 && (a as DamageEventArgs).ReadonlyCard[KuangGuUsable] == 1; },
-                Run,
-                TriggerCondition.OwnerIsSource
-            );
-            Triggers.Add(GameEvent.AfterDamageCaused, trigger);
-            var trigger2 = new AutoNotifyPassiveSkillTrigger(
-                this,
                 (p, e, a) => { return Game.CurrentGame.DistanceTo(p, a.Targets[0]) <= 1; },
-                (p, e, a) => { (a as DamageEventArgs).ReadonlyCard[KuangGuUsable] = 1; },
+                (p, e, a) => { a.ReadonlyCard[KuangGuUsable] = 1; Game.CurrentGame.RegisterTrigger(GameEvent.AfterDamageCaused, new KuangGuRecover(p, this)); },
                 TriggerCondition.OwnerIsSource
             ) { IsAutoNotify = false, AskForConfirmation = false, Priority = int.MinValue };
-            Triggers.Add(GameEvent.DamageInflicted, trigger2);
+            Triggers.Add(GameEvent.DamageInflicted, trigger);
             IsEnforced = true;
         }
 
