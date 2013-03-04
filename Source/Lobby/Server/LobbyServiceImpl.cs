@@ -8,6 +8,8 @@ using Sanguosha.Lobby.Core;
 using System.Threading;
 using System.Net;
 using System.Diagnostics;
+using System.IO;
+using Sanguosha.Core.Utils;
 
 namespace Sanguosha.Lobby.Server
 {
@@ -656,6 +658,19 @@ namespace Sanguosha.Lobby.Server
             accountContext.Accounts.Add(new Account() { UserName = userName, Password = p });
             accountContext.SaveChanges();
             return LoginStatus.Success;
+        }
+
+        public void SubmitBugReport(System.IO.Stream s, string message)
+        {
+            try
+            {
+                Stream file = FileRotator.CreateFile("./bugreport", "bugreport", ".report", 1000);
+                s.CopyTo(file);
+                s.Close();
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

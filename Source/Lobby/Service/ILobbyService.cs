@@ -1,6 +1,7 @@
 ﻿using Sanguosha.Lobby;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -100,6 +101,9 @@ namespace Sanguosha.Lobby.Core
 
         [OperationContract]
         LoginStatus CreateAccount(string userName, string p);
+
+        [OperationContract]
+        void SubmitBugReport(Stream s, string message);
     }
 
     public interface IGameClient
