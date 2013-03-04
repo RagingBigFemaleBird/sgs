@@ -61,7 +61,7 @@
 
     <sys:String x:Key="Skill.FuHun.Name">父魂</sys:String>
     <sys:String x:Key="Skill.FuHun.Description">你可以将两张手牌当【杀】使用；出牌阶段，若你以此法使用的【杀】造成了伤害，你获得技能“武圣”、“咆哮”，直到回合结束。</sys:String>
-    <sys:String x:Key="Skill.FuHun.Prompt">请选择两张牌以及杀的目标</sys:String>
+    <sys:String x:Key="Skill.FuHun.Prompt">请选择两张手牌以及杀的目标</sys:String>
     <sys:String x:Key="Skill.FuHunPassiveSkill.Name">父魂</sys:String>
 
     <sys:String x:Key="Skill.GongQi.Name">弓骑</sys:String>
