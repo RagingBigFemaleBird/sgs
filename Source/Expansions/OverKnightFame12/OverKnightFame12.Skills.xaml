@@ -98,7 +98,7 @@
 
     <sys:String x:Key="Skill.QianXi.Name">潜袭</sys:String>
     <sys:String x:Key="Skill.QianXi.Description">回合开始阶段开始时，你可以进行一次判定，然后令一名距离为1的角色不能使用或打出与判定结果颜色相同的手牌，直到回合结束。</sys:String>
-    <sys:String x:Key="Skill.QianXi.Usage">系统提示→点“确定”</sys:String>
+    <sys:String x:Key="Skill.QianXi.Usage">系统提示→点“确定”→系统提示→选择一名角色→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.ZhenLie.Name">贞烈</sys:String>
     <sys:String x:Key="Skill.ZhenLie.Description">在你的判定牌生效前，你可以从牌堆顶亮出一张牌代替之。</sys:String>
