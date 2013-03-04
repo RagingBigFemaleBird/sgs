@@ -124,7 +124,6 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Start], trigger);
             IsAutoInvoked = false;
-            IsRulerOnly = true;
         }
 
         private static PlayerAttribute QianXiRed = PlayerAttribute.Register("QianXiRed", false, false, true);

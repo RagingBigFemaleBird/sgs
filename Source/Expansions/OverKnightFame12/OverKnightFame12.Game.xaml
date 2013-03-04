@@ -61,4 +61,7 @@
         <GradientStop Color="Red" Offset="0"/>
         <GradientStop Color="#FFDEDEDE" Offset="1"/>
     </LinearGradientBrush>
+
+    <sys:String x:Key="CardChoice.Prompt.ZhenLie">贞烈 请选择{0}的一张牌</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.ZhenLie.Others">贞烈 请等待{0}选择{1}的牌</sys:String>
 </ResourceDictionary>

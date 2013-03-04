@@ -26,6 +26,10 @@
     <sys:String x:Key="Skill.QianXi.Name">潜袭</sys:String>
     <sys:String x:Key="Skill.QianXi.Description">每当你使用【杀】对距离为1的目标角色造成伤害时，你可以进行一次判定，若判定结果不为红桃，你防止此伤害，改为令其减1点体力上限。</sys:String>
     <sys:String x:Key="Skill.QianXi.Usage">系统提示→点“确定”</sys:String>
+    
+    <sys:String x:Key="Skill.ZhenLie.Name">贞烈</sys:String>
+    <sys:String x:Key="Skill.ZhenLie.Description">在你的判定牌生效前，你可以从牌堆顶亮出一张牌代替之。</sys:String>
+    <sys:String x:Key="Skill.ZhenLie.Usage">系统提示→点“确定”</sys:String>
     -->
     <sys:String x:Key="Hero.BuLianshi.Name">步练师</sys:String>
     <sys:String x:Key="Hero.CaoZhang.Name">曹彰</sys:String>
@@ -101,7 +105,7 @@
     <sys:String x:Key="Skill.QianXi.Usage">系统提示→点“确定”→系统提示→选择一名角色→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.ZhenLie.Name">贞烈</sys:String>
-    <sys:String x:Key="Skill.ZhenLie.Description">在你的判定牌生效前，你可以从牌堆顶亮出一张牌代替之。</sys:String>
+    <sys:String x:Key="Skill.ZhenLie.Description">每当你成为一名其他角色使用的【杀】或非延时类锦囊牌的目标后，你可以失去1点体力，令此牌对你无效，然后你弃置其一张牌</sys:String>
     <sys:String x:Key="Skill.ZhenLie.Usage">系统提示→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.MiJi.Name">秘计</sys:String>

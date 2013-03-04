@@ -148,6 +148,7 @@ namespace Sanguosha.Core.Cards
                 catch (TriggerResultException e)
                 {
                     Trace.Assert(e.Status == TriggerResult.End);
+                    Game.CurrentGame.NotificationProxy.NotifyLogEvent(new LogEvent("CardInvalid", this, player), args.Targets, false);
                     continue;
                 }
                 try

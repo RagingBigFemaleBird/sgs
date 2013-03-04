@@ -60,6 +60,7 @@
     <sys:String x:Key="LogEvent.PinDianStart">{0}对{1}发起拼点</sys:String>
     <sys:String x:Key="LogEvent.PinDianCard">{0}的拼点牌：{1}</sys:String>
     <sys:String x:Key="LogEvent.PinDianResult">{0}对{1}拼点：{2}</sys:String>
+    <sys:String x:Key="LogEvent.CardInvalid">此{0}对{1}无效</sys:String>
     
     <sys:String x:Key="LogEvent.Arg.Success">生效</sys:String>
     <sys:String x:Key="LogEvent.Arg.Fail">失效</sys:String>

@@ -16,28 +16,36 @@ using Sanguosha.Core.Exceptions;
 namespace Sanguosha.Expansions.OverKnightFame12.Skills
 {
     /// <summary>
-    /// 贞烈-在你的判定牌生效前，你可以从牌堆顶亮出一张牌代替之。
+    /// 贞烈-每当你成为一名其他角色使用的【杀】或非延时类锦囊牌的目标后，你可以失去1点体力，令此牌对你无效，然后你弃置其一张牌。
     /// </summary>
     public class ZhenLie : TriggerSkill
     {
-        void OnJudgeBegin(Player player, GameEvent gameEvent, GameEventArgs eventArgs)
-        {
-            Card c = Game.CurrentGame.Decks[eventArgs.Source, DeckType.JudgeResult].Last();
-            int answer = 0;
-            player.AskForMultipleChoice(new MultipleChoicePrompt("ZhenLie", c.Suit, c.Rank), OptionPrompt.YesNoChoices, out answer);
-            if (answer == 1)
-            {
-                NotifySkillUse(new List<Player>());
-                Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.PeekCard(0));
-                Card c1 = Game.CurrentGame.DrawCard();
-                new GuiCai().ReplaceJudgementCard(player, eventArgs.Source, c1, this);
-            }
-        }
-
         public ZhenLie()
         {
-            Triggers.Add(GameEvent.PlayerJudgeBegin, new RelayTrigger(OnJudgeBegin, TriggerCondition.OwnerIsSource));
+            var trigger = new AutoNotifyPassiveSkillTrigger(
+                this,
+                (p, e, a) => { return (a.ReadonlyCard.Type.IsCardCategory(CardCategory.ImmediateTool) || a.ReadonlyCard.Type is Sha) && a.Source != Owner; },
+                (p, e, a) =>
+                {
+                    Game.CurrentGame.LoseHealth(p, 1);
+                    a.ReadonlyCard[ZhenLieUsed[p]] = 1;
+                    var theCard = Game.CurrentGame.SelectACardFrom(a.Source, p, new CardChoicePrompt("ZhenLie", a.Source), "ZhenLie");
+                    if (theCard != null) Game.CurrentGame.HandleCardDiscard(a.Source, new List<Card>() { theCard });
+                },
+                TriggerCondition.OwnerIsTarget
+            );
+
+            var trigger2 = new AutoNotifyPassiveSkillTrigger(
+                this,
+                (p, e, a) => { return a.ReadonlyCard[ZhenLieUsed[p]] == 1; },
+                (p, e, a) => { throw new TriggerResultException(TriggerResult.End); },
+                TriggerCondition.OwnerIsTarget
+            ) { AskForConfirmation = false, IsAutoNotify = false };
+
+            Triggers.Add(GameEvent.CardUsageTargetConfirmed, trigger);
+            Triggers.Add(GameEvent.CardUsageTargetValidating, trigger2);
             IsAutoInvoked = null;
         }
+        private static CardAttribute ZhenLieUsed = CardAttribute.Register("ZhenLieUsed");
     }
 }
