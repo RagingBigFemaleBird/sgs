@@ -15,6 +15,7 @@ using System.IO;
 using Sanguosha.Core.Games;
 using System.Threading;
 using System.Diagnostics;
+using wyDay.Controls;
 
 namespace Sanguosha.UI.Main
 {
@@ -26,6 +27,8 @@ namespace Sanguosha.UI.Main
         public MainWindow()
         {            
             InitializeComponent();
+            automaticUpdater.ForceCheckForUpdate();
+            automaticUpdater.ReadyToBeInstalled += (o, e) => { automaticUpdater.InstallNow(); };
             this.MainFrame.NavigationService.Navigated += NavigationService_Navigated;
         }
 

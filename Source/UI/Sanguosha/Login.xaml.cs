@@ -122,7 +122,6 @@ namespace Sanguosha.UI.Main
             _startButtonEnabled = true; // @todo: change this.
             if (!PreloadCompleted)
             {
-
                 loadingThread = new Thread(_Load) { IsBackground = true };
                 loadingThread.Start();
                 InitializeComponent();
