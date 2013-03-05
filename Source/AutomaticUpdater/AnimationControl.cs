@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Diagnostics;
 
 namespace wyDay.Controls
 {
@@ -15,9 +16,6 @@ namespace wyDay.Controls
         int m_Rows = 1;
         int m_Columns = 1;
         bool m_SkipFirstFrame;
-
-        int frameWidth;
-        int frameHeight;
 
         //for static images
         bool staticImage;
@@ -51,19 +49,19 @@ namespace wyDay.Controls
                 {
                     if (staticImage)
                     {
-                        Width = frameWidth = (int)m_BaseImage.Width;
-                        Height = frameHeight = (int)m_BaseImage.Height;
+                        Width = m_BaseImage.Width;
+                        Height = m_BaseImage.Height;
                     }
-                    else
+                    else if (m_Columns > 0 && m_Rows > 0)
                     {
-                        Width = frameWidth = (int)m_BaseImage.Width / m_Columns;
-                        Height = frameHeight = (int)m_BaseImage.Height / m_Rows;
+                        Width = m_BaseImage.Width / m_Columns;
+                        Height = m_BaseImage.Height / m_Rows;
                     }
                 }
                 else
                 {
-                    Width = frameWidth = 0;
-                    Height = frameHeight = 0;
+                    Width = 0;
+                    Height = 0;
                 }
             }
         }
@@ -123,11 +121,8 @@ namespace wyDay.Controls
 
             LastRenderTime = DateTime.Now.TimeOfDay;
 
-            if (staticImage)
-            {
-                StopAnimation();
-            }
-            else if (frames != null && frames.Length > (SkipFirstFrame ? 1 : 0))
+            Trace.Assert(!staticImage);
+            if (frames != null && frames.Length > (SkipFirstFrame ? 1 : 0))
             {
                 currentFrame++;
                 if (frames.Length <= currentFrame)
@@ -152,17 +147,25 @@ namespace wyDay.Controls
             else
             {
                 int k = 0;
+                Width = m_Columns == 0 ? 0 : m_BaseImage.Width / m_Columns;
+                Height = m_Rows == 0 ? 0 : m_BaseImage.Height / m_Rows;
+
+                int frameWidth = (int)Width;
+                int frameHeight = (int)Height;
                 frames = new ImageSource[m_Rows * m_Columns];
                 for (int rowOn = 0; rowOn < m_Rows; rowOn++)
+                {
                     for (int columnOn = 0; columnOn < m_Columns; columnOn++)
                     {
                         frames[k++] = new CroppedBitmap(BaseImage,
                             new Int32Rect(columnOn * frameWidth, rowOn * frameHeight, frameWidth, frameHeight));
                     }
-            }
-            animationStarted = true;
-            currentFrame = 0;
-            CompositionTarget.Rendering += CompositionTarget_Rendering;
+                }
+                animationStarted = true;
+                currentFrame = 0;
+                LastRenderTime = DateTime.Now.TimeOfDay;
+                CompositionTarget.Rendering += CompositionTarget_Rendering;
+            }            
         }
 
         public void StopAnimation()
