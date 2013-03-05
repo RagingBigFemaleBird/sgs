@@ -67,6 +67,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
         {
             bool hasBasic = false;
             bool hasTool = false;
+            bool hasEquipment = false;
             foreach (var card in Game.CurrentGame.Decks[Owner, zxDeck])
             {
                 if (CardCategoryManager.IsCardCategory(card.Type.Category, CardCategory.Basic))
@@ -77,12 +78,20 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 {
                     hasTool = true;
                 }
+                if (card.Type.IsCardCategory(CardCategory.Equipment))
+                {
+                    hasEquipment = true;
+                }
             }
             if (CardCategoryManager.IsCardCategory(eventArgs.Card.Type.Category, CardCategory.Basic) && hasBasic)
             {
                 throw new TriggerResultException(TriggerResult.Fail);
             }
             if (CardCategoryManager.IsCardCategory(eventArgs.Card.Type.Category, CardCategory.Tool) && hasTool)
+            {
+                throw new TriggerResultException(TriggerResult.Fail);
+            }
+            if (eventArgs.Card.Type.IsCardCategory(CardCategory.Equipment) && hasEquipment)
             {
                 throw new TriggerResultException(TriggerResult.Fail);
             }
