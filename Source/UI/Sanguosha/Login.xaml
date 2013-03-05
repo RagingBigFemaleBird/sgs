@@ -264,7 +264,7 @@
 					<Button x:Name="btnPickReplayFile" Width="25" Click="btnPickReplayFile_Click">...</Button>
 				</StackPanel>
 				<TextBlock Text="问题说明(限255字)：" VerticalAlignment="Center" Grid.Row="1" HorizontalAlignment="Left"/>
-				<TextBox x:Name="tbBugMessage" Grid.Row="2" Margin="0, 5" MaxLength="255"/>
+				<TextBox x:Name="tbBugMessage" TextWrapping="Wrap" Grid.Row="2" Margin="0, 5" MaxLength="255"/>
 				<StackPanel HorizontalAlignment="Center" Grid.Row="3" Orientation="Horizontal">
 					<Button x:Name="btnSubmitBugConfirm" Style="{StaticResource DefaultButtonStyleBrown}" Margin="10,0" Click="btnSubmitBugConfirm_Click">提交</Button>
 					<Button x:Name="btnSubmitBugCancel" Style="{StaticResource DefaultButtonStyle1}" Margin="10,0" Click="btnSubmitBugCancel_Click">取消</Button>
