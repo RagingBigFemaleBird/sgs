@@ -145,6 +145,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Start], trigger);
             Triggers.Add(GameEvent.PlayerCanUseCard, trigger2);
+            Triggers.Add(GameEvent.PlayerCanPlayCard, trigger2);
             Triggers.Add(GameEvent.CardUsageTargetValidating, trigger3);
             IsSingleUse = true;
             DeckCleanup.Add(zxDeck);
