@@ -221,11 +221,11 @@
     <BitmapImage x:Key="Role.Defector.Alive">Roles/defectorAlive.png</BitmapImage>
     <BitmapImage x:Key="Role.Ruler.Alive">Roles/rulerAlive.png</BitmapImage>
 
-    <BitmapImage x:Key="Role.Unknown.Dead">Roles/unknownAlive.png</BitmapImage>
-    <BitmapImage x:Key="Role.Loyalist.Dead">Roles/loyalistAlive.png</BitmapImage>
-    <BitmapImage x:Key="Role.Rebel.Dead">Roles/rebelAlive.png</BitmapImage>
-    <BitmapImage x:Key="Role.Defector.Dead">Roles/defectorAlive.png</BitmapImage>
-    <BitmapImage x:Key="Role.Ruler.Dead">Roles/rulerAlive.png</BitmapImage>
+    <BitmapImage x:Key="Role.Unknown.Dead">Roles/unknownDead.png</BitmapImage>
+    <BitmapImage x:Key="Role.Loyalist.Dead">Roles/loyalistDead.png</BitmapImage>
+    <BitmapImage x:Key="Role.Rebel.Dead">Roles/rebelDead.png</BitmapImage>
+    <BitmapImage x:Key="Role.Defector.Dead">Roles/defectorDead.png</BitmapImage>
+    <BitmapImage x:Key="Role.Ruler.Dead">Roles/rulerDead.png</BitmapImage>
 
     <BitmapImage x:Key="Role.Loyalist.Icon">Roles/loyalistIcon.png</BitmapImage>
     <BitmapImage x:Key="Role.Rebel.Icon">Roles/rebelIcon.png</BitmapImage>
