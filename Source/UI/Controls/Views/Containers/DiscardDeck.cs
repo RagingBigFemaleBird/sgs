@@ -168,7 +168,10 @@ namespace Sanguosha.UI.Controls
 
             DeckType from = cards[0].Card.Place.DeckType;
             Canvas canvas = cards[0].Parent as Canvas;
-            Trace.Assert(canvas != null);
+            
+            // canvas can only be null on reconnection. 
+            // @todo: Probably fix canvas on its source rather than here.
+            if (canvas == null) return;
 
 
             if (updateFootnote)
