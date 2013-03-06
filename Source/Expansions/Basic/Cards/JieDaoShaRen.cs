@@ -151,7 +151,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
         {
-            if (targets == null || targets.Count == 0)
+            if (targets == null || targets.Count < 2)
             {
                 return VerifierResult.Partial;
             }
