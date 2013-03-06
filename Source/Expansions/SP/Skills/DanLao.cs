@@ -20,22 +20,6 @@ namespace Sanguosha.Expansions.SP.Skills
     /// </summary>
     public class DanLao : TriggerSkill
     {
-        class DanLaoVerifier : CardsAndTargetsVerifier
-        {
-            public DanLaoVerifier()
-            {
-                MinCards = 1;
-                MaxCards = 1;
-                MinPlayers = 0;
-                MaxPlayers = 0;
-                Discarding = true;
-            }
-            protected override bool VerifyCard(Player source, Card card)
-            {
-                return CardCategoryManager.IsCardCategory(card.Type.Category, CardCategory.Basic);
-            }
-        }
-
         private static readonly CardAttribute DanLaoEffect = CardAttribute.Register("DanLao");
 
         public void OnPlayerIsCardTarget(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
@@ -48,7 +32,7 @@ namespace Sanguosha.Expansions.SP.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return a.Targets.Count > 1; },
+                (p, e, a) => { if (a.ReadonlyCard != null && !a.ReadonlyCard.Type.IsCardCategory(CardCategory.Tool)) return false; return a.Targets.Count > 1; },
                 OnPlayerIsCardTarget,
                 TriggerCondition.OwnerIsTarget
             );
