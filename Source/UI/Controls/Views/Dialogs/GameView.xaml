@@ -96,8 +96,8 @@
         <Border ClipToBounds="True">
             <Image x:Name="tableBg2" Source="{DynamicResource Game.Table.Background}" Margin="0,-213,0,-148" Stretch="Fill" />
         </Border>
-		<local:OutlinedTextBlock Text="剩余牌" HorizontalAlignment="Right" VerticalAlignment="Top" Fill="White" Stroke="Orange" FontSize="15" Margin="0,10,55,0"/>
-		<local:OutlinedTextBlock x:Name="numRemainingCard" FontFamily="{StaticResource Fonts.STLiTi}" Text="160" HorizontalAlignment="Right" VerticalAlignment="Top" Fill="White" Stroke="Orange" FontSize="35" FontWeight="Bold" Margin="0,0,5,0"/>
+        <local:OutlinedTextBlock Text="剩余牌" HorizontalAlignment="Right" VerticalAlignment="Top" Fill="White" Stroke="Orange" FontSize="15" Margin="0,10,55,0"/>
+        <local:OutlinedTextBlock x:Name="numRemainingCard" FontFamily="{StaticResource Fonts.STLiTi}" Text="160" HorizontalAlignment="Right" VerticalAlignment="Top" Fill="White" Stroke="Orange" FontSize="35" FontWeight="Bold" Margin="0,0,5,0"/>
         <local:NonClipGrid x:Name="gridTable" Margin="0,0,0,30">
             <local:NonClipGrid.ColumnDefinitions>
                 <ColumnDefinition Width="190"/>
@@ -180,18 +180,18 @@
                         <RowDefinition />
                         <RowDefinition Height="10"/>
                     </Grid.RowDefinitions>
-					<ItemsControl HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" ItemsSource="{Binding AvailableRoles}">
-						<ItemsControl.ItemsPanel>
-							<ItemsPanelTemplate>
-								<StackPanel Orientation="Horizontal" />
-							</ItemsPanelTemplate>
-						</ItemsControl.ItemsPanel>
-						<ItemsControl.ItemTemplate>
-							<DataTemplate>
-								<Image Source="{res:ResourceKeyBinding Path=RoleString}" />
-							</DataTemplate>
-						</ItemsControl.ItemTemplate>
-					</ItemsControl>
+                    <ItemsControl HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" ItemsSource="{Binding AvailableRoles}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Image Source="{res:ResourceKeyBinding Path=RoleString}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                     <Image Source="{DynamicResource Game.InfoPanel.Header}" />
                     <Border Grid.Row="1">
                         <Border.Background>
@@ -297,15 +297,15 @@
             </xctk:ChildWindow>
             <xctk:ChildWindow x:Name="gameResultWindow" Caption="战绩" Width="500" WindowStartupLocation="Center" Template="{DynamicResource StoneWindowStyle}">
                 <Grid>
-                	<Grid.RowDefinitions>
-                    	<RowDefinition/>
-                    	<RowDefinition Height="30" />
-					</Grid.RowDefinitions>
-					<local:GameResultBox x:Name="gameResultBox" Grid.Row="0" />
-					<StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal">
-                    	<Button Content="确定" Margin="3,0" Width="45" Height="22" Style="{DynamicResource DefaultButtonStyleBrown}" Click="btnCloseResultBox_Click"/>
-                	</StackPanel>
-				</Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="30" />
+                    </Grid.RowDefinitions>
+                    <local:GameResultBox x:Name="gameResultBox" Grid.Row="0" />
+                    <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal">
+                        <Button Content="确定" Margin="3,0" Width="45" Height="22" Style="{DynamicResource DefaultButtonStyleBrown}" Click="btnCloseResultBox_Click"/>
+                    </StackPanel>
+                </Grid>
             </xctk:ChildWindow>
         </Grid>
         <xctk:BusyIndicator x:Name="busyIndicator" Style="{DynamicResource BusyIndicatorStyle1}" Margin="0" Grid.RowSpan="2" Grid.ColumnSpan="2" d:IsHidden="True" />
