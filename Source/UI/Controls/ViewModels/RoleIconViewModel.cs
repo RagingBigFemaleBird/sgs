@@ -10,6 +10,11 @@ namespace Sanguosha.UI.Controls
     {
         Role _role;
 
+        private void _UpdateRoleString()
+        {
+            RoleString = string.Format("Role.{0}.{1}", Role.ToString(), _isAlive ? "Alive" : "Dead");
+        }
+
         public Role Role
         {
             get { return _role; }
@@ -17,7 +22,7 @@ namespace Sanguosha.UI.Controls
             {
                 if (_role == value) return;
                 _role = value;
-                RoleString = string.Concat(Role.ToString(), ".", _isAlive ? "Alive" : "Dead");
+                _UpdateRoleString();
             }
         }
 
@@ -30,7 +35,7 @@ namespace Sanguosha.UI.Controls
             {
                 if (_isAlive == value) return;
                 _isAlive = value;
-                RoleString = string.Concat(Role.ToString(), ".", _isAlive ? "Alive" : "Dead");
+                _UpdateRoleString();
             }
         }
 

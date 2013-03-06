@@ -180,6 +180,18 @@
                         <RowDefinition />
                         <RowDefinition Height="10"/>
                     </Grid.RowDefinitions>
+					<ItemsControl HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" ItemsSource="{Binding AvailableRoles}">
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<StackPanel Orientation="Horizontal" />
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<Image Source="{res:ResourceKeyBinding Path=RoleString}" />
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
                     <Image Source="{DynamicResource Game.InfoPanel.Header}" />
                     <Border Grid.Row="1">
                         <Border.Background>
