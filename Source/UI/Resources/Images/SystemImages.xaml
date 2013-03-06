@@ -208,11 +208,24 @@
     <BitmapImage x:Key="Phases.Play.Large">Phases/Large/4.png</BitmapImage>
     <BitmapImage x:Key="Phases.Discard.Large">Phases/Large/5.png</BitmapImage>
     <BitmapImage x:Key="Phases.End.Large">Phases/Large/6.png</BitmapImage>
+    
     <BitmapImage x:Key="Role.Unknown.Facial">Roles/unknown.png</BitmapImage>
     <BitmapImage x:Key="Role.Loyalist.Facial">Roles/loyalist.png</BitmapImage>
     <BitmapImage x:Key="Role.Rebel.Facial">Roles/rebel.png</BitmapImage>
     <BitmapImage x:Key="Role.Defector.Facial">Roles/defector.png</BitmapImage>
     <BitmapImage x:Key="Role.Ruler.Facial">Roles/ruler.png</BitmapImage>
+
+    <BitmapImage x:Key="Role.Unknown.Alive">Roles/unknownAlive.png</BitmapImage>
+    <BitmapImage x:Key="Role.Loyalist.Alive">Roles/loyalistAlive.png</BitmapImage>
+    <BitmapImage x:Key="Role.Rebel.Alive">Roles/rebelAlive.png</BitmapImage>
+    <BitmapImage x:Key="Role.Defector.Alive">Roles/defectorAlive.png</BitmapImage>
+    <BitmapImage x:Key="Role.Ruler.Alive">Roles/rulerAlive.png</BitmapImage>
+
+    <BitmapImage x:Key="Role.Unknown.Dead">Roles/unknownAlive.png</BitmapImage>
+    <BitmapImage x:Key="Role.Loyalist.Dead">Roles/loyalistAlive.png</BitmapImage>
+    <BitmapImage x:Key="Role.Rebel.Dead">Roles/rebelAlive.png</BitmapImage>
+    <BitmapImage x:Key="Role.Defector.Dead">Roles/defectorAlive.png</BitmapImage>
+    <BitmapImage x:Key="Role.Ruler.Dead">Roles/rulerAlive.png</BitmapImage>
 
     <BitmapImage x:Key="Role.Loyalist.Icon">Roles/loyalistIcon.png</BitmapImage>
     <BitmapImage x:Key="Role.Rebel.Icon">Roles/rebelIcon.png</BitmapImage>

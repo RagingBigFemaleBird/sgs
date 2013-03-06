@@ -176,7 +176,7 @@
             <Grid x:Name="infoPanelBg">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="103"/>
+                        <RowDefinition Height="82"/>
                         <RowDefinition />
                         <RowDefinition Height="10"/>
                     </Grid.RowDefinitions>
@@ -197,7 +197,7 @@
                     <RowDefinition Height="25" />
                 </Grid.RowDefinitions>
                 <Canvas Width="213" Height="311">
-                    <TabControl x:Name="infoPlanTab" Width="211" Canvas.Top="57.334" Height="255" Background="{x:Null}" BorderBrush="{x:Null}" Margin="3,0">
+                    <TabControl x:Name="infoPlanTab" Width="211" Canvas.Top="35.334" Height="277" Background="{x:Null}" BorderBrush="{x:Null}" Canvas.Left="3">
                         <TabItem Header="牌局" x:Name="tabLogBox" Style="{DynamicResource TabItemStyle}">
                             <Grid Margin="-7,-3,0,0" >
                                 <StackPanel Height="20" Margin="5,0,0,0" VerticalAlignment="Top" Orientation="Horizontal">

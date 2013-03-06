@@ -1208,6 +1208,14 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyDeath(Player p, Player by)
         {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                var role = GameModel.AvailableRoles.FirstOrDefault(r => (r.Role == p.Role) && r.IsAlive);
+                Trace.Assert(role != null);
+                if (role == null) return;
+                role.IsAlive = false;
+            });
+
             if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
@@ -1336,11 +1344,23 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyGameStart()
         {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            { 
+                GameModel.AvailableRoles.Clear();
+                foreach (Role role in GameModel.Game.AvailableRoles)
+                {
+                    RoleIconViewModel roleModel = new RoleIconViewModel();
+                    roleModel.Role = role;
+                    roleModel.IsAlive = true;
+                    GameModel.AvailableRoles.Add(roleModel);
+                }
+            });
+
             if (ViewModelBase.IsDetached) return;
             GameSoundPlayer.PlaySoundEffect(GameSoundLocator.GetSystemSound("GameStart"));
 
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
-            {
+            {                
                 numRemainingCard.Text = Game.CurrentGame.Decks[DeckType.Dealing].Count().ToString();
                 PlayAnimation(new GameStartAnimation());
             });

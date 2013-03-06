@@ -133,6 +133,7 @@ namespace Sanguosha.Core.Games
             cleanupSquad = new CleanupSquad();
             cleanupSquad.Priority = -1;
             PhasesSkipped = new List<TurnPhase>();
+            AvailableRoles = new List<Role>();
         }
 
         public void LoadExpansion(Expansion expansion)
@@ -1545,6 +1546,8 @@ namespace Sanguosha.Core.Games
             CurrentPhaseEventIndex = index;
             CurrentPlayer = player;
         }
+
+        public IEnumerable<Role> AvailableRoles { get; set; }
     }
 }
 

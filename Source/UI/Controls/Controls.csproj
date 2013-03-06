@@ -69,6 +69,7 @@
     <Compile Include="ViewModels\MarkViewModel.cs" />
     <Compile Include="ViewModels\PrivateDeckViewModel.cs" />
     <Compile Include="ViewModels\ReplayControllerViewModel.cs" />
+    <Compile Include="ViewModels\RoleIconViewModel.cs" />
     <Compile Include="ViewModels\RoomViewModel.cs" />
     <Compile Include="ViewModels\SeatViewModel.cs" />
     <Compile Include="ViewModels\WuGuChoiceViewModel.cs" />

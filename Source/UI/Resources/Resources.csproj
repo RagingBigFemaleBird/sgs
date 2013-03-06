@@ -789,6 +789,18 @@
   <ItemGroup>
     <Resource Include="Images\CornerAdorners\1.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Roles\defectorAlive.png" />
+    <Resource Include="Images\Roles\defectorDead.png" />
+    <Resource Include="Images\Roles\loyalistAlive.png" />
+    <Resource Include="Images\Roles\loyalistDead.png" />
+    <Resource Include="Images\Roles\rebelAlive.png" />
+    <Resource Include="Images\Roles\rebelDead.png" />
+    <Resource Include="Images\Roles\rulerAlive.png" />
+    <Resource Include="Images\Roles\rulerDead.png" />
+    <Resource Include="Images\Roles\unknownAlive.png" />
+    <Resource Include="Images\Roles\unknownDead.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if not exist $(TargetDir)\Resources\Texts mkdir  $(TargetDir)\Resources\Texts

@@ -26,12 +26,19 @@ namespace Sanguosha.UI.Controls
         public GameViewModel()
         {
             PlayerModels = new ObservableCollection<PlayerViewModel>();
+            AvailableRoles = new ObservableCollection<RoleIconViewModel>();
         }
 
         public ObservableCollection<PlayerViewModel> PlayerModels
         {
             get;
-            set;
+            private set;
+        }
+
+        public ObservableCollection<RoleIconViewModel> AvailableRoles
+        {
+            get;
+            private set;
         }
 
         public Game Game
