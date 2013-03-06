@@ -173,6 +173,15 @@ namespace Sanguosha.UI.Controls
             deathIcon.Opacity = PlayerModel.IsDead ? 1.0d : 0.0d;
             deathEffect.Strength = PlayerModel.IsDead ? 1.0d : 0.0d;
 
+            // Update impersonate status
+            UpdateImpersonateStatus(true);
+            if (PlayerModel != null &&
+                PlayerModel.Hero2Model != null &&
+                PlayerModel.Hero2Model.Hero != null)
+            {
+                UpdateImpersonateStatus(false);
+            }
+
             // Update cards
             UpdateCards();
         }

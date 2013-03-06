@@ -279,17 +279,14 @@ namespace Sanguosha.UI.Controls
             if (GameModel != null)
             {
                 var model = GameModel;
-                foreach (var playerModel in GameModel.PlayerModels)
-                {
-                    playerModel.Player.Hero = null;
-                    playerModel.Player.Hero2 = null;
-                    playerModel.Player = null;
-                }
                 model.PropertyChanged -= model_PropertyChanged;
                 model.Game.PropertyChanged -= _game_PropertyChanged;
                 foreach (var playerModel in model.PlayerModels)
                 {
                     playerModel.PropertyChanged -= _player_PropertyChanged;
+                    playerModel.Player.Hero = null;
+                    playerModel.Player.Hero2 = null;
+                    playerModel.Player = null;
                 }
                 model.MainPlayerModel.PropertyChanged -= mainPlayer_PropertyChanged;
                 GameModel.Game = null;
