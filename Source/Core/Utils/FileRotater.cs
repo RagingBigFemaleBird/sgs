@@ -80,7 +80,7 @@ namespace Sanguosha.Core.Utils
                 var suspects = from filePath in filePaths
                                where Path.GetFileName(filePath).ToLower().StartsWith(fileName.ToLower()) &&
                                      filePath.ToLower().EndsWith(extension.ToLower())
-                               orderby File.GetCreationTime(filePath)
+                               orderby File.GetLastWriteTime(filePath)
                                select filePath;
                 return Path.GetFullPath(suspects.Last());
             }

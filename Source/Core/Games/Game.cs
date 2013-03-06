@@ -701,6 +701,7 @@ namespace Sanguosha.Core.Games
                 isUiDetached = value;
                 if (notificationProxy == null) return;
                 if (!((lastUiState == 0) ^ (isUiDetached == 0))) return;
+                if (ReplayController != null) return;
                 lastUiState = isUiDetached;
                 if (isUiDetached == 0)
                 {

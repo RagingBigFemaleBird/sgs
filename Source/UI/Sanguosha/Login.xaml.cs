@@ -427,7 +427,14 @@ namespace Sanguosha.UI.Main
                 byte[] bytes = new byte[4];
                 stream.Read(bytes, 0, 4);
                 int length = BitConverter.ToInt32(bytes, 0);
-                stream.Seek(length, SeekOrigin.Current);
+                if (length != 0)
+                {
+                    byte[] msg = new byte[length - 4];
+                    stream.Read(msg, 0, length - 4);
+                    UnicodeEncoding uniEncoding = new UnicodeEncoding();
+                    MessageBox.Show(new String(uniEncoding.GetChars(msg)));
+                    stream.Seek(4, SeekOrigin.Current);
+                }
                 client.StartReplay(stream);
                 game.NetworkClient = client;
             }
