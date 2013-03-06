@@ -66,6 +66,7 @@ namespace Sanguosha.UI.Controls
                     _PropertyChanged = _OnHeroPropertyChanged;
                     _hero.PropertyChanged += _PropertyChanged;
                     _UpdateHeroInfo();
+                    OnPropertyChanged("Hero");
                     OnPropertyChanged("Name");
                     OnPropertyChanged("IsMale");
                     OnPropertyChanged("Allegiance");
