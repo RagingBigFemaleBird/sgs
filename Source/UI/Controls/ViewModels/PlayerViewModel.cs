@@ -1745,10 +1745,14 @@ namespace Sanguosha.UI.Controls
                 }
                 if (options != null && options.IsWuGu)
                 {
-                    Trace.Assert(GameModel.WuGuModel != null);
+                    // Trace.Assert(GameModel.WuGuModel != null);
                     TimeOutSeconds = timeOutSeconds;
-                    GameModel.WuGuModel.IsEnabled = IsPlayable;
-                    GameModel.WuGuModel.Prompt = PromptFormatter.Format(prompt);
+                    // @todo: Fix this to show wugu on reconnection
+                    if (GameModel != null && GameModel.WuGuModel != null)
+                    {
+                        GameModel.WuGuModel.IsEnabled = IsPlayable;
+                        GameModel.WuGuModel.Prompt = PromptFormatter.Format(prompt);
+                    }
                 }
                 else
                 {
