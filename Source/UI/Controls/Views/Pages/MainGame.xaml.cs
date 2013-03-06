@@ -69,6 +69,7 @@ namespace Sanguosha.UI.Controls
         void gameView_OnGameCompleted(object sender, EventArgs e)
         {
             gameView.OnGameCompleted -= gameEndEventHandler;
+            Game.CurrentGameOverride = null;
             var handle = OnNavigateBack;
             if (handle != null)
             {
@@ -260,6 +261,7 @@ namespace Sanguosha.UI.Controls
             {
                 _game.Abort();
             }
+            Game.CurrentGameOverride = null;
             var handle = OnNavigateBack;
             if (handle != null)
             {

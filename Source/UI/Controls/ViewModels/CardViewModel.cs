@@ -196,12 +196,8 @@ namespace Sanguosha.UI.Controls
 
         public HeroViewModel HeroModel
         {
-            get
-            {
-                var heroCard = _uiCard.Type as HeroCardHandler;
-                if (heroCard == null) return null;
-                return new HeroViewModel(heroCard.Hero);
-            }
+            get;
+            set;            
         }
 
         public int AttackRange
@@ -246,8 +242,20 @@ namespace Sanguosha.UI.Controls
                     else if (_uiCard.Id == Card.UnknownRoleId)
                     {
                         _uiCard.Type = new UnknownRoleCardHandler();
-                    }
+                    }           
                 }
+                
+                var heroCard = _uiCard.Type as HeroCardHandler;
+                if (heroCard != null)
+                {
+                    HeroModel = new HeroViewModel(heroCard.Hero);
+                }
+                else
+                {
+                    if (HeroModel != null) HeroModel.Hero = null;
+                    HeroModel = null;
+                }
+
                 if (_card.Log != null)
                 {
                     Footnote = LogFormatter.TranslateCardFootnote(_card.Log);

@@ -119,8 +119,16 @@ namespace Sanguosha.UI.Controls
             {
                 if (_game == value) return;
                 bool changed = (_game == null || _game.GetType() != value.GetType());
+                if (_game != null && _game.Game != null)
+                {
+                    _game.Game.PropertyChanged -= _game_PropertyChanged;
+                }
                 _game = value;
-                _game.Game.PropertyChanged += new PropertyChangedEventHandler(_game_PropertyChanged);
+                if (_game != null && _game.Game != null)
+                {
+                    _game.Game.PropertyChanged += _game_PropertyChanged;
+                }
+                
                 if (changed)
                 {
                     _UpdatePossibleRoles();

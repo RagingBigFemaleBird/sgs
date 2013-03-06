@@ -369,7 +369,11 @@ namespace Sanguosha.Core.Games
             }
             else
             {*/
-                games.Add(Thread.CurrentThread, this);
+                if (!IsClient)
+                {
+                    RegisterCurrentThread();
+                }
+                // games.Add(Thread.CurrentThread, this);
             }
             if (GameServer != null)
             {

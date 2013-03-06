@@ -483,7 +483,7 @@
                 </Grid>
                 <Canvas x:Name="animationCenter1" HorizontalAlignment="Left" Height="16" Margin="63,69,0,0" VerticalAlignment="Top" Width="18" IsHitTestVisible="False"/>
             </Grid>
-            <Grid x:Name="hero2Area" Margin="0.5,2,0,0" HorizontalAlignment="Left" Width="122" Visibility="{Binding Hero2, Converter={StaticResource objectToVisibilityConverter}}">
+            <Grid x:Name="hero2Area" Margin="0.5,2,0,0" HorizontalAlignment="Left" Width="122" Visibility="{Binding Hero2Model.Hero, Converter={StaticResource objectToVisibilityConverter}}">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height="auto" MinHeight="26" />

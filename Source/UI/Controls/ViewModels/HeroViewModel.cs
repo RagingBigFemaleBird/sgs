@@ -56,6 +56,8 @@ namespace Sanguosha.UI.Controls
                 if (_hero == value) return;
                 if (_hero != null)
                 {
+                    // @todo: Memory leak here: HeroCardHandler -> Hero -> HeroViewModel
+                    // Use weakeventmanager instread.
                     _hero.PropertyChanged -= _PropertyChanged;
                 }
                 _hero = value;
