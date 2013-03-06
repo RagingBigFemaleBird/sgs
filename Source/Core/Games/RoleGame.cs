@@ -495,6 +495,7 @@ namespace Sanguosha.Core.Games
                 }
 
                 int numberOfDefectors = 1;
+                if (game.Settings.NumberOfDefectors == 2 && game.Players.Count >= 7) numberOfDefectors = 2;
 
                 // Put the whole deck in the dealing deck
                 game.Decks[DeckType.Dealing] = game.CardSet.GetRange(0, game.CardSet.Count);
