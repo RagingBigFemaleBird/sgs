@@ -565,14 +565,21 @@ namespace Sanguosha.Core.Games
                 Trace.Assert(rebel + loyalist + numberOfDefectors + 1 == game.Players.Count);
                 (game as RoleGame).NumberOfDefectors = numberOfDefectors;
                 (game as RoleGame).NumberOfRebels = rebel;
+                game.AvailableRoles.Add(Role.Ruler);
+                for (int dd = 0; dd < (game as RoleGame).NumberOfDefectors; dd++)
+                {
+                    game.AvailableRoles.Add(Role.Defector);
+                }
 
                 while (rebel-- > 0)
                 {
                     game.Decks[null, RoleDeckType].Add(_FindARoleCard(Role.Rebel));
+                    game.AvailableRoles.Add(Role.Rebel);
                 }
                 while (loyalist-- > 0)
                 {
                     game.Decks[null, RoleDeckType].Add(_FindARoleCard(Role.Loyalist));
+                    game.AvailableRoles.Add(Role.Loyalist);
                 }
 
                 Shuffle(game.Decks[null, RoleDeckType]);
@@ -1026,7 +1033,7 @@ namespace Sanguosha.Core.Games
                     {
                         Game.CurrentGame.Settings.Accounts[idx].Wins++;
                         Game.CurrentGame.Settings.Accounts[idx].Experience += 5;
-                        if (p.Role == Role.Defector) Game.CurrentGame.Settings.Accounts[idx].Experience += 50;
+                        if (p.Role == Role.Defector && Game.CurrentGame.Players.Count > 3) Game.CurrentGame.Settings.Accounts[idx].Experience += 50;
                     }
                     else
                     {

@@ -1547,7 +1547,7 @@ namespace Sanguosha.Core.Games
             CurrentPlayer = player;
         }
 
-        public IEnumerable<Role> AvailableRoles { get; set; }
+        public List<Role> AvailableRoles { get; set; }
     }
 }
 
