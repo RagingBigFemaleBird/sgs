@@ -29,8 +29,11 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
                 {
                     Game.CurrentGame.LoseHealth(p, 1);
                     a.ReadonlyCard[ZhenLieUsed[p]] = 1;
-                    var theCard = Game.CurrentGame.SelectACardFrom(a.Source, p, new CardChoicePrompt("ZhenLie", a.Source), "ZhenLie");
-                    if (theCard != null) Game.CurrentGame.HandleCardDiscard(a.Source, new List<Card>() { theCard });
+                    if (!p.IsDead)
+                    {
+                        var theCard = Game.CurrentGame.SelectACardFrom(a.Source, p, new CardChoicePrompt("ZhenLie", a.Source), "ZhenLie");
+                        if (theCard != null) Game.CurrentGame.HandleCardDiscard(a.Source, new List<Card>() { theCard });
+                    }
                 },
                 TriggerCondition.OwnerIsTarget
             );

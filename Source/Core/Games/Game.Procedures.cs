@@ -588,7 +588,7 @@ namespace Sanguosha.Core.Games
                     }
                 }
                 //如果玩家无法达到弃牌要求 则 摊牌
-                bool status = (canDiscardEquipment ? equipCardCount : 0) + handCardCount - toDiscard >= cannotBeDiscarded;
+                bool status = cannotBeDiscarded == 0 || ((canDiscardEquipment ? equipCardCount : 0) + handCardCount - toDiscard >= cannotBeDiscarded);
                 SyncConfirmationStatus(ref status);
                 if (!status)
                 {
