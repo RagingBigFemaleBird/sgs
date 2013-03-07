@@ -25,18 +25,6 @@ namespace Sanguosha.UI.Main.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
-        public string LastHostName {
-            get {
-                return ((string)(this["LastHostName"]));
-            }
-            set {
-                this["LastHostName"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string LastUserName {
             get {
@@ -56,6 +44,18 @@ namespace Sanguosha.UI.Main.Properties {
             }
             set {
                 this["EnableHardwareAcceleration"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("140.113.246.2")]
+        public string LastHostName {
+            get {
+                return ((string)(this["LastHostName"]));
+            }
+            set {
+                this["LastHostName"] = value;
             }
         }
     }
