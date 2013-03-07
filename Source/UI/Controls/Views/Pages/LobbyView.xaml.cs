@@ -28,16 +28,21 @@ namespace Sanguosha.UI.Controls
         public LobbyView()
         {
             InitializeComponent();
-            chatEventHandler =  new ChatEventHandler(LobbyModel_OnChat);
-            LobbyModel.OnChat += chatEventHandler;
+            LobbyModel.OnChat += LobbyModel_OnChat;
         }
 
-        private ChatEventHandler chatEventHandler;
-
         void LobbyModel_OnChat(string userName, string msg)
-        {            
-            chatBox.Document.Blocks.Add(LogFormatter.RichTranslateChat(string.Empty, userName, msg));
-            chatBox.ScrollToEnd();
+        {
+            Trace.Assert(chatBox != null && chatBox.Document != null);
+            try
+            {
+                chatBox.Document.Blocks.Add(LogFormatter.RichTranslateChat(string.Empty, userName, msg));
+                chatBox.ScrollToEnd();
+            }
+            catch (Exception)
+            {
+                Trace.Assert(false);
+            }
         }
 
         private static LobbyView _instance;
@@ -75,6 +80,9 @@ namespace Sanguosha.UI.Controls
 
             busyIndicator.BusyContent = Resources["Busy.JoinGame"];
             busyIndicator.IsBusy = true;
+
+            LobbyViewModel.Instance.OnChat -= LobbyModel_OnChat;
+            chatBox.Document.Blocks.Clear();
 
             //client.Start(isReplay, FileStream = file.open(...))
             BackgroundWorker worker = new BackgroundWorker();
@@ -134,14 +142,13 @@ namespace Sanguosha.UI.Controls
             worker.RunWorkerCompleted += (o, ea) =>
             {                
                 if ((bool)ea.Result)
-                {
-                    chatBox.Document.Blocks.Clear();
-                    LobbyViewModel.Instance.OnChat -= chatEventHandler;                                             
+                {                   
                     return;
                 }
                 else
                 {
                     busyIndicator.IsBusy = false;
+                    LobbyViewModel.Instance.OnChat += LobbyModel_OnChat;
                     MessageBox.Show("Failed to create connection for " + LobbyModel.GameServerConnectionString);
                     Trace.Assert(false);
                 }
@@ -206,7 +213,7 @@ namespace Sanguosha.UI.Controls
 
         public void Reload()
         {
-            LobbyModel.OnChat += chatEventHandler;
+            LobbyModel.OnChat += LobbyModel_OnChat;
             busyIndicator.IsBusy = false;
             LobbyViewModel.Instance.UpdateRooms();
         }
