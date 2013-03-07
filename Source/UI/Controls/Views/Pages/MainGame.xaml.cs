@@ -125,6 +125,7 @@ namespace Sanguosha.UI.Controls
             if (hasSeed != null)
             {
                 _game.RandomGenerator = new Random((int)hasSeed);
+                _game.IsPanorama = true;
             }
             Game.CurrentGameOverride = _game;
             _game.Settings = NetworkClient.Receive() as GameSettings;

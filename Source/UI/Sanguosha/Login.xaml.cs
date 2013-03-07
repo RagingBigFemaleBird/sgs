@@ -425,10 +425,11 @@ namespace Sanguosha.UI.Main
                 game.OnNavigateBack += game_OnNavigateBack;
                 Stream stream = File.Open(fileName, FileMode.Open);
                 byte[] seed = new byte[4];
-                stream.Seek(-8, SeekOrigin.End);
+                stream.Seek(-12, SeekOrigin.End);
                 stream.Read(seed, 0, 4);
                 if (BitConverter.ToInt32(seed, 0) == 0x7eadbeef)
                 {
+                    stream.Read(seed, 0, 4);
                     stream.Read(seed, 0, 4);
                     game.HasSeed = BitConverter.ToInt32(seed, 0);
                 }

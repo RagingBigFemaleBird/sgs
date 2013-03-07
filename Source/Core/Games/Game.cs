@@ -945,7 +945,7 @@ namespace Sanguosha.Core.Games
                     }
                     card[Card.IsLastHandCard] = isLastHandCard;
 
-                    if (IsClient && (move.To.DeckType == DeckType.Hand && GameClient.SelfId != move.To.Player.Id))
+                    if (IsClient && !IsPanorama && (move.To.DeckType == DeckType.Hand && GameClient.SelfId != move.To.Player.Id))
                     {
                         card.Id = -1;
                     }
@@ -958,6 +958,8 @@ namespace Sanguosha.Core.Games
             }
             GameDelays.Delay(delay);
         }
+
+        public bool IsPanorama { get; set; }
 
         public void MoveCards(CardsMovement move, bool insertBefore = false, GameDelayTypes delay = GameDelayTypes.CardTransfer)
         {
@@ -1266,7 +1268,7 @@ namespace Sanguosha.Core.Games
 
         void _ResetCard(Card card)
         {
-            if (card.Id > 0 && ReplayController == null)
+            if (card.Id > 0 && !IsPanorama)
             {
                 card.Type = (CardHandler)GameEngine.CardSet[card.Id].Type.Clone();
                 card.Suit = GameEngine.CardSet[card.Id].Suit;
