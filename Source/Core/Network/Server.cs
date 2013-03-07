@@ -399,12 +399,13 @@ namespace Sanguosha.Core.Network
             return true;
         }
 
-        //todo: timeout for others, when 0, wait on a minimal timeout (1s)?
+        private static int MaximumDelayInBetweenPacket = 2000;
+
         public Card GetCard(int clientId, int timeOutSeconds)
         {
             object o;
             if (handlers[clientId].disconnected) return null;
-            if (!handlers[clientId].semIn.WaitOne(2000)) return null;
+            if (!handlers[clientId].semIn.WaitOne(MaximumDelayInBetweenPacket)) return null;
             lock (handlers[clientId].queueIn)
             {
                 o = handlers[clientId].queueIn.Dequeue();
@@ -426,7 +427,7 @@ namespace Sanguosha.Core.Network
         {
             object o;
             if (handlers[clientId].disconnected) return null;
-            if (!handlers[clientId].semIn.WaitOne(2000)) return null;
+            if (!handlers[clientId].semIn.WaitOne(MaximumDelayInBetweenPacket)) return null;
             lock (handlers[clientId].queueIn)
             {
                 o = handlers[clientId].queueIn.Dequeue();
@@ -438,7 +439,7 @@ namespace Sanguosha.Core.Network
         {
             object o;
             if (handlers[clientId].disconnected) return null;
-            if (!handlers[clientId].semIn.WaitOne(2000)) return null;
+            if (!handlers[clientId].semIn.WaitOne(MaximumDelayInBetweenPacket)) return null;
             lock (handlers[clientId].queueIn)
             {
                 o = handlers[clientId].queueIn.Dequeue();
@@ -460,7 +461,7 @@ namespace Sanguosha.Core.Network
         {
             object o;
             if (handlers[clientId].disconnected) return null;
-            if (!handlers[clientId].semIn.WaitOne(2000)) return null;
+            if (!handlers[clientId].semIn.WaitOne(MaximumDelayInBetweenPacket)) return null;
             lock (handlers[clientId].queueIn)
             {
                 o = handlers[clientId].queueIn.Dequeue();
