@@ -285,16 +285,17 @@ namespace Sanguosha.Lobby.Server
             return RoomOperationResult.Auth;
         }
 
-        private RoomOperationResult _ExitRoom(LoginToken token)
+        private RoomOperationResult _ExitRoom(LoginToken token, bool forced = false)
         {
             if (loggedInGuidToRoom.ContainsKey(token.TokenString))
             {
                 var room = loggedInGuidToRoom[token.TokenString];
+                if (!loggedInGuidToRoom.ContainsKey(token.TokenString)) return RoomOperationResult.Invalid;
                 foreach (var seat in room.Seats)
                 {
                     if (seat.Account == loggedInGuidToAccount[token.TokenString])
                     {
-                        if (loggedInGuidToRoom[token.TokenString].State == RoomState.Gaming
+                        if (!forced && loggedInGuidToRoom[token.TokenString].State == RoomState.Gaming
                             && gamingInfo.ContainsKey(loggedInGuidToRoom[token.TokenString]) && !gamingInfo[loggedInGuidToRoom[token.TokenString]].isDead[gamingInfo[loggedInGuidToRoom[token.TokenString]].Accounts.IndexOf(seat.Account)])
                         {
                             return RoomOperationResult.Locked;
@@ -538,9 +539,20 @@ namespace Sanguosha.Lobby.Server
                 if (room.Seats[seatNo].State == SeatState.GuestReady || room.Seats[seatNo].State == SeatState.GuestTaken)
                 {
                     var kicked = new LoginToken() { TokenString = loggedInAccountToGuid[room.Seats[seatNo].Account] };
-                    _ExitRoom(kicked);
-                    loggedInGuidToChannel[kicked.TokenString].NotifyKicked();
+                    if (_ExitRoom(kicked, true) == RoomOperationResult.Invalid)
+                    {
+                        //zombie occured
+                        room.Seats[seatNo].State = SeatState.Empty;
+                    }
+                    else
+                    {
+                        loggedInGuidToChannel[kicked.TokenString].NotifyKicked();
+                    }
                     return RoomOperationResult.Success;
+                }
+                else
+                {
+                    room.Seats[seatNo].State = SeatState.Empty;
                 }
                 return RoomOperationResult.Invalid;
             }

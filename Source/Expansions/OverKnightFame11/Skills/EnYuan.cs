@@ -70,7 +70,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
         bool EnVerifier(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             enSources.Clear();
-            var result = from card in eventArgs.Cards where CardOriginalOwnerCheck(card) && (card.Place.DeckType == DeckType.Hand || card.Place.DeckType == DeckType.Equipment) && card.Place.Player != Owner select card;
+            var result = from card in eventArgs.Cards where CardOriginalOwnerCheck(card) && (card.Place.DeckType == DeckType.Hand || card.Place.DeckType == DeckType.Equipment) && card.Place.Player == Owner select card;
             if (result.Count() == 0)
             {
                 return false;
