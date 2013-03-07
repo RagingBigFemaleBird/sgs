@@ -47,8 +47,7 @@ namespace Sanguosha.UI.Controls
             CancelAnswerCommand = DisabledCommand;
             AbortAnswerCommand = DisabledCommand;
 
-            _possibleRoles = new ObservableCollection<Role>();
-            _updateCardUsageStatusHandler = (o, e) => { _UpdateCardUsageStatus(); };
+            _possibleRoles = new ObservableCollection<Role>();            
             _onSkillCommandSelectedHandler = _OnSkillCommandSelected;
             IsCardChoiceQuestionShown = false;
 
@@ -1062,26 +1061,26 @@ namespace Sanguosha.UI.Controls
         {
             foreach (var equipCommand in EquipCommands)
             {
-                equipCommand.OnSelectedChanged -= _updateCardUsageStatusHandler;
+                equipCommand.OnSelectedChanged -= _OnCardUsageSelectionChanged;
                 equipCommand.IsSelectionMode = false;
             }
 
             foreach (var skillCommand in ActiveSkillCommands)
             {
-                skillCommand.IsSelected = false;
                 skillCommand.OnSelectedChanged -= _onSkillCommandSelectedHandler;
+                skillCommand.IsSelected = false;                
                 skillCommand.IsEnabled = false;
             }
 
             foreach (CardViewModel card in HandCards)
             {
-                card.OnSelectedChanged -= _updateCardUsageStatusHandler;
+                card.OnSelectedChanged -= _OnCardUsageSelectionChanged;
                 card.IsSelectionMode = false;
             }
 
             foreach (var playerModel in _game.PlayerModels)
             {
-                playerModel.OnSelectedChanged -= _updateCardUsageStatusHandler;
+                playerModel.OnSelectedChanged -= _OnCardUsageSelectionChanged;
                 playerModel.IsSelectionMode = false;
             }
             _lastSelectedPlayers.Clear();
@@ -1103,6 +1102,12 @@ namespace Sanguosha.UI.Controls
 
         SkillCommand _lastSelectedCommand;
         bool _cleaningUp;
+
+        private void _OnCardUsageSelectionChanged(object sender, EventArgs args)
+        {
+            _UpdateCardUsageStatus();
+        }
+
         private void _OnSkillCommandSelected(object sender, EventArgs args)
         {
             var skill = sender as SkillCommand;
@@ -1157,23 +1162,22 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        private bool _updateCardUsageRecurvieLock;
+
         private void _UpdateCardUsageStatus()
         {
-            if (currentUsageVerifier == null)
+            if (_updateCardUsageRecurvieLock || currentUsageVerifier == null)
             {
                 return;
             }
+
+            _updateCardUsageRecurvieLock = true;
 
             List<Card> cards = _GetSelectedNonEquipCards();
             List<Player> players = _GetSelectedPlayers();
             ISkill skill = null;
             bool isEquipCommand;
             SkillCommand command = _GetSelectedSkillCommand(out isEquipCommand);
-
-            if (currentUsageVerifier == null)
-            {
-                return;
-            }
 
             if (currentUsageVerifier.Helper.IsActionStage)
             {
@@ -1249,6 +1253,7 @@ namespace Sanguosha.UI.Controls
                     {
                         if (helper.OtherDecksUsed.Count != 1)
                         {
+                            _updateCardUsageRecurvieLock = false;
                             throw new NotImplementedException("Currently using more than one private decks is not supported");
                         }
                         var deck = helper.OtherDecksUsed[0];
@@ -1261,13 +1266,13 @@ namespace Sanguosha.UI.Controls
                                 foreach (var card in CurrentPrivateDeck.Cards)
                                 {
                                     card.IsSelectionMode = false;
-                                    card.OnSelectedChanged -= _updateCardUsageStatusHandler;
+                                    card.OnSelectedChanged -= _OnCardUsageSelectionChanged;
                                 }
                             }
                             foreach (var card in deckModel.Cards)
                             {
                                 card.IsSelectionMode = true;
-                                card.OnSelectedChanged += _updateCardUsageStatusHandler;
+                                card.OnSelectedChanged += _OnCardUsageSelectionChanged;
                             }
                             CurrentPrivateDeck = deckModel;
                         }
@@ -1411,6 +1416,8 @@ namespace Sanguosha.UI.Controls
                 }
                 i++;
             }
+
+            _updateCardUsageRecurvieLock = false;
         }
 
         private void _AbortCardChoice()
@@ -1431,9 +1438,6 @@ namespace Sanguosha.UI.Controls
             CurrentPrompt = null;
             _currentMultiChoices = null;
         }
-
-        private EventHandler _updateCardUsageStatusHandler;
-
 
         #endregion
 
@@ -1495,13 +1499,13 @@ namespace Sanguosha.UI.Controls
                                 foreach (var card in CurrentPrivateDeck.Cards)
                                 {
                                     card.IsSelectionMode = false;
-                                    card.OnSelectedChanged -= _updateCardUsageStatusHandler;
+                                    card.OnSelectedChanged -= _OnCardUsageSelectionChanged;
                                 }
                             }
                             foreach (var card in deckModel.Cards)
                             {
                                 card.IsSelectionMode = IsPlayable;
-                                card.OnSelectedChanged += _updateCardUsageStatusHandler;
+                                card.OnSelectedChanged += _OnCardUsageSelectionChanged;
                             }
                             CurrentPrivateDeck = deckModel;
                         }
@@ -1517,21 +1521,21 @@ namespace Sanguosha.UI.Controls
 
                 foreach (var equipCommand in EquipCommands)
                 {
-                    equipCommand.OnSelectedChanged += _updateCardUsageStatusHandler;
+                    equipCommand.OnSelectedChanged += _OnCardUsageSelectionChanged;
                     equipCommand.IsSelectionMode = true;
                 }
 
                 foreach (var card in HandCards)
                 {
                     card.IsSelectionMode = true;
-                    card.OnSelectedChanged += _updateCardUsageStatusHandler;
+                    card.OnSelectedChanged += _OnCardUsageSelectionChanged;
                 }
 
                 foreach (var playerModel in _game.PlayerModels)
                 {
                     playerModel.IsSelectionMode = true;
                     playerModel.IsSelectionRepeatable = verifier.Helper.IsPlayerRepeatable;
-                    playerModel.OnSelectedChanged += _updateCardUsageStatusHandler;
+                    playerModel.OnSelectedChanged += _OnCardUsageSelectionChanged;
                 }
 
                 foreach (var skillCommand in ActiveSkillCommands)
