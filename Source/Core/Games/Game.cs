@@ -428,7 +428,7 @@ namespace Sanguosha.Core.Games
             foreach (var card in OriginalCardSet)
             {
                 //you are client. everything is unknown
-                if (IsClient && RandomGenerator == null)
+                if (IsClient && !IsPanorama)
                 {
                     unknownCard = new Card();
                     unknownCard.Id = Card.UnknownCardId;

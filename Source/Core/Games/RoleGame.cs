@@ -14,6 +14,7 @@ using Sanguosha.Core.Heroes;
 using System.Threading;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Utils;
+using Sanguosha.Lobby.Core;
 
 namespace Sanguosha.Core.Games
 {
@@ -506,7 +507,7 @@ namespace Sanguosha.Core.Games
                     {
                         game.Decks[DeckType.Dealing].Remove(card);
                         bool isSPHero = false;
-                        if (!game.IsClient || game.RandomGenerator != null) isSPHero = (card.Type as HeroCardHandler).Hero.IsSpecialHero;
+                        if (!game.IsClient || game.IsPanorama) isSPHero = (card.Type as HeroCardHandler).Hero.IsSpecialHero;
                         else isSPHero = card.Id == Card.UnknownSPHeroId;
                         if (isSPHero)
                         {
@@ -1084,7 +1085,7 @@ namespace Sanguosha.Core.Games
                         TallyGameResult(new List<Player>(winners));
                     }
                     p.IsDead = true;
-                    int mark = 0x7eadbeef;
+                    int mark = Misc.MagicAnimal;
                     Game.CurrentGame.SyncInteger(ref mark);
                     int seed = Game.CurrentGame.Seed;
                     Game.CurrentGame.SyncInteger(ref seed);

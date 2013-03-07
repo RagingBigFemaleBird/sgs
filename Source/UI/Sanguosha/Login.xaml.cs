@@ -427,7 +427,7 @@ namespace Sanguosha.UI.Main
                 byte[] seed = new byte[4];
                 stream.Seek(-12, SeekOrigin.End);
                 stream.Read(seed, 0, 4);
-                if (BitConverter.ToInt32(seed, 0) == 0x7eadbeef)
+                if (BitConverter.ToInt32(seed, 0) == Misc.MagicAnimal)
                 {
                     stream.Read(seed, 0, 4);
                     stream.Read(seed, 0, 4);

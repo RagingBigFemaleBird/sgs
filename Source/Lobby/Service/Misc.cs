@@ -11,5 +11,6 @@ namespace Sanguosha.Lobby.Core
         public static int MaxChatLength = 160;
         public static int MaxBugReportSize = 2097152;
         public static int MaxBugMessgeSize = 1000;
+        public static int MagicAnimal = 0x7eadbeef;
     }
 }
