@@ -185,7 +185,7 @@
                         <Border.Background>
                             <ImageBrush ImageSource="{DynamicResource Game.InfoPanel.Body}" Stretch="Fill"/>
                         </Border.Background>
-                        <Image Source="{DynamicResource Game.InfoPanel.Splitter}" VerticalAlignment="Top" Margin="2,205,2,0"/>
+                        <Image Source="{DynamicResource Game.InfoPanel.Splitter}" VerticalAlignment="Top" Margin="2,226,2,0"/>
                     </Border>
                     <Image Source="{DynamicResource Game.InfoPanel.Footer}" Grid.Row="2"/>
 					<ItemsControl HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,8,0,0" ItemsSource="{Binding AvailableRoles}" Height="19">
