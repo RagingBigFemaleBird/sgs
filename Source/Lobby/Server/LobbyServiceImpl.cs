@@ -665,7 +665,8 @@ namespace Sanguosha.Lobby.Server
             if (s == null) return;
             try
             {
-                Stream file = FileRotator.CreateFile("./Reports", "crashdmp", ".rpt", 1000);                                                
+                Stream file = FileRotator.CreateFile("./Reports", "crashdmp", ".rpt", 1000);
+               
                 if (s != null)
                 {
                     s.CopyTo(file);

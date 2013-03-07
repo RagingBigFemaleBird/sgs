@@ -86,8 +86,8 @@ namespace Sanguosha.UI.Controls
                     ea.Result = false;
                     client.Start(null, LobbyModel.LoginToken);
                     var stream = FileRotator.CreateFile("./Replays", "SGSREPLAY", ".sgs", 10);
-                    byte[] zeroBytes = { 0, 0, 0, 0 };
-                    stream.Write(zeroBytes, 0, 4);
+                    
+                    stream.Write(BitConverter.GetBytes((int)0), 0, 4);
                     client.RecordStream = stream;
                     
                     MainGame game = null;

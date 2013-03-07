@@ -429,11 +429,10 @@ namespace Sanguosha.UI.Main
                 int length = BitConverter.ToInt32(bytes, 0);
                 if (length != 0)
                 {
-                    byte[] msg = new byte[length - 4];
-                    stream.Read(msg, 0, length - 4);
+                    byte[] msg = new byte[length];
+                    stream.Read(msg, 0, length);
                     UnicodeEncoding uniEncoding = new UnicodeEncoding();
                     MessageBox.Show(new String(uniEncoding.GetChars(msg)));
-                    stream.Seek(4, SeekOrigin.Current);
                 }
                 client.StartReplay(stream);
                 game.NetworkClient = client;
@@ -551,14 +550,27 @@ namespace Sanguosha.UI.Main
             UnicodeEncoding uniEncoding = new UnicodeEncoding();
             if (s != null && s.Length > Misc.MaxBugReportSize) s = null;
             byte[] messageBytes = uniEncoding.GetBytes(message);
-            byte[] intBytes = BitConverter.GetBytes(messageBytes.Length + 4);
+            byte[] intBytes = BitConverter.GetBytes(messageBytes.Length);
             upload.Write(intBytes, 0, intBytes.Length);
             upload.Write(messageBytes, 0, messageBytes.Length);
             if (s != null)
             {
-                s.CopyTo(upload);
-                s.Flush();
+                try
+                {
+                    byte[] bytes = new byte[4];
+                    s.Read(bytes, 0, 4);
+                    int length = BitConverter.ToInt32(bytes, 0);
+                    s.Seek(length, SeekOrigin.Current);                    
+                    
+                    s.CopyTo(upload);
+                    s.Flush();
+                }
+                catch (Exception)
+                {
+                    s = null;
+                }
             }
+
             upload.Flush();
             upload.Seek(0, SeekOrigin.Begin);
             service.SubmitBugReport(upload);

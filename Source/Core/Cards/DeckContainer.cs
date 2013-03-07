@@ -96,7 +96,9 @@ namespace Sanguosha.Core.Cards
             Trace.Assert(player != null);
             if (!GameDecks.Keys.Contains(player)) return list;
 
-            var result = from kvp in GameDecks[player] where kvp.Key is PrivateDeckType select kvp.Key;
+            var result = from kvp in GameDecks[player] 
+                         where kvp.Key is PrivateDeckType && GameDecks[player][kvp.Key].Count > 0
+                         select kvp.Key;
             list.AddRange(result);
             return list;
         }
