@@ -487,15 +487,14 @@ namespace Sanguosha.Core.Games
 
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                Game game = Game.CurrentGame;
+                RoleGame game = Game.CurrentGame as RoleGame;
 
                 foreach (Player pp in game.Players)
                 {
                     game.HandCardVisibility.Add(pp, new List<Player>() { pp });
                 }
 
-                int numberOfDefectors = 1;
-                if (game.Settings.NumberOfDefectors == 2 && game.Players.Count >= 7) numberOfDefectors = 2;
+                int numberOfDefectors = (game.Players.Count > 2 ? game.Settings.NumberOfDefectors : 1);
 
                 // Put the whole deck in the dealing deck
                 game.Decks[DeckType.Dealing] = game.CardSet.GetRange(0, game.CardSet.Count);
@@ -564,10 +563,11 @@ namespace Sanguosha.Core.Games
                 }
 
                 Trace.Assert(rebel + loyalist + numberOfDefectors + 1 == game.Players.Count);
-                (game as RoleGame).NumberOfDefectors = numberOfDefectors;
-                (game as RoleGame).NumberOfRebels = rebel;
+                game.NumberOfDefectors = numberOfDefectors;
+                game.NumberOfRebels = rebel;
                 game.AvailableRoles.Add(Role.Ruler);
-                for (int dd = 0; dd < (game as RoleGame).NumberOfDefectors; dd++)
+                
+                for (int dd = 0; dd < game.NumberOfDefectors; dd++)
                 {
                     game.AvailableRoles.Add(Role.Defector);
                 }
@@ -1102,13 +1102,13 @@ namespace Sanguosha.Core.Games
                 {
                     int deadRebel = 0;
                     int deadDefector = 0;
-                    foreach (Player z in Game.CurrentGame.Players)
+                    foreach (Player player in Game.CurrentGame.Players)
                     {
-                        if (z.Role == Role.Rebel && (z.IsDead || z == p))
+                        if (player.Role == Role.Rebel && (player.IsDead || player == p))
                         {
                             deadRebel++;
                         }
-                        if (z.Role == Role.Defector && (z.IsDead || z == p))
+                        if (player.Role == Role.Defector && (player.IsDead || player == p))
                         {
                             deadDefector++;
                         }
