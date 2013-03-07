@@ -635,7 +635,7 @@ namespace Sanguosha.Core.Games
                             result3 = 1;
                             break;
                         }
-                        p = game.NextAlivePlayer(p);
+                        p = game.NextPlayer(p);
                     } while (p != game.CurrentPlayer);
 
                 }
