@@ -342,6 +342,24 @@ namespace Sanguosha.Core.Games
             }
         }
 
+        public void SyncInteger(ref int value)
+        {
+            if (GameServer != null)
+            {
+                for (int i = 0; i < GameServer.MaxClients; i++)
+                {
+                    GameServer.SendObject(i, value);
+                    GameServer.Flush(i);
+                }
+            }
+            else if (GameClient != null)
+            {
+                object o = GameClient.Receive();
+                Trace.Assert(o is int);
+                value = (int)o;
+            }
+        }
+
         public bool IsClient
         {
             get
@@ -410,7 +428,7 @@ namespace Sanguosha.Core.Games
             foreach (var card in OriginalCardSet)
             {
                 //you are client. everything is unknown
-                if (IsClient)
+                if (IsClient && RandomGenerator == null)
                 {
                     unknownCard = new Card();
                     unknownCard.Id = Card.UnknownCardId;
@@ -1248,7 +1266,7 @@ namespace Sanguosha.Core.Games
 
         void _ResetCard(Card card)
         {
-            if (card.Id > 0)
+            if (card.Id > 0 && ReplayController == null)
             {
                 card.Type = (CardHandler)GameEngine.CardSet[card.Id].Type.Clone();
                 card.Suit = GameEngine.CardSet[card.Id].Suit;
@@ -1548,6 +1566,22 @@ namespace Sanguosha.Core.Games
         }
 
         public List<Role> AvailableRoles { get; set; }
+        public int Seed { get; set; }
+        public Random RandomGenerator { get; set; }
+
+        public void Shuffle(IList<Card> list)
+        {
+            Random rng = Game.CurrentGame.RandomGenerator;
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                Card value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+        }
     }
 }
 

@@ -424,6 +424,16 @@ namespace Sanguosha.UI.Main
                 game = new MainGame();
                 game.OnNavigateBack += game_OnNavigateBack;
                 Stream stream = File.Open(fileName, FileMode.Open);
+                byte[] seed = new byte[4];
+                stream.Seek(-8, SeekOrigin.End);
+                stream.Read(seed, 0, 4);
+                if (BitConverter.ToInt32(seed, 0) == 0x7eadbeef)
+                {
+                    stream.Read(seed, 0, 4);
+                    game.HasSeed = BitConverter.ToInt32(seed, 0);
+                }
+                stream.Seek(0, SeekOrigin.Begin);
+
                 byte[] bytes = new byte[4];
                 stream.Read(bytes, 0, 4);
                 int length = BitConverter.ToInt32(bytes, 0);

@@ -97,6 +97,14 @@ namespace Sanguosha.UI.Controls
             set { _networkClient = value; }
         }
 
+        private int? hasSeed;
+
+        public int? HasSeed
+        {
+            get { return hasSeed; }
+            set { hasSeed = value; }
+        }
+
         private void InitGame()
         {
 #if DEBUG
@@ -114,6 +122,10 @@ namespace Sanguosha.UI.Controls
             Trace.WriteLine("Log starting");
 #endif
             _game = new RoleGame();
+            if (hasSeed != null)
+            {
+                _game.RandomGenerator = new Random((int)hasSeed);
+            }
             Game.CurrentGameOverride = _game;
             _game.Settings = NetworkClient.Receive() as GameSettings;
             Trace.Assert(_game.Settings != null);

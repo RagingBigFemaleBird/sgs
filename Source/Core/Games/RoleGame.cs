@@ -506,7 +506,7 @@ namespace Sanguosha.Core.Games
                     {
                         game.Decks[DeckType.Dealing].Remove(card);
                         bool isSPHero = false;
-                        if (!game.IsClient) isSPHero = (card.Type as HeroCardHandler).Hero.IsSpecialHero;
+                        if (!game.IsClient || game.RandomGenerator != null) isSPHero = (card.Type as HeroCardHandler).Hero.IsSpecialHero;
                         else isSPHero = card.Id == Card.UnknownSPHeroId;
                         if (isSPHero)
                         {
@@ -536,8 +536,13 @@ namespace Sanguosha.Core.Games
                 }
                 // Await role decision
                 int seed = DateTime.Now.Millisecond;
+                game.Seed = seed;
                 Trace.TraceError("Seed is {0}", seed);
-                Random random = new Random(seed);
+                if (game.RandomGenerator == null)
+                {
+                    game.RandomGenerator = new Random(seed);
+                    Random random = game.RandomGenerator;
+                }
                 int rulerId = 0;
 
                 game.Decks[null, RoleDeckType].Add(_FindARoleCard(Role.Ruler));
@@ -583,7 +588,7 @@ namespace Sanguosha.Core.Games
                     game.AvailableRoles.Add(Role.Loyalist);
                 }
 
-                Shuffle(game.Decks[null, RoleDeckType]);
+                game.Shuffle(game.Decks[null, RoleDeckType]);
 
                 if (game.IsClient)
                 {
@@ -650,7 +655,7 @@ namespace Sanguosha.Core.Games
                 if (!game.IsClient) GameDelays.Delay(GameDelayTypes.ServerSideCompensation);
 
                 //hero allocation
-                Shuffle(game.Decks[DeckType.Heroes]);
+                game.Shuffle(game.Decks[DeckType.Heroes]);
                 if (!game.IsClient)
                 {
                     foreach (var hero in new List<Card>(game.Decks[DeckType.Heroes]))
@@ -723,7 +728,7 @@ namespace Sanguosha.Core.Games
 
                 int optionalHeros = game.Settings.NumHeroPicks;
                 toDraw = optionalHeros + (Game.CurrentGame.Settings.DualHeroMode ? Math.Max(6 - optionalHeros, 0) : 0);
-                Shuffle(game.Decks[DeckType.Heroes]);
+                game.Shuffle(game.Decks[DeckType.Heroes]);
                 Dictionary<Player, List<Card>> restDraw = new Dictionary<Player, List<Card>>();
                 List<Player> players = new List<Player>(game.Players);
                 players.Remove(game.Players[rulerId]);
@@ -819,7 +824,7 @@ namespace Sanguosha.Core.Games
                         card.Id = Card.UnknownHeroId;
                     }
                 }
-                Shuffle(game.Decks[DeckType.Heroes]);
+                game.Shuffle(game.Decks[DeckType.Heroes]);
 
                 foreach (var pxy in game.UiProxies)
                 {
@@ -890,7 +895,7 @@ namespace Sanguosha.Core.Games
                     Game.CurrentGame.HandleGodHero(p);
                 }
 
-                Shuffle(game.Decks[null, DeckType.Dealing]);
+                game.Shuffle(game.Decks[null, DeckType.Dealing]);
 
                 Player current = game.CurrentPlayer = game.Players[rulerId];
 
@@ -981,20 +986,6 @@ namespace Sanguosha.Core.Games
 
         public RoleGame()
         {
-        }
-
-        public static void Shuffle(IList<Card> list)
-        {
-            Random rng = new Random();
-            int n = list.Count;
-            while (n > 1)
-            {
-                n--;
-                int k = rng.Next(n + 1);
-                Card value = list[k];
-                list[k] = list[n];
-                list[n] = value;
-            }
         }
 
         private class PlayerIsDead : Trigger
@@ -1093,6 +1084,10 @@ namespace Sanguosha.Core.Games
                         TallyGameResult(new List<Player>(winners));
                     }
                     p.IsDead = true;
+                    int mark = 0x7eadbeef;
+                    Game.CurrentGame.SyncInteger(ref mark);
+                    int seed = Game.CurrentGame.Seed;
+                    Game.CurrentGame.SyncInteger(ref seed);
                     throw new GameOverException();
                 }
 
@@ -1122,6 +1117,10 @@ namespace Sanguosha.Core.Games
                         Game.CurrentGame.NotificationProxy.NotifyGameOver(false, winners.ToList());
                         TallyGameResult(new List<Player>(winners));
                         p.IsDead = true;
+                        int mark = 0x7eadbeef;
+                        Game.CurrentGame.SyncInteger(ref mark);
+                        int seed = Game.CurrentGame.Seed;
+                        Game.CurrentGame.SyncInteger(ref seed);
                         throw new GameOverException();
                     }
                 }
@@ -1221,7 +1220,7 @@ namespace Sanguosha.Core.Games
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                RoleGame.Shuffle(Game.CurrentGame.Decks[null, DeckType.Discard]);
+                Game.CurrentGame.Shuffle(Game.CurrentGame.Decks[null, DeckType.Discard]);
                 foreach (var c in Game.CurrentGame.Decks[null, DeckType.Discard])
                 {
                     if (Game.CurrentGame.IsClient)
