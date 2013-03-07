@@ -404,7 +404,7 @@ namespace Sanguosha.Core.Network
         {
             object o;
             if (handlers[clientId].disconnected) return null;
-            if (!handlers[clientId].semIn.WaitOne()) return null;
+            if (!handlers[clientId].semIn.WaitOne(2000)) return null;
             lock (handlers[clientId].queueIn)
             {
                 o = handlers[clientId].queueIn.Dequeue();
@@ -426,7 +426,7 @@ namespace Sanguosha.Core.Network
         {
             object o;
             if (handlers[clientId].disconnected) return null;
-            if (!handlers[clientId].semIn.WaitOne()) return null;
+            if (!handlers[clientId].semIn.WaitOne(2000)) return null;
             lock (handlers[clientId].queueIn)
             {
                 o = handlers[clientId].queueIn.Dequeue();
@@ -438,7 +438,7 @@ namespace Sanguosha.Core.Network
         {
             object o;
             if (handlers[clientId].disconnected) return null;
-            if (!handlers[clientId].semIn.WaitOne()) return null;
+            if (!handlers[clientId].semIn.WaitOne(2000)) return null;
             lock (handlers[clientId].queueIn)
             {
                 o = handlers[clientId].queueIn.Dequeue();
@@ -460,7 +460,7 @@ namespace Sanguosha.Core.Network
         {
             object o;
             if (handlers[clientId].disconnected) return null;
-            if (!handlers[clientId].semIn.WaitOne()) return null;
+            if (!handlers[clientId].semIn.WaitOne(2000)) return null;
             lock (handlers[clientId].queueIn)
             {
                 o = handlers[clientId].queueIn.Dequeue();
