@@ -24,7 +24,8 @@
 
     <sys:String x:Key="CardUsage.Prompt.LuanWu">请对与你距离最近的一名其他角色使用【杀】或点“取消”失去1点体力</sys:String>
 
-    <sys:String x:Key="CardUsage.Prompt.HaoShi">请将一半的手牌交给手牌数最少的其他角色</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.HaoShi">请将{0}张手牌交给手牌数最少的其他角色</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.HaoShi1">请将{0}张手牌交给{1}</sys:String>
 
     <sys:String x:Key="CardUsage.Prompt.FangZhu">你可以使用技能 放逐</sys:String>
 

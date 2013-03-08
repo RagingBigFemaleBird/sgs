@@ -10,6 +10,7 @@ using Sanguosha.Core.Skills;
 using Sanguosha.Expansions.Battle.Cards;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Games;
+using System.Diagnostics;
 
 namespace Sanguosha.Expansions.Woods.Skills
 {
@@ -20,34 +21,20 @@ namespace Sanguosha.Expansions.Woods.Skills
     {
         public class HaoShiVerifier : CardsAndTargetsVerifier
         {
-            public HaoShiVerifier(int cc)
+            public HaoShiVerifier(int cc, List<Player> targets)
             {
                 MinCards = cc;
                 MaxCards = cc;
                 MinPlayers = 1;
                 MaxPlayers = 1;
                 Helper.NoCardReveal = true;
+                minHCPlayers = targets;
             }
+
+            private List<Player> minHCPlayers;
 
             protected override bool VerifyPlayer(Player source, Player player)
             {
-                var list = new List<Player>(Game.CurrentGame.AlivePlayers);
-                list.Remove(source);
-                int minHC = int.MaxValue;
-                List<Player> minHCPlayers = new List<Player>();
-                foreach (var pl in list)
-                {
-                    int count = Game.CurrentGame.Decks[pl, DeckType.Hand].Count;
-                    if (count < minHC)
-                    {
-                        minHC = count;
-                        minHCPlayers = new List<Player>() { pl };
-                    }
-                    else if (count == minHC)
-                    {
-                        minHCPlayers.Add(pl);
-                    }
-                }
                 return minHCPlayers.Contains(player);
             }
         }
@@ -58,21 +45,36 @@ namespace Sanguosha.Expansions.Woods.Skills
             List<Player> players;
             ISkill skill;
             int halfHC = Game.CurrentGame.Decks[owner, DeckType.Hand].Count / 2;
-            if (!Game.CurrentGame.UiProxies[owner].AskForCardUsage(new CardUsagePrompt("HaoShi"), new HaoShiVerifier(halfHC), out skill, out cards, out players))
+                        
+            int minHC = int.MaxValue;
+            List<Player> minHCPlayers = new List<Player>();
+            var alivePlayers = Game.CurrentGame.AlivePlayers;
+            foreach (var pl in alivePlayers)
+            {
+                if (pl == owner) continue;
+                int count = Game.CurrentGame.Decks[pl, DeckType.Hand].Count;
+                if (count < minHC)
+                {
+                    minHC = count;
+                    minHCPlayers.Clear();
+                    minHCPlayers.Add(pl);
+                }
+                else if (count == minHC)
+                {
+                    minHCPlayers.Add(pl);
+                }
+            }
+
+            Trace.Assert(minHCPlayers.Count > 0);
+            CardUsagePrompt prompt;
+            if (minHCPlayers.Count == 1) prompt = new CardUsagePrompt("HaoShi1", halfHC, minHCPlayers[0]);
+            else prompt = new CardUsagePrompt("HaoShi", halfHC);
+
+            if (!Game.CurrentGame.UiProxies[owner].AskForCardUsage(prompt, new HaoShiVerifier(halfHC, minHCPlayers), out skill, out cards, out players))
             {
                 cards = new List<Card>();
                 cards.AddRange(Game.CurrentGame.Decks[owner, DeckType.Hand].GetRange(0, halfHC));
-                int minHC = int.MaxValue;
-                Player p = null;
-                foreach (var pl in Game.CurrentGame.AlivePlayers)
-                {
-                    int count = Game.CurrentGame.Decks[owner, DeckType.Hand].Count;
-                    if (pl != owner && count < minHC)
-                    {
-                        p = pl;
-                        minHC = count;
-                    }
-                }
+                Player p = minHCPlayers[0];
                 players = new List<Player>() { p };
             }
             Game.CurrentGame.HandleCardTransferToHand(owner, players[0], cards);
