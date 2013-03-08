@@ -105,7 +105,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             }
             public UiHelper Helper
             {
-                get { return new UiHelper() { RevealCards = true }; }
+                get { return new UiHelper() { ShowToAll = true, RevealCards = true }; }
             }
         }
     }

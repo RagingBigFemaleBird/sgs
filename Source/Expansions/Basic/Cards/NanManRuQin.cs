@@ -19,7 +19,7 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         public NanManRuQin()
         {
-            ResponseCardVerifier = new SingleCardUsageVerifier((c) => { return c.Type is Sha; }, false);
+            RequiredCard = new Sha();
         }
 
         protected override string UsagePromptString
@@ -27,9 +27,10 @@ namespace Sanguosha.Expansions.Basic.Cards
             get { return "NanManRuQin"; }
         }
 
-        protected override CardHandler RequiredCard()
+        public override CardHandler RequiredCard
         {
-            return new Sha();
+            get;
+            protected set;
         }
     }
 }

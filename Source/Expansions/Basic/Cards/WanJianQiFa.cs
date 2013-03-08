@@ -19,7 +19,7 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         public WanJianQiFa()
         {
-            ResponseCardVerifier = new SingleCardUsageVerifier((c) => { return c.Type is Shan; }, false);
+            RequiredCard = new Shan();
         }
 
         protected override string UsagePromptString
@@ -27,9 +27,10 @@ namespace Sanguosha.Expansions.Basic.Cards
             get { return "WanJianQiFa"; }
         }
 
-        protected override CardHandler RequiredCard()
+        public override CardHandler RequiredCard
         {
-            return new Shan();
+            get;
+            protected set;
         }
     }
 }

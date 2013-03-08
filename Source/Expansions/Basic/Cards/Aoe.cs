@@ -16,27 +16,18 @@ namespace Sanguosha.Expansions.Basic.Cards
 {
     public abstract class Aoe : CardHandler
     {
-        [NonSerialized]
-        private SingleCardUsageVerifier responseCardVerifier;
-
-        protected SingleCardUsageVerifier ResponseCardVerifier
-        {
-            get { return responseCardVerifier; }
-            set { responseCardVerifier = value; }
-        }
-
         protected abstract string UsagePromptString { get; }
 
         protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)
         {
-            SingleCardUsageVerifier v1 = responseCardVerifier;
+            SingleCardUsageVerifier v1 = new SingleCardUsageVerifier((c) => { return RequiredCard.GetType().IsAssignableFrom(c.Type.GetType()); }, false, RequiredCard);
             List<Player> sourceList = new List<Player>();
             sourceList.Add(source);
             GameEventArgs args = new GameEventArgs();
             args.Source = dest;
             args.Targets = sourceList;
             args.Card = new CompositeCard();
-            args.Card.Type = RequiredCard();
+            args.Card.Type = RequiredCard;
             args.ReadonlyCard = readonlyCard;
             try
             {
@@ -74,7 +65,11 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
         }
 
-        protected abstract CardHandler RequiredCard();
+        public abstract CardHandler RequiredCard 
+        {
+            get;
+            protected set;
+        }
 
         public override List<Player> ActualTargets(Player source, List<Player> dests, ICard card)
         {
