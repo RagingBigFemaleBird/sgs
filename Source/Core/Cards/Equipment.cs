@@ -77,9 +77,7 @@ namespace Sanguosha.Core.Cards
                     Game.CurrentGame.EnterAtomicContext();
                     if (installedBy != null) Game.CurrentGame.PlayerLostCard(installedBy, new List<Card>() { card });
                     if (installedBy != p) Game.CurrentGame.PlayerAcquiredCard(p, new List<Card>() { card });
-                    c.Log.GameAction = GameAction.PlaceIntoDiscard;
-                    c.Log.Source = p;
-                    Game.CurrentGame.PlaceIntoDiscard(p, new List<Card>() { c });
+                    Game.CurrentGame.HandleCardDiscard(p, new List<Card>() { c });
                     Game.CurrentGame.MoveCards(attachMove);
                     Game.CurrentGame.ExitAtomicContext();
                     return;

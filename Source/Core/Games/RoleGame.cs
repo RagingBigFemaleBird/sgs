@@ -1242,7 +1242,7 @@ namespace Sanguosha.Core.Games
                 Game.CurrentGame.Shuffle(Game.CurrentGame.Decks[null, DeckType.Discard]);
                 foreach (var c in Game.CurrentGame.Decks[null, DeckType.Discard])
                 {
-                    if (Game.CurrentGame.IsClient)
+                    if (Game.CurrentGame.IsClient && !Game.CurrentGame.IsPanorama)
                     {
                         c.Id = -1;
                     }

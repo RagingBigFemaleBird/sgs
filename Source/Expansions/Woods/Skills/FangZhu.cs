@@ -47,7 +47,7 @@ namespace Sanguosha.Expansions.Woods.Skills
 
             public IList<CardHandler> AcceptableCardTypes
             {
-                get { throw new NotImplementedException(); }
+                get { return null; }
             }
 
             public VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> players)
