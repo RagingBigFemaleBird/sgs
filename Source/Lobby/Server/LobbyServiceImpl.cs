@@ -260,24 +260,27 @@ namespace Sanguosha.Lobby.Server
                 }
                 if (rooms.ContainsKey(roomId))
                 {
-                    if (rooms[roomId].State == RoomState.Gaming) return RoomOperationResult.Locked;
-                    int seatNo = 0;
-                    foreach (var seat in rooms[roomId].Seats)
+                    lock (rooms[roomId])
                     {
-                        Console.WriteLine("Testing seat {0}", seatNo);
-                        if (seat.Account == null && seat.State == SeatState.Empty)
+                        if (rooms[roomId].State == RoomState.Gaming) return RoomOperationResult.Locked;
+                        int seatNo = 0;
+                        foreach (var seat in rooms[roomId].Seats)
                         {
-                            loggedInGuidToRoom.Add(token.TokenString, rooms[roomId]);
-                            seat.Account = loggedInGuidToAccount[token.TokenString];
-                            seat.State = SeatState.GuestTaken;
-                            NotifyRoomLayoutChanged(roomId);
-                            Console.WriteLine("Seat {0}", seatNo);
-                            room = rooms[roomId]; 
-                            return RoomOperationResult.Success;
+                            Console.WriteLine("Testing seat {0}", seatNo);
+                            if (seat.Account == null && seat.State == SeatState.Empty)
+                            {
+                                loggedInGuidToRoom.Add(token.TokenString, rooms[roomId]);
+                                seat.Account = loggedInGuidToAccount[token.TokenString];
+                                seat.State = SeatState.GuestTaken;
+                                NotifyRoomLayoutChanged(roomId);
+                                Console.WriteLine("Seat {0}", seatNo);
+                                room = rooms[roomId];
+                                return RoomOperationResult.Success;
+                            }
+                            seatNo++;
                         }
-                        seatNo++;
+                        Console.WriteLine("Full");
                     }
-                    Console.WriteLine("Full");
                     return RoomOperationResult.Full;
                 }
             }
@@ -300,31 +303,34 @@ namespace Sanguosha.Lobby.Server
                         {
                             return RoomOperationResult.Locked;
                         }
-                        bool findAnotherHost = false;
-                        if (seat.State == SeatState.Host)
+                        lock (room)
                         {
-                            findAnotherHost = true;
-                        }
-                        seat.Account = null;
-                        seat.State = SeatState.Empty;
-                        loggedInGuidToRoom.Remove(token.TokenString);
-                        if (!room.Seats.Any(state => state.State != SeatState.Empty && state.State != SeatState.Closed))
-                        {
-                            rooms.Remove(room.Id);
-                            return RoomOperationResult.Success;
-                        }
-                        if (findAnotherHost)
-                        {
-                            foreach (var host in room.Seats)
+                            bool findAnotherHost = false;
+                            if (seat.State == SeatState.Host)
                             {
-                                if (host.Account != null)
+                                findAnotherHost = true;
+                            }
+                            seat.Account = null;
+                            seat.State = SeatState.Empty;
+                            loggedInGuidToRoom.Remove(token.TokenString);
+                            if (!room.Seats.Any(state => state.State != SeatState.Empty && state.State != SeatState.Closed))
+                            {
+                                rooms.Remove(room.Id);
+                                return RoomOperationResult.Success;
+                            }
+                            if (findAnotherHost)
+                            {
+                                foreach (var host in room.Seats)
                                 {
-                                    host.State = SeatState.Host;
-                                    break;
+                                    if (host.Account != null)
+                                    {
+                                        host.State = SeatState.Host;
+                                        break;
+                                    }
                                 }
                             }
+                            NotifyRoomLayoutChanged(room.Id);
                         }
-                        NotifyRoomLayoutChanged(room.Id);
                         return RoomOperationResult.Success;
                     }
                 }
@@ -383,25 +389,28 @@ namespace Sanguosha.Lobby.Server
             {
                 if (!loggedInGuidToRoom.ContainsKey(token.TokenString)) { return RoomOperationResult.Locked; }
                 var room = loggedInGuidToRoom[token.TokenString];
-                if (room.State == RoomState.Gaming)
+                lock (room)
                 {
-                    return RoomOperationResult.Locked;
-                }
-                if (newSeat < 0 || newSeat >= room.Seats.Count) return RoomOperationResult.Invalid;
-                var seat = room.Seats[newSeat];
-                if (seat.Account == null && seat.State == SeatState.Empty)
-                {
-                    foreach (var remove in room.Seats)
+                    if (room.State == RoomState.Gaming)
                     {
-                        if (remove.Account == loggedInGuidToAccount[token.TokenString])
+                        return RoomOperationResult.Locked;
+                    }
+                    if (newSeat < 0 || newSeat >= room.Seats.Count) return RoomOperationResult.Invalid;
+                    var seat = room.Seats[newSeat];
+                    if (seat.Account == null && seat.State == SeatState.Empty)
+                    {
+                        foreach (var remove in room.Seats)
                         {
-                            seat.State = remove.State;
-                            seat.Account = remove.Account;
-                            remove.Account = null;
-                            remove.State = SeatState.Empty;
-                            NotifyRoomLayoutChanged(newRoomId);
+                            if (remove.Account == loggedInGuidToAccount[token.TokenString])
+                            {
+                                seat.State = remove.State;
+                                seat.Account = remove.Account;
+                                remove.Account = null;
+                                remove.State = SeatState.Empty;
+                                NotifyRoomLayoutChanged(newRoomId);
 
-                            return RoomOperationResult.Success;
+                                return RoomOperationResult.Success;
+                            }
                         }
                     }
                 }
@@ -454,39 +463,42 @@ namespace Sanguosha.Lobby.Server
                 if (total <= 1) return RoomOperationResult.Invalid;
                 if (initiator == null || initiator.State != SeatState.Host) return RoomOperationResult.Invalid;
                 if (room.Seats.Any(cs => cs.Account != null && cs.State != SeatState.Host && cs.State != SeatState.GuestReady)) return RoomOperationResult.Invalid;
-                room.State = RoomState.Gaming;
-                foreach (var unready in room.Seats)
+                lock (room)
                 {
-                    if (unready.State == SeatState.GuestReady) unready.State = SeatState.GuestTaken;
-                }
-                var gs = new GameSettings() 
-                {
-                    TimeOutSeconds = room.Settings.TimeOutSeconds,
-                    TotalPlayers = total,
-                    CheatEnabled = CheatEnabled,
-                    DualHeroMode = room.Settings.IsDualHeroMode,
-                    NumHeroPicks = room.Settings.NumHeroPicks,
-                    NumberOfDefectors = room.Settings.NumberOfDefectors == 2 ? 2 : 1
-                };
-                var config = new AccountConfiguration();
-                config.AccountIds = new List<LoginToken>();
-                config.Accounts = new List<Account>();
-                config.isDead = new List<bool>();
-                if (gamingInfo.ContainsKey(room)) gamingInfo.Remove(room);
-                gamingInfo.Add(room, config);
-                foreach (var addconfig in room.Seats)
-                {
-                    if (addconfig.Account != null)
+                    room.State = RoomState.Gaming;
+                    foreach (var unready in room.Seats)
                     {
-                        config.AccountIds.Add(new LoginToken() { TokenString = loggedInAccountToGuid[addconfig.Account] });
-                        config.Accounts.Add(addconfig.Account);
-                        config.isDead.Add(false);
+                        if (unready.State == SeatState.GuestReady) unready.State = SeatState.GuestTaken;
                     }
+                    var gs = new GameSettings()
+                    {
+                        TimeOutSeconds = room.Settings.TimeOutSeconds,
+                        TotalPlayers = total,
+                        CheatEnabled = CheatEnabled,
+                        DualHeroMode = room.Settings.IsDualHeroMode,
+                        NumHeroPicks = room.Settings.NumHeroPicks,
+                        NumberOfDefectors = room.Settings.NumberOfDefectors == 2 ? 2 : 1
+                    };
+                    var config = new AccountConfiguration();
+                    config.AccountIds = new List<LoginToken>();
+                    config.Accounts = new List<Account>();
+                    config.isDead = new List<bool>();
+                    if (gamingInfo.ContainsKey(room)) gamingInfo.Remove(room);
+                    gamingInfo.Add(room, config);
+                    foreach (var addconfig in room.Seats)
+                    {
+                        if (addconfig.Account != null)
+                        {
+                            config.AccountIds.Add(new LoginToken() { TokenString = loggedInAccountToGuid[addconfig.Account] });
+                            config.Accounts.Add(addconfig.Account);
+                            config.isDead.Add(false);
+                        }
+                    }
+                    GameService.StartGameService(HostingIp, gs, config, room.Id, _OnGameEnds, out portNumber);
+                    room.IpAddress = HostingIp.ToString();
+                    room.IpPort = portNumber;
+                    _NotifyGameStart(loggedInGuidToRoom[token.TokenString].Id, HostingIp, portNumber);
                 }
-                GameService.StartGameService(HostingIp, gs, config, room.Id, _OnGameEnds, out portNumber);
-                room.IpAddress = HostingIp.ToString();
-                room.IpPort = portNumber;
-                _NotifyGameStart(loggedInGuidToRoom[token.TokenString].Id, HostingIp, portNumber);
                 return RoomOperationResult.Success;
             }
             return RoomOperationResult.Auth;
@@ -503,9 +515,12 @@ namespace Sanguosha.Lobby.Server
                 var room = loggedInGuidToRoom[token.TokenString];
                 var seat = room.Seats.FirstOrDefault(s => s.Account == loggedInGuidToAccount[token.TokenString]);
                 if (seat == null) return RoomOperationResult.Invalid;
-                if (seat.State != SeatState.GuestTaken) return RoomOperationResult.Invalid;
-                seat.State = SeatState.GuestReady;
-                NotifyRoomLayoutChanged(room.Id);
+                lock (room)
+                {
+                    if (seat.State != SeatState.GuestTaken) return RoomOperationResult.Invalid;
+                    seat.State = SeatState.GuestReady;
+                    NotifyRoomLayoutChanged(room.Id);
+                }
                 return RoomOperationResult.Success;
             }
             return RoomOperationResult.Auth;
@@ -519,9 +534,12 @@ namespace Sanguosha.Lobby.Server
                 var room = loggedInGuidToRoom[token.TokenString];
                 var seat = room.Seats.FirstOrDefault(s => s.Account == loggedInGuidToAccount[token.TokenString]);
                 if (seat == null) return RoomOperationResult.Invalid;
-                if (seat.State != SeatState.GuestReady) return RoomOperationResult.Invalid;
-                seat.State = SeatState.GuestTaken;
-                NotifyRoomLayoutChanged(room.Id);
+                lock (room)
+                {
+                    if (seat.State != SeatState.GuestReady) return RoomOperationResult.Invalid;
+                    seat.State = SeatState.GuestTaken;
+                    NotifyRoomLayoutChanged(room.Id);
+                }
                 return RoomOperationResult.Success;
             }
             return RoomOperationResult.Auth;
@@ -536,23 +554,26 @@ namespace Sanguosha.Lobby.Server
                 var seat = room.Seats.FirstOrDefault(s => s.Account == loggedInGuidToAccount[token.TokenString]);
                 if (seat == null) return RoomOperationResult.Invalid;
                 if (seat.State != SeatState.Host) return RoomOperationResult.Invalid;
-                if (room.Seats[seatNo].State == SeatState.GuestReady || room.Seats[seatNo].State == SeatState.GuestTaken)
+                lock (room)
                 {
-                    var kicked = new LoginToken() { TokenString = loggedInAccountToGuid[room.Seats[seatNo].Account] };
-                    if (_ExitRoom(kicked, true) == RoomOperationResult.Invalid)
+                    if (room.Seats[seatNo].State == SeatState.GuestReady || room.Seats[seatNo].State == SeatState.GuestTaken)
                     {
-                        //zombie occured
-                        room.Seats[seatNo].State = SeatState.Empty;
+                        var kicked = new LoginToken() { TokenString = loggedInAccountToGuid[room.Seats[seatNo].Account] };
+                        if (_ExitRoom(kicked, true) == RoomOperationResult.Invalid)
+                        {
+                            //zombie occured
+                            room.Seats[seatNo].State = SeatState.Empty;
+                        }
+                        else
+                        {
+                            loggedInGuidToChannel[kicked.TokenString].NotifyKicked();
+                        }
+                        return RoomOperationResult.Success;
                     }
                     else
                     {
-                        loggedInGuidToChannel[kicked.TokenString].NotifyKicked();
+                        room.Seats[seatNo].State = SeatState.Empty;
                     }
-                    return RoomOperationResult.Success;
-                }
-                else
-                {
-                    room.Seats[seatNo].State = SeatState.Empty;
                 }
                 return RoomOperationResult.Invalid;
             }
@@ -568,9 +589,12 @@ namespace Sanguosha.Lobby.Server
                 var seat = room.Seats.FirstOrDefault(s => s.Account == loggedInGuidToAccount[token.TokenString]);
                 if (seat == null) return RoomOperationResult.Invalid;
                 if (seat.State != SeatState.Host) return RoomOperationResult.Invalid;
-                if (room.Seats[seatNo].State != SeatState.Closed) return RoomOperationResult.Invalid;
-                room.Seats[seatNo].State = SeatState.Empty;
-                NotifyRoomLayoutChanged(room.Id);
+                lock (room)
+                {
+                    if (room.Seats[seatNo].State != SeatState.Closed) return RoomOperationResult.Invalid;
+                    room.Seats[seatNo].State = SeatState.Empty;
+                    NotifyRoomLayoutChanged(room.Id);
+                }
                 return RoomOperationResult.Success;
             }
             return RoomOperationResult.Auth;
@@ -584,9 +608,12 @@ namespace Sanguosha.Lobby.Server
                 var room = loggedInGuidToRoom[token.TokenString];
                 var seat = room.Seats.FirstOrDefault(s => s.Account == loggedInGuidToAccount[token.TokenString]);
                 if (seat == null) return RoomOperationResult.Invalid;
-                if (seat.State != SeatState.Host) return RoomOperationResult.Invalid;
-                if (room.Seats[seatNo].State != SeatState.Empty) return RoomOperationResult.Invalid;
-                room.Seats[seatNo].State = SeatState.Closed;
+                lock (room)
+                {
+                    if (seat.State != SeatState.Host) return RoomOperationResult.Invalid;
+                    if (room.Seats[seatNo].State != SeatState.Empty) return RoomOperationResult.Invalid;
+                    room.Seats[seatNo].State = SeatState.Closed;
+                }
                 NotifyRoomLayoutChanged(room.Id);
             }
             return RoomOperationResult.Auth;
