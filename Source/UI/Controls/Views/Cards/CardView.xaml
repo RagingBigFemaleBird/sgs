@@ -69,15 +69,15 @@
             </Storyboard>
             <Storyboard x:Key="sbSelect">
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="grid">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="-20"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="-20"/>
                 </DoubleAnimationUsingKeyFrames>
             </Storyboard>
             <Storyboard x:Key="sbDeselect">
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="grid">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
                 </DoubleAnimationUsingKeyFrames>
                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="bdHighlight">
-                    <EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="0"/>
+                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
                 </DoubleAnimationUsingKeyFrames>
             </Storyboard>
             <Storyboard x:Key="sbFade">
@@ -188,7 +188,7 @@
         <local:NonClipGrid VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="animationCenter" IsHitTestVisible="False" />
     </Grid>
     <UserControl.ToolTip>
-        <ToolTip x:Name="toolTip" Placement="Top" ContentTemplateSelector="{StaticResource cardToolTipTemplateSelector}"/>
+        <ToolTip x:Name="toolTip" Placement="Top" Visibility="{Binding TypeString, Converter={StaticResource objectToVisibilityConverter}}" ContentTemplateSelector="{StaticResource cardToolTipTemplateSelector}"/>
     </UserControl.ToolTip>
     <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
 </UserControl>

@@ -201,7 +201,7 @@
                 <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnSpectate">
                     <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
                 </ObjectAnimationUsingKeyFrames>
-            </Storyboard>
+            </Storyboard>            
         </ResourceDictionary>
     </local:PlayerViewBase.Resources>
     <local:PlayerViewBase.Triggers>
@@ -263,13 +263,16 @@
                         <RowDefinition Height="27"/>
                         <RowDefinition/>
                         <RowDefinition Height="66"/>
-                    </Grid.RowDefinitions>
+                    </Grid.RowDefinitions>                    
                     <Image x:Name="bg" Margin="0,0,-2,0" Stretch="Fill" Grid.RowSpan="3" Source="{StaticResource PlayerInfoView.Background}" IsHitTestVisible="False" Visibility="{Binding IsFaded, Converter={StaticResource boolToInvisibilityConverter}}" />
                     <Image x:Name="bgFade" Margin="0,0,-2,0" Stretch="Fill" Grid.RowSpan="3" Source="{StaticResource PlayerInfoView.Background.Faded}" Visibility="{Binding IsFaded, Converter={StaticResource boolToVisibilityConverter}}"  IsHitTestVisible="False" />
                     <local:CardStack x:Name="privateCardArea" IsCardConsumer="true" CardAlignment="Center" MaxCardSpacing="30" Grid.RowSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-30,0,0,0"  Height="130" Width="179" IsHitTestVisible="false" />
                     <local:CardStack x:Name="handCardArea" IsCardConsumer="true" CardAlignment="Center" MaxCardSpacing="30" Grid.RowSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="130" Width="279" IsHitTestVisible="false" />
                     <Grid x:Name="heroArea" Margin="5,0,6,0" Grid.Row="1" IsHitTestVisible="True">
-                        <Border CornerRadius="1" ClipToBounds="True" BorderThickness="1" IsHitTestVisible="False">
+                        <Grid.CacheMode>
+                        	<BitmapCache EnableClearType="True" RenderAtScale="2" SnapsToDevicePixels="True" />
+                    	</Grid.CacheMode>
+						<Border CornerRadius="1" ClipToBounds="True" BorderThickness="1" IsHitTestVisible="False">
                             <Border.BorderBrush>
                                 <LinearGradientBrush EndPoint="1,1.8" StartPoint="0,0">
                                     <GradientStop Color="#E5323232" Offset="0"/>
@@ -392,9 +395,32 @@
                                 <local:OutlinedTextBlock Text="{res:ResourceKeyBinding Path=Hero2Model.ImpersonatedSkill, StringFormat=Skill.{0}.Name}" FontSize="21" Fill="White" FontFamily="/Resources;component/Fonts/#LiSu" Margin="5,1" Stroke="Blue" StrokeThickness="3"/>
                             </Grid>
                             <Image Height="30" Margin="20,0,21,7" Source="/Resources;component/Images/Game/saveMe.png" IsHitTestVisible="False" Visibility="{Binding IsDying, Converter={StaticResource boolToVisibilityConverter}}" Stretch="Fill" VerticalAlignment="Bottom"/>
-                            <Border x:Name="fadeMask" Background="#64000000" IsHitTestVisible="False" Visibility="{Binding IsFaded, Converter={StaticResource boolToVisibilityConverter}}" />
                         </Grid>
                     </Grid>
+                    <Border x:Name="fadeMask" Background="#64000000" IsHitTestVisible="False" Opacity="0" Style="{DynamicResource fadeMaskStyle}" Margin="5,0,6,0" Grid.Row="1" >
+                    	<Border.Resources>                            		
+                    		<Style x:Key="fadeMaskStyle" TargetType="{x:Type Border}">
+                    			<Style.Triggers>
+                    				<DataTrigger Binding="{Binding IsFaded}" Value="True">
+                    					<DataTrigger.EnterActions>
+                    						<BeginStoryboard HandoffBehavior="Compose">
+                    							<Storyboard>
+                    								<DoubleAnimation Storyboard.TargetProperty="Opacity" To="1.0" Duration="0:0:0.3" />
+                    							</Storyboard>               						
+                    						</BeginStoryboard>
+                    					</DataTrigger.EnterActions>
+                    					<DataTrigger.ExitActions>
+                    						<BeginStoryboard HandoffBehavior="Compose">
+                    							<Storyboard>
+                    								<DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.0" Duration="0:0:0.3" />
+                    							</Storyboard>               						
+                    						</BeginStoryboard>
+                    					</DataTrigger.ExitActions>
+                    				</DataTrigger>
+                    			</Style.Triggers>
+                    		</Style>
+                    	</Border.Resources>
+                    </Border>
 
                     <!--Image Source="{DynamicResource PlayerInfoView.Decoration.TopLeft}" Width="64" HorizontalAlignment="Left" Margin="-8.75,-5.25,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Visibility="Hidden"/-->
                     <Image x:Name="allegianceMask" IsHitTestVisible="False" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Mask}" HorizontalAlignment="Left" Grid.RowSpan="2" Width="38" Stretch="Fill" Margin="-3,4,0,0" ClipToBounds="True" Height="119" VerticalAlignment="Top"/>

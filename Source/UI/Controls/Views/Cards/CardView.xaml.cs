@@ -231,8 +231,8 @@ namespace Sanguosha.UI.Controls
             if (OffsetOnSelect)
             {
                 CardViewModel model = sender as CardViewModel;
-                if (model.IsSelected) (Resources["sbSelect"] as Storyboard).Begin();
-                else (Resources["sbDeselect"] as Storyboard).Begin();
+                if (model.IsSelected) (Resources["sbSelect"] as Storyboard).Begin(this, HandoffBehavior.Compose);
+                else (Resources["sbDeselect"] as Storyboard).Begin(this, HandoffBehavior.Compose);
             }
         }
 
