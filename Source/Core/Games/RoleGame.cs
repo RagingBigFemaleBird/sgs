@@ -1152,7 +1152,6 @@ namespace Sanguosha.Core.Games
                     move.To = new DeckPlace(null, DeckType.Heroes);
                     move.Helper.IsFakedMove = true;
                     Game.CurrentGame.MoveCards(move);
-                    Game.CurrentGame.Shuffle(heroCards.ToList());
                 }
                 Game.CurrentGame.HandleCardDiscard(p, toDiscarded);
                 var makeACopy = new List<PlayerAttribute>(p.Attributes.Keys);
