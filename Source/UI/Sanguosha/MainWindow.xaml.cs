@@ -27,8 +27,10 @@ namespace Sanguosha.UI.Main
         public MainWindow()
         {            
             InitializeComponent();
+#if !DEBUG
             automaticUpdater.ForceCheckForUpdate();
             automaticUpdater.ReadyToBeInstalled += (o, e) => { automaticUpdater.InstallNow(); };
+#endif
             this.MainFrame.NavigationService.Navigated += NavigationService_Navigated;
         }
 

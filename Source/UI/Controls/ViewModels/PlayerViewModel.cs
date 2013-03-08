@@ -1112,9 +1112,9 @@ namespace Sanguosha.UI.Controls
                 else if (_lastSelectedCard != null && _cardsInSwitchMode.Contains(card))
                 {
                     _lastSelectedCard.OnSelectedChanged -= _OnCardSelected;
-                    _lastSelectedCard.IsSelected = false;
+                    _lastSelectedCard.IsSelected = false;                    
+                    _lastSelectedCard.OnSelectedChanged += _OnCardSelected;
                     _lastSelectedCard = null;
-                    _lastSelectedCard.OnSelectedChanged += _OnCardSelected;                    
                 }
 
                 _lastSelectedCard = card;
