@@ -112,15 +112,13 @@ namespace Sanguosha.UI.Controls
                     deathAnimation.Stop();
                 }
             }
-            else if (e.PropertyName == "IsIronShackled")
-            {
-                if (model.IsIronShackled)
-                {
-                    tieSuoAnimation2.Start();
-                }
-                Uri uri = GameSoundLocator.GetSystemSound("IronShackled");
-                GameSoundPlayer.PlaySoundEffect(uri);
-            }
+        }
+
+        public override void OnIronShackled()
+        {
+            tieSuoAnimation2.Start();
+            Uri uri = GameSoundLocator.GetSystemSound("IronShackled");
+            GameSoundPlayer.PlaySoundEffect(uri);
         }
 
         public override void UpdateImpersonateStatus(bool isPrimaryHero)

@@ -22,6 +22,7 @@ namespace Sanguosha.Expansions.Battle.Cards
         protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard cardr, GameEventArgs inResponseTo)
         {
             dest.IsIronShackled = !dest.IsIronShackled;
+            Game.CurrentGame.NotificationProxy.NotifyIronShackled(dest);
         }
 
         public override void Process(GameEventArgs handlerArgs)

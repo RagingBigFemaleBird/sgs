@@ -1146,6 +1146,15 @@ namespace Sanguosha.UI.Controls
             ViewModelBase.DetachAll();
         }
 
+        public void NotifyIronShackled(Player p)
+        {
+            if (ViewModelBase.IsDetached) return;
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                playersMap[p].OnIronShackled();
+            });
+        }
+
         private ChildWindow _showHandCardsWindow;
 
         public void NotifyShowCardsStart(Player p, List<Card> cards)

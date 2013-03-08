@@ -32,6 +32,7 @@ namespace Sanguosha.Core.UI
         void NotifyImpersonation(Player p, Hero impersonator, Hero impersonatedHero, ISkill acquiredSkill);
         void NotifyWuGuStart(Prompt prompt, DeckPlace place);
         void NotifyWuGuEnd();
+        void NotifyIronShackled(Player p);
         void NotifyPinDianStart(Player from, Player to, ISkill skill);
         void NotifyMultipleCardUsageResponded(Player player);
         void NotifyPinDianEnd(Card c1, Card c2);
@@ -142,6 +143,11 @@ namespace Sanguosha.Core.UI
         }
 
         public void NotifyUiDetached()
+        {
+        }
+
+
+        public void NotifyIronShackled(Player p)
         {
         }
     }

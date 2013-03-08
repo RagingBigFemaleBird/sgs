@@ -98,15 +98,6 @@ namespace Sanguosha.UI.Controls
                     deathAnimation.Stop();
                 }
             }
-            else if (e.PropertyName == "IsIronShackled")
-            {
-                if (model.IsIronShackled)
-                {
-                    tieSuoAnimation2.Start();
-                }
-                Uri uri = GameSoundLocator.GetSystemSound("IronShackled");
-                GameSoundPlayer.PlaySoundEffect(uri);
-            }
         }
 
         public override void UpdateImpersonateStatus(bool isPrimaryHero)
@@ -178,6 +169,13 @@ namespace Sanguosha.UI.Controls
         public override void PlayIronShackleAnimation()
         {
             tieSuoAnimation.Start();
+        }
+
+        public override void OnIronShackled()
+        {
+            tieSuoAnimation2.Start();
+            Uri uri = GameSoundLocator.GetSystemSound("IronShackled");
+            GameSoundPlayer.PlaySoundEffect(uri);
         }
 
         private void mainArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

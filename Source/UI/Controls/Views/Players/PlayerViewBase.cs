@@ -183,6 +183,10 @@ namespace Sanguosha.UI.Controls
         {
         }
 
+        public virtual void OnIronShackled()
+        {
+        }
+
         public virtual void Tremble()
         {
         }
