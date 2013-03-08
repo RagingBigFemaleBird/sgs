@@ -57,7 +57,7 @@ namespace Sanguosha.Expansions.Assassin.Skills
 
         void Run2(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            if ((eventArgs.ReadonlyCard[MouKuiCheck[eventArgs.Targets[0]]] & 1) == 1)
+            if ((eventArgs.ReadonlyCard[MouKuiCheck[eventArgs.Targets[0]]] & 1) == 1 && eventArgs.Targets[0].HandCards().Count() + eventArgs.Targets[0].Equipments().Count() > 0)
             {
                 MouKuiEffect = 1;
                 NotifySkillUse();
