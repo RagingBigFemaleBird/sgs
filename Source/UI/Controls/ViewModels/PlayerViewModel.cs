@@ -1113,11 +1113,15 @@ namespace Sanguosha.UI.Controls
                 {
                     _lastSelectedCard.OnSelectedChanged -= _OnCardSelected;
                     _lastSelectedCard.IsSelected = false;
-                    _lastSelectedCard.OnSelectedChanged += _OnCardSelected;
-                    Trace.Assert(_lastSelectedCard == null);
+                    _lastSelectedCard = null;
+                    _lastSelectedCard.OnSelectedChanged += _OnCardSelected;                    
                 }
 
                 _lastSelectedCard = card;
+            }
+            else
+            {
+                _lastSelectedCard = null;
             }
 
             if (currentUsageVerifier != null)
@@ -1182,7 +1186,7 @@ namespace Sanguosha.UI.Controls
                     }
 
                     _lastSelectedPlayers.Clear();
-                    _lastSelectedCommand = null;
+                    _lastSelectedCommand = null;                    
                 }
             }
 
