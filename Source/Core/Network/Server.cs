@@ -104,10 +104,24 @@ namespace Sanguosha.Core.Network
             Trace.TraceInformation("Listener Started on {0} : {1}", ipAddress.ToString(), IpPort);
             int To = 6000;
             game.Settings.Accounts = new List<Account>();
-            for (int i = 0; i < numberOfGamers; i++)
+            int i;
+            for (i = 0; i < numberOfGamers; i++)
             {
                 handlers[i].game = game;
-                handlers[i].client = listener.AcceptTcpClient();
+                try
+                {
+                    while (!listener.Pending() && To > 0)
+                    {
+                        To -= 200;
+                        Thread.Sleep(200);
+                    }
+                    if (To <= 0) break;
+                    handlers[i].client = listener.AcceptTcpClient();
+                }
+                catch (Exception)
+                {
+                    break;
+                }
                 Trace.TraceInformation("Client connected");
                 handlers[i].stream = handlers[i].client.GetStream();
                 handlers[i].stream.ReadTimeout = To;
@@ -151,6 +165,35 @@ namespace Sanguosha.Core.Network
                 handlers[i].threadClient = new Thread((ParameterizedThreadStart)((o) => 
                 {
                     ClientThread(handlers[(int)o]); 
+                })) { IsBackground = true };
+                handlers[i].threadClient.Start(i);
+            }
+            List<Account> remainingDisconnected = null;
+            if (game.Configuration != null)
+            {
+                remainingDisconnected = new List<Account>(from acc in game.Configuration.Accounts where !game.Settings.Accounts.Contains(acc) select acc);
+            }
+            for (; i < numberOfGamers; i++)
+            {
+                handlers[i].game = game;
+                handlers[i].stream = Stream.Null;
+                if (To >= 2000) To -= 1000;
+                if (game.Configuration != null)
+                {
+                    game.Settings.Accounts.Add(remainingDisconnected.First());
+                    remainingDisconnected.RemoveAt(0);
+                }
+                handlers[i].stream = new RecordTakingOutputStream(handlers[i].stream);
+                handlers[i].sender = new ItemSender(handlers[i].stream);
+                handlers[i].receiver = new ItemReceiver(handlers[i].stream);
+                handlers[i].threadServer = new Thread((ParameterizedThreadStart)((o) =>
+                {
+                    ServerThread(handlers[(int)o]);
+                })) { IsBackground = true };
+                handlers[i].threadServer.Start(i);
+                handlers[i].threadClient = new Thread((ParameterizedThreadStart)((o) =>
+                {
+                    ClientThread(handlers[(int)o]);
                 })) { IsBackground = true };
                 handlers[i].threadClient.Start(i);
             }
