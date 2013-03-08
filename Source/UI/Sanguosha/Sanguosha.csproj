@@ -168,7 +168,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Sanguosha_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AutomaticUpdater\AutomaticUpdaterWPF4.csproj">
@@ -402,7 +401,34 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Expression\Blend\.NETFramework\v4.0\Microsoft.Expression.Blend.WPF.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y $(ProjectDir)\..\..\..\Updates\*.* $(TargetDir)\</PostBuildEvent>
+    <PostBuildEvent>rem copy /Y $(ProjectDir)\..\..\..\Updates\*.* $(TargetDir)\
+del $(TargetDir)\*.xml
+del /q /s $(TargetDir)\en
+rd $(TargetDir)\en
+del /q /s $(TargetDir)\es
+rd $(TargetDir)\es
+del /q /s $(TargetDir)\fr
+rd $(TargetDir)\fr
+del /q /s $(TargetDir)\it
+rd $(TargetDir)\it
+del /q /s $(TargetDir)\ja
+rd $(TargetDir)\ja
+del /q /s $(TargetDir)\ko
+rd $(TargetDir)\ko
+del /q /s $(TargetDir)\replays
+rd $(TargetDir)\replays
+del /q /s $(TargetDir)\zh-Hant
+rd $(TargetDir)\zh-Hant
+del /q /s $(TargetDir)\de
+rd $(TargetDir)\de
+del /q $(TargetDir)\client.wyc
+del / q $(TargetDir)\wyUpdate.exe
+
+
+
+
+
+</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
