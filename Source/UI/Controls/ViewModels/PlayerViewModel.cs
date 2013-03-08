@@ -1086,6 +1086,8 @@ namespace Sanguosha.UI.Controls
             }
             _lastSelectedPlayers.Clear();
             CurrentPrivateDeck = null;
+            _lastSelectedCard = null;
+            _lastSelectedCommand = null;
             SubmitAnswerCommand = DisabledCommand;
             CancelAnswerCommand = DisabledCommand;
             AbortAnswerCommand = DisabledCommand;
