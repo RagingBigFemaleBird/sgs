@@ -1107,21 +1107,23 @@ namespace Sanguosha.UI.Controls
             var card = sender as CardViewModel;
             if (card.IsSelected)
             {
+                /*
                 if (card == _lastSelectedCard)
                 {
                     Trace.Assert(false);
-                }
-                else if (_lastSelectedCard != null && _cardsInSwitchMode.Contains(card))
+                }                
+                else*/
+                if (_lastSelectedCard != null && _cardsInSwitchMode.Contains(card))
                 {
                     _lastSelectedCard.OnSelectedChanged -= _OnCardSelected;
                     _lastSelectedCard.IsSelected = false;                    
                     _lastSelectedCard.OnSelectedChanged += _OnCardSelected;
-                    _lastSelectedCard = null;
+                    // _lastSelectedCard = null;
                 }
 
                 _lastSelectedCard = card;
-            }
-            else
+            }            
+            else if (card == _lastSelectedCard)
             {
                 _lastSelectedCard = null;
             }
@@ -1151,14 +1153,14 @@ namespace Sanguosha.UI.Controls
             {
                 if (skill == _lastSelectedCommand)
                 {
-                    Trace.Assert(skill is GuHuoSkillCommand);
+                    // Trace.Assert(skill is GuHuoSkillCommand);
                 }
                 else if (_lastSelectedCommand != null)
                 {
                     _cleaningUpSkillCommand = true;
                     _lastSelectedCommand.IsSelected = false;
                     _cleaningUpSkillCommand = false;
-                    Trace.Assert(_lastSelectedCommand == null);
+                    // Trace.Assert(_lastSelectedCommand == null);
                 }
 
                 _lastSelectedCommand = skill;
@@ -1270,7 +1272,7 @@ namespace Sanguosha.UI.Controls
 
                     // Handle KuRou, LuanWu
                     if (helper.HasNoConfirmation)
-                    {
+                    {                        
                         SubmitAnswerCommand.Execute(null);
                         _updateCardUsageRecurvieLock = false;
                         return;
