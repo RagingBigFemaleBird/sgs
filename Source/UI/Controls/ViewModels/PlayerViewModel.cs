@@ -1235,6 +1235,7 @@ namespace Sanguosha.UI.Controls
                     if (helper.HasNoConfirmation)
                     {
                         SubmitAnswerCommand.Execute(null);
+                        _updateCardUsageRecurvieLock = false;
                         return;
                     }
 
