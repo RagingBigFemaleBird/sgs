@@ -55,6 +55,7 @@ namespace Sanguosha.UI.Controls
             StatusMarks = new ObservableCollection<MarkViewModel>();
             HandCards = new ObservableCollection<CardViewModel>();
             _lastSelectedPlayers = new List<Player>();
+            _cardsInSwitchMode = new HashSet<CardViewModel>();
         }
 
         public PlayerViewModel(Player player, GameViewModel game)
@@ -1074,7 +1075,7 @@ namespace Sanguosha.UI.Controls
 
             foreach (CardViewModel card in HandCards)
             {
-                card.OnSelectedChanged -= _OnCardUsageSelectionChanged;
+                card.OnSelectedChanged -= _OnCardSelected;
                 card.IsSelectionMode = false;
             }
 
@@ -1098,11 +1099,40 @@ namespace Sanguosha.UI.Controls
             TimeOutSeconds = 0;
         }
 
+        CardViewModel _lastSelectedCard;
+        private void _OnCardSelected(object sender, EventArgs args)
+        {
+            var card = sender as CardViewModel;
+            if (card.IsSelected)
+            {
+                if (card == _lastSelectedCard)
+                {
+                    Trace.Assert(false);
+                }
+                else if (_lastSelectedCard != null && _cardsInSwitchMode.Contains(card))
+                {
+                    _lastSelectedCard.OnSelectedChanged -= _OnCardSelected;
+                    _lastSelectedCard.IsSelected = false;
+                    _lastSelectedCard.OnSelectedChanged += _OnCardSelected;
+                    Trace.Assert(_lastSelectedCard == null);
+                }
+
+                _lastSelectedCard = card;
+            }
+
+            if (currentUsageVerifier != null)
+            {
+                _UpdateCardUsageStatus();
+            }
+        }
+
+
         private EventHandler _onSkillCommandSelectedHandler;
 
         SkillCommand _lastSelectedCommand;
-        bool _cleaningUp;
+        bool _cleaningUpSkillCommand;
 
+        // @todo: divide this function into card/player selection changed.
         private void _OnCardUsageSelectionChanged(object sender, EventArgs args)
         {
             _UpdateCardUsageStatus();
@@ -1119,9 +1149,9 @@ namespace Sanguosha.UI.Controls
                 }
                 else if (_lastSelectedCommand != null)
                 {
-                    _cleaningUp = true;
+                    _cleaningUpSkillCommand = true;
                     _lastSelectedCommand.IsSelected = false;
-                    _cleaningUp = false;
+                    _cleaningUpSkillCommand = false;
                     Trace.Assert(_lastSelectedCommand == null);
                 }
 
@@ -1156,12 +1186,13 @@ namespace Sanguosha.UI.Controls
                 }
             }
 
-            if (!_cleaningUp && currentUsageVerifier != null)
+            if (!_cleaningUpSkillCommand && currentUsageVerifier != null)
             {
                 _UpdateCardUsageStatus();
             }
         }
 
+        private HashSet<CardViewModel> _cardsInSwitchMode;
         private bool _updateCardUsageRecurvieLock;
 
         private void _UpdateCardUsageStatus()
@@ -1267,13 +1298,13 @@ namespace Sanguosha.UI.Controls
                                 foreach (var card in CurrentPrivateDeck.Cards)
                                 {
                                     card.IsSelectionMode = false;
-                                    card.OnSelectedChanged -= _OnCardUsageSelectionChanged;
+                                    card.OnSelectedChanged -= _OnCardSelected;
                                 }
                             }
                             foreach (var card in deckModel.Cards)
                             {
                                 card.IsSelectionMode = true;
-                                card.OnSelectedChanged += _OnCardUsageSelectionChanged;
+                                card.OnSelectedChanged += _OnCardSelected;
                             }
                             CurrentPrivateDeck = deckModel;
                         }
@@ -1335,10 +1366,16 @@ namespace Sanguosha.UI.Controls
 
             if (skill == null || (skill is CardTransformSkill) || (skill is ActiveSkill))
             {
+                // cards to be passed to verifier
                 List<Card> attempt = new List<Card>(cards);
+                // contains cards that doesn't pass the verifier when added to selected cards,
+                // but can pass the verifier if current card selection is rejected.
+                _cardsInSwitchMode.Clear();
+
+                bool allowCardSwitch = (attempt.Count == 1);
 
                 var cardsToTry = CurrentPrivateDeck == null ? HandCards : HandCards.Concat(CurrentPrivateDeck.Cards);
-
+                
                 foreach (var card in cardsToTry)
                 {
                     if (card.IsSelected)
@@ -1347,10 +1384,29 @@ namespace Sanguosha.UI.Controls
                     }
                     attempt.Add(card.Card);
                     bool disabled = (currentUsageVerifier.Verify(HostPlayer, skill, attempt, players) == VerifierResult.Fail);
+                    
+                    if (disabled && allowCardSwitch)
+                    {
+                        if (currentUsageVerifier.Verify(HostPlayer, skill, new List<Card>() { card.Card }, players) != VerifierResult.Fail)
+                        {
+                            disabled = false;
+                            _cardsInSwitchMode.Add(card);
+                        }
+                    }
+                    else
+                    {
+                        allowCardSwitch = false;
+                        foreach (var c in _cardsInSwitchMode)
+                        {
+                            c.IsEnabled = false;
+                        }
+                        _cardsInSwitchMode.Clear();
+                    }
+
                     card.IsEnabled = !disabled;
                     attempt.Remove(card.Card);
                 }
-
+                
                 foreach (var equipCommand in EquipCommands)
                 {
                     bool enabledAsSkill = false;
@@ -1500,13 +1556,13 @@ namespace Sanguosha.UI.Controls
                                 foreach (var card in CurrentPrivateDeck.Cards)
                                 {
                                     card.IsSelectionMode = false;
-                                    card.OnSelectedChanged -= _OnCardUsageSelectionChanged;
+                                    card.OnSelectedChanged -= _OnCardSelected;
                                 }
                             }
                             foreach (var card in deckModel.Cards)
                             {
                                 card.IsSelectionMode = IsPlayable;
-                                card.OnSelectedChanged += _OnCardUsageSelectionChanged;
+                                card.OnSelectedChanged += _OnCardSelected;
                             }
                             CurrentPrivateDeck = deckModel;
                         }
@@ -1529,7 +1585,7 @@ namespace Sanguosha.UI.Controls
                 foreach (var card in HandCards)
                 {
                     card.IsSelectionMode = true;
-                    card.OnSelectedChanged += _OnCardUsageSelectionChanged;
+                    card.OnSelectedChanged += _OnCardSelected;
                 }
 
                 foreach (var playerModel in _game.PlayerModels)
@@ -1546,6 +1602,17 @@ namespace Sanguosha.UI.Controls
                         (skillCommand as GuHuoSkillCommand).GuHuoChoice = null;
                     }
                     skillCommand.OnSelectedChanged += _onSkillCommandSelectedHandler;
+                }
+
+
+                if (verifier.AcceptableCardTypes != null)
+                {
+                    var defaultCard = HandCards.FirstOrDefault(c =>
+                        verifier.Verify(HostPlayer, null, new List<Card>() { c.Card }, new List<Player>()) == VerifierResult.Success);
+                    if (defaultCard != null)
+                    {
+                        defaultCard.IsSelected = true;
+                    }
                 }
 
                 // @todo: update this.

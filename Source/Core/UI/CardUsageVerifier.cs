@@ -111,6 +111,12 @@ namespace Sanguosha.Core.UI
     public interface ICardUsageVerifier
     {
         VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players);
+        
+        /// <summary>
+        /// Gets/sets card types that can possibly be accepted by the verifier. 
+        /// If value is null, any card type may be accepted. If value is empty,
+        /// no card is accepted by the verifier.
+        /// </summary>
         IList<CardHandler> AcceptableCardTypes { get; }
         VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> players);
         UiHelper Helper { get; }

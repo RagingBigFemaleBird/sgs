@@ -32,8 +32,7 @@ namespace Sanguosha.Core.Cards
             Match = m;
             if (handler != null)
             {
-                possibleMatch = new List<CardHandler>();
-                possibleMatch.Add(handler);
+                possibleMatch = new List<CardHandler>() { handler };
             }
             else
             {

@@ -216,7 +216,7 @@ namespace Sanguosha.Core.UI
         {
             if (proxy.HostPlayer.IsDead) return;
             bool found = true;
-            if (verifier.AcceptableCardTypes != null && verifier.AcceptableCardTypes.Count > 0)
+            if (verifier.AcceptableCardTypes != null)
             {
                 found = false;
                 foreach (var sk in proxy.HostPlayer.ActionableSkills)
