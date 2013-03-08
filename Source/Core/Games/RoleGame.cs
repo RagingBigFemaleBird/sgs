@@ -1134,7 +1134,26 @@ namespace Sanguosha.Core.Games
                 toDiscarded.AddRange(p.HandCards());
                 toDiscarded.AddRange(p.Equipments());
                 toDiscarded.AddRange(p.DelayedTools());
-                toDiscarded.AddRange(Game.CurrentGame.Decks.GetPlayerPrivateCards(p));
+                List<Card> privateCards = Game.CurrentGame.Decks.GetPlayerPrivateCards(p);
+                var heroCards = from hc in privateCards where hc.Type.IsCardCategory(CardCategory.Hero) select hc;
+                toDiscarded.AddRange(privateCards.Except(heroCards));
+                if (heroCards.Count() > 0)
+                {
+                    if (Game.CurrentGame.IsClient)
+                    {
+                        foreach (var hc in heroCards)
+                        {
+                            hc.Id = Card.UnknownHeroId;
+                            hc.Type = new UnknownHeroCardHandler();
+                        }
+                    }
+                    CardsMovement move = new CardsMovement();
+                    move.Cards.AddRange(heroCards);
+                    move.To = new DeckPlace(null, DeckType.Heroes);
+                    move.Helper.IsFakedMove = true;
+                    Game.CurrentGame.MoveCards(move);
+                    Game.CurrentGame.Shuffle(heroCards.ToList());
+                }
                 Game.CurrentGame.HandleCardDiscard(p, toDiscarded);
                 var makeACopy = new List<PlayerAttribute>(p.Attributes.Keys);
                 foreach (var kvp in makeACopy)

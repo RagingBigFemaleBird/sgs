@@ -59,9 +59,18 @@ namespace Sanguosha.Core.Skills
                                 if (toDiscard.Any(c => c.Type.IsCardCategory(CardCategory.Hero)))
                                 {
                                     //HuaShenDeck
+                                    if (Game.CurrentGame.IsClient)
+                                    {
+                                        foreach (var hc in toDiscard)
+                                        {
+                                            hc.Id = Card.UnknownHeroId;
+                                            hc.Type = new UnknownHeroCardHandler();
+                                        }
+                                    }
                                     CardsMovement move = new CardsMovement();
                                     move.Cards = toDiscard;
                                     move.To = new DeckPlace(null, DeckType.Heroes);
+                                    move.Helper.IsFakedMove = true;
                                     Game.CurrentGame.MoveCards(move);
                                 }
                                 else

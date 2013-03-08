@@ -33,7 +33,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     sourceList.Add(dest);
                 }
                 IUiProxy ui = Game.CurrentGame.UiProxies[current];
-                SingleCardUsageVerifier v1 = new SingleCardUsageVerifier((c) => { return c.Type is Sha; }, false);
+                SingleCardUsageVerifier v1 = new SingleCardUsageVerifier((c) => { return c.Type is Sha; }, false, new Sha());
                 ISkill skill;
                 List<Player> p;
                 List<Card> cards;
