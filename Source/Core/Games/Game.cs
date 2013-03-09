@@ -14,6 +14,7 @@ using Sanguosha.Core.UI;
 using Sanguosha.Core.Skills;
 using Sanguosha.Lobby.Core;
 using Sanguosha.Core.Utils;
+using System.IO;
 
 
 namespace Sanguosha.Core.Games
@@ -499,19 +500,17 @@ namespace Sanguosha.Core.Games
                     games.Remove(t);
                 }
                 this.NotificationProxy = null;
-#if TRACE
+
                 while (e.InnerException != null)
                 {
                     e = e.InnerException;
                 }
+
                 Trace.TraceError(e.StackTrace);
                 Trace.Assert(false, e.StackTrace);
-#endif
-                var crashReport = FileRotator.CreateFile("./Crash", "crash", ".dmp", 1000);
-                var chars = e.StackTrace.ToString().ToCharArray();
-                UnicodeEncoding uniEncoding = new UnicodeEncoding();
-                var bytes = uniEncoding.GetBytes(chars);
-                crashReport.Write(bytes, 0, bytes.Count());
+ 
+                var crashReport = new StreamWriter(FileRotator.CreateFile("./Crash", "crash", ".dmp", 1000));                
+                crashReport.WriteLine(e.StackTrace);
                 crashReport.Close();
             }
             mainThread = null;
