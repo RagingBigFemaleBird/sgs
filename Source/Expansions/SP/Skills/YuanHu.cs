@@ -108,8 +108,11 @@ namespace Sanguosha.Expansions.SP.Skills
                                 nPlayers = new List<Player>();
                                 nPlayers.Add(result.First());
                             }
-                            var Card = Game.CurrentGame.SelectACardFrom(nPlayers[0], owner, new CardChoicePrompt("YuanHu", nPlayers[0], owner), "YuanHu", false, false);
-                            Game.CurrentGame.HandleCardDiscard(nPlayers[0], new List<Card>() { Card });
+                            if (nPlayers[0].HandCards().Count + nPlayers[0].DelayedTools().Count + nPlayers[0].Equipments().Count > 0)
+                            {
+                                var Card = Game.CurrentGame.SelectACardFrom(nPlayers[0], owner, new CardChoicePrompt("YuanHu", nPlayers[0], owner), "YuanHu", false, false);
+                                Game.CurrentGame.HandleCardDiscard(nPlayers[0], new List<Card>() { Card });
+                            }
                             break;
                         }
                     case CardCategory.Armor:
