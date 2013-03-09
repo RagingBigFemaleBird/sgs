@@ -73,7 +73,7 @@ namespace Sanguosha.UI.Controls
         {
             get
             {
-                return GameModel != null && GameModel.IsPlayable && this == GameModel.MainPlayerModel;
+                return GameModel != null && GameModel.IsPlayable && this == GameModel.MainPlayerModel && Player != null && !Player.IsDead;
             }
         }
 
