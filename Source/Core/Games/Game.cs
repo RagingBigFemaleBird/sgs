@@ -491,8 +491,6 @@ namespace Sanguosha.Core.Games
                 this.NotificationProxy = null;
                 this.uiProxies = null;
             }
-            mainThread = null;
-/*
             catch (Exception e)
             {
                 var keys = new List<Thread>(from t in games.Keys where games[t] == this select t);
@@ -509,8 +507,16 @@ namespace Sanguosha.Core.Games
                 Trace.TraceError(e.StackTrace);
                 Trace.Assert(false, e.StackTrace);
 #endif
+                var crashReport = FileRotator.CreateFile("./Crash", "crash", ".dmp", 1000);
+                var chars = e.StackTrace.ToString().ToCharArray();
+                UnicodeEncoding uniEncoding = new UnicodeEncoding();
+                var bytes = uniEncoding.GetBytes(chars);
+                crashReport.Write(bytes, 0, bytes.Count());
+                crashReport.Close();
             }
-*/
+            mainThread = null;
+
+
             if (GameServer != null)
             {
                 GameServer.Stop();
