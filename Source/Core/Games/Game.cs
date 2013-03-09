@@ -396,7 +396,15 @@ namespace Sanguosha.Core.Games
             }
             if (GameServer != null)
             {
-                GameServer.Start();
+                try
+                {
+                    GameServer.Start();
+                }
+                catch (Exception)
+                {
+                    Trace.Assert(false);
+                    return;
+                }
                 Trace.Assert(Settings != null);
                 for (int i = 0; i < GameServer.MaxClients; i++)
                 {

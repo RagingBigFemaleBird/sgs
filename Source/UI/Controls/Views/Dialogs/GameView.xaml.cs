@@ -126,9 +126,8 @@ namespace Sanguosha.UI.Controls
             {
                 pinDianWindow.Close();
             };
-            mainPlayerPanel.SetAnimationCenter(mainPlayerAnimationCenter);
-            chatEventHandler = new ChatEventHandler(LobbyModel_OnChat);
-            LobbyViewModel.Instance.OnChat += chatEventHandler;
+            mainPlayerPanel.SetAnimationCenter(mainPlayerAnimationCenter);            
+            LobbyViewModel.Instance.OnChat += LobbyModel_OnChat;
         }
 
         Dictionary<KeyValuePair<Player, Player>, Line> _cueLines;
@@ -218,11 +217,10 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        private ChatEventHandler chatEventHandler;
-
         void LobbyModel_OnChat(string userName, string msg)
         {
-            var player = GameModel.PlayerModels.FirstOrDefault(p => p.Account != null && p.Account.UserName == userName);
+            if (GameModel == null || GameModel.PlayerModels == null) return;
+            var player = GameModel.PlayerModels.FirstOrDefault(p => p != null && p.Account != null && p.Account.UserName == userName);
             string heroName = string.Empty;
             if (player != null && player.Hero != null) heroName = LogFormatter.Translate(player.Hero);
             chatBox.Document.Blocks.Add(LogFormatter.RichTranslateChat(heroName, userName, msg));
@@ -274,7 +272,7 @@ namespace Sanguosha.UI.Controls
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            LobbyViewModel.Instance.OnChat -= chatEventHandler;
+            LobbyViewModel.Instance.OnChat -= LobbyModel_OnChat;
             CardView.ClearCache();
             if (GameModel != null)
             {
@@ -1504,7 +1502,7 @@ namespace Sanguosha.UI.Controls
                     PlayAnimation(new LoseAnimation());
                 }
                 else delayWindow = false;
-                LobbyViewModel.Instance.OnChat -= chatEventHandler;
+                LobbyViewModel.Instance.OnChat -= LobbyModel_OnChat;
 
                 ObservableCollection<GameResultViewModel> model = new ObservableCollection<GameResultViewModel>();
                 foreach (Player player in winners.Concat(losers).Concat(drawers))
