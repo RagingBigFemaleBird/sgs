@@ -53,6 +53,8 @@ namespace Sanguosha.Lobby.Server
             loggedInChannelsToGuid = new Dictionary<IGameClient, Guid>();
             loggedInGuidToRoom = new Dictionary<Guid, Room>();
             gamingInfo = new Dictionary<Room, AccountConfiguration>();
+            spectatorToRoom = new Dictionary<Guid, Room>();
+            roomToSpectators = new Dictionary<Room, List<Guid>>();
             newRoomId = 1;
             CheatEnabled = false;
             accounts = new List<Account>();
@@ -169,6 +171,7 @@ namespace Sanguosha.Lobby.Server
                     loggedInGuidToRoom.Remove(token.TokenString);
                 }
             }
+            Unspectate(token);
             return LoginStatus.Success;
         }
 
@@ -285,7 +288,7 @@ namespace Sanguosha.Lobby.Server
                 }
             }
             Console.WriteLine("Rogue enter room calls");
-            return RoomOperationResult.Auth;
+            return RoomOperationResult.InvalidToken;
         }
 
         private RoomOperationResult _ExitRoom(LoginToken token, bool forced = false)
@@ -344,7 +347,7 @@ namespace Sanguosha.Lobby.Server
             {
                 return _ExitRoom(token);
             }
-            return RoomOperationResult.Auth;
+            return RoomOperationResult.InvalidToken;
         }
 
         private void NotifyRoomLayoutChanged(int roomId)
@@ -356,7 +359,13 @@ namespace Sanguosha.Lobby.Server
                     if (notify.Account != null)
                     {
                         var channel = loggedInGuidToChannel[loggedInAccountToGuid[notify.Account]];
-                        channel.NotifyRoomUpdate(rooms[roomId].Id, rooms[roomId]);
+                        try
+                        {
+                            channel.NotifyRoomUpdate(rooms[roomId].Id, rooms[roomId]);
+                        }
+                        catch (Exception)
+                        {
+                        }
                     }
                 }
             }
@@ -407,7 +416,7 @@ namespace Sanguosha.Lobby.Server
                                 seat.Account = remove.Account;
                                 remove.Account = null;
                                 remove.State = SeatState.Empty;
-                                NotifyRoomLayoutChanged(newRoomId);
+                                NotifyRoomLayoutChanged(room.Id);
 
                                 return RoomOperationResult.Success;
                             }
@@ -417,7 +426,7 @@ namespace Sanguosha.Lobby.Server
                 Console.WriteLine("Full");
                 return RoomOperationResult.Full;
             }
-            return RoomOperationResult.Auth;
+            return RoomOperationResult.InvalidToken;
         }
 
         private void _OnGameEnds(int roomId)
@@ -437,6 +446,7 @@ namespace Sanguosha.Lobby.Server
                     {
                         if (seat.Account != null && loggedInGuidToChannel[loggedInAccountToGuid[seat.Account]].Ping())
                         {
+                            if (seat.State != SeatState.Host) seat.State = SeatState.GuestTaken;
                             continue;
                         }
                     }
@@ -468,7 +478,7 @@ namespace Sanguosha.Lobby.Server
                     room.State = RoomState.Gaming;
                     foreach (var unready in room.Seats)
                     {
-                        if (unready.State == SeatState.GuestReady) unready.State = SeatState.GuestTaken;
+                        if (unready.State == SeatState.GuestReady) unready.State = SeatState.Gaming;
                     }
                     var gs = new GameSettings()
                     {
@@ -501,7 +511,7 @@ namespace Sanguosha.Lobby.Server
                 }
                 return RoomOperationResult.Success;
             }
-            return RoomOperationResult.Auth;
+            return RoomOperationResult.InvalidToken;
         }
 
         public bool CheatEnabled { get; set; }
@@ -523,7 +533,7 @@ namespace Sanguosha.Lobby.Server
                 }
                 return RoomOperationResult.Success;
             }
-            return RoomOperationResult.Auth;
+            return RoomOperationResult.InvalidToken;
         }
 
         public RoomOperationResult CancelReady(LoginToken token)
@@ -542,7 +552,7 @@ namespace Sanguosha.Lobby.Server
                 }
                 return RoomOperationResult.Success;
             }
-            return RoomOperationResult.Auth;
+            return RoomOperationResult.InvalidToken;
         }
 
         public RoomOperationResult Kick(LoginToken token, int seatNo)
@@ -577,7 +587,7 @@ namespace Sanguosha.Lobby.Server
                 }
                 return RoomOperationResult.Invalid;
             }
-            return RoomOperationResult.Auth;
+            return RoomOperationResult.InvalidToken;
         }
 
         public RoomOperationResult OpenSeat(LoginToken token, int seatNo)
@@ -597,7 +607,7 @@ namespace Sanguosha.Lobby.Server
                 }
                 return RoomOperationResult.Success;
             }
-            return RoomOperationResult.Auth;
+            return RoomOperationResult.InvalidToken;
         }
 
         public RoomOperationResult CloseSeat(LoginToken token, int seatNo)
@@ -616,9 +626,11 @@ namespace Sanguosha.Lobby.Server
                 }
                 NotifyRoomLayoutChanged(room.Id);
             }
-            return RoomOperationResult.Auth;
+            return RoomOperationResult.InvalidToken;
         }
 
+        Dictionary<Guid, Room> spectatorToRoom;
+        Dictionary<Room, List<Guid>> roomToSpectators;
 
         public RoomOperationResult Chat(LoginToken token, string message)
         {
@@ -642,6 +654,48 @@ namespace Sanguosha.Lobby.Server
                                 }
                             }
                         }
+                        if (roomToSpectators.ContainsKey(loggedInGuidToRoom[token.TokenString]))
+                        {
+                            foreach (var sp in roomToSpectators[loggedInGuidToRoom[token.TokenString]])
+                            {
+                                try
+                                {
+                                    loggedInGuidToChannel[sp].NotifyChat(loggedInGuidToAccount[token.TokenString], message);
+                                }
+                                catch (Exception)
+                                {
+                                }
+                            }
+                        }
+                    }
+                    if (spectatorToRoom.ContainsKey(token.TokenString))
+                    {
+                        foreach (var seat in spectatorToRoom[token.TokenString].Seats)
+                        {
+                            if (seat.Account != null)
+                            {
+                                try
+                                {
+                                    loggedInGuidToChannel[loggedInAccountToGuid[seat.Account]].NotifyChat(loggedInGuidToAccount[token.TokenString], message);
+                                }
+                                catch (Exception)
+                                {
+                                }
+                            }
+                        }
+                        if (roomToSpectators.ContainsKey(spectatorToRoom[token.TokenString]))
+                        {
+                            foreach (var sp in roomToSpectators[spectatorToRoom[token.TokenString]])
+                            {
+                                try
+                                {
+                                    loggedInGuidToChannel[sp].NotifyChat(loggedInGuidToAccount[token.TokenString], message);
+                                }
+                                catch (Exception)
+                                {
+                                }
+                            }
+                        }
                     }
                     /*else
                     {
@@ -656,7 +710,15 @@ namespace Sanguosha.Lobby.Server
                 }
                 return RoomOperationResult.Success;
             }
-            return RoomOperationResult.Auth;
+            return RoomOperationResult.InvalidToken;
+        }
+        private void Unspectate(LoginToken token)
+        {
+            if (spectatorToRoom.ContainsKey(token.TokenString))
+            {
+                roomToSpectators[spectatorToRoom[token.TokenString]].Remove(token.TokenString);
+                spectatorToRoom.Remove(token.TokenString);
+            }
         }
 
 
@@ -667,11 +729,15 @@ namespace Sanguosha.Lobby.Server
                 if (loggedInGuidToRoom.ContainsKey(token.TokenString)) { return RoomOperationResult.Invalid; }
                 var room = rooms[roomId];
                 if (room.State != RoomState.Gaming) return RoomOperationResult.Invalid;
+                Unspectate(token);
+                spectatorToRoom.Add(token.TokenString, room);
+                if (!roomToSpectators.ContainsKey(room)) roomToSpectators.Add(room, new List<Guid>());
+                roomToSpectators[room].Add(token.TokenString); 
                 var channel = loggedInGuidToChannel[token.TokenString];
                 channel.NotifyGameStart(room.IpAddress + ":" + room.IpPort);
                 return RoomOperationResult.Success;
             }
-            return RoomOperationResult.Auth;
+            return RoomOperationResult.InvalidToken;
         }
 
         public static void WipeDatabase()

@@ -30,7 +30,7 @@ namespace Sanguosha.Lobby.Core
         [EnumMember]
         Success = 0,
         [EnumMember]
-        Auth = -1,
+        InvalidToken = -1,
         [EnumMember]
         Full = -2,
         [EnumMember]

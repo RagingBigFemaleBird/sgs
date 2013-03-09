@@ -1070,7 +1070,7 @@ namespace Sanguosha.Core.Games
                 if (p.Role == Role.Ruler)
                 {
                     Trace.TraceInformation("Ruler dead. Game over");
-                    if (Game.CurrentGame.AlivePlayers.Count == 2)
+                    if (Game.CurrentGame.AlivePlayers.Count == 2 && Game.CurrentGame.AlivePlayers.Any(pl => pl.Role == Role.Defector))
                     {
                         RevealAllPlayersRoles();
                         var winners = from pl in Game.CurrentGame.Players where pl.Role == Role.Defector select pl;
