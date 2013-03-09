@@ -188,7 +188,7 @@
         <local:NonClipGrid VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="animationCenter" IsHitTestVisible="False" />
     </Grid>
     <UserControl.ToolTip>
-        <ToolTip x:Name="toolTip" Placement="Top" Visibility="{Binding TypeString, Converter={StaticResource objectToVisibilityConverter}}" ContentTemplateSelector="{StaticResource cardToolTipTemplateSelector}"/>
+        <ToolTip x:Name="toolTip" Placement="Top" Visibility="{Binding IsKnownCard, Mode=OneWay, Converter={StaticResource boolToVisibilityConverter}}" ContentTemplateSelector="{StaticResource cardToolTipTemplateSelector}"/>
     </UserControl.ToolTip>
     <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
 </UserControl>

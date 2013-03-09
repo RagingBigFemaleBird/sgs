@@ -92,6 +92,14 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public bool IsKnownCard
+        {
+            get
+            {
+                return _uiCard != null && _uiCard.Id >= 0;
+            }
+        }
+
         public SuitColorType SuitColor
         {
             get
@@ -267,6 +275,7 @@ namespace Sanguosha.UI.Controls
                 _uiCard = null;
             }
             OnPropertyChanged("Id");
+            OnPropertyChanged("IsKnownCard");
             OnPropertyChanged("Suit");
             OnPropertyChanged("SuitColor");            
             OnPropertyChanged("ActualTypeString");
