@@ -639,38 +639,18 @@ namespace Sanguosha.Lobby.Server
                 if (message.Length > Misc.MaxChatLength) return RoomOperationResult.Invalid;
                 try
                 {
+                    Room room = null;
                     if (loggedInGuidToRoom.ContainsKey(token.TokenString)/* && loggedInGuidToRoom[token.token].State == RoomState.Gaming*/)
                     {
-                        foreach (var seat in loggedInGuidToRoom[token.TokenString].Seats)
-                        {
-                            if (seat.Account != null)
-                            {
-                                try
-                                {
-                                    loggedInGuidToChannel[loggedInAccountToGuid[seat.Account]].NotifyChat(loggedInGuidToAccount[token.TokenString], message);
-                                }
-                                catch (Exception)
-                                {
-                                }
-                            }
-                        }
-                        if (roomToSpectators.ContainsKey(loggedInGuidToRoom[token.TokenString]))
-                        {
-                            foreach (var sp in roomToSpectators[loggedInGuidToRoom[token.TokenString]])
-                            {
-                                try
-                                {
-                                    loggedInGuidToChannel[sp].NotifyChat(loggedInGuidToAccount[token.TokenString], message);
-                                }
-                                catch (Exception)
-                                {
-                                }
-                            }
-                        }
+                        room = loggedInGuidToRoom[token.TokenString];
                     }
-                    if (spectatorToRoom.ContainsKey(token.TokenString))
+                    else if (spectatorToRoom.ContainsKey(token.TokenString))
                     {
-                        foreach (var seat in spectatorToRoom[token.TokenString].Seats)
+                        room = spectatorToRoom[token.TokenString];
+                    }
+                    if (room != null)
+                    {
+                        foreach (var seat in room.Seats)
                         {
                             if (seat.Account != null)
                             {
@@ -683,9 +663,9 @@ namespace Sanguosha.Lobby.Server
                                 }
                             }
                         }
-                        if (roomToSpectators.ContainsKey(spectatorToRoom[token.TokenString]))
+                        if (roomToSpectators.ContainsKey(room))
                         {
-                            foreach (var sp in roomToSpectators[spectatorToRoom[token.TokenString]])
+                            foreach (var sp in roomToSpectators[room])
                             {
                                 try
                                 {
