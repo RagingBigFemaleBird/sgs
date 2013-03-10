@@ -30,7 +30,7 @@ namespace Sanguosha.UI.Controls
 
         private void PlayerCancelReady()        
         {
-            var result = _connection.CancelReady(LoginToken);
+            var result = _connection.CancelReady();
             if (result == RoomOperationResult.Success)
             {
             }
@@ -38,7 +38,7 @@ namespace Sanguosha.UI.Controls
 
         private void PlayerReady()
         {
-            var result = _connection.Ready(LoginToken);
+            var result = _connection.Ready();
             if (result == RoomOperationResult.Success)
             {                
             }
@@ -226,7 +226,7 @@ namespace Sanguosha.UI.Controls
         /// </summary>
         public void UpdateRooms()
         {
-            var result = _connection.GetRooms(_loginToken, false);
+            var result = _connection.GetRooms(false);
             Rooms.Clear();
             bool found = false;
             foreach (var room in result)
@@ -250,7 +250,7 @@ namespace Sanguosha.UI.Controls
         /// </summary>
         public void CreateRoom(RoomSettings settings)
         {
-            var room = _connection.CreateRoom(_loginToken, settings);
+            var room = _connection.CreateRoom(settings);
             if (room != null)
             {
                 CurrentRoom = new RoomViewModel() { Room = room };
@@ -271,7 +271,7 @@ namespace Sanguosha.UI.Controls
             {
                 if (!ExitRoom()) return false;
             }
-            if (_IsSuccess(Connection.EnterRoom(_loginToken, _currentRoom.Id, false, null, out room)))
+            if (_IsSuccess(Connection.EnterRoom(_currentRoom.Id, false, null, out room)))
             {
                 CurrentRoom = new RoomViewModel() { Room = room };                
                 Trace.Assert(CurrentSeat != null, "Successfully joined a room, but do not find myself in the room");
@@ -283,7 +283,7 @@ namespace Sanguosha.UI.Controls
         public bool ExitRoom()
         {
             if (CurrentRoom == null) return false;
-            if (_IsSuccess(Connection.ExitRoom(LoginToken)))
+            if (_IsSuccess(Connection.ExitRoom()))
             {
                 CurrentSeat = null;
                 UpdateRooms();
@@ -294,7 +294,7 @@ namespace Sanguosha.UI.Controls
 
         public bool StartGame()
         {
-            if (_IsSuccess(_connection.StartGame(_loginToken)))
+            if (_IsSuccess(_connection.StartGame()))
             {
                 CurrentRoom.State = RoomState.Gaming;
                 return true;
@@ -304,7 +304,7 @@ namespace Sanguosha.UI.Controls
 
         public bool SpectateGame()
         {
-            if (_IsSuccess(_connection.Spectate(_loginToken, _currentRoom.Id)))
+            if (_IsSuccess(_connection.Spectate(_currentRoom.Id)))
             {
                 return true;
             }
@@ -322,9 +322,10 @@ namespace Sanguosha.UI.Controls
             });
         }
 
-        public void NotifyGameStart(string connectionString)
+        public void NotifyGameStart(string connectionString, LoginToken token)
         {
             GameServerConnectionString = connectionString;
+            _loginToken = token;
             Application.Current.Dispatcher.BeginInvoke((ThreadStart)delegate()
             {
                 LobbyView.Instance.StartGame();
@@ -379,27 +380,27 @@ namespace Sanguosha.UI.Controls
             {
                 if (!EnterRoom()) return false;
             }
-            return _IsSuccess(Connection.ChangeSeat(LoginToken, CurrentRoom.Seats.IndexOf(seat)));
+            return _IsSuccess(Connection.ChangeSeat(CurrentRoom.Seats.IndexOf(seat)));
         }
 
         public bool CloseSeat(SeatViewModel seat)
         {
-            return _IsSuccess(Connection.CloseSeat(LoginToken, CurrentRoom.Seats.IndexOf(seat)));
+            return _IsSuccess(Connection.CloseSeat(CurrentRoom.Seats.IndexOf(seat)));
         }
 
         public bool OpenSeat(SeatViewModel seat)
         {
-            return _IsSuccess(Connection.OpenSeat(LoginToken, CurrentRoom.Seats.IndexOf(seat)));
+            return _IsSuccess(Connection.OpenSeat(CurrentRoom.Seats.IndexOf(seat)));
         }
 
         public bool KickPlayer(SeatViewModel seat)
         {
-            return _IsSuccess(Connection.Kick(LoginToken, CurrentRoom.Seats.IndexOf(seat)));
+            return _IsSuccess(Connection.Kick(CurrentRoom.Seats.IndexOf(seat)));
         }
 
         public bool SendMessage(string msg)
         {
-            return _IsSuccess(Connection.Chat(LoginToken, msg));
+            return _IsSuccess(Connection.Chat(msg));
         }
 
         public bool Ping()
@@ -409,7 +410,7 @@ namespace Sanguosha.UI.Controls
 
         public void Logout()
         {
-            Connection.Logout(LoginToken);
+            Connection.Logout();
             LoginToken = new LoginToken();
         }
 

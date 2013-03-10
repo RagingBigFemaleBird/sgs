@@ -187,7 +187,7 @@ namespace Sanguosha.UI.Main
                     var channelFactory = new DuplexChannelFactory<ILobbyService>(lobbyModel, binding, endpoint);
                     server = channelFactory.CreateChannel();
                     Account ret;
-                    var stat = server.Login(Misc.ProtocolVersion, userName, passwd, out token, out ret, out reconnect);
+                    var stat = server.Login(Misc.ProtocolVersion, userName, passwd, out ret, out reconnect, out token);
                     if (stat == LoginStatus.Success)
                     {
                         LobbyViewModel.Instance.CurrentAccount = ret;
@@ -227,7 +227,7 @@ namespace Sanguosha.UI.Main
                     }
                     else
                     {
-                        lobbyModel.NotifyGameStart(reconnect);
+                        lobbyModel.NotifyGameStart(reconnect, token);
                         busyIndicator.IsBusy = true;
                     }
 
@@ -240,10 +240,15 @@ namespace Sanguosha.UI.Main
                         MessageBox.Show("Invalid Username and Password");
                         busyIndicator.IsBusy = false;
                     }
-                    else
+                    else if ((LoginStatus)ea.Result == LoginStatus.OutdatedVersion)
                     {
                         // MessageBox.Show("Outdated version. Please update");
                         busyIndicator.BusyContent = Resources["Busy.Updating"];
+                    }
+                    else
+                    {
+                        MessageBox.Show("Cannot connect to server.");
+                        busyIndicator.IsBusy = false;
                     }
                 }
             };
@@ -344,17 +349,17 @@ namespace Sanguosha.UI.Main
 
             //client.Start(isReplay, FileStream = file.open(...))
             BackgroundWorker worker = new BackgroundWorker();
-            bool noDatabase = !(tab1EnableDb.IsChecked == true);
+            bool hasDatabase = (tab1EnableDb.IsChecked == true);
 
             worker.DoWork += (o, ea) =>
             {
                 try
                 {
                     ea.Result = false;
-                    gameService = new LobbyServiceImpl(noDatabase);
-                    gameService.HostingIp = serverIp;
+                    if (hasDatabase) LobbyServiceImpl.EnableDatabase();
+                    LobbyServiceImpl.HostingIp = serverIp;
 
-                    host = new ServiceHost(gameService);
+                    host = new ServiceHost(typeof(LobbyServiceImpl));
                     //, new Uri[] { new Uri(string.Format("net.tcp://{0}:{1}/GameService", serverIp, portNumber)) });
                     var binding = new NetTcpBinding();
 

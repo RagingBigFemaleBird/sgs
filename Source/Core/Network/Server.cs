@@ -137,16 +137,16 @@ namespace Sanguosha.Core.Network
                         item = null;
                     }
                     if (!(item is LoginToken) ||
-                     !game.Configuration.AccountIds.Any(id => id.TokenString == ((LoginToken)item).TokenString))
+                     !game.Configuration.LoginTokens.Any(id => id.TokenString == ((LoginToken)item).TokenString))
                     {
                         handlers[i].client.Close();
                         i--; 
                         continue;
                     }
                     int index;
-                    for (index = 0; index < game.Configuration.AccountIds.Count; index++)
+                    for (index = 0; index < game.Configuration.LoginTokens.Count; index++)
                     {
-                        if (game.Configuration.AccountIds[index].TokenString == ((LoginToken)item).TokenString)
+                        if (game.Configuration.LoginTokens[index].TokenString == ((LoginToken)item).TokenString)
                         {
                             if (game.Settings.Accounts.Contains(game.Configuration.Accounts[index]))
                             {
@@ -251,16 +251,16 @@ namespace Sanguosha.Core.Network
                             client.Close();
                             continue;
                         }
-                        if (!game.Configuration.AccountIds.Any(id => id.TokenString == ((LoginToken)item).TokenString))
+                        if (!game.Configuration.LoginTokens.Any(id => id.TokenString == ((LoginToken)item).TokenString))
                         {
                             spectatorJoining = true;
                         }
                         else
                         {
                             int index;
-                            for (index = 0; index < game.Configuration.AccountIds.Count; index++)
+                            for (index = 0; index < game.Configuration.LoginTokens.Count; index++)
                             {
-                                if (game.Configuration.AccountIds[index].TokenString == ((LoginToken)item).TokenString)
+                                if (game.Configuration.LoginTokens[index].TokenString == ((LoginToken)item).TokenString)
                                 {
                                     theAccount = game.Configuration.Accounts[index];
                                 }

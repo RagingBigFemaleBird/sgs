@@ -39,6 +39,8 @@ namespace Sanguosha.Lobby.Core
         Locked = -4,
         [EnumMember]
         Invalid = -5,
+        [EnumMember]
+        NotAutheticated = -6,
     }
 
     [Serializable]
@@ -55,49 +57,49 @@ namespace Sanguosha.Lobby.Core
     public interface ILobbyService
     {
         [OperationContract(IsInitiating = true)]
-        LoginStatus Login(int version, string username, string hash, out LoginToken token, out Account retAccount, out string reconnectionString);
+        LoginStatus Login(int version, string username, string hash, out Account retAccount, out string reconnectionString, out LoginToken reconnectionToken);
 
         [OperationContract(IsInitiating = false)]
-        void Logout(LoginToken token);
+        void Logout();
 
         [OperationContract]
-        IEnumerable<Room> GetRooms(LoginToken token, bool notReadyRoomsOnly);
+        IEnumerable<Room> GetRooms(bool notReadyRoomsOnly);
 
         [OperationContract]
-        Room CreateRoom(LoginToken token, RoomSettings settings, string password = null);
+        Room CreateRoom(RoomSettings settings, string password = null);
 
         [OperationContract]
-        RoomOperationResult EnterRoom(LoginToken token, int roomId, bool spectate, string password, out Room room);
+        RoomOperationResult EnterRoom(int roomId, bool spectate, string password, out Room room);
 
         [OperationContract]
-        RoomOperationResult ExitRoom(LoginToken token);
+        RoomOperationResult ExitRoom();
 
         [OperationContract]
-        RoomOperationResult ChangeSeat(LoginToken token, int newSeat);
+        RoomOperationResult ChangeSeat(int newSeat);
 
         [OperationContract]
-        RoomOperationResult StartGame(LoginToken token);
+        RoomOperationResult StartGame();
 
         [OperationContract]
-        RoomOperationResult Ready(LoginToken token);
+        RoomOperationResult Ready();
 
         [OperationContract]
-        RoomOperationResult CancelReady(LoginToken token);
+        RoomOperationResult CancelReady();
 
         [OperationContract]
-        RoomOperationResult Kick(LoginToken token, int seatNo);
+        RoomOperationResult Kick(int seatNo);
 
         [OperationContract]
-        RoomOperationResult OpenSeat(LoginToken token, int seatNo);
+        RoomOperationResult OpenSeat(int seatNo);
 
         [OperationContract]
-        RoomOperationResult CloseSeat(LoginToken token, int seatNo);
+        RoomOperationResult CloseSeat(int seatNo);
 
         [OperationContract]
-        RoomOperationResult Chat(LoginToken token, string message);
+        RoomOperationResult Chat(string message);
 
         [OperationContract]
-        RoomOperationResult Spectate(LoginToken token, int roomId);
+        RoomOperationResult Spectate(int roomId);
 
         [OperationContract]
         LoginStatus CreateAccount(string userName, string p);
@@ -115,7 +117,7 @@ namespace Sanguosha.Lobby.Core
         void NotifyKicked();
 
         [OperationContract(IsOneWay = true)]
-        void NotifyGameStart(string connectionString);
+        void NotifyGameStart(string connectionString, LoginToken token);
 
         [OperationContract(IsOneWay = true)]
         void NotifyChat(Account account, string message);

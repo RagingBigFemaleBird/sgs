@@ -136,7 +136,7 @@ namespace Sanguosha.UI.Controls
 
         public void ChangeSeat(int seatId)
         {
-            var result = LobbyViewModel.Instance.Connection.ChangeSeat(LobbyViewModel.Instance.LoginToken, seatId);
+            var result = LobbyViewModel.Instance.Connection.ChangeSeat(seatId);
             if (result == RoomOperationResult.Locked) { } //cannot change seat locked
         }
 

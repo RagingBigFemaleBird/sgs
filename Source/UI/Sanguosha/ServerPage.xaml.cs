@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ServiceModel;
+using Sanguosha.Lobby.Server;
 
 namespace Sanguosha.UI.Main
 {
@@ -35,7 +36,7 @@ namespace Sanguosha.UI.Main
 
         private void cbAllowCheating_Click_1(object sender, RoutedEventArgs e)
         {
-            GameService.CheatEnabled = cbAllowCheating.IsChecked == true;
+            LobbyServiceImpl.CheatEnabled = cbAllowCheating.IsChecked == true;
         }
 
         public Lobby.Server.LobbyServiceImpl GameService { get; set; }

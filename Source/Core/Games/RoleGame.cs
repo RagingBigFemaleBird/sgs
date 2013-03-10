@@ -1016,7 +1016,7 @@ namespace Sanguosha.Core.Games
                     {
                         var account = Game.CurrentGame.Settings.Accounts[idx];
                         var sidx = Game.CurrentGame.Configuration.Accounts.IndexOf(account);
-                        if (!Game.CurrentGame.Configuration.isDead[sidx])
+                        if (!Game.CurrentGame.Configuration.IsDead[sidx])
                         {
                             Game.CurrentGame.Settings.Accounts[idx].Quits++;
                             continue;
@@ -1044,7 +1044,7 @@ namespace Sanguosha.Core.Games
                 var idx = Game.CurrentGame.Players.IndexOf(p);
                 var account = Game.CurrentGame.Settings.Accounts[idx];
                 idx = Game.CurrentGame.Configuration.Accounts.IndexOf(account);
-                Game.CurrentGame.Configuration.isDead[idx] = true;
+                Game.CurrentGame.Configuration.IsDead[idx] = true;
             }
 
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
@@ -1070,7 +1070,15 @@ namespace Sanguosha.Core.Games
                 if (p.Role == Role.Ruler)
                 {
                     Trace.TraceInformation("Ruler dead. Game over");
-                    if (Game.CurrentGame.AlivePlayers.Count == 2 && Game.CurrentGame.AlivePlayers.Any(pl => pl.Role == Role.Defector))
+                    int deadRebel = 0;
+                    foreach (Player player in Game.CurrentGame.Players)
+                    {
+                        if (player.Role == Role.Rebel && (player.IsDead || player == p))
+                        {
+                            deadRebel++;
+                        }
+                    }
+                    if (Game.CurrentGame.AlivePlayers.Count == 2 && deadRebel == (Game.CurrentGame as RoleGame).NumberOfRebels)
                     {
                         RevealAllPlayersRoles();
                         var winners = from pl in Game.CurrentGame.Players where pl.Role == Role.Defector select pl;
