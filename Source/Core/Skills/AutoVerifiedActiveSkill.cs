@@ -8,6 +8,7 @@ using Sanguosha.Core.Cards;
 using Sanguosha.Core.UI;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Games;
+using System.Diagnostics;
 
 namespace Sanguosha.Core.Skills
 {
@@ -15,6 +16,8 @@ namespace Sanguosha.Core.Skills
     {
         public override VerifierResult Validate(GameEventArgs arg)
         {
+            Trace.Assert(Owner != null);
+            if (Owner == null) return VerifierResult.Fail;
             return Verify(Owner, arg.Cards, arg.Targets);
         }
 

@@ -9,6 +9,7 @@ using Sanguosha.Core.UI;
 using Sanguosha.Core.Skills;
 using Sanguosha.Expansions.Basic.Cards;
 using Sanguosha.Expansions.Battle.Cards;
+using System.Diagnostics;
 
 namespace Sanguosha.Expansions.Hills.Skills
 {
@@ -34,6 +35,8 @@ namespace Sanguosha.Expansions.Hills.Skills
             {
                 return VerifierResult.Partial;
             }
+            Trace.Assert(Owner != null);
+            if (Owner == null) return VerifierResult.Fail;
             int X = Math.Max(Owner.Health, 1);
             if (cards.Count > X)
             {

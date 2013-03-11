@@ -510,7 +510,7 @@ namespace Sanguosha.Core.Games
                 Trace.Assert(false, e.StackTrace);
  
                 var crashReport = new StreamWriter(FileRotator.CreateFile("./Crash", "crash", ".dmp", 1000));                
-                crashReport.WriteLine(e.StackTrace);
+                crashReport.WriteLine(e);
                 crashReport.Close();
             }
             mainThread = null;

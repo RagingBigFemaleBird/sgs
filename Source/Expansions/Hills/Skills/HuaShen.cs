@@ -69,7 +69,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             foreach (var sk in handler.Hero.Skills)
             {
                 if (sk.IsAwakening || sk.IsRulerOnly || sk.IsSingleUse) continue;
-                skills.Add(sk);
+                skills.Add((ISkill)sk.Clone());
                 hsOptions.Add(new OptionPrompt("HuaShen", sk));
             }
             int skanswer;
