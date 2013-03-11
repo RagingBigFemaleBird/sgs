@@ -150,9 +150,12 @@ namespace Sanguosha.Lobby.Server
         public IEnumerable<Room> GetRooms(bool notReadyRoomsOnly)
         {
             if (currentAccount == null) return null;
-            return from r in rooms.Values
-                   where (!notReadyRoomsOnly || r.Room.State == RoomState.Waiting)
-                   select r.Room;
+            lock (rooms)
+            {
+                return from r in rooms.Values
+                       where (!notReadyRoomsOnly || r.Room.State == RoomState.Waiting)
+                       select r.Room;
+            }
         }
 
         public Room CreateRoom(RoomSettings settings, string password = null)
@@ -163,25 +166,28 @@ namespace Sanguosha.Lobby.Server
                 return null;
             }
 
-            while (rooms.ContainsKey(newRoomId))
+            lock (rooms)
             {
-                newRoomId++;
+                while (rooms.ContainsKey(newRoomId))
+                {
+                    newRoomId++;
+                }
+                Room room = new Room();
+                for (int i = 0; i < 8; i++)
+                {
+                    room.Seats.Add(new Seat() { State = SeatState.Empty });
+                }
+                room.Seats[0].Account = currentAccount.Account;
+                room.Seats[0].State = SeatState.Host;
+                room.Id = newRoomId;
+                room.OwnerId = 0;
+                room.Settings = settings;
+                var srvRoom = new ServerRoom() { Room = room };
+                rooms.Add(newRoomId, srvRoom);
+                currentAccount.CurrentRoom = srvRoom;
+                Trace.TraceInformation("created room {0}", newRoomId);
+                return room;
             }
-            Room room = new Room();
-            for (int i = 0; i < 8; i++)
-            {
-                room.Seats.Add(new Seat() { State = SeatState.Empty });
-            }
-            room.Seats[0].Account = currentAccount.Account;
-            room.Seats[0].State = SeatState.Host;
-            room.Id = newRoomId;
-            room.OwnerId = 0;
-            room.Settings = settings;
-            var srvRoom = new ServerRoom() { Room = room };
-            rooms.Add(newRoomId, srvRoom);
-            currentAccount.CurrentRoom = srvRoom;
-            Trace.TraceInformation("created room {0}", newRoomId);
-            return room;
         }
 
         public RoomOperationResult EnterRoom(int roomId, bool spectate, string password, out Room room)
@@ -223,19 +229,22 @@ namespace Sanguosha.Lobby.Server
 
         private static void _DestroyRoom(int roomId)
         {
-            if (!rooms.ContainsKey(roomId)) return;
-            foreach (var sp in rooms[roomId].Spectators)
+            lock (rooms)
             {
-                sp.CurrentSpectatingRoom = null;
+                if (!rooms.ContainsKey(roomId)) return;
+                foreach (var sp in rooms[roomId].Spectators)
+                {
+                    sp.CurrentSpectatingRoom = null;
+                }
+                rooms[roomId].Spectators.Clear();
+                rooms[roomId].GameInfo = null;
+                foreach (var st in rooms[roomId].Room.Seats)
+                {
+                    st.Account = null;
+                    st.State = SeatState.Closed;
+                }
+                rooms.Remove(roomId);
             }
-            rooms[roomId].Spectators.Clear();
-            rooms[roomId].GameInfo = null;
-            foreach (var st in rooms[roomId].Room.Seats)
-            {
-                st.Account = null;
-                st.State = SeatState.Closed;
-            }
-            rooms.Remove(roomId);
         }
 
         private static RoomOperationResult _ExitRoom(ClientAccount account, bool forced = false)
