@@ -115,7 +115,7 @@ namespace Sanguosha.Lobby.Server
             }
             else
             {
-                var acc = new ClientAccount() { Account = authenticatedAccount, CallbackChannel = connection, CurrentRoom = null };
+                var acc = new ClientAccount() { Account = authenticatedAccount, CallbackChannel = connection, LobbyService = this };
                 loggedInAccounts.Add(username, acc);
                 currentAccount = acc;
             }
@@ -134,7 +134,9 @@ namespace Sanguosha.Lobby.Server
             {
                 if (_ExitRoom(account) != RoomOperationResult.Success) return;
             }
-            if (!loggedInAccounts.ContainsKey(account.Account.UserName)) return;
+            Trace.Assert(!loggedInAccounts.ContainsKey(account.Account.UserName));
+            account.LobbyService.currentAccount = null;
+            account.CurrentSpectatingRoom = null;
             loggedInAccounts.Remove(account.Account.UserName);
         }
 
@@ -142,26 +144,15 @@ namespace Sanguosha.Lobby.Server
         {
             if (currentAccount == null) return;
             Trace.TraceInformation("{0} logged out", currentAccount.Account.UserName);
-            if (currentAccount.CurrentRoom != null)
-            {
-                if (_ExitRoom(currentAccount) != RoomOperationResult.Success) return;
-            }
-            Trace.Assert(loggedInAccounts.ContainsKey(currentAccount.Account.UserName));
-            loggedInAccounts.Remove(currentAccount.Account.UserName);
+            _Logout(currentAccount);
         }
 
         public IEnumerable<Room> GetRooms(bool notReadyRoomsOnly)
         {
             if (currentAccount == null) return null;
-            List<Room> ret = new List<Room>();
-            foreach (var pair in rooms)
-            {
-                if (!notReadyRoomsOnly || pair.Value.Room.State == RoomState.Waiting)
-                {
-                    ret.Add(pair.Value.Room);
-                }
-            }
-            return ret;
+            return from r in rooms.Values
+                   where (!notReadyRoomsOnly || r.Room.State == RoomState.Waiting)
+                   select r.Room;
         }
 
         public Room CreateRoom(RoomSettings settings, string password = null)
@@ -396,6 +387,7 @@ namespace Sanguosha.Lobby.Server
                 foreach (var seat in rooms[roomId].Room.Seats)
                 {
                     if (seat.Account == null) continue;
+
                     if (loggedInAccounts.ContainsKey(seat.Account.UserName))
                     {
                         try
@@ -404,13 +396,13 @@ namespace Sanguosha.Lobby.Server
                         }
                         catch (Exception)
                         {
-                            if (seat.Account != null)
-                            {
-                                _Logout(loggedInAccounts[seat.Account.UserName]);
-                                continue;
-                            }
+                            _Logout(loggedInAccounts[seat.Account.UserName]);
+                            seat.Account = null;
+                            seat.State = SeatState.Empty;
+                            continue;
                         }
                     }
+
                     if (seat.State != SeatState.Host) seat.State = SeatState.GuestTaken;
 
                     if ((loggedInAccounts.ContainsKey(seat.Account.UserName) && loggedInAccounts[seat.Account.UserName].CurrentRoom != rooms[roomId]) ||
