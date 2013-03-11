@@ -134,7 +134,7 @@ namespace Sanguosha.Lobby.Server
             {
                 if (_ExitRoom(account) != RoomOperationResult.Success) return;
             }
-            Trace.Assert(loggedInAccounts.ContainsKey(account.Account.UserName));
+            if (!loggedInAccounts.ContainsKey(account.Account.UserName)) return;
             loggedInAccounts.Remove(account.Account.UserName);
         }
 
