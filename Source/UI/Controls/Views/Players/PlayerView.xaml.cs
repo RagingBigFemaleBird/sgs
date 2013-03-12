@@ -207,7 +207,9 @@ namespace Sanguosha.UI.Controls
         public override void Update()
         {
             // Update death status
+            deathIcon.BeginAnimation(Image.OpacityProperty, null);
             deathIcon.Opacity = PlayerModel.IsDead ? 1.0d : 0.0d;
+            deathEffect.BeginAnimation(Effects.MonochromeEffect.StrengthProperty, null);
             deathEffect.Strength = PlayerModel.IsDead ? 1.0d : 0.0d;
 
             // Update impersonate status

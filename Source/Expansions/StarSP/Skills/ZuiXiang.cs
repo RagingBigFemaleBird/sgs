@@ -20,7 +20,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
     /// </summary>
     public class ZuiXiang : TriggerSkill
     {
-        PrivateDeckType zxDeck = new PrivateDeckType("ZuiXiang", true);
+        static PrivateDeckType ZuiXiangDeck = new PrivateDeckType("ZuiXiang", true);
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             if (Owner[ZuiXiangDone] == 1) return;
@@ -41,10 +41,10 @@ namespace Sanguosha.Expansions.StarSP.Skills
                     Card c = Game.CurrentGame.DrawCard();
                     move.Cards.Add(c);
                 }
-                move.To = new DeckPlace(Owner, zxDeck);
+                move.To = new DeckPlace(Owner, ZuiXiangDeck);
                 Game.CurrentGame.MoveCards(move);
                 Dictionary<int, bool> gg = new Dictionary<int, bool>();
-                foreach (var card in Game.CurrentGame.Decks[Owner, zxDeck])
+                foreach (var card in Game.CurrentGame.Decks[Owner, ZuiXiangDeck])
                 {
                     if (gg.ContainsKey(card.Rank))
                     {
@@ -56,7 +56,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 if (Owner[ZuiXiangDone] == 1)
                 {
                     move = new CardsMovement();
-                    move.Cards = new List<Card>(Game.CurrentGame.Decks[Owner, zxDeck]);
+                    move.Cards = new List<Card>(Game.CurrentGame.Decks[Owner, ZuiXiangDeck]);
                     move.To = new DeckPlace(Owner, DeckType.Hand);
                     Game.CurrentGame.MoveCards(move);
                 }
@@ -68,7 +68,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             bool hasBasic = false;
             bool hasTool = false;
             bool hasEquipment = false;
-            foreach (var card in Game.CurrentGame.Decks[Owner, zxDeck])
+            foreach (var card in Game.CurrentGame.Decks[Owner, ZuiXiangDeck])
             {
                 if (CardCategoryManager.IsCardCategory(card.Type.Category, CardCategory.Basic))
                 {
@@ -101,7 +101,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
         {
             bool hasBasic = false;
             bool hasTool = false;
-            foreach (var card in Game.CurrentGame.Decks[Owner, zxDeck])
+            foreach (var card in Game.CurrentGame.Decks[Owner, ZuiXiangDeck])
             {
                 if (CardCategoryManager.IsCardCategory(card.Type.Category, CardCategory.Basic))
                 {
@@ -148,7 +148,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             Triggers.Add(GameEvent.PlayerCanPlayCard, trigger2);
             Triggers.Add(GameEvent.CardUsageTargetValidating, trigger3);
             IsSingleUse = true;
-            DeckCleanup.Add(zxDeck);
+            DeckCleanup.Add(ZuiXiangDeck);
         }
     }
 }

@@ -47,8 +47,7 @@ namespace Sanguosha.UI.Controls
             CancelAnswerCommand = DisabledCommand;
             AbortAnswerCommand = DisabledCommand;
 
-            _possibleRoles = new ObservableCollection<Role>();            
-            _onSkillCommandSelectedHandler = _OnSkillCommandSelected;
+            _possibleRoles = new ObservableCollection<Role>();
             IsCardChoiceQuestionShown = false;
 
             Marks = new ObservableCollection<MarkViewModel>();
@@ -128,7 +127,7 @@ namespace Sanguosha.UI.Controls
                 {
                     _game.Game.PropertyChanged += _game_PropertyChanged;
                 }
-                
+
                 if (changed)
                 {
                     _UpdatePossibleRoles();
@@ -1068,8 +1067,8 @@ namespace Sanguosha.UI.Controls
 
             foreach (var skillCommand in ActiveSkillCommands)
             {
-                skillCommand.OnSelectedChanged -= _onSkillCommandSelectedHandler;
-                skillCommand.IsSelected = false;                
+                skillCommand.OnSelectedChanged -= _OnSkillCommandSelected;
+                skillCommand.IsSelected = false;
                 skillCommand.IsEnabled = false;
             }
 
@@ -1116,13 +1115,13 @@ namespace Sanguosha.UI.Controls
                 if (_lastSelectedCard != null && _cardsInSwitchMode.Contains(card))
                 {
                     _lastSelectedCard.OnSelectedChanged -= _OnCardSelected;
-                    _lastSelectedCard.IsSelected = false;                    
+                    _lastSelectedCard.IsSelected = false;
                     _lastSelectedCard.OnSelectedChanged += _OnCardSelected;
                     // _lastSelectedCard = null;
                 }
 
                 _lastSelectedCard = card;
-            }            
+            }
             else if (card == _lastSelectedCard)
             {
                 _lastSelectedCard = null;
@@ -1134,11 +1133,7 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-
-        private EventHandler _onSkillCommandSelectedHandler;
-
         SkillCommand _lastSelectedCommand;
-        bool _cleaningUpSkillCommand;
 
         // @todo: divide this function into card/player selection changed.
         private void _OnCardUsageSelectionChanged(object sender, EventArgs args)
@@ -1149,6 +1144,9 @@ namespace Sanguosha.UI.Controls
         private void _OnSkillCommandSelected(object sender, EventArgs args)
         {
             var skill = sender as SkillCommand;
+            bool doCleanUp = (skill.IsSelected && skill != _lastSelectedCommand) ||
+                             (!skill.IsSelected && skill == _lastSelectedCommand);
+
             if (skill.IsSelected)
             {
                 if (skill == _lastSelectedCommand)
@@ -1157,44 +1155,40 @@ namespace Sanguosha.UI.Controls
                 }
                 else if (_lastSelectedCommand != null)
                 {
-                    _cleaningUpSkillCommand = true;
+                    _lastSelectedCommand.OnSelectedChanged -= _OnSkillCommandSelected;
                     _lastSelectedCommand.IsSelected = false;
-                    _cleaningUpSkillCommand = false;
+                    _lastSelectedCommand.OnSelectedChanged += _OnSkillCommandSelected;
                     // Trace.Assert(_lastSelectedCommand == null);
                 }
-
                 _lastSelectedCommand = skill;
-
             }
             else
             {
-                if (skill != _lastSelectedCommand)
-                {
-                    Trace.Assert(skill is GuHuoSkillCommand);
-                }
-                else
-                {
-                    foreach (EquipCommand equipCmd in EquipCommands)
-                    {
-                        equipCmd.IsSelected = false;
-                    }
-
-                    foreach (CardViewModel card in HandCards)
-                    {
-                        card.IsSelected = false;
-                    }
-
-                    foreach (var playerModel in _game.PlayerModels)
-                    {
-                        playerModel.IsSelected = false;
-                    }
-
-                    _lastSelectedPlayers.Clear();
-                    _lastSelectedCommand = null;                    
-                }
+                _lastSelectedCommand = null;
             }
 
-            if (!_cleaningUpSkillCommand && currentUsageVerifier != null)
+            if (doCleanUp)
+            {
+                foreach (EquipCommand equipCmd in EquipCommands)
+                {
+                    equipCmd.IsSelected = false;
+                }
+
+                foreach (CardViewModel card in HandCards)
+                {
+                    card.IsSelected = false;
+                }
+
+                foreach (var playerModel in _game.PlayerModels)
+                {
+                    playerModel.IsSelected = false;
+                }
+
+                _lastSelectedPlayers.Clear();
+
+            }
+
+            if (currentUsageVerifier != null)
             {
                 _UpdateCardUsageStatus();
             }
@@ -1272,7 +1266,7 @@ namespace Sanguosha.UI.Controls
 
                     // Handle KuRou, LuanWu
                     if (helper.HasNoConfirmation)
-                    {                        
+                    {
                         SubmitAnswerCommand.Execute(null);
                         _updateCardUsageRecurvieLock = false;
                         return;
@@ -1383,7 +1377,7 @@ namespace Sanguosha.UI.Controls
                 bool allowCardSwitch = (attempt.Count == 1);
 
                 var cardsToTry = CurrentPrivateDeck == null ? HandCards : HandCards.Concat(CurrentPrivateDeck.Cards);
-                
+
                 foreach (var card in cardsToTry)
                 {
                     if (card.IsSelected)
@@ -1392,7 +1386,7 @@ namespace Sanguosha.UI.Controls
                     }
                     attempt.Add(card.Card);
                     bool disabled = (currentUsageVerifier.Verify(HostPlayer, skill, attempt, players) == VerifierResult.Fail);
-                    
+
                     if (disabled && allowCardSwitch)
                     {
                         if (currentUsageVerifier.Verify(HostPlayer, skill, new List<Card>() { card.Card }, players) != VerifierResult.Fail)
@@ -1414,7 +1408,7 @@ namespace Sanguosha.UI.Controls
                     card.IsEnabled = !disabled;
                     attempt.Remove(card.Card);
                 }
-                
+
                 foreach (var equipCommand in EquipCommands)
                 {
                     bool enabledAsSkill = false;
@@ -1609,7 +1603,7 @@ namespace Sanguosha.UI.Controls
                     {
                         (skillCommand as GuHuoSkillCommand).GuHuoChoice = null;
                     }
-                    skillCommand.OnSelectedChanged += _onSkillCommandSelectedHandler;
+                    skillCommand.OnSelectedChanged += _OnSkillCommandSelected;
                 }
 
 
