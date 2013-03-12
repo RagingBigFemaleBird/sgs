@@ -1257,6 +1257,7 @@ namespace Sanguosha.Core.Games
                     c.Place = new DeckPlace(null, DeckType.Dealing);
                     Game.CurrentGame.Decks[null, DeckType.Dealing].Add(c);
                 }
+                Game.CurrentGame.Decks[null, DeckType.Discard].Clear();
             }
         }
 
