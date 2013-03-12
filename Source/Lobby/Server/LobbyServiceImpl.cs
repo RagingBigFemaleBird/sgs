@@ -216,6 +216,7 @@ namespace Sanguosha.Lobby.Server
                             _NotifyRoomLayoutChanged(roomId);
                             Trace.TraceInformation("Seat {0}", seatNo);
                             room = rooms[roomId].Room;
+                            _Unspectate(currentAccount);
                             return RoomOperationResult.Success;
                         }
                         seatNo++;
