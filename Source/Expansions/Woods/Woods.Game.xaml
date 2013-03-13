@@ -24,12 +24,12 @@
 
     <sys:String x:Key="CardUsage.Prompt.LuanWu">请对与你距离最近的一名其他角色使用【杀】或点“取消”失去1点体力</sys:String>
 
-    <sys:String x:Key="CardUsage.Prompt.HaoShi">请将{0}张手牌交给手牌数最少的其他角色</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.HaoShi">请将{0}张手牌交给手牌数最少的一名角色</sys:String>
     <sys:String x:Key="CardUsage.Prompt.HaoShi1">请将{0}张手牌交给{1}</sys:String>
 
-    <sys:String x:Key="CardUsage.Prompt.FangZhu">你可以使用技能 放逐</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.FangZhu">请选择一名“放逐”的目标或点“取消”</sys:String>
 
-    <sys:String x:Key="CardUsage.Prompt.YingHun">请选择一名角色对其使用“英魂”</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.YingHun">请选择一名“英魂”的目标或点“取消”</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.YingHun">请选择你要令{0}执行的动作</sys:String>
     <sys:String x:Key="MultiChoice.Choice.YingHun1">摸{0}张牌，弃1张牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.YingHun2">摸1张牌，弃{0}张牌</sys:String>

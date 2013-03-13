@@ -70,4 +70,6 @@
         <GradientStop Color="#FFA0A0A0" Offset="0"/>
         <GradientStop Color="#FFDEDEDE" Offset="1"/>
     </LinearGradientBrush>
+
+    <sys:String x:Key="CardUsage.Prompt.JiLveFangZhu">请选择一名“放逐”的目标或点“取消”</sys:String>
 </ResourceDictionary>
