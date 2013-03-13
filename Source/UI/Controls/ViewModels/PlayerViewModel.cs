@@ -1316,10 +1316,6 @@ namespace Sanguosha.UI.Controls
                         CurrentPrivateDeck = null;
                     }
                 }
-                else
-                {
-                    skillCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
-                }
 
                 // Handler GuHuo, QiCe
                 GuHuoSkillCommand cmdGuhuo = skillCommand as GuHuoSkillCommand;
@@ -1538,35 +1534,43 @@ namespace Sanguosha.UI.Controls
                     }
                 }
 
-                if (verifier != null && verifier.Helper != null &&
-                    verifier.Helper.OtherDecksUsed != null && verifier.Helper.OtherDecksUsed.Count != 0)
+                if (verifier != null)
                 {
-                    var helper = verifier.Helper;
-                    if (helper.OtherDecksUsed.Count > 0)
+                    foreach (var skillCommand in ActiveSkillCommands)
                     {
-                        if (helper.OtherDecksUsed.Count != 1)
+                        skillCommand.IsEnabled = (currentUsageVerifier.Verify(HostPlayer, skillCommand.Skill, new List<Card>(), new List<Player>()) != VerifierResult.Fail);
+                    }
+
+                    if (verifier.Helper != null &&
+                    verifier.Helper.OtherDecksUsed != null && verifier.Helper.OtherDecksUsed.Count != 0)
+                    {
+                        var helper = verifier.Helper;
+                        if (helper.OtherDecksUsed.Count > 0)
                         {
-                            throw new NotImplementedException("Currently using more than one private decks is not supported");
-                        }
-                        var deck = helper.OtherDecksUsed[0];
-                        var deckModel = PrivateDecks.FirstOrDefault(d => d.Name == deck.Name);
-                        Trace.Assert(deckModel != null);
-                        if (deckModel != CurrentPrivateDeck)
-                        {
-                            if (CurrentPrivateDeck != null)
+                            if (helper.OtherDecksUsed.Count != 1)
                             {
-                                foreach (var card in CurrentPrivateDeck.Cards)
+                                throw new NotImplementedException("Currently using more than one private decks is not supported");
+                            }
+                            var deck = helper.OtherDecksUsed[0];
+                            var deckModel = PrivateDecks.FirstOrDefault(d => d.Name == deck.Name);
+                            Trace.Assert(deckModel != null);
+                            if (deckModel != CurrentPrivateDeck)
+                            {
+                                if (CurrentPrivateDeck != null)
                                 {
-                                    card.IsSelectionMode = false;
-                                    card.OnSelectedChanged -= _OnCardSelected;
+                                    foreach (var card in CurrentPrivateDeck.Cards)
+                                    {
+                                        card.IsSelectionMode = false;
+                                        card.OnSelectedChanged -= _OnCardSelected;
+                                    }
                                 }
+                                foreach (var card in deckModel.Cards)
+                                {
+                                    card.IsSelectionMode = IsPlayable;
+                                    card.OnSelectedChanged += _OnCardSelected;
+                                }
+                                CurrentPrivateDeck = deckModel;
                             }
-                            foreach (var card in deckModel.Cards)
-                            {
-                                card.IsSelectionMode = IsPlayable;
-                                card.OnSelectedChanged += _OnCardSelected;
-                            }
-                            CurrentPrivateDeck = deckModel;
                         }
                     }
                 }
