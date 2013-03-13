@@ -393,35 +393,38 @@ namespace Sanguosha.Lobby.Server
             if (accountContext != null) accountContext.SaveChanges();
             if (rooms.ContainsKey(roomId))
             {
-                rooms[roomId].Room.State = RoomState.Waiting;
-                foreach (var seat in rooms[roomId].Room.Seats)
+                lock (rooms[roomId])
                 {
-                    if (seat.Account == null) continue;
-
-                    if (loggedInAccounts.ContainsKey(seat.Account.UserName))
+                    rooms[roomId].Room.State = RoomState.Waiting;
+                    foreach (var seat in rooms[roomId].Room.Seats)
                     {
-                        try
+                        if (seat.Account == null) continue;
+
+                        if (loggedInAccounts.ContainsKey(seat.Account.UserName))
                         {
-                            loggedInAccounts[seat.Account.UserName].CallbackChannel.Ping();
+                            try
+                            {
+                                loggedInAccounts[seat.Account.UserName].CallbackChannel.Ping();
+                            }
+                            catch (Exception)
+                            {
+                                _Logout(loggedInAccounts[seat.Account.UserName]);
+                                seat.Account = null;
+                                seat.State = SeatState.Empty;
+                                continue;
+                            }
                         }
-                        catch (Exception)
+
+                        if (seat.State != SeatState.Host) seat.State = SeatState.GuestTaken;
+
+                        if ((loggedInAccounts.ContainsKey(seat.Account.UserName) && loggedInAccounts[seat.Account.UserName].CurrentRoom != rooms[roomId]) ||
+                            !loggedInAccounts.ContainsKey(seat.Account.UserName))
                         {
-                            _Logout(loggedInAccounts[seat.Account.UserName]);
                             seat.Account = null;
                             seat.State = SeatState.Empty;
-                            continue;
                         }
+
                     }
-
-                    if (seat.State != SeatState.Host) seat.State = SeatState.GuestTaken;
-
-                    if ((loggedInAccounts.ContainsKey(seat.Account.UserName) && loggedInAccounts[seat.Account.UserName].CurrentRoom != rooms[roomId]) ||
-                        !loggedInAccounts.ContainsKey(seat.Account.UserName))
-                    {
-                        seat.Account = null;
-                        seat.State = SeatState.Empty;
-                    }
-
                 }
             }
             _NotifyRoomLayoutChanged(roomId);
