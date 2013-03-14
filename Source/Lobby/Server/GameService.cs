@@ -69,13 +69,14 @@ namespace Sanguosha.Lobby.Server
                 try
                 {
 #endif
-                    game.Run(); callback(roomId);
+                    game.Run();
 #if !DEBUG
                 }
                 catch (Exception)
                 {
                 }
 #endif
+                callback(roomId);
             }) { IsBackground = true };
             thread.Start();
         }
