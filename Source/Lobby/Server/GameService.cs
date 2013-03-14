@@ -76,7 +76,13 @@ namespace Sanguosha.Lobby.Server
                 {
                 }
 #endif
-                callback(roomId);
+                    try
+                    {
+                        callback(roomId);
+                    }
+                    catch (Exception)
+                    {
+                    }
             }) { IsBackground = true };
             thread.Start();
         }
