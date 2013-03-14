@@ -85,7 +85,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
 
         protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
         {
-            return source[DaHeUsed] == 0;
+            return source[DaHeUsed] == 0 && source.HandCards().Count > 0;
         }
 
         protected override bool VerifyCard(Player source, Card card)
@@ -95,7 +95,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
 
         protected override bool VerifyPlayer(Player source, Player player)
         {
-            return source != player;
+            return source != player && player.HandCards().Count > 0;
         }
 
         public class DaHePassive : TriggerSkill

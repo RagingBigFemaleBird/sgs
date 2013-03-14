@@ -40,7 +40,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
 
         protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
         {
-            return source[TanHuUsed] == 0;
+            return source[TanHuUsed] == 0 && source.HandCards().Count > 0;
         }
 
         public override bool Commit(GameEventArgs arg)
