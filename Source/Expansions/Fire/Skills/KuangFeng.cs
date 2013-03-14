@@ -38,7 +38,7 @@ namespace Sanguosha.Expansions.Fire.Skills
 
         }
 
-        static Player kuangfengTarget;
+        List<Player> kuangfengTarget;
         public static readonly PlayerAttribute KuangFengMark = PlayerAttribute.Register("KuangFeng", false, true);
 
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
@@ -49,12 +49,12 @@ namespace Sanguosha.Expansions.Fire.Skills
             if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("KuangFeng"), new KuangFengVerifier(), out skill, out cards, out players))
             {
                 NotifySkillUse(players);
-                kuangfengTarget = players[0];
-                kuangfengTarget[KuangFengMark] = 1;
+                kuangfengTarget.Add(players[0]);
+                kuangfengTarget[0][KuangFengMark] = 1;
                 Game.CurrentGame.HandleCardDiscard(null, cards);
                 Trigger tri = new KuangFengDamage();
                 Game.CurrentGame.RegisterTrigger(GameEvent.DamageComputingStarted, tri);
-                Game.CurrentGame.RegisterTrigger(GameEvent.PhaseBeginEvents[TurnPhase.Start], new KuangFengRemoval(Owner, tri));
+                Game.CurrentGame.RegisterTrigger(GameEvent.PhaseBeginEvents[TurnPhase.Start], new KuangFengRemoval(Owner, tri, kuangfengTarget));
             }
         }
 
@@ -62,25 +62,29 @@ namespace Sanguosha.Expansions.Fire.Skills
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                while (!qixingOwner.IsDead)
+                if (!qixingOwner.IsDead)
                 {
                     if (eventArgs.Source != qixingOwner)
                     {
                         return;
                     }
-                    kuangfengTarget[KuangFengMark] = 0;
-                    kuangfengTarget = null;
-                    break;
+                    if (kuangfengTarget.Count > 0)
+                    {
+                        kuangfengTarget[0][KuangFengMark] = 0;
+                        kuangfengTarget.Clear();
+                    }
                 }
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseBeginEvents[TurnPhase.Start], this);
                 Game.CurrentGame.UnregisterTrigger(GameEvent.DamageComputingStarted, kuangfengDamage);
             }
             Player qixingOwner;
             Trigger kuangfengDamage;
-            public KuangFengRemoval(Player p, Trigger trigger)
+            List<Player> kuangfengTarget;
+            public KuangFengRemoval(Player p, Trigger trigger, List<Player> kuangfengTarget)
             {
                 qixingOwner = p;
                 kuangfengDamage = trigger;
+                this.kuangfengTarget = kuangfengTarget;
             }
         }
 
@@ -102,18 +106,20 @@ namespace Sanguosha.Expansions.Fire.Skills
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 if (eventArgs.Targets[0] != Owner) return;
-                if (kuangfengTarget != null) kuangfengTarget[KuangFengMark] = 0;
+                if (kuangfengTarget.Count > 0) kuangfengTarget[0][KuangFengMark] = 0;
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerIsDead, this);
             }
-            public KuangFengOnDeath(Player p)
+            List<Player> kuangfengTarget;
+            public KuangFengOnDeath(Player p, List<Player> kuangfengTarget)
             {
                 Owner = p;
+                this.kuangfengTarget = kuangfengTarget;
             }
         }
 
         public KuangFeng()
         {
-            kuangfengTarget = null;
+            kuangfengTarget = new List<Player>();
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => { return Game.CurrentGame.Decks[Owner, QiXing.QiXingDeck].Count > 0; },
@@ -124,7 +130,7 @@ namespace Sanguosha.Expansions.Fire.Skills
 
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { Game.CurrentGame.RegisterTrigger(GameEvent.PlayerIsDead, new KuangFengOnDeath(p)); },
+                (p, e, a) => { Game.CurrentGame.RegisterTrigger(GameEvent.PlayerIsDead, new KuangFengOnDeath(p, kuangfengTarget)); },
                 TriggerCondition.OwnerIsSource
             ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PlayerGameStartAction, trigger2);

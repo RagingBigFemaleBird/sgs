@@ -44,6 +44,10 @@ namespace Sanguosha.Expansions.Fire.Skills
             {
                 return VerifierResult.Partial;
             }
+            if (Owner.HandCards().Count == 0)
+            {
+                return VerifierResult.Fail;
+            }
             if (arg.Targets[0] == Owner || Game.CurrentGame.Decks[arg.Targets[0], DeckType.Hand].Count == 0)
             {
                 return VerifierResult.Fail;
