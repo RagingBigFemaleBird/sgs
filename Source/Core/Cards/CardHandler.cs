@@ -125,6 +125,8 @@ namespace Sanguosha.Core.Cards
             NotifyCardUse(source, dests, new List<Player>(), card, action);
         }
 
+        protected virtual bool IgnoreDeath { get { return true; } }
+
         public virtual void Process(GameEventArgs handlerArgs)
         {
             var source = handlerArgs.Source;
@@ -135,7 +137,7 @@ namespace Sanguosha.Core.Cards
             Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, dests);
             foreach (var player in dests)
             {
-                if (player.IsDead) continue;
+                if (player.IsDead && IgnoreDeath) continue;
                 GameEventArgs args = new GameEventArgs();
                 args.Source = source;
                 args.Targets = new List<Player>() { player };

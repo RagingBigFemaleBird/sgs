@@ -26,6 +26,14 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
         }
 
+        protected override bool IgnoreDeath
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
         {
             return VerifierResult.Fail;
