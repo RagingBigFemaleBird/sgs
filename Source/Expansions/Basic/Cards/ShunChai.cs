@@ -27,6 +27,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         {
             IUiProxy ui = Game.CurrentGame.UiProxies[source];
             if (source.IsDead) return;
+            if (dest.HandCards().Count + dest.Equipments().Count + dest.DelayedTools().Count == 0) return; // ShunChai -> WuXie(from target) -> WuXie(soemone else) -> target has no card
             List<DeckPlace> places = new List<DeckPlace>();
             places.Add(new DeckPlace(dest, DeckType.Hand));
             places.Add(new DeckPlace(dest, DeckType.Equipment));

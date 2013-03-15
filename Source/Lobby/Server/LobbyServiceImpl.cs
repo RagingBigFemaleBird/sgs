@@ -345,8 +345,8 @@ namespace Sanguosha.Lobby.Server
                         catch (Exception)
                         {
                         }
+                        i++;
                     }
-                    i++;
                 }
             }
             catch (Exception)

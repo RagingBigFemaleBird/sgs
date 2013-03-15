@@ -159,7 +159,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 return VerifierResult.Fail;
             }
-            if (targets.Count == 1 && targets[0] == source)
+            if (targets.Count >= 1 && targets[0] == source)
             {
                 return VerifierResult.Fail;
             }
