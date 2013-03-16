@@ -99,11 +99,18 @@ namespace Sanguosha.Core.Triggers
 
         // Events defined on dadao.net/sgs
         /// <summary>
+        /// 游戏开始前分发起始手牌时
+        /// </summary>
+        /// <remarks>
+        /// 在游戏开始前分发起始手牌时发动的武将技能：【七星①】。
+        /// </remarks>
+        public static readonly GameEvent StartGameDeal = new GameEvent("StartGameDeal");
+
+        /// <summary>
         /// 游戏开始
         /// </summary>
         /// <remarks>
         /// 在游戏开始前亮出武将牌后发动的武将技能：【化身①】。
-        /// 在游戏开始前分发起始手牌时发动的武将技能：【七星①】。
         /// 在游戏开始时发动的武将技能：【狂暴①】。
         /// </remarks>
         public static readonly GameEvent PlayerGameStartAction = new GameEvent("PlayerGameStartAction");

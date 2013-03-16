@@ -429,7 +429,9 @@ namespace Sanguosha.Core.Games
                 CardsMovement move = new CardsMovement();
                 move.Cards = new List<Card>();
                 move.To = new DeckPlace(player, DeckType.Hand);
-                for (int i = 0; i < 4; i++)
+                game.Emit(GameEvent.StartGameDeal, new GameEventArgs() { Source = player });
+                int dealCount = 4 + player[Player.DealAdjustment];
+                for (int i = 0; i < dealCount; i++)
                 {
                     game.SyncImmutableCard(player, game.PeekCard(0));
                     Card c = game.DrawCard();
@@ -572,7 +574,7 @@ namespace Sanguosha.Core.Games
                 game.NumberOfDefectors = numberOfDefectors;
                 game.NumberOfRebels = rebel;
                 game.AvailableRoles.Add(Role.Ruler);
-                
+
                 for (int dd = 0; dd < game.NumberOfDefectors; dd++)
                 {
                     game.AvailableRoles.Add(Role.Defector);

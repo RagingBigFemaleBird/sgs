@@ -49,7 +49,7 @@
     <sys:String x:Key="Skill.DanJi.Description">觉醒技，回合开始阶段开始时，若你的手牌数大于你当前的体力值，且主公为曹操，你须减1点体力上限并获得技能“马术”。</sys:String>
 
     <sys:String x:Key="Skill.XiuLuo.Name">修罗</sys:String>
-    <sys:String x:Key="Skill.XiuLuo.Description">回合开始阶段开始时，你可以弃置与你判定区里一张牌相同花色的一张手牌，然后你弃置你判定区里的该牌。</sys:String>
+    <sys:String x:Key="Skill.XiuLuo.Description">回合开始阶段，你可以弃置与你判定区里一张牌相同花色的一张手牌，弃置你判定区里的此牌。</sys:String>
     <sys:String x:Key="Skill.XiuLuo.Usage">系统提示→选择一张延时类锦囊→选择一张手牌→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.ShenWei.Name">神威</sys:String>

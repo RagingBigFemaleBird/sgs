@@ -16,7 +16,7 @@ using Sanguosha.Core.Exceptions;
 namespace Sanguosha.Expansions.SP.Skills
 {
     /// <summary>
-    /// 修罗-回合开始阶段开始时，你可以弃置与你判定区里一张牌相同花色的一张手牌，然后你弃置你判定区里的该牌。
+    /// 修罗-回合开始阶段，你可以弃置与你判定区里一张牌相同花色的一张手牌，弃置你判定区里的此牌。
     /// </summary>
     public class XiuLuo : TriggerSkill
     {
@@ -60,24 +60,27 @@ namespace Sanguosha.Expansions.SP.Skills
 
         void Run(Player owner, GameEvent gameEvent, GameEventArgs args)
         {
-            List<List<Card>> answer;
-            List<DeckPlace> sourceDeck = new List<DeckPlace>();
-            sourceDeck.Add(new DeckPlace(owner, DeckType.DelayedTools));
-            sourceDeck.Add(new DeckPlace(owner, DeckType.Hand));
-            AdditionalCardChoiceOptions options = new AdditionalCardChoiceOptions();
-            options.IsCancellable = true;
-            if (owner.AskForCardChoice(new CardChoicePrompt("XiuLuo", owner),
-                sourceDeck,
-                new List<string>() { "XLJinNang", "XLShouPai" },
-                new List<int>() { 1, 1 },
-                new XiuLuoVerifier(),
-                out answer,
-                options,
-                CardChoiceCallback.GenericCardChoiceCallback))
+            while (owner.HandCards().Count > 0 && owner.DelayedTools().Count > 0)
             {
-                NotifySkillUse();
-                Game.CurrentGame.HandleCardDiscard(owner, answer[1]);
-                Game.CurrentGame.HandleCardDiscard(owner, answer[0]);
+                List<List<Card>> answer;
+                List<DeckPlace> sourceDeck = new List<DeckPlace>();
+                sourceDeck.Add(new DeckPlace(owner, DeckType.DelayedTools));
+                sourceDeck.Add(new DeckPlace(owner, DeckType.Hand));
+                AdditionalCardChoiceOptions options = new AdditionalCardChoiceOptions();
+                options.IsCancellable = true;
+                if (owner.AskForCardChoice(new CardChoicePrompt("XiuLuo", owner),
+                    sourceDeck,
+                    new List<string>() { "XLJinNang", "XLShouPai" },
+                    new List<int>() { 1, 1 },
+                    new XiuLuoVerifier(),
+                    out answer,
+                    options))
+                {
+                    NotifySkillUse();
+                    Game.CurrentGame.HandleCardDiscard(owner, answer[1]);
+                    Game.CurrentGame.HandleCardDiscard(owner, answer[0]);
+                }
+                else break;
             }
         }
 
@@ -89,7 +92,7 @@ namespace Sanguosha.Expansions.SP.Skills
                 Run,
                 TriggerCondition.OwnerIsSource
             ) { AskForConfirmation = false, IsAutoNotify = false };
-            Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Start], trigger);
+            Triggers.Add(GameEvent.PhaseProceedEvents[TurnPhase.Start], trigger);
             IsAutoInvoked = null;
         }
     }

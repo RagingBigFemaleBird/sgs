@@ -44,25 +44,12 @@ namespace Sanguosha.Expansions.Fire.Skills
             ISkill skill;
             List<Card> cards;
             List<Player> players;
-            // hack the cards to owner's hand. do not trigger anything
-            List<Card> additionalCards = new List<Card>();
-            for (int i = 0; i < 7; i++)
-            {
-                Game.CurrentGame.SyncImmutableCard(Owner, Game.CurrentGame.PeekCard(0));
-                Card c = Game.CurrentGame.DrawCard();
-                additionalCards.Add(c);
-            }
-            CardsMovement move = new CardsMovement();
-            move.Cards = new List<Card>(additionalCards);
-            move.To = new DeckPlace(Owner, DeckType.Hand);
-            move.Helper.IsFakedMove = true;
-            move.Helper.PrivateDeckHeroTag = HeroTag;
-            Game.CurrentGame.MoveCards(move);
             if (!Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("QiXing", 7), new QiXingVerifier(7), out skill, out cards, out players))
             {
                 cards = new List<Card>();
                 cards.AddRange(Game.CurrentGame.Decks[Owner, DeckType.Hand].GetRange(0, 7));
             }
+            CardsMovement move = new CardsMovement();
             move.Cards = new List<Card>(cards);
             move.To = new DeckPlace(Owner, QiXingDeck);
             move.Helper.IsFakedMove = true;
@@ -110,11 +97,16 @@ namespace Sanguosha.Expansions.Fire.Skills
                 AfterDraw,
                 TriggerCondition.OwnerIsSource
             );
+            var trigger3 = new AutoNotifyPassiveSkillTrigger(
+                this,
+                (p, e, a) => { p[Player.DealAdjustment] += 7; },
+                TriggerCondition.OwnerIsSource
+            ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PlayerGameStartAction, trigger);
             Triggers.Add(GameEvent.PhaseEndEvents[TurnPhase.Draw], trigger2);
+            Triggers.Add(GameEvent.StartGameDeal, trigger3);
             IsAutoInvoked = false;
             DeckCleanup.Add(QiXingDeck);
         }
-
     }
 }
