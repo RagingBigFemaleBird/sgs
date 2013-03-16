@@ -55,11 +55,6 @@ namespace Sanguosha.Expansions.Wind.Skills
             return true;
         }
 
-        public HuangTianGivenSkill()
-        {
-            Helper.NoCardReveal = true;
-        }
-
         public Player Master { get; set; }
     }
 

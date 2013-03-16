@@ -66,8 +66,6 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             var theCard = Game.CurrentGame.SelectACardFrom(more, less, new CardChoicePrompt("AnXu", less), "AnXu", true);
             Game.CurrentGame.SyncCard(less, ref theCard);
             Game.CurrentGame.HandleCardTransferToHand(more, less, new List<Card>() { theCard });
-            Game.CurrentGame.SyncCardAll(ref theCard);
-            Game.CurrentGame.NotificationProxy.NotifyShowCard(less, theCard);
             if (theCard.Suit != SuitType.Spade)
                 Game.CurrentGame.DrawCards(Owner, 1);
             return true;
