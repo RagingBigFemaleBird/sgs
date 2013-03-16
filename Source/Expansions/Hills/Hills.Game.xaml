@@ -49,6 +49,8 @@
     <sys:String x:Key="MultiChoice.Choice.GuZhengHuoDe">获得其余卡牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.GuZhengBuHuoDe">弃置其余卡牌</sys:String>
 
+    <sys:String x:Key="CardUsage.Prompt.FangQuan">放权 请选择要弃置的牌和放权的目标</sys:String>
+    
     <sys:String x:Key="CardChoice.Prompt.HuaShen">化身 请选择一张化身牌</sys:String>
     <sys:String x:Key="CardChoice.Prompt.HuaShen.Others">化身 请等待{0}选择化身牌</sys:String>
     <sys:String x:Key="Deck.HuaShen.Name">化身</sys:String>
