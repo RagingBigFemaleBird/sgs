@@ -66,7 +66,7 @@ namespace Sanguosha.Expansions.Fire.Skills
                 Game.CurrentGame.HandleCardDiscard(null, cards);
                 Trigger tri = new DaWuProtect();
                 Game.CurrentGame.RegisterTrigger(GameEvent.DamageComputingStarted, tri);
-                Game.CurrentGame.RegisterTrigger(GameEvent.PhaseBeginEvents[TurnPhase.Start], new DawuRemoval(Owner, tri, dawuTargets));
+                Game.CurrentGame.RegisterTrigger(GameEvent.PhaseBeginEvents[TurnPhase.Start], new DawuRemoval(Owner, tri, this));
             }
         }
 
@@ -74,27 +74,26 @@ namespace Sanguosha.Expansions.Fire.Skills
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                while (!qixingOwner.IsDead)
+                if (!qixingOwner.IsDead)
                 {
                     if (eventArgs.Source != qixingOwner)
                     {
                         return;
                     }
-                    foreach (var mark in dawuTargets) { mark[DaWuMark] = 0; }
-                    dawuTargets.Clear();
-                    break;
+                    foreach (var mark in skill.dawuTargets) { mark[DaWuMark] = 0; }
+                    skill.dawuTargets.Clear();
                 }
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseBeginEvents[TurnPhase.Start], this);
                 Game.CurrentGame.UnregisterTrigger(GameEvent.DamageComputingStarted, dawuProtect);
             }
             Player qixingOwner;
             Trigger dawuProtect;
-            List<Player> dawuTargets;
-            public DawuRemoval(Player p, Trigger trigger, List<Player> dawuTargets)
+            DaWu skill;
+            public DawuRemoval(Player p, Trigger trigger, DaWu dawu)
             {
                 qixingOwner = p;
                 dawuProtect = trigger;
-                this.dawuTargets = dawuTargets;
+                skill = dawu;
             }
         }
 
@@ -116,17 +115,18 @@ namespace Sanguosha.Expansions.Fire.Skills
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 if (eventArgs.Targets[0] != Owner) return;
-                foreach (Player target in dawuTargets)
+                foreach (Player target in skill.dawuTargets)
                 {
                     target[DaWuMark] = 0;
                 }
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerIsDead, this);
             }
-            List<Player> dawuTargets;
-            public DaWuOnDeath(Player p, List<Player> dawuTargets)
+
+            DaWu skill;
+            public DaWuOnDeath(Player p, DaWu dawu)
             {
                 Owner = p;
-                this.dawuTargets = dawuTargets;
+                skill = dawu;
             }
         }
 
@@ -143,7 +143,7 @@ namespace Sanguosha.Expansions.Fire.Skills
 
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { Game.CurrentGame.RegisterTrigger(GameEvent.PlayerIsDead, new DaWuOnDeath(p, dawuTargets)); },
+                (p, e, a) => { Game.CurrentGame.RegisterTrigger(GameEvent.PlayerIsDead, new DaWuOnDeath(p, this)); },
                 TriggerCondition.OwnerIsSource
             ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PlayerGameStartAction, trigger2);
