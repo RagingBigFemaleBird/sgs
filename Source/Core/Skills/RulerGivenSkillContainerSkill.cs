@@ -30,7 +30,7 @@ namespace Sanguosha.Core.Skills
                     Trace.Assert(skill != null);
                     skill.Master = owner;
                     masterList.Add(player, skill);
-                    Game.CurrentGame.PlayerAcquireAdditionalSkill(player, skill, null, true);
+                    Game.CurrentGame.PlayerAcquireAdditionalSkill(player, skill, HeroTag, true);
                 }
             }
         }

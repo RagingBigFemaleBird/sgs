@@ -73,8 +73,7 @@ namespace Sanguosha.UI.Controls
 
                 if (value is IRulerGivenSkill)
                 {
-                    var skill = value as IRulerGivenSkill;
-                    HeroName = skill.Master.Hero.Name;
+                    HeroName = value.HeroTag.Name;
                 }
             }
         }
