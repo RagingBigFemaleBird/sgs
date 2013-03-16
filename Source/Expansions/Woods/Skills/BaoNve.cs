@@ -24,10 +24,11 @@ namespace Sanguosha.Expansions.Woods.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return (a as DamageEventArgs).ReadonlyCard[BaoNveUsable] == 1; },
-                (p, e, a) => 
+                (p, e, a) => { return a.ReadonlyCard[BaoNveUsable] == 1; },
+                (p, e, a) =>
                 {
-                    (a as DamageEventArgs).ReadonlyCard[BaoNveUsable] = 0;
+                    NotifySkillUse(new List<Player>() { Master });
+                    a.ReadonlyCard[BaoNveUsable] = 0;
                     var result = Game.CurrentGame.Judge(p, this, null, (judgeResultCard) => { return judgeResultCard.Suit == SuitType.Spade; });
                     if (result.Suit == SuitType.Spade)
                     {
@@ -35,11 +36,11 @@ namespace Sanguosha.Expansions.Woods.Skills
                     }
                 },
                 TriggerCondition.OwnerIsSource
-            );
+            ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.AfterDamageCaused, trigger);
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { (a as DamageEventArgs).ReadonlyCard[BaoNveUsable] = 1; },
+                (p, e, a) => { a.ReadonlyCard[BaoNveUsable] = 1; },
                 TriggerCondition.OwnerIsSource
             ) { IsAutoNotify = false, AskForConfirmation = false, Priority = int.MinValue };
             Triggers.Add(GameEvent.DamageInflicted, trigger2);

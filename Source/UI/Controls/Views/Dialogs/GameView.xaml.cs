@@ -978,7 +978,6 @@ namespace Sanguosha.UI.Controls
                 }
                 if (log.SkillAction.IsSingleUse || log.SkillAction.IsAwakening)
                 {
-                    if (log.SkillAction.IsAwakening) log.Source[Player.Awakened]++;
                     Application.Current.Dispatcher.BeginInvoke((ThreadStart)delegate()
                     {
                         ExcitingSkillAnimation anim = new ExcitingSkillAnimation();
