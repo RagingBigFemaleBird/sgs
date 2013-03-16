@@ -1257,6 +1257,18 @@ namespace Sanguosha.UI.Controls
             });
         }
 
+        public void NotifyLoseMaxHealth(Player player, int delta)
+        {
+            if (ViewModelBase.IsDetached) return;
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                gameLogs.AppendLoseMaxHealthLog(player, delta);
+                rtbLog.ScrollToEnd();
+                Uri uri = GameSoundLocator.GetSystemSound("Damage");
+                GameSoundPlayer.PlaySoundEffect(uri);
+            });
+        }
+
         public void NotifyRecoverHealth(Player player, int delta)
         {
             if (ViewModelBase.IsDetached) return;

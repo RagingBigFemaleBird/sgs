@@ -24,6 +24,7 @@ namespace Sanguosha.Core.UI
         void NotifyGameOver(bool isDraw, List<Player> winners);
         void NotifyActionComplete();
         void NotifyLoseHealth(Player player, int p);
+        void NotifyLoseMaxHealth(Player player, int p);
         void NotifyRecoverHealth(Player player, int p);
         void NotifyReforge(Player p, ICard card);
         void NotifyLogEvent(Prompt custom, List<Player> players = null, bool isKeyEvent = true, bool useUICard = true);
@@ -73,6 +74,10 @@ namespace Sanguosha.Core.UI
         }
 
         public void NotifyLoseHealth(Player player, int p)
+        {
+        }
+
+        public void NotifyLoseMaxHealth(Player player, int p)
         {
         }
 

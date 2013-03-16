@@ -642,6 +642,16 @@ namespace Sanguosha.UI.Controls
             return para;
         }
 
+        internal static Paragraph RichTranslateLoseMaxHealth(Player player, int delta)
+        {
+            Paragraph para = new Paragraph();
+            para.Inlines.Add(new Run(Translate(player)));
+            string damageStr = string.Format("扣减了{0}点体力上限，上限为{1}", delta, player.MaxHealth);
+
+            para.Inlines.Add(new Run(damageStr) { Foreground = RedBrush });
+            return para;
+        }
+
         internal static Paragraph RichTranslateShowCards(Player player, IList<Card> cards)
         {
             Paragraph para = new Paragraph();

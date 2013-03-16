@@ -316,6 +316,7 @@ namespace Sanguosha.Core.Games
                 trigger = true;
             }
             source.MaxHealth = result;
+            Game.CurrentGame.NotificationProxy.NotifyLoseMaxHealth(source, magnitude);
             if (source.MaxHealth <= 0) Emit(GameEvent.GameProcessPlayerIsDead, new GameEventArgs() { Source = null, Targets = new List<Player>() { source } });
             if (trigger && !source.IsDead) Game.CurrentGame.Emit(Triggers.GameEvent.AfterHealthChanged, new HealthChangedEventArgs() { Source = null, Delta = 0, Targets = new List<Player>() { source } });
         }

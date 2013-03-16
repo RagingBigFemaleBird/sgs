@@ -207,6 +207,20 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        internal void AppendLoseMaxHealthLog(Player player, int delta)
+        {
+            if (!Logs.ContainsKey(player)) return;
+            List<FlowDocument> docs = new List<FlowDocument>() { Logs[player], GlobalLog };
+            foreach (var doc in docs)
+            {
+                Paragraph para = LogFormatter.RichTranslateLoseMaxHealth(player, delta);
+                if (para != null)
+                {
+                    doc.Blocks.Add(para);
+                }
+            }
+        }
+
         internal void AppendShowCardsLog(Player p, IList<Card> cards)
         {
             if (!Logs.ContainsKey(p)) return;
