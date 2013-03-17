@@ -22,47 +22,48 @@ namespace Sanguosha.Expansions.Woods.Skills
     {
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            var args = eventArgs as DiscardCardEventArgs;
-            if (args.Source == null || args.Source == Owner || args.Reason != DiscardReason.Use)
-            {
-                return;
-            }
-            List<Card> cardsToProcess = new List<Card>(eventArgs.Cards);
-            foreach (Card c in cardsToProcess)
-            {
-                if (c.Type is NanManRuQin)
-                {
-                    ActionLog log = new ActionLog();
-                    log.GameAction = GameAction.None;
-                    log.SkillAction = this;
-                    log.Source = Owner;
-                    log.CardAction = c;
-                    Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
-                    List<Card> cc = new List<Card>();
-                    cc.Add(c);
-                    Game.CurrentGame.HandleCardTransferToHand(null, Owner, cc);
-                    eventArgs.Cards.Remove(c);
-                }
-            }
+            _juxiangGetCard = false;
+            ActionLog log = new ActionLog();
+            log.GameAction = GameAction.None;
+            log.SkillAction = this;
+            log.Source = Owner;
+            log.CardAction = eventArgs.Cards[0];
+            Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
+            Game.CurrentGame.HandleCardTransferToHand(null, Owner, eventArgs.Cards);
+            eventArgs.Cards.Remove(eventArgs.Cards[0]);
         }
 
+        private bool _juxiangGetCard;
         public JuXiang()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => {return a.ReadonlyCard.Type is NanManRuQin;},
-                (p, e, a) => {throw new TriggerResultException(TriggerResult.End);},
+                (p, e, a) => { return a.ReadonlyCard.Type is NanManRuQin; },
+                (p, e, a) => { throw new TriggerResultException(TriggerResult.End); },
                 TriggerCondition.OwnerIsTarget
             );
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
+                (p, e, a) => { return _juxiangGetCard; },
                 Run,
+                TriggerCondition.Global
+            ) { IsAutoNotify = false };
+            var trigger3 = new AutoNotifyPassiveSkillTrigger(
+                this,
+                (p, e, a) =>
+                {
+                    if (a.Source != p && a.ReadonlyCard.Type is NanManRuQin && (a.Card is Card || (a.Card as CompositeCard).Subcards.Count == 1))
+                    {
+                        _juxiangGetCard = true;
+                    }
+                    else _juxiangGetCard = false;
+                },
                 TriggerCondition.Global
             ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.CardUsageTargetValidating, trigger);
             Triggers.Add(GameEvent.CardsEnteringDiscardDeck, trigger2);
+            Triggers.Add(GameEvent.CardUsageDone, trigger3);
             IsEnforced = true;
         }
-
     }
 }
