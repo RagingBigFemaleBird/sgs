@@ -108,7 +108,7 @@ namespace Sanguosha.Core.Games
             Trace.Assert(damageArgs.Targets.Count == 1);
             damageArgs.Targets[0].Health -= damageArgs.Magnitude;
             Trace.TraceInformation("Player {0} Lose {1} hp, @ {2} hp", damageArgs.Targets[0].Id, damageArgs.Magnitude, damageArgs.Targets[0].Health);
-            NotificationProxy.NotifyDamage(source, damageArgs.Targets[0], damageArgs.Magnitude, damageArgs.Element);
+            NotificationProxy.NotifyDamage(damageArgs.Source, damageArgs.Targets[0], damageArgs.Magnitude, damageArgs.Element);
             GameDelays.Delay(GameDelayTypes.Damage);
 
             try

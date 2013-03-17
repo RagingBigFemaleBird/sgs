@@ -20,6 +20,49 @@ namespace Sanguosha.Expansions.Woods.Skills
     /// </summary>
     public class HuoShou : TriggerSkill
     {
+        class HuoShouTrigger : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                if (eventArgs.ReadonlyCard[HuoShouChangeSource] == 1)
+                {
+                    if (!Owner.IsDead) eventArgs.Source = Owner;
+                    else eventArgs.Source = null;
+                }
+            }
+
+            public HuoShouTrigger(Player p)
+            {
+                Owner = p;
+            }
+        }
+
+        public override Player Owner
+        {
+            get
+            {
+                return base.Owner;
+            }
+            set
+            {
+                if (base.Owner == value)
+                {
+                    return;
+                }
+                base.Owner = value;
+                if (base.Owner != null)
+                {
+                    if (_huoshouChangeSource != null)
+                    {
+                        Game.CurrentGame.UnregisterTrigger(GameEvent.DamageSourceConfirmed, _huoshouChangeSource);
+                    }
+                    _huoshouChangeSource = new HuoShouTrigger(base.Owner);
+                    Game.CurrentGame.RegisterTrigger(GameEvent.DamageSourceConfirmed, _huoshouChangeSource);
+                }
+            }
+        }
+
+        Trigger _huoshouChangeSource;
         public HuoShou()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
@@ -30,8 +73,8 @@ namespace Sanguosha.Expansions.Woods.Skills
             );
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return a.ReadonlyCard.Type is NanManRuQin; },
-                (p, e, a) => { a.Source = Owner; },
+                (p, e, a) => { return a.ReadonlyCard.Type is NanManRuQin && a.Source != p; },
+                (p, e, a) => { a.ReadonlyCard[HuoShouChangeSource] = 1; },
                 TriggerCondition.Global
             );
             Triggers.Add(GameEvent.CardUsageTargetValidating, trigger);
@@ -39,5 +82,6 @@ namespace Sanguosha.Expansions.Woods.Skills
             IsEnforced = true;
         }
 
+        private static CardAttribute HuoShouChangeSource = CardAttribute.Register("HuoShouChangeSource");
     }
 }
