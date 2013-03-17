@@ -36,7 +36,7 @@
     <sys:String x:Key="Skill.SongWeiGivenSkill.Usage">系统提示→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.HuoShou.Name">祸首</sys:String>
-    <sys:String x:Key="Skill.HuoShou.Description">锁定技，【南蛮入侵】对你无效；当其他角色使用【南蛮入侵】指定目标后，你是该【南蛮入侵】造成伤害的来源。</sys:String>
+    <sys:String x:Key="Skill.HuoShou.Description">锁定技，【南蛮入侵】对你无效；锁定技，每当其他角色使用【南蛮入侵】指定目标后，你成为此【南蛮入侵】造成伤害的来源。</sys:String>
 
     <sys:String x:Key="Skill.ZaiQi.Name">再起</sys:String>
     <sys:String x:Key="Skill.ZaiQi.Description">摸牌阶段开始时，若你已受伤，你可以放弃摸牌，改为从牌堆顶亮出X张牌（X为你已损失的体力值），你回复等同于其中红桃牌数量的体力，然后将这些红桃牌置入弃牌堆，并获得其余的牌。</sys:String>

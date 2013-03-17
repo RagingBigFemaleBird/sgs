@@ -16,7 +16,7 @@ using Sanguosha.Core.Exceptions;
 namespace Sanguosha.Expansions.Woods.Skills
 {
     /// <summary>
-    /// 祸首-锁定技，【南蛮入侵】对你无效；你是任何【南蛮入侵】造成伤害的来源。
+    /// 祸首-锁定技，【南蛮入侵】对你无效；锁定技，每当其他角色使用【南蛮入侵】指定目标后，你成为此【南蛮入侵】造成伤害的来源。
     /// </summary>
     public class HuoShou : TriggerSkill
     {
