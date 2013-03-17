@@ -41,6 +41,7 @@ namespace Sanguosha.Expansions.Basic.Skills
         public override bool Commit(GameEventArgs arg)
         {
             Game.CurrentGame.LoseHealth(Owner, 1);
+            if (Owner == null || Owner.IsDead) return true;
             Game.CurrentGame.DrawCards(Owner, 2);
             return true;
         }
