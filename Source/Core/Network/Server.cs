@@ -182,7 +182,7 @@ namespace Sanguosha.Core.Network
             {
                 handlers[i].game = game;
                 handlers[i].stream = Stream.Null;
-                if (To >= 2000) To -= 1000;
+                handlers[i].disconnected = true;
                 if (game.Configuration != null)
                 {
                     game.Settings.Accounts.Add(remainingDisconnected.First());
@@ -433,7 +433,7 @@ namespace Sanguosha.Core.Network
                     {
                         Trace.TraceInformation("Current commId from {0} is {1}", clientId, i.type);
                     }
-                    if (i.command == Command.QaId && (int)i.data == handlers[clientId].commId)
+                    if (!(i.data is int) || (i.command == Command.QaId && (int)i.data == handlers[clientId].commId))
                     {
                         break;
                     }

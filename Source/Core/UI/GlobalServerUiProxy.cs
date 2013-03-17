@@ -115,18 +115,24 @@ namespace Sanguosha.Core.UI
         private void MultiMCQProxyListenerThread(MCQListenerThreadParameters para)
         {
             game.RegisterCurrentThread();
-            int answer = 0;
-            if (para.proxy.TryAskForMultipleChoice(out answer))
+            try
             {
+                int answer = 0;
+                if (para.proxy.TryAskForMultipleChoice(out answer))
+                {
 
-                semAccess.WaitOne();
-                manswerMCQ.Add(para.player, answer);
-                semAccess.Release(1);
+                    semAccess.WaitOne();
+                    manswerMCQ.Add(para.player, answer);
+                    semAccess.Release(1);
+                }
+                if (!semDone.WaitOne(0))
+                {
+                    Trace.TraceInformation("All done");
+                    semWake.Release(1);
+                }
             }
-            if (!semDone.WaitOne(0))
+            catch (Exception)
             {
-                Trace.TraceInformation("All done");
-                semWake.Release(1);
             }
         }
 
@@ -213,23 +219,29 @@ namespace Sanguosha.Core.UI
         private void MultiUsageProxyListenerThread(UsageListenerThreadParameters para)
         {
             game.RegisterCurrentThread();
-            ISkill skill;
-            List<Card> cards;
-            List<Player> players;
-            if (para.proxy.TryAskForCardUsage(para.prompt, para.verifier, out skill, out cards, out players))
+            try
             {
+                ISkill skill;
+                List<Card> cards;
+                List<Player> players;
+                if (para.proxy.TryAskForCardUsage(para.prompt, para.verifier, out skill, out cards, out players))
+                {
 
-                semAccess.WaitOne();
-                manswerSkill.Add(para.player, skill);
-                manswerCards.Add(para.player, cards);
-                manswerPlayers.Add(para.player, players);
-                semAccess.Release(1);
-                para.proxy.SendMultipleCardUsageResponded();
+                    semAccess.WaitOne();
+                    manswerSkill.Add(para.player, skill);
+                    manswerCards.Add(para.player, cards);
+                    manswerPlayers.Add(para.player, players);
+                    semAccess.Release(1);
+                    para.proxy.SendMultipleCardUsageResponded();
+                }
+                if (!semDone.WaitOne(0))
+                {
+                    Trace.TraceInformation("All done");
+                    semWake.Release(1);
+                }
             }
-            if (!semDone.WaitOne(0))
+            catch (Exception)
             {
-                Trace.TraceInformation("All done");
-                semWake.Release(1);
             }
         }
 
@@ -315,23 +327,29 @@ namespace Sanguosha.Core.UI
         private void UsageProxyListenerThread(UsageListenerThreadParameters para)
         {
             game.RegisterCurrentThread();
-            ISkill skill;
-            List<Card> cards;
-            List<Player> players;
-            if (para.proxy.TryAskForCardUsage(para.prompt, para.verifier, out skill, out cards, out players))
+            try
             {
+                ISkill skill;
+                List<Card> cards;
+                List<Player> players;
+                if (para.proxy.TryAskForCardUsage(para.prompt, para.verifier, out skill, out cards, out players))
+                {
 
-                semAccess.WaitOne();
-                answerSkill = skill;
-                answerCard = cards;
-                answerPlayer = players;
-                responder = para.proxy.HostPlayer;
-                semWake.Release(1);
+                    semAccess.WaitOne();
+                    answerSkill = skill;
+                    answerCard = cards;
+                    answerPlayer = players;
+                    responder = para.proxy.HostPlayer;
+                    semWake.Release(1);
+                }
+                if (!semDone.WaitOne(0))
+                {
+                    Trace.TraceInformation("All done");
+                    semWake.Release(1);
+                }
             }
-            if (!semDone.WaitOne(0))
+            catch (Exception)
             {
-                Trace.TraceInformation("All done");
-                semWake.Release(1);
             }
         }
 
@@ -401,20 +419,26 @@ namespace Sanguosha.Core.UI
         private void ChoiceProxyListenerThread(ChoiceListenerThreadParameters para)
         {
             game.RegisterCurrentThread();
-            List<List<Card>> answer;
-            if (para.proxy.TryAskForCardChoice(para.places, para.resultMax, para.verifier, out answer, para.options, null))
+            try
             {
-                semAccess.WaitOne();
-                if (answer != null && answer.Count != 0 && answer[0] != null && answer[0].Count == para.resultMax[0])
+                List<List<Card>> answer;
+                if (para.proxy.TryAskForCardChoice(para.places, para.resultMax, para.verifier, out answer, para.options, null))
                 {
-                    answerHero.Add(para.player, answer[0]);
+                    semAccess.WaitOne();
+                    if (answer != null && answer.Count != 0 && answer[0] != null && answer[0].Count == para.resultMax[0])
+                    {
+                        answerHero.Add(para.player, answer[0]);
+                    }
+                    semAccess.Release();
                 }
-                semAccess.Release();
+                if (!semDone.WaitOne(0))
+                {
+                    Trace.TraceInformation("All done");
+                    semWake.Release(1);
+                }
             }
-            if (!semDone.WaitOne(0))
+            catch (Exception)
             {
-                Trace.TraceInformation("All done");
-                semWake.Release(1);
             }
         }
 
