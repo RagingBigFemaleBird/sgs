@@ -22,19 +22,20 @@ namespace Sanguosha.Expansions.Basic.Skills
     {
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            int i = 0;
+            Dictionary<Player, int> map = new Dictionary<Player, int>();
             foreach (var target in eventArgs.Targets)
             {
+                if (!map.Keys.Contains(target)) map.Add(target, 0);
                 if (AskForSkillUse())
                 {
                     NotifySkillUse(new List<Player>() { target });
                     var card = Game.CurrentGame.Judge(Owner, this, null, (judgeResultCard) => { return judgeResultCard.SuitColor == SuitColorType.Red; });
                     if (card.SuitColor == SuitColorType.Red)
                     {
-                        eventArgs.ReadonlyCard[ShaCancelling.CannotProvideShan[target]] |= (1 << i);
+                        eventArgs.ReadonlyCard[ShaCancelling.CannotProvideShan[target]] |= (1 << map[target]);
                     }
                 }
-                i++;
+                map[target]++;
             }
         }
 

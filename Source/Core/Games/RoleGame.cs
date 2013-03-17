@@ -378,6 +378,7 @@ namespace Sanguosha.Core.Games
                         arg.ReadonlyCard.Attributes.Add(pair.Key, pair.Value);
                     }
                 }
+                Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, arg.Targets);
                 if (runTrigger)
                 {
                     try

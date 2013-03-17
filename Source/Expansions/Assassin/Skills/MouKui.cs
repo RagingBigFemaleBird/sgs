@@ -27,9 +27,10 @@ namespace Sanguosha.Expansions.Assassin.Skills
             MultipleChoicePrompt prompt;
             List<OptionPrompt> options = new List<OptionPrompt>();
             OptionPrompt option1 = new OptionPrompt("MouKuiMoPai");
-            int i = 0;
+            Dictionary<Player, int> map = new Dictionary<Player, int>();
             foreach (var target in eventArgs.Targets)
             {
+                if (!map.Keys.Contains(target)) map.Add(target, 0);
                 options.Clear();
                 options.Add(OptionPrompt.NoChoice);
                 options.Add(option1);
@@ -38,7 +39,7 @@ namespace Sanguosha.Expansions.Assassin.Skills
                 prompt = isNaked ? new MultipleChoicePrompt("MouKuiDrawCardOnly") : new MultipleChoicePrompt("MouKui");
                 int answer = 0;
                 Owner.AskForMultipleChoice(prompt, isNaked ? OptionPrompt.YesNoChoices : options, out answer);
-                if (answer == 0) { i++; continue; }
+                if (answer == 0) { map[target]++; continue; }
                 MouKuiEffect = 0;
                 NotifySkillUse();
                 if (answer == 1)
@@ -50,8 +51,8 @@ namespace Sanguosha.Expansions.Assassin.Skills
                     Card theCard = Game.CurrentGame.SelectACardFrom(target, Owner, new CardChoicePrompt("MouKui", target, Owner), "QiPaiDui");
                     Game.CurrentGame.HandleCardDiscard(target, new List<Card>() { theCard });
                 }
-                eventArgs.ReadonlyCard[MouKuiCheck[target]] |= (1 << i);
-                i++;
+                eventArgs.ReadonlyCard[MouKuiCheck[target]] |= (1 << map[target]);
+                map[target]++;
             }
         }
 

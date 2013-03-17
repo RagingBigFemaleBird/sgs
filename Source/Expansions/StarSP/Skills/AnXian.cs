@@ -70,6 +70,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                         NotifySkillUse();
                         Game.CurrentGame.HandleCardDiscard(p, cards);
                         a.ReadonlyCard[AnXianSha[p]] = 1;
+                        Game.CurrentGame.DrawCards(a.Source, 1);
                     }
                 },
                 TriggerCondition.OwnerIsTarget
@@ -83,14 +84,6 @@ namespace Sanguosha.Expansions.StarSP.Skills
                 TriggerCondition.OwnerIsTarget
             ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.CardUsageTargetValidating, trigger3);
-
-            var trigger4 = new AutoNotifyPassiveSkillTrigger(
-                this,
-                (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard[AnXianSha[p]] != 0; },
-                (p, e, a) => { Game.CurrentGame.DrawCards(a.Source, 1); },
-                TriggerCondition.OwnerIsTarget
-            ) { AskForConfirmation = false, IsAutoNotify = false };
-            Triggers.Add(GameEvent.CardUsageDone, trigger4);
             IsAutoInvoked = null;
         }
 

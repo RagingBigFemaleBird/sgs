@@ -93,8 +93,19 @@ namespace Sanguosha.Expansions.Basic.Skills
             {
                 NotifySkillUse(players);
                 Game.CurrentGame.HandleCardDiscard(owner, cards);
+                int index = eventArgs.Targets.IndexOf(owner);
                 eventArgs.Targets.Remove(owner);
-                eventArgs.Targets.Add(players[0]);
+
+                GameEventArgs newArgs = new GameEventArgs();
+                newArgs.Source = eventArgs.Source;
+                newArgs.UiTargets = players;
+                newArgs.Targets = players;
+                newArgs.Card = eventArgs.Card;
+                newArgs.ReadonlyCard = eventArgs.ReadonlyCard;
+                newArgs.InResponseTo = eventArgs.InResponseTo;
+                Game.CurrentGame.Emit(GameEvent.CardUsageTargetConfirming, newArgs);
+
+                eventArgs.Targets.Insert(index, newArgs.Targets[0]);
             }
         }
 
@@ -103,7 +114,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             var trigger = new RelayTrigger(
                 OnPlayerIsCardTarget,
                 TriggerCondition.OwnerIsTarget
-            ) { Priority = SkillPriority.LiuLi};
+            );
             Triggers.Add(GameEvent.CardUsageTargetConfirming, trigger);
             IsAutoInvoked = null;
         }

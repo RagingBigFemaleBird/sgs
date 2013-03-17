@@ -58,7 +58,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 (p, e, a) => { return a.ReadonlyCard.Type is Sha; },
                 OnPlayerIsCardTarget,
                 TriggerCondition.OwnerIsTarget
-            ) { Priority = SkillPriority.XiangLe };
+            );
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard[XiangLeEffect[p]] == 1; },
