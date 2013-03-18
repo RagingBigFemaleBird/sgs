@@ -75,7 +75,7 @@ namespace Sanguosha.Expansions.Battle.Cards
         {
             foreach (Card c in eventArgs.Cards)
             {
-                if (c == theCard && c.HistoryPlace1.DeckType == DeckType.Equipment && c.Place.DeckType != DeckType.Equipment)
+                if (c == theCard && c.HistoryPlace1.DeckType == DeckType.Equipment && (c.Place.DeckType != DeckType.Equipment || c.Place.Player != thePlayer))
                 {
                     Game.CurrentGame.RecoverHealth(thePlayer, thePlayer, 1);
                     Game.CurrentGame.UnregisterTrigger(GameEvent.CardsLost, this);

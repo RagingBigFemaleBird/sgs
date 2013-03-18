@@ -16,8 +16,8 @@ namespace Sanguosha.Lobby.Server
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, InstanceContextMode = InstanceContextMode.PerSession)]
     public class LobbyServiceImpl : ILobbyService
     {
-        static Dictionary<string, ClientAccount> loggedInAccounts = new Dictionary<string,ClientAccount>();
-        static Dictionary<int, ServerRoom> rooms = new Dictionary<int,ServerRoom>();
+        static Dictionary<string, ClientAccount> loggedInAccounts = new Dictionary<string, ClientAccount>();
+        static Dictionary<int, ServerRoom> rooms = new Dictionary<int, ServerRoom>();
         static int newRoomId = 1;
 
         public static IPAddress HostingIp { get; set; }
@@ -38,7 +38,7 @@ namespace Sanguosha.Lobby.Server
         {
             currentAccount = null;
         }
-  
+
         void Channel_Faulted(object sender, EventArgs e)
         {
             try
@@ -390,7 +390,21 @@ namespace Sanguosha.Lobby.Server
 
         private void _OnGameEnds(int roomId)
         {
-            if (accountContext != null) accountContext.SaveChanges();
+            if (accountContext != null)
+            {
+                try
+                {
+                    accountContext.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    var crashReport = new StreamWriter(FileRotator.CreateFile("./Crash", "crash", ".dmp", 1000));
+                    crashReport.WriteLine(e);
+                    crashReport.WriteLine(e.Message);
+                    crashReport.Close();
+                    accountContext = new AccountContext();
+                }
+            }
             if (rooms.ContainsKey(roomId))
             {
                 lock (rooms[roomId])
@@ -672,7 +686,7 @@ namespace Sanguosha.Lobby.Server
             try
             {
                 Stream file = FileRotator.CreateFile("./Reports", "crashdmp", ".rpt", 1000);
-               
+
                 if (s != null)
                 {
                     s.CopyTo(file);
