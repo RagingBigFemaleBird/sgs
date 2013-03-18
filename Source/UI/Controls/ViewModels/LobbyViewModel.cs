@@ -283,7 +283,8 @@ namespace Sanguosha.UI.Controls
         public bool ExitRoom()
         {
             if (CurrentRoom == null) return false;
-            if (_IsSuccess(Connection.ExitRoom()))
+            var result = Connection.ExitRoom();
+            if (_IsSuccess(result))
             {
                 CurrentSeat = null;
                 UpdateRooms();

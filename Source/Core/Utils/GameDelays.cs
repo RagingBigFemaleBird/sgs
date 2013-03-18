@@ -17,7 +17,7 @@ namespace Sanguosha.Core.Utils
         public const int CardTransfer = 250;
         public const int Draw = 200;
         public const int ChangePhase = 50;
-        public const int PlayerAction = 600;
+        public const int PlayerAction = 400;
         public const int Awaken = 2550;
         public const int RoleDistribute = 400;
         public const int ServerSideCompensation = 5000;

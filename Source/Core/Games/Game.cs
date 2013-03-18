@@ -854,6 +854,7 @@ namespace Sanguosha.Core.Games
             EmitTriggers(btriggers);
             MoveCards(moves);
             EmitTriggers(triggers);
+            GameDelays.Delay(GameDelays.CardTransfer);
         }
 
         private void AddAtomicMoves(List<CardsMovement> moves)
@@ -966,7 +967,7 @@ namespace Sanguosha.Core.Games
                 }
                 i++;
             }
-            GameDelays.Delay(delay);
+            if (!atomic) GameDelays.Delay(delay);
         }
 
         public bool IsPanorama { get; set; }

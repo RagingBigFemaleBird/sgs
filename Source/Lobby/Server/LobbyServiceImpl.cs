@@ -118,6 +118,12 @@ namespace Sanguosha.Lobby.Server
                 var acc = new ClientAccount() { Account = authenticatedAccount, CallbackChannel = connection, LobbyService = this };
                 loggedInAccounts.Add(username, acc);
                 currentAccount = acc;
+                // hack
+                var roomresult = from r in rooms.Values where r.Room.Seats.Any(st => st.Account == authenticatedAccount) select r;
+                if (roomresult.Count() > 0)
+                {
+                    acc.CurrentRoom = roomresult.First();
+                }
             }
             Trace.TraceInformation("{0} logged in", username);
             OperationContext.Current.Channel.Faulted += new EventHandler(Channel_Faulted);
@@ -427,6 +433,10 @@ namespace Sanguosha.Lobby.Server
                                 seat.State = SeatState.Empty;
                                 continue;
                             }
+                        }
+                        else
+                        {
+                            seat.State = SeatState.Empty;
                         }
 
                         if (seat.State != SeatState.Host) seat.State = SeatState.GuestTaken;
