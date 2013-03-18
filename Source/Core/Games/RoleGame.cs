@@ -694,7 +694,9 @@ namespace Sanguosha.Core.Games
                 List<int> resultDeckMaximums = new List<int>();
                 resultDeckMaximums.Add(numHeroes);
                 List<List<Card>> answer;
-                if (!game.UiProxies[game.Players[rulerId]].AskForCardChoice(new CardChoicePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, new RequireCardsChoiceVerifier(numHeroes, false, true), out answer))
+                var newVer = new RequireCardsChoiceVerifier(numHeroes, false, true);
+                if (numHeroes > 1) newVer.Helper.ExtraTimeOutSeconds = 10;
+                if (!game.UiProxies[game.Players[rulerId]].AskForCardChoice(new CardChoicePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, newVer, out answer))
                 {
                     answer = new List<List<Card>>();
                     answer.Add(new List<Card>());
@@ -749,7 +751,7 @@ namespace Sanguosha.Core.Games
                 }
 
                 var heroSelection = new Dictionary<Player, List<Card>>();
-                game.GlobalProxy.AskForHeroChoice(restDraw, heroSelection, numHeroes, new RequireCardsChoiceVerifier(numHeroes));
+                game.GlobalProxy.AskForHeroChoice(restDraw, heroSelection, numHeroes, newVer);
 
                 bool notUsed = true;
                 game.SyncConfirmationStatus(ref notUsed);
