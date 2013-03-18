@@ -350,11 +350,11 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Border Visibility="{Binding IsExisted, Converter={StaticResource boolToVisibilityConverter}}" BorderThickness="2" BorderBrush="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.\{0\}.Brush}" >
+                                            <Border Visibility="{Binding IsExisted, Converter={StaticResource boolToVisibilityConverter}}" BorderThickness="2" BorderBrush="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.{0}.Brush}" >
                                                 <Border.Effect>
                                                     <DropShadowEffect Color="Black" ShadowDepth="0" />
                                                 </Border.Effect>
-                                                <TextBlock FontFamily="SimHei" FontSize="12" Foreground="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.\{0\}.Brush}" Text="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.\{0\}.Name}" />
+                                                <TextBlock FontFamily="SimHei" FontSize="12" Foreground="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.\{0\}.Brush}" Text="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.{0}.Name}" />
                                             </Border>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
@@ -376,13 +376,13 @@
                             </StackPanel>
                             <local:HealthBar x:Name="healthBar" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                     		                 IsHitTestVisible="False" Height="14" Health="{Binding Health}" MaxHealth="{Binding MaxHealth}"/>
-                            <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,0" Visibility="{Binding Hero1Model.ImpersonatedSkill, Converter={StaticResource objectToVisibilityConverter}}">
+                            <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,0" Visibility="{Binding Hero1Model.ImpersonatedSkill, Converter={StaticResource objectToVisibilityConverter}}" IsHitTestVisible="False">
                                 <Grid.Background>
                                     <ImageBrush ImageSource="{DynamicResource PlayerInfoView.AcquiredSkill.Background}"/>
                                 </Grid.Background>
-                                <Grid.ToolTip>
+                                <!--Grid.ToolTip>
                                     <ToolTip Content="{Binding Hero1Model.ImpersonatedSkill}" ContentTemplate="{StaticResource SkillToolTipTemplate}" />
-                                </Grid.ToolTip>
+                                </Grid.ToolTip-->
                                 <local:OutlinedTextBlock Text="{res:ResourceKeyBinding Path=Hero1Model.ImpersonatedSkill, StringFormat=Skill.{0}.Name}" FontSize="21" Fill="White" FontFamily="/Resources;component/Fonts/#LiSu" Margin="5,1" Stroke="Blue" StrokeThickness="3"/>
                             </Grid>
                             <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,16" Visibility="{Binding Hero2Model.ImpersonatedSkill, Converter={StaticResource objectToVisibilityConverter}}">
@@ -455,7 +455,7 @@
                                     <local:OutlinedTextBlock TextWrapping="NoWrap"
                                                          Fill="White"
                                                          Stroke="Black"
-                                                         StrokeThickness="1"
+                                                         StrokeThickness="2"
                                                          FontWeight="Bold"
                                                          Text="{Binding DataContext, RelativeSource={RelativeSource Self}}" 
                                                          FontFamily="pack://application:,,,/Resources;component/Fonts/#LiSu" FontSize="18.667" 
@@ -464,9 +464,6 @@
                                 </Viewbox>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
-                        <ItemsControl.Effect>
-                            <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0"/>
-                        </ItemsControl.Effect>
                     </ItemsControl>
 
                     <ItemsControl x:Name="heroNameArea2" ItemsSource="{Binding Hero2Model.NameChars}" Grid.Row="1"
@@ -488,7 +485,7 @@
                                     <local:OutlinedTextBlock TextWrapping="NoWrap"
                                                          Fill="White"
                                                          Stroke="Black"
-                                                         StrokeThickness="1"
+                                                         StrokeThickness="2"
                                                          FontWeight="Bold"
                                                          Text="{Binding DataContext, RelativeSource={RelativeSource Self}}" 
                                                          FontFamily="pack://application:,,,/Resources;component/Fonts/#LiSu" FontSize="18.667" 
@@ -497,9 +494,6 @@
                                 </Viewbox>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
-                        <ItemsControl.Effect>
-                            <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0"/>
-                        </ItemsControl.Effect>
                     </ItemsControl>
 
                     <TextBlock x:Name="userNameText" VerticalAlignment="Bottom" Text="{Binding Account.UserName, Mode=OneWay}" Margin="32.117,0,25,4" Foreground="White" FontSize="14" FontFamily="SimHei" Height="17.97" FontWeight="Bold" TextAlignment="Center">

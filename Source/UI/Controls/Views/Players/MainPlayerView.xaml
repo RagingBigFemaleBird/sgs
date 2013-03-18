@@ -418,7 +418,7 @@
                                     <local:OutlinedTextBlock TextWrapping="NoWrap"
                 					Fill="White"
                 					Stroke="Black"
-                					StrokeThickness="1"
+                					StrokeThickness="2"
                 					FontWeight="Bold"
                 					Text="{Binding DataContext, RelativeSource={RelativeSource Self}}" 
                 					FontFamily="/Resources;component/Fonts/#LiSu" FontSize="18.667" 
@@ -427,9 +427,6 @@
                                 </Viewbox>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
-                        <ItemsControl.Effect>
-                            <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0"/>
-                        </ItemsControl.Effect>
                     </ItemsControl>
                     <Image Height="30" Margin="8,26,27,0" Source="/Resources;component/Images/Game/saveMe.png" Stretch="Fill" VerticalAlignment="Top" Visibility="{Binding IsDying, Converter={StaticResource boolToVisibilityConverter}}"/>
                 </Grid>
@@ -527,7 +524,7 @@
                                     <local:OutlinedTextBlock TextWrapping="NoWrap"
                 							Fill="White"
                 							Stroke="Black"
-                							StrokeThickness="1"
+                							StrokeThickness="2"
                 							FontWeight="Bold"
                 							Text="{Binding DataContext, RelativeSource={RelativeSource Self}}" 
                 							FontFamily="/Resources;component/Fonts/#LiSu" FontSize="18.667" 
@@ -536,9 +533,6 @@
                                 </Viewbox>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
-                        <ItemsControl.Effect>
-                            <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0"/>
-                        </ItemsControl.Effect>
                     </ItemsControl>
                     <Image Height="30" Margin="8,26,27,0" Source="/Resources;component/Images/Game/saveMe.png" Stretch="Fill" VerticalAlignment="Top" Visibility="{Binding IsDying, Converter={StaticResource boolToVisibilityConverter}}"/>
                 </Grid>

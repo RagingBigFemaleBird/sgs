@@ -510,8 +510,8 @@ namespace Sanguosha.Core.Games
                 crashReport.WriteLine(e);
                 crashReport.Close();
             }
+            
             mainThread = null;
-
 
             if (GameServer != null)
             {
@@ -874,7 +874,7 @@ namespace Sanguosha.Core.Games
         ///YOU ARE NOT ALLOWED TO TRIGGER ANY EVENT ANYWHERE INSIDE THIS FUNCTION!!!!!
         ///你不可以在这个函数中触发任何事件!!!!!
         ///</remarks>
-        public void MoveCards(List<CardsMovement> moves, List<bool> insertBefore = null, GameDelayTypes delay = GameDelayTypes.CardTransfer)
+        public void MoveCards(List<CardsMovement> moves, List<bool> insertBefore = null, int delay = GameDelays.CardTransfer)
         {
             if (atomic)
             {
@@ -971,7 +971,7 @@ namespace Sanguosha.Core.Games
 
         public bool IsPanorama { get; set; }
 
-        public void MoveCards(CardsMovement move, bool insertBefore = false, GameDelayTypes delay = GameDelayTypes.CardTransfer)
+        public void MoveCards(CardsMovement move, bool insertBefore = false, int delay = GameDelays.CardTransfer)
         {
             if (move.Cards.Count == 0) return;
             List<CardsMovement> moves = new List<CardsMovement>();
@@ -1022,7 +1022,7 @@ namespace Sanguosha.Core.Games
             CardsMovement move = new CardsMovement();
             move.Cards = cardsDrawn;
             move.To = new DeckPlace(player, DeckType.Hand);
-            MoveCards(move, false, GameDelayTypes.Draw);
+            MoveCards(move, false, GameDelays.Draw);
             PlayerAcquiredCard(player, cardsDrawn);
         }
 

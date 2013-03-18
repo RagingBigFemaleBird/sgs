@@ -128,7 +128,7 @@ namespace Sanguosha.Expansions.Hills.Skills
                 }
                 move.Cards = answer[0];
                 move.To = new DeckPlace(p, QiaoBianDeck);
-                Game.CurrentGame.MoveCards(move, false, Core.Utils.GameDelayTypes.None);
+                Game.CurrentGame.MoveCards(move, false, Core.Utils.GameDelays.None);
                 Game.CurrentGame.PlayerLostCard(p, answer[0]);
             }
             move.Cards.Clear();

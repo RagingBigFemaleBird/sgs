@@ -51,7 +51,7 @@ namespace Sanguosha.Expansions.Assassin.Skills
             {
                 target.Role = role.Role;
             }
-            GameDelays.Delay(GameDelayTypes.RoleDistribute);
+            GameDelays.Delay(GameDelays.RoleDistribute);
         }
 
         public FenXin()

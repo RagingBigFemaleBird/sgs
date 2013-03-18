@@ -47,7 +47,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             move.Cards.Add(c);
             move.To = new DeckPlace(null, DeckType.Discard);
             move.Helper.IsFakedMove = true;
-            Game.CurrentGame.MoveCards(move, false, Core.Utils.GameDelayTypes.None);
+            Game.CurrentGame.MoveCards(move, false, Core.Utils.GameDelays.None);
         }
 
         protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)

@@ -46,7 +46,7 @@ namespace Sanguosha.Core.Skills
         public virtual bool NotifyAndCommit(GameEventArgs arg)
         {
             NotifyAction(Owner, arg.Targets, arg.Cards);
-            if (IsAwakening || IsSingleUse) Core.Utils.GameDelays.Delay(Utils.GameDelayTypes.Awaken);
+            if (IsAwakening || IsSingleUse) Core.Utils.GameDelays.Delay(Utils.GameDelays.Awaken);
             return Commit(arg);
         }
 

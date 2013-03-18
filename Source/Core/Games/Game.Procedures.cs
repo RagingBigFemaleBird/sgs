@@ -109,7 +109,7 @@ namespace Sanguosha.Core.Games
             damageArgs.Targets[0].Health -= damageArgs.Magnitude;
             Trace.TraceInformation("Player {0} Lose {1} hp, @ {2} hp", damageArgs.Targets[0].Id, damageArgs.Magnitude, damageArgs.Targets[0].Health);
             NotificationProxy.NotifyDamage(damageArgs.Source, damageArgs.Targets[0], damageArgs.Magnitude, damageArgs.Element);
-            GameDelays.Delay(GameDelayTypes.Damage);
+            GameDelays.Delay(GameDelays.Damage);
 
             try
             {
@@ -199,7 +199,7 @@ namespace Sanguosha.Core.Games
             move.Cards = new List<Card>();
             move.Cards.Add(c);
             move.To = new DeckPlace(player, DeckType.JudgeResult);
-            MoveCards(move, false, GameDelayTypes.None);
+            MoveCards(move, false, GameDelays.None);
             GameEventArgs args = new GameEventArgs();
             args.Source = player;
             if (triggers.ContainsKey(GameEvent.PlayerJudgeBegin) && triggers[GameEvent.PlayerJudgeBegin].Count > 0)
@@ -240,10 +240,10 @@ namespace Sanguosha.Core.Games
                 move.To = new DeckPlace(null, DeckType.Discard);
                 move.Helper = new MovementHelper();
                 PlayerAboutToDiscardCard(player, move.Cards, DiscardReason.Judge);
-                MoveCards(move, false, GameDelayTypes.None);
+                MoveCards(move, false, GameDelays.None);
                 PlayerDiscardedCard(player, backup, DiscardReason.Judge);
             }
-            GameDelays.Delay(GameDelayTypes.JudgeEnd);
+            GameDelays.Delay(GameDelays.JudgeEnd);
             return args.ReadonlyCard as ReadOnlyCard;
         }
 
@@ -293,7 +293,7 @@ namespace Sanguosha.Core.Games
             args.Targets[0].Health += args.Delta;
             Trace.TraceInformation("Player {0} lose {1} hp, @ {2} hp", args.Targets[0].Id, -args.Delta, args.Targets[0].Health);
             NotificationProxy.NotifyLoseHealth(args.Targets[0], -args.Delta);
-            GameDelays.Delay(GameDelayTypes.Damage);
+            GameDelays.Delay(GameDelays.Damage);
 
             try
             {
@@ -387,7 +387,7 @@ namespace Sanguosha.Core.Games
             if (isDoingAFavor != p)
             {
                 PlayerAboutToDiscardCard(isDoingAFavor, m.Cards, DiscardReason.Play);
-                MoveCards(m, false, GameDelayTypes.PlayerAction);
+                MoveCards(m, false, GameDelays.PlayerAction);
                 PlayerLostCard(p, m.Cards);
                 PlayerPlayedCard(isDoingAFavor, targets, result);
                 PlayerPlayedCard(p, targets, result);
@@ -396,7 +396,7 @@ namespace Sanguosha.Core.Games
             else
             {
                 PlayerAboutToDiscardCard(p, m.Cards, DiscardReason.Play);
-                MoveCards(m, false, GameDelayTypes.PlayerAction);
+                MoveCards(m, false, GameDelays.PlayerAction);
                 PlayerLostCard(p, m.Cards);
                 PlayerPlayedCard(p, targets, result);
                 PlayerDiscardedCard(p, backup, DiscardReason.Play);
@@ -490,7 +490,7 @@ namespace Sanguosha.Core.Games
             List<Card> backup = new List<Card>(move.Cards);
             move.To = new DeckPlace(null, DeckType.Discard);
             PlayerAboutToDiscardCard(p, move.Cards, reason);
-            MoveCards(move, false, GameDelayTypes.Discard);
+            MoveCards(move, false, GameDelays.Discard);
             if (p != null)
             {
                 PlayerLostCard(p, move.Cards);
@@ -654,7 +654,7 @@ namespace Sanguosha.Core.Games
             {
                 move.Helper = helper;
             }
-            MoveCards(move, true, GameDelayTypes.None);
+            MoveCards(move, true, GameDelays.None);
             if (target != null)
             {
                 PlayerLostCard(target, list);
@@ -671,7 +671,7 @@ namespace Sanguosha.Core.Games
             {
                 move.Helper = helper;
             }
-            MoveCards(move, false, GameDelayTypes.None);
+            MoveCards(move, false, GameDelays.None);
             if (target != null)
             {
                 PlayerLostCard(target, list);

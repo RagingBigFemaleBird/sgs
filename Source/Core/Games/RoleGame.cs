@@ -350,7 +350,7 @@ namespace Sanguosha.Core.Games
                     }
                 }
                 bool runTrigger = !c.Type.IsReforging(eventArgs.Source, eventArgs.Skill, m.Cards, eventArgs.Targets);
-                Game.CurrentGame.MoveCards(m, false, GameDelayTypes.PlayerAction);
+                Game.CurrentGame.MoveCards(m, false, GameDelays.PlayerAction);
                 if (isDoingAFavor != eventArgs.Source)
                 {
                     Game.CurrentGame.PlayerPlayedCard(isDoingAFavor, new List<Player>() { eventArgs.Source }, c);
@@ -413,7 +413,7 @@ namespace Sanguosha.Core.Games
                     m.To = new DeckPlace(null, DeckType.Discard);
                     m.Helper = new MovementHelper();
                     Game.CurrentGame.PlayerAboutToDiscardCard(savedSource, m.Cards, DiscardReason.Use);
-                    Game.CurrentGame.MoveCards(m, false, GameDelayTypes.None);
+                    Game.CurrentGame.MoveCards(m, false, GameDelays.None);
                     Game.CurrentGame.PlayerDiscardedCard(savedSource, m.Cards, DiscardReason.Use);
                 }
                 Trace.Assert(Game.CurrentGame.Decks[DeckType.Compute].Count == 0);
@@ -440,7 +440,7 @@ namespace Sanguosha.Core.Games
                 }
                 moves.Add(move);
             }
-            game.MoveCards(moves, null, GameDelayTypes.GameBeforeStart);
+            game.MoveCards(moves, null, GameDelays.GameBeforeStart);
         }
 
         public static DeckType RoleDeckType = new DeckType("Role");
@@ -635,7 +635,7 @@ namespace Sanguosha.Core.Games
                     moves.Add(move);
                     i++;
                 }
-                game.MoveCards(moves, null, GameDelayTypes.GameStart);
+                game.MoveCards(moves, null, GameDelays.GameStart);
 
                 i = 0;
                 foreach (Player player in game.Players)
@@ -653,10 +653,10 @@ namespace Sanguosha.Core.Games
                     i++;
                 }
 
-                GameDelays.Delay(GameDelayTypes.RoleDistribute);
+                GameDelays.Delay(GameDelays.RoleDistribute);
 
                 game.NotificationProxy.NotifyLogEvent(new LogEvent("HerosInitialization"), new List<Player>());
-                if (!game.IsClient) GameDelays.Delay(GameDelayTypes.ServerSideCompensation);
+                if (!game.IsClient) GameDelays.Delay(GameDelays.ServerSideCompensation);
 
                 //hero allocation
                 game.Shuffle(game.Decks[DeckType.Heroes]);
@@ -903,12 +903,12 @@ namespace Sanguosha.Core.Games
 
                 Player current = game.CurrentPlayer = game.Players[rulerId];
 
-                GameDelays.Delay(GameDelayTypes.GameBeforeStart);
+                GameDelays.Delay(GameDelays.GameBeforeStart);
                 StartGameDeal(game);
 
                 Game.CurrentGame.NotificationProxy.NotifyGameStart();
-                GameDelays.Delay(GameDelayTypes.GameStart);
-                GameDelays.Delay(GameDelayTypes.GameStart);
+                GameDelays.Delay(GameDelays.GameStart);
+                GameDelays.Delay(GameDelays.GameStart);
 
                 foreach (var act in game.AlivePlayers)
                 {
@@ -937,7 +937,7 @@ namespace Sanguosha.Core.Games
                 if (currentPlayer.IsImprisoned)
                 {
                     currentPlayer.IsImprisoned = false;
-                    GameDelays.Delay(GameDelayTypes.Imprisoned);
+                    GameDelays.Delay(GameDelays.Imprisoned);
                     return;
                 }
                 game.CurrentPlayer = currentPlayer;
@@ -979,7 +979,7 @@ namespace Sanguosha.Core.Games
                         {
                             break;
                         }
-                        GameDelays.Delay(GameDelayTypes.ChangePhase);
+                        GameDelays.Delay(GameDelays.ChangePhase);
                     }
                 }
                 game.CurrentPhase = TurnPhase.Inactive;

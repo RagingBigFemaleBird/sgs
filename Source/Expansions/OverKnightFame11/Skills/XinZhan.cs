@@ -56,7 +56,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             }
             move.To = new DeckPlace(null, XinZhanDeck);
             move.Helper.IsFakedMove = true;
-            Game.CurrentGame.MoveCards(move, false, GameDelayTypes.None);
+            Game.CurrentGame.MoveCards(move, false, GameDelays.None);
             List<List<Card>> answer;
             AdditionalCardChoiceOptions options = new AdditionalCardChoiceOptions();
             options.Rearrangeable = new List<bool>() { true, false };

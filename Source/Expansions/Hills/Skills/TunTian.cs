@@ -29,8 +29,8 @@ namespace Sanguosha.Expansions.Hills.Skills
             protected override void GetJudgeCards(List<Card> list)
             {
                 if (list[0].Suit == SuitType.Heart) return;
-                GameDelays.Delay(GameDelayTypes.JudgeEnd);
-                GameDelays.Delay(GameDelayTypes.JudgeEnd);
+                GameDelays.Delay(GameDelays.JudgeEnd);
+                GameDelays.Delay(GameDelays.JudgeEnd);
                 CardsMovement move = new CardsMovement();
                 move.Cards = new List<Card>(list);
                 move.To = new DeckPlace(Owner, TianDeck);

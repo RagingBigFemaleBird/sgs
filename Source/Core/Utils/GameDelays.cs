@@ -6,58 +6,35 @@ using System.Text;
 using System.Threading;
 
 namespace Sanguosha.Core.Utils
-{
-    public enum GameDelayTypes
-    {
-        None = 1,
-        GameStart,
-        Damage,
-        JudgeEnd,
-        Discard,
-        CardTransfer,
-        Draw,
-        ChangePhase,
-        PlayerAction,
-        Awaken,
-        RoleDistribute,
-        BaGuaZhen,
-        ServerSideCompensation,
-        GameBeforeStart,
-        HanBingJian,
-        Imprisoned
-    }
+{    
     public class GameDelays
     {
-        private static Dictionary<GameDelayTypes, int> _delays = new Dictionary<GameDelayTypes,int>();
+        public const int None = 0;
+        public const int GameStart = 1000;
+        public const int Damage = 400;
+        public const int JudgeEnd = 300;
+        public const int Discard = 250;
+        public const int CardTransfer = 250;
+        public const int Draw = 200;
+        public const int ChangePhase = 50;
+        public const int PlayerAction = 600;
+        public const int Awaken = 2550;
+        public const int RoleDistribute = 400;
+        public const int ServerSideCompensation = 5000;
+        public const int UiDelayCompensation = 3000;
+        public const int GameBeforeStart = 1200;
+        public const int HanBingJian = 2000;
+        public const int Imprisoned = 10;
 
-        static GameDelays()
-        {
-            _delays[GameDelayTypes.GameStart] = 1000;
-            _delays[GameDelayTypes.Damage] = 400;
-            _delays[GameDelayTypes.JudgeEnd] = 300;
-            _delays[GameDelayTypes.Discard] = 250;
-            _delays[GameDelayTypes.CardTransfer] = 250;
-            _delays[GameDelayTypes.Draw] = 200;
-            _delays[GameDelayTypes.ChangePhase] = 50;
-            _delays[GameDelayTypes.PlayerAction] = 600;
-            _delays[GameDelayTypes.Awaken] = 2550;
-            _delays[GameDelayTypes.RoleDistribute] = 400;
-            _delays[GameDelayTypes.ServerSideCompensation] = 5000;
-            _delays[GameDelayTypes.GameBeforeStart] = 1200;
-            _delays[GameDelayTypes.HanBingJian] = 2000;
-            _delays[GameDelayTypes.Imprisoned] = 10;
-        }
 
-        public static void Delay(GameDelayTypes DelayCategory)
+        public static void Delay(int delayInMilliseconds)
         {
             if (Game.CurrentGame.IsUiDetached != 0) return;
-            if (DelayCategory == GameDelayTypes.None)
+            int toDelay = delayInMilliseconds;
+            if (Game.CurrentGame.ReplayController != null)
             {
-                return;
+                toDelay = (int)(toDelay / Game.CurrentGame.ReplayController.Speed);
             }
-            int toDelay = 200;
-            if (_delays.Keys.Contains(DelayCategory)) toDelay = _delays[DelayCategory];
-            if (Game.CurrentGame.ReplayController != null) toDelay = (int)(toDelay / Game.CurrentGame.ReplayController.Speed);
             Thread.Sleep(toDelay);
         }
     }

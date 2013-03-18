@@ -94,7 +94,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 move = new CardsMovement();
                 move.Cards = new List<Card>(Game.CurrentGame.Decks[null, wuguDeck]);
                 move.To = new DeckPlace(null, DeckType.Discard);
-                Game.CurrentGame.MoveCards(move, false, Core.Utils.GameDelayTypes.Draw);
+                Game.CurrentGame.MoveCards(move, false, Core.Utils.GameDelays.Draw);
             }
         }
 
@@ -142,7 +142,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 move.Cards.Add(c);
             }
             move.To = new DeckPlace(null, wuguDeck);
-            Game.CurrentGame.MoveCards(move, false, Core.Utils.GameDelayTypes.None);
+            Game.CurrentGame.MoveCards(move, false, Core.Utils.GameDelays.None);
             wugu.FakeMapping = new Dictionary<Card, Card>();
             Game.CurrentGame.Decks[null, wuguFakeDeck].Clear();
             foreach (var c in Game.CurrentGame.Decks[null, wuguDeck])

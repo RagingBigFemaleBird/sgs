@@ -34,7 +34,7 @@ namespace Sanguosha.Core.Skills
             Games.Game.CurrentGame.NotificationProxy.NotifySkillUse(log);
             if (IsSingleUse || IsAwakening)
             {
-                Core.Utils.GameDelays.Delay(Utils.GameDelayTypes.Awaken);
+                Core.Utils.GameDelays.Delay(Utils.GameDelays.Awaken);
                 if (IsAwakening) Owner[Player.Awakened]++;
             }
         }
