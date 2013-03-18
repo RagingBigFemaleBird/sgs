@@ -126,6 +126,9 @@
     <Compile Include="Views\Skills\ExcitingSkillAnimation.xaml.cs">
       <DependentUpon>ExcitingSkillAnimation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Skills\ZoomTextAnimation.xaml.cs">
+      <DependentUpon>ZoomTextAnimation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Sounds\GameSoundLocator.cs" />
     <Compile Include="Views\Sounds\GameSoundPlayer.cs" />
     <Compile Include="Views\Translations\GameLogs.cs" />
@@ -359,6 +362,10 @@
     <Page Include="Views\Players\RoleBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Skills\ZoomTextAnimation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

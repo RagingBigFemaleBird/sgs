@@ -903,7 +903,7 @@ namespace Sanguosha.UI.Controls
                     IDeckContainer deck = _GetMovementDeck(stackCards.Key);
                     IList<CardView> cards = null;
                     Trace.Assert(move.Helper != null);
-                    if (!move.Helper.IsFakedMove || move.Helper.AlwaysShowLog)
+                    if (move.Helper != null && (!move.Helper.IsFakedMove || move.Helper.AlwaysShowLog))
                     {
                         Application.Current.Dispatcher.BeginInvoke((ThreadStart)delegate()
                         {
@@ -1026,10 +1026,10 @@ namespace Sanguosha.UI.Controls
                     string s = LogFormatter.Translate(log.SkillAction);
                     if (s != string.Empty)
                     {
-                        ZoomTextAnimation anim = null;
+                        RegularSkillAnimation anim = null;
                         Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
                         {
-                            anim = new ZoomTextAnimation() { Text = s };
+                            anim = new RegularSkillAnimation() { Text = s };
                         });
                         Trace.Assert(anim != null);
                         player.PlayAnimationAsync(anim, 1, new Point(0, 0));

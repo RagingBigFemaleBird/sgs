@@ -3,10 +3,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="clr-namespace:Sanguosha.UI.Animations"
+    xmlns:local="clr-namespace:Sanguosha.UI.Animations;assembly=Animations"
+    xmlns:ctrl="clr-namespace:Sanguosha.UI.Controls"
     xmlns:Sanguosha_UI_Effects="clr-namespace:Sanguosha.UI.Effects;assembly=Effects"
     mc:Ignorable="d"
-    x:Class="Sanguosha.UI.Animations.ZoomTextAnimation"
+    x:Class="Sanguosha.UI.Animations.RegularSkillAnimation"
     Width="300" Height="300">
     <UserControl.Resources>
         <Storyboard x:Key="mainAnimation">
@@ -34,6 +35,9 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:1.7" Value="1"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:2" Value="1"/>
             </DoubleAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(ctrl:OutlinedTextBlock.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="mainText">
+            	<EasingColorKeyFrame KeyTime="0:0:1.8" Value="#FFE234FF"/>
+            </ColorAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
 
@@ -50,14 +54,7 @@
             <Grid.Effect>
                 <Sanguosha_UI_Effects:ZoomBlurEffect/>
             </Grid.Effect>
-            <TextBlock x:Name="mainText" Text="奸雄" TextWrapping="Wrap" FontFamily="SimHei" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White">
-                <TextBlock.CacheMode>
-                    <BitmapCache RenderAtScale="3" />
-                </TextBlock.CacheMode>
-                <TextBlock.Effect>
-                    <DropShadowEffect Color="#FF3437FF" ShadowDepth="0" BlurRadius="20"/>
-                </TextBlock.Effect>
-            </TextBlock>
+            <ctrl:OutlinedTextBlock x:Name="mainText" Stroke="#FF3437FF" Text="奸雄" TextWrapping="Wrap" FontFamily="SimHei" FontSize="20" StrokeThickness="3" HorizontalAlignment="Center" VerticalAlignment="Center" Fill="White" />
         </Grid>		
     </Grid>
 </local:AnimationBase>

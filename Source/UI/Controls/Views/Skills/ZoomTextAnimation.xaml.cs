@@ -16,9 +16,9 @@ namespace Sanguosha.UI.Animations
 	/// <summary>
 	/// Interaction logic for SkillNameTextAnimation.xaml
 	/// </summary>
-	public partial class ZoomTextAnimation : AnimationBase
+	public partial class RegularSkillAnimation : AnimationBase
 	{
-		public ZoomTextAnimation()
+		public RegularSkillAnimation()
 		{
 			this.InitializeComponent();
 		}
@@ -31,11 +31,11 @@ namespace Sanguosha.UI.Animations
 
         // Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register("Text", typeof(string), typeof(ZoomTextAnimation), new UIPropertyMetadata(string.Empty, new PropertyChangedCallback(OnTextChanged)));
+            DependencyProperty.Register("Text", typeof(string), typeof(RegularSkillAnimation), new UIPropertyMetadata(string.Empty, new PropertyChangedCallback(OnTextChanged)));
 
         private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as ZoomTextAnimation;
+            var control = d as RegularSkillAnimation;
             if (d != null) control.mainText.Text = e.NewValue as string;
         }
 	}
