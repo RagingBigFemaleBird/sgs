@@ -33,9 +33,6 @@ namespace Sanguosha.UI.Controls
     /// </summary>
     public partial class CardArrangeBox : UserControl
     {
-
-        private static object cardArrangeLock = new object();
-
         public CardArrangeBox()
         {
             InitializeComponent();
@@ -55,7 +52,7 @@ namespace Sanguosha.UI.Controls
         public event OnCardArrange OnCardMoved;
 
         void CardArrangeBox_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {            
+        {
             UpdateModel();
         }
 
@@ -71,7 +68,7 @@ namespace Sanguosha.UI.Controls
 
         private static double _cardXSpacing = 100;
         private static double _cardYSpacing = 150;
-        
+
         public void UpdateModel()
         {
             CardChoiceViewModel model = DataContext as CardChoiceViewModel;
@@ -120,7 +117,7 @@ namespace Sanguosha.UI.Controls
 
             // First, create layout.
             foreach (var line in model.CardStacks)
-            {       
+            {
 
                 CardStack slot = new CardStack() { ParentCanvas = _slotCanvas };
                 slot.MaxCardSpacing = _cardXSpacing;
@@ -244,7 +241,7 @@ namespace Sanguosha.UI.Controls
         }
 
         private void _UpdateVerifiedStatus()
-        {            
+        {
             CardChoiceViewModel model = DataContext as CardChoiceViewModel;
             if (model == null || model.DisplayOnly) return;
 
@@ -291,7 +288,7 @@ namespace Sanguosha.UI.Controls
                         card.DragDirection = DragDirection.Horizontal;
                     }
                     card.CardModel.IsEnabled = possible;
-                    card.CardModel.IsFaded = !possible;                    
+                    card.CardModel.IsFaded = !possible;
                 }
             }
         }
@@ -301,7 +298,7 @@ namespace Sanguosha.UI.Controls
             if (_allCardStacks.Count <= Math.Max(move.SourceDeckIndex, move.DestDeckIndex)) return;
             var sourceDeck = _allCardStacks[move.SourceDeckIndex];
             var destDeck = _allCardStacks[move.DestDeckIndex];
-            
+
             if (sourceDeck.Cards.Count <= move.SourceCardIndex) return;
             var card = sourceDeck.Cards[move.SourceCardIndex];
             sourceDeck.Cards.RemoveAt(move.SourceCardIndex);
@@ -316,74 +313,71 @@ namespace Sanguosha.UI.Controls
         }
 
         private CardStack _sourceDeck;
-        
+
         private void cardView_OnDragEnd(object sender, EventArgs e)
         {
-            lock(cardArrangeLock)
-            {
-                CardChoiceViewModel model = DataContext as CardChoiceViewModel;
-                if (model == null) return;
+            CardChoiceViewModel model = DataContext as CardChoiceViewModel;
+            if (model == null) return;
 
-                _ResetHighlightSlot();
-                if (_highlightedStack != null)
+            _ResetHighlightSlot();
+            if (_highlightedStack != null)
+            {
+                int newPos = _highlightedStack.InteractingCardIndex;
+                List<CardView> backup1 = new List<CardView>(_sourceDeck.Cards);
+                var backup2 = new List<CardView>(_highlightedStack.Cards);
+                int from = _sourceDeck.Cards.IndexOf(InteractingCard);
+                int to = newPos;
+                _sourceDeck.Cards.Remove(InteractingCard);
+                _highlightedStack.Cards.Insert(newPos, InteractingCard);
+                _sourceDeck.InteractingCard = null;
+                _sourceDeck.CardStatus = CardInteraction.None;
+                _sourceDeck.RearrangeCards();
+                if (_sourceDeck != _highlightedStack)
                 {
-                    int newPos = _highlightedStack.InteractingCardIndex;
-                    List<CardView> backup1 = new List<CardView>(_sourceDeck.Cards);
-                    var backup2 = new List<CardView>(_highlightedStack.Cards);
-                    int from = _sourceDeck.Cards.IndexOf(InteractingCard);
-                    int to = newPos;
-                    _sourceDeck.Cards.Remove(InteractingCard);
-                    _highlightedStack.Cards.Insert(newPos, InteractingCard);
-                    _sourceDeck.InteractingCard = null;
-                    _sourceDeck.CardStatus = CardInteraction.None;
+                    _highlightedStack.InteractingCard = null;
+                    _highlightedStack.CardStatus = CardInteraction.None;
+                    _highlightedStack.RearrangeCards();
+                }
+                _UpdateAnswer();
+                if (model.Verifier.Verify(model.Answer) == Core.UI.VerifierResult.Fail)
+                {
+                    _sourceDeck.Cards.Clear();
+                    foreach (var card in backup1) _sourceDeck.Cards.Add(card);
                     _sourceDeck.RearrangeCards();
                     if (_sourceDeck != _highlightedStack)
                     {
+                        Trace.Assert(backup2 != null);
+                        _highlightedStack.Cards.Clear();
+                        foreach (var card in backup2) _highlightedStack.Cards.Add(card);
                         _highlightedStack.InteractingCard = null;
+                        _UpdateAnswer();
                         _highlightedStack.CardStatus = CardInteraction.None;
                         _highlightedStack.RearrangeCards();
                     }
-                    _UpdateAnswer();
-                    if (model.Verifier.Verify(model.Answer) == Core.UI.VerifierResult.Fail)
-                    {
-                        _sourceDeck.Cards.Clear();
-                        foreach (var card in backup1) _sourceDeck.Cards.Add(card);
-                        _sourceDeck.RearrangeCards();
-                        if (_sourceDeck != _highlightedStack)
-                        {
-                            Trace.Assert(backup2 != null);
-                            _highlightedStack.Cards.Clear();
-                            foreach (var card in backup2) _highlightedStack.Cards.Add(card);
-                            _highlightedStack.InteractingCard = null;
-                            _UpdateAnswer();
-                            _highlightedStack.CardStatus = CardInteraction.None;
-                            _highlightedStack.RearrangeCards();
-                        }
-                    }
-                    else
-                    {
-                        var handle = OnCardMoved;
-                        if (handle != null)
-                        {
-                            int s = _allCardStacks.IndexOf(_sourceDeck);
-                            int d = _allCardStacks.IndexOf(_highlightedStack);
-                            Trace.Assert(s >= 0 && d >= 0 && from >= 0 && to >= 0);
-                            handle(s, from, d, to);
-                        }
-                    }
-                    _sourceDeck = null;
-                    _highlightedStack = null;
                 }
-                else if (_sourceDeck != null)
+                else
                 {
-                    _sourceDeck.InteractingCard = null;
-                    _sourceDeck.CardStatus = CardInteraction.None;
-                    _sourceDeck.RearrangeCards();
+                    var handle = OnCardMoved;
+                    if (handle != null)
+                    {
+                        int s = _allCardStacks.IndexOf(_sourceDeck);
+                        int d = _allCardStacks.IndexOf(_highlightedStack);
+                        Trace.Assert(s >= 0 && d >= 0 && from >= 0 && to >= 0);
+                        handle(s, from, d, to);
+                    }
                 }
-            
-
-                _UpdateVerifiedStatus();
+                _sourceDeck = null;
+                _highlightedStack = null;
             }
+            else if (_sourceDeck != null)
+            {
+                _sourceDeck.InteractingCard = null;
+                _sourceDeck.CardStatus = CardInteraction.None;
+                _sourceDeck.RearrangeCards();
+            }
+
+
+            _UpdateVerifiedStatus();
         }
 
         private void _UpdateAnswer()
@@ -414,97 +408,92 @@ namespace Sanguosha.UI.Controls
             {
                 _highlightedCardSlot.CardModel.IsFaded = false;
                 _highlightedCardSlot = null;
-            }            
+            }
         }
 
         void cardView_OnDragging(object sender, EventArgs e)
         {
-            lock (cardArrangeLock)
+            // First, find the two stacks that the card is hovering above.
+            var relevantStacks = new List<CardStack>();
+            var yOverlap = new List<double>();
+            CardStack resultDeckStack = null;
+            double maxOverlap = 0;
+            double resultOverlap = 0;
+
+            foreach (var stack in _allCardStacks)
             {
-                // First, find the two stacks that the card is hovering above.
-                var relevantStacks = new List<CardStack>();
-                var yOverlap = new List<double>();
-                CardStack resultDeckStack = null;
-                double maxOverlap = 0;
-                double resultOverlap = 0;
-
-                foreach (var stack in _allCardStacks)
+                Rect rect = stack.BoundingBox;
+                rect.Intersect(new Rect(InteractingCard.Position, new Size(InteractingCard.Width, InteractingCard.Height)));
+                if (rect.Size.Height > 0)
                 {
-                    Rect rect = stack.BoundingBox;
-                    rect.Intersect(new Rect(InteractingCard.Position, new Size(InteractingCard.Width, InteractingCard.Height)));
-                    if (rect.Size.Height > 0)
+                    if (stack.Parent != _resultPanel)
                     {
-                        if (stack.Parent != _resultPanel)
-                        {
-                            relevantStacks.Add(stack);
-                            yOverlap.Add(rect.Size.Height);
-                        }
-                        else if (rect.Size.Width > maxOverlap)
-                        {
-                            resultDeckStack = stack;
-                            maxOverlap = rect.Size.Width;
-                            resultOverlap = rect.Size.Height;
-                        }
+                        relevantStacks.Add(stack);
+                        yOverlap.Add(rect.Size.Height);
+                    }
+                    else if (rect.Size.Width > maxOverlap)
+                    {
+                        resultDeckStack = stack;
+                        maxOverlap = rect.Size.Width;
+                        resultOverlap = rect.Size.Height;
                     }
                 }
+            }
 
-                if (resultDeckStack != null)
+            if (resultDeckStack != null)
+            {
+                relevantStacks.Add(resultDeckStack);
+                yOverlap.Add(resultOverlap);
+            }
+            Trace.Assert(relevantStacks.Count <= 2 && yOverlap.Count == relevantStacks.Count);
+
+            // Second, set the interacting card of all card stacks accordingly
+            foreach (var stack in _allCardStacks)
+            {
+                CardInteraction status;
+                if (relevantStacks.Contains(stack) || stack == _sourceDeck)
                 {
-                    relevantStacks.Add(resultDeckStack);
-                    yOverlap.Add(resultOverlap);
-                }
-                Trace.Assert(relevantStacks.Count <= 2 && yOverlap.Count == relevantStacks.Count);
-
-                // Second, set the interacting card of all card stacks accordingly
-                foreach (var stack in _allCardStacks)
-                {
-                    CardInteraction status;
-                    if (relevantStacks.Contains(stack) || stack == _sourceDeck)
-                    {
-                        stack.InteractingCard = InteractingCard;
-                        status = CardInteraction.Drag;
-                    }
-                    else
-                    {
-                        stack.InteractingCard = null;
-                        status = CardInteraction.None;
-                    }
-                    if (status != stack.CardStatus || status == CardInteraction.Drag)
-                    {
-                        stack.CardStatus = status;
-                        stack.RearrangeCards();
-                    }
-                }
-
-                // Finally, in the stack with greatest overlapping y-distance, highlight the slot.
-                _ResetHighlightSlot();
-
-                if (relevantStacks.Count == 0)
-                {
-                    _highlightedStack = null;
+                    stack.InteractingCard = InteractingCard;
+                    status = CardInteraction.Drag;
                 }
                 else
                 {
-                    _highlightedStack = relevantStacks[yOverlap.IndexOf(yOverlap.Max())];
-                    var highlightedSlot = _stackToSlot[_highlightedStack];
-                    if (highlightedSlot.Cards.Count > 0)
-                    {
-                        int index = Math.Min(_highlightedStack.InteractingCardIndex, highlightedSlot.Cards.Count - 1);
-                        _highlightedCardSlot = highlightedSlot.Cards[index];
-                        _highlightedCardSlot.CardModel.IsFaded = true;
-                    }
+                    stack.InteractingCard = null;
+                    status = CardInteraction.None;
+                }
+                if (status != stack.CardStatus || status == CardInteraction.Drag)
+                {
+                    stack.CardStatus = status;
+                    stack.RearrangeCards();
+                }
+            }
+
+            // Finally, in the stack with greatest overlapping y-distance, highlight the slot.
+            _ResetHighlightSlot();
+
+            if (relevantStacks.Count == 0)
+            {
+                _highlightedStack = null;
+            }
+            else
+            {
+                _highlightedStack = relevantStacks[yOverlap.IndexOf(yOverlap.Max())];
+                var highlightedSlot = _stackToSlot[_highlightedStack];
+                if (highlightedSlot.Cards.Count > 0)
+                {
+                    int index = Math.Min(_highlightedStack.InteractingCardIndex, highlightedSlot.Cards.Count - 1);
+                    _highlightedCardSlot = highlightedSlot.Cards[index];
+                    _highlightedCardSlot.CardModel.IsFaded = true;
                 }
             }
         }
-        
+
         void cardView_OnDragBegin(object sender, EventArgs e)
         {
-            lock (cardArrangeLock)
-            {                
-                InteractingCard = sender as CardView;
-                InteractingCard.SetValue(Canvas.ZIndexProperty, 1000);
-                _sourceDeck = _GetParentCardStack(InteractingCard);
-            }
+
+            InteractingCard = sender as CardView;
+            InteractingCard.SetValue(Canvas.ZIndexProperty, 1000);
+            _sourceDeck = _GetParentCardStack(InteractingCard);
         }
     }
 }
