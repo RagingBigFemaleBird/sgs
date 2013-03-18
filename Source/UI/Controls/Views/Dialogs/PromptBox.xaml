@@ -15,7 +15,12 @@
     <ControlTemplate x:Key="BlackWindowStyle" TargetType="{x:Type xctk:ChildWindow}">
         <Grid x:Name="PART_Root">            
             <Grid x:Name="PART_WindowRoot" Background="#FF1D1C1B" Height="{TemplateBinding Height}" MinWidth="{TemplateBinding MinWidth}" MinHeight="{TemplateBinding MinHeight}" VerticalAlignment="Top" Width="{TemplateBinding Width}">                
-                <Grid x:Name="WindowGrid" >                
+                <Grid x:Name="WindowGrid" >
+                    <Border>
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="10" />
+                        </Border.Effect>
+                    </Border>
                     <Border x:Name="PART_DragWidget" VerticalAlignment="Top" Height="23" Background="#FF0E0D0C">
                         <local:OutlinedTextBlock x:Name="txtPrompt" HorizontalAlignment="Center" Text="{TemplateBinding Caption}" FontFamily="{StaticResource Fonts.STLiTi}" Fill="#FFE4D5A0" VerticalAlignment="Center" FontSize="18"/>
                     </Border>
@@ -170,7 +175,7 @@
                 <RowDefinition Height="46"/>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="47"/>
-            </Grid.RowDefinitions>
+            </Grid.RowDefinitions>            
             <Rectangle StrokeThickness="0">
                 <Rectangle.Fill>
                     <ImageBrush ImageSource="../Resources/CardSelectionBox/topLeft.png" Stretch="None"/>

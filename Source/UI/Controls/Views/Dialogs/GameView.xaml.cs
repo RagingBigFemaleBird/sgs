@@ -130,7 +130,7 @@ namespace Sanguosha.UI.Controls
             LobbyViewModel.Instance.OnChat += LobbyModel_OnChat;
         }
 
-        Dictionary<KeyValuePair<Player, Player>, Line> _cueLines;
+        Dictionary<KeyValuePair<Player, Player>, KeyValuePair<Line, Line>> _cueLines;
         Dictionary<KeyValuePair<Player, Player>, Timeline> _lineUpAnimations;
         // Dictionary<KeyValuePair<Player, Player>, Line> _cueLineGlows;
 
@@ -142,11 +142,12 @@ namespace Sanguosha.UI.Controls
             {
                 foreach (var line in _cueLines.Values)
                 {
-                    GlobalCanvas.Children.Remove(line);
+                    GlobalCanvas.Children.Remove(line.Key);
+                    GlobalCanvas.Children.Remove(line.Value);
                 }
             }
 
-            _cueLines = new Dictionary<KeyValuePair<Player, Player>, Line>();
+            _cueLines = new Dictionary<KeyValuePair<Player, Player>, KeyValuePair<Line, Line>>();
             _lineUpAnimations = new Dictionary<KeyValuePair<Player, Player>, Timeline>();
             foreach (var source in playersMap.Keys)
             {
@@ -154,15 +155,23 @@ namespace Sanguosha.UI.Controls
                 {
                     if (source == target) continue;
                     var key = new KeyValuePair<Player, Player>(source, target);
+                    
                     Line line = new Line();
                     line.StrokeDashCap = PenLineCap.Triangle;
                     line.StrokeThickness = 1;
-                    line.Stroke = Resources["indicatorLineBrush"] as Brush;
-                    line.Effect = new DropShadowEffect() { ShadowDepth = 0, BlurRadius = 3, Color = Colors.White };
+                    line.Stroke = Resources["indicatorLineBrush"] as Brush;                    
                     line.Visibility = Visibility.Collapsed;
                     line.SetValue(Canvas.ZIndexProperty, _cueLineZIndex);
-                    /* line2.Stroke = Resources["indicatorLineGlowBrush"] as Brush; */
-                    _cueLines.Add(key, line);
+
+                    Line line2 = new Line();
+                    line2.StrokeDashCap = PenLineCap.Triangle;
+                    line2.StrokeThickness = 3;
+                    line2.Stroke = Resources["indicatorLineGlowBrush"] as Brush;                    
+                    line2.Visibility = Visibility.Collapsed;
+                    line2.SetValue(Canvas.ZIndexProperty, _cueLineZIndex);
+
+                    _cueLines.Add(key, new KeyValuePair<Line, Line>(line, line2));
+                                        
 
                     var anim1 = new DoubleAnimation();
                     anim1.Duration = _lineUpDuration;
@@ -175,10 +184,23 @@ namespace Sanguosha.UI.Controls
                     Storyboard.SetTarget(anim2, line);
                     Storyboard.SetTargetProperty(anim2, new PropertyPath(Line.VisibilityProperty));
 
+                    var anim3 = new DoubleAnimation();
+                    anim3.Duration = _lineUpDuration;
+                    Storyboard.SetTarget(anim3, line2);
+                    Storyboard.SetTargetProperty(anim3, new PropertyPath(Line.StrokeDashOffsetProperty));
+                    var anim4 = new ObjectAnimationUsingKeyFrames();
+                    anim4.Duration = _lineUpDuration;
+                    anim4.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Visible, KeyTime.FromPercent(0)));
+                    anim4.KeyFrames.Add(new DiscreteObjectKeyFrame(Visibility.Collapsed, KeyTime.FromPercent(1)));
+                    Storyboard.SetTarget(anim4, line2);
+                    Storyboard.SetTargetProperty(anim4, new PropertyPath(Line.VisibilityProperty));
+
                     Storyboard animation = new Storyboard();
                     animation.FillBehavior = FillBehavior.Stop;
                     animation.Children.Add(anim1);
                     animation.Children.Add(anim2);
+                    animation.Children.Add(anim3);
+                    animation.Children.Add(anim4);
                     animation.Duration = _lineUpDuration;
 
                     _lineUpAnimations.Add(key, animation);
@@ -197,7 +219,8 @@ namespace Sanguosha.UI.Controls
                 {
                     if (source == target) continue;
                     var key = new KeyValuePair<Player, Player>(source, target);
-                    Line line = _cueLines[key];
+                    Line line = _cueLines[key].Key;
+                    Line line2 = _cueLines[key].Value;
                     var src = playersMap[source];
                     var dst = playersMap[target];
                     var srcPoint = src.TranslatePoint(new Point(src.ActualWidth / 2, src.ActualHeight / 2), GlobalCanvas);
@@ -206,11 +229,21 @@ namespace Sanguosha.UI.Controls
                     line.X2 = dstPoint.X;
                     line.Y1 = srcPoint.Y;
                     line.Y2 = dstPoint.Y;
+                    line2.X1 = srcPoint.X;
+                    line2.X2 = dstPoint.X;
+                    line2.Y1 = srcPoint.Y;
+                    line2.Y2 = dstPoint.Y;                    
                     double distance = Math.Sqrt((srcPoint.X - dstPoint.X) * (srcPoint.X - dstPoint.X) + (srcPoint.Y - dstPoint.Y) * (srcPoint.Y - dstPoint.Y));
                     line.StrokeDashArray = new DoubleCollection() { distance * 2.0, 10000d };
                     line.StrokeDashOffset = distance * 2;
+                    line2.StrokeDashArray = new DoubleCollection() { distance * 2.0, 10000d };
+                    line2.StrokeDashOffset = distance * 2;
 
                     var animation = (_lineUpAnimations[key] as Storyboard).Children[0] as DoubleAnimation;
+                    animation.From = distance * 2.0;
+                    animation.To = -distance;
+
+                    animation = (_lineUpAnimations[key] as Storyboard).Children[2] as DoubleAnimation;
                     animation.From = distance * 2.0;
                     animation.To = -distance;
                 }
@@ -419,8 +452,7 @@ namespace Sanguosha.UI.Controls
                 _privateDeckChoiceWindow.Template = Resources["BlackWindowStyle"] as ControlTemplate;
                 _privateDeckChoiceWindow.MaxWidth = 800;
                 _privateDeckChoiceWindow.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
-                _privateDeckChoiceWindow.CloseButtonVisibility = Visibility.Collapsed;
-                _privateDeckChoiceWindow.Effect = new DropShadowEffect() { BlurRadius = 10d };
+                _privateDeckChoiceWindow.CloseButtonVisibility = Visibility.Collapsed;                
                 _privateDeckChoiceWindow.WindowStartupLocation = Xceed.Wpf.Toolkit.WindowStartupLocation.Center;
                 string title = PromptFormatter.Format(new CardChoicePrompt("PrivateDeck", model.Player, model.CurrentPrivateDeck.TraslatedName));
                 _privateDeckChoiceWindow.Caption = title;
@@ -519,7 +551,6 @@ namespace Sanguosha.UI.Controls
                         cardChoiceWindow.MaxWidth = 800;
                         cardChoiceWindow.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
                         cardChoiceWindow.CloseButtonVisibility = model.CardChoiceModel.CanClose ? Visibility.Visible : Visibility.Collapsed;
-                        cardChoiceWindow.Effect = new DropShadowEffect() { BlurRadius = 10d };
                         cardChoiceWindow.Caption = model.CardChoiceModel.Prompt;
                         var box = CardChoiceBoxSelector.CreateBox(model.CardChoiceModel);
                         if (box is CardArrangeBox)
@@ -1168,8 +1199,7 @@ namespace Sanguosha.UI.Controls
                 _showHandCardsWindow.Template = Resources["BlackWindowStyle"] as ControlTemplate;
                 _showHandCardsWindow.MaxWidth = 800;
                 _showHandCardsWindow.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
-                _showHandCardsWindow.CloseButtonVisibility = Visibility.Visible;
-                _showHandCardsWindow.Effect = new DropShadowEffect() { BlurRadius = 10d };
+                _showHandCardsWindow.CloseButtonVisibility = Visibility.Visible;                
                 _showHandCardsWindow.WindowStartupLocation = Xceed.Wpf.Toolkit.WindowStartupLocation.Center;
                 string title = PromptFormatter.Format(new CardChoicePrompt("ShowCards", p));
                 _showHandCardsWindow.Caption = title;

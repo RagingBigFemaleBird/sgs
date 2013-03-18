@@ -267,9 +267,6 @@
                   CloseButtonVisibility="{Binding CanClose, Converter={StaticResource boolToVisibilityConverter}}"
                   Caption="{Binding Prompt}"                  
                   WindowStartupLocation="Center">
-            <xctk:ChildWindow.Effect>
-                <DropShadowEffect BlurRadius="10"/>
-            </xctk:ChildWindow.Effect>
             <local:CardChoiceBox />
         </xctk:ChildWindow>
         <xctk:ChildWindow x:Name="wuGuWindow" 
@@ -278,9 +275,6 @@
                   CloseButtonVisibility="{Binding CanClose, Converter={StaticResource boolToVisibilityConverter}}"
                   Caption="{Binding WuGuModel.Prompt}"
                   WindowStartupLocation="Center">
-            <xctk:ChildWindow.Effect>
-                <DropShadowEffect BlurRadius="10"/>
-            </xctk:ChildWindow.Effect>
             <local:WuGuBox x:Name="wuGuBox" DataContext="{Binding WuGuModel}" IsHitTestVisible="{Binding WuGuModel.IsEnabled}"/>
         </xctk:ChildWindow>
         <Grid>
@@ -290,9 +284,6 @@
                   HorizontalContentAlignment="Center"
                   CloseButtonVisibility="Collapsed"                  
                   WindowStartupLocation="Center">
-                <xctk:ChildWindow.Effect>
-                    <DropShadowEffect BlurRadius="10"/>
-                </xctk:ChildWindow.Effect>
                 <local:PinDianBox x:Name="pinDianBox" />
             </xctk:ChildWindow>
             <xctk:ChildWindow x:Name="gameResultWindow" Caption="战绩" Width="500" WindowStartupLocation="Center" Template="{DynamicResource StoneWindowStyle}">
