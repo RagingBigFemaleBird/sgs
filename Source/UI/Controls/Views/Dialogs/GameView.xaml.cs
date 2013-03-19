@@ -168,7 +168,7 @@ namespace Sanguosha.UI.Controls
                     line2.StrokeThickness = 3;
                     line2.Stroke = Resources["indicatorLineGlowBrush"] as Brush;                    
                     line2.Visibility = Visibility.Collapsed;
-                    line2.SetValue(Canvas.ZIndexProperty, _cueLineZIndex);
+                    line2.SetValue(Canvas.ZIndexProperty, _cueLineZIndex - 1);
 
                     _cueLines.Add(key, new KeyValuePair<Line, Line>(line, line2));
                                         
@@ -205,6 +205,7 @@ namespace Sanguosha.UI.Controls
 
                     _lineUpAnimations.Add(key, animation);
 
+                    GlobalCanvas.Children.Add(line2);
                     GlobalCanvas.Children.Add(line);
                 }
             }
