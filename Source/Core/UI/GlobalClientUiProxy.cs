@@ -250,6 +250,13 @@ namespace Sanguosha.Core.UI
         public void AskForHeroChoice(Dictionary<Player, List<Card>> restDraw, Dictionary<Player, List<Card>> heroSelection, int numberOfHeroes, ICardChoiceVerifier verifier)
         {
             DeckType temp = new DeckType("Temp");
+            foreach (var inactiveProxy in inactiveProxies)
+            {
+                if (restDraw.ContainsKey(inactiveProxy.HostPlayer))
+                {
+                    inactiveProxy.TryAskForCardUsage(new CardUsagePrompt(""), new NullVerifier());
+                }
+            }
             if (!restDraw.ContainsKey(proxy.HostPlayer))
             {
                 return;

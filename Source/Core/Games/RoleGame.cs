@@ -756,6 +756,11 @@ namespace Sanguosha.Core.Games
                 bool notUsed = true;
                 game.SyncConfirmationStatus(ref notUsed);
 
+                foreach (var pxy in game.UiProxies)
+                {
+                    pxy.Value.Freeze();
+                }
+
                 List<Card> toRemove = new List<Card>();
                 for (int repeat = 0; repeat < 2; repeat++)
                 {
