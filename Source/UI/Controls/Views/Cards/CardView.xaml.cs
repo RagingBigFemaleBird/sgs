@@ -164,7 +164,7 @@ namespace Sanguosha.UI.Controls
 
                 if (card.Card.Rank > 0 && card.Card.Rank <= 13)
                 {
-                    imgRankString.Source = Resources[string.Format("Card.Rank.{0}.{1}.Image.Normal", card.SuitColor, card.RankString)] as ImageSource;                    
+                    imgRankString.Source = Resources[string.Format("Card.Rank.{0}.Image.Normal", card.ColoredRankString)] as ImageSource;                    
                 }
                 else
                 {

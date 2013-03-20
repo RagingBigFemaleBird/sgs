@@ -115,6 +115,15 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public string ColoredRankString
+        {
+            get
+            {
+                if (_uiCard == null) return string.Empty;
+                return string.Concat(_uiCard.SuitColor, ".", RankString);                
+            }
+        }
+
         /// <summary>
         /// Returns rank in the ordinary string format("A" for 1, "J" for 11).
         /// </summary>
@@ -280,6 +289,7 @@ namespace Sanguosha.UI.Controls
             OnPropertyChanged("SuitColor");            
             OnPropertyChanged("ActualTypeString");
             OnPropertyChanged("RankString");
+            OnPropertyChanged("ColoredRankString");
             OnPropertyChanged("TypeString");
             OnPropertyChanged("Category");
             OnPropertyChanged("AttackRange");

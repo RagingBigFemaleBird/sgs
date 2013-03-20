@@ -18,16 +18,8 @@
     </UserControl.Resources>
     <Grid SnapsToDevicePixels="True">
         <Image Width="148" Height="15" HorizontalAlignment="Left" VerticalAlignment="Center" Source="{res:ImageBinding Path=TypeString, StringFormat=Resources/Images/Cards/SmallEquip/{0}.png, ResourceKeyFormat=Card.{0}.Image.SmallEquip}"/>
-        <TextBlock Text="{Binding RankString}" FontSize="11" FontWeight="Bold" Margin="105,-2,1,0"
-                   VerticalAlignment="Center" HorizontalAlignment="Left"
-                   Foreground="{Binding SuitColor, Converter={StaticResource suitColorToColorConverter}}">
-    	    <TextBlock.Effect>
-    		    <DropShadowEffect Color="#FFFFFFAA" ShadowDepth="0"/>
-    		</TextBlock.Effect>
-        </TextBlock>
-        <Image Source="{res:ImageBinding Path=Suit, StringFormat=Resources/Images/Cards/Suit/\{0\}.png, ResourceKeyFormat=Card.Suit.\{0\}.Image.Normal}" 
-               Width="10" Height="12" Margin="115,0,0,0"
-               HorizontalAlignment="Left" VerticalAlignment="Center"/>        
+        <Image HorizontalAlignment="Right" VerticalAlignment="Center" Margin="15,0" Width="12" Height="13" Source="{res:ResourceKeyBinding Path=ColoredRankString, StringFormat=Card.Rank.{0}.Image.Small}" />
+        <Image HorizontalAlignment="Right" VerticalAlignment="Center" Margin="3,0" Width="12" Height="13" Source="{res:ResourceKeyBinding Path=Suit, StringFormat=Card.Suit.{0}.Image.Small}" />
     </Grid>
     <UserControl.ToolTip>
         <ToolTip x:Name="toolTip" Content="{Binding}" Placement="Top" ContentTemplateSelector="{StaticResource cardToolTipTemplateSelector}"/>        

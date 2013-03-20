@@ -1511,6 +1511,7 @@ namespace Sanguosha.UI.Controls
 
         public void AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, int timeOutSeconds)
         {
+            Trace.Assert(!Player.IsDead);
             if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {

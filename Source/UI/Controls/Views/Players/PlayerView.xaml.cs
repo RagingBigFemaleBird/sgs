@@ -227,10 +227,10 @@ namespace Sanguosha.UI.Controls
 
         internal override void UpdateCards()
         {
-            weaponArea.Children.Clear();
-            armorArea.Children.Clear();
-            horse1Area.Children.Clear();
-            horse2Area.Children.Clear();
+            weaponArea.Child = null;
+            armorArea.Child = null;
+            horse1Area.Child = null;
+            horse2Area.Child = null;
             delayedToolsDock.Children.Clear();
 
             base.UpdateCards();
@@ -395,7 +395,7 @@ namespace Sanguosha.UI.Controls
             SmallEquipView equipLabel = new SmallEquipView();
             equipLabel.DataContext = card.CardModel;
 
-            Canvas targetArea = null;
+            Border targetArea = null;
             switch (equip.Category)
             {
                 case CardCategory.Weapon:
@@ -415,12 +415,11 @@ namespace Sanguosha.UI.Controls
             }
             equipLabel.Opacity = 0;
 
-            if (targetArea.Children.Count != 0)
+            if (targetArea.Child != null)
             {
                 throw new ArgumentException("Duplicate equip not allowed.");
             }
-            targetArea.Children.Clear();
-            targetArea.Children.Add(equipLabel);
+            targetArea.Child = equipLabel;
 
             if (isFaked)
             {
@@ -460,7 +459,7 @@ namespace Sanguosha.UI.Controls
                 throw new ArgumentException("Cannot add non-equip to equip area.");
             }
 
-            Canvas targetArea = null;
+            Border targetArea = null;
             switch (equip.Category)
             {
                 case CardCategory.Weapon:
@@ -479,13 +478,13 @@ namespace Sanguosha.UI.Controls
                     throw new ArgumentException("Cannot install non-equips to equip area.");
             }
 
-            if (targetArea.Children.Count == 0)
+            if (targetArea.Child == null)
             {
                 throw new ArgumentException("No equip is found.");
             }
 
-            SmallEquipView equipLabel = targetArea.Children[0] as SmallEquipView;
-            if (!isCopy) targetArea.Children.Clear();
+            SmallEquipView equipLabel = targetArea.Child as SmallEquipView;
+            if (!isCopy) targetArea.Child = null;
 
             CardView result = CardView.CreateCard(card);
             ParentGameView.GlobalCanvas.Children.Add(result);

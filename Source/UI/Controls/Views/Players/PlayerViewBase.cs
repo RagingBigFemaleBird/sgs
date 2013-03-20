@@ -205,7 +205,7 @@ namespace Sanguosha.UI.Controls
             double height = element.ActualHeight;
             if (width == 0) width = element.Width;
             if (height == 0) height = element.Height;
-            Point dest = element.TranslatePoint(new Point(element.Width / 2, element.Height / 2),
+            Point dest = element.TranslatePoint(new Point(width / 2, height / 2),
                                                    ParentGameView.GlobalCanvas);
             dest.Offset(-card.Width / 2, -card.Height / 2);
             return dest;

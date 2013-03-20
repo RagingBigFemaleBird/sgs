@@ -511,10 +511,10 @@
                         <Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="2" Stretch="Fill" Margin="3,30,0,0" Width="15" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" d:LayoutOverrides="GridBox"/>
                         <Image Source="{DynamicResource PlayerInfoView.EquipmentSquare}" Grid.Row="2" Stretch="Fill" Margin="3,45,0,0" Width="15" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" d:LayoutOverrides="GridBox"/>
                         <Image Source="{DynamicResource PlayerInfoView.Dragon}" Stretch="Fill" VerticalAlignment="Center" Width="64" Height="56"/>
-                        <Canvas x:Name="weaponArea" Margin="3,0,5,0" Height="15" Width="140" VerticalAlignment="Top" />
-                        <Canvas x:Name="armorArea" Margin="3,15,5,0" Height="15" Width="140" VerticalAlignment="Top" />
-                        <Canvas x:Name="horse1Area" Margin="3,30,5,0" Height="15" Width="140"  VerticalAlignment="Top" />
-                        <Canvas x:Name="horse2Area" Margin="3,45,5,0" Height="15" Width="140"  VerticalAlignment="Top" />
+                        <Border x:Name="weaponArea" Background="Transparent" Margin="3,0,5,0" Height="15" VerticalAlignment="Top" />
+                        <Border x:Name="armorArea" Background="Transparent" Margin="3,15,5,0" Height="15" VerticalAlignment="Top" />
+                        <Border x:Name="horse1Area" Background="Transparent" Margin="3,30,5,0" Height="15" VerticalAlignment="Top" />
+                        <Border x:Name="horse2Area" Background="Transparent" Margin="3,45,5,0" Height="15" VerticalAlignment="Top" />
                     </Grid>
                     <Grid x:Name="ironShackleArea" Grid.Row="1" Height="22" VerticalAlignment="Bottom" Margin="-14.333,0,-15.667,-7.834">
                         <Grid.ToolTip>

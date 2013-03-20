@@ -801,6 +801,9 @@
     <Resource Include="Images\Roles\unknownAlive.png" />
     <Resource Include="Images\Roles\unknownDead.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cards\Rank\Ranks2.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if not exist $(TargetDir)\Resources\Texts mkdir  $(TargetDir)\Resources\Texts

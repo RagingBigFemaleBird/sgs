@@ -34,6 +34,38 @@
     <CroppedBitmap x:Key="Card.Rank.Red.Q.Image.Normal" Source="Cards/Rank/Ranks.png" SourceRect="209,35,19,18"/>
     <CroppedBitmap x:Key="Card.Rank.Red.K.Image.Normal" Source="Cards/Rank/Ranks.png" SourceRect="228,35,19,18"/>
 
+    <BitmapImage x:Key="Card.Suit.Heart.Image.Small">Cards/Suit/heart2.png</BitmapImage>
+    <BitmapImage x:Key="Card.Suit.Spade.Image.Small">Cards/Suit/spade2.png</BitmapImage>
+    <BitmapImage x:Key="Card.Suit.Club.Image.Small">Cards/Suit/club2.png</BitmapImage>
+    <BitmapImage x:Key="Card.Suit.Diamond.Image.Small">Cards/Suit/diamond2.png</BitmapImage>
+
+    <CroppedBitmap x:Key="Card.Rank.Black.A.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="0,13,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Black.2.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="12,13,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Black.3.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="24,13,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Black.4.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="36,13,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Black.5.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="48,13,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Black.6.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="60,13,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Black.7.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="72,13,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Black.8.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="84,13,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Black.9.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="96,13,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Black.10.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="108,13,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Black.J.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="120,13,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Black.Q.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="132,13,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Black.K.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="144,13,12,13"/>
+
+    <CroppedBitmap x:Key="Card.Rank.Red.A.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="0,26,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Red.2.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="12,26,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Red.3.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="24,26,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Red.4.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="36,26,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Red.5.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="48,26,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Red.6.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="60,26,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Red.7.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="72,26,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Red.8.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="84,26,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Red.9.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="96,26,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Red.10.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="108,26,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Red.J.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="120,26,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Red.Q.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="132,26,12,13"/>
+    <CroppedBitmap x:Key="Card.Rank.Red.K.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="144,26,12,13"/>
 
     <BitmapImage x:Key="Card.BaGuaZhen.Image.Normal">Cards/Normal/BaGuaZhen.jpg</BitmapImage>
     <BitmapImage x:Key="Card.BaiYinShiZi.Image.Normal">Cards/Normal/BaiYinShiZi.jpg</BitmapImage>
