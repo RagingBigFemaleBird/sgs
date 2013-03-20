@@ -18,7 +18,7 @@
     </UserControl.Resources>
     <Grid SnapsToDevicePixels="True">
         <Image Width="148" Height="15" HorizontalAlignment="Left" VerticalAlignment="Center" Source="{res:ImageBinding Path=TypeString, StringFormat=Resources/Images/Cards/SmallEquip/{0}.png, ResourceKeyFormat=Card.{0}.Image.SmallEquip}"/>
-        <Image HorizontalAlignment="Right" VerticalAlignment="Center" Margin="15,0" Width="12" Height="13" Source="{res:ResourceKeyBinding Path=ColoredRankString, StringFormat=Card.Rank.{0}.Image.Small}" />
+        <Image HorizontalAlignment="Right" VerticalAlignment="Center" Margin="13,0" Width="12" Height="13" Source="{res:ResourceKeyBinding Path=ColoredRankString, StringFormat=Card.Rank.{0}.Image.Small}" />
         <Image HorizontalAlignment="Right" VerticalAlignment="Center" Margin="3,0" Width="12" Height="13" Source="{res:ResourceKeyBinding Path=Suit, StringFormat=Card.Suit.{0}.Image.Small}" />
     </Grid>
     <UserControl.ToolTip>

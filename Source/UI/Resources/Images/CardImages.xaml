@@ -1,10 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
-    <BitmapImage x:Key="Card.Suit.Heart.Image.Normal">Cards/Suit/heart.png</BitmapImage>
-    <BitmapImage x:Key="Card.Suit.Spade.Image.Normal">Cards/Suit/spade.png</BitmapImage>
-    <BitmapImage x:Key="Card.Suit.Club.Image.Normal">Cards/Suit/club.png</BitmapImage>
-    <BitmapImage x:Key="Card.Suit.Diamond.Image.Normal">Cards/Suit/diamond.png</BitmapImage>
+    <CroppedBitmap x:Key="Card.Suit.Heart.Image.Normal" Source="Cards/Rank/Ranks.png" SourceRect="0,0,19,18"/>
+    <CroppedBitmap x:Key="Card.Suit.Diamond.Image.Normal" Source="Cards/Rank/Ranks.png" SourceRect="19,0,19,18"/>
+    <CroppedBitmap x:Key="Card.Suit.Spade.Image.Normal" Source="Cards/Rank/Ranks.png" SourceRect="38,0,19,18"/>
+    <CroppedBitmap x:Key="Card.Suit.Club.Image.Normal" Source="Cards/Rank/Ranks.png" SourceRect="57,0,19,18"/>
 
     <CroppedBitmap x:Key="Card.Rank.Black.A.Image.Normal" Source="Cards/Rank/Ranks.png" SourceRect="0,17,19,18"/>
     <CroppedBitmap x:Key="Card.Rank.Black.2.Image.Normal" Source="Cards/Rank/Ranks.png" SourceRect="19,17,19,18"/>
@@ -34,10 +34,10 @@
     <CroppedBitmap x:Key="Card.Rank.Red.Q.Image.Normal" Source="Cards/Rank/Ranks.png" SourceRect="209,35,19,18"/>
     <CroppedBitmap x:Key="Card.Rank.Red.K.Image.Normal" Source="Cards/Rank/Ranks.png" SourceRect="228,35,19,18"/>
 
-    <BitmapImage x:Key="Card.Suit.Heart.Image.Small">Cards/Suit/heart2.png</BitmapImage>
-    <BitmapImage x:Key="Card.Suit.Spade.Image.Small">Cards/Suit/spade2.png</BitmapImage>
-    <BitmapImage x:Key="Card.Suit.Club.Image.Small">Cards/Suit/club2.png</BitmapImage>
-    <BitmapImage x:Key="Card.Suit.Diamond.Image.Small">Cards/Suit/diamond2.png</BitmapImage>
+    <CroppedBitmap x:Key="Card.Suit.Heart.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="0,0,12,13"/>
+    <CroppedBitmap x:Key="Card.Suit.Diamond.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="12,0,12,13"/>
+    <CroppedBitmap x:Key="Card.Suit.Spade.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="24,0,12,13"/>
+    <CroppedBitmap x:Key="Card.Suit.Club.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="36,0,12,13"/>
 
     <CroppedBitmap x:Key="Card.Rank.Black.A.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="0,13,12,13"/>
     <CroppedBitmap x:Key="Card.Rank.Black.2.Image.Small" Source="Cards/Rank/Ranks2.png" SourceRect="12,13,12,13"/>

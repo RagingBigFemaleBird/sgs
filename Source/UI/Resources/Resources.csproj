@@ -135,14 +135,6 @@
     <Resource Include="Images\Cards\SmallEquip\ZhuGeLianNu.png" />
     <Resource Include="Images\Cards\SmallEquip\ZhuQueYuShan.png" />
     <Resource Include="Images\Cards\SmallEquip\ZiXing.png" />
-    <Resource Include="Images\Cards\Suit\club.png" />
-    <Resource Include="Images\Cards\Suit\club2.png" />
-    <Resource Include="Images\Cards\Suit\diamond.png" />
-    <Resource Include="Images\Cards\Suit\diamond2.png" />
-    <Resource Include="Images\Cards\Suit\heart.png" />
-    <Resource Include="Images\Cards\Suit\heart2.png" />
-    <Resource Include="Images\Cards\Suit\spade.png" />
-    <Resource Include="Images\Cards\Suit\spade2.png" />
     <Resource Include="Images\CornerAdorners\2.png" />
     <Resource Include="Images\Game\infoPlaneBody.png" />
     <Resource Include="Images\Game\infoPlaneFooter.png" />

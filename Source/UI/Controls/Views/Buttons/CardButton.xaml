@@ -123,11 +123,9 @@
                                     </Border.Effect>
                                 </Border>
                                 <Image Height="25" Source="/Resources;component/Images/Cards/BigEquip/glassBg.png" Stretch="Fill" Width="142"/>
-                                <Image Source="{res:ImageBinding Path=TypeString, StringFormat=Resources/Images/Cards/BigEquip/{0}.png, ResourceKeyFormat=Card.{0}.Image.BigEquip}" /> 
-                                <StackPanel HorizontalAlignment="Right" Margin="0,2,5,2" Orientation="Horizontal">
-                                    <Image Source="{res:ResourceKeyBinding Path=ColoredRankString, StringFormat=Card.Rank.{0}.Image.Small}" />
-                                    <Image Source="{res:ResourceKeyBinding Path=Suit, StringFormat=Card.Suit.{0}.Image.Small}" />
-                                </StackPanel>
+                                <Image Source="{res:ImageBinding Path=TypeString, StringFormat=Resources/Images/Cards/BigEquip/{0}.png, ResourceKeyFormat=Card.{0}.Image.BigEquip}" />
+                                <Image Source="{res:ResourceKeyBinding Path=ColoredRankString, StringFormat=Card.Rank.{0}.Image.Small}" Height="13" Width="12" HorizontalAlignment="Right" Margin="0,2,18,2" VerticalAlignment="Center"/>
+                                <Image Source="{res:ResourceKeyBinding Path=Suit, StringFormat=Card.Suit.{0}.Image.Small}" Height="13" Width="12" HorizontalAlignment="Right" Margin="0,2,8,2" VerticalAlignment="Center"/>
                                 <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>                            	
 							</Grid>
                             <local:BigEquipBorder x:Name="bigEquipBorder" WrapAround="true" FramesPerSecond="20" d:IsHidden="True"/>
