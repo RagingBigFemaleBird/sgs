@@ -1510,9 +1510,9 @@ namespace Sanguosha.UI.Controls
         }
 
         public void AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, int timeOutSeconds)
-        {
-            Trace.Assert(!Player.IsDead);
+        {            
             if (ViewModelBase.IsDetached) return;
+            Trace.Assert(!Player.IsDead);
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 GameModel.CurrentActivePlayer = this;
@@ -1803,6 +1803,7 @@ namespace Sanguosha.UI.Controls
                                      CardChoiceRearrangeCallback callback)
         {
             if (ViewModelBase.IsDetached) return;
+            Trace.Assert(!Player.IsDead);
             if (this != GameModel.MainPlayerModel && (verifier.Helper == null || !verifier.Helper.ShowToAll))
             {
                 TimeOutSeconds = timeOutSeconds;
@@ -1818,7 +1819,10 @@ namespace Sanguosha.UI.Controls
                 {
                     Trace.Assert(currentUsageVerifier == null);
                     TimeOutSeconds = timeOutSeconds;
-                    CardChoiceAnsweredEvent(null);
+                    CardChoiceAnsweredEvent(null);                    
+                }
+                if (GameModel.MainPlayerModel != this)
+                {
                     prompt.ResourceKey = prompt.ResourceKey + Prompt.NonPlaybleAppendix;
                     prompt.Values.Insert(0, Player);
                 }
@@ -1864,6 +1868,7 @@ namespace Sanguosha.UI.Controls
         public void AskForMultipleChoice(Prompt prompt, List<OptionPrompt> choices, int timeOutSeconds)
         {
             if (ViewModelBase.IsDetached) return;
+            Trace.Assert(!Player.IsDead);
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 GameModel.CurrentActivePlayer = this;

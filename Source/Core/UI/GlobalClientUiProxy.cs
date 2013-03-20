@@ -165,7 +165,10 @@ namespace Sanguosha.Core.UI
             this.verifier = verifier;
             foreach (var inactiveProxy in inactiveProxies)
             {
-                inactiveProxy.TryAskForCardUsage(new CardUsagePrompt(""), new NullVerifier());
+                if (inactiveProxy.HostPlayer != null && !inactiveProxy.HostPlayer.IsDead)
+                {
+                    inactiveProxy.TryAskForCardUsage(prompt, new NullVerifier());
+                }
             }
             pendingUiThread = new Thread(AskUiThread) { IsBackground = true };
             pendingUiThread.Start();
