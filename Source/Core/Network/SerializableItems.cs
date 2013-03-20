@@ -13,7 +13,6 @@ namespace Sanguosha.Core.Network
     [Serializable]
     public enum Command
     {
-        WhoAmI,
         QaId,
         GameStart,
         Interrupt,
@@ -96,7 +95,10 @@ namespace Sanguosha.Core.Network
             item.playerId = Game.CurrentGame.Players.IndexOf(card.Place.Player);
             item.deckName = card.Place.DeckType.Name;
             item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
-            Translator.EncodeCardHandler(card.Type, out item.typeName, out item.typeHorseName);
+            if (GameEngine.CardSet[card.Id].Type != card.Type)
+            {
+                Translator.EncodeCardHandler(card.Type, out item.typeName, out item.typeHorseName);
+            }
             Trace.Assert(item.place >= 0);
             item.rank = card.Rank;
             item.suit = (int)card.Suit;
