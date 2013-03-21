@@ -54,11 +54,13 @@ namespace Sanguosha.Lobby.Server
         private Account Authenticate(string username, string hash)
         {
             if (accountContext == null) return new Account() { UserName = username };
-
-            var result = from a in accountContext.Accounts where a.UserName.Equals(username) select a;
-            if (result.Count() == 0) return null;
-            if (!result.First().Password.Equals(hash)) return null;
-            return result.First();
+            lock (accountContext)
+            {
+                var result = from a in accountContext.Accounts where a.UserName.Equals(username) select a;
+                if (result.Count() == 0) return null;
+                if (!result.First().Password.Equals(hash)) return null;
+                return result.First();
+            }
         }
 
         public LoginStatus Login(int version, string username, string hash, out Account retAccount, out string reconnectionString, out LoginToken reconnectionToken)
@@ -400,7 +402,10 @@ namespace Sanguosha.Lobby.Server
             {
                 try
                 {
-                    accountContext.SaveChanges();
+                    lock (accountContext)
+                    {
+                        accountContext.SaveChanges();
+                    }
                 }
                 catch (Exception e)
                 {
@@ -680,14 +685,17 @@ namespace Sanguosha.Lobby.Server
                 return LoginStatus.Success;
             }
 
-            var result = from a in accountContext.Accounts where a.UserName.Equals(userName) select a;
-            if (result.Count() != 0)
+            lock (accountContext)
             {
-                return LoginStatus.InvalidUsernameAndPassword;
+                var result = from a in accountContext.Accounts where a.UserName.Equals(userName) select a;
+                if (result.Count() != 0)
+                {
+                    return LoginStatus.InvalidUsernameAndPassword;
+                }
+                accountContext.Accounts.Add(new Account() { UserName = userName, Password = p });
+                accountContext.SaveChanges();
+                return LoginStatus.Success;
             }
-            accountContext.Accounts.Add(new Account() { UserName = userName, Password = p });
-            accountContext.SaveChanges();
-            return LoginStatus.Success;
         }
 
         public void SubmitBugReport(System.IO.Stream s)
