@@ -334,19 +334,6 @@ namespace Sanguosha.Core.Network
             }
         }
 
-        void _SerializeType(ref Type type, ref String horse, CardHandler handler)
-        {
-            if (handler is RoleCardHandler || handler is Heroes.HeroCardHandler || handler == null)
-            {
-                type = null;
-                horse = null;
-                return;
-            }
-            type = handler.GetType();
-            if (handler is OffensiveHorse || handler is DefensiveHorse) horse = handler.CardType;
-            else horse = null;
-        }
-
         bool PlayerIdSanityCheck(int id)
         {
             if (id < 0 || id >= Game.CurrentGame.Players.Count)
