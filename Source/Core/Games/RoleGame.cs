@@ -781,11 +781,14 @@ namespace Sanguosha.Core.Games
                             {
                                 c = restDraw[p][idx];
                             }
-                            foreach (Player player in game.Players)
+                            if (game.GameServer != null)
                             {
-                                game.GameServer.SendObject(player.Id, idx);
+                                foreach (Player player in game.Players)
+                                {
+                                    game.GameServer.SendObject(player.Id, idx);
+                                }
+                                game.GameServer.SendObject(game.Players.Count, idx);
                             }
-                            game.GameServer.SendObject(game.Players.Count, idx);
                         }
                         // you are client
                         else

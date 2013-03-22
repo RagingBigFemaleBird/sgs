@@ -25,20 +25,20 @@ namespace Sanguosha.Core.UI
 
         public void AskForMultipleChoice(Prompt prompt, List<OptionPrompt> questions, List<Player> players, out Dictionary<Player, int> aanswer)
         {
-            throw new NotImplementedException();
+            aanswer = new Dictionary<Player, int>();
         }
 
         public void AskForHeroChoice(Dictionary<Player, List<Card>> restDraw, Dictionary<Player, List<Card>> heroSelection, int numberOfHeroes, ICardChoiceVerifier verifier)
         {
-            throw new NotImplementedException();
         }
 
 
         public void AskForMultipleCardUsage(Prompt prompt, ICardUsageVerifier verifier, List<Player> players, out Dictionary<Player, ISkill> askill, out Dictionary<Player, List<Card>> acards, out Dictionary<Player, List<Player>> aplayers)
         {
-            throw new NotImplementedException();
+            acards = new Dictionary<Player, List<Card>>();
+            aplayers = new Dictionary<Player, List<Player>>();
+            askill = new Dictionary<Player, ISkill>();
         }
-
 
         public void Abort()
         {            
