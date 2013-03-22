@@ -2,17 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ProtoBuf;
 
 namespace Sanguosha.Core.UI
 {
-    public struct CardRearrangement
+    [ProtoContract]
+    public class CardRearrangement
     {
-        public int SourceDeckIndex;
-        public int SourceCardIndex;
-        public int DestDeckIndex;
-        public int DestCardIndex;
+        [ProtoMember(1)]
+        public int SourceDeckIndex { get; set; }
+        [ProtoMember(2)]
+        public int SourceCardIndex { get; set; }
+        [ProtoMember(3)]
+        public int DestDeckIndex { get; set; }
+        [ProtoMember(4)]
+        public int DestCardIndex { get; set; }
+        public CardRearrangement()
+        {
+        }
         public CardRearrangement(int sourceDeckIndex, int sourceCardIndex, int destDeckIndex, int destCardIndex)
-            : this()
         {
             SourceDeckIndex = sourceDeckIndex;
             SourceCardIndex = sourceCardIndex;

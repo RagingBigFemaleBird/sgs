@@ -82,6 +82,7 @@
     <Compile Include="Exceptions\DuplicateAttributeKeyException.cs" />
     <Compile Include="Exceptions\DuplicateCardHandlerException.cs" />
     <Compile Include="Exceptions\PlayerIsDeadException.cs" />
+    <Compile Include="Games\HandCardSwitcher.cs" />
     <Compile Include="Games\PlayerExtension.cs" />
     <Compile Include="Games\Expansion.cs" />
     <Compile Include="Games\GameEngine.cs" />
@@ -113,7 +114,6 @@
     <Compile Include="Triggers\RelayTrigger.cs" />
     <Compile Include="UI\CardRearrangement.cs" />
     <Compile Include="UI\CardChoiceCallback.cs" />
-    <Compile Include="UI\HandCardMovement.cs" />
     <Compile Include="UI\INotificationProxy.cs" />
     <Compile Include="UI\MovementHelper.cs" />
     <Compile Include="UI\Prompt.cs" />

@@ -29,9 +29,10 @@ namespace Sanguosha.Core.Utils
 
         public static void Delay(int delayInMilliseconds)
         {
-            if (Game.CurrentGame.IsUiDetached != 0) return;
+            var game = Game.CurrentGame;
+            if (game == null || game.IsUiDetached != 0) return;
             int toDelay = delayInMilliseconds;
-            if (Game.CurrentGame.ReplayController != null)
+            if (game.ReplayController != null)
             {
                 toDelay = (int)(toDelay / Game.CurrentGame.ReplayController.Speed);
             }

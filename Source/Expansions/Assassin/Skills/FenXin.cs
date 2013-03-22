@@ -22,21 +22,21 @@ namespace Sanguosha.Expansions.Assassin.Skills
         {
             Owner[FenXinUsed] = 1;
             Player target = eventArgs.Targets[0];
-            DeckType RoleDeck = DeckType.Register("Role");
-            Card role1 = Game.CurrentGame.Decks[Owner, RoleDeck][0];
-            Card role2 = Game.CurrentGame.Decks[target, RoleDeck][0];
+
+            Card role1 = Game.CurrentGame.Decks[Owner, RoleGame.RoleDeckType][0];
+            Card role2 = Game.CurrentGame.Decks[target, RoleGame.RoleDeckType][0];
             Game.CurrentGame.SyncCard(target, ref role1);
             Game.CurrentGame.SyncCard(Owner, ref role2);
 
             List<CardsMovement> moves = new List<CardsMovement>();
             CardsMovement move1 = new CardsMovement();
             move1.Cards = new List<Card>() { role1 };
-            move1.To = new DeckPlace(target, RoleDeck);
+            move1.To = new DeckPlace(target, RoleGame.RoleDeckType);
             moves.Add(move1);
 
             CardsMovement move2 = new CardsMovement();
             move2.Cards = new List<Card>() { role2 };
-            move2.To = new DeckPlace(Owner, RoleDeck);
+            move2.To = new DeckPlace(Owner, RoleGame.RoleDeckType);
             moves.Add(move2);
 
             Game.CurrentGame.MoveCards(moves);
