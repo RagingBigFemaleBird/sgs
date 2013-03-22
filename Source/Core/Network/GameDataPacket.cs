@@ -151,10 +151,13 @@ namespace Sanguosha.Core.Network
     public abstract class CardItem
     {
         public abstract Card ToCard();
-        public static CardItem Parse(Card card)
+        public static CardItem Parse(Card card, int wrt)
         {
-            // @todo: implementation
-            throw new NotImplementedException();
+            if (card.Place.Player != null && card.Place.DeckType == DeckType.Hand && wrt < Game.CurrentGame.Players.Count && Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrt]].Contains(card.Place.Player))
+            {
+                return new CardByIdItem() { CardId = card.Id };
+            }
+            return CardByPlaceItem.Parse(card);
         }
     }
 
