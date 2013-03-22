@@ -8,9 +8,11 @@ using Sanguosha.Core.Cards;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Skills;
+using Sanguosha.Core.UI;
 
 namespace Sanguosha.Core.Network
 {
+    #region Basic Structures
     [ProtoContract]
     public class PlayerItem
     {
@@ -23,6 +25,7 @@ namespace Sanguosha.Core.Network
         }
         public Player ToPlayer()
         {
+            if (PlayerId >= Game.CurrentGame.Players.Count) return null;
             return Game.CurrentGame.Players[PlayerId];
         }
     }
@@ -70,10 +73,9 @@ namespace Sanguosha.Core.Network
             return result;
         }
 
-        [ProtoContract]
         public virtual ISkill ToSkill()
         {
-            if (PlayerItem != null)
+            if (PlayerItem != null && PlayerItem.ToPlayer() != null)
             {
                 var skills = PlayerItem.ToPlayer().ActionableSkills;
                 if (skills.Count <= SkillId)
@@ -151,10 +153,26 @@ namespace Sanguosha.Core.Network
     public abstract class CardItem
     {
         public abstract Card ToCard();
+        
         public static CardItem Parse(Card card)
         {
+            if (card == null) return null;
             // @todo: implementation
-            throw new NotImplementedException();
+            if (card.Id < 0 || ...)
+            {
+                return new CardByPlaceItem()
+                {
+                    DeckPlaceItem = DeckPlaceItem.Parse(card.Place),
+                    PlaceInDeck = Game.CurrentGame.Decks[card.Place].IndexOf(card)
+                };
+            }
+            else
+            {
+                return new CardByIdItem()
+                {
+                    CardId = card.Id
+                };
+            }
         }
     }
 
@@ -177,32 +195,28 @@ namespace Sanguosha.Core.Network
         [ProtoMember(2)]
         public int PlaceInDeck { get; set; }
 
-        public static CardByPlaceItem Parse(Card card)
-        {
-            return new CardByPlaceItem()
-            {
-                DeckPlaceItem = DeckPlaceItem.Parse(card.Place),
-                PlaceInDeck = Game.CurrentGame.Decks[card.Place].IndexOf(card)
-            };
-        }
         public override Card ToCard()
         {
             return Game.CurrentGame.Decks[DeckPlaceItem.ToDeckPlace()][PlaceInDeck];
         }
     }
 
-
-
+    #endregion
+    #region GameDataPacket
 
     [ProtoContract]
-    [ProtoInclude(1011, typeof(AskForCardUsageResponse))]
-    [ProtoInclude(1012, typeof(AskForCardChoiceResponse))]
-    [ProtoInclude(1013, typeof(AskForMultipleChoiceResponse))]
+    [ProtoInclude(1011, typeof(GameResponse))]
+    [ProtoInclude(1012, typeof(CardRearrangementNotification))]
+    [ProtoInclude(1013, typeof(HandCardMovementNotification))]
     public class GameDataPacket
     {
     }
 
+    #region GameResponse
     [ProtoContract]
+    [ProtoInclude(1111, typeof(AskForCardUsageResponse))]
+    [ProtoInclude(1112, typeof(AskForCardChoiceResponse))]
+    [ProtoInclude(1113, typeof(AskForMultipleChoiceResponse))]
     public class GameResponse : GameDataPacket
     {
         [ProtoMember(1)]
@@ -224,21 +238,38 @@ namespace Sanguosha.Core.Network
             AskForCardUsageResponse response = new AskForCardUsageResponse();
             response.Id = id;
             response.SkillItem = SkillItem.Parse(skill);
-            response.CardItems = new List<CardItem>();
-            foreach (var card in cards)
+            if (cards == null) response.CardItems = null;
+            else
             {
-                response.CardItems.Add(CardItem.Parse(card));
+                response.CardItems = new List<CardItem>();
+                foreach (var card in cards)
+                {
+                    response.CardItems.Add(CardItem.Parse(card));
+                }
             }
-            response.PlayerItems = new List<PlayerItem>();
-            foreach (var player in players)
+            if (players == null) response.PlayerItems = null;
+            else
             {
-                response.PlayerItems.Add(PlayerItem.Parse(player));
+                response.PlayerItems = new List<PlayerItem>();
+                foreach (var player in players)
+                {
+                    response.PlayerItems.Add(PlayerItem.Parse(player));
+                }
             }
             return response;
         }
 
         public void ToAnswer(out ISkill skill, out List<Card> cards, out List<Player> players)
         {
+            // Packet is either not valid or all nulls.
+            if (CardItems == null || PlayerItems == null)
+            {
+                skill = null;
+                cards = null;
+                players = null;
+                return;
+            }
+
             skill = SkillItem.ToSkill();
             cards = new List<Card>();
             foreach (var card in CardItems)
@@ -262,32 +293,43 @@ namespace Sanguosha.Core.Network
         public static AskForCardChoiceResponse Parse(int id, List<List<Card>> cards)
         {
             AskForCardChoiceResponse response = new AskForCardChoiceResponse();
-            response.Id = id;            
-            response.CardItems = new List<List<CardItem>>();
-            foreach (var cardDeck in cards)
+            response.Id = id;
+            if (cards == null) response.CardItems = null;
+            else
             {
-                var items = new List<CardItem>();
-                foreach (var card in cardDeck)
+                response.CardItems = new List<List<CardItem>>();
+                foreach (var cardDeck in cards)
                 {
-                    items.Add(CardItem.Parse(card));
+                    Trace.Assert(cardDeck != null);
+                    if (cardDeck == null) continue;
+                    var items = new List<CardItem>();
+                    foreach (var card in cardDeck)
+                    {
+                        items.Add(CardItem.Parse(card));
+                    }
+                    response.CardItems.Add(items);
                 }
-                response.CardItems.Add(items);
-            }            
+            }
             return response;
         }
 
-        public void ToAnswer(out List<List<Card>> result)
+        public List<List<Card>> ToAnswer()
         {
-            result = new List<List<Card>>();
+            if (CardItems == null) return null;
+            var result = new List<List<Card>>();
             foreach (var cardDeck in CardItems)
             {
+                // Invalid packet.
+                if (cardDeck == null) return null;
+                
                 var cards = new List<Card>();
                 foreach (var card in cardDeck)
                 {
                     cards.Add(card.ToCard());
                 }
                 result.Add(cards);
-            }            
+            }
+            return result;
         }
     }
 
@@ -299,4 +341,25 @@ namespace Sanguosha.Core.Network
         public AskForMultipleChoiceResponse() { }
         public AskForMultipleChoiceResponse(int choiceIndex) { this.ChoiceIndex = choiceIndex; }
     }
+    #endregion
+    #region Notifications
+    [ProtoContract]
+    public class HandCardMovementNotification : GameDataPacket
+    {
+        [ProtoMember(1)]
+        public PlayerItem PlayerItem { get; set; }
+        [ProtoMember(2)]
+        public int From { get; set; }
+        [ProtoMember(3)]
+        public int To { get; set; }
+    }
+
+    [ProtoContract]
+    public class CardRearrangementNotification : GameDataPacket
+    {
+        [ProtoMember(1)]
+        public CardRearrangement CardRearrangement { get; set; }
+    }
+    #endregion
+    #endregion
 }

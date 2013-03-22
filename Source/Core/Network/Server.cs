@@ -354,20 +354,6 @@ namespace Sanguosha.Core.Network
                 CommandItem i = (CommandItem)o;
                 if (i.command == Command.Interrupt)
                 {
-                    if (i.type == ItemType.HandCardMovement)
-                    {
-                        HandCardMovement move = (HandCardMovement)i.data;
-                        if (PlayerIdSanityCheck(move.playerId))
-                        {
-                            var deck = Game.CurrentGame.Decks[Game.CurrentGame.Players[move.playerId], DeckType.Hand];
-                            if (!(move.to < 0 || move.from < 0 || move.from >= deck.Count || move.to >= deck.Count))
-                            {
-                                var card1 = deck[move.from];
-                                deck.Remove(card1);
-                                deck.Insert(move.to, card1);
-                            }
-                        }
-                    }
                     if (i.type == ItemType.CardRearrangement)
                     {
                         for (int ec = 0; ec < MaxClients; ec++)

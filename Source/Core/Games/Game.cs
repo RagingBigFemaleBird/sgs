@@ -132,6 +132,13 @@ namespace Sanguosha.Core.Games
             cleanupSquad.Priority = -1;
             PhasesSkipped = new List<TurnPhase>();
             AvailableRoles = new List<Role>();
+            HandCardSwitcher = new HandCardSwitcher();
+        }
+
+        internal HandCardSwitcher HandCardSwitcher
+        {
+            get;
+            private set;
         }
 
         public void LoadExpansion(Expansion expansion)
@@ -192,6 +199,7 @@ namespace Sanguosha.Core.Games
                 }
             }
         }
+
         public void SyncUnknownLocationCardAll(Card card)
         {
             foreach (Player p in players)
