@@ -13,6 +13,7 @@ namespace Sanguosha.Core.Network
     [Serializable]
     public enum Command
     {
+        WhoAmI,
         QaId,
         GameStart,
         Interrupt,
@@ -34,19 +35,7 @@ namespace Sanguosha.Core.Network
         Serializable,
     }
 
-    [Serializable]
-    public struct CardItem
-    {
-        public int playerId;
-        public int place;
-        public int rank;
-        public int suit;
-        public int id;
-        public string deckName;
-        public string typeName;
-        public string typeHorseName;
-    }
-
+  
     [Serializable]
     public struct CommandItem
     {
@@ -55,16 +44,7 @@ namespace Sanguosha.Core.Network
         public object data;
     }
 
-    [Serializable]
-    public struct SkillItem
-    {
-        public int playerId;
-        public int skillId;
-        public string name;
-        public string additionalTypeName;
-        public string additionalTypeHorseName;
-    }
-
+  
     [Serializable]
     public struct CardUsageResponded
     {
@@ -95,7 +75,7 @@ namespace Sanguosha.Core.Network
             item.playerId = Game.CurrentGame.Players.IndexOf(card.Place.Player);
             item.deckName = card.Place.DeckType.Name;
             item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
-            if (GameEngine.CardSet[card.Id].Type != card.Type)
+            if (GameEngine.CardSet[card.Id].Type.Name != card.Type.Name)
             {
                 Translator.EncodeCardHandler(card.Type, out item.typeName, out item.typeHorseName);
             }
@@ -128,7 +108,7 @@ namespace Sanguosha.Core.Network
 
         public static Card DecodeServerCard(CardItem i, int wrt)
         {
-            DeckType deck = new DeckType(i.deckName);
+            DeckType deck = DeckType.Register(i.deckName);
             // you know this hand card. therefore the deserialization look up this card in particular
             if (i.playerId >= 0 && deck == DeckType.Hand && Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrt]].Contains(Game.CurrentGame.Players[i.playerId]))
             {
@@ -155,7 +135,7 @@ namespace Sanguosha.Core.Network
 
         public static Card DecodeCard(CardItem i, int wrt)
         {
-            DeckType deck = new DeckType(i.deckName);
+            DeckType deck = DeckType.Register(i.deckName);
             // you know this hand card. therefore the deserialization look up this card in particular
             if (i.id >= 0 && i.playerId >= 0 && deck == DeckType.Hand && wrt < Game.CurrentGame.Players.Count && Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrt]].Contains(Game.CurrentGame.Players[i.playerId]))
             {
@@ -229,7 +209,7 @@ namespace Sanguosha.Core.Network
 
             typeName = handler.GetType().AssemblyQualifiedName;
 
-            if (handler is OffensiveHorse || handler is DefensiveHorse) horse = handler.CardType;
+            if (handler is OffensiveHorse || handler is DefensiveHorse) horse = handler.Name;
             else horse = string.Empty;
         }
 

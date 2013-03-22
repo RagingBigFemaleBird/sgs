@@ -56,7 +56,7 @@ namespace Sanguosha.Expansions.Hills.Skills
 
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            var GuZhengDeck = new DeckType("GuZheng");
+            var GuZhengDeck = DeckType.Register("GuZheng");
             belongToCurrent = new List<Card>();
             foreach (Card c in new List<Card>(GuZhengCards))
             {

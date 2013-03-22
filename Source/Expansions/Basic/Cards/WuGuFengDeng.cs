@@ -52,8 +52,8 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)
         {
-            DeckType wuguDeck = new DeckType("WuGu");
-            DeckType wuguFakeDeck = new DeckType("WuGuFake");
+            DeckType wuguDeck = DeckType.Register("WuGu");
+            DeckType wuguFakeDeck = DeckType.Register("WuGuFake");
             List<List<Card>> answer;
             if (!Game.CurrentGame.UiProxies[dest].AskForCardChoice(new CardChoicePrompt("WuGuFengDeng"),
                     new List<DeckPlace>() { new DeckPlace(null, wuguFakeDeck) },
@@ -84,8 +84,8 @@ namespace Sanguosha.Expansions.Basic.Cards
         public override void Process(GameEventArgs handlerArgs)
         {
             base.Process(handlerArgs);
-            DeckType wuguDeck = new DeckType("WuGu");
-            DeckType wuguFakeDeck = new DeckType("WuGuFake");
+            DeckType wuguDeck = DeckType.Register("WuGu");
+            DeckType wuguFakeDeck = DeckType.Register("WuGuFake");
             CardsMovement move = new CardsMovement();
             Game.CurrentGame.NotificationProxy.NotifyWuGuEnd();
             Game.CurrentGame.Decks[null, wuguFakeDeck].Clear();
@@ -131,8 +131,8 @@ namespace Sanguosha.Expansions.Basic.Cards
             if (!(card.Type is WuGuFengDeng)) return;
             var wugu = card.Type as WuGuFengDeng;
             var dests = eventArgs.Targets;
-            DeckType wuguDeck = new DeckType("WuGu");
-            DeckType wuguFakeDeck = new DeckType("WuGuFake");
+            DeckType wuguDeck = DeckType.Register("WuGu");
+            DeckType wuguFakeDeck = DeckType.Register("WuGuFake");
             CardsMovement move = new CardsMovement();
             move.Cards = new List<Card>();
             for (int i = 0; i < dests.Count; i++)

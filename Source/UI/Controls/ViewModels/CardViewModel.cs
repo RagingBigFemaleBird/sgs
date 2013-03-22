@@ -167,7 +167,7 @@ namespace Sanguosha.UI.Controls
             }
             else
             {
-                return card.Type.CardType;
+                return card.Type.Name;
             }
         }
 

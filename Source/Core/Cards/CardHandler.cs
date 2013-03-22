@@ -17,9 +17,9 @@ namespace Sanguosha.Core.Cards
 
     public abstract class CardHandler : ICloneable
     {
-        [NonSerialized]
+        
         Dictionary<DeckPlace, List<Card>> deckBackup;
-        [NonSerialized]
+        
         List<Card> cardsOnHold;
         public virtual object Clone()
         {
@@ -269,7 +269,7 @@ namespace Sanguosha.Core.Cards
         /// 
         /// </summary>
         /// <remarks>Used by UI Only!</remarks>
-        public virtual string CardType
+        public virtual string Name
         {
             get { return this.GetType().Name; }
         }

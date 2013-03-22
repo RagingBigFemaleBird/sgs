@@ -443,7 +443,7 @@ namespace Sanguosha.Core.Games
             game.MoveCards(moves, null, GameDelays.GameBeforeStart);
         }
 
-        public static DeckType RoleDeckType = new DeckType("Role");
+        public static DeckType RoleDeckType = DeckType.Register("Role");
 
 
         public class RoleGameRuleTrigger : Trigger
@@ -683,7 +683,7 @@ namespace Sanguosha.Core.Games
                     rulerDraw.Add(game.Decks[DeckType.Heroes][rc]);
                 }
                 game.SyncImmutableCards(game.Players[rulerId], rulerDraw);
-                DeckType tempHero = new DeckType("TempHero");
+                DeckType tempHero = DeckType.Register("TempHero");
                 game.Decks[null, tempHero].AddRange(rulerDraw);
                 Trace.TraceInformation("Ruler is {0}", rulerId);
                 game.Players[rulerId].Role = Role.Ruler;
@@ -865,7 +865,7 @@ namespace Sanguosha.Core.Games
                         Hero playerHero = heroIndex == 0 ? p.Hero : p.Hero2;
                         if (convertibleHeroes.Keys.Contains(playerHero.Name))
                         {
-                            DeckType tempSpHeroes = new DeckType("tempSpHeroes");
+                            DeckType tempSpHeroes = DeckType.Register("tempSpHeroes");
                             DeckPlace heroesConvert = new DeckPlace(p, tempSpHeroes);
                             game.Decks[heroesConvert].AddRange(convertibleHeroes[playerHero.Name]);
                             List<List<Card>> choice;
@@ -1004,7 +1004,7 @@ namespace Sanguosha.Core.Games
 
         private class PlayerIsDead : Trigger
         {
-            DeckType role = new DeckType("Role");
+            DeckType role = DeckType.Register("Role");
             private void RevealAllPlayersRoles()
             {
                 foreach (var player in Game.CurrentGame.Players)

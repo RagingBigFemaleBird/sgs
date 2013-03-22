@@ -46,7 +46,7 @@ namespace Sanguosha.Core.Cards
         {
             HorseName = name;
         }
-        public override string CardType
+        public override string Name
         {
             get { return HorseName; }
         }

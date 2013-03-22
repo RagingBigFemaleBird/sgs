@@ -43,7 +43,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
             basicCards.Clear();
             notBasicCards.Clear();
             List<Card> tao = new List<Card>();
-            DeckType ZhaoLieDeck = new DeckType("ZhaoLie");
+            DeckType ZhaoLieDeck = DeckType.Register("ZhaoLie");
             CardsMovement move = new CardsMovement();
             move.Cards = new List<Card>();
             int toDraw = 3;

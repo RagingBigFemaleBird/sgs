@@ -143,7 +143,7 @@ namespace Sanguosha.UI.Controls
         {
             IList<Inline> list = new List<Inline>();
             if (cardType == null) return list;
-            string typeString = Application.Current.TryFindResource(string.Format("Card.{0}.Name", cardType.CardType)) as string;
+            string typeString = Application.Current.TryFindResource(string.Format("Card.{0}.Name", cardType.Name)) as string;
             if (typeString != null)
             {
                 list.Add(new Run(string.Format("【{0}】", typeString)) { Foreground = new SolidColorBrush(Colors.Yellow) });
@@ -156,7 +156,7 @@ namespace Sanguosha.UI.Controls
             IList<Inline> list = new List<Inline>();
             if (c.Id < 0) return list;
             CardViewModel card = new CardViewModel() { Card = c };
-            string typeString = Application.Current.TryFindResource(string.Format("Card.{0}.Name", useUiCard ? card.TypeString : c.Type.CardType)) as string;
+            string typeString = Application.Current.TryFindResource(string.Format("Card.{0}.Name", useUiCard ? card.TypeString : c.Type.Name)) as string;
             if (typeString != null)
             {
                 list.Add(new Run("【" + typeString) { Foreground = new SolidColorBrush(Colors.Yellow) });

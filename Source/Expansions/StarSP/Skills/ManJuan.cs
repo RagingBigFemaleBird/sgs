@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
     {
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            DeckType mjDeck = new DeckType("ManJuan");
+            DeckType mjDeck = DeckType.Register("ManJuan");
             List<Card> theCards = new List<Card>(eventArgs.Cards);
             CardsMovement move = new CardsMovement();
             move.Cards = eventArgs.Cards;

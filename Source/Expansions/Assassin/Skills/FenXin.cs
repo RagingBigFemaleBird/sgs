@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.Assassin.Skills
         {
             Owner[FenXinUsed] = 1;
             Player target = eventArgs.Targets[0];
-            DeckType RoleDeck = new DeckType("Role");
+            DeckType RoleDeck = DeckType.Register("Role");
             Card role1 = Game.CurrentGame.Decks[Owner, RoleDeck][0];
             Card role2 = Game.CurrentGame.Decks[target, RoleDeck][0];
             Game.CurrentGame.SyncCard(target, ref role1);

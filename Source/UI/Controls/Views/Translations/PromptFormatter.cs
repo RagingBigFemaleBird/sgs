@@ -46,7 +46,7 @@ namespace Sanguosha.UI.Controls
                 }
                 else if (arg is ICard)
                 {
-                    resKey = string.Format("Card.{0}.Name", (arg as ICard).Type.CardType);
+                    resKey = string.Format("Card.{0}.Name", (arg as ICard).Type.Name);
                 }
                 else if (arg is SuitType)
                 {
@@ -58,7 +58,7 @@ namespace Sanguosha.UI.Controls
                 }
                 else if (arg is CardHandler)
                 {
-                    resKey = string.Format("Card.{0}.Name", (arg as CardHandler).CardType);
+                    resKey = string.Format("Card.{0}.Name", (arg as CardHandler).Name);
                 }
 
                 string value;

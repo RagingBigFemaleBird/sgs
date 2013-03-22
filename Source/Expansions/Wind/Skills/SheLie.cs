@@ -64,7 +64,7 @@ namespace Sanguosha.Expansions.Wind.Skills
 
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            DeckType shelieDeck = new DeckType("SheLie");
+            DeckType shelieDeck = DeckType.Register("SheLie");
 
             CardsMovement move = new CardsMovement();
             move.Cards = new List<Card>();

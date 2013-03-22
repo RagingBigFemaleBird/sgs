@@ -32,7 +32,7 @@ namespace Sanguosha.Core.UI
             int i = 0;
             foreach (ICard card in Game.CurrentGame.Decks[p, DeckType.Hand])
             {
-                Console.Write(" Card {0} {1}{2}{3}, ", i, card.Suit, card.Rank, card.Type.CardType);
+                Console.Write(" Card {0} {1}{2}{3}, ", i, card.Suit, card.Rank, card.Type.Name);
                 i++;
             }
         again:

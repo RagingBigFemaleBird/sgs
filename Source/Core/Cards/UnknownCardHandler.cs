@@ -23,7 +23,7 @@ namespace Sanguosha.Core.Cards
             throw new NotImplementedException();
         }
 
-        public override string CardType
+        public override string Name
         {
             get
             {

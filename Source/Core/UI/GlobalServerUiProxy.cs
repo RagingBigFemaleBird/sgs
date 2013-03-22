@@ -379,7 +379,7 @@ namespace Sanguosha.Core.UI
             semWake = new Semaphore(0, 2);
             semDone = new Semaphore(proxy.Count - 2, proxy.Count - 1);
             answerHero = heroSelection;
-            DeckType temp = new DeckType("Temp");
+            DeckType temp = DeckType.Register("Temp");
             foreach (var player in Game.CurrentGame.Players)
             {
                 if (!proxy.ContainsKey(player) || player.Role == Role.Ruler)

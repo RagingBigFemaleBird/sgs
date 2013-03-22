@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.Woods.Skills
     {
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            DeckType HuoShouDeck = new DeckType("HuoShou");
+            DeckType HuoShouDeck = DeckType.Register("HuoShou");
 
             CardsMovement move = new CardsMovement();
             move.Cards = new List<Card>();

@@ -37,6 +37,9 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="PresentationUI, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="protobuf-net">
+      <HintPath>..\Builds\packages\protobuf-net.2.0.0.621\lib\net40\protobuf-net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Deployment" />
@@ -89,7 +92,10 @@
     <Compile Include="Games\Game.cs" />
     <Compile Include="Heroes\UnknownHeroCardHandler.cs" />
     <Compile Include="Games\RoleCard.cs" />
+    <Compile Include="Network\GameDataPacket.cs" />
+    <Compile Include="Network\NetworkGamer.cs" />
     <Compile Include="Network\SerializableItems.cs" />
+    <Compile Include="Network\ServerAsyncUiProxy.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -163,6 +169,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

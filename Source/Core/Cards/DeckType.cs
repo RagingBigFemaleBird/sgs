@@ -10,24 +10,26 @@ namespace Sanguosha.Core.Cards
     [Serializable]    
     public class DeckType
     {
-        static DeckType()
+        private static Dictionary<string, DeckType> registeredDeckTypes;
+
+        public static DeckType Register(string name)
         {
-            Dealing = new DeckType("Dealing");
-            Discard = new DeckType("Discard");
-            Compute = new DeckType("Compute");
-            Hand = new DeckType("Hand");
-            Equipment = new DeckType("Equipment");
-            DelayedTools = new DeckType("DelayedTools");
-            JudgeResult = new DeckType("JudgeResult");
-            GuHuo = new DeckType("GuHuo");
-            None = new DeckType("None");
-            Heroes = new DeckType("Heroes");
-            SpecialHeroes = new DeckType("SpecialHeroes");
+            return Register(name, name);
         }
 
-        public DeckType(string name)
+        public static DeckType Register(string name, string shortName)
         {
-            this.name = name;
+            if (!registeredDeckTypes.ContainsKey(shortName))
+            {
+                registeredDeckTypes.Add(shortName, new DeckType(name, shortName));
+            }
+            return registeredDeckTypes[shortName];
+        }
+
+        private DeckType(string name, string shortName)
+        {
+            Name = name;
+            AbbriviatedName = shortName;
         }
 
         public override int GetHashCode()
@@ -40,54 +42,29 @@ namespace Sanguosha.Core.Cards
         public string Name
         {
             get { return name; }
-            set { name = value; }
+            private set { name = value; }
         }
 
-        public override bool Equals(object obj)
+        /// <summary>
+        /// Sets/gets abbreviated name used to uniquely identify and serialize this DeckType.
+        /// </summary>
+        public string AbbriviatedName
         {
-            if (System.Object.ReferenceEquals(obj, this))
-            {
-                return true;
-            }
-            if (!(obj is DeckType))
-            {
-                return false;
-            }
-            DeckType type2 = (DeckType)obj;
-            return name.Equals(type2.name);
+            get;
+            private set;
         }
 
-        public static bool operator ==(DeckType a, DeckType b)
-        {
-            if (System.Object.ReferenceEquals(a, b))
-            {
-                return true;
-            }
-
-            if (((object)a == null) || ((object)b == null))
-            {
-                return false;
-            }
-
-            return a.name.Equals(b.name);
-        }
-
-        public static bool operator !=(DeckType a, DeckType b)
-        {
-            return !(a == b);
-        }
-
-        public static DeckType None;
-        public static DeckType Dealing;
-        public static DeckType Discard;
-        public static DeckType Compute;
-        public static DeckType Hand;
-        public static DeckType Equipment;
-        public static DeckType DelayedTools;
-        public static DeckType JudgeResult;
-        public static DeckType GuHuo;
-        public static DeckType Heroes;
-        public static DeckType SpecialHeroes;
+        public static DeckType Dealing = DeckType.Register("Dealing", "0");
+        public static DeckType Discard = DeckType.Register("Discard", "1");
+        public static DeckType Compute = DeckType.Register("Compute", "2");
+        public static DeckType Hand = DeckType.Register("Hand", "3");
+        public static DeckType Equipment = DeckType.Register("Equipment", "4");
+        public static DeckType DelayedTools = DeckType.Register("DelayedTools", "5");
+        public static DeckType JudgeResult = DeckType.Register("JudgeResult", "6");
+        public static DeckType GuHuo = DeckType.Register("GuHuo", "7");
+        public static DeckType None = DeckType.Register("None", "8");
+        public static DeckType Heroes = DeckType.Register("Heroes", "9");
+        public static DeckType SpecialHeroes = DeckType.Register("SpecialHeroes", "A");
 
         public override string ToString()
         {

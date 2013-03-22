@@ -1046,7 +1046,7 @@ namespace Sanguosha.UI.Controls
             {
                 bool? isMale = null;
                 if (log.Source != null) isMale = !log.Source.IsFemale;
-                Uri cardSoundUri = GameSoundLocator.GetCardSound(log.CardAction.Type.CardType, isMale);
+                Uri cardSoundUri = GameSoundLocator.GetCardSound(log.CardAction.Type.Name, isMale);
                 GameSoundPlayer.PlaySoundEffect(cardSoundUri);
                 soundPlayed = cardSoundUri != null;
             }
@@ -1096,7 +1096,7 @@ namespace Sanguosha.UI.Controls
 
                 bool? isMale = null;
                 if (log.Source != null) isMale = !log.Source.IsFemale;
-                Uri cardSoundUri = GameSoundLocator.GetCardSound(log.CardAction.Type.CardType, isMale);
+                Uri cardSoundUri = GameSoundLocator.GetCardSound(log.CardAction.Type.Name, isMale);
                 var card = log.CardAction as Card;
                 if (card != null)
                 {
