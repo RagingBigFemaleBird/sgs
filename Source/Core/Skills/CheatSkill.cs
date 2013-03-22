@@ -8,14 +8,12 @@ using Sanguosha.Core.Heroes;
 
 namespace Sanguosha.Core.Skills
 {
-    [Serializable]
     public enum CheatType
     {
         Card,
         Skill,
     }
 
-    [Serializable]
     public class CheatSkill : ISkill
     {
         public CheatSkill()
@@ -25,8 +23,12 @@ namespace Sanguosha.Core.Skills
         }
         public CheatType CheatType { get; set; }
         public int CardId { get; set; }
+
+        /// <summary>
+        /// Sets/gets name of the skill to be acquired by the CheatSkill.
+        /// </summary>
         public string SkillName { get; set; }
-        [NonSerialized]
+
         private Players.Player owner;
 
         public Players.Player Owner
@@ -65,22 +67,16 @@ namespace Sanguosha.Core.Skills
             return skill;
         }
 
-        [NonSerialized]
-        UiHelper helper;
-
-        [NonSerialized]
-        private Hero heroTag;
-
         public Hero HeroTag
         {
-            get { return heroTag; }
-            set { heroTag = value; }
+            get;
+            set;
         }
 
         public UiHelper Helper
         {
-            get { return helper; }
-            private set { helper = value; }
+            get;
+            private set;
         }
     }
 }

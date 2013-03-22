@@ -718,7 +718,7 @@ namespace Sanguosha.Core.Games
             {
                 if (e.Status == TriggerResult.Fail)
                 {
-                    Trace.TraceInformation("Players cannot be targeted by {0}", card.Type.CardType);
+                    Trace.TraceInformation("Players cannot be targeted by {0}", card.Type.Name);
                     return false;
                 }
                 else

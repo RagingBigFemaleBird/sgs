@@ -10,7 +10,7 @@ namespace Sanguosha.Core.Heroes
         public UnknownHeroCardHandler() : base(null)
         {
         }
-        public override string CardType
+        public override string Name
         {
             get
             {

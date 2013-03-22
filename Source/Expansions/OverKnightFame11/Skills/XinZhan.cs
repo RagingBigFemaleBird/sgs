@@ -45,7 +45,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
         public override bool Commit(GameEventArgs arg)
         {
             Owner[XinZhanUsed] = 1;
-            DeckType XinZhanDeck = new DeckType("XinZhan");
+            DeckType XinZhanDeck = DeckType.Register("XinZhan");
             CardsMovement move = new CardsMovement();
             move.Cards = new List<Card>();
             for (int i = 0; i < choiceCount; i++)

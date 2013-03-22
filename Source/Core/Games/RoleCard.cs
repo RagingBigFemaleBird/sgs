@@ -36,7 +36,7 @@ namespace Sanguosha.Core.Games
             Role = r;
         }
 
-        public override string CardType
+        public override string Name
         {
             get
             {
@@ -50,7 +50,7 @@ namespace Sanguosha.Core.Games
         {
         }
 
-        public override string CardType
+        public override string Name
         {
             get
             {

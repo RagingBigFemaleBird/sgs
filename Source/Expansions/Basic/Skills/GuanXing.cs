@@ -75,7 +75,7 @@ namespace Sanguosha.Expansions.Basic.Skills
 
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            DeckType GuanXingDeck = new DeckType("GuanXing");
+            DeckType GuanXingDeck = DeckType.Register("GuanXing");
 
             CardsMovement move = new CardsMovement();
             move.Cards = new List<Card>();

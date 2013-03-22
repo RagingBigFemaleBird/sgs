@@ -907,7 +907,7 @@ namespace Sanguosha.Core.Games
                 // Update card's deck mapping
                 foreach (Card card in cards)
                 {
-                    Trace.TraceInformation("Card {0}{1}{2} from {3}{4} to {5}{6}.", card.Suit, card.Rank, card.Type.CardType.ToString(),
+                    Trace.TraceInformation("Card {0}{1}{2} from {3}{4} to {5}{6}.", card.Suit, card.Rank, card.Type.Name.ToString(),
                         card.Place.Player == null ? "G" : card.Place.Player.Id.ToString(), card.Place.DeckType.Name, move.To.Player == null ? "G" : move.To.Player.Id.ToString(), move.To.DeckType.Name);
                     card.Log = new ActionLog();
                     // unregister triggers for equipment 例如武圣将红色的雌雄双绝（假设有这么一个雌雄双绝）打出杀女性角色，不能发动雌雄
@@ -1339,7 +1339,7 @@ namespace Sanguosha.Core.Games
             {
                 if (e.Status == TriggerResult.Fail)
                 {
-                    Trace.TraceInformation("Player {0} cannot discard {1}", p.Id, c.Type.CardType);
+                    Trace.TraceInformation("Player {0} cannot discard {1}", p.Id, c.Type.Name);
                     return false;
                 }
                 else
@@ -1363,7 +1363,7 @@ namespace Sanguosha.Core.Games
             {
                 if (e.Status == TriggerResult.Fail)
                 {
-                    Trace.TraceInformation("Player {0} cannot use {1}", p.Id, c.Type.CardType);
+                    Trace.TraceInformation("Player {0} cannot use {1}", p.Id, c.Type.Name);
                     return false;
                 }
                 else
@@ -1387,7 +1387,7 @@ namespace Sanguosha.Core.Games
             {
                 if (e.Status == TriggerResult.Fail)
                 {
-                    Trace.TraceInformation("Player {0} cannot play {1}", p.Id, c.Type.CardType);
+                    Trace.TraceInformation("Player {0} cannot play {1}", p.Id, c.Type.Name);
                     return false;
                 }
                 else
