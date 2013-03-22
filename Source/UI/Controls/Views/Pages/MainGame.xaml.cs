@@ -128,60 +128,102 @@ namespace Sanguosha.UI.Controls
                 _game.IsPanorama = true;
             }
             Game.CurrentGameOverride = _game;
-            _game.Settings = NetworkClient.Receive() as GameSettings;
-            Trace.Assert(_game.Settings != null);
-            NetworkClient.SelfId = (int)NetworkClient.Receive();
+            if (NetworkClient != null)
+            {
+                _game.Settings = NetworkClient.Receive() as GameSettings;
+                Trace.Assert(_game.Settings != null);
+                NetworkClient.SelfId = (int)NetworkClient.Receive();
+            }
+            else
+            {
+                _game.Settings = new GameSettings();
+                _game.Settings.Accounts = new List<Account>();
+                _game.Settings.NumberOfDefectors = 1;
+                _game.Settings.NumHeroPicks = 3;
+                _game.Settings.DualHeroMode = false;
+                _game.Settings.TotalPlayers = 8;
+                _game.Settings.TimeOutSeconds = 15;
+                for (int i = 0; i < 8; i++)
+                {
+                    _game.Settings.Accounts.Add(new Account() { UserName = "Robot" + i });
+                }
+
+            }
             foreach (var g in GameEngine.Expansions.Values)
             {
                 _game.LoadExpansion(g);
             }
-#if NETWORKING
             ClientNetworkUiProxy activeClientProxy = null;
-            for (int i = 0; i < _game.Settings.TotalPlayers; i++)
-#else
-            for (int i = 0; i < 8; i++)
-#endif
+            if (NetworkClient != null)
             {
-                Player player = new Player();
-                player.Id = i;
-                _game.Players.Add(player);
+                for (int i = 0; i < _game.Settings.TotalPlayers; i++)
+                {
+                    Player player = new Player();
+                    player.Id = i;
+                    _game.Players.Add(player);
+                }
             }
-#if NETWORKING
-            _game.GameClient = NetworkClient;
-#else
-            _game.GlobalProxy = new GlobalDummyProxy();
-#endif
+            else
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    Player player = new Player();
+                    player.Id = i;
+                    _game.Players.Add(player);
+                }
+            }
+
+            if (NetworkClient != null)
+            {
+                _game.GameClient = NetworkClient;
+            }
+            else
+            {
+                _game.GlobalProxy = new GlobalDummyProxy();
+            }
             GameViewModel gameModel = new GameViewModel();
             gameModel.Game = _game;
-            gameModel.MainPlayerSeatNumber = NetworkClient.SelfId >= _game.Players.Count ? 0 : NetworkClient.SelfId;
+            if (NetworkClient != null)
+            {
+                gameModel.MainPlayerSeatNumber = NetworkClient.SelfId >= _game.Players.Count ? 0 : NetworkClient.SelfId;
+            }
+            else
+            {
+                gameModel.MainPlayerSeatNumber = 0;
+            }
             
             _game.NotificationProxy = gameView;
             List<ClientNetworkUiProxy> inactive = new List<ClientNetworkUiProxy>();
             for (int i = 0; i < _game.Players.Count; i++)
             {
-                var player = gameModel.PlayerModels[i].Player;                
-#if NETWORKING
-                var proxy = new ClientNetworkUiProxy(
-                            new AsyncUiAdapter(gameModel.PlayerModels[i]), NetworkClient, i == 0);
-                proxy.HostPlayer = player;
-                proxy.TimeOutSeconds = _game.Settings.TimeOutSeconds;
-                if (i == 0)
+                var player = gameModel.PlayerModels[i].Player;
+                if (NetworkClient != null)
                 {
-                    activeClientProxy = proxy;
+                    var proxy = new ClientNetworkUiProxy(
+                                new AsyncUiAdapter(gameModel.PlayerModels[i]), NetworkClient, i == 0);
+                    proxy.HostPlayer = player;
+                    proxy.TimeOutSeconds = _game.Settings.TimeOutSeconds;
+                    if (i == 0)
+                    {
+                        activeClientProxy = proxy;
+                    }
+                    else
+                    {
+                        inactive.Add(proxy);
+                    }
+                    _game.UiProxies.Add(player, proxy);
                 }
                 else
                 {
-                    inactive.Add(proxy);
+                    var proxy = new AsyncUiAdapter(gameModel.PlayerModels[i]);
+                    _game.UiProxies.Add(player, proxy);
                 }
-#else
-                var proxy = new AsyncUiAdapter(gameModel.PlayerModels[i]);
-#endif
-                _game.UiProxies.Add(player, proxy);
-            }            
-#if NETWORKING
-            _game.GlobalProxy = new GlobalClientUiProxy(_game, activeClientProxy, inactive);
-            _game.IsUiDetached = _game.IsUiDetached;
-#endif
+            }
+            if (NetworkClient != null)
+            {
+                _game.GlobalProxy = new GlobalClientUiProxy(_game, activeClientProxy, inactive);
+                _game.IsUiDetached = _game.IsUiDetached;
+            }
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {                
                 gameView.DataContext = gameModel;

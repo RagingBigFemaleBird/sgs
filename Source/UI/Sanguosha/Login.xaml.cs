@@ -146,6 +146,10 @@ namespace Sanguosha.UI.Main
             {
                 _startServer();
             }
+            else if (loginTab.SelectedIndex == 2)
+            {
+                _startSinglePlayer();
+            }
         }
 
         private void _startClient()
@@ -404,6 +408,17 @@ namespace Sanguosha.UI.Main
             };
 
             worker.RunWorkerAsync();
+        }
+
+        private void _startSinglePlayer()
+        {
+            MainGame game = null;
+            game = new MainGame();
+            game.OnNavigateBack += game_OnNavigateBack;
+            game.NetworkClient = null;
+            MainGame.BackwardNavigationService = this.NavigationService;
+            game.Start();
+            // this.NavigationService.Navigate(game);
         }
 
         private void btnReplay_Click(object sender, RoutedEventArgs e)
