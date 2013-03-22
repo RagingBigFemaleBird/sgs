@@ -24,8 +24,8 @@
     <CroppedBitmap x:Key="HealthBar.Digit.Small.Yellow.Slash" Source="pack://application:,,,/Resources;component/Images/HealthBar/numbers.png" SourceRect="168,0,8,11" />
     <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.0" Source="pack://application:,,,/Resources;component/Images/HealthBar/numbers.png" SourceRect="176,0,8,11" />
     <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.1" Source="pack://application:,,,/Resources;component/Images/HealthBar/numbers.png" SourceRect="184,0,8,11" />
-    <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.2" Source="pack://application:,,,/Resources;component/Images/HealthBar/numbers.png" SourceRect="182,0,8,11" />
-    <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.3" Source="pack://application:,,,/Resources;component/Images/HealthBar/numbers.png" SourceRect="190,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.2" Source="pack://application:,,,/Resources;component/Images/HealthBar/numbers.png" SourceRect="192,0,8,11" />
+    <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.3" Source="pack://application:,,,/Resources;component/Images/HealthBar/numbers.png" SourceRect="200,0,8,11" />
     <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.4" Source="pack://application:,,,/Resources;component/Images/HealthBar/numbers.png" SourceRect="208,0,8,11" />
     <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.5" Source="pack://application:,,,/Resources;component/Images/HealthBar/numbers.png" SourceRect="216,0,8,11" />
     <CroppedBitmap x:Key="HealthBar.Digit.Small.Red.6" Source="pack://application:,,,/Resources;component/Images/HealthBar/numbers.png" SourceRect="224,0,8,11" />
