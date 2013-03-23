@@ -19,47 +19,8 @@ using Sanguosha.Core.Utils;
 
 namespace Sanguosha.Core.Network
 {
-    public class ServerHandler
-    {
-        public Semaphore semIn;
-        public Semaphore semOut;
-        public Semaphore semAccess;
-        public Queue<object> queueIn;
-        public Queue<object> queueOut;
-        public Stream stream;
-        public TcpClient client;
-        public Thread threadServer;
-        public Thread threadClient;
-        public int commId;
-        public Game game;
-        public bool disconnected;
-        volatile public ItemSender sender;
-        volatile public ItemReceiver receiver;
-        public ServerHandler()
-        {
-            disconnected = false;
-            semIn = new Semaphore(0, int.MaxValue);
-            semOut = new Semaphore(0, int.MaxValue);
-            queueIn = new Queue<object>();
-            queueOut = new Queue<object>();
-            stream = null;
-            client = null;
-            commId = 0;
-            threadServer = null;
-            threadClient = null;
-            game = null;
-        }
-    }
-
     public class Server
     {
-        class FlushObject
-        {
-        }
-        class TerminationObject
-        {
-        }
-
         //The following invariant MUST hold: the first <numberOfGamers> handers are for gamers. The last one is for spectators.
         private int numberOfGamers;
 
@@ -69,7 +30,12 @@ namespace Sanguosha.Core.Network
         }
 
         Game game;
-        List<ServerHandler> handlers;
+        List<NetworkGamer> handlers;
+
+        public List<NetworkGamer> Handlers
+        {
+            get { return handlers; }
+        }
         /// <summary>
         /// Initialize and start the server.
         /// </summary>
@@ -82,10 +48,10 @@ namespace Sanguosha.Core.Network
             listener.Start();
             ipPort = ((IPEndPoint)listener.LocalEndpoint).Port;
             numberOfGamers = capacity;
-            handlers = new List<ServerHandler>();
+            handlers = new List<NetworkGamer>();
             for (int i = 0; i < capacity; i++)
             {
-                handlers.Add(new ServerHandler());
+                handlers.Add(new NetworkGamer());
             }
             this.game = game;
             Trace.TraceInformation("Server initialized with capacity {0}", capacity);
@@ -93,7 +59,7 @@ namespace Sanguosha.Core.Network
 
         public bool IsDisconnected(int id)
         {
-            return handlers[id].disconnected;
+            return handlers[id].ConnectionStatus != ConnectionStatus.Connected;
         }
 
         /// <summary>
@@ -107,7 +73,6 @@ namespace Sanguosha.Core.Network
             int i;
             for (i = 0; i < numberOfGamers; i++)
             {
-                handlers[i].game = game;
                 try
                 {
                     while (!listener.Pending() && To > 0)
@@ -116,21 +81,21 @@ namespace Sanguosha.Core.Network
                         Thread.Sleep(200);
                     }
                     if (To <= 0) break;
-                    handlers[i].client = listener.AcceptTcpClient();
+                    handlers[i].TcpClient = listener.AcceptTcpClient();
                 }
                 catch (Exception)
                 {
                     break;
                 }
                 Trace.TraceInformation("Client connected");
-                handlers[i].stream = handlers[i].client.GetStream();
-                handlers[i].stream.ReadTimeout = 2500;
+                handlers[i].DataStream = handlers[i].TcpClient.GetStream();
+                handlers[i].DataStream.ReadTimeout = 2500;
                 if (game.Configuration != null)
                 {
                     object item;
                     try
                     {
-                        item = (new ItemReceiver(handlers[i].stream)).Receive();
+                        item = (new ItemReceiver(handlers[i].DataStream)).Receive();
                     }
                     catch (Exception)
                     {

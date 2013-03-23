@@ -16,7 +16,6 @@ namespace Sanguosha.Core.UI
 {
     public class ServerNetworkUiProxy : IUiProxy
     {
-
         public void Freeze()
         {
         }
@@ -27,11 +26,14 @@ namespace Sanguosha.Core.UI
             set;
         }
 
+        private ServerAsyncUiProxy proxy;
         private Server server;
         private int clientId;
 
         public ServerNetworkUiProxy(Server s, int id)
         {
+            proxy = new ServerAsyncUiProxy();
+            proxy.Gamer = s.Handlers[id];
             server = s;
             clientId = id;
         }
@@ -41,15 +43,11 @@ namespace Sanguosha.Core.UI
             server.SendMultipleCardUsageResponded(clientId);
         }
 
-        public void SendNoAnswer()
-        {
-            int i;
-            for (i = 0; i < server.MaxClients; i++)
-            {
-                server.SendObject(i, 0);
-                server.Flush(i);
-            }
-        }
+        ISkill skillAnswer;
+        List<Card> cardsAnswer;
+        List<Player> playersAnswer;
+        List<List<Card>> choiceAnswer;
+        int multiAnswer;
 
         public bool TryAskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
@@ -58,43 +56,33 @@ namespace Sanguosha.Core.UI
             players = null;
             int timeOut = TimeOutSeconds + (verifier.Helper != null ? verifier.Helper.ExtraTimeOutSeconds : 0);
             Trace.TraceInformation("Asking Card Usage to {0}, timeout {1}.", HostPlayer.Id, timeOut);
-            int? count;
-            if (!server.ExpectNext(clientId, timeOut))
-            {
-                return false;
-            }
-            count = server.GetInt(clientId, 0);
-            if (count == null || count == 0)
-            {
-                return false;
-            }
-            if (count == null)
-            {
-                return false;
-            }
-            count = server.GetInt(clientId, 0);
-            if (count == 1)
-            {
-                skill = server.GetSkill(clientId, 0);
-                if (skill == null)
+            var answerReady = new Semaphore(0, 1);
+            CardUsageAnsweredEventHandler handler = (s, c, p) =>
                 {
-                    return false;
-                }
-                if (!(skill is CheatSkill) && !HostPlayer.ActionableSkills.Contains(skill))
-                {
-                    Trace.TraceWarning("Client DDOS!");
-                    return false;
-                }
-            }
-            count = server.GetInt(clientId, 0);
-            if (count == null)
+                    skillAnswer = s;
+                    cardsAnswer = c;
+                    playersAnswer = p;
+                    answerReady.Release(1);
+                };
+            proxy.CardUsageAnsweredEvent += handler;
+            proxy.AskForCardUsage(prompt, verifier, timeOut);
+            bool noAnswer = false;
+            if (!answerReady.WaitOne(timeOut * 1000)) noAnswer = true;
+            proxy.CardUsageAnsweredEvent -= handler;
+            proxy.Freeze();
+            if (noAnswer) return false;
+
+            skill = skillAnswer;
+            cards = cardsAnswer;
+            players = playersAnswer;
+
+            if (!(skill is CheatSkill) && !HostPlayer.ActionableSkills.Contains(skill))
             {
+                Trace.TraceWarning("Client DDOS!");
                 return false;
             }
-            cards = new List<Card>();
-            while (count-- > 0)
+            foreach (var item in cards)
             {
-                Card item = server.GetCard(clientId, 0);
                 if (item == null)
                 {
                     return false;
@@ -103,27 +91,18 @@ namespace Sanguosha.Core.UI
                 {
                     if (!(verifier.Helper.OtherDecksUsed.Any(dc => dc == item.Place.DeckType) ||
                         (skill != null && skill.Helper.OtherDecksUsed.Any(dc => dc == item.Place.DeckType))))
-                    {                        
+                    {
                         Trace.TraceWarning("Client hacking cards!");
                         return false;
                     }
                 }
-                cards.Add(item);
             }
-            count = server.GetInt(clientId, 0);
-            if (count == null)
+            foreach (var item in players)
             {
-                return false;
-            }
-            players = new List<Player>();
-            while (count-- > 0)
-            {
-                Player item = server.GetPlayer(clientId, 0);
                 if (item == null)
                 {
                     return false;
                 }
-                players.Add(item);
             }
             bool requireUnique = true;
             if (skill is ActiveSkill)
@@ -146,52 +125,7 @@ namespace Sanguosha.Core.UI
         {
             for (int i = 0; i < server.MaxClients; i++)
             {
-                server.SendObject(i, 1);
-                if (skill != null)
-                {
-                    server.SendObject(i, 1);
-                    server.SendObject(i, skill);
-                }
-                else
-                {
-                    server.SendObject(i, 0);
-                }
-                if (cards != null)
-                {
-                    server.SendObject(i, cards.Count);
-                    foreach (Card c in cards)
-                    {
-                        if (!(skill != null && skill.Helper.NoCardReveal) && !(verifier.Helper.NoCardReveal))
-                        {
-                            if (c.Place.DeckType != DeckType.Equipment && c.Place.DeckType != DeckType.DelayedTools)
-                            {
-                                c.RevealOnce = true;
-                            }
-                        }
-                        if (c.Place.DeckType == DeckType.Equipment || c.Place.DeckType == DeckType.DelayedTools)
-                        {
-                            c.RevealOnce = false;
-                        }
-                        server.SendObject(i, c);
-                    }
-                }
-                else
-                {
-                    server.SendObject(i, 0);
-                }
-                if (players != null)
-                {
-                    server.SendObject(i, players.Count);
-                    foreach (Player p in players)
-                    {
-                        server.SendObject(i, p);
-                    }
-                }
-                else
-                {
-                    server.SendObject(i, 0);
-                }
-                server.Flush(i);
+                server.Handlers[i].Send(AskForCardUsageResponse.Parse(i, skill, cards, players));
             }
 
         }
@@ -206,7 +140,7 @@ namespace Sanguosha.Core.UI
             bool ret = true;
             if (!TryAskForCardUsage(prompt, verifier, out skill, out cards, out players))
             {
-                SendNoAnswer();
+                SendCardUsage(null, null, null, null);
                 ret = false;
             }
             else
@@ -231,32 +165,25 @@ namespace Sanguosha.Core.UI
             answer = null;
             int timeOut = TimeOutSeconds + (verifier.Helper != null ? verifier.Helper.ExtraTimeOutSeconds : 0);
             Trace.TraceInformation("Asking Card Choice to {0}, timeout {1}.", HostPlayer.Id, timeOut);
-            int? count;
-            if (!server.ExpectNext(clientId, timeOut))
+            var answerReady = new Semaphore(0, 1);
+            CardChoiceAnsweredEventHandler handler = (c) =>
             {
-                return false;
-            }
+                choiceAnswer = c;
+                answerReady.Release(1);
+            };
+            proxy.CardChoiceAnsweredEvent += handler;
+            proxy.AskForCardChoice(new Prompt(), sourceDecks, new List<string>(), resultDeckMaximums, verifier, timeOut, options, callback);
+            bool noAnswer = false;
+            if (!answerReady.WaitOne(timeOut * 1000)) noAnswer = true;
+            proxy.CardChoiceAnsweredEvent -= handler;
+            proxy.Freeze();
+            if (noAnswer) return false;
 
-            count = server.GetInt(clientId, 0);
-            if (count == null || count == 0)
+            answer = choiceAnswer;
+            foreach (var list in answer)
             {
-                return false;
-            }
-            if (count == null)
-            {
-                return false;
-            }
-            answer = new List<List<Card>>();
-
-            count = server.GetInt(clientId, 0);
-            while (count-- > 0)
-            {
-                int? subCount = server.GetInt(clientId, 0); ;
-                var theList = new List<Card>();
-                answer.Add(theList);
-                while (subCount-- > 0)
+                foreach (var item in list)
                 {
-                    Card item = server.GetCard(clientId, 0);
                     if (item == null)
                     {
                         return false;
@@ -286,7 +213,6 @@ namespace Sanguosha.Core.UI
                         Trace.TraceWarning("Client DDOS!");
                         return false;
                     }
-                    theList.Add(item);
                 }
             }
             if (options != null && options.Options != null)
@@ -310,12 +236,8 @@ namespace Sanguosha.Core.UI
         {
             for (int i = 0; i < server.MaxClients; i++)
             {
-                server.SendObject(i, 1);
-                server.SendObject(i, answer.Count);
-                int j = 0;
                 foreach (var cards in answer)
                 {
-                    server.SendObject(i, cards.Count);
                     foreach (Card c in cards)
                     {
                         if (verifier.Helper != null && (verifier.Helper.RevealCards || (verifier.Helper.AdditionalFineGrainedCardChoiceRevealPolicy != null && verifier.Helper.AdditionalFineGrainedCardChoiceRevealPolicy[j])))
@@ -325,12 +247,10 @@ namespace Sanguosha.Core.UI
                                 c.RevealOnce = true;
                             }
                         }
-                        server.SendObject(i, c);
                     }
-                    j++;
                 }
                 if (options != null && options.Options != null) server.SendObject(i, options.OptionResult);
-                server.Flush(i);
+                server.Handlers[i].Send(AskForCardChoiceResponse.Parse(i, answer));
             }
 
         }
@@ -340,7 +260,7 @@ namespace Sanguosha.Core.UI
             bool ret = true;
             if (!TryAskForCardChoice(sourceDecks, resultDeckMaximums, verifier, out answer, options, callback))
             {
-                SendNoAnswer();
+                SendCardChoice(null, null, null);
                 ret = false;
             }
             else
@@ -365,7 +285,7 @@ namespace Sanguosha.Core.UI
             bool ret = true;
             if (!TryAskForMultipleChoice(out answer))
             {
-                SendNoAnswer();
+                SendMultipleChoice(0);
                 ret = false;
             }
             else
@@ -388,18 +308,22 @@ namespace Sanguosha.Core.UI
         public bool TryAskForMultipleChoice(out int answer)
         {
             answer = 0;
-            Trace.TraceInformation("Asking Multiple choice to {0}, timeout {1}.", HostPlayer.Id, TimeOutSeconds);
-            int? count;
-            if (!server.ExpectNext(clientId, TimeOutSeconds))
+            Trace.TraceInformation("Asking Card Usage to {0}, timeout {1}.", HostPlayer.Id, timeOut);
+            var answerReady = new Semaphore(0, 1);
+            MultipleChoiceAnsweredEventHandler handler = (c) =>
             {
-                return false;
-            }
-            count = server.GetInt(clientId, 0);
-            if (count == null)
-            {
-                return false;
-            }
-            answer = (int)count;
+                multiAnswer = c;
+                answerReady.Release(1);
+            };
+            proxy.MultipleChoiceAnsweredEvent += handler;
+            proxy.AskForMultipleChoice(new Prompt(), new List<OptionPrompt>(), TimeOutSeconds);
+            bool noAnswer = false;
+            if (!answerReady.WaitOne(TimeOutSeconds * 1000)) noAnswer = true;
+            proxy.MultipleChoiceAnsweredEvent -= handler;
+            proxy.Freeze();
+            if (noAnswer) return false;
+
+            answer = multiAnswer;
             return true;
         }
 

@@ -169,11 +169,14 @@ namespace Sanguosha.Core.Network
             }
             else
             {
-                return new CardByPlaceItem()
+                var item = new CardByPlaceItem()
                 {
                     DeckPlaceItem = DeckPlaceItem.Parse(card.Place),
                     PlaceInDeck = Game.CurrentGame.Decks[card.Place].IndexOf(card)
                 };
+                if (card.RevealOnce) item.CardId = card.Id;
+                else { item.CardId = -1; }
+                return item;
             }
         }
     }
@@ -197,9 +200,16 @@ namespace Sanguosha.Core.Network
         [ProtoMember(2)]
         public int PlaceInDeck { get; set; }
 
+        public int CardId { get; set; }
         public override Card ToCard()
         {
-            return Game.CurrentGame.Decks[DeckPlaceItem.ToDeckPlace()][PlaceInDeck];
+            var cardDeck = Game.CurrentGame.Decks[DeckPlaceItem.ToDeckPlace()];
+            if (cardDeck.Count <= PlaceInDeck) return null;
+            if (CardId >= 0 && Game.CurrentGame.IsClient)
+            {
+                cardDeck[PlaceInDeck].Id = CardId;
+            }
+            return cardDeck[PlaceInDeck];
         }
     }
 
@@ -303,7 +313,7 @@ namespace Sanguosha.Core.Network
                 foreach (var cardDeck in cards)
                 {
                     Trace.Assert(cardDeck != null);
-                    if (cardDeck == null) continue;
+                f    if (cardDeck == null) continue;
                     var items = new List<CardItem>();
                     foreach (var card in cardDeck)
                     {
