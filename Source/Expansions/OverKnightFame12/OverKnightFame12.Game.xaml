@@ -65,5 +65,5 @@
     <sys:String x:Key="CardChoice.Prompt.ZhenLie">贞烈 请选择{0}的一张牌</sys:String>
     <sys:String x:Key="CardChoice.Prompt.ZhenLie.Others">贞烈 请等待{0}选择{1}的牌</sys:String>
 
-    <sys:String x:Key="CardUsage.Prompt.MiJi">秘计 请把{0}张手牌以任意数量交给任意角色，点“取消”交给自己</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.MiJi">秘计 请把{0}张手牌以任意数量交给任意其他角色</sys:String>
 </ResourceDictionary>
