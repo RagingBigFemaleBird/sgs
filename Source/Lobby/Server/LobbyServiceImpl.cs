@@ -29,7 +29,11 @@ namespace Sanguosha.Lobby.Server
 
         public static bool EnableDatabase()
         {
-            if (accountContext == null) accountContext = new AccountContext();
+            if (accountContext == null)
+            {
+                accountContext = new AccountContext();
+                accountContext.Database.ExecuteSqlCommand("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;");
+            }
             else return false;
             return true;
         }

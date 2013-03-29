@@ -90,7 +90,10 @@ namespace Sanguosha.Core.Network
                         {
                             AnswerCardChoice(null);
                         }
-                        AnswerCardChoice(response2.ToAnswer());
+                        int opt;
+                        var result = response2.ToAnswer(out opt);
+                        currentChoiceOptions.OptionResult = opt;
+                        AnswerCardChoice(result);
                         break;
                     case QuestionState.AskForMultipleChoice:
                         var response3 = packet as AskForMultipleChoiceResponse;
@@ -122,25 +125,25 @@ namespace Sanguosha.Core.Network
         }
 
         QuestionState CurrentQuestionState { get; set; }
-        int QuestionId { get; set; }
+        public int QuestionId { get; set; }
 
         public void AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, int timeOutSeconds)
         {
-            QuestionId++;
             CurrentQuestionState = QuestionState.AskForCardUsage;
             Gamer.Receive();
         }
 
+        AdditionalCardChoiceOptions currentChoiceOptions;
+
         public void AskForCardChoice(Prompt prompt, List<Cards.DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, int timeOutSeconds, AdditionalCardChoiceOptions options, CardChoiceRearrangeCallback callback)
         {
-            QuestionId++;
+            currentChoiceOptions = options;
             CurrentQuestionState = QuestionState.AskForCardChoice;
             Gamer.Receive();
         }
 
         public void AskForMultipleChoice(Prompt prompt, List<OptionPrompt> questions, int timeOutSeconds)
         {
-            QuestionId++;
             CurrentQuestionState = QuestionState.AskForMultipleChoice;
             Gamer.Receive();
         }

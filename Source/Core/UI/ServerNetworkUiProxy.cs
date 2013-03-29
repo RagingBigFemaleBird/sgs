@@ -40,7 +40,7 @@ namespace Sanguosha.Core.UI
 
         public void SendMultipleCardUsageResponded()
         {
-            server.SendMultipleCardUsageResponded(clientId);
+            server.SendObject(clientId, new MultiCardUsageResponded());
         }
 
         ISkill skillAnswer;
@@ -125,14 +125,14 @@ namespace Sanguosha.Core.UI
         {
             for (int i = 0; i < server.MaxClients; i++)
             {
-                server.Handlers[i].Send(AskForCardUsageResponse.Parse(i, skill, cards, players));
+                server.Handlers[i].Send(AskForCardUsageResponse.Parse(proxy.QuestionId, skill, cards, players, i));
             }
 
         }
 
         public void NextQuestion()
         {
-            server.CommIdInc(clientId);
+            proxy.QuestionId++;
         }
 
         public bool AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
@@ -215,13 +215,6 @@ namespace Sanguosha.Core.UI
                     }
                 }
             }
-            if (options != null && options.Options != null)
-            {
-                int? opr = server.GetInt(clientId, 0);
-                if (opr == null) return false;
-                if (opr < 0 || opr >= options.Options.Count) return false;
-                options.OptionResult = (int)opr;
-            }
 
             if (verifier.Verify(answer) != VerifierResult.Success)
             {
@@ -236,6 +229,7 @@ namespace Sanguosha.Core.UI
         {
             for (int i = 0; i < server.MaxClients; i++)
             {
+                int j = 0;
                 foreach (var cards in answer)
                 {
                     foreach (Card c in cards)
@@ -248,11 +242,10 @@ namespace Sanguosha.Core.UI
                             }
                         }
                     }
+                    j++;
                 }
-                if (options != null && options.Options != null) server.SendObject(i, options.OptionResult);
-                server.Handlers[i].Send(AskForCardChoiceResponse.Parse(i, answer));
+                server.Handlers[i].Send(AskForCardChoiceResponse.Parse(proxy.QuestionId, answer, options.OptionResult, i));
             }
-
         }
         public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, AdditionalCardChoiceOptions options, CardChoiceRearrangeCallback callback)
         {
@@ -300,15 +293,14 @@ namespace Sanguosha.Core.UI
         {
             for (int i = 0; i < server.MaxClients; i++)
             {
-                server.SendObject(i, answer);
-                server.Flush(i);
+                server.Handlers[i].Send(new AskForMultipleChoiceResponse() { ChoiceIndex = answer, Id = proxy.QuestionId });
             }
         }
 
         public bool TryAskForMultipleChoice(out int answer)
         {
             answer = 0;
-            Trace.TraceInformation("Asking Card Usage to {0}, timeout {1}.", HostPlayer.Id, timeOut);
+            Trace.TraceInformation("Asking Card Usage to {0}, timeout {1}.", HostPlayer.Id, TimeOutSeconds);
             var answerReady = new Semaphore(0, 1);
             MultipleChoiceAnsweredEventHandler handler = (c) =>
             {

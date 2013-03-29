@@ -119,8 +119,6 @@
     <Compile Include="UI\Prompt.cs" />
     <Compile Include="Heroes\HeroCardHandler.cs" />
     <Compile Include="Network\Client.cs" />
-    <Compile Include="Network\ItemReceiver.cs" />
-    <Compile Include="Network\ItemSender.cs" />
     <Compile Include="Network\Server.cs" />
     <Compile Include="Players\PlayerAttribute.cs" />
     <Compile Include="Skills\ActiveSkill.cs" />

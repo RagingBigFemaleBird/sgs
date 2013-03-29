@@ -30,21 +30,65 @@ namespace Sanguosha.Core.UI
 
         IUiProxy proxy;
         Client client;
+        int commId;
         bool active;
         public bool Suppressed { get; set; }
+        ISkill retSkill;
+        List<Card> retCards;
+        List<Player> retPlayers;
+        List<List<Card>> retListCards;
+        int retAnswer;
+        int retOpt;
+        int retStatus;
+        Card retCard;
+        int nonGameResponseType;
+        Semaphore semRequest;
+        Semaphore semResponse;
         public ClientNetworkUiProxy(IUiProxy p, Client c, bool a)
         {
+            semRequest = new Semaphore(0, 1);
+            semResponse = new Semaphore(0, 1);
             proxy = p;
             client = c;
             active = a;
             lastTS = 0;
+            commId = 0;
+            GamePacketHandler handler = (pkt) =>
+                {
+                    semRequest.WaitOne();
+                    if (pkt is AskForCardUsageResponse)
+                    {
+                        ((AskForCardUsageResponse)pkt).ToAnswer(out retSkill, out retCards, out retPlayers);
+                        semResponse.Release(1);
+                    }
+                    if (pkt is AskForCardChoiceResponse)
+                    {
+                        retListCards = ((AskForCardChoiceResponse)pkt).ToAnswer(out retOpt);
+                        semResponse.Release(1);
+                    }
+                    if (pkt is AskForMultipleChoiceResponse)
+                    {
+                        retAnswer = ((AskForMultipleChoiceResponse)pkt).ChoiceIndex;
+                        semResponse.Release(1);
+                    }
+                    if (pkt is StatusSync)
+                    {
+                        retStatus = ((StatusSync)pkt).Status;
+                        nonGameResponseType = 1;
+                    }
+                    if (pkt is CardSync)
+                    {
+                        retCard = ((CardSync)pkt).Item.ToCard();
+                        nonGameResponseType = 2;
+                    }
+                };
+            client.NetworkService.OnGameDataPacketReceived += handler;
         }
+            
 
         public void SkipAskForCardUsage()
         {
-            client.AnswerNext();
-            client.AnswerItem(0);
-            client.Flush();
+            client.NetworkService.Send(AskForCardUsageResponse.Parse(commId, null, null, null, client.SelfId));
         }
 
         public void TryAskForCardUsage(Prompt prompt, ICardUsageVerifier verifier)
@@ -61,48 +105,12 @@ namespace Sanguosha.Core.UI
             if (Suppressed || !proxy.AskForCardUsage(prompt, verifier, out skill, out cards, out players))
             {
                 Trace.TraceInformation("Invalid answer");
-                client.AnswerNext();
-                client.AnswerItem(0);
+                client.NetworkService.Send(AskForCardUsageResponse.Parse(commId, null, null, null, client.SelfId));
             }
             else
             {
-                client.AnswerNext();
-                client.AnswerItem(1);
-                if (skill == null)
-                {
-                    client.AnswerItem(0);
-                }
-                else
-                {
-                    client.AnswerItem(1);
-                    client.AnswerItem(skill);
-                }
-                if (cards == null)
-                {
-                    client.AnswerItem(0);
-                }
-                else
-                {
-                    client.AnswerItem(cards.Count);
-                    foreach (Card c in cards)
-                    {
-                        client.AnswerItem(c);
-                    }
-                }
-                if (players == null)
-                {
-                    client.AnswerItem(0);
-                }
-                else
-                {
-                    client.AnswerItem(players.Count);
-                    foreach (Player p in players)
-                    {
-                        client.AnswerItem(p);
-                    }
-                }
+                client.NetworkService.Send(AskForCardUsageResponse.Parse(commId, skill, cards, players, client.SelfId));
             }
-            client.Flush();
         }
 
         public bool TryAnswerForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
@@ -110,41 +118,17 @@ namespace Sanguosha.Core.UI
             skill = null;
             cards = new List<Card>();
             players = new List<Player>();
-            object o = client.Receive();
-            if (o == null)
-            {
-                return false;
-            }
-            if ((int)o == 0)
-            {
-                return false;
-            }
-            o = client.Receive();
-            int count = (int)o;
-            if (count == 1)
-            {
-                skill = (ISkill)client.Receive();
-            }
-            o = client.Receive();
-            count = (int)o;
-            while (count-- > 0)
-            {
-                o = client.Receive();
-                cards.Add((Card)o);
-            }
-            o = client.Receive();
-            count = (int)o;
-            while (count-- > 0)
-            {
-                o = client.Receive();
-                players.Add((Player)o);
-            }
+            semRequest.Release(1);
+            semResponse.WaitOne();
+            skill = retSkill;
+            cards = retCards;
+            players = retPlayers;
             return true;
         }
 
         public void NextQuestion()
         {
-            client.NextComm();
+            commId++;
         }
 
         private static DateTime? startTimeStamp;
@@ -266,12 +250,9 @@ namespace Sanguosha.Core.UI
         public bool TryAnswerForMultipleChoice(out int answer)
         {
             answer = 0;
-            object o = client.Receive();
-            if (o == null)
-            {
-                return false;
-            }
-            answer = (int)o;
+            semRequest.Release(1);
+            semResponse.WaitOne();
+            answer = retAnswer;
             return true;
         }
 
@@ -287,15 +268,12 @@ namespace Sanguosha.Core.UI
             if (Suppressed || !proxy.AskForMultipleChoice(prompt, questions, out answer))
             {
                 Trace.TraceInformation("Invalid answer");
-                client.AnswerNext();
-                client.AnswerItem(0);
+                client.NetworkService.Send(new AskForMultipleChoiceResponse() { ChoiceIndex = 0, Id = commId });
             }
             else
             {
-                client.AnswerNext();
-                client.AnswerItem(answer);
+                client.NetworkService.Send(new AskForMultipleChoiceResponse() { ChoiceIndex = 0, Id = commId });
             }
-            client.Flush();
         }
 
         public void TryAskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, AdditionalCardChoiceOptions options, CardChoiceRearrangeCallback callback)
@@ -311,69 +289,21 @@ namespace Sanguosha.Core.UI
                 answer == null)
             {
                 Trace.TraceInformation("Invalid answer");
-                client.AnswerNext();
-                client.AnswerItem(0);
+                client.NetworkService.Send(AskForCardChoiceResponse.Parse(commId, null, 0, client.SelfId));
             }
             else
             {
-                client.AnswerNext();
-                client.AnswerItem(1);
-                client.AnswerItem(answer.Count);
-                foreach (var subList in answer)
-                {
-                    client.AnswerItem(subList.Count);
-                    foreach (Card c in subList)
-                    {
-                        client.AnswerItem(c);
-                    }
-                }
-                if (options != null && options.Options != null)
-                {
-                    client.AnswerItem(options.OptionResult);
-                }
+                client.NetworkService.Send(AskForCardChoiceResponse.Parse(commId, answer, options.OptionResult, client.SelfId));
             }
-            client.Flush();
         }
 
         public bool TryAnswerForCardChoice(Prompt prompt, ICardChoiceVerifier verifier, out List<List<Card>> answer, AdditionalCardChoiceOptions options, CardChoiceRearrangeCallback callback)
         {
             answer = null;
-            object o = client.Receive();
-            if (o == null)
-            {
-                return false;
-            }
-            if ((int)o == 0)
-            {
-                return false;
-            }
-            answer = new List<List<Card>>();
-            o = client.Receive();
-            int count = (int)o;
-            while (count-- > 0)
-            {
-                o = client.Receive();
-                if (o == null)
-                {
-                    return false;
-                }
-                int subCount = (int)o;
-                var theList = new List<Card>();
-                answer.Add(theList);
-                while (subCount-- > 0)
-                {
-                    o = client.Receive();
-                    if (o == null)
-                    {
-                        return false;
-                    }
-                    theList.Add((Card)o);
-                }
-            }
-            if (options != null && options.Options != null)
-            {
-                options.OptionResult = (int)client.Receive();
-            }
+            semRequest.Release(1);
+            semResponse.WaitOne();
+            answer = retListCards;
+            options.OptionResult = retOpt;
             return true;
         }
 
@@ -391,5 +321,14 @@ namespace Sanguosha.Core.UI
             }
         }
 
+
+        public object Receive()
+        {
+            nonGameResponseType = 0;
+            semRequest.Release(1);
+            if (nonGameResponseType == 1) return retStatus;
+            if (nonGameResponseType == 2) return retCard;
+            return null;
+        }
     }
 }

@@ -15,6 +15,7 @@ using Sanguosha.Core.Skills;
 using Sanguosha.Lobby.Core;
 using Sanguosha.Core.Utils;
 using System.IO;
+using Sanguosha.Core.Network;
 
 
 namespace Sanguosha.Core.Games
@@ -178,7 +179,7 @@ namespace Sanguosha.Core.Games
                     {
                         return;
                     }
-                    GameClient.Receive();
+                    ActiveClientProxy.Receive();
                 }
             }
             else if (GameServer != null)
@@ -192,10 +193,8 @@ namespace Sanguosha.Core.Games
                 if (status)
                 {
                     card.RevealOnce = true;
-                    if (player == null) GameServer.SendObject(GameServer.MaxClients - 1, card);
-                    else GameServer.SendObject(player.Id, card);
-                    if (player == null) GameServer.Flush(GameServer.MaxClients - 1);
-                    else GameServer.Flush(player.Id);
+                    if (player == null) GameServer.SendObject(GameServer.MaxClients - 1, new CardSync() { Item = CardItem.Parse(card, GameServer.MaxClients - 1) });
+                    else GameServer.SendObject(player.Id, new CardSync() { Item = CardItem.Parse(card, player.Id) });
                 }
             }
         }
@@ -232,22 +231,17 @@ namespace Sanguosha.Core.Games
                     {
                         return;
                     }
-                    var recv = GameClient.Receive();
+                    var recv = ActiveClientProxy.Receive();
                     Trace.Assert(recv is Card);
                     card = recv as Card;
                 }
                 else if (GameServer != null)
                 {
                     card.RevealOnce = true;
-                    if (player == null) GameServer.SendObject(GameServer.MaxClients - 1, card);
-                    else GameServer.SendObject(player.Id, card);
+                    if (player == null) GameServer.SendObject(GameServer.MaxClients - 1, new CardSync() { Item = CardItem.Parse(card, GameServer.MaxClients - 1) });
+                    else GameServer.SendObject(player.Id, new CardSync() { Item = CardItem.Parse(card, player.Id) });
                 }
                 cards[i] = card;
-            }
-            if (GameServer != null)
-            {
-                if (player == null) GameServer.Flush(GameServer.MaxClients - 1);
-                else GameServer.Flush(player.Id);
             }
         }
 
@@ -289,19 +283,14 @@ namespace Sanguosha.Core.Games
                     {
                         return;
                     }
-                    GameClient.Receive();
+                    ActiveClientProxy.Receive();
                 }
                 else if (GameServer != null)
                 {
                     card.RevealOnce = true;
-                    if (player == null) GameServer.SendObject(GameServer.MaxClients - 1, card);
-                    else GameServer.SendObject(player.Id, card);
+                    if (player == null) GameServer.SendObject(GameServer.MaxClients - 1, new CardSync() { Item = CardItem.Parse(card, GameServer.MaxClients - 1) });
+                    else GameServer.SendObject(player.Id, new CardSync() { Item = CardItem.Parse(card, player.Id) });
                 }
-            }
-            if (GameServer != null)
-            {
-                if (player == null) GameServer.Flush(GameServer.MaxClients - 1);
-                else GameServer.Flush(player.Id);
             }
         }
 
@@ -329,13 +318,12 @@ namespace Sanguosha.Core.Games
             {
                 for (int i = 0; i < GameServer.MaxClients; i++)
                 {
-                    GameServer.SendObject(i, confirmed ? 1 : 0);
-                    GameServer.Flush(i);
+                    GameServer.SendObject(i, new StatusSync() { Status = confirmed ? 1 : 0 });
                 }
             }
             else if (GameClient != null)
             {
-                object o = GameClient.Receive();
+                object o = ActiveClientProxy.Receive();
                 Trace.Assert(o is int);
                 if ((int)o == 1)
                 {
@@ -354,13 +342,12 @@ namespace Sanguosha.Core.Games
             {
                 for (int i = 0; i < GameServer.MaxClients; i++)
                 {
-                    GameServer.SendObject(i, value);
-                    GameServer.Flush(i);
+                    GameServer.SendObject(i, new StatusSync() { Status = value });
                 }
             }
             else if (GameClient != null)
             {
-                object o = GameClient.Receive();
+                object o = ActiveClientProxy.Receive();
                 Trace.Assert(o is int);
                 value = (int)o;
             }
@@ -414,9 +401,7 @@ namespace Sanguosha.Core.Games
                 Trace.Assert(Settings != null);
                 for (int i = 0; i < GameServer.MaxClients; i++)
                 {
-                    GameServer.SendObject(i, Settings);
-                    GameServer.SendObject(i, i);
-                    GameServer.Flush(i);
+                    GameServer.SendObject(i, new ConnectionResponse() { SelfId = i, Settings = Settings });
                 }
 
             }
@@ -1597,6 +1582,8 @@ namespace Sanguosha.Core.Games
                 list[n] = value;
             }
         }
+
+        public ClientNetworkUiProxy ActiveClientProxy { get; set; }
     }
 }
 

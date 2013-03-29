@@ -10,7 +10,7 @@ namespace Sanguosha.Core.Cards
     [Serializable]    
     public class DeckType
     {
-        private static Dictionary<string, DeckType> registeredDeckTypes;
+        private static Dictionary<string, DeckType> registeredDeckTypes = new Dictionary<string,DeckType>();
 
         public static DeckType Register(string name)
         {
@@ -26,7 +26,7 @@ namespace Sanguosha.Core.Cards
             return registeredDeckTypes[shortName];
         }
 
-        private DeckType(string name, string shortName)
+        protected DeckType(string name, string shortName)
         {
             Name = name;
             AbbriviatedName = shortName;

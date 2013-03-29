@@ -13,7 +13,7 @@ namespace Sanguosha.Core.Cards
     public class StagingDeckType : DeckType
     {
         public StagingDeckType(string name)
-            : base(name)
+            : base(name, name)
         { }
     }
 }

@@ -15,6 +15,7 @@ using System.Threading;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Utils;
 using Sanguosha.Lobby.Core;
+using Sanguosha.Core.Network;
 
 namespace Sanguosha.Core.Games
 {
@@ -785,15 +786,15 @@ namespace Sanguosha.Core.Games
                             {
                                 foreach (Player player in game.Players)
                                 {
-                                    game.GameServer.SendObject(player.Id, idx);
+                                    game.GameServer.SendObject(player.Id, new StatusSync() { Status = idx });
                                 }
-                                game.GameServer.SendObject(game.Players.Count, idx);
+                                game.GameServer.SendObject(game.Players.Count, new StatusSync() { Status = idx });
                             }
                         }
                         // you are client
                         else
                         {
-                            idx = (int)game.GameClient.Receive();
+                            idx = (int)game.ActiveClientProxy.Receive();
                             c = restDraw[p][idx];
                         }
                         game.SyncImmutableCardAll(c);

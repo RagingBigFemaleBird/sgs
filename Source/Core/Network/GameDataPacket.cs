@@ -9,6 +9,7 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.UI;
+using Sanguosha.Lobby.Core;
 
 namespace Sanguosha.Core.Network
 {
@@ -27,6 +28,11 @@ namespace Sanguosha.Core.Network
         {
             if (PlayerId >= Game.CurrentGame.Players.Count) return null;
             return Game.CurrentGame.Players[PlayerId];
+        }
+
+        public static PlayerItem Parse(int pid)
+        {
+            return new PlayerItem() { PlayerId = (byte)pid };
         }
     }
 
@@ -244,8 +250,8 @@ namespace Sanguosha.Core.Network
         List<CardItem> CardItems { get; set; }
         [ProtoMember(3)]
         List<PlayerItem> PlayerItems { get; set; }
-        
-        public static AskForCardUsageResponse Parse(int id, ISkill skill, List<Card> cards, List<Player> players)
+
+        public static AskForCardUsageResponse Parse(int id, ISkill skill, List<Card> cards, List<Player> players, int wrtPlayerId)
         {            
             AskForCardUsageResponse response = new AskForCardUsageResponse();
             response.Id = id;
@@ -256,7 +262,7 @@ namespace Sanguosha.Core.Network
                 response.CardItems = new List<CardItem>();
                 foreach (var card in cards)
                 {
-                    response.CardItems.Add(CardItem.Parse(card));
+                    response.CardItems.Add(CardItem.Parse(card, wrtPlayerId));
                 }
             }
             if (players == null) response.PlayerItems = null;
@@ -301,8 +307,9 @@ namespace Sanguosha.Core.Network
     {
         [ProtoMember(1)]
         List<List<CardItem>> CardItems { get; set; }
+        int OptionId { get; set; }
 
-        public static AskForCardChoiceResponse Parse(int id, List<List<Card>> cards)
+        public static AskForCardChoiceResponse Parse(int id, List<List<Card>> cards, int optionId, int wrtPlayerId)
         {
             AskForCardChoiceResponse response = new AskForCardChoiceResponse();
             response.Id = id;
@@ -313,20 +320,22 @@ namespace Sanguosha.Core.Network
                 foreach (var cardDeck in cards)
                 {
                     Trace.Assert(cardDeck != null);
-                f    if (cardDeck == null) continue;
+                    if (cardDeck == null) continue;
                     var items = new List<CardItem>();
                     foreach (var card in cardDeck)
                     {
-                        items.Add(CardItem.Parse(card));
+                        items.Add(CardItem.Parse(card, wrtPlayerId));
                     }
                     response.CardItems.Add(items);
                 }
             }
+            response.OptionId = optionId;
             return response;
         }
 
-        public List<List<Card>> ToAnswer()
+        public List<List<Card>> ToAnswer(out int option)
         {
+            option = 0;
             if (CardItems == null) return null;
             var result = new List<List<Card>>();
             foreach (var cardDeck in CardItems)
@@ -341,6 +350,7 @@ namespace Sanguosha.Core.Network
                 }
                 result.Add(cards);
             }
+            option = OptionId;
             return result;
         }
     }
@@ -364,6 +374,50 @@ namespace Sanguosha.Core.Network
         public int From { get; set; }
         [ProtoMember(3)]
         public int To { get; set; }
+    }
+
+    [ProtoContract]
+    public class ConnectionRequest : GameDataPacket
+    {
+        [ProtoMember(1)]
+        public LoginToken token { get; set; }
+    }
+
+    [ProtoContract]
+    public class ConnectionResponse : GameDataPacket
+    {
+        [ProtoMember(1)]
+        public GameSettings Settings { get; set; }
+        [ProtoMember(2)]
+        public int SelfId { get; set; }
+    }
+
+    [ProtoContract]
+    public class UIStatusHint : GameDataPacket
+    {
+        [ProtoMember(1)]
+        public int Detach { get; set; }
+    }
+
+    [ProtoContract]
+    public class MultiCardUsageResponded : GameDataPacket
+    {
+        [ProtoMember(1)]
+        public int NotUsed { get; set; }
+    }
+
+    [ProtoContract]
+    public class StatusSync : GameDataPacket
+    {
+        [ProtoMember(1)]
+        public int Status { get; set; }
+    }
+
+    [ProtoContract]
+    public class CardSync : GameDataPacket
+    {
+        [ProtoMember(1)]
+        public CardItem Item { get; set; }
     }
 
     [ProtoContract]
