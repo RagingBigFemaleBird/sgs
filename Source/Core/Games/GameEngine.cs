@@ -65,6 +65,7 @@ namespace Sanguosha.Core.Games
                 {
                     idOfCardHandler.Add(typeName, newId);
                     cardHandlers.Add(newId, card.Type);
+                    newId++;
                 }
             }
         }

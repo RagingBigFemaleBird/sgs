@@ -1,4 +1,5 @@
-﻿using Sanguosha.Lobby;
+﻿using ProtoBuf;
+using Sanguosha.Lobby;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,8 +20,10 @@ namespace Sanguosha.Lobby.Core
     }
 
     [Serializable]
+    [ProtoContract]
     public struct LoginToken
     {
+        [ProtoMember(1)]
         public Guid TokenString { get; set; }
     }
 

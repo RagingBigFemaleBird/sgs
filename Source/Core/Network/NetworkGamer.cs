@@ -31,7 +31,8 @@ namespace Sanguosha.Core.Network
 
         public void StartListening()
         {
-            
+            var listener = new Thread(ThreadMain);
+            listener.Start();
         }
 
         Semaphore sema;

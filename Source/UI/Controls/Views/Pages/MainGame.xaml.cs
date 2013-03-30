@@ -132,7 +132,9 @@ namespace Sanguosha.UI.Controls
             {
                 Semaphore semInit = new Semaphore(0, 1);
                 GamePacketHandler handler = (pkt) => { if (pkt is ConnectionResponse) { _game.Settings = ((ConnectionResponse)pkt).Settings; NetworkClient.SelfId = ((ConnectionResponse)pkt).SelfId; } NetworkClient.NetworkService.Pause(); semInit.Release(1); };
+                NetworkClient.NetworkService.OnGameDataPacketReceived += handler;
                 semInit.WaitOne();
+                NetworkClient.NetworkService.OnGameDataPacketReceived -= handler;
                 NetworkClient.NetworkService.Resume();
                 Trace.Assert(_game.Settings != null);
             }

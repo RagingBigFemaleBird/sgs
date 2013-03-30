@@ -41,7 +41,6 @@ namespace Sanguosha.Core.Network
         /// </summary>
         public Server(Game game, int capacity, IPAddress address)
         {
-            isStopped = false;
             ipAddress = address;
             IPEndPoint ep = new IPEndPoint(ipAddress, 0);
             listener = new TcpListener(ep);
@@ -89,6 +88,7 @@ namespace Sanguosha.Core.Network
                 }
                 Trace.TraceInformation("Client connected");
                 handlers[i].DataStream = handlers[i].TcpClient.GetStream();
+                handlers[i].StartListening();
                 if (game.Configuration != null)
                 {
                     object item = null;
@@ -236,8 +236,6 @@ namespace Sanguosha.Core.Network
             }
 
         }
-
-        bool isStopped;
 
         public void SendObject(int clientId, GameDataPacket o)
         {

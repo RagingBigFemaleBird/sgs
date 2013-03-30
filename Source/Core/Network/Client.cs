@@ -65,6 +65,7 @@ namespace Sanguosha.Core.Network
             NetworkStream stream = client.GetStream();
             networkService = new NetworkGamer();
             networkService.DataStream = stream;
+            networkService.StartListening();
             if (token != null)
             {
                 networkService.Send(new ConnectionRequest() { token = (LoginToken)token });

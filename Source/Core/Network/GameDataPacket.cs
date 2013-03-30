@@ -186,7 +186,7 @@ namespace Sanguosha.Core.Network
             }
         }
     }
-
+    
     [ProtoContract]
     public class CardByIdItem : CardItem
     {
@@ -219,6 +219,50 @@ namespace Sanguosha.Core.Network
         }
     }
 
+    [ProtoContract]
+    public class NestedCardList
+    {
+        [ProtoMember(1)]
+        public List<int> ListSizes { get; set; }
+        [ProtoMember(2)]
+        public List<CardItem> AllCardItems { get; set; }
+        
+        public NestedCardList()
+        {
+        }
+
+        public List<List<CardItem>> ToCardLists()
+        {
+            if (ListSizes == null || AllCardItems == null) return null;
+            int i = 0;
+            var list = new List<List<CardItem>>();
+            foreach (var cardSize in ListSizes)
+            {
+                List<CardItem> cards = new List<CardItem>();
+                for (int j = 0; j < cardSize; j++)
+                {
+                    cards.Add(AllCardItems[i++]);
+                }
+                list.Add(cards);
+            }
+            return list;
+        }
+
+        public static NestedCardList Parse(List<List<CardItem>> cardList)
+        {
+            if (cardList == null) return null;
+            NestedCardList ncl = new NestedCardList();
+            ncl.ListSizes = new List<int>();
+            ncl.AllCardItems = new List<CardItem>();
+            foreach (var cards in cardList)
+            {
+                ncl.ListSizes.Add(cards.Count);
+                ncl.AllCardItems.AddRange(cards);
+            }
+            return ncl;
+        }
+    }
+
     #endregion
     #region GameDataPacket
 
@@ -226,6 +270,12 @@ namespace Sanguosha.Core.Network
     [ProtoInclude(1011, typeof(GameResponse))]
     [ProtoInclude(1012, typeof(CardRearrangementNotification))]
     [ProtoInclude(1013, typeof(HandCardMovementNotification))]
+    [ProtoInclude(1014, typeof(ConnectionRequest))]
+    [ProtoInclude(1015, typeof(ConnectionResponse))]
+    [ProtoInclude(1016, typeof(StatusSync))]
+    [ProtoInclude(1017, typeof(CardSync))]
+    [ProtoInclude(1018, typeof(UIStatusHint))]
+    [ProtoInclude(1019, typeof(MultiCardUsageResponded))]
     public class GameDataPacket
     {
     }
@@ -306,7 +356,8 @@ namespace Sanguosha.Core.Network
     public class AskForCardChoiceResponse : GameResponse
     {
         [ProtoMember(1)]
-        List<List<CardItem>> CardItems { get; set; }
+        NestedCardList CardItems { get; set; }
+        [ProtoMember(2)]
         int OptionId { get; set; }
 
         public static AskForCardChoiceResponse Parse(int id, List<List<Card>> cards, int optionId, int wrtPlayerId)
@@ -316,7 +367,7 @@ namespace Sanguosha.Core.Network
             if (cards == null) response.CardItems = null;
             else
             {
-                response.CardItems = new List<List<CardItem>>();
+                var cardItems = new List<List<CardItem>>();
                 foreach (var cardDeck in cards)
                 {
                     Trace.Assert(cardDeck != null);
@@ -326,8 +377,9 @@ namespace Sanguosha.Core.Network
                     {
                         items.Add(CardItem.Parse(card, wrtPlayerId));
                     }
-                    response.CardItems.Add(items);
+                    cardItems.Add(items);
                 }
+                response.CardItems = NestedCardList.Parse(cardItems);
             }
             response.OptionId = optionId;
             return response;
@@ -337,8 +389,9 @@ namespace Sanguosha.Core.Network
         {
             option = 0;
             if (CardItems == null) return null;
+            var cardItemList = CardItems.ToCardLists();
             var result = new List<List<Card>>();
-            foreach (var cardDeck in CardItems)
+            foreach (var cardDeck in cardItemList)
             {
                 // Invalid packet.
                 if (cardDeck == null) return null;
