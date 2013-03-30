@@ -11,6 +11,7 @@ using System.Net.Sockets;
 namespace Sanguosha.Core.Network
 {
     public delegate void GamePacketHandler(GameDataPacket request);
+    public delegate void GamerDisconnectedHandler(NetworkGamer gamer);
 
     public enum ConnectionStatus
     {
@@ -31,7 +32,7 @@ namespace Sanguosha.Core.Network
 
         public void StartListening()
         {
-            var listener = new Thread(ThreadMain);
+            var listener = new Thread(ThreadMain) { IsBackground = true };
             listener.Start();
         }
 
@@ -47,20 +48,30 @@ namespace Sanguosha.Core.Network
                 lock (this)
                 {
                    packet = Serializer.DeserializeWithLengthPrefix<GameDataPacket>(DataStream, PrefixStyle.Base128);
+                   if (packet == null)
+                   {
+                       var handler = OnDisconnected;
+                       if (handler != null)
+                       {
+                           OnDisconnected(this);
+                       }
+                       return;
+                   }
                 }
                 semPause.Release(1);
                 if (packet is GameResponse) sema.WaitOne();
-                var handler = OnGameDataPacketReceived;
-                if (handler != null)
+                var handler2 = OnGameDataPacketReceived;
+                if (handler2 != null)
                 {
-                    handler(packet);
+                    handler2(packet);                    
                 }
             }
         }
-                
+
+        public event GamerDisconnectedHandler OnDisconnected;
         public void Send(GameDataPacket packet)
         {
-            Serializer.SerializeWithLengthPrefix<GameDataPacket>(DataStream, packet, PrefixStyle.Base128);      
+            Serializer.SerializeWithLengthPrefix<GameDataPacket>(DataStream, packet, PrefixStyle.Base128);
         }
 
         public void Receive()
