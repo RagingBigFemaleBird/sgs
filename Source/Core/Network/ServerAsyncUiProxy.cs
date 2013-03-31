@@ -81,7 +81,7 @@ namespace Sanguosha.Core.Network
                         ISkill skill;
                         List<Card> cards;
                         List<Player> players;
-                        response.ToAnswer(out skill, out cards, out players);
+                        response.ToAnswer(out skill, out cards, out players, -1);
                         AnswerCardUsage(skill, cards, players);
                         break;
                     case QuestionState.AskForCardChoice:
@@ -91,8 +91,8 @@ namespace Sanguosha.Core.Network
                             AnswerCardChoice(null);
                         }
                         int opt;
-                        var result = response2.ToAnswer(out opt);
-                        currentChoiceOptions.OptionResult = opt;
+                        var result = response2.ToAnswer(-1, out opt);
+                        if (currentChoiceOptions != null) currentChoiceOptions.OptionResult = opt;
                         AnswerCardChoice(result);
                         break;
                     case QuestionState.AskForMultipleChoice:

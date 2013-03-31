@@ -51,6 +51,8 @@ namespace Sanguosha.Core.Network
             for (int i = 0; i < capacity; i++)
             {
                 handlers.Add(new NetworkGamer());
+                handlers[i].Game = game;
+                handlers[i].StartListening();
             }
             this.game = game;
             Trace.TraceInformation("Server initialized with capacity {0}", capacity);
@@ -87,14 +89,13 @@ namespace Sanguosha.Core.Network
                     break;
                 }
                 Trace.TraceInformation("Client connected");
-                handlers[i].DataStream = handlers[i].TcpClient.GetStream();
-                handlers[i].StartListening();
                 if (game.Configuration != null)
                 {
                     object item = null;
                     Semaphore sem0 = new Semaphore(0, int.MaxValue);
                     GamePacketHandler hd = (o) => { if (o is ConnectionRequest) { item = ((ConnectionRequest)o).token; sem0.Release(1); } };
                     handlers[i].OnGameDataPacketReceived += hd;
+                    handlers[i].DataStream = handlers[i].TcpClient.GetStream();
 
                     if (!sem0.WaitOne(4000) || !(item is LoginToken) ||
                      !game.Configuration.LoginTokens.Any(id => id.TokenString == ((LoginToken)item).TokenString))
@@ -102,7 +103,7 @@ namespace Sanguosha.Core.Network
                         handlers[i].OnGameDataPacketReceived -= hd;
                         handlers[i].DataStream = null;
                         handlers[i].TcpClient.Close();
-                        i--; 
+                        i--;
                         continue;
                     }
                     handlers[i].OnGameDataPacketReceived -= hd;
@@ -120,6 +121,10 @@ namespace Sanguosha.Core.Network
                             game.Settings.Accounts.Add(game.Configuration.Accounts[index]);
                         }
                     }
+                }
+                else
+                {
+                    handlers[i].DataStream = handlers[i].TcpClient.GetStream();
                 }
             }
             List<Account> remainingDisconnected = null;

@@ -93,6 +93,7 @@
     <Compile Include="Games\Game.cs" />
     <Compile Include="Heroes\UnknownHeroCardHandler.cs" />
     <Compile Include="Games\RoleCard.cs" />
+    <Compile Include="Network\ClientGamer.cs" />
     <Compile Include="Network\GameDataPacket.cs" />
     <Compile Include="Network\NetworkGamer.cs" />
     <Compile Include="Network\ServerAsyncUiProxy.cs" />

@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ProtoBuf;
 using System.Net.Sockets;
+using Sanguosha.Core.Games;
 
 namespace Sanguosha.Core.Network
 {
@@ -23,12 +24,31 @@ namespace Sanguosha.Core.Network
         public NetworkGamer()
         {
             sema = new Semaphore(0, 1);
-            semPause = new Semaphore(1, 1);
+            semPause = new Semaphore(0, 1);
         }
+
+        public Game Game { get; set; }
 
         public TcpClient TcpClient { get; set; }
         public ConnectionStatus ConnectionStatus { get; set; }
-        public Stream DataStream { get; set; }
+        Stream dataStream;
+        public Stream DataStream 
+        {
+            get { return dataStream; }
+            set
+            {
+                if (value != null)
+                {
+                    dataStream = value;
+                    semPause.Release(1);
+                }
+                if (value == null)
+                {
+                    dataStream = value;
+                    semPause.WaitOne(0);
+                }
+            }
+        }
 
         public void StartListening()
         {
@@ -41,6 +61,7 @@ namespace Sanguosha.Core.Network
 
         private void ThreadMain()
         {
+            Game.RegisterCurrentThread();
             while (true)
             {
                 GameDataPacket packet;

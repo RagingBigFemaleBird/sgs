@@ -76,33 +76,47 @@ namespace Sanguosha.Core.UI
             cards = cardsAnswer;
             players = playersAnswer;
 
-            if (!(skill is CheatSkill) && !HostPlayer.ActionableSkills.Contains(skill))
+            if (skill != null && !(skill is CheatSkill) && !HostPlayer.ActionableSkills.Contains(skill))
             {
                 Trace.TraceWarning("Client DDOS!");
                 return false;
             }
-            foreach (var item in cards)
+            if (cards != null)
             {
-                if (item == null)
+                foreach (var item in cards)
                 {
-                    return false;
-                }
-                if (item.Owner != HostPlayer)
-                {
-                    if (!(verifier.Helper.OtherDecksUsed.Any(dc => dc == item.Place.DeckType) ||
-                        (skill != null && skill.Helper.OtherDecksUsed.Any(dc => dc == item.Place.DeckType))))
+                    if (item == null)
                     {
-                        Trace.TraceWarning("Client hacking cards!");
+                        return false;
+                    }
+                    if (item.Owner != HostPlayer)
+                    {
+                        if (!(verifier.Helper.OtherDecksUsed.Any(dc => dc == item.Place.DeckType) ||
+                            (skill != null && skill.Helper.OtherDecksUsed.Any(dc => dc == item.Place.DeckType))))
+                        {
+                            Trace.TraceWarning("Client hacking cards!");
+                            return false;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                cards = new List<Card>();
+            }
+            if (players != null)
+            {
+                foreach (var item in players)
+                {
+                    if (item == null)
+                    {
                         return false;
                     }
                 }
             }
-            foreach (var item in players)
+            else
             {
-                if (item == null)
-                {
-                    return false;
-                }
+                players = new List<Player>();
             }
             bool requireUnique = true;
             if (skill is ActiveSkill)
@@ -180,42 +194,48 @@ namespace Sanguosha.Core.UI
             if (noAnswer) return false;
 
             answer = choiceAnswer;
-            foreach (var list in answer)
+            if (answer != null)
             {
-                foreach (var item in list)
+                foreach (var list in answer)
                 {
-                    if (item == null)
+                    foreach (var item in list)
                     {
-                        return false;
-                    }
-                    bool exist = false;
-                    foreach (var v in sourceDecks)
-                    {
-                        if (Game.CurrentGame.Decks[v].Contains(item))
+                        if (item == null)
                         {
-                            exist = true;
-                            break;
+                            return false;
                         }
-                    }
-                    if (options != null && options.DefaultResult != null)
-                    {
-                        foreach (var dk in options.DefaultResult)
+                        bool exist = false;
+                        foreach (var v in sourceDecks)
                         {
-                            if (dk.Contains(item))
+                            if (Game.CurrentGame.Decks[v].Contains(item))
                             {
                                 exist = true;
                                 break;
                             }
                         }
-                    }
-                    if (!exist)
-                    {
-                        Trace.TraceWarning("Client DDOS!");
-                        return false;
+                        if (options != null && options.DefaultResult != null)
+                        {
+                            foreach (var dk in options.DefaultResult)
+                            {
+                                if (dk.Contains(item))
+                                {
+                                    exist = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (!exist)
+                        {
+                            Trace.TraceWarning("Client DDOS!");
+                            return false;
+                        }
                     }
                 }
             }
-
+            else
+            {
+                answer = new List<List<Card>>();
+            }
             if (verifier.Verify(answer) != VerifierResult.Success)
             {
                 Trace.TraceWarning("Client seems to be sending invalid answers at us. DDOS?");
@@ -230,21 +250,24 @@ namespace Sanguosha.Core.UI
             for (int i = 0; i < server.MaxClients; i++)
             {
                 int j = 0;
-                foreach (var cards in answer)
+                if (answer != null)
                 {
-                    foreach (Card c in cards)
+                    foreach (var cards in answer)
                     {
-                        if (verifier.Helper != null && (verifier.Helper.RevealCards || (verifier.Helper.AdditionalFineGrainedCardChoiceRevealPolicy != null && verifier.Helper.AdditionalFineGrainedCardChoiceRevealPolicy[j])))
+                        foreach (Card c in cards)
                         {
-                            if (c.Place.DeckType != DeckType.Equipment && c.Place.DeckType != DeckType.DelayedTools)
+                            if (verifier.Helper != null && (verifier.Helper.RevealCards || (verifier.Helper.AdditionalFineGrainedCardChoiceRevealPolicy != null && verifier.Helper.AdditionalFineGrainedCardChoiceRevealPolicy[j])))
                             {
-                                c.RevealOnce = true;
+                                if (c.Place.DeckType != DeckType.Equipment && c.Place.DeckType != DeckType.DelayedTools)
+                                {
+                                    c.RevealOnce = true;
+                                }
                             }
                         }
+                        j++;
                     }
-                    j++;
                 }
-                server.Handlers[i].Send(AskForCardChoiceResponse.Parse(proxy.QuestionId, answer, options.OptionResult, i));
+                server.Handlers[i].Send(AskForCardChoiceResponse.Parse(proxy.QuestionId, answer, options == null? 0 : options.OptionResult, i));
             }
         }
         public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, AdditionalCardChoiceOptions options, CardChoiceRearrangeCallback callback)

@@ -20,14 +20,8 @@ namespace Sanguosha.Core.Network
 {
     public class Client
     {
-        NetworkGamer networkService;
+        ClientGamer networkService;
 
-        public NetworkGamer NetworkService
-        {
-            get { return networkService; }
-            set { networkService = value; }
-        }
-        
         public int SelfId { get; set; }
 
         private string ipString;
@@ -63,9 +57,8 @@ namespace Sanguosha.Core.Network
             TcpClient client = new TcpClient();
             client.Connect(ep);
             NetworkStream stream = client.GetStream();
-            networkService = new NetworkGamer();
+            networkService = new ClientGamer();
             networkService.DataStream = stream;
-            networkService.StartListening();
             if (token != null)
             {
                 networkService.Send(new ConnectionRequest() { token = (LoginToken)token });
@@ -77,7 +70,7 @@ namespace Sanguosha.Core.Network
         public void StartReplay(Stream replayStream)
         {
             this.replayStream = replayStream;
-            networkService = new NetworkGamer();
+            networkService = new ClientGamer();
             networkService.DataStream = replayStream;
             ReplayController = new Utils.ReplayController();
             ReplayController.EvenDelays = true;
@@ -112,6 +105,22 @@ namespace Sanguosha.Core.Network
         public void CardChoiceCallBack(CardRearrangement arrange)
         {
             networkService.Send(new CardRearrangementNotification() { CardRearrangement = arrange });
+        }
+
+        public void Send(GameDataPacket p)
+        {
+            networkService.Send(p);
+        }
+
+        public object Receive()
+        {
+            var pkt = networkService.Receive();
+            if (pkt is StatusSync)
+                return ((StatusSync)pkt).Status;
+            if (pkt is CardSync)
+                return ((CardSync)pkt).Item.ToCard(SelfId);
+            if (pkt is CardRearrangementNotification) return Receive();
+            return pkt;
         }
 
         public void Stop()

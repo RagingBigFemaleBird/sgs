@@ -130,12 +130,12 @@ namespace Sanguosha.UI.Controls
             Game.CurrentGameOverride = _game;
             if (NetworkClient != null)
             {
-                Semaphore semInit = new Semaphore(0, 1);
-                GamePacketHandler handler = (pkt) => { if (pkt is ConnectionResponse) { _game.Settings = ((ConnectionResponse)pkt).Settings; NetworkClient.SelfId = ((ConnectionResponse)pkt).SelfId; } NetworkClient.NetworkService.Pause(); semInit.Release(1); };
-                NetworkClient.NetworkService.OnGameDataPacketReceived += handler;
-                semInit.WaitOne();
-                NetworkClient.NetworkService.OnGameDataPacketReceived -= handler;
-                NetworkClient.NetworkService.Resume();
+                var pkt = NetworkClient.Receive();
+                if (pkt is ConnectionResponse)
+                {
+                    _game.Settings = ((ConnectionResponse)pkt).Settings;
+                    NetworkClient.SelfId = ((ConnectionResponse)pkt).SelfId;
+                }
                 Trace.Assert(_game.Settings != null);
             }
             else

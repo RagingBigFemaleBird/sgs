@@ -179,7 +179,7 @@ namespace Sanguosha.Core.Games
                     {
                         return;
                     }
-                    ActiveClientProxy.Receive();
+                    GameClient.Receive();
                 }
             }
             else if (GameServer != null)
@@ -231,7 +231,7 @@ namespace Sanguosha.Core.Games
                     {
                         return;
                     }
-                    var recv = ActiveClientProxy.Receive();
+                    var recv = GameClient.Receive();
                     Trace.Assert(recv is Card);
                     card = recv as Card;
                 }
@@ -283,7 +283,7 @@ namespace Sanguosha.Core.Games
                     {
                         return;
                     }
-                    ActiveClientProxy.Receive();
+                    GameClient.Receive();
                 }
                 else if (GameServer != null)
                 {
@@ -323,7 +323,7 @@ namespace Sanguosha.Core.Games
             }
             else if (GameClient != null)
             {
-                object o = ActiveClientProxy.Receive();
+                object o = GameClient.Receive();
                 Trace.Assert(o is int);
                 if ((int)o == 1)
                 {
@@ -347,7 +347,7 @@ namespace Sanguosha.Core.Games
             }
             else if (GameClient != null)
             {
-                object o = ActiveClientProxy.Receive();
+                object o = GameClient.Receive();
                 Trace.Assert(o is int);
                 value = (int)o;
             }
@@ -482,7 +482,7 @@ namespace Sanguosha.Core.Games
                 this.NotificationProxy = null;
                 this.uiProxies = null;
             }
-            catch (Exception e)
+/*            catch (Exception e)
             {
                 var keys = new List<Thread>(from t in games.Keys where games[t] == this select t);
                 foreach (var t in keys)
@@ -503,7 +503,7 @@ namespace Sanguosha.Core.Games
                 crashReport.WriteLine(e);
                 crashReport.Close();
             }
-            
+*/            
             mainThread = null;
 
             if (GameServer != null)
@@ -1256,7 +1256,7 @@ namespace Sanguosha.Core.Games
             return ret;
         }
 
-        void _FilterCard(Player p, Card card)
+        public void _FilterCard(Player p, Card card)
         {
             GameEventArgs args = new GameEventArgs();
             args.Source = p;

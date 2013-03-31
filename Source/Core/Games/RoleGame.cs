@@ -794,7 +794,7 @@ namespace Sanguosha.Core.Games
                         // you are client
                         else
                         {
-                            idx = (int)game.ActiveClientProxy.Receive();
+                            idx = (int)game.GameClient.Receive();
                             c = restDraw[p][idx];
                         }
                         game.SyncImmutableCardAll(c);

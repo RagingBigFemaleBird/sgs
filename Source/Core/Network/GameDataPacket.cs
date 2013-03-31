@@ -154,32 +154,28 @@ namespace Sanguosha.Core.Network
     }
 
     [ProtoContract]
-    [ProtoInclude(1031, typeof(CardByIdItem))]
     [ProtoInclude(1032, typeof(CardByPlaceItem))]    
     public abstract class CardItem
     {
-        public abstract Card ToCard();
+        public abstract Card ToCard(int wrtPlayerId);
         
         public static CardItem Parse(Card card, int wrtPlayerId)
         {
             if (card == null) return null;
-            // @todo: implementation
+            var item = new CardByPlaceItem()
+            {
+                DeckPlaceItem = DeckPlaceItem.Parse(card.Place),
+                PlaceInDeck = Game.CurrentGame.Decks[card.Place].IndexOf(card)
+            };
             if (card.Place.Player != null && card.Place.DeckType == DeckType.Hand && 
                 wrtPlayerId > 0 && wrtPlayerId < Game.CurrentGame.Players.Count &&
                 Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrtPlayerId]].Contains(card.Place.Player))
             {
-                return new CardByIdItem()
-                {
-                    CardId = card.Id
-                };
+                item.CardId = card.Id;
+                return item;
             }
             else
             {
-                var item = new CardByPlaceItem()
-                {
-                    DeckPlaceItem = DeckPlaceItem.Parse(card.Place),
-                    PlaceInDeck = Game.CurrentGame.Decks[card.Place].IndexOf(card)
-                };
                 if (card.RevealOnce) item.CardId = card.Id;
                 else { item.CardId = -1; }
                 return item;
@@ -188,32 +184,33 @@ namespace Sanguosha.Core.Network
     }
     
     [ProtoContract]
-    public class CardByIdItem : CardItem
-    {
-        [ProtoMember(1)]
-        public int CardId { get; set; }
-        public override Card ToCard()
-        {
-            return GameEngine.CardSet[CardId];
-        }
-    }
-
-    [ProtoContract]
     public class CardByPlaceItem : CardItem
     {
         [ProtoMember(1)]
         public DeckPlaceItem DeckPlaceItem { get; set; }
         [ProtoMember(2)]
         public int PlaceInDeck { get; set; }
-
+        [ProtoMember(3)]
         public int CardId { get; set; }
-        public override Card ToCard()
+        public override Card ToCard(int wrtPlayerId)
         {
             var cardDeck = Game.CurrentGame.Decks[DeckPlaceItem.ToDeckPlace()];
             if (cardDeck.Count <= PlaceInDeck) return null;
+            if (DeckPlaceItem.ToDeckPlace().Player != null && DeckPlaceItem.ToDeckPlace().DeckType == DeckType.Hand &&
+                wrtPlayerId > 0 && wrtPlayerId < Game.CurrentGame.Players.Count &&
+                Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrtPlayerId]].Contains(DeckPlaceItem.ToDeckPlace().Player))
+            {
+                var theCard = cardDeck.FirstOrDefault(cd => cd.Id == CardId);
+                return theCard;
+            }
+                
             if (CardId >= 0 && Game.CurrentGame.IsClient)
             {
                 cardDeck[PlaceInDeck].Id = CardId;
+                cardDeck[PlaceInDeck].Type = (CardHandler)(GameEngine.CardSet[CardId].Type.Clone());
+                cardDeck[PlaceInDeck].Suit = GameEngine.CardSet[CardId].Suit;
+                cardDeck[PlaceInDeck].Rank = GameEngine.CardSet[CardId].Rank;
+                Game.CurrentGame._FilterCard(Game.CurrentGame.Players[wrtPlayerId], cardDeck[PlaceInDeck]);
             }
             return cardDeck[PlaceInDeck];
         }
@@ -270,13 +267,19 @@ namespace Sanguosha.Core.Network
     [ProtoInclude(1011, typeof(GameResponse))]
     [ProtoInclude(1012, typeof(CardRearrangementNotification))]
     [ProtoInclude(1013, typeof(HandCardMovementNotification))]
-    [ProtoInclude(1014, typeof(ConnectionRequest))]
-    [ProtoInclude(1015, typeof(ConnectionResponse))]
-    [ProtoInclude(1016, typeof(StatusSync))]
-    [ProtoInclude(1017, typeof(CardSync))]
-    [ProtoInclude(1018, typeof(UIStatusHint))]
-    [ProtoInclude(1019, typeof(MultiCardUsageResponded))]
+    [ProtoInclude(1014, typeof(GameUpdate))]
     public class GameDataPacket
+    {
+    }
+
+    [ProtoContract]
+    [ProtoInclude(1221, typeof(ConnectionRequest))]
+    [ProtoInclude(1222, typeof(ConnectionResponse))]
+    [ProtoInclude(1223, typeof(StatusSync))]
+    [ProtoInclude(1224, typeof(CardSync))]
+    [ProtoInclude(1225, typeof(UIStatusHint))]
+    [ProtoInclude(1226, typeof(MultiCardUsageResponded))]
+    public class GameUpdate : GameDataPacket
     {
     }
 
@@ -327,27 +330,29 @@ namespace Sanguosha.Core.Network
             return response;
         }
 
-        public void ToAnswer(out ISkill skill, out List<Card> cards, out List<Player> players)
+        public void ToAnswer(out ISkill skill, out List<Card> cards, out List<Player> players, int wrtPlayerId)
         {
-            // Packet is either not valid or all nulls.
-            if (CardItems == null || PlayerItems == null)
+            skill = null;
+            if (SkillItem != null)
             {
-                skill = null;
-                cards = null;
-                players = null;
-                return;
+                skill = SkillItem.ToSkill();
             }
-
-            skill = SkillItem.ToSkill();
             cards = new List<Card>();
-            foreach (var card in CardItems)
+            if (CardItems != null)
             {
-                cards.Add(card.ToCard());
+                foreach (var card in CardItems)
+                {
+                    cards.Add(card.ToCard(wrtPlayerId));
+                }
             }
             players = new List<Player>();
-            foreach (var player in PlayerItems)
+            if (PlayerItems != null)
             {
-                players.Add(player.ToPlayer());
+                players = new List<Player>();
+                foreach (var player in PlayerItems)
+                {
+                    players.Add(player.ToPlayer());
+                }
             }
         }
     }
@@ -385,7 +390,7 @@ namespace Sanguosha.Core.Network
             return response;
         }
 
-        public List<List<Card>> ToAnswer(out int option)
+        public List<List<Card>> ToAnswer(int wrtPlayerId, out int option)
         {
             option = 0;
             if (CardItems == null) return null;
@@ -399,7 +404,7 @@ namespace Sanguosha.Core.Network
                 var cards = new List<Card>();
                 foreach (var card in cardDeck)
                 {
-                    cards.Add(card.ToCard());
+                    cards.Add(card.ToCard(wrtPlayerId));
                 }
                 result.Add(cards);
             }
@@ -430,14 +435,14 @@ namespace Sanguosha.Core.Network
     }
 
     [ProtoContract]
-    public class ConnectionRequest : GameDataPacket
+    public class ConnectionRequest : GameUpdate
     {
         [ProtoMember(1)]
         public LoginToken token { get; set; }
     }
 
     [ProtoContract]
-    public class ConnectionResponse : GameDataPacket
+    public class ConnectionResponse : GameUpdate
     {
         [ProtoMember(1)]
         public GameSettings Settings { get; set; }
@@ -446,28 +451,28 @@ namespace Sanguosha.Core.Network
     }
 
     [ProtoContract]
-    public class UIStatusHint : GameDataPacket
+    public class UIStatusHint : GameUpdate
     {
         [ProtoMember(1)]
         public int Detach { get; set; }
     }
 
     [ProtoContract]
-    public class MultiCardUsageResponded : GameDataPacket
+    public class MultiCardUsageResponded : GameUpdate
     {
         [ProtoMember(1)]
         public int NotUsed { get; set; }
     }
 
     [ProtoContract]
-    public class StatusSync : GameDataPacket
+    public class StatusSync : GameUpdate
     {
         [ProtoMember(1)]
         public int Status { get; set; }
     }
 
     [ProtoContract]
-    public class CardSync : GameDataPacket
+    public class CardSync : GameUpdate
     {
         [ProtoMember(1)]
         public CardItem Item { get; set; }

@@ -33,62 +33,19 @@ namespace Sanguosha.Core.UI
         int commId;
         bool active;
         public bool Suppressed { get; set; }
-        ISkill retSkill;
-        List<Card> retCards;
-        List<Player> retPlayers;
-        List<List<Card>> retListCards;
-        int retAnswer;
-        int retOpt;
-        int retStatus;
-        Card retCard;
-        int nonGameResponseType;
-        Semaphore semRequest;
-        Semaphore semResponse;
         public ClientNetworkUiProxy(IUiProxy p, Client c, bool a)
         {
-            semRequest = new Semaphore(0, 1);
-            semResponse = new Semaphore(0, 1);
             proxy = p;
             client = c;
             active = a;
             lastTS = 0;
             commId = 0;
-            GamePacketHandler handler = (pkt) =>
-                {
-                    semRequest.WaitOne();
-                    if (pkt is AskForCardUsageResponse)
-                    {
-                        ((AskForCardUsageResponse)pkt).ToAnswer(out retSkill, out retCards, out retPlayers);
-                        semResponse.Release(1);
-                    }
-                    if (pkt is AskForCardChoiceResponse)
-                    {
-                        retListCards = ((AskForCardChoiceResponse)pkt).ToAnswer(out retOpt);
-                        semResponse.Release(1);
-                    }
-                    if (pkt is AskForMultipleChoiceResponse)
-                    {
-                        retAnswer = ((AskForMultipleChoiceResponse)pkt).ChoiceIndex;
-                        semResponse.Release(1);
-                    }
-                    if (pkt is StatusSync)
-                    {
-                        retStatus = ((StatusSync)pkt).Status;
-                        nonGameResponseType = 1;
-                    }
-                    if (pkt is CardSync)
-                    {
-                        retCard = ((CardSync)pkt).Item.ToCard();
-                        nonGameResponseType = 2;
-                    }
-                };
-            client.NetworkService.OnGameDataPacketReceived += handler;
         }
             
 
         public void SkipAskForCardUsage()
         {
-            client.NetworkService.Send(AskForCardUsageResponse.Parse(commId, null, null, null, client.SelfId));
+            client.Send(AskForCardUsageResponse.Parse(commId, null, null, null, client.SelfId));
         }
 
         public void TryAskForCardUsage(Prompt prompt, ICardUsageVerifier verifier)
@@ -105,24 +62,18 @@ namespace Sanguosha.Core.UI
             if (Suppressed || !proxy.AskForCardUsage(prompt, verifier, out skill, out cards, out players))
             {
                 Trace.TraceInformation("Invalid answer");
-                client.NetworkService.Send(AskForCardUsageResponse.Parse(commId, null, null, null, client.SelfId));
+                client.Send(AskForCardUsageResponse.Parse(commId, null, null, null, client.SelfId));
             }
             else
             {
-                client.NetworkService.Send(AskForCardUsageResponse.Parse(commId, skill, cards, players, client.SelfId));
+                client.Send(AskForCardUsageResponse.Parse(commId, skill, cards, players, client.SelfId));
             }
         }
 
         public bool TryAnswerForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
-            skill = null;
-            cards = new List<Card>();
-            players = new List<Player>();
-            semRequest.Release(1);
-            semResponse.WaitOne();
-            skill = retSkill;
-            cards = retCards;
-            players = retPlayers;
+            object o = client.Receive();
+            (o as AskForCardUsageResponse).ToAnswer(out skill, out cards, out players, client.SelfId);
             return true;
         }
 
@@ -189,6 +140,10 @@ namespace Sanguosha.Core.UI
             if (TryAnswerForCardUsage(prompt, verifier, out skill, out cards, out players))
             {
                 proxy.Freeze();
+                if (skill == null && (cards == null || cards.Count == 0) && (players == null || players.Count == 0))
+                {
+                    return false;
+                }
 #if DEBUG
                 Trace.Assert(verifier.FastVerify(HostPlayer, skill, cards, players) == VerifierResult.Success);
 #endif
@@ -249,10 +204,8 @@ namespace Sanguosha.Core.UI
 
         public bool TryAnswerForMultipleChoice(out int answer)
         {
-            answer = 0;
-            semRequest.Release(1);
-            semResponse.WaitOne();
-            answer = retAnswer;
+            object o = client.Receive();
+            answer = (o as AskForMultipleChoiceResponse).ChoiceIndex;
             return true;
         }
 
@@ -268,11 +221,11 @@ namespace Sanguosha.Core.UI
             if (Suppressed || !proxy.AskForMultipleChoice(prompt, questions, out answer))
             {
                 Trace.TraceInformation("Invalid answer");
-                client.NetworkService.Send(new AskForMultipleChoiceResponse() { ChoiceIndex = 0, Id = commId });
+                client.Send(new AskForMultipleChoiceResponse() { ChoiceIndex = 0, Id = commId });
             }
             else
             {
-                client.NetworkService.Send(new AskForMultipleChoiceResponse() { ChoiceIndex = 0, Id = commId });
+                client.Send(new AskForMultipleChoiceResponse() { ChoiceIndex = answer, Id = commId });
             }
         }
 
@@ -289,21 +242,20 @@ namespace Sanguosha.Core.UI
                 answer == null)
             {
                 Trace.TraceInformation("Invalid answer");
-                client.NetworkService.Send(AskForCardChoiceResponse.Parse(commId, null, 0, client.SelfId));
+                client.Send(AskForCardChoiceResponse.Parse(commId, null, 0, client.SelfId));
             }
             else
             {
-                client.NetworkService.Send(AskForCardChoiceResponse.Parse(commId, answer, options.OptionResult, client.SelfId));
+                client.Send(AskForCardChoiceResponse.Parse(commId, answer, options == null? 0 : options.OptionResult, client.SelfId));
             }
         }
 
         public bool TryAnswerForCardChoice(Prompt prompt, ICardChoiceVerifier verifier, out List<List<Card>> answer, AdditionalCardChoiceOptions options, CardChoiceRearrangeCallback callback)
         {
-            answer = null;
-            semRequest.Release(1);
-            semResponse.WaitOne();
-            answer = retListCards;
-            options.OptionResult = retOpt;
+            object o = client.Receive();
+            int opt;
+            answer = (o as AskForCardChoiceResponse).ToAnswer(client.SelfId, out opt);
+            if (options != null) options.OptionResult = opt;
             return true;
         }
 
@@ -319,16 +271,6 @@ namespace Sanguosha.Core.UI
                 proxy.TimeOutSeconds = value;
                 timeOutSeconds = value;
             }
-        }
-
-
-        public object Receive()
-        {
-            nonGameResponseType = 0;
-            semRequest.Release(1);
-            if (nonGameResponseType == 1) return retStatus;
-            if (nonGameResponseType == 2) return retCard;
-            return null;
         }
     }
 }
