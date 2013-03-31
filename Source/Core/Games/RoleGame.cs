@@ -318,6 +318,24 @@ namespace Sanguosha.Core.Games
                 if (CardCategoryManager.IsCardCategory(c.Type.Category, CardCategory.DelayedTool)
                     || CardCategoryManager.IsCardCategory(c.Type.Category, CardCategory.Equipment))
                 {
+                    //使用延时锦囊和装备是应该触发PlayerUsedCard的。
+                    //延时锦囊也应该触发CardUsageTargetConfirming和CardUsageTargetConfirmed
+                    //因为在国战中，有成为目标后“取消之”这一个概念。
+                    GameEventArgs newArg = new GameEventArgs();
+                    newArg.Source = eventArgs.Source;
+                    newArg.UiTargets = eventArgs.Targets;
+                    newArg.Targets = c.Type.ActualTargets(newArg.Source, eventArgs.Targets, c);
+                    newArg.Card = c;
+                    newArg.ReadonlyCard = new ReadOnlyCard(c);
+                    newArg.InResponseTo = eventArgs.InResponseTo;
+
+                    Game.CurrentGame.Emit(GameEvent.PlayerUsedCard, newArg);
+                    if (c.Type.IsCardCategory(CardCategory.DelayedTool))
+                    {
+                        Game.CurrentGame.Emit(GameEvent.CardUsageTargetConfirming, newArg);
+                        Game.CurrentGame.Emit(GameEvent.CardUsageTargetConfirmed, newArg);
+                    }
+
                     c.Type.Process(new GameEventArgs() { Source = eventArgs.Source, Targets = eventArgs.Targets, Card = c });
                     return;
                 }

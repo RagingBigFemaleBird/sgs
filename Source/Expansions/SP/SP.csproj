@@ -53,12 +53,14 @@
     </Compile>
     <Compile Include="Skills\HuXiao.cs" />
     <Compile Include="Skills\JiLei.cs" />
+    <Compile Include="Skills\LuoYan.cs" />
     <Compile Include="Skills\ShenJi.cs" />
     <Compile Include="Skills\ShenWei.cs" />
     <Compile Include="Skills\SkillPriority.cs" />
     <Compile Include="Skills\SongCi.cs" />
     <Compile Include="Skills\WeiDi.cs" />
     <Compile Include="Skills\WuJi.cs" />
+    <Compile Include="Skills\XingWu.cs" />
     <Compile Include="Skills\XiuLuo.cs" />
     <Compile Include="Skills\XueJi.cs" />
     <Compile Include="Skills\YiCong.cs" />
