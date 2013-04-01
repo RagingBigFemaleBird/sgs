@@ -34,6 +34,7 @@ namespace Sanguosha.Core.UI
         {
             proxy = new ServerAsyncUiProxy();
             proxy.Gamer = s.Handlers[id];
+            proxy.PlayerId = id;
             server = s;
             clientId = id;
         }

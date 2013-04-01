@@ -169,6 +169,10 @@ namespace Sanguosha.Core.UI
             if (TryAnswerForCardChoice(prompt, verifier, out answer, options, callback))
             {
                 proxy.Freeze();
+                if (answer == null || answer.Count == 0)
+                {
+                    return false;
+                }
 #if DEBUG
                 Trace.Assert(verifier.Verify(answer) == VerifierResult.Success);
 #endif

@@ -168,7 +168,7 @@ namespace Sanguosha.Core.Network
                 PlaceInDeck = Game.CurrentGame.Decks[card.Place].IndexOf(card)
             };
             if (card.Place.Player != null && card.Place.DeckType == DeckType.Hand && 
-                wrtPlayerId > 0 && wrtPlayerId < Game.CurrentGame.Players.Count &&
+                wrtPlayerId >= 0 && wrtPlayerId < Game.CurrentGame.Players.Count &&
                 Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrtPlayerId]].Contains(card.Place.Player))
             {
                 item.CardId = card.Id;
@@ -197,7 +197,7 @@ namespace Sanguosha.Core.Network
             var cardDeck = Game.CurrentGame.Decks[DeckPlaceItem.ToDeckPlace()];
             if (cardDeck.Count <= PlaceInDeck) return null;
             if (DeckPlaceItem.ToDeckPlace().Player != null && DeckPlaceItem.ToDeckPlace().DeckType == DeckType.Hand &&
-                wrtPlayerId > 0 && wrtPlayerId < Game.CurrentGame.Players.Count &&
+                wrtPlayerId >= 0 && wrtPlayerId < Game.CurrentGame.Players.Count &&
                 Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrtPlayerId]].Contains(DeckPlaceItem.ToDeckPlace().Player))
             {
                 var theCard = cardDeck.FirstOrDefault(cd => cd.Id == CardId);

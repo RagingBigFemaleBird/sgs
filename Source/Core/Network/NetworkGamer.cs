@@ -23,7 +23,7 @@ namespace Sanguosha.Core.Network
     {
         public NetworkGamer()
         {
-            sema = new Semaphore(0, 1);
+            sema = new Semaphore(0, Int32.MaxValue);
             semPause = new Semaphore(0, 1);
         }
 
