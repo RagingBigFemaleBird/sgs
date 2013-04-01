@@ -994,6 +994,10 @@ namespace Sanguosha.Core.Games
                         {
                         }
                     }
+                    catch (EndOfTurnException)
+                    {
+                        break;
+                    }
 
                     game.CurrentPhaseEventIndex++;
                     if (game.CurrentPhaseEventIndex >= Game.PhaseEvents.Length || currentPlayer.IsDead)

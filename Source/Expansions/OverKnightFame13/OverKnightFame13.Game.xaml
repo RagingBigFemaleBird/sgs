@@ -1,0 +1,67 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <!-- 
+    Card Usage Examples:
+    <sys:String x:Key="CardUsage.Prompt.JueDou">{0}对你使用了决斗，请出一张杀</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.JueDou2">{0}为决斗打出一张杀，请出一张杀</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.WuXieKeJi">{0}为{1}询问无懈可击，是否使用无懈可击？</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.GangLie">{0}发动了刚烈，请弃两张牌或点“取消”受到一点伤害</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.GuiCai">{0}判定结果是{1}{2}，若要发动鬼才，请选择一张手牌代替之，或点取消不发动</sys:String>
+    
+    Card Choice Examples:
+    <sys:String x:Key="CardChoice.Prompt.FanKui">反馈</sys:String>    
+    <sys:String x:Key="CardChoice.Prompt.FanJian">反间</sys:String>
+    
+    Multiple Choice Examples
+    <sys:String x:Key="MultiChoice.Prompt.FanKui">是否对{0}发动反馈？</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.JiLei">{0}对你造成伤害，请选择要发动鸡肋的卡牌类别，或点“取消”不发动技能</sys:String>    
+    <sys:String x:Key="MultiChoice.Choice.JinNang">锦囊牌</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.ZhuangBei">装备牌</sys:String>    
+    -->
+    
+    <!-- 2将成名修订前武将技能
+    
+    <sys:String x:Key="CardUsage.Prompt.JieFan">你可以使用“解烦”对{0}使用一张【杀】</sys:String>
+
+    <sys:String x:Key="MultiChoice.Prompt.ZhenLie">你的判定结果是{0}{1}，是否发动贞烈改判？</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.MiJi">请选择一个秘计的目标</sys:String>
+    -->
+    <sys:String x:Key="Expansion.OverKnightFame13Expansion.Name">一将13</sys:String>
+
+    <sys:String x:Key="MultiChoice.Prompt.ZongXuan">是否发动纵玄将【{0}】置入牌堆顶?</sys:String>
+
+    <sys:String x:Key="Deck.Chun.Name">醇</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.ChunLaoPassiveSkill">请选择一张【杀】当作“醇”，或点“取消”</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.ChunLaoSave">请选择一张“醇”，视为{0}使用了一张【酒】，或点“取消”</sys:String>
+    
+    <sys:String x:Key="CardUsage.Prompt.ZhuiYi">请选择一个追忆的目标，或点“取消”不发动技能</sys:String>
+
+    <sys:String x:Key="CardChoice.Prompt.AnXu">安恤 请选择一张手牌</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.AnXu.Others">安恤 请等待{0}的选择</sys:String>
+
+    <sys:String x:Key="CardChoice.Prompt.GongQi">弓骑 请选择{0}的一张牌</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.GongQi.Others">弓骑 请等待{0}选择{1}的牌</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.JieFan">请弃置一张武器牌或点“取消”让{0}摸一张牌</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.QianXi">请选择一个潜袭的目标</sys:String>
+    
+    <sys:String x:Key="Status.QianXiBlack.Name">潜袭</sys:String>
+    <LinearGradientBrush x:Key="Status.QianXiBlack.Brush" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="#FFA0A0A0" Offset="0"/>
+        <GradientStop Color="#FFDEDEDE" Offset="1"/>
+    </LinearGradientBrush>
+    <sys:String x:Key="Status.QianXiRed.Name">潜袭</sys:String>
+    <LinearGradientBrush x:Key="Status.QianXiRed.Brush" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="Red" Offset="0"/>
+        <GradientStop Color="#FFDEDEDE" Offset="1"/>
+    </LinearGradientBrush>
+
+    <sys:String x:Key="CardChoice.Prompt.ZhenLie">贞烈 请选择{0}的一张牌</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.ZhenLie.Others">贞烈 请等待{0}选择{1}的牌</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.MiJi">秘计 请把{0}张手牌以任意数量交给任意其他角色</sys:String>
+</ResourceDictionary>
