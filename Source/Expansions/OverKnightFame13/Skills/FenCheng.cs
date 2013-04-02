@@ -53,19 +53,22 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 ISkill skill;
                 List<Card> cards;
                 List<Player> players;
-                while (true)
+                if (target.IsDead) break;
+                int answer = 0;
+                if (target.Equipments().Count == 0)
                 {
-                    if (target.IsDead) break;
-                    if (Game.CurrentGame.UiProxies[target].AskForCardUsage(new CardUsagePrompt("FenCheng"), new FenChengVerifier(target.Equipments().Count),
-                        out skill, out cards, out players))
-                    {
-                        Game.CurrentGame.HandleCardDiscard(target, cards);
-                    }
-                    else
-                    {
-                        Game.CurrentGame.DoDamage(null, target, 1, DamageElement.Fire, null, null);
-                    }
-                    break;
+                    target.AskForMultipleChoice(new MultipleChoicePrompt("FenCheng"), OptionPrompt.YesNoChoices, out answer);
+                    if (answer == 0) continue;
+                }
+                if (answer == 0 && target.Equipments().Count <= target.HandCards().Count &&
+                    Game.CurrentGame.UiProxies[target].AskForCardUsage(new CardUsagePrompt("FenCheng"), new FenChengVerifier(target.Equipments().Count),
+                    out skill, out cards, out players))
+                {
+                    Game.CurrentGame.HandleCardDiscard(target, cards);
+                }
+                else
+                {
+                    Game.CurrentGame.DoDamage(null, target, 1, DamageElement.Fire, null, null);
                 }
             }
             return true;

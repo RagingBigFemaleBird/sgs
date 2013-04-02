@@ -34,20 +34,19 @@
     <sys:String x:Key="MultiChoice.Prompt.ZongXuan">是否发动纵玄将【{0}】置入牌堆顶?</sys:String>
     <sys:String x:Key="CardUsage.Prompt.MieJi">请选择一个灭计的目标，或点“取消”不发动技能</sys:String>
 
-    <sys:String x:Key="Deck.XianSi.Name">陷嗣</sys:String>
-    <sys:String x:Key="CardUsage.Prompt.ChunLaoPassiveSkill">请选择一张【杀】当作“醇”，或点“取消”</sys:String>
-    <sys:String x:Key="CardUsage.Prompt.ChunLaoSave">请选择一张“醇”，视为{0}使用了一张【酒】，或点“取消”</sys:String>
-    
+    <sys:String x:Key="CardUsage.Prompt.XianSi">请弃一张手牌并选择一至两个陷嗣目标，或点“取消”不发动技能</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.FenCheng">请弃掉等同于装备区装备数目的手牌，或受到一点火伤害</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.LongYin">请弃掉一张黑色手牌令此杀不计入使用数量</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.ZhiYan">选择一名角色发动直言，或点“取消”不发动技能</sys:String>
+
+    <sys:String x:Key="MultiChoice.Prompt.FenCheng">是否受到一点火伤害?</sys:String>
+
+    <sys:String x:Key="Deck.XianSi.Name">陷嗣</sys:String>    
 
     <sys:String x:Key="CardChoice.Prompt.AnXu">安恤 请选择一张手牌</sys:String>
-    <sys:String x:Key="CardChoice.Prompt.AnXu.Others">安恤 请等待{0}的选择</sys:String>
-
-    <sys:String x:Key="CardChoice.Prompt.GongQi">弓骑 请选择{0}的一张牌</sys:String>
-    <sys:String x:Key="CardChoice.Prompt.GongQi.Others">弓骑 请等待{0}选择{1}的牌</sys:String>
-
-    <sys:String x:Key="CardUsage.Prompt.JieFan">请弃置一张武器牌或点“取消”让{0}摸一张牌</sys:String>
-
-    <sys:String x:Key="CardUsage.Prompt.QianXi">请选择一个潜袭的目标</sys:String>
     
     <sys:String x:Key="Status.QianXiBlack.Name">潜袭</sys:String>
     <LinearGradientBrush x:Key="Status.QianXiBlack.Brush" EndPoint="0.5,1" StartPoint="0.5,0">
@@ -60,8 +59,4 @@
         <GradientStop Color="#FFDEDEDE" Offset="1"/>
     </LinearGradientBrush>
 
-    <sys:String x:Key="CardChoice.Prompt.ZhenLie">贞烈 请选择{0}的一张牌</sys:String>
-    <sys:String x:Key="CardChoice.Prompt.ZhenLie.Others">贞烈 请等待{0}选择{1}的牌</sys:String>
-
-    <sys:String x:Key="CardUsage.Prompt.MiJi">秘计 请把{0}张手牌以任意数量交给任意其他角色</sys:String>
 </ResourceDictionary>
