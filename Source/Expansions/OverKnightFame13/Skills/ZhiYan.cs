@@ -57,7 +57,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 },
                 TriggerCondition.OwnerIsSource,
                 new ZhiYanVerifier()
-            ) { IsAutoNotify = false };
+            ) { };
 
             Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.End], trigger);
         }

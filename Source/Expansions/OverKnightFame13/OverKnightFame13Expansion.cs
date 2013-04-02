@@ -17,8 +17,10 @@ namespace OverKnightFame12
     {
         public OverKnightFame13Expansion()
         {
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhuRan", false, Allegiance.Wu, 3, new DanShou()))));
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("YuFan", false, Allegiance.Wu, 3, new ZongXuan(), new ZhiYan()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhuRan", true, Allegiance.Wu, 3, new DanShou()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("YuFan", true, Allegiance.Wu, 3, new ZongXuan(), new ZhiYan()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("GuanPing", true, Allegiance.Shu, 4, new LongYin()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("LiRu", true, Allegiance.Qun, 3, new JueCe(), new MieJi(), new FenCheng()))));
         }
     }
 }

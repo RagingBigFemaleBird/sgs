@@ -46,6 +46,10 @@
     <Compile Include="OverKnightFame13Expansion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Skills\DanShou.cs" />
+    <Compile Include="Skills\FenCheng.cs" />
+    <Compile Include="Skills\JueCe.cs" />
+    <Compile Include="Skills\LongYin.cs" />
+    <Compile Include="Skills\MieJi.cs" />
     <Compile Include="Skills\ZhiYan.cs" />
     <Compile Include="Skills\ZongXuan.cs" />
   </ItemGroup>

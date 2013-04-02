@@ -95,7 +95,7 @@ namespace Sanguosha.Core.Network
             item.playerId = Game.CurrentGame.Players.IndexOf(card.Place.Player);
             item.deckName = card.Place.DeckType.Name;
             item.place = Game.CurrentGame.Decks[card.Place.Player, card.Place.DeckType].IndexOf(card);
-            if (GameEngine.CardSet[card.Id].Type != card.Type)
+            if (card.Id >= 0 && GameEngine.CardSet[card.Id].Type != card.Type)
             {
                 Translator.EncodeCardHandler(card.Type, out item.typeName, out item.typeHorseName);
             }

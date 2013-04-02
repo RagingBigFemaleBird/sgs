@@ -33,10 +33,16 @@
     -->
     <sys:String x:Key="Hero.ZhuRan.Name">朱然</sys:String>
     <sys:String x:Key="Hero.YuFan.Name">虞翻</sys:String>
+    <sys:String x:Key="Hero.GuanPing.Name">关平</sys:String>
+    <sys:String x:Key="Hero.LiRu.Name">李儒</sys:String>
 
     <sys:String x:Key="Skill.DanShou.Name">蛋守</sys:String>
     <sys:String x:Key="Skill.DanShou.Description">每当你造成一次伤害后，你可以立即摸一张牌。若如此做，当前回合立即结束。</sys:String>
     <sys:String x:Key="Skill.DanShou.Usage">点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.LongYin.Name">龙吟</sys:String>
+    <sys:String x:Key="Skill.LongYin.Description">任意角色在其出牌阶段使用杀时，你可弃置一张黑色手牌令此杀不计出牌阶段使用次数，若此杀为红色，你摸一张牌。</sys:String>
+    <sys:String x:Key="Skill.LongYin.Usage">点“确定”</sys:String>
 
     <sys:String x:Key="Skill.ZhiYan.Name">直言</sys:String>
     <sys:String x:Key="Skill.ZhiYan.Description">回合结束阶段开始时，你可以令一名角色摸一张牌并展示之，然后若其为装备牌，该角色回复1点体力并使用该牌。</sys:String>
@@ -45,5 +51,17 @@
     <sys:String x:Key="Skill.ZongXuan.Name">纵玄</sys:String>
     <sys:String x:Key="Skill.ZongXuan.Description">每当你将要弃置一张牌时，你可以将该牌置于牌堆顶。</sys:String>
     <sys:String x:Key="Skill.ZongXuan.Usage">点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.FenCheng.Name">焚城</sys:String>
+    <sys:String x:Key="Skill.FenCheng.Description">限定技，出牌阶段，你可令所有其他角色选择：1、弃置X张手牌；2、受到1点火焰伤害。X为该角色装备区牌的数量。</sys:String>
+    <sys:String x:Key="Skill.FenCheng.Usage">点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.MieJi.Name">灭计</sys:String>
+    <sys:String x:Key="Skill.MieJi.Description">你使用黑色非延时类锦囊牌仅指定一个目标后，可以额外指定另一名角色为目标。</sys:String>
+    <sys:String x:Key="Skill.MieJi.Usage">点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.JueCe.Name">绝策</sys:String>
+    <sys:String x:Key="Skill.JueCe.Description">在你的回合内，一名角色失去最后一张手牌后，你对其造成1点伤害。</sys:String>
+    <sys:String x:Key="Skill.JueCe.Usage">点“确定”</sys:String>
 
 </ResourceDictionary>

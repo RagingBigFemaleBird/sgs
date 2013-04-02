@@ -54,6 +54,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
 
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs, List<Card> cards, List<Player> players)
         {
+            if (Game.CurrentGame.CurrentPhase == TurnPhase.Discard) Owner[XuanFengUsed] = 1;
             int count = 2 / players.Count;
             List<Player> tempPlayers = new List<Player>(players);
             Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, tempPlayers);

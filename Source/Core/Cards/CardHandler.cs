@@ -263,6 +263,11 @@ namespace Sanguosha.Core.Cards
             return ret;
         }
 
+        public VerifierResult VerifyTargets(Player source, ICard card, List<Player> targets)
+        {
+            return Verify(source, card, targets);
+        }
+
         protected abstract VerifierResult Verify(Player source, ICard card, List<Player> targets);
 
         /// <summary>
