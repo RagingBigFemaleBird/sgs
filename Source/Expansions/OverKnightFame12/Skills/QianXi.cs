@@ -50,7 +50,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                if (eventArgs.Source != Owner)
+                if (eventArgs.Source != source)
                 {
                     return;
                 }
@@ -63,9 +63,11 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
 
             Trigger trigger;
             Player target;
+            Player source;
             public QianXiEffectRemoval(Player player, Player target, Trigger trigger)
             {
-                Owner = player;
+                Owner = null;
+                source = player;
                 this.target = target;
                 this.trigger = trigger;
             }

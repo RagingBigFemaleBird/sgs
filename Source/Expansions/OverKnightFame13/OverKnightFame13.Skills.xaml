@@ -70,7 +70,7 @@
     <sys:String x:Key="Skill.XianSi.Usage">点“确定”</sys:String>
 
     <sys:String x:Key="Skill.XianSiGivenSkill.Name">陷嗣</sys:String>
-    <sys:String x:Key="Skill.XianSiGivenSkill.Description">回合开始阶段开始时，你可以弃置一张手牌，将至多两名角色的各一张牌移动至你的武将牌上，称为“逆”。每当其他角色需要对你使用一张【杀】时，该角色可以弃置你的一张“逆”，视为对你使用一张【杀】。</sys:String>
+    <sys:String x:Key="Skill.XianSiGivenSkill.Description">用这个技能发动陷嗣视为使用一张杀</sys:String>
     <sys:String x:Key="Skill.XianSiGivenSkill.Usage">点“确定”</sys:String>
 
 </ResourceDictionary>
