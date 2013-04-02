@@ -9,6 +9,7 @@ using Sanguosha.Core.UI;
 using Sanguosha.Core.Skills;
 using Sanguosha.Expansions.Basic.Cards;
 using Sanguosha.Core.Games;
+using Sanguosha.Core.Players;
 
 namespace Sanguosha.Expansions.Basic.Skills
 {
@@ -17,7 +18,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     public class JiJiu : CardTransformSkill
     {
-        public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
+        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card)
         {
             card = new CompositeCard();
             card.Type = new Tao();

@@ -489,7 +489,7 @@ namespace Sanguosha.Core.Games
                 this.NotificationProxy = null;
                 this.uiProxies = null;
             }
-/*            catch (Exception e)
+            catch (Exception e)
             {
                 var keys = new List<Thread>(from t in games.Keys where games[t] == this select t);
                 foreach (var t in keys)
@@ -510,7 +510,7 @@ namespace Sanguosha.Core.Games
                 crashReport.WriteLine(e);
                 crashReport.Close();
             }
-  */          
+         
             mainThread = null;
 
             if (GameServer != null)

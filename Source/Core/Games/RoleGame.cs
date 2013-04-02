@@ -74,7 +74,7 @@ namespace Sanguosha.Core.Games
                     {
                         CardTransformSkill s = (CardTransformSkill)skill;
                         CompositeCard result;
-                        VerifierResult ret = s.TryTransform(cards, null, out result);
+                        VerifierResult ret = s.TryTransform(cards, players, out result);
                         if (ret == VerifierResult.Success)
                         {
                             return result.Type.Verify(Game.CurrentGame.CurrentPlayer, skill, cards, players);
@@ -190,7 +190,7 @@ namespace Sanguosha.Core.Games
                         }
                         CompositeCard c;
                         CardTransformSkill s = (CardTransformSkill)skill;
-                        VerifierResult r = s.TryTransform(cards, null, out c);
+                        VerifierResult r = s.TryTransform(cards, players, out c);
                         Trace.TraceInformation("Player used {0}", c.Type);
                     }
                     else

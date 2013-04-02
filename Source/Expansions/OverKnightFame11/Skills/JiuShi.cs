@@ -49,7 +49,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             LinkedPassiveSkill = new JiuShiPassive();
         }
 
-        public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
+        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card)
         {
             card = new CompositeCard();
             card.Type = new Jiu();

@@ -10,6 +10,7 @@ using Sanguosha.Core.Skills;
 using Sanguosha.Expansions.Basic.Cards;
 using Sanguosha.Expansions.Battle.Cards;
 using System.Diagnostics;
+using Sanguosha.Core.Players;
 
 namespace Sanguosha.Expansions.Hills.Skills
 {
@@ -28,7 +29,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             get { return new List<CardHandler>() { new Tao(), new HuoSha(), new Shan(), new WuXieKeJi()}; }
         }
 
-        public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
+        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card)
         {
             card = null;
             if (cards == null || cards.Count == 0)

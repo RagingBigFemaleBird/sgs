@@ -21,7 +21,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
     public class QiCe : CardTransformSkill, IAdditionalTypedSkill
     {
         private static PlayerAttribute QiCeUsed = PlayerAttribute.Register("QiCeUsed", true);
-        public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
+        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card)
         {
             card = new CompositeCard();
             card.Subcards = new List<Card>();

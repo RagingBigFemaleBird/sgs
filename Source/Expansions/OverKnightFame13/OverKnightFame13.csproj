@@ -50,6 +50,7 @@
     <Compile Include="Skills\JueCe.cs" />
     <Compile Include="Skills\LongYin.cs" />
     <Compile Include="Skills\MieJi.cs" />
+    <Compile Include="Skills\XianSi.cs" />
     <Compile Include="Skills\ZhiYan.cs" />
     <Compile Include="Skills\ZongXuan.cs" />
   </ItemGroup>

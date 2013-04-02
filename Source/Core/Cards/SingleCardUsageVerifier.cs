@@ -55,7 +55,7 @@ namespace Sanguosha.Core.Cards
                     return VerifierResult.Fail;
                 }
                 CardTransformSkill s = (CardTransformSkill)skill;
-                VerifierResult r = s.TryTransform(cards, null, out card);
+                VerifierResult r = s.TryTransform(cards, players, out card);
                 if (r != VerifierResult.Success)
                 {
                     return r;

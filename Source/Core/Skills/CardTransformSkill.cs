@@ -38,7 +38,7 @@ namespace Sanguosha.Core.Skills
         /// <param name="arg">辅助转化的额外参数。</param>
         /// <param name="card">转换成的卡牌。</param>
         /// <returns>转换是否成功。</returns>
-        public abstract VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card);
+        public abstract VerifierResult TryTransform(List<Card> cards, List<Player> targets, out CompositeCard card);
 
         /// <summary>
         /// Transform a set of cards.
@@ -49,7 +49,7 @@ namespace Sanguosha.Core.Skills
         /// <exception cref="CardTransformFailureException"></exception>
         public bool Transform(List<Card> cards, object arg, out CompositeCard card, List<Player> targets)
         {
-            if (TryTransform(cards, arg, out card) != VerifierResult.Success)
+            if (TryTransform(cards, targets, out card) != VerifierResult.Success)
             {
                 throw new CardTransformFailureException();
             }

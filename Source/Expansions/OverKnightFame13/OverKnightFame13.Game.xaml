@@ -32,12 +32,12 @@
     <sys:String x:Key="Expansion.OverKnightFame13Expansion.Name">一将13</sys:String>
 
     <sys:String x:Key="MultiChoice.Prompt.ZongXuan">是否发动纵玄将【{0}】置入牌堆顶?</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.MieJi">请选择一个灭计的目标，或点“取消”不发动技能</sys:String>
 
-    <sys:String x:Key="Deck.Chun.Name">醇</sys:String>
+    <sys:String x:Key="Deck.XianSi.Name">陷嗣</sys:String>
     <sys:String x:Key="CardUsage.Prompt.ChunLaoPassiveSkill">请选择一张【杀】当作“醇”，或点“取消”</sys:String>
     <sys:String x:Key="CardUsage.Prompt.ChunLaoSave">请选择一张“醇”，视为{0}使用了一张【酒】，或点“取消”</sys:String>
     
-    <sys:String x:Key="CardUsage.Prompt.ZhuiYi">请选择一个追忆的目标，或点“取消”不发动技能</sys:String>
 
     <sys:String x:Key="CardChoice.Prompt.AnXu">安恤 请选择一张手牌</sys:String>
     <sys:String x:Key="CardChoice.Prompt.AnXu.Others">安恤 请等待{0}的选择</sys:String>

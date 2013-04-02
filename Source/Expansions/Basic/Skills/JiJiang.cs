@@ -31,7 +31,7 @@ namespace Sanguosha.Expansions.Basic.Skills
         {
             IsRulerOnly = true;
         }
-        public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
+        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card)
         {
             card = null;
             if (Owner[JiJiangFailed] == 1 && Game.CurrentGame.LastAction is JiJiang && Game.CurrentGame.LastAction.Owner == Owner) return VerifierResult.Fail;

@@ -200,7 +200,7 @@ namespace Sanguosha.Core.Cards
                 if (skill is CardTransformSkill)
                 {
                     CardTransformSkill s = skill as CardTransformSkill;
-                    VerifierResult r = s.TryTransform(cards, null, out c);
+                    VerifierResult r = s.TryTransform(cards, targets, out c);
                     if (c != null && c.Type != null && !(this.GetType().IsAssignableFrom(c.Type.GetType())))
                     {
                         return VerifierResult.Fail;

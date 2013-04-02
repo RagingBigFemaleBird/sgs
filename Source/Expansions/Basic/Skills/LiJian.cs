@@ -112,7 +112,7 @@ namespace Sanguosha.Expansions.Basic.Skills
 
         class LiJianJueDouTransformSkill : CardTransformSkill
         {
-            public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
+            public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card)
             {
                 card = new CompositeCard();
                 card.Type = new JueDou();

@@ -7,12 +7,13 @@ using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Cards;
 using Sanguosha.Core.UI;
 using Sanguosha.Core.Exceptions;
+using Sanguosha.Core.Players;
 
 namespace Sanguosha.Core.Skills
 {
     public abstract class OneToOneCardTransformSkill : CardTransformSkill
     {
-        public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
+        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card)
         {
             card = null;
             if (cards == null || cards.Count < 1)

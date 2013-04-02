@@ -35,6 +35,7 @@
     <sys:String x:Key="Hero.YuFan.Name">虞翻</sys:String>
     <sys:String x:Key="Hero.GuanPing.Name">关平</sys:String>
     <sys:String x:Key="Hero.LiRu.Name">李儒</sys:String>
+    <sys:String x:Key="Hero.LiuFeng.Name">刘封</sys:String>
 
     <sys:String x:Key="Skill.DanShou.Name">蛋守</sys:String>
     <sys:String x:Key="Skill.DanShou.Description">每当你造成一次伤害后，你可以立即摸一张牌。若如此做，当前回合立即结束。</sys:String>
@@ -63,5 +64,13 @@
     <sys:String x:Key="Skill.JueCe.Name">绝策</sys:String>
     <sys:String x:Key="Skill.JueCe.Description">在你的回合内，一名角色失去最后一张手牌后，你对其造成1点伤害。</sys:String>
     <sys:String x:Key="Skill.JueCe.Usage">点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.XianSi.Name">陷嗣</sys:String>
+    <sys:String x:Key="Skill.XianSi.Description">回合开始阶段开始时，你可以弃置一张手牌，将至多两名角色的各一张牌移动至你的武将牌上，称为“逆”。每当其他角色需要对你使用一张【杀】时，该角色可以弃置你的一张“逆”，视为对你使用一张【杀】。</sys:String>
+    <sys:String x:Key="Skill.XianSi.Usage">点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.XianSiGivenSkill.Name">陷嗣</sys:String>
+    <sys:String x:Key="Skill.XianSiGivenSkill.Description">回合开始阶段开始时，你可以弃置一张手牌，将至多两名角色的各一张牌移动至你的武将牌上，称为“逆”。每当其他角色需要对你使用一张【杀】时，该角色可以弃置你的一张“逆”，视为对你使用一张【杀】。</sys:String>
+    <sys:String x:Key="Skill.XianSiGivenSkill.Usage">点“确定”</sys:String>
 
 </ResourceDictionary>
