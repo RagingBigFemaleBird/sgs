@@ -123,6 +123,10 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 return true;
             }
 
+            public override List<CardHandler> PossibleResults
+            {
+                get { return new List<CardHandler>() { new Sha() }; }
+            }
             public Player Master { get; set; }
         }
 
