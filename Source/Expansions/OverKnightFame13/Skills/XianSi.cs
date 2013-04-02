@@ -100,17 +100,18 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
 
         public class XianSiGivenSkill : CardTransformSkill, IRulerGivenSkill
         {
-            public override VerifierResult TryTransform(List<Card> cards, List<Player> targets, out CompositeCard card)
+            public override VerifierResult TryTransform(List<Card> cards, List<Player> targets, out CompositeCard card, bool isPlay)
             {
                 card = new CompositeCard();
                 card.Type = new Sha();
+                if (isPlay) return VerifierResult.Fail;
                 if (Game.CurrentGame.Decks[Master, XianSiDeck].Count == 0) return VerifierResult.Fail;
                 if (targets == null || targets.Count == 0) return VerifierResult.Success;
                 if (targets.Contains(Master)) return VerifierResult.Success;
                 return VerifierResult.Fail;
             }
 
-            protected override bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets)
+            protected override bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets, bool isPlay)
             {
                 if (Game.CurrentGame.Decks[Master, XianSiDeck].Count > 0)
                 {

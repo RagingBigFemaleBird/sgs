@@ -358,7 +358,7 @@ namespace Sanguosha.Core.Games
             Trace.Assert(cards != null);
             CardsMovement m = new CardsMovement();
             ICard result;
-            bool status = CommitCardTransform(p, skill, cards, out result, targets);
+            bool status = CommitCardTransform(p, skill, cards, out result, targets, true);
             if (!status)
             {
                 return false;

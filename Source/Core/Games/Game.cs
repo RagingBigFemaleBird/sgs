@@ -1305,7 +1305,7 @@ namespace Sanguosha.Core.Games
             Game.CurrentGame.NotificationProxy.NotifyJudge(player, c, log, succeed, false);
         }
 
-        public bool CommitCardTransform(Player p, ISkill skill, List<Card> cards, out ICard result, List<Player> targets)
+        public bool CommitCardTransform(Player p, ISkill skill, List<Card> cards, out ICard result, List<Player> targets, bool isPlay)
         {
             if (skill != null)
             {

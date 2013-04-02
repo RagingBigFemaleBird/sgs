@@ -18,7 +18,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     public class LongDan : CardTransformSkill
     {
         public static readonly CardAttribute CanShuaLiuMang = CardAttribute.Register("CanShuaLiuMang");
-        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card)
+        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card, bool isPlay)
         {
             card = null;
             if (cards == null || cards.Count < 1)

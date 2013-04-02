@@ -20,7 +20,7 @@ namespace Sanguosha.Expansions.Wind.Skills
     /// </summary>
     public class GuHuo : CardTransformSkill, IAdditionalTypedSkill
     {
-        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card)
+        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card, bool isPlay)
         {
             card = new CompositeCard();
             card.Subcards = new List<Card>();
@@ -78,7 +78,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             }
         }
 
-        protected override bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets)
+        protected override bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets, bool isPlay)
         {
             int GuHuoOrder = Game.CurrentGame.Decks[null, DeckType.GuHuo].Count;
             CardsMovement move = new CardsMovement();

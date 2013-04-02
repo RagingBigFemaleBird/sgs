@@ -38,7 +38,7 @@ namespace Sanguosha.Core.Skills
         /// <param name="arg">辅助转化的额外参数。</param>
         /// <param name="card">转换成的卡牌。</param>
         /// <returns>转换是否成功。</returns>
-        public abstract VerifierResult TryTransform(List<Card> cards, List<Player> targets, out CompositeCard card);
+        public abstract VerifierResult TryTransform(List<Card> cards, List<Player> targets, out CompositeCard card, bool isPlay = false);
 
         /// <summary>
         /// Transform a set of cards.
@@ -47,14 +47,14 @@ namespace Sanguosha.Core.Skills
         /// <param name="arg">Additional args to help the transformation.</param>
         /// <returns>False if transform is aborted.</returns>
         /// <exception cref="CardTransformFailureException"></exception>
-        public bool Transform(List<Card> cards, object arg, out CompositeCard card, List<Player> targets)
+        public bool Transform(List<Card> cards, object arg, out CompositeCard card, List<Player> targets, bool isPlay = false)
         {
-            if (TryTransform(cards, targets, out card) != VerifierResult.Success)
+            if (TryTransform(cards, targets, out card, isPlay) != VerifierResult.Success)
             {
                 throw new CardTransformFailureException();
             }
             NotifyAction(Owner, targets, card);
-            bool ret = DoTransformSideEffect(card, arg, targets);
+            bool ret = DoTransformSideEffect(card, arg, targets, isPlay);
             if (ret)
             {
                 card.Owner = Owner;
@@ -71,7 +71,7 @@ namespace Sanguosha.Core.Skills
             return ret;
         }
         
-        protected virtual bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets)
+        protected virtual bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets, bool isPlay)
         {
             return true;
         }

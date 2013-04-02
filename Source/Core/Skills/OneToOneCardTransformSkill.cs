@@ -13,7 +13,7 @@ namespace Sanguosha.Core.Skills
 {
     public abstract class OneToOneCardTransformSkill : CardTransformSkill
     {
-        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card)
+        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card, bool isPlay)
         {
             card = null;
             if (cards == null || cards.Count < 1)

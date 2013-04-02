@@ -18,7 +18,7 @@ namespace Sanguosha.Expansions.Basic.Skills
     /// </summary>
     public class JiJiu : CardTransformSkill
     {
-        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card)
+        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card, bool isPlay)
         {
             card = new CompositeCard();
             card.Type = new Tao();

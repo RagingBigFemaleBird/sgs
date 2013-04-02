@@ -21,7 +21,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
     public class QiCe : CardTransformSkill, IAdditionalTypedSkill
     {
         private static PlayerAttribute QiCeUsed = PlayerAttribute.Register("QiCeUsed", true);
-        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card)
+        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card, bool isPlay)
         {
             card = new CompositeCard();
             card.Subcards = new List<Card>();
@@ -48,7 +48,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
             return VerifierResult.Success;
         }
 
-        protected override bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets)
+        protected override bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets, bool isPlay)
         {
             Owner[QiCeUsed] = 1;
             Game.CurrentGame.SyncImmutableCardsAll(Owner.HandCards());

@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             get { return new List<CardHandler>() { new WanJianQiFa() }; }
         }
 
-        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card)
+        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card, bool isPlay)
         {
             card = null;
             if (cards == null || cards.Count == 0)

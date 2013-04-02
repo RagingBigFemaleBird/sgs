@@ -134,6 +134,7 @@ namespace Sanguosha.Core.Cards
             var readonlyCard = handlerArgs.ReadonlyCard;
             var inResponseTo = handlerArgs.InResponseTo;
             var card = handlerArgs.Card;
+            ICard attributeCard = new Card();
             foreach (var player in dests)
             {
                 if (player.IsDead && IgnoreDeath) continue;
@@ -162,7 +163,22 @@ namespace Sanguosha.Core.Cards
                     continue;
                 }
                 if (player.IsDead) continue;
-                Process(source, player, card, readonlyCard, inResponseTo);
+                ReadOnlyCard newCard = new ReadOnlyCard(readonlyCard);
+                Process(source, player, card, newCard, inResponseTo);
+                if (newCard.Attributes != null)
+                {
+                    foreach (var attr in newCard.Attributes)
+                    {
+                        attributeCard[attr.Key] = attr.Value;
+                    }
+                }
+            }
+            if (attributeCard.Attributes != null)
+            {
+                foreach (var attr in attributeCard.Attributes)
+                {
+                    readonlyCard[attr.Key] = attr.Value;
+                }
             }
         }
 

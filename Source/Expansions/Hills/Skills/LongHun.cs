@@ -29,7 +29,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             get { return new List<CardHandler>() { new Tao(), new HuoSha(), new Shan(), new WuXieKeJi()}; }
         }
 
-        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card)
+        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card, bool isPlay)
         {
             card = null;
             if (cards == null || cards.Count == 0)
