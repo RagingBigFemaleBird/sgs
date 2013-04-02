@@ -796,6 +796,20 @@
   <ItemGroup>
     <Resource Include="Images\Cards\Rank\Ranks2.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Cards\Normal\CaoChong.jpg" />
+    <Resource Include="Images\Cards\Normal\DaQiaoXiaoQiao.jpg" />
+    <Resource Include="Images\Cards\Normal\FuHuangHou.jpg" />
+    <Resource Include="Images\Cards\Normal\GuanPing.jpg" />
+    <Resource Include="Images\Cards\Normal\GuoHuai.jpg" />
+    <Resource Include="Images\Cards\Normal\JianYong.jpg" />
+    <Resource Include="Images\Cards\Normal\LiRu.jpg" />
+    <Resource Include="Images\Cards\Normal\LiuFeng.jpg" />
+    <Resource Include="Images\Cards\Normal\ManChong.jpg" />
+    <Resource Include="Images\Cards\Normal\PanZhangMaZhong.jpg" />
+    <Resource Include="Images\Cards\Normal\YuFan.jpg" />
+    <Resource Include="Images\Cards\Normal\ZhuRan.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if not exist $(TargetDir)\Resources\Texts mkdir  $(TargetDir)\Resources\Texts
