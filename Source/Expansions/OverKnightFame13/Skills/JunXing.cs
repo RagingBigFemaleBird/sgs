@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -47,8 +47,8 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
 
         class JunXingVerifier : CardsAndTargetsVerifier
         {
-            List<CardCategory> cc;
-            public JunXingVerifier(List<CardCategory> baseCategory)
+            HashSet<CardCategory> cc;
+            public JunXingVerifier(HashSet<CardCategory> baseCategory)
             {
                 MaxCards = 1;
                 MinCards = 1;
@@ -66,7 +66,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
         public override bool Commit(GameEventArgs arg)
         {
             Owner[JunXingUsed] = 1;
-            List<CardCategory> cc = new List<CardCategory>();
+            HashSet<CardCategory> cc = new HashSet<CardCategory>();
             foreach (var c in arg.Cards)
             {
                 cc.Add(c.Type.BaseCategory());
