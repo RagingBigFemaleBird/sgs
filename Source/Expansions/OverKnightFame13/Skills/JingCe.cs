@@ -33,6 +33,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 },
                 TriggerCondition.OwnerIsSource
             ) { AskForConfirmation = false, IsAutoNotify = false };
+            Triggers.Add(GameEvent.PlayerUsedCard, cardUsedCount);
 
             var tagClear = new AutoNotifyPassiveSkillTrigger(
                 this,
@@ -42,6 +43,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 },
                 TriggerCondition.OwnerIsSource
             ) { AskForConfirmation = false, IsAutoNotify = false };
+            Triggers.Add(GameEvent.PhaseBeforeStart, tagClear);
 
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
@@ -70,6 +72,9 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 },
                 TriggerCondition.OwnerIsSource
             ) { AskForConfirmation = false, IsAutoNotify = false };
+            Triggers.Add(GameEvent.PhaseEndEvents[TurnPhase.Play], trigger);
+
+            IsAutoInvoked = null;
         }
     }
 }

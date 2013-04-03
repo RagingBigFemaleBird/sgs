@@ -36,6 +36,7 @@
     <sys:String x:Key="Hero.GuanPing.Name">关平</sys:String>
     <sys:String x:Key="Hero.LiRu.Name">李儒</sys:String>
     <sys:String x:Key="Hero.LiuFeng.Name">刘封</sys:String>
+    <sys:String x:Key="Hero.GuoHuai.Name">郭淮</sys:String>
 
     <sys:String x:Key="Skill.DanShou.Name">胆守</sys:String>
     <sys:String x:Key="Skill.DanShou.Description">每当你造成一次伤害后，你可以立即摸一张牌。若如此做，当前回合立即结束。</sys:String>
@@ -72,5 +73,9 @@
     <sys:String x:Key="Skill.XianSiGivenSkill.Name">陷嗣</sys:String>
     <sys:String x:Key="Skill.XianSiGivenSkill.Description">用这个技能发动陷嗣视为使用一张杀</sys:String>
     <sys:String x:Key="Skill.XianSiGivenSkill.Usage">点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.JingCe.Name">精策</sys:String>
+    <sys:String x:Key="Skill.JingCe.Description">出牌阶段结束时，若你本回合使用的牌数量大于你当前体力值，你可以回复1点体力或摸一张牌。</sys:String>
+    <sys:String x:Key="Skill.JingCe.Usage">系统提示→选择一项</sys:String>
 
 </ResourceDictionary>
