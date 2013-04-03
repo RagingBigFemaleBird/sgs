@@ -95,7 +95,7 @@ namespace Sanguosha.Expansions.SP.Skills
                         Player target = nPlayers.First();
                         NotifySkillUse(nPlayers);
                         Game.CurrentGame.DoDamage(p, target, 2, DamageElement.None, null, null);
-                        Game.CurrentGame.HandleCardDiscard(null, target.Equipments());
+                        Game.CurrentGame.HandleCardDiscard(target, target.Equipments());
                     }
                 },
                 TriggerCondition.OwnerIsSource,

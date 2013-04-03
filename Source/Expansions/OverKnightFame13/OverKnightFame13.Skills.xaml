@@ -37,7 +37,7 @@
     <sys:String x:Key="Hero.LiRu.Name">李儒</sys:String>
     <sys:String x:Key="Hero.LiuFeng.Name">刘封</sys:String>
 
-    <sys:String x:Key="Skill.DanShou.Name">蛋守</sys:String>
+    <sys:String x:Key="Skill.DanShou.Name">胆守</sys:String>
     <sys:String x:Key="Skill.DanShou.Description">每当你造成一次伤害后，你可以立即摸一张牌。若如此做，当前回合立即结束。</sys:String>
     <sys:String x:Key="Skill.DanShou.Usage">点“确定”</sys:String>
 
