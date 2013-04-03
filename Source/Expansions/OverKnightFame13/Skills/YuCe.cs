@@ -34,7 +34,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
 
             protected override bool VerifyCard(Player source, Card card)
             {
-                return c == CardCategory.Unknown ? true : card.Type.BaseCategory() == c;
+                return c == CardCategory.Unknown ? true : card.Type.BaseCategory() != c;
             }
         }
         public YuCe()
@@ -49,7 +49,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                     List<Player> nPlayer;
                     Game.CurrentGame.SyncImmutableCardAll(cards.First());
                     Game.CurrentGame.NotificationProxy.NotifyShowCard(p, cards.First());
-                    if (players[0].AskForCardUsage(new CardUsagePrompt("YuCeSource"), new YuCeVerfier(cards[0].Type.BaseCategory()), out skill, out nCards, out nPlayer))
+                    if (a.Source.AskForCardUsage(new CardUsagePrompt("YuCeSource"), new YuCeVerfier(cards[0].Type.BaseCategory()), out skill, out nCards, out nPlayer))
                     {
                         Game.CurrentGame.HandleCardDiscard(players[0], nCards);
                     }
