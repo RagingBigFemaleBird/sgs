@@ -22,7 +22,17 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return a.Cards.Any(c => c[Card.IsLastHandCard] == 1) && Game.CurrentGame.CurrentPlayer == p; },
+                (p, e, a) => 
+                {
+                    var ret = a.Cards.Any(c => c[Card.IsLastHandCard] == 1) && Game.CurrentGame.CurrentPlayer == p;
+                    if (ret)
+                    {
+                        var card = a.Cards.FirstOrDefault(c => c[Card.IsLastHandCard] == 1);
+                        if (card != null && card.HistoryPlace1.Player != null && !card.HistoryPlace1.Player.IsDead)
+                            return true;
+                    }
+                    return false;
+                },
                 (p, e, a) =>
                 {
                     var card = a.Cards.FirstOrDefault(c => c[Card.IsLastHandCard] == 1);

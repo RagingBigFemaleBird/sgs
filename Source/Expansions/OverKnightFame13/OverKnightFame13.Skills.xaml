@@ -36,6 +36,7 @@
     <sys:String x:Key="Hero.GuanPing.Name">关平</sys:String>
     <sys:String x:Key="Hero.LiRu.Name">李儒</sys:String>
     <sys:String x:Key="Hero.LiuFeng.Name">刘封</sys:String>
+    <sys:String x:Key="Hero.PanZhangMaZhong.Name">潘璋马忠</sys:String>
     <sys:String x:Key="Hero.GuoHuai.Name">郭淮</sys:String>
     <sys:String x:Key="Hero.ManChong.Name">满宠</sys:String>
 
@@ -74,6 +75,14 @@
     <sys:String x:Key="Skill.XianSiGivenSkill.Name">陷嗣</sys:String>
     <sys:String x:Key="Skill.XianSiGivenSkill.Description">用这个技能发动陷嗣视为使用一张杀</sys:String>
     <sys:String x:Key="Skill.XianSiGivenSkill.Usage">点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.AnJian.Name">暗箭</sys:String>
+    <sys:String x:Key="Skill.AnJian.Description">锁定计，当你的【杀】造成伤害时，若你不在其攻击范围内，则此【杀】伤害+1。</sys:String>
+    <sys:String x:Key="Skill.AnJian.Usage">点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.DuoDao.Name">夺刀</sys:String>
+    <sys:String x:Key="Skill.DuoDao.Description">你的出牌阶段，你可以和任意一名装备区有武器牌的武将拼点，若你赢，则获得其该武器牌：若你没赢，则你此回合不可以出杀。每阶段限用一次。</sys:String>
+    <sys:String x:Key="Skill.DuoDao.Usage">点“确定”</sys:String>
 
     <sys:String x:Key="Skill.JingCe.Name">精策</sys:String>
     <sys:String x:Key="Skill.JingCe.Description">出牌阶段结束时，若你本回合使用的牌数量大于你当前体力值，你可以回复1点体力或摸一张牌。</sys:String>

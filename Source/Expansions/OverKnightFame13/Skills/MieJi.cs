@@ -30,13 +30,23 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 this.handler = handler;
                 MaxCards = 0;
                 MinCards = 0;
-                MaxPlayers = 1;
+                MaxPlayers = Int16.MaxValue;
                 MinPlayers = 1;
+            }
+            protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
+            {
+                if (cards != null && cards.Count > 0) return false;
+                if (players == null) players = new List<Player>();
+                var actualTargets = handler.ActualTargets(source, players, existingCard);
+                if (actualTargets.Count > 1) return false;
+                if (actualTargets.Contains(existingTarget)) return false;
+                var ret = handler.VerifyTargets(source, existingCard, players);
+                if (ret == VerifierResult.Partial) return null;
+                if (ret == VerifierResult.Fail) return false;
+                return true;
             }
             protected override bool VerifyPlayer(Player source, Player player)
             {
-                if (player == existingTarget) return false;
-                if (handler.VerifyTargets(source, existingCard, new List<Player>() { player }) != VerifierResult.Success) return false;
                 return true;
             }
         }
@@ -49,7 +59,8 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
             if (owner.AskForCardUsage(new CardUsagePrompt("MieJi", this), new MieJiVerifier(eventArgs.Targets[0], eventArgs.Card, eventArgs.Card.Type), out skill, out cards, out players))
             {
                 NotifySkillUse(players);
-                eventArgs.Targets.Add(players[0]);
+                eventArgs.UiTargets.AddRange(players);
+                eventArgs.Targets = eventArgs.Card.Type.ActualTargets(eventArgs.Source, eventArgs.UiTargets, eventArgs.Card);
             }
         }
 
@@ -57,7 +68,10 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return a.Card.Type.IsCardCategory(CardCategory.ImmediateTool) && a.Card.SuitColor == SuitColorType.Black && a.Targets.Count == 1; },
+                (p, e, a) => 
+                {
+                    return a.Card.Type.IsCardCategory(CardCategory.ImmediateTool) && a.Card.SuitColor == SuitColorType.Black && a.Targets.Count == 1; 
+                },
                 Run,
                 TriggerCondition.OwnerIsSource
             ) { IsAutoNotify = false };
