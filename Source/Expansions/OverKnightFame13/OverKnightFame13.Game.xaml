@@ -61,4 +61,8 @@
     <sys:String x:Key="MultiChoice.Choice.JingCeMoPai">摸一张牌</sys:String>
     <sys:String x:Key="MultiChoice.Choice.JingCeHuiXue">回复一点体力</sys:String>
 
+    <sys:String x:Key="CardUsage.Prompt.JunXing">请弃置一张不同类别的牌</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.YuCe">你可以展示一张牌发动技能 御策，或点“取消”不发动</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.YuCeSource">请弃置一张不同类别的牌</sys:String>
+
 </ResourceDictionary>
