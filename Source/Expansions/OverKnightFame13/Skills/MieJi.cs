@@ -46,7 +46,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
             ISkill skill;
             List<Card> cards;
             List<Player> players;
-            if (owner.AskForCardUsage(new CardUsagePrompt("MieJi"), new MieJiVerifier(eventArgs.Targets[0], eventArgs.Card, eventArgs.Card.Type), out skill, out cards, out players))
+            if (owner.AskForCardUsage(new CardUsagePrompt("MieJi", this), new MieJiVerifier(eventArgs.Targets[0], eventArgs.Card, eventArgs.Card.Type), out skill, out cards, out players))
             {
                 NotifySkillUse(players);
                 eventArgs.Targets.Add(players[0]);

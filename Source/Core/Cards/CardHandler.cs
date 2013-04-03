@@ -135,6 +135,7 @@ namespace Sanguosha.Core.Cards
             var inResponseTo = handlerArgs.InResponseTo;
             var card = handlerArgs.Card;
             ICard attributeCard = new Card();
+            Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, dests);
             foreach (var player in dests)
             {
                 if (player.IsDead && IgnoreDeath) continue;
