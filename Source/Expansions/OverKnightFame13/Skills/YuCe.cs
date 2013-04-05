@@ -51,7 +51,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                     Game.CurrentGame.NotificationProxy.NotifyShowCard(p, cards.First());
                     if (a.Source.AskForCardUsage(new CardUsagePrompt("YuCeSource"), new YuCeVerfier(cards[0].Type.BaseCategory()), out skill, out nCards, out nPlayer))
                     {
-                        Game.CurrentGame.HandleCardDiscard(players[0], nCards);
+                        Game.CurrentGame.HandleCardDiscard(a.Source, nCards);
                     }
                     else
                     {

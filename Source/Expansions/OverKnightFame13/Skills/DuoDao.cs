@@ -43,11 +43,11 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
             {
                 return VerifierResult.Fail;
             }
-            if (Owner.Weapon() == null)
+            if (arg.Targets[0].Weapon() == null)
             {
                 return VerifierResult.Fail;
             }
-            if (arg.Targets[0] == Owner || Game.CurrentGame.Decks[arg.Targets[0], DeckType.Hand].Count == 0)
+            if (arg.Targets[0] == Owner || arg.Targets[0].HandCards().Count == 0)
             {
                 return VerifierResult.Fail;
             }
