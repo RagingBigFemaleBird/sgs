@@ -21,16 +21,6 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
     /// </summary>
     public class ChengXiang : TriggerSkill
     {
-        int cardsRankSum(List<Card> cards)
-        {
-            int sum = 0;
-            foreach (Card card in cards)
-            {
-                sum += card.Rank;
-            }
-            return sum;
-        }
-
         public ChengXiang()
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
@@ -46,7 +36,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                     Game.CurrentGame.ShowHandCards(p, p.HandCards());
                     do
                     {
-                        if (cardsRankSum(p.HandCards()) < 13)
+                        if (p.HandCards().Sum(c => c.Rank) < 13)
                         {
                             Game.CurrentGame.DrawCards(p, 1);
                         }
