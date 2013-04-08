@@ -43,7 +43,6 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                     Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.PeekCard(0));
                     Card card = Game.CurrentGame.PeekCard(0);
                     Game.CurrentGame.DrawCards(pls[0], 1);
-                    Game.CurrentGame.NotificationProxy.NotifyShowCard(pls[0], card);
                     if (card.Type.BaseCategory() == CardCategory.Equipment)
                     {
                         Game.CurrentGame.RecoverHealth(pls[0], pls[0], 1);

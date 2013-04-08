@@ -39,6 +39,7 @@
     <sys:String x:Key="Hero.PanZhangMaZhong.Name">潘璋马忠</sys:String>
     <sys:String x:Key="Hero.GuoHuai.Name">郭淮</sys:String>
     <sys:String x:Key="Hero.ManChong.Name">满宠</sys:String>
+    <sys:String x:Key="Hero.CaoChong.Name">曹冲</sys:String>
 
     <sys:String x:Key="Skill.DanShou.Name">胆守</sys:String>
     <sys:String x:Key="Skill.DanShou.Description">每当你造成一次伤害后，你可以立即摸一张牌。若如此做，当前回合立即结束。</sys:String>
@@ -96,5 +97,13 @@
     <sys:String x:Key="Skill.YuCe.Name">御策</sys:String>
     <sys:String x:Key="Skill.YuCe.Description">每当你受到一次伤害后，你可以展示一张手牌，令伤害来源弃置一张相同类别的手牌，否则，你回复1点体力。</sys:String>
     <sys:String x:Key="Skill.YuCe.Usage">系统提示→选择一张手牌→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.ChengXiang.Name">称象</sys:String>
+    <sys:String x:Key="Skill.ChengXiang.Description">每当你受到一次伤害后，你可以展示所有手牌，若点数之和小于13，你摸一张牌。你可以重复此流程，直至你的所有手牌点数之和等于或大于13为止。</sys:String>
+    <sys:String x:Key="Skill.ChengXiang.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.BingXin.Name">冰心</sys:String>
+    <sys:String x:Key="Skill.BingXin.Description">每当你进入濒死状态时，你可以将所有牌以任意方式交给任意数量的其他角色，若如此做，你将武将牌翻面。</sys:String>
+    <sys:String x:Key="Skill.BingXin.Usage">系统提示→点“确定”</sys:String>
 
 </ResourceDictionary>
