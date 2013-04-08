@@ -22,10 +22,12 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
     {
         public override VerifierResult Validate(GameEventArgs arg)
         {
+            /*
             if (Owner[DuoDaoUsed] != 0)
             {
                 return VerifierResult.Fail;
             }
+            */
             List<Card> cards = arg.Cards;
             if (cards != null && cards.Count > 0)
             {

@@ -28,6 +28,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 MinCards = 1;
                 MaxPlayers = 1;
                 MinPlayers = 1;
+                Helper.NoCardReveal = true;
             }
 
             protected override bool VerifyPlayer(Player source, Player player)

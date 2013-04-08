@@ -65,6 +65,8 @@
     <sys:String x:Key="CardUsage.Prompt.YuCe">你可以展示一张牌发动技能 御策，或点“取消”不发动</sys:String>
     <sys:String x:Key="CardUsage.Prompt.YuCeSource">请弃置一张不同类别的牌</sys:String>
 
-    <sys:String x:Key="CardUsage.Prompt.BingXin">冰心 你可以把牌以任意数量交给任意其他角色</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.BingXin">冰心 你可以把所有牌以任意数量交给任意其他角色</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.QiuYuan">求援 你可以选择一个有手牌的角色发动技能</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.QiuYuanGiveCard">求援 请交给{0}一张手牌</sys:String>
 
 </ResourceDictionary>

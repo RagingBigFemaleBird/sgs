@@ -40,6 +40,7 @@
     <sys:String x:Key="Hero.GuoHuai.Name">郭淮</sys:String>
     <sys:String x:Key="Hero.ManChong.Name">满宠</sys:String>
     <sys:String x:Key="Hero.CaoChong.Name">曹冲</sys:String>
+    <sys:String x:Key="Hero.FuHuangHou.Name">伏皇后</sys:String>
 
     <sys:String x:Key="Skill.DanShou.Name">胆守</sys:String>
     <sys:String x:Key="Skill.DanShou.Description">每当你造成一次伤害后，你可以立即摸一张牌。若如此做，当前回合立即结束。</sys:String>
@@ -106,4 +107,11 @@
     <sys:String x:Key="Skill.BingXin.Description">每当你进入濒死状态时，你可以将所有牌以任意方式交给任意数量的其他角色，若如此做，你将武将牌翻面。</sys:String>
     <sys:String x:Key="Skill.BingXin.Usage">系统提示→点“确定”</sys:String>
 
+    <sys:String x:Key="Skill.ZhuiKong.Name">惴恐</sys:String>
+    <sys:String x:Key="Skill.ZhuiKong.Description">一名角色的回合开始时，若你已受伤，你可以和该角色进行一次拼点。若你赢，该角色跳过本回合的出牌阶段；若你没赢，该角色与你距离为1直到回合结束。</sys:String>
+    <sys:String x:Key="Skill.ZhuiKong.Usage">系统提示→点“确定”→选择一张拼点牌→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.QiuYuan.Name">求援</sys:String>
+    <sys:String x:Key="Skill.QiuYuan.Description">当你成为杀的目标时，你可以令一名其他角色交给你一张手牌。若此牌不为闪，该角色也成为此杀的目标。</sys:String>
+    <sys:String x:Key="Skill.QiuYuan.Usage">系统提示→选择一名有手牌的角色→点“确定”</sys:String>
 </ResourceDictionary>
