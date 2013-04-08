@@ -29,7 +29,7 @@ namespace Sanguosha.Expansions.SP.Skills
 
             protected override bool VerifyCard(Player source, Card card)
             {
-                return card.Place.DeckType == DeckType.Hand && (source[CardSuitUsed] & (1 << (int)card.Suit)) != 1 << (int)card.Suit;
+                return card.Place.DeckType == DeckType.Hand && (source[CardSuitUsed] & (1 << (int)card.SuitColor)) != 1 << (int)card.SuitColor;
             }
         }
 
@@ -62,7 +62,7 @@ namespace Sanguosha.Expansions.SP.Skills
                 (p, e, a) =>
                 {
                     var card = a.ReadonlyCard;
-                    p[CardSuitUsed] |= 1 << (int)card.Suit;
+                    p[CardSuitUsed] |= 1 << (int)card.SuitColor;
                 },
                 TriggerCondition.OwnerIsSource
             ) { IsAutoNotify = false, AskForConfirmation = false };
