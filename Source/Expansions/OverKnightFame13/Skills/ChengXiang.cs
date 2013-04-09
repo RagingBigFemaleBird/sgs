@@ -27,15 +27,24 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 this,
                 (p, e, a) =>
                 {
-                    List<Card> chengXiangCards = new List<Card>();
-                    while (chengXiangCards.Sum(c => c.Rank) < 13 && AskForSkillUse())
+                    do
                     {
+                        if (!AskForSkillUse())
+                        {
+                            break;
+                        }
                         NotifySkillUse();
-                        Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.PeekCard(0));
-                        Card card = Game.CurrentGame.PeekCard(0);
-                        Game.CurrentGame.DrawCards(p, 1);
-                        chengXiangCards.Add(card);
-                    }
+                        Game.CurrentGame.SyncImmutableCardsAll(p.HandCards());
+                        Game.CurrentGame.ShowHandCards(p, p.HandCards());
+                        if (p.HandCards().Sum(c => c.Rank) < 13)
+                        {
+                            Game.CurrentGame.DrawCards(p, 1);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    } while (true);
                 },
                 TriggerCondition.OwnerIsTarget
             ) { AskForConfirmation = false, IsAutoNotify = false };

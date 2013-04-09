@@ -87,7 +87,7 @@
     <sys:String x:Key="Skill.DuoDao.Usage">点“确定”</sys:String>
 
     <sys:String x:Key="Skill.JingCe.Name">精策</sys:String>
-    <sys:String x:Key="Skill.JingCe.Description">出牌阶段结束时，若本回合使用的牌数量大于你当前体力值，你可以回复1点体力或摸一张牌。</sys:String>
+    <sys:String x:Key="Skill.JingCe.Description">出牌阶段结束时，若你本回合使用的牌数量大于你当前体力值，你可以回复1点体力或摸一张牌。</sys:String>
     <sys:String x:Key="Skill.JingCe.Usage">系统提示→选择一项</sys:String>
 
     <sys:String x:Key="Skill.JunXing.Name">峻刑</sys:String>
@@ -100,7 +100,7 @@
     <sys:String x:Key="Skill.YuCe.Usage">系统提示→选择一张手牌→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.ChengXiang.Name">称象</sys:String>
-    <sys:String x:Key="Skill.ChengXiang.Description">每当你受到一次伤害后，你可以摸一张牌并展示你本次技能发动摸到的所有牌，若点数之和小于13，你可以重复此流程，直至你的所有手牌点数之和等于或大于13为止。</sys:String>
+    <sys:String x:Key="Skill.ChengXiang.Description">每当你受到一次伤害后，你可以展示所有手牌，若点数之和小于13，你摸一张牌。你可以重复此流程，直至你的所有手牌点数之和等于或大于13为止。</sys:String>
     <sys:String x:Key="Skill.ChengXiang.Usage">系统提示→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.BingXin.Name">冰心</sys:String>
