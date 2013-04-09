@@ -121,16 +121,16 @@
                               ItemsSource="{Binding Rooms, Mode=OneWay}" AutoGenerateColumns="False"
                               IsReadOnly="True" SelectionMode="Single" 
                               Background="Transparent" Foreground="#FFE4D5A0" HeadersVisibility="Column" FontFamily="SimSun"
-                              HorizontalAlignment="Stretch"
-                              HorizontalScrollBarVisibility="Hidden"
-                              SelectionUnit="FullRow" Style="{DynamicResource DataGridStyle1}">
+                              HorizontalAlignment="Stretch"                              
+                              SelectionUnit="FullRow"
+                              Style="{DynamicResource DataGridStyle1}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="房号" Binding="{Binding Id}" Width="50" />
-                            <DataGridTextColumn Header="模式" Binding="{res:ResourceKeyBinding Path=ModeString, StringFormat=GameMode.{0}.Name}" Width="100" />
-                            <DataGridTextColumn Header="时间" Binding="{Binding Settings.TimeOutSeconds, StringFormat=\{0\}秒}"  Width="50" />
-                            <DataGridTextColumn Header="选将" Binding="{Binding Settings.NumHeroPicks}" Width="50" />
-                            <DataGridTextColumn Header="人数" Binding="{Binding OpenSeatString}" Width="60" />
-                            <DataGridTemplateColumn Header="状态" SortMemberPath="State" Width="70" >
+                            <DataGridTextColumn Header="房号" Binding="{Binding Id}" />
+                            <DataGridTextColumn Header="模式" Binding="{res:ResourceKeyBinding Path=ModeString, StringFormat=GameMode.{0}.Name}" />
+                            <DataGridTextColumn Header="时间" Binding="{Binding Settings.TimeOutSeconds, StringFormat=\{0\}秒}" />
+                            <DataGridTextColumn Header="选将" Binding="{Binding Settings.NumHeroPicks}" />
+                            <DataGridTextColumn Header="人数" Binding="{Binding OpenSeatString}" />
+                            <DataGridTemplateColumn Header="状态" SortMemberPath="State" >
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{res:ResourceKeyBinding Path=State, StringFormat=RoomState.{0}.Name}" Foreground="{res:ResourceKeyBinding Path=State, StringFormat=RoomState.{0}.Color}" />

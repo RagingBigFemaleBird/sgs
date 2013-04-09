@@ -134,6 +134,8 @@ namespace Sanguosha.Core.Cards
             var readonlyCard = handlerArgs.ReadonlyCard;
             var inResponseTo = handlerArgs.InResponseTo;
             var card = handlerArgs.Card;
+            ICard attributeCard = new Card();
+            Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, dests);
             foreach (var player in dests)
             {
                 if (player.IsDead && IgnoreDeath) continue;
@@ -162,7 +164,22 @@ namespace Sanguosha.Core.Cards
                     continue;
                 }
                 if (player.IsDead) continue;
-                Process(source, player, card, readonlyCard, inResponseTo);
+                ReadOnlyCard newCard = new ReadOnlyCard(readonlyCard);
+                Process(source, player, card, newCard, inResponseTo);
+                if (newCard.Attributes != null)
+                {
+                    foreach (var attr in newCard.Attributes)
+                    {
+                        attributeCard[attr.Key] = attr.Value;
+                    }
+                }
+            }
+            if (attributeCard.Attributes != null)
+            {
+                foreach (var attr in attributeCard.Attributes)
+                {
+                    readonlyCard[attr.Key] = attr.Value;
+                }
             }
         }
 
@@ -200,7 +217,7 @@ namespace Sanguosha.Core.Cards
                 if (skill is CardTransformSkill)
                 {
                     CardTransformSkill s = skill as CardTransformSkill;
-                    VerifierResult r = s.TryTransform(cards, null, out c);
+                    VerifierResult r = s.TryTransform(cards, targets, out c);
                     if (c != null && c.Type != null && !(this.GetType().IsAssignableFrom(c.Type.GetType())))
                     {
                         return VerifierResult.Fail;
@@ -261,6 +278,11 @@ namespace Sanguosha.Core.Cards
             VerifierResult ret = Verify(source, card, targets);
             ReleaseHoldInTemp();
             return ret;
+        }
+
+        public VerifierResult VerifyTargets(Player source, ICard card, List<Player> targets)
+        {
+            return Verify(source, card, targets);
         }
 
         protected abstract VerifierResult Verify(Player source, ICard card, List<Player> targets);

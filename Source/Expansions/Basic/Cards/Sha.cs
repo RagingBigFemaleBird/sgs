@@ -30,8 +30,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)
         {
-            ReadOnlyCard newCard = new ReadOnlyCard(readonlyCard);
-            Game.CurrentGame.DoDamage(source, dest, 1, ShaDamageElement, card, newCard);
+            Game.CurrentGame.DoDamage(source, dest, 1, ShaDamageElement, card, readonlyCard);
         }
 
         public VerifierResult VerifyCore(Player source, ICard card, List<Player> targets)

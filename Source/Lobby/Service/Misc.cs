@@ -7,7 +7,7 @@ namespace Sanguosha.Lobby.Core
 {
     public class Misc
     {
-        public static int ProtocolVersion = 19;
+        public static int ProtocolVersion = 20;
         public static int MaxChatLength = 160;
         public static int MaxBugReportSize = 2097152;
         public static int MaxBugMessgeSize = 1000;

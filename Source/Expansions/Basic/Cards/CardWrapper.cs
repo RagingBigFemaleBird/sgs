@@ -16,7 +16,7 @@ namespace Sanguosha.Expansions.Basic.Cards
     
     public class CardWrapper : CardTransformSkill
     {
-        public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
+        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card, bool isPlay)
         {
             card = new CompositeCard();
             card.Type = handler;

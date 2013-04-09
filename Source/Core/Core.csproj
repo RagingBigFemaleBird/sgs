@@ -81,6 +81,7 @@
     <Compile Include="Cards\Weapon.cs" />
     <Compile Include="Exceptions\DuplicateAttributeKeyException.cs" />
     <Compile Include="Exceptions\DuplicateCardHandlerException.cs" />
+    <Compile Include="Exceptions\EndOfTurnException.cs" />
     <Compile Include="Exceptions\PlayerIsDeadException.cs" />
     <Compile Include="Games\HandCardSwitcher.cs" />
     <Compile Include="Games\PlayerExtension.cs" />

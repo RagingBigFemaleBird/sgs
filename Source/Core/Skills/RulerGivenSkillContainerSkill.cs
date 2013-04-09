@@ -12,19 +12,19 @@ namespace Sanguosha.Core.Skills
 {
     public class RulerGivenSkillContainerSkill : TriggerSkill
     {
-        private Allegiance allegiance;
+        private Allegiance? qualifiedAllegiance;
 
-        public Allegiance Allegiance
+        public Allegiance? QualifiedAllegiance
         {
-            get { return allegiance; }
-            protected set { allegiance = value; }
+            get { return qualifiedAllegiance; }
+            protected set { qualifiedAllegiance = value; }
         }
 
         protected void DistributeSkills(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             foreach (var player in Game.CurrentGame.AlivePlayers)
             {
-                if (player.Allegiance == Allegiance && owner != player && !masterList.ContainsKey(player))
+                if ((QualifiedAllegiance == null || player.Allegiance == QualifiedAllegiance) && owner != player && !masterList.ContainsKey(player))
                 {
                     IRulerGivenSkill skill = Activator.CreateInstance(innerSkillType) as IRulerGivenSkill;
                     Trace.Assert(skill != null);
@@ -46,10 +46,10 @@ namespace Sanguosha.Core.Skills
 
         protected Dictionary<Player, IRulerGivenSkill> masterList;
         protected Type innerSkillType;
-        public RulerGivenSkillContainerSkill(IRulerGivenSkill InnerSkill, Allegiance al)
+        public RulerGivenSkillContainerSkill(IRulerGivenSkill InnerSkill, Allegiance? al, bool NotARuler = false)
         {
             innerSkillType = InnerSkill.GetType();
-            Allegiance = al;
+            QualifiedAllegiance = al;
             masterList = new Dictionary<Player, IRulerGivenSkill>();
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
@@ -60,11 +60,11 @@ namespace Sanguosha.Core.Skills
                 this,
                 (p, e, a) =>
                 {
-                    if (a.Source.Allegiance == Allegiance && !masterList.ContainsKey(a.Source))
+                    if ((QualifiedAllegiance == null || a.Source.Allegiance == QualifiedAllegiance) && !masterList.ContainsKey(a.Source))
                     {
                         DistributeSkills(Owner, null, null);
                     }
-                    if (a.Source.Allegiance != Allegiance && masterList.ContainsKey(a.Source))
+                    if (QualifiedAllegiance != null && a.Source.Allegiance != QualifiedAllegiance && masterList.ContainsKey(a.Source))
                     {
                         ISkill skill = masterList[a.Source];
                         masterList.Remove(a.Source);
@@ -76,7 +76,7 @@ namespace Sanguosha.Core.Skills
             Triggers.Add(GameEvent.PlayerGameStartAction, trigger);
             Triggers.Add(GameEvent.PlayerChangedAllegiance, trigger2);
             IsAutoInvoked = null;
-            IsRulerOnly = true;
+            IsRulerOnly = !NotARuler;
         }
 
         public override Player Owner

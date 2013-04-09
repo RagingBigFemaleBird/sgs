@@ -24,7 +24,7 @@ namespace Sanguosha.Expansions.OverKnightFame12.Skills
         {
             LinkedPassiveSkill = new LiHuoPassive();
         }
-        public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
+        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card, bool isPlay)
         {
             card = null;
             if (cards == null || cards.Count < 1)

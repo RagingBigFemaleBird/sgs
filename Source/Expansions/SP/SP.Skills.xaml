@@ -26,6 +26,7 @@
     <sys:String x:Key="Hero.ChenLin.Name">陈琳</sys:String>
     <sys:String x:Key="Hero.XiahouBa.Name">夏侯霸</sys:String>
     <sys:String x:Key="Hero.QunLingJu.Name">灵雎</sys:String>
+    <sys:String x:Key="Hero.DaQiaoXiaoQiao.Name">大乔小乔</sys:String>
 
     
     <sys:String x:Key="Skill.DanLao.Name">啖酪</sys:String>
@@ -85,4 +86,12 @@
 
     <sys:String x:Key="Skill.BaoBian.Name">豹变</sys:String>
     <sys:String x:Key="Skill.BaoBian.Description">锁定技，若你的体力值为3或更少，你视为拥用技能“挑衅”；若你的体力值为2或更少，你视为拥有技能“咆哮”；若你的体力值为1，你视为拥有技能“神速”。</sys:String>
+
+    <sys:String x:Key="Skill.XingWu.Name">星舞</sys:String>
+    <sys:String x:Key="Skill.XingWu.Description">弃牌阶段开始时，你可以将一张与你本回合使用的牌颜色均不同的手牌置于武将牌上。若此时你武将牌上的牌达到三张，则弃置这些牌，然后对一名男性角色造成2点伤害弃置其装备区中的所有牌。</sys:String>
+    <sys:String x:Key="Skill.XingWu.Usage">系统提示→选择一张手牌→选择目标→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.LuoYan.Name">落雁</sys:String>
+    <sys:String x:Key="Skill.LuoYan.Description">锁定技，若你的武将牌上有牌，你视为拥有技能“天香”和“流离”。</sys:String>
+    
 </ResourceDictionary>

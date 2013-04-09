@@ -31,7 +31,7 @@ namespace Sanguosha.Expansions.Basic.Skills
         {
             IsRulerOnly = true;
         }
-        public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
+        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card, bool isPlay)
         {
             card = null;
             if (Owner[JiJiangFailed] == 1 && Game.CurrentGame.LastAction is JiJiang && Game.CurrentGame.LastAction.Owner == Owner) return VerifierResult.Fail;
@@ -69,7 +69,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             return VerifierResult.Success;
         }
 
-        protected override bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets)
+        protected override bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets, bool isPlay)
         {
             ICard result = null;
             List<Player> toProcess = new List<Player>(Game.CurrentGame.AlivePlayers);
@@ -92,7 +92,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                             failToRespond = true;
                             break;
                         }
-                        if (!Game.CurrentGame.CommitCardTransform(player, skill, cards, out result, targets))
+                        if (!Game.CurrentGame.CommitCardTransform(player, skill, cards, out result, targets, isPlay))
                         {
                             continue;
                         }

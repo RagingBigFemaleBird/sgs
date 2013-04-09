@@ -29,7 +29,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             }
             var cardsToProcess = new List<Card>(
                                  from c in eventArgs.Cards
-                                 where c.Suit == SuitType.Club
+                                 where c.Suit == SuitType.Club && (c.Place.DeckType == DeckType.Hand || c.Place.DeckType == DeckType.Equipment || c.Place.DeckType == DeckType.JudgeResult)
                                  select c);
             if (cardsToProcess.Count() > 0)
             {

@@ -49,7 +49,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             LinkedPassiveSkill = new JiuShiPassive();
         }
 
-        public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
+        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card, bool isPlay)
         {
             card = new CompositeCard();
             card.Type = new Jiu();
@@ -65,7 +65,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             return VerifierResult.Success;
         }
 
-        protected override bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets)
+        protected override bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets, bool isPlay)
         {
             Owner.IsImprisoned = true;
             return true;

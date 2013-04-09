@@ -63,7 +63,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                             failToRespond = true;
                             break;
                         }
-                        if (!Game.CurrentGame.CommitCardTransform(player, skill, cards, out result, eventArgs.Targets))
+                        if (!Game.CurrentGame.CommitCardTransform(player, skill, cards, out result, eventArgs.Targets, true))
                         {
                             continue;
                         }

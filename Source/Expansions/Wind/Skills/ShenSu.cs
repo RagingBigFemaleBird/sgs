@@ -107,7 +107,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                 if (transformSkill != null)
                 {
                     CompositeCard card;
-                    transformSkill.TryTransform(new List<Card>() { new Card() { Type = new RegularSha(), Place = new DeckPlace(null, DeckType.None) } }, null, out card);
+                    transformSkill.TryTransform(new List<Card>() { new Card() { Type = new RegularSha(), Place = new DeckPlace(null, DeckType.None) } }, players, out card);
                     card.Subcards.Clear();
                     args.Card = card;
                 }

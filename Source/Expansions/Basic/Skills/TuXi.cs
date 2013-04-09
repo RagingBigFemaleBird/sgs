@@ -76,8 +76,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                         new List<string>() { "TuXi" }, new List<int>() { 1 }, new RequireOneCardChoiceVerifier(true), out answer))
                     {
                         answer = new List<List<Card>>();
-                        answer.Add(new List<Card>());
-                        answer[0].Add(Game.CurrentGame.Decks[p, DeckType.Hand][0]);
+                        answer.Add(Game.CurrentGame.PickDefaultCardsFrom(new List<DeckPlace>() { new DeckPlace(p, DeckType.Hand) }));
                     }
                     move.Cards = answer[0];
                     move.To = new DeckPlace(p, TuXiDeck);

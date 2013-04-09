@@ -8,6 +8,7 @@ using Sanguosha.Core.Cards;
 using Sanguosha.Core.UI;
 using Sanguosha.Core.Skills;
 using Sanguosha.Expansions.Basic.Cards;
+using Sanguosha.Core.Players;
 
 namespace Sanguosha.Expansions.Fire.Skills
 {
@@ -21,7 +22,7 @@ namespace Sanguosha.Expansions.Fire.Skills
             get { return new List<CardHandler>() { new WanJianQiFa() }; }
         }
 
-        public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
+        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card, bool isPlay)
         {
             card = null;
             if (cards == null || cards.Count == 0)

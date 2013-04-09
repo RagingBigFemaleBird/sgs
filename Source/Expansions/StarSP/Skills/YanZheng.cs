@@ -19,12 +19,12 @@ namespace Sanguosha.Expansions.StarSP
     public class YanZheng : OneToOneCardTransformSkill
     {
 
-        public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
+        public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card, bool isPlay)
         {
             card = null;
             if (Owner.HandCards().Count <= Owner.Health)
                 return VerifierResult.Fail;
-            return base.TryTransform(cards, arg, out card);
+            return base.TryTransform(cards, arg, out card, isPlay);
         }
 
         public override CardHandler PossibleResult

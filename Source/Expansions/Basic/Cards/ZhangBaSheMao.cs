@@ -25,7 +25,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         public class ZhangBaSheMaoTransform : CardTransformSkill, IEquipmentSkill
         {
             public Equipment ParentEquipment { get; set; }
-            public override VerifierResult TryTransform(List<Card> cards, object arg, out CompositeCard card)
+            public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card, bool isPlay)
             {
                 card = new CompositeCard();
                 card.Type = new RegularSha();

@@ -22,6 +22,8 @@ namespace Sanguosha.Core.Skills
         }
 
         private Players.Player owner;
+        public ISkill LinkedSkill { get; protected set; }
+
         
         /// <summary>
         /// Owner of the skill.
@@ -41,6 +43,11 @@ namespace Sanguosha.Core.Skills
                 if (owner != null)
                 {
                     InstallTriggers(owner);
+                }
+                if (LinkedSkill != null)
+                {
+                    LinkedSkill.HeroTag = HeroTag;
+                    LinkedSkill.Owner = value;
                 }
             }
         }

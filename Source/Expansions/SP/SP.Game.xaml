@@ -55,4 +55,8 @@
     </LinearGradientBrush>
 
     <sys:String x:Key="LogEvent.WuJi">{0}失去了技能{1}</sys:String>
+
+    <sys:String x:Key="Deck.XingWu.Name">星舞</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.XingWu">星舞 你可以选择一张手牌置于武将牌上</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.XingWuChoicePlayer">星舞 请选择一名男性角色</sys:String>
 </ResourceDictionary>

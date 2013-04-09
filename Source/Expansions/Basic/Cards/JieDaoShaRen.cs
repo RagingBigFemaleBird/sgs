@@ -63,84 +63,95 @@ namespace Sanguosha.Expansions.Basic.Cards
         public override List<Player> ActualTargets(Player source, List<Player> targets, ICard card)
         {
             if (targets == null || targets.Count == 0) return new List<Player>();
-
-            return new List<Player>() { targets[0] };
+            List<Player> ret = new List<Player>();
+            int i = 0;
+            do
+            {
+                ret.Add(targets[i * 2]);
+            } while (i++ >= 0 && i * 2 < targets.Count);
+            return ret;
         }
 
         public override void Process(GameEventArgs handlerArgs)
         {
-            var source = handlerArgs.Source;
-            var dests = handlerArgs.UiTargets;
-            var readonlyCard = handlerArgs.ReadonlyCard;
-            var inResponseTo = handlerArgs.InResponseTo;
-            var card = handlerArgs.Card;
-            Trace.Assert(dests.Count == 2);
-            Player initiator = dests[0];
-            GameEventArgs args = new GameEventArgs();
-            args.Source = source;
-            args.Targets = new List<Player>() { initiator };
-            args.Card = card;
-            args.ReadonlyCard = readonlyCard;
-            try
+            var targetsplit = new List<Player>(handlerArgs.UiTargets);
+            while (targetsplit.Count > 0)
             {
-                Game.CurrentGame.Emit(GameEvent.CardUsageTargetValidating, args);
-            }
-            catch (TriggerResultException e)
-            {
-                Trace.Assert(e.Status == TriggerResult.End);
-                return;
-            }
-            try
-            {
-                Game.CurrentGame.Emit(GameEvent.CardUsageBeforeEffected, args);
-            }
-            catch (TriggerResultException e)
-            {
-                Trace.Assert(e.Status == TriggerResult.End);
-                return;
-            }
-            ISkill skill;
-            List<Card> cards;
-            List<Player> players;
-            while (true)
-            {
-                if (!dests[1].IsDead && Game.CurrentGame.UiProxies[initiator].AskForCardUsage(new CardUsagePrompt("JieDaoShaRen", dests[1]), new JieDaoShaRenVerifier(dests[1]), out skill, out cards, out players))
+                var source = handlerArgs.Source;
+                var dests = new List<Player>() { targetsplit[0], targetsplit[1] };
+                targetsplit.RemoveAt(0);
+                targetsplit.RemoveAt(0);
+                var readonlyCard = handlerArgs.ReadonlyCard;
+                var inResponseTo = handlerArgs.InResponseTo;
+                var card = handlerArgs.Card;
+                Trace.Assert(dests.Count == 2);
+                Player initiator = dests[0];
+                GameEventArgs args = new GameEventArgs();
+                args.Source = source;
+                args.Targets = new List<Player>() { initiator };
+                args.Card = card;
+                args.ReadonlyCard = readonlyCard;
+                try
                 {
-                    try
-                    {
-                        initiator[Sha.NumberOfShaUsed]--;
-                        args = new GameEventArgs();
-                        args.Source = initiator;
-                        args.Targets = players;
-                        args.Targets.Add(dests[1]);
-                        args.Skill = skill;
-                        args.Cards = cards;
-                        Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
-                    }
-                    catch (TriggerResultException e)
-                    {
-                        Trace.Assert(e.Status == TriggerResult.Retry);
-                        continue;
-                    }
+                    Game.CurrentGame.Emit(GameEvent.CardUsageTargetValidating, args);
                 }
-                else
+                catch (TriggerResultException e)
                 {
-                    if (source.IsDead) return;
-                    Card theWeapon = null;
-                    foreach (Card c in Game.CurrentGame.Decks[initiator, DeckType.Equipment])
+                    Trace.Assert(e.Status == TriggerResult.End);
+                    return;
+                }
+                try
+                {
+                    Game.CurrentGame.Emit(GameEvent.CardUsageBeforeEffected, args);
+                }
+                catch (TriggerResultException e)
+                {
+                    Trace.Assert(e.Status == TriggerResult.End);
+                    return;
+                }
+                ISkill skill;
+                List<Card> cards;
+                List<Player> players;
+                while (true)
+                {
+                    if (!dests[1].IsDead && Game.CurrentGame.UiProxies[initiator].AskForCardUsage(new CardUsagePrompt("JieDaoShaRen", dests[1]), new JieDaoShaRenVerifier(dests[1]), out skill, out cards, out players))
                     {
-                        if (c.Type is Weapon)
+                        try
                         {
-                            theWeapon = c;
-                            break;
+                            initiator[Sha.NumberOfShaUsed]--;
+                            args = new GameEventArgs();
+                            args.Source = initiator;
+                            args.Targets = players;
+                            args.Targets.Add(dests[1]);
+                            args.Skill = skill;
+                            args.Cards = cards;
+                            Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
+                        }
+                        catch (TriggerResultException e)
+                        {
+                            Trace.Assert(e.Status == TriggerResult.Retry);
+                            continue;
                         }
                     }
-                    if (theWeapon != null)
+                    else
                     {
-                        Game.CurrentGame.HandleCardTransferToHand(initiator, source, new List<Card>() { theWeapon });
+                        if (source.IsDead) return;
+                        Card theWeapon = null;
+                        foreach (Card c in Game.CurrentGame.Decks[initiator, DeckType.Equipment])
+                        {
+                            if (c.Type is Weapon)
+                            {
+                                theWeapon = c;
+                                break;
+                            }
+                        }
+                        if (theWeapon != null)
+                        {
+                            Game.CurrentGame.HandleCardTransferToHand(initiator, source, new List<Card>() { theWeapon });
+                        }
                     }
+                    break;
                 }
-                break;
             }
         }
 
