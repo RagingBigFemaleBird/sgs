@@ -17,7 +17,7 @@ using Sanguosha.Core.Exceptions;
 namespace Sanguosha.Expansions.OverKnightFame13.Skills
 {
     /// <summary>
-    /// 精策-出牌阶段结束时，若你本回合使用的牌数量大于你当前体力值，你可以回复1点体力或摸一张牌。
+    /// 精策-出牌阶段结束时，若本回合使用的牌数量大于你当前体力值，你可以回复1点体力或摸一张牌。
     /// </summary>
     public class JingCe : TriggerSkill
     {
@@ -31,7 +31,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 {
                     _count++;
                 },
-                TriggerCondition.OwnerIsSource
+                TriggerCondition.Global
             ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PlayerUsedCard, cardUsedCount);
 
@@ -41,7 +41,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 {
                     _count = 0;
                 },
-                TriggerCondition.OwnerIsSource
+                TriggerCondition.Global
             ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PhaseBeforeStart, tagClear);
 
@@ -70,7 +70,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                         Game.CurrentGame.RecoverHealth(p, p, 1);
                     }
                 },
-                TriggerCondition.OwnerIsSource
+                TriggerCondition.Global
             ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PhaseEndEvents[TurnPhase.Play], trigger);
 

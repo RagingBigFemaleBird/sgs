@@ -1013,6 +1013,10 @@ namespace Sanguosha.Core.Games
                 }
                 game.CurrentPhase = TurnPhase.Inactive;
                 Game.CurrentGame.Emit(GameEvent.PhasePostEnd, new GameEventArgs() { Source = currentPlayer });
+                if (game.Decks[null, DeckType.Compute].Count > 0)
+                {
+                    game.PlaceIntoDiscard(null, new List<Card>(game.Decks[null, DeckType.Compute]));
+                }
             }
         }
 
