@@ -31,7 +31,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 {
                     _count++;
                 },
-                TriggerCondition.OwnerIsSource
+                TriggerCondition.Global
             ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PlayerUsedCard, cardUsedCount);
 
@@ -41,7 +41,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 {
                     _count = 0;
                 },
-                TriggerCondition.OwnerIsSource
+                TriggerCondition.Global
             ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PhaseBeforeStart, tagClear);
 
@@ -70,7 +70,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                         Game.CurrentGame.RecoverHealth(p, p, 1);
                     }
                 },
-                TriggerCondition.OwnerIsSource
+                TriggerCondition.Global
             ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PhaseEndEvents[TurnPhase.Play], trigger);
 
