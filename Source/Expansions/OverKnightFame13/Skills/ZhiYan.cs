@@ -54,6 +54,10 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                         args.Cards = new List<Card>() { card };
                         Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
                     }
+                    else
+                    {
+                        Game.CurrentGame.HideHandCard(card);
+                    }
                 },
                 TriggerCondition.OwnerIsSource,
                 new ZhiYanVerifier()
