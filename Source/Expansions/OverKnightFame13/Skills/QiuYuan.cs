@@ -55,7 +55,8 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
         {
             var trigger = new AutoNotifyUsagePassiveSkillTrigger(
                 this,
-                (p, e, a, cards, players) => 
+                (p, e, a) => { return a.ReadonlyCard.Type is Sha; },
+                (p, e, a, cards, players) =>
                 {
                     ISkill skill;
                     List<Card> nCards;

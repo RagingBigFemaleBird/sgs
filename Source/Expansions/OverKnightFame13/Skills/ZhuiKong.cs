@@ -62,7 +62,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return p.LostHealth > 0 && p.HandCards().Count > 0 && a.Source.HandCards().Count > 0; },
+                (p, e, a) => { return p != a.Source && p.LostHealth > 0 && p.HandCards().Count > 0 && a.Source.HandCards().Count > 0; },
                 (p, e, a) => 
                 {
                     if (Game.CurrentGame.PinDian(p, a.Source, this) == true)
