@@ -21,21 +21,6 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
     /// </summary>
     public class ZhuiKong : TriggerSkill
     {
-        class ZhuiKongVerifier : CardsAndTargetsVerifier
-        {
-            public ZhuiKongVerifier()
-            {
-                MaxCards = 1;
-                MinCards = 1;
-                MaxPlayers = 0;
-            }
-
-            protected override bool VerifyCard(Player source, Card card)
-            {
-                return card.Place.DeckType == DeckType.Hand;
-            }
-        }
-
         class ZhuiKongLose : Trigger
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
