@@ -42,29 +42,28 @@ namespace Sanguosha.Expansions.StarSP.Skills
         {
             Owner[DaHeUsed] = 1;
             Card card1, card2;
-            Game.CurrentGame.PinDianReturnCards(Owner, arg.Targets[0], out card1, out card2, this);
-            bool win = false;
-            if (card1.Rank > card2.Rank)
+            bool c1, c2;
+            var ret = Game.CurrentGame.PinDianReturnCards(Owner, arg.Targets[0], out card1, out card2, this, out c1, out c2);
+            if (ret == true)
             {
-                win = true;
                 (LinkedPassiveSkill as DaHePassive).DaHePlayer = arg.Targets[0];
                 ISkill skill;
                 List<Card> cards;
                 List<Player> players;
-                if (Owner.AskForCardUsage(new CardUsagePrompt("DaHe", arg.Targets[0]), new DaHeVerifier(), out skill, out cards, out players))
+                if (!c2 && Owner.AskForCardUsage(new CardUsagePrompt("DaHe", arg.Targets[0]), new DaHeVerifier(), out skill, out cards, out players))
                 {
                     Game.CurrentGame.EnterAtomicContext();
                     Game.CurrentGame.HandleCardTransferToHand(arg.Targets[0], players[0], new List<Card>() { card2 });
-                    Game.CurrentGame.PlaceIntoDiscard(Owner, new List<Card>() { card1 });
+                    if (!c1) Game.CurrentGame.PlaceIntoDiscard(Owner, new List<Card>() { card1 });
                     Game.CurrentGame.ExitAtomicContext();
                     return true;
                 }
             }
             Game.CurrentGame.EnterAtomicContext();
-            Game.CurrentGame.PlaceIntoDiscard(Owner, new List<Card>() { card1 });
-            Game.CurrentGame.PlaceIntoDiscard(arg.Targets[0], new List<Card>() { card2 });
+            if (!c1) Game.CurrentGame.PlaceIntoDiscard(Owner, new List<Card>() { card1 });
+            if (!c2) Game.CurrentGame.PlaceIntoDiscard(arg.Targets[0], new List<Card>() { card2 });
             Game.CurrentGame.ExitAtomicContext();
-            if (!win && Owner.HandCards().Count > 0)
+            if (ret != true && Owner.HandCards().Count > 0)
             {
                 Game.CurrentGame.ForcePlayerDiscard(Owner,(p, i) => { return 1 - i; }, false);
                 Game.CurrentGame.SyncImmutableCardsAll(Owner.HandCards());

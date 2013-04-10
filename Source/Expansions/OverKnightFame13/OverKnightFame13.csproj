@@ -62,6 +62,7 @@
     <Compile Include="Skills\YuCe.cs" />
     <Compile Include="Skills\ZhiYan.cs" />
     <Compile Include="Skills\ZhuiKong.cs" />
+    <Compile Include="Skills\ZongShi.cs" />
     <Compile Include="Skills\ZongXuan.cs" />
   </ItemGroup>
   <ItemGroup>

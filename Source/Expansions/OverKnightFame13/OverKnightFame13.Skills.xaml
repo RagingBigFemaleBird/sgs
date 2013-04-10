@@ -119,4 +119,8 @@
     <sys:String x:Key="Skill.QiaoShui.Name">巧说</sys:String>
     <sys:String x:Key="Skill.QiaoShui.Description">出牌阶段，你可以与一名其他角色拼点，若你赢，你获得以下技能直到回合结束：你使用的下一张非延时类锦囊可以额外指定一个目标或减少指定一个目标。若你没赢，你不能使用非延时类锦囊直到回合结束。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.QiaoShui.Usage">系统提示→选择一名有手牌的角色→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.ZongShi2.Name">纵适</sys:String>
+    <sys:String x:Key="Skill.ZongShi2.Description">每当你拼点获胜，你可以获得对方的拼点牌；每当你拼点失败，你可以收回你自己的拼点牌。</sys:String>
+    <sys:String x:Key="Skill.ZongShi2.Usage">系统提示→选择一名有手牌的角色→点“确定”</sys:String>
 </ResourceDictionary>

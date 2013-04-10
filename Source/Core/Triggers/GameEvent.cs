@@ -430,6 +430,11 @@ namespace Sanguosha.Core.Triggers
         /// </summary>
         public static readonly GameEvent PlayerDistanceOverride = new GameEvent("PlayerDistanceOverride");
 
+        /// <summary>
+        /// 拼点完成
+        /// </summary>
+        public static readonly GameEvent PinDianComplete = new GameEvent("PinDianComplete");
+
         public override bool Equals(object obj)
         {
             if (obj == this)

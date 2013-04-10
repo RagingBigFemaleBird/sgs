@@ -156,6 +156,12 @@ namespace Sanguosha.Core.Triggers
         public int OriginalAmount { get; set; }
     }
 
+    public class PinDianCompleteEventArgs : GameEventArgs
+    {
+        public List<bool> CardsResult { get; set; }
+        public bool? PinDianResult { get; set; }
+    }
+
     public class SkillSetChangedEventArgs : GameEventArgs
     {
         public SkillSetChangedEventArgs()
