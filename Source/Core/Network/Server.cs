@@ -95,7 +95,7 @@ namespace Sanguosha.Core.Network
                     Semaphore sem0 = new Semaphore(0, int.MaxValue);
                     GamePacketHandler hd = (o) => { if (o is ConnectionRequest) { item = ((ConnectionRequest)o).token; sem0.Release(1); } };
                     handlers[i].OnGameDataPacketReceived += hd;
-                    handlers[i].DataStream = handlers[i].TcpClient.GetStream();
+                    handlers[i].DataStream = new RecordTakingOutputStream(handlers[i].TcpClient.GetStream());
 
                     if (!sem0.WaitOne(4000) || !(item is LoginToken) ||
                      !game.Configuration.LoginTokens.Any(id => id.TokenString == ((LoginToken)item).TokenString))
@@ -201,7 +201,6 @@ namespace Sanguosha.Core.Network
                             }
                         }
                     }
-                    stream.ReadTimeout = Timeout.Infinite;
                     int indexC = game.Settings.Accounts.IndexOf(theAccount);
                     if (spectatorJoining) indexC = numberOfGamers;
                     if (indexC < 0)
@@ -210,28 +209,31 @@ namespace Sanguosha.Core.Network
                         continue;
                     }
                     handlers[indexC].Lock();
-                        if (spectatorJoining)
-                        {
-                            ReplaySplitterStream rpstream = handlers[indexC].DataStream as ReplaySplitterStream;
-                            tempGamer.Send(new UIStatusHint() { Detach = 1 });
-                            tempGamer.Flush();
-                            rpstream.DumpTo(stream);
-                            tempGamer.Flush();
-                            tempGamer.Send(new UIStatusHint() { Detach = 0 });
-                            rpstream.AddStream(stream);
-                        }
-                        else
-                        {
-                            var newRCStream = new RecordTakingOutputStream(stream);
-                            tempGamer.Send(new UIStatusHint() { Detach = 1 });
-                            tempGamer.Flush();
-                            (handlers[indexC].DataStream as RecordTakingOutputStream).DumpTo(newRCStream);
-                            handlers[indexC].ConnectionStatus = ConnectionStatus.Connected;
-                            newRCStream.Flush();
-                            tempGamer.Flush();
-                            tempGamer.Send(new UIStatusHint() { Detach = 0 });
-                            handlers[indexC].DataStream = newRCStream;
-                        }
+                    tempGamer.Stop();
+                    if (spectatorJoining)
+                    {
+                        ReplaySplitterStream rpstream = handlers[indexC].DataStream as ReplaySplitterStream;
+                        tempGamer.Send(new UIStatusHint() { Detach = 1 });
+                        tempGamer.Flush();
+                        rpstream.DumpTo(stream);
+                        tempGamer.Flush();
+                        tempGamer.Send(new UIStatusHint() { Detach = 0 });
+                        tempGamer.Flush();
+                        rpstream.AddStream(stream);
+                    }
+                    else
+                    {
+                        var newRCStream = new RecordTakingOutputStream(stream);
+                        tempGamer.Send(new UIStatusHint() { Detach = 1 });
+                        tempGamer.Flush();
+                        (handlers[indexC].DataStream as RecordTakingOutputStream).DumpTo(newRCStream);
+                        handlers[indexC].ConnectionStatus = ConnectionStatus.Connected;
+                        newRCStream.Flush();
+                        tempGamer.Flush();
+                        tempGamer.Send(new UIStatusHint() { Detach = 0 });
+                        tempGamer.Flush();
+                        handlers[indexC].DataStream = newRCStream;
+                    }
 
                 }
                 catch (Exception)

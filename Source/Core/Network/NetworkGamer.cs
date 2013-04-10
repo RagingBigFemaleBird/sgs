@@ -32,7 +32,7 @@ namespace Sanguosha.Core.Network
         public TcpClient TcpClient { get; set; }
         public ConnectionStatus ConnectionStatus { get; set; }
         Stream dataStream;
-        public Stream DataStream 
+        public Stream DataStream
         {
             get { return dataStream; }
             set
@@ -50,12 +50,18 @@ namespace Sanguosha.Core.Network
             }
         }
 
+        Thread listener;
+
         public void StartListening()
         {
-            var listener = new Thread(ThreadMain) { IsBackground = true };
+            listener = new Thread(ThreadMain) { IsBackground = true };
             listener.Start();
         }
 
+        public void Stop()
+        {
+            listener.Abort();
+        }
         Semaphore sema;
         Semaphore semPause;
 
@@ -68,23 +74,31 @@ namespace Sanguosha.Core.Network
                 semPause.WaitOne();
                 lock (this)
                 {
-                   packet = Serializer.DeserializeWithLengthPrefix<GameDataPacket>(DataStream, PrefixStyle.Base128);
-                   if (packet == null)
-                   {
-                       var handler = OnDisconnected;
-                       if (handler != null)
-                       {
-                           OnDisconnected(this);
-                       }
-                       return;
-                   }
+                    packet = null;
+                    try
+                    {
+                        packet = Serializer.DeserializeWithLengthPrefix<GameDataPacket>(DataStream, PrefixStyle.Base128);
+                    }
+                    catch (Exception)
+                    {
+                    }
+                    if (packet == null)
+                    {
+                        ConnectionStatus = Network.ConnectionStatus.Disconnected;
+                        var handler = OnDisconnected;
+                        if (handler != null)
+                        {
+                            OnDisconnected(this);
+                        }
+                        continue;
+                    }
                 }
                 semPause.Release(1);
                 if (packet is GameResponse) sema.WaitOne();
                 var handler2 = OnGameDataPacketReceived;
                 if (handler2 != null)
                 {
-                    handler2(packet);                    
+                    handler2(packet);
                 }
             }
         }
@@ -102,14 +116,16 @@ namespace Sanguosha.Core.Network
 
         public event GamePacketHandler OnGameDataPacketReceived;
 
-        internal void Lock()
+        public void Lock()
         {
-            throw new NotImplementedException();
         }
 
-        internal void Flush()
+        public void Flush()
         {
-            throw new NotImplementedException();
+            if (dataStream != null)
+            {
+                dataStream.Flush();
+            }
         }
 
         public void Pause()
