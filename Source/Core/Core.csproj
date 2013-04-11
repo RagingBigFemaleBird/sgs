@@ -96,7 +96,7 @@
     <Compile Include="Games\RoleCard.cs" />
     <Compile Include="Network\ClientGamer.cs" />
     <Compile Include="Network\GameDataPacket.cs" />
-    <Compile Include="Network\NetworkGamer.cs" />
+    <Compile Include="Network\ServerGamer.cs" />
     <Compile Include="Network\ServerAsyncUiProxy.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

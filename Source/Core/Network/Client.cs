@@ -120,6 +120,11 @@ namespace Sanguosha.Core.Network
             if (pkt is CardSync)
                 return ((CardSync)pkt).Item.ToCard(SelfId);
             if (pkt is CardRearrangementNotification) return Receive();
+            if (pkt is UIStatusHint)
+            {
+                Game.CurrentGame.IsUiDetached = (pkt as UIStatusHint).Detach;
+                return Receive();
+            }
             return pkt;
         }
 

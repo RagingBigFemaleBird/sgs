@@ -204,7 +204,7 @@ namespace Sanguosha.Core.Network
                 return theCard;
             }
                 
-            if (CardId >= 0 && Game.CurrentGame.IsClient)
+            if (DeckPlaceItem.ToDeckPlace().DeckType != DeckType.Equipment && DeckPlaceItem.ToDeckPlace().DeckType != DeckType.DelayedTools && CardId >= 0 && Game.CurrentGame.IsClient)
             {
                 cardDeck[PlaceInDeck].Id = CardId;
                 cardDeck[PlaceInDeck].Type = (CardHandler)(GameEngine.CardSet[CardId].Type.Clone());

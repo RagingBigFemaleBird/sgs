@@ -8,23 +8,25 @@ using System.Threading.Tasks;
 using ProtoBuf;
 using System.Net.Sockets;
 using Sanguosha.Core.Games;
+using System.Diagnostics;
 
 namespace Sanguosha.Core.Network
 {
     public delegate void GamePacketHandler(GameDataPacket request);
-    public delegate void GamerDisconnectedHandler(NetworkGamer gamer);
+    public delegate void GamerDisconnectedHandler(ServerGamer gamer);
 
     public enum ConnectionStatus
     {
         Connected,
         Disconnected,
     }
-    public class NetworkGamer
+    public class ServerGamer
     {
-        public NetworkGamer()
+        public ServerGamer()
         {
             sema = new Semaphore(0, Int32.MaxValue);
             semPause = new Semaphore(0, 1);
+            semLock = new Semaphore(1, 1);
         }
 
         public Game Game { get; set; }
@@ -64,6 +66,7 @@ namespace Sanguosha.Core.Network
         }
         Semaphore sema;
         Semaphore semPause;
+        Semaphore semLock;
 
         private void ThreadMain()
         {
@@ -79,10 +82,7 @@ namespace Sanguosha.Core.Network
                     {
                         packet = Serializer.DeserializeWithLengthPrefix<GameDataPacket>(DataStream, PrefixStyle.Base128);
                     }
-                    catch (Exception)
-                    {
-                    }
-                    if (packet == null)
+                    catch (IOException)
                     {
                         ConnectionStatus = Network.ConnectionStatus.Disconnected;
                         var handler = OnDisconnected;
@@ -90,6 +90,15 @@ namespace Sanguosha.Core.Network
                         {
                             OnDisconnected(this);
                         }
+                        return;
+                    }
+                    catch (Exception e)
+                    {
+                        Trace.Assert(e != null);
+                    }
+                    if (packet == null)
+                    {
+                        semPause.Release(1);
                         continue;
                     }
                 }
@@ -106,7 +115,9 @@ namespace Sanguosha.Core.Network
         public event GamerDisconnectedHandler OnDisconnected;
         public void Send(GameDataPacket packet)
         {
+            semLock.WaitOne();
             Serializer.SerializeWithLengthPrefix<GameDataPacket>(DataStream, packet, PrefixStyle.Base128);
+            semLock.Release();
         }
 
         public void Receive()
@@ -118,6 +129,7 @@ namespace Sanguosha.Core.Network
 
         public void Lock()
         {
+            semLock.WaitOne();
         }
 
         public void Flush()
@@ -136,6 +148,11 @@ namespace Sanguosha.Core.Network
         public void Resume()
         {
             semPause.Release(1);
+        }
+
+        public void Unlock()
+        {
+            semLock.Release();
         }
     }
 }
