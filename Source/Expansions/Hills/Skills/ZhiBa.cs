@@ -56,8 +56,9 @@ namespace Sanguosha.Expansions.Hills.Skills
                 }
             }
             Card card1, card2;
-            Game.CurrentGame.PinDianReturnCards(Owner, Master, out card1, out card2, this);
-            if (card1.Rank <= card2.Rank)
+            bool c1, c2;
+            var ret = Game.CurrentGame.PinDianReturnCards(Owner, Master, out card1, out card2, this, out c1, out c2);
+            if (ret != true)
             {
                 int answer;
                 if (Game.CurrentGame.UiProxies[Master].AskForMultipleChoice(new MultipleChoicePrompt("ZhiBaHuoDe"), Prompt.YesNoChoices, out answer) && answer == 1)
@@ -65,14 +66,17 @@ namespace Sanguosha.Expansions.Hills.Skills
                     Game.CurrentGame.EnterAtomicContext();
                     Game.CurrentGame.PlayerLostCard(Owner, new List<Card>() { card1 });
                     Game.CurrentGame.PlayerLostCard(Master, new List<Card>() { card2 });
-                    Game.CurrentGame.HandleCardTransferToHand(null, Master, new List<Card>() { card1, card2 });
+                    var cardList = new List<Card>();
+                    if (!c1) cardList.Add(card1);
+                    if (!c2) cardList.Add(card2);
+                    Game.CurrentGame.HandleCardTransferToHand(null, Master, cardList);
                     Game.CurrentGame.ExitAtomicContext();
                     return true;
                 }
             }
             Game.CurrentGame.EnterAtomicContext();
-            Game.CurrentGame.PlaceIntoDiscard(Owner, new List<Card>() { card1 });
-            Game.CurrentGame.PlaceIntoDiscard(Master, new List<Card>() { card2 });
+            if (!c1) Game.CurrentGame.PlaceIntoDiscard(Owner, new List<Card>() { card1 });
+            if (!c2) Game.CurrentGame.PlaceIntoDiscard(Master, new List<Card>() { card2 });
             Game.CurrentGame.ExitAtomicContext();
             return true;
         }

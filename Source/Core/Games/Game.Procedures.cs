@@ -729,7 +729,7 @@ namespace Sanguosha.Core.Games
             return true;
         }
 
-        public void PinDianReturnCards(Player from, Player to, out Card c1, out Card c2, ISkill skill)
+        public bool? PinDianReturnCards(Player from, Player to, out Card c1, out Card c2, ISkill skill, out bool c1Taken, out bool c2Taken)
         {
             NotificationProxy.NotifyLogEvent(new LogEvent("PinDianStart", from, to), new List<Player>() { from, to }, false);
             NotificationProxy.NotifyPinDianStart(from, to, skill);
@@ -763,21 +763,33 @@ namespace Sanguosha.Core.Games
             NotificationProxy.NotifyLogEvent(new LogEvent("PinDianCard", from, c1), new List<Player>() { from, to }, false, false);
             NotificationProxy.NotifyLogEvent(new LogEvent("PinDianCard", to, c2), new List<Player>() { from, to }, false, false);
             NotificationProxy.NotifyLogEvent(new LogEvent("PinDianResult", from, to, new LogEventArg(c1.Rank > c2.Rank ? "Win" : "notWin")), new List<Player>() { from, to }, false);
+            bool? ret = null;
+            if (card1.Rank > card2.Rank) ret = true;
+            if (card1.Rank < card2.Rank) ret = false;
+            var arg = new PinDianCompleteEventArgs();
+            arg.Source = from;
+            arg.Targets = new List<Player>() { to };
+            arg.Cards = new List<Card>() { c1, c2 };
+            arg.CardsResult = new List<bool>() { false, false };
+            arg.PinDianResult = ret;
+            Emit(GameEvent.PinDianComplete, arg);
+            c1Taken = arg.CardsResult[0];
+            c2Taken = arg.CardsResult[1];
+            return ret;
         }
 
         public bool? PinDian(Player from, Player to, ISkill skill)
         {
             Card card1, card2;
-            PinDianReturnCards(from, to, out card1, out card2, skill);
+            bool c1, c2;
+            var ret = PinDianReturnCards(from, to, out card1, out card2, skill, out c1, out c2);
             EnterAtomicContext();
             card1.Log.Source = from;
             card2.Log.Source = to;
-            PlaceIntoDiscard(from, new List<Card>() { card1 });
-            PlaceIntoDiscard(to, new List<Card>() { card2 });
+            if (!c1) PlaceIntoDiscard(from, new List<Card>() { card1 });
+            if (!c2) PlaceIntoDiscard(to, new List<Card>() { card2 });
             ExitAtomicContext();
-            if (card1.Rank > card2.Rank) return true;
-            if (card1.Rank < card2.Rank) return false;
-            return null;
+            return ret;
         }
 
         public Card SelectACardFrom(Player from, Player ask, Prompt prompt, String resultdeckname, bool equipExcluded = false, bool delayedToolsExcluded = true, bool noReveal = false)
