@@ -176,7 +176,11 @@ namespace Sanguosha.Core.Network
             }
             else
             {
-                if (card.RevealOnce) item.CardId = card.Id;
+                if (card.RevealOnce)
+                {
+                    item.CardId = card.Id;
+                    card.RevealOnce = false;
+                }
                 else { item.CardId = -1; }
                 return item;
             }
@@ -210,7 +214,11 @@ namespace Sanguosha.Core.Network
                 cardDeck[PlaceInDeck].Type = (CardHandler)(GameEngine.CardSet[CardId].Type.Clone());
                 cardDeck[PlaceInDeck].Suit = GameEngine.CardSet[CardId].Suit;
                 cardDeck[PlaceInDeck].Rank = GameEngine.CardSet[CardId].Rank;
-                Game.CurrentGame._FilterCard(Game.CurrentGame.Players[wrtPlayerId], cardDeck[PlaceInDeck]);
+                var bp = DeckPlaceItem.ToDeckPlace().Player;
+                if (bp != null)
+                {
+                    Game.CurrentGame._FilterCard(bp, cardDeck[PlaceInDeck]);
+                }
             }
             return cardDeck[PlaceInDeck];
         }
@@ -396,17 +404,20 @@ namespace Sanguosha.Core.Network
             if (CardItems == null) return null;
             var cardItemList = CardItems.ToCardLists();
             var result = new List<List<Card>>();
-            foreach (var cardDeck in cardItemList)
+            if (cardItemList != null)
             {
-                // Invalid packet.
-                if (cardDeck == null) return null;
-                
-                var cards = new List<Card>();
-                foreach (var card in cardDeck)
+                foreach (var cardDeck in cardItemList)
                 {
-                    cards.Add(card.ToCard(wrtPlayerId));
+                    // Invalid packet.
+                    if (cardDeck == null) return null;
+
+                    var cards = new List<Card>();
+                    foreach (var card in cardDeck)
+                    {
+                        cards.Add(card.ToCard(wrtPlayerId));
+                    }
+                    result.Add(cards);
                 }
-                result.Add(cards);
             }
             option = OptionId;
             return result;

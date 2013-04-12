@@ -65,7 +65,7 @@ namespace Sanguosha.Expansions.Basic.Skills
             {
                 Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, players);
                 NotifySkillUse(players);
-                StagingDeckType TuXiDeck = new StagingDeckType("TiXi");
+                StagingDeckType TuXiDeck = new StagingDeckType("TuXi");
                 CardsMovement move = new CardsMovement();
                 move.Helper.IsFakedMove = true;
                 foreach (Player p in players)

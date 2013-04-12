@@ -54,6 +54,41 @@ namespace Sanguosha.Core.Cards
             private set;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (System.Object.ReferenceEquals(obj, this))
+            {
+                return true;
+            }
+            if (!(obj is DeckType))
+            {
+                return false;
+            }
+            DeckType type2 = (DeckType)obj;
+            return name.Equals(type2.name);
+        }
+
+        public static bool operator ==(DeckType a, DeckType b)
+        {
+            if (System.Object.ReferenceEquals(a, b))
+            {
+                return true;
+            }
+
+            if (((object)a == null) || ((object)b == null))
+            {
+                return false;
+            }
+
+            return a.name.Equals(b.name);
+        }
+
+        public static bool operator !=(DeckType a, DeckType b)
+        {
+            return !(a == b);
+        }
+
+
         public static DeckType Dealing = DeckType.Register("Dealing", "0");
         public static DeckType Discard = DeckType.Register("Discard", "1");
         public static DeckType Compute = DeckType.Register("Compute", "2");

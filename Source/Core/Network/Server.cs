@@ -167,6 +167,7 @@ namespace Sanguosha.Core.Network
                     ServerGamer tempGamer = new ServerGamer();
                     tempGamer.Game = game;
                     tempGamer.StartListening();
+                    tempGamer.Once = true;
                     Account theAccount = null;
                     if (game.Configuration != null)
                     {

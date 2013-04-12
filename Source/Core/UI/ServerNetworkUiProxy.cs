@@ -140,6 +140,13 @@ namespace Sanguosha.Core.UI
         {
             for (int i = 0; i < server.MaxClients; i++)
             {
+                if (cards != null)
+                {
+                    foreach (var cd in cards)
+                    {
+                        cd.RevealOnce = true;
+                    }
+                }
                 server.Handlers[i].Send(AskForCardUsageResponse.Parse(proxy.QuestionId, skill, cards, players, i));
             }
 

@@ -69,7 +69,6 @@ namespace Sanguosha.Core.Network
                 if (CurrentQuestionState == QuestionState.None) return;
                 Game.CurrentGame.HandCardSwitcher.HandleHandCardMovements();
                 var state = CurrentQuestionState;
-                CurrentQuestionState = QuestionState.None;
                 switch (state)
                 {
                     case QuestionState.AskForCardUsage:
@@ -83,6 +82,7 @@ namespace Sanguosha.Core.Network
                         List<Card> cards;
                         List<Player> players;
                         response.ToAnswer(out skill, out cards, out players, PlayerId);
+                        CurrentQuestionState = QuestionState.None;
                         AnswerCardUsage(skill, cards, players);
                         break;
                     case QuestionState.AskForCardChoice:
@@ -95,6 +95,7 @@ namespace Sanguosha.Core.Network
                         int opt;
                         var result = response2.ToAnswer(PlayerId, out opt);
                         if (currentChoiceOptions != null) currentChoiceOptions.OptionResult = opt;
+                        CurrentQuestionState = QuestionState.None;
                         AnswerCardChoice(result);
                         break;
                     case QuestionState.AskForMultipleChoice:
@@ -104,6 +105,7 @@ namespace Sanguosha.Core.Network
                             Gamer.Receive();
                             break;
                         }
+                        CurrentQuestionState = QuestionState.None;
                         AnswerMultipleChoice(response3.ChoiceIndex);
                         break;
                 }

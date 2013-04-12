@@ -119,10 +119,18 @@ namespace Sanguosha.Core.Network
                 return ((StatusSync)pkt).Status;
             if (pkt is CardSync)
                 return ((CardSync)pkt).Item.ToCard(SelfId);
-            if (pkt is CardRearrangementNotification) return Receive();
+            if (pkt is CardRearrangementNotification)
+            {
+                Game.CurrentGame.NotificationProxy.NotifyCardChoiceCallback((pkt as CardRearrangementNotification).CardRearrangement);
+                return Receive();
+            }
             if (pkt is UIStatusHint)
             {
                 Game.CurrentGame.IsUiDetached = (pkt as UIStatusHint).Detach;
+                return Receive();
+            }
+            if (pkt is MultiCardUsageResponded)
+            {
                 return Receive();
             }
             return pkt;

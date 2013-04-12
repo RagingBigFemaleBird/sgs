@@ -30,7 +30,7 @@ namespace Sanguosha.Core.Network
         }
 
         public Game Game { get; set; }
-
+        public bool Once { get; set; }
         public TcpClient TcpClient { get; set; }
         public ConnectionStatus ConnectionStatus { get; set; }
         Stream dataStream;
@@ -108,6 +108,11 @@ namespace Sanguosha.Core.Network
                 if (handler2 != null)
                 {
                     handler2(packet);
+                }
+                if (Once)
+                {
+                    Once = false;
+                    semPause.WaitOne();
                 }
             }
         }
