@@ -8,11 +8,11 @@ using Sanguosha.Core.Cards;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
-using Sanguosha.Core.Network;
 using System.Diagnostics;
 using Sanguosha.Core.Exceptions;
+using Sanguosha.Core.UI;
 
-namespace Sanguosha.Core.UI
+namespace Sanguosha.Core.Network
 {
     public class ServerNetworkUiProxy : IUiProxy
     {
@@ -33,7 +33,7 @@ namespace Sanguosha.Core.UI
         public ServerNetworkUiProxy(Server s, int id)
         {
             proxy = new ServerAsyncUiProxy();
-            proxy.Gamer = s.Handlers[id];
+            proxy.Gamer = s.Gamers[id];
             proxy.PlayerId = id;
             server = s;
             clientId = id;
@@ -147,7 +147,7 @@ namespace Sanguosha.Core.UI
                         cd.RevealOnce = true;
                     }
                 }
-                server.Handlers[i].Send(AskForCardUsageResponse.Parse(proxy.QuestionId, skill, cards, players, i));
+                server.Gamers[i].Send(AskForCardUsageResponse.Parse(proxy.QuestionId, skill, cards, players, i));
             }
 
         }
@@ -275,7 +275,7 @@ namespace Sanguosha.Core.UI
                         j++;
                     }
                 }
-                server.Handlers[i].Send(AskForCardChoiceResponse.Parse(proxy.QuestionId, answer, options == null? 0 : options.OptionResult, i));
+                server.Gamers[i].Send(AskForCardChoiceResponse.Parse(proxy.QuestionId, answer, options == null? 0 : options.OptionResult, i));
             }
         }
         public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, AdditionalCardChoiceOptions options, CardChoiceRearrangeCallback callback)
@@ -324,7 +324,7 @@ namespace Sanguosha.Core.UI
         {
             for (int i = 0; i < server.MaxClients; i++)
             {
-                server.Handlers[i].Send(new AskForMultipleChoiceResponse() { ChoiceIndex = answer, Id = proxy.QuestionId });
+                server.Gamers[i].Send(new AskForMultipleChoiceResponse() { ChoiceIndex = answer, Id = proxy.QuestionId });
             }
         }
 

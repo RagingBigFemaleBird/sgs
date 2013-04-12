@@ -30,11 +30,11 @@ namespace Sanguosha.Core.Network
         }
 
         Game game;
-        List<ServerGamer> handlers;
 
-        public List<ServerGamer> Handlers
+        public List<ServerGamer> Gamers
         {
-            get { return handlers; }
+            get;
+            private set;
         }
         /// <summary>
         /// Initialize and start the server.
@@ -47,12 +47,12 @@ namespace Sanguosha.Core.Network
             listener.Start();
             ipPort = ((IPEndPoint)listener.LocalEndpoint).Port;
             numberOfGamers = capacity;
-            handlers = new List<ServerGamer>();
+            Gamers = new List<ServerGamer>();
             for (int i = 0; i < capacity; i++)
             {
-                handlers.Add(new ServerGamer());
-                handlers[i].Game = game;
-                handlers[i].StartListening();
+                Gamers.Add(new ServerGamer());
+                Gamers[i].Game = game;
+                Gamers[i].StartListening();
             }
             this.game = game;
             Trace.TraceInformation("Server initialized with capacity {0}", capacity);
@@ -60,7 +60,7 @@ namespace Sanguosha.Core.Network
 
         public bool IsDisconnected(int id)
         {
-            return handlers[id].ConnectionStatus != ConnectionStatus.Connected;
+            return Gamers[id].ConnectionStatus != ConnectionStatus.Connected;
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Sanguosha.Core.Network
                         Thread.Sleep(200);
                     }
                     if (To <= 0) break;
-                    handlers[i].TcpClient = listener.AcceptTcpClient();
+                    Gamers[i].TcpClient = listener.AcceptTcpClient();
                 }
                 catch (Exception)
                 {
@@ -94,19 +94,19 @@ namespace Sanguosha.Core.Network
                     object item = null;
                     Semaphore sem0 = new Semaphore(0, int.MaxValue);
                     GamePacketHandler hd = (o) => { if (o is ConnectionRequest) { item = ((ConnectionRequest)o).token; sem0.Release(1); } };
-                    handlers[i].OnGameDataPacketReceived += hd;
-                    handlers[i].DataStream = new RecordTakingOutputStream(handlers[i].TcpClient.GetStream());
+                    Gamers[i].OnGameDataPacketReceived += hd;
+                    Gamers[i].DataStream = new RecordTakingOutputStream(Gamers[i].TcpClient.GetStream());
 
                     if (!sem0.WaitOne(4000) || !(item is LoginToken) ||
                      !game.Configuration.LoginTokens.Any(id => id.TokenString == ((LoginToken)item).TokenString))
                     {
-                        handlers[i].OnGameDataPacketReceived -= hd;
-                        handlers[i].DataStream = null;
-                        handlers[i].TcpClient.Close();
+                        Gamers[i].OnGameDataPacketReceived -= hd;
+                        Gamers[i].DataStream = null;
+                        Gamers[i].TcpClient.Close();
                         i--;
                         continue;
                     }
-                    handlers[i].OnGameDataPacketReceived -= hd;
+                    Gamers[i].OnGameDataPacketReceived -= hd;
                     int index;
                     for (index = 0; index < game.Configuration.LoginTokens.Count; index++)
                     {
@@ -114,7 +114,7 @@ namespace Sanguosha.Core.Network
                         {
                             if (game.Settings.Accounts.Contains(game.Configuration.Accounts[index]))
                             {
-                                handlers[i].TcpClient.Close();
+                                Gamers[i].TcpClient.Close();
                                 i--;
                                 continue;
                             }
@@ -124,7 +124,7 @@ namespace Sanguosha.Core.Network
                 }
                 else
                 {
-                    handlers[i].DataStream = handlers[i].TcpClient.GetStream();
+                    Gamers[i].DataStream = Gamers[i].TcpClient.GetStream();
                 }
             }
             List<Account> remainingDisconnected = null;
@@ -134,8 +134,8 @@ namespace Sanguosha.Core.Network
             }
             for (; i < numberOfGamers; i++)
             {
-                handlers[i].DataStream = Stream.Null;
-                handlers[i].ConnectionStatus = ConnectionStatus.Disconnected;
+                Gamers[i].DataStream = Stream.Null;
+                Gamers[i].ConnectionStatus = ConnectionStatus.Disconnected;
                 if (game.Configuration != null)
                 {
                     game.Settings.Accounts.Add(remainingDisconnected.First());
@@ -145,7 +145,7 @@ namespace Sanguosha.Core.Network
             var spectatorHandler = new ServerGamer();
             spectatorHandler.DataStream = new ReplaySplitterStream();
             spectatorHandler.ConnectionStatus = ConnectionStatus.Disconnected;
-            handlers.Add(spectatorHandler);
+            Gamers.Add(spectatorHandler);
             Trace.TraceInformation("Server ready");
             reconnectThread = new Thread(ReconnectionListener) { IsBackground = true };
             reconnectThread.Start();
@@ -216,10 +216,10 @@ namespace Sanguosha.Core.Network
                         continue;
                     }
                     tempGamer.Stop();
-                    handlers[indexC].Lock();
+                    Gamers[indexC].Lock();
                     if (spectatorJoining)
                     {
-                        ReplaySplitterStream rpstream = handlers[indexC].DataStream as ReplaySplitterStream;
+                        ReplaySplitterStream rpstream = Gamers[indexC].DataStream as ReplaySplitterStream;
                         tempGamer.Send(new UIStatusHint() { Detach = 1 });
                         tempGamer.Flush();
                         rpstream.DumpTo(stream);
@@ -230,11 +230,11 @@ namespace Sanguosha.Core.Network
                     }
                     else
                     {
-                        var oldstream = handlers[indexC].DataStream as RecordTakingOutputStream;
+                        var oldstream = Gamers[indexC].DataStream as RecordTakingOutputStream;
                         var newRCStream = new RecordTakingOutputStream(stream);
-                        handlers[indexC].DataStream = newRCStream;
-                        handlers[indexC].StartListening();
-                        handlers[indexC].ConnectionStatus = ConnectionStatus.Connected;
+                        Gamers[indexC].DataStream = newRCStream;
+                        Gamers[indexC].StartListening();
+                        Gamers[indexC].ConnectionStatus = ConnectionStatus.Connected;
                         tempGamer.Send(new UIStatusHint() { Detach = 1 });
                         tempGamer.Flush();
                         (oldstream).DumpTo(newRCStream);
@@ -243,7 +243,7 @@ namespace Sanguosha.Core.Network
                         tempGamer.Send(new UIStatusHint() { Detach = 0 });
                         tempGamer.Flush();
                     }
-                    handlers[indexC].Unlock();
+                    Gamers[indexC].Unlock();
 
                 }
                 catch (Exception)
@@ -256,7 +256,7 @@ namespace Sanguosha.Core.Network
 
         public void SendObject(int clientId, GameDataPacket o)
         {
-            handlers[clientId].Send(o);
+            Gamers[clientId].Send(o);
         }
 
         IPAddress ipAddress;

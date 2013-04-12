@@ -7,12 +7,12 @@ using Sanguosha.Core.Cards;
 using Sanguosha.Core.Players;
 using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
-using Sanguosha.Core.Network;
+using Sanguosha.Core.UI;
 using System.Diagnostics;
 using System.Threading;
 using Sanguosha.Core.Utils;
 
-namespace Sanguosha.Core.UI
+namespace Sanguosha.Core.Network
 {
     public class ClientNetworkUiProxy : IUiProxy
     {

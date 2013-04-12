@@ -9,8 +9,9 @@ using Sanguosha.Core.Skills;
 using Sanguosha.Core.Games;
 using System.Threading;
 using System.Diagnostics;
+using Sanguosha.Core.UI;
 
-namespace Sanguosha.Core.UI
+namespace Sanguosha.Core.Network
 {
     public class GlobalServerUiProxy : IGlobalUiProxy
     {
