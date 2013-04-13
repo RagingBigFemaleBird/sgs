@@ -9,6 +9,7 @@ using ProtoBuf;
 using System.Net.Sockets;
 using Sanguosha.Core.Games;
 using System.Diagnostics;
+using Sanguosha.Core.Utils;
 
 namespace Sanguosha.Core.Network
 {
@@ -103,17 +104,35 @@ namespace Sanguosha.Core.Network
                     }
                 }
                 semPause.Release(1);
-                if (packet is GameResponse) sema.WaitOne();
-                var handler2 = OnGameDataPacketReceived;
-                if (handler2 != null)
+                try
                 {
-                    handler2(packet);
+                    if (packet is GameResponse) sema.WaitOne();
+                    var handler2 = OnGameDataPacketReceived;
+                    if (handler2 != null)
+                    {
+                        handler2(packet);
+                    }
+                    if (Once)
+                    {
+                        Once = false;
+                        semPause.WaitOne();
+                    }
                 }
-                if (Once)
+                catch (Exception e)
                 {
-                    Once = false;
-                    semPause.WaitOne();
+                    while (e.InnerException != null)
+                    {
+                        e = e.InnerException;
+                    }
+
+                    Trace.TraceError(e.StackTrace);
+                    Trace.Assert(false, e.StackTrace);
+
+                    var crashReport = new StreamWriter(FileRotator.CreateFile("./Crash", "crash", ".dmp", 1000));
+                    crashReport.WriteLine(e);
+                    crashReport.Close();
                 }
+
             }
         }
 

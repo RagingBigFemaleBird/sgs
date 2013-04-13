@@ -244,6 +244,10 @@ namespace Sanguosha.Core.Network
             {
                 answer = new List<List<Card>>();
             }
+            while (answer.Count < resultDeckMaximums.Count)
+            {
+                answer.Add(new List<Card>());
+            }
             if (verifier.Verify(answer) != VerifierResult.Success)
             {
                 Trace.TraceWarning("Client seems to be sending invalid answers at us. DDOS?");
