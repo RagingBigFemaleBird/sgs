@@ -51,14 +51,15 @@ namespace Sanguosha.Core.Network
         /// <param name="replayStream"></param>
         /// <exception cref="System.ArgumentOutOfRangeException" />
         /// <exception cref="System.Net.Sockets.SocketException" />
-        public void Start(Stream recordStream = null, LoginToken? token = null)
+        public void Start(Stream recordStream, LoginToken? token = null)
         {
+            RecordStream = recordStream;
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse(IpString), PortNumber);
             TcpClient client = new TcpClient();
             client.Connect(ep);
             NetworkStream stream = client.GetStream();
             networkService = new ClientGamer();
-            networkService.DataStream = stream;
+            networkService.DataStream = new RecordTakingInputStream(stream, recordStream);
             if (token != null)
             {
                 networkService.Send(new ConnectionRequest() { token = (LoginToken)token });
@@ -71,7 +72,7 @@ namespace Sanguosha.Core.Network
         {
             this.replayStream = replayStream;
             networkService = new ClientGamer();
-            networkService.DataStream = replayStream;
+            networkService.DataStream = new NullOutputStream(replayStream);
             ReplayController = new Utils.ReplayController();
             ReplayController.EvenDelays = true;
         }
@@ -83,19 +84,7 @@ namespace Sanguosha.Core.Network
             get { return replayStream; }
         }
 
-        public Stream RecordStream {get;set;}
-        /*{
-            get
-            {
-                if (receiver != null) return receiver.RecordStream;
-                else return null;
-            }
-            set
-            {
-                Trace.Assert(receiver != null);
-                receiver.RecordStream = value;
-            }
-        }*/
+        public Stream RecordStream { get; set; }
 
         public void MoveHandCard(int from, int to)
         {
@@ -138,11 +127,11 @@ namespace Sanguosha.Core.Network
 
         public void Stop()
         {
-/*            if (receiver.RecordStream != null)
+            if (RecordStream != null)
             {
-                receiver.RecordStream.Flush();
-                receiver.RecordStream.Close();
-            }*/
+                RecordStream.Flush();
+                RecordStream.Close();
+            }
         }
     }
 }

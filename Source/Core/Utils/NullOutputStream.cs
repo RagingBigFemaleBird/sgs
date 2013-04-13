@@ -6,32 +6,19 @@ using System.IO;
 
 namespace Sanguosha.Core.Utils
 {
-    public class RecordTakingInputStream : Stream
+    public class NullOutputStream : Stream
     {
-        private Stream _inputStream;
+        private Stream stream;
 
         public Stream InputStream
         {
-            get { return _inputStream; }
-            set { _inputStream = value; }
-        }
-        private Stream _recordStream;
-
-        public Stream RecordStream
-        {
-            get { return _recordStream; }
-            set { _recordStream = value; }
+            get { return stream; }
+            set { stream = value; }
         }
 
-        public RecordTakingInputStream()
+        public NullOutputStream(Stream stream)
         {
-
-        }
-
-        public RecordTakingInputStream(Stream inputStream, Stream recordStream)
-        {
-            _inputStream = inputStream;
-            _recordStream = recordStream;
+            this.stream = stream;
         }
 
         public override bool CanRead
@@ -46,18 +33,14 @@ namespace Sanguosha.Core.Utils
 
         public override bool CanWrite
         {
-            get 
+            get
             {
-                return true; 
+                return true;
             }
         }
 
         public override void Flush()
         {
-            if (RecordStream != null)
-            {
-                RecordStream.Flush();
-            }
         }
 
         public override long Length
@@ -80,10 +63,6 @@ namespace Sanguosha.Core.Utils
         public override int Read(byte[] buffer, int offset, int count)
         {
             int bytesRead = InputStream.Read(buffer, offset, count);
-            if (RecordStream != null)
-            {
-                RecordStream.Write(buffer, offset, bytesRead);
-            }
             return bytesRead;
         }
 
@@ -99,7 +78,6 @@ namespace Sanguosha.Core.Utils
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            InputStream.Write(buffer, offset, count);
         }
     }
 }

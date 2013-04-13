@@ -92,11 +92,11 @@ namespace Sanguosha.UI.Controls
                 try
                 {
                     ea.Result = false;
-                    client.Start(null, LobbyModel.LoginToken);
                     var stream = FileRotator.CreateFile("./Replays", "SGSREPLAY", ".sgs", 10);
                     
                     stream.Write(BitConverter.GetBytes((int)0), 0, 4);
                     client.RecordStream = stream;
+                    client.Start(stream, LobbyModel.LoginToken);
                     
                     MainGame game = null;
 
