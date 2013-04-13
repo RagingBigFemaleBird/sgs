@@ -444,14 +444,13 @@ namespace Sanguosha.UI.Main
                 game = new MainGame();
                 game.OnNavigateBack += game_OnNavigateBack;
                 Stream stream = File.Open(fileName, FileMode.Open);
-                byte[] seed = new byte[4];
-                stream.Seek(-12, SeekOrigin.End);
-                stream.Read(seed, 0, 4);
-                if (BitConverter.ToInt32(seed, 0) == Misc.MagicAnimal)
+                byte[] seed = new byte[8];
+                stream.Seek(-16, SeekOrigin.End);
+                stream.Read(seed, 0, 8);
+                if (System.Text.Encoding.Default.GetString(seed).Equals(Misc.MagicAnimal.ToString("X8")))
                 {
-                    stream.Read(seed, 0, 4);
-                    stream.Read(seed, 0, 4);
-                    game.HasSeed = BitConverter.ToInt32(seed, 0);
+                    stream.Read(seed, 0, 8);
+                    game.HasSeed = Convert.ToInt32(System.Text.Encoding.Default.GetString(seed), 16);
                 }
                 stream.Seek(0, SeekOrigin.Begin);
 

@@ -113,6 +113,10 @@ namespace Sanguosha.Core.Network
                 Game.CurrentGame.NotificationProxy.NotifyCardChoiceCallback((pkt as CardRearrangementNotification).CardRearrangement);
                 return Receive();
             }
+            if (pkt is SeedSync)
+            {
+                return Receive();
+            }
             if (pkt is UIStatusHint)
             {
                 Game.CurrentGame.IsUiDetached = (pkt as UIStatusHint).Detach;

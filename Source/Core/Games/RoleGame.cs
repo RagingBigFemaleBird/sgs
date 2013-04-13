@@ -1133,10 +1133,8 @@ namespace Sanguosha.Core.Games
                         TallyGameResult(new List<Player>(winners));
                     }
                     p.IsDead = true;
-                    int mark = Misc.MagicAnimal;
-                    Game.CurrentGame.SyncInteger(ref mark);
                     int seed = Game.CurrentGame.Seed;
-                    Game.CurrentGame.SyncInteger(ref seed);
+                    Game.CurrentGame.SyncSeed(ref seed);
                     throw new GameOverException();
                 }
 
@@ -1166,10 +1164,8 @@ namespace Sanguosha.Core.Games
                         Game.CurrentGame.NotificationProxy.NotifyGameOver(false, winners.ToList());
                         TallyGameResult(new List<Player>(winners));
                         p.IsDead = true;
-                        int mark = 0x7eadbeef;
-                        Game.CurrentGame.SyncInteger(ref mark);
                         int seed = Game.CurrentGame.Seed;
-                        Game.CurrentGame.SyncInteger(ref seed);
+                        Game.CurrentGame.SyncSeed(ref seed);
                         throw new GameOverException();
                     }
                 }

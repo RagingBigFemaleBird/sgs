@@ -336,20 +336,18 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public void SyncInteger(ref int value)
+        public void SyncSeed(ref int value)
         {
             if (GameServer != null)
             {
                 for (int i = 0; i < GameServer.MaxClients; i++)
                 {
-                    GameServer.SendObject(i, new StatusSync() { Status = value });
+                    GameServer.SendObject(i, new SeedSync(value));
                 }
             }
             else if (GameClient != null)
             {
-                object o = GameClient.Receive();
-                Trace.Assert(o is int);
-                value = (int)o;
+                GameClient.Receive();
             }
         }
 

@@ -287,6 +287,7 @@ namespace Sanguosha.Core.Network
     [ProtoInclude(1224, typeof(CardSync))]
     [ProtoInclude(1225, typeof(UIStatusHint))]
     [ProtoInclude(1226, typeof(MultiCardUsageResponded))]
+    [ProtoInclude(1227, typeof(SeedSync))]
     public class GameUpdate : GameDataPacket
     {
     }
@@ -487,6 +488,20 @@ namespace Sanguosha.Core.Network
     {
         [ProtoMember(1)]
         public CardItem Item { get; set; }
+    }
+
+    [ProtoContract]
+    public class SeedSync : GameUpdate
+    {
+        public SeedSync(int seed)
+        {
+            Seed = Misc.MagicAnimal.ToString("X8") + seed.ToString("X8");
+        }
+        public SeedSync()
+        {
+        }
+        [ProtoMember(1)]
+        public String Seed { get; set; }
     }
 
     [ProtoContract]
