@@ -75,7 +75,7 @@ namespace Sanguosha.Core.UI
             skill = null;
             cards = null;
             players = null;
-            if (answerPending.WaitOne(timeOut * 1000 + GameDelays.UiDelayCompensation))
+            if (answerPending.WaitOne(timeOut * 1000/* + GameDelays.UiDelayCompensation*/))
             {
                 skill = answerSkill;
                 cards = answerCards;
@@ -92,7 +92,7 @@ namespace Sanguosha.Core.UI
             int timeOut = TimeOutSeconds + (verifier.Helper != null ? verifier.Helper.ExtraTimeOutSeconds : 0);
             proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, timeOut, options, callback);
             answer = null;
-            if (answerPending.WaitOne(timeOut * 1000 + GameDelays.UiDelayCompensation))
+            if (answerPending.WaitOne(timeOut * 1000/* + GameDelays.UiDelayCompensation*/))
             {
                 answer = answerCardsOfCards;                
             }
@@ -111,7 +111,7 @@ namespace Sanguosha.Core.UI
         {
             answerPending = new Semaphore(0, 1);
             proxy.AskForMultipleChoice(prompt, questions, TimeOutSeconds);
-            if (answerPending.WaitOne(TimeOutSeconds * 1000 + GameDelays.UiDelayCompensation))
+            if (answerPending.WaitOne(TimeOutSeconds * 1000/* + GameDelays.UiDelayCompensation*/))
             {
                 answer = answerMultipleChoice;
             }
