@@ -140,8 +140,20 @@ namespace Sanguosha.Core.Network
         public void Send(GameDataPacket packet)
         {
             semLock.WaitOne();
-            Serializer.SerializeWithLengthPrefix<GameDataPacket>(DataStream, packet, PrefixStyle.Base128);
-            DataStream.Flush();
+            try
+            {
+                Serializer.SerializeWithLengthPrefix<GameDataPacket>(DataStream, packet, PrefixStyle.Base128);
+                DataStream.Flush();
+            }
+            catch (Exception)
+            {
+                ConnectionStatus = Network.ConnectionStatus.Disconnected;
+                var handler = OnDisconnected;
+                if (handler != null)
+                {
+                    OnDisconnected(this);
+                }
+            }
             semLock.Release();
         }
 
