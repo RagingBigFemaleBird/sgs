@@ -16,7 +16,6 @@ namespace Sanguosha.Core.Network
         {
         }
 
-        public Player HostPlayer { get; set; }
         public int PlayerId { get; set; }
         private ServerGamer _gamer;
 
@@ -112,6 +111,10 @@ namespace Sanguosha.Core.Network
             }
             else if (packet is CardRearrangementNotification)
             {
+                for (int i = 0; i < Game.CurrentGame.GameServer.MaxClients; i++)
+                {
+                    if (i != PlayerId) Game.CurrentGame.GameServer.SendObject(i, packet);
+                }
             }
             else if (packet is HandCardMovementNotification)
             {
@@ -166,5 +169,7 @@ namespace Sanguosha.Core.Network
         {
             CurrentQuestionState = QuestionState.None;
         }
+
+        public Player HostPlayer { get; set; }
     }
 }

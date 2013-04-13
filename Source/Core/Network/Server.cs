@@ -256,6 +256,7 @@ namespace Sanguosha.Core.Network
 
         public void SendObject(int clientId, GameDataPacket o)
         {
+            if (!Gamers.Any(hdl => hdl.ConnectionStatus == ConnectionStatus.Connected)) throw new GameOverException();
             Gamers[clientId].Send(o);
         }
 
