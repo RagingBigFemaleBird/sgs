@@ -83,7 +83,7 @@ namespace Sanguosha.Core.Network
             get { return replayStream; }
         }
 
-        public Stream RecordStream {get;set;}
+        public Stream RecordStream { get; set; }
         /*{
             get
             {
