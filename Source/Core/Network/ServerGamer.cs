@@ -122,6 +122,7 @@ namespace Sanguosha.Core.Network
         {
             semLock.WaitOne();
             Serializer.SerializeWithLengthPrefix<GameDataPacket>(DataStream, packet, PrefixStyle.Base128);
+            DataStream.Flush();
             semLock.Release();
         }
 
