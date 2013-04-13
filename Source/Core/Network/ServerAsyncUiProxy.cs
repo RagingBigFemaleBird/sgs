@@ -14,10 +14,12 @@ namespace Sanguosha.Core.Network
     {
         public ServerAsyncUiProxy()
         {
+            receiveInProcess = new object();
         }
 
         public int PlayerId { get; set; }
         private ServerGamer _gamer;
+        public object receiveInProcess;
 
         public ServerGamer Gamer 
         {
@@ -63,63 +65,66 @@ namespace Sanguosha.Core.Network
 
         private void OnGameDataPacketReceived(GameDataPacket packet)
         {
-            if (packet is GameResponse)
+            lock (receiveInProcess)
             {
-                if (CurrentQuestionState == QuestionState.None) return;
-                Game.CurrentGame.HandCardSwitcher.HandleHandCardMovements();
-                var state = CurrentQuestionState;
-                switch (state)
+                if (packet is GameResponse)
                 {
-                    case QuestionState.AskForCardUsage:
-                        var response = packet as AskForCardUsageResponse;
-                        if (response == null || response.Id != QuestionId)
-                        {
-                            Gamer.Receive();
+                    if (CurrentQuestionState == QuestionState.None) return;
+                    Game.CurrentGame.HandCardSwitcher.HandleHandCardMovements();
+                    var state = CurrentQuestionState;
+                    switch (state)
+                    {
+                        case QuestionState.AskForCardUsage:
+                            var response = packet as AskForCardUsageResponse;
+                            if (response == null || response.Id != QuestionId)
+                            {
+                                Gamer.Receive();
+                                break;
+                            }
+                            ISkill skill;
+                            List<Card> cards;
+                            List<Player> players;
+                            response.ToAnswer(out skill, out cards, out players, PlayerId);
+                            CurrentQuestionState = QuestionState.None;
+                            AnswerCardUsage(skill, cards, players);
                             break;
-                        }
-                        ISkill skill;
-                        List<Card> cards;
-                        List<Player> players;
-                        response.ToAnswer(out skill, out cards, out players, PlayerId);
-                        CurrentQuestionState = QuestionState.None;
-                        AnswerCardUsage(skill, cards, players);
-                        break;
-                    case QuestionState.AskForCardChoice:
-                        var response2 = packet as AskForCardChoiceResponse;
-                        if (response2 == null || response2.Id != QuestionId)
-                        {
-                            Gamer.Receive();
+                        case QuestionState.AskForCardChoice:
+                            var response2 = packet as AskForCardChoiceResponse;
+                            if (response2 == null || response2.Id != QuestionId)
+                            {
+                                Gamer.Receive();
+                                break;
+                            }
+                            int opt;
+                            var result = response2.ToAnswer(PlayerId, out opt);
+                            if (currentChoiceOptions != null) currentChoiceOptions.OptionResult = opt;
+                            CurrentQuestionState = QuestionState.None;
+                            AnswerCardChoice(result);
                             break;
-                        }
-                        int opt;
-                        var result = response2.ToAnswer(PlayerId, out opt);
-                        if (currentChoiceOptions != null) currentChoiceOptions.OptionResult = opt;
-                        CurrentQuestionState = QuestionState.None;
-                        AnswerCardChoice(result);
-                        break;
-                    case QuestionState.AskForMultipleChoice:
-                        var response3 = packet as AskForMultipleChoiceResponse;
-                        if (response3 == null || response3.Id != QuestionId)
-                        {
-                            Gamer.Receive();
+                        case QuestionState.AskForMultipleChoice:
+                            var response3 = packet as AskForMultipleChoiceResponse;
+                            if (response3 == null || response3.Id != QuestionId)
+                            {
+                                Gamer.Receive();
+                                break;
+                            }
+                            CurrentQuestionState = QuestionState.None;
+                            AnswerMultipleChoice(response3.ChoiceIndex);
                             break;
-                        }
-                        CurrentQuestionState = QuestionState.None;
-                        AnswerMultipleChoice(response3.ChoiceIndex);
-                        break;
+                    }
                 }
-            }
-            else if (packet is CardRearrangementNotification)
-            {
-                for (int i = 0; i < Game.CurrentGame.GameServer.MaxClients; i++)
+                else if (packet is CardRearrangementNotification)
                 {
-                    if (i != PlayerId) Game.CurrentGame.GameServer.SendObject(i, packet);
+                    for (int i = 0; i < Game.CurrentGame.GameServer.MaxClients; i++)
+                    {
+                        if (i != PlayerId) Game.CurrentGame.GameServer.SendObject(i, packet);
+                    }
                 }
-            }
-            else if (packet is HandCardMovementNotification)
-            {
-                var notif = packet as HandCardMovementNotification;
-                Game.CurrentGame.HandCardSwitcher.QueueHandCardMovement(notif);
+                else if (packet is HandCardMovementNotification)
+                {
+                    var notif = packet as HandCardMovementNotification;
+                    Game.CurrentGame.HandCardSwitcher.QueueHandCardMovement(notif);
+                }
             }
         }
 

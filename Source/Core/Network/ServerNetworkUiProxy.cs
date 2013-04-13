@@ -57,7 +57,7 @@ namespace Sanguosha.Core.Network
             players = null;
             int timeOut = TimeOutSeconds + (verifier.Helper != null ? verifier.Helper.ExtraTimeOutSeconds : 0);
             Trace.TraceInformation("Asking Card Usage to {0}, timeout {1}.", HostPlayer.Id, timeOut);
-            var answerReady = new Semaphore(0, 1);
+            var answerReady = new Semaphore(0, Int16.MaxValue);
             CardUsageAnsweredEventHandler handler = (s, c, p) =>
                 {
                     skillAnswer = s;
@@ -187,7 +187,7 @@ namespace Sanguosha.Core.Network
             answer = null;
             int timeOut = TimeOutSeconds + (verifier.Helper != null ? verifier.Helper.ExtraTimeOutSeconds : 0);
             Trace.TraceInformation("Asking Card Choice to {0}, timeout {1}.", HostPlayer.Id, timeOut);
-            var answerReady = new Semaphore(0, 1);
+            var answerReady = new Semaphore(0, Int16.MaxValue);
             CardChoiceAnsweredEventHandler handler = (c) =>
             {
                 choiceAnswer = c;
@@ -332,7 +332,7 @@ namespace Sanguosha.Core.Network
         {
             answer = 0;
             Trace.TraceInformation("Asking Card Usage to {0}, timeout {1}.", HostPlayer.Id, TimeOutSeconds);
-            var answerReady = new Semaphore(0, 1);
+            var answerReady = new Semaphore(0, Int16.MaxValue);
             MultipleChoiceAnsweredEventHandler handler = (c) =>
             {
                 multiAnswer = c;
