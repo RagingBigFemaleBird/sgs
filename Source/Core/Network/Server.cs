@@ -246,9 +246,19 @@ namespace Sanguosha.Core.Network
                     Gamers[indexC].Unlock();
 
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    return;
+                    while (e.InnerException != null)
+                    {
+                        e = e.InnerException;
+                    }
+
+                    Trace.TraceError(e.StackTrace);
+                    Trace.Assert(false, e.StackTrace);
+
+                    var crashReport = new StreamWriter(FileRotator.CreateFile("./Crash", "crash", ".dmp", 1000));
+                    crashReport.WriteLine(e);
+                    crashReport.Close();
                 }
             }
 
