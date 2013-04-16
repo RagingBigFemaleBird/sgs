@@ -152,6 +152,8 @@ namespace Sanguosha.UI.Main
             }
         }
 
+        public static System.Threading.Mutex appMutex = null;
+
         private void _startClient()
         {
             string userName = tab0UserName.Text;
@@ -159,6 +161,19 @@ namespace Sanguosha.UI.Main
             Properties.Settings.Default.LastHostName = tab0HostName.Text;
             Properties.Settings.Default.LastUserName = tab0UserName.Text;
             Properties.Settings.Default.Save();
+#if !DEBUG
+            bool createdNew;
+            if (appMutex == null)
+            {
+                appMutex = new System.Threading.Mutex(true, "Sanguosha", out createdNew);
+                ///if creation of mutex is successful
+                if (!createdNew && tab0HostName.Text != "127.0.0.1")
+                {
+                    _Warn("You already have another Sanguosha running!");
+                    return;
+                }
+            }
+#endif
 #if !DEBUG
             if (string.IsNullOrEmpty(userName))
             {
