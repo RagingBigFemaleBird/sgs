@@ -246,6 +246,9 @@ namespace Sanguosha.Core.Network
                     Gamers[indexC].Unlock();
 
                 }
+                catch (System.Threading.ThreadAbortException)
+                {
+                }
                 catch (Exception e)
                 {
                     while (e.InnerException != null)
