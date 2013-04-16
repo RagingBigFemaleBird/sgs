@@ -471,10 +471,13 @@ namespace Sanguosha.Core.Games
             }
             catch (GameOverException)
             {
-                var keys = new List<Thread>(from t in games.Keys where games[t] == this select t);
-                foreach (var t in keys)
+                lock (games)
                 {
-                    games.Remove(t);
+                    var keys = new List<Thread>(from t in games.Keys where games[t] == this select t);
+                    foreach (var t in keys)
+                    {
+                        games.Remove(t);
+                    }
                 }
 
                 this.NotificationProxy = null;
@@ -482,10 +485,13 @@ namespace Sanguosha.Core.Games
             }
             catch (Exception e)
             {
-                var keys = new List<Thread>(from t in games.Keys where games[t] == this select t);
-                foreach (var t in keys)
+                lock (games)
                 {
-                    games.Remove(t);
+                    var keys = new List<Thread>(from t in games.Keys where games[t] == this select t);
+                    foreach (var t in keys)
+                    {
+                        games.Remove(t);
+                    }
                 }
                 this.NotificationProxy = null;
 
@@ -533,7 +539,10 @@ namespace Sanguosha.Core.Games
         {
             get 
             {
-                return CurrentGameOverride ?? (games.ContainsKey(Thread.CurrentThread) ? games[Thread.CurrentThread] : null); 
+                lock (games)
+                {
+                    return CurrentGameOverride ?? (games.ContainsKey(Thread.CurrentThread) ? games[Thread.CurrentThread] : null);
+                }
             }
         }
 
