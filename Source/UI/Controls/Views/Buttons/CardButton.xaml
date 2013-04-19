@@ -181,10 +181,10 @@
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <Image x:Name="image1" Source="{res:ImageBinding Path=CardType, ResourceKeyFormat=GuHuo.\{0\}.Normal, StringFormat=Resources/Images/Cards/GuHuo/\{0\}-normal.png}" />
-                            <Image x:Name="image" Source="{res:ImageBinding Path=CardType, ResourceKeyFormat=GuHuo.\{0\}.Hover, StringFormat=Resources/Images/Cards/GuHuo/\{0\}-hover.png}" Visibility="Hidden" />
-                            <Image x:Name="image2" Source="{res:ImageBinding Path=CardType, ResourceKeyFormat=GuHuo.\{0\}.Down, StringFormat=Resources/Images/Cards/GuHuo/\{0\}-down.png}" Visibility="Hidden" />
-                            <Image x:Name="image3" Source="{res:ImageBinding Path=CardType, ResourceKeyFormat=GuHuo.\{0\}.Disabled, StringFormat=Resources/Images/Cards/GuHuo/\{0\}-disabled.png}" Visibility="Hidden"/>
+                            <Image x:Name="image1" Source="{res:ImageBinding Path=Name, ResourceKeyFormat=GuHuo.{0}.Normal, StringFormat=Resources/Images/Cards/GuHuo/\{0\}-normal.png}" />
+                            <Image x:Name="image" Source="{res:ImageBinding Path=Name, ResourceKeyFormat=GuHuo.{0}.Hover, StringFormat=Resources/Images/Cards/GuHuo/\{0\}-hover.png}" Visibility="Hidden" />
+                            <Image x:Name="image2" Source="{res:ImageBinding Path=Name, ResourceKeyFormat=GuHuo.{0}.Down, StringFormat=Resources/Images/Cards/GuHuo/\{0\}-down.png}" Visibility="Hidden" />
+                            <Image x:Name="image3" Source="{res:ImageBinding Path=Name, ResourceKeyFormat=GuHuo.{0}.Disabled, StringFormat=Resources/Images/Cards/GuHuo/\{0\}-disabled.png}" Visibility="Hidden"/>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsFocused" Value="True"/>

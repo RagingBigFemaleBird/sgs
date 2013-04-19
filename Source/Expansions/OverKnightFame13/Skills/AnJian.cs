@@ -23,7 +23,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard.Type is Sha && (a as DamageEventArgs).Targets[0][Player.AttackRange] + 1 < Game.CurrentGame.DistanceTo((a as DamageEventArgs).Targets[0], p); },
                 (p, e, a) => { (a as DamageEventArgs).Magnitude++; },
                 TriggerCondition.OwnerIsSource
-            ) { };
+            );
             Triggers.Add(GameEvent.DamageElementConfirmed, trigger2);
             IsEnforced = true;
         }

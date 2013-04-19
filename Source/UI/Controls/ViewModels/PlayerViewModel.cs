@@ -42,6 +42,7 @@ namespace Sanguosha.UI.Controls
             submitCardUsageCommand = new SimpleRelayCommand(SubmitCardUsageCommand);
             cancelCardUsageCommand = new SimpleRelayCommand(CancelCardUsageCommand);
             abortCardUsageCommand = new SimpleRelayCommand(AbortCardUsageCommand);
+            cancelSkillSelectionCommand = new SimpleRelayCommand(CancelSkillSelectionCommand) { CanExecuteStatus = true };
 
             SubmitAnswerCommand = DisabledCommand;
             CancelAnswerCommand = DisabledCommand;
@@ -852,6 +853,18 @@ namespace Sanguosha.UI.Controls
         }
         #endregion
 
+        #region CancelSkillSelectionCommand
+        private SimpleRelayCommand cancelSkillSelectionCommand;
+        public void CancelSkillSelectionCommand(object parameter)
+        {
+            Trace.Assert(_lastSelectedCommand != null);
+            if (_lastSelectedCommand != null)
+            {
+                _lastSelectedCommand.IsSelected = false;
+            }
+        }
+        #endregion
+
         #region AbortCardUsageCommand
         private SimpleRelayCommand abortCardUsageCommand;
         public void AbortCardUsageCommand(object parameter)
@@ -1161,10 +1174,12 @@ namespace Sanguosha.UI.Controls
                     // Trace.Assert(_lastSelectedCommand == null);
                 }
                 _lastSelectedCommand = skill;
+                CancelAnswerCommand = cancelSkillSelectionCommand;
             }
             else
             {
                 _lastSelectedCommand = null;
+                CancelAnswerCommand = cancelCardUsageCommand;
             }
 
             if (doCleanUp)
