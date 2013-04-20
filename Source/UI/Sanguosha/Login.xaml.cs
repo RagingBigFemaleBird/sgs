@@ -202,6 +202,10 @@ namespace Sanguosha.UI.Main
                     var lobbyModel = LobbyViewModel.Instance;
                     var binding = new NetTcpBinding();
                     binding.Security.Mode = SecurityMode.None;
+                    binding.ReceiveTimeout = new TimeSpan(1, 0, 0);
+                    binding.OpenTimeout = new TimeSpan(1, 0, 0);
+                    binding.CloseTimeout = new TimeSpan(1, 0, 0);
+                    binding.SendTimeout = new TimeSpan(1, 0, 0);
                     var endpoint = new EndpointAddress(string.Format("net.tcp://{0}/GameService", hostName));
                     var channelFactory = new DuplexChannelFactory<ILobbyService>(lobbyModel, binding, endpoint);
                     server = channelFactory.CreateChannel();

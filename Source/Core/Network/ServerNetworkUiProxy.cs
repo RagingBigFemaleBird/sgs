@@ -142,9 +142,19 @@ namespace Sanguosha.Core.Network
             {
                 if (cards != null)
                 {
-                    foreach (var cd in cards)
+                    foreach (var c in cards)
                     {
-                        cd.RevealOnce = true;
+                        if (!(skill != null && skill.Helper.NoCardReveal) && !(verifier.Helper.NoCardReveal))
+                        {
+                            if (c.Place.DeckType != DeckType.Equipment && c.Place.DeckType != DeckType.DelayedTools)
+                            {
+                                c.RevealOnce = true;
+                            }
+                        }
+                        if (c.Place.DeckType == DeckType.Equipment || c.Place.DeckType == DeckType.DelayedTools)
+                        {
+                            c.RevealOnce = false;
+                        }
                     }
                 }
                 server.Gamers[i].Send(AskForCardUsageResponse.Parse(proxy.QuestionId, skill, cards, players, i));
