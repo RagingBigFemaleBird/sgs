@@ -257,8 +257,16 @@ namespace Sanguosha.UI.Controls
             var player = GameModel.PlayerModels.FirstOrDefault(p => p != null && p.Account != null && p.Account.UserName == userName);
             string heroName = string.Empty;
             if (player != null && player.Hero != null) heroName = LogFormatter.Translate(player.Hero);
-            chatBox.Document.Blocks.Add(LogFormatter.RichTranslateChat(heroName, userName, msg));
+            var para = LogFormatter.RichTranslateChat(heroName, userName, msg);
+            chatBox.Document.Blocks.Add(para);
             chatBox.ScrollToEnd();
+
+            var para2 = new Paragraph();
+            para2.Inlines.AddRange(LogFormatter.RichTranslateChatMessage(msg));
+            if (playersMap.ContainsKey(player.Player))
+            {
+                playersMap[player.Player].Chat(para2);
+            }            
         }
 
         void GameView_SizeChanged(object sender, SizeChangedEventArgs e)

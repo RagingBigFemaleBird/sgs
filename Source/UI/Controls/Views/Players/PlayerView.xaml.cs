@@ -255,6 +255,13 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        public override void Chat(Paragraph msg)
+        {
+            chatDoc.Blocks.Clear();
+            chatDoc.Blocks.Add(msg);
+            (Resources["ShowChatBox"] as Storyboard).Begin();
+        }
+
         protected override void AddHandCards(IList<CardView> cards, bool isFaked)
         {
             if (isFaked)

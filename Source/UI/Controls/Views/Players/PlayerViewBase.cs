@@ -11,6 +11,7 @@ using System.Windows.Input;
 using Sanguosha.UI.Animations;
 using Sanguosha.Core.Games;
 using System.Threading;
+using System.Windows.Documents;
 
 namespace Sanguosha.UI.Controls
 {
@@ -120,6 +121,10 @@ namespace Sanguosha.UI.Controls
         // The following functions are in its essence abstract function. They are not declared
         // abstract only to make designer happy to render their subclasses. (VS and blend will
         // not be able to create designer view for abstract class bases.
+
+        public virtual void Chat(Paragraph msg)
+        {
+        }
 
         protected virtual void AddHandCards(IList<CardView> cards, bool isFaked)
         {

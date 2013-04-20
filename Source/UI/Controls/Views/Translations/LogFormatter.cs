@@ -732,7 +732,7 @@ namespace Sanguosha.UI.Controls
         {
             IList<Inline> inlines = new List<Inline>();
             var parts = message.Split('#');
-            bool isFirst = false;
+            bool isFirst = true;
             foreach (var part in parts)
             {
                 int index;
@@ -757,6 +757,7 @@ namespace Sanguosha.UI.Controls
                         inlines.Add(new Run(part.Substring(2)));
                     }
                 }
+                isFirst = false;
             }
             return inlines;
         }

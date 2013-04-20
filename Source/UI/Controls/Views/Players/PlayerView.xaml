@@ -9,6 +9,7 @@
     xmlns:anim="clr-namespace:Sanguosha.UI.Animations;assembly=Animations"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
     xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:Sanguosha_UI_Effects="clr-namespace:Sanguosha.UI.Effects;assembly=Effects"
+    xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
     x:Class="Sanguosha.UI.Controls.PlayerView"
     mc:Ignorable="d"
     MaxWidth="180" MaxHeight="210"
@@ -29,11 +30,7 @@
                 <DrawingBrush.Drawing>
                     <GeometryDrawing>
                         <GeometryDrawing.Pen>
-                            <Pen Thickness="1">
-                                <Pen.Brush>
-                                    <SolidColorBrush Color="Black"/>
-                                </Pen.Brush>
-                            </Pen>
+                            <Pen Thickness="1" Brush="Black"/>
                         </GeometryDrawing.Pen>
                         <GeometryDrawing.Geometry>
                             <RectangleGeometry Rect="0,0,25,25"/>
@@ -202,6 +199,36 @@
                     <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
                 </ObjectAnimationUsingKeyFrames>
             </Storyboard>
+            <Style x:Key="CalloutStyle1" TargetType="{x:Type ed:Callout}">
+            	<Setter Property="Template">
+            		<Setter.Value>
+            			<ControlTemplate TargetType="{x:Type ed:Callout}">
+            				<Grid>
+            					<Path x:Name="PART_Path" Fill="{TemplateBinding Fill}" HorizontalAlignment="Stretch" StrokeStartLineCap="{TemplateBinding StrokeStartLineCap}" StrokeDashOffset="{TemplateBinding StrokeDashOffset}" Stretch="None" StrokeEndLineCap="{TemplateBinding StrokeEndLineCap}" StrokeDashCap="{TemplateBinding StrokeDashCap}" Stroke="{TemplateBinding Stroke}" StrokeThickness="{TemplateBinding StrokeThickness}" StrokeMiterLimit="{TemplateBinding StrokeMiterLimit}" StrokeLineJoin="{TemplateBinding StrokeLineJoin}" StrokeDashArray="{TemplateBinding StrokeDashArray}" UseLayoutRounding="False" VerticalAlignment="Stretch"/>
+            					<ContentPresenter Content="{TemplateBinding InternalContent}" HorizontalAlignment="Center" Margin="{TemplateBinding Padding}" VerticalAlignment="Center"/>
+            				</Grid>
+            			</ControlTemplate>
+            		</Setter.Value>
+            	</Setter>
+            </Style>
+            <Storyboard x:Key="ShowChatBox">
+            	<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="chatBox">
+            		<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+            		<DiscreteObjectKeyFrame KeyTime="0:0:0.27" Value="{x:Static Visibility.Visible}"/>
+            		<DiscreteObjectKeyFrame KeyTime="0:0:1.8" Value="{x:Static Visibility.Visible}"/>
+            		<DiscreteObjectKeyFrame KeyTime="0:0:2" Value="{x:Static Visibility.Collapsed}"/>
+            	</ObjectAnimationUsingKeyFrames>
+            	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="chatBox">
+            		<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+            		<EasingDoubleKeyFrame KeyTime="0:0:0.27" Value="1"/>
+            		<EasingDoubleKeyFrame KeyTime="0:0:1.8" Value="1"/>
+            		<EasingDoubleKeyFrame KeyTime="0:0:2" Value="0"/>
+            	</DoubleAnimationUsingKeyFrames>
+            	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="chatBox">
+            		<EasingDoubleKeyFrame KeyTime="0" Value="20"/>
+            		<EasingDoubleKeyFrame KeyTime="0:0:0.27" Value="0"/>
+            	</DoubleAnimationUsingKeyFrames>
+            </Storyboard>
         </ResourceDictionary>
     </local:PlayerViewBase.Resources>
     <local:PlayerViewBase.Triggers>
@@ -255,7 +282,9 @@
                     </Border.Effect>
                 </Border>
                 <Grid x:Name="mainArea" Margin="7" Background="Transparent" MouseLeftButtonDown="mainArea_MouseLeftButtonDown" MouseRightButtonDown="mainArea_MouseRightButtonDown">
-                    <ToolTipService.ShowOnDisabled>True</ToolTipService.ShowOnDisabled>
+                    <ToolTipService.ShowOnDisabled>
+                    	<System:Boolean>True</System:Boolean>
+					</ToolTipService.ShowOnDisabled>
                     <Grid.CacheMode>
                         <BitmapCache EnableClearType="True" RenderAtScale="2" SnapsToDevicePixels="True" />
                     </Grid.CacheMode>
@@ -284,7 +313,7 @@
                             </Border.BorderBrush>
                         </Border>
                         <Grid Margin="1">
-                            <Image x:Name="heroPhoto" Visibility="{Binding Hero2Model.Hero, Converter={StaticResource objectToInvisibilityConverter}}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=28\,46\,220\,132, Path=Hero1Model.Name, ResourceKeyFormat=Hero.{0}.Image, StringFormat=Resources/Images/Heroes/Full/{0}.png}">
+                            <Image x:Name="heroPhoto" Visibility="{Binding Hero2Model.Hero, Converter={StaticResource objectToInvisibilityConverter}}" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=28\,46\,220\,132, Path=Hero1Model.Name, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/Full/\{0\}.png}">
                                 <Image.Effect>
                                     <Sanguosha_UI_Effects:RippleTransitionEffect x:Name="impersonateEffect" Progress="100"/>
                                 </Image.Effect>
@@ -293,7 +322,7 @@
                                 </Image.ToolTip>
                             </Image>
                             <Grid x:Name="gridDualHero" Visibility="{Binding Hero2Model.Hero, Converter={StaticResource objectToVisibilityConverter}}">
-                                <Image x:Name="heroPhoto1" Grid.ColumnSpan="2" Stretch="UniformToFill" HorizontalAlignment="Left" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=60\,30\,208\,125, Path=Hero1Model.Name, ResourceKeyFormat=Hero.{0}.Image, StringFormat=Resources/Images/Heroes/Full/{0}.png}">
+                                <Image x:Name="heroPhoto1" Grid.ColumnSpan="2" Stretch="UniformToFill" HorizontalAlignment="Left" VerticalAlignment="Top" Source="{res:ImageBinding CropRect=60\,30\,208\,125, Path=Hero1Model.Name, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/Full/\{0\}.png}">
                                     <Image.Effect>
                                         <Sanguosha_UI_Effects:RippleTransitionEffect x:Name="impersonateEffect1" Progress="100"/>
                                     </Image.Effect>
@@ -306,19 +335,19 @@
                                         <ColumnDefinition Width="0.6*"/>
                                         <ColumnDefinition Width="0.4*"/>
                                     </Grid.ColumnDefinitions>
+                                    <Grid.ToolTip>
+                                        <ToolTip x:Name="hero1Tip" Content="{Binding Hero1Model}" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
+                                    </Grid.ToolTip>
                                     <Viewbox HorizontalAlignment="Right" Grid.Column="1" Stretch="UniformToFill">
-                                        <Image x:Name="heroPhoto2" Source="{res:ImageBinding CropRect=63\,20\,126\,178, Path=Hero2Model.Name, ResourceKeyFormat=Hero.{0}.Image, StringFormat=Resources/Images/Heroes/Full/{0}.png}">
+                                        <Viewbox.ToolTip>
+                                            <ToolTip x:Name="hero2Tip" Content="{Binding Hero2Model}" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
+                                        </Viewbox.ToolTip>
+                                        <Image x:Name="heroPhoto2" Source="{res:ImageBinding CropRect=63\,20\,126\,178, Path=Hero2Model.Name, ResourceKeyFormat=Hero.\{0\}.Image, StringFormat=Resources/Images/Heroes/Full/\{0\}.png}">
                                             <Image.Effect>
                                                 <Sanguosha_UI_Effects:RippleTransitionEffect x:Name="impersonateEffect2" Progress="100"/>
                                             </Image.Effect>
                                         </Image>
-                                        <Viewbox.ToolTip>
-                                            <ToolTip x:Name="hero2Tip" Content="{Binding Hero2Model}" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
-                                        </Viewbox.ToolTip>
                                     </Viewbox>
-                                    <Grid.ToolTip>
-                                        <ToolTip x:Name="hero1Tip" Content="{Binding Hero1Model}" ContentTemplate="{DynamicResource HeroToolTipTemplate}"/>
-                                    </Grid.ToolTip>
                                 </Grid>
                                 <Image Source="{StaticResource PlayerInfoView.HeroSeparator}" Stretch="Fill" IsHitTestVisible="False"/>
                             </Grid>
@@ -350,11 +379,11 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Border Visibility="{Binding IsExisted, Converter={StaticResource boolToVisibilityConverter}}" BorderThickness="2" BorderBrush="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.{0}.Brush}" >
+                                            <Border Visibility="{Binding IsExisted, Converter={StaticResource boolToVisibilityConverter}}" BorderThickness="2" BorderBrush="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.\{0\}.Brush}" >
                                                 <Border.Effect>
                                                     <DropShadowEffect Color="Black" ShadowDepth="0" />
                                                 </Border.Effect>
-                                                <TextBlock FontFamily="SimHei" FontSize="12" Foreground="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.\{0\}.Brush}" Text="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.{0}.Name}" />
+                                                <TextBlock FontFamily="SimHei" FontSize="12" Foreground="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.\{0\}.Brush}" Text="{res:ResourceKeyBinding Path=MarkName, StringFormat=Status.\{0\}.Name}" />
                                             </Border>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
@@ -383,7 +412,7 @@
                                 <!--Grid.ToolTip>
                                     <ToolTip Content="{Binding Hero1Model.ImpersonatedSkill}" ContentTemplate="{StaticResource SkillToolTipTemplate}" />
                                 </Grid.ToolTip-->
-                                <local:OutlinedTextBlock Text="{res:ResourceKeyBinding Path=Hero1Model.ImpersonatedSkill, StringFormat=Skill.{0}.Name}" FontSize="21" Fill="White" FontFamily="/Resources;component/Fonts/#LiSu" Margin="5,1" Stroke="Blue" StrokeThickness="3"/>
+                                <local:OutlinedTextBlock Text="{res:ResourceKeyBinding Path=Hero1Model.ImpersonatedSkill, StringFormat=Skill.\{0\}.Name}" FontSize="21" Fill="White" FontFamily="/Resources;component/Fonts/#LiSu" Margin="5,1" Stroke="Blue" StrokeThickness="3"/>
                             </Grid>
                             <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,0,16" Visibility="{Binding Hero2Model.ImpersonatedSkill, Converter={StaticResource objectToVisibilityConverter}}">
                                 <Grid.Background>
@@ -392,7 +421,7 @@
                                 <Grid.ToolTip>
                                     <ToolTip Content="{Binding Hero2Model.ImpersonatedSkill}" ContentTemplate="{StaticResource SkillToolTipTemplate}" />
                                 </Grid.ToolTip>
-                                <local:OutlinedTextBlock Text="{res:ResourceKeyBinding Path=Hero2Model.ImpersonatedSkill, StringFormat=Skill.{0}.Name}" FontSize="21" Fill="White" FontFamily="/Resources;component/Fonts/#LiSu" Margin="5,1" Stroke="Blue" StrokeThickness="3"/>
+                                <local:OutlinedTextBlock Text="{res:ResourceKeyBinding Path=Hero2Model.ImpersonatedSkill, StringFormat=Skill.\{0\}.Name}" FontSize="21" Fill="White" FontFamily="/Resources;component/Fonts/#LiSu" Margin="5,1" Stroke="Blue" StrokeThickness="3"/>
                             </Grid>
                             <Image Height="30" Margin="20,0,21,7" Source="/Resources;component/Images/Game/saveMe.png" IsHitTestVisible="False" Visibility="{Binding IsDying, Converter={StaticResource boolToVisibilityConverter}}" Stretch="Fill" VerticalAlignment="Bottom"/>
                         </Grid>
@@ -425,7 +454,7 @@
                     <!--Image Source="{DynamicResource PlayerInfoView.Decoration.TopLeft}" Width="64" HorizontalAlignment="Left" Margin="-8.75,-5.25,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Visibility="Hidden"/-->
                     <Image x:Name="allegianceMask" IsHitTestVisible="False" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Mask}" HorizontalAlignment="Left" Grid.RowSpan="2" Width="38" Stretch="Fill" Margin="-3,4,0,0" ClipToBounds="True" Height="119" VerticalAlignment="Top"/>
                     <Image x:Name="allegianceIcon" IsHitTestVisible="False" Source="{res:ResourceKeyBinding Path=Allegiance, StringFormat=Allegiance.\{0\}.Icon}" HorizontalAlignment="Left" />
-                    <Image x:Name="allegianceMask2" IsHitTestVisible="False" Visibility="{Binding Hero2,Converter={StaticResource objectToVisibilityConverter}}" Source="{res:ResourceKeyBinding Path=Hero2Model.Allegiance, StringFormat=Allegiance.\{0\}.Mask}" HorizontalAlignment="Right" Grid.RowSpan="2" Width="38" Stretch="Fill" Margin="0,4,-3,0" ClipToBounds="True" Height="119" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+                    <Image x:Name="allegianceMask2" IsHitTestVisible="False" Visibility="{Binding Hero2, Converter={StaticResource objectToVisibilityConverter}}" Source="{res:ResourceKeyBinding Path=Hero2Model.Allegiance, StringFormat=Allegiance.\{0\}.Mask}" HorizontalAlignment="Right" Grid.RowSpan="2" Width="38" Stretch="Fill" Margin="0,4,-3,0" ClipToBounds="True" Height="119" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
                         <Image.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleX="-1"/>
@@ -473,7 +502,7 @@
 							  IsHitTestVisible="False"
                               VerticalAlignment="Top"
                               MaxHeight="55"
-							  Visibility="{Binding Hero2Model.Hero,Converter={StaticResource objectToVisibilityConverter}}">
+							  Visibility="{Binding Hero2Model.Hero, Converter={StaticResource objectToVisibilityConverter}}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <UniformGrid Columns="1"/>
@@ -523,14 +552,27 @@
                         <Image Source="/Resources;component/Images/Game/IronShackled.png" Stretch="Fill" Visibility="{Binding IsIronShackled, Converter={StaticResource boolToVisibilityConverter}}"/>
                         <anim:TieSuoAnimation2 x:Name="tieSuoAnimation2" FramesPerSecond="15" Stretch="Fill" IsHitTestVisible="False"/>
                     </Grid>
-                    <Grid x:Name="gridSpectate" HorizontalAlignment="Right" Height="24" Margin="0,0,105,-3" Grid.Row="1" Width="24" VerticalAlignment="Bottom" Visibility="{Binding CanSpectate, Mode=OneWay,Converter={StaticResource boolToVisibilityConverter}}">
+                    <Grid x:Name="gridSpectate" HorizontalAlignment="Right" Height="24" Margin="0,0,105,-3" Grid.Row="1" Width="24" VerticalAlignment="Bottom" Visibility="{Binding CanSpectate, Converter={StaticResource boolToVisibilityConverter}, Mode=OneWay}">
                         <Button x:Name="btnSpectate" Content="Button" Style="{DynamicResource SpectateButton}" Visibility="Hidden" Click="btnSpectate_Click">
                             <Button.Clip>
                                 <RectangleGeometry Rect="0, 5, 25, 15"/>
                             </Button.Clip>
                         </Button>
-                    </Grid>
+                    </Grid>                	
                 </Grid>
+				<ed:Callout x:Name="chatBox" IsHitTestVisible="False" AnchorPoint="0.3,1.3" CalloutStyle="RoundedRectangle" Fill="#CC493A20" FontSize="14.667" Margin="8,10,8,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" Foreground="White" Style="{DynamicResource CalloutStyle1}" Visibility="Collapsed" RenderTransformOrigin="0.5,0.5">
+					<ed:Callout.RenderTransform>
+						<TransformGroup>
+							<ScaleTransform/>
+							<SkewTransform/>
+							<RotateTransform/>
+							<TranslateTransform/>
+						</TransformGroup>
+					</ed:Callout.RenderTransform>
+					<RichTextBox Background="Transparent" Foreground="White" BorderThickness="0">
+						<FlowDocument x:Name="chatDoc"/>
+					</RichTextBox>
+				</ed:Callout>
                 <Image x:Name="decoration" Source="{DynamicResource PlayerInfoView.Decoration.BottomRight}" Width="64" HorizontalAlignment="Right" Margin="0,0,1.25,3.25" VerticalAlignment="Bottom" IsHitTestVisible="False" />
                 <Image x:Name="imgPhase" Visibility="{Binding IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}" Source="{res:ResourceKeyBinding Path=CurrentPhase, StringFormat=Phases.\{0\}.Small}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120" IsHitTestVisible="False" />
                 <StackPanel x:Name="delayedToolsDock"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="-12,0,15,0" >
