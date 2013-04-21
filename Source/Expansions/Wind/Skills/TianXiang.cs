@@ -71,7 +71,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                 this,
                 Run,
                 TriggerCondition.OwnerIsTarget
-            ) { AskForConfirmation = false, IsAutoNotify = false };
+            ) { AskForConfirmation = false, IsAutoNotify = false, Type = TriggerType.Skill };
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => { return a.ReadonlyCard != null && a.ReadonlyCard[TianXiangDamage] != 0 && !a.Targets[0].IsDead && a.Targets[0][TianXiangTarget] > 0; },

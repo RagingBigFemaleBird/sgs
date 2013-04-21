@@ -70,7 +70,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                 (p, e, a) => { return a.ReadonlyCard.Type is NanManRuQin; },
                 (p, e, a) => { throw new TriggerResultException(TriggerResult.End); },
                 TriggerCondition.OwnerIsTarget
-            );
+            ) { Type = TriggerType.Skill };
             var trigger2 = new AutoNotifyPassiveSkillTrigger(
                 this,
                 (p, e, a) => { return a.ReadonlyCard.Type is NanManRuQin && a.Source != p; },

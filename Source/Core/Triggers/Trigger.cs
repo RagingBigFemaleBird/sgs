@@ -18,15 +18,15 @@ namespace Sanguosha.Core.Triggers
         /// <summary>
         /// 游戏规则
         /// </summary>
-        GameRule,
+        GameRule = 1,
         /// <summary>
         /// 游戏牌的说明
         /// </summary>
-        Card,
+        Card = 2,
         /// <summary>
         /// 武将技能的说明
         /// </summary>
-        Skill
+        Skill = 3,
     }
 
     

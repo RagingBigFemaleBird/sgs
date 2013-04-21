@@ -28,7 +28,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                     (p, e, a) => { return a.ReadonlyCard != null && ((a.ReadonlyCard.Type is Aoe) || (a.ReadonlyCard.Type is RegularSha)) && ArmorIsValid(Owner, a.Source, a.ReadonlyCard); },
                     (p, e, a) => { throw new TriggerResultException(TriggerResult.End); },
                     TriggerCondition.OwnerIsTarget
-                );
+                ) { Type = TriggerType.Card };
                 Triggers.Add(GameEvent.CardUsageTargetValidating, trigger);
                 IsEnforced = true;
             }
@@ -51,7 +51,7 @@ namespace Sanguosha.Expansions.Battle.Cards
                         args.Magnitude++;
                     },
                     TriggerCondition.OwnerIsTarget
-                );
+                ) { Type = TriggerType.Card };
                 Triggers.Add(GameEvent.DamageInflicted, trigger);
                 IsEnforced = true;
             }
