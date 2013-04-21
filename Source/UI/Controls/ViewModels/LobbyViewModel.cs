@@ -10,11 +10,12 @@ using System.Windows;
 using System.Threading;
 using System.Diagnostics;
 using System.IO;
+using System.ComponentModel;
 
 namespace Sanguosha.UI.Controls
 {
     [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, UseSynchronizationContext = false)]
-    public class LobbyViewModel : ViewModelBase, IGameClient
+    public class LobbyViewModel : IGameClient, INotifyPropertyChanged
     {
         private LobbyViewModel()
         {
@@ -26,6 +27,18 @@ namespace Sanguosha.UI.Controls
             SpectateCommand = new SimpleRelayCommand(o => SpectateGame()) { CanExecuteStatus = true };
             ReadyCommand = new SimpleRelayCommand(o => PlayerReady()) { CanExecuteStatus = true };
             CancelReadyCommand = new SimpleRelayCommand(o => PlayerCancelReady()) { CanExecuteStatus = true};
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        // Create the OnPropertyChanged method to raise the event 
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
         }
 
         private void PlayerCancelReady()        

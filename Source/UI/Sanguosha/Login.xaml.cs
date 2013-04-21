@@ -151,6 +151,8 @@ namespace Sanguosha.UI.Main
             Application.Current.Exit += (s, e) => { _LogOut(); };
         }
 
+        DuplexChannelFactory<ILobbyService> _channelFactory;
+
         private void _LogOut()
         {
             if (LobbyViewModel.Instance.Connection != null)
@@ -163,6 +165,11 @@ namespace Sanguosha.UI.Main
                 catch (Exception)
                 {
                 }
+            }
+            if (_channelFactory != null)
+            {
+                _channelFactory.Close();
+                _channelFactory = null;
             }
         }
 
@@ -230,14 +237,16 @@ namespace Sanguosha.UI.Main
                 try
                 {
                     ea.Result = LoginStatus.UnknownFailure;
+
+                    _LogOut();
                     var lobbyModel = LobbyViewModel.Instance;
                     var binding = new NetTcpBinding();
                     binding.Security.Mode = SecurityMode.None;
                     var endpoint = new EndpointAddress(string.Format("net.tcp://{0}/GameService", _hostName));
-                    var channelFactory = new DuplexChannelFactory<ILobbyService>(lobbyModel, binding, endpoint);
-                    server = channelFactory.CreateChannel();
-
-                    channelFactory.Faulted += channelFactory_Faulted;
+                    _channelFactory = new DuplexChannelFactory<ILobbyService>(lobbyModel, binding, endpoint);
+                    server = _channelFactory.CreateChannel();
+                    
+                    _channelFactory.Faulted += channelFactory_Faulted;
                     Account ret;
                     var stat = server.Login(Misc.ProtocolVersion, _userName, _passWd, out ret, out reconnect, out token);
                     if (stat == LoginStatus.Success)
@@ -274,7 +283,6 @@ namespace Sanguosha.UI.Main
 
                     if (reconnect == null)
                     {                        
-                        lobby.Init(this.NavigationService);
                         this.NavigationService.Navigate(lobby);
                         busyIndicator.IsBusy = false;
                     }
@@ -547,6 +555,7 @@ namespace Sanguosha.UI.Main
             MainGame game = sender as MainGame;
             if (game != null) game.OnNavigateBack -= game_OnNavigateBack;
             Login.Instance._LogOut();
+            Trace.Assert(service != null);
             service.Navigate(Login.Instance);
         }
 
@@ -555,6 +564,7 @@ namespace Sanguosha.UI.Main
             LobbyView lobby = sender as LobbyView;
             if (lobby != null) lobby.OnNavigateBack -= lobby_OnNavigateBack;
             Login.Instance._LogOut();
+            Trace.Assert(service != null);
             service.Navigate(Login.Instance);
         }
 

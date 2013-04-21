@@ -34,16 +34,26 @@ namespace Sanguosha.UI.Controls
             _updateRoomTimer.Tick += timer_Tick;
         }
 
-        bool _initiated = false;
-        public void Init(NavigationService nav)
+        private static NavigationService globalNavigationService;
+
+        public static NavigationService GlobalNavigationService
         {
-            if (!_initiated && nav != null)
+            get
             {
-                nav.Navigating += NavigationService_Navigating;
-                _initiated = true;
+                return globalNavigationService;
+            }
+            set
+            {
+                if (globalNavigationService == value) return;
+                if (globalNavigationService != null)
+                    globalNavigationService.Navigating -= LobbyView.Instance.NavigationService_Navigating;
+                globalNavigationService = value;
+                if (globalNavigationService != null)
+                    globalNavigationService.Navigating += LobbyView.Instance.NavigationService_Navigating;
             }
         }
 
+        
         void NavigationService_Navigating(object sender, NavigatingCancelEventArgs e)
         {
             if (e.Content == this)
@@ -60,7 +70,7 @@ namespace Sanguosha.UI.Controls
                     var handler = OnNavigateBack;
                     if (handler != null)
                     {
-                        handler(this, this.NavigationService);
+                        handler(this, GlobalNavigationService);
                     }
                 }
             }
