@@ -83,6 +83,7 @@ namespace Sanguosha.Core.Utils
             if (RecordStream != null)
             {
                 RecordStream.Write(buffer, offset, bytesRead);
+                RecordStream.Flush();
             }
             return bytesRead;
         }
