@@ -656,12 +656,18 @@ namespace Sanguosha.Lobby.Server
         {
             if (currentAccount == null) return RoomOperationResult.NotAutheticated;
             if (message.Length > Misc.MaxChatLength) return RoomOperationResult.Invalid;
-            //todo: No global chat
-            if (currentAccount.CurrentRoom == null && currentAccount.CurrentSpectatingRoom == null) return RoomOperationResult.Invalid;
-            try
+            
+            // @todo: No global chat
+            if (currentAccount.CurrentRoom == null && currentAccount.CurrentSpectatingRoom == null)
+            {
+                return RoomOperationResult.Invalid;
+            }
+
+            Thread thread = new Thread(() =>
             {
                 var room = currentAccount.CurrentRoom;
-                if (room == null && currentAccount.CurrentSpectatingRoom != null) room = currentAccount.CurrentSpectatingRoom;
+                if (room == null && currentAccount.CurrentSpectatingRoom != null)
+                    room = currentAccount.CurrentSpectatingRoom;
                 foreach (var seat in room.Room.Seats)
                 {
                     if (seat.Account != null)
@@ -692,11 +698,8 @@ namespace Sanguosha.Lobby.Server
                     {
                     }
                 }
-
-            }
-            catch (Exception)
-            {
-            }
+            }) { IsBackground = true };
+            thread.Start();
             return RoomOperationResult.Success;
         }
 

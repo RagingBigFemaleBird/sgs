@@ -118,6 +118,17 @@ namespace Sanguosha.UI.Main
 
         }
 
+        private static Login _instance;
+
+        public static Login Instance
+        {
+            get
+            {
+                if (_instance == null) _instance = new Login();
+                return _instance;
+            }
+        }
+
         public Login()
         {
             _startButtonEnabled = true; // @todo: change this.
@@ -135,6 +146,24 @@ namespace Sanguosha.UI.Main
             tab0UserName.Text = Properties.Settings.Default.LastUserName;
             tab0HostName.Text = Properties.Settings.Default.LastHostName;
             tab1Port.Text = DefaultLobbyPort.ToString();
+
+            Application.Current.SessionEnding += (s, e) => { _LogOut(); };
+            Application.Current.Exit += (s, e) => { _LogOut(); };
+        }
+
+        private void _LogOut()
+        {
+            if (LobbyViewModel.Instance.Connection != null)
+            {
+                try
+                {
+                    LobbyViewModel.Instance.Connection.Logout();
+                    LobbyViewModel.Instance.Connection = null;
+                }
+                catch (Exception)
+                {
+                }
+            }
         }
 
         private void startButton_Click(object sender, RoutedEventArgs e)
@@ -157,8 +186,8 @@ namespace Sanguosha.UI.Main
 
         private void _startClient()
         {
-            string userName = tab0UserName.Text;
-            string passwd = tab0Password.Password;
+            _userName = tab0UserName.Text;
+            _passWd = tab0Password.Password;
             Properties.Settings.Default.LastHostName = tab0HostName.Text;
             Properties.Settings.Default.LastUserName = tab0UserName.Text;
             Properties.Settings.Default.Save();
@@ -170,27 +199,28 @@ namespace Sanguosha.UI.Main
                 ///if creation of mutex is successful
                 if (!createdNew && tab0HostName.Text != "127.0.0.1")
                 {
+                    appMutex = null;
                     _Warn("You already have another Sanguosha running!");
                     return;
                 }
             }
 #endif
-#if !DEBUG
-            if (string.IsNullOrEmpty(userName))
+
+            if (string.IsNullOrEmpty(_userName))
             {
                 _Warn("Please provide a username");
                 return;
             }
-#endif
+
             busyIndicator.BusyContent = Resources["Busy.ConnectServer"];
             busyIndicator.IsBusy = true;
             ILobbyService server = null;
             LoginToken token = new LoginToken();
             string reconnect = null;
-            string hostName = tab0HostName.Text;
-            if (!hostName.Contains(":"))
+            _hostName = tab0HostName.Text;
+            if (!_hostName.Contains(":"))
             {
-                hostName = hostName + ":" + DefaultLobbyPort;
+                _hostName = _hostName + ":" + DefaultLobbyPort;
             }
 
             BackgroundWorker worker = new BackgroundWorker();
@@ -203,15 +233,13 @@ namespace Sanguosha.UI.Main
                     var lobbyModel = LobbyViewModel.Instance;
                     var binding = new NetTcpBinding();
                     binding.Security.Mode = SecurityMode.None;
-                    binding.ReceiveTimeout = new TimeSpan(1, 0, 0);
-                    binding.OpenTimeout = new TimeSpan(1, 0, 0);
-                    binding.CloseTimeout = new TimeSpan(1, 0, 0);
-                    binding.SendTimeout = new TimeSpan(1, 0, 0);
-                    var endpoint = new EndpointAddress(string.Format("net.tcp://{0}/GameService", hostName));
+                    var endpoint = new EndpointAddress(string.Format("net.tcp://{0}/GameService", _hostName));
                     var channelFactory = new DuplexChannelFactory<ILobbyService>(lobbyModel, binding, endpoint);
                     server = channelFactory.CreateChannel();
+
+                    channelFactory.Faulted += channelFactory_Faulted;
                     Account ret;
-                    var stat = server.Login(Misc.ProtocolVersion, userName, passwd, out ret, out reconnect, out token);
+                    var stat = server.Login(Misc.ProtocolVersion, _userName, _passWd, out ret, out reconnect, out token);
                     if (stat == LoginStatus.Success)
                     {
                         LobbyViewModel.Instance.CurrentAccount = ret;
@@ -245,7 +273,8 @@ namespace Sanguosha.UI.Main
                     lobbyModel.LoginToken = token;
 
                     if (reconnect == null)
-                    {
+                    {                        
+                        lobby.Init(this.NavigationService);
                         this.NavigationService.Navigate(lobby);
                         busyIndicator.IsBusy = false;
                     }
@@ -279,7 +308,28 @@ namespace Sanguosha.UI.Main
 
             worker.RunWorkerAsync();
         }
+        
+        string _hostName;
+        string _userName;
+        string _passWd;
 
+        void channelFactory_Faulted(object sender, EventArgs e)
+        {
+            var binding = new NetTcpBinding();
+            binding.Security.Mode = SecurityMode.None;
+            var endpoint = new EndpointAddress(string.Format("net.tcp://{0}/GameService", _hostName));
+            var channelFactory = new DuplexChannelFactory<ILobbyService>(LobbyViewModel.Instance, binding, endpoint);
+            LobbyViewModel.Instance.Connection = channelFactory.CreateChannel();
+            Account ret;
+            string reconnect;
+            LoginToken token;
+            var stat = LobbyViewModel.Instance.Connection.Login(Misc.ProtocolVersion, _userName, _passWd, out ret, out reconnect, out token);
+            if (stat == LoginStatus.Success)
+            {
+                LobbyViewModel.Instance.CurrentAccount = ret;
+            }
+        }
+        
         private void _createAccount()
         {
             string userName = tab0UserName.Text;
@@ -496,14 +546,16 @@ namespace Sanguosha.UI.Main
         {
             MainGame game = sender as MainGame;
             if (game != null) game.OnNavigateBack -= game_OnNavigateBack;
-            service.Navigate(new Login());
+            Login.Instance._LogOut();
+            service.Navigate(Login.Instance);
         }
 
         private static void lobby_OnNavigateBack(object sender, NavigationService service)
         {
             LobbyView lobby = sender as LobbyView;
             if (lobby != null) lobby.OnNavigateBack -= lobby_OnNavigateBack;
-            service.Navigate(new Login());
+            Login.Instance._LogOut();
+            service.Navigate(Login.Instance);
         }
 
         #region Network Related

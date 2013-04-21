@@ -346,6 +346,17 @@
     <CroppedBitmap x:Key="Mark.Digit.8.Image" Source="Marks/marks.png" SourceRect="151,84,7,10" />
     <CroppedBitmap x:Key="Mark.Digit.9.Image" Source="Marks/marks.png" SourceRect="159,84,8,10" />
 
+    <BitmapImage x:Key="Packages.Basic.Image">Packages/basic.png</BitmapImage>
+    <BitmapImage x:Key="Packages.Battle.Image">Packages/battle.png</BitmapImage>
+    <BitmapImage x:Key="Packages.Ex.Image">Packages/ex.png</BitmapImage>
+    <BitmapImage x:Key="Packages.Fire.Image">Packages/fire.png</BitmapImage>
+    <BitmapImage x:Key="Packages.God.Image">Packages/god.png</BitmapImage>
+    <BitmapImage x:Key="Packages.Hills.Image">Packages/hills.png</BitmapImage>
+    <BitmapImage x:Key="Packages.OverKnightFame.Image">Packages/overknightfame.png</BitmapImage>
+    <BitmapImage x:Key="Packages.SP.Image">Packages/sp.png</BitmapImage>
+    <BitmapImage x:Key="Packages.Wind.Image">Packages/wind.png</BitmapImage>
+    <BitmapImage x:Key="Packages.Woods.Image">Packages/woods.png</BitmapImage>
+    
     <BitmapImage x:Key="Selection.Digit.1">Digits/1.png</BitmapImage>
     <BitmapImage x:Key="Selection.Digit.2">Digits/2.png</BitmapImage>
     <BitmapImage x:Key="Selection.Digit.3">Digits/3.png</BitmapImage>

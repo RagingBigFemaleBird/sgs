@@ -401,7 +401,14 @@ namespace Sanguosha.UI.Controls
 
         public bool SendMessage(string msg)
         {
-            return _IsSuccess(Connection.Chat(msg));
+            try
+            {
+                return _IsSuccess(Connection.Chat(msg));
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public bool Ping()

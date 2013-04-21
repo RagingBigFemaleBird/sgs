@@ -32,6 +32,7 @@ namespace Sanguosha.UI.Main
             automaticUpdater.ReadyToBeInstalled += (o, e) => { automaticUpdater.InstallNow(); };
 #endif
             this.MainFrame.NavigationService.Navigated += NavigationService_Navigated;
+            MainFrame.Navigate(Login.Instance);
         }
 
         void NavigationService_Navigated(object sender, NavigationEventArgs e)

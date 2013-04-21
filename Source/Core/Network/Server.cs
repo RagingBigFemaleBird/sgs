@@ -222,11 +222,11 @@ namespace Sanguosha.Core.Network
                         if (spectatorJoining)
                         {
                             ReplaySplitterStream rpstream = Gamers[indexC].DataStream as ReplaySplitterStream;
-                            tempGamer.Send(new UIStatusHint() { Detach = 1 });
+                            tempGamer.Send(new UIStatusHint() { IsDetached = true });
                             tempGamer.Flush();
                             rpstream.DumpTo(stream);
                             tempGamer.Flush();
-                            tempGamer.Send(new UIStatusHint() { Detach = 0 });
+                            tempGamer.Send(new UIStatusHint() { IsDetached = false });
                             tempGamer.Flush();
                             rpstream.AddStream(stream);
                         }
@@ -237,12 +237,12 @@ namespace Sanguosha.Core.Network
                             Gamers[indexC].DataStream = newRCStream;
                             Gamers[indexC].StartListening();
                             Gamers[indexC].ConnectionStatus = ConnectionStatus.Connected;
-                            tempGamer.Send(new UIStatusHint() { Detach = 1 });
+                            tempGamer.Send(new UIStatusHint() { IsDetached = true });
                             tempGamer.Flush();
                             (oldstream).DumpTo(newRCStream);
                             newRCStream.Flush();
                             tempGamer.Flush();
-                            tempGamer.Send(new UIStatusHint() { Detach = 0 });
+                            tempGamer.Send(new UIStatusHint() { IsDetached = false });
                             tempGamer.Flush();
                         }
                     }

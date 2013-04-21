@@ -4,7 +4,7 @@
         xmlns:my="clr-namespace:wyDay.Controls;assembly=AutomaticUpdaterWPF" 
         Title="MainWindow" Height="768" Width="1126" MinWidth="1024" MinHeight="580" Loaded="Window_Loaded">
     <Grid>
-        <Frame x:Name="MainFrame" Source="pack://application:,,,/Sanguosha;component/Login.xaml">
+        <Frame x:Name="MainFrame">
             <Frame.Template>
                 <ControlTemplate TargetType="Frame">
                     <ContentPresenter />

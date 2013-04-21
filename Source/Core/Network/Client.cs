@@ -119,7 +119,7 @@ namespace Sanguosha.Core.Network
             }
             if (pkt is UIStatusHint)
             {
-                Game.CurrentGame.IsUiDetached = (pkt as UIStatusHint).Detach;
+                Game.CurrentGame.IsUiDetached = (pkt as UIStatusHint).IsDetached;
                 return Receive();
             }
             if (pkt is MultiCardUsageResponded)

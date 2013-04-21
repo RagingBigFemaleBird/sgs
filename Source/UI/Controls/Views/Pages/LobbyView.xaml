@@ -249,6 +249,9 @@
                     </MultiBinding>
                 </local:LobbyMainButton.State>
             </local:LobbyMainButton>
+			<Canvas x:Name="canvasPackages" HorizontalAlignment="Right" Width="139" Margin="0,0,0,46">
+				
+			</Canvas>
             <Image Source="/Resources;component/Images/Lobby/buttonDock.png" Stretch="None" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,-39,0"/>
         </Grid>
         <local:KeyEventNotifierView x:Name="keyEventNotifier" IsHitTestVisible="False" Height="250" VerticalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="1" />

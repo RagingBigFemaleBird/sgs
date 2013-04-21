@@ -506,6 +506,7 @@ namespace Sanguosha.UI.Controls
             {
                 _CreatePlayerInfoView(i);
             }
+            Trace.Assert(model.MainPlayerModel.Player != null);
             playersMap.Add(model.MainPlayerModel.Player, mainPlayerPanel);
             RearrangeSeats();
             _CreateCueLines();

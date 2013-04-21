@@ -107,20 +107,6 @@ namespace Sanguosha.UI.Controls
 
         private void InitGame()
         {
-#if DEBUG
-            TextWriterTraceListener twtl = new TextWriterTraceListener(System.IO.Path.Combine(Directory.GetCurrentDirectory(), AppDomain.CurrentDomain.FriendlyName + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + ".txt"));
-            twtl.Name = "TextLogger";
-            twtl.TraceOutputOptions = TraceOptions.ThreadId | TraceOptions.DateTime;
-
-            ConsoleTraceListener ctl = new ConsoleTraceListener(false);
-            ctl.TraceOutputOptions = TraceOptions.DateTime;
-
-            Trace.Listeners.Add(twtl);
-            Trace.Listeners.Add(ctl);
-            Trace.AutoFlush = true;
-
-            Trace.WriteLine("Log starting");
-#endif
             _game = new RoleGame();
             if (hasSeed != null)
             {
@@ -131,12 +117,12 @@ namespace Sanguosha.UI.Controls
             if (NetworkClient != null)
             {
                 var pkt = NetworkClient.Receive();
+                Trace.Assert(pkt is ConnectionResponse);
                 if (pkt is ConnectionResponse)
                 {
                     _game.Settings = ((ConnectionResponse)pkt).Settings;
                     NetworkClient.SelfId = ((ConnectionResponse)pkt).SelfId;
                 }
-                Trace.Assert(_game.Settings != null);
             }
             else
             {
@@ -192,7 +178,7 @@ namespace Sanguosha.UI.Controls
             {
                 gameModel.MainPlayerSeatNumber = 0;
             }
-            
+
             _game.NotificationProxy = gameView;
             List<ClientNetworkUiProxy> inactive = new List<ClientNetworkUiProxy>();
             for (int i = 0; i < _game.Players.Count; i++)
@@ -224,10 +210,10 @@ namespace Sanguosha.UI.Controls
             {
                 _game.ActiveClientProxy = activeClientProxy;
                 _game.GlobalProxy = new GlobalClientUiProxy(_game, activeClientProxy, inactive);
-                _game.IsUiDetached = _game.IsUiDetached;
+                _game.UpdateUiAttachStatus();
             }
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
-            {                
+            {
                 gameView.DataContext = gameModel;
                 if (BackwardNavigationService != null && !ViewModelBase.IsDetached)
                 {
@@ -235,17 +221,17 @@ namespace Sanguosha.UI.Controls
                     BackwardNavigationService = null;
                 }
             });
-            _game.Run();            
+            _game.Run();
         }
 
         private Game _game;
-        
+
         Thread gameThread;
 
         public void Start()
         {
             gameThread = new Thread(InitGame) { IsBackground = true };
-            gameThread.Start();            
+            gameThread.Start();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -265,7 +251,7 @@ namespace Sanguosha.UI.Controls
                 }
             }
             ctrlGetCard.DataContext = model;
-            
+
         }
 
         private void btnGetSkill_Click(object sender, RoutedEventArgs e)
@@ -280,15 +266,15 @@ namespace Sanguosha.UI.Controls
                     string exp = string.Empty;
                     var exps = from expansion in GameEngine.Expansions.Keys
                                where GameEngine.Expansions[expansion].CardSet.Contains(card)
-                               select expansion;                    
+                               select expansion;
                     if (exps.Count() > 0)
                     {
                         exp = exps.First();
                     }
-                    model.Add(new HeroViewModel() 
+                    model.Add(new HeroViewModel()
                     {
                         Id = card.Id,
-                        Hero = (card.Type as HeroCardHandler).Hero,                        
+                        Hero = (card.Type as HeroCardHandler).Hero,
                         ExpansionName = exp
                     });
                 }
@@ -297,12 +283,12 @@ namespace Sanguosha.UI.Controls
         }
 
         private void muteButton_Click(object sender, System.Windows.RoutedEventArgs e)
-        {        	
+        {
             muteButton.Visibility = Visibility.Collapsed;
             soundButton.Visibility = Visibility.Visible;
             GameSoundPlayer.IsMute = false;
         }
-        
+
         private void soundButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             soundButton.Visibility = Visibility.Collapsed;

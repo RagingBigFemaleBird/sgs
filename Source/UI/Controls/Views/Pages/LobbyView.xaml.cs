@@ -17,6 +17,7 @@ using Sanguosha.Core.Network;
 using System.ComponentModel;
 using System.Threading;
 using Sanguosha.Core.Utils;
+using System.Windows.Threading;
 
 namespace Sanguosha.UI.Controls
 {
@@ -28,8 +29,59 @@ namespace Sanguosha.UI.Controls
         public LobbyView()
         {
             InitializeComponent();
-            LobbyModel.OnChat += LobbyModel_OnChat;
+            _updateRoomTimer = new DispatcherTimer();
+            _updateRoomTimer.Interval = TimeSpan.FromSeconds(3);
+            _updateRoomTimer.Tick += timer_Tick;
         }
+
+        bool _initiated = false;
+        public void Init(NavigationService nav)
+        {
+            if (!_initiated && nav != null)
+            {
+                nav.Navigating += NavigationService_Navigating;
+                _initiated = true;
+            }
+        }
+
+        void NavigationService_Navigating(object sender, NavigatingCancelEventArgs e)
+        {
+            if (e.Content == this)
+            {
+                LobbyModel.OnChat += LobbyModel_OnChat;
+                _updateRoomTimer.Start();
+                busyIndicator.IsBusy = false;
+                try
+                {
+                    LobbyViewModel.Instance.UpdateRooms();
+                }
+                catch (Exception)
+                {
+                    var handler = OnNavigateBack;
+                    if (handler != null)
+                    {
+                        handler(this, this.NavigationService);
+                    }
+                }
+            }
+            else
+            {
+                _updateRoomTimer.Stop();
+            }
+        }
+
+        void timer_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                LobbyViewModel.Instance.UpdateRooms();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        DispatcherTimer _updateRoomTimer;
 
         void LobbyModel_OnChat(string userName, string msg)
         {
@@ -108,7 +160,6 @@ namespace Sanguosha.UI.Controls
                             game.OnNavigateBack += (oo, s) =>
                             {
                                 s.Navigate(this);
-                                this.Reload();
                             };
                             game.NetworkClient = client;
                             if (NavigationService != null)
@@ -211,12 +262,6 @@ namespace Sanguosha.UI.Controls
             });
         }
 
-        public void Reload()
-        {
-            LobbyModel.OnChat += LobbyModel_OnChat;
-            busyIndicator.IsBusy = false;
-            LobbyViewModel.Instance.UpdateRooms();
-        }
 
         private void btnCreateRoomConfirm_Click(object sender, RoutedEventArgs e)
         {

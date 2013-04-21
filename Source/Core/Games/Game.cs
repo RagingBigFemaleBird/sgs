@@ -529,7 +529,6 @@ namespace Sanguosha.Core.Games
                 crashReport.WriteLine(e);
                 crashReport.Close();
             }
-
             mainThread = null;
 
             if (GameServer != null)
@@ -744,20 +743,22 @@ namespace Sanguosha.Core.Games
 
         public IGlobalUiProxy GlobalProxy { get; set; }
 
-        private int isUiDetached;
-        private int lastUiState;
-
-        public int IsUiDetached
+        private bool isUiDetached;
+        public bool IsUiDetached
         {
             get { return isUiDetached; }
             set 
             {
+                if (isUiDetached == value) return;
                 isUiDetached = value;
-                if (notificationProxy == null) return;
-                if (!((lastUiState == 0) ^ (isUiDetached == 0))) return;
-                if (ReplayController != null) return;
-                lastUiState = isUiDetached;
-                if (isUiDetached == 0)
+                UpdateUiAttachStatus();
+            }
+        }
+        public void UpdateUiAttachStatus()
+        {
+            if (ReplayController != null) return;
+            if (notificationProxy == null) return;
+            if (!isUiDetached)
                 {
                     foreach (var pair in uiProxies)
                     {
@@ -766,7 +767,7 @@ namespace Sanguosha.Core.Games
                     }
                     notificationProxy.NotifyUiAttached();
                 }
-                if (isUiDetached > 0)
+                else
                 {
                     foreach (var pair in uiProxies)
                     {
@@ -776,8 +777,7 @@ namespace Sanguosha.Core.Games
                     notificationProxy.NotifyUiDetached();
                 }
             }
-        }
-
+        
         private INotificationProxy notificationProxy;
 
         public INotificationProxy NotificationProxy

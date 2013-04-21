@@ -810,6 +810,18 @@
     <Resource Include="Images\Cards\Normal\YuFan.jpg" />
     <Resource Include="Images\Cards\Normal\ZhuRan.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Packages\basic.png" />
+    <Resource Include="Images\Packages\battle.png" />
+    <Resource Include="Images\Packages\ex.png" />
+    <Resource Include="Images\Packages\fire.png" />
+    <Resource Include="Images\Packages\god.png" />
+    <Resource Include="Images\Packages\hills.png" />
+    <Resource Include="Images\Packages\overknightfame.png" />
+    <Resource Include="Images\Packages\sp.png" />
+    <Resource Include="Images\Packages\wind.png" />
+    <Resource Include="Images\Packages\woods.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if not exist $(TargetDir)\Resources\Texts mkdir  $(TargetDir)\Resources\Texts

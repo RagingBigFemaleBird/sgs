@@ -463,14 +463,12 @@ namespace Sanguosha.Core.Network
     public class UIStatusHint : GameUpdate
     {
         [ProtoMember(1)]
-        public int Detach { get; set; }
+        public bool IsDetached { get; set; }
     }
 
     [ProtoContract]
     public class MultiCardUsageResponded : GameUpdate
     {
-        [ProtoMember(1)]
-        public int NotUsed { get; set; }
     }
 
     [ProtoContract]

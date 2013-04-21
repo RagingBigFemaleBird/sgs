@@ -30,7 +30,7 @@ namespace Sanguosha.Core.Utils
         public static void Delay(int delayInMilliseconds)
         {
             var game = Game.CurrentGame;
-            if (game == null || game.IsUiDetached != 0) return;
+            if (game == null || game.IsUiDetached) return;
             int toDelay = delayInMilliseconds;
             if (game.ReplayController != null)
             {

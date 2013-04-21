@@ -520,14 +520,12 @@ namespace Sanguosha.Core.Games
                 int numberOfDefectors = (game.Players.Count > 2 ? game.Settings.NumberOfDefectors : 1);
 
                 // Put the whole deck in the dealing deck
-                game.Decks[DeckType.Dealing] = game.CardSet.GetRange(0, game.CardSet.Count);
-                var dealdeck = new List<Card>(game.Decks[DeckType.Dealing]);
-                foreach (Card card in dealdeck)
+                
+                foreach (Card card in game.CardSet)
                 {
                     // We don't want hero cards
                     if (card.Type is HeroCardHandler)
                     {
-                        game.Decks[DeckType.Dealing].Remove(card);
                         bool isSPHero = false;
                         if (!game.IsClient || game.IsPanorama) isSPHero = (card.Type as HeroCardHandler).Hero.IsSpecialHero;
                         else isSPHero = card.Id == Card.UnknownSPHeroId;
@@ -545,11 +543,11 @@ namespace Sanguosha.Core.Games
                     }
                     else if (card.Type is RoleCardHandler)
                     {
-                        game.Decks[DeckType.Dealing].Remove(card);
                         card.Place = new DeckPlace(null, RoleDeckType);
                     }
                     else
                     {
+                        game.Decks[DeckType.Dealing].Add(card);
                         card.Place = new DeckPlace(null, DeckType.Dealing);
                     }
                 }
