@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assassin.cs" />
+    <Compile Include="AssassinExpansion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Skills\FenXin.cs" />
     <Compile Include="Skills\JieYuan.cs" />

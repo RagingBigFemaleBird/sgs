@@ -77,7 +77,6 @@ namespace Sanguosha.Core.Games
                         (a) => { int idx = Properties.Settings.Default.LoadSequence.IndexOf(Path.GetFileNameWithoutExtension(a).ToLower()); if (idx < 0) return int.MaxValue; return idx; });
             foreach (var file in files)
             {
-
                 try
                 {
                     Assembly assembly = Assembly.LoadFile(Path.GetFullPath(file));

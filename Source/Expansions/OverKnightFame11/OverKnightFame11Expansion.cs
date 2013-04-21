@@ -10,7 +10,7 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Heroes;
 using Sanguosha.Expansions.OverKnightFame11.Skills;
 
-namespace Sanguosha.Expansions.OverKnightFame11
+namespace Sanguosha.Expansions
 {
     public class OverKnightFame11Expansion : Expansion
     {

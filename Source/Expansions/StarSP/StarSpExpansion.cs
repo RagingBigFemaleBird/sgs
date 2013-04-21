@@ -11,7 +11,7 @@ using Sanguosha.Core.Heroes;
 using Sanguosha.Expansions.StarSP.Skills;
 using Sanguosha.Expansions.Basic.Skills;
 
-namespace Sanguosha.Expansions.StarSP
+namespace Sanguosha.Expansions
 {
     public class StarSpExpansion : Expansion
     {

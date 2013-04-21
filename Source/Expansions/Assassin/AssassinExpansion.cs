@@ -10,7 +10,7 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Heroes;
 using Sanguosha.Expansions.Assassin.Skills;
 
-namespace Sanguosha.Expansions.Assassin
+namespace Sanguosha.Expansions
 {
     public class AssassinExpansion : Expansion
     {

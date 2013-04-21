@@ -11,7 +11,7 @@ using Sanguosha.Core.Heroes;
 using Sanguosha.Expansions.Woods.Skills;
 
 
-namespace Sanguosha.Expansions.Woods
+namespace Sanguosha.Expansions
 {
     public class WoodsExpansion : Expansion
     {

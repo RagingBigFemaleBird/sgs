@@ -491,6 +491,30 @@ namespace Sanguosha.Lobby.Server
                     NumHeroPicks = room.Room.Settings.NumHeroPicks,
                     NumberOfDefectors = room.Room.Settings.NumberOfDefectors == 2 ? 2 : 1
                 };
+
+                // Load pakcages.
+                gs.PackagesEnabled.Add("Sanguosha.Expansions.BasicExpansion");
+                gs.PackagesEnabled.Add("Sanguosha.Expansions.BattleExpansion");
+                if ((room.Room.Settings.EnabledPackages & EnabledPackages.Wind) != 0) gs.PackagesEnabled.Add("Sanguosha.Expansions.WindExpansion");
+                if ((room.Room.Settings.EnabledPackages & EnabledPackages.Fire) != 0) gs.PackagesEnabled.Add("Sanguosha.Expansions.FireExpansion");
+                if ((room.Room.Settings.EnabledPackages & EnabledPackages.Woods) != 0) gs.PackagesEnabled.Add("Sanguosha.Expansions.WoodsExpansion");
+                if ((room.Room.Settings.EnabledPackages & EnabledPackages.Hills) != 0) gs.PackagesEnabled.Add("Sanguosha.Expansions.HillsExpansion");
+                if ((room.Room.Settings.EnabledPackages & EnabledPackages.SP) != 0)
+                {
+                    gs.PackagesEnabled.Add("Sanguosha.Expansions.SpExpansion");
+                    gs.PackagesEnabled.Add("Sanguosha.Expansions.StarSpExpansion");
+                }
+                if ((room.Room.Settings.EnabledPackages & EnabledPackages.OverKnightFame) != 0)
+                {
+                    gs.PackagesEnabled.Add("Sanguosha.Expansions.OverKnightFame11Expansion");
+                    gs.PackagesEnabled.Add("Sanguosha.Expansions.OverKnightFame12Expansion");
+                    gs.PackagesEnabled.Add("Sanguosha.Expansions.OverKnightFame13Expansion");                    
+                }
+                if ((room.Room.Settings.EnabledPackages & EnabledPackages.Others) != 0)
+                {
+                    gs.PackagesEnabled.Add("Sanguosha.Expansions.AssasinExpansion");
+                }                
+
                 var config = new AccountConfiguration();
                 room.GameInfo = config;
                 foreach (var addconfig in room.Room.Seats)

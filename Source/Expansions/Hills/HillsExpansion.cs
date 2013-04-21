@@ -10,7 +10,7 @@ using Sanguosha.Core.Games;
 using Sanguosha.Core.Heroes;
 using Sanguosha.Expansions.Hills.Skills;
 
-namespace Hills
+namespace Sanguosha.Expansions
 {
     public class HillsExpansion : Expansion
     {

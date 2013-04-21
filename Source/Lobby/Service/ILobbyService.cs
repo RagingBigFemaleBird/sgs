@@ -46,6 +46,21 @@ namespace Sanguosha.Lobby.Core
         NotAutheticated = -6,
     }
 
+    [Flags]
+    [ProtoContract]
+    public enum EnabledPackages : int // Change this to long if more package types are added!
+    {
+        None = 0,
+        Wind = 1,
+        Fire = 1 << 2,
+        Woods = 1 << 3,
+        Hills = 1 << 4,
+        Gods = 1 << 5,
+        SP = 1 << 6,
+        OverKnightFame = 1 << 7,
+        Others = 1 << 8
+    }
+
     [Serializable]
     public struct RoomSettings
     {
@@ -53,6 +68,7 @@ namespace Sanguosha.Lobby.Core
         public int NumberOfDefectors { get; set; }
         public bool IsDualHeroMode { get; set; }
         public int NumHeroPicks { get; set; }
+        public EnabledPackages EnabledPackages { get; set; }
     }
 
     [ServiceKnownType("GetKnownTypes", typeof(Helper))]

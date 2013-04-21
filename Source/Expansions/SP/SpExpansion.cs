@@ -16,7 +16,7 @@ using Sanguosha.Expansions.Hills.Skills;
 using Sanguosha.Expansions.Basic.Skills;
 using Sanguosha.Expansions.Assassin.Skills;
 
-namespace Sanguosha.Expansions.SP
+namespace Sanguosha.Expansions
 {
     public class SpExpansion : Expansion
     {

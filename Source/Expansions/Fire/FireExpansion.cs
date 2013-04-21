@@ -12,7 +12,7 @@ using Sanguosha.Core.Heroes;
 using Sanguosha.Expansions.Fire.Skills;
 using Sanguosha.Expansions.Basic.Skills;
 
-namespace Sanguosha.Expansions.Fire
+namespace Sanguosha.Expansions
 {
     public class FireExpansion : Expansion
     {

@@ -335,13 +335,14 @@
                 </UniformGrid>
                 <TextBlock Text="武将扩展" Grid.Row="6" VerticalAlignment="Top"/>
                 <UniformGrid Columns="4" Grid.Row="6" Grid.Column="2" VerticalAlignment="Center">
-                    <CheckBox Content="风" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
-                    <CheckBox Content="火" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
-                    <CheckBox Content="林" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
-                    <CheckBox Content="山" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
-                    <CheckBox Content="神" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
-                    <CheckBox Content="SP" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
-                    <CheckBox Content="将" IsChecked="True" IsEnabled="False" Margin="0,0,10,0"/>
+                    <CheckBox x:Name="cbWind" Content="风" IsChecked="True" Margin="0,0,10,0"/>
+                    <CheckBox x:Name="cbFire" Content="火" IsChecked="True" Margin="0,0,10,0"/>
+                    <CheckBox x:Name="cbWoods" Content="林" IsChecked="True" Margin="0,0,10,0"/>
+                    <CheckBox x:Name="cbHills" Content="山" Margin="0,0,10,0" IsChecked="True"/>
+                    <CheckBox x:Name="cbGods" Content="神" IsChecked="True" Margin="0,0,10,0"/>
+                    <CheckBox x:Name="cbSP" Content="SP" IsChecked="True" Margin="0,0,10,0"/>
+                    <CheckBox x:Name="cbOverKnightFame" Content="将" IsChecked="True" Margin="0,0,10,0"/>
+					<CheckBox x:Name="cbOthers" Content="其它" IsChecked="True" Margin="0,0,10,0"/>
                 </UniformGrid>
                 <StackPanel Grid.Row="7" Grid.ColumnSpan="3"  HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal">
                     <Button Content="确定" Margin="3,0" Width="45" Height="22" Style="{DynamicResource DefaultButtonStyleBrown}" Click="btnCreateRoomConfirm_Click" />

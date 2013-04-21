@@ -227,6 +227,15 @@ namespace Sanguosha.UI.Controls
             settings.NumHeroPicks = options1[cbHeroPickCount.SelectedIndex];
             int[] options2 = { 10, 15, 20, 30 };
             settings.TimeOutSeconds = options2[cbTimeOutSeconds.SelectedIndex];
+            settings.EnabledPackages = EnabledPackages.None;
+            if (cbWind.IsChecked == true) settings.EnabledPackages |= EnabledPackages.Wind;
+            if (cbFire.IsChecked == true) settings.EnabledPackages |= EnabledPackages.Fire;
+            if (cbWoods.IsChecked == true) settings.EnabledPackages |= EnabledPackages.Woods;
+            if (cbHills.IsChecked == true) settings.EnabledPackages |= EnabledPackages.Hills;
+            if (cbGods.IsChecked == true) settings.EnabledPackages |= EnabledPackages.Gods;
+            if (cbSP.IsChecked == true) settings.EnabledPackages |= EnabledPackages.SP;
+            if (cbOverKnightFame.IsChecked == true) settings.EnabledPackages |= EnabledPackages.OverKnightFame;
+
             LobbyModel.CreateRoom(settings);
             createRoomWindow.Close();
         }

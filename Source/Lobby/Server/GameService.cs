@@ -58,10 +58,7 @@ namespace Sanguosha.Lobby.Server
             pxy.TimeOutSeconds = timeOutSeconds;
             game.GlobalProxy = pxy;
             game.NotificationProxy = new DummyNotificationProxy();
-            foreach (var g in GameEngine.Expansions.Values)
-            {
-                game.LoadExpansion(g);
-            }
+
             game.GameServer = server;
             var thread = new Thread(() => 
             {

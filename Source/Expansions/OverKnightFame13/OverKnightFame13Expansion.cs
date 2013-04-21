@@ -11,7 +11,7 @@ using Sanguosha.Core.Heroes;
 using Sanguosha.Expansions.OverKnightFame13.Skills;
 using Sanguosha.Expansions.Basic.Skills;
 
-namespace OverKnightFame13
+namespace Sanguosha.Expansions
 {
     public class OverKnightFame13Expansion : Expansion
     {

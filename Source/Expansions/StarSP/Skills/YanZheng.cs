@@ -11,7 +11,7 @@ using Sanguosha.Expansions.Basic.Cards;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Players;
 
-namespace Sanguosha.Expansions.StarSP
+namespace Sanguosha.Expansions.StarSP.Skills
 {
     /// <summary>
     /// 严整–若你的手牌数大于你的当前体力值，你可以将你装备区内的一张牌当【无懈可击】使用。

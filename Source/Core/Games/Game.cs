@@ -16,6 +16,7 @@ using Sanguosha.Lobby.Core;
 using Sanguosha.Core.Utils;
 using System.IO;
 using Sanguosha.Core.Network;
+using Sanguosha.Core.Heroes;
 
 
 namespace Sanguosha.Core.Games
@@ -144,7 +145,23 @@ namespace Sanguosha.Core.Games
 
         public void LoadExpansion(Expansion expansion)
         {
-            OriginalCardSet.AddRange(expansion.CardSet);
+            if (Settings.IsGodEnabled)
+            {
+                OriginalCardSet.AddRange(expansion.CardSet);
+            }
+            else
+            {
+                foreach (var card in expansion.CardSet)
+                {                
+                    var hero = card.Type as HeroCardHandler;
+                    if (hero != null)
+                    {
+                        if (hero.Hero.Allegiance == Allegiance.God) continue;
+                    }
+                    OriginalCardSet.Add(card);
+                }
+            }
+            
 
             if (expansion.TriggerRegistration != null)
             {
@@ -371,7 +388,8 @@ namespace Sanguosha.Core.Games
         Thread mainThread;
 
         public virtual void Run()
-        {
+        {            
+
             mainThread = Thread.CurrentThread;
             if (!games.ContainsKey(Thread.CurrentThread))
             {
@@ -401,7 +419,11 @@ namespace Sanguosha.Core.Games
                 {
                     GameServer.SendObject(i, new ConnectionResponse() { SelfId = i, Settings = Settings });
                 }
+            }
 
+            foreach (var expansionName in Settings.PackagesEnabled)
+            {
+                LoadExpansion(GameEngine.Expansions[expansionName]);
             }
 
             availableCards = new List<CardHandler>();

@@ -11,7 +11,7 @@ using Sanguosha.Expansions.Wind.Skills;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Heroes;
 
-namespace Sanguosha.Expansions.Wind
+namespace Sanguosha.Expansions
 {
     public class WindExpansion : Expansion
     {

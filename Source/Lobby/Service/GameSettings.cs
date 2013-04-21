@@ -10,6 +10,10 @@ namespace Sanguosha.Lobby.Core
     [ProtoContract]
     public class GameSettings
     {
+        public GameSettings()
+        {
+            PackagesEnabled = new List<string>();
+        }
         [ProtoMember(1)]
         public int TotalPlayers { get; set; }
         [ProtoMember(2)]
@@ -24,5 +28,9 @@ namespace Sanguosha.Lobby.Core
         public bool DualHeroMode { get; set; }
         [ProtoMember(7)]
         public int NumHeroPicks { get; set; }
+        [ProtoMember(8)]
+        public IList<string> PackagesEnabled { get; set; }
+        [ProtoMember(9)]
+        public bool IsGodEnabled { get; set; }
     }
 }

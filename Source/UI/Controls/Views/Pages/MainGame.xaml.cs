@@ -153,10 +153,7 @@ namespace Sanguosha.UI.Controls
                 }
 
             }
-            foreach (var g in GameEngine.Expansions.Values)
-            {
-                _game.LoadExpansion(g);
-            }
+
             ClientNetworkUiProxy activeClientProxy = null;
             if (NetworkClient != null)
             {

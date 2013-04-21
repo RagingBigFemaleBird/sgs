@@ -47,7 +47,7 @@ namespace Sanguosha.Core.Heroes
 
         public Player Owner { get; set; }
 
-        public bool IsMale { get; set; }
+        public bool IsMale { get; set; }                
 
         public int MaxHealth { get; set; }
 

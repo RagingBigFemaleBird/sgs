@@ -12,7 +12,7 @@ using Sanguosha.Expansions.Basic.Skills;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Heroes;
 
-namespace Sanguosha.Expansions.Basic
+namespace Sanguosha.Expansions
 {
     public class BasicExpansion : Expansion
     {
