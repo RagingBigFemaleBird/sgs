@@ -26,6 +26,7 @@ using System.Net;
 using System.Net.Security;
 using Sanguosha.Core.Utils;
 using System.Diagnostics;
+using System.ServiceModel.Description;
 
 namespace Sanguosha.UI.Main
 {
@@ -381,26 +382,18 @@ namespace Sanguosha.UI.Main
                     ea.Result = false;
                     if (hasDatabase) LobbyServiceImpl.EnableDatabase();
                     LobbyServiceImpl.HostingIp = serverIp;
-
+                    
                     host = new ServiceHost(typeof(LobbyServiceImpl));
                     //, new Uri[] { new Uri(string.Format("net.tcp://{0}:{1}/GameService", serverIp, portNumber)) });
                     var binding = new NetTcpBinding();
-
-                    binding.ReceiveTimeout = new TimeSpan(1, 0, 0);
-                    binding.SendTimeout = new TimeSpan(1, 0, 0);
-                    binding.OpenTimeout = new TimeSpan(1, 0, 0);
-                    binding.CloseTimeout = new TimeSpan(1, 0, 0);
-
                     binding.Security.Mode = SecurityMode.None;
                     binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.None;
                     binding.Security.Transport.ProtectionLevel = ProtectionLevel.None;
                     binding.Security.Message.ClientCredentialType = MessageCredentialType.None;
                     binding.MaxBufferPoolSize = Misc.MaxBugReportSize;
                     binding.MaxBufferSize = Misc.MaxBugReportSize;
-                    binding.MaxReceivedMessageSize = Misc.MaxBugReportSize;
-
+                    binding.MaxReceivedMessageSize = Misc.MaxBugReportSize;                    
                     host.AddServiceEndpoint(typeof(ILobbyService), binding, string.Format("net.tcp://{0}:{1}/GameService", serverIp, portNumber));
-
                     host.Open();
                     ea.Result = true;
                 }

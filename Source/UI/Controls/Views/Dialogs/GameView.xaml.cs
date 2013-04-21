@@ -261,10 +261,11 @@ namespace Sanguosha.UI.Controls
             chatBox.Document.Blocks.Add(para);
             chatBox.ScrollToEnd();
 
-            var para2 = new Paragraph();
-            para2.Inlines.AddRange(LogFormatter.RichTranslateChatMessage(msg));
-            if (playersMap.ContainsKey(player.Player))
+            if (player != null && playersMap.ContainsKey(player.Player))
             {
+                var para2 = new Paragraph();
+                para2.Inlines.AddRange(LogFormatter.RichTranslateChatMessage(msg));
+            
                 playersMap[player.Player].Chat(para2);
             }            
         }

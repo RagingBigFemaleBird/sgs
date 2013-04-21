@@ -259,6 +259,7 @@ namespace Sanguosha.UI.Controls
         {
             chatDoc.Blocks.Clear();
             chatDoc.Blocks.Add(msg);
+            chatBox.InvalidateMeasure();
             (Resources["ShowChatBox"] as Storyboard).Begin();
         }
 

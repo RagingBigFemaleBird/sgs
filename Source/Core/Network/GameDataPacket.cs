@@ -153,16 +153,50 @@ namespace Sanguosha.Core.Network
         }
     }
 
-    [ProtoContract]
-    [ProtoInclude(1032, typeof(CardByPlaceItem))]    
-    public abstract class CardItem
+    [ProtoContract] 
+    public class CardItem
     {
-        public abstract Card ToCard(int wrtPlayerId);
+        [ProtoMember(1)]
+        public DeckPlaceItem DeckPlaceItem { get; set; }
+
+        [ProtoMember(2)]
+        public int PlaceInDeck { get; set; }
+
+        [ProtoMember(3)]
+        public int CardId { get; set; }
+
+        public Card ToCard(int wrtPlayerId)
+        {            
+            if (DeckPlaceItem == null) return null;
+            var cardDeck = Game.CurrentGame.Decks[DeckPlaceItem.ToDeckPlace()];
+            if (cardDeck == null || cardDeck.Count <= PlaceInDeck) return null;
+            if (DeckPlaceItem.ToDeckPlace().Player != null && DeckPlaceItem.ToDeckPlace().DeckType == DeckType.Hand &&
+                wrtPlayerId >= 0 && wrtPlayerId < Game.CurrentGame.Players.Count &&
+                Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrtPlayerId]].Contains(DeckPlaceItem.ToDeckPlace().Player))
+            {
+                var theCard = cardDeck.FirstOrDefault(cd => cd.Id == CardId);
+                return theCard;
+            }
+
+            if (DeckPlaceItem.ToDeckPlace().DeckType != DeckType.Equipment && DeckPlaceItem.ToDeckPlace().DeckType != DeckType.DelayedTools && CardId >= 0 && Game.CurrentGame.IsClient)
+            {
+                cardDeck[PlaceInDeck].Id = CardId;
+                cardDeck[PlaceInDeck].Type = (CardHandler)(GameEngine.CardSet[CardId].Type.Clone());
+                cardDeck[PlaceInDeck].Suit = GameEngine.CardSet[CardId].Suit;
+                cardDeck[PlaceInDeck].Rank = GameEngine.CardSet[CardId].Rank;
+                var bp = DeckPlaceItem.ToDeckPlace().Player;
+                if (bp != null)
+                {
+                    Game.CurrentGame._FilterCard(bp, cardDeck[PlaceInDeck]);
+                }
+            }
+            return cardDeck[PlaceInDeck];
+        }
         
         public static CardItem Parse(Card card, int wrtPlayerId)
         {
             if (card == null) return null;
-            var item = new CardByPlaceItem()
+            var item = new CardItem()
             {
                 DeckPlaceItem = DeckPlaceItem.Parse(card.Place),
                 PlaceInDeck = Game.CurrentGame.Decks[card.Place].IndexOf(card)
@@ -184,43 +218,6 @@ namespace Sanguosha.Core.Network
                 else { item.CardId = -1; }
                 return item;
             }
-        }
-    }
-    
-    [ProtoContract]
-    public class CardByPlaceItem : CardItem
-    {
-        [ProtoMember(1)]
-        public DeckPlaceItem DeckPlaceItem { get; set; }
-        [ProtoMember(2)]
-        public int PlaceInDeck { get; set; }
-        [ProtoMember(3)]
-        public int CardId { get; set; }
-        public override Card ToCard(int wrtPlayerId)
-        {
-            var cardDeck = Game.CurrentGame.Decks[DeckPlaceItem.ToDeckPlace()];
-            if (cardDeck.Count <= PlaceInDeck) return null;
-            if (DeckPlaceItem.ToDeckPlace().Player != null && DeckPlaceItem.ToDeckPlace().DeckType == DeckType.Hand &&
-                wrtPlayerId >= 0 && wrtPlayerId < Game.CurrentGame.Players.Count &&
-                Game.CurrentGame.HandCardVisibility[Game.CurrentGame.Players[wrtPlayerId]].Contains(DeckPlaceItem.ToDeckPlace().Player))
-            {
-                var theCard = cardDeck.FirstOrDefault(cd => cd.Id == CardId);
-                return theCard;
-            }
-                
-            if (DeckPlaceItem.ToDeckPlace().DeckType != DeckType.Equipment && DeckPlaceItem.ToDeckPlace().DeckType != DeckType.DelayedTools && CardId >= 0 && Game.CurrentGame.IsClient)
-            {
-                cardDeck[PlaceInDeck].Id = CardId;
-                cardDeck[PlaceInDeck].Type = (CardHandler)(GameEngine.CardSet[CardId].Type.Clone());
-                cardDeck[PlaceInDeck].Suit = GameEngine.CardSet[CardId].Suit;
-                cardDeck[PlaceInDeck].Rank = GameEngine.CardSet[CardId].Rank;
-                var bp = DeckPlaceItem.ToDeckPlace().Player;
-                if (bp != null)
-                {
-                    Game.CurrentGame._FilterCard(bp, cardDeck[PlaceInDeck]);
-                }
-            }
-            return cardDeck[PlaceInDeck];
         }
     }
 
