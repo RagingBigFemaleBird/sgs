@@ -43,18 +43,6 @@ namespace Sanguosha.Lobby.Server
             currentAccount = null;
         }
 
-        void Channel_Faulted(object sender, EventArgs e)
-        {
-            try
-            {
-                if (currentAccount.CurrentRoom.Room.State == RoomState.Gaming) return;
-                _Logout(currentAccount);
-            }
-            catch (Exception)
-            {
-            }
-        }
-
         private Account Authenticate(string username, string hash)
         {
             if (accountContext == null) return new Account() { UserName = username };
@@ -77,7 +65,10 @@ namespace Sanguosha.Lobby.Server
                 return LoginStatus.OutdatedVersion;
             }
             ClientAccount disconnected = null;
-            if (loggedInAccounts.ContainsKey(username)) disconnected = loggedInAccounts[username];
+            lock (loggedInAccounts)
+            {
+                if (loggedInAccounts.ContainsKey(username)) disconnected = loggedInAccounts[username];
+            }
             Account authenticatedAccount = Authenticate(username, hash);
             if (authenticatedAccount == null)
             {
@@ -122,7 +113,10 @@ namespace Sanguosha.Lobby.Server
             else
             {
                 var acc = new ClientAccount() { Account = authenticatedAccount, CallbackChannel = connection, LobbyService = this };
-                loggedInAccounts.Add(username, acc);
+                lock (loggedInAccounts)
+                {
+                    loggedInAccounts.Add(username, acc);
+                }
                 currentAccount = acc;
                 // hack
                 var roomresult = from r in rooms.Values where r.Room.Seats.Any(st => st.Account == authenticatedAccount) select r;
@@ -132,8 +126,20 @@ namespace Sanguosha.Lobby.Server
                 }
             }
             Trace.TraceInformation("{0} logged in", username);
-            OperationContext.Current.Channel.Faulted += new EventHandler(Channel_Faulted);
-            OperationContext.Current.Channel.Closed += new EventHandler(Channel_Faulted);
+            EventHandler faultHandler = (o, s) =>
+                        {
+                            try
+                            {
+                                if (currentAccount.CurrentRoom.Room.State == RoomState.Gaming) return;
+                                _Logout(currentAccount);
+                            }
+                            catch (Exception)
+                            {
+                            }
+                        };
+
+            OperationContext.Current.Channel.Faulted += faultHandler;
+            OperationContext.Current.Channel.Closed += faultHandler;
             retAccount = currentAccount.Account;
             _Unspectate(currentAccount);
             return LoginStatus.Success;
@@ -146,10 +152,13 @@ namespace Sanguosha.Lobby.Server
             {
                 if (_ExitRoom(account) != RoomOperationResult.Success) return;
             }
-            Trace.Assert(!loggedInAccounts.ContainsKey(account.Account.UserName));
-            account.LobbyService.currentAccount = null;
-            account.CurrentSpectatingRoom = null;
-            loggedInAccounts.Remove(account.Account.UserName);
+            lock (loggedInAccounts)
+            {
+                Trace.Assert(loggedInAccounts.ContainsKey(account.Account.UserName));
+                account.LobbyService.currentAccount = null;
+                account.CurrentSpectatingRoom = null;
+                loggedInAccounts.Remove(account.Account.UserName);
+            }
         }
 
         public void Logout()
@@ -326,8 +335,11 @@ namespace Sanguosha.Lobby.Server
                     {
                         try
                         {
-                            var channel = loggedInAccounts[notify.Account.UserName].CallbackChannel;
-                            channel.NotifyRoomUpdate(roomId, rooms[roomId].Room);
+                            lock (loggedInAccounts)
+                            {
+                                var channel = loggedInAccounts[notify.Account.UserName].CallbackChannel;
+                                channel.NotifyRoomUpdate(roomId, rooms[roomId].Room);
+                            }
                         }
                         catch (Exception)
                         {
@@ -351,8 +363,11 @@ namespace Sanguosha.Lobby.Server
                     {
                         try
                         {
-                            var channel = loggedInAccounts[notify.Account.UserName].CallbackChannel;
-                            channel.NotifyGameStart(ip.ToString() + ":" + port, rooms[roomId].GameInfo.LoginTokens[i]);
+                            lock (loggedInAccounts)
+                            {
+                                var channel = loggedInAccounts[notify.Account.UserName].CallbackChannel;
+                                channel.NotifyGameStart(ip.ToString() + ":" + port, rooms[roomId].GameInfo.LoginTokens[i]);
+                            }
                         }
                         catch (Exception)
                         {
@@ -428,33 +443,35 @@ namespace Sanguosha.Lobby.Server
                     foreach (var seat in rooms[roomId].Room.Seats)
                     {
                         if (seat.Account == null) continue;
-
-                        if (loggedInAccounts.ContainsKey(seat.Account.UserName))
+                        lock (loggedInAccounts)
                         {
-                            try
+                            if (loggedInAccounts.ContainsKey(seat.Account.UserName))
                             {
-                                loggedInAccounts[seat.Account.UserName].CallbackChannel.Ping();
+                                try
+                                {
+                                    loggedInAccounts[seat.Account.UserName].CallbackChannel.Ping();
+                                }
+                                catch (Exception)
+                                {
+                                    _Logout(loggedInAccounts[seat.Account.UserName]);
+                                    seat.Account = null;
+                                    seat.State = SeatState.Empty;
+                                    continue;
+                                }
                             }
-                            catch (Exception)
+                            else
                             {
-                                _Logout(loggedInAccounts[seat.Account.UserName]);
+                                seat.State = SeatState.Empty;
+                            }
+
+                            if (seat.State != SeatState.Host) seat.State = SeatState.GuestTaken;
+
+                            if ((loggedInAccounts.ContainsKey(seat.Account.UserName) && loggedInAccounts[seat.Account.UserName].CurrentRoom != rooms[roomId]) ||
+                                !loggedInAccounts.ContainsKey(seat.Account.UserName))
+                            {
                                 seat.Account = null;
                                 seat.State = SeatState.Empty;
-                                continue;
                             }
-                        }
-                        else
-                        {
-                            seat.State = SeatState.Empty;
-                        }
-
-                        if (seat.State != SeatState.Host) seat.State = SeatState.GuestTaken;
-
-                        if ((loggedInAccounts.ContainsKey(seat.Account.UserName) && loggedInAccounts[seat.Account.UserName].CurrentRoom != rooms[roomId]) ||
-                            !loggedInAccounts.ContainsKey(seat.Account.UserName))
-                        {
-                            seat.Account = null;
-                            seat.State = SeatState.Empty;
                         }
 
                     }
@@ -579,14 +596,17 @@ namespace Sanguosha.Lobby.Server
                 if (room.Seats[seatNo].State == SeatState.GuestReady || room.Seats[seatNo].State == SeatState.GuestTaken)
                 {
                     var kicked = room.Seats[seatNo].Account;
-                    if (_ExitRoom(loggedInAccounts[kicked.UserName], true) == RoomOperationResult.Invalid)
+                    lock (loggedInAccounts)
                     {
-                        //zombie occured
-                        room.Seats[seatNo].State = SeatState.Empty;
-                    }
-                    else
-                    {
-                        loggedInAccounts[kicked.UserName].CallbackChannel.NotifyKicked();
+                        if (_ExitRoom(loggedInAccounts[kicked.UserName], true) == RoomOperationResult.Invalid)
+                        {
+                            //zombie occured
+                            room.Seats[seatNo].State = SeatState.Empty;
+                        }
+                        else
+                        {
+                            loggedInAccounts[kicked.UserName].CallbackChannel.NotifyKicked();
+                        }
                     }
                     return RoomOperationResult.Success;
                 }
@@ -648,7 +668,10 @@ namespace Sanguosha.Lobby.Server
                     {
                         try
                         {
-                            loggedInAccounts[seat.Account.UserName].CallbackChannel.NotifyChat(currentAccount.Account, message);
+                            lock (loggedInAccounts)
+                            {
+                                loggedInAccounts[seat.Account.UserName].CallbackChannel.NotifyChat(currentAccount.Account, message);
+                            }
                         }
                         catch (Exception)
                         {
@@ -660,7 +683,10 @@ namespace Sanguosha.Lobby.Server
                 {
                     try
                     {
-                        loggedInAccounts[sp.Account.UserName].CallbackChannel.NotifyChat(currentAccount.Account, message);
+                        lock (loggedInAccounts)
+                        {
+                            loggedInAccounts[sp.Account.UserName].CallbackChannel.NotifyChat(currentAccount.Account, message);
+                        }
                     }
                     catch (Exception)
                     {
