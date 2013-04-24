@@ -166,10 +166,16 @@ namespace Sanguosha.UI.Main
                 {
                 }
             }
-            if (_channelFactory != null)
+            try
             {
-                _channelFactory.Close();
-                _channelFactory = null;
+                if (_channelFactory != null)
+                {
+                    _channelFactory.Close();
+                    _channelFactory = null;
+                }
+            }
+            catch (Exception)
+            {
             }
         }
 

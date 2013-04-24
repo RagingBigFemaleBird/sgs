@@ -29,7 +29,7 @@ namespace Sanguosha.UI.Main
         private void btnGoBack_Click(object sender, RoutedEventArgs e)
         {
             Host.Close();
-            this.NavigationService.GoBack();
+            this.NavigationService.Navigate(Login.Instance);
         }
 
         public ServiceHost Host { get; set; }

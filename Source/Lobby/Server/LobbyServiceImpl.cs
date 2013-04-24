@@ -112,7 +112,12 @@ namespace Sanguosha.Lobby.Server
             }
             else
             {
-                var acc = new ClientAccount() { Account = authenticatedAccount, CallbackChannel = connection, LobbyService = this };
+                var acc = new ClientAccount() 
+                {
+                    Account = authenticatedAccount,
+                    CallbackChannel = connection,
+                    LobbyService = this 
+                };
                 lock (loggedInAccounts)
                 {
                     loggedInAccounts.Add(username, acc);
@@ -148,6 +153,8 @@ namespace Sanguosha.Lobby.Server
         private static void _Logout(ClientAccount account)
         {
             Trace.TraceInformation("{0} logged out", account.Account.UserName);
+            if (account == null || account.LobbyService == null ||
+                account.LobbyService.currentAccount == null) return;
             if (account.CurrentRoom != null)
             {
                 if (_ExitRoom(account) != RoomOperationResult.Success) return;
@@ -155,6 +162,7 @@ namespace Sanguosha.Lobby.Server
             lock (loggedInAccounts)
             {
                 Trace.Assert(loggedInAccounts.ContainsKey(account.Account.UserName));
+                if (!loggedInAccounts.ContainsKey(account.Account.UserName)) return;
                 account.LobbyService.currentAccount = null;
                 account.CurrentSpectatingRoom = null;
                 loggedInAccounts.Remove(account.Account.UserName);
@@ -166,6 +174,7 @@ namespace Sanguosha.Lobby.Server
             if (currentAccount == null) return;
             Trace.TraceInformation("{0} logged out", currentAccount.Account.UserName);
             _Logout(currentAccount);
+            currentAccount = null;
         }
 
         public IEnumerable<Room> GetRooms(bool notReadyRoomsOnly)
