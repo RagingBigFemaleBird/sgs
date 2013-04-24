@@ -9,11 +9,11 @@ namespace Sanguosha.Lobby.Server
     public class ServerRoom
     {
         public Room Room { get; set; }
-        public HashSet<ClientAccount> Spectators { get; private set; }
+        public HashSet<string> Spectators { get; private set; }
         public AccountConfiguration GameInfo { get; set; }
         public ServerRoom()
         {
-            Spectators = new HashSet<ClientAccount>();
+            Spectators = new HashSet<string>();
         }
     }
 }

@@ -736,25 +736,29 @@ namespace Sanguosha.UI.Controls
             foreach (var part in parts)
             {
                 int index;
-                if (isFirst || part.Length < 2 ||
-                    !int.TryParse(part.Substring(0, 2), out index))
+                if (!string.IsNullOrEmpty(part))
                 {
-                    inlines.Add(new Run(part));
-                    continue;
-                }
-                string key = string.Format("Facial.{0}.Image", index);
-                if (!_imageDict.Contains(key))
-                {
-                    inlines.Add(new Run(part));
-                    continue;
-                }
-                else
-                {
-                    InlineUIContainer container = new InlineUIContainer(new Image() { Source = _imageDict[key] as ImageSource, Width = 18, Height = 18 });
-                    inlines.Add(container);
-                    if (part.Length > 2)
+                    if (isFirst || part.Length < 2 ||
+                        !int.TryParse(part.Substring(0, 2), out index))
                     {
-                        inlines.Add(new Run(part.Substring(2)));
+                        inlines.Add(new Run(part));
+                    }
+                    else
+                    {
+                        string key = string.Format("Facial.{0}.Image", index);
+                        if (!_imageDict.Contains(key))
+                        {
+                            inlines.Add(new Run(part));
+                        }
+                        else
+                        {
+                            InlineUIContainer container = new InlineUIContainer(new Image() { Source = _imageDict[key] as ImageSource, Width = 18, Height = 18 });
+                            inlines.Add(container);
+                            if (part.Length > 2)
+                            {
+                                inlines.Add(new Run(part.Substring(2)));
+                            }
+                        }
                     }
                 }
                 isFirst = false;

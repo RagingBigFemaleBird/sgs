@@ -265,7 +265,7 @@ namespace Sanguosha.Lobby.Server
                 if (!rooms.ContainsKey(roomId)) return;
                 foreach (var sp in rooms[roomId].Spectators)
                 {
-                    sp.CurrentSpectatingRoom = null;
+                    loggedInAccounts[sp].CurrentSpectatingRoom = null;
                 }
                 rooms[roomId].Spectators.Clear();
                 rooms[roomId].GameInfo = null;
@@ -700,7 +700,7 @@ namespace Sanguosha.Lobby.Server
                     {
                         lock (loggedInAccounts)
                         {
-                            loggedInAccounts[sp.Account.UserName].CallbackChannel.NotifyChat(currentAccount.Account, message);
+                            loggedInAccounts[sp].CallbackChannel.NotifyChat(currentAccount.Account, message);
                         }
                     }
                     catch (Exception)
@@ -714,9 +714,11 @@ namespace Sanguosha.Lobby.Server
 
         private static void _Unspectate(ClientAccount account)
         {
+            if (account == null || account.Account == null) return;
+
             if (account.CurrentSpectatingRoom != null)
             {
-                account.CurrentSpectatingRoom.Spectators.Remove(account);
+                account.CurrentSpectatingRoom.Spectators.Remove(account.Account.UserName);
                 account.CurrentSpectatingRoom = null;
             }
         }
@@ -729,7 +731,10 @@ namespace Sanguosha.Lobby.Server
             var room = rooms[roomId];
             if (room.Room.State != RoomState.Gaming) return RoomOperationResult.Invalid;
             _Unspectate(currentAccount);
-            room.Spectators.Add(currentAccount);
+            if (!room.Spectators.Contains(currentAccount.Account.UserName))
+            {
+                room.Spectators.Add(currentAccount.Account.UserName);
+            }
             currentAccount.CurrentSpectatingRoom = room;
             var channel = currentAccount.CallbackChannel;
             channel.NotifyGameStart(room.Room.IpAddress + ":" + room.Room.IpPort, new LoginToken() { TokenString = new Guid() });
