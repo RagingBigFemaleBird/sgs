@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Skills\AoCai.cs" />
     <Compile Include="Skills\BaoBian.cs" />
     <Compile Include="Skills\BiFa.cs" />
     <Compile Include="Skills\DanJi.cs" />

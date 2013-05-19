@@ -446,7 +446,7 @@ namespace Sanguosha.Lobby.Server
             }
             if (rooms.ContainsKey(roomId))
             {
-                lock (rooms[roomId])
+                lock (rooms[roomId].Room)
                 {
                     rooms[roomId].Room.State = RoomState.Waiting;
                     foreach (var seat in rooms[roomId].Room.Seats)
@@ -483,6 +483,11 @@ namespace Sanguosha.Lobby.Server
                             }
                         }
 
+                    }
+                    if (!rooms[roomId].Room.Seats.Any(state => state.State != SeatState.Empty && state.State != SeatState.Closed))
+                    {
+                        _DestroyRoom(rooms[roomId].Room.Id);
+                        return;
                     }
                 }
             }

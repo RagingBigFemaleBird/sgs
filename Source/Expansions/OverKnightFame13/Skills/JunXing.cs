@@ -66,6 +66,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
         public override bool Commit(GameEventArgs arg)
         {
             Owner[JunXingUsed] = 1;
+            int count = arg.Cards.Count;
             HashSet<CardCategory> cc = new HashSet<CardCategory>();
             foreach (var c in arg.Cards)
             {
@@ -84,6 +85,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
             else
             {
                 target.IsImprisoned = !target.IsImprisoned;
+                Game.CurrentGame.DrawCards(target, count);
             }
 
             return true;

@@ -38,6 +38,8 @@
 
     <sys:String x:Key="CardUsage.Prompt.XianSi">请弃一张手牌并选择一至两个陷嗣目标，或点“取消”不发动技能</sys:String>
 
+    <sys:String x:Key="CardUsage.Prompt.DuoDao">请弃一张手牌获得伤害来源的武器，或点“取消”不发动技能</sys:String>
+
     <sys:String x:Key="CardUsage.Prompt.FenCheng">请弃掉等同于装备区装备数目的手牌，或受到一点火伤害</sys:String>
 
     <sys:String x:Key="CardUsage.Prompt.LongYin">请弃掉一张黑色手牌令此杀不计入使用数量</sys:String>

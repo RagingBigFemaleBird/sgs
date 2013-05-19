@@ -105,7 +105,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 card = new CompositeCard();
                 card.Type = new Sha();
                 if (isPlay) return VerifierResult.Fail;
-                if (Game.CurrentGame.Decks[Master, XianSiDeck].Count == 0) return VerifierResult.Fail;
+                if (Game.CurrentGame.Decks[Master, XianSiDeck].Count <= 1) return VerifierResult.Fail;
                 if (targets == null || targets.Count == 0) return VerifierResult.Success;
                 if (targets.Contains(Master)) return VerifierResult.Success;
                 return VerifierResult.Fail;
@@ -116,7 +116,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 if (Game.CurrentGame.Decks[Master, XianSiDeck].Count > 0)
                 {
                     CardsMovement move = new CardsMovement();
-                    move.Cards = new List<Card>() { Game.CurrentGame.Decks[Master, XianSiDeck][0] };
+                    move.Cards = new List<Card>() { Game.CurrentGame.Decks[Master, XianSiDeck][0], Game.CurrentGame.Decks[Master, XianSiDeck][1] };
                     move.To = new DeckPlace(null, DeckType.Discard);
                     Game.CurrentGame.MoveCards(move);
                 }

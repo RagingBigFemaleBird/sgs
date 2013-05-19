@@ -60,7 +60,7 @@
     <sys:String x:Key="Skill.ZongXuan.Usage">点“确定”</sys:String>
 
     <sys:String x:Key="Skill.FenCheng.Name">焚城</sys:String>
-    <sys:String x:Key="Skill.FenCheng.Description">限定技，出牌阶段，你可令所有其他角色选择：1、弃置X张手牌；2、受到1点火焰伤害。X为该角色装备区牌的数量。</sys:String>
+    <sys:String x:Key="Skill.FenCheng.Description">限定技，出牌阶段，你可令所有其他角色选择：1、弃置X张手牌；2、受到1点火焰伤害。X为该角色装备区牌的数量，至少为1。</sys:String>
     <sys:String x:Key="Skill.FenCheng.Usage">点“确定”</sys:String>
 
     <sys:String x:Key="Skill.MieJi.Name">灭计</sys:String>
@@ -72,7 +72,7 @@
     <sys:String x:Key="Skill.JueCe.Usage">点“确定”</sys:String>
 
     <sys:String x:Key="Skill.XianSi.Name">陷嗣</sys:String>
-    <sys:String x:Key="Skill.XianSi.Description">回合开始阶段开始时，你可以弃置一张手牌，将至多两名角色的各一张牌移动至你的武将牌上，称为“逆”。每当其他角色需要对你使用一张【杀】时，该角色可以弃置你的一张“逆”，视为对你使用一张【杀】。</sys:String>
+    <sys:String x:Key="Skill.XianSi.Description">回合开始阶段开始时，你可以弃置一张手牌，将至多两名角色的各一张牌移动至你的武将牌上，称为“逆”。每当其他角色需要对你使用一张【杀】时，该角色可以弃置你的两张“逆”，视为对你使用一张【杀】。</sys:String>
     <sys:String x:Key="Skill.XianSi.Usage">点“确定”</sys:String>
 
     <sys:String x:Key="Skill.XianSiGivenSkill.Name">陷嗣</sys:String>
@@ -83,11 +83,11 @@
     <sys:String x:Key="Skill.AnJian.Description">锁定技，当你的【杀】造成伤害时，若你不在其攻击范围内，则此【杀】伤害+1。</sys:String>
 
     <sys:String x:Key="Skill.DuoDao.Name">夺刀</sys:String>
-    <sys:String x:Key="Skill.DuoDao.Description">你的出牌阶段，你可以和任意一名装备区有武器牌的武将拼点，若你赢，则获得其该武器牌：若你没赢，则你此回合不可以出杀。每阶段限用一次。</sys:String>
+    <sys:String x:Key="Skill.DuoDao.Description">每当你受到一次伤害时,你可以弃之一张牌,获得伤害来源的武器牌。</sys:String>
     <sys:String x:Key="Skill.DuoDao.Usage">点“确定”</sys:String>
 
     <sys:String x:Key="Skill.JingCe.Name">精策</sys:String>
-    <sys:String x:Key="Skill.JingCe.Description">任意角色出牌阶段结束时，若本回合使用的牌数量大于你当前体力值，你可以回复1点体力或摸一张牌。</sys:String>
+    <sys:String x:Key="Skill.JingCe.Description">出牌阶段结束时，若你本回合使用的牌数量大于或等于你当前体力值，你可以摸两张牌。</sys:String>
     <sys:String x:Key="Skill.JingCe.Usage">系统提示→选择一项</sys:String>
 
     <sys:String x:Key="Skill.JunXing.Name">峻刑</sys:String>
@@ -100,12 +100,12 @@
     <sys:String x:Key="Skill.YuCe.Usage">系统提示→选择一张手牌→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.ChengXiang.Name">称象</sys:String>
-    <sys:String x:Key="Skill.ChengXiang.Description">每当你受到一次伤害后，你可以摸一张牌并展示你本次技能发动摸到的所有牌，若点数之和小于13，你可以重复此流程，直至你的所有手牌点数之和等于或大于13为止。</sys:String>
+    <sys:String x:Key="Skill.ChengXiang.Description">每当你受到一次伤害后，你可以展示牌堆顶的四张牌并将点数之和小于13的收入收牌。</sys:String>
     <sys:String x:Key="Skill.ChengXiang.Usage">系统提示→点“确定”</sys:String>
 
-    <sys:String x:Key="Skill.BingXin.Name">冰心</sys:String>
-    <sys:String x:Key="Skill.BingXin.Description">每当你进入濒死状态时，你可以将所有牌以任意方式交给任意数量的其他角色，若如此做，你将武将牌翻面。</sys:String>
-    <sys:String x:Key="Skill.BingXin.Usage">系统提示→点“确定”</sys:String>
+    <sys:String x:Key="Skill.RenXin.Name">仁心</sys:String>
+    <sys:String x:Key="Skill.RenXin.Description">每当一名角色进入进入濒死状态时，你可以将所有牌以任意方式交给任意数量的其他角色，若如此做，你将武将牌翻面。</sys:String>
+    <sys:String x:Key="Skill.RenXin.Usage">系统提示→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.ZhuiKong.Name">惴恐</sys:String>
     <sys:String x:Key="Skill.ZhuiKong.Description">一名角色的回合开始时，若你已受伤，你可以和该角色进行一次拼点。若你赢，该角色跳过本回合的出牌阶段；若你没赢，该角色与你距离为1直到回合结束。</sys:String>

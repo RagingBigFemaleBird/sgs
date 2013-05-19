@@ -34,7 +34,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
 
             protected override bool VerifyCard(Player source, Card card)
             {
-                return c == CardCategory.Unknown ? true : card.Type.BaseCategory() != c;
+                return (c == CardCategory.Unknown ? true : card.Type.BaseCategory() != c) && card.Place.DeckType == DeckType.Hand;
             }
         }
         public YuCe()

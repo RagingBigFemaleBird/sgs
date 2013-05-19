@@ -16,107 +16,40 @@ using Sanguosha.Core.Exceptions;
 namespace Sanguosha.Expansions.OverKnightFame13.Skills
 {
     /// <summary>
-    /// 夺刀-你的出牌阶段，你可以和任意一名装备区有武器牌的武将拼点，若你赢，则获得其该武器牌：若你没赢，则你此回合不可以出杀。
+    /// 夺刀-每当你受到一次伤害时,你可以弃之一张牌,获得伤害来源的武器牌
     /// </summary>
-    public class DuoDao : ActiveSkill
+    public class DuoDao : TriggerSkill
     {
-        public override VerifierResult Validate(GameEventArgs arg)
+        class DuoDaoVerifier : CardsAndTargetsVerifier
         {
-            /*
-            if (Owner[DuoDaoUsed] != 0)
+            public DuoDaoVerifier()
             {
-                return VerifierResult.Fail;
-            }
-            */
-            List<Card> cards = arg.Cards;
-            if (cards != null && cards.Count > 0)
-            {
-                return VerifierResult.Fail;
-            }
-            if (arg.Targets != null && arg.Targets.Count > 1)
-            {
-                return VerifierResult.Fail;
-            }
-            if (arg.Targets == null || arg.Targets.Count == 0)
-            {
-                return VerifierResult.Partial;
-            }
-            if (Owner.HandCards().Count == 0)
-            {
-                return VerifierResult.Fail;
-            }
-            if (arg.Targets[0].Weapon() == null)
-            {
-                return VerifierResult.Fail;
-            }
-            if (arg.Targets[0] == Owner || arg.Targets[0].HandCards().Count == 0)
-            {
-                return VerifierResult.Fail;
-            }
-            return VerifierResult.Success;
-        }
-
-        public class DuoDaoLoseTrigger : Trigger
-        {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                if (eventArgs.Source != Owner)
-                {
-                    return;
-                }
-                if (eventArgs.Card.Type is Sha)
-                {
-                    throw new TriggerResultException(TriggerResult.Fail);
-                }
+                MaxCards = 1;
+                MinCards = 1;
+                MaxPlayers = 0;
             }
 
-            public DuoDaoLoseTrigger(Player p)
+            protected override bool VerifyCard(Player source, Card card)
             {
-                Owner = p;
+                return card.Place.DeckType == DeckType.Hand;
             }
         }
-
-        class DuoDaoRemoval : Trigger
+        public DuoDao()
         {
-            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
-            {
-                if (eventArgs.Source != Owner)
+            var trigger = new AutoNotifyUsagePassiveSkillTrigger(
+                this,
+                (p, e, a) => { return p.HandCards().Count > 0 && a.Source != null && a.Source.Weapon() != null; },
+                (p, e, a, cards, players) =>
                 {
-                    return;
-                }
-                Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerCanUseCard, loseTrigger);
-                Game.CurrentGame.UnregisterTrigger(GameEvent.PhasePostEnd, this);
-            }
+                    Game.CurrentGame.HandleCardDiscard(p, cards);
+                    Game.CurrentGame.HandleCardTransferToHand(a.Source, p, new List<Card>() { a.Source.Weapon() });
+                },
+                TriggerCondition.OwnerIsTarget,
+                new DuoDaoVerifier()
+            ) { AskForConfirmation = false };
+            Triggers.Add(GameEvent.AfterDamageInflicted, trigger);
 
-            Trigger loseTrigger;
-            public DuoDaoRemoval(Player p, Trigger lose)
-            {
-                Owner = p;
-                loseTrigger = lose;
-            }
+            IsAutoInvoked = null;
         }
-
-        public override bool Commit(GameEventArgs arg)
-        {
-            Owner[DuoDaoUsed] = 1;
-            var result = Game.CurrentGame.PinDian(Owner, arg.Targets[0], this);
-            if (result == true)
-            {
-                var theWeapon = arg.Targets[0].Weapon();
-                if (theWeapon != null)
-                {
-                    Game.CurrentGame.HandleCardTransferToHand(arg.Targets[0], Owner, new List<Card>() { theWeapon });
-                }
-            }
-            else
-            {
-                var loseTrigger = new DuoDaoLoseTrigger(Owner);
-                Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanUseCard, loseTrigger);
-                Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, new DuoDaoRemoval(Owner, loseTrigger));
-            }
-            return true;
-        }
-
-        private static PlayerAttribute DuoDaoUsed = PlayerAttribute.Register("DuoDaoUsed", true);
     }
 }
