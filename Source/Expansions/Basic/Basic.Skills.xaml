@@ -28,7 +28,8 @@
     <sys:String x:Key="Hero.HuaTuo.Name">华佗</sys:String>
     <sys:String x:Key="Hero.LvBu.Name">吕布</sys:String>
     <sys:String x:Key="Hero.DiaoChan.Name">貂蝉</sys:String>
-
+    <sys:String x:Key="Hero.YuanShu2.Name">袁术</sys:String>
+    <sys:String x:Key="Hero.HuaXiong2.Name">华雄</sys:String>
 
     <sys:String x:Key="Skill.JianXiong.Name">奸雄</sys:String>
     <sys:String x:Key="Skill.JianXiong.Description">每当你受到一次伤害后，你可以获得对你造成伤害的牌。</sys:String>

@@ -54,7 +54,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
 
             CardsMovement move = new CardsMovement();
             move.Cards = new List<Card>();
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 4; i++)
             {
                 Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.PeekCard(0));
                 Card c = Game.CurrentGame.DrawCard();

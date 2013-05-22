@@ -43,7 +43,7 @@ namespace Sanguosha.Core.UI
 
         }
     }
-
+        
     public class LogEvent : Prompt
     {
         public LogEvent(string key, params object[] args)
@@ -121,9 +121,11 @@ namespace Sanguosha.Core.UI
         public static readonly OptionPrompt HeartChoice = new OptionPrompt("Heart");
         public static readonly OptionPrompt SpadeChoice = new OptionPrompt("Spade");
         public static readonly OptionPrompt ClubChoice = new OptionPrompt("Club");
-        public static readonly OptionPrompt DiamondChoice = new OptionPrompt("Diamond");
+        public static readonly OptionPrompt DiamondChoice = new OptionPrompt("Diamond");        
         public static readonly List<OptionPrompt> YesNoChoices = new List<OptionPrompt>() { NoChoice, YesChoice };
         public static readonly List<OptionPrompt> SuitChoices = new List<OptionPrompt>() { ClubChoice, SpadeChoice, HeartChoice, DiamondChoice };
+        public static readonly List<OptionPrompt> RecoverOneHealthOrDrawOneCardOptions = new List<OptionPrompt>() { new OptionPrompt("RecoverHealth", 1), new OptionPrompt("DrawCards", 1) };
+        public static readonly List<OptionPrompt> RecoverOneHealthOrDrawTwoCardsOptions = new List<OptionPrompt>() { new OptionPrompt("RecoverHealth", 1), new OptionPrompt("DrawCards", 2) };        
         public static readonly List<OptionPrompt> AllegianceChoices = new List<OptionPrompt>() { new OptionPrompt("Qun"), new OptionPrompt("Shu"), new OptionPrompt("Wei"), new OptionPrompt("Wu") };
         #endregion
     }

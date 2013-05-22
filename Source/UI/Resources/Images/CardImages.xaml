@@ -237,6 +237,7 @@
     <BitmapImage x:Key="Card.YinYueQiang.Image.Normal">Cards/Normal/YinYueQiang.jpg</BitmapImage>
     <BitmapImage x:Key="Card.YuanShao.Image.Normal">Cards/Normal/YuanShao.jpg</BitmapImage>
     <BitmapImage x:Key="Card.YuanShu.Image.Normal">Cards/Normal/YuanShu.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.YuanShu2.Image.Normal">Cards/Normal/YuanShu2.jpg</BitmapImage>
     <BitmapImage x:Key="Card.YueJin.Image.Normal">Cards/Normal/YueJin.jpg</BitmapImage>
     <BitmapImage x:Key="Card.YuFan.Image.Normal">Cards/Normal/YuFan.jpg</BitmapImage>
     <BitmapImage x:Key="Card.YuJi.Image.Normal">Cards/Normal/YuJi.jpg</BitmapImage>

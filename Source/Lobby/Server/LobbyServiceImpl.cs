@@ -280,19 +280,23 @@ namespace Sanguosha.Lobby.Server
 
         private static RoomOperationResult _ExitRoom(ClientAccount account, bool forced = false)
         {
-            if (account.CurrentRoom != null)
-            {
-                var room = account.CurrentRoom;
+            if (account == null) return RoomOperationResult.Invalid;
+            var room = account.CurrentRoom;
+            if (room != null)
+            {                
                 foreach (var seat in room.Room.Seats)
                 {
                     if (seat.Account == account.Account)
                     {
                         int index = -1;
-                        if (room.GameInfo != null) index = room.GameInfo.Accounts.IndexOf(account.Account);
-                        if (!forced && room.Room.State == RoomState.Gaming
-                            && room.GameInfo != null && index >= 0 && !room.GameInfo.IsDead[index])
+                        if (room.GameInfo != null)
                         {
-                            return RoomOperationResult.Locked;
+                            index = room.GameInfo.Accounts.IndexOf(account.Account);
+                            if (!forced && room.Room.State == RoomState.Gaming
+                                && index >= 0 && !room.GameInfo.IsDead[index])
+                            {
+                                return RoomOperationResult.Locked;
+                            }
                         }
                         lock (room.Room)
                         {
@@ -304,11 +308,12 @@ namespace Sanguosha.Lobby.Server
                             seat.Account = null;
                             seat.State = SeatState.Empty;
                             account.CurrentRoom = null;
-                            if (!room.Room.Seats.Any(state => state.State != SeatState.Empty && state.State != SeatState.Closed))
+
+                            if (_DestroyRoomIfEmpty(room))
                             {
-                                _DestroyRoom(room.Room.Id);
                                 return RoomOperationResult.Success;
                             }
+                            
                             if (findAnotherHost)
                             {
                                 foreach (var host in room.Room.Seats)
@@ -327,6 +332,19 @@ namespace Sanguosha.Lobby.Server
                 }
             }
             return RoomOperationResult.Invalid;
+        }
+
+        private static bool _DestroyRoomIfEmpty(ServerRoom room)
+        {
+            if (room.Room.Seats.Any(state => state.State != SeatState.Empty && state.State != SeatState.Closed))
+            {
+                return false;                
+            }
+            else
+            {
+                _DestroyRoom(room.Room.Id);
+                return true;
+            }
         }
 
         public RoomOperationResult ExitRoom()
@@ -409,6 +427,7 @@ namespace Sanguosha.Lobby.Server
                     {
                         if (remove.Account == currentAccount.Account)
                         {
+                            if (remove == seat) return RoomOperationResult.Invalid;
                             seat.State = remove.State;
                             seat.Account = remove.Account;
                             remove.Account = null;
@@ -446,10 +465,11 @@ namespace Sanguosha.Lobby.Server
             }
             if (rooms.ContainsKey(roomId))
             {
-                lock (rooms[roomId].Room)
+                var room = rooms[roomId];
+                lock (room.Room)
                 {
-                    rooms[roomId].Room.State = RoomState.Waiting;
-                    foreach (var seat in rooms[roomId].Room.Seats)
+                    room.Room.State = RoomState.Waiting;
+                    foreach (var seat in room.Room.Seats)
                     {
                         if (seat.Account == null) continue;
                         lock (loggedInAccounts)
@@ -484,9 +504,9 @@ namespace Sanguosha.Lobby.Server
                         }
 
                     }
-                    if (!rooms[roomId].Room.Seats.Any(state => state.State != SeatState.Empty && state.State != SeatState.Closed))
+
+                    if (_DestroyRoomIfEmpty(room))
                     {
-                        _DestroyRoom(rooms[roomId].Room.Id);
                         return;
                     }
                 }
@@ -614,7 +634,7 @@ namespace Sanguosha.Lobby.Server
                     {
                         if (_ExitRoom(loggedInAccounts[kicked.UserName], true) == RoomOperationResult.Invalid)
                         {
-                            //zombie occured
+                            // zombie occured?
                             room.Seats[seatNo].State = SeatState.Empty;
                         }
                         else

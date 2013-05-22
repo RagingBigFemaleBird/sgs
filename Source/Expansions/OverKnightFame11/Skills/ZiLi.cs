@@ -32,7 +32,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                     int answer = 0;
                     Owner.AskForMultipleChoice(
                             new MultipleChoicePrompt("ZiLi"),
-                            new List<OptionPrompt>() { new OptionPrompt("ZiLiRecover"), new OptionPrompt("ZiLiDraw") },
+                            OptionPrompt.RecoverOneHealthOrDrawTwoCardsOptions,
                             out answer);
                     if (answer == 0)
                     {

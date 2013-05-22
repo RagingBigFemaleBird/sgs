@@ -72,10 +72,12 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
                     Game.CurrentGame.RecoverHealth(Owner, target, 1);
                     return;
                 }
-
             }
-            target.IsImprisoned = false;
-            target.IsIronShackled = false;
+            else
+            {
+                target.IsImprisoned = false;
+                target.IsIronShackled = false;
+            }
         }
 
         public JuJian()

@@ -25,12 +25,15 @@ namespace Sanguosha.Expansions.Basic.Skills
                 (p, e, a) =>
                 {
                     return a.ReadonlyCard != null && a.ReadonlyCard.Type is Sha && a.Source != null &&
-                        a.ReadonlyCard.SuitColor == SuitColorType.Red;
+                           a.ReadonlyCard.SuitColor == SuitColorType.Red;
                 },
                 (p, e, a) =>
                 {
                     int answer = 0;
-                    if (a.Source.LostHealth > 0 && a.Source.AskForMultipleChoice(new MultipleChoicePrompt("YaoWu"), Prompt.YesNoChoices, out answer) && answer == 1)
+                    if (a.Source.LostHealth > 0 &&
+                        a.Source.AskForMultipleChoice(new MultipleChoicePrompt("YaoWu"),
+                        OptionPrompt.RecoverOneHealthOrDrawOneCardOptions, out answer) &&
+                        answer == 0)
                     {
                         Game.CurrentGame.RecoverHealth(a.Source, a.Source, 1);
                     }
