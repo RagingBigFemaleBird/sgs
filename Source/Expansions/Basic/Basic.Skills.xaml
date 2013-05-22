@@ -195,7 +195,18 @@
     <sys:String x:Key="Skill.BiYue.Name">闭月</sys:String>
     <sys:String x:Key="Skill.BiYue.Description">回合结束阶段开始时，你可以摸一张牌。</sys:String>
     <sys:String x:Key="Skill.BiYue.Usage">系统提示→点“确定”</sys:String>
-    
+
+    <sys:String x:Key="Skill.TongJi.Name">同疾</sys:String>
+    <sys:String x:Key="Skill.TongJi.Description">锁定技，若你的手牌数大于你的体力值，则你只要在任一其他角色的攻击范围内，该角色使用杀时便不能指定你以外的角色为目标。</sys:String>
+    <sys:String x:Key="Skill.TongJi.Usage">不需要使用。你只要坐在那就可以坑翻队友。</sys:String>
+
+    <sys:String x:Key="Skill.WangZun.Name">妄尊</sys:String>
+    <sys:String x:Key="Skill.WangZun.Description">主公的准备阶段开始时，你可以摸一张牌，若如此做，本回合主公手牌上限-1。</sys:String>
+    <sys:String x:Key="Skill.WangZun.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.YaoWu.Name">耀武</sys:String>
+    <sys:String x:Key="Skill.YaoWu.Description">锁定技。当一名角色使用红色杀对你造成伤害时，该角色恢复一点体力或摸一张牌。</sys:String>
+    <sys:String x:Key="Skill.YaoWu.Usage">系统提示→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.BaGuaZhenSkill.Name">八卦阵</sys:String>
     <sys:String x:Key="Skill.CiXiongShuangGuJianSkill.Name">雌雄双股剑</sys:String>
