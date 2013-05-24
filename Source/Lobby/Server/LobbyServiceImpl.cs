@@ -240,7 +240,8 @@ namespace Sanguosha.Lobby.Server
                 }
                 else
                 {
-                    clientRoom = rooms[roomId].Room;
+                    serverRoom = rooms[roomId];
+                    clientRoom = serverRoom.Room;
                 }
             }
 
@@ -364,23 +365,20 @@ namespace Sanguosha.Lobby.Server
         {
             var room = rooms[roomId];
             if (room == null || room.Room == null) return;
-            lock (room.Room)
+            foreach (var notify in room.Room.Seats)
             {
-                foreach (var notify in room.Room.Seats)
+                if (notify.Account != null)
                 {
-                    if (notify.Account != null)
+                    try
                     {
-                        try
+                        lock (loggedInAccounts)
                         {
-                            lock (loggedInAccounts)
-                            {
-                                var channel = loggedInAccounts[notify.Account.UserName].CallbackChannel;
-                                channel.NotifyRoomUpdate(roomId, room.Room);
-                            }
+                            var channel = loggedInAccounts[notify.Account.UserName].CallbackChannel;
+                            channel.NotifyRoomUpdate(roomId, room.Room);
                         }
-                        catch (Exception)
-                        {
-                        }
+                    }
+                    catch (Exception)
+                    {
                     }
                 }
             }
