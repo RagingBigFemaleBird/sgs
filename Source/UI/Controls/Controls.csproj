@@ -177,7 +177,6 @@
     <Compile Include="Views\Containers\IDeckContainer.cs" />
     <Compile Include="Views\Buttons\MultiChoiceButtonStyleConverter.cs" />
     <Compile Include="Views\Players\PlayerViewBase.cs" />
-    <Compile Include="Views\Translations\PromptFormatter.cs" />
     <Compile Include="Views\Skills\SkillButton.xaml.cs">
       <DependentUpon>SkillButton.xaml</DependentUpon>
     </Compile>

@@ -522,12 +522,15 @@ namespace Sanguosha.Core.Games
                     e = e.InnerException;
                 }
 
-                Trace.TraceError(e.StackTrace);
-                Trace.Assert(false, e.StackTrace);
- 
-                var crashReport = new StreamWriter(FileRotator.CreateFile("./Crash", "crash", ".dmp", 1000));                
-                crashReport.WriteLine(e);
-                crashReport.Close();
+                if (!(e is ThreadAbortException))
+                {
+                    Trace.TraceError(e.StackTrace);
+                    Trace.Assert(false, e.StackTrace);
+
+                    var crashReport = new StreamWriter(FileRotator.CreateFile("./Crash", "crash", ".dmp", 1000));
+                    crashReport.WriteLine(e);
+                    crashReport.Close();
+                }
             }
             mainThread = null;
 

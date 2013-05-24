@@ -46,13 +46,107 @@ namespace Sanguosha.UI.Controls
             return name;
         }
 
-        public static string Translate(Card card)
+        public static string Translate(ICard card)
         {
             if (card == null) return string.Empty;
-            string key = string.Format("Card.{0}.Name", card.Type.GetType().Name);
+            string key = string.Format("Card.{0}.Name", card.Type.Name);
             string name = Application.Current.TryFindResource(key) as string;
             if (name == null) return string.Empty;
             return name;
+        }
+
+        public static string Translate(DeckType deckType)
+        {
+            if (deckType == null) return string.Empty;
+            string key = string.Format("Deck.{0}.Name", deckType.Name);
+            string name = Application.Current.TryFindResource(key) as string;
+            if (name == null) return string.Empty;
+            return name;
+        }
+
+        public static string Translate(CardHandler cardHandler)
+        {
+            if (cardHandler == null) return string.Empty;
+            string key = string.Format("Card.{0}.Name", cardHandler.Name);
+            string name = Application.Current.TryFindResource(key) as string;
+            if (name == null) return string.Empty;
+            return name;
+        }
+
+        public static string Translate(SuitType suitType)
+        {
+            string key = string.Format("Suit.{0}.Text", suitType.ToString());
+            string name = Application.Current.TryFindResource(key) as string;
+            if (name == null) return string.Empty;
+            return name;
+        }
+
+        public static string Translate(DeckPlace deckPlace)
+        {
+            if (deckPlace == null) return string.Empty;
+            if (deckPlace.Player == null) return Translate(deckPlace.DeckType);
+            string formatter = Application.Current.TryFindResource("Deck.PrivateDeck.Name") as string;
+            Trace.Assert(formatter != null);
+            if (formatter == null) return string.Empty;
+            return string.Format(formatter, Translate(deckPlace.Player), Translate(deckPlace.DeckType));            
+        }
+
+        public static string Translate(Prompt prompt)
+        {
+            List<string> values = new List<string>();
+            string format = Application.Current.TryFindResource(prompt.ResourceKey) as string;
+            if (format == null)
+            {
+                Trace.TraceInformation("Key not found: {0}", format);
+                return prompt.ResourceKey;
+            }
+            else if (format.StartsWith(Prompt.DirectOutputPrefix))
+            {
+                format = format.Substring(Prompt.DirectOutputPrefix.Length);
+            }
+
+            foreach (object arg in prompt.Values)
+            {
+                string value;
+                if (arg is Player)
+                {
+                    value = Translate(arg as Player);
+                }
+                else if (arg is ICard)
+                {
+                    value = Translate(arg as ICard);
+                }
+                else if (arg is SuitType)
+                {
+                    value = Translate((SuitType)arg);
+                }
+                else if (arg is ISkill)
+                {
+                    value = Translate(arg as ISkill);
+                }
+                else if (arg is CardHandler)
+                {
+                    value = Translate(arg as CardHandler);
+                }
+                else if (arg is DeckType)
+                {
+                    value = Translate(arg as DeckType);
+                }
+                else if (arg is DeckPlace)
+                {
+                    value = Translate(arg as DeckPlace);
+                }
+                else if (arg != null)
+                {
+                    value = arg.ToString();
+                }
+                else
+                {
+                    value = string.Empty;
+                }
+                values.Add(value);
+            }
+            return string.Format(format, values.ToArray());
         }
 
         public static List<Inline> Format(string format, List<IList<Inline>> args)
@@ -92,7 +186,7 @@ namespace Sanguosha.UI.Controls
                 else if (arg is Card) value = RichTranslate(arg as Card, useUICard);
                 else if (arg is ISkill) value = RichTranslate(arg as ISkill);
                 else if (arg is CardHandler) value = RichTranslate(arg as CardHandler);
-                else if (arg is Prompt) value.Add(new Run(PromptFormatter.Format(arg as Prompt)));
+                else if (arg is Prompt) value.Add(new Run(LogFormatter.Translate(arg as Prompt)));
                 if (value.Count == 0)
                 {
                     value.Add(new Run(arg.ToString()));

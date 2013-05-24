@@ -664,16 +664,16 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        private SpecialDeckViewModel _currentPrivateDeck;
+        private SpecialDeckViewModel _currentSpecialDeck;
 
         public SpecialDeckViewModel CurrentSpecialDeck
         {
-            get { return _currentPrivateDeck; }
+            get { return _currentSpecialDeck; }
             set
             {
-                if (_currentPrivateDeck == value) return;
-                _currentPrivateDeck = value;
-                OnPropertyChanged("CurrentPrivateDeck");
+                if (_currentSpecialDeck == value) return;
+                _currentSpecialDeck = value;
+                OnPropertyChanged("CurrentSpecialDeck");
             }
         }
 
@@ -1256,7 +1256,7 @@ namespace Sanguosha.UI.Controls
             }
             if (prompt == null)
             {
-                prompt = PromptFormatter.Format(CurrentPrompt);
+                prompt = LogFormatter.Translate(CurrentPrompt);
             }
             CurrentPromptString = prompt;
 
@@ -1582,7 +1582,7 @@ namespace Sanguosha.UI.Controls
                 currentUsageVerifier = verifier;
                 Trace.Assert(currentUsageVerifier != null);
                 CurrentPrompt = prompt;
-                CurrentPromptString = PromptFormatter.Format(prompt);
+                CurrentPromptString = LogFormatter.Translate(prompt);
 
                 if (prompt.Values.Count != 0 && prompt.Values[0] is TriggerSkill)
                 {
@@ -1896,14 +1896,14 @@ namespace Sanguosha.UI.Controls
                     if (GameModel != null && GameModel.WuGuModel != null)
                     {
                         GameModel.WuGuModel.IsEnabled = IsPlayable;
-                        GameModel.WuGuModel.Prompt = PromptFormatter.Format(prompt);
+                        GameModel.WuGuModel.Prompt = LogFormatter.Translate(prompt);
                     }
                 }
                 else
                 {
                     _currentChoiceOptions = options;
                     _ConstructCardChoiceModel(sourceDecks, resultDeckNames, resultDeckMaximums, options, verifier, timeOutSeconds, callback);
-                    CardChoiceModel.Prompt = PromptFormatter.Format(prompt);
+                    CardChoiceModel.Prompt = LogFormatter.Translate(prompt);
                     if (!IsPlayable)
                     {
                         CardChoiceModel.DisplayOnly = true;
@@ -1935,7 +1935,7 @@ namespace Sanguosha.UI.Controls
             {
                 GameModel.CurrentActivePlayer = this;
                 CurrentPrompt = prompt;
-                CurrentPromptString = PromptFormatter.Format(prompt);
+                CurrentPromptString = LogFormatter.Translate(prompt);
                 _currentMultiChoices = choices;
 
                 if (!IsPlayable)

@@ -50,7 +50,7 @@ namespace Sanguosha.UI.Controls
         {
             OptionPrompt choiceKey = value as OptionPrompt;
             if (choiceKey == null) return null;
-            return PromptFormatter.Format(choiceKey);
+            return LogFormatter.Translate(choiceKey);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

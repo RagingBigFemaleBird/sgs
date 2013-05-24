@@ -440,15 +440,15 @@ namespace Sanguosha.UI.Controls
                 DoubleAnimation doubleanimation = new DoubleAnimation(100d, 0d, duration);
                 progressBar.BeginAnimation(ProgressBar.ValueProperty, doubleanimation);
             }
-            else if (e.PropertyName == "CurrentPrivateDeck")
+            else if (e.PropertyName == "CurrentSpecialDeck")
             {
-                _constructPlayerCurrentPrivateDeck(model);
+                _constructPlayerCurrentSpecialDeck(model);
             }
         }
 
         ChildWindow _privateDeckChoiceWindow;
 
-        private void _constructPlayerCurrentPrivateDeck(PlayerViewModel model)
+        private void _constructPlayerCurrentSpecialDeck(PlayerViewModel model)
         {
             if (model.CurrentSpecialDeck != null)
             {
@@ -464,7 +464,7 @@ namespace Sanguosha.UI.Controls
                 _privateDeckChoiceWindow.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
                 _privateDeckChoiceWindow.CloseButtonVisibility = Visibility.Collapsed;                
                 _privateDeckChoiceWindow.WindowStartupLocation = Xceed.Wpf.Toolkit.WindowStartupLocation.Center;
-                string title = PromptFormatter.Format(new CardChoicePrompt("PrivateDeck", model.Player, model.CurrentSpecialDeck.TranslatedName));
+                string title = LogFormatter.Translate(new CardChoicePrompt("SpecialDeck", model.CurrentSpecialDeck));
                 _privateDeckChoiceWindow.Caption = title;
 
                 var box = new PrivateDeckBox();
@@ -1212,7 +1212,7 @@ namespace Sanguosha.UI.Controls
                 _showHandCardsWindow.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
                 _showHandCardsWindow.CloseButtonVisibility = Visibility.Visible;                
                 _showHandCardsWindow.WindowStartupLocation = Xceed.Wpf.Toolkit.WindowStartupLocation.Center;
-                string title = PromptFormatter.Format(new CardChoicePrompt("ShowCards", p));
+                string title = LogFormatter.Translate(new CardChoicePrompt("ShowCards", p));
                 _showHandCardsWindow.Caption = title;
 
                 var viewModels = from c in cards select new CardViewModel() { Card = c };
@@ -1249,7 +1249,7 @@ namespace Sanguosha.UI.Controls
             if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                gameLogs.AppendMultipleChoiceLog(p, PromptFormatter.Format(answer));
+                gameLogs.AppendMultipleChoiceLog(p, LogFormatter.Translate(answer));
             });
         }
 
@@ -1456,7 +1456,7 @@ namespace Sanguosha.UI.Controls
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 GameModel.WuGuModel = new WuGuChoiceViewModel();
-                GameModel.WuGuModel.Prompt = PromptFormatter.Format(prompt);
+                GameModel.WuGuModel.Prompt = LogFormatter.Translate(prompt);
                 bool isFirstRow = true;
                 int i = 0;
                 int total = Game.CurrentGame.Decks[place].Count;
@@ -1497,7 +1497,7 @@ namespace Sanguosha.UI.Controls
             if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                pinDianWindow.Caption = PromptFormatter.Format(new Prompt("Window.PinDian.Prompt", reason));
+                pinDianWindow.Caption = LogFormatter.Translate(new Prompt("Window.PinDian.Prompt", reason));
                 pinDianBox.StartPinDian(from, to);
                 pinDianWindow.Show();
             });
@@ -1630,7 +1630,7 @@ namespace Sanguosha.UI.Controls
         {
             var choiceModel = new CardChoiceViewModel();
             choiceModel.CanClose = true;
-            choiceModel.Prompt = PromptFormatter.Format(new CardChoicePrompt("PrivateDeck", player, model.TranslatedName));
+            choiceModel.Prompt = LogFormatter.Translate(new CardChoicePrompt("PrivateDeck", player, model.TranslatedName));
             var lineViewModel = new CardChoiceLineViewModel();
             lineViewModel.DeckName = model.Name;
             lineViewModel.Cards = model.Cards;
