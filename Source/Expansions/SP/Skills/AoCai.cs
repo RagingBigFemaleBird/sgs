@@ -40,8 +40,7 @@ namespace Sanguosha.Expansions.SP.Skills
         public AoCai()
         {
             LinkedPassiveSkill = new AoCaiPassive();
-            Helper.OtherDecksUsed.Add(DeckType.Dealing);
-            Helper.OtherUsedDeckCardLimit.Add(2);
+            Helper.OtherGlobalCardDeckUsed.Add(new DeckPlace(null, DeckType.Dealing), 2);
         }
 
         public CardHandler AdditionalType { get; set; }
