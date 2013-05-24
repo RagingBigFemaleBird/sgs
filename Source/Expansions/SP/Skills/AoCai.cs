@@ -21,6 +21,7 @@ namespace Sanguosha.Expansions.SP.Skills
         {
             card = new CompositeCard();
             card.Subcards = new List<Card>();
+            if (Game.CurrentGame.CurrentPlayer == Owner) return VerifierResult.Fail;
             if (cards == null || cards.Count == 0)
             {
                 return VerifierResult.Partial;
@@ -33,6 +34,7 @@ namespace Sanguosha.Expansions.SP.Skills
             {
                 return VerifierResult.Fail;
             }
+            if (cards[0].Type.BaseCategory() != CardCategory.Basic) return VerifierResult.Fail;
             card.Type = cards[0].Type;
             return VerifierResult.Success;
         }
