@@ -28,10 +28,10 @@
     <sys:String x:Key="CardUsage.Prompt.ShenSu1">你可以使用“神速”跳过判定阶段和摸牌阶段</sys:String>
     <sys:String x:Key="CardUsage.Prompt.ShenSu2">你可以弃一张装备牌使用“神速”跳过出牌阶段</sys:String>
     
-    <sys:String x:Key="CardChoice.Prompt.SheLie">涉猎</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.SheLie">涉猎 请选择要获得的不同花色的牌</sys:String>
     <sys:String x:Key="CardChoice.Prompt.SheLie.Others">涉猎 请等待{0}的选择</sys:String>
     
-    <sys:String x:Key="CardChoice.Prompt.GongXin">攻心</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.GongXin">攻心 请从第一排拖动一张红桃牌到第二排</sys:String>
     <sys:String x:Key="CardChoice.Prompt.GongXin.Others">攻心 请等待{0}的选择</sys:String>
     <sys:String x:Key="LogEvent.GongXin1">{0}将{1}的{2}置于牌堆顶</sys:String>
     <sys:String x:Key="LogEvent.GongXin2">{0}将{1}的{2}置于弃牌堆</sys:String>

@@ -776,9 +776,6 @@
     <Resource Include="Images\PlayerInfoView\secondaryHeroMask.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Cards\Normal\QunLingJu.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\CornerAdorners\1.png" />
   </ItemGroup>
   <ItemGroup>

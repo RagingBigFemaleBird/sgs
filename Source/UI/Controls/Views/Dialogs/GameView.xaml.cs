@@ -450,9 +450,9 @@ namespace Sanguosha.UI.Controls
 
         private void _constructPlayerCurrentPrivateDeck(PlayerViewModel model)
         {
-            if (model.CurrentPrivateDeck != null)
+            if (model.CurrentSpecialDeck != null)
             {
-                Trace.Assert(model.CurrentPrivateDeck.Cards != null);
+                Trace.Assert(model.CurrentSpecialDeck.Cards != null);
                 if (_privateDeckChoiceWindow != null)
                 {
                     gridRoot.Children.Remove(_privateDeckChoiceWindow);
@@ -464,11 +464,11 @@ namespace Sanguosha.UI.Controls
                 _privateDeckChoiceWindow.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
                 _privateDeckChoiceWindow.CloseButtonVisibility = Visibility.Collapsed;                
                 _privateDeckChoiceWindow.WindowStartupLocation = Xceed.Wpf.Toolkit.WindowStartupLocation.Center;
-                string title = PromptFormatter.Format(new CardChoicePrompt("PrivateDeck", model.Player, model.CurrentPrivateDeck.TraslatedName));
+                string title = PromptFormatter.Format(new CardChoicePrompt("PrivateDeck", model.Player, model.CurrentSpecialDeck.TranslatedName));
                 _privateDeckChoiceWindow.Caption = title;
 
                 var box = new PrivateDeckBox();
-                box.DataContext = model.CurrentPrivateDeck.Cards;
+                box.DataContext = model.CurrentSpecialDeck.Cards;
                 _privateDeckChoiceWindow.Content = box;
 
                 gridRoot.Children.Add(_privateDeckChoiceWindow);
@@ -1626,11 +1626,11 @@ namespace Sanguosha.UI.Controls
         #endregion
 
         #region Private Decks
-        public void DisplayPrivateDeck(Player player, PrivateDeckViewModel model)
+        public void DisplayPrivateDeck(Player player, SpecialDeckViewModel model)
         {
             var choiceModel = new CardChoiceViewModel();
             choiceModel.CanClose = true;
-            choiceModel.Prompt = PromptFormatter.Format(new CardChoicePrompt("PrivateDeck", player, model.TraslatedName));
+            choiceModel.Prompt = PromptFormatter.Format(new CardChoicePrompt("PrivateDeck", player, model.TranslatedName));
             var lineViewModel = new CardChoiceLineViewModel();
             lineViewModel.DeckName = model.Name;
             lineViewModel.Cards = model.Cards;

@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Windows;
+using Sanguosha.Core.Cards;
 
 namespace Sanguosha.UI.Controls
 {
-    public class PrivateDeckViewModel : ViewModelBase
+    public class SpecialDeckViewModel : ViewModelBase
     {
-        public PrivateDeckViewModel()
+        public SpecialDeckViewModel()
         {
             Cards = new ObservableCollection<CardViewModel>();
             Cards.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Cards_CollectionChanged);
@@ -20,15 +21,21 @@ namespace Sanguosha.UI.Controls
  	        OnPropertyChanged("DisplayText");
         }
 
+        /// <summary>
+        /// Localized translation of the deck name with number of cards to be displayed.
+        /// </summary>
         public string DisplayText
         {
             get
             {                
-                return string.Format("{0}[{1}]", TraslatedName, Cards.Count);             
+                return string.Format("{0}[{1}]", TranslatedName, Cards.Count);             
             }
         }
 
-        public string TraslatedName
+        /// <summary>
+        /// Localized translation of the deck name.
+        /// </summary>
+        public string TranslatedName
         {
             get
             {
@@ -36,16 +43,30 @@ namespace Sanguosha.UI.Controls
                 return s??string.Empty;                
             }
         }
-
-        private string _name;
+                
         public string Name
         {
-            get { return _name; }
+            get
+            {
+                if (DeckPlace == null || DeckPlace.DeckType == null) return string.Empty;
+                return DeckPlace.DeckType.Name;
+            }            
+        }
+
+        private DeckPlace _deckPlace;
+
+        public DeckPlace DeckPlace
+        {
+            get
+            {
+                return _deckPlace;
+            }
             set
             {
-                if (_name == value) return;
-                _name = value;
+                if (_deckPlace == value) return;
+                _deckPlace = value;
                 OnPropertyChanged("Name");
+                OnPropertyChanged("TranslatedName");
                 OnPropertyChanged("DisplayText");
             }
         }

@@ -72,5 +72,7 @@
     <sys:String x:Key="CardUsage.Prompt.BingXin">冰心 你可以把所有牌以任意数量交给任意其他角色</sys:String>
     <sys:String x:Key="CardUsage.Prompt.QiuYuan">求援 你可以选择一个有手牌的角色发动技能</sys:String>
     <sys:String x:Key="CardUsage.Prompt.QiuYuanGiveCard">求援 请交给{0}一张手牌</sys:String>
-
+    
+    <sys:String x:Key="CardChoice.Prompt.ChengXiang">称象 请拖动要获得的牌到第二排</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.ChengXiang.Others">称象 请等待{0}选择要获得的牌</sys:String>
 </ResourceDictionary>

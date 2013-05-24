@@ -13,20 +13,19 @@
     <sys:String x:Key="Hero.QunDiaoChan.Name">貂蝉</sys:String>
     <sys:String x:Key="Hero.GongsunZan.Name">公孙瓒</sys:String>
     <sys:String x:Key="Hero.YuanShu.Name">袁术</sys:String>
-    <sys:String x:Key="Hero.ShuSunShangxiang.Name">蜀孙尚香</sys:String>
-    <sys:String x:Key="Hero.WeiPangDe.Name">魏庞德</sys:String>
-    <sys:String x:Key="Hero.WeiGuanYu.Name">魏关羽</sys:String>
+    <sys:String x:Key="Hero.ShuSunShangxiang.Name">孙尚香</sys:String>
+    <sys:String x:Key="Hero.WeiPangDe.Name">庞德</sys:String>
+    <sys:String x:Key="Hero.WeiGuanYu.Name">关羽</sys:String>
     <sys:String x:Key="Hero.HuLaoLvBu.Name">神吕布-1</sys:String>
     <sys:String x:Key="Hero.HuLaoLvBu2.Name">神吕布-2</sys:String>
-    <sys:String x:Key="Hero.WeiCaiWenji.Name">魏蔡文姬</sys:String>
-    <sys:String x:Key="Hero.QunMaChao.Name">群马超</sys:String>
-    <sys:String x:Key="Hero.WeiJiaXu.Name">魏贾诩</sys:String>
+    <sys:String x:Key="Hero.WeiCaiWenji.Name">蔡文姬</sys:String>
+    <sys:String x:Key="Hero.QunMaChao.Name">马超</sys:String>
+    <sys:String x:Key="Hero.WeiJiaXu.Name">贾诩</sys:String>
     <sys:String x:Key="Hero.CaoHong.Name">曹洪</sys:String>
     <sys:String x:Key="Hero.GuanYinping.Name">关银屏</sys:String>
     <sys:String x:Key="Hero.ChenLin.Name">陈琳</sys:String>
     <sys:String x:Key="Hero.XiahouBa.Name">夏侯霸</sys:String>
-    <sys:String x:Key="Hero.QunLingJu.Name">灵雎</sys:String>
-    <sys:String x:Key="Hero.DaQiaoXiaoQiao.Name">大乔小乔</sys:String>
+    <sys:String x:Key="Hero.DaQiaoXiaoQiao.Name">大乔＆小乔</sys:String>
     <sys:String x:Key="Hero.ZhuGeKe.Name">诸葛恪</sys:String>
 
 

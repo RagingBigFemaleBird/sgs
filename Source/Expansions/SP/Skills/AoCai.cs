@@ -64,7 +64,7 @@ namespace Sanguosha.Expansions.SP.Skills
                         Game.CurrentGame.SyncImmutableCards(p, cards);
                     },
                     TriggerCondition.OwnerIsSource
-                ) { AskForConfirmation = false };
+                ) { AskForConfirmation = false, IsAutoNotify = false };
                 Triggers.Add(GameEvent.PlayerIsAboutToPlayCard, trigger);
                 Triggers.Add(GameEvent.PlayerIsAboutToUseCard, trigger);
             }

@@ -63,9 +63,9 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
             move.To = new DeckPlace(null, daXiangDeck);
             Game.CurrentGame.MoveCards(move);
             List<List<Card>> answer;
-            if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("DaXiang", Owner),
+            if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("ChengXiang", Owner),
                     new List<DeckPlace>() { new DeckPlace(null, daXiangDeck) },
-                    new List<string>() { "DaXiang" },
+                    new List<string>() { "AcquiredCards" },
                     new List<int>() { 4 },
                     new DaXiangVerifier(Game.CurrentGame.Decks[null, daXiangDeck]),
                     out answer,

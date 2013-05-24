@@ -81,8 +81,11 @@ namespace Sanguosha.UI.Controls
             var decks = Game.CurrentGame.Decks.GetPlayerPrivateDecks(player);
             foreach (var deck in decks)
             {
-                var deckModel = new PrivateDeckViewModel();
-                deckModel.Name = deck.Name;
+                var deckModel = new SpecialDeckViewModel()
+                {
+                    DeckPlace = new DeckPlace(player, deck)
+                };
+                
                 PlayerModel.PrivateDecks.Add(deckModel);
                 var cards = Game.CurrentGame.Decks[player, deck];
                 foreach (var card in cards)
@@ -278,11 +281,11 @@ namespace Sanguosha.UI.Controls
             }
             else if (deck is PrivateDeckType)
             {
-                var deckModel = PlayerModel.PrivateDecks.FirstOrDefault(d => d.Name == deck.Name);
+                var deckModel = PlayerModel.PrivateDecks.FirstOrDefault(d => d.DeckPlace.DeckType == deck);
                 if (deckModel == null)
                 {
-                    deckModel = new PrivateDeckViewModel();
-                    deckModel.Name = deck.Name;
+                    deckModel = new SpecialDeckViewModel();
+                    deckModel.DeckPlace = new DeckPlace(PlayerModel.Player, deck);
                     PlayerModel.PrivateDecks.Add(deckModel);
                 }
                 foreach (var card in cards)
@@ -420,7 +423,7 @@ namespace Sanguosha.UI.Controls
         protected void btnPrivateDeck_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             var btn = sender as Button;
-            var model = btn.DataContext as PrivateDeckViewModel;
+            var model = btn.DataContext as SpecialDeckViewModel;
             this.parentGameView.DisplayPrivateDeck(PlayerModel.Player, model);
         }
         #endregion

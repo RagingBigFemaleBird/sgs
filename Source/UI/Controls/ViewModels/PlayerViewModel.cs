@@ -35,7 +35,7 @@ namespace Sanguosha.UI.Controls
             ActiveSkillCommands = new ObservableCollection<SkillCommand>();
             RulerGivenSkillCommands = new ObservableCollection<SkillCommand>();
 
-            PrivateDecks = new ObservableCollection<PrivateDeckViewModel>();
+            PrivateDecks = new ObservableCollection<SpecialDeckViewModel>();
 
             MultiChoiceCommands = new ObservableCollection<ICommand>();
 
@@ -351,7 +351,7 @@ namespace Sanguosha.UI.Controls
         #endregion
 
         #region Decks
-        public ObservableCollection<PrivateDeckViewModel> PrivateDecks
+        public ObservableCollection<SpecialDeckViewModel> PrivateDecks
         {
             get;
             private set;
@@ -664,9 +664,9 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-        private PrivateDeckViewModel _currentPrivateDeck;
+        private SpecialDeckViewModel _currentPrivateDeck;
 
-        public PrivateDeckViewModel CurrentPrivateDeck
+        public SpecialDeckViewModel CurrentSpecialDeck
         {
             get { return _currentPrivateDeck; }
             set
@@ -1019,7 +1019,7 @@ namespace Sanguosha.UI.Controls
 
         private List<Card> _GetSelectedNonEquipCards()
         {
-            IEnumerable<CardViewModel> source = (CurrentPrivateDeck == null) ? HandCards : HandCards.Concat(CurrentPrivateDeck.Cards);
+            IEnumerable<CardViewModel> source = (CurrentSpecialDeck == null) ? HandCards : HandCards.Concat(CurrentSpecialDeck.Cards);
             var result = from c in source
                          where c.IsSelected
                          select c.Card;
@@ -1097,7 +1097,7 @@ namespace Sanguosha.UI.Controls
                 playerModel.IsSelectionMode = false;
             }
             _lastSelectedPlayers.Clear();
-            CurrentPrivateDeck = null;
+            CurrentSpecialDeck = null;
             _lastSelectedCard = null;
             _lastSelectedCommand = null;
             SubmitAnswerCommand = DisabledCommand;
@@ -1308,11 +1308,11 @@ namespace Sanguosha.UI.Controls
                         var deck = helper.OtherDecksUsed[0];
                         var deckModel = PrivateDecks.FirstOrDefault(d => d.Name == deck.Name);
                         Trace.Assert(deckModel != null);
-                        if (deckModel != CurrentPrivateDeck)
+                        if (deckModel != CurrentSpecialDeck)
                         {
-                            if (CurrentPrivateDeck != null)
+                            if (CurrentSpecialDeck != null)
                             {
-                                foreach (var card in CurrentPrivateDeck.Cards)
+                                foreach (var card in CurrentSpecialDeck.Cards)
                                 {
                                     card.IsSelectionMode = false;
                                     card.OnSelectedChanged -= _OnCardSelected;
@@ -1323,12 +1323,59 @@ namespace Sanguosha.UI.Controls
                                 card.IsSelectionMode = true;
                                 card.OnSelectedChanged += _OnCardSelected;
                             }
-                            CurrentPrivateDeck = deckModel;
+                            CurrentSpecialDeck = deckModel;
+                        }
+                    }
+                    else if (helper.OtherGlobalCardDeckUsed.Count > 0)
+                    {
+                        if (helper.OtherGlobalCardDeckUsed.Count != 1)
+                        {
+                            _updateCardUsageRecurvieLock = false;
+                            throw new NotImplementedException("Currently using more than one private decks is not supported");
+                        }
+                        var deck = helper.OtherGlobalCardDeckUsed.First().Key;
+                        var numShown = helper.OtherGlobalCardDeckUsed.First().Value;
+
+                        if (CurrentSpecialDeck == null || CurrentSpecialDeck.DeckPlace != deck ||
+                            CurrentSpecialDeck.Cards.Count != numShown)
+                        {
+                            var deckModel = new SpecialDeckViewModel() { DeckPlace = deck };
+                            int total;
+                            var deckCards = Game.CurrentGame.Decks[deck];
+                            
+                            if (numShown == null)
+                            {
+                                total = deckCards.Count;
+                            }
+                            else
+                            {
+                                total = Math.Min((int)numShown, deckCards.Count);
+                            }
+
+                            for (int t = 0; t < total; t++)
+                            {
+                                CurrentSpecialDeck.Cards.Add(new CardViewModel() { Card = deckCards[t] });
+                            }
+
+                            if (CurrentSpecialDeck != null)
+                            {
+                                foreach (var card in CurrentSpecialDeck.Cards)
+                                {
+                                    card.IsSelectionMode = false;
+                                    card.OnSelectedChanged -= _OnCardSelected;
+                                }
+                            }
+                            foreach (var card in deckModel.Cards)
+                            {
+                                card.IsSelectionMode = true;
+                                card.OnSelectedChanged += _OnCardSelected;
+                            }
+                            CurrentSpecialDeck = deckModel;
                         }
                     }
                     else
                     {
-                        CurrentPrivateDeck = null;
+                        CurrentSpecialDeck = null;
                     }
                 }
 
@@ -1387,7 +1434,7 @@ namespace Sanguosha.UI.Controls
 
                 bool allowCardSwitch = (attempt.Count == 1);
 
-                var cardsToTry = CurrentPrivateDeck == null ? HandCards : HandCards.Concat(CurrentPrivateDeck.Cards);
+                var cardsToTry = CurrentSpecialDeck == null ? HandCards : HandCards.Concat(CurrentSpecialDeck.Cards);
 
                 foreach (var card in cardsToTry)
                 {
@@ -1570,11 +1617,11 @@ namespace Sanguosha.UI.Controls
                             var deck = helper.OtherDecksUsed[0];
                             var deckModel = PrivateDecks.FirstOrDefault(d => d.Name == deck.Name);
                             Trace.Assert(deckModel != null);
-                            if (deckModel != CurrentPrivateDeck)
+                            if (deckModel != CurrentSpecialDeck)
                             {
-                                if (CurrentPrivateDeck != null)
+                                if (CurrentSpecialDeck != null)
                                 {
-                                    foreach (var card in CurrentPrivateDeck.Cards)
+                                    foreach (var card in CurrentSpecialDeck.Cards)
                                     {
                                         card.IsSelectionMode = false;
                                         card.OnSelectedChanged -= _OnCardSelected;
@@ -1585,7 +1632,7 @@ namespace Sanguosha.UI.Controls
                                     card.IsSelectionMode = IsPlayable;
                                     card.OnSelectedChanged += _OnCardSelected;
                                 }
-                                CurrentPrivateDeck = deckModel;
+                                CurrentSpecialDeck = deckModel;
                             }
                         }
                     }

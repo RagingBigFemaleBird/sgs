@@ -68,7 +68,7 @@
     <Compile Include="ViewModels\GuHuoSkillCommand.cs" />
     <Compile Include="ViewModels\LobbyViewModel.cs" />
     <Compile Include="ViewModels\MarkViewModel.cs" />
-    <Compile Include="ViewModels\PrivateDeckViewModel.cs" />
+    <Compile Include="ViewModels\SpecialDeckViewModel.cs" />
     <Compile Include="ViewModels\ReplayControllerViewModel.cs" />
     <Compile Include="ViewModels\RoleIconViewModel.cs" />
     <Compile Include="ViewModels\RoomViewModel.cs" />

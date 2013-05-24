@@ -15,7 +15,7 @@ namespace Sanguosha.Core.UI
         public UiHelper()
         {
             OtherDecksUsed = new List<DeckType>();
-            OtherGlobalCardDeckUsed = new Dictionary<DeckPlace, int>();
+            OtherGlobalCardDeckUsed = new Dictionary<DeckPlace, int?>();
         }
 
         private bool isPlayerRepeatable;
@@ -91,9 +91,9 @@ namespace Sanguosha.Core.UI
             set { otherDecksUsed = value; }
         }
 
-        private Dictionary<DeckPlace, int> otherGlobalCardDeckUsed;
+        private Dictionary<DeckPlace, int?> otherGlobalCardDeckUsed;
 
-        public Dictionary<DeckPlace, int> OtherGlobalCardDeckUsed
+        public Dictionary<DeckPlace, int?> OtherGlobalCardDeckUsed
         {
             get { return otherGlobalCardDeckUsed; }
             set { otherGlobalCardDeckUsed = value; }

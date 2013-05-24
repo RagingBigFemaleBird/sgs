@@ -79,7 +79,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             List<List<Card>> answer;
             if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("SheLie", Owner),
                     new List<DeckPlace>() { new DeckPlace(null, shelieDeck) },
-                    new List<string>() { "SheLie" },
+                    new List<string>() { "AcquiredCards" },
                     new List<int>() { 4 },
                     new SheLieVerifier(Game.CurrentGame.Decks[null, shelieDeck]),
                     out answer,
