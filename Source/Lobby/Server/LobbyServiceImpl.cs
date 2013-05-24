@@ -280,8 +280,8 @@ namespace Sanguosha.Lobby.Server
                 {
                     loggedInAccounts[sp].CurrentSpectatingRoom = null;
                 }
-                rooms[roomId].Spectators.Clear();
-                rooms[roomId].GameInfo = null;
+                room.Spectators.Clear();
+                room.GameInfo = null;
                 foreach (var st in room.Room.Seats)
                 {
                     st.Account = null;
