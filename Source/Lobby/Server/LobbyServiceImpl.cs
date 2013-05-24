@@ -283,23 +283,23 @@ namespace Sanguosha.Lobby.Server
             if (account == null) return RoomOperationResult.Invalid;
             var room = account.CurrentRoom;
             if (room != null)
-            {                
-                foreach (var seat in room.Room.Seats)
+            {
+                lock (room.Room)
                 {
-                    if (seat.Account == account.Account)
+                    foreach (var seat in room.Room.Seats)
                     {
-                        int index = -1;
-                        if (room.GameInfo != null)
+                        if (seat.Account == account.Account)
                         {
-                            index = room.GameInfo.Accounts.IndexOf(account.Account);
-                            if (!forced && room.Room.State == RoomState.Gaming
-                                && index >= 0 && !room.GameInfo.IsDead[index])
+                            int index = -1;
+                            if (room.GameInfo != null)
                             {
-                                return RoomOperationResult.Locked;
+                                index = room.GameInfo.Accounts.IndexOf(account.Account);
+                                if (!forced && room.Room.State == RoomState.Gaming
+                                    && index >= 0 && !room.GameInfo.IsDead[index])
+                                {
+                                    return RoomOperationResult.Locked;
+                                }
                             }
-                        }
-                        lock (room.Room)
-                        {
                             bool findAnotherHost = false;
                             if (seat.State == SeatState.Host)
                             {
@@ -313,7 +313,7 @@ namespace Sanguosha.Lobby.Server
                             {
                                 return RoomOperationResult.Success;
                             }
-                            
+
                             if (findAnotherHost)
                             {
                                 foreach (var host in room.Room.Seats)
@@ -326,8 +326,8 @@ namespace Sanguosha.Lobby.Server
                                 }
                             }
                             _NotifyRoomLayoutChanged(room.Room.Id);
+                            return RoomOperationResult.Success;
                         }
-                        return RoomOperationResult.Success;
                     }
                 }
             }
@@ -491,16 +491,17 @@ namespace Sanguosha.Lobby.Server
                             else
                             {
                                 seat.State = SeatState.Empty;
+                                seat.Account = null;
                             }
 
                             if (seat.State != SeatState.Host) seat.State = SeatState.GuestTaken;
 
-                            if ((loggedInAccounts.ContainsKey(seat.Account.UserName) && loggedInAccounts[seat.Account.UserName].CurrentRoom != rooms[roomId]) ||
-                                !loggedInAccounts.ContainsKey(seat.Account.UserName))
+                            if (seat.Account != null && (loggedInAccounts.ContainsKey(seat.Account.UserName) && loggedInAccounts[seat.Account.UserName].CurrentRoom != rooms[roomId]))
                             {
                                 seat.Account = null;
                                 seat.State = SeatState.Empty;
                             }
+
                         }
 
                     }
@@ -508,6 +509,11 @@ namespace Sanguosha.Lobby.Server
                     if (_DestroyRoomIfEmpty(room))
                     {
                         return;
+                    }
+                    if (!room.Room.Seats.Any(st => st.State == SeatState.Host))
+                    {
+                        var f = room.Room.Seats.First(st => st.State == SeatState.GuestTaken);
+                        f.State = SeatState.Host;
                     }
                 }
             }
