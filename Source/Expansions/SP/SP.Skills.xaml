@@ -27,8 +27,9 @@
     <sys:String x:Key="Hero.XiahouBa.Name">夏侯霸</sys:String>
     <sys:String x:Key="Hero.QunLingJu.Name">灵雎</sys:String>
     <sys:String x:Key="Hero.DaQiaoXiaoQiao.Name">大乔小乔</sys:String>
+    <sys:String x:Key="Hero.ZhuGeKe.Name">诸葛恪</sys:String>
 
-    
+
     <sys:String x:Key="Skill.DanLao.Name">啖酪</sys:String>
     <sys:String x:Key="Skill.DanLao.Description">当你成为一张锦囊牌的目标后，若此牌的目标为两名（或以上），你可以摸一张牌，若如此做，此锦囊牌对你无效。</sys:String>
     <sys:String x:Key="Skill.DanLao.Usage">系统提示→点“确定”</sys:String>
@@ -93,5 +94,11 @@
 
     <sys:String x:Key="Skill.LuoYan.Name">落雁</sys:String>
     <sys:String x:Key="Skill.LuoYan.Description">锁定技，若你的武将牌上有牌，你视为拥有技能“天香”和“流离”。</sys:String>
-    
+
+    <sys:String x:Key="Skill.DuWu.Name">黩武</sys:String>
+    <sys:String x:Key="Skill.DuWu.Description">出牌阶段，你可以弃置X张牌对你攻击范围内的一名其他角色造成1点伤害(X为该角色的体力值)。若你以此法令该角色进入濒死状态，则濒死状态结算后你是去1点体力，且本回合不能再发动黩武。</sys:String>
+
+    <sys:String x:Key="Skill.AoCai.Name">傲才</sys:String>
+    <sys:String x:Key="Skill.AoCai.Description">当你于回合外需要使用或打出一张基本牌时，你可以观看牌堆顶的两张牌。若你观看的牌中有此牌，你可以使用打出之。</sys:String>
+
 </ResourceDictionary>

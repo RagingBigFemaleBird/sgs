@@ -40,6 +40,7 @@ namespace Sanguosha.Expansions
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("XiahouBa", true, Allegiance.Shu, 4, new BaoBian()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("QunLingJu", false, Allegiance.Qun, 3, new JieYuan(), new FenXin()) { HeroConvertFrom = "LingJu" })));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("DaQiaoXiaoQiao", false, Allegiance.Wu, 3, new XingWu(), new LuoYan()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhuGeKe", true, Allegiance.Wu, 3, new DuWu(), new AoCai()))));
         }
     }
 }

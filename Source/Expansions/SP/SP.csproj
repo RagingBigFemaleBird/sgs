@@ -52,6 +52,7 @@
     <Compile Include="Skills\DanLao.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Skills\DuWu.cs" />
     <Compile Include="Skills\HuXiao.cs" />
     <Compile Include="Skills\JiLei.cs" />
     <Compile Include="Skills\LuoYan.cs" />
