@@ -121,6 +121,7 @@
     <BitmapImage x:Key="Card.HuangZhong.Image.Normal">Cards/Normal/HuangZhong.jpg</BitmapImage>
     <BitmapImage x:Key="Card.HuaTuo.Image.Normal">Cards/Normal/HuaTuo.jpg</BitmapImage>
     <BitmapImage x:Key="Card.HuaXiong.Image.Normal">Cards/Normal/HuaXiong.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.HuaXiong2.Image.Normal">Cards/Normal/HuaXiong2.jpg</BitmapImage>
     <BitmapImage x:Key="Card.HuLaoLvBu.Image.Normal">Cards/Normal/HuLaoLvBu.jpg</BitmapImage>
     <BitmapImage x:Key="Card.HuLaoLvBu2.Image.Normal">Cards/Normal/HuLaoLvBu2.jpg</BitmapImage>
     <BitmapImage x:Key="Card.HuoGong.Image.Normal">Cards/Normal/HuoGong.jpg</BitmapImage>
@@ -260,6 +261,7 @@
     <BitmapImage x:Key="Card.ZhuQueYuShan.Image.Normal">Cards/Normal/ZhuQueYuShan.jpg</BitmapImage>
     <BitmapImage x:Key="Card.ZhuRan.Image.Normal">Cards/Normal/ZhuRan.jpg</BitmapImage>
     <BitmapImage x:Key="Card.ZhuRong.Image.Normal">Cards/Normal/ZhuRong.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.ZhugeKe.Image.Normal">Cards/Normal/ZhugeKe.jpg</BitmapImage>
     <BitmapImage x:Key="Card.ZiXing.Image.Normal">Cards/Normal/ZiXing.jpg</BitmapImage>
     <BitmapImage x:Key="Card.ZouShi.Image.Normal">Cards/Normal/ZouShi.jpg</BitmapImage>
     <BitmapImage x:Key="Card.ZuoCi.Image.Normal">Cards/Normal/ZuoCi.jpg</BitmapImage>
