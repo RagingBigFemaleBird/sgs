@@ -274,14 +274,15 @@ namespace Sanguosha.Lobby.Server
             lock (rooms)
             {
                 if (!rooms.ContainsKey(roomId)) return;
+                var room = rooms[roomId];
                 rooms.Remove(roomId);
-                foreach (var sp in rooms[roomId].Spectators)
+                foreach (var sp in room.Spectators)
                 {
                     loggedInAccounts[sp].CurrentSpectatingRoom = null;
                 }
                 rooms[roomId].Spectators.Clear();
                 rooms[roomId].GameInfo = null;
-                foreach (var st in rooms[roomId].Room.Seats)
+                foreach (var st in room.Room.Seats)
                 {
                     st.Account = null;
                     st.State = SeatState.Closed;
