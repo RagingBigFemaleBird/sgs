@@ -112,6 +112,14 @@ namespace Sanguosha.Lobby.Core
             set { ipPort = value; }
         }
 
+        public bool IsEmpty
+        {
+            get
+            {
+                return !Seats.Any(state => state.State != SeatState.Empty && state.State != SeatState.Closed);
+            }
+        }
+
         public RoomSettings Settings { get; set; }
     }
 }

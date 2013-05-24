@@ -229,33 +229,44 @@ namespace Sanguosha.Lobby.Server
             {
                 return RoomOperationResult.Locked;
             }
-            if (rooms.ContainsKey(roomId))
+
+            ServerRoom serverRoom = null;
+            Room clientRoom = null;
+            lock (rooms)
             {
-                lock (rooms[roomId].Room)
+                if (!rooms.ContainsKey(roomId))
                 {
-                    if (rooms[roomId].Room.State == RoomState.Gaming) return RoomOperationResult.Locked;
-                    int seatNo = 0;
-                    foreach (var seat in rooms[roomId].Room.Seats)
-                    {
-                        Trace.TraceInformation("Testing seat {0}", seatNo);
-                        if (seat.Account == null && seat.State == SeatState.Empty)
-                        {
-                            currentAccount.CurrentRoom = rooms[roomId];
-                            seat.Account = currentAccount.Account;
-                            seat.State = SeatState.GuestTaken;
-                            _NotifyRoomLayoutChanged(roomId);
-                            Trace.TraceInformation("Seat {0}", seatNo);
-                            room = rooms[roomId].Room;
-                            _Unspectate(currentAccount);
-                            return RoomOperationResult.Success;
-                        }
-                        seatNo++;
-                    }
-                    Trace.TraceInformation("Full");
+                    return RoomOperationResult.Invalid;
                 }
-                return RoomOperationResult.Full;
+                else
+                {
+                    clientRoom = rooms[roomId].Room;
+                }
             }
-            return RoomOperationResult.Invalid;
+
+            lock (clientRoom)
+            {
+                if (clientRoom.IsEmpty || clientRoom.State == RoomState.Gaming) return RoomOperationResult.Locked;
+                int seatNo = 0;
+                foreach (var seat in clientRoom.Seats)
+                {
+                    Trace.TraceInformation("Testing seat {0}", seatNo);
+                    if (seat.Account == null && seat.State == SeatState.Empty)
+                    {
+                        currentAccount.CurrentRoom = serverRoom;
+                        seat.Account = currentAccount.Account;
+                        seat.State = SeatState.GuestTaken;
+                        _NotifyRoomLayoutChanged(roomId);
+                        Trace.TraceInformation("Seat {0}", seatNo);
+                        _Unspectate(currentAccount);
+                        room = clientRoom;
+                        return RoomOperationResult.Success;
+                    }
+                    seatNo++;
+                }
+                Trace.TraceInformation("Full");
+            }            
+            return RoomOperationResult.Full;
         }
 
         private static void _DestroyRoom(int roomId)
@@ -263,6 +274,7 @@ namespace Sanguosha.Lobby.Server
             lock (rooms)
             {
                 if (!rooms.ContainsKey(roomId)) return;
+                rooms.Remove(roomId);
                 foreach (var sp in rooms[roomId].Spectators)
                 {
                     loggedInAccounts[sp].CurrentSpectatingRoom = null;
@@ -273,8 +285,7 @@ namespace Sanguosha.Lobby.Server
                 {
                     st.Account = null;
                     st.State = SeatState.Closed;
-                }
-                rooms.Remove(roomId);
+                }                
             }
         }
 
@@ -282,61 +293,57 @@ namespace Sanguosha.Lobby.Server
         {
             if (account == null) return RoomOperationResult.Invalid;
             var room = account.CurrentRoom;
-            if (room != null)
+            if (room == null) return RoomOperationResult.Invalid;
+
+            lock (room.Room)
             {
-                lock (room.Room)
+                var seat = room.Room.Seats.FirstOrDefault(s => s.Account == account.Account);
+                if (seat == null) return RoomOperationResult.Invalid;
+
+                int index = -1;
+                if (room.GameInfo != null)
                 {
-                    foreach (var seat in room.Room.Seats)
+                    index = room.GameInfo.Accounts.IndexOf(account.Account);
+                    if (!forced && room.Room.State == RoomState.Gaming
+                        && index >= 0 && !room.GameInfo.IsDead[index])
                     {
-                        if (seat.Account == account.Account)
+                        return RoomOperationResult.Locked;
+                    }
+                }
+
+                bool findAnotherHost = false;
+                if (seat.State == SeatState.Host)
+                {
+                    findAnotherHost = true;
+                }
+                seat.Account = null;
+                seat.State = SeatState.Empty;
+                account.CurrentRoom = null;
+
+                if (_DestroyRoomIfEmpty(room))
+                {
+                    return RoomOperationResult.Success;
+                }
+
+                if (findAnotherHost)
+                {
+                    foreach (var host in room.Room.Seats)
+                    {
+                        if (host.Account != null)
                         {
-                            int index = -1;
-                            if (room.GameInfo != null)
-                            {
-                                index = room.GameInfo.Accounts.IndexOf(account.Account);
-                                if (!forced && room.Room.State == RoomState.Gaming
-                                    && index >= 0 && !room.GameInfo.IsDead[index])
-                                {
-                                    return RoomOperationResult.Locked;
-                                }
-                            }
-                            bool findAnotherHost = false;
-                            if (seat.State == SeatState.Host)
-                            {
-                                findAnotherHost = true;
-                            }
-                            seat.Account = null;
-                            seat.State = SeatState.Empty;
-                            account.CurrentRoom = null;
-
-                            if (_DestroyRoomIfEmpty(room))
-                            {
-                                return RoomOperationResult.Success;
-                            }
-
-                            if (findAnotherHost)
-                            {
-                                foreach (var host in room.Room.Seats)
-                                {
-                                    if (host.Account != null)
-                                    {
-                                        host.State = SeatState.Host;
-                                        break;
-                                    }
-                                }
-                            }
-                            _NotifyRoomLayoutChanged(room.Room.Id);
-                            return RoomOperationResult.Success;
+                            host.State = SeatState.Host;
+                            break;
                         }
                     }
                 }
+                _NotifyRoomLayoutChanged(room.Room.Id);
+                return RoomOperationResult.Success;
             }
-            return RoomOperationResult.Invalid;
         }
 
         private static bool _DestroyRoomIfEmpty(ServerRoom room)
         {
-            if (room.Room.Seats.Any(state => state.State != SeatState.Empty && state.State != SeatState.Closed))
+            if (!room.Room.IsEmpty)
             {
                 return false;                
             }
@@ -354,9 +361,11 @@ namespace Sanguosha.Lobby.Server
 
         private static void _NotifyRoomLayoutChanged(int roomId)
         {
-            try
+            var room = rooms[roomId];
+            if (room == null || room.Room == null) return;
+            lock (room.Room)
             {
-                foreach (var notify in rooms[roomId].Room.Seats)
+                foreach (var notify in room.Room.Seats)
                 {
                     if (notify.Account != null)
                     {
@@ -365,7 +374,7 @@ namespace Sanguosha.Lobby.Server
                             lock (loggedInAccounts)
                             {
                                 var channel = loggedInAccounts[notify.Account.UserName].CallbackChannel;
-                                channel.NotifyRoomUpdate(roomId, rooms[roomId].Room);
+                                channel.NotifyRoomUpdate(roomId, room.Room);
                             }
                         }
                         catch (Exception)
@@ -374,17 +383,16 @@ namespace Sanguosha.Lobby.Server
                     }
                 }
             }
-            catch (Exception)
-            {
-            }
         }
 
         private void _NotifyGameStart(int roomId, IPAddress ip, int port)
         {
-            try
+            var room = rooms[roomId];
+            if (room == null || room.Room == null) return;
+            lock (room.Room)
             {
                 int i = 0;
-                foreach (var notify in rooms[roomId].Room.Seats)
+                foreach (var notify in room.Room.Seats)
                 {
                     if (notify.Account != null)
                     {
@@ -393,7 +401,7 @@ namespace Sanguosha.Lobby.Server
                             lock (loggedInAccounts)
                             {
                                 var channel = loggedInAccounts[notify.Account.UserName].CallbackChannel;
-                                channel.NotifyGameStart(ip.ToString() + ":" + port, rooms[roomId].GameInfo.LoginTokens[i]);
+                                channel.NotifyGameStart(ip.ToString() + ":" + port, room.GameInfo.LoginTokens[i]);
                             }
                         }
                         catch (Exception)
@@ -402,10 +410,7 @@ namespace Sanguosha.Lobby.Server
                         i++;
                     }
                 }
-            }
-            catch (Exception)
-            {
-            }
+            }            
         }
 
         public RoomOperationResult ChangeSeat(int newSeat)
