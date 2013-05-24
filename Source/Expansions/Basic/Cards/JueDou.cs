@@ -52,6 +52,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 bool cannotProvideSha = false;
                 while (numberOfShaRequired > 0)
                 {
+                    Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToPlayCard, new GameEventArgs() { Source = current });
                     if (!ui.AskForCardUsage(prompt, v1, out skill, out cards, out p))
                     {
                         Trace.TraceInformation("Player {0} Invalid answer", current);

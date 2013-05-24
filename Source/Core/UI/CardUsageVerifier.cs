@@ -15,6 +15,7 @@ namespace Sanguosha.Core.UI
         public UiHelper()
         {
             OtherDecksUsed = new List<DeckType>();
+            OtherUsedDeckCardLimit = new List<int>();
         }
 
         private bool isPlayerRepeatable;
@@ -88,6 +89,14 @@ namespace Sanguosha.Core.UI
         {
             get { return otherDecksUsed; }
             set { otherDecksUsed = value; }
+        }
+
+        private List<int> otherUsedDeckCardLimit;
+
+        public List<int> OtherUsedDeckCardLimit
+        {
+            get { return otherUsedDeckCardLimit; }
+            set { otherUsedDeckCardLimit = value; }
         }
 
         private int extraTimeOutSeconds;

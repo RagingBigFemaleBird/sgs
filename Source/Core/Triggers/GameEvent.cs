@@ -435,6 +435,17 @@ namespace Sanguosha.Core.Triggers
         /// </summary>
         public static readonly GameEvent PinDianComplete = new GameEvent("PinDianComplete");
 
+        /// <summary>
+        /// 玩家需要使用一张牌(诸葛恪）
+        /// </summary>
+        public static readonly GameEvent PlayerIsAboutToUseCard = new GameEvent("PlayerIsAboutToUseCard");
+
+        /// <summary>
+        /// 玩家需要打出一张牌(诸葛恪）
+        /// </summary>
+        public static readonly GameEvent PlayerIsAboutToPlayCard = new GameEvent("PlayerIsAboutToPlayCard");
+
+
         public override bool Equals(object obj)
         {
             if (obj == this)
