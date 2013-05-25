@@ -75,4 +75,7 @@
     
     <sys:String x:Key="CardChoice.Prompt.ChengXiang">称象 请拖动要获得的牌到第二排</sys:String>
     <sys:String x:Key="CardChoice.Prompt.ChengXiang.Others">称象 请等待{0}选择要获得的牌</sys:String>
+
+    <sys:String x:Key="CardChoice.Prompt.XianSi">陷嗣 请选择{0}的一张牌</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.XianSi.Others">陷嗣 请等待{1}选择{0}一张牌</sys:String>
 </ResourceDictionary>

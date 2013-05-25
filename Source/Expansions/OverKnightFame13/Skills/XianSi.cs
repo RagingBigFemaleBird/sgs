@@ -58,7 +58,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                     if (p.HandCards().Count + p.Equipments().Count + p.DelayedTools().Count == 0) continue;
                     List<List<Card>> answer;
                     var deckplaces = new List<DeckPlace>() { new DeckPlace(p, DeckType.Hand), new DeckPlace(p, DeckType.Equipment), new DeckPlace(p, DeckType.DelayedTools) };
-                    if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("XianSi"), deckplaces,
+                    if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("XianSi", p), deckplaces,
                         new List<string>() { "XianSi" }, new List<int>() { 1 }, new RequireOneCardChoiceVerifier(true), out answer))
                     {
                         answer = new List<List<Card>>();
