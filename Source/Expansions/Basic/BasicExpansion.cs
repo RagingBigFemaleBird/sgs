@@ -178,7 +178,7 @@ namespace Sanguosha.Expansions
 
             //Basic 2013
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("YuanShu2", true, Allegiance.Qun, 4, new WangZun(), new TongJi()))));
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HuaXiong2", true, Allegiance.Qun, 4, new YaoWu()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HuaXiong2", true, Allegiance.Qun, 6, new YaoWu()))));
 
             TriggerRegistration = new List<DelayedTriggerRegistration>();
             TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.PlayerUsedCard, trigger = new WuGuFengDengTrigger() });

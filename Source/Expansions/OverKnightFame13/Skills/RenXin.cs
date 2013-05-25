@@ -45,17 +45,14 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 (p, e, a) =>
                 {
                     var target = a.Targets[0];
-                    if (AskForSkillUse())
-                    {
-                        NotifySkillUse(new List<Player>() { target });
-                        Game.CurrentGame.HandleCardTransferToHand(p, target, new List<Card>(p.HandCards()));
-                        p.IsImprisoned = !p.IsImprisoned;
-                    }
+                    NotifySkillUse(new List<Player>() { target });
+                    Game.CurrentGame.HandleCardTransferToHand(p, target, new List<Card>(p.HandCards()));
+                    p.IsImprisoned = !p.IsImprisoned;
                 },
                 TriggerCondition.Global
-            ) { AskForConfirmation = false, IsAutoNotify = false };
+            ) { IsAutoNotify = false };
             Triggers.Add(GameEvent.PlayerIsAboutToDie, trigger);
-            IsAutoInvoked = null;
+            IsAutoInvoked = false;
         }
     }
 }
