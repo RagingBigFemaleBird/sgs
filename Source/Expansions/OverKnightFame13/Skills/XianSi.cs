@@ -106,20 +106,19 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 card.Type = new Sha();
                 if (isPlay) return VerifierResult.Fail;
                 if (Game.CurrentGame.Decks[Master, XianSiDeck].Count <= 1) return VerifierResult.Fail;
-                if (targets == null || targets.Count == 0) return VerifierResult.Success;
-                if (targets.Contains(Master)) return VerifierResult.Success;
-                return VerifierResult.Fail;
+                if (targets == null || targets.Count == 0) return VerifierResult.Partial;
+                else if (!targets.Contains(Master)) return VerifierResult.Fail;
+                if (cards != null && cards.Any(cd => cd.Place.Player != master || cd.Place.DeckType != XianSiDeck)) return VerifierResult.Fail;
+                if (cards == null || cards.Count < 2) return VerifierResult.Partial;
+                if (cards != null || cards.Count > 2) return VerifierResult.Fail;
+                card.Subcards = new List<Card>(cards);
+                return VerifierResult.Success;
             }
 
             protected override bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets, bool isPlay)
             {
-                if (Game.CurrentGame.Decks[Master, XianSiDeck].Count > 0)
-                {
-                    CardsMovement move = new CardsMovement();
-                    move.Cards = new List<Card>() { Game.CurrentGame.Decks[Master, XianSiDeck][0], Game.CurrentGame.Decks[Master, XianSiDeck][1] };
-                    move.To = new DeckPlace(null, DeckType.Discard);
-                    Game.CurrentGame.MoveCards(move);
-                }
+                Game.CurrentGame.HandleCardDiscard(master, new List<Card>(card.Subcards));
+                card.Subcards = new List<Card>();
                 return true;
             }
 

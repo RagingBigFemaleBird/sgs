@@ -93,7 +93,9 @@ namespace Sanguosha.Core.Network
                     if (item.Owner != HostPlayer)
                     {
                         if (!(verifier.Helper.OtherDecksUsed.Any(dc => dc == item.Place.DeckType) ||
-                            (skill != null && skill.Helper.OtherDecksUsed.Any(dc => dc == item.Place.DeckType))))
+                            (skill != null && skill.Helper.OtherDecksUsed.Any(dc => dc == item.Place.DeckType)) ||
+                            (verifier.Helper.OtherGlobalCardDeckUsed.Any(dc => dc.Key.Player == item.Place.Player && dc.Key.DeckType == item.Place.DeckType)) ||
+                            (skill != null && skill.Helper.OtherGlobalCardDeckUsed.Any(dc => dc.Key.Player == item.Place.Player && dc.Key.DeckType == item.Place.DeckType))))
                         {
                             Trace.TraceWarning("Client hacking cards!");
                             return false;

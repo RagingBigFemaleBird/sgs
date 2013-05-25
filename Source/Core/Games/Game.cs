@@ -505,6 +505,7 @@ namespace Sanguosha.Core.Games
                 this.NotificationProxy = null;
                 this.uiProxies = null;
             }
+#if !DEBUG
             catch (Exception e)
             {
                 lock (games)
@@ -532,6 +533,7 @@ namespace Sanguosha.Core.Games
                     crashReport.Close();
                 }
             }
+#endif
             mainThread = null;
 
             if (GameServer != null)

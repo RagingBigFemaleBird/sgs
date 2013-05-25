@@ -36,6 +36,7 @@ namespace Sanguosha.Expansions.SP.Skills
             }
             if (cards[0].Type.BaseCategory() != CardCategory.Basic) return VerifierResult.Fail;
             card.Type = cards[0].Type;
+            card.Subcards.Add(cards[0]);
             return VerifierResult.Success;
         }
 

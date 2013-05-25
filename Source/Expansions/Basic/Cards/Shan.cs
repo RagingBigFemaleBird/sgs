@@ -105,7 +105,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     ISkill skill;
                     List<Player> p;
                     List<Card> cards;
-                    Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToUseCard, new GameEventArgs() { Source = source });
+                    Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToUseCard, new GameEventArgs() { Source = dest });
                     if (!ui.AskForCardUsage(new CardUsagePrompt("Sha.Shan", source), v1, out skill, out cards, out p))
                     {
                         cannotProvideShan = true;
