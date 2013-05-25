@@ -1354,7 +1354,7 @@ namespace Sanguosha.UI.Controls
 
                             for (int t = 0; t < total; t++)
                             {
-                                CurrentSpecialDeck.Cards.Add(new CardViewModel() { Card = deckCards[t] });
+                                deckModel.Cards.Add(new CardViewModel() { Card = deckCards[t] });
                             }
 
                             if (CurrentSpecialDeck != null)

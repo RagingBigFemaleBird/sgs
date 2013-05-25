@@ -70,7 +70,8 @@ namespace Sanguosha.UI.Controls
         public PlayerViewModel MainPlayerModel
         {
             get
-            {                
+            {
+                if (PlayerModels.Count == 0) return null;
                 return PlayerModels[0];
             }
         }

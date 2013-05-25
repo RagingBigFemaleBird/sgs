@@ -464,7 +464,7 @@ namespace Sanguosha.UI.Controls
                 _privateDeckChoiceWindow.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
                 _privateDeckChoiceWindow.CloseButtonVisibility = Visibility.Collapsed;                
                 _privateDeckChoiceWindow.WindowStartupLocation = Xceed.Wpf.Toolkit.WindowStartupLocation.Center;
-                string title = LogFormatter.Translate(new CardChoicePrompt("SpecialDeck", model.CurrentSpecialDeck));
+                string title = LogFormatter.Translate(new CardChoicePrompt("SpecialDeck", model.CurrentSpecialDeck.DeckPlace));
                 _privateDeckChoiceWindow.Caption = title;
 
                 var box = new PrivateDeckBox();
@@ -1630,7 +1630,7 @@ namespace Sanguosha.UI.Controls
         {
             var choiceModel = new CardChoiceViewModel();
             choiceModel.CanClose = true;
-            choiceModel.Prompt = LogFormatter.Translate(new CardChoicePrompt("PrivateDeck", player, model.TranslatedName));
+            choiceModel.Prompt = LogFormatter.Translate(new CardChoicePrompt("SpecialDeck", model.DeckPlace));
             var lineViewModel = new CardChoiceLineViewModel();
             lineViewModel.DeckName = model.Name;
             lineViewModel.Cards = model.Cards;
