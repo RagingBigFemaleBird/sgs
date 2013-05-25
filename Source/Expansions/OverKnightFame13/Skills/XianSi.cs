@@ -71,7 +71,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 }
                 move.Cards.Clear();
                 move.Helper.IsFakedMove = false;
-                move.To = new DeckPlace(Owner, XianSiDeck);
+                move.To = new DeckPlace(Owner, NiDeck);
                 foreach (Player p in players)
                 {
                     move.Cards.AddRange(Game.CurrentGame.Decks[p, XianSiTempDeck]);
@@ -84,7 +84,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
             }
         }
 
-        public static PrivateDeckType XianSiDeck = new PrivateDeckType("XianSi", false);
+        public static PrivateDeckType NiDeck = new PrivateDeckType("Ni", false);
         
         public XianSi()
         {
@@ -105,8 +105,8 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 card = new CompositeCard();
                 card.Type = new Sha();
                 if (isPlay) return VerifierResult.Fail;
-                if (Game.CurrentGame.Decks[Master, XianSiDeck].Count <= 1) return VerifierResult.Fail;
-                if (cards != null && cards.Any(cd => cd.Place.Player != master || cd.Place.DeckType != XianSiDeck)) return VerifierResult.Fail;
+                if (Game.CurrentGame.Decks[Master, NiDeck].Count <= 1) return VerifierResult.Fail;
+                if (cards != null && cards.Any(cd => cd.Place.Player != master || cd.Place.DeckType != NiDeck)) return VerifierResult.Fail;
                 if (cards == null || cards.Count < 2) return VerifierResult.Partial;
                 if (cards != null && cards.Count > 2) return VerifierResult.Fail;
                 card.Subcards = new List<Card>(cards);
@@ -135,7 +135,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
             public Player Master
             {
                 get { return master; }
-                set { master = value; Helper.OtherGlobalCardDeckUsed.Clear(); Helper.OtherGlobalCardDeckUsed.Add(new DeckPlace(value, XianSiDeck), null); }
+                set { master = value; Helper.OtherGlobalCardDeckUsed.Clear(); Helper.OtherGlobalCardDeckUsed.Add(new DeckPlace(value, NiDeck), null); }
             }
         }
 

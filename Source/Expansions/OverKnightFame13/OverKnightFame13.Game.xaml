@@ -46,20 +46,7 @@
 
     <sys:String x:Key="CardUsage.Prompt.ZhiYan">选择一名角色发动直言，或点“取消”不发动技能</sys:String>
 
-    <sys:String x:Key="Deck.XianSi.Name">陷嗣</sys:String>    
-
-    <sys:String x:Key="CardChoice.Prompt.AnXu">安恤 请选择一张手牌</sys:String>
-    
-    <sys:String x:Key="Status.QianXiBlack.Name">潜袭</sys:String>
-    <LinearGradientBrush x:Key="Status.QianXiBlack.Brush" EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#FFA0A0A0" Offset="0"/>
-        <GradientStop Color="#FFDEDEDE" Offset="1"/>
-    </LinearGradientBrush>
-    <sys:String x:Key="Status.QianXiRed.Name">潜袭</sys:String>
-    <LinearGradientBrush x:Key="Status.QianXiRed.Brush" EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="Red" Offset="0"/>
-        <GradientStop Color="#FFDEDEDE" Offset="1"/>
-    </LinearGradientBrush>
+    <sys:String x:Key="Deck.Ni.Name">逆</sys:String>    
 
     <sys:String x:Key="MultiChoice.Prompt.JingCe">精策 请选择 或点“取消”不发动</sys:String>
     <sys:String x:Key="MultiChoice.Choice.JingCeMoPai">摸一张牌</sys:String>

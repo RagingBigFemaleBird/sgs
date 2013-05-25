@@ -17,7 +17,7 @@ using Sanguosha.Core.Exceptions;
 namespace Sanguosha.Expansions.OverKnightFame13.Skills
 {
     /// <summary>
-    /// 峻刑-出牌阶段，你可以弃置一至三张牌，然后令一名有手牌的其他角色选择一项：弃置一张与你的弃牌均不同类别的手牌，或将其武将牌翻面。每阶段限一次。
+    /// 峻刑-出牌阶段，你可以弃置至少一张手牌，然后令一名其他角色弃置一张与你所弃置牌类别均不同的手牌。若其不如此做，该角色将武将牌翻面并摸等同于你弃牌数的牌。每阶段限一次。
     /// </summary>
     public class JunXing : AutoVerifiedActiveSkill
     {

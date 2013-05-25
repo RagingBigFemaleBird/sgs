@@ -72,12 +72,12 @@
     <sys:String x:Key="Skill.JueCe.Usage">点“确定”</sys:String>
 
     <sys:String x:Key="Skill.XianSi.Name">陷嗣</sys:String>
-    <sys:String x:Key="Skill.XianSi.Description">回合开始阶段开始时，你可以弃置一张手牌，将至多两名角色的各一张牌移动至你的武将牌上，称为“逆”。每当其他角色需要对你使用一张【杀】时，该角色可以弃置你的两张“逆”，视为对你使用一张【杀】。</sys:String>
-    <sys:String x:Key="Skill.XianSi.Usage">点“确定”</sys:String>
+    <sys:String x:Key="Skill.XianSi.Description">回合开始阶段开始时，你可以将至多两名角色的各一张牌置于你的武将牌上，称为“逆”。每当其他角色需要对你使用一张【杀】时，该角色可以弃置你武将牌上的两张“逆”，视为对你使用一张【杀】。</sys:String>
+    <sys:String x:Key="Skill.XianSi.Usage">选择一至两名目标→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.XianSiGivenSkill.Name">陷嗣</sys:String>
-    <sys:String x:Key="Skill.XianSiGivenSkill.Description">用这个技能发动陷嗣视为使用一张杀</sys:String>
-    <sys:String x:Key="Skill.XianSiGivenSkill.Usage">点“确定”</sys:String>
+    <sys:String x:Key="Skill.XianSiGivenSkill.Description">你可以弃置一名角色武将牌上的两张“逆”，视为对其使用一张【杀】。</sys:String>
+    <sys:String x:Key="Skill.XianSiGivenSkill.Usage">选择两张“逆”→选择【杀】的目标→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.AnJian.Name">暗箭</sys:String>
     <sys:String x:Key="Skill.AnJian.Description">锁定技，当你的【杀】造成伤害时，若你不在其攻击范围内，则此【杀】伤害+1。</sys:String>
@@ -91,7 +91,7 @@
     <sys:String x:Key="Skill.JingCe.Usage">系统提示→选择一项</sys:String>
 
     <sys:String x:Key="Skill.JunXing.Name">峻刑</sys:String>
-    <sys:String x:Key="Skill.JunXing.Description">出牌阶段，你可以弃置一至三张牌，然后令一名有手牌的其他角色选择一项：弃置一张与你的弃牌均不同类别的手牌，或将其武将牌翻面。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.JunXing.Description">出牌阶段，你可以弃置至少一张手牌，然后令一名其他角色弃置一张与你所弃置牌类别均不同的手牌。若其不如此做，该角色将武将牌翻面并摸等同于你弃牌数的牌。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.JunXing.Usage">点“峻刑”→选择1-3张牌→选择一个目标→点“确定”</sys:String>
     <sys:String x:Key="Skill.JunXing.Prompt">请选择1-3张牌及一个目标</sys:String>
 
@@ -100,11 +100,11 @@
     <sys:String x:Key="Skill.YuCe.Usage">系统提示→选择一张手牌→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.ChengXiang.Name">称象</sys:String>
-    <sys:String x:Key="Skill.ChengXiang.Description">每当你受到一次伤害后，你可以展示牌堆顶的四张牌并将点数之和小于13的收入收牌。</sys:String>
+    <sys:String x:Key="Skill.ChengXiang.Description">每当你受到一次伤害后，你可以展示牌堆顶的四张牌并将点数之和小于13的收入手牌。</sys:String>
     <sys:String x:Key="Skill.ChengXiang.Usage">系统提示→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.RenXin.Name">仁心</sys:String>
-    <sys:String x:Key="Skill.RenXin.Description">每当一名角色进入进入濒死状态时，你可以将所有牌以任意方式交给任意数量的其他角色，若如此做，你将武将牌翻面。</sys:String>
+    <sys:String x:Key="Skill.RenXin.Description">每当一名其他角色处于濒死状态时，你可以将武将牌翻面并将所有手牌（至少一张）交给该角色。若如此做，该角色回复1点体力。</sys:String>
     <sys:String x:Key="Skill.RenXin.Usage">系统提示→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.ZhuiKong.Name">惴恐</sys:String>

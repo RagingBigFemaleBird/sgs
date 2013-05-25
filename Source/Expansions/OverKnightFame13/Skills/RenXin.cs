@@ -17,7 +17,7 @@ using Sanguosha.Core.Exceptions;
 namespace Sanguosha.Expansions.OverKnightFame13.Skills
 {
     /// <summary>
-    /// 冰心-每当你进入濒死状态时，你可以将所有牌以任意方式交给任意数量的其他角色，若如此做，你将武将牌翻面。
+    /// 仁心-每当一名其他角色处于濒死状态时，你可以将武将牌翻面并将所有手牌（至少一张）交给该角色。若如此做，该角色回复1点体力。
     /// </summary>
     public class RenXin : TriggerSkill
     {
@@ -41,13 +41,14 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return !a.Targets.Contains(p) && p.HandCards().Count + p.Equipments().Count > 0; },
+                (p, e, a) => { return !a.Targets.Contains(p) && p.HandCards().Count > 0; },
                 (p, e, a) =>
                 {
                     var target = a.Targets[0];
                     NotifySkillUse(new List<Player>() { target });
                     Game.CurrentGame.HandleCardTransferToHand(p, target, new List<Card>(p.HandCards()));
                     p.IsImprisoned = !p.IsImprisoned;
+                    Game.CurrentGame.RecoverHealth(p, target, 1);
                 },
                 TriggerCondition.Global
             ) { IsAutoNotify = false };
