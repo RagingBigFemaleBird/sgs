@@ -42,6 +42,10 @@ namespace Sanguosha.Expansions.SP.Skills
             if ((players == null || players.Count == 0) && (cards != null && cards.Count > 0)) return false;
             if (players == null || players.Count == 0) return null;
             int req = players[0].Health;
+            if (players.Any(p => Game.CurrentGame.DistanceTo(source, p) > source[Player.AttackRange] + 1))
+            {
+                return false;
+            }
             if (req > 0 && (cards == null || cards.Count < req)) return null;
             if (req > 0 && (cards != null && cards.Count > req)) return false;
             if (req > 0 && cards != null && cards.Count > 0)

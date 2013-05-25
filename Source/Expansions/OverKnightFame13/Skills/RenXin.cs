@@ -44,32 +44,11 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 (p, e, a) => { return !a.Targets.Contains(p) && p.HandCards().Count + p.Equipments().Count > 0; },
                 (p, e, a) =>
                 {
-                    ISkill skill;
-                    List<Card> cards;
-                    List<Player> players;
-                    bool invoke = false;
-                    while (p.HandCards().Count + p.Equipments().Count > 0)
+                    var target = a.Targets[0];
+                    if (AskForSkillUse())
                     {
-                        if (p.AskForCardUsage(new CardUsagePrompt("BingXin", this), new RenXinVerifier(), out skill, out cards, out players))
-                        {
-                            NotifySkillUse(players);
-                            Game.CurrentGame.HandleCardTransferToHand(p, players[0], cards);
-                            invoke = true;
-                        }
-                        else if (invoke)
-                        {
-                            List<Player> temp = Game.CurrentGame.AlivePlayers;
-                            temp.Remove(p);
-                            Player target = temp.First();
-                            Game.CurrentGame.HandleCardTransferToHand(p, target, p.HandCards().Concat(p.Equipments()).ToList());
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                    if (invoke)
-                    {
+                        NotifySkillUse(new List<Player>() { target });
+                        Game.CurrentGame.HandleCardTransferToHand(p, target, new List<Card>(p.HandCards()));
                         p.IsImprisoned = !p.IsImprisoned;
                     }
                 },
