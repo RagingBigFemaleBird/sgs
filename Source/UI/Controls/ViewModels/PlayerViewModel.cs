@@ -1379,9 +1379,7 @@ namespace Sanguosha.UI.Controls
                         CurrentSpecialDeck = null;
                     }
                 }
-
-                if (hideSpecialDeck) CurrentSpecialDeck = null;
-
+                
                 // Handler GuHuo, QiCe
                 GuHuoSkillCommand cmdGuhuo = skillCommand as GuHuoSkillCommand;
                 if (cmdGuhuo != null)
@@ -1404,6 +1402,8 @@ namespace Sanguosha.UI.Controls
                     }
                 }
             }
+            
+            if (hideSpecialDeck) CurrentSpecialDeck = null;
 
             var status = currentUsageVerifier.Verify(HostPlayer, skill, cards, players);
 
