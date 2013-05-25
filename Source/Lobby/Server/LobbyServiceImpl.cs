@@ -279,7 +279,13 @@ namespace Sanguosha.Lobby.Server
                 rooms.Remove(roomId);
                 foreach (var sp in room.Spectators)
                 {
-                    loggedInAccounts[sp].CurrentSpectatingRoom = null;
+                    lock (loggedInAccounts)
+                    {
+                        if (loggedInAccounts.ContainsKey(sp))
+                        {
+                            loggedInAccounts[sp].CurrentSpectatingRoom = null;
+                        }
+                    }
                 }
                 room.Spectators.Clear();
                 room.GameInfo = null;
