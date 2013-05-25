@@ -26,7 +26,7 @@
     <sys:String x:Key="Hero.ChenLin.Name">陈琳</sys:String>
     <sys:String x:Key="Hero.XiahouBa.Name">夏侯霸</sys:String>
     <sys:String x:Key="Hero.DaQiaoXiaoQiao.Name">大乔＆小乔</sys:String>
-    <sys:String x:Key="Hero.ZhuGeKe.Name">诸葛恪</sys:String>
+    <sys:String x:Key="Hero.ZhugeKe.Name">诸葛恪</sys:String>
 
 
     <sys:String x:Key="Skill.DanLao.Name">啖酪</sys:String>
