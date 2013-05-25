@@ -16,7 +16,7 @@ using Sanguosha.Core.Exceptions;
 namespace Sanguosha.Expansions.OverKnightFame13.Skills
 {
     /// <summary>
-    /// 陷嗣 - 回合开始阶段开始时，你可以弃置一张手牌，将至多两名角色的各一张牌移动至你的武将牌上，称为“逆”。每当其他角色需要对你使用一张【杀】时，该角色可以弃置你的一张“逆”，视为对你使用一张【杀】。
+    /// 陷嗣 - 回合开始阶段开始时，你可以将至多两名角色的各一张牌移动至你的武将牌上，称为“逆”。每当其他角色需要对你使用一张【杀】时，该角色可以弃置你的一张“逆”，视为对你使用一张【杀】。
     /// </summary>
     public class XianSi : TriggerSkill
     {
@@ -24,15 +24,14 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
         {
             public XianSiVerifier()
             {
-                Discarding = true;
-                MinCards = 1;
-                MaxCards = 1;
+                MinCards = 0;
+                MaxCards = 0;
                 MinPlayers = 1;
                 MaxPlayers = 2;
             }
             protected override bool VerifyCard(Player source, Card card)
             {
-                return card.Place.DeckType == DeckType.Hand;
+                return true;
             }
             protected override bool VerifyPlayer(Player source, Player player)
             {
@@ -47,7 +46,6 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
             List<Player> players;
             if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("XianSi"), new XianSiVerifier(), out skill, out cards, out players))
             {
-                Game.CurrentGame.HandleCardDiscard(Owner, cards);
                 Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, players);
                 NotifySkillUse(players);
                 StagingDeckType XianSiTempDeck = new StagingDeckType("XianSiTemp");

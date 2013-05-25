@@ -32,7 +32,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
 
         protected override bool VerifyPlayer(Player source, Player player)
         {
-            return player != source && player.HandCards().Count > 0;
+            return player != source;
         }
 
         protected override bool VerifyCard(Player source, Card card)
