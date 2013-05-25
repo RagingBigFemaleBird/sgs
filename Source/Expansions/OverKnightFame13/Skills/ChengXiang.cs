@@ -63,7 +63,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
             move.To = new DeckPlace(null, daXiangDeck);
             Game.CurrentGame.MoveCards(move);
             List<List<Card>> answer;
-            if (!Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("ChengXiang", Owner),
+            if (Game.CurrentGame.UiProxies[Owner].AskForCardChoice(new CardChoicePrompt("ChengXiang", Owner),
                     new List<DeckPlace>() { new DeckPlace(null, daXiangDeck) },
                     new List<string>() { "AcquiredCards" },
                     new List<int>() { 4 },
@@ -72,29 +72,15 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                     null,
                     CardChoiceCallback.GenericCardChoiceCallback))
             {
-                Trace.TraceInformation("Invalid answer for DaXiang, choosing for you");
-                answer = new List<List<Card>>();
-                answer.Add(new List<Card>());
-                HashSet<SuitType> choice = new HashSet<SuitType>();
-                foreach (Card c in Game.CurrentGame.Decks[null, daXiangDeck])
-                {
-                    if (!choice.Contains(c.Suit))
-                    {
-                        answer[0].Add(c);
-                        choice.Add(c.Suit);
-                    }
-                }
+                Game.CurrentGame.HandleCardTransferToHand(null, Owner, answer[0]);
             }
 
-            Game.CurrentGame.HandleCardTransferToHand(null, Owner, answer[0]);
             foreach (var c in Game.CurrentGame.Decks[null, daXiangDeck])
             {
                 c.Log.SkillAction = this;
                 c.Log.GameAction = GameAction.PlaceIntoDiscard;
             }
             Game.CurrentGame.PlaceIntoDiscard(null, new List<Card>(Game.CurrentGame.Decks[null, daXiangDeck]));
-            Game.CurrentGame.CurrentPhaseEventIndex++;
-            throw new TriggerResultException(TriggerResult.End);
         }
         
         public ChengXiang()
