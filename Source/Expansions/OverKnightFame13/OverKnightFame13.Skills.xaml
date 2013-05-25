@@ -48,7 +48,7 @@
     <sys:String x:Key="Skill.DanShou.Usage">点“确定”</sys:String>
 
     <sys:String x:Key="Skill.LongYin.Name">龙吟</sys:String>
-    <sys:String x:Key="Skill.LongYin.Description">任意角色在其出牌阶段使用杀时，你可弃置一张黑色手牌令此杀不计出牌阶段使用次数，若此杀为红色，你摸一张牌。</sys:String>
+    <sys:String x:Key="Skill.LongYin.Description">每当一名角色在其出牌阶段使用【杀】时，你可弃置一张牌令此【杀】不计入出牌阶段使用次数，若此【杀】为红色，你摸一张牌。</sys:String>
     <sys:String x:Key="Skill.LongYin.Usage">点“确定”</sys:String>
 
     <sys:String x:Key="Skill.ZhiYan.Name">直言</sys:String>
@@ -96,7 +96,7 @@
     <sys:String x:Key="Skill.JunXing.Prompt">请选择1-3张牌及一个目标</sys:String>
 
     <sys:String x:Key="Skill.YuCe.Name">御策</sys:String>
-    <sys:String x:Key="Skill.YuCe.Description">每当你受到一次伤害后，你可以展示一张手牌，令伤害来源弃置一张相同类别的手牌，否则，你回复1点体力。</sys:String>
+    <sys:String x:Key="Skill.YuCe.Description">每当你受到一次伤害后，你可以展示一张手牌，令伤害来源弃置一张不同类别的手牌，否则，你回复1点体力。</sys:String>
     <sys:String x:Key="Skill.YuCe.Usage">系统提示→选择一张手牌→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.ChengXiang.Name">称象</sys:String>
@@ -116,7 +116,7 @@
     <sys:String x:Key="Skill.QiuYuan.Usage">系统提示→选择一名有手牌的角色→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.QiaoShui.Name">巧说</sys:String>
-    <sys:String x:Key="Skill.QiaoShui.Description">出牌阶段，你可以与一名其他角色拼点，若你赢，你获得以下技能直到回合结束：你使用的下一张非延时类锦囊可以额外指定一个目标或减少指定一个目标。若你没赢，你不能使用非延时类锦囊直到回合结束。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.QiaoShui.Description">出牌阶段开始时，你可与一名其他角色拼点。若你赢，你使用的下一张基本牌或非延时类锦囊牌可以额外指定任意一名其他角色为目标或减少指定一个目标；若你没赢，你不能使用锦囊牌直到回合结束。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.QiaoShui.Usage">系统提示→选择一名有手牌的角色→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.ZongShi2.Name">纵适</sys:String>

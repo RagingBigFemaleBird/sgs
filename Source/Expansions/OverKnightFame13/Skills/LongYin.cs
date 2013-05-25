@@ -29,7 +29,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
             }
             protected override bool VerifyCard(Player source, Card card)
             {
-                return card.Place.DeckType == DeckType.Hand && card.SuitColor == SuitColorType.Black;
+                return card.Place.DeckType == DeckType.Hand;
             }
         }
         public LongYin()

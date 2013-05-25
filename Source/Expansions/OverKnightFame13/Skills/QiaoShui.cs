@@ -58,7 +58,8 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 {
                     return;
                 }
-                if (eventArgs.Card.Type.IsCardCategory(CardCategory.ImmediateTool))
+                if (eventArgs.Card.Type.IsCardCategory(CardCategory.ImmediateTool) ||
+                    eventArgs.Card.Type.IsCardCategory(CardCategory.Basic))
                 {
                     throw new TriggerResultException(TriggerResult.Fail);
                 }
@@ -135,7 +136,8 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 {
                     return;
                 }
-                if (eventArgs.Card.Type.IsCardCategory(CardCategory.ImmediateTool))
+                if (eventArgs.Card.Type.IsCardCategory(CardCategory.ImmediateTool) ||
+                    eventArgs.Card.Type.IsCardCategory(CardCategory.Basic))
                 {
                     used = true;
                     ISkill skill;
