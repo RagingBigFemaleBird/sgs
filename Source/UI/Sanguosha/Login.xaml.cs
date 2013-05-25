@@ -181,6 +181,7 @@ namespace Sanguosha.UI.Main
 
         private void startButton_Click(object sender, RoutedEventArgs e)
         {
+            startButton.IsEnabled = false;
             if (loginTab.SelectedIndex == 0)
             {
                 _startClient();
@@ -251,7 +252,7 @@ namespace Sanguosha.UI.Main
                     var endpoint = new EndpointAddress(string.Format("net.tcp://{0}/GameService", _hostName));
                     _channelFactory = new DuplexChannelFactory<ILobbyService>(lobbyModel, binding, endpoint);
                     server = _channelFactory.CreateChannel();
-                    
+
                     _channelFactory.Faulted += channelFactory_Faulted;
                     Account ret;
                     var stat = server.Login(Misc.ProtocolVersion, _userName, _passWd, out ret, out reconnect, out token);
@@ -288,7 +289,7 @@ namespace Sanguosha.UI.Main
                     lobbyModel.LoginToken = token;
 
                     if (reconnect == null)
-                    {                        
+                    {
                         this.NavigationService.Navigate(lobby);
                         busyIndicator.IsBusy = false;
                     }
@@ -318,11 +319,12 @@ namespace Sanguosha.UI.Main
                         busyIndicator.IsBusy = false;
                     }
                 }
+                startButton.IsEnabled = true;
             };
 
             worker.RunWorkerAsync();
         }
-        
+
         string _hostName;
         string _userName;
         string _passWd;
@@ -343,7 +345,7 @@ namespace Sanguosha.UI.Main
                 LobbyViewModel.Instance.CurrentAccount = ret;
             }
         }
-        
+
         private void _createAccount()
         {
             string userName = tab0UserName.Text;
@@ -446,7 +448,7 @@ namespace Sanguosha.UI.Main
                     ea.Result = false;
                     if (hasDatabase) LobbyServiceImpl.EnableDatabase();
                     LobbyServiceImpl.HostingIp = serverIp;
-                    
+
                     host = new ServiceHost(typeof(LobbyServiceImpl));
                     //, new Uri[] { new Uri(string.Format("net.tcp://{0}:{1}/GameService", serverIp, portNumber)) });
                     var binding = new NetTcpBinding();
@@ -456,7 +458,7 @@ namespace Sanguosha.UI.Main
                     binding.Security.Message.ClientCredentialType = MessageCredentialType.None;
                     binding.MaxBufferPoolSize = Misc.MaxBugReportSize;
                     binding.MaxBufferSize = Misc.MaxBugReportSize;
-                    binding.MaxReceivedMessageSize = Misc.MaxBugReportSize;                    
+                    binding.MaxReceivedMessageSize = Misc.MaxBugReportSize;
                     host.AddServiceEndpoint(typeof(ILobbyService), binding, string.Format("net.tcp://{0}:{1}/GameService", serverIp, portNumber));
                     host.Open();
                     ea.Result = true;
@@ -475,12 +477,12 @@ namespace Sanguosha.UI.Main
                     serverPage.Host = host;
                     serverPage.GameService = gameService;
                     this.NavigationService.Navigate(serverPage);
-                    return;
                 }
                 else
                 {
                     MessageBox.Show("Failed to launch server");
                 }
+                startButton.IsEnabled = true;
             };
 
             worker.RunWorkerAsync();
@@ -494,7 +496,7 @@ namespace Sanguosha.UI.Main
             game.NetworkClient = null;
             MainGame.BackwardNavigationService = this.NavigationService;
             game.Start();
-            // this.NavigationService.Navigate(game);
+            startButton.IsEnabled = true;
         }
 
         private void btnReplay_Click(object sender, RoutedEventArgs e)
@@ -670,8 +672,8 @@ namespace Sanguosha.UI.Main
                     byte[] bytes = new byte[4];
                     s.Read(bytes, 0, 4);
                     int length = BitConverter.ToInt32(bytes, 0);
-                    s.Seek(length, SeekOrigin.Current);                    
-                    
+                    s.Seek(length, SeekOrigin.Current);
+
                     s.CopyTo(upload);
                     s.Flush();
                 }
@@ -715,11 +717,11 @@ namespace Sanguosha.UI.Main
                 var channelFactory = new DuplexChannelFactory<ILobbyService>(LobbyViewModel.Instance, binding, endpoint);
                 var server = channelFactory.CreateChannel();
                 SubmitBugReport(server, fs, tbBugMessage.Text);
-                MessageBox.Show("Bug reported! Thanks for your participation.");      
+                MessageBox.Show("Bug reported! Thanks for your participation.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Cannot contact bug collection server! Error: " + ex.StackTrace);                
+                MessageBox.Show("Cannot contact bug collection server! Error: " + ex.StackTrace);
             }
             submitBugWindow.Close();
         }

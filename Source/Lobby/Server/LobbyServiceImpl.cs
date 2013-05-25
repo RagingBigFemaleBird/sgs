@@ -64,11 +64,7 @@ namespace Sanguosha.Lobby.Server
                 retAccount = null;
                 return LoginStatus.OutdatedVersion;
             }
-            ClientAccount disconnected = null;
-            lock (loggedInAccounts)
-            {
-                if (loggedInAccounts.ContainsKey(username)) disconnected = loggedInAccounts[username];
-            }
+                        
             Account authenticatedAccount = Authenticate(username, hash);
             if (authenticatedAccount == null)
             {
@@ -76,58 +72,60 @@ namespace Sanguosha.Lobby.Server
                 return LoginStatus.InvalidUsernameAndPassword;
             }
             var connection = OperationContext.Current.GetCallbackChannel<IGameClient>();
-            if (disconnected != null)
+            lock (loggedInAccounts)
             {
-                var ping = disconnected.CallbackChannel;
-                try
+                ClientAccount disconnected = null;
+                if (loggedInAccounts.ContainsKey(username))
                 {
-                    if (ping.Ping())
+                    disconnected = loggedInAccounts[username];
+                    var ping = disconnected.CallbackChannel;
+                    try
                     {
-                        reconnectionString = null;
-                        retAccount = null;
-                        return LoginStatus.InvalidUsernameAndPassword;
+                        if (ping.Ping())
+                        {
+                            reconnectionString = null;
+                            retAccount = null;
+                            return LoginStatus.InvalidUsernameAndPassword;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+                    disconnected.CallbackChannel = connection;
+                    currentAccount = disconnected;
+                    var room = disconnected.CurrentRoom;
+                    if (room != null)
+                    {
+                        var index = -1;
+                        if (room.GameInfo != null) index = room.GameInfo.Accounts.IndexOf(disconnected.Account);
+                        if (index >= 0 && room.Room.State == RoomState.Gaming
+                            && !room.GameInfo.IsDead[index])
+                        {
+                            reconnectionString = room.Room.IpAddress.ToString() + ":" + room.Room.IpPort;
+                            reconnectionToken = room.GameInfo.LoginTokens[index];
+                        }
+                        else
+                        {
+                            disconnected.CurrentRoom = null;
+                        }
                     }
                 }
-                catch (Exception)
+                else
                 {
-                }
-                disconnected.CallbackChannel = connection;
-                currentAccount = disconnected;
-                var room = disconnected.CurrentRoom;
-                if (room != null)
-                {
-                    var index = -1;
-                    if (room.GameInfo != null) index = room.GameInfo.Accounts.IndexOf(disconnected.Account);
-                    if (index >= 0 && room.Room.State == RoomState.Gaming
-                        && !room.GameInfo.IsDead[index])
+                    var acc = new ClientAccount()
                     {
-                        reconnectionString = room.Room.IpAddress.ToString() + ":" + room.Room.IpPort;
-                        reconnectionToken = room.GameInfo.LoginTokens[index];
-                    }
-                    else
-                    {
-                        disconnected.CurrentRoom = null;
-                    }
-                }
-            }
-            else
-            {
-                var acc = new ClientAccount() 
-                {
-                    Account = authenticatedAccount,
-                    CallbackChannel = connection,
-                    LobbyService = this 
-                };
-                lock (loggedInAccounts)
-                {
+                        Account = authenticatedAccount,
+                        CallbackChannel = connection,
+                        LobbyService = this
+                    };
                     loggedInAccounts.Add(username, acc);
-                }
-                currentAccount = acc;
-                // hack
-                var roomresult = from r in rooms.Values where r.Room.Seats.Any(st => st.Account == authenticatedAccount) select r;
-                if (roomresult.Count() > 0)
-                {
-                    acc.CurrentRoom = roomresult.First();
+                    currentAccount = acc;
+                    // hack
+                    var roomresult = from r in rooms.Values where r.Room.Seats.Any(st => st.Account == authenticatedAccount) select r;
+                    if (roomresult.Count() > 0)
+                    {
+                        acc.CurrentRoom = roomresult.First();
+                    }
                 }
             }
             Trace.TraceInformation("{0} logged in", username);
