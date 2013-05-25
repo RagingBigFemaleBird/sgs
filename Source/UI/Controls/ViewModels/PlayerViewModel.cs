@@ -677,7 +677,6 @@ namespace Sanguosha.UI.Controls
             }
         }
 
-
         private static List<Role> roleGameRoles = new List<Role>() { Role.Loyalist, Role.Defector, Role.Rebel };
 
         ObservableCollection<Role> _possibleRoles;
@@ -1271,7 +1270,8 @@ namespace Sanguosha.UI.Controls
 
             var sc = new List<SkillCommand>(ActiveSkillCommands);
 
-            // Handle skill down            
+            // Handle skill down
+            bool hideSpecialDeck = true;
             foreach (var skillCommand in sc)
             {
                 // Handle kurou, luanwu and yeyan
@@ -1300,6 +1300,7 @@ namespace Sanguosha.UI.Controls
                     // Handle JiXi, PaiYi
                     if (helper.OtherDecksUsed.Count > 0)
                     {
+                        hideSpecialDeck = false;
                         if (helper.OtherDecksUsed.Count != 1)
                         {
                             _updateCardUsageRecurvieLock = false;
@@ -1328,6 +1329,7 @@ namespace Sanguosha.UI.Controls
                     }
                     else if (helper.OtherGlobalCardDeckUsed.Count > 0)
                     {
+                        hideSpecialDeck = false;
                         if (helper.OtherGlobalCardDeckUsed.Count != 1)
                         {
                             _updateCardUsageRecurvieLock = false;
@@ -1337,12 +1339,21 @@ namespace Sanguosha.UI.Controls
                         var numShown = helper.OtherGlobalCardDeckUsed.First().Value;
 
                         if (CurrentSpecialDeck == null || CurrentSpecialDeck.DeckPlace != deck ||
-                            CurrentSpecialDeck.Cards.Count != numShown)
+                            CurrentSpecialDeck.NumberOfCardsLimit != numShown)
                         {
-                            var deckModel = new SpecialDeckViewModel() { DeckPlace = deck };
+                            var deckModel = new SpecialDeckViewModel() { DeckPlace = deck, NumberOfCardsLimit = numShown };
                             int total;
                             var deckCards = Game.CurrentGame.Decks[deck];
-                            
+
+                            if (CurrentSpecialDeck != null)
+                            {
+                                foreach (var card in CurrentSpecialDeck.Cards)
+                                {
+                                    card.IsSelectionMode = false;
+                                    card.OnSelectedChanged -= _OnCardSelected;
+                                }
+                            }
+
                             if (numShown == null)
                             {
                                 total = deckCards.Count;
@@ -1354,22 +1365,12 @@ namespace Sanguosha.UI.Controls
 
                             for (int t = 0; t < total; t++)
                             {
-                                deckModel.Cards.Add(new CardViewModel() { Card = deckCards[t] });
-                            }
-
-                            if (CurrentSpecialDeck != null)
-                            {
-                                foreach (var card in CurrentSpecialDeck.Cards)
-                                {
-                                    card.IsSelectionMode = false;
-                                    card.OnSelectedChanged -= _OnCardSelected;
-                                }
-                            }
-                            foreach (var card in deckModel.Cards)
-                            {
+                                var card = new CardViewModel() { Card = deckCards[t] };
                                 card.IsSelectionMode = true;
                                 card.OnSelectedChanged += _OnCardSelected;
+                                deckModel.Cards.Add(card);
                             }
+                            
                             CurrentSpecialDeck = deckModel;
                         }
                     }
@@ -1378,6 +1379,8 @@ namespace Sanguosha.UI.Controls
                         CurrentSpecialDeck = null;
                     }
                 }
+
+                if (hideSpecialDeck) CurrentSpecialDeck = null;
 
                 // Handler GuHuo, QiCe
                 GuHuoSkillCommand cmdGuhuo = skillCommand as GuHuoSkillCommand;

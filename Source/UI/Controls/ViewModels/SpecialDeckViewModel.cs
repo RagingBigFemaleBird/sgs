@@ -71,6 +71,14 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+
+        public int? NumberOfCardsLimit
+        {
+            get;
+            set;
+        }
+        
+
         public ObservableCollection<CardViewModel> Cards
         {
             get;
