@@ -42,6 +42,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         {
             ReadOnlyCard card = eventArgs.ReadonlyCard;
             SingleCardUsageVerifier v1 = new SingleCardUsageVerifier((c) => { return c.Type is WuXieKeJi; }, true, new WuXieKeJi());
+            v1.Helper.ExtraTimeOutSeconds = -9;
             List<Card> cards;
             List<Player> players;
             ISkill skill;
