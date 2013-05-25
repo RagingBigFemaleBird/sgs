@@ -382,7 +382,7 @@ namespace Sanguosha.UI.Controls
             }
             else if (deck is PrivateDeckType)
             {
-                var deckModel = PlayerModel.PrivateDecks.FirstOrDefault(d => d.Name == deck.Name);
+                var deckModel = PlayerModel.PrivateDecks.FirstOrDefault(d => d.DeckPlace.DeckType == deck);
                 Trace.Assert(deckModel != null);
 
                 if (!isCopy)
