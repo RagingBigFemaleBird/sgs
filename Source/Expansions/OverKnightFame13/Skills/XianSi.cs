@@ -50,7 +50,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 Game.CurrentGame.HandleCardDiscard(Owner, cards);
                 Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, players);
                 NotifySkillUse(players);
-                StagingDeckType XianSiTempDeck = new StagingDeckType("XianSi");
+                StagingDeckType XianSiTempDeck = new StagingDeckType("XianSiTemp");
                 CardsMovement move = new CardsMovement();
                 move.Helper.IsFakedMove = true;
                 foreach (Player p in players)
@@ -108,7 +108,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 if (Game.CurrentGame.Decks[Master, XianSiDeck].Count <= 1) return VerifierResult.Fail;
                 if (cards != null && cards.Any(cd => cd.Place.Player != master || cd.Place.DeckType != XianSiDeck)) return VerifierResult.Fail;
                 if (cards == null || cards.Count < 2) return VerifierResult.Partial;
-                if (cards != null || cards.Count > 2) return VerifierResult.Fail;
+                if (cards != null && cards.Count > 2) return VerifierResult.Fail;
                 card.Subcards = new List<Card>(cards);
                 if (targets == null || targets.Count == 0) return VerifierResult.Success;
                 if (targets.Contains(Master)) return VerifierResult.Success;
