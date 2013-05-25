@@ -87,6 +87,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                         ISkill skill;
                         List<Player> p;
                         List<Card> cards;
+                        Game.CurrentGame.Emit(isPlay? GameEvent.PlayerIsAboutToPlayCard : GameEvent.PlayerIsAboutToUseCard, new GameEventArgs() { Source = player });
                         if (!ui.AskForCardUsage(new CardUsagePrompt("JiJiang", Owner), v1, out skill, out cards, out p))
                         {
                             failToRespond = true;

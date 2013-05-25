@@ -136,6 +136,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             ISkill skill;
             List<Card> cards;
             List<Player> players;
+            Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToUseCard, new GameEventArgs() { Source = source });
             source.AskForCardUsage(prompt, v1, out skill, out cards, out players);
             GameEventArgs args = new GameEventArgs();
             args.Source = source;

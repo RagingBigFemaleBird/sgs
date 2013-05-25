@@ -86,6 +86,10 @@ namespace Sanguosha.Expansions.Basic.Cards
                     }
                     if (askWuXie) break;
                 }
+                foreach (var p in Game.CurrentGame.AlivePlayers)
+                {
+                    Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToPlayCard, new GameEventArgs() { Source = p });
+                }
                 Game.CurrentGame.SyncConfirmationStatus(ref askWuXie);
                 if (!askWuXie) return;
                 while (true)

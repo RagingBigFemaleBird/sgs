@@ -29,6 +29,7 @@ namespace Sanguosha.Expansions.Hills.Skills
             List<Player> players;
             while (true)
             {
+                Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToUseCard, new GameEventArgs() { Source = target });
                 if (Game.CurrentGame.UiProxies[target].AskForCardUsage(new CardUsagePrompt("TiaoXin", Owner), new JieDaoShaRen.JieDaoShaRenVerifier(Owner),
                     out skill, out cards, out players))
                 {

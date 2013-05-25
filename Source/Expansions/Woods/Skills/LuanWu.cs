@@ -58,6 +58,7 @@ namespace Sanguosha.Expansions.Woods.Skills
                 while (true)
                 {
                     if (target.IsDead) break;
+                    Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToUseCard, new GameEventArgs() { Source = target });
                     if (Game.CurrentGame.UiProxies[target].AskForCardUsage(new CardUsagePrompt("LuanWu"), new LuanWuVerifier(),
                         out skill, out cards, out players))
                     {

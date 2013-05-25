@@ -127,7 +127,17 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
             {
                 get { return new List<CardHandler>() { new Sha() }; }
             }
-            public Player Master { get; set; }
+            public XianSiGivenSkill()
+            {
+            }
+
+            Player master;
+
+            public Player Master
+            {
+                get { return master; }
+                set { master = value; Helper.OtherGlobalCardDeckUsed.Clear(); Helper.OtherGlobalCardDeckUsed.Add(new DeckPlace(value, XianSiDeck), null); }
+            }
         }
 
         public class XianSiDistributor : RulerGivenSkillContainerSkill

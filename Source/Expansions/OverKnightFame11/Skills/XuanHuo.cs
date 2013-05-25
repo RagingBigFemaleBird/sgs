@@ -62,6 +62,7 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             List<Player> nPlayer;
             while (true)
             {
+                if (players.Count == 2 && !players[1].IsDead) Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToUseCard, new GameEventArgs() { Source = players[0] });
                 if (players.Count == 2 && !players[1].IsDead && players[0].AskForCardUsage(new CardUsagePrompt("XuanHuoSha", players[1]), new JieDaoShaRen.JieDaoShaRenVerifier(players[1]), out skill, out nCard, out nPlayer))
                 {
                     try
