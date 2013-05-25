@@ -58,8 +58,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 {
                     return;
                 }
-                if (eventArgs.Card.Type.IsCardCategory(CardCategory.ImmediateTool) ||
-                    eventArgs.Card.Type.IsCardCategory(CardCategory.Basic))
+                if (eventArgs.Card.Type.IsCardCategory(CardCategory.ImmediateTool))
                 {
                     throw new TriggerResultException(TriggerResult.Fail);
                 }
