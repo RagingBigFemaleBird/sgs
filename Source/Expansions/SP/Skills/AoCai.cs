@@ -56,7 +56,7 @@ namespace Sanguosha.Expansions.SP.Skills
                     this,
                     (p, e, a) =>
                     {
-                        return true;
+                        return a.Card == null || a.Card.Type.BaseCategory() == CardCategory.Basic;
                     },
                     (p, e, a) =>
                     {

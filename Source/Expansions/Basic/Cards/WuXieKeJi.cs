@@ -87,12 +87,12 @@ namespace Sanguosha.Expansions.Basic.Cards
                     }
                     if (askWuXie) break;
                 }
-                foreach (var p in Game.CurrentGame.AlivePlayers)
-                {
-                    Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToPlayCard, new GameEventArgs() { Source = p });
-                }
                 Game.CurrentGame.SyncConfirmationStatus(ref askWuXie);
                 if (!askWuXie) return;
+                foreach (var p in Game.CurrentGame.AlivePlayers)
+                {
+                    Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToPlayCard, new GameEventArgs() { Source = p, Card = new CompositeCard() { Type = new WuXieKeJi() } });
+                }
                 while (true)
                 {
                     Prompt prompt = new CardUsagePrompt("WuXieKeJi", promptPlayer, promptCard);
