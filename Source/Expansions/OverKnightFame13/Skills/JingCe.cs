@@ -47,7 +47,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
 
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return _count > p.Health; },
+                (p, e, a) => { return _count >= p.Health; },
                 (p, e, a) =>
                 {
                     Game.CurrentGame.DrawCards(p, 2);
