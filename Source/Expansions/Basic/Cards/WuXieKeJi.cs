@@ -91,7 +91,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 if (!askWuXie) return;
                 foreach (var p in Game.CurrentGame.AlivePlayers)
                 {
-                    Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToPlayCard, new GameEventArgs() { Source = p, Card = new CompositeCard() { Type = new WuXieKeJi() } });
+                    Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToPlayCard, new PlayerIsAboutToUseOrPlayCardEventArgs() { Source = p, Verifier = v1 });
                 }
                 while (true)
                 {

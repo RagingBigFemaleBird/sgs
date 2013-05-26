@@ -109,7 +109,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                     ISkill skill;
                     List<Card> cards;
                     List<Player> players;
-                    Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToUseCard, new GameEventArgs() { Source = p });
+                    Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToUseCard, new PlayerIsAboutToUseOrPlayCardEventArgs() { Source = p, Verifier = v });
                     if (Game.CurrentGame.UiProxies[p].AskForCardUsage(new CardUsagePrompt("SaveALife", target, 1 - target.Health), v, out skill, out cards, out players))
                     {
                         if (skill != null && skill is SaveLifeSkill)

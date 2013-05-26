@@ -1272,6 +1272,14 @@ namespace Sanguosha.UI.Controls
 
             // Handle skill down
             bool hideSpecialDeck = true;
+
+            if (currentUsageVerifier != null && currentUsageVerifier.Helper != null &&
+                currentUsageVerifier.Helper.OtherDecksUsed != null &&
+                currentUsageVerifier.Helper.OtherDecksUsed.Count > 0)
+            {
+                hideSpecialDeck = false;
+            }
+
             foreach (var skillCommand in sc)
             {
                 // Handle kurou, luanwu and yeyan

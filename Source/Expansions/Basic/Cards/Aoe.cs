@@ -47,7 +47,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 ISkill skill;
                 List<Player> p;
                 List<Card> cards;
-                Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToPlayCard, new GameEventArgs() { Source = source });
+                Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToPlayCard, new PlayerIsAboutToUseOrPlayCardEventArgs() { Source = dest, Verifier = v1 });
                 if (!ui.AskForCardUsage(new CardUsagePrompt(UsagePromptString, source),
                                                       v1, out skill, out cards, out p))
                 {

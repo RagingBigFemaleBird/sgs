@@ -37,7 +37,8 @@ namespace Sanguosha.Expansions.Basic.Cards
                     {
                         return;
                     }
-                    Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToUseCard, new GameEventArgs() { Source = Owner });
+                    var v = new SingleCardUsageVerifier((c) => { return c.Type is Sha; }, true, new Sha());
+                    Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToUseCard, new PlayerIsAboutToUseOrPlayCardEventArgs() { Source = Owner, Verifier = v });
                     if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("QingLongYanYueDao"),
                     new SingleCardUsageVerifier((c) => { return c.Type is Sha; }, true),
                     out skill, out cards, out players))

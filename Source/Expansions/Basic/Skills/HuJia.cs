@@ -54,10 +54,11 @@ namespace Sanguosha.Expansions.Basic.Skills
                     while (true)
                     {
                         IUiProxy ui = Game.CurrentGame.UiProxies[player];
-                        SingleCardUsageVerifier v1 = new SingleCardUsageVerifier((c) => { return c.Type is Shan; }, false);
+                        SingleCardUsageVerifier v1 = new SingleCardUsageVerifier((c) => { return c.Type is Shan; }, false, new Shan());
                         ISkill skill;
                         List<Player> p;
                         List<Card> cards;
+                        Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToPlayCard, new PlayerIsAboutToUseOrPlayCardEventArgs() { Source = player, Verifier = v1 });
                         if (!ui.AskForCardUsage(new CardUsagePrompt("HuJia", Owner), v1, out skill, out cards, out p))
                         {
                             failToRespond = true;

@@ -114,8 +114,9 @@ namespace Sanguosha.Expansions.Basic.Cards
                 List<Player> players;
                 while (true)
                 {
-                    Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToUseCard, new GameEventArgs() { Source = initiator });
-                    if (!dests[1].IsDead && Game.CurrentGame.UiProxies[initiator].AskForCardUsage(new CardUsagePrompt("JieDaoShaRen", dests[1]), new JieDaoShaRenVerifier(dests[1]), out skill, out cards, out players))
+                    var v = new JieDaoShaRenVerifier(dests[1]);
+                    Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToUseCard, new PlayerIsAboutToUseOrPlayCardEventArgs() { Source = initiator, Verifier = v });
+                    if (!dests[1].IsDead && Game.CurrentGame.UiProxies[initiator].AskForCardUsage(new CardUsagePrompt("JieDaoShaRen", dests[1]), v, out skill, out cards, out players))
                     {
                         try
                         {

@@ -181,4 +181,17 @@ namespace Sanguosha.Core.Triggers
             set;
         }
     }
+
+    public class PlayerIsAboutToUseOrPlayCardEventArgs : GameEventArgs
+    {
+        public PlayerIsAboutToUseOrPlayCardEventArgs()
+        {
+        }
+
+        public ICardUsageVerifier Verifier
+        {
+            get;
+            set;
+        }
+    }
 }

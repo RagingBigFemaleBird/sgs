@@ -62,27 +62,35 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             List<Player> nPlayer;
             while (true)
             {
-                if (players.Count == 2 && !players[1].IsDead) Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToUseCard, new GameEventArgs() { Source = players[0] });
-                if (players.Count == 2 && !players[1].IsDead && players[0].AskForCardUsage(new CardUsagePrompt("XuanHuoSha", players[1]), new JieDaoShaRen.JieDaoShaRenVerifier(players[1]), out skill, out nCard, out nPlayer))
+                var v = new JieDaoShaRen.JieDaoShaRenVerifier(players[1]);
+
+                bool xuanhuoShaUsed = false;
+                if (players.Count == 2 && !players[1].IsDead)
                 {
-                    try
+                    Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToUseCard, new PlayerIsAboutToUseOrPlayCardEventArgs() { Source = players[0], Verifier = v });
+                    if (players[0].AskForCardUsage(new CardUsagePrompt("XuanHuoSha", players[1]), v, out skill, out nCard, out nPlayer))
                     {
-                        players[0][Sha.NumberOfShaUsed]--;
-                        GameEventArgs args = new GameEventArgs();
-                        args.Source = players[0];
-                        args.Targets = nPlayer;
-                        args.Targets.Add(players[1]);
-                        args.Skill = skill;
-                        args.Cards = nCard;
-                        Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
-                    }
-                    catch (TriggerResultException e)
-                    {
-                        Trace.Assert(e.Status == TriggerResult.Retry);
-                        continue;
+                        xuanhuoShaUsed = true;
+                        try
+                        {
+                            players[0][Sha.NumberOfShaUsed]--;
+                            GameEventArgs args = new GameEventArgs();
+                            args.Source = players[0];
+                            args.Targets = nPlayer;
+                            args.Targets.Add(players[1]);
+                            args.Skill = skill;
+                            args.Cards = nCard;
+                            Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
+                        }
+                        catch (TriggerResultException e)
+                        {
+                            Trace.Assert(e.Status == TriggerResult.Retry);
+                            continue;
+                        }
                     }
                 }
-                else
+                
+                if (!xuanhuoShaUsed)
                 {
                     int cardCount = players[0].HandCards().Count + players[0].Equipments().Count;
                     if (cardCount == 0) break;

@@ -116,7 +116,7 @@ namespace Sanguosha.Core.Games
                     List<Card> cards;
                     List<Player> players;
                     PlayerActionStageVerifier v = new PlayerActionStageVerifier();
-                    Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToUseCard, new GameEventArgs() { Source = currentPlayer });
+                    Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToUseCard, new PlayerIsAboutToUseOrPlayCardEventArgs() { Source = currentPlayer, Verifier = v });
                     if (!proxy.AskForCardUsage(new Prompt(Prompt.PlayingPhasePrompt), v, out skill, out cards, out players))
                     {
                         break;
