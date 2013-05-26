@@ -641,6 +641,7 @@ namespace Sanguosha.Lobby.Server
                 var seat = room.Seats.FirstOrDefault(s => s.Account == currentAccount.Account);
                 if (seat == null) return RoomOperationResult.Invalid;
                 if (seat.State != SeatState.Host) return RoomOperationResult.Invalid;
+                if (seatNo < 0 || seatNo >= room.Seats.Count) return RoomOperationResult.Invalid;
                 if (room.Seats[seatNo].State == SeatState.GuestReady || room.Seats[seatNo].State == SeatState.GuestTaken)
                 {
                     var kicked = room.Seats[seatNo].Account;
@@ -676,6 +677,7 @@ namespace Sanguosha.Lobby.Server
                 var seat = room.Seats.FirstOrDefault(s => s.Account == currentAccount.Account);
                 if (seat == null) return RoomOperationResult.Invalid;
                 if (seat.State != SeatState.Host) return RoomOperationResult.Invalid;
+                if (seatNo < 0 || seatNo >= room.Seats.Count) return RoomOperationResult.Invalid;
                 if (room.Seats[seatNo].State != SeatState.Closed) return RoomOperationResult.Invalid;
                 room.Seats[seatNo].State = SeatState.Empty;
                 _NotifyRoomLayoutChanged(room.Id);
@@ -693,6 +695,7 @@ namespace Sanguosha.Lobby.Server
                 var seat = room.Seats.FirstOrDefault(s => s.Account == currentAccount.Account);
                 if (seat == null) return RoomOperationResult.Invalid;
                 if (seat.State != SeatState.Host) return RoomOperationResult.Invalid;
+                if (seatNo < 0 || seatNo >= room.Seats.Count) return RoomOperationResult.Invalid;
                 if (room.Seats[seatNo].State != SeatState.Empty) return RoomOperationResult.Invalid;
                 room.Seats[seatNo].State = SeatState.Closed;
                 _NotifyRoomLayoutChanged(room.Id);

@@ -31,6 +31,11 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         public override List<Player> ActualTargets(Player source, List<Player> targets, ICard card)
         {
+            if (targets.Count > 0)
+            {
+                return new List<Player>(targets);
+            }
+
             if (Game.CurrentGame.DyingPlayers.Count > 0)
             {
                 return new List<Player>() { Game.CurrentGame.DyingPlayers.First() };
@@ -41,27 +46,14 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
         }
 
-        protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
+        public override VerifierResult Verify(Player source, ICard card, List<Player> targets, bool isLooseVerify)
         {
-            if (Game.CurrentGame.DyingPlayers.Count == 0 && targets != null && targets.Count >= 1)
-            {
-                return VerifierResult.Fail;
-            }
-            if (Game.CurrentGame.DyingPlayers.Count > 0 && (targets == null || targets.Count != 1))
-            {
-                return VerifierResult.Fail;
-            }
-            Player p;
-            if (Game.CurrentGame.DyingPlayers.Count == 0)
-            {
-                p = source;
-            }
-            else
-            {
-                p = targets[0];
-            }
-            if (p.Health >= p.MaxHealth)
-            {
+            Trace.Assert(targets != null);
+            if (targets == null) return VerifierResult.Fail;
+            
+            if ((!isLooseVerify && targets.Count > 0) ||
+                ActualTargets(source, targets, card).Any(p => p.Health >= p.MaxHealth))
+            {           
                 return VerifierResult.Fail;
             }
             return VerifierResult.Success;

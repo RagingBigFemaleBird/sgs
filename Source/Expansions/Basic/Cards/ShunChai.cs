@@ -57,30 +57,33 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected abstract bool ShunChaiAdditionalCheck(Player source, Player dest, ICard card);
 
-        protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
+        public override VerifierResult Verify(Player source, ICard card, List<Player> targets, bool isLooseVerify)
         {
             if (targets == null || targets.Count == 0)
             {
                 return VerifierResult.Partial;
             }
-            if (targets.Count > 1)
+            if (!isLooseVerify && targets.Count > 1)
             {
                 return VerifierResult.Fail;
             }
-            Player player = targets[0];
-            if (player == source)
+
+            foreach (var player in targets)
             {
-                return VerifierResult.Fail;
-            }
-            if (!ShunChaiAdditionalCheck(source, player, card))
-            {
-                return VerifierResult.Fail;
-            }
-            if (Game.CurrentGame.Decks[player, DeckType.Hand].Count == 0 &&
-                Game.CurrentGame.Decks[player, DeckType.DelayedTools].Count == 0 &&
-                Game.CurrentGame.Decks[player, DeckType.Equipment].Count == 0)
-            {
-                return VerifierResult.Fail;
+                if (player == source)
+                {
+                    return VerifierResult.Fail;
+                }
+                if (!ShunChaiAdditionalCheck(source, player, card))
+                {
+                    return VerifierResult.Fail;
+                }
+                if (Game.CurrentGame.Decks[player, DeckType.Hand].Count == 0 &&
+                    Game.CurrentGame.Decks[player, DeckType.DelayedTools].Count == 0 &&
+                    Game.CurrentGame.Decks[player, DeckType.Equipment].Count == 0)
+                {
+                    return VerifierResult.Fail;
+                }
             }
             return VerifierResult.Success;
         }

@@ -108,7 +108,7 @@ namespace Sanguosha.Core.Cards
             Install(source, c);
         }
 
-        protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
+        public override VerifierResult Verify(Player source, ICard card, List<Player> targets, bool isLooseVerify)
         {
             if (targets == null || targets.Count == 0)
             {
@@ -125,5 +125,10 @@ namespace Sanguosha.Core.Cards
         public bool InUse { get; set; }
 
         public Card ParentCard { get; set; }
+
+        public override CardCategory Category
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

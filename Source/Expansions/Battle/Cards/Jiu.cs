@@ -31,26 +31,21 @@ namespace Sanguosha.Expansions.Battle.Cards
             }
         }
 
-        protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
+        public override VerifierResult Verify(Player source, ICard card, List<Player> targets, bool isLooseVerify)
         {
-            if (Game.CurrentGame.DyingPlayers.Count == 0 && targets != null && targets.Count >= 1)
-            {
-                return VerifierResult.Fail;
-            }
-            if (Game.CurrentGame.DyingPlayers.Count > 0 && (targets == null || targets.Count != 1))
-            {
-                return VerifierResult.Fail;
-            }
+            Trace.Assert(targets != null);
+            if (targets == null) return VerifierResult.Fail;
+            
             if (Game.CurrentGame.DyingPlayers.Count == 0)
             {
-                if (source[JiuUsed] == 1)
+                if ((!isLooseVerify && targets.Count >= 1) || source[JiuUsed] == 1)
                 {
                     return VerifierResult.Fail;
                 }
             }
             else
             {
-                if (targets[0] != source)
+                if ((!isLooseVerify && targets.Count >= 1) || targets[0] != source)
                 {
                     return VerifierResult.Fail;
                 }
@@ -65,7 +60,12 @@ namespace Sanguosha.Expansions.Battle.Cards
 
         public override List<Player> ActualTargets(Player source, List<Player> targets, ICard card)
         {
-            return new List<Player>() {source};
+            if (targets.Count > 0)
+            {
+                return new List<Player>(targets);
+            }
+
+            return new List<Player>() { source };
         }
         public static PlayerAttribute JiuUsed = PlayerAttribute.Register("JiuUsed", true);
         public static PlayerAttribute Drank = PlayerAttribute.Register("Drank", true);

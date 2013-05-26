@@ -161,8 +161,9 @@ namespace Sanguosha.Expansions.Basic.Cards
             NotifyCardUse(source, new List<Player>() { dests[0] }, new List<Player>() { dests[1] }, card, action);
         }
 
-        protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
+        public override VerifierResult Verify(Player source, ICard card, List<Player> targets, bool isLooseVerify)
         {
+            // @todo: Currently, more than one pair of targets are not supported.
             if (targets == null || targets.Count < 2)
             {
                 return VerifierResult.Partial;

@@ -98,7 +98,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
         }
 
-        protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
+        public override VerifierResult Verify(Player source, ICard card, List<Player> targets, bool isLooseVerify)
         {
             if (targets != null && targets.Count >= 1)
             {

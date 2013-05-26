@@ -18,7 +18,7 @@ namespace Sanguosha.Core.Cards
             throw new NotImplementedException();
         }
 
-        protected override UI.VerifierResult Verify(Players.Player source, ICard card, List<Players.Player> targets)
+        public override UI.VerifierResult Verify(Players.Player source, ICard card, List<Players.Player> targets, bool isLooseVerify)
         {
             throw new NotImplementedException();
         }

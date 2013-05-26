@@ -394,22 +394,30 @@ namespace Sanguosha.UI.Controls
             {
                 if (!EnterRoom()) return false;
             }
-            return _IsSuccess(Connection.ChangeSeat(CurrentRoom.Seats.IndexOf(seat)));
+            var index = CurrentRoom.Seats.IndexOf(seat);
+            if (index < 0) return false;
+            return _IsSuccess(Connection.ChangeSeat(index));
         }
 
         public bool CloseSeat(SeatViewModel seat)
         {
-            return _IsSuccess(Connection.CloseSeat(CurrentRoom.Seats.IndexOf(seat)));
+            var index = CurrentRoom.Seats.IndexOf(seat);
+            if (index < 0) return false;
+            return _IsSuccess(Connection.CloseSeat(index));
         }
 
         public bool OpenSeat(SeatViewModel seat)
         {
-            return _IsSuccess(Connection.OpenSeat(CurrentRoom.Seats.IndexOf(seat)));
+            var index = CurrentRoom.Seats.IndexOf(seat);
+            if (index < 0) return false;
+            return _IsSuccess(Connection.OpenSeat(index));
         }
 
         public bool KickPlayer(SeatViewModel seat)
         {
-            return _IsSuccess(Connection.Kick(CurrentRoom.Seats.IndexOf(seat)));
+            var index = CurrentRoom.Seats.IndexOf(seat);
+            if (index < 0) return false;
+            return _IsSuccess(Connection.Kick(index));
         }
 
         public bool SendMessage(string msg)

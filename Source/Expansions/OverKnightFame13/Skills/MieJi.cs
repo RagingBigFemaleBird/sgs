@@ -40,7 +40,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 var actualTargets = handler.ActualTargets(source, players, existingCard);
                 if (actualTargets.Count > 1) return false;
                 if (actualTargets.Contains(existingTarget)) return false;
-                var ret = handler.VerifyTargets(source, existingCard, players);
+                var ret = handler.Verify(source, existingCard, players);
                 if (ret == VerifierResult.Partial) return null;
                 if (ret == VerifierResult.Fail) return false;
                 return true;

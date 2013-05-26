@@ -10,8 +10,9 @@ using Sanguosha.Core.Players;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Exceptions;
+using Sanguosha.Core.Cards;
 
-namespace Sanguosha.Core.Cards
+namespace Sanguosha.Core.UI
 {
     public class SingleCardUsageVerifier : CardUsageVerifier
     {

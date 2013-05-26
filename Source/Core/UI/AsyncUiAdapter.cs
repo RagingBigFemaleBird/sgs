@@ -18,7 +18,7 @@ namespace Sanguosha.Core.UI
         {
             proxy.Freeze();
         }
-        
+
         private Semaphore answerPending;
         private ISkill answerSkill;
         private List<Card> answerCards;
@@ -67,10 +67,15 @@ namespace Sanguosha.Core.UI
             }
         }
 
+        private int _GetActualTimeoutSecond(UiHelper helper)
+        {
+            return Math.Max(5, TimeOutSeconds + (helper != null ? helper.ExtraTimeOutSeconds : 0));
+        }
+
         public bool AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             answerPending = new Semaphore(0, 1);
-            int timeOut = TimeOutSeconds + (verifier.Helper != null ? verifier.Helper.ExtraTimeOutSeconds : 0);
+            int timeOut = _GetActualTimeoutSecond(verifier.Helper);
             proxy.AskForCardUsage(prompt, verifier, timeOut);
             skill = null;
             cards = null;
@@ -89,12 +94,12 @@ namespace Sanguosha.Core.UI
         public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, AdditionalCardChoiceOptions options, CardChoiceRearrangeCallback callback)
         {
             answerPending = new Semaphore(0, 1);
-            int timeOut = TimeOutSeconds + (verifier.Helper != null ? verifier.Helper.ExtraTimeOutSeconds : 0);
+            int timeOut = _GetActualTimeoutSecond(verifier.Helper);
             proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, timeOut, options, callback);
             answer = null;
             if (answerPending.WaitOne(timeOut * 1000/* + GameDelays.UiDelayCompensation*/))
             {
-                answer = answerCardsOfCards;                
+                answer = answerCardsOfCards;
             }
             if (answer == null)
             {
@@ -104,7 +109,7 @@ namespace Sanguosha.Core.UI
             {
                 return (verifier.Verify(answer) == VerifierResult.Success);
             }
-            
+
         }
 
         public bool AskForMultipleChoice(Prompt prompt, List<OptionPrompt> questions, out int answer)

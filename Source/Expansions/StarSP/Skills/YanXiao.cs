@@ -67,9 +67,9 @@ namespace Sanguosha.Expansions.StarSP.Skills
             AttachTo(source, dests[0], card);
         }
 
-        protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
+        public override VerifierResult Verify(Player source, ICard card, List<Player> targets, bool isLooseVerify)
         {
-            if (targets != null && targets.Count > 1)
+            if (!isLooseVerify && targets != null && targets.Count > 1)
             {
                 return VerifierResult.Fail;
             }

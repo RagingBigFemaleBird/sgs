@@ -26,7 +26,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             throw new NotImplementedException();
         }
 
-        protected override Core.UI.VerifierResult Verify(Core.Players.Player source, ICard card, List<Core.Players.Player> targets)
+        public override Core.UI.VerifierResult Verify(Core.Players.Player source, ICard card, List<Core.Players.Player> targets, bool isLooseVerify)
         {
             throw new NotImplementedException();
         }
@@ -37,9 +37,6 @@ namespace Sanguosha.Expansions.Basic.Cards
         public Player DyingPlayer { get; set; }
         public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
         {
-            List<Player> l = new List<Player>();
-            if (players != null) l.AddRange(players);
-            l.Add(DyingPlayer);
             ICard card;
             if (skill != null)
             {
@@ -75,7 +72,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             {
                 return VerifierResult.Fail;
             }
-            return card.Type.Verify(source, skill, cards, l);
+            return card.Type.Verify(source, skill, cards, new List<Player>());
         }
 
         public override IList<CardHandler> AcceptableCardTypes

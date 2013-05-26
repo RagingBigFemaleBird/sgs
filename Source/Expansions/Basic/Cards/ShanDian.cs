@@ -108,7 +108,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             AttachTo(source, source, card);
         }
 
-        protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
+        public override VerifierResult Verify(Player source, ICard card, List<Player> targets, bool isLooseVerify)
         {
             if (DelayedToolConflicting(source))
             {

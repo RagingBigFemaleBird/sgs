@@ -80,13 +80,13 @@ namespace Sanguosha.Expansions.Basic.Cards
             Game.CurrentGame.DoDamage(won, current, 1, DamageElement.None, card, readonlyCard);
         }
 
-        protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
+        public override VerifierResult Verify(Player source, ICard card, List<Player> targets, bool isLooseVerify)
         {
             if (targets == null || targets.Count == 0)
             {
                 return VerifierResult.Partial;
             }
-            if (targets.Count > 1)
+            if (!isLooseVerify && targets.Count > 1)
             {
                 return VerifierResult.Fail;
             }

@@ -16,38 +16,36 @@ using Sanguosha.Core.Exceptions;
 namespace Sanguosha.Expansions.OverKnightFame13.Skills
 {
     /// <summary>
-    /// 巧说-出牌阶段，你可以与一名其他角色拼点，若你赢，你获得以下技能直到回合结束：你使用的下一张非延时类锦囊可以额外指定一个目标或减少指定一个目标。若你没赢，你不能使用非延时类锦囊直到回合结束。每阶段限一次。
+    /// 巧说-出牌阶段开始时，你可与一名其他角色拼点。若你赢，你使用的下一张基本牌或非延时类锦囊牌可以额外指定任意一名其他角色为目标或减少指定一个目标；若你没赢，你不能使用锦囊牌直到回合结束。每阶段限一次。
     /// </summary>
-    public class QiaoShui : ActiveSkill
+    public class QiaoShui : TriggerSkill
     {
-        public override VerifierResult Validate(GameEventArgs arg)
+        public QiaoShui()
         {
-            if (Owner[QiaoShuiUsed] != 0)
-            {
-                return VerifierResult.Fail;
-            }
-            List<Card> cards = arg.Cards;
-            if (cards != null && cards.Count > 0)
-            {
-                return VerifierResult.Fail;
-            }
-            if (arg.Targets != null && arg.Targets.Count > 1)
-            {
-                return VerifierResult.Fail;
-            }
-            if (arg.Targets == null || arg.Targets.Count == 0)
-            {
-                return VerifierResult.Partial;
-            }
-            if (Owner.HandCards().Count == 0)
-            {
-                return VerifierResult.Fail;
-            }
-            if (arg.Targets[0] == Owner || Game.CurrentGame.Decks[arg.Targets[0], DeckType.Hand].Count == 0)
-            {
-                return VerifierResult.Fail;
-            }
-            return VerifierResult.Success;
+            var trigger = new AutoNotifyUsagePassiveSkillTrigger(
+                    this,
+                    (p, e, a) => { return p.HandCards().Count > 0; },
+                    (p, e, a, c, t) =>
+                    {
+                        var result = Game.CurrentGame.PinDian(Owner, t[0], this);
+                        if (result == true)
+                        {
+                            var winTrigger = new QiaoShuiWinTrigger(p, this);
+                            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerUsedCard, winTrigger);
+                            Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, new QiaoShuiWinRemoval(Owner, winTrigger));
+                        }
+                        else
+                        {
+                            var loseTrigger = new QiaoShuiLoseTrigger(Owner);
+                            Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanUseCard, loseTrigger);
+                            Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, new QiaoShuiRemoval(Owner, loseTrigger));
+                        }
+                    },
+                    TriggerCondition.OwnerIsSource,
+                    new PinDianVerifier()
+                );
+            Triggers.Add(GameEvent.PhaseBeginEvents[TurnPhase.Play], trigger);
+            IsAutoInvoked = null;
         }
 
         public class QiaoShuiLoseTrigger : Trigger
@@ -102,7 +100,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 this.handler = handler;
                 MaxCards = 0;
                 MinCards = 0;
-                MaxPlayers = Int16.MaxValue;
+                MaxPlayers = 1;
                 MinPlayers = 1;
             }
             protected override bool? AdditionalVerify(Player source, List<Card> cards, List<Player> players)
@@ -110,14 +108,11 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 if (cards != null && cards.Count > 0) return false;
                 if (players != null && players.Count > 0 && existingTargets.Contains(players[0]))
                 {
-                    if (players.Count > 1) return false;
                     return true;
                 }
                 if (players == null || players.Count == 0) return null;
-                var actualTargets = handler.ActualTargets(source, players, existingCard);
-                if (actualTargets.Count > 1) return false;
-                if (existingTargets.Contains(actualTargets[0])) return false;
-                var ret = handler.VerifyTargets(source, existingCard, players);
+                if (existingTargets.Contains(players[0])) return false;
+                var ret = handler.Verify(source, existingCard, players, true);
                 if (ret == VerifierResult.Partial) return null;
                 if (ret == VerifierResult.Fail) return false;
                 return true;
@@ -142,18 +137,16 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                     ISkill skill;
                     List<Card> cards;
                     List<Player> players;
-                    if (Owner.AskForCardUsage(new CardUsagePrompt("QiaoShui", this), new QiaoShuiVerifier(eventArgs.Targets, eventArgs.Card, eventArgs.Card.Type), out skill, out cards, out players))
+                    if (Owner.AskForCardUsage(new CardUsagePrompt("QiaoShuiWin", this), new QiaoShuiVerifier(eventArgs.Targets, eventArgs.Card, eventArgs.Card.Type), out skill, out cards, out players))
                     {
-                        theSkill.NotifyAction(Owner, players, new List<Card>());
+                        theSkill.NotifySkillUse(players);
                         if (eventArgs.Targets.Contains(players[0]))
                         {
-                            eventArgs.Targets.Remove(players[0]);
-                            
+                            eventArgs.Targets.Remove(players[0]);                            
                         }
                         else
                         {
-                            eventArgs.UiTargets.AddRange(players);
-                            eventArgs.Targets = eventArgs.Card.Type.ActualTargets(eventArgs.Source, eventArgs.UiTargets, eventArgs.Card);
+                            eventArgs.Targets.AddRange(players);
                         }
                     }
 
@@ -161,8 +154,8 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
             }
 
             bool used;
-            ActiveSkill theSkill;
-            public QiaoShuiWinTrigger(Player p, ActiveSkill sk)
+            TriggerSkill theSkill;
+            public QiaoShuiWinTrigger(Player p, TriggerSkill sk)
             {
                 used = false;
                 Owner = p;
@@ -188,26 +181,6 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 Owner = p;
                 winTrigger = win;
             }
-        }
-        public override bool Commit(GameEventArgs arg)
-        {
-            Owner[QiaoShuiUsed] = 1;
-            var result = Game.CurrentGame.PinDian(Owner, arg.Targets[0], this);
-            if (result == true)
-            {
-                var winTrigger = new QiaoShuiWinTrigger(Owner, this);
-                Game.CurrentGame.RegisterTrigger(GameEvent.PlayerUsedCard, winTrigger);
-                Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, new QiaoShuiWinRemoval(Owner, winTrigger));
-            }
-            else
-            {
-                var loseTrigger = new QiaoShuiLoseTrigger(Owner);
-                Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanUseCard, loseTrigger);
-                Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, new QiaoShuiRemoval(Owner, loseTrigger));
-            }
-            return true;
-        }
-
-        private static PlayerAttribute QiaoShuiUsed = PlayerAttribute.Register("QiaoShuiUsed", true);
+        }        
     }
 }

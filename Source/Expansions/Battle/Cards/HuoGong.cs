@@ -129,10 +129,10 @@ namespace Sanguosha.Expansions.Battle.Cards
             }
         }
 
-        protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
+        public override VerifierResult Verify(Player source, ICard card, List<Player> targets, bool isLooseVerify)
         {
             Trace.Assert(targets != null);
-            if (targets != null && targets.Count > 1)
+            if (!isLooseVerify && targets != null && targets.Count > 1)
             {
                 return VerifierResult.Fail;
             }

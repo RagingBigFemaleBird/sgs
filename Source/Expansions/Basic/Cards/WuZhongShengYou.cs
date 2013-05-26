@@ -22,9 +22,9 @@ namespace Sanguosha.Expansions.Basic.Cards
             Game.CurrentGame.DrawCards(dest, 2);
         }
 
-        protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
+        public override VerifierResult Verify(Player source, ICard card, List<Player> targets, bool isLooseVerify)
         {
-            if (targets != null && targets.Count >= 1)
+            if (!isLooseVerify && targets != null && targets.Count >= 1)
             {
                 return VerifierResult.Fail;
             }
@@ -33,6 +33,11 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         public override List<Player> ActualTargets(Player source, List<Player> targets, ICard card)
         {
+            if (targets.Count > 0)
+            {
+                return new List<Player>(targets);
+            }
+
             return new List<Player>() { source };
         }
 

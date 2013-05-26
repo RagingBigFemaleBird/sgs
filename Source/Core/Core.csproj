@@ -60,7 +60,7 @@
     <Compile Include="Cards\CardCategory.cs" />
     <Compile Include="Cards\CardHandler.cs" />
     <Compile Include="Cards\CardPlace.cs" />
-    <Compile Include="Cards\CardsAndTargetsVerifier.cs" />
+    <Compile Include="UI\CardsAndTargetsVerifier.cs" />
     <Compile Include="Cards\CompositeCard.cs" />
     <Compile Include="Cards\DeckContainer.cs" />
     <Compile Include="Cards\DeckPlace.cs" />
@@ -71,10 +71,10 @@
     <Compile Include="Cards\ICard.cs" />
     <Compile Include="Cards\Card.cs" />
     <Compile Include="Cards\OffensiveHorse.cs" />
-    <Compile Include="Cards\OneTargetNoSelfVerifier.cs" />
+    <Compile Include="UI\OneTargetNoSelfVerifier.cs" />
     <Compile Include="Cards\PrivateDeckType.cs" />
-    <Compile Include="Cards\SingleCardDiscardVerifier.cs" />
-    <Compile Include="Cards\SingleCardUsageVerifier.cs" />
+    <Compile Include="UI\SingleCardDiscardVerifier.cs" />
+    <Compile Include="UI\SingleCardUsageVerifier.cs" />
     <Compile Include="Cards\ReadOnlyCard.cs" />
     <Compile Include="Cards\StagingDeckType.cs" />
     <Compile Include="Cards\UnknownCardHandler.cs" />
@@ -118,6 +118,7 @@
     <Compile Include="UI\CardChoiceCallback.cs" />
     <Compile Include="UI\INotificationProxy.cs" />
     <Compile Include="UI\MovementHelper.cs" />
+    <Compile Include="UI\PinDianVerifier.cs" />
     <Compile Include="UI\Prompt.cs" />
     <Compile Include="Heroes\HeroCardHandler.cs" />
     <Compile Include="Network\Client.cs" />

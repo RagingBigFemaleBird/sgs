@@ -73,9 +73,9 @@ namespace Sanguosha.Expansions.Battle.Cards
             base.TagAndNotify(source, dests, card, action);
         }
 
-        protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
+        public override VerifierResult Verify(Player source, ICard card, List<Player> targets, bool isLooseVerify)
         {
-            if (targets != null && targets.Count >= 3)
+            if (!isLooseVerify && targets != null && targets.Count >= 3)
             {
                 return VerifierResult.Fail;
             }
