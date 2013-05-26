@@ -26,8 +26,8 @@ namespace Sanguosha.Expansions.Battle.Cards
             }
             else
             {
-                source[JiuUsed] = 1;
-                source[Drank] = 1;
+                dest[JiuUsed] = 1;
+                dest[Drank] = 1;
             }
         }
 

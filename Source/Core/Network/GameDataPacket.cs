@@ -469,6 +469,8 @@ namespace Sanguosha.Core.Network
     [ProtoContract]
     public class MultiCardUsageResponded : GameUpdate
     {
+        [ProtoMember(1)]
+        public PlayerItem PlayerItem { get; set; }
     }
 
     [ProtoContract]

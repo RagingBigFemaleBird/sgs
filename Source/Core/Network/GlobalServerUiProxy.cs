@@ -233,7 +233,7 @@ namespace Sanguosha.Core.Network
                     manswerCards.Add(para.player, cards);
                     manswerPlayers.Add(para.player, players);
                     semAccess.Release(1);
-                    para.proxy.SendMultipleCardUsageResponded();
+                    para.proxy.SendMultipleCardUsageResponded(para.player);
                 }
                 if (!semDone.WaitOne(0))
                 {

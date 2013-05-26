@@ -39,9 +39,12 @@ namespace Sanguosha.Core.Network
             clientId = id;
         }
 
-        public void SendMultipleCardUsageResponded()
+        public void SendMultipleCardUsageResponded(Player player)
         {
-            server.SendObject(clientId, new MultiCardUsageResponded());
+            for (int i = 0; i < server.MaxClients; i++)
+            {
+                server.SendObject(i, new MultiCardUsageResponded() { PlayerItem = PlayerItem.Parse(player) });
+            }
         }
 
         ISkill skillAnswer;

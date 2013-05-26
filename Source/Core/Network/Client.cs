@@ -124,6 +124,7 @@ namespace Sanguosha.Core.Network
             }
             if (pkt is MultiCardUsageResponded)
             {
+                Game.CurrentGame.NotificationProxy.NotifyMultipleCardUsageResponded((pkt as MultiCardUsageResponded).PlayerItem.ToPlayer());
                 return Receive();
             }
             return pkt;

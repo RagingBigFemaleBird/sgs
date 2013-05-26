@@ -19,7 +19,7 @@ namespace Sanguosha.Expansions.Basic.Cards
     {
         protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)
         {
-            Game.CurrentGame.DrawCards(source, 2);
+            Game.CurrentGame.DrawCards(dest, 2);
         }
 
         protected override VerifierResult Verify(Player source, ICard card, List<Player> targets)
