@@ -45,7 +45,7 @@ namespace Sanguosha.Expansions.Battle.Cards
             }
             else
             {
-                if ((!isLooseVerify && targets.Count >= 1) || targets[0] != source)
+                if ((!isLooseVerify && targets.Count >= 1) || Game.CurrentGame.DyingPlayers.First() != source)
                 {
                     return VerifierResult.Fail;
                 }
