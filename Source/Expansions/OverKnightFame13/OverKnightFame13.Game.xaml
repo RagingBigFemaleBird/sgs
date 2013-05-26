@@ -37,7 +37,7 @@
     <sys:String x:Key="CardUsage.Prompt.QiaoShui">巧说 请选择一个拼点的目标，或点“取消”不发动技能</sys:String>
     <sys:String x:Key="CardUsage.Prompt.QiaoShuiWin">请选择一个该锦囊增加或减少的目标</sys:String>
 
-    <sys:String x:Key="CardUsage.Prompt.XianSi">请弃一张手牌并选择一至两个陷嗣目标，或点“取消”不发动技能</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.XianSi">请选择一至两个陷嗣目标，或点“取消”不发动技能</sys:String>
 
     <sys:String x:Key="CardUsage.Prompt.DuoDao">请弃一张手牌获得伤害来源的武器，或点“取消”不发动技能</sys:String>
 
