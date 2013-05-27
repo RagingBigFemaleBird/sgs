@@ -270,11 +270,15 @@ namespace Sanguosha.Lobby.Server
 
         private static void _DestroyRoom(int roomId)
         {
+            ServerRoom room;
             lock (rooms)
             {
                 if (!rooms.ContainsKey(roomId)) return;
-                var room = rooms[roomId];
+                room = rooms[roomId];
                 rooms.Remove(roomId);
+            }
+            lock (room.Spectators)
+            {
                 foreach (var sp in room.Spectators)
                 {
                     lock (loggedInAccounts)
@@ -286,12 +290,12 @@ namespace Sanguosha.Lobby.Server
                     }
                 }
                 room.Spectators.Clear();
-                room.GameInfo = null;
-                foreach (var st in room.Room.Seats)
-                {
-                    st.Account = null;
-                    st.State = SeatState.Closed;
-                }                
+            }
+            room.GameInfo = null;
+            foreach (var st in room.Room.Seats)
+            {
+                st.Account = null;
+                st.State = SeatState.Closed;
             }
         }
 
@@ -727,7 +731,10 @@ namespace Sanguosha.Lobby.Server
                         {
                             lock (loggedInAccounts)
                             {
-                                loggedInAccounts[seat.Account.UserName].CallbackChannel.NotifyChat(currentAccount.Account, message);
+                                if (loggedInAccounts.ContainsKey(seat.Account.UserName))
+                                {
+                                    loggedInAccounts[seat.Account.UserName].CallbackChannel.NotifyChat(currentAccount.Account, message);
+                                }
                             }
                         }
                         catch (Exception)
@@ -736,17 +743,23 @@ namespace Sanguosha.Lobby.Server
                     }
                 }
 
-                foreach (var sp in room.Spectators)
+                lock (room.Spectators)
                 {
-                    try
+                    foreach (var sp in room.Spectators)
                     {
-                        lock (loggedInAccounts)
+                        try
                         {
-                            loggedInAccounts[sp].CallbackChannel.NotifyChat(currentAccount.Account, message);
+                            lock (loggedInAccounts)
+                            {
+                                if (loggedInAccounts.ContainsKey(sp))
+                                {
+                                    loggedInAccounts[sp].CallbackChannel.NotifyChat(currentAccount.Account, message);
+                                }
+                            }
                         }
-                    }
-                    catch (Exception)
-                    {
+                        catch (Exception)
+                        {
+                        }
                     }
                 }
             }) { IsBackground = true };
@@ -758,10 +771,14 @@ namespace Sanguosha.Lobby.Server
         {
             if (account == null || account.Account == null) return;
 
-            if (account.CurrentSpectatingRoom != null)
+            var room = account.CurrentSpectatingRoom;
+            if (room != null)
             {
-                account.CurrentSpectatingRoom.Spectators.Remove(account.Account.UserName);
-                account.CurrentSpectatingRoom = null;
+                lock (room.Spectators)
+                {
+                    room.Spectators.Remove(account.Account.UserName);
+                    account.CurrentSpectatingRoom = null;
+                }
             }
         }
 
@@ -773,9 +790,12 @@ namespace Sanguosha.Lobby.Server
             var room = rooms[roomId];
             if (room.Room.State != RoomState.Gaming) return RoomOperationResult.Invalid;
             _Unspectate(currentAccount);
-            if (!room.Spectators.Contains(currentAccount.Account.UserName))
+            lock (room.Spectators)
             {
-                room.Spectators.Add(currentAccount.Account.UserName);
+                if (!room.Spectators.Contains(currentAccount.Account.UserName))
+                {
+                    room.Spectators.Add(currentAccount.Account.UserName);
+                }
             }
             currentAccount.CurrentSpectatingRoom = room;
             var channel = currentAccount.CallbackChannel;
