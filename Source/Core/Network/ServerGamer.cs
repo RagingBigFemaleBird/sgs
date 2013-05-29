@@ -25,58 +25,47 @@ namespace Sanguosha.Core.Network
     {
         public ServerGamer()
         {
-            sema = new Semaphore(0, Int32.MaxValue);
-            semPause = new Semaphore(0, 1);
-            semLock = new Semaphore(1, 1);
+            semaPakArrival = new Semaphore(0, Int32.MaxValue);
+            receiverLock = new object();
+            senderLock = new object();
+            DataStream = new RecordTakingOutputStream();
         }
+        
+        Thread listener;
+        Semaphore semaPakArrival;
+        object receiverLock;
+        object senderLock;
 
         public Game Game { get; set; }
-        public bool Once { get; set; }
         public TcpClient TcpClient { get; set; }
         public ConnectionStatus ConnectionStatus { get; set; }
-        Stream dataStream;
-        public Stream DataStream
-        {
-            get { return dataStream; }
-            set
-            {
-                if (value != null)
-                {
-                    dataStream = value;
-                    semPause.Release(1);
-                }
-                if (value == null)
-                {
-                    dataStream = value;
-                    semPause.WaitOne(0);
-                }
-            }
-        }
 
-        Thread listener;
+        public RecordTakingOutputStream DataStream
+        {
+            get;
+            private set;
+        }
 
         public void StartListening()
         {
-            listener = new Thread(ThreadMain) { IsBackground = true };
+            if (listener != null) return;
+            listener = new Thread(ReceiveLoop) { IsBackground = true };
             listener.Start();
         }
 
-        public void Stop()
+        public void StopListening()
         {
+            if (listener == null) return;
             listener.Abort();
+            listener = null;
         }
-        Semaphore sema;
-        Semaphore semPause;
-        Semaphore semLock;
 
-        private void ThreadMain()
+        public GameDataPacket Receive()
         {
-            Game.RegisterCurrentThread();
-            while (true)
+            GameDataPacket packet;            
+            lock (this)
             {
-                GameDataPacket packet;
-                semPause.WaitOne();
-                lock (this)
+                lock (receiverLock)
                 {
                     packet = null;
                     try
@@ -90,32 +79,33 @@ namespace Sanguosha.Core.Network
                         if (handler != null)
                         {
                             OnDisconnected(this);
-                        }
-                        return;
+                        }             
+                        return null;
                     }
                     catch (Exception e)
                     {
                         Trace.Assert(e != null);
                     }
-                    if (packet == null)
-                    {
-                        semPause.Release(1);
-                        continue;
-                    }
                 }
-                semPause.Release(1);
+            }            
+            return packet;
+        }
+                
+
+        private void ReceiveLoop()
+        {
+            Game.RegisterCurrentThread();
+            while (true)
+            {
+                GameDataPacket packet = Receive();
+                if (packet == null) break;
                 try
                 {
-                    if (packet is GameResponse) sema.WaitOne();
+                    if (packet is GameResponse) semaPakArrival.WaitOne();
                     var handler2 = OnGameDataPacketReceived;
                     if (handler2 != null)
                     {
                         handler2(packet);
-                    }
-                    if (Once)
-                    {
-                        Once = false;
-                        semPause.WaitOne();
                     }
                 }
                 catch (Exception e)
@@ -131,19 +121,22 @@ namespace Sanguosha.Core.Network
                     var crashReport = new StreamWriter(FileRotator.CreateFile("./Crash", "crash", ".dmp", 1000));
                     crashReport.WriteLine(e);
                     crashReport.Close();
+                    break;
                 }
-
             }
+            listener = null;
         }
 
         public event GamerDisconnectedHandler OnDisconnected;
         public void Send(GameDataPacket packet)
         {
-            semLock.WaitOne();
             try
             {
-                Serializer.SerializeWithLengthPrefix<GameDataPacket>(DataStream, packet, PrefixStyle.Base128);
-                DataStream.Flush();
+                lock (senderLock)
+                {
+                    Serializer.SerializeWithLengthPrefix<GameDataPacket>(DataStream, packet, PrefixStyle.Base128);
+                    DataStream.Flush();
+                }
             }
             catch (Exception)
             {
@@ -151,45 +144,58 @@ namespace Sanguosha.Core.Network
                 var handler = OnDisconnected;
                 if (handler != null)
                 {
-                    OnDisconnected(this);
+                    try
+                    {
+                        OnDisconnected(this);
+                    }
+                    catch (Exception) { }
                 }
             }
-            semLock.Release();
         }
 
-        public void Receive()
+        public void ReceiveAsync()
         {
-            sema.Release(1);
+            semaPakArrival.Release();
         }
 
         public event GamePacketHandler OnGameDataPacketReceived;
 
-        public void Lock()
-        {
-            semLock.WaitOne();
-        }
-
         public void Flush()
         {
-            if (dataStream != null)
+            if (DataStream != null)
             {
-                dataStream.Flush();
+                DataStream.Flush();
             }
         }
-
-        public void Pause()
+        
+        public void AddStream(Stream newStream)
         {
-            semPause.WaitOne();
-        }
+            if (DataStream == null)
+            {
+                DataStream = new RecordTakingOutputStream();
+                DataStream.AddStream(newStream, false);
+                return;
+            }
+            lock (receiverLock)
+            {
+                lock (senderLock)
+                {                    
+                    try
+                    {
+                        var uiDetach = new UIStatusHint() { IsDetached = true };
+                        var uiAttach = new UIStatusHint() { IsDetached = false };
+                        Serializer.SerializeWithLengthPrefix<GameDataPacket>(newStream, uiDetach, PrefixStyle.Base128);
+                        DataStream.Flush();
+                        DataStream.AddStream(newStream, true);
+                        Serializer.SerializeWithLengthPrefix<GameDataPacket>(newStream, uiAttach, PrefixStyle.Base128);
+                        DataStream.Flush();
 
-        public void Resume()
-        {
-            semPause.Release(1);
-        }
-
-        public void Unlock()
-        {
-            semLock.Release();
-        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+            }
+        }        
     }
 }

@@ -37,8 +37,8 @@ namespace Sanguosha.Core.Network
     }
 
     [ProtoContract]
-    [ProtoInclude(1021, typeof(AdditionalTypedSkillItem))]
-    [ProtoInclude(1022, typeof(CheatSkillItem))]    
+    [ProtoInclude(21, typeof(AdditionalTypedSkillItem))]
+    [ProtoInclude(22, typeof(CheatSkillItem))]    
     public class SkillItem
     {
         [ProtoMember(1)]
@@ -270,30 +270,30 @@ namespace Sanguosha.Core.Network
 
     [ProtoContract]
     [ProtoInclude(1011, typeof(GameResponse))]
-    [ProtoInclude(1012, typeof(CardRearrangementNotification))]
-    [ProtoInclude(1013, typeof(HandCardMovementNotification))]
-    [ProtoInclude(1014, typeof(GameUpdate))]
+    [ProtoInclude(1012, typeof(GameUpdate))]
     public class GameDataPacket
     {
     }
 
     [ProtoContract]
-    [ProtoInclude(1221, typeof(ConnectionRequest))]
-    [ProtoInclude(1222, typeof(ConnectionResponse))]
-    [ProtoInclude(1223, typeof(StatusSync))]
-    [ProtoInclude(1224, typeof(CardSync))]
-    [ProtoInclude(1225, typeof(UIStatusHint))]
-    [ProtoInclude(1226, typeof(MultiCardUsageResponded))]
-    [ProtoInclude(1227, typeof(SeedSync))]
+    [ProtoInclude(1201, typeof(StatusSync))]
+    [ProtoInclude(1202, typeof(CardSync))]
+    [ProtoInclude(1203, typeof(UIStatusHint))]
+    [ProtoInclude(1204, typeof(MultiCardUsageResponded))]
+    [ProtoInclude(1205, typeof(SeedSync))]
+    [ProtoInclude(1206, typeof(ConnectionResponse))]
+    [ProtoInclude(1207, typeof(CardRearrangementNotification))]
+    [ProtoInclude(1208, typeof(HandCardMovementNotification))]
     public class GameUpdate : GameDataPacket
     {
     }
 
     #region GameResponse
     [ProtoContract]
-    [ProtoInclude(1111, typeof(AskForCardUsageResponse))]
-    [ProtoInclude(1112, typeof(AskForCardChoiceResponse))]
-    [ProtoInclude(1113, typeof(AskForMultipleChoiceResponse))]
+    [ProtoInclude(1101, typeof(AskForCardUsageResponse))]
+    [ProtoInclude(1102, typeof(AskForCardChoiceResponse))]
+    [ProtoInclude(1103, typeof(AskForMultipleChoiceResponse))]
+    [ProtoInclude(1104, typeof(ConnectionRequest))]    
     public class GameResponse : GameDataPacket
     {
         [ProtoMember(1)]
@@ -430,25 +430,17 @@ namespace Sanguosha.Core.Network
         public AskForMultipleChoiceResponse() { }
         public AskForMultipleChoiceResponse(int choiceIndex) { this.ChoiceIndex = choiceIndex; }
     }
-    #endregion
-    #region Notifications
-    [ProtoContract]
-    public class HandCardMovementNotification : GameDataPacket
-    {
-        [ProtoMember(1)]
-        public PlayerItem PlayerItem { get; set; }
-        [ProtoMember(2)]
-        public int From { get; set; }
-        [ProtoMember(3)]
-        public int To { get; set; }
-    }
 
     [ProtoContract]
-    public class ConnectionRequest : GameUpdate
+    public class ConnectionRequest : GameResponse
     {
         [ProtoMember(1)]
-        public LoginToken token { get; set; }
+        public LoginToken Token { get; set; }
     }
+
+
+    #endregion
+    #region Notifications
 
     [ProtoContract]
     public class ConnectionResponse : GameUpdate
@@ -458,6 +450,17 @@ namespace Sanguosha.Core.Network
         [ProtoMember(2)]
         public int SelfId { get; set; }
     }
+    
+    [ProtoContract]
+    public class HandCardMovementNotification : GameUpdate
+    {
+        [ProtoMember(1)]
+        public PlayerItem PlayerItem { get; set; }
+        [ProtoMember(2)]
+        public int From { get; set; }
+        [ProtoMember(3)]
+        public int To { get; set; }
+    }  
 
     [ProtoContract]
     public class UIStatusHint : GameUpdate
@@ -502,7 +505,7 @@ namespace Sanguosha.Core.Network
     }
 
     [ProtoContract]
-    public class CardRearrangementNotification : GameDataPacket
+    public class CardRearrangementNotification : GameUpdate
     {
         [ProtoMember(1)]
         public CardRearrangement CardRearrangement { get; set; }

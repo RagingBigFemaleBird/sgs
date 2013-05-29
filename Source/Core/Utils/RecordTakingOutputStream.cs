@@ -9,17 +9,30 @@ namespace Sanguosha.Core.Utils
 {
     public class RecordTakingOutputStream : Stream
     {
-        private Stream outputStream;
-
-        public Stream OutputStream
+        public List<Stream> OutputStreams
         {
-            get { return outputStream; }
-            set { outputStream = value; }
+            get;
+            private set;
         }
 
-        public RecordTakingOutputStream(Stream OutputStream)
+        public void AddStream(Stream s, bool writeExisingData)
         {
-            outputStream = OutputStream;
+            lock (OutputStreams)
+            {                
+                if (writeExisingData)
+                {
+                    foreach (var chunk in internalBuffer)
+                    {
+                        s.Write(chunk, 0, chunk.Length);
+                    }
+                }
+                OutputStreams.Add(s);
+            }
+        }
+
+        public RecordTakingOutputStream()
+        {
+            OutputStreams = new List<Stream>();
             internalBuffer = new List<byte[]>();
         }
 
@@ -40,29 +53,16 @@ namespace Sanguosha.Core.Utils
 
         public override void Flush()
         {
-            OutputStream.Flush();
-        }
-
-        public override long Length
-        {
-            get { return OutputStream.Length; }
-        }
-
-        public override long Position
-        {
-            get
+            foreach (var stream in OutputStreams)
             {
-                return OutputStream.Position;
-            }
-            set
-            {
-                OutputStream.Position = value;
+                stream.Flush();
             }
         }
 
         public override int Read(byte[] buffer, int offset, int count)
         {
-            int bytesRead = OutputStream.Read(buffer, offset, count);
+            if (OutputStreams.Count == 0) return 0;
+            int bytesRead = OutputStreams[0].Read(buffer, offset, count);
             return bytesRead;
         }
 
@@ -78,35 +78,57 @@ namespace Sanguosha.Core.Utils
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            if (count > 0)
+            lock (OutputStreams)
             {
-                try
+                if (count > 0)
                 {
-                    byte[] add = new byte[count];
-                    Buffer.BlockCopy(buffer, offset, add, 0, count);
-                    internalBuffer.Add(add);
+                    try
+                    {
+                        byte[] add = new byte[count];
+                        Buffer.BlockCopy(buffer, offset, add, 0, count);
+                        internalBuffer.Add(add);
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
-                catch (Exception)
+
+                List<Stream> streamsBroken = new List<Stream>();
+                foreach (var stream in OutputStreams)
                 {
+                    try
+                    {
+                        stream.Write(buffer, offset, count);
+                    }
+                    catch (IOException)
+                    {
+                        streamsBroken.Add(stream);
+                    }
                 }
-            }
-            try
-            {
-                OutputStream.Write(buffer, offset, count);
-            }
-            catch (Exception)
-            {
+                foreach (var stream in streamsBroken)
+                {
+                    OutputStreams.Remove(stream);
+                }
             }
         }
         
-        public void DumpTo(Stream s)
+        List<byte[]> internalBuffer;
+
+        public override long Length
         {
-            foreach (var chunk in internalBuffer)
-            {
-                s.Write(chunk, 0, chunk.Length);
-            }
+            get { throw new NotImplementedException(); }
         }
 
-        List<byte[]> internalBuffer;
+        public override long Position
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

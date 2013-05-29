@@ -17,7 +17,7 @@ namespace Sanguosha.Lobby.Server
     public class GameService
     {
         public delegate void GameEndCallback(int roomId);
-        public static void StartGameService(IPAddress IP, GameSettings setting, AccountConfiguration config, int roomId, GameEndCallback callback, out int portNumber)
+        public static void StartGameService(IPAddress IP, GameSettings setting, int roomId, GameEndCallback callback, out int portNumber)
         {
             int totalNumberOfPlayers = setting.TotalPlayers;
             int timeOutSeconds = setting.TimeOutSeconds;
@@ -39,7 +39,6 @@ namespace Sanguosha.Lobby.Server
 #endif
             Game game = new RoleGame();
             game.Settings = setting;
-            game.Configuration = config;
             Sanguosha.Core.Network.Server server;
             server = new Sanguosha.Core.Network.Server(game, totalNumberOfPlayers, IP);
             portNumber = server.IpPort;

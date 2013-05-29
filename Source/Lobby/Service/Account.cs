@@ -36,5 +36,25 @@
         public int Experience { get; set; }
         [ProtoMember(9)]
         public int Level { get; set; }
+        
+        // Game Related
+        [NonSerialized]
+        private bool isDead;
+
+        public bool IsDead
+        {
+            get { return isDead; }
+            set { isDead = value; }
+        }
+        
+        [NonSerialized]
+        private LoginToken loginToken;
+
+        public LoginToken LoginToken
+        {
+            get { return loginToken; }
+            set { loginToken = value; }
+        }
+        
     }
 }

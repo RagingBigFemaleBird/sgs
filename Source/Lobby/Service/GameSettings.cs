@@ -13,6 +13,7 @@ namespace Sanguosha.Lobby.Core
         public GameSettings()
         {
             PackagesEnabled = new List<string>();
+            Accounts = new List<Account>();
         }
         [ProtoMember(1)]
         public int TotalPlayers { get; set; }
@@ -23,7 +24,7 @@ namespace Sanguosha.Lobby.Core
         [ProtoMember(4)]
         public int NumberOfDefectors { get; set; }
         [ProtoMember(5)]
-        public List<Account> Accounts;
+        public List<Account> Accounts { get; set; }
         [ProtoMember(6)]
         public bool DualHeroMode { get; set; }
         [ProtoMember(7)]

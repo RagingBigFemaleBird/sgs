@@ -62,7 +62,7 @@ namespace Sanguosha.Core.Network
             networkService.DataStream = new RecordTakingInputStream(stream, recordStream);
             if (token != null)
             {
-                networkService.Send(new ConnectionRequest() { token = (LoginToken)token });
+                networkService.Send(new ConnectionRequest() { Token = (LoginToken)token });
             }
         }
 

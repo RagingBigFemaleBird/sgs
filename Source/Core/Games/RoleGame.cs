@@ -1050,27 +1050,26 @@ namespace Sanguosha.Core.Games
                 foreach (Player p in Game.CurrentGame.Players)
                 {
                     int idx = Game.CurrentGame.Players.IndexOf(p);
-                    Game.CurrentGame.Settings.Accounts[idx].TotalGames++;
+                    var account = Game.CurrentGame.Settings.Accounts[idx];
+                    account.TotalGames++;
                     if (Game.CurrentGame.GameServer.IsDisconnected(idx))
-                    {
-                        var account = Game.CurrentGame.Settings.Accounts[idx];
-                        var sidx = Game.CurrentGame.Configuration.Accounts.IndexOf(account);
-                        if (!Game.CurrentGame.Configuration.IsDead[sidx])
+                    {                        
+                        if (!(account.IsDead))
                         {
-                            Game.CurrentGame.Settings.Accounts[idx].Quits++;
+                            account.Quits++;
                             continue;
                         }
                     }
                     if (winners.Contains(p))
                     {
-                        Game.CurrentGame.Settings.Accounts[idx].Wins++;
-                        Game.CurrentGame.Settings.Accounts[idx].Experience += 5;
+                        account.Wins++;
+                        account.Experience += 5;
                         if (p.Role == Role.Defector && Game.CurrentGame.Players.Count > 3) Game.CurrentGame.Settings.Accounts[idx].Experience += 50;
                     }
                     else
                     {
-                        Game.CurrentGame.Settings.Accounts[idx].Losses++;
-                        Game.CurrentGame.Settings.Accounts[idx].Experience -= 1;
+                        account.Losses++;
+                        account.Experience -= 1;
                     }
                 }
             }
@@ -1078,12 +1077,10 @@ namespace Sanguosha.Core.Games
             private void ReleaseIntoLobby(Player p)
             {
                 if (Game.CurrentGame.GameServer == null) return;
-                if (Game.CurrentGame.Settings == null) return;
-                if (Game.CurrentGame.Configuration == null) return;
+                if (Game.CurrentGame.Settings == null) return;                
                 var idx = Game.CurrentGame.Players.IndexOf(p);
-                var account = Game.CurrentGame.Settings.Accounts[idx];
-                idx = Game.CurrentGame.Configuration.Accounts.IndexOf(account);
-                Game.CurrentGame.Configuration.IsDead[idx] = true;
+                var account = Game.CurrentGame.Settings.Accounts[idx];                
+                account.IsDead= true;
             }
 
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)

@@ -95,14 +95,12 @@ namespace Sanguosha.Lobby.Server
                     currentAccount = disconnected;
                     var room = disconnected.CurrentRoom;
                     if (room != null)
-                    {
-                        var index = -1;
-                        if (room.GameInfo != null) index = room.GameInfo.Accounts.IndexOf(disconnected.Account);
-                        if (index >= 0 && room.Room.State == RoomState.Gaming
-                            && !room.GameInfo.IsDead[index])
+                    {   
+                        if (room.Room.State == RoomState.Gaming
+                            && !disconnected.Account.IsDead)
                         {
                             reconnectionString = room.Room.IpAddress.ToString() + ":" + room.Room.IpPort;
-                            reconnectionToken = room.GameInfo.LoginTokens[index];
+                            reconnectionToken = disconnected.Account.LoginToken;
                         }
                         else
                         {
@@ -286,7 +284,6 @@ namespace Sanguosha.Lobby.Server
                     }
                 }
                 room.Spectators.Clear();
-                room.GameInfo = null;
                 foreach (var st in room.Room.Seats)
                 {
                     st.Account = null;
@@ -306,15 +303,10 @@ namespace Sanguosha.Lobby.Server
                 var seat = room.Room.Seats.FirstOrDefault(s => s.Account == account.Account);
                 if (seat == null) return RoomOperationResult.Invalid;
 
-                int index = -1;
-                if (room.GameInfo != null)
+                if (!forced && room.Room.State == RoomState.Gaming
+                     && !account.Account.IsDead)
                 {
-                    index = room.GameInfo.Accounts.IndexOf(account.Account);
-                    if (!forced && room.Room.State == RoomState.Gaming
-                        && index >= 0 && !room.GameInfo.IsDead[index])
-                    {
-                        return RoomOperationResult.Locked;
-                    }
+                        return RoomOperationResult.Locked;                
                 }
 
                 bool findAnotherHost = false;
@@ -404,7 +396,7 @@ namespace Sanguosha.Lobby.Server
                             lock (loggedInAccounts)
                             {
                                 var channel = loggedInAccounts[notify.Account.UserName].CallbackChannel;
-                                channel.NotifyGameStart(ip.ToString() + ":" + port, room.GameInfo.LoginTokens[i]);
+                                channel.NotifyGameStart(ip.ToString() + ":" + port, notify.Account.LoginToken);
                             }
                         }
                         catch (Exception)
@@ -580,18 +572,17 @@ namespace Sanguosha.Lobby.Server
                     gs.PackagesEnabled.Add("Sanguosha.Expansions.AssasinExpansion");
                 }                
 
-                var config = new AccountConfiguration();
-                room.GameInfo = config;
                 foreach (var addconfig in room.Room.Seats)
                 {
-                    if (addconfig.Account != null)
-                    {
-                        config.LoginTokens.Add(new LoginToken() { TokenString = Guid.NewGuid() });
-                        config.Accounts.Add(addconfig.Account);
-                        config.IsDead.Add(false);
-                    }
+                    var account = addconfig.Account;
+                    if (account != null)
+                    {                        
+                        account.LoginToken = new LoginToken() { TokenString = Guid.NewGuid() };
+                        account.IsDead = false;
+                        gs.Accounts.Add(account);
+                    }                    
                 }
-                GameService.StartGameService(HostingIp, gs, config, room.Room.Id, _OnGameEnds, out portNumber);
+                GameService.StartGameService(HostingIp, gs, room.Room.Id, _OnGameEnds, out portNumber);
                 room.Room.IpAddress = HostingIp.ToString();
                 room.Room.IpPort = portNumber;
                 _NotifyGameStart(room.Room.Id, HostingIp, portNumber);

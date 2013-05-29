@@ -78,7 +78,7 @@ namespace Sanguosha.Core.Network
                             var response = packet as AskForCardUsageResponse;
                             if (response == null || response.Id != QuestionId)
                             {
-                                Gamer.Receive();
+                                Gamer.ReceiveAsync();
                                 break;
                             }
                             ISkill skill;
@@ -92,7 +92,7 @@ namespace Sanguosha.Core.Network
                             var response2 = packet as AskForCardChoiceResponse;
                             if (response2 == null || response2.Id != QuestionId)
                             {
-                                Gamer.Receive();
+                                Gamer.ReceiveAsync();
                                 break;
                             }
                             int opt;
@@ -105,7 +105,7 @@ namespace Sanguosha.Core.Network
                             var response3 = packet as AskForMultipleChoiceResponse;
                             if (response3 == null || response3.Id != QuestionId)
                             {
-                                Gamer.Receive();
+                                Gamer.ReceiveAsync();
                                 break;
                             }
                             CurrentQuestionState = QuestionState.None;
@@ -143,7 +143,7 @@ namespace Sanguosha.Core.Network
         public void AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, int timeOutSeconds)
         {
             CurrentQuestionState = QuestionState.AskForCardUsage;
-            Gamer.Receive();
+            Gamer.ReceiveAsync();
             if (Gamer.ConnectionStatus == ConnectionStatus.Disconnected) AnswerCardUsage(null, null, null);
         }
 
@@ -153,14 +153,14 @@ namespace Sanguosha.Core.Network
         {
             currentChoiceOptions = options;
             CurrentQuestionState = QuestionState.AskForCardChoice;
-            Gamer.Receive();
+            Gamer.ReceiveAsync();
             if (Gamer.ConnectionStatus == ConnectionStatus.Disconnected) AnswerCardChoice(null);
         }
 
         public void AskForMultipleChoice(Prompt prompt, List<OptionPrompt> questions, int timeOutSeconds)
         {
             CurrentQuestionState = QuestionState.AskForMultipleChoice;
-            Gamer.Receive();
+            Gamer.ReceiveAsync();
             if (Gamer.ConnectionStatus == ConnectionStatus.Disconnected) AnswerMultipleChoice(0);
         }
 

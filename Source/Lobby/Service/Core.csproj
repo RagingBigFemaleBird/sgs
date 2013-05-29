@@ -81,7 +81,6 @@
     <Compile Include="ILobbyService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Room.cs" />
-    <Compile Include="AccountConfiguration.cs" />
     <Compile Include="Seat.cs" />
     <Compile Include="Misc.cs" />
   </ItemGroup>
