@@ -4,6 +4,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     [Serializable]
     [ProtoContract]
@@ -40,7 +41,7 @@
         // Game Related
         [NonSerialized]
         private bool isDead;
-
+        [NotMapped]
         public bool IsDead
         {
             get { return isDead; }
@@ -49,7 +50,7 @@
         
         [NonSerialized]
         private LoginToken loginToken;
-
+        [NotMapped]
         public LoginToken LoginToken
         {
             get { return loginToken; }
