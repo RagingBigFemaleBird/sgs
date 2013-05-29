@@ -51,6 +51,12 @@
     <system:String x:Key="CardChoice.Prompt.SpecialDeck">{0}</system:String>
     <system:String x:Key="CardSlot.Hint.AcquiredCards">获得卡牌</system:String>
 
+    <x:Static x:Key="OnlineStatus.Online.Name" Member="system:String.Empty" />
+    <system:String x:Key="OnlineStatus.Offline.Name">离线</system:String>
+    <system:String x:Key="OnlineStatus.Trusted.Name">托管</system:String>
+    <system:String x:Key="OnlineStatus.Away.Name">离开</system:String>
+    <system:String x:Key="OnlineStatus.Quit.Name">逃跑</system:String>
+    
     <system:String x:Key="Deck.Dealing.Name">摸牌堆</system:String>
     <system:String x:Key="Deck.PrivateDeck.Name">{0}的{1}</system:String>
 

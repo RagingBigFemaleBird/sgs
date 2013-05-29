@@ -284,6 +284,7 @@ namespace Sanguosha.Core.Network
     [ProtoInclude(1206, typeof(ConnectionResponse))]
     [ProtoInclude(1207, typeof(CardRearrangementNotification))]
     [ProtoInclude(1208, typeof(HandCardMovementNotification))]
+    [ProtoInclude(1209, typeof(OnlineStatusUpdate))]
     public class GameUpdate : GameDataPacket
     {
     }
@@ -467,6 +468,15 @@ namespace Sanguosha.Core.Network
     {
         [ProtoMember(1)]
         public bool IsDetached { get; set; }
+    }
+
+    [ProtoContract]
+    public class OnlineStatusUpdate : GameUpdate
+    {
+        [ProtoMember(1)]
+        public PlayerItem PlayerItem { get; set; }
+        [ProtoMember(2)]
+        public OnlineStatus OnlineStatus { get; set; }
     }
 
     [ProtoContract]

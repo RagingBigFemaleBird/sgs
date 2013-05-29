@@ -144,7 +144,7 @@ namespace Sanguosha.Core.Network
         {
             CurrentQuestionState = QuestionState.AskForCardUsage;
             Gamer.ReceiveAsync();
-            if (Gamer.ConnectionStatus == ConnectionStatus.Disconnected) AnswerCardUsage(null, null, null);
+            if (Gamer.OnlineStatus != OnlineStatus.Online) AnswerCardUsage(null, null, null);
         }
 
         AdditionalCardChoiceOptions currentChoiceOptions;
@@ -154,14 +154,14 @@ namespace Sanguosha.Core.Network
             currentChoiceOptions = options;
             CurrentQuestionState = QuestionState.AskForCardChoice;
             Gamer.ReceiveAsync();
-            if (Gamer.ConnectionStatus == ConnectionStatus.Disconnected) AnswerCardChoice(null);
+            if (Gamer.OnlineStatus != OnlineStatus.Online) AnswerCardChoice(null);
         }
 
         public void AskForMultipleChoice(Prompt prompt, List<OptionPrompt> questions, int timeOutSeconds)
         {
             CurrentQuestionState = QuestionState.AskForMultipleChoice;
             Gamer.ReceiveAsync();
-            if (Gamer.ConnectionStatus == ConnectionStatus.Disconnected) AnswerMultipleChoice(0);
+            if (Gamer.OnlineStatus != OnlineStatus.Online) AnswerMultipleChoice(0);
         }
 
         public event CardUsageAnsweredEventHandler CardUsageAnsweredEvent;

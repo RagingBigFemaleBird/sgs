@@ -54,7 +54,7 @@ namespace Sanguosha.Core.Network
             {
                 Gamers.Add(new ServerGamer());
                 Gamers[i].Game = game;                
-                Gamers[i].ConnectionStatus = ConnectionStatus.Disconnected;
+                Gamers[i].OnlineStatus = OnlineStatus.Offline;
             }            
             this.game = game;
             Trace.TraceInformation("Server initialized with capacity {0}", capacity);
@@ -62,7 +62,8 @@ namespace Sanguosha.Core.Network
 
         public bool IsDisconnected(int id)
         {
-            return Gamers[id].ConnectionStatus != ConnectionStatus.Connected;
+            var status = Gamers[id].OnlineStatus;
+            return status == OnlineStatus.Offline || status == OnlineStatus.Quit;
         }
 
         /// <summary>
@@ -75,7 +76,7 @@ namespace Sanguosha.Core.Network
             connectThread.Start();
             for (int i = 0; i < 50; i++)
             {
-                if (Gamers.Count(g => g.ConnectionStatus != ConnectionStatus.Disconnected) == 1) break;
+                if (!Gamers.Any(g => g.OnlineStatus == OnlineStatus.Offline)) break;
                 Thread.Sleep(100);
             }
         }
@@ -127,7 +128,7 @@ namespace Sanguosha.Core.Network
             }                                   
             ServerGamer gamer = Gamers[indexC];
             gamer.AddStream(stream);
-            gamer.ConnectionStatus = ConnectionStatus.Connected;
+            gamer.OnlineStatus = OnlineStatus.Online;
             gamer.TcpClient = client;
             gamer.StartListening();
         }
@@ -161,7 +162,8 @@ namespace Sanguosha.Core.Network
 
         public void SendObject(int clientId, GameDataPacket o)
         {
-            if (!Gamers.Any(hdl => hdl.ConnectionStatus == ConnectionStatus.Connected))
+            if (!Gamers.Any(hdl => hdl.OnlineStatus != OnlineStatus.Offline ||
+                                   hdl.OnlineStatus != OnlineStatus.Quit))
             {
                 throw new GameOverException();
             }

@@ -370,8 +370,12 @@
                     		       VerticalAlignment="Center" HorizontalAlignment="Center"
                     		       Visibility="{Binding IsSelectionRepeatable, Converter={StaticResource boolToVisibilityConverter}}"
                     		       IsHitTestVisible="False" />
-                            <StackPanel>
-                                <ItemsControl ItemsSource="{Binding StatusMarks, Mode=OneWay}" Margin="22, 0, 0, 0">
+                            
+                            <TextBlock Text="{res:ResourceKeyBinding Path=OnlineStatus, StringFormat=OnlineStatus.{0}.Name}" IsHitTestVisible="False" HorizontalAlignment="Right" VerticalAlignment="Top" FontWeight="Bold" FontSize="12" Margin="0,4,6,0" Foreground="Black" />
+                            <TextBlock Text="{res:ResourceKeyBinding Path=OnlineStatus, StringFormat=OnlineStatus.{0}.Name}" IsHitTestVisible="False" HorizontalAlignment="Right" VerticalAlignment="Top" FontWeight="Bold" FontSize="12" Margin="0,3,5,0" Foreground="White" />
+                            
+                            <StackPanel Margin="0,0,30,0">                                
+                                <ItemsControl x:Name="icStatusMarks" ItemsSource="{Binding StatusMarks, Mode=OneWay}" Margin="22, 0, 0, 0">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <WrapPanel HorizontalAlignment="Left" />
@@ -388,7 +392,7 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                                <ItemsControl ItemsSource="{Binding PrivateDecks, Mode=OneWay}" Margin="22, 0, 0, 0">
+                                <ItemsControl x:Name="icPrivateDecks" ItemsSource="{Binding PrivateDecks, Mode=OneWay}" Margin="22, 0, 0, 0">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <WrapPanel HorizontalAlignment="Left" />
@@ -559,20 +563,7 @@
                             </Button.Clip>
                         </Button>
                     </Grid>                	
-                </Grid>
-				<ed:Callout x:Name="chatBox" IsHitTestVisible="False" AnchorPoint="0.3,1.3" CalloutStyle="RoundedRectangle" Fill="#CC493A20" FontSize="14.667" Margin="8,10,8,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" Foreground="White" Style="{DynamicResource CalloutStyle1}" Visibility="Collapsed" RenderTransformOrigin="0.5,0.5">
-					<ed:Callout.RenderTransform>
-						<TransformGroup>
-							<ScaleTransform/>
-							<SkewTransform/>
-							<RotateTransform/>
-							<TranslateTransform/>
-						</TransformGroup>
-					</ed:Callout.RenderTransform>
-					<RichTextBox Background="Transparent" Foreground="White" BorderThickness="0">
-						<FlowDocument x:Name="chatDoc"/>
-					</RichTextBox>
-				</ed:Callout>
+                </Grid>				
                 <Image x:Name="decoration" Source="{DynamicResource PlayerInfoView.Decoration.BottomRight}" Width="64" HorizontalAlignment="Right" Margin="0,0,1.25,3.25" VerticalAlignment="Bottom" IsHitTestVisible="False" />
                 <Image x:Name="imgPhase" Visibility="{Binding IsCurrentPlayer, Converter={StaticResource boolToVisibilityConverter}}" Source="{res:ResourceKeyBinding Path=CurrentPhase, StringFormat=Phases.\{0\}.Small}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120" IsHitTestVisible="False" />
                 <StackPanel x:Name="delayedToolsDock"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="-12,0,15,0" >
@@ -598,6 +589,19 @@
                     </TransformGroup>
                 </Image.RenderTransform>
             </Image>
+            <ed:Callout x:Name="chatBox" IsHitTestVisible="False" AnchorPoint="0.3,1.3" CalloutStyle="RoundedRectangle" Fill="#CC493A20" FontSize="14.667" Margin="8,10,8,0" Grid.Row="1" Stroke="Black" VerticalAlignment="Top" Foreground="White" Style="{DynamicResource CalloutStyle1}" Visibility="Collapsed" RenderTransformOrigin="0.5,0.5">
+                <ed:Callout.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ed:Callout.RenderTransform>
+                <RichTextBox Background="Transparent" Foreground="White" BorderThickness="0">
+                    <FlowDocument x:Name="chatDoc"/>
+                </RichTextBox>
+            </ed:Callout>
         </Grid>
     </Grid>
 </local:PlayerViewBase>

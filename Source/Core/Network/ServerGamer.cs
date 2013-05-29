@@ -16,10 +16,19 @@ namespace Sanguosha.Core.Network
     public delegate void GamePacketHandler(GameDataPacket request);
     public delegate void GamerDisconnectedHandler(ServerGamer gamer);
 
-    public enum ConnectionStatus
+    [ProtoContract]
+    public enum OnlineStatus
     {
-        Connected,
-        Disconnected,
+        [ProtoEnum]
+        Online,
+        [ProtoEnum]
+        Offline,
+        [ProtoEnum]
+        Trusted,
+        [ProtoEnum]
+        Away,
+        [ProtoEnum]
+        Quit
     }
     public class ServerGamer
     {
@@ -38,7 +47,7 @@ namespace Sanguosha.Core.Network
 
         public Game Game { get; set; }
         public TcpClient TcpClient { get; set; }
-        public ConnectionStatus ConnectionStatus { get; set; }
+        public OnlineStatus OnlineStatus { get; set; }
 
         public RecordTakingOutputStream DataStream
         {
@@ -74,7 +83,7 @@ namespace Sanguosha.Core.Network
                     }
                     catch (IOException)
                     {
-                        ConnectionStatus = Network.ConnectionStatus.Disconnected;
+                        OnlineStatus = Network.OnlineStatus.Offline;
                         var handler = OnDisconnected;
                         if (handler != null)
                         {
@@ -140,7 +149,7 @@ namespace Sanguosha.Core.Network
             }
             catch (Exception)
             {
-                ConnectionStatus = Network.ConnectionStatus.Disconnected;
+                OnlineStatus = OnlineStatus.Offline;
                 var handler = OnDisconnected;
                 if (handler != null)
                 {
