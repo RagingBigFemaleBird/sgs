@@ -61,8 +61,25 @@ namespace Sanguosha.Core.Network
             Trace.TraceInformation("Server initialized with capacity {0}", capacity);
         }
 
+        public void SetOnlineStatus(int id, OnlineStatus status)
+        {
+            Trace.Assert(id >= 0);
+            if (id < 0) return;
+            if (game != null && game.Players.Count > id)
+            {
+                game.Players[id].OnlineStatus = status;
+            }
+            Gamers[id].OnlineStatus = status;
+            for (int i = 0; i < MaxClients; i++)
+            {
+                if (IsDisconnected(i)) continue;
+                SendPacket(i, new OnlineStatusUpdate() { PlayerId = id, OnlineStatus = status } );
+            }
+        }
+
         void Server_OnDisconnected(ServerGamer gamer)
         {
+            SetOnlineStatus(Gamers.IndexOf(gamer), OnlineStatus.Offline);
             if (!Gamers.Any(hdl => hdl.OnlineStatus != OnlineStatus.Offline ||
                                    hdl.OnlineStatus != OnlineStatus.Quit))
             {
@@ -117,7 +134,6 @@ namespace Sanguosha.Core.Network
         {
             Trace.TraceInformation("Client connected");
             var stream = client.GetStream();
-
             LoginToken? token = _ReadLoginToken(stream, 4000);            
             var timeOut = stream.ReadTimeout;
             if (token == null) return;
@@ -137,10 +153,10 @@ namespace Sanguosha.Core.Network
                 indexC = numberOfGamers;                
             }                                   
             ServerGamer gamer = Gamers[indexC];
-            gamer.AddStream(stream);
-            gamer.OnlineStatus = OnlineStatus.Online;
-            gamer.TcpClient = client;
             gamer.StartListening();
+            gamer.AddStream(stream);
+            gamer.TcpClient = client;
+            SetOnlineStatus(indexC, OnlineStatus.Online);                       
         }
 
         void ConnectionListener()

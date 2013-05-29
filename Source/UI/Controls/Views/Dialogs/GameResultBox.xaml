@@ -142,16 +142,16 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="{res:ResourceKeyBinding Path=Player.Role, StringFormat=Role.\{0\}.Icon}">
-                                    <Image.Effect>
+                                    <!--Image.Effect>
                                         <Sanguosha_UI_Effects:MonochromeEffect Strength="{Binding Path=Player.IsDead, Mode=OneWay, Converter={StaticResource boolToDoubleConverter}}" />
-                                    </Image.Effect>
+                                    </Image.Effect-->
                                 </Image>
                                 <TextBlock VerticalAlignment="Center" Text="{res:ResourceKeyBinding Path=Player.Hero.Name, StringFormat=Hero.{0}.Name}" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="昵称" Width="80" Binding="{Binding Player.UserName}"/>
+                <DataGridTextColumn Header="昵称" Width="80" Binding="{Binding UserName}"/>
                 <DataGridTextColumn Header="经验" Width="40" Binding="{Binding GainedExperience}"/>
                 <DataGridTextColumn Header="技巧度" Width="40" Binding="{Binding GainedTechPoints}"/>
                 <DataGridTemplateColumn Header="胜负" Width="80" SortMemberPath="Result">

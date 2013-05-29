@@ -587,6 +587,14 @@ namespace Sanguosha.Core.Games
             }
         }
 
+        public void UnregisterCurrentThread()
+        {
+            lock (games)
+            {
+                games.Remove(Thread.CurrentThread);
+            }
+        }
+
         List<Card> originalCardSet;
 
         /// <summary>

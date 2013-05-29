@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using Sanguosha.Lobby.Core;
 using Sanguosha.Core.Triggers;
 using Sanguosha.Core.Cards;
+using Sanguosha.Core.Network;
 
 namespace Sanguosha.Core.Players
 {   
@@ -364,6 +365,22 @@ namespace Sanguosha.Core.Players
                 s.AddRange(additionalSkills);
                 s.AddRange(additionalUndeletableSkills);
                 return new ReadOnlyCollection<ISkill>(s);
+            }
+        }
+
+        private OnlineStatus _onlineStatus;
+
+        public OnlineStatus OnlineStatus
+        {
+            get
+            {
+                return _onlineStatus;
+            }
+            set
+            {
+                if (_onlineStatus == value) return;
+                _onlineStatus = value;
+                OnPropertyChanged("OnlineStatus");
             }
         }
 

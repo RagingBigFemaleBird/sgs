@@ -213,6 +213,13 @@ namespace Sanguosha.Core.Network
                 DataStream.AddStream(newStream, false);
                 return;
             }
+            if (sendThread != null)
+            {
+                while (sendQueue.Count > 0)
+                {
+                    Thread.Sleep(10);
+                }
+            }
             lock (receiverLock)
             {
                 lock (senderLock)
@@ -222,11 +229,10 @@ namespace Sanguosha.Core.Network
                         var uiDetach = new UIStatusHint() { IsDetached = true };
                         var uiAttach = new UIStatusHint() { IsDetached = false };
                         Serializer.SerializeWithLengthPrefix<GameDataPacket>(newStream, uiDetach, PrefixStyle.Base128);
-                        DataStream.Flush();
+                        
                         DataStream.AddStream(newStream, true);
                         Serializer.SerializeWithLengthPrefix<GameDataPacket>(newStream, uiAttach, PrefixStyle.Base128);
-                        DataStream.Flush();
-
+                        newStream.Flush();
                     }
                     catch (Exception)
                     {

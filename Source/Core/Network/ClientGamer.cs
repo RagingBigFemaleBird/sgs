@@ -24,7 +24,7 @@ namespace Sanguosha.Core.Network
         Semaphore sema;
         Semaphore semPause;
 
-        public object Receive()
+        public GameDataPacket Receive()
         {
             var packet = Serializer.DeserializeWithLengthPrefix<GameDataPacket>(DataStream, PrefixStyle.Base128);
             return packet;

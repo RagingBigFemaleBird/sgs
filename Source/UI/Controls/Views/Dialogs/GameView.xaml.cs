@@ -1561,6 +1561,7 @@ namespace Sanguosha.UI.Controls
                 {
                     var m = new GameResultViewModel();
                     m.Player = player;
+                    m.UserName = playersMap[player].PlayerModel.Account.UserName;
                     if (winners.Contains(player))
                     {
                         m.Result = GameResult.Win;

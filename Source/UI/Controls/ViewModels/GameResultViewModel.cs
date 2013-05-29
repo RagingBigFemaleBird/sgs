@@ -18,6 +18,7 @@ namespace Sanguosha.UI.Controls
     public class GameResultViewModel : ViewModelBase
     {
         public Player Player { get; set; }
+        public string UserName { get; set; }
         public string GainedExperience { get; set; }
         public string GainedTechPoints { get; set; }
         public GameResult Result { get; set; }

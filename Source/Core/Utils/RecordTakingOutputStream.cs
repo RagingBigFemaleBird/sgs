@@ -17,15 +17,15 @@ namespace Sanguosha.Core.Utils
 
         public void AddStream(Stream s, bool writeExisingData)
         {
-            lock (OutputStreams)
-            {                
-                if (writeExisingData)
+            if (writeExisingData)
+            {
+                foreach (var chunk in internalBuffer)
                 {
-                    foreach (var chunk in internalBuffer)
-                    {
-                        s.Write(chunk, 0, chunk.Length);
-                    }
+                    s.Write(chunk, 0, chunk.Length);
                 }
+            }
+            lock (OutputStreams)
+            {
                 OutputStreams.Add(s);
             }
         }

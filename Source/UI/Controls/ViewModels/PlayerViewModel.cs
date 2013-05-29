@@ -19,6 +19,7 @@ using System.Threading;
 using Sanguosha.Core.UI;
 using System.Diagnostics;
 using Sanguosha.Lobby.Core;
+using Sanguosha.Core.Network;
 
 namespace Sanguosha.UI.Controls
 {
@@ -438,6 +439,21 @@ namespace Sanguosha.UI.Controls
                 else
                 {
                     return _player.Allegiance;
+                }
+            }
+        }
+
+        public OnlineStatus OnlineStatus
+        {
+            get
+            {
+                if (_player == null)
+                {
+                    return OnlineStatus.Offline;
+                }
+                else
+                {
+                    return _player.OnlineStatus;
                 }
             }
         }

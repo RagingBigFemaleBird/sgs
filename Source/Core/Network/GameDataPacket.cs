@@ -474,7 +474,7 @@ namespace Sanguosha.Core.Network
     public class OnlineStatusUpdate : GameUpdate
     {
         [ProtoMember(1)]
-        public PlayerItem PlayerItem { get; set; }
+        public int PlayerId { get; set; }
         [ProtoMember(2)]
         public OnlineStatus OnlineStatus { get; set; }
     }

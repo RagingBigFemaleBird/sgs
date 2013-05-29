@@ -103,31 +103,50 @@ namespace Sanguosha.Core.Network
 
         public object Receive()
         {
-            var pkt = networkService.Receive();
-            if (pkt is StatusSync)
-                return ((StatusSync)pkt).Status;
-            if (pkt is CardSync)
-                return ((CardSync)pkt).Item.ToCard(SelfId);
-            if (pkt is CardRearrangementNotification)
+            while (true)
             {
-                Game.CurrentGame.NotificationProxy.NotifyCardChoiceCallback((pkt as CardRearrangementNotification).CardRearrangement);
-                return Receive();
+                var pkt = networkService.Receive();
+                if (pkt is StatusSync)
+                {
+                    return ((StatusSync)pkt).Status;
+                }
+                else if (pkt is CardSync)
+                {
+                    return ((CardSync)pkt).Item.ToCard(SelfId);
+                }
+                else if (pkt is CardRearrangementNotification)
+                {
+                    Game.CurrentGame.NotificationProxy.NotifyCardChoiceCallback((pkt as CardRearrangementNotification).CardRearrangement);
+                    continue;
+                }
+                else if (pkt is SeedSync)
+                {
+                    continue;
+                }
+                else if (pkt is UIStatusHint)
+                {
+                    Game.CurrentGame.IsUiDetached = (pkt as UIStatusHint).IsDetached;
+                    continue;
+                }
+                else if (pkt is MultiCardUsageResponded)
+                {
+                    Game.CurrentGame.NotificationProxy.NotifyMultipleCardUsageResponded((pkt as MultiCardUsageResponded).PlayerItem.ToPlayer());
+                    continue;
+                }
+                else if (pkt is OnlineStatusUpdate)
+                {
+                    var osu = pkt as OnlineStatusUpdate;
+                    if (Game.CurrentGame.Players.Count > osu.PlayerId)
+                    {
+                        Game.CurrentGame.Players[osu.PlayerId].OnlineStatus = osu.OnlineStatus;
+                    }
+                    continue;
+                }
+                else
+                {
+                    return pkt;
+                }
             }
-            if (pkt is SeedSync)
-            {
-                return Receive();
-            }
-            if (pkt is UIStatusHint)
-            {
-                Game.CurrentGame.IsUiDetached = (pkt as UIStatusHint).IsDetached;
-                return Receive();
-            }
-            if (pkt is MultiCardUsageResponded)
-            {
-                Game.CurrentGame.NotificationProxy.NotifyMultipleCardUsageResponded((pkt as MultiCardUsageResponded).PlayerItem.ToPlayer());
-                return Receive();
-            }
-            return pkt;
         }
 
         public void Stop()
