@@ -10,6 +10,7 @@ using System.Net.Sockets;
 using Sanguosha.Core.Games;
 using System.Diagnostics;
 using Sanguosha.Core.Utils;
+using System.Collections.Concurrent;
 
 namespace Sanguosha.Core.Network
 {
@@ -35,15 +36,20 @@ namespace Sanguosha.Core.Network
         public ServerGamer()
         {
             semaPakArrival = new Semaphore(0, Int32.MaxValue);
+            semaPakToSend = new Semaphore(0, Int32.MaxValue);
             receiverLock = new object();
             senderLock = new object();
             DataStream = new RecordTakingOutputStream();
+            sendQueue = new BlockingCollection<GameDataPacket>();
         }
         
-        Thread listener;
+        Thread receiveThread;
+        Thread sendThread;
         Semaphore semaPakArrival;
+        Semaphore semaPakToSend;
         object receiverLock;
         object senderLock;
+        BlockingCollection<GameDataPacket> sendQueue;
 
         public Game Game { get; set; }
         public TcpClient TcpClient { get; set; }
@@ -57,16 +63,23 @@ namespace Sanguosha.Core.Network
 
         public void StartListening()
         {
-            if (listener != null) return;
-            listener = new Thread(ReceiveLoop) { IsBackground = true };
-            listener.Start();
+            if (receiveThread == null)
+            {
+                receiveThread = new Thread(ReceiveLoop) { IsBackground = true };
+                receiveThread.Start();
+            }
+            if (sendThread == null)
+            {
+                sendThread = new Thread(SendLoop) { IsBackground = true };
+                sendThread.Start();
+            }
         }
 
         public void StopListening()
         {
-            if (listener == null) return;
-            listener.Abort();
-            listener = null;
+            if (receiveThread == null) return;
+            receiveThread.Abort();
+            receiveThread = null;
         }
 
         public GameDataPacket Receive()
@@ -133,7 +146,17 @@ namespace Sanguosha.Core.Network
                     break;
                 }
             }
-            listener = null;
+            receiveThread = null;
+        }
+
+        private void SendLoop()
+        {
+            GameDataPacket packet;
+            while (true)
+            {
+                packet = sendQueue.Take();
+                Send(packet);   
+            }
         }
 
         public event GamerDisconnectedHandler OnDisconnected;
@@ -160,6 +183,11 @@ namespace Sanguosha.Core.Network
                     catch (Exception) { }
                 }
             }
+        }
+        
+        public void SendAsync(GameDataPacket packet)
+        {
+            sendQueue.Add(packet);
         }
 
         public void ReceiveAsync()

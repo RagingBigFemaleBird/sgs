@@ -43,7 +43,7 @@ namespace Sanguosha.Core.Network
         {
             for (int i = 0; i < server.MaxClients; i++)
             {
-                server.SendObject(i, new MultiCardUsageResponded() { PlayerItem = PlayerItem.Parse(player) });
+                server.SendPacket(i, new MultiCardUsageResponded() { PlayerItem = PlayerItem.Parse(player) });
             }
         }
 
@@ -162,7 +162,7 @@ namespace Sanguosha.Core.Network
                         }
                     }
                 }
-                server.Gamers[i].Send(AskForCardUsageResponse.Parse(proxy.QuestionId, skill, cards, players, i));
+                server.SendPacket(i, AskForCardUsageResponse.Parse(proxy.QuestionId, skill, cards, players, i));
             }
 
         }
@@ -294,7 +294,7 @@ namespace Sanguosha.Core.Network
                         j++;
                     }
                 }
-                server.Gamers[i].Send(AskForCardChoiceResponse.Parse(proxy.QuestionId, answer, options == null? 0 : options.OptionResult, i));
+                server.SendPacket(i, AskForCardChoiceResponse.Parse(proxy.QuestionId, answer, options == null? 0 : options.OptionResult, i));
             }
         }
         public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, AdditionalCardChoiceOptions options, CardChoiceRearrangeCallback callback)
@@ -343,7 +343,7 @@ namespace Sanguosha.Core.Network
         {
             for (int i = 0; i < server.MaxClients; i++)
             {
-                server.Gamers[i].Send(new AskForMultipleChoiceResponse() { ChoiceIndex = answer, Id = proxy.QuestionId });
+                server.SendPacket(i, new AskForMultipleChoiceResponse() { ChoiceIndex = answer, Id = proxy.QuestionId });
             }
         }
 

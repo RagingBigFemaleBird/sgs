@@ -117,7 +117,7 @@ namespace Sanguosha.Core.Network
                 {
                     for (int i = 0; i < Game.CurrentGame.GameServer.MaxClients; i++)
                     {
-                        if (i != PlayerId) Game.CurrentGame.GameServer.SendObject(i, packet);
+                        if (i != PlayerId) Game.CurrentGame.GameServer.SendPacket(i, packet);
                     }
                 }
                 else if (packet is HandCardMovementNotification)

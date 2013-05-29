@@ -55,9 +55,19 @@ namespace Sanguosha.Core.Network
                 Gamers.Add(new ServerGamer());
                 Gamers[i].Game = game;                
                 Gamers[i].OnlineStatus = OnlineStatus.Offline;
+                Gamers[i].OnDisconnected += Server_OnDisconnected;
             }            
             this.game = game;
             Trace.TraceInformation("Server initialized with capacity {0}", capacity);
+        }
+
+        void Server_OnDisconnected(ServerGamer gamer)
+        {
+            if (!Gamers.Any(hdl => hdl.OnlineStatus != OnlineStatus.Offline ||
+                                   hdl.OnlineStatus != OnlineStatus.Quit))
+            {
+                throw new GameOverException();
+            };
         }
 
         public bool IsDisconnected(int id)
@@ -160,14 +170,9 @@ namespace Sanguosha.Core.Network
             }
         }
 
-        public void SendObject(int clientId, GameDataPacket o)
-        {
-            if (!Gamers.Any(hdl => hdl.OnlineStatus != OnlineStatus.Offline ||
-                                   hdl.OnlineStatus != OnlineStatus.Quit))
-            {
-                throw new GameOverException();
-            }
-            Gamers[clientId].Send(o);
+        public void SendPacket(int clientId, GameDataPacket packet)
+        {            
+            Gamers[clientId].SendAsync(packet);
         }
 
         IPAddress ipAddress;

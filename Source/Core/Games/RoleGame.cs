@@ -803,9 +803,9 @@ namespace Sanguosha.Core.Games
                             {
                                 foreach (Player player in game.Players)
                                 {
-                                    game.GameServer.SendObject(player.Id, new StatusSync() { Status = idx });
+                                    game.GameServer.SendPacket(player.Id, new StatusSync() { Status = idx });
                                 }
-                                game.GameServer.SendObject(game.Players.Count, new StatusSync() { Status = idx });
+                                game.GameServer.SendPacket(game.Players.Count, new StatusSync() { Status = idx });
                             }
                         }
                         // you are client
