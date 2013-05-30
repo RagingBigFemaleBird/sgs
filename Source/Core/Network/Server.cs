@@ -69,15 +69,11 @@ namespace Sanguosha.Core.Network
             {
                 game.Players[id].OnlineStatus = status;
             }
-            Gamers[id].OnlineStatus = status;
-            /*
-             * @todo : Fix this.
+            Gamers[id].OnlineStatus = status;            
             for (int i = 0; i < MaxClients; i++)
-            {
-                if (IsDisconnected(i)) continue;
+            {                
                 Gamers[i].SendAsync(new OnlineStatusUpdate() { PlayerId = id, OnlineStatus = status } );
-            }
-             */
+            }             
         }
 
         bool killServer;
@@ -135,6 +131,7 @@ namespace Sanguosha.Core.Network
 
         private void _ConnectClient(TcpClient client)
         {
+            if (killServer) return;
             Trace.TraceInformation("Client connected");
             var stream = client.GetStream();
             LoginToken? token = _ReadLoginToken(stream, 4000);            
