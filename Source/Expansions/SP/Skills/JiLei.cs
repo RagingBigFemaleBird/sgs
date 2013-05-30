@@ -107,7 +107,7 @@ namespace Sanguosha.Expansions.SP.Skills
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerCanUseCard, theTrigger);
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerCanPlayCard, theTrigger);
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PlayerCanDiscardCard, theTrigger);
-                Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], this);
+                Game.CurrentGame.UnregisterTrigger(GameEvent.PhasePostEnd, this);
                 eventArgs.Source[JiLeiInEffect] = 0;
             }
 

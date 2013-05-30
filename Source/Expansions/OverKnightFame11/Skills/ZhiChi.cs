@@ -41,16 +41,16 @@ namespace Sanguosha.Expansions.OverKnightFame11.Skills
             {
                 if (eventArgs.Source != Owner)
                     return;
-                skillOwenr[ZhiChiStatus] = 0;
+                skillOwner[ZhiChiStatus] = 0;
                 Game.CurrentGame.UnregisterTrigger(GameEvent.CardUsageTargetValidating, protectTrigger);
                 Game.CurrentGame.UnregisterTrigger(GameEvent.PhasePostEnd, this);
             }
 
-            Player skillOwenr;
+            Player skillOwner;
             private Trigger protectTrigger;
-            public ZhiChiRemoval(Player triggerOwner, Player skillOwenr, Trigger trigger)
+            public ZhiChiRemoval(Player triggerOwner, Player skillOwner, Trigger trigger)
             {
-                this.skillOwenr = skillOwenr;
+                this.skillOwner = skillOwner;
                 Owner = triggerOwner;
                 protectTrigger = trigger;
             }
