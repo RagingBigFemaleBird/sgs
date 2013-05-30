@@ -34,7 +34,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 (p, e, a) => { return p[Naked] == 1 && a.ReadonlyCard != null && (a.ReadonlyCard.Type is Sha || a.ReadonlyCard.Type is JueDou); },
                 (p, e, a) => { (a as DamageEventArgs).Magnitude++; },
                 TriggerCondition.OwnerIsSource
-            ) { AskForConfirmation = false };
+            ) { AskForConfirmation = false, IsAutoNotify = false };
             Triggers.Add(GameEvent.PhaseProceedEvents[TurnPhase.Draw], trigger);
             Triggers.Add(GameEvent.DamageElementConfirmed, trigger2);
             IsAutoInvoked = false;

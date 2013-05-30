@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ProtoBuf;
 using System.Net.Sockets;
+using System.Diagnostics;
 
 namespace Sanguosha.Core.Network
 {
@@ -27,6 +28,7 @@ namespace Sanguosha.Core.Network
         public GameDataPacket Receive()
         {
             var packet = Serializer.DeserializeWithLengthPrefix<GameDataPacket>(DataStream, PrefixStyle.Base128);
+            Trace.TraceInformation("Packet type {0} received", packet.GetType().Name);
             return packet;
         }
 

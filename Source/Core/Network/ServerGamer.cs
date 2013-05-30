@@ -55,6 +55,14 @@ namespace Sanguosha.Core.Network
         public TcpClient TcpClient { get; set; }
         public OnlineStatus OnlineStatus { get; set; }
 
+        public bool IsConnected
+        {
+            get
+            {
+                return OnlineStatus != OnlineStatus.Offline && OnlineStatus != OnlineStatus.Quit;
+            }
+        }
+
         public RecordTakingOutputStream DataStream
         {
             get;
@@ -77,9 +85,21 @@ namespace Sanguosha.Core.Network
 
         public void StopListening()
         {
-            if (receiveThread == null) return;
-            receiveThread.Abort();
-            receiveThread = null;
+            if (receiveThread != null)
+            {
+                receiveThread.Abort();
+                receiveThread = null;
+            }
+            if (sendThread != null)
+            {
+                // We need to acquire sender lock to ensure that all packets
+                // are properly written to cache for reconnection.
+                lock (senderLock)
+                {
+                    sendThread.Abort();
+                    sendThread = null;
+                }
+            }
         }
 
         public GameDataPacket Receive()
@@ -160,27 +180,31 @@ namespace Sanguosha.Core.Network
         }
 
         public event GamerDisconnectedHandler OnDisconnected;
-        public void Send(GameDataPacket packet)
+        public void Send(GameDataPacket packet, bool doRecord = true)
         {
             try
             {
                 lock (senderLock)
                 {
+                    DataStream.IsRecordEnabled = doRecord;
                     Serializer.SerializeWithLengthPrefix<GameDataPacket>(DataStream, packet, PrefixStyle.Base128);
                     DataStream.Flush();
                 }
             }
             catch (Exception)
             {
-                OnlineStatus = OnlineStatus.Offline;
-                var handler = OnDisconnected;
-                if (handler != null)
+                if (!IsSpectator)
                 {
-                    try
+                    OnlineStatus = OnlineStatus.Offline;
+                    var handler = OnDisconnected;
+                    if (handler != null)
                     {
-                        OnDisconnected(this);
+                        try
+                        {
+                            OnDisconnected(this);
+                        }
+                        catch (Exception) { }
                     }
-                    catch (Exception) { }
                 }
             }
         }
@@ -204,13 +228,19 @@ namespace Sanguosha.Core.Network
                 DataStream.Flush();
             }
         }
-        
+
+        public bool IsSpectator
+        {
+            get;
+            set;
+        }
+
         public void AddStream(Stream newStream)
         {
             if (DataStream == null)
             {
                 DataStream = new RecordTakingOutputStream();
-                DataStream.AddStream(newStream, false);
+                DataStream.AddStream(newStream, true);
                 return;
             }
             if (sendThread != null)
@@ -228,8 +258,7 @@ namespace Sanguosha.Core.Network
                     {
                         var uiDetach = new UIStatusHint() { IsDetached = true };
                         var uiAttach = new UIStatusHint() { IsDetached = false };
-                        Serializer.SerializeWithLengthPrefix<GameDataPacket>(newStream, uiDetach, PrefixStyle.Base128);
-                        
+                        Serializer.SerializeWithLengthPrefix<GameDataPacket>(newStream, uiDetach, PrefixStyle.Base128);                        
                         DataStream.AddStream(newStream, true);
                         Serializer.SerializeWithLengthPrefix<GameDataPacket>(newStream, uiAttach, PrefixStyle.Base128);
                         newStream.Flush();

@@ -121,7 +121,7 @@ namespace Sanguosha.Core.Network
                 }
                 else if (pkt is SeedSync)
                 {
-                    continue;
+                    return pkt;
                 }
                 else if (pkt is UIStatusHint)
                 {

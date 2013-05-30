@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace Sanguosha.Core.Utils
 {
@@ -17,16 +18,21 @@ namespace Sanguosha.Core.Utils
 
         public void AddStream(Stream s, bool writeExisingData)
         {
-            if (writeExisingData)
-            {
-                foreach (var chunk in internalBuffer)
-                {
-                    s.Write(chunk, 0, chunk.Length);
-                }
-            }
             lock (OutputStreams)
             {
+                if (writeExisingData)
+                {
+                    lock (internalBuffer)
+                    {
+                        foreach (var chunk in internalBuffer)
+                        {
+                            Trace.TraceInformation("AddStream() : Writing chunk for {0}", RuntimeHelpers.GetHashCode(this));
+                            s.Write(chunk, 0, chunk.Length);
+                        }
+                    }
+                }
                 OutputStreams.Add(s);
+                Trace.TraceInformation("AddStream() : Add stream for {0}", RuntimeHelpers.GetHashCode(this));
             }
         }
 
@@ -63,6 +69,7 @@ namespace Sanguosha.Core.Utils
         {
             if (OutputStreams.Count == 0) return 0;
             int bytesRead = OutputStreams[0].Read(buffer, offset, count);
+            Trace.TraceInformation("Read() : {0} bytes read for {1}", count, RuntimeHelpers.GetHashCode(this));
             return bytesRead;
         }
 
@@ -78,37 +85,43 @@ namespace Sanguosha.Core.Utils
 
         public override void Write(byte[] buffer, int offset, int count)
         {
+            if (count > 0 && IsRecordEnabled)
+            {
+                byte[] add = new byte[count];
+                Buffer.BlockCopy(buffer, offset, add, 0, count);
+                lock (internalBuffer)
+                {
+                    Trace.TraceInformation("Write() : add chunk for {0}", RuntimeHelpers.GetHashCode(this));
+                    internalBuffer.Add(add);
+                }
+            }
+            IOException ex = null;
+            List<Stream> streamsBroken = new List<Stream>();
             lock (OutputStreams)
             {
-                if (count > 0)
-                {
-                    try
-                    {
-                        byte[] add = new byte[count];
-                        Buffer.BlockCopy(buffer, offset, add, 0, count);
-                        internalBuffer.Add(add);
-                    }
-                    catch (Exception)
-                    {
-                    }
-                }
-
-                List<Stream> streamsBroken = new List<Stream>();
                 foreach (var stream in OutputStreams)
                 {
                     try
                     {
+                        Trace.TraceInformation("Write() : write data for {0}", RuntimeHelpers.GetHashCode(this));
                         stream.Write(buffer, offset, count);
                     }
-                    catch (IOException)
+                    catch (IOException e)
                     {
+                        ex = e;
                         streamsBroken.Add(stream);
                     }
                 }
                 foreach (var stream in streamsBroken)
                 {
                     OutputStreams.Remove(stream);
-                }
+                    Trace.TraceInformation("AddStream() : Remove stream for {0}", RuntimeHelpers.GetHashCode(this));
+                }                
+            }
+            if (ex != null)
+            {
+                Trace.TraceInformation("AddStream() : IOException, disconnected.");
+                throw ex;
             }
         }
         
@@ -130,5 +143,7 @@ namespace Sanguosha.Core.Utils
                 throw new NotImplementedException();
             }
         }
+
+        public bool IsRecordEnabled { get; set; }
     }
 }

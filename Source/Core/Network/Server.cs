@@ -70,42 +70,45 @@ namespace Sanguosha.Core.Network
                 game.Players[id].OnlineStatus = status;
             }
             Gamers[id].OnlineStatus = status;
+            /*
+             * @todo : Fix this.
             for (int i = 0; i < MaxClients; i++)
             {
                 if (IsDisconnected(i)) continue;
-                SendPacket(i, new OnlineStatusUpdate() { PlayerId = id, OnlineStatus = status } );
+                Gamers[i].SendAsync(new OnlineStatusUpdate() { PlayerId = id, OnlineStatus = status } );
             }
+             */
         }
+
+        bool killServer;
 
         void Server_OnDisconnected(ServerGamer gamer)
         {
             SetOnlineStatus(Gamers.IndexOf(gamer), OnlineStatus.Offline);
-            if (!Gamers.Any(hdl => hdl.OnlineStatus != OnlineStatus.Offline ||
-                                   hdl.OnlineStatus != OnlineStatus.Quit))
+            if (!Gamers.Any(hdl => !hdl.IsSpectator && hdl.IsConnected))
             {
-                throw new GameOverException();
-            };
+                killServer = true;
+            }
         }
 
         public bool IsDisconnected(int id)
         {
-            var status = Gamers[id].OnlineStatus;
-            return status == OnlineStatus.Offline || status == OnlineStatus.Quit;
+            return !Gamers[id].IsConnected;
         }
 
         /// <summary>
         /// Ready the server. Block if require more clients to connect.
         /// </summary>
         public void Start()
-        {
+        { 
             Trace.TraceInformation("Listener Started on {0} : {1}", ipAddress.ToString(), IpPort);
             connectThread = new Thread(ConnectionListener) { IsBackground = true };
-            connectThread.Start();
+            connectThread.Start();            
             for (int i = 0; i < 50; i++)
             {
                 if (!Gamers.Any(g => g.OnlineStatus == OnlineStatus.Offline)) break;
                 Thread.Sleep(100);
-            }
+            }            
         }
 
         Thread connectThread;
@@ -141,21 +144,32 @@ namespace Sanguosha.Core.Network
             Account theAccount = game.Settings.Accounts.FirstOrDefault
                 (a => a.LoginToken.TokenString == token.Value.TokenString);
             int indexC;
-            // bool spectatorJoining;
+            
             if (theAccount != null)
             {
-                // spectatorJoining = false;
                 indexC = game.Settings.Accounts.IndexOf(theAccount);
             }
             else
             {
-                // spectatorJoining = true;
                 indexC = numberOfGamers;                
-            }                                   
-            ServerGamer gamer = Gamers[indexC];
-            gamer.StartListening();
+            }
+            try
+            {
+                var packet = new ConnectionResponse() { SelfId = indexC, Settings = game.Settings };
+                Serializer.SerializeWithLengthPrefix<GameDataPacket>(stream, packet, PrefixStyle.Base128);
+                stream.Flush();
+            }
+            catch (IOException)
+            {
+                try { stream.Close(); }
+                catch (Exception) { }
+                return;
+            }
+            ServerGamer gamer = Gamers[indexC];         
             gamer.AddStream(stream);
             gamer.TcpClient = client;
+            gamer.IsSpectator = (indexC == numberOfGamers);
+            gamer.StartListening();
             SetOnlineStatus(indexC, OnlineStatus.Online);                       
         }
 
@@ -187,7 +201,11 @@ namespace Sanguosha.Core.Network
         }
 
         public void SendPacket(int clientId, GameDataPacket packet)
-        {            
+        {
+            if (killServer && Thread.CurrentThread == game.MainThread)
+            {
+                throw new GameOverException();
+            }
             Gamers[clientId].SendAsync(packet);
         }
 
@@ -210,6 +228,10 @@ namespace Sanguosha.Core.Network
         public void Stop()
         {
             listener.Stop();
+            foreach (var gamer in Gamers)
+            {
+                gamer.StopListening();
+            }
             connectThread.Abort();
         }
 

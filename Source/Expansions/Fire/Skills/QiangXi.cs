@@ -73,7 +73,7 @@ namespace Sanguosha.Expansions.Fire.Skills
 
         protected override bool VerifyPlayer(Player source, Player player)
         {
-            return source != player;
+            return true;
         }
 
     }

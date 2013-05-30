@@ -505,9 +505,7 @@ namespace Sanguosha.Lobby.Server
                                 seat.Account = null;
                                 seat.State = SeatState.Empty;
                             }
-
                         }
-
                     }
 
                     if (_DestroyRoomIfEmpty(room))

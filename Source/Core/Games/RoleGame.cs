@@ -1044,36 +1044,6 @@ namespace Sanguosha.Core.Games
                 }
             }
 
-            private void TallyGameResult(List<Player> winners)
-            {
-                if (Game.CurrentGame.GameServer == null) return;
-                foreach (Player p in Game.CurrentGame.Players)
-                {
-                    int idx = Game.CurrentGame.Players.IndexOf(p);
-                    var account = Game.CurrentGame.Settings.Accounts[idx];
-                    account.TotalGames++;
-                    if (Game.CurrentGame.GameServer.IsDisconnected(idx))
-                    {                        
-                        if (!(account.IsDead))
-                        {
-                            account.Quits++;
-                            continue;
-                        }
-                    }
-                    if (winners.Contains(p))
-                    {
-                        account.Wins++;
-                        account.Experience += 5;
-                        if (p.Role == Role.Defector && Game.CurrentGame.Players.Count > 3) Game.CurrentGame.Settings.Accounts[idx].Experience += 50;
-                    }
-                    else
-                    {
-                        account.Losses++;
-                        account.Experience -= 1;
-                    }
-                }
-            }
-
             private void ReleaseIntoLobby(Player p)
             {
                 if (Game.CurrentGame.GameServer == null) return;
@@ -1101,7 +1071,7 @@ namespace Sanguosha.Core.Games
                 Game.CurrentGame.SyncImmutableCardAll(Game.CurrentGame.Decks[p, role][0]);
                 Trace.TraceInformation("Player {0} is {1}", p.Id, (Game.CurrentGame.Decks[p, role][0].Type as RoleCardHandler).Role);
                 p.Role = (Game.CurrentGame.Decks[p, role][0].Type as RoleCardHandler).Role;
-                Game.CurrentGame.NotificationProxy.NotifyDeath(p, source);
+                Game.CurrentGame.NotificationProxy.NotifyDeath(p, source);                
 
                 if (p.Role == Role.Ruler)
                 {
@@ -1114,29 +1084,21 @@ namespace Sanguosha.Core.Games
                             deadRebel++;
                         }
                     }
+                    Role winRole;
                     if (Game.CurrentGame.AlivePlayers.Count == 2 && deadRebel == (Game.CurrentGame as RoleGame).NumberOfRebels)
                     {
-                        RevealAllPlayersRoles();
-                        var winners = from pl in Game.CurrentGame.Players where pl.Role == Role.Defector select pl;
-                        Game.CurrentGame.NotificationProxy.NotifyGameOver(false, winners.ToList());
-                        TallyGameResult(new List<Player>(winners));
+                        winRole = Role.Defector;
                     }
                     else
                     {
-                        RevealAllPlayersRoles();
-                        var winners = from pl in Game.CurrentGame.Players where pl.Role == Role.Rebel select pl;
-                        Game.CurrentGame.NotificationProxy.NotifyGameOver(false, winners.ToList());
-                        TallyGameResult(new List<Player>(winners));
+                        winRole = Role.Rebel;
                     }
-                    p.IsDead = true;
-                    int seed = Game.CurrentGame.Seed;
-                    Game.CurrentGame.SyncSeed(ref seed);
-                    throw new GameOverException();
-                }
-
-                ReleaseIntoLobby(p);
-
-                if (p.Role == Role.Rebel || p.Role == Role.Defector)
+                    RevealAllPlayersRoles();
+                    var winners = from pl in Game.CurrentGame.Players where pl.Role == winRole select pl;
+                    p.IsDead = true;                    
+                    throw new GameOverException(false, winners);
+                } 
+                else
                 {
                     int deadRebel = 0;
                     int deadDefector = 0;
@@ -1157,15 +1119,12 @@ namespace Sanguosha.Core.Games
                         Trace.TraceInformation("Ruler wins.");
                         RevealAllPlayersRoles();
                         var winners = from pl in Game.CurrentGame.Players where pl.Role == Role.Ruler || pl.Role == Role.Loyalist select pl;
-                        Game.CurrentGame.NotificationProxy.NotifyGameOver(false, winners.ToList());
-                        TallyGameResult(new List<Player>(winners));
                         p.IsDead = true;
-                        int seed = Game.CurrentGame.Seed;
-                        Game.CurrentGame.SyncSeed(ref seed);
-                        throw new GameOverException();
+                        throw new GameOverException(false, winners);
                     }
                 }
 
+                ReleaseIntoLobby(p);
                 Game.CurrentGame.Emit(GameEvent.PlayerIsDead, eventArgs);
                 p.IsDead = true;
                 //弃置死亡玩家所有的牌和标记

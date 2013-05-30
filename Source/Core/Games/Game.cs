@@ -22,7 +22,24 @@ using Sanguosha.Core.Heroes;
 namespace Sanguosha.Core.Games
 {
 
-    public class GameOverException : SgsException { }
+    public class GameOverException : SgsException 
+    {
+        public bool IsDraw { get; set; }
+        public List<Player> Winners { get; private set; }
+        public GameOverException() : this(true) 
+        {
+        }
+        public GameOverException(bool isDraw)
+        {
+            IsDraw = isDraw;
+            Winners = new List<Player>();
+        }
+        public GameOverException(bool isDraw, IEnumerable<Player> winners)
+        {
+            IsDraw = isDraw;
+            Winners = new List<Player>(winners);
+        }
+    }
 
     public class CardsMovement
     {
@@ -186,10 +203,10 @@ namespace Sanguosha.Core.Games
             if (GameClient != null)
             {
                 bool confirmed = true;
-                Game.CurrentGame.SyncConfirmationStatus(ref confirmed);
+                SyncConfirmationStatus(ref confirmed);
                 if (confirmed)
                 {
-                    int id = player != null ? player.Id : Game.CurrentGame.Players.Count;
+                    int id = player != null ? player.Id : Players.Count;
                     if (id != GameClient.SelfId)
                     {
                         return;
@@ -204,7 +221,7 @@ namespace Sanguosha.Core.Games
                 {
                     status = false;
                 }
-                Game.CurrentGame.SyncConfirmationStatus(ref status);
+                SyncConfirmationStatus(ref status);
                 if (status)
                 {
                     card.RevealOnce = true;
@@ -241,7 +258,7 @@ namespace Sanguosha.Core.Games
                 }
                 if (GameClient != null)
                 {
-                    int id = player != null ? player.Id : Game.CurrentGame.Players.Count;
+                    int id = player != null ? player.Id : Players.Count;
                     if (id != GameClient.SelfId)
                     {
                         return;
@@ -293,7 +310,7 @@ namespace Sanguosha.Core.Games
                 }
                 if (GameClient != null)
                 {
-                    int id = player != null ? player.Id : Game.CurrentGame.Players.Count;
+                    int id = player != null ? player.Id : Players.Count;
                     if (id != GameClient.SelfId)
                     {
                         return;
@@ -357,7 +374,16 @@ namespace Sanguosha.Core.Games
             {
                 for (int i = 0; i < GameServer.MaxClients; i++)
                 {
-                    GameServer.SendPacket(i, new SeedSync(value));
+                    if (GameServer.Gamers[i].IsConnected)
+                    {
+                        try
+                        {
+                            GameServer.SendPacket(i, new SeedSync(value));
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
                 }
             }
             else if (GameClient != null)
@@ -385,9 +411,13 @@ namespace Sanguosha.Core.Games
 
         Thread mainThread;
 
+        public Thread MainThread
+        {
+            get { return mainThread; }
+        }
+
         public virtual void Run()
         {            
-
             mainThread = Thread.CurrentThread;
             if (!games.ContainsKey(Thread.CurrentThread))
             {
@@ -411,11 +441,6 @@ namespace Sanguosha.Core.Games
                 {
                     Trace.Assert(false);
                     return;
-                }
-                Trace.Assert(Settings != null);
-                for (int i = 0; i < GameServer.MaxClients; i++)
-                {
-                    GameServer.SendPacket(i, new ConnectionResponse() { SelfId = i, Settings = Settings });
                 }
             }
 
@@ -489,8 +514,9 @@ namespace Sanguosha.Core.Games
             {
                 Emit(GameEvent.GameStart, new GameEventArgs());
             }
-            catch (GameOverException)
+            catch (GameOverException e)
             {
+                HandleGameOver(e.IsDraw, e.Winners);
                 lock (games)
                 {
                     var keys = new List<Thread>(from t in games.Keys where games[t] == this select t);
@@ -543,6 +569,44 @@ namespace Sanguosha.Core.Games
                 GameClient.Stop();
             }
             Trace.TraceInformation("Game exited normally");
+        }
+
+        private void TallyGameResult(List<Player> winners)
+        {
+            if (GameServer == null) return;
+            foreach (Player p in Players)
+            {
+                int idx = Players.IndexOf(p);
+                var account = Settings.Accounts[idx];
+                account.TotalGames++;
+                if (GameServer.IsDisconnected(idx))
+                {
+                    if (!(account.IsDead))
+                    {
+                        account.Quits++;
+                        continue;
+                    }
+                }
+                if (winners.Contains(p))
+                {
+                    account.Wins++;
+                    account.Experience += 5;
+                    if (p.Role == Role.Defector && Players.Count > 3) Settings.Accounts[idx].Experience += 50;
+                }
+                else
+                {
+                    account.Losses++;
+                    account.Experience -= 1;
+                }
+            }
+        }
+
+        protected virtual void HandleGameOver(bool isDraw, List<Player> winners)
+        {
+            int seed = Seed;
+            TallyGameResult(new List<Player>(winners));
+            SyncSeed(ref seed);
+            NotificationProxy.NotifyGameOver(false, winners.ToList());
         }
 
         /// <summary>
@@ -845,7 +909,7 @@ namespace Sanguosha.Core.Games
             get
             {
                 var ret =
-                (from p in Game.CurrentGame.AlivePlayers select p.Allegiance).Distinct().Count();
+                (from p in AlivePlayers select p.Allegiance).Distinct().Count();
                 return ret;
             }
         }
@@ -1277,7 +1341,7 @@ namespace Sanguosha.Core.Games
             args.Source = from;
             args.Targets = new List<Player>() { to };
             args.AdjustmentAmount = 0;
-            Game.CurrentGame.Emit(GameEvent.PlayerDistanceAdjustment, args);
+            Emit(GameEvent.PlayerDistanceAdjustment, args);
             distLeft += args.AdjustmentAmount;
             distRight += args.AdjustmentAmount;
 
@@ -1293,7 +1357,7 @@ namespace Sanguosha.Core.Games
             args.Source = from;
             args.Targets = new List<Player>() { to };
             args.AdjustmentAmount = ret;
-            Game.CurrentGame.Emit(GameEvent.PlayerDistanceOverride, args);
+            Emit(GameEvent.PlayerDistanceOverride, args);
             ret = args.AdjustmentAmount;
 
             return ret;
@@ -1331,14 +1395,14 @@ namespace Sanguosha.Core.Games
 
         public void NotifyIntermediateJudgeResults(Player player, ActionLog log, JudgementResultSucceed intermDel)
         {
-            Trace.Assert(Game.CurrentGame.Decks[player, DeckType.JudgeResult].Count > 0);
-            Card c = Game.CurrentGame.Decks[player, DeckType.JudgeResult][0];
+            Trace.Assert(Decks[player, DeckType.JudgeResult].Count > 0);
+            Card c = Decks[player, DeckType.JudgeResult][0];
             bool? succeed = null;
             if (intermDel != null)
             {
                 succeed = intermDel(c);
             }
-            Game.CurrentGame.NotificationProxy.NotifyJudge(player, c, log, succeed, false);
+            NotificationProxy.NotifyJudge(player, c, log, succeed, false);
         }
 
         public bool CommitCardTransform(Player p, ISkill skill, List<Card> cards, out ICard result, List<Player> targets, bool isPlay)
@@ -1369,7 +1433,7 @@ namespace Sanguosha.Core.Games
             arg.Card = c;
             try
             {
-                Game.CurrentGame.Emit(GameEvent.PlayerCanDiscardCard, arg);
+                Emit(GameEvent.PlayerCanDiscardCard, arg);
             }
             catch (TriggerResultException e)
             {
@@ -1393,7 +1457,7 @@ namespace Sanguosha.Core.Games
             arg.Card = c;
             try
             {
-                Game.CurrentGame.Emit(GameEvent.PlayerCanUseCard, arg);
+                Emit(GameEvent.PlayerCanUseCard, arg);
             }
             catch (TriggerResultException e)
             {
@@ -1417,7 +1481,7 @@ namespace Sanguosha.Core.Games
             arg.Card = c;
             try
             {
-                Game.CurrentGame.Emit(GameEvent.PlayerCanPlayCard, arg);
+                Emit(GameEvent.PlayerCanPlayCard, arg);
             }
             catch (TriggerResultException e)
             {
@@ -1614,7 +1678,7 @@ namespace Sanguosha.Core.Games
 
         public void Shuffle(IList<Card> list)
         {
-            Random rng = Game.CurrentGame.RandomGenerator;
+            Random rng = RandomGenerator;
             int n = list.Count;
             while (n > 1)
             {
