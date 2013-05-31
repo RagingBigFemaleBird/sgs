@@ -12,7 +12,7 @@ using Sanguosha.Core.Utils;
 
 namespace Sanguosha.Core.UI
 {
-    public class AsyncUiAdapter : IUiProxy
+    public class AsyncProxyAdapter : IPlayerProxy
     {
         public void Freeze()
         {
@@ -26,8 +26,8 @@ namespace Sanguosha.Core.UI
         private List<List<Card>> answerCardsOfCards;
         private int answerMultipleChoice;
 
-        private IAsyncUiProxy proxy;
-        public AsyncUiAdapter(IAsyncUiProxy asyncProxy)
+        private IAsyncPlayerProxy proxy;
+        public AsyncProxyAdapter(IAsyncPlayerProxy asyncProxy)
         {
             proxy = asyncProxy;
             proxy.CardUsageAnsweredEvent += proxy_CardUsageAnsweredEvent;
@@ -128,5 +128,11 @@ namespace Sanguosha.Core.UI
         }
 
         public int TimeOutSeconds { get; set; }
+
+
+        public bool IsPlayable
+        {
+            get { return proxy.IsPlayable; }
+        }
     }
 }

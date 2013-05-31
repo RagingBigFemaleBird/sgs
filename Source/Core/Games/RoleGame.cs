@@ -111,7 +111,7 @@ namespace Sanguosha.Core.Games
                 while (!currentPlayer.IsDead)
                 {
                     Trace.Assert(Game.CurrentGame.UiProxies.ContainsKey(currentPlayer));
-                    IUiProxy proxy = Game.CurrentGame.UiProxies[currentPlayer];
+                    IPlayerProxy proxy = Game.CurrentGame.UiProxies[currentPlayer];
                     ISkill skill;
                     List<Card> cards;
                     List<Player> players;

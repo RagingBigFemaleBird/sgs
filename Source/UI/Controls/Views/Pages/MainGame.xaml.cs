@@ -140,7 +140,7 @@ namespace Sanguosha.UI.Controls
 
             }
 
-            ClientNetworkUiProxy activeClientProxy = null;
+            ClientNetworkProxy activeClientProxy = null;
             if (NetworkClient != null)
             {
                 for (int i = 0; i < _game.Settings.TotalPlayers; i++)
@@ -180,14 +180,14 @@ namespace Sanguosha.UI.Controls
             }
 
             _game.NotificationProxy = gameView;
-            List<ClientNetworkUiProxy> inactive = new List<ClientNetworkUiProxy>();
+            List<ClientNetworkProxy> inactive = new List<ClientNetworkProxy>();
             for (int i = 0; i < _game.Players.Count; i++)
             {
                 var player = gameModel.PlayerModels[i].Player;
                 if (NetworkClient != null)
                 {
-                    var proxy = new ClientNetworkUiProxy(
-                                new AsyncUiAdapter(gameModel.PlayerModels[i]), NetworkClient, i == 0);
+                    var proxy = new ClientNetworkProxy(
+                                new AsyncProxyAdapter(gameModel.PlayerModels[i]), NetworkClient);
                     proxy.HostPlayer = player;
                     proxy.TimeOutSeconds = _game.Settings.TimeOutSeconds;
                     if (i == 0)
@@ -202,14 +202,14 @@ namespace Sanguosha.UI.Controls
                 }
                 else
                 {
-                    var proxy = new AsyncUiAdapter(gameModel.PlayerModels[i]);
+                    var proxy = new AsyncProxyAdapter(gameModel.PlayerModels[i]);
                     _game.UiProxies.Add(player, proxy);
                 }
             }
             if (NetworkClient != null)
             {
                 _game.ActiveClientProxy = activeClientProxy;
-                _game.GlobalProxy = new GlobalClientUiProxy(_game, activeClientProxy, inactive);
+                _game.GlobalProxy = new GlobalClientProxy(_game, activeClientProxy, inactive);
                 _game.UpdateUiAttachStatus();
             }
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()

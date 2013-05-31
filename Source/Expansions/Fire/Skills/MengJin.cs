@@ -22,7 +22,7 @@ namespace Sanguosha.Expansions.Fire.Skills
         protected void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             Player dest = eventArgs.Targets[0];
-            IUiProxy ui = Game.CurrentGame.UiProxies[Owner];
+            IPlayerProxy ui = Game.CurrentGame.UiProxies[Owner];
             List<DeckPlace> places = new List<DeckPlace>();
             places.Add(new DeckPlace(dest, DeckType.Hand));
             places.Add(new DeckPlace(dest, DeckType.Equipment));

@@ -10,9 +10,9 @@ using Sanguosha.Core.UI;
 
 namespace Sanguosha.Core.Network
 {
-    public class ServerAsyncUiProxy : IAsyncUiProxy
+    public class ServerAsyncProxy : IAsyncPlayerProxy
     {
-        public ServerAsyncUiProxy()
+        public ServerAsyncProxy()
         {
             receiveInProcess = new object();
         }
@@ -176,5 +176,14 @@ namespace Sanguosha.Core.Network
         }
 
         public Player HostPlayer { get; set; }
+
+
+        public bool IsPlayable
+        {
+            get
+            {
+                return (_gamer != null && !_gamer.IsSpectator);
+            }
+        }
     }
 }

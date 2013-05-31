@@ -33,7 +33,7 @@ namespace Sanguosha.Expansions.Basic.Cards
                 Player dest = eventArgs.Targets[0];
                 for (int i = 0; i < 2 && Game.CurrentGame.Decks[dest, DeckType.Hand].Concat(Game.CurrentGame.Decks[dest, DeckType.Equipment]).Count() > 0; i++)
                 {
-                    IUiProxy ui = Game.CurrentGame.UiProxies[Owner];
+                    IPlayerProxy ui = Game.CurrentGame.UiProxies[Owner];
                     if (Owner.IsDead) return;
                     List<DeckPlace> places = new List<DeckPlace>();
                     places.Add(new DeckPlace(dest, DeckType.Hand));

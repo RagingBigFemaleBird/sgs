@@ -43,7 +43,7 @@ namespace Sanguosha.Expansions.Basic.Cards
             }
             while (true)
             {
-                IUiProxy ui = Game.CurrentGame.UiProxies[dest];
+                IPlayerProxy ui = Game.CurrentGame.UiProxies[dest];
                 ISkill skill;
                 List<Player> p;
                 List<Card> cards;

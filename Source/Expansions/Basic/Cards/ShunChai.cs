@@ -25,7 +25,7 @@ namespace Sanguosha.Expansions.Basic.Cards
 
         protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)
         {
-            IUiProxy ui = Game.CurrentGame.UiProxies[source];
+            IPlayerProxy ui = Game.CurrentGame.UiProxies[source];
             if (source.IsDead) return;
             if (dest.HandCards().Count + dest.Equipments().Count + dest.DelayedTools().Count == 0) return; // ShunChai -> WuXie(from target) -> WuXie(soemone else) -> target has no card
             List<DeckPlace> places = new List<DeckPlace>();

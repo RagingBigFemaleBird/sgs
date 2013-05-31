@@ -23,7 +23,7 @@ using Sanguosha.Core.Network;
 
 namespace Sanguosha.UI.Controls
 {
-    public class PlayerViewModel : SelectableItem, IAsyncUiProxy
+    public class PlayerViewModel : SelectableItem, IAsyncPlayerProxy
     {
         #region Constructors
         public PlayerViewModel()

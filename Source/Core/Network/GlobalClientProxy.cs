@@ -13,10 +13,10 @@ using Sanguosha.Core.UI;
 
 namespace Sanguosha.Core.Network
 {
-    public class GlobalClientUiProxy : IGlobalUiProxy
+    public class GlobalClientProxy : IGlobalUiProxy
     {
-        ClientNetworkUiProxy proxy;
-        List<ClientNetworkUiProxy> inactiveProxies;
+        ClientNetworkProxy proxy;
+        List<ClientNetworkProxy> inactiveProxies;
         Prompt prompt;
         List<OptionPrompt> questions;
         ICardUsageVerifier verifier;
@@ -45,7 +45,7 @@ namespace Sanguosha.Core.Network
             }
         }
 
-        public GlobalClientUiProxy(Game g, ClientNetworkUiProxy p, List<ClientNetworkUiProxy> inactive)
+        public GlobalClientProxy(Game g, ClientNetworkProxy p, List<ClientNetworkProxy> inactive)
         {
             game = g;
             proxy = p;

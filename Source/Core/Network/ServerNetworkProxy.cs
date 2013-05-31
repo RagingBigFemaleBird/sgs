@@ -14,7 +14,7 @@ using Sanguosha.Core.UI;
 
 namespace Sanguosha.Core.Network
 {
-    public class ServerNetworkUiProxy : IUiProxy
+    public class ServerNetworkProxy : IPlayerProxy
     {
         public void Freeze()
         {
@@ -26,13 +26,13 @@ namespace Sanguosha.Core.Network
             set;
         }
 
-        private ServerAsyncUiProxy proxy;
+        private ServerAsyncProxy proxy;
         private Server server;
         private int clientId;
 
-        public ServerNetworkUiProxy(Server s, int id)
+        public ServerNetworkProxy(Server s, int id)
         {
-            proxy = new ServerAsyncUiProxy();
+            proxy = new ServerAsyncProxy();
             proxy.Gamer = s.Gamers[id];
             proxy.PlayerId = id;
             server = s;
@@ -370,5 +370,10 @@ namespace Sanguosha.Core.Network
         }
 
         public int TimeOutSeconds { get; set; }
+        
+        public bool IsPlayable
+        {
+            get { return proxy.IsPlayable; }
+        }
     }
 }

@@ -47,7 +47,7 @@ namespace Sanguosha.Expansions.StarSP.Skills
                     move.Helper.IsFakedMove = true;
                     Game.CurrentGame.MoveCards(move);
 
-                    IUiProxy ui = Game.CurrentGame.UiProxies[Owner];
+                    IPlayerProxy ui = Game.CurrentGame.UiProxies[Owner];
                     List<List<Card>> answer;
 
                     if (!ui.AskForCardChoice(new CardChoicePrompt("ManJuan", Owner), new List<DeckPlace>() {new DeckPlace(null, mjDeck)}, new List<string>() {"ZuiXiang"}, new List<int>() {1}, new RequireOneCardChoiceVerifier(), out answer))

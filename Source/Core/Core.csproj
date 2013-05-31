@@ -97,7 +97,7 @@
     <Compile Include="Network\ClientGamer.cs" />
     <Compile Include="Network\GameDataPacket.cs" />
     <Compile Include="Network\ServerGamer.cs" />
-    <Compile Include="Network\ServerAsyncUiProxy.cs" />
+    <Compile Include="Network\ServerAsyncProxy.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -137,20 +137,20 @@
     <Compile Include="Triggers\GameEventArgs.cs" />
     <Compile Include="Triggers\Trigger.cs" />
     <Compile Include="Exceptions\TriggerResultException.cs" />
-    <Compile Include="UI\AsyncUiAdapter.cs" />
+    <Compile Include="UI\AsyncProxyAdapter.cs" />
     <Compile Include="UI\CardUsageVerifier.cs" />
-    <Compile Include="Network\ClientNetworkUiProxy.cs" />
+    <Compile Include="Network\ClientNetworkProxy.cs" />
     <Compile Include="UI\ConsoleUiProxy.cs" />
-    <Compile Include="Network\GlobalClientUiProxy.cs" />
+    <Compile Include="Network\GlobalClientProxy.cs" />
     <Compile Include="UI\GlobalDummyProxy.cs" />
-    <Compile Include="Network\GlobalServerUiProxy.cs" />
-    <Compile Include="UI\IAsyncUiProxy.cs" />
+    <Compile Include="Network\GlobalServerProxy.cs" />
+    <Compile Include="UI\IAsyncPlayerProxy.cs" />
     <Compile Include="UI\IGameLog.cs" />
     <Compile Include="UI\IGlobalUiProxy.cs" />
-    <Compile Include="UI\IUIProxy.cs" />
+    <Compile Include="UI\IPlayerProxy.cs" />
     <Compile Include="UI\RequireCardsChoiceVerifier.cs" />
     <Compile Include="UI\RequireOneCardChoiceVerifier.cs" />
-    <Compile Include="Network\ServerNetworkUiProxy.cs" />
+    <Compile Include="Network\ServerNetworkProxy.cs" />
     <Compile Include="UI\AlwaysTrueChoiceVerifier.cs" />
     <Compile Include="UI\TestUiProxy.cs" />
     <Compile Include="Utils\FileRotater.cs" />

@@ -47,13 +47,13 @@ namespace Sanguosha.Lobby.Server
                 var player = new Player();
                 player.Id = i;
                 game.Players.Add(player);
-                IUiProxy proxy;
-                proxy = new ServerNetworkUiProxy(server, i);
+                IPlayerProxy proxy;
+                proxy = new ServerNetworkProxy(server, i);
                 proxy.TimeOutSeconds = timeOutSeconds;
                 proxy.HostPlayer = player;
                 game.UiProxies.Add(player, proxy);
             }
-            GlobalServerUiProxy pxy = new GlobalServerUiProxy(game, game.UiProxies);
+            GlobalServerProxy pxy = new GlobalServerProxy(game, game.UiProxies);
             pxy.TimeOutSeconds = timeOutSeconds;
             game.GlobalProxy = pxy;
             game.NotificationProxy = new DummyNotificationProxy();

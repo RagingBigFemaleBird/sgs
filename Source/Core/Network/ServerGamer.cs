@@ -40,7 +40,7 @@ namespace Sanguosha.Core.Network
             receiverLock = new object();
             senderLock = new object();
             DataStream = new RecordTakingOutputStream();
-            sendQueue = new BlockingCollection<GameDataPacket>();
+            sendQueue = new BlockingCollection<GameDataPacket>(new ConcurrentQueue<GameDataPacket>());
         }
         
         Thread receiveThread;

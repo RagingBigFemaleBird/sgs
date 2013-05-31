@@ -14,12 +14,12 @@ using Sanguosha.Core.Utils;
 
 namespace Sanguosha.Core.Network
 {
-    public class ClientNetworkUiProxy : IUiProxy
+    public class ClientNetworkProxy : IPlayerProxy
     {
 
         public void Freeze()
         {
-            proxy.Freeze();
+            uiProxy.Freeze();
         }
 
         public Player HostPlayer
@@ -27,25 +27,24 @@ namespace Sanguosha.Core.Network
             get;
             set;
         }
-
-        IUiProxy proxy;
+        
+        IPlayerProxy uiProxy;
         Client client;
-        int commId;
-        bool active;
-        public bool Suppressed { get; set; }
-        public ClientNetworkUiProxy(IUiProxy p, Client c, bool a)
+        int numQuestionsAsked;
+        
+        public bool IsUiDetached { get; set; }
+        public ClientNetworkProxy(IPlayerProxy uiProxy, Client client)
         {
-            proxy = p;
-            client = c;
-            active = a;
+            this.uiProxy = uiProxy;
+            this.client = client;        
             lastTS = 0;
-            commId = 0;
+            numQuestionsAsked = 0;
         }
             
 
         public void SkipAskForCardUsage()
         {
-            client.Send(AskForCardUsageResponse.Parse(commId, null, null, null, client.SelfId));
+            client.Send(AskForCardUsageResponse.Parse(numQuestionsAsked, null, null, null, client.SelfId));
         }
 
         public void TryAskForCardUsage(Prompt prompt, ICardUsageVerifier verifier)
@@ -53,20 +52,20 @@ namespace Sanguosha.Core.Network
             ISkill skill;
             List<Card> cards;
             List<Player> players;
-            if (!active)
+            if (!IsPlayable)
             {
-                if (Suppressed) return;
-                proxy.AskForCardUsage(prompt, verifier, out skill, out cards, out players);
+                if (IsUiDetached) return;
+                uiProxy.AskForCardUsage(prompt, verifier, out skill, out cards, out players);
                 return;
             }
-            if (Suppressed || !proxy.AskForCardUsage(prompt, verifier, out skill, out cards, out players))
+            if (IsUiDetached || !uiProxy.AskForCardUsage(prompt, verifier, out skill, out cards, out players))
             {
                 Trace.TraceInformation("Invalid answer");
-                client.Send(AskForCardUsageResponse.Parse(commId, null, null, null, client.SelfId));
+                client.Send(AskForCardUsageResponse.Parse(numQuestionsAsked, null, null, null, client.SelfId));
             }
             else
             {
-                client.Send(AskForCardUsageResponse.Parse(commId, skill, cards, players, client.SelfId));
+                client.Send(AskForCardUsageResponse.Parse(numQuestionsAsked, skill, cards, players, client.SelfId));
             }
         }
 
@@ -79,7 +78,7 @@ namespace Sanguosha.Core.Network
 
         public void NextQuestion()
         {
-            commId++;
+            numQuestionsAsked++;
         }
 
         private static DateTime? startTimeStamp;
@@ -129,27 +128,23 @@ namespace Sanguosha.Core.Network
             Trace.TraceInformation("Asking Card Usage to {0}.", HostPlayer.Id);
             TryAskForCardUsage(prompt, verifier);
             SimulateReplayDelay();
-            if (active)
-            {
-                NextQuestion();
-            }
-            else
-            {
-                Trace.TraceInformation("Not active player, defaulting.");
-            }
+            NextQuestion();
             if (TryAnswerForCardUsage(prompt, verifier, out skill, out cards, out players))
             {
-                proxy.Freeze();
+                uiProxy.Freeze();
                 if (skill == null && (cards == null || cards.Count == 0) && (players == null || players.Count == 0))
                 {
                     return false;
                 }
 #if DEBUG
-                Trace.Assert(verifier.FastVerify(HostPlayer, skill, cards, players) == VerifierResult.Success);
+                if (verifier.FastVerify(HostPlayer, skill, cards, players) != VerifierResult.Success)
+                {
+                    Trace.Assert(false);
+                }
 #endif
                 return true;
             }
-            proxy.Freeze();
+            uiProxy.Freeze();
             return false;
         }
 
@@ -158,17 +153,10 @@ namespace Sanguosha.Core.Network
             Trace.TraceInformation("Asking Card Choice to {0}.", HostPlayer.Id);
             TryAskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, options, callback);
             SimulateReplayDelay();
-            if (active)
-            {
-                NextQuestion();
-            }
-            else
-            {
-                Trace.TraceInformation("Not active player, defaulting.");
-            }
+            NextQuestion();
             if (TryAnswerForCardChoice(prompt, verifier, out answer, options, callback))
             {
-                proxy.Freeze();
+                uiProxy.Freeze();
                 if (answer == null || answer.Count == 0)
                 {
                     return false;
@@ -178,7 +166,7 @@ namespace Sanguosha.Core.Network
 #endif
                 return true;
             }
-            proxy.Freeze();
+            uiProxy.Freeze();
             return false;
         }
 
@@ -187,22 +175,15 @@ namespace Sanguosha.Core.Network
             Trace.TraceInformation("Asking Multiple choice to {0}.", HostPlayer.Id);
             TryAskForMultipleChoice(prompt, questions);
             SimulateReplayDelay();
-            if (active)
-            {
-                NextQuestion();
-            }
-            else
-            {
-                Trace.TraceInformation("Not active player, defaulting.");
-            }
+            NextQuestion();
             if (TryAnswerForMultipleChoice(out answer))
             {
                 Game.CurrentGame.NotificationProxy.NotifyMultipleChoiceResult(HostPlayer, questions[answer]);
-                proxy.Freeze();
+                uiProxy.Freeze();
                 return true;
             }
             Game.CurrentGame.NotificationProxy.NotifyMultipleChoiceResult(HostPlayer, questions[answer]);
-            proxy.Freeze();
+            uiProxy.Freeze();
             return false;
         }
 
@@ -216,41 +197,41 @@ namespace Sanguosha.Core.Network
         public void TryAskForMultipleChoice(Prompt prompt, List<OptionPrompt> questions)
         {
             int answer;
-            if (!active)
+            if (!IsPlayable)
             {
-                if (Suppressed) return;
-                proxy.AskForMultipleChoice(prompt, questions, out answer);
+                if (IsUiDetached) return;
+                uiProxy.AskForMultipleChoice(prompt, questions, out answer);
                 return;
             }
-            if (Suppressed || !proxy.AskForMultipleChoice(prompt, questions, out answer))
+            if (IsUiDetached || !uiProxy.AskForMultipleChoice(prompt, questions, out answer))
             {
                 Trace.TraceInformation("Invalid answer");
-                client.Send(new AskForMultipleChoiceResponse() { ChoiceIndex = 0, Id = commId });
+                client.Send(new AskForMultipleChoiceResponse() { ChoiceIndex = 0, Id = numQuestionsAsked });
             }
             else
             {
-                client.Send(new AskForMultipleChoiceResponse() { ChoiceIndex = answer, Id = commId });
+                client.Send(new AskForMultipleChoiceResponse() { ChoiceIndex = answer, Id = numQuestionsAsked });
             }
         }
 
         public void TryAskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, AdditionalCardChoiceOptions options, CardChoiceRearrangeCallback callback)
         {
             List<List<Card>> answer;
-            if (!active)
+            if (!IsPlayable)
             {
-                if (Suppressed) return;
-                proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, out answer, options, callback);
+                if (IsUiDetached) return;
+                uiProxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, out answer, options, callback);
                 return;
             }
-            if (Suppressed || !proxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, out answer, options, callback) ||
+            if (IsUiDetached || !uiProxy.AskForCardChoice(prompt, sourceDecks, resultDeckNames, resultDeckMaximums, verifier, out answer, options, callback) ||
                 answer == null)
             {
                 Trace.TraceInformation("Invalid answer");
-                client.Send(AskForCardChoiceResponse.Parse(commId, null, 0, client.SelfId));
+                client.Send(AskForCardChoiceResponse.Parse(numQuestionsAsked, null, 0, client.SelfId));
             }
             else
             {
-                client.Send(AskForCardChoiceResponse.Parse(commId, answer, options == null? 0 : options.OptionResult, client.SelfId));
+                client.Send(AskForCardChoiceResponse.Parse(numQuestionsAsked, answer, options == null? 0 : options.OptionResult, client.SelfId));
             }
         }
 
@@ -272,9 +253,15 @@ namespace Sanguosha.Core.Network
             }
             set
             {
-                proxy.TimeOutSeconds = value;
+                uiProxy.TimeOutSeconds = value;
                 timeOutSeconds = value;
             }
+        }
+
+
+        public bool IsPlayable
+        {
+            get { return uiProxy.IsPlayable; }
         }
     }
 }

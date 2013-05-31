@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace Sanguosha.Core.UI
 {
-    public class ConsoleUiProxy : IUiProxy
+    public class ConsoleUiProxy : IPlayerProxy
     {
         private Player hostPlayer;
 
@@ -21,7 +21,7 @@ namespace Sanguosha.Core.UI
             set { hostPlayer = value; }
         }
 
-        bool IUiProxy.AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
+        bool IPlayerProxy.AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players)
         {
             Player p = hostPlayer;
             Console.Write("I AM PLAYER {0}({1}): ", p.Id, p.Hero.Name);
@@ -151,7 +151,7 @@ namespace Sanguosha.Core.UI
             }
         }
 
-        bool IUiProxy.AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, AdditionalCardChoiceOptions options, CardChoiceRearrangeCallback callback)
+        bool IPlayerProxy.AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, AdditionalCardChoiceOptions options, CardChoiceRearrangeCallback callback)
         {
             answer = null;
             return false;
@@ -186,6 +186,13 @@ namespace Sanguosha.Core.UI
 
         public void Freeze()
         {
+        }
+
+
+        public bool IsPlayable
+        {
+            get;
+            set;
         }
     }
 }

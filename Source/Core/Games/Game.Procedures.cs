@@ -576,7 +576,7 @@ namespace Sanguosha.Core.Games
                     break;
                 }
                 Trace.Assert(UiProxies.ContainsKey(player));
-                IUiProxy proxy = UiProxies[player];
+                IPlayerProxy proxy = UiProxies[player];
                 ISkill skill;
                 List<Card> cards;
                 List<Player> players;

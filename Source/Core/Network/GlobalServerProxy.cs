@@ -13,9 +13,9 @@ using Sanguosha.Core.UI;
 
 namespace Sanguosha.Core.Network
 {
-    public class GlobalServerUiProxy : IGlobalUiProxy
+    public class GlobalServerProxy : IGlobalUiProxy
     {
-        Dictionary<Player, ServerNetworkUiProxy> proxy;
+        Dictionary<Player, ServerNetworkProxy> proxy;
         Dictionary<Player, Thread> proxyListener;
         Semaphore semAccess;
         Semaphore semWake;
@@ -28,7 +28,7 @@ namespace Sanguosha.Core.Network
 
         private struct UsageListenerThreadParameters
         {
-            public ServerNetworkUiProxy proxy;
+            public ServerNetworkProxy proxy;
             public Prompt prompt;
             public ICardUsageVerifier verifier;
             public Player player;
@@ -36,7 +36,7 @@ namespace Sanguosha.Core.Network
 
         private struct ChoiceListenerThreadParameters
         {
-            public ServerNetworkUiProxy proxy;
+            public ServerNetworkProxy proxy;
             public ICardChoiceVerifier verifier;
             public Player player;
             public List<DeckPlace> places;
@@ -46,7 +46,7 @@ namespace Sanguosha.Core.Network
 
         private struct MCQListenerThreadParameters
         {
-            public ServerNetworkUiProxy proxy;
+            public ServerNetworkProxy proxy;
             public Prompt prompt;
             public Player player;
         }
@@ -354,18 +354,18 @@ namespace Sanguosha.Core.Network
             }
         }
 
-        public GlobalServerUiProxy(Game g, Dictionary<Player, IUiProxy> p)
+        public GlobalServerProxy(Game g, Dictionary<Player, IPlayerProxy> p)
         {
             game = g;
-            proxy = new Dictionary<Player, ServerNetworkUiProxy>();
+            proxy = new Dictionary<Player, ServerNetworkProxy>();
             foreach (var v in p)
             {
-                if (!(v.Value is ServerNetworkUiProxy))
+                if (!(v.Value is ServerNetworkProxy))
                 {
                     Trace.TraceWarning("Some of my proxies are not server network proxies!");
                     continue;
                 }
-                proxy.Add(v.Key, v.Value as ServerNetworkUiProxy);
+                proxy.Add(v.Key, v.Value as ServerNetworkProxy);
             }
         }
 

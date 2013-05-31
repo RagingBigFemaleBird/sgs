@@ -140,7 +140,7 @@ namespace Sanguosha.Core.Games
             decks = new DeckContainer();
             players = new List<Player>();
             cardHandlers = new Dictionary<string, CardHandler>();
-            uiProxies = new Dictionary<Player, IUiProxy>();
+            uiProxies = new Dictionary<Player, IPlayerProxy>();
             triggersToRegister = new List<DelayedTriggerRegistration>();
             isDying = new Stack<Player>();
             handCardVisibility = new Dictionary<Player, List<Player>>();
@@ -806,9 +806,9 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        private Dictionary<Player, IUiProxy> uiProxies;
+        private Dictionary<Player, IPlayerProxy> uiProxies;
 
-        public Dictionary<Player, IUiProxy> UiProxies
+        public Dictionary<Player, IPlayerProxy> UiProxies
         {
             get { return uiProxies; }
             set { uiProxies = value; }
@@ -837,8 +837,8 @@ namespace Sanguosha.Core.Games
                 {
                     foreach (var pair in uiProxies)
                     {
-                        ClientNetworkUiProxy proxy = pair.Value as ClientNetworkUiProxy;
-                        if (proxy != null) proxy.Suppressed = false;
+                        ClientNetworkProxy proxy = pair.Value as ClientNetworkProxy;
+                        if (proxy != null) proxy.IsUiDetached = false;
                     }
                     notificationProxy.NotifyUiAttached();
                 }
@@ -846,8 +846,8 @@ namespace Sanguosha.Core.Games
                 {
                     foreach (var pair in uiProxies)
                     {
-                        ClientNetworkUiProxy proxy = pair.Value as ClientNetworkUiProxy;
-                        if (proxy != null) proxy.Suppressed = true;
+                        ClientNetworkProxy proxy = pair.Value as ClientNetworkProxy;
+                        if (proxy != null) proxy.IsUiDetached = true;
                     }
                     notificationProxy.NotifyUiDetached();
                 }
@@ -1690,7 +1690,7 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        public ClientNetworkUiProxy ActiveClientProxy { get; set; }
+        public ClientNetworkProxy ActiveClientProxy { get; set; }
     }
 }
 

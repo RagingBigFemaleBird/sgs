@@ -12,7 +12,7 @@ using System.IO;
 
 namespace Sanguosha.Core.UI
 {
-    public class TestUiProxy : IUiProxy
+    public class TestUiProxy : IPlayerProxy
     {
         public void Freeze()
         {
@@ -104,6 +104,13 @@ namespace Sanguosha.Core.UI
         public bool AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks, List<string> resultDeckNames, List<int> resultDeckMaximums, ICardChoiceVerifier verifier, out List<List<Card>> answer, AdditionalCardChoiceOptions helper = null, CardChoiceRearrangeCallback callback = null)
         {
             throw new NotImplementedException();
+        }
+
+
+        public bool IsPlayable
+        {
+            get;
+            set;
         }
     }
 }

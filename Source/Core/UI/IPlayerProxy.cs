@@ -56,10 +56,18 @@ namespace Sanguosha.Core.UI
 
     public delegate void CardChoiceRearrangeCallback(CardRearrangement RearrangeHint);
 
-    public interface IUiProxy
+    public interface IPlayerProxy
     {
         Player HostPlayer { get; set; }
         int TimeOutSeconds { get; set; }
+        
+        /// <summary>
+        /// Gets/sets whether this UiProxy can make input to the game.
+        /// A UiProxy is not playable if it is not associated with 
+        /// the main player or if the player is spectating.
+        /// </summary>
+        bool IsPlayable { get; }
+
         /// <summary>
         /// 询问使用或打出卡牌，可以发动技能。
         /// </summary>
