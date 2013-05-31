@@ -101,14 +101,16 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
             public override VerifierResult TryTransform(List<Card> cards, List<Player> targets, out CompositeCard card, bool isPlay)
             {
                 card = new CompositeCard();
-                card.Type = new Sha();
+                card.Type = new RegularSha();
+                Trace.Assert(cards != null && targets != null);
+                if (cards == null || targets == null) return VerifierResult.Fail;
                 if (isPlay) return VerifierResult.Fail;
                 if (Game.CurrentGame.Decks[Master, NiDeck].Count <= 1) return VerifierResult.Fail;
-                if (cards != null && cards.Any(cd => cd.Place.Player != master || cd.Place.DeckType != NiDeck)) return VerifierResult.Fail;
-                if (cards == null || cards.Count < 2) return VerifierResult.Partial;
-                if (cards != null && cards.Count > 2) return VerifierResult.Fail;
+                if (cards.Any(cd => cd.Place.Player != master || cd.Place.DeckType != NiDeck)) return VerifierResult.Fail;
+                if (cards.Count < 2) return VerifierResult.Partial;
+                if (cards.Count > 2) return VerifierResult.Fail;
                 card.Subcards = new List<Card>(cards);
-                if (targets == null || targets.Count == 0) return VerifierResult.Success;
+                if (targets.Count == 0) return VerifierResult.Success;
                 if (targets.Contains(Master)) return VerifierResult.Success;
                 return VerifierResult.Fail;
             }

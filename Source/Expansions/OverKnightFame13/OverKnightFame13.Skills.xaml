@@ -60,7 +60,7 @@
     <sys:String x:Key="Skill.ZongXuan.Usage">点“确定”</sys:String>
 
     <sys:String x:Key="Skill.FenCheng.Name">焚城</sys:String>
-    <sys:String x:Key="Skill.FenCheng.Description">限定技，出牌阶段，你可令所有其他角色选择：1、弃置X张手牌；2、受到1点火焰伤害。X为该角色装备区牌的数量，至少为1。</sys:String>
+    <sys:String x:Key="Skill.FenCheng.Description">限定技，出牌阶段，你可令所有其他角色选择：1、弃置X张牌；2、受到1点火焰伤害。X为该角色装备区牌的数量，至少为1。</sys:String>
     <sys:String x:Key="Skill.FenCheng.Usage">点“确定”</sys:String>
 
     <sys:String x:Key="Skill.MieJi.Name">灭计</sys:String>
