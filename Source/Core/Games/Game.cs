@@ -226,7 +226,7 @@ namespace Sanguosha.Core.Games
                 {
                     card.RevealOnce = true;
                     if (player == null) GameServer.SendPacket(GameServer.MaxClients - 1, new CardSync() { Item = CardItem.Parse(card, -1) });
-                    else GameServer.SendPacket(player.Id, new CardSync() { Item = CardItem.Parse(card, player.Id) });
+                    else GameServer.SendPacket(player.Id, new CardSync() { Item = CardItem.Parse(card, -1) });
                 }
             }
         }

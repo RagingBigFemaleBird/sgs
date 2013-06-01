@@ -647,7 +647,13 @@ namespace Sanguosha.Lobby.Server
                         }
                         else
                         {
-                            loggedInAccounts[kicked.UserName].CallbackChannel.NotifyKicked();
+                            try
+                            {
+                                loggedInAccounts[kicked.UserName].CallbackChannel.NotifyKicked();
+                            }
+                            catch (Exception)
+                            {
+                            }
                         }
                     }
                     return RoomOperationResult.Success;
