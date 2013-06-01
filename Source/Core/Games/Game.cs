@@ -225,7 +225,7 @@ namespace Sanguosha.Core.Games
                 if (status)
                 {
                     card.RevealOnce = true;
-                    if (player == null) GameServer.SendPacket(GameServer.MaxClients - 1, new CardSync() { Item = CardItem.Parse(card, GameServer.MaxClients - 1) });
+                    if (player == null) GameServer.SendPacket(GameServer.MaxClients - 1, new CardSync() { Item = CardItem.Parse(card, -1) });
                     else GameServer.SendPacket(player.Id, new CardSync() { Item = CardItem.Parse(card, player.Id) });
                 }
             }
@@ -270,7 +270,7 @@ namespace Sanguosha.Core.Games
                 else if (GameServer != null)
                 {
                     card.RevealOnce = true;
-                    if (player == null) GameServer.SendPacket(GameServer.MaxClients - 1, new CardSync() { Item = CardItem.Parse(card, player.Id) });
+                    if (player == null) GameServer.SendPacket(GameServer.MaxClients - 1, new CardSync() { Item = CardItem.Parse(card, -1) });
                     else GameServer.SendPacket(player.Id, new CardSync() { Item = CardItem.Parse(card, player.Id) });
                 }
                 cards[i] = card;
@@ -320,7 +320,7 @@ namespace Sanguosha.Core.Games
                 else if (GameServer != null)
                 {
                     card.RevealOnce = true;
-                    if (player == null) GameServer.SendPacket(GameServer.MaxClients - 1, new CardSync() { Item = CardItem.Parse(card, GameServer.MaxClients - 1) });
+                    if (player == null) GameServer.SendPacket(GameServer.MaxClients - 1, new CardSync() { Item = CardItem.Parse(card, -1) });
                     else GameServer.SendPacket(player.Id, new CardSync() { Item = CardItem.Parse(card, player.Id) });
                 }
             }
