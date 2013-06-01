@@ -27,20 +27,20 @@ namespace Sanguosha.Core.Network
             get;
             set;
         }
-        
+
         IPlayerProxy uiProxy;
         Client client;
         int numQuestionsAsked;
-        
+
         public bool IsUiDetached { get; set; }
         public ClientNetworkProxy(IPlayerProxy uiProxy, Client client)
         {
             this.uiProxy = uiProxy;
-            this.client = client;        
+            this.client = client;
             lastTS = 0;
             numQuestionsAsked = 0;
         }
-            
+
 
         public void SkipAskForCardUsage()
         {
@@ -84,7 +84,7 @@ namespace Sanguosha.Core.Network
         private static DateTime? startTimeStamp;
 
         void RecordTimeStamp()
-        {            
+        {
             if (client.RecordStream == null) return;
             Trace.Assert(Game.CurrentGame.ReplayController == null);
             if (startTimeStamp == null) startTimeStamp = DateTime.Now;
@@ -231,7 +231,7 @@ namespace Sanguosha.Core.Network
             }
             else
             {
-                client.Send(AskForCardChoiceResponse.Parse(numQuestionsAsked, answer, options == null? 0 : options.OptionResult, client.SelfId));
+                client.Send(AskForCardChoiceResponse.Parse(numQuestionsAsked, answer, options == null ? 0 : options.OptionResult, client.SelfId));
             }
         }
 
