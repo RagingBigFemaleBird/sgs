@@ -107,24 +107,30 @@ namespace Sanguosha.UI.Controls
 
         private void InitGame()
         {
-            _game = new RoleGame();
+            if (NetworkClient != null)
+            {
+                var pkt = NetworkClient.Receive();
+                Trace.Assert(pkt is ConnectionResponse);
+                if ((pkt as ConnectionResponse).Settings.GameType == GameTypes._1v1) _game = new _1v1Game();
+                if ((pkt as ConnectionResponse).Settings.GameType == GameTypes.RoleGame) _game = new RoleGame();
+                
+                if (pkt is ConnectionResponse)
+                {
+                    _game.Settings = ((ConnectionResponse)pkt).Settings;
+                    NetworkClient.SelfId = ((ConnectionResponse)pkt).SelfId;
+                }
+                else
+                {
+                    return;
+                }
+            }
             if (hasSeed != null)
             {
                 _game.RandomGenerator = new Random((int)hasSeed);
                 _game.IsPanorama = true;
             }
             Game.CurrentGameOverride = _game;
-            if (NetworkClient != null)
-            {
-                var pkt = NetworkClient.Receive();
-                Trace.Assert(pkt is ConnectionResponse);
-                if (pkt is ConnectionResponse)
-                {
-                    _game.Settings = ((ConnectionResponse)pkt).Settings;
-                    NetworkClient.SelfId = ((ConnectionResponse)pkt).SelfId;
-                }
-            }
-            else
+            if (_networkClient == null)
             {
                 _game.Settings = new GameSettings();
                 _game.Settings.Accounts = new List<Account>();

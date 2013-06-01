@@ -1258,7 +1258,7 @@ namespace Sanguosha.UI.Controls
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
                 var role = GameModel.AvailableRoles.FirstOrDefault(r => (r.Role == p.Role) && r.IsAlive);
-                Trace.Assert(role != null);
+                //Trace.Assert(role != null);
                 if (role == null) return;
                 role.IsAlive = false;
             });

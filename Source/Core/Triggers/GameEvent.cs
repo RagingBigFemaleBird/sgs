@@ -445,6 +445,7 @@ namespace Sanguosha.Core.Triggers
         /// </summary>
         public static readonly GameEvent PlayerIsAboutToPlayCard = new GameEvent("PlayerIsAboutToPlayCard");
 
+        public static readonly GameEvent HeroDebut = new GameEvent("HeroDebut");
 
         public override bool Equals(object obj)
         {

@@ -37,7 +37,7 @@ namespace Sanguosha.Lobby.Server
             Trace.WriteLine("Log starting");
             Trace.Listeners.Add(new ConsoleTraceListener());
 #endif
-            Game game = new RoleGame();
+            Game game = setting.GameType == GameTypes._1v1 ? new _1v1Game() : new RoleGame();
             game.Settings = setting;
             Sanguosha.Core.Network.Server server;
             server = new Sanguosha.Core.Network.Server(game, totalNumberOfPlayers, IP);

@@ -548,7 +548,8 @@ namespace Sanguosha.Lobby.Server
                     CheatEnabled = CheatEnabled,
                     DualHeroMode = room.Room.Settings.IsDualHeroMode,
                     NumHeroPicks = room.Room.Settings.NumHeroPicks,
-                    NumberOfDefectors = room.Room.Settings.NumberOfDefectors == 2 ? 2 : 1
+                    NumberOfDefectors = room.Room.Settings.NumberOfDefectors == 2 ? 2 : 1,
+                    GameType = GameTypes._1v1,
                 };
 
                 // Load pakcages.

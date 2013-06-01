@@ -466,7 +466,7 @@ namespace Sanguosha.Core.Games
         public static DeckType RoleDeckType = DeckType.Register("Role");
 
 
-        public class RoleGameRuleTrigger : Trigger
+        private class RoleGameRuleTrigger : Trigger
         {
             List<Card> usedRoleCards;
             static List<Card> allRoleCards;
@@ -1221,7 +1221,7 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        private class DeadManStopper : Trigger
+        protected class DeadManStopper : Trigger
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
@@ -1234,7 +1234,7 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        private class ShuffleTrigger : Trigger
+        protected class ShuffleTrigger : Trigger
         {
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
