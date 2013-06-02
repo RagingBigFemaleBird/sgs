@@ -555,27 +555,27 @@ namespace Sanguosha.Lobby.Server
                 // Load pakcages.
                 if (gs.GameType == GameType.RoleGame)
                 {
-                gs.PackagesEnabled.Add("Sanguosha.Expansions.BasicExpansion");
-                gs.PackagesEnabled.Add("Sanguosha.Expansions.BattleExpansion");
-                if ((room.Room.Settings.EnabledPackages & EnabledPackages.Wind) != 0) gs.PackagesEnabled.Add("Sanguosha.Expansions.WindExpansion");
-                if ((room.Room.Settings.EnabledPackages & EnabledPackages.Fire) != 0) gs.PackagesEnabled.Add("Sanguosha.Expansions.FireExpansion");
-                if ((room.Room.Settings.EnabledPackages & EnabledPackages.Woods) != 0) gs.PackagesEnabled.Add("Sanguosha.Expansions.WoodsExpansion");
-                if ((room.Room.Settings.EnabledPackages & EnabledPackages.Hills) != 0) gs.PackagesEnabled.Add("Sanguosha.Expansions.HillsExpansion");
-                if ((room.Room.Settings.EnabledPackages & EnabledPackages.SP) != 0)
-                {
-                    gs.PackagesEnabled.Add("Sanguosha.Expansions.SpExpansion");
-                    gs.PackagesEnabled.Add("Sanguosha.Expansions.StarSpExpansion");
-                }
-                if ((room.Room.Settings.EnabledPackages & EnabledPackages.OverKnightFame) != 0)
-                {
-                    gs.PackagesEnabled.Add("Sanguosha.Expansions.OverKnightFame11Expansion");
-                    gs.PackagesEnabled.Add("Sanguosha.Expansions.OverKnightFame12Expansion");
-                    gs.PackagesEnabled.Add("Sanguosha.Expansions.OverKnightFame13Expansion");
-                }
-                if ((room.Room.Settings.EnabledPackages & EnabledPackages.Others) != 0)
-                {
-                    gs.PackagesEnabled.Add("Sanguosha.Expansions.AssasinExpansion");
-                }
+                    gs.PackagesEnabled.Add("Sanguosha.Expansions.BasicExpansion");
+                    gs.PackagesEnabled.Add("Sanguosha.Expansions.BattleExpansion");
+                    if ((room.Room.Settings.EnabledPackages & EnabledPackages.Wind) != 0) gs.PackagesEnabled.Add("Sanguosha.Expansions.WindExpansion");
+                    if ((room.Room.Settings.EnabledPackages & EnabledPackages.Fire) != 0) gs.PackagesEnabled.Add("Sanguosha.Expansions.FireExpansion");
+                    if ((room.Room.Settings.EnabledPackages & EnabledPackages.Woods) != 0) gs.PackagesEnabled.Add("Sanguosha.Expansions.WoodsExpansion");
+                    if ((room.Room.Settings.EnabledPackages & EnabledPackages.Hills) != 0) gs.PackagesEnabled.Add("Sanguosha.Expansions.HillsExpansion");
+                    if ((room.Room.Settings.EnabledPackages & EnabledPackages.SP) != 0)
+                    {
+                        gs.PackagesEnabled.Add("Sanguosha.Expansions.SpExpansion");
+                        gs.PackagesEnabled.Add("Sanguosha.Expansions.StarSpExpansion");
+                    }
+                    if ((room.Room.Settings.EnabledPackages & EnabledPackages.OverKnightFame) != 0)
+                    {
+                        gs.PackagesEnabled.Add("Sanguosha.Expansions.OverKnightFame11Expansion");
+                        gs.PackagesEnabled.Add("Sanguosha.Expansions.OverKnightFame12Expansion");
+                        gs.PackagesEnabled.Add("Sanguosha.Expansions.OverKnightFame13Expansion");
+                    }
+                    if ((room.Room.Settings.EnabledPackages & EnabledPackages.Others) != 0)
+                    {
+                        gs.PackagesEnabled.Add("Sanguosha.Expansions.AssasinExpansion");
+                    }
                 }
                 if (gs.GameType == GameType.Pk1v1)
                 {
@@ -646,12 +646,15 @@ namespace Sanguosha.Lobby.Server
                 if (room.Seats[seatNo].State == SeatState.GuestReady || room.Seats[seatNo].State == SeatState.GuestTaken)
                 {
                     var kicked = room.Seats[seatNo].Account;
+                    
                     lock (loggedInAccounts)
                     {
-                        if (_ExitRoom(loggedInAccounts[kicked.UserName], true) == RoomOperationResult.Invalid)
+                        if (kicked == null || !loggedInAccounts.ContainsKey(kicked.UserName) ||
+                            _ExitRoom(loggedInAccounts[kicked.UserName], true) == RoomOperationResult.Invalid)
                         {
                             // zombie occured?
                             room.Seats[seatNo].State = SeatState.Empty;
+                            room.Seats[seatNo].Account = null;
                         }
                         else
                         {
@@ -669,6 +672,7 @@ namespace Sanguosha.Lobby.Server
                 else
                 {
                     room.Seats[seatNo].State = SeatState.Empty;
+                    room.Seats[seatNo].Account = null;
                 }
             }
             return RoomOperationResult.Invalid;

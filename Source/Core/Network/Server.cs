@@ -52,10 +52,10 @@ namespace Sanguosha.Core.Network
             Gamers = new List<ServerGamer>();
             for (int i = 0; i <= capacity; i++)
             {
-                Gamers.Add(new ServerGamer());
-                Gamers[i].Game = game;                
-                Gamers[i].OnlineStatus = OnlineStatus.Offline;
-                Gamers[i].OnDisconnected += Server_OnDisconnected;
+                ServerGamer gamer = new ServerGamer() { Game = game, OnlineStatus = Network.OnlineStatus.Offline };
+                gamer.OnDisconnected += Server_OnDisconnected;
+                gamer.StartSender();
+                Gamers.Add(gamer);                
             }            
             this.game = game;
             Trace.TraceInformation("Server initialized with capacity {0}", capacity);
@@ -164,11 +164,10 @@ namespace Sanguosha.Core.Network
             }
             ServerGamer gamer = Gamers[indexC];         
             gamer.AddStream(stream);
-            gamer.TcpClient = client;
             gamer.IsSpectator = (indexC == numberOfGamers);
-            gamer.StartListening();
             if (indexC != numberOfGamers)
             {
+                gamer.StartReceiver();
                 SetOnlineStatus(indexC, OnlineStatus.Online);
             }       
         }

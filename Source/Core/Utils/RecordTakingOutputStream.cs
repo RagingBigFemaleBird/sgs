@@ -73,9 +73,20 @@ namespace Sanguosha.Core.Utils
                 if (OutputStreams.Count == 0) return 0;
                 inputStream = OutputStreams[0];
             }
-            int bytesRead = inputStream.Read(buffer, offset, count);
-            Trace.TraceInformation("Read() : {0} bytes read for {1}", count, RuntimeHelpers.GetHashCode(this));
-            return bytesRead;
+            try
+            {
+                int bytesRead = inputStream.Read(buffer, offset, count);
+                Trace.TraceInformation("Read() : {0} bytes read for {1}", count, RuntimeHelpers.GetHashCode(this));
+                return bytesRead;
+            }
+            catch (Exception e)
+            {
+                lock (OutputStreams)
+                {
+                    OutputStreams.Remove(inputStream);
+                }
+                throw e;
+            }
         }
 
         public override long Seek(long offset, SeekOrigin origin)

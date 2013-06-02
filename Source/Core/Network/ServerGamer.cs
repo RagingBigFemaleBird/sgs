@@ -52,7 +52,6 @@ namespace Sanguosha.Core.Network
         BlockingCollection<GameDataPacket> sendQueue;
 
         public Game Game { get; set; }
-        public TcpClient TcpClient { get; set; }
         public OnlineStatus OnlineStatus { get; set; }
 
         public bool IsConnected
@@ -69,7 +68,19 @@ namespace Sanguosha.Core.Network
             private set;
         }
 
-        public void StartListening()
+        public void StartSender()
+        {
+            lock (this)
+            {                
+                if (sendThread == null)
+                {
+                    sendThread = new Thread(SendLoop) { IsBackground = true };
+                    sendThread.Start();
+                }
+            }
+        }
+
+        public void StartReceiver()
         {
             lock (this)
             {
@@ -77,11 +88,6 @@ namespace Sanguosha.Core.Network
                 {
                     receiveThread = new Thread(ReceiveLoop) { IsBackground = true };
                     receiveThread.Start();
-                }
-                if (sendThread == null)
-                {
-                    sendThread = new Thread(SendLoop) { IsBackground = true };
-                    sendThread.Start();
                 }
             }
         }
@@ -261,7 +267,7 @@ namespace Sanguosha.Core.Network
                     {
                         var uiDetach = new UIStatusHint() { IsDetached = true };
                         var uiAttach = new UIStatusHint() { IsDetached = false };
-                        Serializer.SerializeWithLengthPrefix<GameDataPacket>(newStream, uiDetach, PrefixStyle.Base128);                        
+                        Serializer.SerializeWithLengthPrefix<GameDataPacket>(newStream, uiDetach, PrefixStyle.Base128);
                         DataStream.AddStream(newStream, true);
                         Serializer.SerializeWithLengthPrefix<GameDataPacket>(newStream, uiAttach, PrefixStyle.Base128);
                         newStream.Flush();
