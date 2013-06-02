@@ -553,7 +553,7 @@ namespace Sanguosha.Lobby.Server
                 };
 
                 // Load pakcages.
-                if (gs.GameType == GameTypes.RoleGame)
+                if (gs.GameType == GameType.RoleGame)
                 {
                 gs.PackagesEnabled.Add("Sanguosha.Expansions.BasicExpansion");
                 gs.PackagesEnabled.Add("Sanguosha.Expansions.BattleExpansion");
@@ -577,9 +577,9 @@ namespace Sanguosha.Lobby.Server
                     gs.PackagesEnabled.Add("Sanguosha.Expansions.AssasinExpansion");
                 }
                 }
-                if (gs.GameType == GameTypes._1v1)
+                if (gs.GameType == GameType.Pk1v1)
                 {
-                    gs.PackagesEnabled.Add("Sanguosha.Expansions._1v1Expansion");
+                    gs.PackagesEnabled.Add("Sanguosha.Expansions.Pk1v1Expansion");
                 }
 
                 foreach (var addconfig in room.Room.Seats)

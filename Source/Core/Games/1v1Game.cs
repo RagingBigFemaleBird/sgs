@@ -187,12 +187,12 @@ namespace Sanguosha.Core.Games
                 }
             }
 
-            public class _1v1HeroChoiceVerifier : ICardChoiceVerifier
+            public class Pk1v1HeroChoiceVerifier : ICardChoiceVerifier
             {
                 bool noCardReveal;
                 int count;
                 bool showToall;
-                public _1v1HeroChoiceVerifier(int count)
+                public Pk1v1HeroChoiceVerifier(int count)
                 {
                     noCardReveal = false;
                     this.count = count;
@@ -350,7 +350,7 @@ namespace Sanguosha.Core.Games
                     int numHeroes = heroSelectCount[seq];
                     resultDeckMaximums.Add(numHeroes);
                     List<List<Card>> answer;
-                    var newVer = new _1v1HeroChoiceVerifier(numHeroes);
+                    var newVer = new Pk1v1HeroChoiceVerifier(numHeroes);
                     if (numHeroes > 1) newVer.Helper.ExtraTimeOutSeconds = 10;
                     if (!game.UiProxies[game.Players[turn]].AskForCardChoice(new CardChoicePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, newVer, out answer))
                     {
@@ -482,8 +482,6 @@ namespace Sanguosha.Core.Games
                 {
                     game.Emit(GameEvent.PlayerGameStartAction, new GameEventArgs() { Source = act });
                 }
-                game.CurrentPlayer = game.Players[1 - current.Id];
-                current[Player.DealAdjustment] = -1;
                 while (true)
                 {
                     GameEventArgs args = new GameEventArgs();
