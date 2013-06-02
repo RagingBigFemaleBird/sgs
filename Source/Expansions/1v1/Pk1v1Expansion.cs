@@ -14,9 +14,9 @@ using Sanguosha.Expansions.Battle.Cards;
 
 namespace Sanguosha.Expansions
 {
-    public class _1v1Expansion : Expansion
+    public class Pk1v1Expansion : Expansion
     {
-        public _1v1Expansion()
+        public Pk1v1Expansion()
         {
             CardSet.Add(new Card(SuitType.Spade, 1, new JueDou()));
             CardSet.Add(new Card(SuitType.Spade, 1, new ShanDian()));

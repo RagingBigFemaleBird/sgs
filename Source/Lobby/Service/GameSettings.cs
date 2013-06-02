@@ -34,11 +34,11 @@ namespace Sanguosha.Lobby.Core
         [ProtoMember(9)]
         public bool IsGodEnabled { get; set; }
         [ProtoMember(10)]
-        public GameTypes GameType { get; set; }
+        public GameType GameType { get; set; }
     }
-    public enum GameTypes
+    public enum GameType
     {
         RoleGame,
-        _1v1,
+        Pk1v1,
     }
 }

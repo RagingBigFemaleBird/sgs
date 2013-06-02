@@ -71,21 +71,24 @@ namespace Sanguosha.Core.Network
 
         public void StartListening()
         {
-            if (receiveThread == null)
+            lock (this)
             {
-                receiveThread = new Thread(ReceiveLoop) { IsBackground = true };
-                receiveThread.Start();
-            }
-            if (sendThread == null)
-            {
-                sendThread = new Thread(SendLoop) { IsBackground = true };
-                sendThread.Start();
+                if (!IsSpectator && receiveThread == null)
+                {
+                    receiveThread = new Thread(ReceiveLoop) { IsBackground = true };
+                    receiveThread.Start();
+                }
+                if (sendThread == null)
+                {
+                    sendThread = new Thread(SendLoop) { IsBackground = true };
+                    sendThread.Start();
+                }
             }
         }
 
         public void StopListening()
         {
-            if (receiveThread != null)
+            if (!IsSpectator && receiveThread != null)
             {
                 receiveThread.Abort();
                 receiveThread = null;

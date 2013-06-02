@@ -18,13 +18,13 @@ using System.Diagnostics;
 
 namespace Sanguosha.Core.Games
 {
-    public class _1v1Game : RoleGame
+    public class Pk1v1Game : RoleGame
     {
         protected override void InitTriggers()
         {
             RegisterTrigger(GameEvent.DoPlayer, new DoPlayerTrigger());
             RegisterTrigger(GameEvent.Shuffle, new ShuffleTrigger());
-            RegisterTrigger(GameEvent.GameStart, new _1v1GameRuleTrigger());
+            RegisterTrigger(GameEvent.GameStart, new Pk1v1GameRuleTrigger());
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Judge], new PlayerJudgeStageTrigger());
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Play], new PlayerActionTrigger());
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Draw], new PlayerDealStageTrigger() { Priority = -1 });
@@ -144,7 +144,7 @@ namespace Sanguosha.Core.Games
             }
         }
 
-        private class _1v1GameRuleTrigger : Trigger
+        private class Pk1v1GameRuleTrigger : Trigger
         {
             List<Card> usedRoleCards;
             static List<Card> allRoleCards;
@@ -165,14 +165,14 @@ namespace Sanguosha.Core.Games
                 return null;
             }
 
-            static _1v1GameRuleTrigger()
+            static Pk1v1GameRuleTrigger()
             {
                 allRoleCards = new List<Card>(from c in GameEngine.CardSet
                                               where c.Type is RoleCardHandler
                                               select c);
             }
 
-            public _1v1GameRuleTrigger()
+            public Pk1v1GameRuleTrigger()
             {
                 usedRoleCards = new List<Card>();
             }
@@ -231,7 +231,7 @@ namespace Sanguosha.Core.Games
             }
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
-                _1v1Game game = Game.CurrentGame as _1v1Game;
+                Pk1v1Game game = Game.CurrentGame as Pk1v1Game;
 
                 foreach (Player pp in game.Players)
                 {

@@ -111,8 +111,8 @@ namespace Sanguosha.UI.Controls
             {
                 var pkt = NetworkClient.Receive();
                 Trace.Assert(pkt is ConnectionResponse);
-                if ((pkt as ConnectionResponse).Settings.GameType == GameTypes._1v1) _game = new _1v1Game();
-                if ((pkt as ConnectionResponse).Settings.GameType == GameTypes.RoleGame) _game = new RoleGame();
+                if ((pkt as ConnectionResponse).Settings.GameType == GameType.Pk1v1) _game = new Pk1v1Game();
+                if ((pkt as ConnectionResponse).Settings.GameType == GameType.RoleGame) _game = new RoleGame();
                 
                 if (pkt is ConnectionResponse)
                 {
