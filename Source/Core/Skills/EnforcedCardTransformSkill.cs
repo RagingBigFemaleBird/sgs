@@ -41,12 +41,12 @@ namespace Sanguosha.Core.Skills
                 (p, e, a) =>
                 {
                     Card card = a.Card as Card;
-                    return card != null && Decks.Contains(card.HistoryPlace1.DeckType) && CardVerifier(Game.CurrentGame.OriginalCardSet[card.Id]);
+                    return card != null && Decks.Contains(card.HistoryPlace1.DeckType) && CardVerifier(GameEngine.CardSet[card.Id]);
                 },
                 (p, e, a) =>
                 {
                     Game.CurrentGame.NotificationProxy.NotifyLogEvent(
-                        new LogEvent("EnforcedCardTransform", Owner, Game.CurrentGame.OriginalCardSet[(a.Card as Card).Id], a.Card),
+                        new LogEvent("EnforcedCardTransform", Owner, GameEngine.CardSet[(a.Card as Card).Id], a.Card),
                         new List<Player> { Owner },
                         true,
                         false
