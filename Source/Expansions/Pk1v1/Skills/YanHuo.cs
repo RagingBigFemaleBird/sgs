@@ -26,7 +26,7 @@ namespace Sanguosha.Expansions.Pk1v1.Skills
                 (p, e, a) => { return true; },
                 (p, e, a) =>
                 {
-                    int X = p.HandCards().Count;
+                    int X = p.HandCards().Count + p.Equipments().Count;
                     Player opponent = Game.CurrentGame.Players.First(pl => pl != p);
                     Trace.Assert(opponent != null);
                     while (X-- > 0 && opponent.HandCards().Count + opponent.Equipments().Count > 0)

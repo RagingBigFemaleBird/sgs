@@ -18,11 +18,11 @@ namespace Sanguosha.Expansions.Pk1v1.Skills
     /// <summary>
     /// 挟缠―限定技，出牌阶段，你可与对手拼点。若你赢，视为你对其使用一张【决斗】，若你没赢，视为其对你使用一张【决斗】。
     /// </summary>
-    public class JiaChan : ActiveSkill
+    public class XieChan : ActiveSkill
     {
         public override VerifierResult Validate(GameEventArgs arg)
         {
-            if (Owner[JiaChanUsed] != 0)
+            if (Owner[XieChanUsed] != 0)
             {
                 return VerifierResult.Fail;
             }
@@ -68,7 +68,7 @@ namespace Sanguosha.Expansions.Pk1v1.Skills
 
         public override bool Commit(GameEventArgs arg)
         {
-            Owner[JiaChanUsed] = 1;
+            Owner[XieChanUsed] = 1;
             var win = Game.CurrentGame.PinDian(Owner, arg.Targets[0], this);
             GameEventArgs args = new GameEventArgs();
             if (win == true)
@@ -83,28 +83,13 @@ namespace Sanguosha.Expansions.Pk1v1.Skills
                 args.Targets = new List<Player>();
                 args.Targets.Add(Owner);
             }
-            args.Skill = new JiaChanJueDouTransformSkill();
+            args.Skill = new CardWrapper(arg.Source, new JueDou());
             args.Cards = new List<Card>();
             Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
             return true;
         }
 
-        class JiaChanJueDouTransformSkill : CardTransformSkill
-        {
-            public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card, bool isPlay)
-            {
-                card = new CompositeCard();
-                card.Type = new JueDou();
-                card.Subcards = new List<Card>(cards);
-                return VerifierResult.Success;
-            }
-
-            public override void NotifyAction(Player source, List<Player> targets, CompositeCard card)
-            {
-            }
-        }
-
-        public static PlayerAttribute JiaChanUsed = PlayerAttribute.Register("JiaChanUsed");
+        public static PlayerAttribute XieChanUsed = PlayerAttribute.Register("XieChanUsed");
 
     }
 }

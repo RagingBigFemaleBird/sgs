@@ -37,6 +37,10 @@
     <sys:String x:Key="Skill.HuWei.Description">你登场时，你可视为对对手使用一张【水淹七军】。</sys:String>
     <sys:String x:Key="Skill.HuWei.Usage">系统提示→点“确定”</sys:String>
 
+    <sys:String x:Key="Skill.XieChan.Name">挟缠</sys:String>
+    <sys:String x:Key="Skill.XieChan.Description">限定技：出牌阶段，你可与对手拼点。若你赢，视为你对其使用一张【决斗】，若你没赢，视为其对你使用一张【决斗】。</sys:String>
+    <sys:String x:Key="Skill.XieChan.Usage">系统提示→点“确定”</sys:String>
+
     <sys:String x:Key="Skill.ManYi.Name">蛮裔</sys:String>
     <sys:String x:Key="Skill.ManYi.Description">你登场时，你可视为对对手使用一张【南蛮入侵】；【南蛮入侵】对你无效。</sys:String>
     <sys:String x:Key="Skill.ManYi.Usage">系统提示→点“确定”</sys:String>

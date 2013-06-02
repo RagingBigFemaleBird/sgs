@@ -61,7 +61,7 @@ namespace Sanguosha.Expansions.Pk1v1.Skills
             ISkill skill;
             List<Card> cards;
             List<Player> players;
-            if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("TuXi"), new TuXiVerifier(), out skill, out cards, out players))
+            if (Game.CurrentGame.UiProxies[Owner].AskForCardUsage(new CardUsagePrompt("TuXi2"), new TuXiVerifier(), out skill, out cards, out players))
             {
                 Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, players);
                 NotifySkillUse(players);

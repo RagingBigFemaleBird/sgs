@@ -47,7 +47,7 @@
     <Compile Include="Cards\ShuiYanQiJun.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Skills\HuWei.cs" />
-    <Compile Include="Skills\JiaChan.cs" />
+    <Compile Include="Skills\XieChan.cs" />
     <Compile Include="Skills\ManYi.cs" />
     <Compile Include="Skills\MouZhu.cs" />
     <Compile Include="Skills\PianYi.cs" />

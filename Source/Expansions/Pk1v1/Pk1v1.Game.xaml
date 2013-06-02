@@ -38,5 +38,10 @@
     <sys:String x:Key="CardUsage.Prompt.XiaoXi">请发动骁袭视为对对手使用一张杀，或点取消不发动技能</sys:String>
     <sys:String x:Key="CardUsage.Prompt.HuWei">请发动虎威视为对对手使用一张水淹七军，或点取消不发动技能</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.ManYi">是否发动蛮裔视为对对手使用一张南蛮入侵？</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.TuXi2">请选择1名角色发动“突袭”，或点“取消”</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.MouZhu">{0}发动了谋诛，交给其一张手牌</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.MouZhuSha">视为对{0}出杀</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.MouZhuJueDou">视为对{0}出决斗</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.MouZhu2">视为出杀，可以发动技能</sys:String>
 
 </ResourceDictionary>

@@ -39,8 +39,11 @@ namespace Sanguosha.Expansions.Pk1v1.Skills
             {
                 return VerifierResult.Fail;
             }
-            if (Owner.HandCards().Count == 0) return VerifierResult.Fail;
-            if (arg.Targets != null && arg.Targets.Count == 1 && arg.Targets[0] == Owner) return VerifierResult.Fail;
+            if (arg.Targets != null && arg.Targets.Count == 1)
+            {
+                if (arg.Targets[0] == Owner) return VerifierResult.Fail;
+                if (arg.Targets[0].HandCards().Count == 0) return VerifierResult.Fail;
+            }
 
             if (arg.Targets == null || arg.Targets.Count == 0)
             {
@@ -74,7 +77,7 @@ namespace Sanguosha.Expansions.Pk1v1.Skills
             List<Card> cards;
             List<Player> players;
             ISkill skill;
-            if (!arg.Targets[0].AskForCardUsage(new CardUsagePrompt("MouZhu"), new MouZhuVerifier(), out skill, out cards, out players))
+            if (!arg.Targets[0].AskForCardUsage(new CardUsagePrompt("MouZhu", Owner), new MouZhuVerifier(), out skill, out cards, out players))
             {
                 cards = Game.CurrentGame.PickDefaultCardsFrom(new List<DeckPlace>() { new DeckPlace(arg.Targets[0], DeckType.Hand) });
             }
@@ -82,10 +85,10 @@ namespace Sanguosha.Expansions.Pk1v1.Skills
             if (Owner.HandCards().Count > arg.Targets[0].HandCards().Count)
             {
                 int answer;
-                arg.Targets[0].AskForMultipleChoice(new MultipleChoicePrompt("MouZhu"), new List<OptionPrompt>() { new OptionPrompt("MouZhuSha"), new OptionPrompt("MouZhuJueDou") }, out answer);
+                arg.Targets[0].AskForMultipleChoice(new MultipleChoicePrompt("MouZhu"), new List<OptionPrompt>() { new OptionPrompt("MouZhuSha", Owner), new OptionPrompt("MouZhuJueDou", Owner) }, out answer);
                 if (answer == 0)
                 {
-                    Sha.UseDummyShaTo(arg.Targets[0], Owner, new RegularSha(), new CardUsagePrompt("MouZhu", Owner));
+                    Sha.UseDummyShaTo(arg.Targets[0], Owner, new RegularSha(), new CardUsagePrompt("MouZhu2", Owner));
                 }
                 else
                 {
