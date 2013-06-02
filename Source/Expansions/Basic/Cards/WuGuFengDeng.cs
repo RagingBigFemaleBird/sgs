@@ -119,7 +119,7 @@ namespace Sanguosha.Expansions.Basic.Cards
         }
     }
 
-    class WuGuFengDengTrigger : Trigger
+    public class WuGuFengDengTrigger : Trigger
     {
         public WuGuFengDengTrigger()
         {

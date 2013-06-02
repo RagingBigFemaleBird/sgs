@@ -167,7 +167,10 @@ namespace Sanguosha.Core.Network
             gamer.TcpClient = client;
             gamer.IsSpectator = (indexC == numberOfGamers);
             gamer.StartListening();
-            SetOnlineStatus(indexC, OnlineStatus.Online);                       
+            if (indexC != numberOfGamers)
+            {
+                SetOnlineStatus(indexC, OnlineStatus.Online);
+            }       
         }
 
         void ConnectionListener()

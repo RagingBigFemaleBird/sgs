@@ -41,7 +41,7 @@ namespace Sanguosha.Expansions.SP.Skills
                     Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanUseCard, trigger);
                     Game.CurrentGame.RegisterTrigger(GameEvent.PlayerCanPlayCard, trigger);
                     JiLeiRemoval trigger2 = new JiLeiRemoval(eventArgs.Source, trigger);
-                    Game.CurrentGame.RegisterTrigger(GameEvent.PhaseEndEvents[TurnPhase.End], trigger2);
+                    Game.CurrentGame.RegisterTrigger(GameEvent.PhasePostEnd, trigger2);
                     Game.CurrentGame.NotificationProxy.NotifyLogEvent(new LogEvent("JiLei", eventArgs.Source, JiLeiQuestion[answer]), new List<Player>() { Owner, eventArgs.Source });
                 }
             }

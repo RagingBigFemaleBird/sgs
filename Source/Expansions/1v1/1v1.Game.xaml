@@ -1,0 +1,68 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <!-- 
+    Card Usage Examples:
+    <sys:String x:Key="CardUsage.Prompt.JueDou">{0}对你使用了决斗，请出一张杀</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.JueDou2">{0}为决斗打出一张杀，请出一张杀</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.WuXieKeJi">{0}为{1}询问无懈可击，是否使用无懈可击？</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.GangLie">{0}发动了刚烈，请弃两张牌或点“取消”受到一点伤害</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.GuiCai">{0}判定结果是{1}{2}，若要发动鬼才，请选择一张手牌代替之，或点取消不发动</sys:String>
+    
+    Card Choice Examples:
+    <sys:String x:Key="CardChoice.Prompt.FanKui">反馈</sys:String>    
+    <sys:String x:Key="CardChoice.Prompt.FanJian">反间</sys:String>
+    
+    Multiple Choice Examples
+    <sys:String x:Key="MultiChoice.Prompt.FanKui">是否对{0}发动反馈？</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.JiLei">{0}对你造成伤害，请选择要发动鸡肋的卡牌类别，或点“取消”不发动技能</sys:String>    
+    <sys:String x:Key="MultiChoice.Choice.JinNang">锦囊牌</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.ZhuangBei">装备牌</sys:String>    
+    -->
+    
+    <!-- 2将成名修订前武将技能
+    
+    <sys:String x:Key="CardUsage.Prompt.JieFan">你可以使用“解烦”对{0}使用一张【杀】</sys:String>
+
+    <sys:String x:Key="MultiChoice.Prompt.ZhenLie">你的判定结果是{0}{1}，是否发动贞烈改判？</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.MiJi">请选择一个秘计的目标</sys:String>
+    -->
+    <sys:String x:Key="Expansion.OverKnightFame13Expansion.Name">一将13</sys:String>
+
+    <sys:String x:Key="MultiChoice.Prompt.ZongXuan">是否发动纵玄将【{0}】置入牌堆顶?</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.FenCheng">是否受到一点火伤害?</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.MieJi">请选择一个灭计的目标，或点“取消”不发动技能</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.QiaoShui">巧说 请选择一个拼点的目标，或点“取消”不发动技能</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.QiaoShuiWin">请选择一个该锦囊增加或减少的目标</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.XianSi">请选择一至两个陷嗣目标，或点“取消”不发动技能</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.DuoDao">请弃一张手牌获得伤害来源的武器，或点“取消”不发动技能</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.FenCheng">请弃掉等同于装备区装备数目的手牌，或受到一点火伤害</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.LongYin">请弃掉一张黑色手牌令此杀不计入使用数量</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.ZhiYan">选择一名角色发动直言，或点“取消”不发动技能</sys:String>
+
+    <sys:String x:Key="Deck.Ni.Name">逆</sys:String>    
+
+    <sys:String x:Key="MultiChoice.Prompt.JingCe">精策 请选择 或点“取消”不发动</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.JingCeMoPai">摸一张牌</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.JingCeHuiXue">回复一点体力</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.JunXing">请弃置一张不同类别的牌</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.YuCe">你可以展示一张牌发动技能 御策，或点“取消”不发动</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.YuCeSource">请弃置一张不同类别的牌</sys:String>
+
+    <sys:String x:Key="CardUsage.Prompt.QiuYuan">求援 你可以选择一个有手牌的角色发动技能</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.QiuYuanGiveCard">求援 请交给{0}一张手牌</sys:String>
+    
+    <sys:String x:Key="CardChoice.Prompt.ChengXiang">称象 请拖动要获得的牌到第二排</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.ChengXiang.Others">称象 请等待{0}选择要获得的牌</sys:String>
+
+    <sys:String x:Key="CardChoice.Prompt.XianSi">陷嗣 请选择{0}的一张牌</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.XianSi.Others">陷嗣 请等待{1}选择{0}一张牌</sys:String>
+</ResourceDictionary>

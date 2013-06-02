@@ -378,7 +378,7 @@ namespace Sanguosha.Core.Network
             proxyListener = new Dictionary<Player, Thread>();
             semAccess = new Semaphore(1, 1);
             semWake = new Semaphore(0, 2);
-            semDone = new Semaphore(1, 1);
+            semDone = new Semaphore(restDraw.Count - 1, restDraw.Count);
             answerHero = heroSelection;
             DeckType temp = DeckType.Register("Temp");
             foreach (var player in Game.CurrentGame.Players)
