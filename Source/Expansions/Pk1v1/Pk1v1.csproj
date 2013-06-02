@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cards\GuoHeChaiQiao2.cs" />
     <Compile Include="Pk1v1Expansion.cs" />
     <Compile Include="Cards\ShuiYanQiJun.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

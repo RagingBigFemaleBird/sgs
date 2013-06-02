@@ -13,6 +13,10 @@
     <system:String x:Key="Card.ShuiYanQiJun.Description">出牌阶段，对对手使用，对手选择一项：弃置装备区里所有的牌（至少一张），或受到你对其造成的1点伤害。</system:String>
     <system:String x:Key="Card.ShuiYanQiJun.Usage">选中【水淹七军】→选择一个目标→点“确定”</system:String>
 
+    <system:String x:Key="Card.GuoHeChaiQiao2.Name">过河拆桥</system:String>
+    <system:String x:Key="Card.GuoHeChaiQiao2.Description">出牌阶段，对对手使用，你选择一项：弃置其装备区里的一张牌；或令对手亮出所有手牌，你弃置其中一张。</system:String>
+    <system:String x:Key="Card.GuoHeChaiQiao2.Usage">选中【过河拆桥】→选择一个目标→点“确定”</system:String>
+
     <!--
     Define card's default appearance this way:
     <BitmapImage x:Key="Card.Sha.Image.Normal">Images/Cards/Normal/Sha.jpg</BitmapImage>

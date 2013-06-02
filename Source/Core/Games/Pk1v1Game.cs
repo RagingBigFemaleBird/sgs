@@ -495,7 +495,7 @@ namespace Sanguosha.Core.Games
                 }
 
                 //redo this: current player might change
-                current = game.CurrentPlayer = game.Players[1 - rulerId];
+                current = game.CurrentPlayer;
                 while (true)
                 {
                     GameEventArgs args = new GameEventArgs();
