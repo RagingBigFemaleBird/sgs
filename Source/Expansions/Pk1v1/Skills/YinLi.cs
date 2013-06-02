@@ -23,7 +23,7 @@ namespace Sanguosha.Expansions.Pk1v1.Skills
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
             var args = eventArgs as DiscardCardEventArgs;
-            if (args.Source == null || args.Source == Owner || (args.Reason != DiscardReason.Discard))
+            if (Game.CurrentGame.CurrentPlayer == Owner || args.Source == null || args.Source == Owner || (args.Reason != DiscardReason.Discard))
             {
                 return;
             }

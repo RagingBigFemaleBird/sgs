@@ -20,47 +20,15 @@ namespace Sanguosha.Expansions.Pk1v1.Skills
     /// </summary>
     public class ManYi : TriggerSkill
     {
-        class ManYiVerifier : CardUsageVerifier
-        {
-            public override VerifierResult Verify(Player source, ISkill skill, List<Card> cards, List<Player> players)
-            {
-                return FastVerify(source, skill, cards, players);
-            }
-
-            public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
-            {
-                if (cards != null && cards.Count > 0)
-                {
-                    return VerifierResult.Fail;
-                }
-                if (players != null && players.Count > 0)
-                {
-                    return VerifierResult.Fail;
-                }
-                return new NanManRuQin().Verify(source, null, players, false);
-            }
-
-            public override IList<CardHandler> AcceptableCardTypes
-            {
-                get { return null; }
-            }
-
-            public ManYiVerifier()
-            {
-            }
-        }
-
         void Run(Player Owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
-            ISkill skill;
-            List<Card> cards;
-            List<Player> players;
-            if (Owner.AskForCardUsage(new CardUsagePrompt("ManYi"), new ManYiVerifier(), out skill, out cards, out players))
+            int answer;
+            if (Owner.AskForMultipleChoice(new MultipleChoicePrompt("ManYi"), OptionPrompt.YesNoChoices, out answer) && answer == 1)
             {
                 NotifySkillUse();
                 GameEventArgs args = new GameEventArgs();
                 args.Source = Owner;
-                args.Targets = players;
+                args.Targets = new List<Player>();
                 args.Skill = new CardWrapper(Owner, new NanManRuQin(), false);
                 args.Cards = new List<Card>();
                 Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, args);
