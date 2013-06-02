@@ -49,10 +49,14 @@
     <Compile Include="Skills\HuWei.cs" />
     <Compile Include="Skills\JiaChan.cs" />
     <Compile Include="Skills\ManYi.cs" />
+    <Compile Include="Skills\MouZhu.cs" />
+    <Compile Include="Skills\PianYi.cs" />
     <Compile Include="Skills\QingGuo2.cs" />
+    <Compile Include="Skills\SuZi.cs" />
     <Compile Include="Skills\TuXi2.cs" />
     <Compile Include="Skills\XiaoJi.cs" />
     <Compile Include="Skills\XiaoXi.cs" />
+    <Compile Include="Skills\YanHuo.cs" />
     <Compile Include="Skills\YinLi.cs" />
     <Compile Include="Skills\ZhiHeng2.cs" />
   </ItemGroup>
@@ -92,7 +96,11 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Pk1v1.Cards.xaml">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if not exist $(TargetDir)\Resources\Texts mkdir  $(TargetDir)\Resources\Texts

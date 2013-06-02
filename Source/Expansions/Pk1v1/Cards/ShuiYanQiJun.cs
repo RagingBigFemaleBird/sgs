@@ -17,7 +17,6 @@ namespace Sanguosha.Expansions.Pk1v1.Cards
     {
         protected override void Process(Player source, Player dest, ICard card, ReadOnlyCard readonlyCard, GameEventArgs inResponseTo)
         {
-            IPlayerProxy ui = Game.CurrentGame.UiProxies[source];
             if (source.IsDead) return;
             if (dest.Equipments().Count == 0)
             {
@@ -25,7 +24,7 @@ namespace Sanguosha.Expansions.Pk1v1.Cards
                 return;
             }
             int answer;
-            if (ui.AskForMultipleChoice(new MultipleChoicePrompt("ShuiYanQiJun"), OptionPrompt.YesNoChoices, out answer) && answer == 1)
+            if (dest.AskForMultipleChoice(new MultipleChoicePrompt("ShuiYanQiJun"), OptionPrompt.YesNoChoices, out answer) && answer == 1)
             {
                 Game.CurrentGame.HandleCardDiscard(dest, new List<Card>(dest.Equipments()));
             }

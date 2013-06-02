@@ -35,6 +35,9 @@ namespace Sanguosha.Core.Games
             RegisterTrigger(GameEvent.CardUsageBeforeEffected, new DeadManStopper() { Priority = int.MaxValue });
             RegisterTrigger(GameEvent.CardUsageBeforeEffected, new DeadManStopper() { Priority = int.MinValue });
             RegisterTrigger(GameEvent.PlayerSkillSetChanged, cleanupSquad);
+            var trigger = new InitialDealAdjustment() { Priority = int.MaxValue };
+            RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Draw], trigger);
+            RegisterTrigger(GameEvent.PhasePostEnd, new InitialDealAdjustmentUnregister(trigger));
         }
         public static DeckType SelectedHero = DeckType.Register("SelectedHero");
         private class PlayerIsDead : Trigger
@@ -463,27 +466,36 @@ namespace Sanguosha.Core.Games
                     }
                 }
 
-                foreach (var pl in game.Players)
-                {
-                    StartGameDeal(game, pl);
-                }
-                foreach (var pl in game.Players)
-                {
-                    game.Emit(GameEvent.HeroDebut, new GameEventArgs() { Source = pl });
-                }
-                //redo this: current player might change
-                current = game.CurrentPlayer = game.Players[1 - rulerId];
-
                 GameDelays.Delay(GameDelays.GameBeforeStart);
 
                 Game.CurrentGame.NotificationProxy.NotifyGameStart();
                 GameDelays.Delay(GameDelays.GameStart);
                 GameDelays.Delay(GameDelays.GameStart);
 
+                foreach (var pl in game.Players)
+                {
+                    StartGameDeal(game, pl);
+                }
+                foreach (var pl in game.Players)
+                {
+                    try
+                    {
+                        game.Emit(GameEvent.HeroDebut, new GameEventArgs() { Source = pl });
+                    }
+                    catch (EndOfTurnException)
+                    {
+                        game.CurrentPlayer = game.Players[1 - game.CurrentPlayer.Id];
+                    }
+                }
+
+
                 foreach (var act in game.AlivePlayers)
                 {
                     game.Emit(GameEvent.PlayerGameStartAction, new GameEventArgs() { Source = act });
                 }
+
+                //redo this: current player might change
+                current = game.CurrentPlayer = game.Players[1 - rulerId];
                 while (true)
                 {
                     GameEventArgs args = new GameEventArgs();
@@ -496,6 +508,28 @@ namespace Sanguosha.Core.Games
                 }
             }
         }
+
+        public class InitialDealAdjustment : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                Game.CurrentGame.CurrentPlayer[Player.DealAdjustment]--;
+            }
+        }
+        public class InitialDealAdjustmentUnregister : Trigger
+        {
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                Game.CurrentGame.UnregisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Draw], theTrigger);
+                Game.CurrentGame.UnregisterTrigger(GameEvent.PhasePostEnd, this);
+            }
+            InitialDealAdjustment theTrigger;
+            public InitialDealAdjustmentUnregister(InitialDealAdjustment trigger)
+            {
+                theTrigger = trigger;
+            }
+        }
+
         protected static void StartGameDeal(Game game, Player player)
         {
             List<CardsMovement> moves = new List<CardsMovement>();

@@ -31,4 +31,54 @@
     <sys:String x:Key="Skill.ZhenLie.Description">在你的判定牌生效前，你可以从牌堆顶亮出一张牌代替之。</sys:String>
     <sys:String x:Key="Skill.ZhenLie.Usage">系统提示→点“确定”</sys:String>
     -->
+    <sys:String x:Key="Hero.HeJin.Name">何进</sys:String>
+
+    <sys:String x:Key="Skill.HuWei.Name">虎威</sys:String>
+    <sys:String x:Key="Skill.HuWei.Description">你登场时，你可视为对对手使用一张【水淹七军】。</sys:String>
+    <sys:String x:Key="Skill.HuWei.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.ManYi.Name">蛮裔</sys:String>
+    <sys:String x:Key="Skill.ManYi.Description">你登场时，你可视为对对手使用一张【南蛮入侵】；【南蛮入侵】对你无效。</sys:String>
+    <sys:String x:Key="Skill.ManYi.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.MouZhu.Name">谋诛</sys:String>
+    <sys:String x:Key="Skill.MouZhu.Description">出牌阶段，你可以令对手交给你一张手牌。然后若你的手牌数大于对手的手牌数，对手选择一项：视为对你使用一张【杀】；视为对你使用一张【决斗】。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.MouZhu.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.PianYi.Name">翩仪</sys:String>
+    <sys:String x:Key="Skill.PianYi.Description">锁定技：你登场时，若处于对手的回合，其回合立即结束。</sys:String>
+    <sys:String x:Key="Skill.PianYi.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.QingGuo2.Name">倾国</sys:String>
+    <sys:String x:Key="Skill.QingGuo2.Description">你可以将一张装备区里的牌当【闪】使用或打出。</sys:String>
+    <sys:String x:Key="Skill.QingGuo2.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.SuZi.Name">肃资</sys:String>
+    <sys:String x:Key="Skill.SuZi.Description">对手死亡后，你可以获得其于死亡时弃置的所有牌。</sys:String>
+    <sys:String x:Key="Skill.SuZi.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.TuXi2.Name">突袭</sys:String>
+    <sys:String x:Key="Skill.TuXi2.Description">摸牌阶段开始时，若你的手牌数小于对手的手牌数，你可以于摸牌时少摸一张牌，然后获得对手的一张手牌。</sys:String>
+    <sys:String x:Key="Skill.TuXi2.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.XiaoJi2.Name">枭姬</sys:String>
+    <sys:String x:Key="Skill.XiaoJi2.Description">每当你失去一张装备区里的牌时，你可以选择一项：摸两张牌，回复1点体力。</sys:String>
+    <sys:String x:Key="Skill.XiaoJi2.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.XiaoXi.Name">骁袭</sys:String>
+    <sys:String x:Key="Skill.XiaoXi.Description">你登场时，你可视为对对手使用一张【杀】。</sys:String>
+    <sys:String x:Key="Skill.XiaoXi.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.YanHuo.Name">延祸</sys:String>
+    <sys:String x:Key="Skill.YanHuo.Description">你死亡时，你可以依次弃置对手的X张牌（X为你死亡时拥有牌的数量）。</sys:String>
+    <sys:String x:Key="Skill.YanHuo.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.YinLi.Name">姻礼</sys:String>
+    <sys:String x:Key="Skill.YinLi.Description">对手的回合内，当其失去的装备牌进入弃牌堆时，你可以获得之。</sys:String>
+    <sys:String x:Key="Skill.YinLi.Usage">系统提示→点“确定”</sys:String>
+
+    <sys:String x:Key="Skill.ZhiHeng2.Name">制衡</sys:String>
+    <sys:String x:Key="Skill.ZhiHeng2.Description">出牌阶段，你可以弃置至多两张牌，然后摸等量的牌。每阶段限一次。</sys:String>
+    <sys:String x:Key="Skill.ZhiHeng2.Usage">系统提示→点“确定”</sys:String>
+
 </ResourceDictionary>

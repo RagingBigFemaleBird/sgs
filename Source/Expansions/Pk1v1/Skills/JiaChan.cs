@@ -42,6 +42,7 @@ namespace Sanguosha.Expansions.Pk1v1.Skills
             if (arg.Targets != null && arg.Targets.Count == 1)
             {
                 if (arg.Targets[0].HandCards().Count == 0) return VerifierResult.Fail;
+                if (arg.Targets[0] == Owner) return VerifierResult.Fail;
                 CompositeCard c = new CompositeCard();
                 c.Type = new JueDou();
                 c.Subcards = null;

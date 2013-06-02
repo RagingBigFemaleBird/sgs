@@ -30,5 +30,13 @@
     <sys:String x:Key="CardUsage.Prompt.MiJi">请选择一个秘计的目标</sys:String>
     -->
     <sys:String x:Key="Expansion.Pk1v1Expansion.Name">1v1</sys:String>
+    
+    <sys:String x:Key="MultiChoice.Prompt.BeRuler">是否要当主公？</sys:String>
+
+    <sys:String x:Key="MultiChoice.Prompt.ShuiYanQiJun">水淹七军发动，是否要弃置所有装备？</sys:String>
+    <sys:String x:Key="MultiChoice.Choice.HuiFu">回复一点体力</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.XiaoXi">请发动骁袭视为对对手使用一张杀，或点取消不发动技能</sys:String>
+    <sys:String x:Key="CardUsage.Prompt.HuWei">请发动虎威视为对对手使用一张水淹七军，或点取消不发动技能</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.ManYi">是否发动蛮裔视为对对手使用一张南蛮入侵？</sys:String>
 
 </ResourceDictionary>
