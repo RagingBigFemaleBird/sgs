@@ -52,7 +52,7 @@ namespace Sanguosha.Expansions.Pk1v1.Skills
                 (p, e, a) => { return a.ReadonlyCard.Type is NanManRuQin; },
                 (p, e, a) => { throw new TriggerResultException(TriggerResult.End); },
                 TriggerCondition.OwnerIsTarget
-            ) { Type = TriggerType.Skill };
+            ) { Type = TriggerType.Skill, AskForConfirmation = false };
             Triggers.Add(GameEvent.CardUsageTargetValidating, trigger2);
             IsAutoInvoked = null;
         }
