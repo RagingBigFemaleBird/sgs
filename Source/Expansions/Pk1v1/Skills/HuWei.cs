@@ -29,7 +29,7 @@ namespace Sanguosha.Expansions.Pk1v1.Skills
 
             public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
             {
-                if (cards != null || cards.Count > 0)
+                if (cards != null && cards.Count > 0)
                 {
                     return VerifierResult.Fail;
                 }

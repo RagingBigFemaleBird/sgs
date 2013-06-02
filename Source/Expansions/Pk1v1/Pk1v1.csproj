@@ -51,7 +51,9 @@
     <Compile Include="Skills\ManYi.cs" />
     <Compile Include="Skills\QingGuo2.cs" />
     <Compile Include="Skills\TuXi2.cs" />
+    <Compile Include="Skills\XiaoJi.cs" />
     <Compile Include="Skills\XiaoXi.cs" />
+    <Compile Include="Skills\YinLi.cs" />
     <Compile Include="Skills\ZhiHeng2.cs" />
   </ItemGroup>
   <ItemGroup>
