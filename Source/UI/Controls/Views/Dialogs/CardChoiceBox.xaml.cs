@@ -35,9 +35,6 @@ namespace Sanguosha.UI.Controls
             UpdateModel();
         }
 
-        private static double _cardXSpacing = 100;
-        private static double _cardYSpacing = 150;
-
         private void card_MouseEnter(object sender, EventArgs args)
         {
             var currentCard = sender as CardView;
@@ -99,8 +96,8 @@ namespace Sanguosha.UI.Controls
             int maxCount = (from line in model.CardStacks
                             select line.Cards.Count).Max();
 
-            _cardStacks.Width = Math.Min(maxCount * _cardXSpacing, 570);
-            _cardStacks.Height = model.CardStacks.Count * _cardYSpacing;
+            _cardStacks.Width = Math.Min(maxCount * Settings.CardChoiceBox.CardXSpacing, Settings.CardChoiceBox.MaxWindowWidth);
+            _cardStacks.Height = model.CardStacks.Count * Settings.CardChoiceBox.CardYSpacing;
 
             ObservableCollection<string> deckNames = new ObservableCollection<string>();
 
@@ -110,8 +107,8 @@ namespace Sanguosha.UI.Controls
                 deckNames.Add(line.DeckName);
 
                 CardStack stack = new SingleRowCardStack() { ParentCanvas = _canvas };
-                stack.MaxCardSpacing = _cardXSpacing;
-                stack.MaxCardSpacingOnHighlighted = _cardXSpacing + 15;
+                stack.MaxCardSpacing = Settings.CardChoiceBox.CardXSpacing;
+                stack.MaxCardSpacingOnHighlighted = Settings.CardChoiceBox.CardXSpacing + 15;
                 stack.CardAlignment = HorizontalAlignment.Center;
                 stack.Height = 130d;
                 stack.Margin = new Thickness(1, 10, 1, 10);
@@ -123,7 +120,8 @@ namespace Sanguosha.UI.Controls
                     card.MouseLeave += card_MouseLeave;
                 }
 
-                stack.HorizontalAlignment = HorizontalAlignment.Stretch;
+                stack.HorizontalAlignment = HorizontalAlignment.Left;
+                stack.Width = _cardStacks.Width - 20;
                 _cardStacks.Children.Add(stack);
             }
 

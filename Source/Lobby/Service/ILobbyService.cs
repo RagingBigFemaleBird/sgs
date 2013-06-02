@@ -69,6 +69,7 @@ namespace Sanguosha.Lobby.Core
         public bool IsDualHeroMode { get; set; }
         public int NumHeroPicks { get; set; }
         public EnabledPackages EnabledPackages { get; set; }
+        public GameType GameType { get; set; }
     }
 
     [ServiceKnownType("GetKnownTypes", typeof(Helper))]

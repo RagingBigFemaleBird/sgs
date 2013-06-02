@@ -549,7 +549,7 @@ namespace Sanguosha.Lobby.Server
                     DualHeroMode = room.Room.Settings.IsDualHeroMode,
                     NumHeroPicks = room.Room.Settings.NumHeroPicks,
                     NumberOfDefectors = room.Room.Settings.NumberOfDefectors == 2 ? 2 : 1,
-                    GameType = GameType.Pk1v1,
+                    GameType = room.Room.Settings.GameType,
                 };
 
                 // Load pakcages.

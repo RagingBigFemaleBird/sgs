@@ -111,6 +111,9 @@
     <Compile Include="Views\Dialogs\PrivateDeckBox.xaml.cs">
       <DependentUpon>PrivateDeckBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Dialogs\TwoSidesCardChoice.xaml.cs">
+      <DependentUpon>TwoSidesCardChoice.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Dialogs\WuGuBox.xaml.cs">
       <DependentUpon>WuGuBox.xaml</DependentUpon>
     </Compile>
@@ -124,6 +127,7 @@
       <DependentUpon>MainGame.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Players\NumRolesToComboBoxEnabledConverter.cs" />
+    <Compile Include="Views\Settings.cs" />
     <Compile Include="Views\Skills\ExcitingSkillAnimation.xaml.cs">
       <DependentUpon>ExcitingSkillAnimation.xaml</DependentUpon>
     </Compile>
@@ -267,6 +271,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Dialogs\PrivateDeckBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\TwoSidesCardChoice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

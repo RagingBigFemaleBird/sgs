@@ -283,6 +283,9 @@ namespace Sanguosha.UI.Controls
             int[] options2 = { 10, 15, 20, 30 };
             settings.TimeOutSeconds = options2[cbTimeOutSeconds.SelectedIndex];
             settings.EnabledPackages = EnabledPackages.None;
+            if (cbGameType.SelectedIndex == 0) settings.GameType = GameType.RoleGame;
+            else if (cbGameType.SelectedIndex == 1) settings.GameType = GameType.Pk1v1;
+            else return;
             if (cbWind.IsChecked == true) settings.EnabledPackages |= EnabledPackages.Wind;
             if (cbFire.IsChecked == true) settings.EnabledPackages |= EnabledPackages.Fire;
             if (cbWoods.IsChecked == true) settings.EnabledPackages |= EnabledPackages.Woods;
