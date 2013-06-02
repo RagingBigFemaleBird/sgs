@@ -482,8 +482,6 @@ namespace Sanguosha.Core.Games
                 {
                     game.Emit(GameEvent.PlayerGameStartAction, new GameEventArgs() { Source = act });
                 }
-                game.CurrentPlayer = game.Players[1 - current.Id];
-                current[Player.DealAdjustment] = -1;
                 while (true)
                 {
                     GameEventArgs args = new GameEventArgs();
