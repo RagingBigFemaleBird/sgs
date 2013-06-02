@@ -44,7 +44,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="1v1Expansion.cs" />
+    <Compile Include="Cards\ShuiYanQiJun.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Skills\HuWei.cs" />
+    <Compile Include="Skills\JiaChan.cs" />
+    <Compile Include="Skills\QingGuo2.cs" />
+    <Compile Include="Skills\TuXi2.cs" />
+    <Compile Include="Skills\XiaoXi.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Core.csproj">
@@ -59,6 +65,18 @@
       <Project>{850AB9CB-90A0-4625-87FA-1F7CE04A5404}</Project>
       <Name>Battle</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Hills\Hills.csproj">
+      <Project>{893e3214-c48d-493c-b09d-7a31756b72b9}</Project>
+      <Name>Hills</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Wind\Wind.csproj">
+      <Project>{7ef64814-44f4-40ea-91c4-feb67f279f3f}</Project>
+      <Name>Wind</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Woods\Woods.csproj">
+      <Project>{6eb21e93-773a-4894-aa51-3128ccf649b7}</Project>
+      <Name>Woods</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="1v1.Skills.xaml">
@@ -70,6 +88,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if not exist $(TargetDir)\Resources\Texts mkdir  $(TargetDir)\Resources\Texts
