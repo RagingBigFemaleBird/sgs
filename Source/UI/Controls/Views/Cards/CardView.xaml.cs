@@ -521,6 +521,7 @@ namespace Sanguosha.UI.Controls
             cardView.Visibility = Visibility.Visible;
             cardView.DataContext = card;
             cardView.IsHitTestVisible = true;
+            cardView.OffsetOnSelect = true;
             Trace.Assert(cardView.Parent == null);
 
             if (parent != null)

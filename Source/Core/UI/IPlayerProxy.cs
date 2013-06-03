@@ -32,7 +32,14 @@ namespace Sanguosha.Core.UI
 
     public class AdditionalCardChoiceOptions
     {
+        /// <summary>
+        /// Gets/sets if the choice is for WuGuFengDeng.
+        /// </summary>
         public bool IsWuGu { get; set; }
+        /// <summary>
+        /// Gets/sets if the choice is for initial hero pick for 1v1 or 3v3 game.
+        /// </summary>
+        public bool IsTwoSidesCardChoice { get; set; }        
         public List<bool> Rearrangeable { get; set; }
         public List<OptionPrompt> Options { get; set; }
         public List<List<Card>> DefaultResult { get; set; }

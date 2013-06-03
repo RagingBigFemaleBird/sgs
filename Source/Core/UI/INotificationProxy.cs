@@ -33,6 +33,9 @@ namespace Sanguosha.Core.UI
         void NotifyImpersonation(Player p, Hero impersonator, Hero impersonatedHero, ISkill acquiredSkill);
         void NotifyWuGuStart(Prompt prompt, DeckPlace place);
         void NotifyWuGuEnd();
+        void NotifyTwoSidesCardPickStart(Prompt prompt, DeckPlace place, IDictionary<int, int> groupMap, int group0MaxPick, int group1MaxPick);
+        void NotifyTwoSidesCardPicked(bool isGroup0, int cardIndex);
+        void NotifyTwoSidesCardPickEnd();
         void NotifyIronShackled(Player p);
         void NotifyPinDianStart(Player from, Player to, ISkill skill);
         void NotifyMultipleCardUsageResponded(Player player);
@@ -153,6 +156,19 @@ namespace Sanguosha.Core.UI
 
 
         public void NotifyIronShackled(Player p)
+        {
+        }
+
+        public void NotifyTwoSidesCardPicked(bool isGroup0, int cardIndex)
+        {
+        }
+
+        public void NotifyTwoSidesCardPickEnd()
+        {
+        }
+
+
+        public void NotifyTwoSidesCardPickStart(Prompt prompt, DeckPlace place, IDictionary<int, int> groupMap, int group0MaxPick, int group1MaxPick)
         {
         }
     }

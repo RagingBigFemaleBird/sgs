@@ -67,7 +67,6 @@ namespace Sanguosha.Core.Games
                 }
 
                 Game.CurrentGame.Emit(GameEvent.PlayerIsDead, eventArgs);
-                p.IsDead = true;
                 //弃置死亡玩家所有的牌和标记
                 Game.CurrentGame.SyncImmutableCardsAll(Game.CurrentGame.Decks[p, DeckType.Hand]);
                 List<Card> toDiscarded = new List<Card>();
@@ -121,7 +120,7 @@ namespace Sanguosha.Core.Games
                 List<List<Card>> answer;
                 var newVer = new RequireCardsChoiceVerifier(1, false, true);
 
-                if (!p.AskForCardChoice(new CardChoicePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, newVer, out answer))
+                if (!p.AskForCardChoice(new CardChoicePrompt("Pk1v1.NextHeroChoice", Game.CurrentGame.Settings.DualHeroMode ? 2 : 1), sourceDecks, resultDeckNames, resultDeckMaximums, newVer, out answer))
                 {
                     answer = new List<List<Card>>();
                     answer.Add(new List<Card>() { Game.CurrentGame.Decks[p, SelectedHero].First() });
@@ -319,12 +318,7 @@ namespace Sanguosha.Core.Games
                     i++;
                 }
                 game.MoveCards(moves, null, GameDelays.GameStart);
-
                 GameDelays.Delay(GameDelays.RoleDistribute);
-
-                game.NotificationProxy.NotifyLogEvent(new LogEvent("HerosInitialization"), new List<Player>());
-                if (!game.IsClient) GameDelays.Delay(GameDelays.ServerSideCompensation);
-
                 //hero allocation
                 game.Shuffle(game.Decks[DeckType.Heroes]);
 
@@ -345,6 +339,11 @@ namespace Sanguosha.Core.Games
                 List<int> heroSelectCount = new List<int>() { 1, 2, 2, 2, 2, 2, 1 };
                 int seq = 0;
                 int turn = rulerId;
+                Dictionary<int, int> map = new Dictionary<int,int>();
+                map.Add(0, 0);
+                map.Add(1, 1);
+                var deckPlace = new DeckPlace(null, tempHero);
+                game.NotificationProxy.NotifyTwoSidesCardPickStart(new CardChoicePrompt("Pk1v1.InitHeroPick.Init"), deckPlace, map, 6, 6);
                 while (heroSelectCount.Count > seq)
                 {
                     List<DeckPlace> sourceDecks = new List<DeckPlace>();
@@ -355,22 +354,24 @@ namespace Sanguosha.Core.Games
                     int numHeroes = heroSelectCount[seq];
                     resultDeckMaximums.Add(numHeroes);
                     List<List<Card>> answer;
-                    var newVer = new Pk1v1HeroChoiceVerifier(numHeroes);
-                    if (numHeroes > 1) newVer.Helper.ExtraTimeOutSeconds = 10;
-                    if (!game.UiProxies[game.Players[turn]].AskForCardChoice(new CardChoicePrompt("RulerHeroChoice"), sourceDecks, resultDeckNames, resultDeckMaximums, newVer, out answer))
+                    var newVer = new Pk1v1HeroChoiceVerifier(1);
+                    for (int j = 0; j < numHeroes; j++)
                     {
-                        answer = new List<List<Card>>();
-                        answer.Add(new List<Card>());
-                        for (int jj = 0; jj < numHeroes; jj++)
+                        var option = new AdditionalCardChoiceOptions();
+                        option.IsTwoSidesCardChoice = true;
+                        if (!game.UiProxies[game.Players[turn]].AskForCardChoice(new CardChoicePrompt("Pk1v1.InitHeroPick", numHeroes), sourceDecks, resultDeckNames, resultDeckMaximums, newVer, out answer, option))
                         {
+                            answer = new List<List<Card>>();
+                            answer.Add(new List<Card>());
                             answer[0].Add(game.Decks[null, tempHero].First(h => !answer[0].Contains(h) && !game.Decks[game.Players[turn], SelectedHero].Contains(h) && !game.Decks[game.Players[1 - turn], SelectedHero].Contains(h)));
                         }
+                        game.Decks[game.Players[turn], SelectedHero].AddRange(answer[0]);
+                        game.NotificationProxy.NotifyTwoSidesCardPicked(turn == 0, game.Decks[deckPlace].IndexOf(answer[0][0]));
                     }
-                    game.Decks[game.Players[turn], SelectedHero].AddRange(answer[0]);
                     seq++;
                     turn = 1 - turn;
                 }
-
+                game.NotificationProxy.NotifyTwoSidesCardPickEnd();
                 game.Shuffle(game.Decks[null, DeckType.Dealing]);
 
                 Player current = game.CurrentPlayer = game.Players[1 - rulerId];

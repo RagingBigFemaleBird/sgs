@@ -32,6 +32,12 @@
     <sys:String x:Key="Expansion.Pk1v1Expansion.Name">1v1</sys:String>
     
     <sys:String x:Key="MultiChoice.Prompt.BeRuler">是否要当主公？</sys:String>
+    
+    <sys:String x:Key="CardChoice.Prompt.Pk1v1.InitHeroPick.Init">正在初始化武将，请稍候</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.Pk1v1.InitHeroPick">请选择{0}名候选武将</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.Pk1v1.InitHeroPick.Others">请等待{0}选择{1}名候选武将</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.Pk1v1.NextHeroChoice">请选择{0}名接下来要上场的武将</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.Pk1v1.NextHeroChoice.Others">请等待{0}选择{1}名接下来要上场的武将</sys:String>
 
     <sys:String x:Key="MultiChoice.Prompt.ShuiYanQiJun">水淹七军发动，是否要弃置所有装备？</sys:String>
     <sys:String x:Key="MultiChoice.Choice.HuiFu">回复一点体力</sys:String>
@@ -40,7 +46,7 @@
     <sys:String x:Key="MultiChoice.Prompt.ManYi">是否发动蛮裔视为对对手使用一张南蛮入侵？</sys:String>
     <sys:String x:Key="CardUsage.Prompt.TuXi2">请选择1名角色发动“突袭”，或点“取消”</sys:String>
     <sys:String x:Key="CardUsage.Prompt.MouZhu">{0}发动了谋诛，交给其一张手牌</sys:String>
-    <sys:String x:Key="MultiChoice.Prompt.MouZhu">谋诛发动</sys:String>
+    <sys:String x:Key="MultiChoice.Prompt.MouZhu">请选择一项谋诛发动的效果</sys:String>
     <sys:String x:Key="MultiChoice.Choice.MouZhuSha">视为对{0}出杀</sys:String>
     <sys:String x:Key="MultiChoice.Choice.MouZhuJueDou">视为对{0}出决斗</sys:String>
     <sys:String x:Key="CardUsage.Prompt.MouZhu2">视为出杀，可以发动技能</sys:String>

@@ -1165,11 +1165,21 @@ namespace Sanguosha.UI.Controls
                 {
                     player.Update();
                 }
+
+                // Update WuGu Box
                 if (GameModel != null && GameModel.WuGuModel != null)
                 {
                     wuGuBox.DataContext = GameModel.WuGuModel;
                     wuGuWindow.Show();
                 }
+
+                // Update TwoSidesCardChoice Box
+                if (GameModel != null && GameModel.TwoSidesCardChoiceModel != null)
+                {
+                    twoSidesCardChoiceBox.DataContext = GameModel.TwoSidesCardChoiceModel;
+                    twoSidesCardChoiceWindow.Show();
+                }
+                
                 busyIndicator.IsBusy = false;
                 var handler = OnUiAttached;
                 if (handler != null)
@@ -1455,16 +1465,85 @@ namespace Sanguosha.UI.Controls
             });
         }
 
-        public void NotifyTwoSidesCardPickStart(Prompt prompt, DeckPlace place, int mainPlayerMaxPick, int opponentMaxPick)
+        public void NotifyTwoSidesCardPickStart(Prompt prompt, DeckPlace place, IDictionary<int, int> groupMap, int group0MaxPick, int group1MaxPick)
         {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                var twoSidesCardChoiceModel = new TwoSidesCardChoiceViewModel();
+                twoSidesCardChoiceModel.Prompt = LogFormatter.Translate(prompt);
+                twoSidesCardChoiceModel.GroupOfPlayer = groupMap;
+
+                foreach (var c in Game.CurrentGame.Decks[place])
+                {
+                    var card = new CardViewModel() { Card = c, IsSelectionMode = true, IsEnabled = true };
+                    card.OnSelectedChanged += new EventHandler(card_OnSelectedChanged);
+                    twoSidesCardChoiceModel.CardsToPick.Add(card);
+                }
+
+                int mainPlayerMaxPick, opponentMaxPick;
+                if (groupMap[GameModel.MainPlayerModel.Id] == 0)
+                {
+                    mainPlayerMaxPick = group0MaxPick;
+                    opponentMaxPick = group1MaxPick;
+                }
+                else
+                {
+                    mainPlayerMaxPick = group1MaxPick;
+                    opponentMaxPick = group0MaxPick;
+                }
+                for (int i = 0; i < mainPlayerMaxPick; i++)
+                {
+                    twoSidesCardChoiceModel.CardsPicked1.Add(new CardSlotViewModel());
+                }
+
+                for (int i = 0; i < opponentMaxPick; i++)
+                {
+                    twoSidesCardChoiceModel.CardsPicked2.Add(new CardSlotViewModel());
+                }
+
+                GameModel.TwoSidesCardChoiceModel = twoSidesCardChoiceModel;
+
+                if (ViewModelBase.IsDetached) return;
+
+                twoSidesCardChoiceBox.DataContext = twoSidesCardChoiceModel;
+                twoSidesCardChoiceWindow.Show();
+            });
         }
 
-        public void NotifyTwoSidesCardPicked(bool isMainPlayer, int cardIndex)
+        public void NotifyTwoSidesCardPicked(bool isGroup0, int cardIndex)
         {
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                if (GameModel == null || GameModel.TwoSidesCardChoiceModel == null) return;
+                var model = GameModel.TwoSidesCardChoiceModel;
+                model.TimeOutSeconds1 = 0d;
+                model.TimeOutSeconds2 = 0d;
+                bool isMainPlayer = (model.GroupOfPlayer[GameModel.MainPlayerModel.Id] == 0) == isGroup0;
+                if (isMainPlayer)
+                {
+                    model.CardsPicked1[model.NumCardsPicked1] = model.CardsToPick[cardIndex];
+                }
+                else
+                {
+                    model.CardsPicked2[model.NumCardsPicked2] = model.CardsToPick[cardIndex];
+                }
+                if (!ViewModelBase.IsDetached)
+                {
+                    twoSidesCardChoiceBox.PickCard(isMainPlayer, cardIndex);
+                }
+                model.CardsToPick[cardIndex].IsSelectionMode = false;
+                model.CardsToPick[cardIndex] = new CardSlotViewModel();
+            });
         }
 
         public void NotifyTwoSidesCardPickEnd()
         {
+            if (ViewModelBase.IsDetached) return;
+            Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
+            {
+                twoSidesCardChoiceWindow.Close();
+                GameModel.TwoSidesCardChoiceModel = null;
+            });
         }
 
         public void NotifyWuGuStart(Prompt prompt, DeckPlace place)
@@ -1498,7 +1577,15 @@ namespace Sanguosha.UI.Controls
         void card_OnSelectedChanged(object sender, EventArgs e)
         {
             if (ViewModelBase.IsDetached) return;
-            GameModel.CurrentActivePlayer.AnswerWuGuChoice((sender as CardViewModel).Card);
+            Trace.Assert(GameModel != null);
+            if (GameModel.WuGuModel != null)
+            {
+                GameModel.CurrentActivePlayer.AnswerWuGuChoice((sender as CardViewModel).Card);
+            }
+            else if (GameModel.TwoSidesCardChoiceModel != null)
+            {
+                GameModel.CurrentActivePlayer.AnswerTwoSidesCardChoice((sender as CardViewModel).Card);
+            }
         }
 
         public void NotifyWuGuEnd()

@@ -235,7 +235,7 @@ namespace Sanguosha.UI.Controls
 
         #endregion
 
-        public void Update()
+        public virtual void Update()
         {
             if (_card != null)
             {

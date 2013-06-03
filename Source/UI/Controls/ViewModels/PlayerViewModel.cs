@@ -1883,6 +1883,15 @@ namespace Sanguosha.UI.Controls
             GameModel.WuGuModel.IsEnabled = false;
         }
 
+        public void AnswerTwoSidesCardChoice(Card card)
+        {
+            if (GameModel.TwoSidesCardChoiceModel.IsEnabled)
+            {
+                CardChoiceAnsweredEvent(new List<List<Card>>() { new List<Card>() { card } });
+            }
+            GameModel.TwoSidesCardChoiceModel.IsEnabled = false;
+        }
+
         public void AskForCardChoice(Prompt prompt, List<DeckPlace> sourceDecks,
                                      List<string> resultDeckNames,
                                      List<int> resultDeckMaximums,
@@ -1924,6 +1933,24 @@ namespace Sanguosha.UI.Controls
                     {
                         GameModel.WuGuModel.IsEnabled = IsPlayable;
                         GameModel.WuGuModel.Prompt = LogFormatter.Translate(prompt);
+                    }
+                }
+                else if (options != null && options.IsTwoSidesCardChoice)
+                {
+                    if (GameModel != null && GameModel.TwoSidesCardChoiceModel != null)
+                    {
+                        GameModel.TwoSidesCardChoiceModel.IsEnabled = IsPlayable;
+                        GameModel.TwoSidesCardChoiceModel.Prompt = LogFormatter.Translate(prompt);
+                        bool isMainPlayer =
+                            GameModel.TwoSidesCardChoiceModel.GroupOfPlayer[GameModel.MainPlayerModel.Id] == GameModel.TwoSidesCardChoiceModel.GroupOfPlayer[Id];
+                        if (isMainPlayer)
+                        {
+                            GameModel.TwoSidesCardChoiceModel.TimeOutSeconds1 = timeOutSeconds;
+                        }
+                        else
+                        {
+                            GameModel.TwoSidesCardChoiceModel.TimeOutSeconds2 = timeOutSeconds;
+                        }
                     }
                 }
                 else

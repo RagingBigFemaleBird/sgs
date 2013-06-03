@@ -21,5 +21,9 @@ namespace Sanguosha.UI.Controls
                 OnPropertyChanged("Hint");
             }
         }
+
+        public override void Update()
+        {
+        }
     }
 }

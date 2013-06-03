@@ -278,6 +278,14 @@
                   WindowStartupLocation="Center">
             <local:WuGuBox x:Name="wuGuBox" IsHitTestVisible="{Binding WuGuModel.IsEnabled}"/>
         </xctk:ChildWindow>
+        <xctk:ChildWindow x:Name="twoSidesCardChoiceWindow" 
+                  Template="{DynamicResource BlackWindowStyle}"
+                  HorizontalContentAlignment="Center"
+                  CloseButtonVisibility="Collapsed"
+                  Caption="{Binding TwoSidesCardChoiceModel.Prompt}"
+                  WindowStartupLocation="Center">
+            <local:TwoSidesCardChoiceBox x:Name="twoSidesCardChoiceBox" IsHitTestVisible="{Binding WuGuModel.IsEnabled}"/>
+        </xctk:ChildWindow>
         <Grid>
             <xctk:ChildWindow x:Name="pinDianWindow" 
                   Template="{DynamicResource BlackWindowStyle}"        

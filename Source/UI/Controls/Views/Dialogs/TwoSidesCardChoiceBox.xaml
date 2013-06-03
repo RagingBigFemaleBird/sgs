@@ -20,13 +20,7 @@
         <StackPanel>
             <ProgressBar x:Name="progressBar2" Style="{StaticResource TimedProgressBarStyle}" MinWidth="163" MaxWidth="263" Height="15"  Margin="30,10,30,10" />
             <StackPanel x:Name="spCardPicks2" Orientation="Horizontal" Margin="5" />
-            <ItemsControl x:Name="icCardRepo"  Margin="5" ItemsSource="{Binding CardToPick}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Rows="2" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
+            <UniformGrid x:Name="ugCardsRepo" Rows="2" Margin="5" />
             <StackPanel x:Name="spCardPicks1" Orientation="Horizontal" Margin="5" />
             <ProgressBar x:Name="progressBar1" Style="{StaticResource TimedProgressBarStyle}" MinWidth="163" MaxWidth="263" Height="15"  Margin="30,10,30,10" />
         </StackPanel>
