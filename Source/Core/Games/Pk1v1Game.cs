@@ -68,6 +68,7 @@ namespace Sanguosha.Core.Games
 
                 Game.CurrentGame.Emit(GameEvent.PlayerIsDead, eventArgs);
                 //弃置死亡玩家所有的牌和标记
+                p.IsDead = true;
                 Game.CurrentGame.SyncImmutableCardsAll(Game.CurrentGame.Decks[p, DeckType.Hand]);
                 List<Card> toDiscarded = new List<Card>();
                 toDiscarded.AddRange(p.HandCards());
