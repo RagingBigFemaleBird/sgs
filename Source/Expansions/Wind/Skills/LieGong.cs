@@ -27,7 +27,7 @@ namespace Sanguosha.Expansions.Wind.Skills
         {
             var trigger = new AutoNotifyPassiveSkillTrigger(
                 this,
-                (p, e, a) => { return (a.ReadonlyCard.Type is Sha) && Game.CurrentGame.PhasesOwner == p && Game.CurrentGame.CurrentPhase == TurnPhase.Play; },
+                (p, e, a) => { return (a.ReadonlyCard.Type is Sha) && Game.CurrentGame.CurrentPhase == TurnPhase.Play; },
                 (p, e, a) =>
                 {
                     Dictionary<Player, int> map = new Dictionary<Player, int>();

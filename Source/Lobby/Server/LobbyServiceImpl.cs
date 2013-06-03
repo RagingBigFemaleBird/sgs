@@ -199,7 +199,8 @@ namespace Sanguosha.Lobby.Server
                     newRoomId++;
                 }
                 Room room = new Room();
-                for (int i = 0; i < 8; i++)
+                int maxSeats = settings.GameType == GameType.Pk1v1 ? 2 : 8;
+                for (int i = 0; i < maxSeats; i++)
                 {
                     room.Seats.Add(new Seat() { State = SeatState.Empty });
                 }
