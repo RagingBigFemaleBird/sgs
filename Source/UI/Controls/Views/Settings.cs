@@ -13,6 +13,10 @@ namespace Sanguosha.UI.Controls
             public static double CardXSpacing = 100;
             public static double CardYSpacing = 150;
         }
-        
+        public static class TwoSidesCardChoiceBox
+        {
+            public static int CardWidth = 60;
+            public static int CardHeight = 84;
+        }
     }
 }

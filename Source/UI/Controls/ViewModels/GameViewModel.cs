@@ -133,6 +133,19 @@ namespace Sanguosha.UI.Controls
             }
         }
 
+        private TwoSidesCardChoiceViewModel _twoSidesCardChoiceModel;
+
+        public TwoSidesCardChoiceViewModel TwoSidesCardChoiceModel
+        {
+            get { return _twoSidesCardChoiceModel; }
+            set 
+            {
+                if (_twoSidesCardChoiceModel == value) return;
+                _twoSidesCardChoiceModel = value;
+                OnPropertyChanged("TwoSidesCardChoiceModel");
+            }
+        }
+
         public PlayerViewModel CurrentActivePlayer
         {
             get;

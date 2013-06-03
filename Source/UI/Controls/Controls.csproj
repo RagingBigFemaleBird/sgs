@@ -73,6 +73,7 @@
     <Compile Include="ViewModels\RoleIconViewModel.cs" />
     <Compile Include="ViewModels\RoomViewModel.cs" />
     <Compile Include="ViewModels\SeatViewModel.cs" />
+    <Compile Include="ViewModels\TwoSidesCardChoiceViewModel.cs" />
     <Compile Include="ViewModels\WuGuChoiceViewModel.cs" />
     <Compile Include="Views\BaseControls\BoolToDoubleConverter.cs" />
     <Compile Include="Views\BaseControls\BoolToInvisibilityConverter.cs" />
@@ -111,8 +112,8 @@
     <Compile Include="Views\Dialogs\PrivateDeckBox.xaml.cs">
       <DependentUpon>PrivateDeckBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Dialogs\TwoSidesCardChoice.xaml.cs">
-      <DependentUpon>TwoSidesCardChoice.xaml</DependentUpon>
+    <Compile Include="Views\Dialogs\TwoSidesCardChoiceBox.xaml.cs">
+      <DependentUpon>TwoSidesCardChoiceBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\WuGuBox.xaml.cs">
       <DependentUpon>WuGuBox.xaml</DependentUpon>
@@ -274,7 +275,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Dialogs\TwoSidesCardChoice.xaml">
+    <Page Include="Views\Dialogs\TwoSidesCardChoiceBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1450,6 +1450,18 @@ namespace Sanguosha.UI.Controls
             });
         }
 
+        public void NotifyTwoSidesCardPickStart(Prompt prompt, DeckPlace place, int mainPlayerMaxPick, int opponentMaxPick)
+        {
+        }
+
+        public void NotifyTwoSidesCardPicked(bool isMainPlayer, int cardIndex)
+        {
+        }
+
+        public void NotifyTwoSidesCardPickEnd()
+        {
+        }
+
         public void NotifyWuGuStart(Prompt prompt, DeckPlace place)
         {
             if (ViewModelBase.IsDetached) return;
