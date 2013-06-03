@@ -390,20 +390,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Game\IronShackled.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Buttons\spectate\disabled.png" />
     <Resource Include="Images\Buttons\spectate\down.png" />
     <Resource Include="Images\Buttons\spectate\hover.png" />
     <Resource Include="Images\Buttons\spectate\normal.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Marks\marks.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Cards\SmallEquip\QingGangJian.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Digits\1.png" />
     <Resource Include="Images\Digits\2.png" />
     <Resource Include="Images\Digits\3.png" />
@@ -413,32 +405,18 @@
     <Resource Include="Images\Digits\7.png" />
     <Resource Include="Images\Digits\8.png" />
     <Resource Include="Images\Digits\9.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\PlayerInfoView\huashenSkillBg.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Buttons\mute\disabled.png" />
     <Resource Include="Images\Buttons\mute\down.png" />
     <Resource Include="Images\Buttons\mute\hover.png" />
     <Resource Include="Images\Buttons\mute\normal.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Buttons\sound\disabled.png" />
     <Resource Include="Images\Buttons\sound\down.png" />
     <Resource Include="Images\Buttons\sound\hover.png" />
     <Resource Include="Images\Buttons\sound\normal.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Lobby\roomInfo.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Lobby\Seat\bg0.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Lobby\Seat\win.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Buttons\lobbyCancel\disabled.png" />
     <Resource Include="Images\Buttons\lobbyCancel\down.png" />
     <Resource Include="Images\Buttons\lobbyCancel\hover.png" />
@@ -447,28 +425,18 @@
     <Resource Include="Images\Buttons\lobbyReady\down.png" />
     <Resource Include="Images\Buttons\lobbyReady\hover.png" />
     <Resource Include="Images\Buttons\lobbyReady\normal.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Roles\defectorIcon.png" />
     <Resource Include="Images\Roles\loyalistIcon.png" />
     <Resource Include="Images\Roles\rebelIcon.png" />
     <Resource Include="Images\Roles\rulerIcon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\GameResult\draw.png" />
     <Resource Include="Images\GameResult\lose.png" />
     <Resource Include="Images\GameResult\win.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Buttons\lobbySpectate\disabled.png" />
     <Resource Include="Images\Buttons\lobbySpectate\down.png" />
     <Resource Include="Images\Buttons\lobbySpectate\hover.png" />
     <Resource Include="Images\Buttons\lobbySpectate\normal.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Lobby\Seat\closed.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Facials\0.gif" />
     <Resource Include="Images\Facials\1.gif" />
     <Resource Include="Images\Facials\10.gif" />
@@ -494,8 +462,6 @@
     <Resource Include="Images\Facials\7.gif" />
     <Resource Include="Images\Facials\8.gif" />
     <Resource Include="Images\Facials\9.gif" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Club-disabled.png" />
     <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Club-down.png" />
     <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Club-hover.png" />
@@ -524,8 +490,6 @@
     <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Wu-down.png" />
     <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Wu-hover.png" />
     <Resource Include="Images\Buttons\multichoice\MultiChoice.Choice.Wu-normal.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Replay\bg.png" />
     <Resource Include="Images\Replay\const-down.png" />
     <Resource Include="Images\Replay\const-downhover.png" />
@@ -547,11 +511,7 @@
     <Resource Include="Images\Replay\slow-down.png" />
     <Resource Include="Images\Replay\slow-hover.png" />
     <Resource Include="Images\Replay\slow-normal.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\CornerAdorners\0.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Cards\Normal\BaGuaZhen.jpg" />
     <Resource Include="Images\Cards\Normal\BaiYinShiZi.jpg" />
     <Resource Include="Images\Cards\Normal\BingLiangCunDuan.jpg" />
@@ -736,49 +696,25 @@
     <Resource Include="Images\Cards\Normal\ZhuRong.jpg" />
     <Resource Include="Images\Cards\Normal\ZiXing.jpg" />
     <Resource Include="Images\Cards\Normal\ZuoCi.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Cards\DelayedTools\YanXiaoPai.png" />
     <Resource Include="Images\Cards\DelayedTools\YanXiaoPai2.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Cards\BigEquip\glassBg.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\MainPlayerInfoView\leftBg.png" />
     <Resource Include="Images\MainPlayerInfoView\middleBg.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Cards\Normal\XiahouBa.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Buttons\skill\enforced\hover-left.png" />
     <Resource Include="Images\Buttons\skill\enforced\hover-middle.png" />
     <Resource Include="Images\Buttons\skill\enforced\hover-right.png" />
     <Resource Include="Images\Buttons\skill\enforced\normal-left.png" />
     <Resource Include="Images\Buttons\skill\enforced\normal-middle.png" />
     <Resource Include="Images\Buttons\skill\enforced\normal-right.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Cards\Rank\Ranks.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\PlayerInfoView\bg.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\PlayerInfoView\bg-fade.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\MainPlayerInfoView\blackBg.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\PlayerInfoView\heroSeparator.png" />
     <Resource Include="Images\PlayerInfoView\secondaryHeroMask.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\CornerAdorners\1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Roles\defectorAlive.png" />
     <Resource Include="Images\Roles\defectorDead.png" />
     <Resource Include="Images\Roles\loyalistAlive.png" />
@@ -789,11 +725,7 @@
     <Resource Include="Images\Roles\rulerDead.png" />
     <Resource Include="Images\Roles\unknownAlive.png" />
     <Resource Include="Images\Roles\unknownDead.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Cards\Rank\Ranks2.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Cards\Normal\CaoChong.jpg" />
     <Resource Include="Images\Cards\Normal\DaQiaoXiaoQiao.jpg" />
     <Resource Include="Images\Cards\Normal\FuHuangHou.jpg" />
@@ -806,8 +738,6 @@
     <Resource Include="Images\Cards\Normal\PanZhangMaZhong.jpg" />
     <Resource Include="Images\Cards\Normal\YuFan.jpg" />
     <Resource Include="Images\Cards\Normal\ZhuRan.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Packages\basic.png" />
     <Resource Include="Images\Packages\battle.png" />
     <Resource Include="Images\Packages\ex.png" />
@@ -818,20 +748,10 @@
     <Resource Include="Images\Packages\sp.png" />
     <Resource Include="Images\Packages\wind.png" />
     <Resource Include="Images\Packages\woods.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Cards\Normal\yuanshu2.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Cards\Normal\HuaXiong2.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Cards\Normal\ZhugeKe.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Cards\Normal\GuoHeChaiQiao2.jpg" />
-  </ItemGroup>
-  <ItemGroup>
+    <Resource Include="Images\Cards\Normal\HeJin.jpg" />
     <Resource Include="Images\Cards\Normal\ShuiYanQiJun.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

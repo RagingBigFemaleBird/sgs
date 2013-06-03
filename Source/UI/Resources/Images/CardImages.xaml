@@ -110,11 +110,13 @@
     <BitmapImage x:Key="Card.GuanYu.Image.Normal">Cards/Normal/GuanYu.jpg</BitmapImage>
     <BitmapImage x:Key="Card.GuDingDao.Image.Normal">Cards/Normal/GuDingDao.jpg</BitmapImage>
     <BitmapImage x:Key="Card.GuoHeChaiQiao.Image.Normal">Cards/Normal/GuoHeChaiQiao.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.GuoHeChaiQiao2.Image.Normal">Cards/Normal/GuoHeChaiQiao.jpg</BitmapImage>
     <BitmapImage x:Key="Card.GuoHuai.Image.Normal">Cards/Normal/GuoHuai.jpg</BitmapImage>
     <BitmapImage x:Key="Card.GuoJia.Image.Normal">Cards/Normal/GuoJia.jpg</BitmapImage>
     <BitmapImage x:Key="Card.GZLuXun.Image.Normal">Cards/Normal/GZLuXun.jpg</BitmapImage>
     <BitmapImage x:Key="Card.HanBingJian.Image.Normal">Cards/Normal/HanBingJian.jpg</BitmapImage>
     <BitmapImage x:Key="Card.HanDang.Image.Normal">Cards/Normal/HanDang.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.HeJin.Image.Normal">Cards/Normal/HeJin.jpg</BitmapImage>
     <BitmapImage x:Key="Card.HuaLiu.Image.Normal">Cards/Normal/HuaLiu.jpg</BitmapImage>
     <BitmapImage x:Key="Card.HuangGai.Image.Normal">Cards/Normal/HuangGai.jpg</BitmapImage>
     <BitmapImage x:Key="Card.HuangYueying.Image.Normal">Cards/Normal/HuangYueying.jpg</BitmapImage>
@@ -181,6 +183,7 @@
     <BitmapImage x:Key="Card.ShenZhaoYun.Image.Normal">Cards/Normal/ShenZhaoYun.jpg</BitmapImage>
     <BitmapImage x:Key="Card.ShenZhouYu.Image.Normal">Cards/Normal/ShenZhouYu.jpg</BitmapImage>
     <BitmapImage x:Key="Card.ShenZhugeLiang.Image.Normal">Cards/Normal/ShenZhugeLiang.jpg</BitmapImage>
+    <BitmapImage x:Key="Card.ShuiYanQiJun.Image.Normal">Cards/Normal/ShuiYanQiJun.jpg</BitmapImage>
     <BitmapImage x:Key="Card.ShunShouQianYang.Image.Normal">Cards/Normal/ShunShouQianYang.jpg</BitmapImage>
     <BitmapImage x:Key="Card.ShuSunShangxiang.Image.Normal">Cards/Normal/ShuSunShangxiang.jpg</BitmapImage>
     <BitmapImage x:Key="Card.SimaYi.Image.Normal">Cards/Normal/SimaYi.jpg</BitmapImage>
