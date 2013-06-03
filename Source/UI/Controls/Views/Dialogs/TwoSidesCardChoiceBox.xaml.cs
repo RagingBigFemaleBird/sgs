@@ -17,9 +17,9 @@ namespace Sanguosha.UI.Controls
     /// <summary>
     /// Interaction logic for TwoSidesCardChoice.xaml
     /// </summary>
-    public partial class TwoSidesCardChoice : UserControl
+    public partial class TwoSidesCardChoiceBox : UserControl
     {
-        public TwoSidesCardChoice()
+        public TwoSidesCardChoiceBox()
         {
             InitializeComponent();
         }
