@@ -15,8 +15,8 @@ namespace Sanguosha.UI.Controls
         }
         public static class TwoSidesCardChoiceBox
         {
-            public static int CardWidth = 60;
-            public static int CardHeight = 84;
+            public static int CardWidth = 72;
+            public static int CardHeight = 100;
         }
     }
 }

@@ -1576,13 +1576,13 @@ namespace Sanguosha.UI.Controls
 
         void card_OnSelectedChanged(object sender, EventArgs e)
         {
-            if (ViewModelBase.IsDetached) return;
+            if (ViewModelBase.IsDetached || GameModel.CurrentActivePlayer == null) return;
             Trace.Assert(GameModel != null);
-            if (GameModel.WuGuModel != null)
+            if (GameModel.WuGuModel != null && GameModel.WuGuModel.IsEnabled)
             {
                 GameModel.CurrentActivePlayer.AnswerWuGuChoice((sender as CardViewModel).Card);
             }
-            else if (GameModel.TwoSidesCardChoiceModel != null)
+            else if (GameModel.TwoSidesCardChoiceModel != null && GameModel.TwoSidesCardChoiceModel.IsEnabled)
             {
                 GameModel.CurrentActivePlayer.AnswerTwoSidesCardChoice((sender as CardViewModel).Card);
             }
