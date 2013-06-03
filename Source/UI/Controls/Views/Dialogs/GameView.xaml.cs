@@ -863,8 +863,6 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyCardMovement(List<CardsMovement> moves)
         {
-            if (ViewModelBase.IsDetached) return;
-
             bool doWeaponSound = false;
             bool doArmorSound = false;
             bool doHorseSound = false;
@@ -888,6 +886,8 @@ namespace Sanguosha.UI.Controls
                         cardModel.IsFootnoteVisible = true;
                     });
                 }
+
+                if (ViewModelBase.IsDetached) continue;
 
                 var cardsToAdd = new List<CardView>();
                 var cardsRemoved = new Dictionary<DeckPlace, List<Card>>();
@@ -1164,6 +1164,11 @@ namespace Sanguosha.UI.Controls
                 foreach (var player in playersMap.Values)
                 {
                     player.Update();
+                }
+                if (GameModel != null && GameModel.WuGuModel != null)
+                {
+                    wuGuBox.DataContext = GameModel.WuGuModel;
+                    wuGuWindow.Show();
                 }
                 busyIndicator.IsBusy = false;
                 var handler = OnUiAttached;
@@ -1464,11 +1469,10 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyWuGuStart(Prompt prompt, DeckPlace place)
         {
-            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                GameModel.WuGuModel = new WuGuChoiceViewModel();
-                GameModel.WuGuModel.Prompt = LogFormatter.Translate(prompt);
+                var wuguModel = new WuGuChoiceViewModel();
+                wuguModel.Prompt = LogFormatter.Translate(prompt);
                 bool isFirstRow = true;
                 int i = 0;
                 int total = Game.CurrentGame.Decks[place].Count;
@@ -1477,12 +1481,16 @@ namespace Sanguosha.UI.Controls
                 {
                     if (isFirstRow && total > 5 && i >= (total + 1) / 2) isFirstRow = false;
                     var card = new CardViewModel() { Card = c, IsSelectionMode = true, IsEnabled = true };
-                    if (isFirstRow) GameModel.WuGuModel.Cards1.Add(card);
-                    else GameModel.WuGuModel.Cards2.Add(card);
+                    if (isFirstRow) wuguModel.Cards1.Add(card);
+                    else wuguModel.Cards2.Add(card);
                     card.OnSelectedChanged += new EventHandler(card_OnSelectedChanged);
                     i++;
                 }
+                GameModel.WuGuModel = wuguModel;
+            
+                if (ViewModelBase.IsDetached) return;
 
+                wuGuBox.DataContext = wuguModel;
                 wuGuWindow.Show();
             });
         }

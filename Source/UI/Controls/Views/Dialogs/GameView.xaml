@@ -276,7 +276,7 @@
                   CloseButtonVisibility="{Binding CanClose, Converter={StaticResource boolToVisibilityConverter}}"
                   Caption="{Binding WuGuModel.Prompt}"
                   WindowStartupLocation="Center">
-            <local:WuGuBox x:Name="wuGuBox" DataContext="{Binding WuGuModel}" IsHitTestVisible="{Binding WuGuModel.IsEnabled}"/>
+            <local:WuGuBox x:Name="wuGuBox" IsHitTestVisible="{Binding WuGuModel.IsEnabled}"/>
         </xctk:ChildWindow>
         <Grid>
             <xctk:ChildWindow x:Name="pinDianWindow" 

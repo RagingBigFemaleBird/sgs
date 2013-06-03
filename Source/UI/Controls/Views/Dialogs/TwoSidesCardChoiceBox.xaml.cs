@@ -44,12 +44,12 @@ namespace Sanguosha.UI.Controls
         {
             var model = DataContext as TwoSidesCardChoiceViewModel;
             if (model == null) return;
-
+            spCardPicks1.Children.Clear();
             foreach (var card in model.CardsPicked1)
             {
                 CardView.CreateCard(card, spCardPicks1, Settings.TwoSidesCardChoiceBox.CardWidth, Settings.TwoSidesCardChoiceBox.CardHeight);
             }
-
+            spCardPicks2.Children.Clear();
             foreach (var card in model.CardsPicked2)
             {
                 CardView.CreateCard(card, spCardPicks2, Settings.TwoSidesCardChoiceBox.CardWidth, Settings.TwoSidesCardChoiceBox.CardHeight);
