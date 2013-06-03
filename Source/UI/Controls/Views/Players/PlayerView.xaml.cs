@@ -91,11 +91,16 @@ namespace Sanguosha.UI.Controls
                 Trace.Assert(deathAnimation != null);
                 if (model.IsDead)
                 {
-                    deathAnimation.Begin();
+                    deathAnimation.Begin(this);
                 }
                 else
                 {
+                    deathIcon.BeginAnimation(Image.OpacityProperty, null);
+                    deathIcon.Opacity = 0.0d;
+                    deathEffect.BeginAnimation(Effects.MonochromeEffect.StrengthProperty, null);
+                    deathEffect.Strength = 0.0d;
                     deathAnimation.Stop();
+                    deathAnimation.Remove(this);
                 }
             }
         }
