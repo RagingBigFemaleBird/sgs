@@ -1538,11 +1538,11 @@ namespace Sanguosha.UI.Controls
 
         public void NotifyTwoSidesCardPickEnd()
         {
-            if (ViewModelBase.IsDetached) return;
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
-            {
-                twoSidesCardChoiceWindow.Close();
+            {                
                 GameModel.TwoSidesCardChoiceModel = null;
+                if (ViewModelBase.IsDetached) return;
+                twoSidesCardChoiceWindow.Close();
             });
         }
 
@@ -1589,12 +1589,12 @@ namespace Sanguosha.UI.Controls
         }
 
         public void NotifyWuGuEnd()
-        {
-            if (ViewModelBase.IsDetached) return;
+        {            
             Application.Current.Dispatcher.Invoke((ThreadStart)delegate()
             {
-                wuGuWindow.Close();
                 GameModel.WuGuModel = null;
+                if (ViewModelBase.IsDetached) return;
+                wuGuWindow.Close();                
             });
         }
 

@@ -191,29 +191,25 @@ namespace Sanguosha.Core.Network
         public event GamerDisconnectedHandler OnDisconnected;
         public void Send(GameDataPacket packet, bool doRecord = true)
         {
-            try
+
+            lock (senderLock)
             {
-                lock (senderLock)
-                {
-                    DataStream.IsRecordEnabled = doRecord;
-                    Serializer.SerializeWithLengthPrefix<GameDataPacket>(DataStream, packet, PrefixStyle.Base128);
-                    DataStream.Flush();
-                }
+                DataStream.IsRecordEnabled = doRecord;
+                Trace.TraceInformation("ServerGamer : Send {0}({1}) to client {2}", packet.GetType().Name, packet.GetHashCode(), this.GetHashCode());
+                Serializer.SerializeWithLengthPrefix<GameDataPacket>(DataStream, packet, PrefixStyle.Base128);
+                DataStream.Flush();
             }
-            catch (Exception)
+            if (!DataStream.IsLastWriteSuccessful && !IsSpectator)
             {
-                if (!IsSpectator)
+                OnlineStatus = OnlineStatus.Offline;
+                var handler = OnDisconnected;
+                if (handler != null)
                 {
-                    OnlineStatus = OnlineStatus.Offline;
-                    var handler = OnDisconnected;
-                    if (handler != null)
+                    try
                     {
-                        try
-                        {
-                            OnDisconnected(this);
-                        }
-                        catch (Exception) { }
+                        OnDisconnected(this);
                     }
+                    catch (Exception) { }
                 }
             }
         }

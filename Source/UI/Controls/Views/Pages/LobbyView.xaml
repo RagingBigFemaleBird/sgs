@@ -310,9 +310,9 @@
                     <RowDefinition Height="30" />
                 </Grid.RowDefinitions>
                 <TextBlock Text="游戏模式" VerticalAlignment="Center" />
-                <ComboBox x:Name="cbGameType" Grid.Column="2" VerticalAlignment="Center" Margin="0,0,10,0" SelectedIndex="0">
-                    <ComboBoxItem Content="8人身份场" IsSelected="True" Foreground="White" />
-                    <ComboBoxItem Content="新1v1" IsSelected="False" Foreground="White" />
+                <ComboBox x:Name="cbGameType" Grid.Column="2" VerticalAlignment="Center" Margin="0,0,10,0" SelectedIndex="1">
+                    <ComboBoxItem Content="8人身份场" IsSelected="False" Foreground="White" />
+                    <ComboBoxItem Content="新1v1" IsSelected="True" Foreground="White" />
                 </ComboBox>
                 <TextBlock Text="双将" Grid.Row="1" VerticalAlignment="Center"/>
                 <CheckBox x:Name="cbDualHero" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center"/>

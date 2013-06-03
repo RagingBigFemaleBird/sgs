@@ -50,7 +50,7 @@ namespace Sanguosha.Core.Properties {
   <string>overknightfame13</string>
   <string>sp</string>
   <string>starsp</string>
-  <string>bronzesparrowterrace</string>
+  <string>assassin</string>
   <string>pk1v1</string>
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection LoadSequence {

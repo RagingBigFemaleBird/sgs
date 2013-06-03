@@ -99,12 +99,28 @@ namespace Sanguosha.Core.Utils
             throw new NotImplementedException();
         }
 
+        private bool _isLastWriteSuccessful;
+
+        public bool IsLastWriteSuccessful
+        {
+            get
+            {
+                lock (OutputStreams)
+                {
+                    return _isLastWriteSuccessful;
+                }
+            }
+            private set
+            {
+                _isLastWriteSuccessful = value;
+            }
+        }
+
         public override void Write(byte[] buffer, int offset, int count)
         {
-            IOException ex = null;
-
             lock (OutputStreams)
             {
+                IsLastWriteSuccessful = true;
                 if (count > 0 && IsRecordEnabled)
                 {
                     byte[] add = new byte[count];
@@ -120,9 +136,9 @@ namespace Sanguosha.Core.Utils
                         Trace.TraceInformation("Write() : write data for {0}", RuntimeHelpers.GetHashCode(this));
                         stream.Write(buffer, offset, count);
                     }
-                    catch (IOException e)
+                    catch (IOException)
                     {
-                        ex = e;
+                        IsLastWriteSuccessful = false;
                         streamsBroken.Add(stream);
                     }
                 }
@@ -131,12 +147,7 @@ namespace Sanguosha.Core.Utils
                     OutputStreams.Remove(stream);
                     Trace.TraceInformation("AddStream() : Remove stream for {0}", RuntimeHelpers.GetHashCode(this));
                 }
-            }
-            if (ex != null)
-            {
-                Trace.TraceInformation("AddStream() : IOException, disconnected.");
-                throw ex;
-            }
+            }            
         }
 
         List<byte[]> internalBuffer;
