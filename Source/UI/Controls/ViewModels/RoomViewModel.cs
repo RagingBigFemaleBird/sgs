@@ -70,10 +70,23 @@ namespace Sanguosha.UI.Controls
         {
             get
             {
-                if (Settings.IsDualHeroMode && Settings.NumberOfDefectors == 2) return "DualHeroDualDefectorRoleGame";
-                else if (Settings.IsDualHeroMode && Settings.NumberOfDefectors == 1) return "DualHeroSingleDefectorRoleGame";
-                else if (!Settings.IsDualHeroMode && Settings.NumberOfDefectors == 2) return "SingleHeroDualDefectorRoleGame";
-                else if (!Settings.IsDualHeroMode && Settings.NumberOfDefectors == 1) return "SingleHeroSingleDefectorRoleGame";
+                if (Settings.GameType == GameType.RoleGame)
+                {
+                    if (Settings.IsDualHeroMode && Settings.NumberOfDefectors == 2) return "DualHeroDualDefectorRoleGame";
+                    else if (Settings.IsDualHeroMode && Settings.NumberOfDefectors == 1) return "DualHeroSingleDefectorRoleGame";
+                    else if (!Settings.IsDualHeroMode && Settings.NumberOfDefectors == 2) return "SingleHeroDualDefectorRoleGame";
+                    else if (!Settings.IsDualHeroMode && Settings.NumberOfDefectors == 1) return "SingleHeroSingleDefectorRoleGame";
+                    else
+                    {
+                        Trace.Assert(false, "Unknown game mode");
+                        return "SingleHeroSingleDefectorRoleGame";
+                    }
+                }
+                else if (Settings.GameType == GameType.Pk1v1)
+                {
+                    if (Settings.IsDualHeroMode) return "DualHero1v1";
+                    else return "SingleHero1v1";                    
+                }
                 else
                 {
                     Trace.Assert(false, "Unknown game mode");
