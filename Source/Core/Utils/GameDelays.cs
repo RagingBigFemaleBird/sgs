@@ -25,6 +25,7 @@ namespace Sanguosha.Core.Utils
         public const int GameBeforeStart = 1200;
         public const int HanBingJian = 2000;
         public const int Imprisoned = 10;
+        public const int Pk1v1EndOfSelection = 2500;
 
 
         public static void Delay(int delayInMilliseconds)

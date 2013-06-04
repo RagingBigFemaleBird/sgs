@@ -400,6 +400,7 @@ namespace Sanguosha.Core.Games
                     seq++;
                     turn = 1 - turn;
                 }
+                GameDelays.Delay(GameDelays.Pk1v1EndOfSelection);
                 game.NotificationProxy.NotifyTwoSidesCardPickEnd();
                 game.Shuffle(game.Decks[null, DeckType.Dealing]);
 
