@@ -62,9 +62,19 @@ namespace Sanguosha.UI.Controls
             _ParseDirectory("Skills", "./Resources/Sounds/Skills");            
         }
 
+        public static string _RemoveTrailingDigits(string s)
+        {
+            for (int i = s.Length - 1; i >= 0; i--)
+            {
+                if (!char.IsDigit(s[i])) return s.Substring(0, i + 1);
+            }
+            return string.Empty;
+        }
+
         public static Uri GetCardSound(string cardName, bool? isMale)
         {
             Uri uri = null;
+            cardName = _RemoveTrailingDigits(cardName);
             if (isMale == true) uri = GetUriFromKey("Cards.Male." + cardName);
             else if (isMale == false) uri = GetUriFromKey("Cards.Female." + cardName);
             if (uri == null) uri = GetUriFromKey("Cards.Common." + cardName);
@@ -72,7 +82,8 @@ namespace Sanguosha.UI.Controls
         }
         
         public static Uri GetSkillSound(string skillName, int skillTag = 0)
-        {            
+        {
+            skillName = _RemoveTrailingDigits(skillName);
             string appendix = skillTag == 0 ? string.Empty : "_" + skillTag;
             return GetUriFromKey("Skills." + skillName + appendix);            
         }
