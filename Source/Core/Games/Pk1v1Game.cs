@@ -223,11 +223,13 @@ namespace Sanguosha.Core.Games
                 bool noCardReveal;
                 int count;
                 bool showToall;
-                public Pk1v1HeroChoiceVerifier(int count)
+                int extraSec;
+                public Pk1v1HeroChoiceVerifier(int count, int extraSeconds)
                 {
                     noCardReveal = false;
                     this.count = count;
                     this.showToall = true;
+                    extraSec = extraSeconds;
                 }
                 public VerifierResult Verify(List<List<Card>> answer)
                 {
@@ -257,7 +259,7 @@ namespace Sanguosha.Core.Games
                 }
                 public UiHelper Helper
                 {
-                    get { return new UiHelper() { RevealCards = !noCardReveal, ShowToAll = showToall }; }
+                    get { return new UiHelper() { RevealCards = !noCardReveal, ShowToAll = showToall, ExtraTimeOutSeconds = extraSec }; }
                 }
             }
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
@@ -381,7 +383,7 @@ namespace Sanguosha.Core.Games
                     int numHeroes = heroSelectCount[seq];
                     resultDeckMaximums.Add(numHeroes);
                     List<List<Card>> answer;
-                    var newVer = new Pk1v1HeroChoiceVerifier(1);
+                    var newVer = new Pk1v1HeroChoiceVerifier(1, seq + 1 == heroSelectCount.Count ? -(Game.CurrentGame.Settings.TimeOutSeconds - 2) : 0);
                     for (int j = 0; j < numHeroes; j++)
                     {
                         var option = new AdditionalCardChoiceOptions();
