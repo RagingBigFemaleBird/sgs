@@ -56,7 +56,7 @@ namespace Sanguosha.Core.Games
                 }
 
                 Game.CurrentGame.NotificationProxy.NotifyDeath(p, source);
-                if (Game.CurrentGame.Decks[p, SelectedHero].Count <= 3)
+                if (Game.CurrentGame.Decks[p, SelectedHero].Count <= (Game.CurrentGame.Settings.DualHeroMode ? 0 : 3))
                 {
                     // 6 - 3 = 3. gg
                     Trace.TraceInformation("Out of heroes. Game over");
@@ -105,10 +105,14 @@ namespace Sanguosha.Core.Games
                 {
                     foreach (ISkill s in p.Hero.Skills)
                     {
-                        if (s is TriggerSkill)
-                        {
-                            (s as TriggerSkill).Owner = null;
-                        }
+                        s.Owner = null;
+                    }
+                }
+                if (p.Hero2 != null)
+                {
+                    foreach (ISkill s in p.Hero2.Skills)
+                    {
+                        s.Owner = null;
                     }
                 }
                 p.IsDead = false;
@@ -117,34 +121,56 @@ namespace Sanguosha.Core.Games
                 List<string> resultDeckNames = new List<string>();
                 resultDeckNames.Add("HeroChoice");
                 List<int> resultDeckMaximums = new List<int>();
-                resultDeckMaximums.Add(1);
                 List<List<Card>> answer;
-                var newVer = new RequireCardsChoiceVerifier(1, false, true);
+                int numberOfHeroes = Game.CurrentGame.Settings.DualHeroMode ? 2 : 1;
+                resultDeckMaximums.Add(numberOfHeroes);
+                var newVer = new RequireCardsChoiceVerifier(numberOfHeroes, false, true);
 
-                if (!p.AskForCardChoice(new CardChoicePrompt("Pk1v1.NextHeroChoice", Game.CurrentGame.Settings.DualHeroMode ? 2 : 1), sourceDecks, resultDeckNames, resultDeckMaximums, newVer, out answer))
+                if (!p.AskForCardChoice(new CardChoicePrompt("Pk1v1.NextHeroChoice", numberOfHeroes), sourceDecks, resultDeckNames, resultDeckMaximums, newVer, out answer))
                 {
                     answer = new List<List<Card>>();
                     answer.Add(new List<Card>() { Game.CurrentGame.Decks[p, SelectedHero].First() });
+                    if (numberOfHeroes == 2) answer.Add(new List<Card>() { Game.CurrentGame.Decks[p, SelectedHero].ElementAt(1) });
                 }
-                var c = answer[0][0];
-                Game.CurrentGame.Decks[p, SelectedHero].Remove(c);
-                var h = (HeroCardHandler)c.Type;
-                Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, p.Id);
-                var hero = h.Hero.Clone() as Hero;
-                foreach (var skill in new List<ISkill>(hero.Skills))
+                for (int repeat = 0; repeat < numberOfHeroes; repeat++)
                 {
-                    if (skill.IsRulerOnly)
+                    var c = answer[0][repeat];
+                    Game.CurrentGame.Decks[p, SelectedHero].Remove(c);
+                    var h = (HeroCardHandler)c.Type;
+                    Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, p.Id);
+                    var hero = h.Hero.Clone() as Hero;
+                    foreach (var skill in new List<ISkill>(hero.Skills))
                     {
-                        hero.Skills.Remove(skill);
+                        if (skill.IsRulerOnly)
+                        {
+                            hero.Skills.Remove(skill);
+                        }
+                    }
+                    if (repeat == 0)
+                    {
+                        p.Hero = hero;
+                    }
+                    else
+                    {
+                        p.Hero2 = hero;
+                    }
+                    if (repeat == 0)
+                    {
+                        p.Allegiance = hero.Allegiance;
+                    }
+                    if (repeat == 0)
+                    {
+                        p.MaxHealth = p.Health = hero.MaxHealth;
+                        p.IsMale = hero.IsMale ? true : false;
+                        p.IsFemale = hero.IsMale ? false : true;
+                    }
+                    if (repeat == 1)
+                    {
+                        int aveHp = (p.Hero2.MaxHealth + p.Hero.MaxHealth) / 2;
+                        p.MaxHealth = p.Health = aveHp;
                     }
                 }
-                p.Hero = hero;
-                p.Allegiance = hero.Allegiance;
-                p.MaxHealth = p.Health = hero.MaxHealth;
-                p.IsMale = hero.IsMale ? true : false;
-                p.IsFemale = hero.IsMale ? false : true;
                 StartGameDeal(Game.CurrentGame, p);
-
                 Game.CurrentGame.Emit(GameEvent.HeroDebut, new GameEventArgs() { Source = p });
             }
         }
@@ -385,7 +411,8 @@ namespace Sanguosha.Core.Games
                 }
 
                 var heroSelection = new Dictionary<Player, List<Card>>();
-                game.GlobalProxy.AskForHeroChoice(restDraw, heroSelection, 1, new RequireCardsChoiceVerifier(1, false, true));
+                int numberOfHeroes = Game.CurrentGame.Settings.DualHeroMode ? 2 : 1;
+                game.GlobalProxy.AskForHeroChoice(restDraw, heroSelection, numberOfHeroes, new RequireCardsChoiceVerifier(numberOfHeroes, false, true));
 
                 bool notUsed = true;
                 game.SyncConfirmationStatus(ref notUsed);
@@ -395,55 +422,66 @@ namespace Sanguosha.Core.Games
                     pxy.Value.Freeze();
                 }
 
-                foreach (Player p in players)
+                for (int repeat = 0; repeat < numberOfHeroes; repeat++)
                 {
-                    Card c;
-                    int idx = 0;
-                    //only server has the result
-                    if (!game.IsClient)
+                    foreach (Player p in players)
                     {
-                        idx = 0;
-                        if (heroSelection.ContainsKey(p))
+                        Card c;
+                        int idx;
+                        //only server has the result
+                        if (!game.IsClient)
                         {
-                            c = heroSelection[p][0];
-                            idx = restDraw[p].IndexOf(c);
+                            idx = repeat;
+                            if (heroSelection.ContainsKey(p))
+                            {
+                                c = heroSelection[p][repeat];
+                                idx = restDraw[p].IndexOf(c);
+                            }
+                            else
+                            {
+                                c = restDraw[p][idx];
+                            }
+                            if (game.GameServer != null)
+                            {
+                                foreach (Player player in game.Players)
+                                {
+                                    game.GameServer.SendPacket(player.Id, new StatusSync() { Status = idx });
+                                }
+                                game.GameServer.SendPacket(game.Players.Count, new StatusSync() { Status = idx });
+                            }
                         }
+                        // you are client
                         else
                         {
+                            idx = (int)game.GameClient.Receive();
                             c = restDraw[p][idx];
                         }
-                        if (game.GameServer != null)
+                        game.Decks[p, SelectedHero].Remove(c);
+                        var h = (HeroCardHandler)c.Type;
+                        Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, p.Id);
+                        var hero = h.Hero.Clone() as Hero;
+                        foreach (var skill in new List<ISkill>(hero.Skills))
                         {
-                            foreach (Player player in game.Players)
+                            if (skill.IsRulerOnly)
                             {
-                                game.GameServer.SendPacket(player.Id, new StatusSync() { Status = idx });
+                                hero.Skills.Remove(skill);
                             }
-                            game.GameServer.SendPacket(game.Players.Count, new StatusSync() { Status = idx });
                         }
-                    }
-                    // you are client
-                    else
-                    {
-                        idx = (int)game.GameClient.Receive();
-                        c = restDraw[p][idx];
-                    }
-                    game.Decks[p, SelectedHero].Remove(c);
-                    var h = (HeroCardHandler)c.Type;
-                    Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, p.Id);
-                    var hero = h.Hero.Clone() as Hero;
-                    foreach (var skill in new List<ISkill>(hero.Skills))
-                    {
-                        if (skill.IsRulerOnly)
+                        if (repeat == 1) p.Hero2 = hero;
+                        else p.Hero = hero;
+                        if (repeat == 0) p.Allegiance = hero.Allegiance;
+                        if (repeat == 0)
                         {
-                            hero.Skills.Remove(skill);
+                            p.MaxHealth = p.Health = hero.MaxHealth;
+                            p.IsMale = hero.IsMale ? true : false;
+                            p.IsFemale = hero.IsMale ? false : true;
+                        }
+                        if (repeat == 1)
+                        {
+                            int aveHp = (p.Hero2.MaxHealth + p.Hero.MaxHealth) / 2;
+                            p.MaxHealth = p.Health = aveHp;
                         }
                     }
-                    p.Hero = hero;
-                    p.Allegiance = hero.Allegiance;
-                    p.MaxHealth = p.Health = hero.MaxHealth;
-                    p.IsMale = hero.IsMale ? true : false;
-                    p.IsFemale = hero.IsMale ? false : true;
-
                 }
 
                 foreach (var rm in heroPool)
