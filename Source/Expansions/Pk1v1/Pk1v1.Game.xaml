@@ -39,6 +39,8 @@
     <sys:String x:Key="CardChoice.Prompt.Pk1v1.NextHeroChoice">请选择{0}名接下来要上场的武将</sys:String>
     <sys:String x:Key="CardChoice.Prompt.Pk1v1.NextHeroChoice.Others">请等待{0}选择{1}名接下来要上场的武将</sys:String>
 
+    <sys:String x:Key="CardChoice.Prompt.GuoHeChaiQiao2">过河拆桥</sys:String>
+    <sys:String x:Key="CardChoice.Prompt.GuoHeChaiQiao2.Others">过河拆桥</sys:String>
     <sys:String x:Key="MultiChoice.Prompt.ShuiYanQiJun">水淹七军发动，是否要弃置所有装备？</sys:String>
     <sys:String x:Key="MultiChoice.Choice.HuiFu">回复一点体力</sys:String>
     <sys:String x:Key="CardUsage.Prompt.XiaoXi">请发动骁袭视为对对手使用一张杀，或点取消不发动技能</sys:String>
