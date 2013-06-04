@@ -121,7 +121,7 @@ namespace Sanguosha.UI.Controls
                 }
 
                 stack.HorizontalAlignment = HorizontalAlignment.Left;
-                stack.Width = _cardStacks.Width - 20;
+                stack.Width = _cardStacks.Width;
                 _cardStacks.Children.Add(stack);
             }
 
