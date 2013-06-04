@@ -122,7 +122,7 @@ namespace Sanguosha.Expansions
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HuangZhong", true, Allegiance.Shu, 4, new LieGong()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("XiaoQiao", false, Allegiance.Wu, 3, new TianXiang(), new HongYan()))));
 
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("JiangWei", false, Allegiance.Shu, 4, new TiaoXin()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("JiangWei", true, Allegiance.Shu, 4, new TiaoXin()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("MengHuo", true, Allegiance.Shu, 4, new ManYi(), new ZaiQi()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhuRong", false, Allegiance.Shu, 4, new ManYi(), new LieRen()))));
 
