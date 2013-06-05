@@ -47,6 +47,7 @@
     <Compile Include="Pk1v1Expansion.cs" />
     <Compile Include="Cards\ShuiYanQiJun.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Skills\CangJi.cs" />
     <Compile Include="Skills\HuWei.cs" />
     <Compile Include="Skills\QiXi.cs" />
     <Compile Include="Skills\XieChan.cs" />
@@ -74,6 +75,10 @@
     <ProjectReference Include="..\Battle\Battle.csproj">
       <Project>{850AB9CB-90A0-4625-87FA-1F7CE04A5404}</Project>
       <Name>Battle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fire\Fire.csproj">
+      <Project>{e1d27fb1-40b8-4768-a045-dd9772564ddd}</Project>
+      <Name>Fire</Name>
     </ProjectReference>
     <ProjectReference Include="..\Hills\Hills.csproj">
       <Project>{893e3214-c48d-493c-b09d-7a31756b72b9}</Project>

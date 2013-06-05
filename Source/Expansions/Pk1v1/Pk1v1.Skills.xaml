@@ -85,4 +85,8 @@
     <sys:String x:Key="Skill.ZhiHeng2.Description">出牌阶段，你可以弃置至多两张牌，然后摸等量的牌。每阶段限一次。</sys:String>
     <sys:String x:Key="Skill.ZhiHeng2.Usage">系统提示→点“确定”</sys:String>
 
+    <sys:String x:Key="Skill.CangJi.Name">藏机</sys:String>
+    <sys:String x:Key="Skill.CangJi.Description">你死亡时，可将你装备区里所有的牌移出游戏；若如此做，你下一名角色登场时，将这些牌置于其装备区里。</sys:String>
+    <sys:String x:Key="Skill.CangJi.Usage">系统提示→点“确定”</sys:String>
+
 </ResourceDictionary>

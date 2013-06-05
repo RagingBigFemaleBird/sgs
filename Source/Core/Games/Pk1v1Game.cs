@@ -20,13 +20,231 @@ namespace Sanguosha.Core.Games
 {
     public class Pk1v1Game : RoleGame
     {
+        static DeckType ReadyToGoHeroes = DeckType.Register("ReadyToGoHeroes");
+
+        public class Pk1v1PlayerActionTrigger : Trigger
+        {
+            private class PlayerActionStageVerifier : CardUsageVerifier
+            {
+                public PlayerActionStageVerifier()
+                {
+                    Helper.IsActionStage = true;
+                }
+
+                public override VerifierResult FastVerify(Player source, ISkill skill, List<Card> cards, List<Player> players)
+                {
+                    if (players != null && players.Any(p => p.IsDead))
+                    {
+                        return VerifierResult.Fail;
+                    }
+                    if ((cards == null || cards.Count == 0) && skill == null)
+                    {
+                        return VerifierResult.Fail;
+                    }
+                    if (skill is CheatSkill)
+                    {
+                        if (!Game.CurrentGame.Settings.CheatEnabled) return VerifierResult.Fail;
+                        return VerifierResult.Success;
+                    }
+                    else if (skill is ActiveSkill)
+                    {
+                        GameEventArgs arg = new GameEventArgs();
+                        arg.Source = Game.CurrentGame.CurrentPlayer;
+                        arg.Targets = players;
+                        arg.Cards = cards;
+                        return ((ActiveSkill)skill).Validate(arg);
+                    }
+                    else if (skill is CardTransformSkill)
+                    {
+                        CardTransformSkill s = (CardTransformSkill)skill;
+                        CompositeCard result;
+                        VerifierResult ret = s.TryTransform(cards, players, out result);
+                        if (ret == VerifierResult.Success)
+                        {
+                            return result.Type.Verify(Game.CurrentGame.CurrentPlayer, skill, cards, players);
+                        }
+                        if (ret == VerifierResult.Partial && players != null && players.Count != 0)
+                        {
+                            return VerifierResult.Fail;
+                        }
+                        return ret;
+                    }
+                    else if (skill != null)
+                    {
+                        return VerifierResult.Fail;
+                    }
+                    if (cards[0].Place.DeckType != DeckType.Hand)
+                    {
+                        return VerifierResult.Fail;
+                    }
+                    return cards[0].Type.Verify(Game.CurrentGame.CurrentPlayer, skill, cards, players);
+                }
+
+
+                public override IList<CardHandler> AcceptableCardTypes
+                {
+                    get { return null; }
+                }
+            }
+
+            private bool GetReadyToGo(Player p)
+            {
+                var lists = new List<Card>(Game.CurrentGame.Decks[p, ReadyToGoHeroes]);
+                Game.CurrentGame.Decks[p, ReadyToGoHeroes].Clear();
+                if (lists.Count > 0)
+                {
+                    for (int repeat = 0; repeat < lists.Count; repeat++)
+                    {
+                        var c = lists[repeat];
+                        var h = (HeroCardHandler)c.Type;
+                        Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, p.Id);
+                        var hero = h.Hero.Clone() as Hero;
+                        foreach (var skill in new List<ISkill>(hero.Skills))
+                        {
+                            if (skill.IsRulerOnly)
+                            {
+                                hero.Skills.Remove(skill);
+                            }
+                        }
+                        if (repeat == 0)
+                        {
+                            p.Hero = hero;
+                        }
+                        else
+                        {
+                            p.Hero2 = hero;
+                        }
+                    }
+                    Game.CurrentGame.Emit(GameEvent.HeroDebut, new GameEventArgs() { Source = p });
+                    return true;
+                }
+                return false;
+            }
+
+            public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
+            {
+                Player currentPlayer = Game.CurrentGame.CurrentPlayer;
+                Trace.TraceInformation("Player {0} action.", currentPlayer.Id);
+                while (!currentPlayer.IsDead)
+                {
+                    bool newturn = false;
+                    foreach (var pl in Game.CurrentGame.Players)
+                    {
+                        if (GetReadyToGo(pl) && pl == currentPlayer)
+                        {
+                            newturn = true;
+                        }
+                    }
+                    if (newturn) return;
+                    Trace.Assert(Game.CurrentGame.UiProxies.ContainsKey(currentPlayer));
+                    IPlayerProxy proxy = Game.CurrentGame.UiProxies[currentPlayer];
+                    ISkill skill;
+                    List<Card> cards;
+                    List<Player> players;
+                    PlayerActionStageVerifier v = new PlayerActionStageVerifier();
+                    Game.CurrentGame.Emit(GameEvent.PlayerIsAboutToUseCard, new PlayerIsAboutToUseOrPlayCardEventArgs() { Source = currentPlayer, Verifier = v });
+                    if (!proxy.AskForCardUsage(new Prompt(Prompt.PlayingPhasePrompt), v, out skill, out cards, out players))
+                    {
+                        break;
+                    }
+                    if (skill != null)
+                    {
+                        if (skill is CheatSkill)
+                        {
+                            if (!Game.CurrentGame.Settings.CheatEnabled) break;
+                            CheatSkill cs = skill as CheatSkill;
+                            if (cs.CheatType == CheatType.Card)
+                            {
+                                if (Game.CurrentGame.IsClient)
+                                {
+                                    Game.CurrentGame.SyncUnknownLocationCardAll(null);
+                                }
+                                else
+                                {
+                                    foreach (var searchCard in Game.CurrentGame.CardSet)
+                                    {
+                                        if (searchCard.Id == cs.CardId)
+                                        {
+                                            Game.CurrentGame.SyncUnknownLocationCardAll(searchCard);
+                                            break;
+                                        }
+                                    }
+                                }
+                                foreach (var searchCard in Game.CurrentGame.CardSet)
+                                {
+                                    if (searchCard.Id == cs.CardId)
+                                    {
+                                        CardsMovement move = new CardsMovement();
+                                        move.Cards = new List<Card>() { searchCard };
+                                        move.To = new DeckPlace(Game.CurrentGame.CurrentPlayer, DeckType.Hand);
+                                        move.Helper = new MovementHelper();
+                                        Game.CurrentGame.MoveCards(move);
+                                        break;
+                                    }
+                                }
+                            }
+                            else if (cs.CheatType == CheatType.Skill)
+                            {
+                                foreach (var hero in Game.CurrentGame.OriginalCardSet)
+                                {
+                                    bool found = false;
+                                    if (hero.Type is HeroCardHandler)
+                                    {
+                                        foreach (var sk in (hero.Type as HeroCardHandler).Hero.Skills)
+                                        {
+                                            if (sk.GetType().Name == cs.SkillName)
+                                            {
+                                                Game.CurrentGame.PlayerAcquireAdditionalSkill(currentPlayer, sk.Clone() as ISkill, currentPlayer.Hero);
+                                                found = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    if (found) break;
+                                }
+                            }
+                            continue;
+                        }
+                        else if (skill is ActiveSkill)
+                        {
+                            GameEventArgs arg = new GameEventArgs();
+                            arg.Source = Game.CurrentGame.CurrentPlayer;
+                            arg.Targets = players;
+                            arg.Cards = cards;
+                            ((ActiveSkill)skill).NotifyAndCommit(arg);
+                            Game.CurrentGame.NotificationProxy.NotifyActionComplete();
+                            Game.CurrentGame.LastAction = skill;
+                            continue;
+                        }
+                        CompositeCard c;
+                        CardTransformSkill s = (CardTransformSkill)skill;
+                        VerifierResult r = s.TryTransform(cards, players, out c);
+                        Trace.TraceInformation("Player used {0}", c.Type);
+                    }
+                    else
+                    {
+                        Trace.Assert(cards[0] != null && cards.Count == 1);
+                        Trace.TraceInformation("Player used {0}", cards[0].Type);
+                    }
+                    try
+                    {
+                        Game.CurrentGame.Emit(GameEvent.CommitActionToTargets, new Triggers.GameEventArgs() { Skill = skill, Source = Game.CurrentGame.CurrentPlayer, Targets = players, Cards = cards });
+                    }
+                    catch (TriggerResultException)
+                    {
+                    }
+                    Game.CurrentGame.NotificationProxy.NotifyActionComplete();
+                    Game.CurrentGame.LastAction = skill;
+                }
+            }
+        }
         protected override void InitTriggers()
         {
             RegisterTrigger(GameEvent.DoPlayer, new DoPlayerTrigger());
             RegisterTrigger(GameEvent.Shuffle, new ShuffleTrigger());
             RegisterTrigger(GameEvent.GameStart, new Pk1v1GameRuleTrigger());
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Judge], new PlayerJudgeStageTrigger());
-            RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Play], new PlayerActionTrigger());
+            RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Play], new Pk1v1PlayerActionTrigger());
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Draw], new PlayerDealStageTrigger() { Priority = -1 });
             RegisterTrigger(GameEvent.PhaseProceedEvents[TurnPhase.Discard], new PlayerDiscardStageTrigger() { Priority = -1 });
             RegisterTrigger(GameEvent.CommitActionToTargets, new CommitActionToTargetsTrigger());
@@ -132,28 +350,13 @@ namespace Sanguosha.Core.Games
                     answer.Add(new List<Card>() { Game.CurrentGame.Decks[p, SelectedHero].First() });
                     if (numberOfHeroes == 2) answer.Add(new List<Card>() { Game.CurrentGame.Decks[p, SelectedHero].ElementAt(1) });
                 }
+                Game.CurrentGame.Decks[p, ReadyToGoHeroes].AddRange(answer[0]);
                 for (int repeat = 0; repeat < numberOfHeroes; repeat++)
                 {
                     var c = answer[0][repeat];
                     Game.CurrentGame.Decks[p, SelectedHero].Remove(c);
                     var h = (HeroCardHandler)c.Type;
-                    Trace.TraceInformation("Assign {0} to player {1}", h.Hero.Name, p.Id);
-                    var hero = h.Hero.Clone() as Hero;
-                    foreach (var skill in new List<ISkill>(hero.Skills))
-                    {
-                        if (skill.IsRulerOnly)
-                        {
-                            hero.Skills.Remove(skill);
-                        }
-                    }
-                    if (repeat == 0)
-                    {
-                        p.Hero = hero;
-                    }
-                    else
-                    {
-                        p.Hero2 = hero;
-                    }
+                    var hero = h.Hero;
                     if (repeat == 0)
                     {
                         p.Allegiance = hero.Allegiance;

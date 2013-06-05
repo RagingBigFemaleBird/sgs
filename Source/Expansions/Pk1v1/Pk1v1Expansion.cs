@@ -16,6 +16,7 @@ using Sanguosha.Expansions.Pk1v1.Skills;
 using Sanguosha.Expansions.Hills.Skills;
 using Sanguosha.Expansions.Woods.Skills;
 using Sanguosha.Expansions.Pk1v1.Cards;
+using Sanguosha.Expansions.Fire.Skills;
 
 namespace Sanguosha.Expansions
 {
@@ -107,7 +108,7 @@ namespace Sanguosha.Expansions
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhugeLiang", true, Allegiance.Shu, 3, new GuanXing(), new KongCheng()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhaoYun", true, Allegiance.Shu, 4, new LongDan()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("MaChao", true, Allegiance.Shu, 4, new XiaoXi(), new TieJi()))));
-            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HuangYueying", false, Allegiance.Shu, 3, new JiZhi(), new QiCai()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HuangYueying", false, Allegiance.Shu, 3, new JiZhi(), new CangJi()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SunQuan", true, Allegiance.Wu, 4, new ZhiHeng2()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("GanNing", true, Allegiance.Wu, 4, new Sanguosha.Expansions.Pk1v1.Skills.QiXi()))));
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HuangGai", true, Allegiance.Wu, 4, new KuRou()))));
@@ -127,6 +128,8 @@ namespace Sanguosha.Expansions
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("ZhuRong", false, Allegiance.Shu, 4, new ManYi(), new LieRen()))));
 
             CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("HeJin", true, Allegiance.Qun, 4, new YanHuo(), new MouZhu()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("SunJian", true, Allegiance.Wu, 4, new YingHun()))));
+            CardSet.Add(new Card(SuitType.None, -1, new HeroCardHandler(new Hero("DianWei", true, Allegiance.Wei, 4, new QiangXi()))));
 
             TriggerRegistration = new List<DelayedTriggerRegistration>();
             TriggerRegistration.Add(new DelayedTriggerRegistration() { key = GameEvent.CardUsageBeforeEffected, trigger = new WuXieKeJiTrigger() });

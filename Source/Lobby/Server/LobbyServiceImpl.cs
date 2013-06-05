@@ -143,6 +143,7 @@ namespace Sanguosha.Lobby.Server
             OperationContext.Current.Channel.Closed += faultHandler;
             retAccount = currentAccount.Account;
             _Unspectate(currentAccount);
+            currentAccount.OpContext = OperationContext.Current;
             return LoginStatus.Success;
         }
 
@@ -153,7 +154,18 @@ namespace Sanguosha.Lobby.Server
                 account.LobbyService.currentAccount == null) return;
             if (account.CurrentRoom != null)
             {
-                if (_ExitRoom(account) != RoomOperationResult.Success) return;
+                if (_ExitRoom(account) != RoomOperationResult.Success)
+                {
+                    try
+                    {
+                        account.OpContext.Channel.Close();
+                    }
+                    catch (Exception)
+                    {
+                        account.OpContext.Channel.Abort();
+                    }
+                    return;
+                }
             }
             lock (loggedInAccounts)
             {
@@ -162,6 +174,14 @@ namespace Sanguosha.Lobby.Server
                 account.LobbyService.currentAccount = null;
                 account.CurrentSpectatingRoom = null;
                 loggedInAccounts.Remove(account.Account.UserName);
+                try
+                {
+                    account.OpContext.Channel.Close();
+                }
+                catch (Exception)
+                {
+                    account.OpContext.Channel.Abort();
+                }
             }
         }
 
