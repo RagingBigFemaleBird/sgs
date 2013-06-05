@@ -33,7 +33,7 @@ namespace Sanguosha.UI.Main
     /// <summary>
     /// Interaction logic for Login.xaml
     /// </summary>
-    public partial class Login : Page
+    public partial class Login : Page, IDisposable
     {
         public static int DefaultLobbyPort = 6080;
 
@@ -166,17 +166,20 @@ namespace Sanguosha.UI.Main
                 {
                 }
             }
-            try
+
+            if (_channelFactory != null)
             {
-                if (_channelFactory != null)
+                try
                 {
                     _channelFactory.Close();
-                    _channelFactory = null;
                 }
+                catch (Exception)
+                {
+                    _channelFactory.Abort();
+                }
+                _channelFactory = null;
             }
-            catch (Exception)
-            {
-            }
+
         }
 
         private void startButton_Click(object sender, RoutedEventArgs e)
@@ -744,5 +747,21 @@ namespace Sanguosha.UI.Main
             tbBuggyReplayFileName.Text = dlg.FileName;
         }
         #endregion
+
+        public void Dispose()
+        {
+            if (_channelFactory != null)
+            {
+                try
+                {
+                    _channelFactory.Close();
+                }
+                catch (Exception)
+                {
+                    _channelFactory.Abort();
+                }
+                _channelFactory = null;
+            }
+        }
     }
 }

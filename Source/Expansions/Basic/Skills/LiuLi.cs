@@ -73,7 +73,7 @@ namespace Sanguosha.Expansions.Basic.Skills
                 get { return null; }
             }
 
-            Player ShaSource;
+            Player ShaSource { get; set; }
             public LiuLiVerifier(Player p)
             {
                 ShaSource = p;

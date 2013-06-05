@@ -112,7 +112,7 @@
     <sys:String x:Key="Skill.ZhuiKong.Usage">系统提示→点“确定”→选择一张拼点牌→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.QiuYuan.Name">求援</sys:String>
-    <sys:String x:Key="Skill.QiuYuan.Description">当你成为杀的目标时，你可以令一名其他角色交给你一张手牌。若此牌不为闪，该角色也成为此杀的目标。</sys:String>
+    <sys:String x:Key="Skill.QiuYuan.Description">当你成为杀的目标时，你可以令一名其他角色交给你一张手牌。若此牌不为闪，该角色也成为此杀的目标。（该角色不得是此【杀】的使用者）</sys:String>
     <sys:String x:Key="Skill.QiuYuan.Usage">系统提示→选择一名有手牌的角色→点“确定”</sys:String>
 
     <sys:String x:Key="Skill.QiaoShui.Name">巧说</sys:String>

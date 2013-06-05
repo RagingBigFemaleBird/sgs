@@ -30,9 +30,11 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 MinPlayers = 1;
             }
 
+            public Player ShaSource { get; set; }
+
             protected override bool VerifyPlayer(Player source, Player player)
             {
-                return player != source && player.HandCards().Count > 0;
+                return player != source && player != ShaSource && player.HandCards().Count > 0;
             }
         }
 
@@ -50,12 +52,23 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 return card.Place.DeckType == DeckType.Hand;
             }
         }
+        
+        QiuYuanVerifier qiuYuanVerifier;
 
         public QiuYuan()
         {
+            qiuYuanVerifier = new QiuYuanVerifier();
             var trigger = new AutoNotifyUsagePassiveSkillTrigger(
                 this,
-                (p, e, a) => { return a.ReadonlyCard.Type is Sha; },
+                (p, e, a) => 
+                {
+                    if (a.ReadonlyCard.Type is Sha)
+                    {
+                        qiuYuanVerifier.ShaSource = a.Source;
+                        return true;
+                    }
+                    return false;
+                },
                 (p, e, a, cards, players) =>
                 {
                     ISkill skill;
@@ -90,7 +103,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                     }
                 },
                 TriggerCondition.OwnerIsTarget,
-                new QiuYuanVerifier()
+                qiuYuanVerifier
             ) { AskForConfirmation = false };
             Triggers.Add(GameEvent.CardUsageTargetConfirming, trigger);
             IsAutoInvoked = null;

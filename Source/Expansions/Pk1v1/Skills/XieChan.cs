@@ -20,6 +20,11 @@ namespace Sanguosha.Expansions.Pk1v1.Skills
     /// </summary>
     public class XieChan : ActiveSkill
     {
+        public XieChan()
+        {
+            IsSingleUse = true;
+        }
+
         public override VerifierResult Validate(GameEventArgs arg)
         {
             if (Owner[XieChanUsed] != 0)
