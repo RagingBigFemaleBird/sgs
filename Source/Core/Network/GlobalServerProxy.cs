@@ -250,10 +250,6 @@ namespace Sanguosha.Core.Network
         public bool AskForCardUsage(Prompt prompt, ICardUsageVerifier verifier, out ISkill skill, out List<Card> cards, out List<Player> players, out Player respondingPlayer)
         {
             Trace.Assert(Game.CurrentGame.AlivePlayers.Count > 1);
-            if (Game.CurrentGame.AlivePlayers.Count <= 1)
-            {
-                throw new GameOverException();
-            }
             proxyListener = new Dictionary<Player, Thread>();
             semAccess = new Semaphore(1, 1);
             semWake = new Semaphore(0, 2);

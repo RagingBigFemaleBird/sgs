@@ -203,7 +203,7 @@ namespace Sanguosha.Core.Network
         {
             if (killServer && Thread.CurrentThread == game.MainThread)
             {
-                throw new GameOverException();
+                throw new GameOverException() { EveryoneQuits = true };
             }
             Gamers[clientId].SendAsync(packet);
         }
