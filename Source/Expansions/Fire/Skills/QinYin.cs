@@ -22,6 +22,12 @@ namespace Sanguosha.Expansions.Fire.Skills
         public static PlayerAttribute QinYinUsable = PlayerAttribute.Register("QinYinUsable", true);
         public static PlayerAttribute QinYinUsed = PlayerAttribute.Register("QinYinUsed", true);
 
+        protected override int GenerateSpecialEffectHintIndex(Player source, List<Player> targets)
+        {
+            return qinYinEffect;
+        }
+
+        private int qinYinEffect;
 
         public void Run(Player owner, GameEvent gameEvent, GameEventArgs eventArgs)
         {
@@ -39,9 +45,9 @@ namespace Sanguosha.Expansions.Fire.Skills
                 var toProcess = Game.CurrentGame.AlivePlayers;
                 if (Game.CurrentGame.UiProxies[owner].AskForMultipleChoice(new MultipleChoicePrompt("QinYin"), QinYinQuestion, out answer))
                 {
-                    if (answer == 0)
-                        return;
+                    if (answer == 0) return;
                     owner[QinYinUsed] = 1;
+                    qinYinEffect = answer - 1;
                     NotifySkillUse(new List<Player>());
                     if (answer == 1)
                     {

@@ -673,19 +673,25 @@ namespace Sanguosha.Core.Games
                                 hero.Skills.Remove(skill);
                             }
                         }
-                        if (repeat == 1) p.Hero2 = hero;
-                        else p.Hero = hero;
-                        if (repeat == 0) p.Allegiance = hero.Allegiance;
+                        
                         if (repeat == 0)
                         {
-                            p.MaxHealth = p.Health = hero.MaxHealth;
-                            p.IsMale = hero.IsMale ? true : false;
-                            p.IsFemale = hero.IsMale ? false : true;
+                            p.Hero = hero;
+                            p.Allegiance = hero.Allegiance;
+                            p.IsMale = hero.IsMale;
+                            p.IsFemale = !hero.IsMale;
+                            if (numberOfHeroes == 1)
+                            {
+                                p.MaxHealth = hero.MaxHealth;
+                                p.Health = hero.MaxHealth;
+                            }
                         }
-                        if (repeat == 1)
+                        else if (repeat == 1)
                         {
+                            p.Hero2 = hero;
                             int aveHp = (p.Hero2.MaxHealth + p.Hero.MaxHealth) / 2;
-                            p.MaxHealth = p.Health = aveHp;
+                            p.MaxHealth = aveHp;
+                            p.Health = aveHp;
                         }
                     }
                 }
