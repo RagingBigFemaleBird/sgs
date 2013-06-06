@@ -38,7 +38,7 @@ namespace Sanguosha.Expansions.Wind.Skills
             {
                 NotifySkillUse();
                 Game.CurrentGame.NotificationProxy.NotifyLogEvent(
-                    new LogEvent("EnforcedCardTransform", Owner, Game.CurrentGame.OriginalCardSet[(card as Card).Id], card),
+                    new LogEvent("EnforcedCardTransform", Owner, GameEngine.CardSet[(card as Card).Id], card),
                     new List<Player> { Owner },
                     true,
                     false

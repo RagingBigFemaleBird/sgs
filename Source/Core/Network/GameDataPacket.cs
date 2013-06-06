@@ -352,6 +352,7 @@ namespace Sanguosha.Core.Network
                 {
                     cards.Add(card.ToCard(wrtPlayerId));
                 }
+                if (cards.Any(c => c == null)) cards = new List<Card>();
             }
             players = new List<Player>();
             if (PlayerItems != null)
@@ -361,6 +362,7 @@ namespace Sanguosha.Core.Network
                 {
                     players.Add(player.ToPlayer());
                 }
+                if (players.Any(p => p == null)) players = new List<Player>();
             }
         }
     }
@@ -415,6 +417,11 @@ namespace Sanguosha.Core.Network
                     foreach (var card in cardDeck)
                     {
                         cards.Add(card.ToCard(wrtPlayerId));
+                    }
+                    if (cards.Any(c => c == null))
+                    {
+                        result = new List<List<Card>>();
+                        break;
                     }
                     result.Add(cards);
                 }

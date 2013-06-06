@@ -26,6 +26,8 @@ namespace Sanguosha.Core.Games
     {
         public bool IsDraw { get; set; }
         public List<Player> Winners { get; private set; }
+        public bool OutOfCards { get; set; }
+        public bool EveryoneQuits { get; set; }
         public GameOverException() : this(true) 
         {
         }
@@ -562,6 +564,7 @@ namespace Sanguosha.Core.Games
 
             if (GameServer != null)
             {
+                Thread.Sleep(3500);
                 GameServer.Stop();
             }
             else if (GameClient != null)
@@ -1089,7 +1092,7 @@ namespace Sanguosha.Core.Games
             }
             if (drawDeck.Count == 0)
             {
-                throw new GameOverException();
+                throw new GameOverException() { OutOfCards = true };
             }
             return drawDeck[i];
         }
@@ -1103,7 +1106,7 @@ namespace Sanguosha.Core.Games
             }
             if (drawDeck.Count == 0)
             {
-                throw new GameOverException();
+                throw new GameOverException() { OutOfCards = true };
             }
             Card card = drawDeck.First();
             drawDeck.RemoveAt(0);

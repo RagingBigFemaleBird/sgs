@@ -348,9 +348,10 @@ namespace Sanguosha.Core.Games
                 {
                     answer = new List<List<Card>>();
                     answer.Add(new List<Card>() { Game.CurrentGame.Decks[p, SelectedHero].First() });
-                    if (numberOfHeroes == 2) answer.Add(new List<Card>() { Game.CurrentGame.Decks[p, SelectedHero].ElementAt(1) });
+                    if (numberOfHeroes == 2) answer[0].Add(Game.CurrentGame.Decks[p, SelectedHero].ElementAt(1));
                 }
                 Game.CurrentGame.Decks[p, ReadyToGoHeroes].AddRange(answer[0]);
+                Hero hero1 = null;
                 for (int repeat = 0; repeat < numberOfHeroes; repeat++)
                 {
                     var c = answer[0][repeat];
@@ -364,12 +365,13 @@ namespace Sanguosha.Core.Games
                     if (repeat == 0)
                     {
                         p.MaxHealth = p.Health = hero.MaxHealth;
+                        hero1 = hero;
                         p.IsMale = hero.IsMale ? true : false;
                         p.IsFemale = hero.IsMale ? false : true;
                     }
                     if (repeat == 1)
                     {
-                        int aveHp = (p.Hero2.MaxHealth + p.Hero.MaxHealth) / 2;
+                        int aveHp = (hero.MaxHealth + hero1.MaxHealth) / 2;
                         p.MaxHealth = p.Health = aveHp;
                     }
                 }
@@ -673,19 +675,25 @@ namespace Sanguosha.Core.Games
                                 hero.Skills.Remove(skill);
                             }
                         }
-                        if (repeat == 1) p.Hero2 = hero;
-                        else p.Hero = hero;
-                        if (repeat == 0) p.Allegiance = hero.Allegiance;
+                        
                         if (repeat == 0)
                         {
-                            p.MaxHealth = p.Health = hero.MaxHealth;
-                            p.IsMale = hero.IsMale ? true : false;
-                            p.IsFemale = hero.IsMale ? false : true;
+                            p.Hero = hero;
+                            p.Allegiance = hero.Allegiance;
+                            p.IsMale = hero.IsMale;
+                            p.IsFemale = !hero.IsMale;
+                            if (numberOfHeroes == 1)
+                            {
+                                p.MaxHealth = hero.MaxHealth;
+                                p.Health = hero.MaxHealth;
+                            }
                         }
-                        if (repeat == 1)
+                        else if (repeat == 1)
                         {
+                            p.Hero2 = hero;
                             int aveHp = (p.Hero2.MaxHealth + p.Hero.MaxHealth) / 2;
-                            p.MaxHealth = p.Health = aveHp;
+                            p.MaxHealth = aveHp;
+                            p.Health = aveHp;
                         }
                     }
                 }
