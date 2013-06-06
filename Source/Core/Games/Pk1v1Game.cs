@@ -351,6 +351,7 @@ namespace Sanguosha.Core.Games
                     if (numberOfHeroes == 2) answer[0].Add(Game.CurrentGame.Decks[p, SelectedHero].ElementAt(1));
                 }
                 Game.CurrentGame.Decks[p, ReadyToGoHeroes].AddRange(answer[0]);
+                Hero hero1 = null;
                 for (int repeat = 0; repeat < numberOfHeroes; repeat++)
                 {
                     var c = answer[0][repeat];
@@ -364,12 +365,13 @@ namespace Sanguosha.Core.Games
                     if (repeat == 0)
                     {
                         p.MaxHealth = p.Health = hero.MaxHealth;
+                        hero1 = hero;
                         p.IsMale = hero.IsMale ? true : false;
                         p.IsFemale = hero.IsMale ? false : true;
                     }
                     if (repeat == 1)
                     {
-                        int aveHp = (p.Hero2.MaxHealth + p.Hero.MaxHealth) / 2;
+                        int aveHp = (hero.MaxHealth + hero1.MaxHealth) / 2;
                         p.MaxHealth = p.Health = aveHp;
                     }
                 }
