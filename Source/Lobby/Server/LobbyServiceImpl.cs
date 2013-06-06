@@ -147,14 +147,14 @@ namespace Sanguosha.Lobby.Server
             return LoginStatus.Success;
         }
 
-        private static void _Logout(ClientAccount account)
+        private static void _Logout(ClientAccount account, bool forced = false)
         {
             Trace.TraceInformation("{0} logged out", account.Account.UserName);
             if (account == null || account.LobbyService == null ||
                 account.LobbyService.currentAccount == null) return;
             if (account.CurrentRoom != null)
             {
-                if (_ExitRoom(account) != RoomOperationResult.Success)
+                if (_ExitRoom(account, forced) != RoomOperationResult.Success)
                 {
                     try
                     {
@@ -325,42 +325,45 @@ namespace Sanguosha.Lobby.Server
 
             lock (room.Room)
             {
-                var seat = room.Room.Seats.FirstOrDefault(s => s.Account == account.Account);
-                if (seat == null) return RoomOperationResult.Invalid;
-
-                if (!forced && room.Room.State == RoomState.Gaming
-                     && !account.Account.IsDead)
+                lock (loggedInAccounts)
                 {
-                    return RoomOperationResult.Locked;
-                }
+                    var seat = room.Room.Seats.FirstOrDefault(s => s.Account == account.Account);
+                    if (seat == null) return RoomOperationResult.Invalid;
 
-                bool findAnotherHost = false;
-                if (seat.State == SeatState.Host)
-                {
-                    findAnotherHost = true;
-                }
-                seat.Account = null;
-                seat.State = SeatState.Empty;
-                account.CurrentRoom = null;
-
-                if (_DestroyRoomIfEmpty(room))
-                {
-                    return RoomOperationResult.Success;
-                }
-
-                if (findAnotherHost)
-                {
-                    foreach (var host in room.Room.Seats)
+                    if (!forced && room.Room.State == RoomState.Gaming
+                         && !account.Account.IsDead)
                     {
-                        if (host.Account != null)
+                        return RoomOperationResult.Locked;
+                    }
+
+                    bool findAnotherHost = false;
+                    if (seat.State == SeatState.Host)
+                    {
+                        findAnotherHost = true;
+                    }
+                    seat.Account = null;
+                    seat.State = SeatState.Empty;
+                    account.CurrentRoom = null;
+
+                    if (_DestroyRoomIfEmpty(room))
+                    {
+                        return RoomOperationResult.Success;
+                    }
+
+                    if (findAnotherHost)
+                    {
+                        foreach (var host in room.Room.Seats)
                         {
-                            host.State = SeatState.Host;
-                            break;
+                            if (host.Account != null)
+                            {
+                                host.State = SeatState.Host;
+                                break;
+                            }
                         }
                     }
+                    _NotifyRoomLayoutChanged(room.Room.Id);
+                    return RoomOperationResult.Success;
                 }
-                _NotifyRoomLayoutChanged(room.Room.Id);
-                return RoomOperationResult.Success;
             }
         }
 
@@ -507,7 +510,7 @@ namespace Sanguosha.Lobby.Server
                                 }
                                 catch (Exception)
                                 {
-                                    _Logout(loggedInAccounts[seat.Account.UserName]);
+                                    _Logout(loggedInAccounts[seat.Account.UserName], true);
                                     seat.Account = null;
                                     seat.State = SeatState.Empty;
                                     continue;

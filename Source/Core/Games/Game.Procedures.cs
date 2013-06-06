@@ -639,7 +639,10 @@ namespace Sanguosha.Core.Games
                     }
                 }
                 numberOfCardsDiscarded += cards.Count;
-                HandleCardDiscard(player, cards);
+                if (cards.Count != 0)
+                {
+                    HandleCardDiscard(player, cards);
+                }
             }
         }
 

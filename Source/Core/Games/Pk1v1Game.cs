@@ -348,7 +348,7 @@ namespace Sanguosha.Core.Games
                 {
                     answer = new List<List<Card>>();
                     answer.Add(new List<Card>() { Game.CurrentGame.Decks[p, SelectedHero].First() });
-                    if (numberOfHeroes == 2) answer.Add(new List<Card>() { Game.CurrentGame.Decks[p, SelectedHero].ElementAt(1) });
+                    if (numberOfHeroes == 2) answer[0].Add(Game.CurrentGame.Decks[p, SelectedHero].ElementAt(1));
                 }
                 Game.CurrentGame.Decks[p, ReadyToGoHeroes].AddRange(answer[0]);
                 for (int repeat = 0; repeat < numberOfHeroes; repeat++)
