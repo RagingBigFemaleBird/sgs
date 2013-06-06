@@ -235,7 +235,7 @@ namespace Sanguosha.Core.Network
             {
                 gamer.Stop();
             }
-            Thread.Sleep(10000);
+            Thread.Sleep(3000);
             foreach (var gamer in Gamers)
             {
                 if (!gamer.IsStopped)
