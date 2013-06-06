@@ -68,6 +68,14 @@ namespace Sanguosha.Core.Network
             private set;
         }
 
+        public bool IsStopped
+        {
+            get
+            {
+                return sendThread == null && receiveThread == null;
+            }
+        }
+
         public void StartSender()
         {
             lock (this)
@@ -92,7 +100,20 @@ namespace Sanguosha.Core.Network
             }
         }
 
-        public void StopListening()
+        public void Stop()
+        {
+            lock (this)
+            {
+                SendAsync(new EndOfGameNotification());
+                if (!IsSpectator && receiveThread != null)
+                {
+                    receiveThread.Abort();
+                    receiveThread = null;
+                }
+            }
+        }
+
+        public void Abort()
         {
             if (!IsSpectator && receiveThread != null)
             {
@@ -184,8 +205,13 @@ namespace Sanguosha.Core.Network
             while (true)
             {
                 packet = sendQueue.Take();
-                Send(packet);   
+                Send(packet);
+                if (packet is EndOfGameNotification)
+                {
+                    break;
+                }
             }
+            sendThread = null;
         }
 
         public event GamerDisconnectedHandler OnDisconnected;

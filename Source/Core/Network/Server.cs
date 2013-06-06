@@ -227,11 +227,19 @@ namespace Sanguosha.Core.Network
         public void Stop()
         {
             listener.Stop();
+            connectThread.Abort();
             foreach (var gamer in Gamers)
             {
-                gamer.StopListening();
+                gamer.Stop();
             }
-            connectThread.Abort();
+            Thread.Sleep(10000);
+            foreach (var gamer in Gamers)
+            {
+                if (!gamer.IsStopped)
+                {
+                    gamer.Abort();
+                }
+            }            
         }
 
     }

@@ -20,6 +20,14 @@ namespace Sanguosha.Expansions.Hills.Skills
     /// </summary>
     public class TiaoXin : AutoVerifiedActiveSkill
     {
+        protected override int GenerateSpecialEffectHintIndex(Player source, List<Player> targets, List<Card> cards)
+        {
+            Trace.Assert(Owner != null && Owner.Hero != null);
+            if (Owner == null || Owner.Hero == null) return 0;
+            else if (Owner.Hero.Name == "XiahouBa" || (Owner.Hero2 != null && Owner.Hero2.Name == "XiahouBa")) return 1;
+            return 0;
+        }
+
         public override bool Commit(GameEventArgs arg)
         {
             Owner[TiaoXinUsed] = 1;

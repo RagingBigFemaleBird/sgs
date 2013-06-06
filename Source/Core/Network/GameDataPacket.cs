@@ -285,6 +285,7 @@ namespace Sanguosha.Core.Network
     [ProtoInclude(1207, typeof(CardRearrangementNotification))]
     [ProtoInclude(1208, typeof(HandCardMovementNotification))]
     [ProtoInclude(1209, typeof(OnlineStatusUpdate))]
+    [ProtoInclude(1210, typeof(EndOfGameNotification))]
     public class GameUpdate : GameDataPacket
     {
     }
@@ -512,6 +513,11 @@ namespace Sanguosha.Core.Network
         }
         [ProtoMember(1)]
         public String Seed { get; set; }
+    }
+
+    [ProtoContract]
+    public class EndOfGameNotification : GameUpdate
+    {
     }
 
     [ProtoContract]

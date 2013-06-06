@@ -17,6 +17,7 @@ namespace Sanguosha.Core.Network
         {
             sema = new Semaphore(0, 1);
             semPause = new Semaphore(0, 1);
+            isStopped = false;
         }
 
         public TcpClient TcpClient { get; set; }
@@ -24,17 +25,32 @@ namespace Sanguosha.Core.Network
 
         Semaphore sema;
         Semaphore semPause;
-
+        bool isStopped;
         public GameDataPacket Receive()
         {
+            Trace.Assert(!isStopped);
+            if (isStopped) return null;
             var packet = Serializer.DeserializeWithLengthPrefix<GameDataPacket>(DataStream, PrefixStyle.Base128);
+            if (packet is EndOfGameNotification)
+            {
+                isStopped = true;
+                return null;
+            }
             Trace.TraceInformation("Packet type {0} received", packet.GetType().Name);
             return packet;
         }
 
-        public void Send(GameDataPacket packet)
+        public bool Send(GameDataPacket packet)
         {
-            Serializer.SerializeWithLengthPrefix<GameDataPacket>(DataStream, packet, PrefixStyle.Base128);
+            try
+            {
+                Serializer.SerializeWithLengthPrefix<GameDataPacket>(DataStream, packet, PrefixStyle.Base128);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }
