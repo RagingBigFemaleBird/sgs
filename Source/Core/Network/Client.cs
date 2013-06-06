@@ -59,6 +59,7 @@ namespace Sanguosha.Core.Network
             client.Connect(ep);
             NetworkStream stream = client.GetStream();
             gamer = new ClientGamer();
+            gamer.TcpClient = client;
             gamer.DataStream = new RecordTakingInputStream(stream, recordStream);
             if (token != null)
             {

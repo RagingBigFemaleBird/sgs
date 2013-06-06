@@ -35,7 +35,7 @@ namespace Sanguosha.Core.Network
             {
                 isStopped = true;
                 DataStream.Close();
-                TcpClient.Close();
+                if (TcpClient != null) TcpClient.Close();
                 return null;
             }
             Trace.TraceInformation("Packet type {0} received", packet.GetType().Name);

@@ -102,14 +102,11 @@ namespace Sanguosha.Core.Network
 
         public void Stop()
         {
-            lock (this)
+            SendAsync(new EndOfGameNotification());
+            if (!IsSpectator && receiveThread != null)
             {
-                SendAsync(new EndOfGameNotification());
-                if (!IsSpectator && receiveThread != null)
-                {
-                    receiveThread.Abort();
-                    receiveThread = null;
-                }
+                receiveThread.Abort();
+                receiveThread = null;
             }
         }
 
