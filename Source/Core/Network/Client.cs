@@ -20,7 +20,7 @@ namespace Sanguosha.Core.Network
 {
     public class Client
     {
-        ClientGamer networkService;
+        ClientGamer gamer;
 
         public int SelfId { get; set; }
 
@@ -58,11 +58,11 @@ namespace Sanguosha.Core.Network
             TcpClient client = new TcpClient();
             client.Connect(ep);
             NetworkStream stream = client.GetStream();
-            networkService = new ClientGamer();
-            networkService.DataStream = new RecordTakingInputStream(stream, recordStream);
+            gamer = new ClientGamer();
+            gamer.DataStream = new RecordTakingInputStream(stream, recordStream);
             if (token != null)
             {
-                networkService.Send(new ConnectionRequest() { Token = (LoginToken)token });
+                gamer.Send(new ConnectionRequest() { Token = (LoginToken)token });
             }
         }
 
@@ -71,8 +71,8 @@ namespace Sanguosha.Core.Network
         public void StartReplay(Stream replayStream)
         {
             this.replayStream = replayStream;
-            networkService = new ClientGamer();
-            networkService.DataStream = new NullOutputStream(replayStream);
+            gamer = new ClientGamer();
+            gamer.DataStream = new NullOutputStream(replayStream);
             ReplayController = new Utils.ReplayController();
             ReplayController.EvenDelays = true;
         }
@@ -88,24 +88,24 @@ namespace Sanguosha.Core.Network
 
         public void MoveHandCard(int from, int to)
         {
-            networkService.Send(new HandCardMovementNotification() { From = from, To = to, PlayerItem = PlayerItem.Parse(SelfId) });
+            gamer.Send(new HandCardMovementNotification() { From = from, To = to, PlayerItem = PlayerItem.Parse(SelfId) });
         }
 
         public void CardChoiceCallBack(CardRearrangement arrange)
         {
-            networkService.Send(new CardRearrangementNotification() { CardRearrangement = arrange });
+            gamer.Send(new CardRearrangementNotification() { CardRearrangement = arrange });
         }
 
         public void Send(GameDataPacket p)
         {
-            networkService.Send(p);
+            gamer.Send(p);
         }
 
         public object Receive()
         {
             while (true)
             {
-                var pkt = networkService.Receive();
+                var pkt = gamer.Receive();
                 if (pkt is StatusSync)
                 {
                     return ((StatusSync)pkt).Status;
@@ -151,6 +151,7 @@ namespace Sanguosha.Core.Network
 
         public void Stop()
         {
+            gamer.Receive();
             if (RecordStream != null)
             {
                 RecordStream.Flush();

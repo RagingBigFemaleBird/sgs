@@ -34,6 +34,8 @@ namespace Sanguosha.Core.Network
             if (packet is EndOfGameNotification)
             {
                 isStopped = true;
+                DataStream.Close();
+                TcpClient.Close();
                 return null;
             }
             Trace.TraceInformation("Packet type {0} received", packet.GetType().Name);

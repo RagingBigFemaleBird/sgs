@@ -564,7 +564,6 @@ namespace Sanguosha.Core.Games
 
             if (GameServer != null)
             {
-                Thread.Sleep(3500);
                 GameServer.Stop();
             }
             else if (GameClient != null)
