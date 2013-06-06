@@ -196,7 +196,6 @@ namespace Sanguosha.UI.Controls
                 catch (Exception e)
                 {
                     Trace.TraceError("Connection failure : " + e.StackTrace);
-                    Trace.Assert(false);
                 }
             };
 

@@ -80,7 +80,10 @@ namespace Sanguosha.Core.Network
 
         void Server_OnDisconnected(ServerGamer gamer)
         {
-            SetOnlineStatus(Gamers.IndexOf(gamer), OnlineStatus.Offline);
+            if (!gamer.IsSpectator)
+            {
+                SetOnlineStatus(Gamers.IndexOf(gamer), OnlineStatus.Offline);
+            }
             if (!Gamers.Any(hdl => !hdl.IsSpectator && hdl.IsConnected))
             {
                 killServer = true;

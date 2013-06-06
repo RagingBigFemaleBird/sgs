@@ -22,13 +22,14 @@ using Sanguosha.Core.Heroes;
 namespace Sanguosha.Core.Games
 {
 
-    public class GameOverException : SgsException 
+    public class GameOverException : SgsException
     {
         public bool IsDraw { get; set; }
         public List<Player> Winners { get; private set; }
         public bool OutOfCards { get; set; }
         public bool EveryoneQuits { get; set; }
-        public GameOverException() : this(true) 
+        public GameOverException()
+            : this(true)
         {
         }
         public GameOverException(bool isDraw)
@@ -169,7 +170,7 @@ namespace Sanguosha.Core.Games
             else
             {
                 foreach (var card in expansion.CardSet)
-                {                
+                {
                     var hero = card.Type as HeroCardHandler;
                     if (hero != null)
                     {
@@ -178,7 +179,7 @@ namespace Sanguosha.Core.Games
                     OriginalCardSet.Add(card);
                 }
             }
-            
+
 
             if (expansion.TriggerRegistration != null)
             {
@@ -376,15 +377,12 @@ namespace Sanguosha.Core.Games
             {
                 for (int i = 0; i < GameServer.MaxClients; i++)
                 {
-                    if (GameServer.Gamers[i].IsConnected)
+                    try
                     {
-                        try
-                        {
-                            GameServer.SendPacket(i, new SeedSync(value));
-                        }
-                        catch (Exception)
-                        {
-                        }
+                        GameServer.SendPacket(i, new SeedSync(value));
+                    }
+                    catch (Exception)
+                    {
                     }
                 }
             }
@@ -405,7 +403,7 @@ namespace Sanguosha.Core.Games
         public void Abort()
         {
             if (mainThread == null) return;
-            Trace.Assert(mainThread != Thread.CurrentThread);            
+            Trace.Assert(mainThread != Thread.CurrentThread);
             if (GlobalProxy != null) GlobalProxy.Abort();
             mainThread.Abort();
             mainThread = null;
@@ -419,7 +417,7 @@ namespace Sanguosha.Core.Games
         }
 
         public virtual void Run()
-        {            
+        {
             mainThread = Thread.CurrentThread;
             if (!games.ContainsKey(Thread.CurrentThread))
             {
@@ -627,7 +625,7 @@ namespace Sanguosha.Core.Games
 
         public static Game CurrentGame
         {
-            get 
+            get
             {
                 lock (games)
                 {
@@ -824,7 +822,7 @@ namespace Sanguosha.Core.Games
         public bool IsUiDetached
         {
             get { return isUiDetached; }
-            set 
+            set
             {
                 if (isUiDetached == value) return;
                 isUiDetached = value;
@@ -836,25 +834,25 @@ namespace Sanguosha.Core.Games
             if (ReplayController != null) return;
             if (notificationProxy == null) return;
             if (!isUiDetached)
+            {
+                foreach (var pair in uiProxies)
                 {
-                    foreach (var pair in uiProxies)
-                    {
-                        ClientNetworkProxy proxy = pair.Value as ClientNetworkProxy;
-                        if (proxy != null) proxy.IsUiDetached = false;
-                    }
-                    notificationProxy.NotifyUiAttached();
+                    ClientNetworkProxy proxy = pair.Value as ClientNetworkProxy;
+                    if (proxy != null) proxy.IsUiDetached = false;
                 }
-                else
-                {
-                    foreach (var pair in uiProxies)
-                    {
-                        ClientNetworkProxy proxy = pair.Value as ClientNetworkProxy;
-                        if (proxy != null) proxy.IsUiDetached = true;
-                    }
-                    notificationProxy.NotifyUiDetached();
-                }
+                notificationProxy.NotifyUiAttached();
             }
-        
+            else
+            {
+                foreach (var pair in uiProxies)
+                {
+                    ClientNetworkProxy proxy = pair.Value as ClientNetworkProxy;
+                    if (proxy != null) proxy.IsUiDetached = true;
+                }
+                notificationProxy.NotifyUiDetached();
+            }
+        }
+
         private INotificationProxy notificationProxy;
 
         public INotificationProxy NotificationProxy
