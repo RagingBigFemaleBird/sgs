@@ -89,7 +89,7 @@ namespace Sanguosha.Expansions.OverKnightFame13.Skills
                 this,
                 Run,
                 TriggerCondition.OwnerIsTarget
-            ) { AskForConfirmation = false, IsAutoNotify = false };
+            );
             Triggers.Add(GameEvent.AfterDamageInflicted, trigger);
         }
     }

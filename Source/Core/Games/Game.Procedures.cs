@@ -588,8 +588,10 @@ namespace Sanguosha.Core.Games
                         cannotBeDiscarded++;
                     }
                 }
+                int totalCards = (canDiscardEquipment ? equipCardCount : 0) + handCardCount;
+                int numCanBeDiscarded = totalCards - cannotBeDiscarded;
                 //如果玩家无法达到弃牌要求 则 摊牌
-                bool status = cannotBeDiscarded == 0 || ((canDiscardEquipment ? equipCardCount : 0) + handCardCount - toDiscard >= cannotBeDiscarded);
+                bool status = cannotBeDiscarded == 0 || (numCanBeDiscarded >= toDiscard);
                 SyncConfirmationStatus(ref status);
                 if (!status)
                 {
@@ -609,15 +611,22 @@ namespace Sanguosha.Core.Games
                     }
                 }
                 int minimum;
+                int numShouldDiscard = status ? toDiscard : numCanBeDiscarded;
                 if (!atOnce) minimum = 1;
-                else minimum = status ? toDiscard : (canDiscardEquipment ? equipCardCount : 0) + handCardCount - cannotBeDiscarded;
-                PlayerForceDiscardVerifier v = new PlayerForceDiscardVerifier(toDiscard, canDiscardEquipment, minimum);
-                if (!proxy.AskForCardUsage(new Prompt(Prompt.DiscardPhasePrompt, toDiscard),
-                                           v, out skill, out cards, out players))
+                else minimum = numShouldDiscard;
+                bool answered = false;
+                cards = new List<Card>();
+                if (minimum < numCanBeDiscarded)
+                {
+                    var v = new PlayerForceDiscardVerifier(numShouldDiscard, canDiscardEquipment, minimum);
+                    answered = proxy.AskForCardUsage(new Prompt(Prompt.DiscardPhasePrompt, toDiscard),
+                                                     v, out skill, out cards, out players);
+                }
+
+                if (!answered)
                 {
                     //玩家没有回应(default)
                     Trace.TraceInformation("Invalid answer, choosing for you");
-                    cards = new List<Card>();
                     int cardsDiscarded = 0;
                     var chooseFrom = new List<Card>(Decks[player, DeckType.Hand]);
                     if (canDiscardEquipment)
@@ -639,10 +648,7 @@ namespace Sanguosha.Core.Games
                     }
                 }
                 numberOfCardsDiscarded += cards.Count;
-                if (cards.Count != 0)
-                {
-                    HandleCardDiscard(player, cards);
-                }
+                HandleCardDiscard(player, cards);
             }
         }
 
