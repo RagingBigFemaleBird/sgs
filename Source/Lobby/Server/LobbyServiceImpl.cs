@@ -38,9 +38,13 @@ namespace Sanguosha.Lobby.Server
             return true;
         }
 
+        Thread CleanerThread;
+
         public LobbyServiceImpl()
         {
             currentAccount = null;
+            CleanerThread = new Thread(DeadRoomCleanup);
+            CleanerThread.Start();
         }
 
         private Account Authenticate(string username, string hash)
@@ -52,6 +56,34 @@ namespace Sanguosha.Lobby.Server
                 if (result.Count() == 0) return null;
                 if (!result.First().Password.Equals(hash)) return null;
                 return result.First();
+            }
+        }
+
+        private void DeadRoomCleanup()
+        {
+            while (true)
+            {
+                Thread.Sleep(60);
+                lock (loggedInAccounts)
+                {
+                    lock (rooms)
+                    {
+                        foreach (var acc in loggedInAccounts)
+                        {
+                            if (DateTime.Now.Subtract(acc.Value.LastAction).TotalSeconds >= 60 * 60)
+                            {
+                                acc.Value.CurrentRoom = null;
+                                foreach (var rm in new Dictionary<int, ServerRoom>(rooms))
+                                {
+                                    if (rm.Value.Room.Seats.Any(st => st.Account == acc.Value.Account))
+                                    {
+                                        rooms.Remove(rm.Key);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -144,6 +176,7 @@ namespace Sanguosha.Lobby.Server
             retAccount = currentAccount.Account;
             _Unspectate(currentAccount);
             currentAccount.OpContext = OperationContext.Current;
+            currentAccount.LastAction = DateTime.Now;
             return LoginStatus.Success;
         }
 
@@ -232,6 +265,7 @@ namespace Sanguosha.Lobby.Server
                 var srvRoom = new ServerRoom() { Room = room };
                 rooms.Add(newRoomId, srvRoom);
                 currentAccount.CurrentRoom = srvRoom;
+                currentAccount.LastAction = DateTime.Now;
                 Trace.TraceInformation("created room {0}", newRoomId);
                 return room;
             }
@@ -272,6 +306,7 @@ namespace Sanguosha.Lobby.Server
                     if (seat.Account == null && seat.State == SeatState.Empty)
                     {
                         currentAccount.CurrentRoom = serverRoom;
+                        currentAccount.LastAction = DateTime.Now;
                         seat.Account = currentAccount.Account;
                         seat.State = SeatState.GuestTaken;
                         _NotifyRoomLayoutChanged(roomId);
@@ -344,6 +379,7 @@ namespace Sanguosha.Lobby.Server
                     seat.Account = null;
                     seat.State = SeatState.Empty;
                     account.CurrentRoom = null;
+                    account.LastAction = DateTime.Now;
 
                     if (_DestroyRoomIfEmpty(room))
                     {
@@ -455,6 +491,7 @@ namespace Sanguosha.Lobby.Server
                     {
                         if (remove.Account == currentAccount.Account)
                         {
+                            currentAccount.LastAction = DateTime.Now;
                             if (remove == seat) return RoomOperationResult.Invalid;
                             seat.State = remove.State;
                             seat.Account = remove.Account;
@@ -621,6 +658,7 @@ namespace Sanguosha.Lobby.Server
                 room.Room.IpPort = portNumber;
                 _NotifyGameStart(room.Room.Id, HostingIp, portNumber);
             }
+            currentAccount.LastAction = DateTime.Now;
             return RoomOperationResult.Success;
         }
 
@@ -637,6 +675,7 @@ namespace Sanguosha.Lobby.Server
                 seat.State = SeatState.GuestReady;
                 _NotifyRoomLayoutChanged(room.Id);
             }
+            currentAccount.LastAction = DateTime.Now;
             return RoomOperationResult.Success;
         }
 
@@ -653,6 +692,7 @@ namespace Sanguosha.Lobby.Server
                 seat.State = SeatState.GuestTaken;
                 _NotifyRoomLayoutChanged(room.Id);
             }
+            currentAccount.LastAction = DateTime.Now;
             return RoomOperationResult.Success;
         }
 
@@ -717,6 +757,7 @@ namespace Sanguosha.Lobby.Server
                 room.Seats[seatNo].State = SeatState.Empty;
                 _NotifyRoomLayoutChanged(room.Id);
             }
+            currentAccount.LastAction = DateTime.Now;
             return RoomOperationResult.Success;
         }
 
@@ -735,6 +776,7 @@ namespace Sanguosha.Lobby.Server
                 room.Seats[seatNo].State = SeatState.Closed;
                 _NotifyRoomLayoutChanged(room.Id);
             }
+            currentAccount.LastAction = DateTime.Now;
             return RoomOperationResult.Success;
         }
 
@@ -795,6 +837,7 @@ namespace Sanguosha.Lobby.Server
                 }
             }) { IsBackground = true };
             thread.Start();
+            currentAccount.LastAction = DateTime.Now;
             return RoomOperationResult.Success;
         }
 

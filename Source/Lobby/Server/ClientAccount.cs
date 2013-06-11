@@ -14,5 +14,6 @@ namespace Sanguosha.Lobby.Server
         public ServerRoom CurrentSpectatingRoom { get; set; }
         public IGameClient CallbackChannel { get; set; }
         public LobbyServiceImpl LobbyService { get; set; }
+        public DateTime LastAction { get; set; }
     }
 }
