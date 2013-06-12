@@ -260,6 +260,15 @@ namespace Sanguosha.Core.Games
         public static DeckType SelectedHero = DeckType.Register("SelectedHero");
         private class PlayerIsDead : Trigger
         {
+            private void ReleaseIntoLobby(Player p)
+            {
+                if (Game.CurrentGame.GameServer == null) return;
+                if (Game.CurrentGame.Settings == null) return;
+                var idx = Game.CurrentGame.Players.IndexOf(p);
+                var account = Game.CurrentGame.Settings.Accounts[idx];
+                account.IsDead = true;
+            }
+
             public override void Run(GameEvent gameEvent, GameEventArgs eventArgs)
             {
                 Player p = eventArgs.Targets[0];
@@ -278,7 +287,10 @@ namespace Sanguosha.Core.Games
                 {
                     // 6 - 3 = 3. gg
                     Trace.TraceInformation("Out of heroes. Game over");
-
+                    foreach (var pl in Game.CurrentGame.Players)
+                    {
+                        ReleaseIntoLobby(pl);
+                    }
                     var winners = from pl in Game.CurrentGame.Players where pl != p select pl;
                     p.IsDead = true;
                     throw new GameOverException(false, winners);
