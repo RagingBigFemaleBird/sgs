@@ -43,7 +43,7 @@ namespace Sanguosha.Lobby.Server
         public LobbyServiceImpl()
         {
             currentAccount = null;
-            CleanerThread = new Thread(DeadRoomCleanup);
+            CleanerThread = new Thread(DeadRoomCleanup) { IsBackground = true };
             CleanerThread.Start();
         }
 
@@ -75,7 +75,10 @@ namespace Sanguosha.Lobby.Server
                                 acc.Value.CurrentRoom = null;
                                 foreach (var rm in new Dictionary<int, ServerRoom>(rooms))
                                 {
-                                    if (rm.Value.Room.Seats.Any(st => st.Account == acc.Value.Account))
+                                    if (rm.Value.Room.Seats.Any(st => st.Account == acc.Value.Account)
+                                        || !rm.Value.Room.Seats.Any(st => st.State == SeatState.Host)
+                                        || rm.Value.Room.Seats.Any(st => !loggedInAccounts.ContainsKey(st.Account.UserName))
+                                        )
                                     {
                                         rooms.Remove(rm.Key);
                                     }
