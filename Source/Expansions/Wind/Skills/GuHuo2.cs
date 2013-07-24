@@ -16,9 +16,9 @@ using Sanguosha.Expansions.Battle.Cards;
 namespace Sanguosha.Expansions.Wind.Skills
 {
     /// <summary>
-    /// 蛊惑–当你需要使用或打出一张基本牌或非延时类锦囊牌时，你可以声明并将一张手牌扣于桌上。若无人质疑，则该牌按你所述之牌来用。若有人质疑则亮出验明：若为真，质疑者各失去一点体力；若为假，质疑者各摸一张牌。除非被质疑的牌的花色为红桃且为真（仍然可用），否则无论真假，该牌都作废，弃置之。
+    /// 蛊惑–每名角色的回合限一次，你可以扣置一张手牌当任意一张基本牌或非延时锦囊牌使用或打出。此时，一旦有其他角色质疑时，翻开此牌，若为假此牌作废，若为真则质疑角色获得技能“瞠惑”（锁定技，你不能质疑于吉。只要你的体力值为1，你失去角色其他技能。）
     /// </summary>
-    public class GuHuo2 : CardTransformSkill, IAdditionalTypedSkill
+    public class GuHuo : CardTransformSkill, IAdditionalTypedSkill
     {
         public override VerifierResult TryTransform(List<Card> cards, List<Player> arg, out CompositeCard card, bool isPlay)
         {
@@ -26,6 +26,11 @@ namespace Sanguosha.Expansions.Wind.Skills
             card.Subcards = new List<Card>();
             card.Type = AdditionalType;
             card[TieSuoLianHuan.ProhibitReforging] = 1;
+            if (Game.CurrentGame.CurrentPlayer == null || Game.CurrentGame.CurrentPlayer[GuHuoUsed] == 1)
+            {
+                return VerifierResult.Fail;
+            }
+            Game.CurrentGame.CurrentPlayer[GuHuoUsed] = 1;
             if (AdditionalType == null)
             {
                 return VerifierResult.Partial;
@@ -47,11 +52,12 @@ namespace Sanguosha.Expansions.Wind.Skills
             {
                 return VerifierResult.Fail;
             }
-                        
+
             card.Subcards.Add(cards[0]);
             return VerifierResult.Success;
         }
 
+        public static readonly PlayerAttribute GuHuoUsed = PlayerAttribute.Register("GuHuoUsed", true);
         public static readonly PlayerAttribute ZhiYiZhong = PlayerAttribute.Register("ZhiYi", false, false, true);
         public static readonly PlayerAttribute BuZhiYiZhong = PlayerAttribute.Register("BuZhiYi", false, false, true);
 
@@ -91,7 +97,18 @@ namespace Sanguosha.Expansions.Wind.Skills
             var toProcess = new List<Player>(from p in Game.CurrentGame.AlivePlayers where p.Health > 0 select p);
             toProcess.Remove(Owner);
             Game.CurrentGame.SortByOrderOfComputation(Game.CurrentGame.CurrentPlayer, toProcess);
-            Dictionary<Player, int> believe = new Dictionary<Player,int>();
+            foreach (var skfilter in new List<Player>(toProcess))
+            {
+                foreach (var sk in skfilter.Skills)
+                {
+                    if (sk.GetType().Name.Contains("ChengHuo"))
+                    {
+                        toProcess.Remove(skfilter);
+                        break;
+                    }
+                }
+            }
+            Dictionary<Player, int> believe = new Dictionary<Player, int>();
             foreach (var player in toProcess)
             {
                 int answer = 0;
@@ -119,23 +136,12 @@ namespace Sanguosha.Expansions.Wind.Skills
                     {
                         if (believe[player] == 0)
                         {
-                            Game.CurrentGame.LoseHealth(player, 1);
+                            Game.CurrentGame.PlayerAcquireAdditionalSkill(player, new ChengHuo(), null);
                         }
-                    }
-                    if (Game.CurrentGame.Decks[null, DeckType.GuHuo][GuHuoOrder].Suit != SuitType.Heart)
-                    {
-                        ret = false;
                     }
                 }
                 else
                 {
-                    foreach (var player in toProcess)
-                    {
-                        if (believe[player] == 0)
-                        {
-                            Game.CurrentGame.DrawCards(player, 1);
-                        }
-                    }
                     ret = false;
                 }
                 if (!ret)
@@ -160,11 +166,44 @@ namespace Sanguosha.Expansions.Wind.Skills
             return ret;
         }
 
-        public GuHuo2()
+        public GuHuo()
         {
             Helper.NoCardReveal = true;
         }
 
         public CardHandler AdditionalType { get; set; }
+        public class ChengHuo : TriggerSkill
+        {
+
+            static PlayerAttribute ChengHuoStatus = PlayerAttribute.Register("ChengHuo", false, false, true);
+
+            public ChengHuo()
+            {
+                var trigger = new AutoNotifyPassiveSkillTrigger(
+                    this,
+                    (p, e, a) =>
+                    {
+                        return p.Health == 1;
+                    },
+                    (p, e, a) =>
+                    {
+
+                        p.LoseAllHerosSkills();
+                        foreach (ISkill sk in new List<ISkill>(p.AdditionalSkills))
+                        {
+                            if (!sk.GetType().Name.Contains("ChengHuo"))
+                            {
+                                Game.CurrentGame.PlayerLoseAdditionalSkill(p, sk);
+                            }
+                        }
+                        a.Source[ChengHuoStatus] = 1;
+                    },
+                    TriggerCondition.OwnerIsTarget
+                ) { AskForConfirmation = false, IsAutoNotify = false };
+                Triggers.Add(GameEvent.AfterHealthChanged, trigger);
+                IsAutoInvoked = null;
+            }
+
+        }
     }
 }
