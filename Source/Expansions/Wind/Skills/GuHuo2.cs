@@ -30,7 +30,6 @@ namespace Sanguosha.Expansions.Wind.Skills
             {
                 return VerifierResult.Fail;
             }
-            Game.CurrentGame.CurrentPlayer[GuHuoUsed] = 1;
             if (AdditionalType == null)
             {
                 return VerifierResult.Partial;
@@ -87,6 +86,7 @@ namespace Sanguosha.Expansions.Wind.Skills
         protected override bool DoTransformSideEffect(CompositeCard card, object arg, List<Player> targets, bool isPlay)
         {
             int GuHuoOrder = Game.CurrentGame.Decks[null, DeckType.GuHuo].Count;
+            Game.CurrentGame.CurrentPlayer[GuHuoUsed] = 1;
             CardsMovement move = new CardsMovement();
             Trace.Assert(card.Subcards.Count == 1);
             move.Cards = new List<Card>();
@@ -137,6 +137,18 @@ namespace Sanguosha.Expansions.Wind.Skills
                         if (believe[player] == 0)
                         {
                             Game.CurrentGame.PlayerAcquireAdditionalSkill(player, new ChengHuo(), null);
+                            if (player.Health == 1)
+                            {
+                                player.LoseAllHerosSkills();
+                                foreach (ISkill sk in new List<ISkill>(player.AdditionalSkills))
+                                {
+                                    if (!sk.GetType().Name.Contains("ChengHuo"))
+                                    {
+                                        Game.CurrentGame.PlayerLoseAdditionalSkill(player, sk);
+                                    }
+                                }
+                                player[ChengHuo.ChengHuoStatus] = 1;
+                            }
                         }
                     }
                 }
@@ -175,7 +187,7 @@ namespace Sanguosha.Expansions.Wind.Skills
         public class ChengHuo : TriggerSkill
         {
 
-            static PlayerAttribute ChengHuoStatus = PlayerAttribute.Register("ChengHuo", false, false, true);
+            public static PlayerAttribute ChengHuoStatus = PlayerAttribute.Register("ChengHuo", false, false, true);
 
             public ChengHuo()
             {
@@ -196,7 +208,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                                 Game.CurrentGame.PlayerLoseAdditionalSkill(p, sk);
                             }
                         }
-                        a.Source[ChengHuoStatus] = 1;
+                        p[ChengHuoStatus] = 1;
                     },
                     TriggerCondition.OwnerIsTarget
                 ) { AskForConfirmation = false, IsAutoNotify = false };
