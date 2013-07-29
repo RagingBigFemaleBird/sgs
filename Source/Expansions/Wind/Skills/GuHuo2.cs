@@ -136,7 +136,7 @@ namespace Sanguosha.Expansions.Wind.Skills
                     {
                         if (believe[player] == 0)
                         {
-                            Game.CurrentGame.PlayerAcquireAdditionalSkill(player, new ChengHuo(), null);
+                            Game.CurrentGame.PlayerAcquireAdditionalSkill(player, new ChengHuo(), player.Hero);
                             if (player.Health == 1)
                             {
                                 player.LoseAllHerosSkills();

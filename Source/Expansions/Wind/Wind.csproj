@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Skills\BuQu.cs" />
+    <Compile Include="Skills\BuQu2.cs" />
     <Compile Include="Skills\GongXin.cs" />
     <Compile Include="Skills\GuHuo.cs" />
     <Compile Include="Skills\GuHuo2.cs" />
