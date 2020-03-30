@@ -437,6 +437,11 @@ namespace Sanguosha.UI.Main
                 _Warn("Please enter a legal port number");
                 return;
             }
+            IPAddress publicIP;
+            if (!IPAddress.TryParse(tab1PublicIP.Text, out publicIP))
+            {
+                publicIP = serverIp;
+            }
             busyIndicator.BusyContent = Resources["Busy.LaunchServer"];
             busyIndicator.IsBusy = true;
 
@@ -451,6 +456,7 @@ namespace Sanguosha.UI.Main
                     ea.Result = false;
                     if (hasDatabase) LobbyServiceImpl.EnableDatabase();
                     LobbyServiceImpl.HostingIp = serverIp;
+                    LobbyServiceImpl.PublicIp = publicIP;
 
                     host = new ServiceHost(typeof(LobbyServiceImpl));
                     //, new Uri[] { new Uri(string.Format("net.tcp://{0}:{1}/GameService", serverIp, portNumber)) });

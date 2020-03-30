@@ -21,6 +21,7 @@ namespace Sanguosha.Lobby.Server
         static int newRoomId = 1;
 
         public static IPAddress HostingIp { get; set; }
+        public static IPAddress PublicIp { get; set; }
         public static bool CheatEnabled { get; set; }
 
         static AccountContext accountContext = null;
@@ -664,9 +665,9 @@ namespace Sanguosha.Lobby.Server
                     }
                 }
                 GameService.StartGameService(HostingIp, gs, room.Room.Id, _OnGameEnds, out portNumber);
-                room.Room.IpAddress = HostingIp.ToString();
+                room.Room.IpAddress = PublicIp.ToString();
                 room.Room.IpPort = portNumber;
-                _NotifyGameStart(room.Room.Id, HostingIp, portNumber);
+                _NotifyGameStart(room.Room.Id, PublicIp, portNumber);
             }
             currentAccount.LastAction = DateTime.Now;
             return RoomOperationResult.Success;

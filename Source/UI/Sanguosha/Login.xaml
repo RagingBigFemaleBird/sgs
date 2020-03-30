@@ -188,20 +188,22 @@
                     </TabItem.Header>
                     <Grid>
                         <Grid>
-                            <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="16,44.999,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" FontSize="20" ><Run Language="zh-cn" Text="网卡"/><Run Text="："/></TextBlock>
-                            <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="16,96.28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" FontSize="20" ><Run Text="IP地址"/><Run Text="："/></TextBlock>
-                            <CheckBox x:Name="tab1ShowAllAdaptor" Content="显示全部" Height="21" Margin="0,44.999,39,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65" Foreground="#FFFFCF4B" Style="{DynamicResource CheckBoxStyle1}" Checked="tab1ShowAllAdaptor_Checked" Unchecked="tab1ShowAllAdaptor_Unchecked" />
-                            <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="16,0,0,114.72" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="111" FontSize="20" ><Run Language="zh-cn" Text="端口号"/><Run Text="："/></TextBlock>
+                            <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="16,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" FontSize="20" ><Run Language="zh-cn" Text="网卡"/><Run Text="："/></TextBlock>
+                            <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="16,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="111" FontSize="20" ><Run Text="IP地址"/><Run Text="："/></TextBlock>
+                            <CheckBox x:Name="tab1ShowAllAdaptor" Content="显示全部" Height="21" Margin="0,25,39,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="65" Foreground="#FFFFCF4B" Style="{DynamicResource CheckBoxStyle1}" Checked="tab1ShowAllAdaptor_Checked" Unchecked="tab1ShowAllAdaptor_Unchecked" />
+                            <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="16,0,0,164" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="111" FontSize="20" ><Run Language="zh-cn" Text="端口号"/><Run Text="："/></TextBlock>
+                            <TextBlock Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Height="22" Margin="16,0,0,125" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="111" FontSize="20" ><Run Language="zh-cn" Text="公网IP"/><Run Text="："/></TextBlock>
                         </Grid>
-                        <ComboBox x:Name="tab1Adaptors" Foreground="#FFE5DCBF" Height="25" Margin="86,42.4,118,0" VerticalAlignment="Top" Style="{DynamicResource ComboBoxStyle1}" SelectionChanged="tab1Adaptors_SelectionChanged">
+                        <ComboBox x:Name="tab1Adaptors" Foreground="#FFE5DCBF" Height="25" Margin="85,25,119,0" VerticalAlignment="Top" Style="{DynamicResource ComboBoxStyle1}" SelectionChanged="tab1Adaptors_SelectionChanged">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <ContentPresenter Content="{Binding Name, Mode=OneWay}" />
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
-                        <ComboBox x:Name="tab1IpAddresses" Foreground="#FFE5DCBF" Height="25" Margin="85,94.4,88,0" VerticalAlignment="Top" Style="{DynamicResource ComboBoxStyle1}"/>
-                        <TextBox x:Name="tab1Port" Foreground="#FFE5DCBF" CaretBrush="#FF514E45" BorderBrush="#FF514E45" Background="#FF161413" Height="25" Width="150" HorizontalAlignment="Left" Margin="86,0,0,115.5" VerticalAlignment="Bottom" />
+                        <ComboBox x:Name="tab1IpAddresses" Foreground="#FFE5DCBF" Height="25" Margin="85,58,88,0" VerticalAlignment="Top" Style="{DynamicResource ComboBoxStyle1}"/>
+                        <TextBox x:Name="tab1Port" Foreground="#FFE5DCBF" CaretBrush="#FF514E45" BorderBrush="#FF514E45" Background="#FF161413" Height="25" Width="150" HorizontalAlignment="Left" Margin="86,0,0,164" VerticalAlignment="Bottom" />
+                        <TextBox x:Name="tab1PublicIP" Foreground="#FFE5DCBF" CaretBrush="#FF514E45" BorderBrush="#FF514E45" Background="#FF161413" Height="25" Width="150" HorizontalAlignment="Left" Margin="86,0,0,125" VerticalAlignment="Bottom" />
                         <CheckBox x:Name="tab1EnableDb" IsChecked="False" Content="启用数据库" Foreground="{StaticResource FiredTextBrush}" HorizontalAlignment="Left" Margin="21.5,0,0,66.64" VerticalAlignment="Bottom" Style="{DynamicResource CheckBoxStyle1}" Height="21.96" Width="84.5"/>
                         <Button x:Name="tab1ClearDb" IsEnabled="{Binding IsChecked, ElementName=tab1EnableDb}" Content="清空数据库" Margin="161,0,0,67.496" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" Style="{DynamicResource DefaultButtonStyleBrown}" Click="tab1ClearDb_Click"/>
                     </Grid>
