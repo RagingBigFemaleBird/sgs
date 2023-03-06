@@ -460,7 +460,6 @@
     <Resource Include="Views\Resources\Miscellaneous\FireMap.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath32)\Microsoft.CSharp.targets" />
