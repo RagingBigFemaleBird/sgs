@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
 
@@ -19,17 +14,12 @@ using Sanguosha.Core.UI;
 using Sanguosha.Core.Games;
 using Sanguosha.Core.Skills;
 using System.Threading;
-using System.Timers;
 using System.Collections.ObjectModel;
 using Sanguosha.UI.Animations;
 using System.ComponentModel;
 using System.Windows.Media.Animation;
-using System.Windows.Interactivity;
-using Microsoft.Expression.Interactivity.Layout;
-using Sanguosha.Expansions.Basic.Cards;
 using Sanguosha.Expansions.Battle.Cards;
 using Xceed.Wpf.Toolkit;
-using System.Windows.Media.Effects;
 using System.Windows.Threading;
 using Sanguosha.Core.Heroes;
 

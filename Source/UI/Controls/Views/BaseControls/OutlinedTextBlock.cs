@@ -245,7 +245,8 @@ namespace Sanguosha.UI.Controls
                 this.FlowDirection,
                 new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, FontStretches.Normal),
                 this.FontSize,
-                Brushes.Black);
+                Brushes.Black, 
+                1.25);
 
             this.UpdateFormattedText();
         }
@@ -279,6 +280,6 @@ namespace Sanguosha.UI.Controls
             this.EnsureFormattedText();
             this.textGeometry = this.formattedText.BuildGeometry(new Point(0, 0));
         }
-    } 
+    }
 
 }
