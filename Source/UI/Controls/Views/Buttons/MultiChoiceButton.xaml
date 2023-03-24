@@ -5,7 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:res="clr-namespace:Sanguosha.UI.Resources;assembly=Resources"
     xmlns:local="clr-namespace:Sanguosha.UI.Controls"
-    xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+    xmlns:ei="http://schemas.microsoft.com/xaml/behaviors"
     mc:Ignorable="d">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Resources;component/Images/SystemImages.xaml"/>

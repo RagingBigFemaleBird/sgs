@@ -15,7 +15,7 @@ using System.IO;
 namespace wyDay.Controls
 {
     /// <summary>Represents the AutomaticUpdater control.</summary>
-    public class AutomaticUpdater : Canvas, ISupportInitialize 
+    public class AutomaticUpdater : Canvas, ISupportInitialize
     {
         static AutomaticUpdater()
         {
@@ -327,7 +327,7 @@ namespace wyDay.Controls
         {
             set
             {
-                formattedText = new FormattedText(value, CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface("Segoe UI"), 12, Foreground);
+                formattedText = new FormattedText(value, CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface("Segoe UI"), 12, Foreground, 1.25);
 
 
                 expandedWidth = (int)formattedText.Width + 22;
@@ -380,7 +380,7 @@ namespace wyDay.Controls
                 SetValue(ForegroundProperty, value);
             }
         }
-        
+
         #endregion
 
         public AutomaticUpdater()
@@ -566,7 +566,7 @@ namespace wyDay.Controls
             // call this function from ownerForm's thread context
             if (sender != null)
             {
-                ownerForm.Dispatcher.Invoke(DispatcherPriority.Normal, new EventHandler(auBackend_ReadyToBeInstalled), null, e );
+                ownerForm.Dispatcher.Invoke(DispatcherPriority.Normal, new EventHandler(auBackend_ReadyToBeInstalled), null, e);
                 return;
             }
 
@@ -1312,7 +1312,7 @@ namespace wyDay.Controls
                 bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
                 bitmapImage.EndInit();
                 return bitmapImage;
-            }            
+            }
         }
 
         void AnimateImage(System.Drawing.Image img, bool staticImg)
@@ -1454,7 +1454,7 @@ namespace wyDay.Controls
                 return isDesign.Value;
             }
         }
-        
+
         BitmapSource GetBitmapSource(System.Drawing.Bitmap _image)
         {
             //TODO: use XAML resources: http://stackoverflow.com/questions/347614/wpf-image-resources

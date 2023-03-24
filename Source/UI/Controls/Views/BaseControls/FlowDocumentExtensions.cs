@@ -50,7 +50,8 @@ namespace Sanguosha.UI.Controls
               doc.FlowDirection,
               new Typeface(doc.FontFamily, doc.FontStyle, doc.FontWeight, doc.FontStretch),
               doc.FontSize,
-              doc.Foreground);
+              doc.Foreground,
+              1.25);
 
             int offset = 0;
 
