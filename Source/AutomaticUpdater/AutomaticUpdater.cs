@@ -327,9 +327,8 @@ namespace wyDay.Controls
         {
             set
             {
-                formattedText = new FormattedText(value, CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface("Segoe UI"), 12, Foreground, 1.25);
-
-
+                formattedText = new FormattedText(value, CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface("Segoe UI"), 12, Foreground);
+                
                 expandedWidth = (int)formattedText.Width + 22;
 
                 if (isFullExpanded && Width != expandedWidth)
