@@ -7,6 +7,7 @@ using System.Windows;
 using System.Diagnostics;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.IO;
 
 namespace Sanguosha.UI.Resources
 {
@@ -92,6 +93,9 @@ namespace Sanguosha.UI.Resources
                 {
                 }
                 catch (NotSupportedException)
+                {
+                }
+                catch (FileNotFoundException)
                 {
                 }
                 catch (ArgumentException)
